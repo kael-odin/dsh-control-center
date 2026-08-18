@@ -6,6 +6,7 @@ export default defineConfig({
     alias: {
       '@deepseek-ai/dsh-client-runtime/client': fileURLToPath(new URL('./tests/runtime-stub.ts', import.meta.url)),
       '@deepseek-ai/dsh-client-ui-primitives': fileURLToPath(new URL('./tests/primitives-stub.tsx', import.meta.url)),
+      '@deepseek-ai/dsh-typert-protocol': fileURLToPath(new URL('../deepseek-harness/packages/typert/protocol/src/index.ts', import.meta.url)),
     },
   },
   test: {

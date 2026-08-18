@@ -55,6 +55,15 @@ async function stopHost(child: ChildProcess): Promise<void> {
   await new Promise<void>(resolveStop => child.once('exit', () => { resolveStop() }))
 }
 
+async function expectPoll<T>(read: () => Promise<T>, expected: T, timeoutMs: number): Promise<void> {
+  const deadline = Date.now() + timeoutMs
+  while (Date.now() < deadline) {
+    if (await read() === expected) return
+    await new Promise(resolve => setTimeout(resolve, 50))
+  }
+  throw new Error(`poll timed out waiting for ${String(expected)}`)
+}
+
 async function main(): Promise<void> {
   if (!existsSync(join(PACKS, 'dsh-control-center-bundle-0.1.0.tgz'))) {
     throw new Error('packed bundle missing; run pnpm pack:check first')
@@ -97,15 +106,38 @@ async function main(): Promise<void> {
     const page = await browser.newPage({ viewport: { width: 1280, height: 800 }, locale: 'zh-CN' })
     const errors: string[] = []
     page.on('pageerror', error => errors.push(error.message))
+    page.on('console', message => { if (message.type() === 'error') errors.push(message.text()) })
     await page.goto(started.url, { waitUntil: 'load' })
     await page.waitForSelector('[class*="frame"]', { timeout: 30_000 })
     const openSidebar = page.getByRole('button', { name: '打开侧边栏' })
     if (await openSidebar.count() > 0) await openSidebar.click()
-    await page.getByRole('button', { name: '设置', exact: true }).click()
+    const openOnboarding = page.getByRole('dialog')
+    if (await openOnboarding.count() > 0) {
+      const dismiss = openOnboarding.getByRole('button', { name: /知道了|稍后|关闭|Close|Later|Got it/ }).last()
+      if (await dismiss.count() > 0) await dismiss.click()
+      else await page.keyboard.press('Escape')
+      await openOnboarding.waitFor({ state: 'hidden', timeout: 15_000 }).catch(() => {})
+    }
+    const mask = page.locator('[aria-hidden="true"][class*="mask"]')
+    if (await mask.count() > 0) {
+      await mask.click({ position: { x: 4, y: 4 } })
+      await mask.waitFor({ state: 'hidden', timeout: 15_000 }).catch(() => {})
+    }
+    const settingsButton = page.getByRole('button', { name: '设置', exact: true })
+    await settingsButton.evaluate((button: HTMLButtonElement) => { button.click() })
+    await expectPoll(async () => await settingsButton.getAttribute('aria-expanded'), 'true', 15_000)
     const dialog = page.getByRole('dialog', { name: '设置' })
-    await dialog.getByRole('button', { name: '模型' }).click()
+    await dialog.waitFor({ timeout: 15_000 })
+    await dialog.getByRole('button', { name: '模型' }).evaluate((button: HTMLButtonElement) => { button.click() })
     await dialog.getByText('Control Center E2E', { exact: true }).waitFor({ timeout: 15_000 })
-    await dialog.getByRole('button', { name: '编辑 Control Center E2E (control-center-e2e)' }).click()
+    const betaNotice = page.getByRole('dialog', { name: '内测声明' })
+    if (await betaNotice.count() > 0) {
+      const continueButton = betaNotice.getByRole('button', { name: '继续' })
+      if (await continueButton.count() > 0) await continueButton.evaluate((element: HTMLButtonElement) => { element.click() })
+      if (await betaNotice.isVisible().catch(() => false)) await page.keyboard.press('Escape')
+      await betaNotice.waitFor({ state: 'hidden', timeout: 15_000 })
+    }
+    await dialog.getByRole('button', { name: '编辑 Control Center E2E (control-center-e2e)' }).evaluate((button: HTMLButtonElement) => { button.click() })
     await dialog.getByText('自定义设置').click()
     await dialog.getByRole('button', { name: '获取可用模型' }).click()
     const chooser = page.getByRole('dialog', { name: '选择要添加的模型' })
@@ -116,7 +148,31 @@ async function main(): Promise<void> {
     const translationNav = page.getByRole('button', { name: '翻译' })
     await translationNav.waitFor({ timeout: 15_000 })
     await translationNav.click()
-    await page.getByRole('heading', { name: '翻译' }).waitFor({ timeout: 15_000 })
+    try {
+      await page.getByRole('heading', { name: '翻译', exact: true }).waitFor({ timeout: 15_000 })
+    } catch (error) {
+      const body = await page.locator('body').innerText().catch(() => '')
+      const consoleErrors = await page.evaluate(() => (window as unknown as { __ccErrors?: string[] }).__ccErrors ?? []).catch(() => [])
+      const remoteProbe = await page.evaluate(() => {
+        const root = window as unknown as { __DSH_BOOT__?: unknown }
+        return { boot: root.__DSH_BOOT__ !== undefined }
+      }).catch(() => ({ boot: false }))
+      throw new Error(`translation workspace did not render; browser errors: ${errors.join(' | ')}; console: ${consoleErrors.join(' | ')}; remote: ${JSON.stringify(remoteProbe)}; body: ${body.slice(-3000)}`, { cause: error })
+    }
+    await page.getByLabel('待翻译文本').fill('Hello translation fixture')
+    await expectPoll(async () => await page.getByLabel('翻译模型').count() > 0, true, 15_000)
+    await page.getByLabel('翻译模型').selectOption({ label: 'Control Center E2E · Control Center Alpha' })
+    const translateButton = page.getByRole('main').getByRole('button', { name: '翻译', exact: true })
+    await translateButton.waitFor({ state: 'visible', timeout: 15_000 })
+    await expectPoll(async () => await translateButton.isEnabled(), true, 15_000)
+    await translateButton.click()
+    try {
+      await expectPoll(async () => (await page.getByLabel('翻译结果').inputValue()).includes('CONTROL_CENTER_E2E_RESPONSE'), true, 30_000)
+    } catch (error) {
+      const body = await page.locator('body').innerText()
+      throw new Error(`translation response did not render; fixture: ${JSON.stringify(fixture.requests)}; browser: ${errors.join(' | ')}; body: ${body.slice(-3000)}`, { cause: error })
+    }
+    await page.getByRole('heading', { name: '翻译历史' }).waitFor({ timeout: 15_000 })
     await page.getByRole('button', { name: '返回对话' }).click()
     await page.getByRole('button', { name: '发送消息' }).waitFor({ timeout: 15_000 })
 

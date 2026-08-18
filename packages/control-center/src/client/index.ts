@@ -2,12 +2,14 @@
 import type { ClientContext, SessionListState } from '@deepseek-ai/dsh-client-runtime/client'
 import type { ConnectionHandle, SessionId } from '@deepseek-ai/dsh-api-remotes/client'
 import { bindSnapshotSelector } from '@deepseek-ai/dsh-client-web-react'
-import { resolveSlotLabel } from '@deepseek-ai/dsh-client-ui-slots'
+import { resolveSlotLabel, type HostObservable } from '@deepseek-ai/dsh-client-ui-slots'
 import type {} from '@deepseek-ai/dsh-client-ui-settings/client'
 import type {} from '@deepseek-ai/dsh-client-ui-sidebar/client'
 import type {} from '@deepseek-ai/dsh-client-ui-layout/client'
 import type {} from '@deepseek-ai/dsh-client-locale/client'
 import type {} from '@deepseek-ai/dsh-api-remotes/client'
+import type {} from '../translation-types.ts'
+import translationRemote from '../translation-remote-client.ts'
 import { SettingsRoot } from './SettingsRoot.tsx'
 import type { SettingsOnboardingStep, SettingsRootInjected, SettingsSectionRow } from './shell-contract.ts'
 import { CloseLabel, HeaderContent, TriggerContent } from './chrome.tsx'
@@ -29,6 +31,7 @@ import { en as modelsEn, zh as modelsZh, type ModelsKey } from './locales.ts'
 import { WELCOME_NOTICE_SETTINGS_NAMESPACE } from '../onboarding-copy.ts'
 import { ProductWorkspaceNavItem } from './ProductWorkspaceNavItem.tsx'
 import { ProductWorkspaceSurface } from './ProductWorkspaceSurface.tsx'
+import { TranslationWorkspace } from './TranslationWorkspace.tsx'
 import type { ProductWorkspaceId } from './product-workspace-contract.ts'
 
 export type { ModelsSettingsState, ProviderRow } from './store.ts'
@@ -55,6 +58,24 @@ export const inject = ['slots', 'locale', 'connection', 'remote', 'sessions']
 
 /** Register the settings shell, Provider/Model page, and onboarding steps. */
 export function apply(ctx: ClientContext): void {
+  const remote = ctx.remote
+  let translation: NonNullable<typeof remote.controlCenterTranslation> | undefined
+  const translationReadySource: HostObservable<boolean> = {
+    getSnapshot: () => translation !== undefined,
+    subscribe: (listener) => {
+      const timer = window.setInterval(() => {
+        if (translation === undefined) return
+        window.clearInterval(timer)
+        listener()
+      }, 25)
+      return () => { window.clearInterval(timer) }
+    },
+  }
+  ctx.effect(async () => {
+    const dispose = await remote.$mount(translationRemote)
+    translation = ctx.get('remote.controlCenterTranslation') as NonNullable<typeof remote.controlCenterTranslation>
+    return dispose
+  }, 'control-center: translation Remote namespace')
   ctx.effect(() => ctx.locale.register(SHELL_NS, { zh: shellZh, en: shellEn }), 'control-center: shell dictionaries')
   ctx.effect(() => ctx.locale.register(MODELS_NS, { zh: modelsZh, en: modelsEn }), 'control-center: model dictionaries')
   const shellT = ctx.locale.bind(SHELL_NS)
@@ -191,16 +212,35 @@ export function apply(ctx: ClientContext): void {
       label: () => shellT(workspace.label),
       inject: () => ({ id: workspace.id, label: shellT(workspace.label) }),
     }, ProductWorkspaceNavItem))
-    ctx.slots.inject('application.surface', () => ctx.slots.register({
-      name: 'application.surface',
-      key: workspace.id,
-      inject: () => ({
-        id: workspace.id,
-        title: shellT(workspace.label),
-        description: shellT(workspace.description),
-        closeLabel: shellT('workspaceBack'),
-      }),
-    }, ProductWorkspaceSurface))
+    if (workspace.id === 'translation') {
+      ctx.slots.inject('application.surface', () => ctx.slots.register({
+        name: 'application.surface',
+        key: 'translation',
+        inject: () => ({
+          getTranslation: () => {
+            if (translation === undefined) throw new Error('translation Remote namespace is not mounted')
+            return translation
+          },
+          hooks: { translationReady: translationReadySource },
+          listModels: async () => {
+            const result = await connection.api.llm.models({})
+            if (!result.result.ok) throw new Error(result.result.error.message)
+            return result.result.value.groups
+          },
+        }),
+      }, TranslationWorkspace))
+    } else {
+      ctx.slots.inject('application.surface', () => ctx.slots.register({
+        name: 'application.surface',
+        key: workspace.id,
+        inject: () => ({
+          id: workspace.id,
+          title: shellT(workspace.label),
+          description: shellT(workspace.description),
+          closeLabel: shellT('workspaceBack'),
+        }),
+      }, ProductWorkspaceSurface))
+    }
   }
 
   ctx.slots.inject('sidebar.settings', () => ctx.slots.register({
