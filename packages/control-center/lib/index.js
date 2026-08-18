@@ -20,6 +20,10 @@ const REQUIRED_PACKAGES = [
 		client: true
 	},
 	{
+		name: "@deepseek-ai/dsh-client-ui-layout",
+		client: true
+	},
+	{
 		name: "@deepseek-ai/dsh-client-ui-slots",
 		client: false
 	},

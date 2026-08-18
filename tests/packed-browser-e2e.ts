@@ -113,6 +113,13 @@ async function main(): Promise<void> {
     await chooser.getByRole('button', { name: '取消' }).click()
     await dialog.getByRole('button', { name: '关闭设置' }).click()
 
+    const translationNav = page.getByRole('button', { name: '翻译' })
+    await translationNav.waitFor({ timeout: 15_000 })
+    await translationNav.click()
+    await page.getByRole('heading', { name: '翻译' }).waitFor({ timeout: 15_000 })
+    await page.getByRole('button', { name: '返回对话' }).click()
+    await page.getByRole('button', { name: '发送消息' }).waitFor({ timeout: 15_000 })
+
     const workspacePath = join(home, 'workspace')
     await mkdir(workspacePath, { recursive: true })
     const created = await page.evaluate(`(async () => {

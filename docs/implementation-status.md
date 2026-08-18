@@ -19,7 +19,7 @@ This ledger distinguishes verified capability from committed scope. A capability
 | Provider and model management | Verified | Settings/credentials/LLM authorities; draft discovery; model adoption; precise writes and removal. |
 | Default and current model selection | Verified | Revision-fenced default writes and real session selection with post-write confirmation. |
 | Compatibility and secret-schema preflight | Verified | Exact DSH baseline gate and fail-closed unsupported wrapper audit. |
-| Product workspace composition seam | In progress | Additive navigation + active main-surface ownership, coexistence, HMR/disposal, and unload fallback. |
+| Product workspace composition seam | Verified | Additive navigation + keyed main-surface ownership, coexistence with conversation, transient selection, packed browser selection/return, and unload fallback tests. |
 | Translation workspace | Planned | Streaming DSH LLM jobs, cancellation, language management, copy/replace, and durable paginated history. |
 | Image generation workspace | Planned | Provider/model controls, asynchronous jobs, polling/cancellation, managed files, gallery, reuse/download/delete, and DSH attachments. |
 | Knowledge Base / RAG workspace | Planned | CRUD, ingestion, parsing/chunking, embeddings/vector index, retrieval/reranking, recall tests, citations, and DSH tool/context registration. |

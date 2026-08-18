@@ -19,7 +19,7 @@
 | 提供方与模型管理 | 已验证 | Settings／credentials／LLM 权威；草稿发现、模型采纳、精确写入和移除。 |
 | 默认与当前模型选择 | 已验证 | revision-fenced 默认写入和真实 session 切换，并在写后重新确认。 |
 | 兼容性与秘密 schema 预检 | 已验证 | 精确 DSH 基线 gate 和 unsupported wrapper fail-closed 审计。 |
-| 产品工作区组合 seam | 进行中 | 增量导航与 active 主 surface 权威、共存、HMR／dispose 和卸载回落。 |
+| 产品工作区组合 seam | 已验证 | 增量导航与 keyed 主 surface 权威、conversation 共存、瞬时选择、packed browser 选择／返回及卸载回落测试。 |
 | 翻译工作区 | 计划中 | 流式 DSH LLM job、取消、语言管理、复制／替换和持久分页历史。 |
 | 绘画／图像生成工作区 | 计划中 | 提供方／模型控件、异步任务、轮询／取消、托管文件、画廊、复用／下载／删除和 DSH 附件。 |
 | 知识库／RAG 工作区 | 计划中 | CRUD、摄取、解析／切分、Embedding／向量索引、检索／重排、召回测试、引用及 DSH tool/context 注册。 |

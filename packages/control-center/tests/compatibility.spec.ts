@@ -9,6 +9,7 @@ const required = [
   ['@deepseek-ai/dsh-api-remotes', true],
   ['@deepseek-ai/dsh-client-runtime', true],
   ['@deepseek-ai/dsh-client-ui-settings', true],
+  ['@deepseek-ai/dsh-client-ui-layout', true],
   ['@deepseek-ai/dsh-client-ui-slots', false],
   ['@deepseek-ai/dsh-client-modules', true],
   ['@deepseek-ai/dsh-host-apiproxy', true],

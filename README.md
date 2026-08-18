@@ -25,7 +25,7 @@ Removal restores DSH's native settings packages. It does not delete DSH settings
 
 ## Status and roadmap
 
-The verified first delivery includes the settings shell, General contributions, local settings-document action, onboarding, provider creation/edit/removal, write-only credentials, draft model discovery and adoption, and default/current model selection.
+The verified delivery includes the settings shell, General contributions, local settings-document action, onboarding, provider creation/edit/removal, write-only credentials, draft model discovery and adoption, default/current model selection, and the additive product-workspace navigation/surface seam.
 
 The committed full-parity roadmap also includes product workspaces for translation, image generation, and knowledge bases plus MCP, Skills, search, document processing, OCR, local models, API Gateway, data and backup, usage analytics, Channels, scheduled tasks, shortcuts, assistant surfaces, capture, diagnostics, and updates. Those capabilities are not represented by inactive controls: each appears only after it has real Host behavior, persistence, cancellation, recovery, and integration with DSH authorities.
 

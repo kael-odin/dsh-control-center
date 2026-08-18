@@ -14,6 +14,7 @@ const REQUIRED_PACKAGES: readonly RequiredPackage[] = [
   { name: '@deepseek-ai/dsh-api-remotes', client: true },
   { name: '@deepseek-ai/dsh-client-runtime', client: true },
   { name: '@deepseek-ai/dsh-client-ui-settings', client: true },
+  { name: '@deepseek-ai/dsh-client-ui-layout', client: true },
   { name: '@deepseek-ai/dsh-client-ui-slots', client: false },
   { name: '@deepseek-ai/dsh-client-modules', client: true },
   { name: '@deepseek-ai/dsh-host-apiproxy', client: true },

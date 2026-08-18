@@ -9,6 +9,13 @@ export declare const en: {
     otherGroup: string;
     openDocument: string;
     openDocumentError: string;
+    workspaceTranslation: string;
+    workspacePainting: string;
+    workspaceKnowledge: string;
+    workspaceBack: string;
+    workspaceTranslationDescription: string;
+    workspacePaintingDescription: string;
+    workspaceKnowledgeDescription: string;
 };
 export type SettingsKey = keyof typeof en;
 export declare const zh: {

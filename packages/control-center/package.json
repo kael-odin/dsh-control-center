@@ -36,7 +36,8 @@
         "@deepseek-ai/dsh-client-locale",
         "@deepseek-ai/dsh-client-connection",
         "@deepseek-ai/dsh-api-remotes",
-        "@deepseek-ai/dsh-client-ui-sidebar"
+        "@deepseek-ai/dsh-client-ui-sidebar",
+        "@deepseek-ai/dsh-client-ui-layout"
       ],
       "platform": "web"
     }
@@ -53,6 +54,7 @@
     "@deepseek-ai/dsh-client-locale": "0.1.0-rc.7",
     "@deepseek-ai/dsh-client-runtime": "0.1.0-rc.7",
     "@deepseek-ai/dsh-client-schema-form": "0.1.0-rc.7",
+    "@deepseek-ai/dsh-client-ui-layout": "0.1.0-rc.7",
     "@deepseek-ai/dsh-client-ui-primitives": "0.1.0-rc.7",
     "@deepseek-ai/dsh-client-ui-settings": "0.1.0-rc.7",
     "@deepseek-ai/dsh-client-ui-sidebar": "0.1.0-rc.7",
