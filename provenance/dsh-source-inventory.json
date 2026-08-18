@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "upstream": {
+    "project": "DeepSeek Harness",
+    "repository": "https://github.com/deepseek-ai/deepseek-harness",
+    "commit": "99f6f02fecdb7dff40c3fbc9470f5907c29f74ca",
+    "version": "0.1.0-rc.7",
+    "license": "MIT"
+  },
+  "adaptedAt": "2026-08-18",
+  "sourceGroups": [
+    {
+      "sources": [
+        "packages/client/ui-settings-general/src/client/**",
+        "packages/client/ui-settings-general/tests/**"
+      ],
+      "destinations": [
+        "packages/control-center/src/client/SettingsRoot.tsx",
+        "packages/control-center/src/client/GeneralSection.tsx",
+        "packages/control-center/src/client/SettingsDocumentAction.tsx",
+        "packages/control-center/src/client/chrome.tsx",
+        "packages/control-center/src/client/WelcomeNotice.tsx",
+        "packages/control-center/src/client/DeepSeekOnboardingDialog.tsx"
+      ],
+      "modifications": "Combined the DSH settings-shell responsibilities with the Cherry-compatible grouped navigation, while preserving slot composition, onboarding, locale, settings-document, and lifecycle behavior.",
+      "notice": "NOTICE",
+      "verified": true
+    },
+    {
+      "sources": [
+        "packages/client/ui-settings-models/src/client/**",
+        "packages/client/ui-settings-models/tests/**"
+      ],
+      "destinations": [
+        "packages/control-center/src/client/store.ts",
+        "packages/control-center/src/client/ProviderEditor.tsx",
+        "packages/control-center/src/client/ModelListEditor.tsx",
+        "packages/control-center/src/client/DeepSeekModelsEditor.tsx",
+        "packages/control-center/src/client/CustomProviderCard.tsx"
+      ],
+      "modifications": "Retained DSH as the provider, settings, credential, model-discovery, and session authority while adapting the user flow to the Control Center layout.",
+      "notice": "NOTICE",
+      "verified": true
+    },
+    {
+      "sources": [
+        "packages/client/tsdown.client.ts",
+        "packages/client/modules/src/**"
+      ],
+      "destinations": [
+        "build/client-bundle.ts",
+        "tests/artifacts.ts"
+      ],
+      "modifications": "Reproduced the DSH rc.7 external Client lazy-CJS registration, purity checks, CSS materialization, and artifact verification outside the DSH monorepo.",
+      "notice": "NOTICE",
+      "verified": true
+    },
+    {
+      "sources": [
+        "packages/bundle/**",
+        "apps/cli/src/**"
+      ],
+      "destinations": [
+        "packages/bundle/cordis.patch.yml",
+        "tests/prepare-bundle-pack.ts",
+        "tests/packed-browser-e2e.ts"
+      ],
+      "modifications": "Applied DSH bundle/profile packaging and packed-install conventions to a separately published, reversible Web profile layer.",
+      "notice": "NOTICE",
+      "verified": true
+    }
+  ]
+}

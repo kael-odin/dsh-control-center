@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "upstream": {
+    "project": "Cherry Studio",
+    "repository": "https://github.com/CherryHQ/cherry-studio",
+    "commit": "13687df354e9845c7e2b6d155eac6a9171f6a533",
+    "applicationVersion": "2.0.7",
+    "license": "AGPL-3.0-only"
+  },
+  "adaptedAt": "2026-08-18",
+  "files": [
+    {
+      "source": "src/renderer/pages/settings/SettingsPage.tsx",
+      "destinations": [
+        "packages/control-center/src/client/SettingsRoot.tsx",
+        "packages/control-center/src/client/SettingsRoot.module.css"
+      ],
+      "modifications": "Reimplemented the grouped two-column settings geometry on DSH slots, local active-section state, CSS Modules, semantic tokens, and DSH primitives; removed TanStack Router, Tailwind, window transparency, and Cherry component dependencies.",
+      "notice": "NOTICE",
+      "verified": true
+    },
+    {
+      "source": "src/renderer/pages/settings/ProviderSettings/ProviderSettingsPage.tsx",
+      "destinations": [
+        "packages/control-center/src/client/ModelsSection.tsx",
+        "packages/control-center/src/client/ModelsSection.module.css"
+      ],
+      "modifications": "Adapted the provider-list/detail split to DSH's authoritative llm.providers, settings.describe, credentials.describe, and session APIs.",
+      "notice": "NOTICE",
+      "verified": true
+    },
+    {
+      "source": "src/renderer/pages/settings/ProviderSettings/ProviderList/ProviderList.tsx",
+      "destinations": [
+        "packages/control-center/src/client/ModelsSection.tsx"
+      ],
+      "modifications": "Adapted search, selection, add, configured state, and custom-provider presentation without Cherry Redux or Electron services.",
+      "notice": "NOTICE",
+      "verified": true
+    },
+    {
+      "source": "src/renderer/pages/settings/ProviderSettings/ProviderSetting.tsx",
+      "destinations": [
+        "packages/control-center/src/client/ProviderEditor.tsx",
+        "packages/control-center/src/client/ModelListEditor.tsx"
+      ],
+      "modifications": "Mapped visible provider and model controls to revision-fenced DSH settings operations, write-only credentials, and draft model discovery.",
+      "notice": "NOTICE",
+      "verified": true
+    },
+    {
+      "source": "src/renderer/pages/settings/ModelSettings/ModelSettings.tsx",
+      "destinations": [
+        "packages/control-center/src/client/ModelSelectionPanel.tsx"
+      ],
+      "modifications": "Separated future-session default selection from current-session selection while retaining DSH as the only model authority.",
+      "notice": "NOTICE",
+      "verified": true
+    }
+  ]
+}

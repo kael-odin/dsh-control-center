@@ -1,0 +1,9 @@
+- id: ui-settings-general
+  disabled: true
+
+- id: ui-settings-models
+  disabled: true
+
+- insert:
+    - id: dsh-control-center
+      name: '@dsh-control-center/control-center'
