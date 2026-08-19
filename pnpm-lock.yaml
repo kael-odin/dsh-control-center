@@ -108,7 +108,7 @@ importers:
         specifier: 0.1.0-rc.7
         version: 0.1.0-rc.7(@deepseek-ai/cordis@4.0.1)
       '@dsh-control-center/control-center':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../control-center
 
   packages/control-center:

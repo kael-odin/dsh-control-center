@@ -3,6 +3,9 @@
 /** Cordis plugin name. */
 const name = "dsh-control-center-bundle";
 /** Mount the static bundle package. */
-function apply() {}
+async function apply(ctx) {
+	const controlCenter = await import("./lib-Bikh7_Q6.js").then((n) => n.t);
+	ctx.plugin(controlCenter);
+}
 //#endregion
 export { apply, name };

@@ -30,7 +30,7 @@ const OnboardingSettingsSchema: z<OnboardingSettings> = z.object({
 /** Cordis plugin name. */
 export const name = 'dsh-control-center'
 
-export const inject = ['typert']
+export const inject = ['typert', 'settings']
 
 /** Reject incompatible DSH packages, then restore the onboarding namespace. */
 export function apply(ctx: Context): void {

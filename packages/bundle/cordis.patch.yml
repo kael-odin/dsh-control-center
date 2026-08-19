@@ -6,4 +6,6 @@
 
 - insert:
     - id: dsh-control-center
-      name: 'file:///D:/Github_Open/dsh-control-center/packages/control-center/lib/index.js'
+      name: '@dsh-control-center/bundle'
+
+

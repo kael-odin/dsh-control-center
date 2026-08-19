@@ -16,6 +16,8 @@ export { SkillsService } from './skills.ts';
 export type * from './skills-types.ts';
 export { McpService } from './mcp.ts';
 export type * from './mcp-types.ts';
+export { WebSearchService } from './websearch.ts';
+export type * from './websearch/types.ts';
 export { assertSecretSchemaSafe, auditSecretSchema } from './secret-schema.ts';
 export type { SecretSchemaViolation } from './secret-schema.ts';
 //# sourceMappingURL=index.d.ts.map

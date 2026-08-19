@@ -69,7 +69,7 @@ export class WebSearchService extends Service {
   async updateConfig(params: Partial<WebSearchConfig>): Promise<WebSearchConfig> {
     const current = this.scope.get()
     const updated = { ...current, ...params }
-    this.scope.set(updated)
+    await this.scope.update(params)
     return updated
   }
 
@@ -95,7 +95,7 @@ export class WebSearchService extends Service {
         [params.providerId]: params.override
       }
     }
-    this.scope.set(updated)
+    await this.scope.update({ providerOverrides: updated.providerOverrides })
 
     const providers = resolveProviders(updated.providerOverrides)
     const provider = providers.find(p => p.id === params.providerId)

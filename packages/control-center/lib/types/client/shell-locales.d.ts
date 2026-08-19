@@ -17,6 +17,7 @@ export declare const en: {
     workspacePaintingDescription: string;
     workspaceKnowledgeDescription: string;
     providersNav: string;
+    webSearchNav: string;
 };
 export type SettingsKey = keyof typeof en;
 export declare const zh: {

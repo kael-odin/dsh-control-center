@@ -182,7 +182,10 @@ export class SkillsService extends Service {
       ['list', 'list'],
       ['getById', 'getById'],
       ['update', 'update'],
-      ['install', 'install'],
+      // Wire name differs from the method name: the client Remote namespace
+      // service rejects a method literally named `install` (it collides with
+      // RemoteNamespaceService.prototype.install), which would fail $mount.
+      ['install', 'installSkill'],
       ['uninstall', 'uninstall'],
       ['searchMarketplace', 'searchMarketplace']
     ])

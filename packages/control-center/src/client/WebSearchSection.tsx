@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import type { WebSearchProvider, WebSearchConfig, WebSearchCapability } from '../websearch/types.ts'
-import type { Remote } from '@deepseek-ai/dsh-api-remotes/client'
+import type { TypertClientRemote } from '@deepseek-ai/dsh-typert-protocol'
 
 interface WebSearchSectionProps {
-  websearch: NonNullable<Remote['controlCenterWebSearch']>
+  websearch: NonNullable<TypertClientRemote['controlCenterWebSearch']>
 }
 
 interface ProviderEntry {
@@ -29,16 +29,16 @@ function getFeatureSections(providers: WebSearchProvider[]): FeatureSection[] {
 
   for (const provider of providers) {
     for (const capability of provider.capabilities) {
-      sections[capability.feature].push({
+      sections[capability.feature as WebSearchCapability].push({
         provider,
-        capability: capability.feature
+        capability: capability.feature as WebSearchCapability
       })
     }
   }
 
   return [
-    { capability: 'searchKeywords', entries: sections.searchKeywords },
-    { capability: 'fetchUrls', entries: sections.fetchUrls }
+    { capability: 'searchKeywords' as WebSearchCapability, entries: sections.searchKeywords },
+    { capability: 'fetchUrls' as WebSearchCapability, entries: sections.fetchUrls }
   ].filter(section => section.entries.length > 0)
 }
 

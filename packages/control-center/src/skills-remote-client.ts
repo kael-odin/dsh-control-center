@@ -5,7 +5,7 @@ const methods: ReadonlyArray<{ method: string; implementation?: string; paramete
   { method: 'list', parameters: ['query'] },
   { method: 'getById', parameters: ['skillId'] },
   { method: 'update', parameters: ['skillId', 'dto'] },
-  { method: 'install', parameters: ['options'] },
+  { method: 'installSkill', parameters: ['options'] },
   { method: 'uninstall', parameters: ['skillId'] },
   { method: 'searchMarketplace', parameters: ['query'] }
 ]

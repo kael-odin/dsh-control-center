@@ -4,6 +4,20 @@
 
 export type WebSearchCapability = 'searchKeywords' | 'fetchUrls'
 
+export interface WebSearchProviderCapabilityPreset {
+  feature: WebSearchCapability
+  requiresApiHost: boolean
+  requiresApiKey: boolean
+  apiHost?: string
+}
+
+export interface WebSearchProviderPreset {
+  id: WebSearchProviderId
+  name: string
+  type: 'api' | 'mcp'
+  capabilities: WebSearchProviderCapabilityPreset[]
+}
+
 export type WebSearchProviderId =
   | 'zhipu'
   | 'tavily'
@@ -19,6 +33,9 @@ export type WebSearchProviderId =
 export interface WebSearchProviderCapability {
   feature: WebSearchCapability
   apiHost?: string
+  auth?: {
+    type: 'basic'
+  }
 }
 
 export interface WebSearchProvider {
@@ -32,6 +49,7 @@ export interface WebSearchProvider {
   basicAuthPassword?: string
   officialWebsite?: string
   apiKeyWebsite?: string
+  requiresApiKey?: boolean
 }
 
 export interface WebSearchProviderOverrides {

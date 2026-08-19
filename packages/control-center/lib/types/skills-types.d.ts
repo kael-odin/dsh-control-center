@@ -112,7 +112,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                 skillId: string;
                 dto: UpdateSkillDto;
             }): Promise<InstalledSkill>;
-            install(params: {
+            installSkill(params: {
                 options: SkillInstallOptions;
             }): Promise<InstalledSkill>;
             uninstall(params: {

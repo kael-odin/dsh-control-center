@@ -15,7 +15,8 @@ const PRESET_PROVIDERS: Omit<WebSearchProvider, 'apiKeys' | 'engines' | 'basicAu
     description: 'ZhipuAI web search',
     capabilities: [{ feature: 'searchKeywords', apiHost: 'https://open.bigmodel.cn/api/paas/v4' }],
     officialWebsite: 'https://www.zhipuai.cn',
-    apiKeyWebsite: 'https://open.bigmodel.cn/usercenter/apikeys'
+    apiKeyWebsite: 'https://open.bigmodel.cn/usercenter/apikeys',
+    requiresApiKey: true
   },
   {
     id: 'tavily',
@@ -23,7 +24,8 @@ const PRESET_PROVIDERS: Omit<WebSearchProvider, 'apiKeys' | 'engines' | 'basicAu
     description: 'Tavily search API',
     capabilities: [{ feature: 'searchKeywords', apiHost: 'https://api.tavily.com' }],
     officialWebsite: 'https://tavily.com',
-    apiKeyWebsite: 'https://app.tavily.com'
+    apiKeyWebsite: 'https://app.tavily.com',
+    requiresApiKey: true
   },
   {
     id: 'searxng',
@@ -33,7 +35,8 @@ const PRESET_PROVIDERS: Omit<WebSearchProvider, 'apiKeys' | 'engines' | 'basicAu
       { feature: 'searchKeywords', apiHost: 'http://localhost:8080' },
       { feature: 'fetchUrls', apiHost: 'http://localhost:8080' }
     ],
-    officialWebsite: 'https://docs.searxng.org'
+    officialWebsite: 'https://docs.searxng.org',
+    requiresApiKey: false
   },
   {
     id: 'exa',
@@ -41,7 +44,8 @@ const PRESET_PROVIDERS: Omit<WebSearchProvider, 'apiKeys' | 'engines' | 'basicAu
     description: 'Exa search for AI',
     capabilities: [{ feature: 'searchKeywords', apiHost: 'https://api.exa.ai' }],
     officialWebsite: 'https://exa.ai',
-    apiKeyWebsite: 'https://dashboard.exa.ai/api-keys'
+    apiKeyWebsite: 'https://dashboard.exa.ai/api-keys',
+    requiresApiKey: true
   },
   {
     id: 'exa-mcp',
@@ -49,7 +53,8 @@ const PRESET_PROVIDERS: Omit<WebSearchProvider, 'apiKeys' | 'engines' | 'basicAu
     description: 'Exa search via MCP protocol',
     capabilities: [{ feature: 'searchKeywords', apiHost: 'https://api.exa.ai' }],
     officialWebsite: 'https://exa.ai',
-    apiKeyWebsite: 'https://dashboard.exa.ai/api-keys'
+    apiKeyWebsite: 'https://dashboard.exa.ai/api-keys',
+    requiresApiKey: true
   },
   {
     id: 'bocha',
@@ -57,7 +62,8 @@ const PRESET_PROVIDERS: Omit<WebSearchProvider, 'apiKeys' | 'engines' | 'basicAu
     description: 'Bocha search API',
     capabilities: [{ feature: 'searchKeywords', apiHost: 'https://api.bochaai.com' }],
     officialWebsite: 'https://www.bochaai.com',
-    apiKeyWebsite: 'https://www.bochaai.com/integration'
+    apiKeyWebsite: 'https://www.bochaai.com/integration',
+    requiresApiKey: true
   },
   {
     id: 'querit',
@@ -67,13 +73,15 @@ const PRESET_PROVIDERS: Omit<WebSearchProvider, 'apiKeys' | 'engines' | 'basicAu
       { feature: 'searchKeywords', apiHost: 'https://api.querit.ai' },
       { feature: 'fetchUrls', apiHost: 'https://api.querit.ai' }
     ],
-    officialWebsite: 'https://querit.ai'
+    officialWebsite: 'https://querit.ai',
+    requiresApiKey: false
   },
   {
     id: 'fetch',
     name: 'Fetch',
     description: 'Simple HTTP fetch',
-    capabilities: [{ feature: 'fetchUrls' }]
+    capabilities: [{ feature: 'fetchUrls' }],
+    requiresApiKey: false
   },
   {
     id: 'jina',
@@ -81,7 +89,8 @@ const PRESET_PROVIDERS: Omit<WebSearchProvider, 'apiKeys' | 'engines' | 'basicAu
     description: 'Jina AI Reader API',
     capabilities: [{ feature: 'fetchUrls', apiHost: 'https://r.jina.ai' }],
     officialWebsite: 'https://jina.ai/reader',
-    apiKeyWebsite: 'https://jina.ai/reader/#apiform'
+    apiKeyWebsite: 'https://jina.ai/reader/#apiform',
+    requiresApiKey: false
   },
   {
     id: 'firecrawl',
@@ -92,14 +101,15 @@ const PRESET_PROVIDERS: Omit<WebSearchProvider, 'apiKeys' | 'engines' | 'basicAu
       { feature: 'fetchUrls', apiHost: 'https://api.firecrawl.dev' }
     ],
     officialWebsite: 'https://www.firecrawl.dev',
-    apiKeyWebsite: 'https://www.firecrawl.dev/app/api-keys'
+    apiKeyWebsite: 'https://www.firecrawl.dev/app/api-keys',
+    requiresApiKey: true
   }
 ]
 
 export function resolveProviders(overrides: WebSearchProviderOverrides): WebSearchProvider[] {
   return PRESET_PROVIDERS.map(preset => {
-    const override = overrides[preset.id]
-    const apiKeys = (override?.apiKeys ?? []).map(s => s.trim()).filter(Boolean)
+    const override = overrides[preset.id] as any
+    const apiKeys = (override?.apiKeys ?? []).map((s: string) => s.trim()).filter(Boolean)
 
     return {
       ...preset,
@@ -113,7 +123,7 @@ export function resolveProviders(overrides: WebSearchProviderOverrides): WebSear
             : {})
         }
       }),
-      engines: (override?.engines ?? []).map(s => s.trim()).filter(Boolean),
+      engines: (override?.engines ?? []).map((s: string) => s.trim()).filter(Boolean),
       basicAuthUsername: (override?.basicAuthUsername ?? '').trim(),
       basicAuthPassword: (override?.basicAuthPassword ?? '').trim()
     }

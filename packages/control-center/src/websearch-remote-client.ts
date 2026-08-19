@@ -1,37 +1,28 @@
-import type { RemoteDescriptor } from '@deepseek-ai/dsh-api-remotes/client'
+import type { TypertRemoteContribution } from '@deepseek-ai/dsh-typert-protocol'
+import { STRICT_JSON_WEBSEARCH } from './websearch-codec.ts'
 
-const websearchRemote: RemoteDescriptor = {
+const methods: ReadonlyArray<{ method: string; implementation?: string; parameters: string[] }> = [
+  { method: 'getConfig', parameters: [] },
+  { method: 'updateConfig', parameters: ['params'] },
+  { method: 'listProviders', parameters: [] },
+  { method: 'getProvider', parameters: ['params'] },
+  { method: 'updateProviderOverride', parameters: ['params'] },
+  { method: 'checkProviderReady', parameters: ['params'] },
+]
+
+/** Client descriptor contribution for the Control Center web search service. */
+const webSearchRemote: TypertRemoteContribution = {
   package: '@dsh-control-center/control-center',
-  descriptors: [{
+  descriptors: methods.map(({ method, implementation, parameters }) => ({
+    id: `@dsh-control-center/control-center#controlCenterWebSearch/${method}`,
+    service: 'controlCenterWebSearch',
     namespace: 'controlCenterWebSearch',
-    methods: [
-      'getConfig',
-      'updateConfig',
-      'listProviders',
-      'getProvider',
-      'updateProviderOverride',
-      'checkProviderReady'
-    ]
-  }]
+    method,
+    ...(implementation === undefined ? {} : { implementation }),
+    invocation: { kind: 'direct' },
+    parameters: parameters.map(name => ({ name, wire: name, source: 'json' as const, codec: STRICT_JSON_WEBSEARCH })),
+    result: STRICT_JSON_WEBSEARCH,
+  })),
 }
 
-export default websearchRemote
-
-declare module '@deepseek-ai/dsh-api-remotes/client' {
-  interface Remote {
-    controlCenterWebSearch?: {
-      getConfig(): Promise<import('./websearch/types.ts').WebSearchConfig>
-      updateConfig(update: Partial<import('./websearch/types.ts').WebSearchConfig>): Promise<import('./websearch/types.ts').WebSearchConfig>
-      listProviders(): Promise<import('./websearch/types.ts').WebSearchProvider[]>
-      getProvider(params: { providerId: import('./websearch/types.ts').WebSearchProviderId }): Promise<import('./websearch/types.ts').WebSearchProvider | null>
-      updateProviderOverride(params: {
-        providerId: import('./websearch/types.ts').WebSearchProviderId
-        override: Partial<import('./websearch/types.ts').WebSearchProviderOverrides[keyof import('./websearch/types.ts').WebSearchProviderOverrides]>
-      }): Promise<import('./websearch/types.ts').WebSearchProvider>
-      checkProviderReady(params: {
-        providerId: import('./websearch/types.ts').WebSearchProviderId
-        capability: import('./websearch/types.ts').WebSearchCapability
-      }): Promise<boolean>
-    }
-  }
-}
+export default webSearchRemote

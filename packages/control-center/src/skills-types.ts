@@ -126,7 +126,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
       list(query?: ListSkillsQuery): Promise<InstalledSkill[]>
       getById(params: { skillId: string }): Promise<InstalledSkill | null>
       update(params: { skillId: string; dto: UpdateSkillDto }): Promise<InstalledSkill>
-      install(params: { options: SkillInstallOptions }): Promise<InstalledSkill>
+      installSkill(params: { options: SkillInstallOptions }): Promise<InstalledSkill>
       uninstall(params: { skillId: string }): Promise<void>
       searchMarketplace(params: { query: MarketplaceSearchQuery }): Promise<MarketplaceSearchResponse>
     }

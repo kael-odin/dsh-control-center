@@ -11,6 +11,10 @@
       "types": "./lib/types/index.d.ts",
       "default": "./lib/index.js"
     },
+    "./client": {
+      "types": "./lib/types/client.d.ts",
+      "default": "./lib/client.js"
+    },
     "./invariant": {
       "types": "./lib/types/invariant.d.ts",
       "default": "./lib/invariant.js"
@@ -20,17 +24,31 @@
   },
   "files": [
     "lib/index.js",
+    "lib/client.js",
     "lib/invariant.js",
     "cordis.patch.yml",
-    "lib/types/**/*.d.ts"
+    "lib/types/**/*.d.ts",
+    "node_modules"
   ],
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-connection",
+        "@deepseek-ai/dsh-api-remotes",
+        "@deepseek-ai/dsh-client-ui-sidebar",
+        "@deepseek-ai/dsh-client-ui-layout"
+      ],
+      "platform": "web"
     }
   },
   "dependencies": {
-    "@dsh-control-center/control-center": "workspace:^"
+    "@dsh-control-center/control-center": "workspace:*"
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": "4.0.1",
@@ -40,6 +58,6 @@
     "access": "public"
   },
   "scripts": {
-    "bundle": "tsdown --config ../../tsdown.config.ts"
+    "bundle": "tsdown --config ../../tsdown.config.ts && node ../../build/copy-bundle-client.mjs"
   }
 }

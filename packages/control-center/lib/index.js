@@ -1657,7 +1657,7 @@ var SkillsService = class extends Service {
 			["list", "list"],
 			["getById", "getById"],
 			["update", "update"],
-			["install", "install"],
+			["install", "installSkill"],
 			["uninstall", "uninstall"],
 			["searchMarketplace", "searchMarketplace"]
 		]);
@@ -1848,7 +1848,7 @@ const skillsRemote = {
 			parameters: ["skillId", "dto"]
 		},
 		{
-			method: "install",
+			method: "installSkill",
 			parameters: ["options"]
 		},
 		{
@@ -2432,6 +2432,315 @@ const mcpRemote = {
 	}))
 };
 //#endregion
+//#region lib/types/websearch/utils.js
+/**
+* Web Search provider utilities - resolver and readiness checks.
+*/
+const PRESET_PROVIDERS = [
+	{
+		id: "zhipu",
+		name: "ZhipuAI",
+		description: "ZhipuAI web search",
+		capabilities: [{
+			feature: "searchKeywords",
+			apiHost: "https://open.bigmodel.cn/api/paas/v4"
+		}],
+		officialWebsite: "https://www.zhipuai.cn",
+		apiKeyWebsite: "https://open.bigmodel.cn/usercenter/apikeys",
+		requiresApiKey: true
+	},
+	{
+		id: "tavily",
+		name: "Tavily",
+		description: "Tavily search API",
+		capabilities: [{
+			feature: "searchKeywords",
+			apiHost: "https://api.tavily.com"
+		}],
+		officialWebsite: "https://tavily.com",
+		apiKeyWebsite: "https://app.tavily.com",
+		requiresApiKey: true
+	},
+	{
+		id: "searxng",
+		name: "SearXNG",
+		description: "Self-hosted meta search engine",
+		capabilities: [{
+			feature: "searchKeywords",
+			apiHost: "http://localhost:8080"
+		}, {
+			feature: "fetchUrls",
+			apiHost: "http://localhost:8080"
+		}],
+		officialWebsite: "https://docs.searxng.org",
+		requiresApiKey: false
+	},
+	{
+		id: "exa",
+		name: "Exa",
+		description: "Exa search for AI",
+		capabilities: [{
+			feature: "searchKeywords",
+			apiHost: "https://api.exa.ai"
+		}],
+		officialWebsite: "https://exa.ai",
+		apiKeyWebsite: "https://dashboard.exa.ai/api-keys",
+		requiresApiKey: true
+	},
+	{
+		id: "exa-mcp",
+		name: "Exa (MCP)",
+		description: "Exa search via MCP protocol",
+		capabilities: [{
+			feature: "searchKeywords",
+			apiHost: "https://api.exa.ai"
+		}],
+		officialWebsite: "https://exa.ai",
+		apiKeyWebsite: "https://dashboard.exa.ai/api-keys",
+		requiresApiKey: true
+	},
+	{
+		id: "bocha",
+		name: "Bocha",
+		description: "Bocha search API",
+		capabilities: [{
+			feature: "searchKeywords",
+			apiHost: "https://api.bochaai.com"
+		}],
+		officialWebsite: "https://www.bochaai.com",
+		apiKeyWebsite: "https://www.bochaai.com/integration",
+		requiresApiKey: true
+	},
+	{
+		id: "querit",
+		name: "Querit",
+		description: "Querit search and fetch",
+		capabilities: [{
+			feature: "searchKeywords",
+			apiHost: "https://api.querit.ai"
+		}, {
+			feature: "fetchUrls",
+			apiHost: "https://api.querit.ai"
+		}],
+		officialWebsite: "https://querit.ai",
+		requiresApiKey: false
+	},
+	{
+		id: "fetch",
+		name: "Fetch",
+		description: "Simple HTTP fetch",
+		capabilities: [{ feature: "fetchUrls" }],
+		requiresApiKey: false
+	},
+	{
+		id: "jina",
+		name: "Jina Reader",
+		description: "Jina AI Reader API",
+		capabilities: [{
+			feature: "fetchUrls",
+			apiHost: "https://r.jina.ai"
+		}],
+		officialWebsite: "https://jina.ai/reader",
+		apiKeyWebsite: "https://jina.ai/reader/#apiform",
+		requiresApiKey: false
+	},
+	{
+		id: "firecrawl",
+		name: "Firecrawl",
+		description: "Firecrawl web scraping",
+		capabilities: [{
+			feature: "searchKeywords",
+			apiHost: "https://api.firecrawl.dev"
+		}, {
+			feature: "fetchUrls",
+			apiHost: "https://api.firecrawl.dev"
+		}],
+		officialWebsite: "https://www.firecrawl.dev",
+		apiKeyWebsite: "https://www.firecrawl.dev/app/api-keys",
+		requiresApiKey: true
+	}
+];
+function resolveProviders(overrides) {
+	return PRESET_PROVIDERS.map((preset) => {
+		const override = overrides[preset.id];
+		const apiKeys = (override?.apiKeys ?? []).map((s) => s.trim()).filter(Boolean);
+		return {
+			...preset,
+			apiKeys,
+			capabilities: preset.capabilities.map((capability) => {
+				const capabilityOverride = override?.capabilities?.[capability.feature];
+				return {
+					...capability,
+					..."apiHost" in capability && capabilityOverride?.apiHost !== void 0 ? { apiHost: capabilityOverride.apiHost.trim() } : {}
+				};
+			}),
+			engines: (override?.engines ?? []).map((s) => s.trim()).filter(Boolean),
+			basicAuthUsername: (override?.basicAuthUsername ?? "").trim(),
+			basicAuthPassword: (override?.basicAuthPassword ?? "").trim()
+		};
+	});
+}
+function isWebSearchProviderReady(provider, capability) {
+	if (!provider) return false;
+	const providerCapability = provider.capabilities.find((c) => c.feature === capability);
+	if (!providerCapability) return false;
+	if (provider.id === "fetch") return true;
+	if (provider.id === "searxng" || provider.id === "querit") return !!providerCapability.apiHost && providerCapability.apiHost.length > 0;
+	return provider.apiKeys.length > 0;
+}
+//#endregion
+//#region lib/types/websearch.js
+/**
+* Control Center Web Search Service - Host side web search configuration management.
+*/
+const WEBSEARCH_NAMESPACE = settingsNamespace("control-center-websearch");
+var WebSearchService = class extends Service {
+	static inject = ["settings"];
+	typertRemote = bindTypertRemote(this, "controlCenterWebSearch");
+	scope;
+	constructor(ctx, _config) {
+		super(ctx, "control-center-websearch");
+		this.scope = ctx.settings.register(WEBSEARCH_NAMESPACE, Schema.object({
+			defaultSearchKeywordsProvider: Schema.union([
+				"zhipu",
+				"tavily",
+				"searxng",
+				"exa",
+				"exa-mcp",
+				"bocha",
+				"querit",
+				"jina",
+				"firecrawl"
+			]).default("exa-mcp"),
+			defaultFetchUrlsProvider: Schema.union([
+				"querit",
+				"fetch",
+				"jina",
+				"firecrawl"
+			]).default("jina"),
+			providerOverrides: Schema.dict(Schema.object({
+				apiKeys: Schema.array(Schema.string().role("secret")),
+				capabilities: Schema.object({
+					searchKeywords: Schema.object({ apiHost: Schema.string() }),
+					fetchUrls: Schema.object({ apiHost: Schema.string() })
+				}),
+				engines: Schema.array(Schema.string()),
+				basicAuthUsername: Schema.string(),
+				basicAuthPassword: Schema.string().role("secret")
+			})).default({}),
+			maxResults: Schema.number().min(1).max(50).default(5),
+			excludeDomains: Schema.array(Schema.string()).default([]),
+			compression: Schema.object({
+				method: Schema.union(["none", "cutoff"]).default("cutoff"),
+				cutoffLimit: Schema.number().min(100).max(1e4).default(2e3)
+			}).default({
+				method: "cutoff",
+				cutoffLimit: 2e3
+			}),
+			clientToolsPreferred: Schema.boolean().default(true)
+		}), { base: {
+			defaultSearchKeywordsProvider: "exa-mcp",
+			defaultFetchUrlsProvider: "jina",
+			providerOverrides: {},
+			maxResults: 5,
+			excludeDomains: [],
+			compression: {
+				method: "cutoff",
+				cutoffLimit: 2e3
+			},
+			clientToolsPreferred: true
+		} });
+	}
+	async getConfig() {
+		return this.scope.get();
+	}
+	async updateConfig(params) {
+		const updated = {
+			...this.scope.get(),
+			...params
+		};
+		await this.scope.update(params);
+		return updated;
+	}
+	async listProviders() {
+		return resolveProviders(this.scope.get().providerOverrides);
+	}
+	async getProvider(params) {
+		return (await this.listProviders()).find((p) => p.id === params.providerId) || null;
+	}
+	async updateProviderOverride(params) {
+		const config = this.scope.get();
+		const updated = {
+			...config,
+			providerOverrides: {
+				...config.providerOverrides,
+				[params.providerId]: params.override
+			}
+		};
+		await this.scope.update({ providerOverrides: updated.providerOverrides });
+		const provider = resolveProviders(updated.providerOverrides).find((p) => p.id === params.providerId);
+		if (!provider) throw new Error(`Provider ${params.providerId} not found after update`);
+		return provider;
+	}
+	async checkProviderReady(params) {
+		return isWebSearchProviderReady(await this.getProvider({ providerId: params.providerId }), params.capability);
+	}
+};
+const STRICT_JSON_WEBSEARCH = {
+	mode: "strict",
+	typeSymbol: "@dsh-control-center/websearch-json",
+	schema: { parse(value) {
+		structuredClone(value);
+		return value;
+	} }
+};
+//#endregion
+//#region lib/types/websearch-remote-client.js
+/** Client descriptor contribution for the Control Center web search service. */
+const webSearchRemote = {
+	package: "@dsh-control-center/control-center",
+	descriptors: [
+		{
+			method: "getConfig",
+			parameters: []
+		},
+		{
+			method: "updateConfig",
+			parameters: ["params"]
+		},
+		{
+			method: "listProviders",
+			parameters: []
+		},
+		{
+			method: "getProvider",
+			parameters: ["params"]
+		},
+		{
+			method: "updateProviderOverride",
+			parameters: ["params"]
+		},
+		{
+			method: "checkProviderReady",
+			parameters: ["params"]
+		}
+	].map(({ method, implementation, parameters }) => ({
+		id: `@dsh-control-center/control-center#controlCenterWebSearch/${method}`,
+		service: "controlCenterWebSearch",
+		namespace: "controlCenterWebSearch",
+		method,
+		...implementation === void 0 ? {} : { implementation },
+		invocation: { kind: "direct" },
+		parameters: parameters.map((name) => ({
+			name,
+			wire: name,
+			source: "json",
+			codec: STRICT_JSON_WEBSEARCH
+		})),
+		result: STRICT_JSON_WEBSEARCH
+	}))
+};
+//#endregion
 //#region lib/types/secret-schema.js
 /** Fail-closed audit for settings schemas that contain secret-role nodes. */
 const SAFE_CONTAINERS = /* @__PURE__ */ new Set([
@@ -2516,7 +2825,7 @@ const ONBOARDING_SETTINGS_NAMESPACE = "ui-onboarding";
 const OnboardingSettingsSchema = Schema.object({ welcomeNoticeVersion: Schema.string() });
 /** Cordis plugin name. */
 const name = "dsh-control-center";
-const inject = ["typert"];
+const inject = ["typert", "settings"];
 /** Reject incompatible DSH packages, then restore the onboarding namespace. */
 function apply(ctx) {
 	assertCompatibleDsh();
@@ -2525,6 +2834,7 @@ function apply(ctx) {
 	new KnowledgeService(ctx);
 	new SkillsService(ctx);
 	new McpService(ctx);
+	new WebSearchService(ctx);
 	const contributions = [{
 		package: "@dsh-control-center/control-center",
 		face: "host",
@@ -2539,7 +2849,8 @@ function apply(ctx) {
 			...paintingRemote.descriptors,
 			...knowledgeRemote.descriptors,
 			...skillsRemote.descriptors,
-			...mcpRemote.descriptors
+			...mcpRemote.descriptors,
+			...webSearchRemote.descriptors
 		]
 	}];
 	for (const contribution of contributions) ctx.typert.register(contribution);
@@ -2548,4 +2859,4 @@ function apply(ctx) {
 	});
 }
 //#endregion
-export { KnowledgeService, McpService, PaintingService, SkillsService, TranslationService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, inject, name };
+export { KnowledgeService, McpService, PaintingService, SkillsService, TranslationService, WebSearchService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, inject, name };
