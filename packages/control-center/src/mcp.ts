@@ -51,6 +51,7 @@ interface McpServerRuntimeState {
 
 export class McpService extends Service {
   static inject = ['settings'] as const
+  static optional = ['tools'] as const
 
   readonly typertRemote = bindTypertRemote(this, 'controlCenterMcp')
   private scope: SettingsScope<McpServerSettings>
@@ -372,6 +373,33 @@ export class McpService extends Service {
               if (tool.description !== undefined) mapped.description = tool.description
               return mapped
             })
+
+            // Register tools with DSH tool registry on startup
+            const disabledTools = record.disabledTools || []
+            const toolService = this.ctx.get('tools', false)
+
+            if (toolService) {
+              for (const tool of capabilities.tools) {
+                // Skip disabled tools
+                if (disabledTools.includes(tool.name)) {
+                  continue
+                }
+
+                // Register tool with DSH tool registry
+                const toolName = `mcp_${serverId}_${tool.name}`
+
+                toolService.register(toolName, {
+                  description: tool.description || `MCP tool: ${tool.name}`,
+                  parameters: tool.inputSchema as any,
+                  handler: async (input: any) => {
+                    const result = await client.callTool({ name: tool.name, arguments: input })
+                    return result.content
+                  }
+                })
+
+                this.addServerLog(serverId, `Registered tool: ${tool.name}`)
+              }
+            }
           } catch (error) {
             this.ctx.logger.warn(`Failed to list tools for ${serverId}`, error)
           }
@@ -475,6 +503,39 @@ export class McpService extends Service {
           if (tool.description !== undefined) mapped.description = tool.description
           return mapped
         })
+
+        // Register tools with DSH tool registry
+        const settings = this.scope.get()
+        const serverRecord = settings.servers.find(s => s.id === params.serverId)
+        const disabledTools = serverRecord?.disabledTools || []
+
+        const toolService = this.ctx.get('tools', false)
+        if (toolService) {
+          for (const tool of capabilities.tools) {
+            // Skip disabled tools
+            if (disabledTools.includes(tool.name)) {
+              continue
+            }
+
+            // Register tool with DSH tool registry
+            // Prefix tool name with server ID to avoid naming conflicts
+            const toolName = `mcp_${params.serverId}_${tool.name}`
+
+            toolService.register(toolName, {
+              description: tool.description || `MCP tool: ${tool.name}`,
+              parameters: tool.inputSchema as any, // MCP uses JSON Schema format
+              handler: async (input: any) => {
+                // Call the MCP tool through the client
+                const result = await client.callTool({ name: tool.name, arguments: input })
+                return result.content
+              }
+            })
+
+            this.addServerLog(params.serverId, `Registered tool: ${tool.name}`)
+          }
+        } else {
+          this.ctx.logger.warn('Tool service not available for registration')
+        }
       }
 
       // Fetch prompts if available
