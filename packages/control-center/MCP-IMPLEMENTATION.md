@@ -48,9 +48,11 @@ Current implementation in `startServer()`:
 
 #### Priority 2: Tool Cleanup ✅ COMPLETE
 1. ~~Unregister tools on server stop~~ ✅ Complete
-   - ~~Track registered tool names in runtime state~~ ✅ Complete
-   - ~~Call toolsService.unregister() in stopServer()~~ ✅ Complete (commit 649e841)
+   - ~~Track registered tool names in runtime state~~ ✅ Complete (changed to disposer functions)
+   - ~~Call toolsService.unregister() in stopServer()~~ ✅ Complete (changed to call disposers)
    - ~~Unregister old tools before re-registering in refreshTools()~~ ✅ Complete
+   - ~~Fix API usage to use disposer pattern instead of unregister method~~ ✅ Complete (commit 0a85e2c)
+   - ~~Fix variable scope issue in startServer()~~ ✅ Complete (commit 0a85e2c)
 
 #### Priority 3: Additional UI Polish
 1. Add server installation flow

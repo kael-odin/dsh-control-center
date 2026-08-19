@@ -1,7 +1,7 @@
 # MCP Tool Cleanup Implementation
 
 **Date**: 2026-08-19
-**Commit**: TBD (disposer pattern fix)
+**Commit**: 0a85e2c
 **Progress**: MCP Phase 2 ~94% complete (stdio transport + full UI + tool registry + cleanup)
 
 ## Completed
