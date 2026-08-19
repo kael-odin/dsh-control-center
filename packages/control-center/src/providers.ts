@@ -201,7 +201,7 @@ export class ProvidersService extends Service {
       // Build headers based on provider type
       const headers: Record<string, string> = {
         'Content-Type': 'application/json',
-        ...(record.customHeaders || {})
+        ...record.customHeaders
       }
 
       // Provider-specific authentication
@@ -279,7 +279,7 @@ export class ProvidersService extends Service {
       // Build headers based on provider type
       const headers: Record<string, string> = {
         'Content-Type': 'application/json',
-        ...(record.customHeaders || {})
+        ...record.customHeaders
       }
 
       // Provider-specific authentication and URL
@@ -439,7 +439,7 @@ export class ProvidersService extends Service {
         ...(m.contextWindow !== undefined ? { contextWindow: m.contextWindow } : {}),
         ...(m.maxOutputTokens !== undefined ? { maxOutputTokens: m.maxOutputTokens } : {})
       })),
-      ...(record.customHeaders !== undefined ? { customHeaders: record.customHeaders } : {}),
+      ...record.customHeaders,
       ...(record.lastTestedAt !== undefined ? { lastTestedAt: record.lastTestedAt } : {}),
       ...(record.lastDiscoveredAt !== undefined ? { lastDiscoveredAt: record.lastDiscoveredAt } : {}),
       createdAt: record.createdAt, updatedAt: record.updatedAt

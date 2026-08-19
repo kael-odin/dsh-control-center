@@ -22945,7 +22945,7 @@ function featureHash(text) {
 function localHashEmbed(texts, dimensions = 384) {
 	const vectors = [];
 	for (const text of texts) {
-		const vector = new Array(dimensions).fill(0);
+		const vector = Array.from({ length: dimensions }, () => 0);
 		const normalized = text.toLowerCase();
 		for (const size of NGrams) for (let i = 0; i + size <= normalized.length; i += 1) {
 			const index = featureHash(normalized.slice(i, i + size)) % dimensions;
@@ -23459,7 +23459,7 @@ var KnowledgeService = class extends Service {
 	registerTool() {
 		const tools = this.ctx.get("tools");
 		if (tools === void 0) return;
-		const service = this;
+		const serviceRef = this;
 		const disposer = tools.register(defineTool({
 			name: "knowledge_retrieve",
 			description: "Retrieve the most relevant excerpts from the Control Center knowledge bases for a query. Returns ranked excerpts with their source names and similarity scores; useful when the user references a document, wiki, or knowledge base.",
@@ -23527,10 +23527,10 @@ var KnowledgeService = class extends Service {
 			async execute(args, _exec) {
 				const query = assertQuery(args.query);
 				const topK = args.top_k === void 0 ? DEFAULT_TOP_K : args.top_k;
-				const bases = service.listBases().bases.filter((base) => args.base === void 0 || base.name === args.base || base.id === args.base);
+				const bases = serviceRef.listBases().bases.filter((base) => args.base === void 0 || base.name === args.base || base.id === args.base);
 				const hits = [];
 				for (const base of bases) {
-					const result = await service.retrieve({
+					const result = await serviceRef.retrieve({
 						baseId: base.id,
 						query,
 						topK,
@@ -24132,7 +24132,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-iPrHPXYa.js");
+				const { SSEClientTransport } = await import("./sse-lmqREQ0j.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -24154,7 +24154,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-DXY-XhLZ.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-eGWtESCB.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -24866,7 +24866,7 @@ var ProvidersService = class extends Service {
 			if (record.apiKeyRef) apiKey = (await this.creds().resolve(credentialRef(record.apiKeyRef)))?.value;
 			const headers = {
 				"Content-Type": "application/json",
-				...record.customHeaders || {}
+				...record.customHeaders
 			};
 			if (apiKey) {
 				if (record.type === "anthropic") {
@@ -24923,7 +24923,7 @@ var ProvidersService = class extends Service {
 			if (record.apiKeyRef) apiKey = (await this.creds().resolve(credentialRef(record.apiKeyRef)))?.value;
 			const headers = {
 				"Content-Type": "application/json",
-				...record.customHeaders || {}
+				...record.customHeaders
 			};
 			let url = `${record.baseURL}/models`;
 			if (apiKey) {
@@ -25056,7 +25056,7 @@ var ProvidersService = class extends Service {
 				...m.contextWindow !== void 0 ? { contextWindow: m.contextWindow } : {},
 				...m.maxOutputTokens !== void 0 ? { maxOutputTokens: m.maxOutputTokens } : {}
 			})),
-			...record.customHeaders !== void 0 ? { customHeaders: record.customHeaders } : {},
+			...record.customHeaders,
 			...record.lastTestedAt !== void 0 ? { lastTestedAt: record.lastTestedAt } : {},
 			...record.lastDiscoveredAt !== void 0 ? { lastDiscoveredAt: record.lastDiscoveredAt } : {},
 			createdAt: record.createdAt,

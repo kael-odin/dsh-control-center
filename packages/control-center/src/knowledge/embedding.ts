@@ -28,7 +28,7 @@ function featureHash(text: string): number {
 export function localHashEmbed(texts: readonly string[], dimensions = LOCAL_EMBEDDING_DIMENSIONS): number[][] {
   const vectors: number[][] = []
   for (const text of texts) {
-    const vector = new Array<number>(dimensions).fill(0)
+    const vector = Array.from({ length: dimensions }, () => 0)
     const normalized = text.toLowerCase()
     for (const size of NGrams) {
       for (let i = 0; i + size <= normalized.length; i += 1) {

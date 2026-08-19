@@ -559,7 +559,7 @@ export class KnowledgeService extends Service {
   private registerTool(): void {
     const tools = this.ctx.get('tools')
     if (tools === undefined) return
-    const service = this
+    const serviceRef = this
     const disposer = tools.register(defineTool({
         name: 'knowledge_retrieve',
         description: 'Retrieve the most relevant excerpts from the Control Center knowledge bases for a query. Returns ranked excerpts with their source names and similarity scores; useful when the user references a document, wiki, or knowledge base.',
@@ -601,11 +601,11 @@ export class KnowledgeService extends Service {
         async execute(args, _exec) {
           const query = assertQuery(args.query)
           const topK = args.top_k === undefined ? DEFAULT_TOP_K : args.top_k
-          const bases = service.listBases().bases
+          const bases = serviceRef.listBases().bases
             .filter(base => args.base === undefined || base.name === args.base || base.id === args.base)
           const hits: Array<{ source: string; base: string; score: number; text: string }> = []
           for (const base of bases) {
-            const result = await service.retrieve({ baseId: base.id, query, topK, minScore: 0.05 })
+            const result = await serviceRef.retrieve({ baseId: base.id, query, topK, minScore: 0.05 })
             for (const hit of result.hits) {
               hits.push({ source: hit.sourceName, base: base.name, score: hit.score, text: hit.text.slice(0, 2000) })
             }
