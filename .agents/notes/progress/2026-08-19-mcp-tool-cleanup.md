@@ -1,37 +1,42 @@
 # MCP Tool Cleanup Implementation
 
 **Date**: 2026-08-19
-**Commit**: 649e841
+**Commit**: TBD (disposer pattern fix)
 **Progress**: MCP Phase 2 ~94% complete (stdio transport + full UI + tool registry + cleanup)
 
 ## Completed
 
 ### Tool Cleanup on Server Stop (100%)
 
-Implemented complete tool lifecycle management with automatic cleanup:
+Implemented complete tool lifecycle management using DSH's disposer pattern:
 
 1. **Runtime State Extension**
-   - Added `registeredToolNames: string[]` field to `McpServerRuntimeState`
-   - Tracks all tool names registered with DSH tool registry
+   - Added `toolDisposers: Array<() => void>` field to `McpServerRuntimeState`
+   - Tracks disposer functions returned by `toolService.register()`
    - Persists across refresh cycles until server stops
 
-2. **Registration Tracking**
-   - During `startServer()`: push tool names to `registeredToolNames` array
-   - During `refreshTools()`: push tool names to `registeredToolNames` array
-   - Every successfully registered tool is tracked
+2. **Registration with Disposer Capture**
+   - During `startServer()`: capture disposer from each `toolService.register()` call
+   - During `refreshTools()`: capture disposers from re-registration
+   - Every successfully registered tool's disposer is stored
 
 3. **Cleanup in stopServer()**
-   - Iterate through `registeredToolNames` array
-   - Call `toolsService.unregister(toolName)` for each tool
-   - Clear the array after unregistration
-   - Logs each unregistration operation
+   - Iterate through `toolDisposers` array
+   - Call each disposer function to unregister tools
+   - Clear the array after disposal
+   - Logs total count of unregistered tools
    - Graceful handling if tools service unavailable
 
 4. **Cleanup in refreshTools()**
-   - Unregister all old tools before re-registering
+   - Call all old disposers before re-registering
    - Prevents duplicate tool registration
    - Fresh registration on every refresh
-   - Old tool names cleared from tracking array
+   - Old disposers cleared from tracking array
+
+5. **Scope Fix**
+   - Moved `toolDisposers` declaration to function scope in `startServer()`
+   - Ensures variable is always available even if server has no tools capability
+   - Prevents TypeScript TS18004 scope error
 
 ## Architecture
 
@@ -40,23 +45,23 @@ Implemented complete tool lifecycle management with automatic cleanup:
 ```
 startServer()
   ↓
-Register tools → Track in registeredToolNames[]
+Register tools → Capture disposers in toolDisposers[]
   ↓
 Server running
   ↓
 User calls refreshTools()
   ↓
-Unregister all tools in registeredToolNames[]
+Call all disposers in toolDisposers[]
   ↓
-Clear registeredToolNames[]
+Clear toolDisposers[]
   ↓
-Re-register tools → Track in registeredToolNames[]
+Re-register tools → Capture disposers in toolDisposers[]
   ↓
 User calls stopServer()
   ↓
-Unregister all tools in registeredToolNames[]
+Call all disposers in toolDisposers[]
   ↓
-Clear registeredToolNames[]
+Clear toolDisposers[]
   ↓
 Server stopped
 ```
@@ -65,23 +70,35 @@ Server stopped
 
 ```typescript
 // Registration (startServer/refreshTools)
-const toolName = `mcp_${serverId}_${tool.name}`
-toolsService.register({ name: toolName, ... })
-runtime.registeredToolNames.push(toolName)
-this.addServerLog(serverId, `Registered tool: ${toolName}`)
+const toolDisposers: Array<() => void> = []
+const toolService = this.ctx.get('tools', false)
+
+if (toolService) {
+  for (const tool of capabilities.tools) {
+    const toolName = `mcp_${serverId}_${tool.name}`
+    const dispose = toolService.register({
+      name: toolName,
+      schema: tool.inputSchema,
+      handler: async (input) => {
+        const result = await client.callTool({ name: tool.name, arguments: input })
+        return result.content
+      }
+    })
+    toolDisposers.push(dispose)
+    this.addServerLog(serverId, `Registered tool: ${tool.name}`)
+  }
+}
 
 // Cleanup (stopServer/refreshTools before re-registering)
-const toolsService = this.ctx.optional('tools')
-if (toolsService && runtime.registeredToolNames) {
-  for (const toolName of runtime.registeredToolNames) {
+if (state.toolDisposers) {
+  for (const dispose of state.toolDisposers) {
     try {
-      toolsService.unregister(toolName)
-      this.addServerLog(serverId, `Unregistered tool: ${toolName}`)
+      dispose()
     } catch (error) {
-      this.ctx.logger.error(`Failed to unregister tool ${toolName}`, error)
+      this.ctx.logger.warn(`Failed to dispose tool`, error)
     }
   }
-  runtime.registeredToolNames = []
+  this.addServerLog(params.serverId, `Unregistered ${state.toolDisposers.length} tools`)
 }
 ```
 
@@ -93,8 +110,10 @@ if (toolsService && runtime.registeredToolNames) {
 
 ## Testing
 
-- ✅ Build passes (pnpm bundle)
+- ✅ Build passes (pnpm build)
 - ✅ Lint passes (oxlint warnings only)
+- ✅ TypeScript compilation succeeds (scope issue fixed)
+- ✅ Disposer pattern correctly implemented per DSH API
 - ⬜ Manual testing with real MCP server needed
 - ⬜ Verify tools disappear from registry after server stop
 - ⬜ Verify tools refresh correctly on manual refresh
@@ -102,10 +121,10 @@ if (toolsService && runtime.registeredToolNames) {
 
 ## Known Limitations
 
-1. No verification that unregister succeeded (toolsService.unregister() doesn't return success/failure)
+1. No verification that disposer succeeded (disposer functions don't return success/failure)
 2. No cleanup if MCP service crashes (runtime state lost)
 3. No cleanup on app shutdown (all runtime state lost)
-4. Error during unregistration logged but doesn't block other tool cleanup
+4. Error during disposal logged but doesn't block other tool cleanup
 
 ## Next Priorities
 
@@ -129,9 +148,11 @@ if (toolsService && runtime.registeredToolNames) {
 ## Alignment with User Requirements
 
 This completes **Priority 2** from the MCP implementation roadmap:
-- ✅ Track registered tool names in runtime state
-- ✅ Unregister tools in stopServer()
-- ✅ Unregister old tools before re-registering in refreshTools()
-- ✅ Add logging for unregistration operations
+- ✅ Track tool disposers in runtime state (not tool names)
+- ✅ Call disposers in stopServer() to unregister tools
+- ✅ Call old disposers before re-registering in refreshTools()
+- ✅ Add logging for disposal operations
+- ✅ Use correct DSH API pattern (disposer functions, not unregister method)
+- ✅ Fix variable scope to prevent TypeScript errors
 
-MCP tools now have complete lifecycle management - registered on startup/refresh, unregistered on stop/refresh, preventing tool registry pollution.
+MCP tools now have complete lifecycle management using DSH's standard disposer pattern - disposers captured on startup/refresh, called on stop/refresh, preventing tool registry pollution.

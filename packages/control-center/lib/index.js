@@ -2106,6 +2106,7 @@ var McpService = class extends Service {
 				this.addServerLog(serverId, "Server connected");
 				const serverCapabilities = client.getServerCapabilities();
 				const capabilities = {};
+				const toolDisposers = [];
 				if (serverCapabilities?.tools) try {
 					capabilities.tools = (await client.listTools()).tools.map((tool) => {
 						const mapped = {
@@ -2120,7 +2121,7 @@ var McpService = class extends Service {
 					if (toolService) for (const tool of capabilities.tools) {
 						if (disabledTools.includes(tool.name)) continue;
 						const toolName = `mcp_${serverId}_${tool.name}`;
-						toolService.register({
+						const dispose = toolService.register({
 							name: toolName,
 							description: tool.description || `MCP tool: ${tool.name}`,
 							parameters: tool.inputSchema,
@@ -2140,6 +2141,7 @@ var McpService = class extends Service {
 								})).content;
 							}
 						});
+						toolDisposers.push(dispose);
 						this.addServerLog(serverId, `Registered tool: ${tool.name}`);
 					}
 				} catch (error) {
@@ -2176,7 +2178,8 @@ var McpService = class extends Service {
 					connectedAt: (/* @__PURE__ */ new Date()).toISOString(),
 					client,
 					transport,
-					logs: this.runtimeStates.get(serverId)?.logs || []
+					logs: this.runtimeStates.get(serverId)?.logs || [],
+					toolDisposers
 				});
 				this.addServerLog(serverId, "Server activated");
 				this.ctx.logger.info(`MCP server ${serverId} connected successfully`);
@@ -2198,6 +2201,14 @@ var McpService = class extends Service {
 		const state = this.runtimeStates.get(params.serverId);
 		if (!state) return;
 		try {
+			if (state.toolDisposers) {
+				for (const dispose of state.toolDisposers) try {
+					dispose();
+				} catch (error) {
+					this.ctx.logger.warn(`Failed to dispose tool`, error);
+				}
+				this.addServerLog(params.serverId, `Unregistered ${state.toolDisposers.length} tools`);
+			}
 			if (state.client) {
 				await state.client.close();
 				this.addServerLog(params.serverId, "Server stopped");
@@ -2215,6 +2226,16 @@ var McpService = class extends Service {
 			const client = state.client;
 			const serverCapabilities = client.getServerCapabilities();
 			const capabilities = {};
+			if (state.toolDisposers) {
+				for (const dispose of state.toolDisposers) try {
+					dispose();
+				} catch (error) {
+					this.ctx.logger.warn(`Failed to dispose tool`, error);
+				}
+				this.addServerLog(params.serverId, `Unregistered ${state.toolDisposers.length} old tools`);
+			}
+			const toolDisposers = [];
+			const toolService = this.ctx.get("tools", false);
 			if (serverCapabilities?.tools) {
 				capabilities.tools = (await client.listTools()).tools.map((tool) => {
 					const mapped = {
@@ -2225,11 +2246,10 @@ var McpService = class extends Service {
 					return mapped;
 				});
 				const disabledTools = this.scope.get().servers.find((s) => s.id === params.serverId)?.disabledTools || [];
-				const toolService = this.ctx.get("tools", false);
 				if (toolService) for (const tool of capabilities.tools) {
 					if (disabledTools.includes(tool.name)) continue;
 					const toolName = `mcp_${params.serverId}_${tool.name}`;
-					toolService.register({
+					const dispose = toolService.register({
 						name: toolName,
 						description: tool.description || `MCP tool: ${tool.name}`,
 						parameters: tool.inputSchema,
@@ -2249,6 +2269,7 @@ var McpService = class extends Service {
 							})).content;
 						}
 					});
+					toolDisposers.push(dispose);
 					this.addServerLog(params.serverId, `Registered tool: ${tool.name}`);
 				}
 				else this.ctx.logger.warn("Tool service not available for registration");
@@ -2270,7 +2291,8 @@ var McpService = class extends Service {
 			});
 			this.runtimeStates.set(params.serverId, {
 				...state,
-				capabilities
+				capabilities,
+				toolDisposers
 			});
 			this.addServerLog(params.serverId, "Tools refreshed");
 			this.ctx.logger.info(`Refreshed tools for MCP server ${params.serverId}`);

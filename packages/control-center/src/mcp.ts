@@ -47,7 +47,8 @@ interface McpServerRuntimeState {
   client?: Client
   transport?: Transport
   logs?: string[]
-  registeredToolNames?: string[]
+  /** Disposer functions for registered tools (returned by toolService.register()) */
+  toolDisposers?: Array<() => void>
 }
 
 export class McpService extends Service {
@@ -364,6 +365,7 @@ export class McpService extends Service {
         // Get server capabilities
         const serverCapabilities = client.getServerCapabilities()
         const capabilities: McpServerCapabilities = {}
+        const toolDisposers: Array<() => void> = []
 
         // Fetch tools if available
         if (serverCapabilities?.tools) {
@@ -378,7 +380,6 @@ export class McpService extends Service {
             // Register tools with DSH tool registry on startup
             const disabledTools = record.disabledTools || []
             const toolService = this.ctx.get('tools', false)
-            const registeredToolNames: string[] = []
 
             if (toolService) {
               for (const tool of capabilities.tools) {
@@ -390,7 +391,7 @@ export class McpService extends Service {
                 // Register tool with DSH tool registry
                 const toolName = `mcp_${serverId}_${tool.name}`
 
-                toolService.register({
+                const dispose = toolService.register({
                   name: toolName,
                   description: tool.description || `MCP tool: ${tool.name}`,
                   parameters: tool.inputSchema as any,
@@ -406,7 +407,7 @@ export class McpService extends Service {
                   }
                 })
 
-                registeredToolNames.push(toolName)
+                toolDisposers.push(dispose)
                 this.addServerLog(serverId, `Registered tool: ${tool.name}`)
               }
             }
@@ -455,7 +456,7 @@ export class McpService extends Service {
           client,
           transport,
           logs: this.runtimeStates.get(serverId)?.logs || [],
-          registeredToolNames,
+          toolDisposers,
         })
 
         this.addServerLog(serverId, 'Server activated')
@@ -485,16 +486,15 @@ export class McpService extends Service {
 
     try {
       // Unregister tools from DSH tool registry
-      const toolService = this.ctx.get('tools', false)
-      if (toolService && state.registeredToolNames) {
-        for (const toolName of state.registeredToolNames) {
+      if (state.toolDisposers) {
+        for (const dispose of state.toolDisposers) {
           try {
-            toolService.unregister(toolName)
-            this.addServerLog(params.serverId, `Unregistered tool: ${toolName}`)
+            dispose()
           } catch (error) {
-            this.ctx.logger.warn(`Failed to unregister tool ${toolName}`, error)
+            this.ctx.logger.warn(`Failed to dispose tool`, error)
           }
         }
+        this.addServerLog(params.serverId, `Unregistered ${state.toolDisposers.length} tools`)
       }
 
       if (state.client) {
@@ -520,19 +520,19 @@ export class McpService extends Service {
       const capabilities: McpServerCapabilities = {}
 
       // Unregister old tools first
-      const toolService = this.ctx.get('tools', false)
-      if (toolService && state.registeredToolNames) {
-        for (const toolName of state.registeredToolNames) {
+      if (state.toolDisposers) {
+        for (const dispose of state.toolDisposers) {
           try {
-            toolService.unregister(toolName)
-            this.addServerLog(params.serverId, `Unregistered old tool: ${toolName}`)
+            dispose()
           } catch (error) {
-            this.ctx.logger.warn(`Failed to unregister tool ${toolName}`, error)
+            this.ctx.logger.warn(`Failed to dispose tool`, error)
           }
         }
+        this.addServerLog(params.serverId, `Unregistered ${state.toolDisposers.length} old tools`)
       }
 
-      const registeredToolNames: string[] = []
+      const toolDisposers: Array<() => void> = []
+      const toolService = this.ctx.get('tools', false)
 
       // Fetch tools if available
       if (serverCapabilities?.tools) {
@@ -559,7 +559,7 @@ export class McpService extends Service {
             // Prefix tool name with server ID to avoid naming conflicts
             const toolName = `mcp_${params.serverId}_${tool.name}`
 
-            toolService.register({
+            const dispose = toolService.register({
               name: toolName,
               description: tool.description || `MCP tool: ${tool.name}`,
               parameters: tool.inputSchema as any,
@@ -575,7 +575,7 @@ export class McpService extends Service {
               }
             })
 
-            registeredToolNames.push(toolName)
+            toolDisposers.push(dispose)
             this.addServerLog(params.serverId, `Registered tool: ${tool.name}`)
           }
         } else {
@@ -609,7 +609,7 @@ export class McpService extends Service {
       this.runtimeStates.set(params.serverId, {
         ...state,
         capabilities,
-        registeredToolNames,
+        toolDisposers,
       })
 
       this.addServerLog(params.serverId, 'Tools refreshed')
