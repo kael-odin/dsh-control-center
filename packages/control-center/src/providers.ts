@@ -5,7 +5,7 @@
 import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
 import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
-import { credentialRef } from '@deepseek-ai/dsh-credentials'
+import { credentialRef, type CredentialProvider } from '@deepseek-ai/dsh-credentials'
 import { settingsNamespace, type SettingsScope } from '@deepseek-ai/dsh-settings'
 import Schema from '@deepseek-ai/schemastery'
 import type {
@@ -63,6 +63,9 @@ export class ProvidersService extends Service {
 
   readonly typertRemote = bindTypertRemote(this, 'controlCenterProviders')
   private scope: SettingsScope<ProvidersSettings>
+  /** Injected at activation by the static inject list; lazily resolved as a
+   *  fallback so methods never touch an unresolved service. */
+  private credentials: CredentialProvider | undefined
 
   constructor(ctx: Context, _config?: ProvidersServiceConfig) {
     super(ctx, 'controlCenterProviders')
@@ -84,12 +87,19 @@ export class ProvidersService extends Service {
     }), { base: { providers: [] } })
   }
 
+  private creds(): CredentialProvider {
+    if (this.credentials === undefined) {
+      this.credentials = this.ctx.get('credentials') as CredentialProvider
+    }
+    return this.credentials
+  }
+
   async list(): Promise<ProviderView[]> {
     const settings = this.scope.get()
     const providers = settings.providers || []
     return Promise.all(providers.map(async (record) => {
       const hasApiKey = record.apiKeyRef
-        ? (await this.ctx.credentials.describe(credentialRef(record.apiKeyRef))).configured
+        ? (await this.creds().describe(credentialRef(record.apiKeyRef))).configured
         : false
       return this.recordToView(record, hasApiKey)
     }))
@@ -100,7 +110,7 @@ export class ProvidersService extends Service {
     const record = settings.providers.find(p => p.id === providerId)
     if (!record) return null
     const hasApiKey = record.apiKeyRef
-      ? (await this.ctx.credentials.describe(credentialRef(record.apiKeyRef))).configured
+      ? (await this.creds().describe(credentialRef(record.apiKeyRef))).configured
       : false
     return this.recordToView(record, hasApiKey)
   }
@@ -115,7 +125,7 @@ export class ProvidersService extends Service {
     let apiKeyRef: string | undefined
     if (dto.apiKey) {
       apiKeyRef = `CC_PROVIDER_${id.toUpperCase().replace(/-/g, '_')}_API_KEY`
-      await this.ctx.credentials.set(credentialRef(apiKeyRef), dto.apiKey)
+      await this.creds().set(credentialRef(apiKeyRef), dto.apiKey)
     }
     const record: ProviderRecord = {
       id, name: dto.name, type: dto.type, baseURL: dto.baseURL,
@@ -141,7 +151,7 @@ export class ProvidersService extends Service {
       if (!record.apiKeyRef) {
         record.apiKeyRef = `CC_PROVIDER_${providerId.toUpperCase().replace(/-/g, '_')}_API_KEY`
       }
-      await this.ctx.credentials.set(credentialRef(record.apiKeyRef), dto.apiKey)
+      await this.creds().set(credentialRef(record.apiKeyRef), dto.apiKey)
     }
     const updated: ProviderRecord = {
       ...record,
@@ -155,7 +165,7 @@ export class ProvidersService extends Service {
     newProviders[index] = updated
     await this.ctx.settings.update(PROVIDERS_NAMESPACE, { providers: newProviders })
     const hasApiKey = updated.apiKeyRef
-      ? (await this.ctx.credentials.describe(credentialRef(updated.apiKeyRef))).configured
+      ? (await this.creds().describe(credentialRef(updated.apiKeyRef))).configured
       : false
     return this.recordToView(updated, hasApiKey)
   }
@@ -165,7 +175,7 @@ export class ProvidersService extends Service {
     const record = settings.providers.find(p => p.id === providerId)
     if (!record) throw new Error(`Provider "${providerId}" not found`)
     if (record.apiKeyRef) {
-      await this.ctx.credentials.unset(credentialRef(record.apiKeyRef))
+      await this.creds().unset(credentialRef(record.apiKeyRef))
     }
     await this.ctx.settings.update(PROVIDERS_NAMESPACE, {
       providers: settings.providers.filter(p => p.id !== providerId)
@@ -184,7 +194,7 @@ export class ProvidersService extends Service {
       // Get API key from credentials if available
       let apiKey: string | undefined
       if (record.apiKeyRef) {
-        const resolved = await this.ctx.credentials.resolve(credentialRef(record.apiKeyRef))
+        const resolved = await this.creds().resolve(credentialRef(record.apiKeyRef))
         apiKey = resolved?.value
       }
 
@@ -262,7 +272,7 @@ export class ProvidersService extends Service {
       // Get API key from credentials if available
       let apiKey: string | undefined
       if (record.apiKeyRef) {
-        const resolved = await this.ctx.credentials.resolve(credentialRef(record.apiKeyRef))
+        const resolved = await this.creds().resolve(credentialRef(record.apiKeyRef))
         apiKey = resolved?.value
       }
 

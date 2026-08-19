@@ -1071,7 +1071,6 @@ var KnowledgeService = class extends Service {
 		this.home = resolveDshHome(options.dshHome);
 		this.root = hostedDir(this.home);
 		this.settings = this.ctx.get("settings");
-		this.credentials = this.ctx.get("credentials");
 		this.llm = this.ctx.get("llm");
 		mkdirSync(this.root, { recursive: true });
 		this.db = new DatabaseSync(join(this.root, "knowledge.sqlite"));
@@ -1179,6 +1178,10 @@ var KnowledgeService = class extends Service {
 			chunks: chunks.n
 		};
 	}
+	creds() {
+		if (this.credentials === void 0) this.credentials = this.ctx.get("credentials");
+		return this.credentials;
+	}
 	async resolveEmbedding(baseId) {
 		const base = this.requireBase(baseId);
 		if (base.embedding_provider === "local-hash") return {
@@ -1197,7 +1200,7 @@ var KnowledgeService = class extends Service {
 		if (values.length === 0) return [];
 		if (config.mode === "local") return localHashEmbed(values, config.dimensions);
 		const provider = await resolveProvider(this.settings, this.llm, config.providerId);
-		const apiKey = await resolveKey(this.settings, this.credentials, config.providerId, provider.settingsNs, provider.settingsPath);
+		const apiKey = await resolveKey(this.settings, this.creds(), config.providerId, provider.settingsNs, provider.settingsPath);
 		if (config.model === void 0) throw new Error(`embedding provider "${config.providerId}" has no model configured`);
 		const vectors = await callEmbeddings({
 			baseURL: provider.baseURL,
@@ -2771,6 +2774,9 @@ var ProvidersService = class extends Service {
 	static inject = ["settings", "credentials"];
 	typertRemote = bindTypertRemote(this, "controlCenterProviders");
 	scope;
+	/** Injected at activation by the static inject list; lazily resolved as a
+	*  fallback so methods never touch an unresolved service. */
+	credentials;
 	constructor(ctx, _config) {
 		super(ctx, "controlCenterProviders");
 		this.scope = ctx.settings.register(PROVIDERS_NAMESPACE, Schema.object({ providers: Schema.array(Schema.object({
@@ -2788,17 +2794,21 @@ var ProvidersService = class extends Service {
 			updatedAt: Schema.string()
 		})).default([]) }), { base: { providers: [] } });
 	}
+	creds() {
+		if (this.credentials === void 0) this.credentials = this.ctx.get("credentials");
+		return this.credentials;
+	}
 	async list() {
 		const providers = this.scope.get().providers || [];
 		return Promise.all(providers.map(async (record) => {
-			const hasApiKey = record.apiKeyRef ? (await this.ctx.credentials.describe(credentialRef(record.apiKeyRef))).configured : false;
+			const hasApiKey = record.apiKeyRef ? (await this.creds().describe(credentialRef(record.apiKeyRef))).configured : false;
 			return this.recordToView(record, hasApiKey);
 		}));
 	}
 	async getById(providerId) {
 		const record = this.scope.get().providers.find((p) => p.id === providerId);
 		if (!record) return null;
-		const hasApiKey = record.apiKeyRef ? (await this.ctx.credentials.describe(credentialRef(record.apiKeyRef))).configured : false;
+		const hasApiKey = record.apiKeyRef ? (await this.creds().describe(credentialRef(record.apiKeyRef))).configured : false;
 		return this.recordToView(record, hasApiKey);
 	}
 	async create(dto) {
@@ -2809,7 +2819,7 @@ var ProvidersService = class extends Service {
 		let apiKeyRef;
 		if (dto.apiKey) {
 			apiKeyRef = `CC_PROVIDER_${id.toUpperCase().replace(/-/g, "_")}_API_KEY`;
-			await this.ctx.credentials.set(credentialRef(apiKeyRef), dto.apiKey);
+			await this.creds().set(credentialRef(apiKeyRef), dto.apiKey);
 		}
 		const record = {
 			id,
@@ -2835,7 +2845,7 @@ var ProvidersService = class extends Service {
 		const now = (/* @__PURE__ */ new Date()).toISOString();
 		if (dto.apiKey !== void 0) {
 			if (!record.apiKeyRef) record.apiKeyRef = `CC_PROVIDER_${providerId.toUpperCase().replace(/-/g, "_")}_API_KEY`;
-			await this.ctx.credentials.set(credentialRef(record.apiKeyRef), dto.apiKey);
+			await this.creds().set(credentialRef(record.apiKeyRef), dto.apiKey);
 		}
 		const updated = {
 			...record,
@@ -2848,14 +2858,14 @@ var ProvidersService = class extends Service {
 		const newProviders = [...settings.providers];
 		newProviders[index] = updated;
 		await this.ctx.settings.update(PROVIDERS_NAMESPACE, { providers: newProviders });
-		const hasApiKey = updated.apiKeyRef ? (await this.ctx.credentials.describe(credentialRef(updated.apiKeyRef))).configured : false;
+		const hasApiKey = updated.apiKeyRef ? (await this.creds().describe(credentialRef(updated.apiKeyRef))).configured : false;
 		return this.recordToView(updated, hasApiKey);
 	}
 	async delete(providerId) {
 		const settings = this.scope.get();
 		const record = settings.providers.find((p) => p.id === providerId);
 		if (!record) throw new Error(`Provider "${providerId}" not found`);
-		if (record.apiKeyRef) await this.ctx.credentials.unset(credentialRef(record.apiKeyRef));
+		if (record.apiKeyRef) await this.creds().unset(credentialRef(record.apiKeyRef));
 		await this.ctx.settings.update(PROVIDERS_NAMESPACE, { providers: settings.providers.filter((p) => p.id !== providerId) });
 	}
 	async testConnection(providerId) {
@@ -2866,7 +2876,7 @@ var ProvidersService = class extends Service {
 		const startTime = Date.now();
 		try {
 			let apiKey;
-			if (record.apiKeyRef) apiKey = (await this.ctx.credentials.resolve(credentialRef(record.apiKeyRef)))?.value;
+			if (record.apiKeyRef) apiKey = (await this.creds().resolve(credentialRef(record.apiKeyRef)))?.value;
 			const headers = {
 				"Content-Type": "application/json",
 				...record.customHeaders || {}
@@ -2923,7 +2933,7 @@ var ProvidersService = class extends Service {
 		const discoveredAt = (/* @__PURE__ */ new Date()).toISOString();
 		try {
 			let apiKey;
-			if (record.apiKeyRef) apiKey = (await this.ctx.credentials.resolve(credentialRef(record.apiKeyRef)))?.value;
+			if (record.apiKeyRef) apiKey = (await this.creds().resolve(credentialRef(record.apiKeyRef)))?.value;
 			const headers = {
 				"Content-Type": "application/json",
 				...record.customHeaders || {}

@@ -11,7 +11,11 @@ export declare class ProvidersService extends Service {
     static inject: readonly ["settings", "credentials"];
     readonly typertRemote: import("@deepseek-ai/dsh-typert-protocol").TypertGatewayBinding<this>;
     private scope;
+    /** Injected at activation by the static inject list; lazily resolved as a
+     *  fallback so methods never touch an unresolved service. */
+    private credentials;
     constructor(ctx: Context, _config?: ProvidersServiceConfig);
+    private creds;
     list(): Promise<ProviderView[]>;
     getById(providerId: string): Promise<ProviderView | null>;
     create(dto: CreateProviderDto): Promise<ProviderView>;

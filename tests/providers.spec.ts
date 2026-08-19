@@ -20,8 +20,8 @@ describe('ProvidersService', () => {
     process.env.DSH_HOME = tmpDir
     ctx = new Context()
     const settingsFiber = ctx.plugin(FileSettingsProvider, { path: join(tmpDir, 'settings.yaml') })
-    ctx.plugin(LocalCredentialProvider, { projectEnvPath: join(tmpDir, '.env') })
-    await settingsFiber
+    const credentialsFiber = ctx.plugin(LocalCredentialProvider, { projectEnvPath: join(tmpDir, '.env') })
+    await Promise.all([settingsFiber, credentialsFiber])
     service = new ProvidersService(ctx)
   })
 

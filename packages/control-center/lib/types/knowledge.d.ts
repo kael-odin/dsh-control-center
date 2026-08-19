@@ -13,7 +13,7 @@ export declare class KnowledgeService extends Service {
     private readonly home;
     private readonly root;
     private readonly settings;
-    private readonly credentials;
+    private credentials;
     private readonly llm;
     private readonly disposeTools;
     constructor(ctx: Context, options?: KnowledgeServiceOptions);
@@ -22,6 +22,7 @@ export declare class KnowledgeService extends Service {
     private baseRow;
     private requireBase;
     private counts;
+    private creds;
     private resolveEmbedding;
     private embedValues;
     private updateBaseStamp;

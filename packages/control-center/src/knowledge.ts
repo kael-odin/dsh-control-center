@@ -123,7 +123,7 @@ export class KnowledgeService extends Service {
   private readonly home: string
   private readonly root: string
   private readonly settings: SettingsProvider
-  private readonly credentials: CredentialProvider
+  private credentials: CredentialProvider | undefined
   private readonly llm: LlmRuntime
   private readonly disposeTools: Array<() => void> = []
 
@@ -132,7 +132,6 @@ export class KnowledgeService extends Service {
     this.home = resolveDshHome(options.dshHome)
     this.root = hostedDir(this.home)
     this.settings = this.ctx.get('settings') as SettingsProvider
-    this.credentials = this.ctx.get('credentials') as CredentialProvider
     this.llm = this.ctx.get('llm') as LlmRuntime
     mkdirSync(this.root, { recursive: true })
     this.db = new DatabaseSync(join(this.root, 'knowledge.sqlite'))
@@ -235,6 +234,13 @@ export class KnowledgeService extends Service {
     return { sources: sources.n, chunks: chunks.n }
   }
 
+  private creds(): CredentialProvider {
+    if (this.credentials === undefined) {
+      this.credentials = this.ctx.get('credentials') as CredentialProvider
+    }
+    return this.credentials
+  }
+
   private async resolveEmbedding(baseId: string): Promise<{
     mode: 'local' | 'provider'
     providerId: string
@@ -261,7 +267,7 @@ export class KnowledgeService extends Service {
     if (values.length === 0) return []
     if (config.mode === 'local') return localHashEmbed(values, config.dimensions)
     const provider = await resolveProvider(this.settings, this.llm, config.providerId)
-    const apiKey = await resolveKey(this.settings, this.credentials, config.providerId, provider.settingsNs, provider.settingsPath)
+    const apiKey = await resolveKey(this.settings, this.creds(), config.providerId, provider.settingsNs, provider.settingsPath)
     if (config.model === undefined) throw new Error(`embedding provider "${config.providerId}" has no model configured`)
     const vectors = await callEmbeddings({ baseURL: provider.baseURL, apiKey, model: config.model }, values, signal)
     for (const vector of vectors) {
