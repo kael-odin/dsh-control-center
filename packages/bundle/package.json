@@ -23,11 +23,10 @@
     "./package.json": "./package.json"
   },
   "files": [
-    "lib/index.js",
-    "lib/client.js",
-    "lib/invariant.js",
-    "cordis.patch.yml",
+    "lib/*.js",
+    "lib/*.js.map",
     "lib/types/**/*.d.ts",
+    "cordis.patch.yml",
     "node_modules"
   ],
   "dsh": {
