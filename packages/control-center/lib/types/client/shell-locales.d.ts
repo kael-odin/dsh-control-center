@@ -22,6 +22,12 @@ export declare const en: {
     workspaceRepoDescription: string;
     providersNav: string;
     webSearchNav: string;
+    fileProcessingNav: string;
+    fileProcessingTitle: string;
+    fileProcessingDescription: string;
+    ocrNav: string;
+    ocrTitle: string;
+    ocrDescription: string;
 };
 export type SettingsKey = keyof typeof en;
 export declare const zh: {

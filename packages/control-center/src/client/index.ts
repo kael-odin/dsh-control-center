@@ -35,6 +35,9 @@ import type {} from '../repo-types.ts'
 import reposRemote from '../repo-remote-client.ts'
 import { RepoWorkspace } from './RepoWorkspace.tsx'
 import type { RepoWorkspaceInjected } from './RepoWorkspace.tsx'
+import type {} from '../file-processing-types.ts'
+import fileProcessingRemote from '../file-processing-remote-client.ts'
+import { ProcessorSection } from './ProcessorSection.tsx'
 import { SettingsRoot } from './SettingsRoot.tsx'
 import type { SettingsOnboardingStep, SettingsRootInjected, SettingsSectionRow } from './shell-contract.ts'
 import { CloseLabel, HeaderContent, TriggerContent } from './chrome.tsx'
@@ -71,7 +74,7 @@ const KNOWN_NATIVE = new Set(['general', 'agent-presets', 'plugins'])
 function groupOf(id: string): SettingsSectionRow['group'] {
   if (id === 'models') return 'core'
   if (id === 'general') return 'personal'
-  if (id === 'skills' || id === 'providers' || id === 'mcp' || id === 'websearch') return 'capabilities'
+  if (id === 'skills' || id === 'providers' || id === 'mcp' || id === 'websearch' || id === 'file-processing' || id === 'ocr') return 'capabilities'
   if (KNOWN_NATIVE.has(id)) return 'native'
   return 'other'
 }
@@ -129,6 +132,7 @@ export function apply(ctx: ClientContext): void {
   let mcp: NonNullable<typeof remote.controlCenterMcp> | undefined
   let websearch: NonNullable<typeof remote.controlCenterWebSearch> | undefined
   let repos: NonNullable<typeof remote.controlCenterRepos> | undefined
+  let fileProcessing: NonNullable<typeof remote.controlCenterFileProcessing> | undefined
   const reposReadySource: HostObservable<boolean> = {
     getSnapshot: () => repos !== undefined,
     subscribe: (listener) => {
@@ -153,7 +157,8 @@ export function apply(ctx: ClientContext): void {
         ...providersRemote.descriptors,
         ...mcpRemote.descriptors,
         ...websearchRemote.descriptors,
-        ...reposRemote.descriptors
+        ...reposRemote.descriptors,
+        ...fileProcessingRemote.descriptors
       ],
     }
     const dispose = await remote.$mount(controlCenterRemote)
@@ -165,6 +170,7 @@ export function apply(ctx: ClientContext): void {
     mcp = ctx.get('remote.controlCenterMcp') as NonNullable<typeof remote.controlCenterMcp>
     websearch = ctx.get('remote.controlCenterWebSearch') as NonNullable<typeof remote.controlCenterWebSearch>
     repos = ctx.get('remote.controlCenterRepos') as NonNullable<typeof remote.controlCenterRepos>
+    fileProcessing = ctx.get('remote.controlCenterFileProcessing') as NonNullable<typeof remote.controlCenterFileProcessing>
     return dispose
   }, 'control-center: control-center Remote namespaces')
   ctx.effect(() => ctx.locale.register(SHELL_NS, { zh: shellZh, en: shellEn }), 'control-center: shell dictionaries')
@@ -444,6 +450,30 @@ export function apply(ctx: ClientContext): void {
     label: () => shellT('webSearchNav'),
     inject: websearchInjected,
   }, WebSearchSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'file-processing',
+    order: 55,
+    label: () => shellT('fileProcessingNav'),
+    inject: () => ({
+      feature: 'document_to_markdown' as const,
+      title: shellT('fileProcessingTitle'),
+      description: shellT('fileProcessingDescription'),
+      service: fileProcessing!,
+    }),
+  }, ProcessorSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'ocr',
+    order: 60,
+    label: () => shellT('ocrNav'),
+    inject: () => ({
+      feature: 'image_to_text' as const,
+      title: shellT('ocrTitle'),
+      description: shellT('ocrDescription'),
+      service: fileProcessing!,
+    }),
+  }, ProcessorSection))
   ctx.slots.inject('settings.onboarding', () => ctx.slots.register({
     name: 'settings.onboarding', id: 'welcome-notice', order: -100, inject: welcomeInjected,
   }, WelcomeNotice))

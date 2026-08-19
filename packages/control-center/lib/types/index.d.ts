@@ -22,6 +22,8 @@ export { ProvidersService } from './providers.ts';
 export type * from './provider-types.ts';
 export { ReposService } from './repos.ts';
 export type * from './repo-types.ts';
+export { FileProcessingService } from './file-processing.ts';
+export type * from './file-processing-types.ts';
 export { assertSecretSchemaSafe, auditSecretSchema } from './secret-schema.ts';
 export type { SecretSchemaViolation } from './secret-schema.ts';
 //# sourceMappingURL=index.d.ts.map

@@ -20,6 +20,8 @@ import { ProvidersService } from './providers.ts'
 import providersRemote from './provider-remote-client.ts'
 import { ReposService } from './repos.ts'
 import reposRemote from './repo-remote-client.ts'
+import { FileProcessingService } from './file-processing.ts'
+import fileProcessingRemote from './file-processing-remote-client.ts'
 
 const ONBOARDING_SETTINGS_NAMESPACE = 'ui-onboarding'
 
@@ -47,6 +49,7 @@ export function apply(ctx: Context): void {
   new WebSearchService(ctx)
   new ProvidersService(ctx)
   new ReposService(ctx)
+  new FileProcessingService(ctx)
   const contributions: readonly TypertContribution[] = [
     {
       package: '@dsh-control-center/control-center',
@@ -61,7 +64,8 @@ export function apply(ctx: Context): void {
         ...mcpRemote.descriptors,
         ...websearchRemote.descriptors,
         ...providersRemote.descriptors,
-        ...reposRemote.descriptors
+        ...reposRemote.descriptors,
+        ...fileProcessingRemote.descriptors
       ]
     }
   ]
@@ -91,5 +95,7 @@ export { ProvidersService } from './providers.ts'
 export type * from './provider-types.ts'
 export { ReposService } from './repos.ts'
 export type * from './repo-types.ts'
+export { FileProcessingService } from './file-processing.ts'
+export type * from './file-processing-types.ts'
 export { assertSecretSchemaSafe, auditSecretSchema } from './secret-schema.ts'
 export type { SecretSchemaViolation } from './secret-schema.ts'

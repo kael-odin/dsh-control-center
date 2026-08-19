@@ -23,6 +23,12 @@ export const en = {
   workspaceRepoDescription: 'Browse any local code repository: file tree, previews, and git branch.',
   providersNav: 'API Providers',
   webSearchNav: 'Web Search',
+  fileProcessingNav: 'Document Processing',
+  fileProcessingTitle: 'Document to Markdown',
+  fileProcessingDescription: 'Convert documents (PDF, DOCX, images) into clean markdown for the coding agent.',
+  ocrNav: 'OCR',
+  ocrTitle: 'Image to Text',
+  ocrDescription: 'Extract text from images with the configured OCR processor.',
 }
 
 export type SettingsKey = keyof typeof en
@@ -50,4 +56,10 @@ export const zh: { [Key in SettingsKey]: string } = {
   workspaceRepoDescription: '浏览任意本地代码仓库：文件树、预览与 Git 分支。',
   providersNav: 'API 提供商',
   webSearchNav: '网络搜索',
+  fileProcessingNav: '文档处理',
+  fileProcessingTitle: '文档转 Markdown',
+  fileProcessingDescription: '将文档（PDF、DOCX、图片）转换为干净的 Markdown，供编码代理使用。',
+  ocrNav: 'OCR',
+  ocrTitle: '图片文字识别',
+  ocrDescription: '使用配置的 OCR 处理器从图片中提取文字。',
 }

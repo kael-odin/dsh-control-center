@@ -1,0 +1,164 @@
+/* File Processing / OCR settings pages (Cherry ProcessorPanel composition). */
+
+.root {
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pageTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.pageDescription {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--muted-foreground);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  background: var(--card);
+}
+
+.cardTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.cardDescription {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+
+.fieldRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  min-height: 24px;
+}
+
+.fieldLabel {
+  font-size: 14px;
+  color: var(--foreground);
+}
+
+.fieldHint {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+
+.input {
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--muted) 30%, transparent);
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 32px;
+  box-shadow: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.input:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent);
+}
+
+.select {
+  height: 32px;
+  padding: 0 28px 0 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--muted) 30%, transparent);
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.select:focus-visible {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent);
+}
+
+.providerDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 16px;
+  margin-top: 4px;
+}
+
+.providerName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.providerDescription {
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+
+.apiKeyRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.apiKeyRow .input {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--ds-font-family-code), monospace;
+  font-size: 13px;
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted-foreground);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.iconButton:hover {
+  background: var(--muted);
+  color: var(--foreground);
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: var(--muted-foreground);
+  font-size: 14px;
+}
