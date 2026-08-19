@@ -31,6 +31,12 @@ jobs:
         working-directory: deepseek-harness
         run: git checkout 47f943859b
 
+      - name: Debug harness overlay presence
+        run: |
+          pwd
+          ls -la deepseek-harness/packages/bundle/base/ | head -8
+          git -C deepseek-harness rev-parse HEAD
+
       - uses: pnpm/action-setup@v4
 
       - uses: actions/setup-node@v4
