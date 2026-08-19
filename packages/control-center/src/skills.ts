@@ -22,7 +22,6 @@ import type {
   ListSkillsQuery,
   UpdateSkillDto,
   SkillInstallOptions,
-  SkillUninstallOptions,
   MarketplaceSearchQuery,
   MarketplaceSearchResponse
 } from './skills-types.ts'
@@ -239,7 +238,7 @@ export class SkillsService extends Service {
   /**
    * Get skill by ID.
    */
-  async getById(params: { skillId: string }): Promise<InstalledSkill | null> {
+  async getById(skillId: string): Promise<InstalledSkill | null> {
     const stmt = this.db.prepare(`
       SELECT
         id, name, description, folder_name as folderName, source, source_url as sourceUrl,
@@ -248,7 +247,7 @@ export class SkillsService extends Service {
       FROM skills
       WHERE id = ?
     `)
-    const row = stmt.get(params.skillId) as any
+    const row = stmt.get(skillId) as any
     if (!row) return null
 
     return {
@@ -261,9 +260,9 @@ export class SkillsService extends Service {
   /**
    * Update skill (currently only global enable/disable).
    */
-  async update(params: { skillId: string; dto: UpdateSkillDto }): Promise<InstalledSkill> {
-    const existing = await this.getById({ skillId: params.skillId })
-    if (!existing) throw new Error(`Skill not found: ${params.skillId}`)
+  async update(skillId: string, dto: UpdateSkillDto): Promise<InstalledSkill> {
+    const existing = await this.getById(skillId)
+    if (!existing) throw new Error(`Skill not found: ${skillId}`)
 
     this.db
       .prepare(`
@@ -271,9 +270,9 @@ export class SkillsService extends Service {
         SET is_global_enabled = ?, updated_at = datetime('now')
         WHERE id = ?
       `)
-      .run(params.dto.isGlobalEnabled ? 1 : 0, params.skillId)
+      .run(dto.isGlobalEnabled ? 1 : 0, skillId)
 
-    const updated = await this.getById({ skillId: params.skillId })
+    const updated = await this.getById(skillId)
     if (!updated) throw new Error('Failed to retrieve updated skill')
     return updated
   }
@@ -281,8 +280,7 @@ export class SkillsService extends Service {
   /**
    * Install a skill from various sources.
    */
-  async install(params: { options: SkillInstallOptions }): Promise<InstalledSkill> {
-    const { options } = params
+  async install(options: SkillInstallOptions): Promise<InstalledSkill> {
 
     // Dispatch based on source type
     switch (options.source) {
@@ -405,9 +403,9 @@ export class SkillsService extends Service {
   /**
    * Uninstall a skill.
    */
-  async uninstall(params: SkillUninstallOptions): Promise<void> {
-    const skill = await this.getById({ skillId: params.skillId })
-    if (!skill) throw new Error(`Skill not found: ${params.skillId}`)
+  async uninstall(skillId: string): Promise<void> {
+    const skill = await this.getById(skillId)
+    if (!skill) throw new Error(`Skill not found: ${skillId}`)
 
     // Remove from filesystem
     const targetDir = join(this.skillsDir, skill.folderName)
@@ -416,9 +414,9 @@ export class SkillsService extends Service {
     }
 
     // Remove from database
-    this.db.prepare('DELETE FROM skills WHERE id = ?').run(params.skillId)
+    this.db.prepare('DELETE FROM skills WHERE id = ?').run(skillId)
 
-    this.ctx.logger.info('Uninstalled skill', { id: params.skillId, name: skill.name })
+    this.ctx.logger.info('Uninstalled skill', { id: skillId, name: skill.name })
   }
 
   /**

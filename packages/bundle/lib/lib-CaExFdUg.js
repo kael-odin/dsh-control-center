@@ -1,5 +1,5 @@
 import { createRequire } from "node:module";
-import { basename, join, relative, resolve } from "node:path";
+import { basename, join, relative, resolve, sep } from "node:path";
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import { homedir } from "node:os";
@@ -22017,6 +22017,7 @@ var lib_exports = /* @__PURE__ */ __exportAll({
 	McpService: () => McpService,
 	PaintingService: () => PaintingService,
 	ProvidersService: () => ProvidersService,
+	ReposService: () => ReposService,
 	SkillsService: () => SkillsService,
 	TranslationService: () => TranslationService,
 	WebSearchService: () => WebSearchService,
@@ -23710,7 +23711,7 @@ var SkillsService = class extends Service {
 	/**
 	* Get skill by ID.
 	*/
-	async getById(params) {
+	async getById(skillId) {
 		const row = this.db.prepare(`
       SELECT
         id, name, description, folder_name as folderName, source, source_url as sourceUrl,
@@ -23718,7 +23719,7 @@ var SkillsService = class extends Service {
         is_global_enabled as isGlobalEnabled, created_at as createdAt, updated_at as updatedAt
       FROM skills
       WHERE id = ?
-    `).get(params.skillId);
+    `).get(skillId);
 		if (!row) return null;
 		return {
 			...row,
@@ -23729,22 +23730,21 @@ var SkillsService = class extends Service {
 	/**
 	* Update skill (currently only global enable/disable).
 	*/
-	async update(params) {
-		if (!await this.getById({ skillId: params.skillId })) throw new Error(`Skill not found: ${params.skillId}`);
+	async update(skillId, dto) {
+		if (!await this.getById(skillId)) throw new Error(`Skill not found: ${skillId}`);
 		this.db.prepare(`
         UPDATE skills
         SET is_global_enabled = ?, updated_at = datetime('now')
         WHERE id = ?
-      `).run(params.dto.isGlobalEnabled ? 1 : 0, params.skillId);
-		const updated = await this.getById({ skillId: params.skillId });
+      `).run(dto.isGlobalEnabled ? 1 : 0, skillId);
+		const updated = await this.getById(skillId);
 		if (!updated) throw new Error("Failed to retrieve updated skill");
 		return updated;
 	}
 	/**
 	* Install a skill from various sources.
 	*/
-	async install(params) {
-		const { options } = params;
+	async install(options) {
 		switch (options.source) {
 			case "directory": return this.installFromDirectory(options.path);
 			case "zip": throw new Error("ZIP installation not yet implemented");
@@ -23815,17 +23815,17 @@ var SkillsService = class extends Service {
 	/**
 	* Uninstall a skill.
 	*/
-	async uninstall(params) {
-		const skill = await this.getById({ skillId: params.skillId });
-		if (!skill) throw new Error(`Skill not found: ${params.skillId}`);
+	async uninstall(skillId) {
+		const skill = await this.getById(skillId);
+		if (!skill) throw new Error(`Skill not found: ${skillId}`);
 		const targetDir = join(this.skillsDir, skill.folderName);
 		if (existsSync(targetDir)) rmSync(targetDir, {
 			recursive: true,
 			force: true
 		});
-		this.db.prepare("DELETE FROM skills WHERE id = ?").run(params.skillId);
+		this.db.prepare("DELETE FROM skills WHERE id = ?").run(skillId);
 		this.ctx.logger.info("Uninstalled skill", {
-			id: params.skillId,
+			id: skillId,
 			name: skill.name
 		});
 	}
@@ -23978,12 +23978,11 @@ var McpService = class extends Service {
 	async list() {
 		return this.scope.get().servers.sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999)).map((record) => this.recordToView(record));
 	}
-	async getById(params) {
-		const record = this.scope.get().servers.find((s) => s.id === params.serverId);
+	async getById(serverId) {
+		const record = this.scope.get().servers.find((s) => s.id === serverId);
 		return record ? this.recordToView(record) : null;
 	}
-	async create(params) {
-		const { dto } = params;
+	async create(dto) {
 		const settings = this.scope.get();
 		const now = (/* @__PURE__ */ new Date()).toISOString();
 		const record = {
@@ -24013,8 +24012,7 @@ var McpService = class extends Service {
 		await this.ctx.settings.update(MCP_NAMESPACE, { servers: [...settings.servers, record] });
 		return this.recordToView(record);
 	}
-	async update(params) {
-		const { serverId, dto } = params;
+	async update(serverId, dto) {
 		const settings = this.scope.get();
 		const index = settings.servers.findIndex((s) => s.id === serverId);
 		if (index === -1) throw new Error(`MCP server not found: ${serverId}`);
@@ -24043,23 +24041,21 @@ var McpService = class extends Service {
 			if (dto.isActive) this.startServer(serverId).catch((err) => {
 				this.ctx.logger.error(`Failed to start MCP server ${serverId}:`, err);
 			});
-			else await this.stopServer({ serverId });
+			else await this.stopServer(serverId);
 		}
 		const updatedServers = [...settings.servers];
 		updatedServers[index] = updated;
 		await this.ctx.settings.update(MCP_NAMESPACE, { servers: updatedServers });
 		return this.recordToView(updated);
 	}
-	async delete(params) {
-		const { serverId } = params;
+	async delete(serverId) {
 		const settings = this.scope.get();
 		const record = settings.servers.find((s) => s.id === serverId);
 		if (!record) throw new Error(`MCP server not found: ${serverId}`);
-		if (record.isActive) await this.stopServer({ serverId });
+		if (record.isActive) await this.stopServer(serverId);
 		await this.ctx.settings.update(MCP_NAMESPACE, { servers: settings.servers.filter((s) => s.id !== serverId) });
 	}
-	async reorder(params) {
-		const { serverIds } = params;
+	async reorder(serverIds) {
 		const updatedServers = this.scope.get().servers.map((server) => {
 			const newOrder = serverIds.indexOf(server.id);
 			return newOrder !== -1 ? {
@@ -24123,7 +24119,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-DuWUVBqk.js");
+				const { SSEClientTransport } = await import("./sse-cQ2HHOwk.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -24145,7 +24141,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-B62CjLlf.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-Cy-3iFZx.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -24254,8 +24250,8 @@ var McpService = class extends Service {
 			throw error;
 		}
 	}
-	async stopServer(params) {
-		const state = this.runtimeStates.get(params.serverId);
+	async stopServer(serverId) {
+		const state = this.runtimeStates.get(serverId);
 		if (!state) return;
 		try {
 			if (state.toolDisposers) {
@@ -24264,20 +24260,20 @@ var McpService = class extends Service {
 				} catch (error) {
 					this.ctx.logger.warn(`Failed to dispose tool`, error);
 				}
-				this.addServerLog(params.serverId, `Unregistered ${state.toolDisposers.length} tools`);
+				this.addServerLog(serverId, `Unregistered ${state.toolDisposers.length} tools`);
 			}
 			if (state.client) {
 				await state.client.close();
-				this.addServerLog(params.serverId, "Server stopped");
+				this.addServerLog(serverId, "Server stopped");
 			}
 		} catch (error) {
-			this.ctx.logger.error(`Error stopping MCP server ${params.serverId}`, error);
+			this.ctx.logger.error(`Error stopping MCP server ${serverId}`, error);
 		} finally {
-			this.runtimeStates.delete(params.serverId);
+			this.runtimeStates.delete(serverId);
 		}
 	}
-	async refreshTools(params) {
-		const state = this.runtimeStates.get(params.serverId);
+	async refreshTools(serverId) {
+		const state = this.runtimeStates.get(serverId);
 		if (!state || state.state !== "connected" || !state.client) throw new Error("Server must be connected to refresh tools");
 		try {
 			const client = state.client;
@@ -24289,7 +24285,7 @@ var McpService = class extends Service {
 				} catch (error) {
 					this.ctx.logger.warn(`Failed to dispose tool`, error);
 				}
-				this.addServerLog(params.serverId, `Unregistered ${state.toolDisposers.length} old tools`);
+				this.addServerLog(serverId, `Unregistered ${state.toolDisposers.length} old tools`);
 			}
 			const toolDisposers = [];
 			const toolService = this.ctx.get("tools", false);
@@ -24302,10 +24298,10 @@ var McpService = class extends Service {
 					if (tool.description !== void 0) mapped.description = tool.description;
 					return mapped;
 				});
-				const disabledTools = this.scope.get().servers.find((s) => s.id === params.serverId)?.disabledTools || [];
+				const disabledTools = this.scope.get().servers.find((s) => s.id === serverId)?.disabledTools || [];
 				if (toolService) for (const tool of capabilities.tools) {
 					if (disabledTools.includes(tool.name)) continue;
-					const toolName = `mcp_${params.serverId}_${tool.name}`;
+					const toolName = `mcp_${serverId}_${tool.name}`;
 					const dispose = toolService.register({
 						name: toolName,
 						description: tool.description || `MCP tool: ${tool.name}`,
@@ -24327,7 +24323,7 @@ var McpService = class extends Service {
 						}
 					});
 					toolDisposers.push(dispose);
-					this.addServerLog(params.serverId, `Registered tool: ${tool.name}`);
+					this.addServerLog(serverId, `Registered tool: ${tool.name}`);
 				}
 				else this.ctx.logger.warn("Tool service not available for registration");
 			}
@@ -24346,27 +24342,27 @@ var McpService = class extends Service {
 				if (resource.mimeType !== void 0) mapped.mimeType = resource.mimeType;
 				return mapped;
 			});
-			this.runtimeStates.set(params.serverId, {
+			this.runtimeStates.set(serverId, {
 				...state,
 				capabilities,
 				toolDisposers
 			});
-			this.addServerLog(params.serverId, "Tools refreshed");
-			this.ctx.logger.info(`Refreshed tools for MCP server ${params.serverId}`);
+			this.addServerLog(serverId, "Tools refreshed");
+			this.ctx.logger.info(`Refreshed tools for MCP server ${serverId}`);
 		} catch (error) {
-			this.ctx.logger.error(`Failed to refresh tools for ${params.serverId}`, error);
+			this.ctx.logger.error(`Failed to refresh tools for ${serverId}`, error);
 			throw error;
 		}
 	}
-	async getServerLogs(params) {
-		const state = this.runtimeStates.get(params.serverId);
+	async getServerLogs(serverId, lines) {
+		const state = this.runtimeStates.get(serverId);
 		if (!state || !state.logs) return [];
 		const logs = state.logs;
-		const lineCount = params.lines || 100;
+		const lineCount = lines || 100;
 		return logs.slice(-lineCount);
 	}
-	async getCapabilities(params) {
-		return this.runtimeStates.get(params.serverId)?.capabilities || null;
+	async getCapabilities(serverId) {
+		return this.runtimeStates.get(serverId)?.capabilities || null;
 	}
 	addServerLog(serverId, message) {
 		const state = this.runtimeStates.get(serverId);
@@ -24776,14 +24772,13 @@ var ProvidersService = class extends Service {
 			return this.recordToView(record, hasApiKey);
 		}));
 	}
-	async getById(params) {
-		const record = this.scope.get().providers.find((p) => p.id === params.providerId);
+	async getById(providerId) {
+		const record = this.scope.get().providers.find((p) => p.id === providerId);
 		if (!record) return null;
 		const hasApiKey = record.apiKeyRef ? (await this.ctx.credentials.describe(credentialRef(record.apiKeyRef))).configured : false;
 		return this.recordToView(record, hasApiKey);
 	}
-	async create(params) {
-		const { dto } = params;
+	async create(dto) {
 		const settings = this.scope.get();
 		const id = dto.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 		if (settings.providers.some((p) => p.id === id)) throw new Error(`Provider with ID "${id}" already exists`);
@@ -24808,8 +24803,7 @@ var ProvidersService = class extends Service {
 		await this.ctx.settings.update(PROVIDERS_NAMESPACE, { providers: [...settings.providers, record] });
 		return this.recordToView(record, !!dto.apiKey);
 	}
-	async update(params) {
-		const { providerId, dto } = params;
+	async update(providerId, dto) {
 		const settings = this.scope.get();
 		const index = settings.providers.findIndex((p) => p.id === providerId);
 		if (index === -1) throw new Error(`Provider "${providerId}" not found`);
@@ -24834,17 +24828,17 @@ var ProvidersService = class extends Service {
 		const hasApiKey = updated.apiKeyRef ? (await this.ctx.credentials.describe(credentialRef(updated.apiKeyRef))).configured : false;
 		return this.recordToView(updated, hasApiKey);
 	}
-	async delete(params) {
+	async delete(providerId) {
 		const settings = this.scope.get();
-		const record = settings.providers.find((p) => p.id === params.providerId);
-		if (!record) throw new Error(`Provider "${params.providerId}" not found`);
+		const record = settings.providers.find((p) => p.id === providerId);
+		if (!record) throw new Error(`Provider "${providerId}" not found`);
 		if (record.apiKeyRef) await this.ctx.credentials.unset(credentialRef(record.apiKeyRef));
-		await this.ctx.settings.update(PROVIDERS_NAMESPACE, { providers: settings.providers.filter((p) => p.id !== params.providerId) });
+		await this.ctx.settings.update(PROVIDERS_NAMESPACE, { providers: settings.providers.filter((p) => p.id !== providerId) });
 	}
-	async testConnection(params) {
+	async testConnection(providerId) {
 		const settings = this.scope.get();
-		const record = settings.providers.find((p) => p.id === params.providerId);
-		if (!record) throw new Error(`Provider "${params.providerId}" not found`);
+		const record = settings.providers.find((p) => p.id === providerId);
+		if (!record) throw new Error(`Provider "${providerId}" not found`);
 		const testedAt = (/* @__PURE__ */ new Date()).toISOString();
 		const startTime = Date.now();
 		try {
@@ -24877,7 +24871,7 @@ var ProvidersService = class extends Service {
 				};
 			}
 			const latencyMs = Date.now() - startTime;
-			const index = settings.providers.findIndex((p) => p.id === params.providerId);
+			const index = settings.providers.findIndex((p) => p.id === providerId);
 			if (index !== -1 && settings.providers[index] !== void 0) {
 				const updated = [...settings.providers];
 				updated[index] = {
@@ -24899,10 +24893,10 @@ var ProvidersService = class extends Service {
 			};
 		}
 	}
-	async discoverModels(params) {
+	async discoverModels(providerId) {
 		const settings = this.scope.get();
-		const record = settings.providers.find((p) => p.id === params.providerId);
-		if (!record) throw new Error(`Provider "${params.providerId}" not found`);
+		const record = settings.providers.find((p) => p.id === providerId);
+		if (!record) throw new Error(`Provider "${providerId}" not found`);
 		const discoveredAt = (/* @__PURE__ */ new Date()).toISOString();
 		try {
 			let apiKey;
@@ -24944,7 +24938,7 @@ var ProvidersService = class extends Service {
 				return {
 					id: modelId,
 					name: m.name || modelId,
-					providerId: params.providerId,
+					providerId,
 					enabled: true
 				};
 			});
@@ -24961,7 +24955,7 @@ var ProvidersService = class extends Service {
 					...existing?.maxOutputTokens !== void 0 ? { maxOutputTokens: existing.maxOutputTokens } : {}
 				};
 			});
-			const index = settings.providers.findIndex((p) => p.id === params.providerId);
+			const index = settings.providers.findIndex((p) => p.id === providerId);
 			if (index !== -1 && settings.providers[index] !== void 0) {
 				const updated = [...settings.providers];
 				updated[index] = {
@@ -24975,7 +24969,7 @@ var ProvidersService = class extends Service {
 				models: merged.map((m) => ({
 					id: m.id,
 					name: m.name,
-					providerId: params.providerId,
+					providerId,
 					enabled: m.enabled,
 					...m.capabilities !== void 0 ? { capabilities: m.capabilities } : {},
 					...m.contextWindow !== void 0 ? { contextWindow: m.contextWindow } : {},
@@ -24991,8 +24985,7 @@ var ProvidersService = class extends Service {
 			};
 		}
 	}
-	async updateModel(_params) {
-		const { providerId, modelId, dto } = _params;
+	async updateModel(providerId, modelId, dto) {
 		const settings = this.scope.get();
 		const providerIndex = settings.providers.findIndex((p) => p.id === providerId);
 		if (providerIndex === -1) throw new Error(`Provider "${providerId}" not found`);
@@ -25107,6 +25100,184 @@ const providersRemote = {
 		result: STRICT_JSON
 	}))
 };
+/**
+* Code Repository workspace Host service.
+*
+* Persists a catalog of local repositories (settings namespace) and exposes
+* read-only file-tree browsing confined to the registered repo roots: every
+* tree/readFile call is resolved and verified to stay inside a registered
+* repository before any filesystem access.
+*/
+const REPOS_NAMESPACE = settingsNamespace("control-center-repos");
+/** Skip these entries in the tree (workspace noise). */
+const SKIPPED_NAMES = /* @__PURE__ */ new Set([
+	"node_modules",
+	".git",
+	".DS_Store",
+	"dist",
+	"build",
+	"out",
+	".next",
+	".turbo",
+	"coverage"
+]);
+const DEFAULT_READ_LIMIT = 262144;
+var ReposService = class extends Service {
+	static inject = ["settings"];
+	typertRemote = bindTypertRemote(this, "controlCenterRepos");
+	scope;
+	constructor(ctx, _config) {
+		super(ctx, "controlCenterRepos");
+		this.scope = ctx.settings.register(REPOS_NAMESPACE, Schema.object({ repos: Schema.array(Schema.object({
+			id: Schema.string(),
+			name: Schema.string(),
+			path: Schema.string(),
+			addedAt: Schema.string()
+		})).default([]) }), { base: { repos: [] } });
+	}
+	/** Registered repo roots, resolved to absolute paths. */
+	roots() {
+		return this.scope.get().repos.map((repo) => ({
+			id: repo.id,
+			root: resolve(repo.path)
+		}));
+	}
+	/** Assert `candidate` stays inside one of the registered repo roots. */
+	confine(candidate) {
+		const resolved = resolve(candidate);
+		const matched = this.roots().find(({ root }) => {
+			const rel = relative(root, resolved);
+			return rel === "" || !rel.startsWith("..") && !rel.includes(`..${sep}`) && !isAbsolutePath(rel);
+		});
+		if (matched === void 0) throw new Error("Path is outside the registered repositories");
+		return matched;
+	}
+	async list() {
+		return this.scope.get().repos;
+	}
+	async add(path) {
+		const resolvedPath = resolve(path);
+		if (!existsSync(resolvedPath) || !statSync(resolvedPath).isDirectory()) throw new Error(`Not a directory: ${resolvedPath}`);
+		const current = this.scope.get().repos;
+		if (current.some((repo) => resolve(repo.path) === resolvedPath)) throw new Error("This repository is already registered");
+		const record = {
+			id: `repo-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+			name: basename(resolvedPath) || resolvedPath,
+			path: resolvedPath,
+			addedAt: (/* @__PURE__ */ new Date()).toISOString()
+		};
+		await this.scope.update({ repos: [...current, record] });
+		this.ctx.logger.info("Registered code repository", {
+			id: record.id,
+			path
+		});
+		return record;
+	}
+	async remove(repoId) {
+		const current = this.scope.get().repos;
+		const next = current.filter((repo) => repo.id !== repoId);
+		if (next.length === current.length) return { absent: true };
+		await this.scope.update({ repos: next });
+		return { absent: true };
+	}
+	async tree(path, dir) {
+		this.confine(path);
+		const target = resolve(dir ?? path);
+		this.confine(target);
+		if (!existsSync(target) || !statSync(target).isDirectory()) throw new Error(`Not a directory: ${target}`);
+		const entries = [];
+		for (const name of readdirSync(target)) {
+			if (SKIPPED_NAMES.has(name)) continue;
+			const full = join(target, name);
+			const stat = statSync(full);
+			entries.push(stat.isDirectory() ? {
+				name,
+				kind: "dir"
+			} : {
+				name,
+				kind: "file",
+				size: stat.size
+			});
+		}
+		entries.sort((a, b) => {
+			if (a.kind !== b.kind) return a.kind === "dir" ? -1 : 1;
+			return a.name.localeCompare(b.name);
+		});
+		return entries;
+	}
+	async readFile(path, maxBytes) {
+		this.confine(path);
+		const file = resolve(path);
+		const stat = statSync(file);
+		if (!stat.isFile()) throw new Error(`Not a file: ${file}`);
+		const limit = maxBytes ?? DEFAULT_READ_LIMIT;
+		const fd = readFileSync(file);
+		const truncated = fd.length > limit;
+		const slice = truncated ? fd.subarray(0, limit) : fd;
+		if (slice.includes(0)) throw new Error("Binary file preview is not supported");
+		return {
+			content: slice.toString("utf8"),
+			truncated,
+			bytes: stat.size
+		};
+	}
+	async getBranch(path) {
+		this.confine(path);
+		const head = join(resolve(path), ".git", "HEAD");
+		if (!existsSync(head)) return null;
+		const raw = readFileSync(head, "utf8").trim();
+		return /^ref:\s*refs\/heads\/(.+)$/.exec(raw)?.[1] ?? raw;
+	}
+	[Symbol.dispose]() {}
+};
+function isAbsolutePath(rel) {
+	return /^([a-zA-Z]:)?[\\/]/.test(rel);
+}
+/** Client descriptor contribution for the Control Center repository service. */
+const reposRemote = {
+	package: "@dsh-control-center/control-center",
+	descriptors: [
+		{
+			method: "list",
+			parameters: []
+		},
+		{
+			method: "add",
+			parameters: ["path"]
+		},
+		{
+			method: "removeRepo",
+			implementation: "remove",
+			parameters: ["repoId"]
+		},
+		{
+			method: "tree",
+			parameters: ["path", "dir"]
+		},
+		{
+			method: "readFile",
+			parameters: ["path"]
+		},
+		{
+			method: "getBranch",
+			parameters: ["path"]
+		}
+	].map(({ method, implementation, parameters }) => ({
+		id: `@dsh-control-center/control-center#controlCenterRepos/${method}`,
+		service: "controlCenterRepos",
+		namespace: "controlCenterRepos",
+		method,
+		...implementation === void 0 ? {} : { implementation },
+		invocation: { kind: "direct" },
+		parameters: parameters.map((name) => ({
+			name,
+			wire: name,
+			source: "json",
+			codec: STRICT_JSON
+		})),
+		result: STRICT_JSON
+	}))
+};
 /** Fail-closed audit for settings schemas that contain secret-role nodes. */
 const SAFE_CONTAINERS = /* @__PURE__ */ new Set([
 	"object",
@@ -25199,6 +25370,7 @@ function apply(ctx) {
 	new McpService(ctx);
 	new WebSearchService(ctx);
 	new ProvidersService(ctx);
+	new ReposService(ctx);
 	const contributions = [{
 		package: "@dsh-control-center/control-center",
 		face: "host",
@@ -25215,7 +25387,8 @@ function apply(ctx) {
 			...skillsRemote.descriptors,
 			...mcpRemote.descriptors,
 			...webSearchRemote.descriptors,
-			...providersRemote.descriptors
+			...providersRemote.descriptors,
+			...reposRemote.descriptors
 		]
 	}];
 	for (const contribution of contributions) ctx.typert.register(contribution);
@@ -25224,4 +25397,4 @@ function apply(ctx) {
 	});
 }
 //#endregion
-export { KnowledgeService, McpService, PaintingService, ProvidersService, SkillsService, TranslationService, WebSearchService, _coercedNumber as _, isJSONRPCRequest as a, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, __toESM as b, any as c, literal as d, looseObject as f, url as g, string as h, isInitializedNotification as i, inject, array as l, object as m, JSONRPCMessageSchema as n, name, isJSONRPCResultResponse as o, number as p, LATEST_PROTOCOL_VERSION as r, ZodNumber as s, lib_exports as t, boolean as u, NEVER as v, __commonJSMin as y };
+export { KnowledgeService, McpService, PaintingService, ProvidersService, ReposService, SkillsService, TranslationService, WebSearchService, _coercedNumber as _, isJSONRPCRequest as a, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, __toESM as b, any as c, literal as d, looseObject as f, url as g, string as h, isInitializedNotification as i, inject, array as l, object as m, JSONRPCMessageSchema as n, name, isJSONRPCResultResponse as o, number as p, LATEST_PROTOCOL_VERSION as r, ZodNumber as s, lib_exports as t, boolean as u, NEVER as v, __commonJSMin as y };

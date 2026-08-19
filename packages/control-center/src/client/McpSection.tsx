@@ -15,13 +15,13 @@ type RemoteResult<T> = { ok: true; value: T } | { ok: false; error: { code: stri
 
 interface McpService {
   list(): Promise<RemoteResult<McpServerView[]>>
-  create(params: { dto: CreateMcpServerDto }): Promise<RemoteResult<McpServerView>>
-  update(params: { serverId: string; dto: UpdateMcpServerDto }): Promise<RemoteResult<McpServerView>>
-  delete(params: { serverId: string }): Promise<RemoteResult<null>>
-  stopServer(params: { serverId: string }): Promise<RemoteResult<null>>
-  refreshTools(params: { serverId: string }): Promise<RemoteResult<null>>
-  getServerLogs(params: { serverId: string; lines?: number }): Promise<RemoteResult<string[]>>
-  getCapabilities(params: { serverId: string }): Promise<RemoteResult<McpServerCapabilities | null>>
+  create(dto: CreateMcpServerDto): Promise<RemoteResult<McpServerView>>
+  update(serverId: string, dto: UpdateMcpServerDto): Promise<RemoteResult<McpServerView>>
+  delete(serverId: string): Promise<RemoteResult<null>>
+  stopServer(serverId: string): Promise<RemoteResult<null>>
+  refreshTools(serverId: string): Promise<RemoteResult<null>>
+  getServerLogs(serverId: string, lines?: number): Promise<RemoteResult<string[]>>
+  getCapabilities(serverId: string): Promise<RemoteResult<McpServerCapabilities | null>>
 }
 
 export interface McpSectionProps {
@@ -100,7 +100,7 @@ export function McpSection(props: McpSectionProps) {
   // Fetch logs when logs tab is active
   useEffect(() => {
     if (activeTab === 'logs' && selectedId && mcpService) {
-      void mcpService.getServerLogs({ serverId: selectedId, lines: 100 })
+      void mcpService.getServerLogs(selectedId, 100)
         .then((result) => { if (result.ok) setLogs(result.value) })
         .catch(() => setLogs([]))
     }
@@ -113,7 +113,7 @@ export function McpSection(props: McpSectionProps) {
     }
 
     const interval = setInterval(() => {
-      void mcpService.getServerLogs({ serverId: selectedId, lines: 100 })
+      void mcpService.getServerLogs(selectedId, 100)
         .then((result) => { if (result.ok) setLogs(result.value) })
         .catch(() => {}) // Silently fail during polling
     }, 3000) // Poll every 3 seconds
@@ -124,7 +124,7 @@ export function McpSection(props: McpSectionProps) {
   // Fetch capabilities when selected server changes and is active
   useEffect(() => {
     if (selectedId && mcpService && selectedServer?.isActive) {
-      void mcpService.getCapabilities({ serverId: selectedId })
+      void mcpService.getCapabilities(selectedId)
         .then((result) => { if (result.ok) setCapabilities(result.value) })
         .catch(() => setCapabilities(null))
     } else {
@@ -199,20 +199,14 @@ export function McpSection(props: McpSectionProps) {
         dto.env = envParsed
       }
 
-      const updateResult = await mcpService.update({
-        serverId: selectedServer.id,
-        dto
-      })
+      const updateResult = await mcpService.update(selectedServer.id, dto)
       if (!updateResult.ok) throw new Error(updateResult.error.message)
 
       // Restart server if active
       if (selectedServer.isActive) {
-        const stopResult = await mcpService.stopServer({ serverId: selectedServer.id })
+        const stopResult = await mcpService.stopServer(selectedServer.id)
         if (!stopResult.ok) throw new Error(stopResult.error.message)
-        const restartResult = await mcpService.update({
-          serverId: selectedServer.id,
-          dto: { isActive: true }
-        })
+        const restartResult = await mcpService.update(selectedServer.id, { isActive: true })
         if (!restartResult.ok) throw new Error(restartResult.error.message)
       }
 
@@ -246,7 +240,7 @@ export function McpSection(props: McpSectionProps) {
   const handleCreate = useCallback(async (dto: CreateMcpServerDto) => {
     if (!mcpService) return
 
-    const result = await mcpService.create({ dto })
+    const result = await mcpService.create(dto)
     if (!result.ok) throw new Error(result.error.message)
     await loadServers()
     setShowAddDialog(false)
@@ -258,7 +252,7 @@ export function McpSection(props: McpSectionProps) {
       if (!window.confirm(`确定要删除 "${serverName}" MCP 服务器吗？`)) return
 
       try {
-        const result = await mcpService.delete({ serverId })
+        const result = await mcpService.delete(serverId)
         if (!result.ok) throw new Error(result.error.message)
         await loadServers()
       } catch (err) {
@@ -481,10 +475,7 @@ export function McpSection(props: McpSectionProps) {
                         onChange={async (e) => {
                           if (!mcpService) return
                           try {
-                            const result = await mcpService.update({
-                              serverId: selectedServer.id,
-                              dto: { isActive: e.target.checked }
-                            })
+                            const result = await mcpService.update(selectedServer.id, { isActive: e.target.checked })
                             if (!result.ok) throw new Error(result.error.message)
                             await loadServers()
                           } catch (err) {
@@ -675,7 +666,7 @@ export function McpSection(props: McpSectionProps) {
                             className={css.secondaryButton}
                             onClick={() => {
                               if (selectedId && mcpService) {
-                                void mcpService.getServerLogs({ serverId: selectedId, lines: 100 })
+                                void mcpService.getServerLogs(selectedId, 100)
                                   .then((result) => { if (result.ok) setLogs(result.value) })
                                   .catch(() => setLogs([]))
                               }
@@ -714,9 +705,9 @@ export function McpSection(props: McpSectionProps) {
                               if (!selectedId || !mcpService) return
                               setIsRefreshingTools(true)
                               try {
-                                const refreshResult = await mcpService.refreshTools({ serverId: selectedId })
+                                const refreshResult = await mcpService.refreshTools(selectedId)
                                 if (!refreshResult.ok) throw new Error(refreshResult.error.message)
-                                const caps = await mcpService.getCapabilities({ serverId: selectedId })
+                                const caps = await mcpService.getCapabilities(selectedId)
                                 if (!caps.ok) throw new Error(caps.error.message)
                                 setCapabilities(caps.value)
                               } catch (error) {
@@ -750,20 +741,14 @@ export function McpSection(props: McpSectionProps) {
                                           if (checked) {
                                             // Enable: remove from disabledTools
                                             const filtered = disabledTools.filter(name => name !== tool.name)
-                                            const result = await mcpService.update({
-                                              serverId: selectedServer.id,
-                                              dto: { disabledTools: filtered }
-                                            })
+                                            const result = await mcpService.update(selectedServer.id, { disabledTools: filtered })
                                             if (!result.ok) throw new Error(result.error.message)
                                           } else {
                                             // Disable: add to disabledTools
                                             if (!disabledTools.includes(tool.name)) {
                                               disabledTools.push(tool.name)
                                             }
-                                            const result = await mcpService.update({
-                                              serverId: selectedServer.id,
-                                              dto: { disabledTools }
-                                            })
+                                            const result = await mcpService.update(selectedServer.id, { disabledTools })
                                             if (!result.ok) throw new Error(result.error.message)
                                           }
 

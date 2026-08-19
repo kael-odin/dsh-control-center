@@ -15,12 +15,12 @@ type RemoteResult<T> = { ok: true; value: T } | { ok: false; error: { code: stri
 
 interface ProvidersService {
   list(): Promise<RemoteResult<ProviderView[]>>
-  create(params: { dto: CreateProviderDto }): Promise<RemoteResult<ProviderView>>
-  update(params: { providerId: string; dto: UpdateProviderDto }): Promise<RemoteResult<ProviderView>>
-  delete(params: { providerId: string }): Promise<RemoteResult<{ absent: true }>>
-  testConnection(params: { providerId: string }): Promise<RemoteResult<{ success: boolean; latencyMs?: number; error?: string }>>
-  discoverModels(params: { providerId: string }): Promise<RemoteResult<{ models: any[]; error?: string }>>
-  updateModel(params: { providerId: string; modelId: string; dto: UpdateModelDto }): Promise<RemoteResult<ModelView>>
+  create(dto: CreateProviderDto): Promise<RemoteResult<ProviderView>>
+  update(providerId: string, dto: UpdateProviderDto): Promise<RemoteResult<ProviderView>>
+  delete(providerId: string): Promise<RemoteResult<{ absent: true }>>
+  testConnection(providerId: string): Promise<RemoteResult<{ success: boolean; latencyMs?: number; error?: string }>>
+  discoverModels(providerId: string): Promise<RemoteResult<{ models: any[]; error?: string }>>
+  updateModel(providerId: string, modelId: string, dto: UpdateModelDto): Promise<RemoteResult<ModelView>>
 }
 
 export interface ProvidersSectionProps {
@@ -88,7 +88,7 @@ export function ProvidersSection(props: ProvidersSectionProps) {
   const handleUpdateProvider = useCallback(async (updates: { apiKey?: string; baseURL?: string; customHeaders?: Record<string, string> }) => {
     if (!providersService || !selectedId) return
     try {
-      const result = await providersService.update({ providerId: selectedId, dto: updates })
+      const result = await providersService.update(selectedId, updates)
       if (!result.ok) throw new Error(result.error.message)
       await loadProviders()
     } catch (err) {
@@ -101,7 +101,7 @@ export function ProvidersSection(props: ProvidersSectionProps) {
     try {
       setIsTestingConnection(true)
       setConnectionTestResult(null)
-      const result = await providersService.testConnection({ providerId: selectedId })
+      const result = await providersService.testConnection(selectedId)
       if (!result.ok) throw new Error(result.error.message)
       setConnectionTestResult(result.value)
     } catch (err) {
@@ -115,7 +115,7 @@ export function ProvidersSection(props: ProvidersSectionProps) {
     if (!providersService || !selectedId) return
     try {
       setIsDiscoveringModels(true)
-      const result = await providersService.discoverModels({ providerId: selectedId })
+      const result = await providersService.discoverModels(selectedId)
       if (!result.ok) throw new Error(result.error.message)
       await loadProviders()
     } catch (err) {
@@ -129,10 +129,7 @@ export function ProvidersSection(props: ProvidersSectionProps) {
     async (providerId: string, currentEnabled: boolean) => {
       if (!providersService) return
       try {
-        const result = await providersService.update({
-          providerId,
-          dto: { enabled: !currentEnabled }
-        })
+        const result = await providersService.update(providerId, { enabled: !currentEnabled })
         if (!result.ok) throw new Error(result.error.message)
         await loadProviders()
       } catch (err) {
@@ -148,7 +145,7 @@ export function ProvidersSection(props: ProvidersSectionProps) {
       if (!window.confirm(`确定要删除 "${providerName}" 提供商吗？`)) return
 
       try {
-        const result = await providersService.delete({ providerId })
+        const result = await providersService.delete(providerId)
         if (!result.ok) throw new Error(result.error.message)
         await loadProviders()
       } catch (err) {
@@ -363,11 +360,7 @@ export function ProvidersSection(props: ProvidersSectionProps) {
                 onToggleModel={async (modelId: string, enabled: boolean) => {
                   if (!providersService) return
                   try {
-                    const result = await providersService.updateModel({
-                      providerId: selectedProvider.id,
-                      modelId,
-                      dto: { enabled }
-                    })
+                    const result = await providersService.updateModel(selectedProvider.id, modelId, { enabled })
                     if (!result.ok) throw new Error(result.error.message)
                     await loadProviders()
                   } catch (err) {

@@ -15,6 +15,9 @@ describe('ProvidersService', () => {
 
   beforeEach(async () => {
     tmpDir = mkdtempSync(join(tmpdir(), 'dsh-cc-providers-test-'))
+    // Isolate the user-level credentials file from the real DSH home so the
+    // atomic-write rename cannot collide with a running server's handle.
+    process.env.DSH_HOME = tmpDir
     ctx = new Context()
     const settingsFiber = ctx.plugin(FileSettingsProvider, { path: join(tmpDir, 'settings.yaml') })
     ctx.plugin(LocalCredentialProvider, { projectEnvPath: join(tmpDir, '.env') })
@@ -25,6 +28,7 @@ describe('ProvidersService', () => {
   afterEach(() => {
     if (service[Symbol.dispose]) service[Symbol.dispose]()
     if (ctx[Symbol.dispose]) ctx[Symbol.dispose]()
+    delete process.env.DSH_HOME
     rmSync(tmpDir, { recursive: true, force: true })
   })
 
@@ -41,7 +45,7 @@ describe('ProvidersService', () => {
       apiKey: 'sk-test-key-123',
       enabled: true
     }
-    const provider = await service.create({ dto })
+    const provider = await service.create(dto)
     expect(provider.id).toBe('openai-test')
     expect(provider.name).toBe('OpenAI Test')
     expect(provider.type).toBe('openai')
@@ -49,30 +53,24 @@ describe('ProvidersService', () => {
   })
 
   it('gets provider by ID', async () => {
-    await service.create({
-      dto: { name: 'Test Provider', type: 'openai', baseURL: 'https://api.test.com', apiKey: 'key-test' }
-    })
-    const provider = await service.getById({ providerId: 'test-provider' })
+    await service.create({ name: 'Test Provider', type: 'openai', baseURL: 'https://api.test.com', apiKey: 'key-test' })
+    const provider = await service.getById('test-provider')
     expect(provider).not.toBeNull()
     expect(provider?.name).toBe('Test Provider')
   })
 
   it('deletes provider', async () => {
-    await service.create({
-      dto: { name: 'To Delete', type: 'openai', baseURL: 'https://api.delete.com', apiKey: 'delete-key' }
-    })
+    await service.create({ name: 'To Delete', type: 'openai', baseURL: 'https://api.delete.com', apiKey: 'delete-key' })
     // Small delay to ensure file operations complete on Windows
     await new Promise(resolve => setTimeout(resolve, 50))
-    await service.delete({ providerId: 'to-delete' })
+    await service.delete('to-delete')
     const providers = await service.list()
     expect(providers).toHaveLength(0)
   })
 
   it('updates model enabled state', async () => {
     // Create provider with models
-    const provider = await service.create({
-      dto: { name: 'Test Provider', type: 'openai', baseURL: 'https://api.test.com', apiKey: 'test-key' }
-    })
+    const provider = await service.create({ name: 'Test Provider', type: 'openai', baseURL: 'https://api.test.com', apiKey: 'test-key' })
 
     // Add some models to the provider via direct settings update (simulating discovery)
     const settings = service['scope'].get()
@@ -90,17 +88,13 @@ describe('ProvidersService', () => {
     }
 
     // Update model enabled state
-    const updated = await service.updateModel({
-      providerId: provider.id,
-      modelId: 'gpt-4',
-      dto: { enabled: false }
-    })
+    const updated = await service.updateModel(provider.id, 'gpt-4', { enabled: false })
 
     expect(updated.id).toBe('gpt-4')
     expect(updated.enabled).toBe(false)
 
     // Verify via getById
-    const refreshed = await service.getById({ providerId: provider.id })
+    const refreshed = await service.getById(provider.id)
     const model = refreshed?.models.find(m => m.id === 'gpt-4')
     expect(model?.enabled).toBe(false)
   })

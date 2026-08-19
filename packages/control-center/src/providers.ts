@@ -95,9 +95,9 @@ export class ProvidersService extends Service {
     }))
   }
 
-  async getById(params: { providerId: string }): Promise<ProviderView | null> {
+  async getById(providerId: string): Promise<ProviderView | null> {
     const settings = this.scope.get()
-    const record = settings.providers.find(p => p.id === params.providerId)
+    const record = settings.providers.find(p => p.id === providerId)
     if (!record) return null
     const hasApiKey = record.apiKeyRef
       ? (await this.ctx.credentials.describe(credentialRef(record.apiKeyRef))).configured
@@ -105,8 +105,7 @@ export class ProvidersService extends Service {
     return this.recordToView(record, hasApiKey)
   }
 
-  async create(params: { dto: CreateProviderDto }): Promise<ProviderView> {
-    const { dto } = params
+  async create(dto: CreateProviderDto): Promise<ProviderView> {
     const settings = this.scope.get()
     const id = dto.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
     if (settings.providers.some(p => p.id === id)) {
@@ -131,8 +130,7 @@ export class ProvidersService extends Service {
     return this.recordToView(record, !!dto.apiKey)
   }
 
-  async update(params: { providerId: string; dto: UpdateProviderDto }): Promise<ProviderView> {
-    const { providerId, dto } = params
+  async update(providerId: string, dto: UpdateProviderDto): Promise<ProviderView> {
     const settings = this.scope.get()
     const index = settings.providers.findIndex(p => p.id === providerId)
     if (index === -1) throw new Error(`Provider "${providerId}" not found`)
@@ -162,22 +160,22 @@ export class ProvidersService extends Service {
     return this.recordToView(updated, hasApiKey)
   }
 
-  async delete(params: { providerId: string }): Promise<void> {
+  async delete(providerId: string): Promise<void> {
     const settings = this.scope.get()
-    const record = settings.providers.find(p => p.id === params.providerId)
-    if (!record) throw new Error(`Provider "${params.providerId}" not found`)
+    const record = settings.providers.find(p => p.id === providerId)
+    if (!record) throw new Error(`Provider "${providerId}" not found`)
     if (record.apiKeyRef) {
       await this.ctx.credentials.unset(credentialRef(record.apiKeyRef))
     }
     await this.ctx.settings.update(PROVIDERS_NAMESPACE, {
-      providers: settings.providers.filter(p => p.id !== params.providerId)
+      providers: settings.providers.filter(p => p.id !== providerId)
     })
   }
 
-  async testConnection(params: { providerId: string }): Promise<TestConnectionResult> {
+  async testConnection(providerId: string): Promise<TestConnectionResult> {
     const settings = this.scope.get()
-    const record = settings.providers.find(p => p.id === params.providerId)
-    if (!record) throw new Error(`Provider "${params.providerId}" not found`)
+    const record = settings.providers.find(p => p.id === providerId)
+    if (!record) throw new Error(`Provider "${providerId}" not found`)
 
     const testedAt = new Date().toISOString()
     const startTime = Date.now()
@@ -235,7 +233,7 @@ export class ProvidersService extends Service {
       const latencyMs = Date.now() - startTime
 
       // Update lastTestedAt
-      const index = settings.providers.findIndex(p => p.id === params.providerId)
+      const index = settings.providers.findIndex(p => p.id === providerId)
       if (index !== -1 && settings.providers[index] !== undefined) {
         const updated = [...settings.providers]
         const existing = settings.providers[index]!
@@ -253,10 +251,10 @@ export class ProvidersService extends Service {
     }
   }
 
-  async discoverModels(params: { providerId: string }): Promise<DiscoverModelsResult> {
+  async discoverModels(providerId: string): Promise<DiscoverModelsResult> {
     const settings = this.scope.get()
-    const record = settings.providers.find(p => p.id === params.providerId)
-    if (!record) throw new Error(`Provider "${params.providerId}" not found`)
+    const record = settings.providers.find(p => p.id === providerId)
+    if (!record) throw new Error(`Provider "${providerId}" not found`)
 
     const discoveredAt = new Date().toISOString()
 
@@ -327,7 +325,7 @@ export class ProvidersService extends Service {
         return {
           id: modelId,
           name: m.name || modelId,
-          providerId: params.providerId,
+          providerId: providerId,
           enabled: true
         }
       })
@@ -349,7 +347,7 @@ export class ProvidersService extends Service {
       })
 
       // Update provider with discovered models
-      const index = settings.providers.findIndex(p => p.id === params.providerId)
+      const index = settings.providers.findIndex(p => p.id === providerId)
       if (index !== -1 && settings.providers[index] !== undefined) {
         const updated = [...settings.providers]
         const existing = settings.providers[index]!
@@ -361,7 +359,7 @@ export class ProvidersService extends Service {
         models: merged.map(m => ({
           id: m.id,
           name: m.name,
-          providerId: params.providerId,
+          providerId: providerId,
           enabled: m.enabled,
           ...(m.capabilities !== undefined ? { capabilities: m.capabilities } : {}),
           ...(m.contextWindow !== undefined ? { contextWindow: m.contextWindow } : {}),
@@ -378,8 +376,7 @@ export class ProvidersService extends Service {
     }
   }
 
-  async updateModel(_params: { providerId: string; modelId: string; dto: UpdateModelDto }): Promise<ModelView> {
-    const { providerId, modelId, dto } = _params
+  async updateModel(providerId: string, modelId: string, dto: UpdateModelDto): Promise<ModelView> {
     const settings = this.scope.get()
     const providerIndex = settings.providers.findIndex(p => p.id === providerId)
     if (providerIndex === -1) throw new Error(`Provider "${providerId}" not found`)

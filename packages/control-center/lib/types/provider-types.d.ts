@@ -88,9 +88,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            get(params: {
-                providerId: string;
-            }): Promise<{
+            get(providerId: string): Promise<{
                 ok: true;
                 value: ProviderView | null;
             } | {
@@ -101,9 +99,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            create(params: {
-                dto: CreateProviderDto;
-            }): Promise<{
+            create(dto: CreateProviderDto): Promise<{
                 ok: true;
                 value: ProviderView;
             } | {
@@ -114,10 +110,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            update(params: {
-                providerId: string;
-                dto: UpdateProviderDto;
-            }): Promise<{
+            update(providerId: string, dto: UpdateProviderDto): Promise<{
                 ok: true;
                 value: ProviderView;
             } | {
@@ -128,9 +121,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            delete(params: {
-                providerId: string;
-            }): Promise<{
+            delete(providerId: string): Promise<{
                 ok: true;
                 value: {
                     absent: true;
@@ -143,9 +134,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            testConnection(params: {
-                providerId: string;
-            }): Promise<{
+            testConnection(providerId: string): Promise<{
                 ok: true;
                 value: TestConnectionResult;
             } | {
@@ -156,9 +145,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            discoverModels(params: {
-                providerId: string;
-            }): Promise<{
+            discoverModels(providerId: string): Promise<{
                 ok: true;
                 value: DiscoverModelsResult;
             } | {
@@ -169,11 +156,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            updateModel(params: {
-                providerId: string;
-                modelId: string;
-                dto: UpdateModelDto;
-            }): Promise<{
+            updateModel(providerId: string, modelId: string, dto: UpdateModelDto): Promise<{
                 ok: true;
                 value: ModelView;
             } | {

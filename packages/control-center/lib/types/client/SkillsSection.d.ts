@@ -23,15 +23,10 @@ interface SkillsService {
     list(params: {
         search?: string;
     }): Promise<RemoteResult<InstalledSkill[]>>;
-    update(params: {
-        skillId: string;
-        dto: {
-            isGlobalEnabled: boolean;
-        };
+    update(skillId: string, dto: {
+        isGlobalEnabled: boolean;
     }): Promise<RemoteResult<InstalledSkill>>;
-    uninstall(params: {
-        skillId: string;
-    }): Promise<RemoteResult<{
+    uninstall(skillId: string): Promise<RemoteResult<{
         absent: true;
     }>>;
 }

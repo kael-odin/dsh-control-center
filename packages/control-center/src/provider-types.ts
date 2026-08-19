@@ -95,13 +95,13 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
   interface TypertRemoteNamespaceMap {
     controlCenterProviders: {
       list(): Promise<{ ok: true; value: ProviderView[] } | { ok: false; error: { code: string; message: string; details: object } }>
-      get(params: { providerId: string }): Promise<{ ok: true; value: ProviderView | null } | { ok: false; error: { code: string; message: string; details: object } }>
-      create(params: { dto: CreateProviderDto }): Promise<{ ok: true; value: ProviderView } | { ok: false; error: { code: string; message: string; details: object } }>
-      update(params: { providerId: string; dto: UpdateProviderDto }): Promise<{ ok: true; value: ProviderView } | { ok: false; error: { code: string; message: string; details: object } }>
-      delete(params: { providerId: string }): Promise<{ ok: true; value: { absent: true } } | { ok: false; error: { code: string; message: string; details: object } }>
-      testConnection(params: { providerId: string }): Promise<{ ok: true; value: TestConnectionResult } | { ok: false; error: { code: string; message: string; details: object } }>
-      discoverModels(params: { providerId: string }): Promise<{ ok: true; value: DiscoverModelsResult } | { ok: false; error: { code: string; message: string; details: object } }>
-      updateModel(params: { providerId: string; modelId: string; dto: UpdateModelDto }): Promise<{ ok: true; value: ModelView } | { ok: false; error: { code: string; message: string; details: object } }>
+      get(providerId: string): Promise<{ ok: true; value: ProviderView | null } | { ok: false; error: { code: string; message: string; details: object } }>
+      create(dto: CreateProviderDto): Promise<{ ok: true; value: ProviderView } | { ok: false; error: { code: string; message: string; details: object } }>
+      update(providerId: string, dto: UpdateProviderDto): Promise<{ ok: true; value: ProviderView } | { ok: false; error: { code: string; message: string; details: object } }>
+      delete(providerId: string): Promise<{ ok: true; value: { absent: true } } | { ok: false; error: { code: string; message: string; details: object } }>
+      testConnection(providerId: string): Promise<{ ok: true; value: TestConnectionResult } | { ok: false; error: { code: string; message: string; details: object } }>
+      discoverModels(providerId: string): Promise<{ ok: true; value: DiscoverModelsResult } | { ok: false; error: { code: string; message: string; details: object } }>
+      updateModel(providerId: string, modelId: string, dto: UpdateModelDto): Promise<{ ok: true; value: ModelView } | { ok: false; error: { code: string; message: string; details: object } }>
     }
   }
 }

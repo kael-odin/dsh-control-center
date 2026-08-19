@@ -124,11 +124,11 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
   interface TypertRemoteNamespaceMap {
     controlCenterSkills: {
       list(query?: ListSkillsQuery): Promise<{ ok: true; value: InstalledSkill[] } | { ok: false; error: { code: string; message: string; details: object } }>
-      getById(params: { skillId: string }): Promise<{ ok: true; value: InstalledSkill | null } | { ok: false; error: { code: string; message: string; details: object } }>
-      update(params: { skillId: string; dto: UpdateSkillDto }): Promise<{ ok: true; value: InstalledSkill } | { ok: false; error: { code: string; message: string; details: object } }>
-      installSkill(params: { options: SkillInstallOptions }): Promise<{ ok: true; value: InstalledSkill } | { ok: false; error: { code: string; message: string; details: object } }>
-      uninstall(params: { skillId: string }): Promise<{ ok: true; value: { absent: true } } | { ok: false; error: { code: string; message: string; details: object } }>
-      searchMarketplace(params: { query: MarketplaceSearchQuery }): Promise<{ ok: true; value: MarketplaceSearchResponse } | { ok: false; error: { code: string; message: string; details: object } }>
+      getById(skillId: string): Promise<{ ok: true; value: InstalledSkill | null } | { ok: false; error: { code: string; message: string; details: object } }>
+      update(skillId: string, dto: UpdateSkillDto): Promise<{ ok: true; value: InstalledSkill } | { ok: false; error: { code: string; message: string; details: object } }>
+      installSkill(options: SkillInstallOptions): Promise<{ ok: true; value: InstalledSkill } | { ok: false; error: { code: string; message: string; details: object } }>
+      uninstall(skillId: string): Promise<{ ok: true; value: { absent: true } } | { ok: false; error: { code: string; message: string; details: object } }>
+      searchMarketplace(query: MarketplaceSearchQuery): Promise<{ ok: true; value: MarketplaceSearchResponse } | { ok: false; error: { code: string; message: string; details: object } }>
     }
   }
 }

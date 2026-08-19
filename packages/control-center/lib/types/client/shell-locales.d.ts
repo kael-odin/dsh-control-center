@@ -14,10 +14,12 @@ export declare const en: {
     workspaceTranslation: string;
     workspacePainting: string;
     workspaceKnowledge: string;
+    workspaceRepo: string;
     workspaceBack: string;
     workspaceTranslationDescription: string;
     workspacePaintingDescription: string;
     workspaceKnowledgeDescription: string;
+    workspaceRepoDescription: string;
     providersNav: string;
     webSearchNav: string;
 };

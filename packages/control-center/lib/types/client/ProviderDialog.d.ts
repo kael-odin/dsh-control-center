@@ -6,9 +6,7 @@
  */
 import type { CreateProviderDto, ProviderView, UpdateProviderDto } from '../provider-types';
 interface ProvidersService {
-    create(params: {
-        dto: CreateProviderDto;
-    }): Promise<{
+    create(dto: CreateProviderDto): Promise<{
         ok: true;
         value: ProviderView;
     } | {
@@ -19,10 +17,7 @@ interface ProvidersService {
             details: object;
         };
     }>;
-    update(params: {
-        providerId: string;
-        dto: UpdateProviderDto;
-    }): Promise<{
+    update(providerId: string, dto: UpdateProviderDto): Promise<{
         ok: true;
         value: ProviderView;
     } | {

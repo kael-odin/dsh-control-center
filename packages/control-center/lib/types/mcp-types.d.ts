@@ -121,9 +121,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            getById(params: {
-                serverId: string;
-            }): Promise<{
+            getById(serverId: string): Promise<{
                 ok: true;
                 value: McpServerView | null;
             } | {
@@ -134,9 +132,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            create(params: {
-                dto: CreateMcpServerDto;
-            }): Promise<{
+            create(dto: CreateMcpServerDto): Promise<{
                 ok: true;
                 value: McpServerView;
             } | {
@@ -147,10 +143,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            update(params: {
-                serverId: string;
-                dto: UpdateMcpServerDto;
-            }): Promise<{
+            update(serverId: string, dto: UpdateMcpServerDto): Promise<{
                 ok: true;
                 value: McpServerView;
             } | {
@@ -161,9 +154,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            delete(params: {
-                serverId: string;
-            }): Promise<{
+            delete(serverId: string): Promise<{
                 ok: true;
                 value: null;
             } | {
@@ -174,9 +165,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            reorder(params: {
-                serverIds: string[];
-            }): Promise<{
+            reorder(serverIds: string[]): Promise<{
                 ok: true;
                 value: null;
             } | {
@@ -187,9 +176,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            stopServer(params: {
-                serverId: string;
-            }): Promise<{
+            stopServer(serverId: string): Promise<{
                 ok: true;
                 value: null;
             } | {
@@ -200,9 +187,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            refreshTools(params: {
-                serverId: string;
-            }): Promise<{
+            refreshTools(serverId: string): Promise<{
                 ok: true;
                 value: null;
             } | {
@@ -213,10 +198,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            getServerLogs(params: {
-                serverId: string;
-                lines?: number;
-            }): Promise<{
+            getServerLogs(serverId: string, lines?: number): Promise<{
                 ok: true;
                 value: string[];
             } | {
@@ -227,9 +209,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            getCapabilities(params: {
-                serverId: string;
-            }): Promise<{
+            getCapabilities(serverId: string): Promise<{
                 ok: true;
                 value: McpServerCapabilities | null;
             } | {

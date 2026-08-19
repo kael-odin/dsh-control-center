@@ -115,9 +115,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            getById(params: {
-                skillId: string;
-            }): Promise<{
+            getById(skillId: string): Promise<{
                 ok: true;
                 value: InstalledSkill | null;
             } | {
@@ -128,10 +126,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            update(params: {
-                skillId: string;
-                dto: UpdateSkillDto;
-            }): Promise<{
+            update(skillId: string, dto: UpdateSkillDto): Promise<{
                 ok: true;
                 value: InstalledSkill;
             } | {
@@ -142,9 +137,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            installSkill(params: {
-                options: SkillInstallOptions;
-            }): Promise<{
+            installSkill(options: SkillInstallOptions): Promise<{
                 ok: true;
                 value: InstalledSkill;
             } | {
@@ -155,9 +148,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            uninstall(params: {
-                skillId: string;
-            }): Promise<{
+            uninstall(skillId: string): Promise<{
                 ok: true;
                 value: {
                     absent: true;
@@ -170,9 +161,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            searchMarketplace(params: {
-                query: MarketplaceSearchQuery;
-            }): Promise<{
+            searchMarketplace(query: MarketplaceSearchQuery): Promise<{
                 ok: true;
                 value: MarketplaceSearchResponse;
             } | {

@@ -61,7 +61,7 @@ This is a test skill.
 `
       )
 
-      await service.install({ options: { source: 'directory', path: skillDir } })
+      await service.install({ source: 'directory', path: skillDir })
       const skills = await service.list()
 
       expect(skills).toHaveLength(1)
@@ -81,8 +81,8 @@ This is a test skill.
       mkdirSync(skillDir2, { recursive: true })
       await writeFile(join(skillDir2, 'SKILL.md'), '---\nname: Skill Two\n---\n# Skill Two')
 
-      await service.install({ options: { source: 'directory', path: skillDir1 } })
-      await service.install({ options: { source: 'directory', path: skillDir2 } })
+      await service.install({ source: 'directory', path: skillDir1 })
+      await service.install({ source: 'directory', path: skillDir2 })
 
       const filtered = await service.list({ search: 'One' })
       expect(filtered).toHaveLength(1)
@@ -104,7 +104,7 @@ description: A skill
 `
       )
 
-      const installed = await service.install({ options: { source: 'directory', path: skillDir } })
+      const installed = await service.install({ source: 'directory', path: skillDir })
 
       expect(installed.name).toBe('My Skill')
       expect(installed.description).toBe('A skill')
@@ -116,7 +116,7 @@ description: A skill
       const skillDir = join(TEST_DSH_HOME, 'invalid-skill')
       mkdirSync(skillDir, { recursive: true })
 
-      await expect(service.install({ options: { source: 'directory', path: skillDir } })).rejects.toThrow(
+      await expect(service.install({ source: 'directory', path: skillDir })).rejects.toThrow(
         'SKILL.md not found'
       )
     })
@@ -126,9 +126,9 @@ description: A skill
       mkdirSync(skillDir, { recursive: true })
       await writeFile(join(skillDir, 'SKILL.md'), '---\nname: Duplicate\n---\n')
 
-      await service.install({ options: { source: 'directory', path: skillDir } })
+      await service.install({ source: 'directory', path: skillDir })
 
-      await expect(service.install({ options: { source: 'directory', path: skillDir } })).rejects.toThrow(
+      await expect(service.install({ source: 'directory', path: skillDir })).rejects.toThrow(
         'already installed'
       )
     })
@@ -136,7 +136,7 @@ description: A skill
 
   describe('getById', () => {
     it('returns null for non-existent skill', async () => {
-      const skill = await service.getById({ skillId: 'nonexistent' })
+      const skill = await service.getById('nonexistent')
       expect(skill).toBeNull()
     })
 
@@ -145,8 +145,8 @@ description: A skill
       mkdirSync(skillDir, { recursive: true })
       await writeFile(join(skillDir, 'SKILL.md'), '---\nname: Test\n---\n')
 
-      const installed = await service.install({ options: { source: 'directory', path: skillDir } })
-      const retrieved = await service.getById({ skillId: installed.id })
+      const installed = await service.install({ source: 'directory', path: skillDir })
+      const retrieved = await service.getById(installed.id)
 
       expect(retrieved).not.toBeNull()
       expect(retrieved!.id).toBe(installed.id)
@@ -160,15 +160,15 @@ description: A skill
       mkdirSync(skillDir, { recursive: true })
       await writeFile(join(skillDir, 'SKILL.md'), '---\nname: Test\n---\n')
 
-      const installed = await service.install({ options: { source: 'directory', path: skillDir } })
+      const installed = await service.install({ source: 'directory', path: skillDir })
       expect(installed.isGlobalEnabled).toBe(false)
 
-      const updated = await service.update({ skillId: installed.id, dto: { isGlobalEnabled: true } })
+      const updated = await service.update(installed.id, { isGlobalEnabled: true })
       expect(updated.isGlobalEnabled).toBe(true)
     })
 
     it('rejects update for non-existent skill', async () => {
-      await expect(service.update({ skillId: 'nonexistent', dto: { isGlobalEnabled: true } })).rejects.toThrow(
+      await expect(service.update('nonexistent', { isGlobalEnabled: true })).rejects.toThrow(
         'Skill not found'
       )
     })
@@ -180,19 +180,19 @@ description: A skill
       mkdirSync(skillDir, { recursive: true })
       await writeFile(join(skillDir, 'SKILL.md'), '---\nname: Test\n---\n')
 
-      const installed = await service.install({ options: { source: 'directory', path: skillDir } })
+      const installed = await service.install({ source: 'directory', path: skillDir })
       const skillsDir = join(TEST_DSH_HOME, 'skills', installed.folderName)
       expect(existsSync(skillsDir)).toBe(true)
 
-      await service.uninstall({ skillId: installed.id })
+      await service.uninstall(installed.id)
 
-      const retrieved = await service.getById({ skillId: installed.id })
+      const retrieved = await service.getById(installed.id)
       expect(retrieved).toBeNull()
       expect(existsSync(skillsDir)).toBe(false)
     })
 
     it('rejects uninstall for non-existent skill', async () => {
-      await expect(service.uninstall({ skillId: 'nonexistent' })).rejects.toThrow('Skill not found')
+      await expect(service.uninstall('nonexistent')).rejects.toThrow('Skill not found')
     })
   })
 

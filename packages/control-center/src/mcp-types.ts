@@ -119,15 +119,15 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
   interface TypertRemoteNamespaceMap {
     controlCenterMcp: {
       list(): Promise<{ ok: true; value: McpServerView[] } | { ok: false; error: { code: string; message: string; details: object } }>
-      getById(params: { serverId: string }): Promise<{ ok: true; value: McpServerView | null } | { ok: false; error: { code: string; message: string; details: object } }>
-      create(params: { dto: CreateMcpServerDto }): Promise<{ ok: true; value: McpServerView } | { ok: false; error: { code: string; message: string; details: object } }>
-      update(params: { serverId: string; dto: UpdateMcpServerDto }): Promise<{ ok: true; value: McpServerView } | { ok: false; error: { code: string; message: string; details: object } }>
-      delete(params: { serverId: string }): Promise<{ ok: true; value: null } | { ok: false; error: { code: string; message: string; details: object } }>
-      reorder(params: { serverIds: string[] }): Promise<{ ok: true; value: null } | { ok: false; error: { code: string; message: string; details: object } }>
-      stopServer(params: { serverId: string }): Promise<{ ok: true; value: null } | { ok: false; error: { code: string; message: string; details: object } }>
-      refreshTools(params: { serverId: string }): Promise<{ ok: true; value: null } | { ok: false; error: { code: string; message: string; details: object } }>
-      getServerLogs(params: { serverId: string; lines?: number }): Promise<{ ok: true; value: string[] } | { ok: false; error: { code: string; message: string; details: object } }>
-      getCapabilities(params: { serverId: string }): Promise<{ ok: true; value: McpServerCapabilities | null } | { ok: false; error: { code: string; message: string; details: object } }>
+      getById(serverId: string): Promise<{ ok: true; value: McpServerView | null } | { ok: false; error: { code: string; message: string; details: object } }>
+      create(dto: CreateMcpServerDto): Promise<{ ok: true; value: McpServerView } | { ok: false; error: { code: string; message: string; details: object } }>
+      update(serverId: string, dto: UpdateMcpServerDto): Promise<{ ok: true; value: McpServerView } | { ok: false; error: { code: string; message: string; details: object } }>
+      delete(serverId: string): Promise<{ ok: true; value: null } | { ok: false; error: { code: string; message: string; details: object } }>
+      reorder(serverIds: string[]): Promise<{ ok: true; value: null } | { ok: false; error: { code: string; message: string; details: object } }>
+      stopServer(serverId: string): Promise<{ ok: true; value: null } | { ok: false; error: { code: string; message: string; details: object } }>
+      refreshTools(serverId: string): Promise<{ ok: true; value: null } | { ok: false; error: { code: string; message: string; details: object } }>
+      getServerLogs(serverId: string, lines?: number): Promise<{ ok: true; value: string[] } | { ok: false; error: { code: string; message: string; details: object } }>
+      getCapabilities(serverId: string): Promise<{ ok: true; value: McpServerCapabilities | null } | { ok: false; error: { code: string; message: string; details: object } }>
     }
   }
 }

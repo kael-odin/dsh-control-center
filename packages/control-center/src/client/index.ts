@@ -31,6 +31,10 @@ import { McpSection } from './McpSection.tsx'
 import type {} from '../websearch-types.ts'
 import websearchRemote from '../websearch-remote-client.ts'
 import { WebSearchSection } from './WebSearchSection.tsx'
+import type {} from '../repo-types.ts'
+import reposRemote from '../repo-remote-client.ts'
+import { RepoWorkspace } from './RepoWorkspace.tsx'
+import type { RepoWorkspaceInjected } from './RepoWorkspace.tsx'
 import { SettingsRoot } from './SettingsRoot.tsx'
 import type { SettingsOnboardingStep, SettingsRootInjected, SettingsSectionRow } from './shell-contract.ts'
 import { CloseLabel, HeaderContent, TriggerContent } from './chrome.tsx'
@@ -124,6 +128,18 @@ export function apply(ctx: ClientContext): void {
   let providers: NonNullable<typeof remote.controlCenterProviders> | undefined
   let mcp: NonNullable<typeof remote.controlCenterMcp> | undefined
   let websearch: NonNullable<typeof remote.controlCenterWebSearch> | undefined
+  let repos: NonNullable<typeof remote.controlCenterRepos> | undefined
+  const reposReadySource: HostObservable<boolean> = {
+    getSnapshot: () => repos !== undefined,
+    subscribe: (listener) => {
+      const timer = window.setInterval(() => {
+        if (repos === undefined) return
+        window.clearInterval(timer)
+        listener()
+      }, 25)
+      return () => { window.clearInterval(timer) }
+    },
+  }
   ctx.effect(async () => {
     // The client Remote registry keys contributions by package, so every
     // namespace must be mounted through one merged contribution.
@@ -136,7 +152,8 @@ export function apply(ctx: ClientContext): void {
         ...skillsRemote.descriptors,
         ...providersRemote.descriptors,
         ...mcpRemote.descriptors,
-        ...websearchRemote.descriptors
+        ...websearchRemote.descriptors,
+        ...reposRemote.descriptors
       ],
     }
     const dispose = await remote.$mount(controlCenterRemote)
@@ -147,6 +164,7 @@ export function apply(ctx: ClientContext): void {
     providers = ctx.get('remote.controlCenterProviders') as NonNullable<typeof remote.controlCenterProviders>
     mcp = ctx.get('remote.controlCenterMcp') as NonNullable<typeof remote.controlCenterMcp>
     websearch = ctx.get('remote.controlCenterWebSearch') as NonNullable<typeof remote.controlCenterWebSearch>
+    repos = ctx.get('remote.controlCenterRepos') as NonNullable<typeof remote.controlCenterRepos>
     return dispose
   }, 'control-center: control-center Remote namespaces')
   ctx.effect(() => ctx.locale.register(SHELL_NS, { zh: shellZh, en: shellEn }), 'control-center: shell dictionaries')
@@ -290,6 +308,7 @@ export function apply(ctx: ClientContext): void {
     { id: 'translation', order: 0, label: 'workspaceTranslation', description: 'workspaceTranslationDescription' },
     { id: 'painting', order: 10, label: 'workspacePainting', description: 'workspacePaintingDescription' },
     { id: 'knowledge', order: 20, label: 'workspaceKnowledge', description: 'workspaceKnowledgeDescription' },
+    { id: 'repo', order: 30, label: 'workspaceRepo', description: 'workspaceRepoDescription' },
   ]
   for (const workspace of workspaceRows) {
     ctx.slots.inject('application.navigation', () => ctx.slots.register({
@@ -340,6 +359,18 @@ export function apply(ctx: ClientContext): void {
           hooks: { knowledgeReady: knowledgeReadySource },
         }),
       }, KnowledgeWorkspace))
+    } else if (workspace.id === 'repo') {
+      ctx.slots.inject('application.surface', () => ctx.slots.register({
+        name: 'application.surface',
+        key: 'repo',
+        inject: (): RepoWorkspaceInjected => ({
+          getRepos: () => {
+            if (repos === undefined) throw new Error('repos Remote namespace is not mounted')
+            return repos
+          },
+          hooks: { reposReady: reposReadySource },
+        }),
+      }, RepoWorkspace))
     } else {
       ctx.slots.inject('application.surface', () => ctx.slots.register({
         name: 'application.surface',

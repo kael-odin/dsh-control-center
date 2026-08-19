@@ -10,8 +10,8 @@ import type { CreateProviderDto, ProviderType, ProviderView, UpdateProviderDto }
 import css from './ProviderDialog.module.css'
 
 interface ProvidersService {
-  create(params: { dto: CreateProviderDto }): Promise<{ ok: true; value: ProviderView } | { ok: false; error: { code: string; message: string; details: object } }>
-  update(params: { providerId: string; dto: UpdateProviderDto }): Promise<{ ok: true; value: ProviderView } | { ok: false; error: { code: string; message: string; details: object } }>
+  create(dto: CreateProviderDto): Promise<{ ok: true; value: ProviderView } | { ok: false; error: { code: string; message: string; details: object } }>
+  update(providerId: string, dto: UpdateProviderDto): Promise<{ ok: true; value: ProviderView } | { ok: false; error: { code: string; message: string; details: object } }>
 }
 
 interface ProviderDialogProps {
@@ -117,7 +117,7 @@ export function ProviderDialog({ open, mode, provider, providersService, onClose
           ...(parsedHeaders ? { customHeaders: parsedHeaders } : {}),
           enabled,
         }
-        const result = await providersService.create({ dto })
+        const result = await providersService.create(dto)
         if (!result.ok) throw new Error(result.error.message)
       } else if (mode === 'edit' && provider) {
         const dto: UpdateProviderDto = {
@@ -127,7 +127,7 @@ export function ProviderDialog({ open, mode, provider, providersService, onClose
           ...(parsedHeaders ? { customHeaders: parsedHeaders } : {}),
           enabled,
         }
-        const result = await providersService.update({ providerId: provider.id, dto })
+        const result = await providersService.update(provider.id, dto)
         if (!result.ok) throw new Error(result.error.message)
       }
 

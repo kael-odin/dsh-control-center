@@ -17,29 +17,13 @@ type RemoteResult<T> = {
 };
 interface McpService {
     list(): Promise<RemoteResult<McpServerView[]>>;
-    create(params: {
-        dto: CreateMcpServerDto;
-    }): Promise<RemoteResult<McpServerView>>;
-    update(params: {
-        serverId: string;
-        dto: UpdateMcpServerDto;
-    }): Promise<RemoteResult<McpServerView>>;
-    delete(params: {
-        serverId: string;
-    }): Promise<RemoteResult<null>>;
-    stopServer(params: {
-        serverId: string;
-    }): Promise<RemoteResult<null>>;
-    refreshTools(params: {
-        serverId: string;
-    }): Promise<RemoteResult<null>>;
-    getServerLogs(params: {
-        serverId: string;
-        lines?: number;
-    }): Promise<RemoteResult<string[]>>;
-    getCapabilities(params: {
-        serverId: string;
-    }): Promise<RemoteResult<McpServerCapabilities | null>>;
+    create(dto: CreateMcpServerDto): Promise<RemoteResult<McpServerView>>;
+    update(serverId: string, dto: UpdateMcpServerDto): Promise<RemoteResult<McpServerView>>;
+    delete(serverId: string): Promise<RemoteResult<null>>;
+    stopServer(serverId: string): Promise<RemoteResult<null>>;
+    refreshTools(serverId: string): Promise<RemoteResult<null>>;
+    getServerLogs(serverId: string, lines?: number): Promise<RemoteResult<string[]>>;
+    getCapabilities(serverId: string): Promise<RemoteResult<McpServerCapabilities | null>>;
 }
 export interface McpSectionProps {
     mcp?: McpService;

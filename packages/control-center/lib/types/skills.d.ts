@@ -9,7 +9,7 @@
  */
 import { Service } from '@deepseek-ai/cordis';
 import type { Context } from '@deepseek-ai/cordis';
-import type { InstalledSkill, ListSkillsQuery, UpdateSkillDto, SkillInstallOptions, SkillUninstallOptions, MarketplaceSearchQuery, MarketplaceSearchResponse } from './skills-types.ts';
+import type { InstalledSkill, ListSkillsQuery, UpdateSkillDto, SkillInstallOptions, MarketplaceSearchQuery, MarketplaceSearchResponse } from './skills-types.ts';
 export interface SkillsServiceConfig {
     dshHome: string;
     logger: Context['logger'];
@@ -28,28 +28,21 @@ export declare class SkillsService extends Service {
     /**
      * Get skill by ID.
      */
-    getById(params: {
-        skillId: string;
-    }): Promise<InstalledSkill | null>;
+    getById(skillId: string): Promise<InstalledSkill | null>;
     /**
      * Update skill (currently only global enable/disable).
      */
-    update(params: {
-        skillId: string;
-        dto: UpdateSkillDto;
-    }): Promise<InstalledSkill>;
+    update(skillId: string, dto: UpdateSkillDto): Promise<InstalledSkill>;
     /**
      * Install a skill from various sources.
      */
-    install(params: {
-        options: SkillInstallOptions;
-    }): Promise<InstalledSkill>;
+    install(options: SkillInstallOptions): Promise<InstalledSkill>;
     private installFromDirectory;
     private copyDirectory;
     /**
      * Uninstall a skill.
      */
-    uninstall(params: SkillUninstallOptions): Promise<void>;
+    uninstall(skillId: string): Promise<void>;
     /**
      * Search marketplace (stub implementation).
      */

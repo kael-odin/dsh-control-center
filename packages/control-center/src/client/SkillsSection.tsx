@@ -16,8 +16,8 @@ type RemoteResult<T> = { ok: true; value: T } | { ok: false; error: { code: stri
 
 interface SkillsService {
   list(params: { search?: string }): Promise<RemoteResult<InstalledSkill[]>>
-  update(params: { skillId: string; dto: { isGlobalEnabled: boolean } }): Promise<RemoteResult<InstalledSkill>>
-  uninstall(params: { skillId: string }): Promise<RemoteResult<{ absent: true }>>
+  update(skillId: string, dto: { isGlobalEnabled: boolean }): Promise<RemoteResult<InstalledSkill>>
+  uninstall(skillId: string): Promise<RemoteResult<{ absent: true }>>
 }
 
 export interface SkillsSectionProps {
@@ -59,10 +59,7 @@ export function SkillsSection(props: SkillsSectionProps) {
     async (skillId: string, currentEnabled: boolean) => {
       if (!skillsService) return
       try {
-        const result = await skillsService.update({
-          skillId,
-          dto: { isGlobalEnabled: !currentEnabled }
-        })
+        const result = await skillsService.update(skillId, { isGlobalEnabled: !currentEnabled })
         if (!result.ok) throw new Error(result.error.message)
         await loadSkills()
       } catch (err) {
@@ -78,7 +75,7 @@ export function SkillsSection(props: SkillsSectionProps) {
       if (!window.confirm(`确定要卸载 "${skillName}" 吗？`)) return
 
       try {
-        const result = await skillsService.uninstall({ skillId })
+        const result = await skillsService.uninstall(skillId)
         if (!result.ok) throw new Error(result.error.message)
         await loadSkills()
       } catch (err) {

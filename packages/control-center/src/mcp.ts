@@ -139,14 +139,13 @@ export class McpService extends Service {
       .map(record => this.recordToView(record))
   }
 
-  async getById(params: { serverId: string }): Promise<McpServerView | null> {
+  async getById(serverId: string): Promise<McpServerView | null> {
     const settings = this.scope.get()
-    const record = settings.servers.find(s => s.id === params.serverId)
+    const record = settings.servers.find(s => s.id === serverId)
     return record ? this.recordToView(record) : null
   }
 
-  async create(params: { dto: CreateMcpServerDto }): Promise<McpServerView> {
-    const { dto } = params
+  async create(dto: CreateMcpServerDto): Promise<McpServerView> {
     const settings = this.scope.get()
 
     const now = new Date().toISOString()
@@ -184,8 +183,7 @@ export class McpService extends Service {
     return this.recordToView(record)
   }
 
-  async update(params: { serverId: string; dto: UpdateMcpServerDto }): Promise<McpServerView> {
-    const { serverId, dto } = params
+  async update(serverId: string, dto: UpdateMcpServerDto): Promise<McpServerView> {
     const settings = this.scope.get()
     const index = settings.servers.findIndex(s => s.id === serverId)
 
@@ -229,7 +227,7 @@ export class McpService extends Service {
         })
       } else {
         // Stop server
-        await this.stopServer({ serverId })
+        await this.stopServer(serverId)
       }
     }
 
@@ -243,8 +241,7 @@ export class McpService extends Service {
     return this.recordToView(updated)
   }
 
-  async delete(params: { serverId: string }): Promise<void> {
-    const { serverId } = params
+  async delete(serverId: string): Promise<void> {
     const settings = this.scope.get()
     const record = settings.servers.find(s => s.id === serverId)
 
@@ -254,7 +251,7 @@ export class McpService extends Service {
 
     // Stop server if active
     if (record.isActive) {
-      await this.stopServer({ serverId })
+      await this.stopServer(serverId)
     }
 
     await this.ctx.settings.update(MCP_NAMESPACE, {
@@ -262,8 +259,7 @@ export class McpService extends Service {
     })
   }
 
-  async reorder(params: { serverIds: string[] }): Promise<void> {
-    const { serverIds } = params
+  async reorder(serverIds: string[]): Promise<void> {
     const settings = this.scope.get()
 
     const updatedServers = settings.servers.map(server => {
@@ -570,8 +566,8 @@ export class McpService extends Service {
     }
   }
 
-  async stopServer(params: { serverId: string }): Promise<void> {
-    const state = this.runtimeStates.get(params.serverId)
+  async stopServer(serverId: string): Promise<void> {
+    const state = this.runtimeStates.get(serverId)
     if (!state) {
       return
     }
@@ -586,22 +582,22 @@ export class McpService extends Service {
             this.ctx.logger.warn(`Failed to dispose tool`, error)
           }
         }
-        this.addServerLog(params.serverId, `Unregistered ${state.toolDisposers.length} tools`)
+        this.addServerLog(serverId, `Unregistered ${state.toolDisposers.length} tools`)
       }
 
       if (state.client) {
         await state.client.close()
-        this.addServerLog(params.serverId, 'Server stopped')
+        this.addServerLog(serverId, 'Server stopped')
       }
     } catch (error) {
-      this.ctx.logger.error(`Error stopping MCP server ${params.serverId}`, error)
+      this.ctx.logger.error(`Error stopping MCP server ${serverId}`, error)
     } finally {
-      this.runtimeStates.delete(params.serverId)
+      this.runtimeStates.delete(serverId)
     }
   }
 
-  async refreshTools(params: { serverId: string }): Promise<void> {
-    const state = this.runtimeStates.get(params.serverId)
+  async refreshTools(serverId: string): Promise<void> {
+    const state = this.runtimeStates.get(serverId)
     if (!state || state.state !== 'connected' || !state.client) {
       throw new Error('Server must be connected to refresh tools')
     }
@@ -620,7 +616,7 @@ export class McpService extends Service {
             this.ctx.logger.warn(`Failed to dispose tool`, error)
           }
         }
-        this.addServerLog(params.serverId, `Unregistered ${state.toolDisposers.length} old tools`)
+        this.addServerLog(serverId, `Unregistered ${state.toolDisposers.length} old tools`)
       }
 
       const toolDisposers: Array<() => void> = []
@@ -637,7 +633,7 @@ export class McpService extends Service {
 
         // Register tools with DSH tool registry
         const settings = this.scope.get()
-        const serverRecord = settings.servers.find(s => s.id === params.serverId)
+        const serverRecord = settings.servers.find(s => s.id === serverId)
         const disabledTools = serverRecord?.disabledTools || []
 
         if (toolService) {
@@ -649,7 +645,7 @@ export class McpService extends Service {
 
             // Register tool with DSH tool registry
             // Prefix tool name with server ID to avoid naming conflicts
-            const toolName = `mcp_${params.serverId}_${tool.name}`
+            const toolName = `mcp_${serverId}_${tool.name}`
 
             const dispose = toolService.register({
               name: toolName,
@@ -668,7 +664,7 @@ export class McpService extends Service {
             })
 
             toolDisposers.push(dispose)
-            this.addServerLog(params.serverId, `Registered tool: ${tool.name}`)
+            this.addServerLog(serverId, `Registered tool: ${tool.name}`)
           }
         } else {
           this.ctx.logger.warn('Tool service not available for registration')
@@ -698,35 +694,35 @@ export class McpService extends Service {
       }
 
       // Update capabilities in runtime state
-      this.runtimeStates.set(params.serverId, {
+      this.runtimeStates.set(serverId, {
         ...state,
         capabilities,
         toolDisposers,
       })
 
-      this.addServerLog(params.serverId, 'Tools refreshed')
-      this.ctx.logger.info(`Refreshed tools for MCP server ${params.serverId}`)
+      this.addServerLog(serverId, 'Tools refreshed')
+      this.ctx.logger.info(`Refreshed tools for MCP server ${serverId}`)
     } catch (error) {
-      this.ctx.logger.error(`Failed to refresh tools for ${params.serverId}`, error)
+      this.ctx.logger.error(`Failed to refresh tools for ${serverId}`, error)
       throw error
     }
   }
 
-  async getServerLogs(params: { serverId: string; lines?: number }): Promise<string[]> {
-    const state = this.runtimeStates.get(params.serverId)
+  async getServerLogs(serverId: string, lines?: number): Promise<string[]> {
+    const state = this.runtimeStates.get(serverId)
     if (!state || !state.logs) {
       return []
     }
 
     const logs = state.logs
-    const lineCount = params.lines || 100
+    const lineCount = lines || 100
 
     // Return last N lines
     return logs.slice(-lineCount)
   }
 
-  async getCapabilities(params: { serverId: string }): Promise<McpServerCapabilities | null> {
-    const state = this.runtimeStates.get(params.serverId)
+  async getCapabilities(serverId: string): Promise<McpServerCapabilities | null> {
+    const state = this.runtimeStates.get(serverId)
     return state?.capabilities || null
   }
 

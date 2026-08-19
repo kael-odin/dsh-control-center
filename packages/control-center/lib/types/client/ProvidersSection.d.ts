@@ -17,36 +17,21 @@ type RemoteResult<T> = {
 };
 interface ProvidersService {
     list(): Promise<RemoteResult<ProviderView[]>>;
-    create(params: {
-        dto: CreateProviderDto;
-    }): Promise<RemoteResult<ProviderView>>;
-    update(params: {
-        providerId: string;
-        dto: UpdateProviderDto;
-    }): Promise<RemoteResult<ProviderView>>;
-    delete(params: {
-        providerId: string;
-    }): Promise<RemoteResult<{
+    create(dto: CreateProviderDto): Promise<RemoteResult<ProviderView>>;
+    update(providerId: string, dto: UpdateProviderDto): Promise<RemoteResult<ProviderView>>;
+    delete(providerId: string): Promise<RemoteResult<{
         absent: true;
     }>>;
-    testConnection(params: {
-        providerId: string;
-    }): Promise<RemoteResult<{
+    testConnection(providerId: string): Promise<RemoteResult<{
         success: boolean;
         latencyMs?: number;
         error?: string;
     }>>;
-    discoverModels(params: {
-        providerId: string;
-    }): Promise<RemoteResult<{
+    discoverModels(providerId: string): Promise<RemoteResult<{
         models: any[];
         error?: string;
     }>>;
-    updateModel(params: {
-        providerId: string;
-        modelId: string;
-        dto: UpdateModelDto;
-    }): Promise<RemoteResult<ModelView>>;
+    updateModel(providerId: string, modelId: string, dto: UpdateModelDto): Promise<RemoteResult<ModelView>>;
 }
 export interface ProvidersSectionProps {
     providers?: ProvidersService;
