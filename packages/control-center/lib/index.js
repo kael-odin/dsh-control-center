@@ -1,18 +1,18 @@
-import { t as translationRemote } from "./translation-remote-client-DedbChWd.js";
+import { n as STRICT_JSON, t as translationRemote } from "./translation-remote-client-CAk8pC3-.js";
 import { t as paintingRemote } from "./painting-remote-client-X1tWq7oF.js";
 import { t as knowledgeRemote } from "./knowledge-remote-client-M9c72Jol.js";
 import { createRequire } from "node:module";
 import z from "@deepseek-ai/schemastery";
 import { settingsNamespace } from "@deepseek-ai/dsh-settings";
-import { mkdirSync, readFileSync } from "node:fs";
-import { randomUUID } from "node:crypto";
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { createHash, randomUUID } from "node:crypto";
 import { Service } from "@deepseek-ai/cordis";
 import { ReasoningEffortId, createUserMessage } from "@deepseek-ai/dsh-llm";
 import { Remote, bindTypertRemote } from "@deepseek-ai/dsh-typert-protocol";
 import { getPath } from "@deepseek-ai/dsh-client-schema-form";
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import { DatabaseSync } from "node:sqlite";
-import { join } from "node:path";
+import { basename, join, relative, resolve } from "node:path";
 import { resolveDshHome } from "@deepseek-ai/dsh-home-paths";
 import { defineTool } from "@deepseek-ai/dsh-tools";
 //#region lib/types/compatibility.js
@@ -1519,6 +1519,360 @@ var KnowledgeService = class extends Service {
 	}
 };
 //#endregion
+//#region lib/types/skills.js
+/**
+* Skills vertical Host service.
+*
+* SQLite catalog at <dshHome>/control-center/skills.sqlite with append-only
+* migrations. Skill files are stored in <dshHome>/skills/ and registered
+* with DSH's skill runtime.
+*
+* AGPL-3.0-only – adapted from Cherry Studio's SkillService architecture.
+*/
+const DB_VERSION = 1;
+const SCHEMA_INIT = `
+  CREATE TABLE IF NOT EXISTS skills (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT,
+    folder_name TEXT NOT NULL UNIQUE,
+    source TEXT NOT NULL,
+    source_url TEXT,
+    namespace TEXT,
+    author TEXT,
+    version TEXT,
+    source_tags TEXT NOT NULL DEFAULT '[]',
+    content_hash TEXT NOT NULL,
+    is_global_enabled INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+  ) STRICT;
+
+  CREATE INDEX IF NOT EXISTS skills_source_idx ON skills(source);
+  CREATE INDEX IF NOT EXISTS skills_enabled_idx ON skills(is_global_enabled);
+  CREATE INDEX IF NOT EXISTS skills_folder_idx ON skills(folder_name);
+
+  CREATE TABLE IF NOT EXISTS _migrations (
+    version INTEGER PRIMARY KEY,
+    applied_at TEXT NOT NULL DEFAULT (datetime('now'))
+  ) STRICT;
+`;
+/**
+* Parse SKILL.md frontmatter and extract metadata.
+*
+* Simplified from Cherry's markdownParser – extracts name, description,
+* namespace, author, version, and tags from YAML-like frontmatter.
+*/
+function parseSkillMetadata(skillMdContent) {
+	let name = "Unnamed Skill";
+	let description = null;
+	let namespace = null;
+	let author = null;
+	let version = null;
+	const tags = [];
+	const frontmatterMatch = skillMdContent.match(/^---\s*\n([\s\S]*?)\n---/);
+	if (!frontmatterMatch || !frontmatterMatch[1]) {
+		const headingMatch = skillMdContent.match(/^#\s+(.+)$/m);
+		if (headingMatch?.[1]) name = headingMatch[1].trim();
+		return {
+			name,
+			description,
+			namespace,
+			author,
+			version,
+			tags
+		};
+	}
+	const frontmatter = frontmatterMatch[1];
+	const nameMatch = frontmatter.match(/^name:\s*(.+)$/m);
+	if (nameMatch?.[1]) name = nameMatch[1].trim().replace(/^['"]|['"]$/g, "");
+	const descMatch = frontmatter.match(/^description:\s*(.+)$/m);
+	if (descMatch?.[1]) description = descMatch[1].trim().replace(/^['"]|['"]$/g, "");
+	const nsMatch = frontmatter.match(/^namespace:\s*(.+)$/m);
+	if (nsMatch?.[1]) namespace = nsMatch[1].trim().replace(/^['"]|['"]$/g, "");
+	const authorMatch = frontmatter.match(/^author:\s*(.+)$/m);
+	if (authorMatch?.[1]) author = authorMatch[1].trim().replace(/^['"]|['"]$/g, "");
+	const versionMatch = frontmatter.match(/^version:\s*(.+)$/m);
+	if (versionMatch?.[1]) version = versionMatch[1].trim().replace(/^['"]|['"]$/g, "");
+	const tagsMatch = frontmatter.match(/^tags:\s*\[(.+)\]$/m);
+	if (tagsMatch?.[1]) {
+		const tagList = tagsMatch[1].split(",").map((t) => t.trim().replace(/^['"]|['"]$/g, ""));
+		tags.push(...tagList);
+	}
+	return {
+		name,
+		description,
+		namespace,
+		author,
+		version,
+		tags
+	};
+}
+/**
+* Compute content hash for a skill directory.
+*
+* Hashes SKILL.md and all other files in sorted order.
+*/
+function computeContentHash(skillDir) {
+	const hash = createHash("sha256");
+	const files = [];
+	function collect(dir) {
+		const entries = readdirSync(dir);
+		for (const entry of entries) {
+			const fullPath = join(dir, entry);
+			if (statSync(fullPath).isDirectory()) {
+				if (entry !== "node_modules" && entry !== ".git") collect(fullPath);
+			} else files.push(fullPath);
+		}
+	}
+	collect(skillDir);
+	files.sort();
+	for (const file of files) {
+		const relPath = relative(skillDir, file);
+		hash.update(relPath);
+		hash.update(readFileSync(file));
+	}
+	return hash.digest("hex");
+}
+var SkillsService = class extends Service {
+	static inject = [];
+	typertRemote = bindTypertRemote(this, "controlCenterSkills");
+	db;
+	skillsDir;
+	constructor(ctx, config) {
+		super(ctx, "controlCenterSkills");
+		const dshHome = config?.dshHome ?? resolveDshHome();
+		const ccDir = join(dshHome, "control-center");
+		if (!existsSync(ccDir)) mkdirSync(ccDir, { recursive: true });
+		const dbPath = join(ccDir, "skills.sqlite");
+		this.db = new DatabaseSync(dbPath);
+		this.db.exec("PRAGMA foreign_keys = ON");
+		this.skillsDir = join(dshHome, "skills");
+		if (!existsSync(this.skillsDir)) mkdirSync(this.skillsDir, { recursive: true });
+		this.migrate();
+		markRemoteMethods(this, [
+			["list", "list"],
+			["getById", "getById"],
+			["update", "update"],
+			["install", "install"],
+			["uninstall", "uninstall"],
+			["searchMarketplace", "searchMarketplace"]
+		]);
+	}
+	migrate() {
+		this.db.exec(SCHEMA_INIT);
+		if ((this.db.prepare("SELECT COALESCE(MAX(version), 0) as version FROM _migrations").get()?.version ?? 0) < DB_VERSION) this.db.exec(`INSERT INTO _migrations (version) VALUES (${DB_VERSION})`);
+	}
+	/**
+	* List installed skills with optional search filter.
+	*/
+	async list(query = {}) {
+		let sql = `
+      SELECT
+        id, name, description, folder_name as folderName, source, source_url as sourceUrl,
+        namespace, author, version, source_tags as sourceTags, content_hash as contentHash,
+        is_global_enabled as isGlobalEnabled, created_at as createdAt, updated_at as updatedAt
+      FROM skills
+    `;
+		const params = [];
+		if (query.search) {
+			sql += ` WHERE name LIKE ? OR description LIKE ?`;
+			const searchPattern = `%${query.search}%`;
+			params.push(searchPattern, searchPattern);
+		}
+		sql += ` ORDER BY name ASC`;
+		const stmt = this.db.prepare(sql);
+		return (params.length > 0 ? stmt.all(...params) : stmt.all()).map((row) => ({
+			...row,
+			sourceTags: JSON.parse(row.sourceTags),
+			isGlobalEnabled: Boolean(row.isGlobalEnabled)
+		}));
+	}
+	/**
+	* Get skill by ID.
+	*/
+	async getById(params) {
+		const row = this.db.prepare(`
+      SELECT
+        id, name, description, folder_name as folderName, source, source_url as sourceUrl,
+        namespace, author, version, source_tags as sourceTags, content_hash as contentHash,
+        is_global_enabled as isGlobalEnabled, created_at as createdAt, updated_at as updatedAt
+      FROM skills
+      WHERE id = ?
+    `).get(params.skillId);
+		if (!row) return null;
+		return {
+			...row,
+			sourceTags: JSON.parse(row.sourceTags),
+			isGlobalEnabled: Boolean(row.isGlobalEnabled)
+		};
+	}
+	/**
+	* Update skill (currently only global enable/disable).
+	*/
+	async update(params) {
+		if (!await this.getById({ skillId: params.skillId })) throw new Error(`Skill not found: ${params.skillId}`);
+		this.db.prepare(`
+        UPDATE skills
+        SET is_global_enabled = ?, updated_at = datetime('now')
+        WHERE id = ?
+      `).run(params.dto.isGlobalEnabled ? 1 : 0, params.skillId);
+		const updated = await this.getById({ skillId: params.skillId });
+		if (!updated) throw new Error("Failed to retrieve updated skill");
+		return updated;
+	}
+	/**
+	* Install a skill from various sources.
+	*/
+	async install(params) {
+		const { options } = params;
+		switch (options.source) {
+			case "directory": return this.installFromDirectory(options.path);
+			case "zip": throw new Error("ZIP installation not yet implemented");
+			case "url": throw new Error("URL installation not yet implemented");
+			case "marketplace": throw new Error("Marketplace installation not yet implemented");
+			default: throw new Error(`Unknown install source: ${options.source}`);
+		}
+	}
+	installFromDirectory(sourcePath) {
+		const absPath = resolve(sourcePath);
+		if (!existsSync(absPath)) throw new Error(`Source path does not exist: ${absPath}`);
+		if (!statSync(absPath).isDirectory()) throw new Error(`Source path is not a directory: ${absPath}`);
+		const skillMdPath = join(absPath, "SKILL.md");
+		if (!existsSync(skillMdPath)) throw new Error(`SKILL.md not found in: ${absPath}`);
+		const metadata = parseSkillMetadata(readFileSync(skillMdPath, "utf-8"));
+		const contentHash = computeContentHash(absPath);
+		const folderName = basename(absPath).replace(/[^a-zA-Z0-9_-]/g, "-");
+		if (folderName.length === 0) throw new Error("Invalid folder name generated");
+		if (this.db.prepare("SELECT id FROM skills WHERE folder_name = ?").get(folderName)) throw new Error(`A skill with folder name "${folderName}" is already installed`);
+		const targetDir = join(this.skillsDir, folderName);
+		if (existsSync(targetDir)) rmSync(targetDir, {
+			recursive: true,
+			force: true
+		});
+		this.copyDirectory(absPath, targetDir);
+		const id = `skill-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+		const now = (/* @__PURE__ */ new Date()).toISOString();
+		this.db.prepare(`
+        INSERT INTO skills (
+          id, name, description, folder_name, source, source_url, namespace, author, version,
+          source_tags, content_hash, is_global_enabled, created_at, updated_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `).run(id, metadata.name, metadata.description, folderName, "directory", absPath, metadata.namespace, metadata.author, metadata.version, JSON.stringify(metadata.tags), contentHash, 0, now, now);
+		this.ctx.logger.info("Installed skill from directory", {
+			id,
+			name: metadata.name,
+			folderName
+		});
+		const installed = this.db.prepare(`
+        SELECT
+          id, name, description, folder_name as folderName, source, source_url as sourceUrl,
+          namespace, author, version, source_tags as sourceTags, content_hash as contentHash,
+          is_global_enabled as isGlobalEnabled, created_at as createdAt, updated_at as updatedAt
+        FROM skills
+        WHERE id = ?
+      `).get(id);
+		if (!installed) throw new Error("Failed to retrieve installed skill");
+		return {
+			...installed,
+			sourceTags: JSON.parse(installed.sourceTags),
+			isGlobalEnabled: Boolean(installed.isGlobalEnabled)
+		};
+	}
+	copyDirectory(src, dest) {
+		mkdirSync(dest, { recursive: true });
+		const entries = readdirSync(src);
+		for (const entry of entries) {
+			if (entry === "node_modules" || entry === ".git") continue;
+			const srcPath = join(src, entry);
+			const destPath = join(dest, entry);
+			if (statSync(srcPath).isDirectory()) this.copyDirectory(srcPath, destPath);
+			else {
+				const content = readFileSync(srcPath);
+				writeFileSync(destPath, content);
+			}
+		}
+	}
+	/**
+	* Uninstall a skill.
+	*/
+	async uninstall(params) {
+		const skill = await this.getById({ skillId: params.skillId });
+		if (!skill) throw new Error(`Skill not found: ${params.skillId}`);
+		const targetDir = join(this.skillsDir, skill.folderName);
+		if (existsSync(targetDir)) rmSync(targetDir, {
+			recursive: true,
+			force: true
+		});
+		this.db.prepare("DELETE FROM skills WHERE id = ?").run(params.skillId);
+		this.ctx.logger.info("Uninstalled skill", {
+			id: params.skillId,
+			name: skill.name
+		});
+	}
+	/**
+	* Search marketplace (stub implementation).
+	*/
+	async searchMarketplace(query) {
+		this.ctx.logger.warn("Marketplace search not yet implemented");
+		return {
+			skills: [],
+			total: 0,
+			limit: query.limit ?? 50,
+			offset: query.offset ?? 0
+		};
+	}
+	[Symbol.dispose]() {
+		this.db.close();
+	}
+};
+//#endregion
+//#region lib/types/skills-remote-client.js
+/** Client descriptor contribution for the Control Center skills service. */
+const skillsRemote = {
+	package: "@dsh-control-center/control-center",
+	descriptors: [
+		{
+			method: "list",
+			parameters: ["query"]
+		},
+		{
+			method: "getById",
+			parameters: ["skillId"]
+		},
+		{
+			method: "update",
+			parameters: ["skillId", "dto"]
+		},
+		{
+			method: "install",
+			parameters: ["options"]
+		},
+		{
+			method: "uninstall",
+			parameters: ["skillId"]
+		},
+		{
+			method: "searchMarketplace",
+			parameters: ["query"]
+		}
+	].map(({ method, implementation, parameters }) => ({
+		id: `@dsh-control-center/control-center#controlCenterSkills/${method}`,
+		service: "controlCenterSkills",
+		namespace: "controlCenterSkills",
+		method,
+		...implementation === void 0 ? {} : { implementation },
+		invocation: { kind: "direct" },
+		parameters: parameters.map((name) => ({
+			name,
+			wire: name,
+			source: "json",
+			codec: STRICT_JSON
+		})),
+		result: STRICT_JSON
+	}))
+};
+//#endregion
 //#region lib/types/secret-schema.js
 /** Fail-closed audit for settings schemas that contain secret-role nodes. */
 const SAFE_CONTAINERS = /* @__PURE__ */ new Set([
@@ -1610,6 +1964,7 @@ function apply(ctx) {
 	new TranslationService(ctx);
 	new PaintingService(ctx);
 	new KnowledgeService(ctx);
+	new SkillsService(ctx);
 	const contributions = [{
 		package: "@dsh-control-center/control-center",
 		face: "host",
@@ -1622,7 +1977,8 @@ function apply(ctx) {
 		invocations: [
 			...translationRemote.descriptors,
 			...paintingRemote.descriptors,
-			...knowledgeRemote.descriptors
+			...knowledgeRemote.descriptors,
+			...skillsRemote.descriptors
 		]
 	}];
 	for (const contribution of contributions) ctx.typert.register(contribution);
@@ -1631,4 +1987,4 @@ function apply(ctx) {
 	});
 }
 //#endregion
-export { KnowledgeService, PaintingService, TranslationService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, inject, name };
+export { KnowledgeService, PaintingService, SkillsService, TranslationService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, inject, name };

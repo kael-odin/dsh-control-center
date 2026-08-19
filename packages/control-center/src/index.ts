@@ -10,6 +10,8 @@ import PaintingService from './painting.ts'
 import paintingRemote from './painting-remote-client.ts'
 import KnowledgeService from './knowledge.ts'
 import knowledgeRemote from './knowledge-remote-client.ts'
+import { SkillsService } from './skills.ts'
+import skillsRemote from './skills-remote-client.ts'
 
 const ONBOARDING_SETTINGS_NAMESPACE = 'ui-onboarding'
 
@@ -32,14 +34,20 @@ export function apply(ctx: Context): void {
   new TranslationService(ctx)
   new PaintingService(ctx)
   new KnowledgeService(ctx)
+  new SkillsService(ctx)
   const contributions: readonly TypertContribution[] = [
     {
       package: '@dsh-control-center/control-center',
       face: 'host',
       schemas: [],
       model: { services: [], events: [], objects: [] },
-      invocations: [...translationRemote.descriptors, ...paintingRemote.descriptors, ...knowledgeRemote.descriptors],
-    },
+      invocations: [
+        ...translationRemote.descriptors,
+        ...paintingRemote.descriptors,
+        ...knowledgeRemote.descriptors,
+        ...skillsRemote.descriptors
+      ]
+    }
   ]
   for (const contribution of contributions) ctx.typert.register(contribution)
   ctx.inject(['settings'], (settingsCtx) => {
@@ -57,5 +65,7 @@ export { PaintingService } from './painting.ts'
 export type * from './painting-types.ts'
 export { KnowledgeService } from './knowledge.ts'
 export type * from './knowledge-types.ts'
+export { SkillsService } from './skills.ts'
+export type * from './skills-types.ts'
 export { assertSecretSchemaSafe, auditSecretSchema } from './secret-schema.ts'
 export type { SecretSchemaViolation } from './secret-schema.ts'

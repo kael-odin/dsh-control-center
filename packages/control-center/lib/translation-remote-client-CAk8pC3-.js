@@ -62,4 +62,4 @@ const translationRemote = {
 	}))
 };
 //#endregion
-export { translationRemote as t };
+export { STRICT_JSON as n, translationRemote as t };
