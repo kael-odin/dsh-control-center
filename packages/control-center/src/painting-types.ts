@@ -82,7 +82,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
       start(request: PaintingRequest): Promise<{ ok: true; value: PaintingStartResult } | { ok: false; error: { code: string; message: string; details: object } }>
       get(jobId: string): Promise<{ ok: true; value: PaintingJobView } | { ok: false; error: { code: string; message: string; details: object } }>
       cancel(jobId: string): Promise<{ ok: true; value: PaintingJobView } | { ok: false; error: { code: string; message: string; details: object } }>
-      listHistory(cursor: string | null, limit: number): Promise<{ ok: true; value: PaintingHistoryPage } | { ok: false; error: { code: string; message: string; details: object } }>
+      history(cursor: string | null, limit: number): Promise<{ ok: true; value: PaintingHistoryPage } | { ok: false; error: { code: string; message: string; details: object } }>
       deleteHistory(id: PaintingHistoryId): Promise<{ ok: true; value: { absent: true } } | { ok: false; error: { code: string; message: string; details: object } }>
     }
   }

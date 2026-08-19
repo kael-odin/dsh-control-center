@@ -111,7 +111,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            listHistory(cursor: string | null, limit: number): Promise<{
+            history(cursor: string | null, limit: number): Promise<{
                 ok: true;
                 value: PaintingHistoryPage;
             } | {

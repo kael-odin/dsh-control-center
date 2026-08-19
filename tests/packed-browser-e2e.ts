@@ -173,6 +173,36 @@ async function main(): Promise<void> {
       throw new Error(`translation response did not render; fixture: ${JSON.stringify(fixture.requests)}; browser: ${errors.join(' | ')}; body: ${body.slice(-3000)}`, { cause: error })
     }
     await page.getByRole('heading', { name: '翻译历史' }).waitFor({ timeout: 15_000 })
+
+    // Painting workspace must render, generate against the real provider, and show an image.
+    const paintingNav = page.getByRole('button', { name: '绘画' })
+    await paintingNav.waitFor({ timeout: 15_000 })
+    await paintingNav.click()
+    try {
+      await page.getByRole('heading', { name: '绘画', exact: true }).waitFor({ timeout: 15_000 })
+    } catch (error) {
+      const body = await page.locator('body').innerText().catch(() => '')
+      const surface = await page.evaluate(() => {
+        const root = window as unknown as { __ccPainting?: string; __ccErrors?: string[] }
+        return { paintingConnected: root.__ccPainting, errors: root.__ccErrors }
+      }).catch(() => null)
+      throw new Error(`painting workspace did not render; body: ${body.slice(-2500)}; diagnostics: ${JSON.stringify(surface)}; browser errors: ${errors.join(' | ')}`, { cause: error })
+    }
+    await page.getByLabel('待翻译文本').waitFor({ state: 'hidden', timeout: 15_000 }).catch(() => {})
+    await expectPoll(async () => await page.getByLabel('图像模型').count() > 0, true, 15_000)
+    await page.getByLabel('图像模型').selectOption({ label: 'control-center-e2e · Control Center Alpha' })
+    await page.getByLabel('绘画提示词').fill('a painting fixture image')
+    const generateButton = page.getByRole('main').getByRole('button', { name: '生成', exact: true })
+    await generateButton.waitFor({ state: 'visible', timeout: 15_000 })
+    await expectPoll(async () => await generateButton.isEnabled(), true, 15_000)
+    await generateButton.click()
+    try {
+      await page.getByRole('img', { name: 'a painting fixture image' }).first().waitFor({ timeout: 30_000 })
+    } catch (error) {
+      const body = await page.locator('body').innerText()
+      throw new Error(`painting gallery did not render; fixture: ${JSON.stringify(fixture.requests)}; browser: ${errors.join(' | ')}; body: ${body.slice(-3000)}`, { cause: error })
+    }
+    await page.getByRole('heading', { name: '绘画历史' }).waitFor({ timeout: 15_000 })
     await page.getByRole('button', { name: '返回对话' }).click()
     await page.getByRole('button', { name: '发送消息' }).waitFor({ timeout: 15_000 })
 

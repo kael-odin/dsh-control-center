@@ -35,14 +35,7 @@ export function apply(ctx: Context): void {
       face: 'host',
       schemas: [],
       model: { services: [], events: [], objects: [] },
-      invocations: translationRemote.descriptors,
-    },
-    {
-      package: '@dsh-control-center/control-center',
-      face: 'host',
-      schemas: [],
-      model: { services: [], events: [], objects: [] },
-      invocations: paintingRemote.descriptors,
+      invocations: [...translationRemote.descriptors, ...paintingRemote.descriptors],
     },
   ]
   for (const contribution of contributions) ctx.typert.register(contribution)

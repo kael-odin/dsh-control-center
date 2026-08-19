@@ -88,15 +88,17 @@ export function apply(ctx: ClientContext): void {
     },
   }
   ctx.effect(async () => {
-    const dispose = await remote.$mount(translationRemote)
+    // The client Remote registry keys contributions by package, so both
+    // namespaces must be mounted through one merged contribution.
+    const controlCenterRemote: typeof translationRemote = {
+      package: '@dsh-control-center/control-center',
+      descriptors: [...translationRemote.descriptors, ...paintingRemote.descriptors],
+    }
+    const dispose = await remote.$mount(controlCenterRemote)
     translation = ctx.get('remote.controlCenterTranslation') as NonNullable<typeof remote.controlCenterTranslation>
-    return dispose
-  }, 'control-center: translation Remote namespace')
-  ctx.effect(async () => {
-    const dispose = await remote.$mount(paintingRemote)
     painting = ctx.get('remote.controlCenterPainting') as NonNullable<typeof remote.controlCenterPainting>
     return dispose
-  }, 'control-center: painting Remote namespace')
+  }, 'control-center: control-center Remote namespaces')
   ctx.effect(() => ctx.locale.register(SHELL_NS, { zh: shellZh, en: shellEn }), 'control-center: shell dictionaries')
   ctx.effect(() => ctx.locale.register(MODELS_NS, { zh: modelsZh, en: modelsEn }), 'control-center: model dictionaries')
   const shellT = ctx.locale.bind(SHELL_NS)

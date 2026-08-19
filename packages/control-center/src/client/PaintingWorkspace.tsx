@@ -52,7 +52,7 @@ export function PaintingWorkspace({ getPainting, usePaintingReady, close }: Pain
         }
       })
       .catch(reason => { if (active) setError(reason instanceof Error ? reason.message : String(reason)) })
-    void painting.listHistory(null, 20)
+    void painting.history(null, 20)
       .then(historyResult => {
         if (!active) return
         if (!historyResult.ok) throw new Error(historyResult.error.message)
@@ -70,7 +70,7 @@ export function PaintingWorkspace({ getPainting, usePaintingReady, close }: Pain
         if (!result.ok) { setError(result.error.message); return }
         setJob(result.value)
         if (result.value.status === 'completed') {
-          void painting.listHistory(null, 20).then(historyResult => {
+          void painting.history(null, 20).then(historyResult => {
             if (historyResult.ok) {
               setHistory(historyResult.value.items)
               setNextCursor(historyResult.value.nextCursor ?? null)
@@ -185,7 +185,7 @@ export function PaintingWorkspace({ getPainting, usePaintingReady, close }: Pain
         {nextCursor === null ? null : (
           <button type="button" className={css.secondary} onClick={() => {
             if (painting === undefined) return
-            void painting.listHistory(nextCursor, 20).then(result => {
+            void painting.history(nextCursor, 20).then(result => {
               if (!result.ok) { setError(result.error.message); return }
               setHistory(current => [...current, ...result.value.items])
               setNextCursor(result.value.nextCursor ?? null)

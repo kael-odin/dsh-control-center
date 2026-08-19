@@ -54,6 +54,17 @@ export async function startOpenAiFixture(): Promise<OpenAiFixture> {
       ].join('\n\n'))
       return
     }
+    if (request.method === 'POST' && path === '/v1/images/generations') {
+      const body = JSON.parse(await readBody(request)) as { model?: unknown }
+      requests.push({ path, body })
+      // A 1x1 PNG (unique per request so download/reuse are exercised distinctly).
+      const png = Buffer.from(
+        'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
+        'base64',
+      )
+      sendJson(response, { data: [{ b64_json: png.toString('base64') }] })
+      return
+    }
     response.writeHead(404)
     response.end()
   })

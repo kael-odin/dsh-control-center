@@ -141,21 +141,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var PaintingWorkspace_module_css_default = {
-			"history": "_-UrTq_history",
-			"secondary": "_-UrTq_secondary",
-			"empty": "_-UrTq_empty",
+			"header": "_-UrTq_header",
+			"controls": "_-UrTq_controls",
 			"root": "_-UrTq_root",
+			"composer": "_-UrTq_composer",
+			"gallery": "_-UrTq_gallery",
+			"error": "_-UrTq_error",
+			"empty": "_-UrTq_empty",
 			"historyImages": "_-UrTq_historyImages",
 			"eyebrow": "_-UrTq_eyebrow",
-			"figure": "_-UrTq_figure",
+			"secondary": "_-UrTq_secondary",
 			"progress": "_-UrTq_progress",
-			"header": "_-UrTq_header",
-			"composer": "_-UrTq_composer",
+			"history": "_-UrTq_history",
+			"figure": "_-UrTq_figure",
 			"link": "_-UrTq_link",
-			"controls": "_-UrTq_controls",
-			"historyItem": "_-UrTq_historyItem",
-			"error": "_-UrTq_error",
-			"gallery": "_-UrTq_gallery"
+			"historyItem": "_-UrTq_historyItem"
 		};
 		//#endregion
 		//#region lib/types/client/PaintingWorkspace.js
@@ -198,7 +198,7 @@ window.__ModuleLoader__.load({
 				}).catch((reason) => {
 					if (active) setError(reason instanceof Error ? reason.message : String(reason));
 				});
-				painting.listHistory(null, 20).then((historyResult) => {
+				painting.history(null, 20).then((historyResult) => {
 					if (!active) return;
 					if (!historyResult.ok) throw new Error(historyResult.error.message);
 					setHistory(historyResult.value.items);
@@ -223,7 +223,7 @@ window.__ModuleLoader__.load({
 							return;
 						}
 						setJob(result.value);
-						if (result.value.status === "completed") painting.listHistory(null, 20).then((historyResult) => {
+						if (result.value.status === "completed") painting.history(null, 20).then((historyResult) => {
 							if (historyResult.ok) {
 								setHistory(historyResult.value.items);
 								setNextCursor(historyResult.value.nextCursor ?? null);
@@ -460,7 +460,7 @@ window.__ModuleLoader__.load({
 								className: PaintingWorkspace_module_css_default.secondary,
 								onClick: () => {
 									if (painting === void 0) return;
-									painting.listHistory(nextCursor, 20).then((result) => {
+									painting.history(nextCursor, 20).then((result) => {
 										if (!result.ok) {
 											setError(result.error.message);
 											return;
@@ -503,28 +503,28 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
-			"navCell": "_4STY0G_navCell",
-			"hiddenLabel": "_4STY0G_hiddenLabel",
-			"navGroup": "_4STY0G_navGroup",
-			"header": "_4STY0G_header",
-			"navGroupTitle": "_4STY0G_navGroupTitle",
-			"actions": "_4STY0G_actions",
-			"rail": "_4STY0G_rail",
-			"navTitle": "_4STY0G_navTitle",
-			"triggerLabel": "_4STY0G_triggerLabel",
-			"navList": "_4STY0G_navList",
-			"navIcon": "_4STY0G_navIcon",
 			"panel": "_4STY0G_panel",
-			"active": "_4STY0G_active",
-			"content": "_4STY0G_content",
-			"options": "_4STY0G_options",
 			"trigger": "_4STY0G_trigger",
-			"overlay": "_4STY0G_overlay",
-			"mask": "_4STY0G_mask",
-			"nav": "_4STY0G_nav",
 			"navScroll": "_4STY0G_navScroll",
+			"nav": "_4STY0G_nav",
+			"navCell": "_4STY0G_navCell",
+			"options": "_4STY0G_options",
+			"close": "_4STY0G_close",
+			"triggerLabel": "_4STY0G_triggerLabel",
+			"actions": "_4STY0G_actions",
+			"navGroupTitle": "_4STY0G_navGroupTitle",
+			"overlay": "_4STY0G_overlay",
+			"rail": "_4STY0G_rail",
+			"navGroup": "_4STY0G_navGroup",
+			"navTitle": "_4STY0G_navTitle",
+			"active": "_4STY0G_active",
 			"navLabel": "_4STY0G_navLabel",
-			"close": "_4STY0G_close"
+			"content": "_4STY0G_content",
+			"navIcon": "_4STY0G_navIcon",
+			"mask": "_4STY0G_mask",
+			"navList": "_4STY0G_navList",
+			"hiddenLabel": "_4STY0G_hiddenLabel",
+			"header": "_4STY0G_header"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsRoot.js
@@ -774,8 +774,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsDocumentAction_module_css_default = {
-			"action": "SgSrUG_action",
-			"error": "SgSrUG_error"
+			"error": "SgSrUG_error",
+			"action": "SgSrUG_action"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsDocumentAction.js
@@ -992,69 +992,69 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelsSection_module_css_default = {
-			"candidateList": "tKsOKa_candidateList",
-			"setupCard": "tKsOKa_setupCard",
-			"candidate": "tKsOKa_candidate",
-			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
-			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
-			"modelSelectionTitle": "tKsOKa_modelSelectionTitle",
-			"credentialDotMissing": "tKsOKa_credentialDotMissing",
-			"title": "tKsOKa_title",
+			"editorTitle": "tKsOKa_editorTitle",
+			"modelAdvanced": "tKsOKa_modelAdvanced",
 			"iconButton": "tKsOKa_iconButton",
+			"savedNotice": "tKsOKa_savedNotice",
 			"rowIdentity": "tKsOKa_rowIdentity",
+			"credentialDotMissing": "tKsOKa_credentialDotMissing",
 			"advancedHint": "tKsOKa_advancedHint",
+			"modelEmpty": "tKsOKa_modelEmpty",
+			"error": "tKsOKa_error",
 			"rowActions": "tKsOKa_rowActions",
-			"addButton": "tKsOKa_addButton",
-			"modelCatalog": "tKsOKa_modelCatalog",
-			"intro": "tKsOKa_intro",
-			"deleteDialog": "tKsOKa_deleteDialog",
-			"linkButton": "tKsOKa_linkButton",
-			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
-			"editorRoute": "tKsOKa_editorRoute",
-			"secondaryButton": "tKsOKa_secondaryButton",
-			"customizedBody": "tKsOKa_customizedBody",
-			"customized": "tKsOKa_customized",
-			"deleteConfirm": "tKsOKa_deleteConfirm",
-			"candidateId": "tKsOKa_candidateId",
-			"modelList": "tKsOKa_modelList",
-			"rowHead": "tKsOKa_rowHead",
-			"modelListHead": "tKsOKa_modelListHead",
-			"addModelButton": "tKsOKa_addModelButton",
+			"rows": "tKsOKa_rows",
+			"editorHeader": "tKsOKa_editorHeader",
+			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
 			"credentialDot": "tKsOKa_credentialDot",
-			"input": "tKsOKa_input",
-			"dangerButton": "tKsOKa_dangerButton",
-			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
-			"fetchDialog": "tKsOKa_fetchDialog",
+			"fieldLabel": "tKsOKa_fieldLabel",
+			"secondaryButton": "tKsOKa_secondaryButton",
 			"addActions": "tKsOKa_addActions",
+			"customized": "tKsOKa_customized",
+			"addButton": "tKsOKa_addButton",
+			"iconButtonDanger": "tKsOKa_iconButtonDanger",
+			"notice": "tKsOKa_notice",
+			"candidate": "tKsOKa_candidate",
+			"candidateId": "tKsOKa_candidateId",
+			"rowName": "tKsOKa_rowName",
+			"candidateLabel": "tKsOKa_candidateLabel",
+			"setupCard": "tKsOKa_setupCard",
+			"title": "tKsOKa_title",
+			"candidateList": "tKsOKa_candidateList",
+			"modelEntry": "tKsOKa_modelEntry",
+			"modelListHead": "tKsOKa_modelListHead",
+			"field": "tKsOKa_field",
+			"linkButton": "tKsOKa_linkButton",
+			"addModelButton": "tKsOKa_addModelButton",
+			"primaryButton": "tKsOKa_primaryButton",
+			"input": "tKsOKa_input",
+			"rowCard": "tKsOKa_rowCard",
+			"editorRoute": "tKsOKa_editorRoute",
+			"modelSelectionPanel": "tKsOKa_modelSelectionPanel",
+			"modelList": "tKsOKa_modelList",
+			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
+			"intro": "tKsOKa_intro",
+			"editorActions": "tKsOKa_editorActions",
+			"addBlock": "tKsOKa_addBlock",
 			"rowTag": "tKsOKa_rowTag",
 			"modelRow": "tKsOKa_modelRow",
-			"notice": "tKsOKa_notice",
-			"editorHeader": "tKsOKa_editorHeader",
-			"editor": "tKsOKa_editor",
-			"savedNotice": "tKsOKa_savedNotice",
-			"addCard": "tKsOKa_addCard",
-			"modelFieldLabel": "tKsOKa_modelFieldLabel",
-			"selectInput": "tKsOKa_selectInput",
-			"error": "tKsOKa_error",
-			"modelAdvanced": "tKsOKa_modelAdvanced",
-			"modelField": "tKsOKa_modelField",
-			"editorActions": "tKsOKa_editorActions",
 			"customizedSummary": "tKsOKa_customizedSummary",
-			"rowName": "tKsOKa_rowName",
-			"iconButtonDanger": "tKsOKa_iconButtonDanger",
-			"addBlock": "tKsOKa_addBlock",
-			"hiddenLabel": "tKsOKa_hiddenLabel",
-			"editorTitle": "tKsOKa_editorTitle",
-			"fieldLabel": "tKsOKa_fieldLabel",
-			"rowCard": "tKsOKa_rowCard",
+			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
+			"fetchDialog": "tKsOKa_fetchDialog",
+			"addCard": "tKsOKa_addCard",
+			"deleteDialog": "tKsOKa_deleteDialog",
+			"editor": "tKsOKa_editor",
+			"selectInput": "tKsOKa_selectInput",
+			"modelSelectionTitle": "tKsOKa_modelSelectionTitle",
+			"modelFieldLabel": "tKsOKa_modelFieldLabel",
+			"modelCatalog": "tKsOKa_modelCatalog",
+			"dangerButton": "tKsOKa_dangerButton",
+			"customizedBody": "tKsOKa_customizedBody",
+			"rowHead": "tKsOKa_rowHead",
+			"deleteConfirm": "tKsOKa_deleteConfirm",
 			"section": "tKsOKa_section",
-			"candidateLabel": "tKsOKa_candidateLabel",
-			"rows": "tKsOKa_rows",
-			"modelEmpty": "tKsOKa_modelEmpty",
-			"field": "tKsOKa_field",
-			"modelEntry": "tKsOKa_modelEntry",
-			"primaryButton": "tKsOKa_primaryButton",
-			"modelSelectionPanel": "tKsOKa_modelSelectionPanel"
+			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
+			"modelField": "tKsOKa_modelField",
+			"hiddenLabel": "tKsOKa_hiddenLabel"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -4170,9 +4170,9 @@ window.__ModuleLoader__.load({
 		}
 		var OnboardingModal_module_css_default = {
 			"dialog": "C_CJ_a_dialog",
+			"title": "C_CJ_a_title",
 			"content": "C_CJ_a_content",
-			"body": "C_CJ_a_body",
-			"title": "C_CJ_a_title"
+			"body": "C_CJ_a_body"
 		};
 		//#endregion
 		//#region lib/types/client/OnboardingModal.js
@@ -4231,8 +4231,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var DeepSeekOnboardingDialog_module_css_default = {
-			"description": "oxcHWa_description",
-			"editor": "oxcHWa_editor"
+			"editor": "oxcHWa_editor",
+			"description": "oxcHWa_description"
 		};
 		//#endregion
 		//#region lib/types/client/DeepSeekOnboardingDialog.js
@@ -4322,10 +4322,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WelcomeNotice_module_css_default = {
-			"actions": "RFswhG_actions",
+			"primary": "RFswhG_primary",
 			"error": "RFswhG_error",
-			"copy": "RFswhG_copy",
-			"primary": "RFswhG_primary"
+			"actions": "RFswhG_actions",
+			"copy": "RFswhG_copy"
 		};
 		//#endregion
 		//#region lib/types/client/WelcomeNotice.js
@@ -4788,13 +4788,13 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProductWorkspaceSurface_module_css_default = {
-			"icon": "mzcFbW_icon",
-			"identity": "mzcFbW_identity",
-			"eyebrow": "mzcFbW_eyebrow",
-			"header": "mzcFbW_header",
 			"root": "mzcFbW_root",
-			"close": "mzcFbW_close",
-			"body": "mzcFbW_body"
+			"header": "mzcFbW_header",
+			"identity": "mzcFbW_identity",
+			"body": "mzcFbW_body",
+			"icon": "mzcFbW_icon",
+			"eyebrow": "mzcFbW_eyebrow",
+			"close": "mzcFbW_close"
 		};
 		//#endregion
 		//#region lib/types/client/ProductWorkspaceSurface.js
@@ -4842,20 +4842,20 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TranslationWorkspace_module_css_default = {
-			"panes": "_8lesPa_panes",
+			"header": "_8lesPa_header",
 			"history": "_8lesPa_history",
 			"historyItem": "_8lesPa_historyItem",
-			"root": "_8lesPa_root",
-			"pane": "_8lesPa_pane",
-			"swap": "_8lesPa_swap",
-			"toolbar": "_8lesPa_toolbar",
-			"header": "_8lesPa_header",
-			"actions": "_8lesPa_actions",
+			"panes": "_8lesPa_panes",
 			"secondary": "_8lesPa_secondary",
+			"error": "_8lesPa_error",
+			"toolbar": "_8lesPa_toolbar",
+			"root": "_8lesPa_root",
+			"actions": "_8lesPa_actions",
+			"empty": "_8lesPa_empty",
 			"eyebrow": "_8lesPa_eyebrow",
 			"link": "_8lesPa_link",
-			"empty": "_8lesPa_empty",
-			"error": "_8lesPa_error"
+			"swap": "_8lesPa_swap",
+			"pane": "_8lesPa_pane"
 		};
 		//#endregion
 		//#region lib/types/client/TranslationWorkspace.js
@@ -5236,15 +5236,15 @@ window.__ModuleLoader__.load({
 				}
 			};
 			ctx.effect(async () => {
-				const dispose = await remote.$mount(translationRemote);
+				const controlCenterRemote = {
+					package: "@dsh-control-center/control-center",
+					descriptors: [...translationRemote.descriptors, ...paintingRemote.descriptors]
+				};
+				const dispose = await remote.$mount(controlCenterRemote);
 				translation = ctx.get("remote.controlCenterTranslation");
-				return dispose;
-			}, "control-center: translation Remote namespace");
-			ctx.effect(async () => {
-				const dispose = await remote.$mount(paintingRemote);
 				painting = ctx.get("remote.controlCenterPainting");
 				return dispose;
-			}, "control-center: painting Remote namespace");
+			}, "control-center: control-center Remote namespaces");
 			ctx.effect(() => ctx.locale.register(SHELL_NS, {
 				zh: zh$1,
 				en: en$1
