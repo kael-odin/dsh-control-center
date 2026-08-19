@@ -12,14 +12,17 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      # The runner workspace is named after this repo, so the repo itself is
+      # checked out into a control-center/ subdir and the harness lands as its
+      # SIBLING (../deepseek-harness) — exactly the layout the tests and the
+      # vitest typert-protocol alias expect.
       - uses: actions/checkout@v4
         with:
+          path: control-center
           fetch-depth: 0
 
-      # The tests compose overlay patches from and alias typert-protocol to the
-      # sibling harness checkout (vitest.config.ts ../deepseek-harness). The
-      # rc.7 baseline predates the bundle overlay files; the first ref carrying
-      # them is the npm-public merge, so checkout main and detach to that SHA.
+      # The rc.7 baseline predates the bundle overlay files; the first ref
+      # carrying them is the npm-public merge, so checkout main and detach.
       - name: Checkout DeepSeek Harness
         uses: actions/checkout@v4
         with:
@@ -30,12 +33,6 @@ jobs:
       - name: Detach harness to the npm-public merge
         working-directory: deepseek-harness
         run: git checkout 47f943859b
-
-      - name: Debug harness overlay presence
-        run: |
-          pwd
-          ls -la deepseek-harness/packages/bundle/base/ | head -8
-          git -C deepseek-harness rev-parse HEAD
 
       - uses: pnpm/action-setup@v4
 
