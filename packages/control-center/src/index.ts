@@ -28,6 +28,8 @@ import { DataService } from './data.ts'
 import dataRemote from './data-remote-client.ts'
 import { SystemService } from './system.ts'
 import systemRemote from './system-remote-client.ts'
+import { TasksService } from './tasks.ts'
+import tasksRemote from './tasks-remote-client.ts'
 
 const ONBOARDING_SETTINGS_NAMESPACE = 'ui-onboarding'
 
@@ -59,6 +61,7 @@ export function apply(ctx: Context): void {
   new UsageService(ctx)
   new DataService(ctx)
   new SystemService(ctx)
+  new TasksService(ctx)
   const contributions: readonly TypertContribution[] = [
     {
       package: '@dsh-control-center/control-center',
@@ -77,7 +80,8 @@ export function apply(ctx: Context): void {
         ...fileProcessingRemote.descriptors,
         ...usageRemote.descriptors,
         ...dataRemote.descriptors,
-        ...systemRemote.descriptors
+        ...systemRemote.descriptors,
+        ...tasksRemote.descriptors
       ]
     }
   ]
@@ -115,5 +119,7 @@ export { DataService } from './data.ts'
 export type * from './data-types.ts'
 export { SystemService } from './system.ts'
 export type * from './system-types.ts'
+export { TasksService, cronMatches } from './tasks.ts'
+export type * from './tasks-types.ts'
 export { assertSecretSchemaSafe, auditSecretSchema } from './secret-schema.ts'
 export type { SecretSchemaViolation } from './secret-schema.ts'

@@ -3950,6 +3950,262 @@ const systemRemote = {
 	}))
 };
 //#endregion
+//#region lib/types/tasks.js
+/**
+* Scheduled Tasks Host service.
+*
+* Persisted cron tasks (settings namespace) with a per-minute host scheduler.
+* Action kinds:
+* - `command`: execute a shell command through the DSH subprocess service
+*   (capability-gated: reports a precise error when subprocess is absent)
+* - `notification`: record a run entry in the task history (self-contained)
+*/
+const TASKS_NAMESPACE = settingsNamespace("control-center-tasks");
+const TICK_MS = 6e4;
+const MAX_HISTORY = 50;
+var TasksService = class extends Service {
+	static inject = ["settings"];
+	typertRemote = bindTypertRemote(this, "controlCenterTasks");
+	scope;
+	timer;
+	ranThisMinute = /* @__PURE__ */ new Set();
+	lastTickMinute;
+	constructor(ctx, _config) {
+		super(ctx, "controlCenterTasks");
+		this.scope = ctx.settings.register(TASKS_NAMESPACE, Schema.object({
+			tasks: Schema.array(Schema.object({
+				id: Schema.string(),
+				name: Schema.string(),
+				schedule: Schema.string(),
+				action: Schema.union([Schema.object({
+					kind: Schema.const("command"),
+					command: Schema.string()
+				}), Schema.object({
+					kind: Schema.const("notification"),
+					message: Schema.string()
+				})]),
+				enabled: Schema.boolean().default(true),
+				lastRunAt: Schema.string(),
+				createdAt: Schema.string()
+			})).default([]),
+			history: Schema.array(Schema.object({
+				taskId: Schema.string(),
+				ranAt: Schema.string(),
+				ok: Schema.boolean(),
+				detail: Schema.string()
+			})).default([])
+		}), { base: {
+			tasks: [],
+			history: []
+		} });
+		this.timer = setInterval(() => {
+			this.tick();
+		}, TICK_MS);
+	}
+	async list() {
+		return this.scope.get().tasks;
+	}
+	async listHistory() {
+		return this.scope.get().history;
+	}
+	async create(input) {
+		if (!isValidCron(input.schedule)) throw new Error(`Invalid cron schedule: ${input.schedule} (expected 5 fields: minute hour day month weekday)`);
+		const task = {
+			id: `task-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+			name: input.name,
+			schedule: input.schedule,
+			action: input.action,
+			enabled: true,
+			lastRunAt: null,
+			createdAt: (/* @__PURE__ */ new Date()).toISOString()
+		};
+		await this.scope.update({ tasks: [...this.scope.get().tasks, task] });
+		this.ctx.logger.info("Created scheduled task", {
+			id: task.id,
+			name: task.name,
+			schedule: task.schedule
+		});
+		return task;
+	}
+	async update(taskId, patch) {
+		const tasks = this.scope.get().tasks;
+		const index = tasks.findIndex((task) => task.id === taskId);
+		if (index === -1) throw new Error(`Task not found: ${taskId}`);
+		const task = tasks[index];
+		if (task === void 0) throw new Error(`Task not found: ${taskId}`);
+		if (patch.schedule !== void 0 && !isValidCron(patch.schedule)) throw new Error(`Invalid cron schedule: ${patch.schedule}`);
+		const updated = {
+			...task,
+			name: patch.name ?? task.name,
+			schedule: patch.schedule ?? task.schedule,
+			action: patch.action ?? task.action,
+			enabled: patch.enabled ?? task.enabled
+		};
+		const next = [...tasks];
+		next[index] = updated;
+		await this.scope.update({ tasks: next });
+		return updated;
+	}
+	async remove(taskId) {
+		const tasks = this.scope.get().tasks;
+		const next = tasks.filter((task) => task.id !== taskId);
+		if (next.length === tasks.length) return { absent: true };
+		await this.scope.update({ tasks: next });
+		return { absent: true };
+	}
+	/** Fire every due enabled task (per-minute scheduler tick). */
+	async tick() {
+		const now = /* @__PURE__ */ new Date();
+		const settings = this.scope.get();
+		const minuteKey = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}-${now.getHours()}-${now.getMinutes()}`;
+		if (this.lastTickMinute !== minuteKey) {
+			this.ranThisMinute.clear();
+			this.lastTickMinute = minuteKey;
+		}
+		const due = settings.tasks.filter((task) => task.enabled && cronMatches(task.schedule, now));
+		for (const task of due) {
+			if (this.ranThisMinute.has(task.id)) continue;
+			this.ranThisMinute.add(task.id);
+			this.runTask(task.id);
+		}
+	}
+	async runTask(taskId) {
+		const task = this.scope.get().tasks.find((candidate) => candidate.id === taskId);
+		if (task === void 0) return;
+		const ranAt = (/* @__PURE__ */ new Date()).toISOString();
+		let ok = true;
+		let detail = "ok";
+		try {
+			if (task.action.kind === "notification") detail = `notification: ${task.action.message}`;
+			else {
+				const subprocess = this.ctx.get("subprocess");
+				if (subprocess === void 0) throw new Error("subprocess service is not available in this runtime");
+				const result = await subprocess.run?.({
+					command: task.action.command,
+					timeout: 6e4
+				});
+				if (result === void 0 || !result.ok) throw new Error(`command failed: ${result?.stderr ?? "no result"}`);
+			}
+		} catch (error) {
+			ok = false;
+			detail = error instanceof Error ? error.message : String(error);
+			this.ctx.logger.error("Scheduled task failed", {
+				taskId: task.id,
+				error: detail
+			});
+		}
+		const tasks = this.scope.get().tasks;
+		const index = tasks.findIndex((candidate) => candidate.id === taskId);
+		if (index !== -1 && tasks[index] !== void 0) {
+			const next = [...tasks];
+			next[index] = {
+				...tasks[index],
+				lastRunAt: ranAt
+			};
+			const history = [{
+				taskId,
+				ranAt,
+				ok,
+				detail
+			}, ...this.scope.get().history].slice(0, MAX_HISTORY);
+			await this.scope.update({
+				tasks: next,
+				history
+			});
+		}
+	}
+	[Symbol.dispose]() {
+		if (this.timer !== void 0) {
+			clearInterval(this.timer);
+			this.timer = void 0;
+		}
+	}
+};
+/** Match a 5-field cron (minute hour dom month dow) against a date. */
+function cronMatches(cron, date) {
+	const fields = cron.trim().split(/\s+/);
+	if (fields.length !== 5) return false;
+	const minute = fields[0] ?? "";
+	const hour = fields[1] ?? "";
+	const dom = fields[2] ?? "";
+	const month = fields[3] ?? "";
+	const dow = fields[4] ?? "";
+	if (!fieldMatches(minute, date.getMinutes())) return false;
+	if (!fieldMatches(hour, date.getHours())) return false;
+	if (!fieldMatches(dom, date.getDate())) return false;
+	if (!fieldMatches(month, date.getMonth() + 1)) return false;
+	if (!fieldMatches(dow, date.getDay())) return false;
+	return true;
+}
+function fieldMatches(field, value) {
+	if (field === "*") return true;
+	for (const part of field.split(",")) {
+		const segments = part.split("/");
+		const base = segments[0] ?? "";
+		const stepRaw = segments[1];
+		const step = stepRaw === void 0 ? 1 : Number.parseInt(stepRaw, 10);
+		if (!Number.isFinite(step) || step < 1) continue;
+		if (base === "*") {
+			if (value % step === 0) return true;
+			continue;
+		}
+		const segments2 = base.split("-");
+		const startRaw = segments2[0] ?? "";
+		const endRaw = segments2[1];
+		const start = Number.parseInt(startRaw, 10);
+		const end = endRaw === void 0 ? start : Number.parseInt(endRaw, 10);
+		if (Number.isFinite(start) && Number.isFinite(end) && value >= start && value <= end && (value - start) % step === 0) return true;
+	}
+	return false;
+}
+function isValidCron(cron) {
+	const fields = cron.trim().split(/\s+/);
+	return fields.length === 5 && fields.every((field) => field.length > 0);
+}
+//#endregion
+//#region lib/types/tasks-remote-client.js
+/** Client descriptor contribution for the Control Center tasks service. */
+const tasksRemote = {
+	package: "@dsh-control-center/control-center",
+	descriptors: [
+		{
+			method: "list",
+			parameters: []
+		},
+		{
+			method: "listHistory",
+			parameters: []
+		},
+		{
+			method: "create",
+			parameters: ["input"]
+		},
+		{
+			method: "update",
+			parameters: ["taskId", "patch"]
+		},
+		{
+			method: "removeTask",
+			implementation: "remove",
+			parameters: ["taskId"]
+		}
+	].map(({ method, implementation, parameters }) => ({
+		id: `@dsh-control-center/control-center#controlCenterTasks/${method}`,
+		service: "controlCenterTasks",
+		namespace: "controlCenterTasks",
+		method,
+		...implementation === void 0 ? {} : { implementation },
+		invocation: { kind: "direct" },
+		parameters: parameters.map((name) => ({
+			name,
+			wire: name,
+			source: "json",
+			codec: STRICT_JSON
+		})),
+		result: STRICT_JSON
+	}))
+};
+//#endregion
 //#region lib/types/secret-schema.js
 /** Fail-closed audit for settings schemas that contain secret-role nodes. */
 const SAFE_CONTAINERS = /* @__PURE__ */ new Set([
@@ -4050,6 +4306,7 @@ function apply(ctx) {
 	new UsageService(ctx);
 	new DataService(ctx);
 	new SystemService(ctx);
+	new TasksService(ctx);
 	const contributions = [{
 		package: "@dsh-control-center/control-center",
 		face: "host",
@@ -4071,7 +4328,8 @@ function apply(ctx) {
 			...fileProcessingRemote.descriptors,
 			...usageRemote.descriptors,
 			...dataRemote.descriptors,
-			...systemRemote.descriptors
+			...systemRemote.descriptors,
+			...tasksRemote.descriptors
 		]
 	}];
 	for (const contribution of contributions) ctx.typert.register(contribution);
@@ -4080,4 +4338,4 @@ function apply(ctx) {
 	});
 }
 //#endregion
-export { DataService, FileProcessingService, KnowledgeService, McpService, PaintingService, ProvidersService, ReposService, SkillsService, SystemService, TranslationService, UsageService, WebSearchService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, inject, name };
+export { DataService, FileProcessingService, KnowledgeService, McpService, PaintingService, ProvidersService, ReposService, SkillsService, SystemService, TasksService, TranslationService, UsageService, WebSearchService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, cronMatches, inject, name };

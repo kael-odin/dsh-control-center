@@ -30,6 +30,8 @@ export { DataService } from './data.ts';
 export type * from './data-types.ts';
 export { SystemService } from './system.ts';
 export type * from './system-types.ts';
+export { TasksService, cronMatches } from './tasks.ts';
+export type * from './tasks-types.ts';
 export { assertSecretSchemaSafe, auditSecretSchema } from './secret-schema.ts';
 export type { SecretSchemaViolation } from './secret-schema.ts';
 //# sourceMappingURL=index.d.ts.map

@@ -33,6 +33,8 @@ export declare const en: {
     systemGroup: string;
     dependenciesNav: string;
     aboutNav: string;
+    automationGroup: string;
+    tasksNav: string;
 };
 export type SettingsKey = keyof typeof en;
 export declare const zh: {

@@ -50,6 +50,10 @@ import type {} from '../system-types.ts'
 import systemRemote from '../system-remote-client.ts'
 import { AboutSection, DependenciesSection } from './SystemSection.tsx'
 import type { SystemSectionInjected } from './SystemSection.tsx'
+import type {} from '../tasks-types.ts'
+import tasksRemote from '../tasks-remote-client.ts'
+import { TasksSection } from './TasksSection.tsx'
+import type { TasksSectionInjected } from './TasksSection.tsx'
 import { SettingsRoot } from './SettingsRoot.tsx'
 import type { SettingsOnboardingStep, SettingsRootInjected, SettingsSectionRow } from './shell-contract.ts'
 import { CloseLabel, HeaderContent, TriggerContent } from './chrome.tsx'
@@ -89,6 +93,7 @@ function groupOf(id: string): SettingsSectionRow['group'] {
   if (id === 'skills' || id === 'providers' || id === 'mcp' || id === 'websearch' || id === 'file-processing' || id === 'ocr') return 'capabilities'
   if (id === 'usage' || id === 'data') return 'personal'
   if (id === 'about' || id === 'dependencies') return 'system'
+  if (id === 'tasks') return 'automation'
   if (KNOWN_NATIVE.has(id)) return 'native'
   return 'other'
 }
@@ -150,6 +155,18 @@ export function apply(ctx: ClientContext): void {
   let usage: NonNullable<typeof remote.controlCenterUsage> | undefined
   let data: NonNullable<typeof remote.controlCenterData> | undefined
   let system: NonNullable<typeof remote.controlCenterSystem> | undefined
+  let tasks: NonNullable<typeof remote.controlCenterTasks> | undefined
+  const tasksReadySource: HostObservable<boolean> = {
+    getSnapshot: () => tasks !== undefined,
+    subscribe: (listener) => {
+      const timer = window.setInterval(() => {
+        if (tasks === undefined) return
+        window.clearInterval(timer)
+        listener()
+      }, 25)
+      return () => { window.clearInterval(timer) }
+    },
+  }
   const systemReadySource: HostObservable<boolean> = {
     getSnapshot: () => system !== undefined,
     subscribe: (listener) => {
@@ -211,7 +228,8 @@ export function apply(ctx: ClientContext): void {
         ...fileProcessingRemote.descriptors,
         ...usageRemote.descriptors,
         ...dataRemote.descriptors,
-        ...systemRemote.descriptors
+        ...systemRemote.descriptors,
+        ...tasksRemote.descriptors
       ],
     }
     const dispose = await remote.$mount(controlCenterRemote)
@@ -227,6 +245,7 @@ export function apply(ctx: ClientContext): void {
     usage = ctx.get('remote.controlCenterUsage') as NonNullable<typeof remote.controlCenterUsage>
     data = ctx.get('remote.controlCenterData') as NonNullable<typeof remote.controlCenterData>
     system = ctx.get('remote.controlCenterSystem') as NonNullable<typeof remote.controlCenterSystem>
+    tasks = ctx.get('remote.controlCenterTasks') as NonNullable<typeof remote.controlCenterTasks>
     return dispose
   }, 'control-center: control-center Remote namespaces')
   ctx.effect(() => ctx.locale.register(SHELL_NS, { zh: shellZh, en: shellEn }), 'control-center: shell dictionaries')
@@ -260,6 +279,7 @@ export function apply(ctx: ClientContext): void {
       personal: shellT('personalGroup'),
       native: shellT('nativeGroup'),
       system: shellT('systemGroup'),
+      automation: shellT('automationGroup'),
       other: shellT('otherGroup'),
     },
     hooks: {
@@ -583,6 +603,19 @@ export function apply(ctx: ClientContext): void {
       hooks: { systemReady: systemReadySource },
     }),
   }, AboutSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'tasks',
+    order: 200,
+    label: () => shellT('tasksNav'),
+    inject: (): TasksSectionInjected => ({
+      getTasks: () => {
+        if (tasks === undefined) throw new Error('tasks Remote namespace is not mounted')
+        return tasks
+      },
+      hooks: { tasksReady: tasksReadySource },
+    }),
+  }, TasksSection))
   ctx.slots.inject('settings.onboarding', () => ctx.slots.register({
     name: 'settings.onboarding', id: 'welcome-notice', order: -100, inject: welcomeInjected,
   }, WelcomeNotice))

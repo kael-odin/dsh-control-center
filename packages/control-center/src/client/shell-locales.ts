@@ -34,6 +34,8 @@ export const en = {
   systemGroup: 'System',
   dependenciesNav: 'Dependencies',
   aboutNav: 'About',
+  automationGroup: 'Automation',
+  tasksNav: 'Scheduled Tasks',
 }
 
 export type SettingsKey = keyof typeof en
@@ -72,4 +74,6 @@ export const zh: { [Key in SettingsKey]: string } = {
   systemGroup: '系统',
   dependenciesNav: '依赖',
   aboutNav: '关于',
+  automationGroup: '自动化',
+  tasksNav: '计划任务',
 }

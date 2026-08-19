@@ -12,7 +12,7 @@ export interface SettingsSectionRow {
     id: string;
     order: number;
     label: string;
-    group: 'core' | 'capabilities' | 'personal' | 'native' | 'system' | 'other';
+    group: 'core' | 'capabilities' | 'personal' | 'native' | 'system' | 'automation' | 'other';
 }
 /** One ordered onboarding step projected from a slot registration. */
 export interface SettingsOnboardingStep {
