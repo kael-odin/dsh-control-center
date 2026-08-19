@@ -4,7 +4,8 @@
  * Strict-mode Typert remote calls return a discriminated envelope:
  * `{ ok: true; value: T } | { ok: false; error: { code, message, details } }`.
  */
-type RemoteResult<T> = {
+/** Wire envelope of a strict-mode Typert remote call. */
+export type RemoteResult<T> = {
     ok: true;
     value: T;
 } | {
@@ -35,5 +36,4 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
         };
     }
 }
-export {};
 //# sourceMappingURL=websearch-types.d.ts.map

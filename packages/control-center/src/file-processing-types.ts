@@ -70,4 +70,3 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
   }
 }
 
-export {}

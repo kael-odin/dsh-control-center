@@ -45,5 +45,4 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
         };
     }
 }
-export {};
 //# sourceMappingURL=system-types.d.ts.map

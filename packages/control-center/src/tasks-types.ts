@@ -17,4 +17,3 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
 }
 
 export type { ScheduledTask, TaskAction, TaskRunEntry }
-export {}

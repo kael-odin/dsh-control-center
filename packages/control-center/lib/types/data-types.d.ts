@@ -72,5 +72,4 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
     }
 }
 export type { DataExport };
-export {};
 //# sourceMappingURL=data-types.d.ts.map
