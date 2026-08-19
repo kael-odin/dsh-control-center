@@ -16,7 +16,7 @@
 |---|---|---|
 | 可安装 bundle 与可逆 profile patch | 已验证 | packed 安装／移除；移除保留设置和会话。 |
 | Cherry 风格设置外壳 | 已验证 | 分组导航、响应式几何、语言／主题行为、未知 DSH section 保留。 |
-| 提供方与模型管理 | 已验证 | Settings／credentials／LLM 权威；草稿发现、模型采纳、精确写入和移除。 |
+| 提供方与模型管理 | 已验证 | Settings／credentials／LLM 权威；连接测试；OpenAI 兼容模型发现；模型启用／禁用；Cherry 对等分栏 UI；精确写入和移除。 |
 | 默认与当前模型选择 | 已验证 | revision-fenced 默认写入和真实 session 切换，并在写后重新确认。 |
 | 兼容性与秘密 schema 预检 | 已验证 | 精确 DSH 基线 gate 和 unsupported wrapper fail-closed 审计。 |
 | 产品工作区组合 seam | 已验证 | 增量导航与 keyed 主 surface 权威、conversation 共存、瞬时选择、packed browser 选择／返回及卸载回落测试。 |

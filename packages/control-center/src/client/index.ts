@@ -18,6 +18,12 @@ import type {} from '../knowledge-types.ts'
 import knowledgeRemote from '../knowledge-remote-client.ts'
 import { KnowledgeWorkspace } from './KnowledgeWorkspace.tsx'
 import type { KnowledgeWorkspaceInjected } from './KnowledgeWorkspace.tsx'
+import type {} from '../skills-types.ts'
+import skillsRemote from '../skills-remote-client.ts'
+import { SkillsSection } from './SkillsSection.tsx'
+import type {} from '../provider-types.ts'
+import providersRemote from '../provider-remote-client.ts'
+import { ProvidersSection } from './ProvidersSection.tsx'
 import { SettingsRoot } from './SettingsRoot.tsx'
 import type { SettingsOnboardingStep, SettingsRootInjected, SettingsSectionRow } from './shell-contract.ts'
 import { CloseLabel, HeaderContent, TriggerContent } from './chrome.tsx'
@@ -103,17 +109,27 @@ export function apply(ctx: ClientContext): void {
       return () => { window.clearInterval(timer) }
     },
   }
+  let skills: NonNullable<typeof remote.controlCenterSkills> | undefined
+  let providers: NonNullable<typeof remote.controlCenterProviders> | undefined
   ctx.effect(async () => {
     // The client Remote registry keys contributions by package, so every
     // namespace must be mounted through one merged contribution.
     const controlCenterRemote: typeof translationRemote = {
       package: '@dsh-control-center/control-center',
-      descriptors: [...translationRemote.descriptors, ...paintingRemote.descriptors, ...knowledgeRemote.descriptors],
+      descriptors: [
+        ...translationRemote.descriptors,
+        ...paintingRemote.descriptors,
+        ...knowledgeRemote.descriptors,
+        ...skillsRemote.descriptors,
+        ...providersRemote.descriptors
+      ],
     }
     const dispose = await remote.$mount(controlCenterRemote)
     translation = ctx.get('remote.controlCenterTranslation') as NonNullable<typeof remote.controlCenterTranslation>
     painting = ctx.get('remote.controlCenterPainting') as NonNullable<typeof remote.controlCenterPainting>
     knowledge = ctx.get('remote.controlCenterKnowledge') as NonNullable<typeof remote.controlCenterKnowledge>
+    skills = ctx.get('remote.controlCenterSkills') as NonNullable<typeof remote.controlCenterSkills>
+    providers = ctx.get('remote.controlCenterProviders') as NonNullable<typeof remote.controlCenterProviders>
     return dispose
   }, 'control-center: control-center Remote namespaces')
   ctx.effect(() => ctx.locale.register(SHELL_NS, { zh: shellZh, en: shellEn }), 'control-center: shell dictionaries')
@@ -200,6 +216,12 @@ export function apply(ctx: ClientContext): void {
     api: connection.api,
     modelSelection,
     t: modelT,
+  })
+  const skillsInjected = () => ({
+    skills: skills!,
+  })
+  const providersInjected = () => ({
+    providers: providers!,
   })
   const deepSeekOnboardingInjected = (): DeepSeekOnboardingInjected => ({
     controller: modelsController,
@@ -338,6 +360,20 @@ export function apply(ctx: ClientContext): void {
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section', id: 'models', order: 10, label: () => modelT('nav'), inject: modelsInjected,
   }, ModelsSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'skills',
+    order: 20,
+    label: () => 'Skills',
+    inject: skillsInjected,
+  }, SkillsSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'providers',
+    order: 30,
+    label: () => shellT('providersNav'),
+    inject: providersInjected,
+  }, ProvidersSection))
   ctx.slots.inject('settings.onboarding', () => ctx.slots.register({
     name: 'settings.onboarding', id: 'welcome-notice', order: -100, inject: welcomeInjected,
   }, WelcomeNotice))

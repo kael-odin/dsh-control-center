@@ -16,7 +16,7 @@ This ledger distinguishes verified capability from committed scope. A capability
 |---|---|---|
 | Installable bundle and reversible profile patch | Verified | Packed install/remove; removal preserves settings and sessions. |
 | Cherry-style settings shell | Verified | Grouped navigation, responsive geometry, locale/theme behavior, unknown DSH section preservation. |
-| Provider and model management | Verified | Settings/credentials/LLM authorities; draft discovery; model adoption; precise writes and removal. |
+| Provider and model management | Verified | Settings/credentials/LLM authorities; connection testing; OpenAI-compatible model discovery; model enable/disable; Cherry-parity split-pane UI; precise writes and removal. |
 | Default and current model selection | Verified | Revision-fenced default writes and real session selection with post-write confirmation. |
 | Compatibility and secret-schema preflight | Verified | Exact DSH baseline gate and fail-closed unsupported wrapper audit. |
 | Product workspace composition seam | Verified | Additive navigation + keyed main-surface ownership, coexistence with conversation, transient selection, packed browser selection/return, and unload fallback tests. |

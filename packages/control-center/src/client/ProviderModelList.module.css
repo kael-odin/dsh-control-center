@@ -1,0 +1,244 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sectionHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sectionHeading {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary, #e5e5e5);
+  line-height: 20px;
+  margin: 0;
+}
+
+.headerMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.countBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-primary, #e5e5e5);
+  background: var(--color-surface-elevated, #1a1a1a);
+  border: 1px solid var(--color-border-base, #2a2a2a);
+  border-radius: 10px;
+  line-height: 1;
+}
+
+.enabledCount {
+  font-size: 12px;
+  color: var(--color-text-tertiary, #6a6a6a);
+  line-height: 16px;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.emptyIcon {
+  color: var(--color-text-tertiary, #6a6a6a);
+}
+
+.emptyText {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary, #a0a0a0);
+  line-height: 20px;
+}
+
+.emptyHint {
+  font-size: 12px;
+  color: var(--color-text-tertiary, #6a6a6a);
+  line-height: 16px;
+  max-width: 320px;
+}
+
+.modelGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.groupHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 4px;
+}
+
+.groupTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-secondary, #a0a0a0);
+  line-height: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.groupCount {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-tertiary, #6a6a6a);
+  line-height: 16px;
+}
+
+.modelList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.modelItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--color-surface-base, #0f0f0f);
+  border: 1px solid var(--color-border-base, #2a2a2a);
+  transition: all 0.15s ease;
+}
+
+.modelItem:hover {
+  background: var(--color-surface-hover, #1a1a1a);
+  border-color: var(--color-border-hover, #3a3a3a);
+}
+
+.modelItemEnabled {
+  /* Styling handled by base .modelItem */
+}
+
+.modelItemDisabled {
+  opacity: 0.5;
+}
+
+.modelMain {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.modelIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  color: var(--color-accent, #3b82f6);
+  border-radius: 8px;
+  background: var(--color-surface-elevated, #1a1a1a);
+}
+
+.modelInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.modelName {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary, #e5e5e5);
+  line-height: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modelMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--color-text-tertiary, #6a6a6a);
+  line-height: 14px;
+}
+
+.metaItem svg {
+  flex-shrink: 0;
+}
+
+.toggleButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.toggleTrack {
+  position: relative;
+  display: block;
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  background: var(--color-surface-elevated, #1a1a1a);
+  border: 1px solid var(--color-border-base, #2a2a2a);
+  transition: all 0.2s ease;
+}
+
+.toggleButtonEnabled .toggleTrack {
+  background: var(--color-accent, #3b82f6);
+  border-color: var(--color-accent, #3b82f6);
+}
+
+.toggleThumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 7px;
+  background: white;
+  transition: transform 0.2s ease;
+}
+
+.toggleButtonEnabled .toggleThumb {
+  transform: translateX(16px);
+}
+
+.discoveryInfo {
+  padding: 8px 12px;
+  font-size: 11px;
+  color: var(--color-text-tertiary, #6a6a6a);
+  line-height: 14px;
+  text-align: center;
+  border-top: 1px solid var(--color-border-subtle, #1a1a1a);
+}

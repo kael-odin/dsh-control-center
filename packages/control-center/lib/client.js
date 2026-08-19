@@ -131,30 +131,30 @@ window.__ModuleLoader__.load({
 		};
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\PaintingWorkspace.module.css.mjs
-		const css$12 = "._-UrTq_root{background:var(--dsw-alias-bg-base);min-width:0;min-height:0;color:var(--dsw-alias-label-primary);flex-direction:column;flex:1;gap:16px;padding:24px;display:flex;overflow:auto}._-UrTq_header{justify-content:space-between;align-items:center;gap:16px;display:flex}._-UrTq_header h1{margin:2px 0 0;font-size:28px}._-UrTq_eyebrow{color:var(--dsw-alias-label-tertiary);letter-spacing:.08em;text-transform:uppercase;margin:0;font-size:12px}._-UrTq_composer{border:1px solid var(--dsw-alias-border-l1);border-radius:14px;flex-direction:column;gap:10px;padding:14px;display:flex}._-UrTq_composer textarea{resize:vertical;border:1px solid var(--dsw-alias-border-l2);box-sizing:border-box;width:100%;min-height:96px;color:inherit;font:inherit;background:0 0;border-radius:10px;padding:12px;line-height:1.6}._-UrTq_controls{flex-wrap:wrap;align-items:center;gap:8px;display:flex}._-UrTq_controls select{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);min-height:34px;color:inherit;border-radius:9px;padding:0 10px}._-UrTq_controls button:last-child{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;margin-left:auto;padding:0 16px}._-UrTq_controls button:disabled{opacity:.45;cursor:not-allowed}._-UrTq_secondary{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;background:0 0;border-radius:9px;padding:0 12px}._-UrTq_progress{color:var(--dsw-alias-label-secondary);margin:0}._-UrTq_error{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover-danger);border-radius:9px;margin:0;padding:10px 12px}._-UrTq_gallery,._-UrTq_history{padding-top:4px}._-UrTq_gallery>*,._-UrTq_historyImages{flex-wrap:wrap;gap:12px;display:flex}._-UrTq_history h2{margin:0 0 10px;font-size:18px}._-UrTq_figure{flex-direction:column;gap:6px;margin:0;display:flex}._-UrTq_figure img{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;max-width:220px;height:auto}._-UrTq_figure figcaption{gap:10px;display:flex}._-UrTq_historyItem{border-top:1px solid var(--dsw-alias-border-l1);padding:14px 0}._-UrTq_historyItem>div:first-child{justify-content:space-between;gap:12px;display:flex}._-UrTq_historyItem time{color:var(--dsw-alias-label-tertiary);font-size:12px}._-UrTq_link{color:var(--dsw-alias-brand-primary);cursor:pointer;background:0 0;border:none;margin-right:12px;padding:0}._-UrTq_empty{color:var(--dsw-alias-label-tertiary)}@media (width<=760px){._-UrTq_root{padding:14px}._-UrTq_controls button:last-child{margin-left:0}}";
-		const tagId$12 = "@dsh-control-center/control-center/PaintingWorkspace.module.css";
-		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$12) + "]") === null) {
+		const css$14 = "._-UrTq_root{background:var(--dsw-alias-bg-base);min-width:0;min-height:0;color:var(--dsw-alias-label-primary);flex-direction:column;flex:1;gap:16px;padding:24px;display:flex;overflow:auto}._-UrTq_header{justify-content:space-between;align-items:center;gap:16px;display:flex}._-UrTq_header h1{margin:2px 0 0;font-size:28px}._-UrTq_eyebrow{color:var(--dsw-alias-label-tertiary);letter-spacing:.08em;text-transform:uppercase;margin:0;font-size:12px}._-UrTq_composer{border:1px solid var(--dsw-alias-border-l1);border-radius:14px;flex-direction:column;gap:10px;padding:14px;display:flex}._-UrTq_composer textarea{resize:vertical;border:1px solid var(--dsw-alias-border-l2);box-sizing:border-box;width:100%;min-height:96px;color:inherit;font:inherit;background:0 0;border-radius:10px;padding:12px;line-height:1.6}._-UrTq_controls{flex-wrap:wrap;align-items:center;gap:8px;display:flex}._-UrTq_controls select{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);min-height:34px;color:inherit;border-radius:9px;padding:0 10px}._-UrTq_controls button:last-child{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;margin-left:auto;padding:0 16px}._-UrTq_controls button:disabled{opacity:.45;cursor:not-allowed}._-UrTq_secondary{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;background:0 0;border-radius:9px;padding:0 12px}._-UrTq_progress{color:var(--dsw-alias-label-secondary);margin:0}._-UrTq_error{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover-danger);border-radius:9px;margin:0;padding:10px 12px}._-UrTq_gallery,._-UrTq_history{padding-top:4px}._-UrTq_gallery>*,._-UrTq_historyImages{flex-wrap:wrap;gap:12px;display:flex}._-UrTq_history h2{margin:0 0 10px;font-size:18px}._-UrTq_figure{flex-direction:column;gap:6px;margin:0;display:flex}._-UrTq_figure img{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;max-width:220px;height:auto}._-UrTq_figure figcaption{gap:10px;display:flex}._-UrTq_historyItem{border-top:1px solid var(--dsw-alias-border-l1);padding:14px 0}._-UrTq_historyItem>div:first-child{justify-content:space-between;gap:12px;display:flex}._-UrTq_historyItem time{color:var(--dsw-alias-label-tertiary);font-size:12px}._-UrTq_link{color:var(--dsw-alias-brand-primary);cursor:pointer;background:0 0;border:none;margin-right:12px;padding:0}._-UrTq_empty{color:var(--dsw-alias-label-tertiary)}@media (width<=760px){._-UrTq_root{padding:14px}._-UrTq_controls button:last-child{margin-left:0}}";
+		const tagId$14 = "@dsh-control-center/control-center/PaintingWorkspace.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$14) + "]") === null) {
 			const tag = document.createElement("style");
 			tag.dataset.plugin = "@dsh-control-center/control-center";
-			tag.dataset.pluginCss = tagId$12;
-			tag.textContent = css$12;
+			tag.dataset.pluginCss = tagId$14;
+			tag.textContent = css$14;
 			document.head.appendChild(tag);
 		}
 		var PaintingWorkspace_module_css_default = {
-			"historyItem": "_-UrTq_historyItem",
-			"controls": "_-UrTq_controls",
-			"progress": "_-UrTq_progress",
+			"root": "_-UrTq_root",
+			"header": "_-UrTq_header",
 			"eyebrow": "_-UrTq_eyebrow",
+			"gallery": "_-UrTq_gallery",
+			"controls": "_-UrTq_controls",
+			"figure": "_-UrTq_figure",
+			"historyImages": "_-UrTq_historyImages",
+			"historyItem": "_-UrTq_historyItem",
 			"empty": "_-UrTq_empty",
+			"progress": "_-UrTq_progress",
 			"link": "_-UrTq_link",
 			"composer": "_-UrTq_composer",
-			"figure": "_-UrTq_figure",
-			"history": "_-UrTq_history",
-			"gallery": "_-UrTq_gallery",
-			"root": "_-UrTq_root",
-			"historyImages": "_-UrTq_historyImages",
 			"secondary": "_-UrTq_secondary",
-			"header": "_-UrTq_header",
+			"history": "_-UrTq_history",
 			"error": "_-UrTq_error"
 		};
 		//#endregion
@@ -560,40 +560,40 @@ window.__ModuleLoader__.load({
 		};
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\KnowledgeWorkspace.module.css.mjs
-		const css$11 = ".uHDY1a_root{background:var(--dsw-alias-bg-base);min-width:0;min-height:0;color:var(--dsw-alias-label-primary);flex-direction:column;flex:1;gap:16px;padding:24px;display:flex;overflow:auto}.uHDY1a_header{justify-content:space-between;align-items:center;gap:16px;display:flex}.uHDY1a_header h1{margin:2px 0 0;font-size:28px}.uHDY1a_eyebrow{color:var(--dsw-alias-label-tertiary);letter-spacing:.08em;text-transform:uppercase;margin:0;font-size:12px}.uHDY1a_panel{border:1px solid var(--dsw-alias-border-l1);border-radius:14px;flex-direction:column;gap:10px;padding:14px;display:flex}.uHDY1a_panel h2{margin:0;font-size:16px}.uHDY1a_bases,.uHDY1a_hits,.uHDY1a_chunks{flex-direction:column;gap:10px;display:flex}.uHDY1a_bases h2{margin:0 0 4px;font-size:16px}.uHDY1a_row{flex-wrap:wrap;align-items:center;gap:8px;display:flex}.uHDY1a_row input,.uHDY1a_row textarea{border:1px solid var(--dsw-alias-border-l2);min-width:0;color:inherit;font:inherit;background:0 0;border-radius:9px;flex:1;padding:9px 11px}.uHDY1a_row textarea{resize:vertical;flex-basis:100%;min-height:72px}.uHDY1a_row button{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;padding:0 16px}.uHDY1a_row button:disabled{opacity:.45;cursor:not-allowed}.uHDY1a_primary{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;padding:0 16px}.uHDY1a_secondary{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;background:0 0;border-radius:9px;padding:0 12px}.uHDY1a_link{color:var(--dsw-alias-brand-primary);cursor:pointer;background:0 0;border:none;padding:0}.uHDY1a_fileButton{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;border-radius:9px;align-items:center;padding:0 12px;font-size:14px;display:inline-flex}.uHDY1a_fileButton input{display:none}.uHDY1a_baseCard{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;justify-content:space-between;align-items:center;gap:12px;padding:12px;display:flex}.uHDY1a_baseMeta{flex-direction:column;gap:3px;min-width:0;display:flex}.uHDY1a_baseMeta span{color:var(--dsw-alias-label-tertiary);font-size:12px}.uHDY1a_baseActions{flex-shrink:0;align-items:center;gap:10px;display:flex}.uHDY1a_sourceTabs{flex-direction:column;gap:10px;display:flex}.uHDY1a_sourceItem{border-top:1px solid var(--dsw-alias-border-l1);justify-content:space-between;align-items:center;gap:12px;padding:10px 0;display:flex}.uHDY1a_sourceMeta{flex-direction:column;gap:2px;min-width:0;display:flex}.uHDY1a_sourceMeta span{color:var(--dsw-alias-label-tertiary);font-size:12px}.uHDY1a_muted{color:var(--dsw-alias-label-secondary);margin:0;font-size:13px}.uHDY1a_hits{margin:0;padding-left:20px}.uHDY1a_hit{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;padding:10px}.uHDY1a_hitMeta{justify-content:space-between;gap:12px;display:flex}.uHDY1a_hitMeta span{color:var(--dsw-alias-label-tertiary);font-size:12px}.uHDY1a_hit p{margin:6px 0 0;line-height:1.6}.uHDY1a_chunk{border:1px solid var(--dsw-alias-border-l1);border-radius:8px;padding:8px 10px}.uHDY1a_chunk summary{cursor:pointer;color:var(--dsw-alias-label-secondary)}.uHDY1a_chunk p{white-space:pre-wrap;margin:8px 0 0;line-height:1.6}.uHDY1a_error{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover-danger);border-radius:9px;margin:0;padding:10px 12px}.uHDY1a_empty{color:var(--dsw-alias-label-tertiary)}@media (width<=760px){.uHDY1a_root{padding:14px}.uHDY1a_baseCard{flex-direction:column;align-items:flex-start}}";
-		const tagId$11 = "@dsh-control-center/control-center/KnowledgeWorkspace.module.css";
-		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$11) + "]") === null) {
+		const css$13 = ".uHDY1a_root{background:var(--dsw-alias-bg-base);min-width:0;min-height:0;color:var(--dsw-alias-label-primary);flex-direction:column;flex:1;gap:16px;padding:24px;display:flex;overflow:auto}.uHDY1a_header{justify-content:space-between;align-items:center;gap:16px;display:flex}.uHDY1a_header h1{margin:2px 0 0;font-size:28px}.uHDY1a_eyebrow{color:var(--dsw-alias-label-tertiary);letter-spacing:.08em;text-transform:uppercase;margin:0;font-size:12px}.uHDY1a_panel{border:1px solid var(--dsw-alias-border-l1);border-radius:14px;flex-direction:column;gap:10px;padding:14px;display:flex}.uHDY1a_panel h2{margin:0;font-size:16px}.uHDY1a_bases,.uHDY1a_hits,.uHDY1a_chunks{flex-direction:column;gap:10px;display:flex}.uHDY1a_bases h2{margin:0 0 4px;font-size:16px}.uHDY1a_row{flex-wrap:wrap;align-items:center;gap:8px;display:flex}.uHDY1a_row input,.uHDY1a_row textarea{border:1px solid var(--dsw-alias-border-l2);min-width:0;color:inherit;font:inherit;background:0 0;border-radius:9px;flex:1;padding:9px 11px}.uHDY1a_row textarea{resize:vertical;flex-basis:100%;min-height:72px}.uHDY1a_row button{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;padding:0 16px}.uHDY1a_row button:disabled{opacity:.45;cursor:not-allowed}.uHDY1a_primary{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;padding:0 16px}.uHDY1a_secondary{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;background:0 0;border-radius:9px;padding:0 12px}.uHDY1a_link{color:var(--dsw-alias-brand-primary);cursor:pointer;background:0 0;border:none;padding:0}.uHDY1a_fileButton{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;border-radius:9px;align-items:center;padding:0 12px;font-size:14px;display:inline-flex}.uHDY1a_fileButton input{display:none}.uHDY1a_baseCard{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;justify-content:space-between;align-items:center;gap:12px;padding:12px;display:flex}.uHDY1a_baseMeta{flex-direction:column;gap:3px;min-width:0;display:flex}.uHDY1a_baseMeta span{color:var(--dsw-alias-label-tertiary);font-size:12px}.uHDY1a_baseActions{flex-shrink:0;align-items:center;gap:10px;display:flex}.uHDY1a_sourceTabs{flex-direction:column;gap:10px;display:flex}.uHDY1a_sourceItem{border-top:1px solid var(--dsw-alias-border-l1);justify-content:space-between;align-items:center;gap:12px;padding:10px 0;display:flex}.uHDY1a_sourceMeta{flex-direction:column;gap:2px;min-width:0;display:flex}.uHDY1a_sourceMeta span{color:var(--dsw-alias-label-tertiary);font-size:12px}.uHDY1a_muted{color:var(--dsw-alias-label-secondary);margin:0;font-size:13px}.uHDY1a_hits{margin:0;padding-left:20px}.uHDY1a_hit{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;padding:10px}.uHDY1a_hitMeta{justify-content:space-between;gap:12px;display:flex}.uHDY1a_hitMeta span{color:var(--dsw-alias-label-tertiary);font-size:12px}.uHDY1a_hit p{margin:6px 0 0;line-height:1.6}.uHDY1a_chunk{border:1px solid var(--dsw-alias-border-l1);border-radius:8px;padding:8px 10px}.uHDY1a_chunk summary{cursor:pointer;color:var(--dsw-alias-label-secondary)}.uHDY1a_chunk p{white-space:pre-wrap;margin:8px 0 0;line-height:1.6}.uHDY1a_error{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover-danger);border-radius:9px;margin:0;padding:10px 12px}.uHDY1a_empty{color:var(--dsw-alias-label-tertiary)}@media (width<=760px){.uHDY1a_root{padding:14px}.uHDY1a_baseCard{flex-direction:column;align-items:flex-start}}";
+		const tagId$13 = "@dsh-control-center/control-center/KnowledgeWorkspace.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$13) + "]") === null) {
 			const tag = document.createElement("style");
 			tag.dataset.plugin = "@dsh-control-center/control-center";
-			tag.dataset.pluginCss = tagId$11;
-			tag.textContent = css$11;
+			tag.dataset.pluginCss = tagId$13;
+			tag.textContent = css$13;
 			document.head.appendChild(tag);
 		}
 		var KnowledgeWorkspace_module_css_default = {
-			"baseActions": "uHDY1a_baseActions",
-			"chunks": "uHDY1a_chunks",
-			"root": "uHDY1a_root",
-			"row": "uHDY1a_row",
-			"empty": "uHDY1a_empty",
-			"hit": "uHDY1a_hit",
-			"sourceTabs": "uHDY1a_sourceTabs",
-			"hitMeta": "uHDY1a_hitMeta",
-			"header": "uHDY1a_header",
-			"panel": "uHDY1a_panel",
-			"eyebrow": "uHDY1a_eyebrow",
-			"secondary": "uHDY1a_secondary",
-			"fileButton": "uHDY1a_fileButton",
-			"sourceItem": "uHDY1a_sourceItem",
-			"primary": "uHDY1a_primary",
-			"baseMeta": "uHDY1a_baseMeta",
-			"chunk": "uHDY1a_chunk",
-			"error": "uHDY1a_error",
 			"muted": "uHDY1a_muted",
-			"bases": "uHDY1a_bases",
-			"link": "uHDY1a_link",
+			"hit": "uHDY1a_hit",
+			"empty": "uHDY1a_empty",
+			"chunks": "uHDY1a_chunks",
+			"chunk": "uHDY1a_chunk",
+			"root": "uHDY1a_root",
+			"primary": "uHDY1a_primary",
+			"sourceItem": "uHDY1a_sourceItem",
+			"hitMeta": "uHDY1a_hitMeta",
 			"baseCard": "uHDY1a_baseCard",
+			"hits": "uHDY1a_hits",
+			"eyebrow": "uHDY1a_eyebrow",
+			"bases": "uHDY1a_bases",
+			"sourceTabs": "uHDY1a_sourceTabs",
+			"fileButton": "uHDY1a_fileButton",
+			"link": "uHDY1a_link",
+			"panel": "uHDY1a_panel",
+			"secondary": "uHDY1a_secondary",
+			"baseActions": "uHDY1a_baseActions",
 			"sourceMeta": "uHDY1a_sourceMeta",
-			"hits": "uHDY1a_hits"
+			"header": "uHDY1a_header",
+			"error": "uHDY1a_error",
+			"baseMeta": "uHDY1a_baseMeta",
+			"row": "uHDY1a_row"
 		};
 		//#endregion
 		//#region lib/types/client/KnowledgeWorkspace.js
@@ -1141,6 +1141,821 @@ window.__ModuleLoader__.load({
 			});
 		}
 		//#endregion
+		//#region lib/types/skills-remote-client.js
+		/** Client descriptor contribution for the Control Center skills service. */
+		const skillsRemote = {
+			package: "@dsh-control-center/control-center",
+			descriptors: [
+				{
+					method: "list",
+					parameters: ["query"]
+				},
+				{
+					method: "getById",
+					parameters: ["skillId"]
+				},
+				{
+					method: "update",
+					parameters: ["skillId", "dto"]
+				},
+				{
+					method: "install",
+					parameters: ["options"]
+				},
+				{
+					method: "uninstall",
+					parameters: ["skillId"]
+				},
+				{
+					method: "searchMarketplace",
+					parameters: ["query"]
+				}
+			].map(({ method, implementation, parameters }) => ({
+				id: `@dsh-control-center/control-center#controlCenterSkills/${method}`,
+				service: "controlCenterSkills",
+				namespace: "controlCenterSkills",
+				method,
+				...implementation === void 0 ? {} : { implementation },
+				invocation: { kind: "direct" },
+				parameters: parameters.map((name) => ({
+					name,
+					wire: name,
+					source: "json",
+					codec: STRICT_JSON
+				})),
+				result: STRICT_JSON
+			}))
+		};
+		//#endregion
+		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\SkillsSection.module.css.mjs
+		const css$12 = ".pyHmqW_root{background:var(--color-background-base);flex-direction:column;flex:1;min-height:0;display:flex}.pyHmqW_header{border-bottom:1px solid var(--color-border-subtle);justify-content:space-between;align-items:center;padding:16px 24px;display:flex}.pyHmqW_headerLeft{flex-direction:column;gap:4px;display:flex}.pyHmqW_title{color:var(--color-text-primary);font-size:20px;font-weight:600;line-height:28px}.pyHmqW_description{color:var(--color-text-secondary);font-size:14px;line-height:20px}.pyHmqW_headerActions{align-items:center;gap:8px;display:flex}.pyHmqW_searchRow{border-bottom:1px solid var(--color-border-subtle);align-items:center;gap:12px;padding:12px 24px;display:flex}.pyHmqW_searchInput{border:1px solid var(--color-border-base);background:var(--color-background-elevated);height:32px;color:var(--color-text-primary);border-radius:6px;flex:1;padding:0 12px;font-size:14px;transition:border-color .2s}.pyHmqW_searchInput:focus{border-color:var(--color-accent-primary);outline:none}.pyHmqW_searchInput::placeholder{color:var(--color-text-tertiary)}.pyHmqW_content{flex:1;min-height:0;padding:24px;overflow-y:auto}.pyHmqW_grid{grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;display:grid}.pyHmqW_card{border:1px solid var(--color-border-subtle);background:var(--color-background-elevated);cursor:pointer;border-radius:8px;flex-direction:column;padding:16px;transition:all .2s;display:flex}.pyHmqW_card:hover{border-color:var(--color-border-base);box-shadow:0 2px 8px #00000014}.pyHmqW_cardHeader{justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;display:flex}.pyHmqW_cardTitle{color:var(--color-text-primary);flex:1;font-size:16px;font-weight:600;line-height:22px}.pyHmqW_cardActions{opacity:0;align-items:center;gap:4px;transition:opacity .2s;display:flex}.pyHmqW_card:hover .pyHmqW_cardActions{opacity:1}.pyHmqW_cardDescription{color:var(--color-text-secondary);text-overflow:ellipsis;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin-bottom:12px;font-size:14px;line-height:20px;display:-webkit-box;overflow:hidden}.pyHmqW_cardMeta{color:var(--color-text-tertiary);align-items:center;gap:12px;font-size:13px;display:flex}.pyHmqW_cardMetaItem{align-items:center;gap:4px;display:flex}.pyHmqW_cardFooter{border-top:1px solid var(--color-border-subtle);justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;display:flex}.pyHmqW_cardTags{flex-wrap:wrap;gap:6px;display:flex}.pyHmqW_tag{background:var(--color-background-base);color:var(--color-text-secondary);border-radius:4px;padding:2px 8px;font-size:12px;line-height:18px}.pyHmqW_enabledBadge{background:var(--color-success-bg);color:var(--color-success-text);border-radius:4px;padding:2px 8px;font-size:12px;font-weight:500;line-height:18px}.pyHmqW_disabledBadge{background:var(--color-background-base);color:var(--color-text-tertiary);border-radius:4px;padding:2px 8px;font-size:12px;line-height:18px}.pyHmqW_iconButton{width:28px;height:28px;color:var(--color-text-secondary);cursor:pointer;background:0 0;border:none;border-radius:4px;justify-content:center;align-items:center;padding:0;transition:all .2s;display:inline-flex}.pyHmqW_iconButton:hover{background:var(--color-background-base);color:var(--color-text-primary)}.pyHmqW_primaryButton{background:var(--color-accent-primary);color:#fff;cursor:pointer;border:none;border-radius:6px;justify-content:center;align-items:center;gap:6px;height:32px;padding:0 16px;font-size:14px;font-weight:500;transition:all .2s;display:inline-flex}.pyHmqW_primaryButton:hover{background:var(--color-accent-primary-hover)}.pyHmqW_secondaryButton{border:1px solid var(--color-border-base);background:var(--color-background-elevated);height:32px;color:var(--color-text-primary);cursor:pointer;border-radius:6px;justify-content:center;align-items:center;gap:6px;padding:0 16px;font-size:14px;transition:all .2s;display:inline-flex}.pyHmqW_secondaryButton:hover{border-color:var(--color-border-hover);background:var(--color-background-base)}.pyHmqW_empty{text-align:center;flex-direction:column;justify-content:center;align-items:center;padding:64px 24px;display:flex}.pyHmqW_emptyIcon{width:64px;height:64px;color:var(--color-text-tertiary);margin-bottom:16px}.pyHmqW_emptyTitle{color:var(--color-text-primary);margin-bottom:8px;font-size:16px;font-weight:600}.pyHmqW_emptyDescription{color:var(--color-text-secondary);max-width:400px;margin-bottom:24px;font-size:14px}.pyHmqW_error{text-align:center;color:var(--color-error-text);flex-direction:column;justify-content:center;align-items:center;padding:64px 24px;display:flex}.pyHmqW_loading{color:var(--color-text-tertiary);justify-content:center;align-items:center;padding:64px 24px;display:flex}";
+		const tagId$12 = "@dsh-control-center/control-center/SkillsSection.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$12) + "]") === null) {
+			const tag = document.createElement("style");
+			tag.dataset.plugin = "@dsh-control-center/control-center";
+			tag.dataset.pluginCss = tagId$12;
+			tag.textContent = css$12;
+			document.head.appendChild(tag);
+		}
+		var SkillsSection_module_css_default = {
+			"searchInput": "pyHmqW_searchInput",
+			"content": "pyHmqW_content",
+			"cardTitle": "pyHmqW_cardTitle",
+			"loading": "pyHmqW_loading",
+			"secondaryButton": "pyHmqW_secondaryButton",
+			"emptyTitle": "pyHmqW_emptyTitle",
+			"header": "pyHmqW_header",
+			"cardFooter": "pyHmqW_cardFooter",
+			"error": "pyHmqW_error",
+			"cardMeta": "pyHmqW_cardMeta",
+			"grid": "pyHmqW_grid",
+			"headerLeft": "pyHmqW_headerLeft",
+			"cardTags": "pyHmqW_cardTags",
+			"emptyIcon": "pyHmqW_emptyIcon",
+			"searchRow": "pyHmqW_searchRow",
+			"root": "pyHmqW_root",
+			"cardDescription": "pyHmqW_cardDescription",
+			"cardMetaItem": "pyHmqW_cardMetaItem",
+			"primaryButton": "pyHmqW_primaryButton",
+			"tag": "pyHmqW_tag",
+			"empty": "pyHmqW_empty",
+			"emptyDescription": "pyHmqW_emptyDescription",
+			"iconButton": "pyHmqW_iconButton",
+			"description": "pyHmqW_description",
+			"headerActions": "pyHmqW_headerActions",
+			"disabledBadge": "pyHmqW_disabledBadge",
+			"cardHeader": "pyHmqW_cardHeader",
+			"title": "pyHmqW_title",
+			"enabledBadge": "pyHmqW_enabledBadge",
+			"card": "pyHmqW_card",
+			"cardActions": "pyHmqW_cardActions"
+		};
+		//#endregion
+		//#region lib/types/client/SkillsSection.js
+		/**
+		* Skills catalog section component.
+		*
+		* Cherry-style skills management UI over the controlCenterSkills Remote service.
+		* Displays installed skills in a card grid with search, enable/disable, and uninstall actions.
+		*
+		* AGPL-3.0-only – adapted from Cherry Studio ResourceCatalog pattern for skills.
+		*/
+		function SkillsSection(props) {
+			const { skills: skillsService } = props;
+			const [skills, setSkills] = (0, react.useState)([]);
+			const [search, setSearch] = (0, react.useState)("");
+			const [loading, setLoading] = (0, react.useState)(true);
+			const [error, setError] = (0, react.useState)(null);
+			const loadSkills = (0, react.useCallback)(async () => {
+				if (!skillsService) {
+					setError("Skills service not available");
+					setLoading(false);
+					return;
+				}
+				try {
+					setLoading(true);
+					setError(null);
+					const params = search ? { search } : {};
+					const result = await skillsService.list(params);
+					setSkills(result);
+				} catch (err) {
+					setError(err instanceof Error ? err.message : "Failed to load skills");
+				} finally {
+					setLoading(false);
+				}
+			}, [skillsService, search]);
+			(0, react.useEffect)(() => {
+				loadSkills();
+			}, [loadSkills]);
+			const handleToggleEnable = (0, react.useCallback)(async (skillId, currentEnabled) => {
+				if (!skillsService) return;
+				try {
+					await skillsService.update({
+						skillId,
+						dto: { isGlobalEnabled: !currentEnabled }
+					});
+					await loadSkills();
+				} catch (err) {
+					setError(err instanceof Error ? err.message : "Failed to update skill");
+				}
+			}, [skillsService, loadSkills]);
+			const handleUninstall = (0, react.useCallback)(async (skillId, skillName) => {
+				if (!skillsService) return;
+				if (!window.confirm(`确定要卸载 "${skillName}" 吗？`)) return;
+				try {
+					await skillsService.uninstall({ skillId });
+					await loadSkills();
+				} catch (err) {
+					setError(err instanceof Error ? err.message : "Failed to uninstall skill");
+				}
+			}, [skillsService, loadSkills]);
+			return (0, react_jsx_runtime.jsxs)("div", {
+				className: SkillsSection_module_css_default.root,
+				children: [
+					(0, react_jsx_runtime.jsxs)("div", {
+						className: SkillsSection_module_css_default.header,
+						children: [(0, react_jsx_runtime.jsxs)("div", {
+							className: SkillsSection_module_css_default.headerLeft,
+							children: [(0, react_jsx_runtime.jsx)("h1", {
+								className: SkillsSection_module_css_default.title,
+								children: "Skills"
+							}), (0, react_jsx_runtime.jsx)("p", {
+								className: SkillsSection_module_css_default.description,
+								children: "管理已安装的 Skills，启用或禁用功能"
+							})]
+						}), (0, react_jsx_runtime.jsxs)("div", {
+							className: SkillsSection_module_css_default.headerActions,
+							children: [(0, react_jsx_runtime.jsxs)("button", {
+								type: "button",
+								className: SkillsSection_module_css_default.secondaryButton,
+								onClick: () => alert("Market功能开发中"),
+								disabled: true,
+								children: [(0, react_jsx_runtime.jsx)("svg", {
+									width: "16",
+									height: "16",
+									viewBox: "0 0 16 16",
+									fill: "none",
+									children: (0, react_jsx_runtime.jsx)("path", {
+										d: "M14 7H9V2C9 1.45 8.55 1 8 1C7.45 1 7 1.45 7 2V7H2C1.45 7 1 7.45 1 8C1 8.55 1.45 9 2 9H7V14C7 14.55 7.45 15 8 15C8.55 15 9 14.55 9 14V9H14C14.55 9 15 8.55 15 8C15 7.45 14.55 7 14 7Z",
+										fill: "currentColor"
+									})
+								}), "从市场安装"]
+							}), (0, react_jsx_runtime.jsxs)("button", {
+								type: "button",
+								className: SkillsSection_module_css_default.primaryButton,
+								onClick: () => alert("本地安装功能开发中"),
+								disabled: true,
+								children: [(0, react_jsx_runtime.jsx)("svg", {
+									width: "16",
+									height: "16",
+									viewBox: "0 0 16 16",
+									fill: "none",
+									children: (0, react_jsx_runtime.jsx)("path", {
+										d: "M14 7H9V2C9 1.45 8.55 1 8 1C7.45 1 7 1.45 7 2V7H2C1.45 7 1 7.45 1 8C1 8.55 1.45 9 2 9H7V14C7 14.55 7.45 15 8 15C8.55 15 9 14.55 9 14V9H14C14.55 9 15 8.55 15 8C15 7.45 14.55 7 14 7Z",
+										fill: "currentColor"
+									})
+								}), "从本地安装"]
+							})]
+						})]
+					}),
+					(0, react_jsx_runtime.jsx)("div", {
+						className: SkillsSection_module_css_default.searchRow,
+						children: (0, react_jsx_runtime.jsx)("input", {
+							type: "text",
+							className: SkillsSection_module_css_default.searchInput,
+							placeholder: "搜索 Skills...",
+							value: search,
+							onChange: (e) => setSearch(e.target.value)
+						})
+					}),
+					(0, react_jsx_runtime.jsx)("div", {
+						className: SkillsSection_module_css_default.content,
+						children: loading ? (0, react_jsx_runtime.jsx)("div", {
+							className: SkillsSection_module_css_default.loading,
+							children: "加载中..."
+						}) : error ? (0, react_jsx_runtime.jsxs)("div", {
+							className: SkillsSection_module_css_default.error,
+							children: [
+								(0, react_jsx_runtime.jsx)("div", {
+									className: SkillsSection_module_css_default.emptyTitle,
+									children: "加载失败"
+								}),
+								(0, react_jsx_runtime.jsx)("div", {
+									className: SkillsSection_module_css_default.emptyDescription,
+									children: error
+								}),
+								(0, react_jsx_runtime.jsx)("button", {
+									className: SkillsSection_module_css_default.secondaryButton,
+									onClick: () => loadSkills(),
+									children: "重试"
+								})
+							]
+						}) : skills.length === 0 ? (0, react_jsx_runtime.jsxs)("div", {
+							className: SkillsSection_module_css_default.empty,
+							children: [
+								(0, react_jsx_runtime.jsxs)("svg", {
+									className: SkillsSection_module_css_default.emptyIcon,
+									viewBox: "0 0 64 64",
+									fill: "none",
+									children: [(0, react_jsx_runtime.jsx)("path", {
+										d: "M32 8L8 20V36C8 46.4 17.2 56 32 56C46.8 56 56 46.4 56 36V20L32 8Z",
+										stroke: "currentColor",
+										strokeWidth: "2",
+										strokeLinecap: "round",
+										strokeLinejoin: "round"
+									}), (0, react_jsx_runtime.jsx)("path", {
+										d: "M32 32C35.3137 32 38 29.3137 38 26C38 22.6863 35.3137 20 32 20C28.6863 20 26 22.6863 26 26C26 29.3137 28.6863 32 32 32Z",
+										stroke: "currentColor",
+										strokeWidth: "2"
+									})]
+								}),
+								(0, react_jsx_runtime.jsx)("div", {
+									className: SkillsSection_module_css_default.emptyTitle,
+									children: "暂无已安装的 Skills"
+								}),
+								(0, react_jsx_runtime.jsx)("div", {
+									className: SkillsSection_module_css_default.emptyDescription,
+									children: search ? "没有找到匹配的 Skills" : "点击上方按钮安装新的 Skill"
+								})
+							]
+						}) : (0, react_jsx_runtime.jsx)("div", {
+							className: SkillsSection_module_css_default.grid,
+							children: skills.map((skill) => (0, react_jsx_runtime.jsxs)("div", {
+								className: SkillsSection_module_css_default.card,
+								children: [
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: SkillsSection_module_css_default.cardHeader,
+										children: [(0, react_jsx_runtime.jsx)("h3", {
+											className: SkillsSection_module_css_default.cardTitle,
+											children: skill.name
+										}), (0, react_jsx_runtime.jsxs)("div", {
+											className: SkillsSection_module_css_default.cardActions,
+											children: [(0, react_jsx_runtime.jsx)("button", {
+												type: "button",
+												className: SkillsSection_module_css_default.iconButton,
+												title: skill.isGlobalEnabled ? "禁用" : "启用",
+												onClick: () => handleToggleEnable(skill.id, skill.isGlobalEnabled),
+												children: skill.isGlobalEnabled ? (0, react_jsx_runtime.jsx)("svg", {
+													width: "16",
+													height: "16",
+													viewBox: "0 0 16 16",
+													fill: "none",
+													children: (0, react_jsx_runtime.jsx)("path", {
+														d: "M8 2C4.7 2 2 4.7 2 8C2 11.3 4.7 14 8 14C11.3 14 14 11.3 14 8C14 4.7 11.3 2 8 2ZM6.5 11L3 7.5L4.4 6.1L6.5 8.2L11.6 3.1L13 4.5L6.5 11Z",
+														fill: "currentColor"
+													})
+												}) : (0, react_jsx_runtime.jsx)("svg", {
+													width: "16",
+													height: "16",
+													viewBox: "0 0 16 16",
+													fill: "none",
+													children: (0, react_jsx_runtime.jsx)("circle", {
+														cx: "8",
+														cy: "8",
+														r: "6",
+														stroke: "currentColor",
+														strokeWidth: "2",
+														fill: "none"
+													})
+												})
+											}), (0, react_jsx_runtime.jsx)("button", {
+												type: "button",
+												className: SkillsSection_module_css_default.iconButton,
+												title: "卸载",
+												onClick: () => handleUninstall(skill.id, skill.name),
+												children: (0, react_jsx_runtime.jsx)("svg", {
+													width: "16",
+													height: "16",
+													viewBox: "0 0 16 16",
+													fill: "none",
+													children: (0, react_jsx_runtime.jsx)("path", {
+														d: "M3 5H13L12 14H4L3 5ZM6 2H10V3H6V2ZM7 7V12H8V7H7ZM9 7V12H10V7H9Z",
+														fill: "currentColor"
+													})
+												})
+											})]
+										})]
+									}),
+									skill.description && (0, react_jsx_runtime.jsx)("p", {
+										className: SkillsSection_module_css_default.cardDescription,
+										children: skill.description
+									}),
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: SkillsSection_module_css_default.cardMeta,
+										children: [
+											skill.author && (0, react_jsx_runtime.jsxs)("span", {
+												className: SkillsSection_module_css_default.cardMetaItem,
+												children: [(0, react_jsx_runtime.jsxs)("svg", {
+													width: "12",
+													height: "12",
+													viewBox: "0 0 12 12",
+													fill: "none",
+													children: [(0, react_jsx_runtime.jsx)("circle", {
+														cx: "6",
+														cy: "4",
+														r: "2",
+														stroke: "currentColor",
+														strokeWidth: "1.5"
+													}), (0, react_jsx_runtime.jsx)("path", {
+														d: "M2 10C2 8.34315 3.34315 7 5 7H7C8.65685 7 10 8.34315 10 10",
+														stroke: "currentColor",
+														strokeWidth: "1.5",
+														strokeLinecap: "round"
+													})]
+												}), skill.author]
+											}),
+											skill.version && (0, react_jsx_runtime.jsxs)("span", {
+												className: SkillsSection_module_css_default.cardMetaItem,
+												children: [
+													(0, react_jsx_runtime.jsx)("svg", {
+														width: "12",
+														height: "12",
+														viewBox: "0 0 12 12",
+														fill: "none",
+														children: (0, react_jsx_runtime.jsx)("path", {
+															d: "M6 2L3 4V8L6 10L9 8V4L6 2Z",
+															stroke: "currentColor",
+															strokeWidth: "1.5",
+															strokeLinecap: "round",
+															strokeLinejoin: "round"
+														})
+													}),
+													"v",
+													skill.version
+												]
+											}),
+											skill.source && (0, react_jsx_runtime.jsxs)("span", {
+												className: SkillsSection_module_css_default.cardMetaItem,
+												children: [(0, react_jsx_runtime.jsx)("svg", {
+													width: "12",
+													height: "12",
+													viewBox: "0 0 12 12",
+													fill: "none",
+													children: (0, react_jsx_runtime.jsx)("rect", {
+														x: "2",
+														y: "2",
+														width: "8",
+														height: "8",
+														rx: "1",
+														stroke: "currentColor",
+														strokeWidth: "1.5"
+													})
+												}), skill.source]
+											})
+										]
+									}),
+									(skill.sourceTags.length > 0 || skill.isGlobalEnabled) && (0, react_jsx_runtime.jsxs)("div", {
+										className: SkillsSection_module_css_default.cardFooter,
+										children: [(0, react_jsx_runtime.jsx)("div", {
+											className: SkillsSection_module_css_default.cardTags,
+											children: skill.sourceTags.slice(0, 3).map((tag) => (0, react_jsx_runtime.jsx)("span", {
+												className: SkillsSection_module_css_default.tag,
+												children: tag
+											}, tag))
+										}), (0, react_jsx_runtime.jsx)("div", { children: skill.isGlobalEnabled ? (0, react_jsx_runtime.jsx)("span", {
+											className: SkillsSection_module_css_default.enabledBadge,
+											children: "已启用"
+										}) : (0, react_jsx_runtime.jsx)("span", {
+											className: SkillsSection_module_css_default.disabledBadge,
+											children: "未启用"
+										}) })]
+									})
+								]
+							}, skill.id))
+						})
+					})
+				]
+			});
+		}
+		//#endregion
+		//#region lib/types/provider-remote-client.js
+		/** Client descriptor contribution for the Control Center providers service. */
+		const providersRemote = {
+			package: "@dsh-control-center/control-center",
+			descriptors: [
+				{
+					method: "list",
+					parameters: []
+				},
+				{
+					method: "get",
+					parameters: ["providerId"]
+				},
+				{
+					method: "create",
+					parameters: ["dto"]
+				},
+				{
+					method: "update",
+					parameters: ["providerId", "dto"]
+				},
+				{
+					method: "delete",
+					parameters: ["providerId"]
+				},
+				{
+					method: "testConnection",
+					parameters: ["providerId"]
+				},
+				{
+					method: "discoverModels",
+					parameters: ["providerId"]
+				},
+				{
+					method: "updateModel",
+					parameters: [
+						"providerId",
+						"modelId",
+						"dto"
+					]
+				}
+			].map(({ method, implementation, parameters }) => ({
+				id: `@dsh-control-center/control-center#controlCenterProviders/${method}`,
+				service: "controlCenterProviders",
+				namespace: "controlCenterProviders",
+				method,
+				...implementation === void 0 ? {} : { implementation },
+				invocation: { kind: "direct" },
+				parameters: parameters.map((name) => ({
+					name,
+					wire: name,
+					source: "json",
+					codec: STRICT_JSON
+				})),
+				result: STRICT_JSON
+			}))
+		};
+		//#endregion
+		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\ProvidersSection.module.css.mjs
+		const css$11 = ".ExuySa_root{background:var(--color-background-base);flex-direction:column;flex:1;min-height:0;display:flex}.ExuySa_header{border-bottom:1px solid var(--color-border-subtle);justify-content:space-between;align-items:center;padding:16px 24px;display:flex}.ExuySa_headerLeft{flex-direction:column;gap:4px;display:flex}.ExuySa_title{color:var(--color-text-primary);font-size:20px;font-weight:600;line-height:28px}.ExuySa_description{color:var(--color-text-secondary);font-size:14px;line-height:20px}.ExuySa_headerActions{align-items:center;gap:8px;display:flex}.ExuySa_searchRow{border-bottom:1px solid var(--color-border-subtle);align-items:center;gap:12px;padding:12px 24px;display:flex}.ExuySa_searchInput{border:1px solid var(--color-border-base);background:var(--color-background-elevated);height:32px;color:var(--color-text-primary);border-radius:6px;flex:1;padding:0 12px;font-size:14px;transition:border-color .2s}.ExuySa_searchInput:focus{border-color:var(--color-accent-primary);outline:none}.ExuySa_searchInput::placeholder{color:var(--color-text-tertiary)}.ExuySa_content{flex:1;min-height:0;padding:24px;overflow-y:auto}.ExuySa_grid{grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;display:grid}.ExuySa_card{border:1px solid var(--color-border-subtle);background:var(--color-background-elevated);cursor:pointer;border-radius:8px;flex-direction:column;padding:16px;transition:all .2s;display:flex}.ExuySa_card:hover{border-color:var(--color-border-base);box-shadow:0 2px 8px #00000014}.ExuySa_cardHeader{justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;display:flex}.ExuySa_cardTitle{color:var(--color-text-primary);flex:1;font-size:16px;font-weight:600;line-height:22px}.ExuySa_cardActions{opacity:0;align-items:center;gap:4px;transition:opacity .2s;display:flex}.ExuySa_card:hover .ExuySa_cardActions{opacity:1}.ExuySa_cardDescription{color:var(--color-text-secondary);text-overflow:ellipsis;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin-bottom:12px;font-size:14px;line-height:20px;display:-webkit-box;overflow:hidden}.ExuySa_cardMeta{color:var(--color-text-tertiary);align-items:center;gap:12px;font-size:13px;display:flex}.ExuySa_cardMetaItem{align-items:center;gap:4px;display:flex}.ExuySa_cardFooter{border-top:1px solid var(--color-border-subtle);justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;display:flex}.ExuySa_cardTags{flex-wrap:wrap;gap:6px;display:flex}.ExuySa_tag{background:var(--color-background-base);color:var(--color-text-secondary);border-radius:4px;padding:2px 8px;font-size:12px;line-height:18px}.ExuySa_enabledBadge{background:var(--color-success-bg);color:var(--color-success-text);border-radius:4px;padding:2px 8px;font-size:12px;font-weight:500;line-height:18px}.ExuySa_disabledBadge{background:var(--color-background-base);color:var(--color-text-tertiary);border-radius:4px;padding:2px 8px;font-size:12px;line-height:18px}.ExuySa_iconButton{width:28px;height:28px;color:var(--color-text-secondary);cursor:pointer;background:0 0;border:none;border-radius:4px;justify-content:center;align-items:center;padding:0;transition:all .2s;display:inline-flex}.ExuySa_iconButton:hover{background:var(--color-background-base);color:var(--color-text-primary)}.ExuySa_primaryButton{background:var(--color-accent-primary);color:#fff;cursor:pointer;border:none;border-radius:6px;justify-content:center;align-items:center;gap:6px;height:32px;padding:0 16px;font-size:14px;font-weight:500;transition:all .2s;display:inline-flex}.ExuySa_primaryButton:hover{background:var(--color-accent-primary-hover)}.ExuySa_primaryButton:disabled{opacity:.5;cursor:not-allowed}.ExuySa_secondaryButton{border:1px solid var(--color-border-base);background:var(--color-background-elevated);height:32px;color:var(--color-text-primary);cursor:pointer;border-radius:6px;justify-content:center;align-items:center;gap:6px;padding:0 16px;font-size:14px;transition:all .2s;display:inline-flex}.ExuySa_secondaryButton:hover{border-color:var(--color-border-hover);background:var(--color-background-base)}.ExuySa_empty{text-align:center;flex-direction:column;justify-content:center;align-items:center;padding:64px 24px;display:flex}.ExuySa_emptyIcon{width:64px;height:64px;color:var(--color-text-tertiary);margin-bottom:16px}.ExuySa_emptyTitle{color:var(--color-text-primary);margin-bottom:8px;font-size:16px;font-weight:600}.ExuySa_emptyDescription{color:var(--color-text-secondary);max-width:400px;margin-bottom:24px;font-size:14px}.ExuySa_error{text-align:center;color:var(--color-error-text);flex-direction:column;justify-content:center;align-items:center;padding:64px 24px;display:flex}.ExuySa_loading{color:var(--color-text-tertiary);justify-content:center;align-items:center;padding:64px 24px;display:flex}";
+		const tagId$11 = "@dsh-control-center/control-center/ProvidersSection.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$11) + "]") === null) {
+			const tag = document.createElement("style");
+			tag.dataset.plugin = "@dsh-control-center/control-center";
+			tag.dataset.pluginCss = tagId$11;
+			tag.textContent = css$11;
+			document.head.appendChild(tag);
+		}
+		var ProvidersSection_module_css_default = {
+			"iconButton": "ExuySa_iconButton",
+			"root": "ExuySa_root",
+			"cardFooter": "ExuySa_cardFooter",
+			"primaryButton": "ExuySa_primaryButton",
+			"cardActions": "ExuySa_cardActions",
+			"content": "ExuySa_content",
+			"description": "ExuySa_description",
+			"tag": "ExuySa_tag",
+			"grid": "ExuySa_grid",
+			"cardDescription": "ExuySa_cardDescription",
+			"cardMetaItem": "ExuySa_cardMetaItem",
+			"headerActions": "ExuySa_headerActions",
+			"searchInput": "ExuySa_searchInput",
+			"enabledBadge": "ExuySa_enabledBadge",
+			"emptyIcon": "ExuySa_emptyIcon",
+			"cardTitle": "ExuySa_cardTitle",
+			"searchRow": "ExuySa_searchRow",
+			"emptyTitle": "ExuySa_emptyTitle",
+			"cardHeader": "ExuySa_cardHeader",
+			"card": "ExuySa_card",
+			"emptyDescription": "ExuySa_emptyDescription",
+			"cardMeta": "ExuySa_cardMeta",
+			"headerLeft": "ExuySa_headerLeft",
+			"disabledBadge": "ExuySa_disabledBadge",
+			"loading": "ExuySa_loading",
+			"title": "ExuySa_title",
+			"cardTags": "ExuySa_cardTags",
+			"header": "ExuySa_header",
+			"secondaryButton": "ExuySa_secondaryButton",
+			"empty": "ExuySa_empty",
+			"error": "ExuySa_error"
+		};
+		//#endregion
+		//#region lib/types/client/ProvidersSection.js
+		/**
+		* Providers management section component.
+		*
+		* Cherry-style providers management UI over the controlCenterProviders Remote service.
+		* Displays configured providers in a card grid with search, enable/disable, test, and delete actions.
+		*
+		* AGPL-3.0-only – adapted from Cherry Studio provider management pattern.
+		*/
+		function ProvidersSection(props) {
+			const { providers: providersService } = props;
+			const [providers, setProviders] = (0, react.useState)([]);
+			const [search, setSearch] = (0, react.useState)("");
+			const [loading, setLoading] = (0, react.useState)(true);
+			const [error, setError] = (0, react.useState)(null);
+			const loadProviders = (0, react.useCallback)(async () => {
+				if (!providersService) {
+					setError("Providers service not available");
+					setLoading(false);
+					return;
+				}
+				try {
+					setLoading(true);
+					setError(null);
+					const result = await providersService.list();
+					setProviders(result);
+				} catch (err) {
+					setError(err instanceof Error ? err.message : "Failed to load providers");
+				} finally {
+					setLoading(false);
+				}
+			}, [providersService]);
+			(0, react.useEffect)(() => {
+				loadProviders();
+			}, [loadProviders]);
+			const handleToggleEnable = (0, react.useCallback)(async (providerId, currentEnabled) => {
+				if (!providersService) return;
+				try {
+					await providersService.update({
+						providerId,
+						dto: { enabled: !currentEnabled }
+					});
+					await loadProviders();
+				} catch (err) {
+					setError(err instanceof Error ? err.message : "Failed to update provider");
+				}
+			}, [providersService, loadProviders]);
+			const handleDelete = (0, react.useCallback)(async (providerId, providerName) => {
+				if (!providersService) return;
+				if (!window.confirm(`确定要删除 "${providerName}" 提供商吗？`)) return;
+				try {
+					await providersService.delete({ providerId });
+					await loadProviders();
+				} catch (err) {
+					setError(err instanceof Error ? err.message : "Failed to delete provider");
+				}
+			}, [providersService, loadProviders]);
+			const filteredProviders = search ? providers.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()) || p.type.toLowerCase().includes(search.toLowerCase())) : providers;
+			return (0, react_jsx_runtime.jsxs)("div", {
+				className: ProvidersSection_module_css_default.root,
+				children: [
+					(0, react_jsx_runtime.jsxs)("div", {
+						className: ProvidersSection_module_css_default.header,
+						children: [(0, react_jsx_runtime.jsxs)("div", {
+							className: ProvidersSection_module_css_default.headerLeft,
+							children: [(0, react_jsx_runtime.jsx)("h1", {
+								className: ProvidersSection_module_css_default.title,
+								children: "API Providers"
+							}), (0, react_jsx_runtime.jsx)("p", {
+								className: ProvidersSection_module_css_default.description,
+								children: "管理 OpenAI 兼容的 API 提供商配置"
+							})]
+						}), (0, react_jsx_runtime.jsx)("div", {
+							className: ProvidersSection_module_css_default.headerActions,
+							children: (0, react_jsx_runtime.jsxs)("button", {
+								type: "button",
+								className: ProvidersSection_module_css_default.primaryButton,
+								onClick: () => alert("添加提供商功能开发中"),
+								disabled: true,
+								children: [(0, react_jsx_runtime.jsx)("svg", {
+									width: "16",
+									height: "16",
+									viewBox: "0 0 16 16",
+									fill: "none",
+									children: (0, react_jsx_runtime.jsx)("path", {
+										d: "M14 7H9V2C9 1.45 8.55 1 8 1C7.45 1 7 1.45 7 2V7H2C1.45 7 1 7.45 1 8C1 8.55 1.45 9 2 9H7V14C7 14.55 7.45 15 8 15C8.55 15 9 14.55 9 14V9H14C14.55 9 15 8.55 15 8C15 7.45 14.55 7 14 7Z",
+										fill: "currentColor"
+									})
+								}), "添加提供商"]
+							})
+						})]
+					}),
+					(0, react_jsx_runtime.jsx)("div", {
+						className: ProvidersSection_module_css_default.searchRow,
+						children: (0, react_jsx_runtime.jsx)("input", {
+							type: "text",
+							className: ProvidersSection_module_css_default.searchInput,
+							placeholder: "搜索提供商...",
+							value: search,
+							onChange: (e) => setSearch(e.target.value)
+						})
+					}),
+					(0, react_jsx_runtime.jsx)("div", {
+						className: ProvidersSection_module_css_default.content,
+						children: loading ? (0, react_jsx_runtime.jsx)("div", {
+							className: ProvidersSection_module_css_default.loading,
+							children: "加载中..."
+						}) : error ? (0, react_jsx_runtime.jsxs)("div", {
+							className: ProvidersSection_module_css_default.error,
+							children: [
+								(0, react_jsx_runtime.jsx)("div", {
+									className: ProvidersSection_module_css_default.emptyTitle,
+									children: "加载失败"
+								}),
+								(0, react_jsx_runtime.jsx)("div", {
+									className: ProvidersSection_module_css_default.emptyDescription,
+									children: error
+								}),
+								(0, react_jsx_runtime.jsx)("button", {
+									className: ProvidersSection_module_css_default.secondaryButton,
+									onClick: () => loadProviders(),
+									children: "重试"
+								})
+							]
+						}) : filteredProviders.length === 0 ? (0, react_jsx_runtime.jsxs)("div", {
+							className: ProvidersSection_module_css_default.empty,
+							children: [
+								(0, react_jsx_runtime.jsxs)("svg", {
+									className: ProvidersSection_module_css_default.emptyIcon,
+									viewBox: "0 0 64 64",
+									fill: "none",
+									children: [(0, react_jsx_runtime.jsx)("rect", {
+										x: "12",
+										y: "12",
+										width: "40",
+										height: "40",
+										rx: "4",
+										stroke: "currentColor",
+										strokeWidth: "2"
+									}), (0, react_jsx_runtime.jsx)("path", {
+										d: "M24 28H40M24 32H36M24 36H40",
+										stroke: "currentColor",
+										strokeWidth: "2",
+										strokeLinecap: "round"
+									})]
+								}),
+								(0, react_jsx_runtime.jsx)("div", {
+									className: ProvidersSection_module_css_default.emptyTitle,
+									children: "暂无配置的提供商"
+								}),
+								(0, react_jsx_runtime.jsx)("div", {
+									className: ProvidersSection_module_css_default.emptyDescription,
+									children: search ? "没有找到匹配的提供商" : "点击上方按钮添加新的 API 提供商"
+								})
+							]
+						}) : (0, react_jsx_runtime.jsx)("div", {
+							className: ProvidersSection_module_css_default.grid,
+							children: filteredProviders.map((provider) => (0, react_jsx_runtime.jsxs)("div", {
+								className: ProvidersSection_module_css_default.card,
+								children: [
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: ProvidersSection_module_css_default.cardHeader,
+										children: [(0, react_jsx_runtime.jsx)("h3", {
+											className: ProvidersSection_module_css_default.cardTitle,
+											children: provider.name
+										}), (0, react_jsx_runtime.jsxs)("div", {
+											className: ProvidersSection_module_css_default.cardActions,
+											children: [(0, react_jsx_runtime.jsx)("button", {
+												type: "button",
+												className: ProvidersSection_module_css_default.iconButton,
+												title: provider.enabled ? "禁用" : "启用",
+												onClick: () => handleToggleEnable(provider.id, provider.enabled),
+												children: provider.enabled ? (0, react_jsx_runtime.jsx)("svg", {
+													width: "16",
+													height: "16",
+													viewBox: "0 0 16 16",
+													fill: "none",
+													children: (0, react_jsx_runtime.jsx)("path", {
+														d: "M8 2C4.7 2 2 4.7 2 8C2 11.3 4.7 14 8 14C11.3 14 14 11.3 14 8C14 4.7 11.3 2 8 2ZM6.5 11L3 7.5L4.4 6.1L6.5 8.2L11.6 3.1L13 4.5L6.5 11Z",
+														fill: "currentColor"
+													})
+												}) : (0, react_jsx_runtime.jsx)("svg", {
+													width: "16",
+													height: "16",
+													viewBox: "0 0 16 16",
+													fill: "none",
+													children: (0, react_jsx_runtime.jsx)("circle", {
+														cx: "8",
+														cy: "8",
+														r: "6",
+														stroke: "currentColor",
+														strokeWidth: "2",
+														fill: "none"
+													})
+												})
+											}), (0, react_jsx_runtime.jsx)("button", {
+												type: "button",
+												className: ProvidersSection_module_css_default.iconButton,
+												title: "删除",
+												onClick: () => handleDelete(provider.id, provider.name),
+												children: (0, react_jsx_runtime.jsx)("svg", {
+													width: "16",
+													height: "16",
+													viewBox: "0 0 16 16",
+													fill: "none",
+													children: (0, react_jsx_runtime.jsx)("path", {
+														d: "M3 5H13L12 14H4L3 5ZM6 2H10V3H6V2ZM7 7V12H8V7H7ZM9 7V12H10V7H9Z",
+														fill: "currentColor"
+													})
+												})
+											})]
+										})]
+									}),
+									(0, react_jsx_runtime.jsx)("p", {
+										className: ProvidersSection_module_css_default.cardDescription,
+										children: provider.baseURL
+									}),
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: ProvidersSection_module_css_default.cardMeta,
+										children: [
+											(0, react_jsx_runtime.jsxs)("span", {
+												className: ProvidersSection_module_css_default.cardMetaItem,
+												children: [(0, react_jsx_runtime.jsx)("svg", {
+													width: "12",
+													height: "12",
+													viewBox: "0 0 12 12",
+													fill: "none",
+													children: (0, react_jsx_runtime.jsx)("path", {
+														d: "M6 2L3 4V8L6 10L9 8V4L6 2Z",
+														stroke: "currentColor",
+														strokeWidth: "1.5",
+														strokeLinecap: "round",
+														strokeLinejoin: "round"
+													})
+												}), provider.type]
+											}),
+											(0, react_jsx_runtime.jsxs)("span", {
+												className: ProvidersSection_module_css_default.cardMetaItem,
+												children: [
+													(0, react_jsx_runtime.jsxs)("svg", {
+														width: "12",
+														height: "12",
+														viewBox: "0 0 12 12",
+														fill: "none",
+														children: [(0, react_jsx_runtime.jsx)("path", {
+															d: "M6 3V6L8 8",
+															stroke: "currentColor",
+															strokeWidth: "1.5",
+															strokeLinecap: "round"
+														}), (0, react_jsx_runtime.jsx)("circle", {
+															cx: "6",
+															cy: "6",
+															r: "4",
+															stroke: "currentColor",
+															strokeWidth: "1.5"
+														})]
+													}),
+													provider.models.length,
+													" 模型"
+												]
+											}),
+											provider.hasApiKey && (0, react_jsx_runtime.jsxs)("span", {
+												className: ProvidersSection_module_css_default.cardMetaItem,
+												children: [(0, react_jsx_runtime.jsxs)("svg", {
+													width: "12",
+													height: "12",
+													viewBox: "0 0 12 12",
+													fill: "none",
+													children: [(0, react_jsx_runtime.jsx)("rect", {
+														x: "2",
+														y: "5",
+														width: "8",
+														height: "5",
+														rx: "1",
+														stroke: "currentColor",
+														strokeWidth: "1.5"
+													}), (0, react_jsx_runtime.jsx)("path", {
+														d: "M4 5V3.5C4 2.67 4.67 2 5.5 2H6.5C7.33 2 8 2.67 8 3.5V5",
+														stroke: "currentColor",
+														strokeWidth: "1.5"
+													})]
+												}), "已配置密钥"]
+											})
+										]
+									}),
+									(0, react_jsx_runtime.jsx)("div", {
+										className: ProvidersSection_module_css_default.cardFooter,
+										children: (0, react_jsx_runtime.jsx)("div", {
+											className: ProvidersSection_module_css_default.cardTags,
+											children: provider.enabled ? (0, react_jsx_runtime.jsx)("span", {
+												className: ProvidersSection_module_css_default.enabledBadge,
+												children: "已启用"
+											}) : (0, react_jsx_runtime.jsx)("span", {
+												className: ProvidersSection_module_css_default.disabledBadge,
+												children: "未启用"
+											})
+										})
+									})
+								]
+							}, provider.id))
+						})
+					})
+				]
+			});
+		}
+		//#endregion
 		//#region ../../node_modules/.pnpm/clsx@2.1.1/node_modules/clsx/dist/clsx.mjs
 		function r(e) {
 			var t, f, n = "";
@@ -1167,28 +1982,28 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
-			"header": "_4STY0G_header",
-			"options": "_4STY0G_options",
-			"hiddenLabel": "_4STY0G_hiddenLabel",
-			"content": "_4STY0G_content",
 			"nav": "_4STY0G_nav",
-			"mask": "_4STY0G_mask",
-			"trigger": "_4STY0G_trigger",
-			"overlay": "_4STY0G_overlay",
-			"navGroupTitle": "_4STY0G_navGroupTitle",
-			"actions": "_4STY0G_actions",
-			"navGroup": "_4STY0G_navGroup",
-			"navIcon": "_4STY0G_navIcon",
+			"content": "_4STY0G_content",
 			"navTitle": "_4STY0G_navTitle",
-			"active": "_4STY0G_active",
 			"navScroll": "_4STY0G_navScroll",
-			"navCell": "_4STY0G_navCell",
-			"rail": "_4STY0G_rail",
-			"navLabel": "_4STY0G_navLabel",
-			"close": "_4STY0G_close",
+			"navList": "_4STY0G_navList",
 			"triggerLabel": "_4STY0G_triggerLabel",
+			"header": "_4STY0G_header",
+			"actions": "_4STY0G_actions",
+			"close": "_4STY0G_close",
+			"navIcon": "_4STY0G_navIcon",
+			"trigger": "_4STY0G_trigger",
+			"navCell": "_4STY0G_navCell",
+			"navGroup": "_4STY0G_navGroup",
 			"panel": "_4STY0G_panel",
-			"navList": "_4STY0G_navList"
+			"overlay": "_4STY0G_overlay",
+			"rail": "_4STY0G_rail",
+			"active": "_4STY0G_active",
+			"hiddenLabel": "_4STY0G_hiddenLabel",
+			"navGroupTitle": "_4STY0G_navGroupTitle",
+			"options": "_4STY0G_options",
+			"mask": "_4STY0G_mask",
+			"navLabel": "_4STY0G_navLabel"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsRoot.js
@@ -1578,7 +2393,8 @@ window.__ModuleLoader__.load({
 			workspaceBack: "Back to conversation",
 			workspaceTranslationDescription: "Streaming translation, language management, and history are being connected to DSH model providers.",
 			workspacePaintingDescription: "Image-generation jobs, model controls, the gallery, and file attachments are being connected.",
-			workspaceKnowledgeDescription: "Ingestion, chunking, embeddings, retrieval, and agent tools are being connected."
+			workspaceKnowledgeDescription: "Ingestion, chunking, embeddings, retrieval, and agent tools are being connected.",
+			providersNav: "API Providers"
 		};
 		const zh$1 = {
 			trigger: "设置",
@@ -1596,7 +2412,8 @@ window.__ModuleLoader__.load({
 			workspaceBack: "返回对话",
 			workspaceTranslationDescription: "流式翻译、语言管理与历史能力正在接入 DSH 模型提供方。",
 			workspacePaintingDescription: "图像生成任务、模型控件、画廊和文件附件能力正在接入。",
-			workspaceKnowledgeDescription: "摄取、切分、Embedding、检索和 Agent 工具能力正在接入。"
+			workspaceKnowledgeDescription: "摄取、切分、Embedding、检索和 Agent 工具能力正在接入。",
+			providersNav: "API 提供商"
 		};
 		//#endregion
 		//#region lib/types/client/apiKey.js
@@ -1656,69 +2473,69 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelsSection_module_css_default = {
-			"rowName": "tKsOKa_rowName",
-			"modelAdvanced": "tKsOKa_modelAdvanced",
-			"iconButton": "tKsOKa_iconButton",
-			"addActions": "tKsOKa_addActions",
-			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
-			"modelListHead": "tKsOKa_modelListHead",
-			"modelCatalog": "tKsOKa_modelCatalog",
-			"input": "tKsOKa_input",
-			"customizedSummary": "tKsOKa_customizedSummary",
-			"hiddenLabel": "tKsOKa_hiddenLabel",
-			"modelRow": "tKsOKa_modelRow",
-			"editorRoute": "tKsOKa_editorRoute",
-			"secondaryButton": "tKsOKa_secondaryButton",
-			"linkButton": "tKsOKa_linkButton",
-			"modelFieldLabel": "tKsOKa_modelFieldLabel",
-			"rowTag": "tKsOKa_rowTag",
-			"candidateLabel": "tKsOKa_candidateLabel",
-			"intro": "tKsOKa_intro",
-			"rowIdentity": "tKsOKa_rowIdentity",
-			"editorTitle": "tKsOKa_editorTitle",
-			"rowHead": "tKsOKa_rowHead",
-			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
-			"iconButtonDanger": "tKsOKa_iconButtonDanger",
-			"error": "tKsOKa_error",
-			"modelField": "tKsOKa_modelField",
-			"modelSelectionPanel": "tKsOKa_modelSelectionPanel",
-			"addCard": "tKsOKa_addCard",
-			"notice": "tKsOKa_notice",
-			"primaryButton": "tKsOKa_primaryButton",
-			"editorActions": "tKsOKa_editorActions",
-			"candidateId": "tKsOKa_candidateId",
-			"rowCard": "tKsOKa_rowCard",
-			"editorHeader": "tKsOKa_editorHeader",
-			"fieldLabel": "tKsOKa_fieldLabel",
 			"fetchDialog": "tKsOKa_fetchDialog",
-			"section": "tKsOKa_section",
-			"customized": "tKsOKa_customized",
-			"modelEmpty": "tKsOKa_modelEmpty",
-			"deleteDialog": "tKsOKa_deleteDialog",
-			"credentialDotMissing": "tKsOKa_credentialDotMissing",
-			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
-			"modelEntry": "tKsOKa_modelEntry",
-			"rowActions": "tKsOKa_rowActions",
-			"modelSelectionTitle": "tKsOKa_modelSelectionTitle",
-			"setupCard": "tKsOKa_setupCard",
+			"error": "tKsOKa_error",
 			"credentialDot": "tKsOKa_credentialDot",
+			"intro": "tKsOKa_intro",
 			"savedNotice": "tKsOKa_savedNotice",
-			"customizedBody": "tKsOKa_customizedBody",
-			"deleteConfirm": "tKsOKa_deleteConfirm",
-			"candidateList": "tKsOKa_candidateList",
+			"primaryButton": "tKsOKa_primaryButton",
 			"advancedHint": "tKsOKa_advancedHint",
-			"field": "tKsOKa_field",
-			"editor": "tKsOKa_editor",
-			"candidate": "tKsOKa_candidate",
-			"addBlock": "tKsOKa_addBlock",
+			"rowName": "tKsOKa_rowName",
+			"modelCatalog": "tKsOKa_modelCatalog",
+			"notice": "tKsOKa_notice",
+			"iconButtonDanger": "tKsOKa_iconButtonDanger",
+			"addCard": "tKsOKa_addCard",
+			"modelListHead": "tKsOKa_modelListHead",
+			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
+			"rowCard": "tKsOKa_rowCard",
+			"customizedSummary": "tKsOKa_customizedSummary",
+			"editorActions": "tKsOKa_editorActions",
 			"dangerButton": "tKsOKa_dangerButton",
-			"modelList": "tKsOKa_modelList",
-			"rows": "tKsOKa_rows",
+			"customized": "tKsOKa_customized",
+			"rowHead": "tKsOKa_rowHead",
+			"rowActions": "tKsOKa_rowActions",
+			"linkButton": "tKsOKa_linkButton",
+			"modelRow": "tKsOKa_modelRow",
+			"section": "tKsOKa_section",
+			"modelEmpty": "tKsOKa_modelEmpty",
 			"selectInput": "tKsOKa_selectInput",
-			"addButton": "tKsOKa_addButton",
-			"title": "tKsOKa_title",
+			"candidate": "tKsOKa_candidate",
+			"modelSelectionPanel": "tKsOKa_modelSelectionPanel",
+			"addActions": "tKsOKa_addActions",
+			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"rowIdentity": "tKsOKa_rowIdentity",
+			"fieldLabel": "tKsOKa_fieldLabel",
+			"setupCard": "tKsOKa_setupCard",
+			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
+			"rows": "tKsOKa_rows",
+			"field": "tKsOKa_field",
+			"addBlock": "tKsOKa_addBlock",
+			"modelField": "tKsOKa_modelField",
+			"editorHeader": "tKsOKa_editorHeader",
+			"deleteDialog": "tKsOKa_deleteDialog",
+			"iconButton": "tKsOKa_iconButton",
+			"modelAdvanced": "tKsOKa_modelAdvanced",
 			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
-			"addModelButton": "tKsOKa_addModelButton"
+			"modelSelectionTitle": "tKsOKa_modelSelectionTitle",
+			"deleteConfirm": "tKsOKa_deleteConfirm",
+			"hiddenLabel": "tKsOKa_hiddenLabel",
+			"editorRoute": "tKsOKa_editorRoute",
+			"modelFieldLabel": "tKsOKa_modelFieldLabel",
+			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
+			"candidateId": "tKsOKa_candidateId",
+			"modelEntry": "tKsOKa_modelEntry",
+			"title": "tKsOKa_title",
+			"editorTitle": "tKsOKa_editorTitle",
+			"candidateList": "tKsOKa_candidateList",
+			"candidateLabel": "tKsOKa_candidateLabel",
+			"secondaryButton": "tKsOKa_secondaryButton",
+			"input": "tKsOKa_input",
+			"addButton": "tKsOKa_addButton",
+			"addModelButton": "tKsOKa_addModelButton",
+			"editor": "tKsOKa_editor",
+			"customizedBody": "tKsOKa_customizedBody",
+			"modelList": "tKsOKa_modelList",
+			"rowTag": "tKsOKa_rowTag"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -4835,8 +5652,8 @@ window.__ModuleLoader__.load({
 		var OnboardingModal_module_css_default = {
 			"content": "C_CJ_a_content",
 			"title": "C_CJ_a_title",
-			"dialog": "C_CJ_a_dialog",
-			"body": "C_CJ_a_body"
+			"body": "C_CJ_a_body",
+			"dialog": "C_CJ_a_dialog"
 		};
 		//#endregion
 		//#region lib/types/client/OnboardingModal.js
@@ -4895,8 +5712,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var DeepSeekOnboardingDialog_module_css_default = {
-			"description": "oxcHWa_description",
-			"editor": "oxcHWa_editor"
+			"editor": "oxcHWa_editor",
+			"description": "oxcHWa_description"
 		};
 		//#endregion
 		//#region lib/types/client/DeepSeekOnboardingDialog.js
@@ -4987,9 +5804,9 @@ window.__ModuleLoader__.load({
 		}
 		var WelcomeNotice_module_css_default = {
 			"primary": "RFswhG_primary",
-			"actions": "RFswhG_actions",
+			"copy": "RFswhG_copy",
 			"error": "RFswhG_error",
-			"copy": "RFswhG_copy"
+			"actions": "RFswhG_actions"
 		};
 		//#endregion
 		//#region lib/types/client/WelcomeNotice.js
@@ -5452,12 +6269,12 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProductWorkspaceSurface_module_css_default = {
-			"eyebrow": "mzcFbW_eyebrow",
 			"root": "mzcFbW_root",
 			"icon": "mzcFbW_icon",
-			"body": "mzcFbW_body",
-			"close": "mzcFbW_close",
+			"eyebrow": "mzcFbW_eyebrow",
 			"identity": "mzcFbW_identity",
+			"close": "mzcFbW_close",
+			"body": "mzcFbW_body",
 			"header": "mzcFbW_header"
 		};
 		//#endregion
@@ -5506,20 +6323,20 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TranslationWorkspace_module_css_default = {
-			"secondary": "_8lesPa_secondary",
-			"header": "_8lesPa_header",
-			"swap": "_8lesPa_swap",
-			"error": "_8lesPa_error",
-			"empty": "_8lesPa_empty",
-			"panes": "_8lesPa_panes",
-			"pane": "_8lesPa_pane",
-			"eyebrow": "_8lesPa_eyebrow",
-			"actions": "_8lesPa_actions",
 			"toolbar": "_8lesPa_toolbar",
+			"link": "_8lesPa_link",
+			"actions": "_8lesPa_actions",
+			"eyebrow": "_8lesPa_eyebrow",
+			"swap": "_8lesPa_swap",
+			"root": "_8lesPa_root",
+			"secondary": "_8lesPa_secondary",
+			"panes": "_8lesPa_panes",
+			"header": "_8lesPa_header",
 			"history": "_8lesPa_history",
 			"historyItem": "_8lesPa_historyItem",
-			"link": "_8lesPa_link",
-			"root": "_8lesPa_root"
+			"empty": "_8lesPa_empty",
+			"error": "_8lesPa_error",
+			"pane": "_8lesPa_pane"
 		};
 		//#endregion
 		//#region lib/types/client/TranslationWorkspace.js
@@ -5913,19 +6730,25 @@ window.__ModuleLoader__.load({
 					};
 				}
 			};
+			let skills;
+			let providers;
 			ctx.effect(async () => {
 				const controlCenterRemote = {
 					package: "@dsh-control-center/control-center",
 					descriptors: [
 						...translationRemote.descriptors,
 						...paintingRemote.descriptors,
-						...knowledgeRemote.descriptors
+						...knowledgeRemote.descriptors,
+						...skillsRemote.descriptors,
+						...providersRemote.descriptors
 					]
 				};
 				const dispose = await remote.$mount(controlCenterRemote);
 				translation = ctx.get("remote.controlCenterTranslation");
 				painting = ctx.get("remote.controlCenterPainting");
 				knowledge = ctx.get("remote.controlCenterKnowledge");
+				skills = ctx.get("remote.controlCenterSkills");
+				providers = ctx.get("remote.controlCenterProviders");
 				return dispose;
 			}, "control-center: control-center Remote namespaces");
 			ctx.effect(() => ctx.locale.register(SHELL_NS, {
@@ -6021,6 +6844,8 @@ window.__ModuleLoader__.load({
 				modelSelection,
 				t: modelT
 			});
+			const skillsInjected = () => ({ skills });
+			const providersInjected = () => ({ providers });
 			const deepSeekOnboardingInjected = () => ({
 				controller: modelsController,
 				hooks: { models: modelsController.store },
@@ -6201,6 +7026,20 @@ window.__ModuleLoader__.load({
 				label: () => modelT("nav"),
 				inject: modelsInjected
 			}, ModelsSection));
+			ctx.slots.inject("settings.section", () => ctx.slots.register({
+				name: "settings.section",
+				id: "skills",
+				order: 20,
+				label: () => "Skills",
+				inject: skillsInjected
+			}, SkillsSection));
+			ctx.slots.inject("settings.section", () => ctx.slots.register({
+				name: "settings.section",
+				id: "providers",
+				order: 30,
+				label: () => shellT("providersNav"),
+				inject: providersInjected
+			}, ProvidersSection));
 			ctx.slots.inject("settings.onboarding", () => ctx.slots.register({
 				name: "settings.onboarding",
 				id: "welcome-notice",

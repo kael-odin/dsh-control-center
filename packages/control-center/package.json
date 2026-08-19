@@ -77,6 +77,10 @@
     "@deepseek-ai/schemastery": "3.18.1",
     "clsx": "^2.1.1"
   },
+  "devDependencies": {
+    "@deepseek-ai/dsh-settings-file": "0.1.0-rc.7",
+    "@deepseek-ai/dsh-credentials-local": "0.1.0-rc.7"
+  },
   "peerDependencies": {
     "@deepseek-ai/cordis": "4.0.1",
     "@deepseek-ai/dsh-api-remotes": "0.1.0-rc.7",

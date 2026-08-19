@@ -17,6 +17,7 @@ export const en = {
   workspaceTranslationDescription: 'Streaming translation, language management, and history are being connected to DSH model providers.',
   workspacePaintingDescription: 'Image-generation jobs, model controls, the gallery, and file attachments are being connected.',
   workspaceKnowledgeDescription: 'Ingestion, chunking, embeddings, retrieval, and agent tools are being connected.',
+  providersNav: 'API Providers',
 }
 
 export type SettingsKey = keyof typeof en
@@ -38,4 +39,5 @@ export const zh: { [Key in SettingsKey]: string } = {
   workspaceTranslationDescription: '流式翻译、语言管理与历史能力正在接入 DSH 模型提供方。',
   workspacePaintingDescription: '图像生成任务、模型控件、画廊和文件附件能力正在接入。',
   workspaceKnowledgeDescription: '摄取、切分、Embedding、检索和 Agent 工具能力正在接入。',
+  providersNav: 'API 提供商',
 }
