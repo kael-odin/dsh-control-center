@@ -10,6 +10,8 @@ export { TranslationService } from './translation.ts';
 export type * from './translation-types.ts';
 export { PaintingService } from './painting.ts';
 export type * from './painting-types.ts';
+export { KnowledgeService } from './knowledge.ts';
+export type * from './knowledge-types.ts';
 export { assertSecretSchemaSafe, auditSecretSchema } from './secret-schema.ts';
 export type { SecretSchemaViolation } from './secret-schema.ts';
 //# sourceMappingURL=index.d.ts.map

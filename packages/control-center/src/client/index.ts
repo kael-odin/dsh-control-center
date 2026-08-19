@@ -14,6 +14,10 @@ import type {} from '../painting-types.ts'
 import paintingRemote from '../painting-remote-client.ts'
 import { PaintingWorkspace } from './PaintingWorkspace.tsx'
 import type { PaintWorkspaceInjected } from './PaintingWorkspace.tsx'
+import type {} from '../knowledge-types.ts'
+import knowledgeRemote from '../knowledge-remote-client.ts'
+import { KnowledgeWorkspace } from './KnowledgeWorkspace.tsx'
+import type { KnowledgeWorkspaceInjected } from './KnowledgeWorkspace.tsx'
 import { SettingsRoot } from './SettingsRoot.tsx'
 import type { SettingsOnboardingStep, SettingsRootInjected, SettingsSectionRow } from './shell-contract.ts'
 import { CloseLabel, HeaderContent, TriggerContent } from './chrome.tsx'
@@ -87,16 +91,29 @@ export function apply(ctx: ClientContext): void {
       return () => { window.clearInterval(timer) }
     },
   }
+  let knowledge: NonNullable<typeof remote.controlCenterKnowledge> | undefined
+  const knowledgeReadySource: HostObservable<boolean> = {
+    getSnapshot: () => knowledge !== undefined,
+    subscribe: (listener) => {
+      const timer = window.setInterval(() => {
+        if (knowledge === undefined) return
+        window.clearInterval(timer)
+        listener()
+      }, 25)
+      return () => { window.clearInterval(timer) }
+    },
+  }
   ctx.effect(async () => {
-    // The client Remote registry keys contributions by package, so both
-    // namespaces must be mounted through one merged contribution.
+    // The client Remote registry keys contributions by package, so every
+    // namespace must be mounted through one merged contribution.
     const controlCenterRemote: typeof translationRemote = {
       package: '@dsh-control-center/control-center',
-      descriptors: [...translationRemote.descriptors, ...paintingRemote.descriptors],
+      descriptors: [...translationRemote.descriptors, ...paintingRemote.descriptors, ...knowledgeRemote.descriptors],
     }
     const dispose = await remote.$mount(controlCenterRemote)
     translation = ctx.get('remote.controlCenterTranslation') as NonNullable<typeof remote.controlCenterTranslation>
     painting = ctx.get('remote.controlCenterPainting') as NonNullable<typeof remote.controlCenterPainting>
+    knowledge = ctx.get('remote.controlCenterKnowledge') as NonNullable<typeof remote.controlCenterKnowledge>
     return dispose
   }, 'control-center: control-center Remote namespaces')
   ctx.effect(() => ctx.locale.register(SHELL_NS, { zh: shellZh, en: shellEn }), 'control-center: shell dictionaries')
@@ -173,7 +190,7 @@ export function apply(ctx: ClientContext): void {
   const modelSelection = {
     controller: selectionController,
     useSnapshot: useSelection,
-    useSessions: bindSnapshotSelector(ctx.sessions.list) as unknown as (<T>(selector: (state: SessionListState) => T) => T),
+    useSessions: bindSnapshotSelector(ctx.sessions.list as unknown as HostObservable<SessionListState>) as unknown as (<T>(selector: (state: SessionListState) => T) => T),
     load: (sessionId: SessionId | undefined, addressed: boolean) => { void selectionController.load(sessionId, addressed) },
     t: modelT,
   }
@@ -200,7 +217,7 @@ export function apply(ctx: ClientContext): void {
     refreshDocumentIfLoaded(documentController)
     refreshIfLoaded(modelsController)
     refreshWelcomeIfLoaded(welcomeController)
-    const current = ctx.sessions.list.getSnapshot().current
+    const current = (ctx.sessions.list as unknown as HostObservable<SessionListState>).getSnapshot().current
     void selectionController.load(current)
   }), 'control-center: connection invalidations')
 
@@ -264,6 +281,18 @@ export function apply(ctx: ClientContext): void {
           hooks: { paintingReady: paintingReadySource },
         }),
       }, PaintingWorkspace))
+    } else if (workspace.id === 'knowledge') {
+      ctx.slots.inject('application.surface', () => ctx.slots.register({
+        name: 'application.surface',
+        key: 'knowledge',
+        inject: (): KnowledgeWorkspaceInjected => ({
+          getKnowledge: () => {
+            if (knowledge === undefined) throw new Error('knowledge Remote namespace is not mounted')
+            return knowledge
+          },
+          hooks: { knowledgeReady: knowledgeReadySource },
+        }),
+      }, KnowledgeWorkspace))
     } else {
       ctx.slots.inject('application.surface', () => ctx.slots.register({
         name: 'application.surface',

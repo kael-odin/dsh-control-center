@@ -206,6 +206,50 @@ async function main(): Promise<void> {
     await page.getByRole('button', { name: '返回对话' }).click()
     await page.getByRole('button', { name: '发送消息' }).waitFor({ timeout: 15_000 })
 
+    // Knowledge Base workspace: create a base, add a text source, index with
+    // local-hash, and recall a citation through the real service.
+    const knowledgeNav = page.getByRole('button', { name: '知识库' })
+    await knowledgeNav.waitFor({ timeout: 15_000 })
+    await knowledgeNav.click()
+    try {
+      await page.getByRole('heading', { name: '知识库', exact: true }).waitFor({ timeout: 15_000 })
+    } catch (error) {
+      const body = await page.locator('body').innerText().catch(() => '')
+      throw new Error(`knowledge workspace did not render; browser: ${errors.join(' | ')}; body: ${body.slice(-2500)}`, { cause: error })
+    }
+    await page.getByLabel('知识库名称').fill('e2e 手册')
+    await page.getByRole('button', { name: '创建', exact: true }).click()
+    try {
+      await page.getByText('e2e 手册', { exact: true }).waitFor({ timeout: 15_000 })
+    } catch (error) {
+      throw new Error(`knowledge base card did not render; browser: ${errors.join(' | ')}`, { cause: error })
+    }
+    await page.getByRole('button', { name: '打开', exact: true }).click()
+    await page.getByLabel('文本内容').fill('发布流程要求所有变更先经过本地检查，再进入发布流水线。')
+    await page.getByRole('button', { name: '添加文本', exact: true }).click()
+    try {
+      await page.getByText('发布流程要求所有变更先经过本地检查，再进入发布流水线。').waitFor({ timeout: 15_000 })
+    } catch (error) {
+      throw new Error(`knowledge source did not render; browser: ${errors.join(' | ')}`, { cause: error })
+    }
+    await page.getByRole('button', { name: '建立索引', exact: true }).click()
+    try {
+      await page.getByText(/已索引 1 个来源/).waitFor({ timeout: 20_000 })
+    } catch (error) {
+      const body = await page.locator('body').innerText()
+      throw new Error(`knowledge index did not report; browser: ${errors.join(' | ')}; body: ${body.slice(-2500)}`, { cause: error })
+    }
+    await page.getByLabel('检索查询').fill('发布流程')
+    await page.getByRole('button', { name: '检索', exact: true }).click()
+    try {
+      await page.getByRole('list', { name: '检索结果' }).waitFor({ timeout: 15_000 })
+    } catch (error) {
+      const body = await page.locator('body').innerText()
+      throw new Error(`knowledge recall returned no hits; browser: ${errors.join(' | ')}; body: ${body.slice(-2500)}`, { cause: error })
+    }
+    await page.getByRole('button', { name: '返回对话' }).click()
+    await page.getByRole('button', { name: '发送消息' }).waitFor({ timeout: 15_000 })
+
     const workspacePath = join(home, 'workspace')
     await mkdir(workspacePath, { recursive: true })
     const created = await page.evaluate(`(async () => {

@@ -56,6 +56,15 @@
       "modifications": "Separated future-session default selection from current-session selection while retaining DSH as the only model authority.",
       "notice": "NOTICE",
       "verified": true
+    },
+    {
+      "source": "src/main/features/knowledge/pipeline/indexing/splitter.ts",
+      "destinations": [
+        "packages/control-center/src/knowledge/splitter.ts"
+      ],
+      "modifications": "Preserved the structure-aware break scoring, code-fence guard, window decay, and the verbatim-slice invariant; replaced the tokenx estimator with the local estimateTokenCount and inlined KnowledgeChunkStrategy as ChunkStrategy.",
+      "notice": "NOTICE",
+      "verified": true
     }
   ]
 }

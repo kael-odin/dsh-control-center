@@ -1,14 +1,20 @@
 import { t as translationRemote } from "./translation-remote-client-DedbChWd.js";
 import { t as paintingRemote } from "./painting-remote-client-X1tWq7oF.js";
+import { t as knowledgeRemote } from "./knowledge-remote-client-M9c72Jol.js";
 import { createRequire } from "node:module";
 import z from "@deepseek-ai/schemastery";
 import { settingsNamespace } from "@deepseek-ai/dsh-settings";
-import { readFileSync } from "node:fs";
+import { mkdirSync, readFileSync } from "node:fs";
 import { randomUUID } from "node:crypto";
 import { Service } from "@deepseek-ai/cordis";
 import { ReasoningEffortId, createUserMessage } from "@deepseek-ai/dsh-llm";
 import { Remote, bindTypertRemote } from "@deepseek-ai/dsh-typert-protocol";
 import { getPath } from "@deepseek-ai/dsh-client-schema-form";
+import { mkdir, rm, writeFile } from "node:fs/promises";
+import { DatabaseSync } from "node:sqlite";
+import { join } from "node:path";
+import { resolveDshHome } from "@deepseek-ai/dsh-home-paths";
+import { defineTool } from "@deepseek-ai/dsh-tools";
 //#region lib/types/compatibility.js
 /** DSH package versions and exports required by the first Control Center release. */
 const SUPPORTED_DSH_VERSION = "0.1.0-rc.7";
@@ -64,7 +70,7 @@ function assertCompatibleDsh(requireFrom = createRequire(import.meta.url)) {
 }
 //#endregion
 //#region lib/types/translation.js
-const MAX_TEXT_CHARS$1 = 1e5;
+const MAX_TEXT_CHARS$2 = 1e5;
 const MAX_HISTORY_PAGE$1 = 100;
 const BUILTIN_LANGUAGES = Object.freeze([
 	{
@@ -113,7 +119,7 @@ function cloneJob$1(view) {
 }
 function assertText(text) {
 	if (typeof text !== "string" || text.trim().length === 0) throw new Error("translation text must not be blank");
-	if (text.length > MAX_TEXT_CHARS$1) throw new Error(`translation text exceeds ${MAX_TEXT_CHARS$1} characters`);
+	if (text.length > MAX_TEXT_CHARS$2) throw new Error(`translation text exceeds ${MAX_TEXT_CHARS$2} characters`);
 	return text;
 }
 function language(id, allowAuto) {
@@ -322,21 +328,20 @@ var TranslationService = class extends Service {
 	}
 };
 //#endregion
-//#region lib/types/painting.js
-const MAX_TEXT_CHARS = 2e4;
-const MAX_HISTORY_PAGE = 100;
-const DEFAULT_SAMPLES = 1;
-function markPaintingRemoteMethods(service) {
+//#region lib/types/knowledge/remote-methods.js
+/** Manual Typert remote markers for external builds that cannot lower `@Remote` decorators. */
+/**
+* Apply `Remote(exportName)` method markers to a service instance for every
+* (method, exportName) pair. The external build cannot lower `@Remote`
+* decorators, so the host calls this after constructing the service.
+* @param instance - service instance whose prototype methods get marked.
+* @param entries - (prototype method name, wire export name) pairs.
+*/
+function markRemoteMethods(instance, entries) {
 	const initializers = [];
-	for (const [method, exportName] of [
-		["catalog", "catalog"],
-		["start", "start"],
-		["get", "get"],
-		["cancel", "cancel"],
-		["listHistory", "history"],
-		["deleteHistory", "deleteHistory"]
-	]) {
-		const implementation = Reflect.get(PaintingService.prototype, method);
+	const prototype = Object.getPrototypeOf(instance);
+	for (const [method, exportName] of entries) {
+		const implementation = Reflect.get(prototype, method);
 		Remote(exportName)(implementation, {
 			kind: "method",
 			name: method,
@@ -352,22 +357,10 @@ function markPaintingRemoteMethods(service) {
 			metadata: void 0
 		});
 	}
-	for (const initialize of initializers) initialize.call(service);
+	for (const initialize of initializers) initialize.call(instance);
 }
-function cloneJob(view) {
-	return structuredClone(view);
-}
-function assertPrompt(prompt) {
-	const trimmed = typeof prompt === "string" ? prompt.trim() : "";
-	if (trimmed.length === 0) throw new Error("painting prompt must not be blank");
-	if (trimmed.length > MAX_TEXT_CHARS) throw new Error(`painting prompt exceeds ${MAX_TEXT_CHARS} characters`);
-	return trimmed;
-}
-function sampleCountOf(value) {
-	const n = typeof value === "number" ? value : Number(value);
-	if (!Number.isInteger(n) || n < 1 || n > 8) throw new Error("sampleCount must be an integer from 1 through 8");
-	return n;
-}
+//#endregion
+//#region lib/types/knowledge/provider-resolve.js
 function providerProfile(settings, ns, path) {
 	const view = settings.describe().find((candidate) => candidate.ns === ns);
 	const raw = view === void 0 ? void 0 : getPath(view.value, path);
@@ -376,10 +369,6 @@ function providerProfile(settings, ns, path) {
 /**
 * Resolve a configured provider's endpoint from settings through the same
 * authority the Models page reads.
-* @param settings - Host settings service.
-* @param llm - Host LLM service.
-* @param providerId - provider route key.
-* @returns resolved display name, endpoint, and settings identity.
 */
 async function resolveProvider(settings, llm, providerId) {
 	const entry = llm.listConfigurableProviders().find((candidate) => candidate.provider === providerId);
@@ -398,11 +387,6 @@ async function resolveProvider(settings, llm, providerId) {
 }
 /**
 * Get the provider credential value through the DSH credentials authority.
-* @param settings - Host settings service.
-* @param credentials - Host credentials service.
-* @param providerId - provider route key (diagnostic only).
-* @param ns - provider settings namespace.
-* @param path - provider settings path.
 * @returns the resolved secret value, or '' when unconfigured.
 */
 async function resolveKey(settings, credentials, providerId, ns, path) {
@@ -411,6 +395,25 @@ async function resolveKey(settings, credentials, providerId, ns, path) {
 	const resolved = await credentials.resolve(refName);
 	if (resolved === void 0) throw new Error(`provider "${providerId}" has no credential configured for ${refName}`);
 	return resolved.value.trim();
+}
+//#endregion
+//#region lib/types/painting.js
+const MAX_TEXT_CHARS$1 = 2e4;
+const MAX_HISTORY_PAGE = 100;
+const DEFAULT_SAMPLES = 1;
+function cloneJob(view) {
+	return structuredClone(view);
+}
+function assertPrompt(prompt) {
+	const trimmed = typeof prompt === "string" ? prompt.trim() : "";
+	if (trimmed.length === 0) throw new Error("painting prompt must not be blank");
+	if (trimmed.length > MAX_TEXT_CHARS$1) throw new Error(`painting prompt exceeds ${MAX_TEXT_CHARS$1} characters`);
+	return trimmed;
+}
+function sampleCountOf(value) {
+	const n = typeof value === "number" ? value : Number(value);
+	if (!Number.isInteger(n) || n < 1 || n > 8) throw new Error("sampleCount must be an integer from 1 through 8");
+	return n;
 }
 /** Call an OpenAI-compatible `/images/generations` endpoint and decode returned images. */
 async function callImageGeneration(baseURL, apiKey, model, prompt, params, signal, onProgress) {
@@ -498,7 +501,14 @@ var PaintingService = class extends Service {
 	accepting = true;
 	constructor(ctx) {
 		super(ctx, "controlCenterPainting");
-		markPaintingRemoteMethods(this);
+		markRemoteMethods(this, [
+			["catalog", "catalog"],
+			["start", "start"],
+			["get", "get"],
+			["cancel", "cancel"],
+			["listHistory", "history"],
+			["deleteHistory", "deleteHistory"]
+		]);
 		ctx.effect(() => async () => {
 			this.accepting = false;
 			for (const job of this.jobs.values()) job.controller.abort();
@@ -640,6 +650,875 @@ var PaintingService = class extends Service {
 	}
 };
 //#endregion
+//#region lib/types/knowledge/tokens.js
+/** Compact token estimator for chunk sizing (GPT-style heuristic, no dependency). */
+const CJK_RE = /[　-〿぀-ヿ㐀-䶿一-鿿豈-﫿＀-￯]/;
+/**
+* Approximate a string's token count deterministically. ASCII-heavy text costs
+* ~4 chars/token, CJK ~1.6 chars/token. This only sizes chunks and caps payloads;
+* exactness is not required, only monotonicity and a sane CJK/Latin ratio.
+*/
+function estimateTokenCount(text) {
+	if (text.length === 0) return 0;
+	let ascii = 0;
+	let cjk = 0;
+	for (const char of text) if (CJK_RE.test(char)) cjk += 1;
+	else ascii += 1;
+	return Math.max(1, Math.round(ascii / 4 + cjk / 1.6));
+}
+//#endregion
+//#region lib/types/knowledge/splitter.js
+/**
+* Structure-aware text splitter with exact source offsets.
+*
+* Adapted from Cherry Studio's knowledge splitter
+* (src/main/features/knowledge/pipeline/indexing/splitter.ts) at baseline
+* 13687df354e9845c7e2b6d155eac6a9171f6a533 (AGPL-3.0-only). The algorithm,
+* break scoring, and the verbatim-slice invariant are preserved; the
+* `tokenx` token estimator is replaced by the local `estimateTokenCount`,
+* and `KnowledgeChunkStrategy` is inlined as the local `ChunkStrategy`.
+* See provenance/cherry-source-inventory.json and NOTICE.
+*/
+const BREAK_PATTERNS = [
+	{
+		pattern: /\n#{1}(?!#)/g,
+		score: 100
+	},
+	{
+		pattern: /\n#{2}(?!#)/g,
+		score: 90
+	},
+	{
+		pattern: /\n#{3}(?!#)/g,
+		score: 80
+	},
+	{
+		pattern: /\n#{4}(?!#)/g,
+		score: 70
+	},
+	{
+		pattern: /\n#{5}(?!#)/g,
+		score: 60
+	},
+	{
+		pattern: /\n#{6}(?!#)/g,
+		score: 50
+	},
+	{
+		pattern: /\n```/g,
+		score: 80
+	},
+	{
+		pattern: /\n(?:---|\*\*\*|___)\s*\n/g,
+		score: 60
+	},
+	{
+		pattern: /\n\n+/g,
+		score: 20
+	},
+	{
+		pattern: /\n[-*]\s/g,
+		score: 5
+	},
+	{
+		pattern: /\n\d+\.\s/g,
+		score: 5
+	},
+	{
+		pattern: /\n/g,
+		score: 1
+	}
+];
+/** ~22% of the chunk budget — how far back from the target we hunt for a clean break. */
+const WINDOW_RATIO = .22;
+const DECAY_FACTOR = .7;
+const STRUCTURED_SEPARATOR_SCORE = 30;
+const DELIMITER_SEPARATOR_SCORE = 100;
+const DELIMITER_FALLBACKS = [
+	{
+		separator: "\n\n",
+		score: 20
+	},
+	{
+		separator: "\n",
+		score: 12
+	},
+	{
+		separator: "。",
+		score: 10
+	},
+	{
+		separator: ". ",
+		score: 8
+	},
+	{
+		separator: " ",
+		score: 3
+	}
+];
+const SEPARATOR_ESCAPES = {
+	n: "\n",
+	t: "	",
+	r: "\r",
+	"\\": "\\"
+};
+function unescapeSeparator(raw) {
+	return raw.replace(/\\([ntr\\])/g, (_match, code) => SEPARATOR_ESCAPES[code] ?? code);
+}
+/**
+* Split `text` into overlapping, structure-aware chunks sized by token count,
+* returning each chunk's exact offsets into `text`. See Cherry's original for
+* the full algorithm rationale; the `slice(start, end) === text` invariant
+* holds throughout.
+*/
+function splitTextWithOffsets(text, options) {
+	if (text.trim() === "") return [];
+	const chunkSize = Math.max(1, options.chunkSize);
+	const chunkOverlap = Math.max(0, Math.min(options.chunkOverlap, chunkSize - 1));
+	const strategy = options.strategy ?? "structured";
+	const separator = options.separator ? unescapeSeparator(options.separator) : "";
+	const charsPerToken = text.length / Math.max(1, estimateTokenCount(text));
+	const maxChars = Math.max(1, Math.round(chunkSize * charsPerToken));
+	const overlapChars = Math.min(Math.round(chunkOverlap * charsPerToken), maxChars - 1);
+	const windowChars = Math.max(1, Math.round(maxChars * WINDOW_RATIO));
+	const breakPoints = scanBreakPoints(text, {
+		strategy,
+		separator
+	});
+	const codeFences = strategy === "structured" ? findCodeFences(text) : [];
+	const chunks = [];
+	let cursor = 0;
+	while (cursor < text.length) {
+		let endPos = Math.min(cursor + maxChars, text.length);
+		if (endPos < text.length) {
+			const cutoff = findBestCutoff(breakPoints, endPos, windowChars, codeFences);
+			if (cutoff > cursor && cutoff <= endPos) endPos = cutoff;
+		}
+		const chunk = trimToChunk(text, cursor, endPos);
+		if (chunk) chunks.push(chunk);
+		if (endPos >= text.length) break;
+		const nextCursor = endPos - overlapChars;
+		cursor = nextCursor > cursor ? nextCursor : endPos;
+	}
+	return chunks;
+}
+function scanBreakPoints(text, options) {
+	const best = /* @__PURE__ */ new Map();
+	const consider = (pos, score) => {
+		const existing = best.get(pos);
+		if (existing === void 0 || score > existing) best.set(pos, score);
+	};
+	if (options.strategy === "structured") {
+		for (const { pattern, score } of BREAK_PATTERNS) for (const match of text.matchAll(pattern)) consider(match.index, score);
+		addLiteralBreaks(text, options.separator, STRUCTURED_SEPARATOR_SCORE, consider);
+	} else {
+		addLiteralBreaks(text, options.separator, DELIMITER_SEPARATOR_SCORE, consider);
+		for (const { separator, score } of DELIMITER_FALLBACKS) addLiteralBreaks(text, separator, score, consider);
+	}
+	return [...best.entries()].map(([pos, score]) => ({
+		pos,
+		score
+	})).sort((a, b) => a.pos - b.pos);
+}
+function addLiteralBreaks(text, separator, score, consider) {
+	if (!separator) return;
+	let index = text.indexOf(separator);
+	while (index !== -1) {
+		consider(index + separator.length, score);
+		index = text.indexOf(separator, index + separator.length);
+	}
+}
+function findCodeFences(text) {
+	const regions = [];
+	let open = null;
+	for (const match of text.matchAll(/\n```/g)) if (open === null) open = match.index;
+	else {
+		regions.push({
+			start: open,
+			end: match.index + match[0].length
+		});
+		open = null;
+	}
+	if (open !== null) regions.push({
+		start: open,
+		end: text.length
+	});
+	return regions;
+}
+function isInsideCodeFence(pos, fences) {
+	return fences.some((fence) => pos > fence.start && pos < fence.end);
+}
+function findBestCutoff(breakPoints, target, windowChars, codeFences) {
+	const windowStart = target - windowChars;
+	let bestScore = -1;
+	let bestPos = target;
+	for (const bp of breakPoints) {
+		if (bp.pos < windowStart) continue;
+		if (bp.pos > target) break;
+		if (isInsideCodeFence(bp.pos, codeFences)) continue;
+		const normalizedDistance = (target - bp.pos) / windowChars;
+		const score = bp.score * (1 - normalizedDistance * normalizedDistance * DECAY_FACTOR);
+		if (score > bestScore) {
+			bestScore = score;
+			bestPos = bp.pos;
+		}
+	}
+	return bestPos;
+}
+function trimToChunk(text, start, end) {
+	let trimmedStart = start;
+	let trimmedEnd = end;
+	while (trimmedStart < trimmedEnd && isWhitespace(text[trimmedStart])) trimmedStart += 1;
+	while (trimmedEnd > trimmedStart && isWhitespace(text[trimmedEnd - 1])) trimmedEnd -= 1;
+	if (trimmedStart >= trimmedEnd) return null;
+	return {
+		text: text.slice(trimmedStart, trimmedEnd),
+		start: trimmedStart,
+		end: trimmedEnd
+	};
+}
+function isWhitespace(char) {
+	return char === void 0 || char.trim() === "";
+}
+//#endregion
+//#region lib/types/knowledge/embedding.js
+/** Embedding for the knowledge base: an OpenAI-compatible `/embeddings` client and a deterministic local fallback. */
+/**
+* Deterministic local hashing embedding used when no embedding provider is
+* configured or the configured one is unreachable. This is a real, offline
+* retrieval signal (lexical hashing of n-grams), NOT a fake switch: it is
+* surfaced honestly as `providerId: 'local-hash'` in catalog and metadata so
+* the UI never claims an embedding model that did not run.
+*/
+const LOCAL_EMBEDDING_PROVIDER_ID = "local-hash";
+const NGrams = [
+	1,
+	2,
+	3
+];
+function featureHash(text) {
+	let hash = 2166136261;
+	for (let i = 0; i < text.length; i += 1) {
+		hash ^= text.charCodeAt(i);
+		hash = Math.imul(hash, 16777619);
+	}
+	return hash >>> 0;
+}
+/**
+* Embed text with the local n-gram hashing model. Deterministic for a given
+* input, so reindexes and queries are stable and testable.
+*/
+function localHashEmbed(texts, dimensions = 384) {
+	const vectors = [];
+	for (const text of texts) {
+		const vector = new Array(dimensions).fill(0);
+		const normalized = text.toLowerCase();
+		for (const size of NGrams) for (let i = 0; i + size <= normalized.length; i += 1) {
+			const index = featureHash(normalized.slice(i, i + size)) % dimensions;
+			vector[index] = (vector[index] ?? 0) + 1;
+		}
+		let magnitude = 0;
+		for (const value of vector) magnitude += value * value;
+		magnitude = Math.sqrt(magnitude);
+		if (magnitude > 0) for (let i = 0; i < vector.length; i += 1) vector[i] = (vector[i] ?? 0) / magnitude;
+		vectors.push(vector);
+	}
+	return vectors;
+}
+/** Cosine similarity between two vectors. */
+function cosineSimilarity(left, right) {
+	const length = Math.min(left.length, right.length);
+	let dot = 0;
+	let leftNorm = 0;
+	let rightNorm = 0;
+	for (let i = 0; i < length; i += 1) {
+		const l = left[i] ?? 0;
+		const r = right[i] ?? 0;
+		dot += l * r;
+		leftNorm += l * l;
+		rightNorm += r * r;
+	}
+	const magnitude = Math.sqrt(leftNorm) * Math.sqrt(rightNorm);
+	return magnitude === 0 ? 0 : dot / magnitude;
+}
+/** Call `{baseURL}/embeddings` and return vectors in input order. */
+async function callEmbeddings(endpoint, inputs, signal) {
+	const response = await fetch(`${endpoint.baseURL}/embeddings`, {
+		method: "POST",
+		headers: {
+			"content-type": "application/json",
+			...endpoint.apiKey.length === 0 ? {} : { authorization: `Bearer ${endpoint.apiKey}` }
+		},
+		body: JSON.stringify({
+			model: endpoint.model,
+			input: inputs
+		}),
+		signal
+	});
+	if (!response.ok) {
+		const text = await response.text().catch(() => "");
+		throw new Error(`embedding failed (HTTP ${response.status}): ${text.slice(0, 300)}`);
+	}
+	const items = (await response.json()).data ?? [];
+	if (items.length !== inputs.length) throw new Error(`embedding returned ${items.length} vectors for ${inputs.length} inputs`);
+	const vectors = items.map((item) => item.embedding);
+	if (vectors.some((vector) => vector === void 0 || vector.length === 0)) throw new Error("embedding returned an empty vector");
+	return vectors;
+}
+//#endregion
+//#region lib/types/knowledge.js
+/** Host Knowledge Base service: SQLite catalogs, source ingestion, chunk+embed indexing, retrieval, and a coding-agent tool. */
+const MAX_TEXT_CHARS = 2e5;
+const MAX_URL_CHARS = 2e6;
+const MAX_FILE_CHARS = 5e6;
+const MAX_BASE_NAME = 200;
+const DEFAULT_CHUNK_SIZE = 600;
+const DEFAULT_CHUNK_OVERLAP = 60;
+const DEFAULT_TOP_K = 8;
+const MAX_TOP_K = 50;
+const MAX_CHUNKS_PAGE = 200;
+const DEFAULT_EMBEDDING_DIMENSIONS = 384;
+const TEXT_MEDIA_TYPES = /* @__PURE__ */ new Set([
+	"text/plain",
+	"text/markdown",
+	"text/html",
+	"text/csv",
+	"text/x-yaml",
+	"text/yaml",
+	"application/json",
+	"application/x-ndjson",
+	"application/xml",
+	"application/yaml"
+]);
+function now() {
+	return Date.now();
+}
+function isAbort(error) {
+	return error instanceof Error && error.name === "AbortError";
+}
+function assertName(name) {
+	const trimmed = typeof name === "string" ? name.trim() : "";
+	if (trimmed.length === 0) throw new Error("name must not be blank");
+	if (trimmed.length > MAX_BASE_NAME) throw new Error(`name exceeds ${MAX_BASE_NAME} characters`);
+	return trimmed;
+}
+function assertBaseId(baseId) {
+	if (typeof baseId !== "string" || baseId.length === 0) throw new Error("base id is required");
+	return baseId;
+}
+function assertQuery(query) {
+	const trimmed = typeof query === "string" ? query.trim() : "";
+	if (trimmed.length === 0) throw new Error("query must not be blank");
+	return trimmed;
+}
+function normalizeUrl(url) {
+	const trimmed = typeof url === "string" ? url.trim() : "";
+	if (trimmed.length === 0) throw new Error("url must not be blank");
+	const parsed = new URL(trimmed);
+	if (parsed.protocol !== "http:" && parsed.protocol !== "https:") throw new Error("url must be http(s)");
+	return parsed.toString();
+}
+/** Hosted data directory for knowledge artifacts (source files). */
+function hostedDir(home) {
+	return join(home, "control-center", "knowledge");
+}
+/** Real knowledge bases, indexing, retrieval, and tool registration over DSH providers and a SQLite catalog. */
+var KnowledgeService = class extends Service {
+	static inject = [
+		"settings",
+		"credentials",
+		"llm"
+	];
+	typertRemote = bindTypertRemote(this, "controlCenterKnowledge");
+	db;
+	home;
+	root;
+	settings;
+	credentials;
+	llm;
+	disposeTools = [];
+	constructor(ctx, options = {}) {
+		super(ctx, "controlCenterKnowledge");
+		this.home = resolveDshHome(options.dshHome);
+		this.root = hostedDir(this.home);
+		this.settings = this.ctx.get("settings");
+		this.credentials = this.ctx.get("credentials");
+		this.llm = this.ctx.get("llm");
+		mkdirSync(this.root, { recursive: true });
+		this.db = new DatabaseSync(join(this.root, "knowledge.sqlite"));
+		this.db.exec("PRAGMA journal_mode = WAL");
+		this.db.exec(`
+      CREATE TABLE IF NOT EXISTS knowledge_bases (
+        id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        description TEXT NOT NULL DEFAULT '',
+        embedding_provider TEXT NOT NULL,
+        embedding_model TEXT,
+        dimensions INTEGER NOT NULL,
+        created_at INTEGER NOT NULL,
+        updated_at INTEGER NOT NULL
+      ) STRICT;
+      CREATE TABLE IF NOT EXISTS knowledge_sources (
+        id TEXT PRIMARY KEY,
+        base_id TEXT NOT NULL REFERENCES knowledge_bases(id) ON DELETE CASCADE,
+        kind TEXT NOT NULL,
+        name TEXT NOT NULL,
+        ref TEXT NOT NULL,
+        content TEXT NOT NULL,
+        status TEXT NOT NULL,
+        error TEXT,
+        created_at INTEGER NOT NULL,
+        updated_at INTEGER NOT NULL
+      ) STRICT;
+      CREATE INDEX IF NOT EXISTS knowledge_sources_base ON knowledge_sources(base_id);
+      CREATE TABLE IF NOT EXISTS knowledge_chunks (
+        id TEXT PRIMARY KEY,
+        base_id TEXT NOT NULL REFERENCES knowledge_bases(id) ON DELETE CASCADE,
+        source_id TEXT NOT NULL REFERENCES knowledge_sources(id) ON DELETE CASCADE,
+        position INTEGER NOT NULL,
+        text TEXT NOT NULL,
+        tokens INTEGER NOT NULL,
+        embedding TEXT NOT NULL
+      ) STRICT;
+      CREATE INDEX IF NOT EXISTS knowledge_chunks_base ON knowledge_chunks(base_id);
+      CREATE INDEX IF NOT EXISTS knowledge_chunks_source ON knowledge_chunks(source_id);
+    `);
+		this.registerTool();
+		markRemoteMethods(this, [
+			["listBases", "listBases"],
+			["createBase", "createBase"],
+			["getBase", "getBase"],
+			["deleteBase", "deleteBase"],
+			["addText", "addText"],
+			["addUrl", "addUrl"],
+			["addFile", "addFile"],
+			["listSources", "listSources"],
+			["deleteSource", "deleteSource"],
+			["indexBase", "indexBase"],
+			["listChunks", "listChunks"],
+			["retrieve", "retrieve"]
+		]);
+		ctx.effect(() => async () => {
+			this.db.close();
+			for (const dispose of this.disposeTools.splice(0)) dispose();
+		}, "control-center.knowledge: close catalog");
+	}
+	baseFromRow(row, sourceCount, chunkCount) {
+		const embedding = {
+			providerId: row.embedding_provider,
+			dimensions: row.dimensions,
+			...row.embedding_model === null ? {} : { model: row.embedding_model }
+		};
+		return {
+			id: row.id,
+			name: row.name,
+			description: row.description,
+			embedding,
+			sourceCount,
+			chunkCount,
+			createdAt: row.created_at,
+			updatedAt: row.updated_at
+		};
+	}
+	sourceFromRow(row, chunkCount) {
+		return {
+			id: row.id,
+			kind: row.kind,
+			name: row.name,
+			ref: row.ref,
+			status: row.status,
+			...row.error === null ? {} : { error: row.error },
+			chunks: chunkCount,
+			tokens: estimateTokenCount(row.content),
+			createdAt: row.created_at,
+			updatedAt: row.updated_at
+		};
+	}
+	baseRow(id) {
+		return this.db.prepare("SELECT * FROM knowledge_bases WHERE id = ?").get(id);
+	}
+	requireBase(id) {
+		const row = this.baseRow(id);
+		if (row === void 0) throw new Error(`knowledge base "${id}" does not exist`);
+		return row;
+	}
+	counts(baseId) {
+		const sources = this.db.prepare("SELECT COUNT(*) AS n FROM knowledge_sources WHERE base_id = ?").get(baseId);
+		const chunks = this.db.prepare("SELECT COUNT(*) AS n FROM knowledge_chunks WHERE base_id = ?").get(baseId);
+		return {
+			sources: sources.n,
+			chunks: chunks.n
+		};
+	}
+	async resolveEmbedding(baseId) {
+		const base = this.requireBase(baseId);
+		if (base.embedding_provider === "local-hash") return {
+			mode: "local",
+			providerId: LOCAL_EMBEDDING_PROVIDER_ID,
+			dimensions: base.dimensions
+		};
+		return {
+			mode: "provider",
+			providerId: base.embedding_provider,
+			...base.embedding_model === null ? {} : { model: base.embedding_model },
+			dimensions: base.dimensions
+		};
+	}
+	async embedValues(config, values, signal) {
+		if (values.length === 0) return [];
+		if (config.mode === "local") return localHashEmbed(values, config.dimensions);
+		const provider = await resolveProvider(this.settings, this.llm, config.providerId);
+		const apiKey = await resolveKey(this.settings, this.credentials, config.providerId, provider.settingsNs, provider.settingsPath);
+		if (config.model === void 0) throw new Error(`embedding provider "${config.providerId}" has no model configured`);
+		const vectors = await callEmbeddings({
+			baseURL: provider.baseURL,
+			apiKey,
+			model: config.model
+		}, values, signal);
+		for (const vector of vectors) if (vector.length !== config.dimensions) throw new Error(`embedding model returned width ${vector.length}, expected ${config.dimensions}`);
+		return vectors;
+	}
+	updateBaseStamp(id) {
+		this.db.prepare("UPDATE knowledge_bases SET updated_at = ? WHERE id = ?").run(now(), id);
+	}
+	listBases() {
+		return { bases: this.db.prepare("SELECT * FROM knowledge_bases ORDER BY created_at DESC").all().map((row) => {
+			const counts = this.counts(row.id);
+			return this.baseFromRow(row, counts.sources, counts.chunks);
+		}) };
+	}
+	createBase(request) {
+		const name = assertName(request.name);
+		const description = typeof request.description === "string" ? request.description.trim() : "";
+		const providerId = request.embeddingProvider === void 0 || request.embeddingProvider.length === 0 ? LOCAL_EMBEDDING_PROVIDER_ID : request.embeddingProvider;
+		const model = request.embeddingModel === void 0 || request.embeddingModel.length === 0 ? null : request.embeddingModel;
+		if (providerId !== "local-hash" && model === null) throw new Error("a non-local embedding provider requires an embedding model");
+		const id = `knowledge-base-${randomUUID()}`;
+		const dimensions = DEFAULT_EMBEDDING_DIMENSIONS;
+		const timestamp = now();
+		this.db.prepare("INSERT INTO knowledge_bases (id, name, description, embedding_provider, embedding_model, dimensions, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)").run(id, name, description, providerId, model, dimensions, timestamp, timestamp);
+		return this.baseFromRow(this.requireBase(id), 0, 0);
+	}
+	getBase(baseId) {
+		const base = this.requireBase(baseId);
+		const counts = this.counts(baseId);
+		return this.baseFromRow(base, counts.sources, counts.chunks);
+	}
+	deleteBase(baseId) {
+		this.requireBase(baseId);
+		const baseDir = join(this.root, baseId);
+		this.db.prepare("DELETE FROM knowledge_sources WHERE base_id = ?").run(baseId);
+		this.db.prepare("DELETE FROM knowledge_chunks WHERE base_id = ?").run(baseId);
+		this.db.prepare("DELETE FROM knowledge_bases WHERE id = ?").run(baseId);
+		rm(baseDir, {
+			recursive: true,
+			force: true
+		}).catch(() => {});
+		return { absent: true };
+	}
+	insertSource(input) {
+		this.requireBase(input.baseId);
+		const id = `knowledge-source-${randomUUID()}`;
+		const timestamp = now();
+		this.db.prepare("INSERT INTO knowledge_sources (id, base_id, kind, name, ref, content, status, error, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").run(id, input.baseId, input.kind, input.name, input.ref, input.content, "ready", null, timestamp, timestamp);
+		this.updateBaseStamp(input.baseId);
+		return this.sourceFromRow(this.requireSource(id), 0);
+	}
+	addText(request) {
+		const baseId = assertBaseId(request.baseId);
+		const name = assertName(request.name);
+		const text = typeof request.text === "string" ? request.text : "";
+		if (text.trim().length === 0) throw new Error("text source must not be blank");
+		if (text.length > MAX_TEXT_CHARS) throw new Error(`text source exceeds ${MAX_TEXT_CHARS} characters`);
+		return this.insertSource({
+			baseId,
+			kind: "text",
+			name,
+			ref: name,
+			content: text
+		});
+	}
+	async addUrl(request) {
+		const baseId = assertBaseId(request.baseId);
+		const url = normalizeUrl(request.url);
+		const name = new URL(url).hostname;
+		const controller = new AbortController();
+		const timeout = setTimeout(() => controller.abort(), 3e4);
+		return this.fetchUrl(baseId, name, url, controller.signal).finally(() => clearTimeout(timeout));
+	}
+	async fetchUrl(baseId, name, url, signal) {
+		try {
+			const response = await fetch(url, {
+				signal,
+				headers: { accept: "text/*, text/html, application/json" }
+			});
+			if (!response.ok) throw new Error(`url fetch failed (HTTP ${response.status})`);
+			const body = await response.text();
+			if (body.length > MAX_URL_CHARS) throw new Error(`url content exceeds ${MAX_URL_CHARS} characters`);
+			return this.insertSource({
+				baseId,
+				kind: "url",
+				name,
+				ref: url,
+				content: body
+			});
+		} catch (error) {
+			if (isAbort(error)) throw new Error("url fetch timed out");
+			throw error;
+		}
+	}
+	addFile(request) {
+		const baseId = assertBaseId(request.baseId);
+		const name = assertName(request.name);
+		const mimeFamily = (typeof request.mediaType === "string" ? request.mediaType.toLowerCase() : "").split(";")[0]?.trim() ?? "";
+		if (!TEXT_MEDIA_TYPES.has(mimeFamily) && !mimeFamily.startsWith("text/")) throw new Error(`file type "${mimeFamily}" is not supported; text, markdown, HTML, CSV, JSON, and YAML sources are supported`);
+		if (typeof request.dataBase64 !== "string" || request.dataBase64.length === 0) throw new Error("file data is required");
+		const bytes = Buffer.from(request.dataBase64, "base64");
+		if (bytes.byteLength > MAX_FILE_CHARS * 4) throw new Error("file exceeds the supported size");
+		const content = bytes.toString("utf8");
+		const id = `knowledge-source-${randomUUID()}`;
+		const timestamp = now();
+		const filePath = join(this.root, baseId, `${id}.bin`);
+		mkdir(join(this.root, baseId), { recursive: true }).then(() => writeFile(filePath, bytes)).catch(() => {});
+		this.requireBase(baseId);
+		this.db.prepare("INSERT INTO knowledge_sources (id, base_id, kind, name, ref, content, status, error, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").run(id, baseId, "file", name, `${mimeFamily}@${filePath}`, content, "ready", null, timestamp, timestamp);
+		this.updateBaseStamp(baseId);
+		return this.sourceFromRow(this.requireSource(id), 0);
+	}
+	requireSource(id) {
+		const row = this.db.prepare("SELECT * FROM knowledge_sources WHERE id = ?").get(id);
+		if (row === void 0) throw new Error(`knowledge source "${id}" does not exist`);
+		return row;
+	}
+	listSources(baseId) {
+		this.requireBase(baseId);
+		return { sources: this.db.prepare("SELECT * FROM knowledge_sources WHERE base_id = ? ORDER BY created_at DESC").all(baseId).map((row) => {
+			const chunkCount = this.db.prepare("SELECT COUNT(*) AS n FROM knowledge_chunks WHERE source_id = ?").get(row.id).n;
+			return this.sourceFromRow(row, chunkCount);
+		}) };
+	}
+	deleteSource(baseId, sourceId) {
+		this.requireBase(baseId);
+		this.db.prepare("DELETE FROM knowledge_chunks WHERE source_id = ?").run(sourceId);
+		this.db.prepare("DELETE FROM knowledge_sources WHERE id = ? AND base_id = ?").run(sourceId, baseId);
+		this.updateBaseStamp(baseId);
+		return { absent: true };
+	}
+	async indexBase(baseId) {
+		this.requireBase(baseId);
+		const config = await this.resolveEmbedding(baseId);
+		const sourceRows = this.db.prepare("SELECT * FROM knowledge_sources WHERE base_id = ? AND status = ?").all(baseId, "ready");
+		if (sourceRows.length === 0) return {
+			baseId,
+			sourcesIndexed: 0,
+			chunksWritten: 0,
+			embeddingProvider: config.providerId
+		};
+		const pending = [];
+		for (const source of sourceRows) {
+			this.db.prepare("UPDATE knowledge_sources SET status = ?, updated_at = ? WHERE id = ?").run("indexing", now(), source.id);
+			const chunks = splitTextWithOffsets(source.content, {
+				chunkSize: DEFAULT_CHUNK_SIZE,
+				chunkOverlap: DEFAULT_CHUNK_OVERLAP,
+				strategy: "structured"
+			});
+			pending.push({
+				source,
+				chunks: chunks.map((chunk, position) => ({
+					position,
+					text: chunk.text,
+					tokens: estimateTokenCount(chunk.text)
+				}))
+			});
+		}
+		let chunksWritten = 0;
+		try {
+			for (const entry of pending) {
+				if (entry.chunks.length === 0) {
+					this.db.prepare("UPDATE knowledge_sources SET status = ?, updated_at = ? WHERE id = ?").run("ready", now(), entry.source.id);
+					continue;
+				}
+				const BATCH = 32;
+				const vectors = [];
+				for (let offset = 0; offset < entry.chunks.length; offset += BATCH) {
+					const slice = entry.chunks.slice(offset, offset + BATCH);
+					vectors.push(...await this.embedValues(config, slice.map((chunk) => chunk.text), new AbortController().signal));
+				}
+				const insert = this.db.prepare("INSERT INTO knowledge_chunks (id, base_id, source_id, position, text, tokens, embedding) VALUES (?, ?, ?, ?, ?, ?, ?)");
+				for (let i = 0; i < entry.chunks.length; i += 1) {
+					const chunk = entry.chunks[i];
+					insert.run(`knowledge-chunk-${randomUUID()}`, baseId, entry.source.id, chunk.position, chunk.text, chunk.tokens, JSON.stringify(vectors[i] ?? []));
+				}
+				chunksWritten += entry.chunks.length;
+				this.db.prepare("UPDATE knowledge_sources SET status = ?, updated_at = ? WHERE id = ?").run("indexed", now(), entry.source.id);
+			}
+			this.updateBaseStamp(baseId);
+			return {
+				baseId,
+				sourcesIndexed: pending.length,
+				chunksWritten,
+				embeddingProvider: config.providerId
+			};
+		} catch (error) {
+			for (const entry of pending) this.db.prepare("UPDATE knowledge_sources SET status = ?, error = ?, updated_at = ? WHERE id = ?").run("ready", error instanceof Error ? error.message.slice(0, 500) : String(error), now(), entry.source.id);
+			throw error;
+		}
+	}
+	listChunks(baseId, cursor, limit) {
+		this.requireBase(baseId);
+		const bounded = Math.min(MAX_CHUNKS_PAGE, Math.max(1, Math.trunc(limit)));
+		const offset = cursor === null ? 0 : Number.parseInt(cursor, 10);
+		if (!Number.isSafeInteger(offset) || offset < 0) throw new Error("invalid chunk cursor");
+		const chunks = this.db.prepare(`SELECT c.id, c.source_id, c.position, c.text, c.tokens, s.name AS source_name
+       FROM knowledge_chunks c JOIN knowledge_sources s ON s.id = c.source_id
+       WHERE c.base_id = ? ORDER BY c.source_id, c.position LIMIT ? OFFSET ?`).all(baseId, bounded, offset).map((row) => ({
+			id: row.id,
+			sourceId: row.source_id,
+			sourceName: row.source_name,
+			text: row.text,
+			tokens: row.tokens,
+			position: row.position
+		}));
+		const next = offset + chunks.length;
+		return {
+			chunks,
+			...next < this.db.prepare("SELECT COUNT(*) AS n FROM knowledge_chunks WHERE base_id = ?").get(baseId).n ? { nextCursor: String(next) } : {}
+		};
+	}
+	async retrieve(request) {
+		const baseId = assertBaseId(request.baseId);
+		const query = assertQuery(request.query);
+		this.requireBase(baseId);
+		const topK = request.topK === void 0 ? DEFAULT_TOP_K : Math.min(MAX_TOP_K, Math.max(1, Math.trunc(request.topK)));
+		const minScore = request.minScore === void 0 ? 0 : request.minScore;
+		const config = await this.resolveEmbedding(baseId);
+		const controller = new AbortController();
+		const timeout = setTimeout(() => controller.abort(), 6e4);
+		try {
+			const [queryVector] = await this.embedValues(config, [query], controller.signal);
+			if (queryVector === void 0) throw new Error("embedding returned no vector for the query");
+			return {
+				hits: this.db.prepare(`SELECT c.id AS chunk_id, c.source_id, c.position, c.text, c.embedding, s.name AS source_name, s.kind
+         FROM knowledge_chunks c JOIN knowledge_sources s ON s.id = c.source_id
+         WHERE c.base_id = ?`).all(baseId).map((row) => {
+					const embedding = JSON.parse(row.embedding);
+					return {
+						row,
+						score: cosineSimilarity(queryVector, embedding)
+					};
+				}).filter((entry) => entry.score >= minScore).sort((left, right) => right.score - left.score).slice(0, topK).map((entry) => ({
+					chunkId: entry.row.chunk_id,
+					sourceId: entry.row.source_id,
+					sourceName: entry.row.source_name,
+					kind: entry.row.kind,
+					text: entry.row.text,
+					score: Number(entry.score.toFixed(4))
+				})),
+				embeddingProvider: config.providerId,
+				query
+			};
+		} finally {
+			clearTimeout(timeout);
+		}
+	}
+	registerTool() {
+		const tools = this.ctx.get("tools");
+		if (tools === void 0) return;
+		const service = this;
+		const disposer = tools.register(defineTool({
+			name: "knowledge_retrieve",
+			description: "Retrieve the most relevant excerpts from the Control Center knowledge bases for a query. Returns ranked excerpts with their source names and similarity scores; useful when the user references a document, wiki, or knowledge base.",
+			parameters: {
+				query: {
+					type: "string",
+					required: true,
+					description: "Search query to match against knowledge base content."
+				},
+				base: {
+					type: "string",
+					description: "Optional knowledge base name to restrict retrieval to. Omit to search all bases."
+				},
+				top_k: {
+					type: "integer",
+					description: "Maximum number of excerpts to return. Defaults to 8."
+				}
+			},
+			output: {
+				schema: {
+					type: "object",
+					additionalProperties: false,
+					properties: {
+						query: {
+							type: "string",
+							required: true
+						},
+						hits: {
+							type: "array",
+							required: true,
+							items: {
+								type: "object",
+								additionalProperties: false,
+								properties: {
+									source: {
+										type: "string",
+										required: true
+									},
+									base: {
+										type: "string",
+										required: true
+									},
+									score: {
+										type: "number",
+										required: true
+									},
+									text: {
+										type: "string",
+										required: true
+									}
+								}
+							}
+						}
+					}
+				},
+				render: (_args, value) => {
+					const lines = value.hits.map((hit, index) => `[${index + 1}] (score ${hit.score.toFixed(3)}) [${hit.base}] ${hit.source}\n${hit.text}`);
+					return [{
+						type: "text",
+						text: lines.length === 0 ? "No knowledge base matches found." : lines.join("\n\n")
+					}];
+				}
+			},
+			isConcurrencySafe: () => true,
+			async execute(args, _exec) {
+				const query = assertQuery(args.query);
+				const topK = args.top_k === void 0 ? DEFAULT_TOP_K : args.top_k;
+				const bases = service.listBases().bases.filter((base) => args.base === void 0 || base.name === args.base || base.id === args.base);
+				const hits = [];
+				for (const base of bases) {
+					const result = await service.retrieve({
+						baseId: base.id,
+						query,
+						topK,
+						minScore: .05
+					});
+					for (const hit of result.hits) hits.push({
+						source: hit.sourceName,
+						base: base.name,
+						score: hit.score,
+						text: hit.text.slice(0, 2e3)
+					});
+				}
+				hits.sort((left, right) => right.score - left.score);
+				return {
+					query,
+					hits: hits.slice(0, topK)
+				};
+			}
+		}));
+		this.disposeTools.push(disposer);
+	}
+};
+//#endregion
 //#region lib/types/secret-schema.js
 /** Fail-closed audit for settings schemas that contain secret-role nodes. */
 const SAFE_CONTAINERS = /* @__PURE__ */ new Set([
@@ -730,6 +1609,7 @@ function apply(ctx) {
 	assertCompatibleDsh();
 	new TranslationService(ctx);
 	new PaintingService(ctx);
+	new KnowledgeService(ctx);
 	const contributions = [{
 		package: "@dsh-control-center/control-center",
 		face: "host",
@@ -739,7 +1619,11 @@ function apply(ctx) {
 			events: [],
 			objects: []
 		},
-		invocations: [...translationRemote.descriptors, ...paintingRemote.descriptors]
+		invocations: [
+			...translationRemote.descriptors,
+			...paintingRemote.descriptors,
+			...knowledgeRemote.descriptors
+		]
 	}];
 	for (const contribution of contributions) ctx.typert.register(contribution);
 	ctx.inject(["settings"], (settingsCtx) => {
@@ -747,4 +1631,4 @@ function apply(ctx) {
 	});
 }
 //#endregion
-export { PaintingService, TranslationService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, inject, name };
+export { KnowledgeService, PaintingService, TranslationService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, inject, name };

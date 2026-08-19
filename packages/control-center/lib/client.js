@@ -131,31 +131,31 @@ window.__ModuleLoader__.load({
 		};
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\PaintingWorkspace.module.css.mjs
-		const css$11 = "._-UrTq_root{background:var(--dsw-alias-bg-base);min-width:0;min-height:0;color:var(--dsw-alias-label-primary);flex-direction:column;flex:1;gap:16px;padding:24px;display:flex;overflow:auto}._-UrTq_header{justify-content:space-between;align-items:center;gap:16px;display:flex}._-UrTq_header h1{margin:2px 0 0;font-size:28px}._-UrTq_eyebrow{color:var(--dsw-alias-label-tertiary);letter-spacing:.08em;text-transform:uppercase;margin:0;font-size:12px}._-UrTq_composer{border:1px solid var(--dsw-alias-border-l1);border-radius:14px;flex-direction:column;gap:10px;padding:14px;display:flex}._-UrTq_composer textarea{resize:vertical;border:1px solid var(--dsw-alias-border-l2);box-sizing:border-box;width:100%;min-height:96px;color:inherit;font:inherit;background:0 0;border-radius:10px;padding:12px;line-height:1.6}._-UrTq_controls{flex-wrap:wrap;align-items:center;gap:8px;display:flex}._-UrTq_controls select{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);min-height:34px;color:inherit;border-radius:9px;padding:0 10px}._-UrTq_controls button:last-child{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;margin-left:auto;padding:0 16px}._-UrTq_controls button:disabled{opacity:.45;cursor:not-allowed}._-UrTq_secondary{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;background:0 0;border-radius:9px;padding:0 12px}._-UrTq_progress{color:var(--dsw-alias-label-secondary);margin:0}._-UrTq_error{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover-danger);border-radius:9px;margin:0;padding:10px 12px}._-UrTq_gallery,._-UrTq_history{padding-top:4px}._-UrTq_gallery>*,._-UrTq_historyImages{flex-wrap:wrap;gap:12px;display:flex}._-UrTq_history h2{margin:0 0 10px;font-size:18px}._-UrTq_figure{flex-direction:column;gap:6px;margin:0;display:flex}._-UrTq_figure img{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;max-width:220px;height:auto}._-UrTq_figure figcaption{gap:10px;display:flex}._-UrTq_historyItem{border-top:1px solid var(--dsw-alias-border-l1);padding:14px 0}._-UrTq_historyItem>div:first-child{justify-content:space-between;gap:12px;display:flex}._-UrTq_historyItem time{color:var(--dsw-alias-label-tertiary);font-size:12px}._-UrTq_link{color:var(--dsw-alias-brand-primary);cursor:pointer;background:0 0;border:none;margin-right:12px;padding:0}._-UrTq_empty{color:var(--dsw-alias-label-tertiary)}@media (width<=760px){._-UrTq_root{padding:14px}._-UrTq_controls button:last-child{margin-left:0}}";
-		const tagId$11 = "@dsh-control-center/control-center/PaintingWorkspace.module.css";
-		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$11) + "]") === null) {
+		const css$12 = "._-UrTq_root{background:var(--dsw-alias-bg-base);min-width:0;min-height:0;color:var(--dsw-alias-label-primary);flex-direction:column;flex:1;gap:16px;padding:24px;display:flex;overflow:auto}._-UrTq_header{justify-content:space-between;align-items:center;gap:16px;display:flex}._-UrTq_header h1{margin:2px 0 0;font-size:28px}._-UrTq_eyebrow{color:var(--dsw-alias-label-tertiary);letter-spacing:.08em;text-transform:uppercase;margin:0;font-size:12px}._-UrTq_composer{border:1px solid var(--dsw-alias-border-l1);border-radius:14px;flex-direction:column;gap:10px;padding:14px;display:flex}._-UrTq_composer textarea{resize:vertical;border:1px solid var(--dsw-alias-border-l2);box-sizing:border-box;width:100%;min-height:96px;color:inherit;font:inherit;background:0 0;border-radius:10px;padding:12px;line-height:1.6}._-UrTq_controls{flex-wrap:wrap;align-items:center;gap:8px;display:flex}._-UrTq_controls select{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);min-height:34px;color:inherit;border-radius:9px;padding:0 10px}._-UrTq_controls button:last-child{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;margin-left:auto;padding:0 16px}._-UrTq_controls button:disabled{opacity:.45;cursor:not-allowed}._-UrTq_secondary{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;background:0 0;border-radius:9px;padding:0 12px}._-UrTq_progress{color:var(--dsw-alias-label-secondary);margin:0}._-UrTq_error{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover-danger);border-radius:9px;margin:0;padding:10px 12px}._-UrTq_gallery,._-UrTq_history{padding-top:4px}._-UrTq_gallery>*,._-UrTq_historyImages{flex-wrap:wrap;gap:12px;display:flex}._-UrTq_history h2{margin:0 0 10px;font-size:18px}._-UrTq_figure{flex-direction:column;gap:6px;margin:0;display:flex}._-UrTq_figure img{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;max-width:220px;height:auto}._-UrTq_figure figcaption{gap:10px;display:flex}._-UrTq_historyItem{border-top:1px solid var(--dsw-alias-border-l1);padding:14px 0}._-UrTq_historyItem>div:first-child{justify-content:space-between;gap:12px;display:flex}._-UrTq_historyItem time{color:var(--dsw-alias-label-tertiary);font-size:12px}._-UrTq_link{color:var(--dsw-alias-brand-primary);cursor:pointer;background:0 0;border:none;margin-right:12px;padding:0}._-UrTq_empty{color:var(--dsw-alias-label-tertiary)}@media (width<=760px){._-UrTq_root{padding:14px}._-UrTq_controls button:last-child{margin-left:0}}";
+		const tagId$12 = "@dsh-control-center/control-center/PaintingWorkspace.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$12) + "]") === null) {
 			const tag = document.createElement("style");
 			tag.dataset.plugin = "@dsh-control-center/control-center";
-			tag.dataset.pluginCss = tagId$11;
-			tag.textContent = css$11;
+			tag.dataset.pluginCss = tagId$12;
+			tag.textContent = css$12;
 			document.head.appendChild(tag);
 		}
 		var PaintingWorkspace_module_css_default = {
+			"figure": "_-UrTq_figure",
+			"secondary": "_-UrTq_secondary",
+			"composer": "_-UrTq_composer",
+			"error": "_-UrTq_error",
+			"history": "_-UrTq_history",
+			"eyebrow": "_-UrTq_eyebrow",
 			"header": "_-UrTq_header",
+			"progress": "_-UrTq_progress",
+			"empty": "_-UrTq_empty",
+			"gallery": "_-UrTq_gallery",
 			"controls": "_-UrTq_controls",
 			"root": "_-UrTq_root",
-			"composer": "_-UrTq_composer",
-			"gallery": "_-UrTq_gallery",
-			"error": "_-UrTq_error",
-			"empty": "_-UrTq_empty",
 			"historyImages": "_-UrTq_historyImages",
-			"eyebrow": "_-UrTq_eyebrow",
-			"secondary": "_-UrTq_secondary",
-			"progress": "_-UrTq_progress",
-			"history": "_-UrTq_history",
-			"figure": "_-UrTq_figure",
-			"link": "_-UrTq_link",
-			"historyItem": "_-UrTq_historyItem"
+			"historyItem": "_-UrTq_historyItem",
+			"link": "_-UrTq_link"
 		};
 		//#endregion
 		//#region lib/types/client/PaintingWorkspace.js
@@ -476,6 +476,670 @@ window.__ModuleLoader__.load({
 				]
 			});
 		}
+		const STRICT_JSON_KNOWLEDGE = {
+			mode: "strict",
+			typeSymbol: "@dsh-control-center/knowledge-json",
+			schema: { parse(value) {
+				structuredClone(value);
+				return value;
+			} }
+		};
+		//#endregion
+		//#region lib/types/knowledge-remote-client.js
+		/** Client descriptor contribution for the Control Center knowledge service. */
+		const knowledgeRemote = {
+			package: "@dsh-control-center/control-center",
+			descriptors: [
+				{
+					method: "listBases",
+					parameters: []
+				},
+				{
+					method: "createBase",
+					parameters: ["request"]
+				},
+				{
+					method: "getBase",
+					parameters: ["baseId"]
+				},
+				{
+					method: "deleteBase",
+					parameters: ["baseId"]
+				},
+				{
+					method: "addText",
+					parameters: ["request"]
+				},
+				{
+					method: "addUrl",
+					parameters: ["request"]
+				},
+				{
+					method: "addFile",
+					parameters: ["request"]
+				},
+				{
+					method: "listSources",
+					parameters: ["baseId"]
+				},
+				{
+					method: "deleteSource",
+					parameters: ["baseId", "sourceId"]
+				},
+				{
+					method: "indexBase",
+					parameters: ["baseId"]
+				},
+				{
+					method: "listChunks",
+					parameters: [
+						"baseId",
+						"cursor",
+						"limit"
+					]
+				},
+				{
+					method: "retrieve",
+					parameters: ["request"]
+				}
+			].map(({ method, implementation, parameters }) => ({
+				id: `@dsh-control-center/control-center#controlCenterKnowledge/${method}`,
+				service: "controlCenterKnowledge",
+				namespace: "controlCenterKnowledge",
+				method,
+				...implementation === void 0 ? {} : { implementation },
+				invocation: { kind: "direct" },
+				parameters: parameters.map((name) => ({
+					name,
+					wire: name,
+					source: "json",
+					codec: STRICT_JSON_KNOWLEDGE
+				})),
+				result: STRICT_JSON_KNOWLEDGE
+			}))
+		};
+		//#endregion
+		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\KnowledgeWorkspace.module.css.mjs
+		const css$11 = ".uHDY1a_root{background:var(--dsw-alias-bg-base);min-width:0;min-height:0;color:var(--dsw-alias-label-primary);flex-direction:column;flex:1;gap:16px;padding:24px;display:flex;overflow:auto}.uHDY1a_header{justify-content:space-between;align-items:center;gap:16px;display:flex}.uHDY1a_header h1{margin:2px 0 0;font-size:28px}.uHDY1a_eyebrow{color:var(--dsw-alias-label-tertiary);letter-spacing:.08em;text-transform:uppercase;margin:0;font-size:12px}.uHDY1a_panel{border:1px solid var(--dsw-alias-border-l1);border-radius:14px;flex-direction:column;gap:10px;padding:14px;display:flex}.uHDY1a_panel h2{margin:0;font-size:16px}.uHDY1a_bases,.uHDY1a_hits,.uHDY1a_chunks{flex-direction:column;gap:10px;display:flex}.uHDY1a_bases h2{margin:0 0 4px;font-size:16px}.uHDY1a_row{flex-wrap:wrap;align-items:center;gap:8px;display:flex}.uHDY1a_row input,.uHDY1a_row textarea{border:1px solid var(--dsw-alias-border-l2);min-width:0;color:inherit;font:inherit;background:0 0;border-radius:9px;flex:1;padding:9px 11px}.uHDY1a_row textarea{resize:vertical;flex-basis:100%;min-height:72px}.uHDY1a_row button{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;padding:0 16px}.uHDY1a_row button:disabled{opacity:.45;cursor:not-allowed}.uHDY1a_primary{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;padding:0 16px}.uHDY1a_secondary{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;background:0 0;border-radius:9px;padding:0 12px}.uHDY1a_link{color:var(--dsw-alias-brand-primary);cursor:pointer;background:0 0;border:none;padding:0}.uHDY1a_fileButton{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;border-radius:9px;align-items:center;padding:0 12px;font-size:14px;display:inline-flex}.uHDY1a_fileButton input{display:none}.uHDY1a_baseCard{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;justify-content:space-between;align-items:center;gap:12px;padding:12px;display:flex}.uHDY1a_baseMeta{flex-direction:column;gap:3px;min-width:0;display:flex}.uHDY1a_baseMeta span{color:var(--dsw-alias-label-tertiary);font-size:12px}.uHDY1a_baseActions{flex-shrink:0;align-items:center;gap:10px;display:flex}.uHDY1a_sourceTabs{flex-direction:column;gap:10px;display:flex}.uHDY1a_sourceItem{border-top:1px solid var(--dsw-alias-border-l1);justify-content:space-between;align-items:center;gap:12px;padding:10px 0;display:flex}.uHDY1a_sourceMeta{flex-direction:column;gap:2px;min-width:0;display:flex}.uHDY1a_sourceMeta span{color:var(--dsw-alias-label-tertiary);font-size:12px}.uHDY1a_muted{color:var(--dsw-alias-label-secondary);margin:0;font-size:13px}.uHDY1a_hits{margin:0;padding-left:20px}.uHDY1a_hit{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;padding:10px}.uHDY1a_hitMeta{justify-content:space-between;gap:12px;display:flex}.uHDY1a_hitMeta span{color:var(--dsw-alias-label-tertiary);font-size:12px}.uHDY1a_hit p{margin:6px 0 0;line-height:1.6}.uHDY1a_chunk{border:1px solid var(--dsw-alias-border-l1);border-radius:8px;padding:8px 10px}.uHDY1a_chunk summary{cursor:pointer;color:var(--dsw-alias-label-secondary)}.uHDY1a_chunk p{white-space:pre-wrap;margin:8px 0 0;line-height:1.6}.uHDY1a_error{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover-danger);border-radius:9px;margin:0;padding:10px 12px}.uHDY1a_empty{color:var(--dsw-alias-label-tertiary)}@media (width<=760px){.uHDY1a_root{padding:14px}.uHDY1a_baseCard{flex-direction:column;align-items:flex-start}}";
+		const tagId$11 = "@dsh-control-center/control-center/KnowledgeWorkspace.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$11) + "]") === null) {
+			const tag = document.createElement("style");
+			tag.dataset.plugin = "@dsh-control-center/control-center";
+			tag.dataset.pluginCss = tagId$11;
+			tag.textContent = css$11;
+			document.head.appendChild(tag);
+		}
+		var KnowledgeWorkspace_module_css_default = {
+			"empty": "uHDY1a_empty",
+			"panel": "uHDY1a_panel",
+			"hits": "uHDY1a_hits",
+			"root": "uHDY1a_root",
+			"link": "uHDY1a_link",
+			"baseCard": "uHDY1a_baseCard",
+			"baseActions": "uHDY1a_baseActions",
+			"sourceItem": "uHDY1a_sourceItem",
+			"muted": "uHDY1a_muted",
+			"hitMeta": "uHDY1a_hitMeta",
+			"row": "uHDY1a_row",
+			"fileButton": "uHDY1a_fileButton",
+			"sourceTabs": "uHDY1a_sourceTabs",
+			"chunk": "uHDY1a_chunk",
+			"sourceMeta": "uHDY1a_sourceMeta",
+			"eyebrow": "uHDY1a_eyebrow",
+			"chunks": "uHDY1a_chunks",
+			"primary": "uHDY1a_primary",
+			"hit": "uHDY1a_hit",
+			"header": "uHDY1a_header",
+			"secondary": "uHDY1a_secondary",
+			"error": "uHDY1a_error",
+			"bases": "uHDY1a_bases",
+			"baseMeta": "uHDY1a_baseMeta"
+		};
+		//#endregion
+		//#region lib/types/client/KnowledgeWorkspace.js
+		/** Full Knowledge Base workspace over the real Control Center knowledge service. */
+		function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, close }) {
+			const knowledgeReady = useKnowledgeReady((value) => value);
+			const knowledge = knowledgeReady ? getKnowledge() : void 0;
+			const [bases, setBases] = (0, react.useState)([]);
+			const [selectedId, setSelectedId] = (0, react.useState)("");
+			const [sources, setSources] = (0, react.useState)([]);
+			const [chunks, setChunks] = (0, react.useState)([]);
+			const [nextChunkCursor, setNextChunkCursor] = (0, react.useState)(null);
+			const [indexing, setIndexing] = (0, react.useState)(null);
+			const [indexResult, setIndexResult] = (0, react.useState)(null);
+			const [baseName, setBaseName] = (0, react.useState)("");
+			const [baseDescription, setBaseDescription] = (0, react.useState)("");
+			const [textName, setTextName] = (0, react.useState)("");
+			const [textBody, setTextBody] = (0, react.useState)("");
+			const [urlText, setUrlText] = (0, react.useState)("");
+			const [fileName, setFileName] = (0, react.useState)("");
+			const [query, setQuery] = (0, react.useState)("");
+			const [topK, setTopK] = (0, react.useState)(8);
+			const [hits, setHits] = (0, react.useState)([]);
+			const [retrievalProvider, setRetrievalProvider] = (0, react.useState)(null);
+			const [error, setError] = (0, react.useState)(null);
+			const [busy, setBusy] = (0, react.useState)(false);
+			const selected = (0, react.useMemo)(() => bases.find((base) => base.id === selectedId) ?? null, [bases, selectedId]);
+			const refreshBases = () => {
+				if (knowledge === void 0) return;
+				knowledge.listBases().then((result) => {
+					if (!result.ok) {
+						setError(result.error.message);
+						return;
+					}
+					setBases(result.value.bases);
+					if (result.value.bases.length === 0) {
+						setSelectedId("");
+						setSources([]);
+						setChunks([]);
+					} else if (!result.value.bases.some((base) => base.id === selectedId)) setSelectedId(result.value.bases[0].id);
+				}).catch((reason) => setError(reason instanceof Error ? reason.message : String(reason)));
+			};
+			(0, react.useEffect)(() => {
+				if (!knowledgeReady || knowledge === void 0) return;
+				refreshBases();
+			}, [knowledgeReady, knowledge]);
+			(0, react.useEffect)(() => {
+				if (!knowledgeReady || knowledge === void 0 || selectedId === "") return;
+				let active = true;
+				knowledge.listSources(selectedId).then((result) => {
+					if (!active || !result.ok) return;
+					setSources(result.value.sources);
+				});
+				knowledge.listChunks(selectedId, null, 50).then((result) => {
+					if (!active || !result.ok) return;
+					setChunks(result.value.chunks);
+					setNextChunkCursor(result.value.nextCursor ?? null);
+				});
+				return () => {
+					active = false;
+				};
+			}, [
+				knowledgeReady,
+				knowledge,
+				selectedId
+			]);
+			const createBase = async () => {
+				if (knowledge === void 0 || baseName.trim() === "") return;
+				setError(null);
+				const result = await knowledge.createBase({
+					name: baseName,
+					description: baseDescription,
+					embeddingProvider: "local-hash"
+				});
+				if (!result.ok) {
+					setError(result.error.message);
+					return;
+				}
+				setBaseName("");
+				setBaseDescription("");
+				setSelectedId(result.value.id);
+				refreshBases();
+			};
+			const deleteBase = async (id) => {
+				if (knowledge === void 0) return;
+				setError(null);
+				const result = await knowledge.deleteBase(id);
+				if (!result.ok) {
+					setError(result.error.message);
+					return;
+				}
+				refreshBases();
+			};
+			const addText = async () => {
+				if (knowledge === void 0 || selectedId === "" || textBody.trim() === "") return;
+				setError(null);
+				const result = await knowledge.addText({
+					baseId: selectedId,
+					name: textName.trim() || `text-${Date.now()}`,
+					text: textBody
+				});
+				if (!result.ok) {
+					setError(result.error.message);
+					return;
+				}
+				setTextName("");
+				setTextBody("");
+				reloadSources();
+			};
+			const addUrl = async () => {
+				if (knowledge === void 0 || selectedId === "" || urlText.trim() === "") return;
+				setError(null);
+				setBusy(true);
+				try {
+					const result = await knowledge.addUrl({
+						baseId: selectedId,
+						url: urlText.trim()
+					});
+					if (!result.ok) {
+						setError(result.error.message);
+						return;
+					}
+					setUrlText("");
+					reloadSources();
+				} finally {
+					setBusy(false);
+				}
+			};
+			const addFile = async (file) => {
+				if (knowledge === void 0 || selectedId === "") return;
+				setError(null);
+				const dataBase64 = await file.arrayBuffer().then((buffer) => {
+					const bytes = new Uint8Array(buffer);
+					let binary = "";
+					for (const byte of bytes) binary += String.fromCharCode(byte);
+					return btoa(binary);
+				});
+				const result = await knowledge.addFile({
+					baseId: selectedId,
+					name: fileName.trim() || file.name,
+					dataBase64,
+					mediaType: file.type || "text/plain"
+				});
+				if (!result.ok) {
+					setError(result.error.message);
+					return;
+				}
+				setFileName("");
+				reloadSources();
+			};
+			const reloadSources = () => {
+				if (knowledge === void 0 || selectedId === "") return;
+				knowledge.listSources(selectedId).then((result) => {
+					if (result.ok) setSources(result.value.sources);
+				});
+			};
+			const deleteSource = async (id) => {
+				if (knowledge === void 0 || selectedId === "") return;
+				setError(null);
+				const result = await knowledge.deleteSource(selectedId, id);
+				if (!result.ok) {
+					setError(result.error.message);
+					return;
+				}
+				reloadSources();
+				knowledge.listChunks(selectedId, null, 50).then((listResult) => {
+					if (listResult.ok) {
+						setChunks(listResult.value.chunks);
+						setNextChunkCursor(listResult.value.nextCursor ?? null);
+					}
+				});
+			};
+			const indexBase = async () => {
+				if (knowledge === void 0 || selectedId === "") return;
+				setError(null);
+				setIndexing(selectedId);
+				try {
+					const result = await knowledge.indexBase(selectedId);
+					if (!result.ok) {
+						setError(result.error.message);
+						return;
+					}
+					setIndexResult(`已索引 ${result.value.sourcesIndexed} 个来源，写入 ${result.value.chunksWritten} 个分块`);
+					reloadSources();
+					knowledge.listChunks(selectedId, null, 50).then((listResult) => {
+						if (listResult.ok) {
+							setChunks(listResult.value.chunks);
+							setNextChunkCursor(listResult.value.nextCursor ?? null);
+						}
+					});
+				} finally {
+					setIndexing(null);
+				}
+			};
+			const recall = async () => {
+				if (knowledge === void 0 || selectedId === "" || query.trim() === "") return;
+				setError(null);
+				const result = await knowledge.retrieve({
+					baseId: selectedId,
+					query: query.trim(),
+					topK
+				});
+				if (!result.ok) {
+					setError(result.error.message);
+					return;
+				}
+				setHits(result.value.hits);
+				setRetrievalProvider(result.value.embeddingProvider);
+			};
+			const loadMoreChunks = () => {
+				if (knowledge === void 0 || selectedId === "" || nextChunkCursor === null) return;
+				knowledge.listChunks(selectedId, nextChunkCursor, 50).then((result) => {
+					if (!result.ok) {
+						setError(result.error.message);
+						return;
+					}
+					setChunks((current) => [...current, ...result.value.chunks]);
+					setNextChunkCursor(result.value.nextCursor ?? null);
+				});
+			};
+			if (!knowledgeReady) return (0, react_jsx_runtime.jsx)("main", {
+				className: KnowledgeWorkspace_module_css_default.root,
+				children: (0, react_jsx_runtime.jsx)("p", {
+					role: "status",
+					children: "正在连接知识库服务…"
+				})
+			});
+			return (0, react_jsx_runtime.jsxs)("main", {
+				className: KnowledgeWorkspace_module_css_default.root,
+				children: [
+					(0, react_jsx_runtime.jsxs)("header", {
+						className: KnowledgeWorkspace_module_css_default.header,
+						children: [(0, react_jsx_runtime.jsxs)("div", { children: [(0, react_jsx_runtime.jsx)("p", {
+							className: KnowledgeWorkspace_module_css_default.eyebrow,
+							children: "DSH Control Center"
+						}), (0, react_jsx_runtime.jsx)("h1", { children: "知识库" })] }), (0, react_jsx_runtime.jsx)("button", {
+							type: "button",
+							className: KnowledgeWorkspace_module_css_default.secondary,
+							onClick: close,
+							children: "返回对话"
+						})]
+					}),
+					error === null ? null : (0, react_jsx_runtime.jsx)("p", {
+						role: "alert",
+						className: KnowledgeWorkspace_module_css_default.error,
+						children: error
+					}),
+					(0, react_jsx_runtime.jsxs)("section", {
+						className: KnowledgeWorkspace_module_css_default.panel,
+						"aria-label": "新建知识库",
+						children: [(0, react_jsx_runtime.jsx)("h2", { children: "新建知识库" }), (0, react_jsx_runtime.jsxs)("div", {
+							className: KnowledgeWorkspace_module_css_default.row,
+							children: [
+								(0, react_jsx_runtime.jsx)("input", {
+									"aria-label": "知识库名称",
+									placeholder: "名称（必填）",
+									value: baseName,
+									onChange: (event) => {
+										setBaseName(event.target.value);
+									}
+								}),
+								(0, react_jsx_runtime.jsx)("input", {
+									"aria-label": "知识库描述",
+									placeholder: "描述（可选）",
+									value: baseDescription,
+									onChange: (event) => {
+										setBaseDescription(event.target.value);
+									}
+								}),
+								(0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									disabled: baseName.trim() === "",
+									onClick: () => {
+										createBase();
+									},
+									children: "创建"
+								})
+							]
+						})]
+					}),
+					(0, react_jsx_runtime.jsxs)("section", {
+						className: KnowledgeWorkspace_module_css_default.bases,
+						"aria-label": "知识库列表",
+						children: [(0, react_jsx_runtime.jsxs)("h2", { children: [
+							"知识库（",
+							bases.length,
+							"）"
+						] }), bases.length === 0 ? (0, react_jsx_runtime.jsx)("p", {
+							className: KnowledgeWorkspace_module_css_default.empty,
+							children: "暂无知识库，先创建一个。"
+						}) : bases.map((base) => (0, react_jsx_runtime.jsxs)("article", {
+							className: KnowledgeWorkspace_module_css_default.baseCard,
+							children: [(0, react_jsx_runtime.jsxs)("div", {
+								className: KnowledgeWorkspace_module_css_default.baseMeta,
+								children: [
+									(0, react_jsx_runtime.jsx)("strong", { children: base.name }),
+									(0, react_jsx_runtime.jsx)("span", { children: base.embedding.providerId === "local-hash" ? "本地 Hash Embedding" : `${base.embedding.providerId} · ${base.embedding.model ?? ""}` }),
+									(0, react_jsx_runtime.jsxs)("span", { children: [
+										base.sourceCount,
+										" 个来源 · ",
+										base.chunkCount,
+										" 个分块"
+									] })
+								]
+							}), (0, react_jsx_runtime.jsxs)("div", {
+								className: KnowledgeWorkspace_module_css_default.baseActions,
+								children: [(0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: selected?.id === base.id ? KnowledgeWorkspace_module_css_default.primary : KnowledgeWorkspace_module_css_default.secondary,
+									onClick: () => {
+										setSelectedId(base.id);
+										setHits([]);
+									},
+									children: "打开"
+								}), (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: KnowledgeWorkspace_module_css_default.link,
+									onClick: () => {
+										deleteBase(base.id);
+									},
+									children: "删除"
+								})]
+							})]
+						}, base.id))]
+					}),
+					selected !== null && (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [
+						(0, react_jsx_runtime.jsxs)("section", {
+							className: KnowledgeWorkspace_module_css_default.panel,
+							"aria-label": "添加来源",
+							children: [(0, react_jsx_runtime.jsxs)("h2", { children: [
+								"向「",
+								selected.name,
+								"」添加来源"
+							] }), (0, react_jsx_runtime.jsxs)("div", {
+								className: KnowledgeWorkspace_module_css_default.sourceTabs,
+								children: [
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: KnowledgeWorkspace_module_css_default.row,
+										children: [
+											(0, react_jsx_runtime.jsx)("input", {
+												"aria-label": "文本名称",
+												placeholder: "名称（可选）",
+												value: textName,
+												onChange: (event) => {
+													setTextName(event.target.value);
+												}
+											}),
+											(0, react_jsx_runtime.jsx)("textarea", {
+												"aria-label": "文本内容",
+												placeholder: "粘贴文本内容",
+												value: textBody,
+												onChange: (event) => {
+													setTextBody(event.target.value);
+												}
+											}),
+											(0, react_jsx_runtime.jsx)("button", {
+												type: "button",
+												disabled: textBody.trim() === "",
+												onClick: () => {
+													addText();
+												},
+												children: "添加文本"
+											})
+										]
+									}),
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: KnowledgeWorkspace_module_css_default.row,
+										children: [(0, react_jsx_runtime.jsx)("input", {
+											"aria-label": "网页地址",
+											placeholder: "https://…",
+											value: urlText,
+											onChange: (event) => {
+												setUrlText(event.target.value);
+											}
+										}), (0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											disabled: urlText.trim() === "" || busy,
+											onClick: () => {
+												addUrl();
+											},
+											children: busy ? "抓取中…" : "抓取网页"
+										})]
+									}),
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: KnowledgeWorkspace_module_css_default.row,
+										children: [(0, react_jsx_runtime.jsx)("input", {
+											"aria-label": "文件名称",
+											placeholder: "文件显示名（可选）",
+											value: fileName,
+											onChange: (event) => {
+												setFileName(event.target.value);
+											}
+										}), (0, react_jsx_runtime.jsxs)("label", {
+											className: KnowledgeWorkspace_module_css_default.fileButton,
+											children: ["选择文本文件", (0, react_jsx_runtime.jsx)("input", {
+												type: "file",
+												accept: ".txt,.md,.html,.csv,.json,.yaml,.yml,text/plain,text/markdown,text/html,application/json,application/xml",
+												onChange: (event) => {
+													const file = event.target.files?.[0];
+													if (file !== void 0) addFile(file);
+													event.target.value = "";
+												}
+											})]
+										})]
+									})
+								]
+							})]
+						}),
+						(0, react_jsx_runtime.jsxs)("section", {
+							className: KnowledgeWorkspace_module_css_default.panel,
+							"aria-label": "索引与检索",
+							children: [
+								(0, react_jsx_runtime.jsx)("h2", { children: "索引与检索" }),
+								(0, react_jsx_runtime.jsxs)("div", {
+									className: KnowledgeWorkspace_module_css_default.row,
+									children: [
+										(0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											disabled: indexing !== null,
+											onClick: () => {
+												indexBase();
+											},
+											children: indexing !== null ? "索引中…" : "建立索引"
+										}),
+										(0, react_jsx_runtime.jsx)("input", {
+											"aria-label": "检索查询",
+											placeholder: "输入查询，回车检索",
+											value: query,
+											onChange: (event) => {
+												setQuery(event.target.value);
+											},
+											onKeyDown: (event) => {
+												if (event.key === "Enter") recall();
+											}
+										}),
+										(0, react_jsx_runtime.jsx)("select", {
+											"aria-label": "返回条数",
+											value: String(topK),
+											onChange: (event) => {
+												setTopK(Number(event.target.value));
+											},
+											children: [
+												4,
+												8,
+												16
+											].map((n) => (0, react_jsx_runtime.jsx)("option", {
+												value: String(n),
+												children: n
+											}, n))
+										}),
+										(0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: KnowledgeWorkspace_module_css_default.primary,
+											disabled: query.trim() === "",
+											onClick: () => {
+												recall();
+											},
+											children: "检索"
+										})
+									]
+								}),
+								indexResult === null ? null : (0, react_jsx_runtime.jsx)("p", {
+									className: KnowledgeWorkspace_module_css_default.muted,
+									children: indexResult
+								}),
+								retrievalProvider === null ? null : (0, react_jsx_runtime.jsxs)("p", {
+									className: KnowledgeWorkspace_module_css_default.muted,
+									children: ["检索模式：", retrievalProvider]
+								}),
+								hits.length === 0 ? null : (0, react_jsx_runtime.jsx)("ol", {
+									className: KnowledgeWorkspace_module_css_default.hits,
+									"aria-label": "检索结果",
+									children: hits.map((hit) => (0, react_jsx_runtime.jsxs)("li", {
+										className: KnowledgeWorkspace_module_css_default.hit,
+										children: [(0, react_jsx_runtime.jsxs)("div", {
+											className: KnowledgeWorkspace_module_css_default.hitMeta,
+											children: [(0, react_jsx_runtime.jsx)("strong", { children: hit.sourceName }), (0, react_jsx_runtime.jsxs)("span", { children: ["得分 ", hit.score.toFixed(3)] })]
+										}), (0, react_jsx_runtime.jsx)("p", { children: hit.text })]
+									}, hit.chunkId))
+								})
+							]
+						}),
+						(0, react_jsx_runtime.jsxs)("section", {
+							className: KnowledgeWorkspace_module_css_default.panel,
+							"aria-label": "来源与分块",
+							children: [
+								(0, react_jsx_runtime.jsxs)("h2", { children: [
+									"来源（",
+									sources.length,
+									"）"
+								] }),
+								sources.length === 0 ? (0, react_jsx_runtime.jsx)("p", {
+									className: KnowledgeWorkspace_module_css_default.empty,
+									children: "还没有来源。"
+								}) : sources.map((source) => (0, react_jsx_runtime.jsxs)("article", {
+									className: KnowledgeWorkspace_module_css_default.sourceItem,
+									children: [(0, react_jsx_runtime.jsxs)("div", {
+										className: KnowledgeWorkspace_module_css_default.sourceMeta,
+										children: [(0, react_jsx_runtime.jsx)("strong", { children: source.name }), (0, react_jsx_runtime.jsxs)("span", { children: [
+											source.kind,
+											" · ",
+											source.chunks,
+											" 个分块 · ",
+											source.tokens,
+											" tokens · ",
+											source.status
+										] })]
+									}), (0, react_jsx_runtime.jsx)("button", {
+										type: "button",
+										className: KnowledgeWorkspace_module_css_default.link,
+										onClick: () => {
+											deleteSource(source.id);
+										},
+										children: "删除"
+									})]
+								}, source.id)),
+								(0, react_jsx_runtime.jsxs)("h2", { children: [
+									"分块（",
+									chunks.length,
+									"）"
+								] }),
+								chunks.length === 0 ? (0, react_jsx_runtime.jsx)("p", {
+									className: KnowledgeWorkspace_module_css_default.empty,
+									children: "索引后才会生成分块。"
+								}) : (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [chunks.map((chunk) => (0, react_jsx_runtime.jsxs)("details", {
+									className: KnowledgeWorkspace_module_css_default.chunk,
+									children: [(0, react_jsx_runtime.jsxs)("summary", { children: [
+										chunk.sourceName,
+										" · #",
+										chunk.position,
+										" · ",
+										chunk.tokens,
+										" tokens"
+									] }), (0, react_jsx_runtime.jsx)("p", { children: chunk.text })]
+								}, chunk.id)), nextChunkCursor === null ? null : (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: KnowledgeWorkspace_module_css_default.secondary,
+									onClick: loadMoreChunks,
+									children: "加载更多分块"
+								})] })
+							]
+						})
+					] })
+				]
+			});
+		}
 		//#endregion
 		//#region ../../node_modules/.pnpm/clsx@2.1.1/node_modules/clsx/dist/clsx.mjs
 		function r(e) {
@@ -503,28 +1167,28 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
-			"panel": "_4STY0G_panel",
-			"trigger": "_4STY0G_trigger",
-			"navScroll": "_4STY0G_navScroll",
-			"nav": "_4STY0G_nav",
-			"navCell": "_4STY0G_navCell",
-			"options": "_4STY0G_options",
-			"close": "_4STY0G_close",
-			"triggerLabel": "_4STY0G_triggerLabel",
 			"actions": "_4STY0G_actions",
-			"navGroupTitle": "_4STY0G_navGroupTitle",
-			"overlay": "_4STY0G_overlay",
-			"rail": "_4STY0G_rail",
-			"navGroup": "_4STY0G_navGroup",
-			"navTitle": "_4STY0G_navTitle",
-			"active": "_4STY0G_active",
 			"navLabel": "_4STY0G_navLabel",
-			"content": "_4STY0G_content",
+			"options": "_4STY0G_options",
+			"trigger": "_4STY0G_trigger",
+			"rail": "_4STY0G_rail",
+			"close": "_4STY0G_close",
+			"active": "_4STY0G_active",
+			"navScroll": "_4STY0G_navScroll",
+			"overlay": "_4STY0G_overlay",
+			"navCell": "_4STY0G_navCell",
 			"navIcon": "_4STY0G_navIcon",
-			"mask": "_4STY0G_mask",
+			"content": "_4STY0G_content",
+			"navGroup": "_4STY0G_navGroup",
+			"header": "_4STY0G_header",
+			"panel": "_4STY0G_panel",
+			"navGroupTitle": "_4STY0G_navGroupTitle",
 			"navList": "_4STY0G_navList",
 			"hiddenLabel": "_4STY0G_hiddenLabel",
-			"header": "_4STY0G_header"
+			"mask": "_4STY0G_mask",
+			"navTitle": "_4STY0G_navTitle",
+			"triggerLabel": "_4STY0G_triggerLabel",
+			"nav": "_4STY0G_nav"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsRoot.js
@@ -992,69 +1656,69 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelsSection_module_css_default = {
-			"editorTitle": "tKsOKa_editorTitle",
-			"modelAdvanced": "tKsOKa_modelAdvanced",
-			"iconButton": "tKsOKa_iconButton",
-			"savedNotice": "tKsOKa_savedNotice",
 			"rowIdentity": "tKsOKa_rowIdentity",
-			"credentialDotMissing": "tKsOKa_credentialDotMissing",
-			"advancedHint": "tKsOKa_advancedHint",
-			"modelEmpty": "tKsOKa_modelEmpty",
-			"error": "tKsOKa_error",
-			"rowActions": "tKsOKa_rowActions",
-			"rows": "tKsOKa_rows",
-			"editorHeader": "tKsOKa_editorHeader",
-			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
-			"credentialDot": "tKsOKa_credentialDot",
-			"fieldLabel": "tKsOKa_fieldLabel",
-			"secondaryButton": "tKsOKa_secondaryButton",
-			"addActions": "tKsOKa_addActions",
-			"customized": "tKsOKa_customized",
-			"addButton": "tKsOKa_addButton",
-			"iconButtonDanger": "tKsOKa_iconButtonDanger",
-			"notice": "tKsOKa_notice",
-			"candidate": "tKsOKa_candidate",
-			"candidateId": "tKsOKa_candidateId",
-			"rowName": "tKsOKa_rowName",
-			"candidateLabel": "tKsOKa_candidateLabel",
-			"setupCard": "tKsOKa_setupCard",
-			"title": "tKsOKa_title",
-			"candidateList": "tKsOKa_candidateList",
-			"modelEntry": "tKsOKa_modelEntry",
-			"modelListHead": "tKsOKa_modelListHead",
-			"field": "tKsOKa_field",
-			"linkButton": "tKsOKa_linkButton",
-			"addModelButton": "tKsOKa_addModelButton",
 			"primaryButton": "tKsOKa_primaryButton",
-			"input": "tKsOKa_input",
-			"rowCard": "tKsOKa_rowCard",
-			"editorRoute": "tKsOKa_editorRoute",
-			"modelSelectionPanel": "tKsOKa_modelSelectionPanel",
-			"modelList": "tKsOKa_modelList",
-			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
-			"intro": "tKsOKa_intro",
-			"editorActions": "tKsOKa_editorActions",
-			"addBlock": "tKsOKa_addBlock",
-			"rowTag": "tKsOKa_rowTag",
-			"modelRow": "tKsOKa_modelRow",
-			"customizedSummary": "tKsOKa_customizedSummary",
-			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
-			"fetchDialog": "tKsOKa_fetchDialog",
-			"addCard": "tKsOKa_addCard",
-			"deleteDialog": "tKsOKa_deleteDialog",
 			"editor": "tKsOKa_editor",
-			"selectInput": "tKsOKa_selectInput",
+			"fieldLabel": "tKsOKa_fieldLabel",
+			"advancedHint": "tKsOKa_advancedHint",
+			"rowTag": "tKsOKa_rowTag",
+			"addCard": "tKsOKa_addCard",
+			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"addBlock": "tKsOKa_addBlock",
+			"rows": "tKsOKa_rows",
+			"candidate": "tKsOKa_candidate",
 			"modelSelectionTitle": "tKsOKa_modelSelectionTitle",
-			"modelFieldLabel": "tKsOKa_modelFieldLabel",
-			"modelCatalog": "tKsOKa_modelCatalog",
-			"dangerButton": "tKsOKa_dangerButton",
-			"customizedBody": "tKsOKa_customizedBody",
+			"candidateLabel": "tKsOKa_candidateLabel",
+			"input": "tKsOKa_input",
 			"rowHead": "tKsOKa_rowHead",
+			"modelSelectionPanel": "tKsOKa_modelSelectionPanel",
+			"editorTitle": "tKsOKa_editorTitle",
+			"modelCatalog": "tKsOKa_modelCatalog",
+			"editorRoute": "tKsOKa_editorRoute",
+			"customizedBody": "tKsOKa_customizedBody",
+			"addModelButton": "tKsOKa_addModelButton",
+			"addActions": "tKsOKa_addActions",
+			"secondaryButton": "tKsOKa_secondaryButton",
+			"editorActions": "tKsOKa_editorActions",
+			"editorHeader": "tKsOKa_editorHeader",
+			"modelEmpty": "tKsOKa_modelEmpty",
+			"credentialDot": "tKsOKa_credentialDot",
+			"rowActions": "tKsOKa_rowActions",
+			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
+			"dangerButton": "tKsOKa_dangerButton",
+			"linkButton": "tKsOKa_linkButton",
+			"rowName": "tKsOKa_rowName",
+			"candidateList": "tKsOKa_candidateList",
+			"modelFieldLabel": "tKsOKa_modelFieldLabel",
+			"notice": "tKsOKa_notice",
+			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
+			"savedNotice": "tKsOKa_savedNotice",
+			"title": "tKsOKa_title",
+			"modelField": "tKsOKa_modelField",
+			"hiddenLabel": "tKsOKa_hiddenLabel",
+			"customized": "tKsOKa_customized",
+			"customizedSummary": "tKsOKa_customizedSummary",
+			"field": "tKsOKa_field",
+			"rowCard": "tKsOKa_rowCard",
+			"modelAdvanced": "tKsOKa_modelAdvanced",
 			"deleteConfirm": "tKsOKa_deleteConfirm",
 			"section": "tKsOKa_section",
+			"error": "tKsOKa_error",
+			"iconButton": "tKsOKa_iconButton",
+			"modelList": "tKsOKa_modelList",
+			"candidateId": "tKsOKa_candidateId",
+			"setupCard": "tKsOKa_setupCard",
 			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
-			"modelField": "tKsOKa_modelField",
-			"hiddenLabel": "tKsOKa_hiddenLabel"
+			"modelListHead": "tKsOKa_modelListHead",
+			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
+			"fetchDialog": "tKsOKa_fetchDialog",
+			"intro": "tKsOKa_intro",
+			"iconButtonDanger": "tKsOKa_iconButtonDanger",
+			"addButton": "tKsOKa_addButton",
+			"modelEntry": "tKsOKa_modelEntry",
+			"modelRow": "tKsOKa_modelRow",
+			"selectInput": "tKsOKa_selectInput",
+			"deleteDialog": "tKsOKa_deleteDialog"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -4170,8 +4834,8 @@ window.__ModuleLoader__.load({
 		}
 		var OnboardingModal_module_css_default = {
 			"dialog": "C_CJ_a_dialog",
-			"title": "C_CJ_a_title",
 			"content": "C_CJ_a_content",
+			"title": "C_CJ_a_title",
 			"body": "C_CJ_a_body"
 		};
 		//#endregion
@@ -4231,8 +4895,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var DeepSeekOnboardingDialog_module_css_default = {
-			"editor": "oxcHWa_editor",
-			"description": "oxcHWa_description"
+			"description": "oxcHWa_description",
+			"editor": "oxcHWa_editor"
 		};
 		//#endregion
 		//#region lib/types/client/DeepSeekOnboardingDialog.js
@@ -4322,9 +4986,9 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WelcomeNotice_module_css_default = {
-			"primary": "RFswhG_primary",
 			"error": "RFswhG_error",
 			"actions": "RFswhG_actions",
+			"primary": "RFswhG_primary",
 			"copy": "RFswhG_copy"
 		};
 		//#endregion
@@ -4788,13 +5452,13 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProductWorkspaceSurface_module_css_default = {
-			"root": "mzcFbW_root",
 			"header": "mzcFbW_header",
+			"close": "mzcFbW_close",
+			"root": "mzcFbW_root",
 			"identity": "mzcFbW_identity",
-			"body": "mzcFbW_body",
 			"icon": "mzcFbW_icon",
 			"eyebrow": "mzcFbW_eyebrow",
-			"close": "mzcFbW_close"
+			"body": "mzcFbW_body"
 		};
 		//#endregion
 		//#region lib/types/client/ProductWorkspaceSurface.js
@@ -4842,20 +5506,20 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TranslationWorkspace_module_css_default = {
-			"header": "_8lesPa_header",
-			"history": "_8lesPa_history",
-			"historyItem": "_8lesPa_historyItem",
-			"panes": "_8lesPa_panes",
-			"secondary": "_8lesPa_secondary",
-			"error": "_8lesPa_error",
 			"toolbar": "_8lesPa_toolbar",
-			"root": "_8lesPa_root",
-			"actions": "_8lesPa_actions",
-			"empty": "_8lesPa_empty",
-			"eyebrow": "_8lesPa_eyebrow",
-			"link": "_8lesPa_link",
 			"swap": "_8lesPa_swap",
-			"pane": "_8lesPa_pane"
+			"error": "_8lesPa_error",
+			"secondary": "_8lesPa_secondary",
+			"actions": "_8lesPa_actions",
+			"link": "_8lesPa_link",
+			"panes": "_8lesPa_panes",
+			"root": "_8lesPa_root",
+			"pane": "_8lesPa_pane",
+			"history": "_8lesPa_history",
+			"empty": "_8lesPa_empty",
+			"header": "_8lesPa_header",
+			"eyebrow": "_8lesPa_eyebrow",
+			"historyItem": "_8lesPa_historyItem"
 		};
 		//#endregion
 		//#region lib/types/client/TranslationWorkspace.js
@@ -5235,14 +5899,33 @@ window.__ModuleLoader__.load({
 					};
 				}
 			};
+			let knowledge;
+			const knowledgeReadySource = {
+				getSnapshot: () => knowledge !== void 0,
+				subscribe: (listener) => {
+					const timer = window.setInterval(() => {
+						if (knowledge === void 0) return;
+						window.clearInterval(timer);
+						listener();
+					}, 25);
+					return () => {
+						window.clearInterval(timer);
+					};
+				}
+			};
 			ctx.effect(async () => {
 				const controlCenterRemote = {
 					package: "@dsh-control-center/control-center",
-					descriptors: [...translationRemote.descriptors, ...paintingRemote.descriptors]
+					descriptors: [
+						...translationRemote.descriptors,
+						...paintingRemote.descriptors,
+						...knowledgeRemote.descriptors
+					]
 				};
 				const dispose = await remote.$mount(controlCenterRemote);
 				translation = ctx.get("remote.controlCenterTranslation");
 				painting = ctx.get("remote.controlCenterPainting");
+				knowledge = ctx.get("remote.controlCenterKnowledge");
 				return dispose;
 			}, "control-center: control-center Remote namespaces");
 			ctx.effect(() => ctx.locale.register(SHELL_NS, {
@@ -5429,6 +6112,17 @@ window.__ModuleLoader__.load({
 						hooks: { paintingReady: paintingReadySource }
 					})
 				}, PaintingWorkspace));
+				else if (workspace.id === "knowledge") ctx.slots.inject("application.surface", () => ctx.slots.register({
+					name: "application.surface",
+					key: "knowledge",
+					inject: () => ({
+						getKnowledge: () => {
+							if (knowledge === void 0) throw new Error("knowledge Remote namespace is not mounted");
+							return knowledge;
+						},
+						hooks: { knowledgeReady: knowledgeReadySource }
+					})
+				}, KnowledgeWorkspace));
 				else ctx.slots.inject("application.surface", () => ctx.slots.register({
 					name: "application.surface",
 					key: workspace.id,
