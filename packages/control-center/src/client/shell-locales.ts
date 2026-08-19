@@ -31,6 +31,9 @@ export const en = {
   ocrDescription: 'Extract text from images with the configured OCR processor.',
   usageNav: 'Usage',
   dataNav: 'Data',
+  systemGroup: 'System',
+  dependenciesNav: 'Dependencies',
+  aboutNav: 'About',
 }
 
 export type SettingsKey = keyof typeof en
@@ -66,4 +69,7 @@ export const zh: { [Key in SettingsKey]: string } = {
   ocrDescription: '使用配置的 OCR 处理器从图片中提取文字。',
   usageNav: '用量分析',
   dataNav: '数据',
+  systemGroup: '系统',
+  dependenciesNav: '依赖',
+  aboutNav: '关于',
 }

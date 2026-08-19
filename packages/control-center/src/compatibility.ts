@@ -47,7 +47,7 @@ function resolveManifest(requireFrom: NodeJS.Require, name: string): string | un
  * module fallback (`$DSH_HOME/profiles/node_modules`), which symlinks every
  * DSH package and is the shared dependency root for all plugins.
  */
-function profileRequire(): NodeJS.Require {
+export function profileRequire(): NodeJS.Require {
   const own = createRequire(import.meta.url)
   if (REQUIRED_PACKAGES.every((required) => resolveManifest(own, required.name) !== undefined)) return own
   try {

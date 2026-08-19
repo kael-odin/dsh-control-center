@@ -30,6 +30,9 @@ export declare const en: {
     ocrDescription: string;
     usageNav: string;
     dataNav: string;
+    systemGroup: string;
+    dependenciesNav: string;
+    aboutNav: string;
 };
 export type SettingsKey = keyof typeof en;
 export declare const zh: {

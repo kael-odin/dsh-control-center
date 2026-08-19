@@ -27,7 +27,7 @@ interface PanelProps {
 
 /** Nav groups in Cherry's settings order: core, capabilities, personal,
  * then the DSH-owned sections as a native group. */
-const GROUPS: readonly SettingsSectionRow['group'][] = ['core', 'capabilities', 'personal', 'native', 'other']
+const GROUPS: readonly SettingsSectionRow['group'][] = ['core', 'capabilities', 'personal', 'native', 'system', 'other']
 
 function navIcon(id: string) {
   if (id === 'models') return <IconDataOutline16 className={css.navIcon} size={16} />

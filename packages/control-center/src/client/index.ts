@@ -46,6 +46,10 @@ import type {} from '../data-types.ts'
 import dataRemote from '../data-remote-client.ts'
 import { DataSection } from './DataSection.tsx'
 import type { DataSectionInjected } from './DataSection.tsx'
+import type {} from '../system-types.ts'
+import systemRemote from '../system-remote-client.ts'
+import { AboutSection, DependenciesSection } from './SystemSection.tsx'
+import type { SystemSectionInjected } from './SystemSection.tsx'
 import { SettingsRoot } from './SettingsRoot.tsx'
 import type { SettingsOnboardingStep, SettingsRootInjected, SettingsSectionRow } from './shell-contract.ts'
 import { CloseLabel, HeaderContent, TriggerContent } from './chrome.tsx'
@@ -84,6 +88,7 @@ function groupOf(id: string): SettingsSectionRow['group'] {
   if (id === 'general') return 'personal'
   if (id === 'skills' || id === 'providers' || id === 'mcp' || id === 'websearch' || id === 'file-processing' || id === 'ocr') return 'capabilities'
   if (id === 'usage' || id === 'data') return 'personal'
+  if (id === 'about' || id === 'dependencies') return 'system'
   if (KNOWN_NATIVE.has(id)) return 'native'
   return 'other'
 }
@@ -144,6 +149,18 @@ export function apply(ctx: ClientContext): void {
   let fileProcessing: NonNullable<typeof remote.controlCenterFileProcessing> | undefined
   let usage: NonNullable<typeof remote.controlCenterUsage> | undefined
   let data: NonNullable<typeof remote.controlCenterData> | undefined
+  let system: NonNullable<typeof remote.controlCenterSystem> | undefined
+  const systemReadySource: HostObservable<boolean> = {
+    getSnapshot: () => system !== undefined,
+    subscribe: (listener) => {
+      const timer = window.setInterval(() => {
+        if (system === undefined) return
+        window.clearInterval(timer)
+        listener()
+      }, 25)
+      return () => { window.clearInterval(timer) }
+    },
+  }
   const usageReadySource: HostObservable<boolean> = {
     getSnapshot: () => usage !== undefined,
     subscribe: (listener) => {
@@ -193,7 +210,8 @@ export function apply(ctx: ClientContext): void {
         ...reposRemote.descriptors,
         ...fileProcessingRemote.descriptors,
         ...usageRemote.descriptors,
-        ...dataRemote.descriptors
+        ...dataRemote.descriptors,
+        ...systemRemote.descriptors
       ],
     }
     const dispose = await remote.$mount(controlCenterRemote)
@@ -208,6 +226,7 @@ export function apply(ctx: ClientContext): void {
     fileProcessing = ctx.get('remote.controlCenterFileProcessing') as NonNullable<typeof remote.controlCenterFileProcessing>
     usage = ctx.get('remote.controlCenterUsage') as NonNullable<typeof remote.controlCenterUsage>
     data = ctx.get('remote.controlCenterData') as NonNullable<typeof remote.controlCenterData>
+    system = ctx.get('remote.controlCenterSystem') as NonNullable<typeof remote.controlCenterSystem>
     return dispose
   }, 'control-center: control-center Remote namespaces')
   ctx.effect(() => ctx.locale.register(SHELL_NS, { zh: shellZh, en: shellEn }), 'control-center: shell dictionaries')
@@ -240,6 +259,7 @@ export function apply(ctx: ClientContext): void {
       capabilities: shellT('capabilitiesGroup'),
       personal: shellT('personalGroup'),
       native: shellT('nativeGroup'),
+      system: shellT('systemGroup'),
       other: shellT('otherGroup'),
     },
     hooks: {
@@ -537,6 +557,32 @@ export function apply(ctx: ClientContext): void {
       hooks: { dataReady: dataReadySource },
     }),
   }, DataSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'dependencies',
+    order: 90,
+    label: () => shellT('dependenciesNav'),
+    inject: (): SystemSectionInjected => ({
+      getSystem: () => {
+        if (system === undefined) throw new Error('system Remote namespace is not mounted')
+        return system
+      },
+      hooks: { systemReady: systemReadySource },
+    }),
+  }, DependenciesSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'about',
+    order: 100,
+    label: () => shellT('aboutNav'),
+    inject: (): SystemSectionInjected => ({
+      getSystem: () => {
+        if (system === undefined) throw new Error('system Remote namespace is not mounted')
+        return system
+      },
+      hooks: { systemReady: systemReadySource },
+    }),
+  }, AboutSection))
   ctx.slots.inject('settings.onboarding', () => ctx.slots.register({
     name: 'settings.onboarding', id: 'welcome-notice', order: -100, inject: welcomeInjected,
   }, WelcomeNotice))

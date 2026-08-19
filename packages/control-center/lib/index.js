@@ -18,6 +18,7 @@ import { defineTool } from "@deepseek-ai/dsh-tools";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { credentialRef } from "@deepseek-ai/dsh-credentials";
+import { arch, homedir, platform, release } from "node:os";
 //#region lib/types/compatibility.js
 /** DSH package versions and exports required by the first Control Center release. */
 const SUPPORTED_DSH_VERSION = "0.1.0-rc.7";
@@ -3837,6 +3838,118 @@ const dataRemote = {
 	}))
 };
 //#endregion
+//#region lib/types/system.js
+/**
+* System & Diagnostics Host service: versions, compatibility, dependencies,
+* and environment info for the About / Dependencies / Diagnostics pages.
+*/
+const CONTRACT_PACKAGES = [
+	{
+		name: "@deepseek-ai/dsh-api-remotes",
+		client: true
+	},
+	{
+		name: "@deepseek-ai/dsh-client-runtime",
+		client: true
+	},
+	{
+		name: "@deepseek-ai/dsh-client-ui-settings",
+		client: true
+	},
+	{
+		name: "@deepseek-ai/dsh-client-ui-layout",
+		client: true
+	},
+	{
+		name: "@deepseek-ai/dsh-client-ui-slots",
+		client: false
+	},
+	{
+		name: "@deepseek-ai/dsh-client-modules",
+		client: true
+	},
+	{
+		name: "@deepseek-ai/dsh-host-apiproxy",
+		client: true
+	},
+	{
+		name: "@deepseek-ai/dsh-settings",
+		client: false
+	}
+];
+var SystemService = class extends Service {
+	static inject = ["settings"];
+	typertRemote = bindTypertRemote(this, "controlCenterSystem");
+	/** Profile-anchored require (same fallback chain as the compatibility gate). */
+	profileRequire = profileRequire();
+	constructor(ctx, _config) {
+		super(ctx, "controlCenterSystem");
+	}
+	async getInfo() {
+		let controlCenterVersion = "0.1.0";
+		try {
+			controlCenterVersion = JSON.parse(readFileSync(join(this.packageRoot(), "package.json"), "utf8")).version ?? controlCenterVersion;
+		} catch {}
+		return {
+			controlCenterVersion,
+			dshSupportedVersion: SUPPORTED_DSH_VERSION,
+			dshSourceBaseline: DSH_SOURCE_BASELINE,
+			platform: platform(),
+			arch: arch(),
+			release: release(),
+			nodeVersion: process.version,
+			dshHome: resolveDshHome(),
+			hostname: homedir()
+		};
+	}
+	async listDependencies() {
+		const entries = [];
+		for (const pkg of CONTRACT_PACKAGES) {
+			let version = "unresolved";
+			try {
+				const manifestPath = this.profileRequire.resolve(`${pkg.name}/package.json`);
+				version = JSON.parse(readFileSync(manifestPath, "utf8")).version ?? version;
+			} catch {}
+			entries.push({
+				name: pkg.name,
+				version,
+				client: pkg.client
+			});
+		}
+		return entries;
+	}
+	packageRoot() {
+		return new URL("..", import.meta.url).pathname;
+	}
+	[Symbol.dispose]() {}
+};
+//#endregion
+//#region lib/types/system-remote-client.js
+/** Client descriptor contribution for the Control Center system service. */
+const systemRemote = {
+	package: "@dsh-control-center/control-center",
+	descriptors: [{
+		method: "getInfo",
+		parameters: []
+	}, {
+		method: "listDependencies",
+		parameters: []
+	}].map(({ method, parameters }) => ({
+		id: `@dsh-control-center/control-center#controlCenterSystem/${method}`,
+		service: "controlCenterSystem",
+		namespace: "controlCenterSystem",
+		method,
+		invocation: { kind: "direct" },
+		parameters: parameters.map((name) => ({
+			name,
+			wire: name,
+			source: "json",
+			codec: STRICT_JSON
+		})),
+		result: STRICT_JSON
+	}))
+};
+//#endregion
 //#region lib/types/secret-schema.js
 /** Fail-closed audit for settings schemas that contain secret-role nodes. */
 const SAFE_CONTAINERS = /* @__PURE__ */ new Set([
@@ -3936,6 +4049,7 @@ function apply(ctx) {
 	new FileProcessingService(ctx);
 	new UsageService(ctx);
 	new DataService(ctx);
+	new SystemService(ctx);
 	const contributions = [{
 		package: "@dsh-control-center/control-center",
 		face: "host",
@@ -3956,7 +4070,8 @@ function apply(ctx) {
 			...reposRemote.descriptors,
 			...fileProcessingRemote.descriptors,
 			...usageRemote.descriptors,
-			...dataRemote.descriptors
+			...dataRemote.descriptors,
+			...systemRemote.descriptors
 		]
 	}];
 	for (const contribution of contributions) ctx.typert.register(contribution);
@@ -3965,4 +4080,4 @@ function apply(ctx) {
 	});
 }
 //#endregion
-export { DataService, FileProcessingService, KnowledgeService, McpService, PaintingService, ProvidersService, ReposService, SkillsService, TranslationService, UsageService, WebSearchService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, inject, name };
+export { DataService, FileProcessingService, KnowledgeService, McpService, PaintingService, ProvidersService, ReposService, SkillsService, SystemService, TranslationService, UsageService, WebSearchService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, inject, name };

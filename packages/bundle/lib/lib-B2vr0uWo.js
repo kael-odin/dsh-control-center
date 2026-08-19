@@ -2,7 +2,7 @@ import { createRequire } from "node:module";
 import { basename, join, relative, resolve, sep } from "node:path";
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { mkdir, rm, writeFile } from "node:fs/promises";
-import { homedir } from "node:os";
+import { arch, homedir, platform, release } from "node:os";
 import { createHash, randomUUID } from "node:crypto";
 import { DatabaseSync } from "node:sqlite";
 import process$1 from "node:process";
@@ -22021,6 +22021,7 @@ var lib_exports = /* @__PURE__ */ __exportAll({
 	ProvidersService: () => ProvidersService,
 	ReposService: () => ReposService,
 	SkillsService: () => SkillsService,
+	SystemService: () => SystemService,
 	TranslationService: () => TranslationService,
 	UsageService: () => UsageService,
 	WebSearchService: () => WebSearchService,
@@ -24129,7 +24130,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-D-ATMlHm.js");
+				const { SSEClientTransport } = await import("./sse-DPczQLv0.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -24151,7 +24152,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-C2OdDGUR.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-IJYya1nJ.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -25798,6 +25799,114 @@ const dataRemote = {
 		result: STRICT_JSON
 	}))
 };
+/**
+* System & Diagnostics Host service: versions, compatibility, dependencies,
+* and environment info for the About / Dependencies / Diagnostics pages.
+*/
+const CONTRACT_PACKAGES = [
+	{
+		name: "@deepseek-ai/dsh-api-remotes",
+		client: true
+	},
+	{
+		name: "@deepseek-ai/dsh-client-runtime",
+		client: true
+	},
+	{
+		name: "@deepseek-ai/dsh-client-ui-settings",
+		client: true
+	},
+	{
+		name: "@deepseek-ai/dsh-client-ui-layout",
+		client: true
+	},
+	{
+		name: "@deepseek-ai/dsh-client-ui-slots",
+		client: false
+	},
+	{
+		name: "@deepseek-ai/dsh-client-modules",
+		client: true
+	},
+	{
+		name: "@deepseek-ai/dsh-host-apiproxy",
+		client: true
+	},
+	{
+		name: "@deepseek-ai/dsh-settings",
+		client: false
+	}
+];
+var SystemService = class extends Service {
+	static inject = ["settings"];
+	typertRemote = bindTypertRemote(this, "controlCenterSystem");
+	/** Profile-anchored require (same fallback chain as the compatibility gate). */
+	profileRequire = profileRequire();
+	constructor(ctx, _config) {
+		super(ctx, "controlCenterSystem");
+	}
+	async getInfo() {
+		let controlCenterVersion = "0.1.0";
+		try {
+			controlCenterVersion = JSON.parse(readFileSync(join(this.packageRoot(), "package.json"), "utf8")).version ?? controlCenterVersion;
+		} catch {}
+		return {
+			controlCenterVersion,
+			dshSupportedVersion: SUPPORTED_DSH_VERSION,
+			dshSourceBaseline: DSH_SOURCE_BASELINE,
+			platform: platform(),
+			arch: arch(),
+			release: release(),
+			nodeVersion: process.version,
+			dshHome: resolveDshHome(),
+			hostname: homedir()
+		};
+	}
+	async listDependencies() {
+		const entries = [];
+		for (const pkg of CONTRACT_PACKAGES) {
+			let version = "unresolved";
+			try {
+				const manifestPath = this.profileRequire.resolve(`${pkg.name}/package.json`);
+				version = JSON.parse(readFileSync(manifestPath, "utf8")).version ?? version;
+			} catch {}
+			entries.push({
+				name: pkg.name,
+				version,
+				client: pkg.client
+			});
+		}
+		return entries;
+	}
+	packageRoot() {
+		return new URL("..", import.meta.url).pathname;
+	}
+	[Symbol.dispose]() {}
+};
+/** Client descriptor contribution for the Control Center system service. */
+const systemRemote = {
+	package: "@dsh-control-center/control-center",
+	descriptors: [{
+		method: "getInfo",
+		parameters: []
+	}, {
+		method: "listDependencies",
+		parameters: []
+	}].map(({ method, parameters }) => ({
+		id: `@dsh-control-center/control-center#controlCenterSystem/${method}`,
+		service: "controlCenterSystem",
+		namespace: "controlCenterSystem",
+		method,
+		invocation: { kind: "direct" },
+		parameters: parameters.map((name) => ({
+			name,
+			wire: name,
+			source: "json",
+			codec: STRICT_JSON
+		})),
+		result: STRICT_JSON
+	}))
+};
 /** Fail-closed audit for settings schemas that contain secret-role nodes. */
 const SAFE_CONTAINERS = /* @__PURE__ */ new Set([
 	"object",
@@ -25894,6 +26003,7 @@ function apply(ctx) {
 	new FileProcessingService(ctx);
 	new UsageService(ctx);
 	new DataService(ctx);
+	new SystemService(ctx);
 	const contributions = [{
 		package: "@dsh-control-center/control-center",
 		face: "host",
@@ -25914,7 +26024,8 @@ function apply(ctx) {
 			...reposRemote.descriptors,
 			...fileProcessingRemote.descriptors,
 			...usageRemote.descriptors,
-			...dataRemote.descriptors
+			...dataRemote.descriptors,
+			...systemRemote.descriptors
 		]
 	}];
 	for (const contribution of contributions) ctx.typert.register(contribution);
@@ -25923,4 +26034,4 @@ function apply(ctx) {
 	});
 }
 //#endregion
-export { DataService, FileProcessingService, KnowledgeService, McpService, PaintingService, ProvidersService, ReposService, SkillsService, TranslationService, UsageService, WebSearchService, _coercedNumber as _, isJSONRPCRequest as a, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, __toESM as b, any as c, literal as d, looseObject as f, url as g, string as h, isInitializedNotification as i, inject, array as l, object as m, JSONRPCMessageSchema as n, name, isJSONRPCResultResponse as o, number as p, LATEST_PROTOCOL_VERSION as r, ZodNumber as s, lib_exports as t, boolean as u, NEVER as v, __commonJSMin as y };
+export { DataService, FileProcessingService, KnowledgeService, McpService, PaintingService, ProvidersService, ReposService, SkillsService, SystemService, TranslationService, UsageService, WebSearchService, _coercedNumber as _, isJSONRPCRequest as a, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, __toESM as b, any as c, literal as d, looseObject as f, url as g, string as h, isInitializedNotification as i, inject, array as l, object as m, JSONRPCMessageSchema as n, name, isJSONRPCResultResponse as o, number as p, LATEST_PROTOCOL_VERSION as r, ZodNumber as s, lib_exports as t, boolean as u, NEVER as v, __commonJSMin as y };
