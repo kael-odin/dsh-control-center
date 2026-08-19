@@ -28,6 +28,9 @@ import type {} from '../mcp-types.ts'
 import mcpRemote from '../mcp-remote-client.ts'
 import type {} from './mcp-remote-types.ts'
 import { McpSection } from './McpSection.tsx'
+import type {} from '../websearch-types.ts'
+import websearchRemote from '../websearch-remote-client.ts'
+import { WebSearchSection } from './WebSearchSection.tsx'
 import { SettingsRoot } from './SettingsRoot.tsx'
 import type { SettingsOnboardingStep, SettingsRootInjected, SettingsSectionRow } from './shell-contract.ts'
 import { CloseLabel, HeaderContent, TriggerContent } from './chrome.tsx'
@@ -116,6 +119,7 @@ export function apply(ctx: ClientContext): void {
   let skills: NonNullable<typeof remote.controlCenterSkills> | undefined
   let providers: NonNullable<typeof remote.controlCenterProviders> | undefined
   let mcp: NonNullable<typeof remote.controlCenterMcp> | undefined
+  let websearch: NonNullable<typeof remote.controlCenterWebSearch> | undefined
   ctx.effect(async () => {
     // The client Remote registry keys contributions by package, so every
     // namespace must be mounted through one merged contribution.
@@ -127,7 +131,8 @@ export function apply(ctx: ClientContext): void {
         ...knowledgeRemote.descriptors,
         ...skillsRemote.descriptors,
         ...providersRemote.descriptors,
-        ...mcpRemote.descriptors
+        ...mcpRemote.descriptors,
+        ...websearchRemote.descriptors
       ],
     }
     const dispose = await remote.$mount(controlCenterRemote)
@@ -137,6 +142,7 @@ export function apply(ctx: ClientContext): void {
     skills = ctx.get('remote.controlCenterSkills') as NonNullable<typeof remote.controlCenterSkills>
     providers = ctx.get('remote.controlCenterProviders') as NonNullable<typeof remote.controlCenterProviders>
     mcp = ctx.get('remote.controlCenterMcp') as NonNullable<typeof remote.controlCenterMcp>
+    websearch = ctx.get('remote.controlCenterWebSearch') as NonNullable<typeof remote.controlCenterWebSearch>
     return dispose
   }, 'control-center: control-center Remote namespaces')
   ctx.effect(() => ctx.locale.register(SHELL_NS, { zh: shellZh, en: shellEn }), 'control-center: shell dictionaries')
@@ -232,6 +238,9 @@ export function apply(ctx: ClientContext): void {
   })
   const mcpInjected = () => ({
     mcp: mcp!,
+  })
+  const websearchInjected = () => ({
+    websearch: websearch!,
   })
   const deepSeekOnboardingInjected = (): DeepSeekOnboardingInjected => ({
     controller: modelsController,
@@ -391,6 +400,13 @@ export function apply(ctx: ClientContext): void {
     label: () => 'MCP',
     inject: mcpInjected,
   }, McpSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'websearch',
+    order: 50,
+    label: () => shellT('webSearchNav'),
+    inject: websearchInjected,
+  }, WebSearchSection))
   ctx.slots.inject('settings.onboarding', () => ctx.slots.register({
     name: 'settings.onboarding', id: 'welcome-notice', order: -100, inject: welcomeInjected,
   }, WelcomeNotice))

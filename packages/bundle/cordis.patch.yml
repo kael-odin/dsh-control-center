@@ -6,4 +6,4 @@
 
 - insert:
     - id: dsh-control-center
-      name: '@dsh-control-center/control-center'
+      name: 'file:///D:/Github_Open/dsh-control-center/packages/control-center/lib/index.js'

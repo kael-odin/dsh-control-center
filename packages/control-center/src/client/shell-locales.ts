@@ -18,6 +18,7 @@ export const en = {
   workspacePaintingDescription: 'Image-generation jobs, model controls, the gallery, and file attachments are being connected.',
   workspaceKnowledgeDescription: 'Ingestion, chunking, embeddings, retrieval, and agent tools are being connected.',
   providersNav: 'API Providers',
+  webSearchNav: 'Web Search',
 }
 
 export type SettingsKey = keyof typeof en
@@ -40,4 +41,5 @@ export const zh: { [Key in SettingsKey]: string } = {
   workspacePaintingDescription: '图像生成任务、模型控件、画廊和文件附件能力正在接入。',
   workspaceKnowledgeDescription: '摄取、切分、Embedding、检索和 Agent 工具能力正在接入。',
   providersNav: 'API 提供商',
+  webSearchNav: '网络搜索',
 }

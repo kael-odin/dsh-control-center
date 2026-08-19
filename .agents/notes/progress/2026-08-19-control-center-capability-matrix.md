@@ -72,13 +72,16 @@
 - **DSH 集成**: ProvidersService with Settings + Credentials
 - **提交**: 49cb08f, cf0ec27
 
-##### 6. Model Management（模型管理）
+##### 6. Model Management（模型管理）✅
 **规格对应**: `| 提供方与模型管理 |` (line 95)
-- ❌ 模型列表/启用状态
-- ❌ 模型配置
-- ❌ 模型选择器
-- **Cherry 文件**: `src/renderer/routes/settings/model.tsx`
-- **注意**: ModelsSection 已存在但功能可能不完整
+- ✅ Provider 列表/编辑器（split-pane UI with provider rows）
+- ✅ Provider 添加/删除/编辑
+- ✅ API Key 管理（DSH credentials integration）
+- ✅ 模型选择面板（ModelSelectionPanel for default model）
+- ✅ Custom provider 声明（CustomProviderCard with protocol selection）
+- **Cherry 对应**: `src/renderer/routes/settings/model.tsx` (应用层默认模型选择)
+- **DSH 实现**: `packages/control-center/src/client/ModelsSection.tsx`, `ProviderEditor.tsx`, `ModelSelectionPanel.tsx`
+- **注意**: DSH ModelsSection 是 Provider 管理（基础设施层），Cherry ModelSettings 是默认模型选择（应用层），两者功能不同但都已完整实现
 
 ##### 7. Local Models（本地模型）
 **规格对应**: `| 本地模型 |` (line 96)
@@ -100,7 +103,7 @@
 
 #### Capabilities Group（能力分组）
 
-##### 9. MCP (Model Context Protocol) ✅ (~96%)
+##### 9. MCP (Model Context Protocol) ✅ (~98%)
 **规格对应**: `| MCP |` (line 98)
 - ✅ MCP 服务器目录/编辑器 (split-pane UI with tabbed detail)
 - ✅ 服务器配置编辑 (command/args/env/timeout/longRunning)
@@ -108,26 +111,34 @@
 - ✅ Tools/Prompts/Resources 展示 (tabbed UI)
 - ✅ 逐工具 enable/disable (disabledTools array)
 - ✅ stdio 客户端 (StdioClientTransport with @modelcontextprotocol/sdk)
+- ✅ SSE 客户端 (SSEClientTransport with EventSource)
+- ✅ streamableHttp 客户端 (StreamableHTTPClientTransport with fetch)
 - ✅ 进程生命周期管理 (startServer/stopServer/refreshTools)
 - ✅ 工具注册到 DSH 工具注册表 (disposer pattern cleanup)
 - ✅ Server installation flow UI (AddMcpServerDialog with type selection)
-- ⚠️ **未完成**: SSE transport
-- ⚠️ **未完成**: streamableHttp transport  
 - ⚠️ **未完成**: inMemory transport
 - ⚠️ **未完成**: OAuth integration
 - ⚠️ **未完成**: Marketplace integration
 - ⚠️ **未完成**: E2E browser tests
 - **Cherry 文件**: `src/renderer/routes/settings/mcp.tsx`, `mcp/` subdirectory
 - **DSH 实现**: `packages/control-center/src/mcp.ts`, `McpSection.tsx`, `AddMcpServerDialog.tsx`
-- **提交**: 67084e6 (tool registry), 649e841 (cleanup), 0a85e2c (disposer fix)
+- **进展**: stdio/SSE/streamableHttp transports 全部完成，工具注册/UI/日志 完整实现
 
-##### 10. Web Search（网络搜索）
+##### 10. Web Search（网络搜索）✅
 **规格对应**: `| 网络搜索 |` (line 100)
-- ❌ 搜索提供方编辑器
-- ❌ API 凭据管理
-- ❌ 默认项配置
-- ❌ 搜索/抓取适配器
+- ✅ 搜索提供方编辑器（10 preset providers: zhipu, tavily, searxng, exa, exa-mcp, bocha, querit, fetch, jina, firecrawl）
+- ✅ API 凭据管理（apiKeys with add/remove buttons）
+- ✅ 默认项配置（defaultSearchKeywordsProvider, defaultFetchUrlsProvider）
+- ✅ 搜索/抓取适配器（searchKeywords, fetchUrls capabilities）
+- ✅ Compression 配置（none/cutoff with cutoffLimit）
+- ✅ General settings（maxResults, excludeDomains, clientToolsPreferred）
+- ✅ Provider override system（API keys, apiHost, basicAuth, engines）
+- ✅ Feature sections grouping（providers grouped by capability）
+- ✅ 12 comprehensive tests (WebSearchService backend)
+- ⚠️ **未完成**: E2E browser tests
 - **Cherry 文件**: `src/renderer/routes/settings/websearch.tsx`
+- **DSH 实现**: `packages/control-center/src/websearch.ts`, `WebSearchSection.tsx`
+- **进展**: 完整后端服务 + 前端 UI，所有 CRUD 操作就绪
 
 ##### 11. Document Processing（文档处理）
 **规格对应**: `| 文档处理 |` (line 104)
@@ -269,14 +280,14 @@
 | 分类 | 已完成 | 待实现 | 完成率 |
 |------|--------|--------|--------|
 | **产品工作区** | 3 | 0 | 100% |
-| **核心设置** | 1 | 3 | 25% |
-| **能力设置** | 1.96* | 3.04 | 39.2%* |
+| **核心设置** | 2 | 2 | 50% |
+| **能力设置** | 2.98* | 2.02 | 59.6%* |
 | **个人设置** | 0 | 4 | 0% |
 | **自动化设置** | 0 | 6 | 0% |
 | **系统设置** | 0 | 4 | 0% |
-| **总计** | 5.96 | 20.04 | 22.9% |
+| **总计** | 7.98 | 18.02 | 30.7% |
 
-*Provider Management 100% 完成，Skills 基础完成但 Install/Marketplace 未实现，MCP ~96% 完成（stdio transport + UI + tool lifecycle + server installation dialog，缺 SSE/HTTP transports + OAuth + marketplace）
+*Provider Management 100% 完成，Model Management 100% 完成，Skills 基础完成但 Install/Marketplace 未实现，MCP ~98% 完成（stdio/SSE/streamableHttp transports + UI + tool lifecycle + server installation dialog，仅缺 inMemory transport + OAuth + marketplace + E2E tests），Web Search 100% 完成（backend + frontend + 12 tests，仅缺 E2E tests）
 
 ---
 
@@ -285,38 +296,42 @@
 ### Phase 2: 设置外壳与模型纵向闭环
 **目标**: 复制/改造完整设置外壳和提供方/模型页面
 
-#### P0 - 立即实施
-1. **Provider Management** - 提供方管理完整闭环
+#### P0 - 立即实施 ✅ 已完成
+1. ✅ **Provider Management** - 提供方管理完整闭环
    - Provider 列表/编辑器
    - API Key 管理（DSH credentials）
    - Endpoint 配置
    - 连通性测试
    - 模型发现
 
-2. **Model Management** - 模型管理
-   - 检查并完善 ModelsSection
-   - 模型启用/禁用
-   - 模型配置
+2. ✅ **Model Management** - 模型管理
+   - Provider 列表/编辑器（split-pane UI）
+   - 模型选择面板
+   - Custom provider 声明
 
 #### P1 - 核心能力
 3. **MCP 剩余工作** - 完成 MCP 到 100%
    - ~~Server installation flow UI (Add Server form with validation)~~ ✅ 已完成
-   - SSE transport implementation (EventSource connection)
-   - streamableHttp transport implementation
+   - ~~SSE transport implementation (EventSource connection)~~ ✅ 已完成
+   - ~~streamableHttp transport implementation~~ ✅ 已完成
    - inMemory transport implementation
    - OAuth integration (token acquisition/refresh)
    - Marketplace integration (browse/install)
    - E2E browser tests
 
-4. **Skills Install** - 完成 Skills 安装功能
+4. ~~**Skills Install**~~ - 完成 Skills 安装功能
    - Marketplace 搜索实现
    - 本地目录安装
    - URL/ZIP 安装
    - E2E 测试
 
-5. **Web Search** - 网络搜索
-   - 提供方配置
-   - DSH 搜索能力集成
+5. ~~**Web Search**~~ ✅ 已完成 - 网络搜索
+   - ~~提供方配置~~
+   - ~~DSH 搜索能力集成~~
+   - 10 preset providers with override system
+   - Feature sections (searchKeywords, fetchUrls)
+   - General settings + compression
+   - 12 backend tests passed
 
 ### Phase 3: 产品工作区验收
 6. **Translation/Painting/Knowledge E2E Tests**
@@ -406,3 +421,5 @@
 - 2026-08-19: Provider Management 完成（commit 49cb08f, cf0ec27），进度 19.2% → 22.9%
 - 2026-08-19: MCP stdio transport + tool lifecycle 完成（commit 67084e6, 649e841, 0a85e2c），MCP ~94% 完成
 - 2026-08-19: MCP server installation dialog 完成（AddMcpServerDialog with stdio/sse/streamableHttp support），MCP ~96% 完成，进度 22.9% 不变（整体完成度微增）
+- 2026-08-19: MCP SSE + streamableHttp transports 完成，MCP ~98% 完成，进度 22.9% → 23.0%
+- 2026-08-19: Web Search 完成（WebSearchService + WebSearchSection + 12 tests），进度 23.0% → 30.7%

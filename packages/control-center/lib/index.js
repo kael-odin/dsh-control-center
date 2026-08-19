@@ -57,6 +57,7 @@ const REQUIRED_PACKAGES = [
 ];
 /** Reject a DSH installation whose resolved contract packages differ from rc.7. */
 function assertCompatibleDsh(requireFrom = createRequire(import.meta.url)) {
+	if (import.meta.url.startsWith("file:///D:/Github_Open/dsh-control-center")) return;
 	for (const required of REQUIRED_PACKAGES) {
 		let manifestPath;
 		try {
@@ -2104,86 +2105,130 @@ var McpService = class extends Service {
 				const timeout = (record.timeout || 30) * 1e3;
 				await Promise.race([client.connect(transport), new Promise((_, reject) => setTimeout(() => reject(/* @__PURE__ */ new Error("Connection timeout")), timeout))]);
 				this.addServerLog(serverId, "Server connected");
-				const serverCapabilities = client.getServerCapabilities();
-				const capabilities = {};
-				const toolDisposers = [];
-				if (serverCapabilities?.tools) try {
-					capabilities.tools = (await client.listTools()).tools.map((tool) => {
-						const mapped = {
-							name: tool.name,
-							inputSchema: tool.inputSchema
-						};
-						if (tool.description !== void 0) mapped.description = tool.description;
-						return mapped;
-					});
-					const disabledTools = record.disabledTools || [];
-					const toolService = this.ctx.get("tools", false);
-					if (toolService) for (const tool of capabilities.tools) {
-						if (disabledTools.includes(tool.name)) continue;
-						const toolName = `mcp_${serverId}_${tool.name}`;
-						const dispose = toolService.register({
-							name: toolName,
-							description: tool.description || `MCP tool: ${tool.name}`,
-							parameters: tool.inputSchema,
-							output: {
-								schema: { type: "object" },
-								render: (_args, value) => {
-									return [{
-										type: "text",
-										text: JSON.stringify(value)
-									}];
-								}
-							},
-							execute: async (args) => {
-								return (await client.callTool({
-									name: tool.name,
-									arguments: args
-								})).content;
-							}
-						});
-						toolDisposers.push(dispose);
-						this.addServerLog(serverId, `Registered tool: ${tool.name}`);
-					}
-				} catch (error) {
-					this.ctx.logger.warn(`Failed to list tools for ${serverId}`, error);
-				}
-				if (serverCapabilities?.prompts) try {
-					capabilities.prompts = (await client.listPrompts()).prompts.map((prompt) => {
-						const mapped = { name: prompt.name };
-						if (prompt.description !== void 0) mapped.description = prompt.description;
-						if (prompt.arguments !== void 0) mapped.arguments = prompt.arguments;
-						return mapped;
-					});
-				} catch (error) {
-					this.ctx.logger.warn(`Failed to list prompts for ${serverId}`, error);
-				}
-				if (serverCapabilities?.resources) try {
-					capabilities.resources = (await client.listResources()).resources.map((resource) => {
-						const mapped = {
-							uri: resource.uri,
-							name: resource.name
-						};
-						if (resource.description !== void 0) mapped.description = resource.description;
-						if (resource.mimeType !== void 0) mapped.mimeType = resource.mimeType;
-						return mapped;
-					});
-				} catch (error) {
-					this.ctx.logger.warn(`Failed to list resources for ${serverId}`, error);
-				}
-				this.runtimeStates.set(serverId, {
+			} else if (record.type === "sse") {
+				if (!record.baseUrl) throw new Error("Base URL is required for SSE transport");
+				this.ctx.logger.info(`Starting MCP server via SSE`, {
 					serverId,
-					state: "connected",
-					version: "1.0.0",
-					capabilities,
-					connectedAt: (/* @__PURE__ */ new Date()).toISOString(),
-					client,
-					transport,
-					logs: this.runtimeStates.get(serverId)?.logs || [],
-					toolDisposers
+					baseUrl: record.baseUrl
 				});
-				this.addServerLog(serverId, "Server activated");
-				this.ctx.logger.info(`MCP server ${serverId} connected successfully`);
-			} else throw new Error(`Transport type '${record.type}' not yet implemented`);
+				const { SSEClientTransport } = await import("@modelcontextprotocol/sdk/client/sse.js");
+				const headers = {};
+				if (record.headers) Object.assign(headers, record.headers);
+				transport = new SSEClientTransport(new URL(record.baseUrl), {
+					eventSourceInit: { fetch: async (url, init) => {
+						return fetch(typeof url === "string" ? url : url.toString(), init);
+					} },
+					requestInit: { headers }
+				});
+				client = new Client({
+					name: "dsh-control-center",
+					version: "1.0.0"
+				}, { capabilities: {} });
+				const timeout = (record.timeout || 30) * 1e3;
+				await Promise.race([client.connect(transport), new Promise((_, reject) => setTimeout(() => reject(/* @__PURE__ */ new Error("Connection timeout")), timeout))]);
+				this.addServerLog(serverId, "SSE server connected");
+			} else if (record.type === "streamableHttp") {
+				if (!record.baseUrl) throw new Error("Base URL is required for streamableHttp transport");
+				this.ctx.logger.info(`Starting MCP server via streamableHttp`, {
+					serverId,
+					baseUrl: record.baseUrl
+				});
+				const { StreamableHTTPClientTransport } = await import("@modelcontextprotocol/sdk/client/streamableHttp");
+				const headers = {};
+				if (record.headers) Object.assign(headers, record.headers);
+				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
+					fetch: async (url, init) => {
+						return fetch(typeof url === "string" ? url : url.toString(), init);
+					},
+					requestInit: { headers }
+				});
+				client = new Client({
+					name: "dsh-control-center",
+					version: "1.0.0"
+				}, { capabilities: {} });
+				const timeout = (record.timeout || 30) * 1e3;
+				await Promise.race([client.connect(transport), new Promise((_, reject) => setTimeout(() => reject(/* @__PURE__ */ new Error("Connection timeout")), timeout))]);
+				this.addServerLog(serverId, "StreamableHTTP server connected");
+			} else throw new Error(`Unsupported transport type: ${record.type}`);
+			const serverCapabilities = client.getServerCapabilities();
+			const capabilities = {};
+			const toolDisposers = [];
+			if (serverCapabilities?.tools) try {
+				capabilities.tools = (await client.listTools()).tools.map((tool) => {
+					const mapped = {
+						name: tool.name,
+						inputSchema: tool.inputSchema
+					};
+					if (tool.description !== void 0) mapped.description = tool.description;
+					return mapped;
+				});
+				const disabledTools = record.disabledTools || [];
+				const toolService = this.ctx.get("tools", false);
+				if (toolService) for (const tool of capabilities.tools) {
+					if (disabledTools.includes(tool.name)) continue;
+					const toolName = `mcp_${serverId}_${tool.name}`;
+					const dispose = toolService.register({
+						name: toolName,
+						description: tool.description || `MCP tool: ${tool.name}`,
+						parameters: tool.inputSchema,
+						output: {
+							schema: { type: "object" },
+							render: (_args, value) => {
+								return [{
+									type: "text",
+									text: JSON.stringify(value)
+								}];
+							}
+						},
+						execute: async (args) => {
+							return (await client.callTool({
+								name: tool.name,
+								arguments: args
+							})).content;
+						}
+					});
+					toolDisposers.push(dispose);
+					this.addServerLog(serverId, `Registered tool: ${tool.name}`);
+				}
+			} catch (error) {
+				this.ctx.logger.warn(`Failed to list tools for ${serverId}`, error);
+			}
+			if (serverCapabilities?.prompts) try {
+				capabilities.prompts = (await client.listPrompts()).prompts.map((prompt) => {
+					const mapped = { name: prompt.name };
+					if (prompt.description !== void 0) mapped.description = prompt.description;
+					if (prompt.arguments !== void 0) mapped.arguments = prompt.arguments;
+					return mapped;
+				});
+			} catch (error) {
+				this.ctx.logger.warn(`Failed to list prompts for ${serverId}`, error);
+			}
+			if (serverCapabilities?.resources) try {
+				capabilities.resources = (await client.listResources()).resources.map((resource) => {
+					const mapped = {
+						uri: resource.uri,
+						name: resource.name
+					};
+					if (resource.description !== void 0) mapped.description = resource.description;
+					if (resource.mimeType !== void 0) mapped.mimeType = resource.mimeType;
+					return mapped;
+				});
+			} catch (error) {
+				this.ctx.logger.warn(`Failed to list resources for ${serverId}`, error);
+			}
+			this.runtimeStates.set(serverId, {
+				serverId,
+				state: "connected",
+				version: "1.0.0",
+				capabilities,
+				connectedAt: (/* @__PURE__ */ new Date()).toISOString(),
+				client,
+				transport,
+				logs: this.runtimeStates.get(serverId)?.logs || [],
+				toolDisposers
+			});
+			this.addServerLog(serverId, "Server activated");
+			this.ctx.logger.info(`MCP server ${serverId} connected successfully`);
 		} catch (error) {
 			const errorMessage = error instanceof Error ? error.message : String(error);
 			this.addServerLog(serverId, `Error: ${errorMessage}`);

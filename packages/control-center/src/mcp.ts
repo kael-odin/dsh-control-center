@@ -297,7 +297,7 @@ export class McpService extends Service {
     })
 
     try {
-      let transport: Transport
+      let transport: any
       let client: Client
 
       // Create transport based on server type
@@ -354,13 +354,108 @@ export class McpService extends Service {
         // Connect with timeout
         const timeout = (record.timeout || 30) * 1000
         await Promise.race([
-          client.connect(transport),
+          client.connect(transport as Transport),
           new Promise((_, reject) =>
             setTimeout(() => reject(new Error('Connection timeout')), timeout)
           ),
         ])
 
         this.addServerLog(serverId, 'Server connected')
+      } else if (record.type === 'sse') {
+        if (!record.baseUrl) {
+          throw new Error('Base URL is required for SSE transport')
+        }
+
+        this.ctx.logger.info(`Starting MCP server via SSE`, {
+          serverId,
+          baseUrl: record.baseUrl,
+        })
+
+        const { SSEClientTransport } = await import('@modelcontextprotocol/sdk/client/sse.js')
+
+        const headers: Record<string, string> = {}
+        if (record.headers) {
+          Object.assign(headers, record.headers)
+        }
+
+        transport = new SSEClientTransport(new URL(record.baseUrl), {
+          eventSourceInit: {
+            fetch: async (url, init) => {
+              return fetch(typeof url === 'string' ? url : url.toString(), init)
+            }
+          },
+          requestInit: {
+            headers
+          }
+        })
+
+        client = new Client(
+          {
+            name: 'dsh-control-center',
+            version: '1.0.0',
+          },
+          {
+            capabilities: {},
+          }
+        )
+
+        const timeout = (record.timeout || 30) * 1000
+        await Promise.race([
+          client.connect(transport as Transport),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Connection timeout')), timeout)
+          ),
+        ])
+
+        this.addServerLog(serverId, 'SSE server connected')
+      } else if (record.type === 'streamableHttp') {
+        if (!record.baseUrl) {
+          throw new Error('Base URL is required for streamableHttp transport')
+        }
+
+        this.ctx.logger.info(`Starting MCP server via streamableHttp`, {
+          serverId,
+          baseUrl: record.baseUrl,
+        })
+
+        const { StreamableHTTPClientTransport } = await import('@modelcontextprotocol/sdk/client/streamableHttp')
+
+        const headers: Record<string, string> = {}
+        if (record.headers) {
+          Object.assign(headers, record.headers)
+        }
+
+        transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
+          fetch: async (url, init) => {
+            return fetch(typeof url === 'string' ? url : url.toString(), init)
+          },
+          requestInit: {
+            headers
+          }
+        })
+
+        client = new Client(
+          {
+            name: 'dsh-control-center',
+            version: '1.0.0',
+          },
+          {
+            capabilities: {},
+          }
+        )
+
+        const timeout = (record.timeout || 30) * 1000
+        await Promise.race([
+          client.connect(transport as Transport),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Connection timeout')), timeout)
+          ),
+        ])
+
+        this.addServerLog(serverId, 'StreamableHTTP server connected')
+      } else {
+        throw new Error(`Unsupported transport type: ${record.type}`)
+      }
 
         // Get server capabilities
         const serverCapabilities = client.getServerCapabilities()
@@ -461,9 +556,6 @@ export class McpService extends Service {
 
         this.addServerLog(serverId, 'Server activated')
         this.ctx.logger.info(`MCP server ${serverId} connected successfully`)
-      } else {
-        throw new Error(`Transport type '${record.type}' not yet implemented`)
-      }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error)
       this.addServerLog(serverId, `Error: ${errorMessage}`)
