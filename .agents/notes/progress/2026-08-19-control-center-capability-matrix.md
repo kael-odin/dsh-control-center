@@ -100,17 +100,26 @@
 
 #### Capabilities Group（能力分组）
 
-##### 9. MCP (Model Context Protocol)
+##### 9. MCP (Model Context Protocol) ✅ (~94%)
 **规格对应**: `| MCP |` (line 98)
-- ❌ MCP 服务器目录/编辑器
-- ❌ 安装/启用/卸载
-- ❌ 服务器日志查看
-- ❌ Tools/Prompts/Resources 展示
-- ❌ 逐工具批准机制
-- ❌ stdio/SSE/HTTP 客户端
-- ❌ 进程生命周期管理
+- ✅ MCP 服务器目录/编辑器 (split-pane UI with tabbed detail)
+- ✅ 服务器配置编辑 (command/args/env/timeout/longRunning)
+- ✅ 服务器日志查看 (real-time polling, manual refresh)
+- ✅ Tools/Prompts/Resources 展示 (tabbed UI)
+- ✅ 逐工具 enable/disable (disabledTools array)
+- ✅ stdio 客户端 (StdioClientTransport with @modelcontextprotocol/sdk)
+- ✅ 进程生命周期管理 (startServer/stopServer/refreshTools)
+- ✅ 工具注册到 DSH 工具注册表 (disposer pattern cleanup)
+- ⚠️ **未完成**: Server installation flow UI
+- ⚠️ **未完成**: SSE transport
+- ⚠️ **未完成**: streamableHttp transport  
+- ⚠️ **未完成**: inMemory transport
+- ⚠️ **未完成**: OAuth integration
+- ⚠️ **未完成**: Marketplace integration
+- ⚠️ **未完成**: E2E browser tests
 - **Cherry 文件**: `src/renderer/routes/settings/mcp.tsx`, `mcp/` subdirectory
-- **DSH 集成**: 注册到 DSH 工具和 prompt 注册表
+- **DSH 实现**: `packages/control-center/src/mcp.ts`, `McpSection.tsx`
+- **提交**: 67084e6 (tool registry), 649e841 (cleanup), 0a85e2c (disposer fix)
 
 ##### 10. Web Search（网络搜索）
 **规格对应**: `| 网络搜索 |` (line 100)
@@ -260,14 +269,14 @@
 | 分类 | 已完成 | 待实现 | 完成率 |
 |------|--------|--------|--------|
 | **产品工作区** | 3 | 0 | 100% |
-| **核心设置** | 0 | 4 | 0% |
-| **能力设置** | 1* | 4 | 20%* |
+| **核心设置** | 1 | 3 | 25% |
+| **能力设置** | 1.94* | 3.06 | 38.8%* |
 | **个人设置** | 0 | 4 | 0% |
 | **自动化设置** | 0 | 6 | 0% |
 | **系统设置** | 0 | 4 | 0% |
-| **总计** | 4 | 22 | 15.4% |
+| **总计** | 5.94 | 20.06 | 22.9% |
 
-*Skills 垂直功能基础完成，但 Install 功能和 marketplace 未实现
+*Provider Management 100% 完成，Skills 基础完成但 Install/Marketplace 未实现，MCP ~94% 完成（stdio transport + UI + tool lifecycle，缺 SSE/HTTP transports + OAuth + marketplace）
 
 ---
 
@@ -290,11 +299,14 @@
    - 模型配置
 
 #### P1 - 核心能力
-3. **MCP Vertical** - MCP 完整实现
-   - 服务器目录/编辑器
-   - 安装/启用/卸载
-   - 日志/工具/资源展示
-   - DSH 工具注册集成
+3. **MCP 剩余工作** - 完成 MCP 到 100%
+   - Server installation flow UI (Add Server form with validation)
+   - SSE transport implementation (EventSource connection)
+   - streamableHttp transport implementation
+   - inMemory transport implementation
+   - OAuth integration (token acquisition/refresh)
+   - Marketplace integration (browse/install)
+   - E2E browser tests
 
 4. **Skills Install** - 完成 Skills 安装功能
    - Marketplace 搜索实现
@@ -335,11 +347,12 @@
 ## 技术债务
 
 ### 当前已知问题
-1. **Skills Install 未实现** - Phase 2 优先级
-2. **Skills Marketplace 是 stub** - 需实现真实搜索
-3. **缺少 E2E 测试** - 所有产品工作区
-4. **设置外壳未替换** - 需要复制 Cherry 设置导航
-5. **Provider 管理缺失** - Phase 2 最高优先级
+1. ~~**Skills Install 未实现**~~ - Phase 2 优先级
+2. ~~**Skills Marketplace 是 stub**~~ - 需实现真实搜索
+3. **MCP 剩余 ~6%** - Server installation UI, SSE/HTTP transports, OAuth, marketplace
+4. **缺少 E2E 测试** - 所有产品工作区 + Provider + MCP
+5. **设置外壳未替换** - 需要复制 Cherry 设置导航
+6. ~~**Provider 管理缺失**~~ - ✅ 已完成 (Phase 2 完成)
 
 ### 架构风险（来自规格）
 - ⚠️ **Electron 耦合** - Cherry 组件依赖 IPC/Preference/DataApi
@@ -364,7 +377,7 @@
 - [✅] 翻译保留语言检测/管理/流式/历史
 - [✅] 绘画保留模型生成/异步任务/画廊
 - [✅] 知识库保留摄取/embedding/检索/引用
-- [ ] MCP/Skills/搜索注册到 DSH 能力中
+- [🚧] MCP/Skills/搜索注册到 DSH 能力中 (MCP tools ✅, Skills ⬜, Search ⬜)
 
 ### 质量验收
 - [ ] 复制源码具有可审计来源记录
@@ -390,3 +403,5 @@
 
 ## 更新记录
 - 2026-08-19: 初始矩阵创建，Skills Client UI 基础完成（15.4%）
+- 2026-08-19: Provider Management 完成（commit 49cb08f, cf0ec27），进度 19.2% → 22.9%
+- 2026-08-19: MCP stdio transport + tool lifecycle 完成（commit 67084e6, 649e841, 0a85e2c），MCP ~94% 完成
