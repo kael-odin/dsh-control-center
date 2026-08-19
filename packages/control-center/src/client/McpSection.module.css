@@ -216,7 +216,6 @@
   overflow: hidden;
 }
 
-/* Detail header */
 .detailHeader {
   display: flex;
   align-items: center;
@@ -224,6 +223,7 @@
   gap: 12px;
   flex-shrink: 0;
   padding: 10px 24px;
+  border-bottom: 0.5px solid var(--color-border-subtle);
 }
 
 .detailHeaderContent {
@@ -254,6 +254,44 @@
   display: flex;
   align-items: center;
   gap: 4px;
+}
+
+/* Tab bar */
+.tabBar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 24px;
+  margin-top: 8px;
+  border-bottom: 0.5px solid var(--color-border-subtle);
+  flex-shrink: 0;
+}
+
+.tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 6px 6px 0 0;
+}
+
+.tab:hover {
+  color: var(--color-text-primary);
+  background: var(--color-background-hover);
+}
+
+.tabActive {
+  composes: tab;
+  color: var(--color-text-primary);
+  border-bottom: 2px solid var(--color-primary);
+  margin-bottom: -0.5px;
 }
 
 /* Detail scroll container */
@@ -439,4 +477,55 @@
   text-align: center;
   color: var(--color-error-text);
   height: 100%;
+}
+
+/* Tool/Prompt/Resource lists */
+.toolsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.toolItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border-base);
+  background: var(--color-background-elevated);
+}
+
+.toolHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.toolName {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  font-family: var(--font-mono);
+}
+
+.toolDescription {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.resourceUri {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--color-text-tertiary);
+  word-break: break-all;
+}
+
+.descriptionText {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  white-space: pre-wrap;
 }

@@ -2,7 +2,7 @@
  * MCP Section - Split-pane layout matching Cherry Studio MCP management.
  * Left sidebar: server list with search/filter. Right detail: server settings + logs.
  */
-import type { CreateMcpServerDto, McpServerView, UpdateMcpServerDto } from '../mcp-types.ts';
+import type { CreateMcpServerDto, McpServerView, UpdateMcpServerDto, McpServerCapabilities } from '../mcp-types.ts';
 interface McpService {
     list(): Promise<McpServerView[]>;
     create(params: {
@@ -25,6 +25,9 @@ interface McpService {
         serverId: string;
         lines?: number;
     }): Promise<string[]>;
+    getCapabilities(params: {
+        serverId: string;
+    }): Promise<McpServerCapabilities | null>;
 }
 export interface McpSectionProps {
     mcp?: McpService;

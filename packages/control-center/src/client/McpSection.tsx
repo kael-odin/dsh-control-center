@@ -4,8 +4,10 @@
  */
 
 import { useCallback, useEffect, useState, useMemo } from 'react'
-import type { CreateMcpServerDto, McpServerView, UpdateMcpServerDto } from '../mcp-types.ts'
+import type { CreateMcpServerDto, McpServerView, UpdateMcpServerDto, McpServerCapabilities } from '../mcp-types.ts'
 import css from './McpSection.module.css'
+
+type TabKey = 'settings' | 'description' | 'logs' | 'tools' | 'prompts' | 'resources'
 
 interface McpService {
   list(): Promise<McpServerView[]>
@@ -15,6 +17,7 @@ interface McpService {
   stopServer(params: { serverId: string }): Promise<void>
   refreshTools(params: { serverId: string }): Promise<void>
   getServerLogs(params: { serverId: string; lines?: number }): Promise<string[]>
+  getCapabilities(params: { serverId: string }): Promise<McpServerCapabilities | null>
 }
 
 export interface McpSectionProps {
@@ -28,6 +31,9 @@ export function McpSection(props: McpSectionProps) {
   const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [activeTab, setActiveTab] = useState<TabKey>('settings')
+  const [logs, setLogs] = useState<string[]>([])
+  const [capabilities, setCapabilities] = useState<McpServerCapabilities | null>(null)
 
   const loadServers = useCallback(async () => {
     if (!mcpService) {
@@ -70,6 +76,26 @@ export function McpSection(props: McpSectionProps) {
     () => filteredServers.find(s => s.id === selectedId),
     [filteredServers, selectedId]
   )
+
+  // Fetch logs when logs tab is active
+  useEffect(() => {
+    if (activeTab === 'logs' && selectedId && mcpService) {
+      void mcpService.getServerLogs({ serverId: selectedId, lines: 100 })
+        .then(setLogs)
+        .catch(() => setLogs([]))
+    }
+  }, [activeTab, selectedId, mcpService])
+
+  // Fetch capabilities when selected server changes and is active
+  useEffect(() => {
+    if (selectedId && mcpService && selectedServer?.isActive) {
+      void mcpService.getCapabilities({ serverId: selectedId })
+        .then(setCapabilities)
+        .catch(() => setCapabilities(null))
+    } else {
+      setCapabilities(null)
+    }
+  }, [selectedId, mcpService, selectedServer?.isActive])
 
   const handleDelete = useCallback(
     async (serverId: string, serverName: string) => {
@@ -236,16 +262,161 @@ export function McpSection(props: McpSectionProps) {
             </div>
           </div>
 
+          {/* Tab navigation */}
+          <div className={css.tabBar}>
+            <button
+              className={activeTab === 'settings' ? css.tabActive : css.tab}
+              onClick={() => setActiveTab('settings')}>
+              设置
+            </button>
+            {selectedServer.description && (
+              <button
+                className={activeTab === 'description' ? css.tabActive : css.tab}
+                onClick={() => setActiveTab('description')}>
+                描述
+              </button>
+            )}
+            <button
+              className={activeTab === 'logs' ? css.tabActive : css.tab}
+              onClick={() => setActiveTab('logs')}>
+              日志
+            </button>
+            {selectedServer.isActive && capabilities?.tools && (
+              <button
+                className={activeTab === 'tools' ? css.tabActive : css.tab}
+                onClick={() => setActiveTab('tools')}>
+                工具 {capabilities.tools.length > 0 ? `(${capabilities.tools.length})` : ''}
+              </button>
+            )}
+            {selectedServer.isActive && capabilities?.prompts && (
+              <button
+                className={activeTab === 'prompts' ? css.tabActive : css.tab}
+                onClick={() => setActiveTab('prompts')}>
+                提示词 {capabilities.prompts.length > 0 ? `(${capabilities.prompts.length})` : ''}
+              </button>
+            )}
+            {selectedServer.isActive && capabilities?.resources && (
+              <button
+                className={activeTab === 'resources' ? css.tabActive : css.tab}
+                onClick={() => setActiveTab('resources')}>
+                资源 {capabilities.resources.length > 0 ? `(${capabilities.resources.length})` : ''}
+              </button>
+            )}
+          </div>
+
           {/* Server detail content */}
           <div className={css.detailScroll}>
             <div className={css.detailContentMaxWidth}>
-              {/* TODO: Server configuration section */}
-              <section className={css.section}>
-                <h3 className={css.sectionHeading}>服务器配置</h3>
+              {activeTab === 'settings' && (
+                <>
+                  {/* Active toggle section */}
+                  <section className={css.section}>
+                <div className={css.sectionHeader}>
+                  <h3 className={css.sectionHeading}>状态</h3>
+                </div>
                 <div className={css.sectionBody}>
-                  <p className={css.placeholder}>配置界面开发中...</p>
+                  <div className={css.fieldRow}>
+                    <label className={css.fieldLabel}>
+                      <input
+                        type="checkbox"
+                        className={css.checkbox}
+                        checked={selectedServer.isActive}
+                        onChange={async (e) => {
+                          if (!mcpService) return
+                          try {
+                            await mcpService.update({
+                              serverId: selectedServer.id,
+                              dto: { isActive: e.target.checked }
+                            })
+                            await loadServers()
+                          } catch (err) {
+                            setError(err instanceof Error ? err.message : 'Failed to update server')
+                          }
+                        }}
+                      />
+                      <span>启用此服务器</span>
+                    </label>
+                  </div>
+                  {selectedServer.lastError && (
+                    <div className={css.errorBox}>
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.5" />
+                        <path d="M7 4V7M7 9.5V10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                      </svg>
+                      <span>{selectedServer.lastError}</span>
+                    </div>
+                  )}
                 </div>
               </section>
+
+              {/* Configuration section - stdio transport */}
+              {(!selectedServer.type || selectedServer.type === 'stdio') && (
+                <section className={css.section}>
+                  <div className={css.sectionHeader}>
+                    <h3 className={css.sectionHeading}>命令配置</h3>
+                  </div>
+                  <div className={css.sectionBody}>
+                    <div className={css.fieldGroup}>
+                      <label className={css.fieldLabel}>命令</label>
+                      <input
+                        type="text"
+                        className={css.input}
+                        value={selectedServer.command || ''}
+                        placeholder="例如: npx, uvx, python"
+                        readOnly
+                      />
+                    </div>
+                    {selectedServer.args && selectedServer.args.length > 0 && (
+                      <div className={css.fieldGroup}>
+                        <label className={css.fieldLabel}>参数</label>
+                        <div className={css.codeBlock}>
+                          {selectedServer.args.map((arg, idx) => (
+                            <div key={idx} className={css.codeLine}>{arg}</div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </section>
+              )}
+
+              {/* Environment variables section */}
+              {selectedServer.env && Object.keys(selectedServer.env).length > 0 && (
+                <section className={css.section}>
+                  <div className={css.sectionHeader}>
+                    <h3 className={css.sectionHeading}>环境变量</h3>
+                  </div>
+                  <div className={css.sectionBody}>
+                    <div className={css.codeBlock}>
+                      {Object.entries(selectedServer.env).map(([key, value]) => (
+                        <div key={key} className={css.codeLine}>
+                          <span className={css.codeKey}>{key}</span>=<span className={css.codeValue}>{value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </section>
+              )}
+
+              {/* Timeout settings section */}
+              {selectedServer.timeout !== undefined && (
+                <section className={css.section}>
+                  <div className={css.sectionHeader}>
+                    <h3 className={css.sectionHeading}>超时设置</h3>
+                  </div>
+                  <div className={css.sectionBody}>
+                    <div className={css.fieldGroup}>
+                      <label className={css.fieldLabel}>连接超时（秒）</label>
+                      <input
+                        type="number"
+                        className={css.input}
+                        value={selectedServer.timeout}
+                        readOnly
+                      />
+                    </div>
+                  </div>
+                </section>
+              )}
 
               {/* Danger zone */}
               <section className={css.section}>
@@ -268,6 +439,102 @@ export function McpSection(props: McpSectionProps) {
                   </div>
                 </div>
               </section>
+                </>
+              )}
+
+              {activeTab === 'description' && selectedServer.description && (
+                <section className={css.section}>
+                  <div className={css.sectionBody}>
+                    <div className={css.descriptionText}>{selectedServer.description}</div>
+                  </div>
+                </section>
+              )}
+
+              {activeTab === 'logs' && (
+                <section className={css.section}>
+                  <div className={css.sectionBody}>
+                    {logs.length > 0 ? (
+                      <div className={css.codeBlock}>
+                        {logs.map((line, idx) => (
+                          <div key={idx} className={css.codeLine}>{line}</div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className={css.emptyState}>暂无日志</div>
+                    )}
+                  </div>
+                </section>
+              )}
+
+              {activeTab === 'tools' && capabilities?.tools && (
+                <section className={css.section}>
+                  <div className={css.sectionBody}>
+                    {capabilities.tools.length > 0 ? (
+                      <div className={css.toolsList}>
+                        {capabilities.tools.map((tool, idx) => (
+                          <div key={idx} className={css.toolItem}>
+                            <div className={css.toolHeader}>
+                              <span className={css.toolName}>{tool.name}</span>
+                            </div>
+                            {tool.description && (
+                              <div className={css.toolDescription}>{tool.description}</div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className={css.emptyState}>暂无工具</div>
+                    )}
+                  </div>
+                </section>
+              )}
+
+              {activeTab === 'prompts' && capabilities?.prompts && (
+                <section className={css.section}>
+                  <div className={css.sectionBody}>
+                    {capabilities.prompts.length > 0 ? (
+                      <div className={css.toolsList}>
+                        {capabilities.prompts.map((prompt, idx) => (
+                          <div key={idx} className={css.toolItem}>
+                            <div className={css.toolHeader}>
+                              <span className={css.toolName}>{prompt.name}</span>
+                            </div>
+                            {prompt.description && (
+                              <div className={css.toolDescription}>{prompt.description}</div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className={css.emptyState}>暂无提示词</div>
+                    )}
+                  </div>
+                </section>
+              )}
+
+              {activeTab === 'resources' && capabilities?.resources && (
+                <section className={css.section}>
+                  <div className={css.sectionBody}>
+                    {capabilities.resources.length > 0 ? (
+                      <div className={css.toolsList}>
+                        {capabilities.resources.map((resource, idx) => (
+                          <div key={idx} className={css.toolItem}>
+                            <div className={css.toolHeader}>
+                              <span className={css.toolName}>{resource.name}</span>
+                            </div>
+                            <div className={css.resourceUri}>{resource.uri}</div>
+                            {resource.description && (
+                              <div className={css.toolDescription}>{resource.description}</div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className={css.emptyState}>暂无资源</div>
+                    )}
+                  </div>
+                </section>
+              )}
             </div>
           </div>
         </main>

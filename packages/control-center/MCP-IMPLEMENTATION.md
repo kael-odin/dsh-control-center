@@ -9,6 +9,12 @@
 4. ✅ Basic stdio transport connection logic implemented
 5. ✅ Tool/prompt/resource discovery with proper optional field handling
 6. ✅ Server capabilities caching in runtime state
+7. ✅ **Tabbed UI Interface** - settings/description/logs/tools/prompts/resources tabs
+8. ✅ **Tools Tab** - Tool listing with name and description
+9. ✅ **Prompts Tab** - Prompt listing with name and description
+10. ✅ **Resources Tab** - Resource listing with URI, name, and description
+11. ✅ **Logs Tab** - Log display with getServerLogs() integration
+12. ✅ **Description Tab** - Server description display
 
 ### Working: stdio Transport Server Startup
 Current implementation in `startServer()`:
@@ -19,45 +25,50 @@ Current implementation in `startServer()`:
 - Updates runtime state (connecting → connected/error)
 - Proper error handling with lastError tracking
 
-**Status**: Basic implementation complete, needs real-world testing with actual MCP servers
+**Status**: Basic implementation complete, tabbed UI added matching Cherry's pattern
 
 ### Next Steps (Priority Order)
 
-#### Priority 1: Server Lifecycle Completion
-1. Implement `stopServer()` with actual shutdown
-   - Close MCP client connection gracefully
-   - Kill child process
-   - Clean up transport resources
-   - Clear runtime state
-
-2. Implement `getServerLogs()` with actual log buffer
-   - Circular buffer for stdout/stderr (last 1000 lines)
-   - Line-based filtering
-   - Timestamp tracking
-
-#### Priority 2: Tool Registration
-1. Implement `refreshTools()` with DSH tool registry
-   - Parse cached capabilities.tools
-   - Register with DSH via ctx.get('tools')
+#### Priority 1: Tool Registration & Backend Integration
+1. Implement tool registry integration in `refreshTools()`
+   - Register discovered tools with DSH tool registry via ctx.get('tools')
    - Handle tool schema conversion
    - Tool enable/disable support
 
-2. Tool catalog caching improvements
-   - Prewarm on server startup
-   - Cache invalidation on refresh
-   - Concurrent refresh handling
+2. Add real-time log polling
+   - Auto-refresh logs when logs tab is active
+   - Implement polling interval (3-5 seconds)
 
-#### Priority 3: Configuration UI
-1. Server configuration sections in McpSection.tsx:
-   - Command/Args editor (stdio transport)
-   - Environment variables editor
-   - Timeout settings
+#### Priority 2: Editable Configuration Forms
+1. Convert read-only fields to editable inputs
+   - Command/Args editor with add/remove functionality
+   - Environment variables editor (key-value pairs)
+   - Timeout settings editor
    - Long-running toggle
 
-2. Tool/Prompt/Resource listing
-   - Fetch from getCapabilities
-   - Display in detail pane
-   - Enable/disable individual tools
+2. Add form validation
+   - Required field validation
+   - Command validation for stdio transport
+   - Base URL validation for SSE/HTTP transports
+
+3. Add save/cancel buttons
+   - Save triggers update() with validation
+   - Cancel restores original values
+
+#### Priority 3: Advanced UI Features
+1. Add "Refresh Tools" button
+   - Manual trigger for refreshTools()
+   - Loading indicator during refresh
+
+2. Add individual tool enable/disable
+   - Checkbox per tool
+   - Updates disabledTools array
+   - Persisted in server configuration
+
+3. Add server installation flow
+   - "Add Server" form with validation
+   - Support for different transport types
+   - Pre-fill from marketplace templates
 
 #### Priority 4: Other Transports
 1. SSE transport implementation
@@ -79,10 +90,10 @@ Current implementation in `startServer()`:
    - Token refresh
    - Secure storage
 
-2. Server installation flows
-   - Marketplace browser
-   - Local directory import
-   - URL-based installation
+2. Server marketplace integration
+   - Browse marketplace servers
+   - One-click install
+   - Provider-based server templates
 
 3. Trust management UI
    - Trust confirmation dialog
@@ -93,6 +104,7 @@ Current implementation in `startServer()`:
    - Server CRUD operations
    - Tool discovery
    - Connection state transitions
+   - Tab navigation
 
 ## Phase 1: Basic Structure ✅ COMPLETE
 
@@ -243,11 +255,11 @@ Current implementation in `startServer()`:
 
 ## Known Limitations
 
-1. **Partial MCP protocol**: stdio transport basic connection implemented, needs testing
-2. **No actual server shutdown**: stopServer() just clears runtime state, doesn't close client/transport
-3. **No tool registration**: refreshTools() doesn't register with DSH tool registry yet
-4. **No log capture**: getServerLogs() returns empty array, stderr goes to logger only
-5. **No configuration UI**: Detail pane shows placeholder text
+1. **Partial MCP protocol**: stdio transport basic connection implemented with tabbed UI
+2. **No tool registration**: refreshTools() doesn't register with DSH tool registry yet
+3. **Read-only configuration**: Detail pane shows server config but not yet editable
+4. **No auto-refresh logs**: Logs tab displays once, no polling yet
+5. **No individual tool enable/disable**: Tool list is display-only
 6. **No OAuth**: Authentication not implemented
 7. **No marketplace**: Installation flows not implemented
 8. **No E2E tests**: Browser tests not written
@@ -256,15 +268,14 @@ Current implementation in `startServer()`:
 
 ## Next Steps
 
-1. Test stdio transport with real MCP server (e.g., @modelcontextprotocol/server-filesystem)
-2. Implement actual stopServer() with client/transport cleanup
-3. Implement log buffer capture (stdout/stderr ring buffer)
-4. Implement tool registration with DSH tool registry
-5. Build configuration UI sections
-6. Add E2E browser tests
-7. Implement remaining transports (sse, streamableHttp, inMemory)
-8. Add OAuth support
-9. Build marketplace and installation flows
+1. Implement tool registry integration with DSH tool registry
+2. Add real-time log polling for logs tab
+3. Convert read-only configuration to editable forms with validation
+4. Add individual tool enable/disable functionality
+5. Implement remaining transports (sse, streamableHttp, inMemory)
+6. Add marketplace and installation flows
+7. Add OAuth support
+8. Build E2E browser tests
 
 ## Progress Tracking
 
@@ -274,6 +285,6 @@ Current implementation in `startServer()`:
 ✅ Painting Workspace  
 ✅ Knowledge Workspace
 ✅ Provider Management
-🚧 MCP (Phase 2 stdio transport in progress - ~40% complete)
+🚧 MCP (Phase 2 stdio transport + tabbed UI - ~55% complete)
 ⬜ Skills Backend Service
 ⬜ 20 remaining features...
