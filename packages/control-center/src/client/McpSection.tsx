@@ -645,16 +645,52 @@ export function McpSection(props: McpSectionProps) {
                   <div className={css.sectionBody}>
                     {capabilities.tools.length > 0 ? (
                       <div className={css.toolsList}>
-                        {capabilities.tools.map((tool, idx) => (
-                          <div key={idx} className={css.toolItem}>
-                            <div className={css.toolHeader}>
-                              <span className={css.toolName}>{tool.name}</span>
+                        {capabilities.tools.map((tool, idx) => {
+                          const isEnabled = !selectedServer.disabledTools?.includes(tool.name)
+                          return (
+                            <div key={idx} className={css.toolItem}>
+                              <div className={css.toolHeader}>
+                                <span className={css.toolName}>{tool.name}</span>
+                                <label className={css.switchWrapper}>
+                                  <input
+                                    type="checkbox"
+                                    className={css.switchInput}
+                                    checked={isEnabled}
+                                    onChange={async (e) => {
+                                      if (!mcpService) return
+                                      const checked = e.target.checked
+                                      const disabledTools = [...(selectedServer.disabledTools || [])]
+
+                                      if (checked) {
+                                        // Enable: remove from disabledTools
+                                        const filtered = disabledTools.filter(name => name !== tool.name)
+                                        await mcpService.update({
+                                          serverId: selectedServer.id,
+                                          dto: { disabledTools: filtered }
+                                        })
+                                      } else {
+                                        // Disable: add to disabledTools
+                                        if (!disabledTools.includes(tool.name)) {
+                                          disabledTools.push(tool.name)
+                                        }
+                                        await mcpService.update({
+                                          serverId: selectedServer.id,
+                                          dto: { disabledTools }
+                                        })
+                                      }
+
+                                      await loadServers()
+                                    }}
+                                  />
+                                  <span className={css.switchSlider}></span>
+                                </label>
+                              </div>
+                              {tool.description && (
+                                <div className={css.toolDescription}>{tool.description}</div>
+                              )}
                             </div>
-                            {tool.description && (
-                              <div className={css.toolDescription}>{tool.description}</div>
-                            )}
-                          </div>
-                        ))}
+                          )
+                        })}
                       </div>
                     ) : (
                       <div className={css.emptyState}>暂无工具</div>

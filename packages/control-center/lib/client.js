@@ -142,20 +142,20 @@ window.__ModuleLoader__.load({
 		}
 		var PaintingWorkspace_module_css_default = {
 			"link": "_-UrTq_link",
-			"progress": "_-UrTq_progress",
-			"header": "_-UrTq_header",
-			"historyImages": "_-UrTq_historyImages",
-			"figure": "_-UrTq_figure",
-			"controls": "_-UrTq_controls",
-			"composer": "_-UrTq_composer",
-			"error": "_-UrTq_error",
-			"empty": "_-UrTq_empty",
-			"history": "_-UrTq_history",
 			"eyebrow": "_-UrTq_eyebrow",
 			"secondary": "_-UrTq_secondary",
+			"figure": "_-UrTq_figure",
+			"empty": "_-UrTq_empty",
+			"header": "_-UrTq_header",
+			"controls": "_-UrTq_controls",
+			"composer": "_-UrTq_composer",
 			"historyItem": "_-UrTq_historyItem",
+			"progress": "_-UrTq_progress",
+			"root": "_-UrTq_root",
 			"gallery": "_-UrTq_gallery",
-			"root": "_-UrTq_root"
+			"history": "_-UrTq_history",
+			"historyImages": "_-UrTq_historyImages",
+			"error": "_-UrTq_error"
 		};
 		//#endregion
 		//#region lib/types/client/PaintingWorkspace.js
@@ -570,30 +570,30 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var KnowledgeWorkspace_module_css_default = {
-			"fileButton": "uHDY1a_fileButton",
-			"baseActions": "uHDY1a_baseActions",
-			"primary": "uHDY1a_primary",
-			"hitMeta": "uHDY1a_hitMeta",
-			"link": "uHDY1a_link",
-			"empty": "uHDY1a_empty",
-			"chunks": "uHDY1a_chunks",
-			"header": "uHDY1a_header",
-			"sourceTabs": "uHDY1a_sourceTabs",
-			"sourceItem": "uHDY1a_sourceItem",
-			"muted": "uHDY1a_muted",
-			"error": "uHDY1a_error",
-			"root": "uHDY1a_root",
-			"baseMeta": "uHDY1a_baseMeta",
 			"bases": "uHDY1a_bases",
-			"row": "uHDY1a_row",
-			"eyebrow": "uHDY1a_eyebrow",
 			"secondary": "uHDY1a_secondary",
-			"sourceMeta": "uHDY1a_sourceMeta",
+			"error": "uHDY1a_error",
+			"baseActions": "uHDY1a_baseActions",
+			"link": "uHDY1a_link",
+			"hits": "uHDY1a_hits",
 			"hit": "uHDY1a_hit",
 			"chunk": "uHDY1a_chunk",
-			"hits": "uHDY1a_hits",
+			"baseCard": "uHDY1a_baseCard",
+			"header": "uHDY1a_header",
+			"chunks": "uHDY1a_chunks",
+			"sourceItem": "uHDY1a_sourceItem",
+			"empty": "uHDY1a_empty",
+			"sourceTabs": "uHDY1a_sourceTabs",
+			"baseMeta": "uHDY1a_baseMeta",
+			"fileButton": "uHDY1a_fileButton",
+			"root": "uHDY1a_root",
 			"panel": "uHDY1a_panel",
-			"baseCard": "uHDY1a_baseCard"
+			"row": "uHDY1a_row",
+			"primary": "uHDY1a_primary",
+			"sourceMeta": "uHDY1a_sourceMeta",
+			"muted": "uHDY1a_muted",
+			"hitMeta": "uHDY1a_hitMeta",
+			"eyebrow": "uHDY1a_eyebrow"
 		};
 		//#endregion
 		//#region lib/types/client/KnowledgeWorkspace.js
@@ -1198,37 +1198,37 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SkillsSection_module_css_default = {
-			"emptyDescription": "pyHmqW_emptyDescription",
-			"content": "pyHmqW_content",
-			"primaryButton": "pyHmqW_primaryButton",
-			"card": "pyHmqW_card",
-			"emptyTitle": "pyHmqW_emptyTitle",
+			"emptyIcon": "pyHmqW_emptyIcon",
 			"cardMetaItem": "pyHmqW_cardMetaItem",
-			"iconButton": "pyHmqW_iconButton",
-			"enabledBadge": "pyHmqW_enabledBadge",
-			"error": "pyHmqW_error",
-			"cardHeader": "pyHmqW_cardHeader",
-			"cardTitle": "pyHmqW_cardTitle",
-			"headerActions": "pyHmqW_headerActions",
-			"cardDescription": "pyHmqW_cardDescription",
+			"searchRow": "pyHmqW_searchRow",
+			"card": "pyHmqW_card",
 			"cardActions": "pyHmqW_cardActions",
-			"disabledBadge": "pyHmqW_disabledBadge",
-			"header": "pyHmqW_header",
-			"loading": "pyHmqW_loading",
+			"cardTags": "pyHmqW_cardTags",
+			"cardFooter": "pyHmqW_cardFooter",
+			"tag": "pyHmqW_tag",
 			"empty": "pyHmqW_empty",
+			"disabledBadge": "pyHmqW_disabledBadge",
+			"error": "pyHmqW_error",
+			"enabledBadge": "pyHmqW_enabledBadge",
+			"emptyTitle": "pyHmqW_emptyTitle",
+			"loading": "pyHmqW_loading",
+			"headerActions": "pyHmqW_headerActions",
+			"secondaryButton": "pyHmqW_secondaryButton",
+			"cardHeader": "pyHmqW_cardHeader",
+			"title": "pyHmqW_title",
+			"cardDescription": "pyHmqW_cardDescription",
+			"grid": "pyHmqW_grid",
 			"headerLeft": "pyHmqW_headerLeft",
 			"description": "pyHmqW_description",
-			"emptyIcon": "pyHmqW_emptyIcon",
+			"content": "pyHmqW_content",
 			"cardMeta": "pyHmqW_cardMeta",
 			"root": "pyHmqW_root",
-			"cardTags": "pyHmqW_cardTags",
-			"tag": "pyHmqW_tag",
-			"grid": "pyHmqW_grid",
-			"cardFooter": "pyHmqW_cardFooter",
-			"title": "pyHmqW_title",
-			"searchRow": "pyHmqW_searchRow",
 			"searchInput": "pyHmqW_searchInput",
-			"secondaryButton": "pyHmqW_secondaryButton"
+			"primaryButton": "pyHmqW_primaryButton",
+			"header": "pyHmqW_header",
+			"iconButton": "pyHmqW_iconButton",
+			"cardTitle": "pyHmqW_cardTitle",
+			"emptyDescription": "pyHmqW_emptyDescription"
 		};
 		//#endregion
 		//#region lib/types/client/SkillsSection.js
@@ -1617,23 +1617,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderAuthentication_module_css_default = {
-			"fieldLink": "AU4RWG_fieldLink",
 			"secondaryButton": "AU4RWG_secondaryButton",
-			"inputGroup": "AU4RWG_inputGroup",
-			"timestamp": "AU4RWG_timestamp",
-			"input": "AU4RWG_input",
-			"fieldLabel": "AU4RWG_fieldLabel",
 			"errorMessage": "AU4RWG_errorMessage",
 			"inputRow": "AU4RWG_inputRow",
-			"iconButton": "AU4RWG_iconButton",
-			"sectionTitle": "AU4RWG_sectionTitle",
-			"inputAddon": "AU4RWG_inputAddon",
 			"successMessage": "AU4RWG_successMessage",
-			"section": "AU4RWG_section",
+			"timestamp": "AU4RWG_timestamp",
 			"field": "AU4RWG_field",
-			"spin": "AU4RWG_spin",
+			"iconButton": "AU4RWG_iconButton",
+			"fieldLabel": "AU4RWG_fieldLabel",
+			"input": "AU4RWG_input",
+			"inputGroup": "AU4RWG_inputGroup",
+			"sectionTitle": "AU4RWG_sectionTitle",
+			"primaryButton": "AU4RWG_primaryButton",
 			"actionRow": "AU4RWG_actionRow",
-			"primaryButton": "AU4RWG_primaryButton"
+			"inputAddon": "AU4RWG_inputAddon",
+			"fieldLink": "AU4RWG_fieldLink",
+			"section": "AU4RWG_section",
+			"spin": "AU4RWG_spin"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderAuthentication.js
@@ -1826,34 +1826,34 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderModelList_module_css_default = {
+			"toggleTrack": "_2yiUCa_toggleTrack",
 			"toggleButtonEnabled": "_2yiUCa_toggleButtonEnabled",
+			"modelIcon": "_2yiUCa_modelIcon",
+			"toggleButton": "_2yiUCa_toggleButton",
+			"toggleThumb": "_2yiUCa_toggleThumb",
+			"sectionHeaderRow": "_2yiUCa_sectionHeaderRow",
+			"emptyState": "_2yiUCa_emptyState",
+			"enabledCount": "_2yiUCa_enabledCount",
+			"modelMeta": "_2yiUCa_modelMeta",
 			"discoveryInfo": "_2yiUCa_discoveryInfo",
 			"groupCount": "_2yiUCa_groupCount",
-			"modelItem": "_2yiUCa_modelItem",
-			"emptyHint": "_2yiUCa_emptyHint",
+			"groupHeader": "_2yiUCa_groupHeader",
 			"emptyIcon": "_2yiUCa_emptyIcon",
-			"groupTitle": "_2yiUCa_groupTitle",
-			"enabledCount": "_2yiUCa_enabledCount",
-			"modelGroup": "_2yiUCa_modelGroup",
-			"modelIcon": "_2yiUCa_modelIcon",
-			"modelMain": "_2yiUCa_modelMain",
+			"modelInfo": "_2yiUCa_modelInfo",
+			"metaItem": "_2yiUCa_metaItem",
 			"sectionHeading": "_2yiUCa_sectionHeading",
-			"emptyText": "_2yiUCa_emptyText",
-			"section": "_2yiUCa_section",
+			"headerMeta": "_2yiUCa_headerMeta",
+			"modelGroup": "_2yiUCa_modelGroup",
 			"modelList": "_2yiUCa_modelList",
+			"modelItemDisabled": "_2yiUCa_modelItemDisabled",
+			"modelMain": "_2yiUCa_modelMain",
 			"modelName": "_2yiUCa_modelName",
 			"countBadge": "_2yiUCa_countBadge",
-			"toggleButton": "_2yiUCa_toggleButton",
-			"modelInfo": "_2yiUCa_modelInfo",
-			"toggleTrack": "_2yiUCa_toggleTrack",
-			"toggleThumb": "_2yiUCa_toggleThumb",
-			"metaItem": "_2yiUCa_metaItem",
-			"headerMeta": "_2yiUCa_headerMeta",
-			"groupHeader": "_2yiUCa_groupHeader",
-			"emptyState": "_2yiUCa_emptyState",
-			"modelItemDisabled": "_2yiUCa_modelItemDisabled",
-			"modelMeta": "_2yiUCa_modelMeta",
-			"sectionHeaderRow": "_2yiUCa_sectionHeaderRow"
+			"emptyText": "_2yiUCa_emptyText",
+			"emptyHint": "_2yiUCa_emptyHint",
+			"section": "_2yiUCa_section",
+			"groupTitle": "_2yiUCa_groupTitle",
+			"modelItem": "_2yiUCa_modelItem"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderModelList.js
@@ -2098,25 +2098,25 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderDialog_module_css_default = {
-			"hint": "Y2Uoaq_hint",
-			"label": "Y2Uoaq_label",
-			"input": "Y2Uoaq_input",
-			"field": "Y2Uoaq_field",
-			"overlay": "Y2Uoaq_overlay",
-			"header": "Y2Uoaq_header",
-			"footer": "Y2Uoaq_footer",
-			"submitButton": "Y2Uoaq_submitButton",
-			"checkboxField": "Y2Uoaq_checkboxField",
+			"title": "Y2Uoaq_title",
 			"dialog": "Y2Uoaq_dialog",
 			"error": "Y2Uoaq_error",
-			"title": "Y2Uoaq_title",
-			"content": "Y2Uoaq_content",
+			"field": "Y2Uoaq_field",
+			"footer": "Y2Uoaq_footer",
+			"header": "Y2Uoaq_header",
 			"required": "Y2Uoaq_required",
-			"checkboxLabel": "Y2Uoaq_checkboxLabel",
-			"select": "Y2Uoaq_select",
-			"cancelButton": "Y2Uoaq_cancelButton",
 			"checkbox": "Y2Uoaq_checkbox",
-			"textarea": "Y2Uoaq_textarea"
+			"input": "Y2Uoaq_input",
+			"cancelButton": "Y2Uoaq_cancelButton",
+			"label": "Y2Uoaq_label",
+			"checkboxField": "Y2Uoaq_checkboxField",
+			"checkboxLabel": "Y2Uoaq_checkboxLabel",
+			"textarea": "Y2Uoaq_textarea",
+			"content": "Y2Uoaq_content",
+			"overlay": "Y2Uoaq_overlay",
+			"hint": "Y2Uoaq_hint",
+			"select": "Y2Uoaq_select",
+			"submitButton": "Y2Uoaq_submitButton"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderDialog.js
@@ -2439,63 +2439,63 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProvidersSection_module_css_default = {
-			"dangerZoneDescription": "ExuySa_dangerZoneDescription",
-			"emptyTitle": "ExuySa_emptyTitle",
-			"searchClearButton": "ExuySa_searchClearButton",
-			"enabledDot": "ExuySa_enabledDot",
-			"modelList": "ExuySa_modelList",
-			"dangerButton": "ExuySa_dangerButton",
-			"emptyIcon": "ExuySa_emptyIcon",
-			"searchRow": "ExuySa_searchRow",
-			"detailHeader": "ExuySa_detailHeader",
-			"sectionHeaderRow": "ExuySa_sectionHeaderRow",
-			"field": "ExuySa_field",
-			"emptyState": "ExuySa_emptyState",
-			"emptyDetailState": "ExuySa_emptyDetailState",
-			"loading": "ExuySa_loading",
-			"sectionHeading": "ExuySa_sectionHeading",
-			"listScroller": "ExuySa_listScroller",
-			"providerDetail": "ExuySa_providerDetail",
-			"listItemAvatar": "ExuySa_listItemAvatar",
-			"emptyDescription": "ExuySa_emptyDescription",
-			"searchInput": "ExuySa_searchInput",
-			"listItemSelected": "ExuySa_listItemSelected",
-			"detailHeaderContent": "ExuySa_detailHeaderContent",
-			"searchWrap": "ExuySa_searchWrap",
-			"modelRow": "ExuySa_modelRow",
-			"listItem": "ExuySa_listItem",
-			"detailMeta": "ExuySa_detailMeta",
-			"listItemMain": "ExuySa_listItemMain",
 			"modelId": "ExuySa_modelId",
-			"listItemIdle": "ExuySa_listItemIdle",
-			"section": "ExuySa_section",
+			"searchIcon": "ExuySa_searchIcon",
+			"dangerZoneTitle": "ExuySa_dangerZoneTitle",
+			"listScroller": "ExuySa_listScroller",
+			"countMeta": "ExuySa_countMeta",
+			"field": "ExuySa_field",
+			"dangerZoneText": "ExuySa_dangerZoneText",
+			"detailScroll": "ExuySa_detailScroll",
+			"addButton": "ExuySa_addButton",
+			"listItem": "ExuySa_listItem",
+			"loading": "ExuySa_loading",
+			"emptyDescription": "ExuySa_emptyDescription",
+			"editButton": "ExuySa_editButton",
+			"emptyTitle": "ExuySa_emptyTitle",
+			"providerDetail": "ExuySa_providerDetail",
+			"detailTitle": "ExuySa_detailTitle",
+			"listItemMain": "ExuySa_listItemMain",
+			"modelList": "ExuySa_modelList",
 			"listItems": "ExuySa_listItems",
 			"modelMain": "ExuySa_modelMain",
-			"addButton": "ExuySa_addButton",
-			"secondaryButton": "ExuySa_secondaryButton",
-			"searchIcon": "ExuySa_searchIcon",
-			"actionRow": "ExuySa_actionRow",
-			"dangerZone": "ExuySa_dangerZone",
-			"providerList": "ExuySa_providerList",
-			"dangerZoneTitle": "ExuySa_dangerZoneTitle",
-			"detailScroll": "ExuySa_detailScroll",
-			"switch": "ExuySa_switch",
-			"detailTitle": "ExuySa_detailTitle",
-			"detailMetaItem": "ExuySa_detailMetaItem",
-			"splitRoot": "ExuySa_splitRoot",
-			"input": "ExuySa_input",
-			"error": "ExuySa_error",
-			"dangerZoneText": "ExuySa_dangerZoneText",
-			"addFooter": "ExuySa_addFooter",
-			"countMeta": "ExuySa_countMeta",
+			"sectionHeading": "ExuySa_sectionHeading",
 			"listItemLabel": "ExuySa_listItemLabel",
+			"section": "ExuySa_section",
+			"detailHeader": "ExuySa_detailHeader",
+			"dangerZone": "ExuySa_dangerZone",
+			"listItemSelected": "ExuySa_listItemSelected",
 			"switchSlider": "ExuySa_switchSlider",
-			"fieldLabel": "ExuySa_fieldLabel",
-			"editButton": "ExuySa_editButton",
-			"detailContentMaxWidth": "ExuySa_detailContentMaxWidth",
+			"switch": "ExuySa_switch",
+			"dangerZoneDescription": "ExuySa_dangerZoneDescription",
+			"searchClearButton": "ExuySa_searchClearButton",
+			"detailMetaItem": "ExuySa_detailMetaItem",
+			"secondaryButton": "ExuySa_secondaryButton",
+			"listItemAvatar": "ExuySa_listItemAvatar",
+			"actionButton": "ExuySa_actionButton",
+			"emptyState": "ExuySa_emptyState",
+			"dangerButton": "ExuySa_dangerButton",
 			"modelName": "ExuySa_modelName",
+			"detailContentMaxWidth": "ExuySa_detailContentMaxWidth",
+			"detailHeaderContent": "ExuySa_detailHeaderContent",
+			"searchWrap": "ExuySa_searchWrap",
+			"error": "ExuySa_error",
+			"providerList": "ExuySa_providerList",
+			"detailMeta": "ExuySa_detailMeta",
+			"input": "ExuySa_input",
+			"actionRow": "ExuySa_actionRow",
+			"modelRow": "ExuySa_modelRow",
+			"emptyIcon": "ExuySa_emptyIcon",
+			"enabledDot": "ExuySa_enabledDot",
+			"addFooter": "ExuySa_addFooter",
+			"listItemIdle": "ExuySa_listItemIdle",
+			"sectionHeaderRow": "ExuySa_sectionHeaderRow",
 			"sectionBody": "ExuySa_sectionBody",
-			"actionButton": "ExuySa_actionButton"
+			"fieldLabel": "ExuySa_fieldLabel",
+			"searchRow": "ExuySa_searchRow",
+			"searchInput": "ExuySa_searchInput",
+			"emptyDetailState": "ExuySa_emptyDetailState",
+			"splitRoot": "ExuySa_splitRoot"
 		};
 		//#endregion
 		//#region lib/types/client/ProvidersSection.js
@@ -3036,7 +3036,7 @@ window.__ModuleLoader__.load({
 		};
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\McpSection.module.css.mjs
-		const css$11 = "._0bBxiW_splitRoot{background:var(--color-background-base);width:100%;min-width:0;height:100%;min-height:0;display:flex;overflow:hidden}._0bBxiW_serverList{border-right:.5px solid var(--color-border-subtle);flex-direction:column;flex-shrink:0;flex-basis:248px;width:248px;height:100%;display:flex}._0bBxiW_searchRow{align-items:center;gap:6px;padding:10px;display:flex}._0bBxiW_searchWrap{border:1px solid var(--color-border-base);background:var(--color-background-elevated);border-radius:10px;flex:1;align-items:center;gap:4px;height:32px;padding:4px 4px 4px 10px;display:flex}._0bBxiW_searchIcon{width:14px;height:14px;color:var(--color-text-tertiary);flex-shrink:0;margin-right:2px}._0bBxiW_searchInput{min-width:0;color:var(--color-text-primary);background:0 0;border:none;outline:none;flex:1;font-size:14px;line-height:20px}._0bBxiW_searchInput::placeholder{color:var(--color-text-tertiary)}._0bBxiW_searchClearButton{width:22px;height:22px;color:var(--color-text-tertiary);cursor:pointer;background:0 0;border:none;border-radius:6px;flex-shrink:0;justify-content:center;align-items:center;transition:all .2s;display:flex}._0bBxiW_searchClearButton:hover{background:var(--color-background-hover);color:var(--color-text-primary)}._0bBxiW_listScroller{flex:1;min-height:0;padding:8px 10px 0;overflow:hidden auto}._0bBxiW_listItems{flex-direction:column;gap:8px;display:flex}._0bBxiW_listItem{text-align:left;cursor:pointer;background:0 0;border:1px solid #0000;border-radius:10px;outline:none;justify-content:space-between;align-items:center;width:100%;height:32px;padding:0 10px 0 2px;transition:all .2s;display:flex;position:relative}._0bBxiW_listItemIdle:hover,._0bBxiW_listItemSelected{background:var(--color-background-hover)}._0bBxiW_listItemMain{flex:1;align-items:center;gap:0;min-width:0;display:flex}._0bBxiW_listItemAvatar{border:1px solid var(--color-border-subtle);width:20px;height:20px;color:var(--color-text-secondary);border-radius:6px;flex-shrink:0;margin-right:10px}._0bBxiW_listItemLabel{text-overflow:ellipsis;white-space:nowrap;min-width:0;color:var(--color-text-primary);flex:1;font-size:14px;line-height:1.35;overflow:hidden}._0bBxiW_listItemSelected ._0bBxiW_listItemLabel{font-weight:500}._0bBxiW_activeDot{background:var(--color-success-text);border-radius:999px;flex-shrink:0;width:6px;height:6px}._0bBxiW_addFooter{flex-shrink:0;padding:10px}._0bBxiW_addButton{border:1px solid var(--color-border-base);width:100%;height:32px;color:var(--color-text-primary);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 10px;font-size:12px;transition:all .2s;display:flex}._0bBxiW_addButton:hover:not(:disabled){border-color:var(--color-border-hover);background:var(--color-background-hover)}._0bBxiW_addButton:disabled{opacity:.4;cursor:not-allowed}._0bBxiW_serverDetail{flex-direction:column;flex:1;min-width:0;min-height:0;display:flex;overflow:hidden}._0bBxiW_detailHeader{border-bottom:.5px solid var(--color-border-subtle);flex-shrink:0;justify-content:space-between;align-items:center;gap:12px;padding:10px 24px;display:flex}._0bBxiW_detailHeaderContent{flex:1;width:100%;max-width:768px;margin:0}._0bBxiW_detailTitle{color:var(--color-text-primary);margin:0;font-size:20px;font-weight:600;line-height:28px}._0bBxiW_detailMeta{color:var(--color-text-tertiary);align-items:center;gap:12px;margin-top:4px;font-size:13px;display:flex}._0bBxiW_detailMetaItem{align-items:center;gap:4px;display:flex}._0bBxiW_tabBar{border-bottom:.5px solid var(--color-border-subtle);flex-shrink:0;align-items:center;gap:4px;margin-top:8px;padding:0 24px;display:flex}._0bBxiW_tab{color:var(--color-text-secondary);cursor:pointer;background:0 0;border:none;border-radius:6px 6px 0 0;align-items:center;padding:8px 12px;font-size:13px;font-weight:500;transition:all .2s;display:flex;position:relative}._0bBxiW_tab:hover{color:var(--color-text-primary);background:var(--color-background-hover)}._0bBxiW_tabActive{color:var(--color-text-primary);border-bottom:2px solid var(--color-primary);margin-bottom:-.5px;}._0bBxiW_detailScroll{flex:1;min-height:0;padding:6px 24px 24px;overflow:hidden auto}._0bBxiW_detailContentMaxWidth{flex-direction:column;gap:20px;width:100%;min-width:0;max-width:768px;min-height:100%;margin:0 auto;display:flex}._0bBxiW_section{flex-direction:column;gap:12px;display:flex}._0bBxiW_sectionHeading{color:var(--color-text-primary);margin:0;font-size:14px;font-weight:500;line-height:1.3}._0bBxiW_sectionBody{flex-direction:column;gap:14px;display:flex}._0bBxiW_placeholder{color:var(--color-text-tertiary);margin:0;font-size:14px;line-height:20px}._0bBxiW_dangerZone{border:1px solid var(--color-border-base);background:var(--color-background-elevated);border-radius:8px;justify-content:space-between;align-items:flex-start;gap:16px;padding:16px;display:flex}._0bBxiW_dangerZoneText{flex-direction:column;flex:1;gap:4px;display:flex}._0bBxiW_dangerZoneTitle{color:var(--color-text-primary);font-size:14px;font-weight:500;line-height:20px}._0bBxiW_dangerZoneDescription{color:var(--color-text-secondary);font-size:13px;line-height:1.33}._0bBxiW_dangerButton{border:1px solid var(--color-error-border);background:var(--color-error-bg);height:32px;color:var(--color-error-text);cursor:pointer;border-radius:6px;flex-shrink:0;justify-content:center;align-items:center;padding:0 16px;font-size:14px;font-weight:500;transition:all .2s;display:inline-flex}._0bBxiW_dangerButton:hover{background:var(--color-error-bg-hover)}._0bBxiW_secondaryButton{border:1px solid var(--color-border-base);background:var(--color-background-elevated);height:32px;color:var(--color-text-primary);cursor:pointer;border-radius:6px;flex-shrink:0;justify-content:center;align-items:center;padding:0 16px;font-size:14px;transition:all .2s;display:inline-flex}._0bBxiW_secondaryButton:hover{border-color:var(--color-border-hover);background:var(--color-background-base)}._0bBxiW_emptyState{text-align:center;min-height:160px;color:var(--color-text-tertiary);justify-content:center;align-items:center;padding:24px;font-size:14px;line-height:20px;display:flex}._0bBxiW_emptyDetailState{text-align:center;flex-direction:column;justify-content:center;align-items:center;height:100%;padding:64px 24px;display:flex}._0bBxiW_emptyIcon{width:64px;height:64px;color:var(--color-text-tertiary);margin-bottom:16px}._0bBxiW_emptyTitle{color:var(--color-text-primary);margin-bottom:8px;font-size:16px;font-weight:600}._0bBxiW_emptyDescription{color:var(--color-text-secondary);max-width:400px;font-size:14px}._0bBxiW_loading{color:var(--color-text-tertiary);justify-content:center;align-items:center;height:100%;padding:64px 24px;display:flex}._0bBxiW_error{text-align:center;color:var(--color-error-text);flex-direction:column;justify-content:center;align-items:center;height:100%;padding:64px 24px;display:flex}._0bBxiW_toolsList{flex-direction:column;gap:12px;display:flex}._0bBxiW_toolItem{border:1px solid var(--color-border-base);background:var(--color-background-elevated);border-radius:8px;flex-direction:column;gap:6px;padding:12px;display:flex}._0bBxiW_toolHeader{justify-content:space-between;align-items:center;gap:8px;display:flex}._0bBxiW_toolName{color:var(--color-text-primary);font-size:14px;font-weight:500;font-family:var(--font-mono)}._0bBxiW_toolDescription{color:var(--color-text-secondary);font-size:13px;line-height:1.5}._0bBxiW_resourceUri{font-size:12px;font-family:var(--font-mono);color:var(--color-text-tertiary);word-break:break-all}._0bBxiW_descriptionText{color:var(--color-text-secondary);white-space:pre-wrap;font-size:14px;line-height:1.6}._0bBxiW_fieldGroup{flex-direction:column;gap:6px;display:flex}._0bBxiW_fieldLabel{color:var(--color-text-primary);font-size:13px;font-weight:500;line-height:1.3}._0bBxiW_fieldRow{align-items:center;gap:8px;display:flex}._0bBxiW_fieldRow ._0bBxiW_fieldLabel{cursor:pointer;align-items:center;gap:8px;display:flex}._0bBxiW_fieldHint{color:var(--color-text-tertiary);font-size:12px;line-height:1.4}._0bBxiW_input{border:1px solid var(--color-border-base);background:var(--color-background-elevated);width:100%;height:32px;color:var(--color-text-primary);border-radius:6px;outline:none;padding:0 10px;font-size:14px;transition:all .2s}._0bBxiW_input:focus{border-color:var(--color-primary);background:var(--color-background-base)}._0bBxiW_input:disabled{opacity:.5;cursor:not-allowed}._0bBxiW_textarea{border:1px solid var(--color-border-base);background:var(--color-background-elevated);width:100%;font-size:14px;font-family:var(--font-mono);color:var(--color-text-primary);resize:vertical;border-radius:6px;outline:none;padding:8px 10px;transition:all .2s}._0bBxiW_textarea:focus{border-color:var(--color-primary);background:var(--color-background-base)}._0bBxiW_checkbox{cursor:pointer;flex-shrink:0;width:16px;height:16px}._0bBxiW_formActions{align-items:center;gap:12px;display:flex}._0bBxiW_primaryButton{border:1px solid var(--color-primary);background:var(--color-primary);color:#fff;cursor:pointer;border-radius:6px;flex-shrink:0;justify-content:center;align-items:center;height:32px;padding:0 16px;font-size:14px;font-weight:500;transition:all .2s;display:inline-flex}._0bBxiW_primaryButton:hover:not(:disabled){opacity:.9}._0bBxiW_primaryButton:disabled{opacity:.5;cursor:not-allowed}";
+		const css$11 = "._0bBxiW_splitRoot{background:var(--color-background-base);width:100%;min-width:0;height:100%;min-height:0;display:flex;overflow:hidden}._0bBxiW_serverList{border-right:.5px solid var(--color-border-subtle);flex-direction:column;flex-shrink:0;flex-basis:248px;width:248px;height:100%;display:flex}._0bBxiW_searchRow{align-items:center;gap:6px;padding:10px;display:flex}._0bBxiW_searchWrap{border:1px solid var(--color-border-base);background:var(--color-background-elevated);border-radius:10px;flex:1;align-items:center;gap:4px;height:32px;padding:4px 4px 4px 10px;display:flex}._0bBxiW_searchIcon{width:14px;height:14px;color:var(--color-text-tertiary);flex-shrink:0;margin-right:2px}._0bBxiW_searchInput{min-width:0;color:var(--color-text-primary);background:0 0;border:none;outline:none;flex:1;font-size:14px;line-height:20px}._0bBxiW_searchInput::placeholder{color:var(--color-text-tertiary)}._0bBxiW_searchClearButton{width:22px;height:22px;color:var(--color-text-tertiary);cursor:pointer;background:0 0;border:none;border-radius:6px;flex-shrink:0;justify-content:center;align-items:center;transition:all .2s;display:flex}._0bBxiW_searchClearButton:hover{background:var(--color-background-hover);color:var(--color-text-primary)}._0bBxiW_listScroller{flex:1;min-height:0;padding:8px 10px 0;overflow:hidden auto}._0bBxiW_listItems{flex-direction:column;gap:8px;display:flex}._0bBxiW_listItem{text-align:left;cursor:pointer;background:0 0;border:1px solid #0000;border-radius:10px;outline:none;justify-content:space-between;align-items:center;width:100%;height:32px;padding:0 10px 0 2px;transition:all .2s;display:flex;position:relative}._0bBxiW_listItemIdle:hover,._0bBxiW_listItemSelected{background:var(--color-background-hover)}._0bBxiW_listItemMain{flex:1;align-items:center;gap:0;min-width:0;display:flex}._0bBxiW_listItemAvatar{border:1px solid var(--color-border-subtle);width:20px;height:20px;color:var(--color-text-secondary);border-radius:6px;flex-shrink:0;margin-right:10px}._0bBxiW_listItemLabel{text-overflow:ellipsis;white-space:nowrap;min-width:0;color:var(--color-text-primary);flex:1;font-size:14px;line-height:1.35;overflow:hidden}._0bBxiW_listItemSelected ._0bBxiW_listItemLabel{font-weight:500}._0bBxiW_activeDot{background:var(--color-success-text);border-radius:999px;flex-shrink:0;width:6px;height:6px}._0bBxiW_addFooter{flex-shrink:0;padding:10px}._0bBxiW_addButton{border:1px solid var(--color-border-base);width:100%;height:32px;color:var(--color-text-primary);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 10px;font-size:12px;transition:all .2s;display:flex}._0bBxiW_addButton:hover:not(:disabled){border-color:var(--color-border-hover);background:var(--color-background-hover)}._0bBxiW_addButton:disabled{opacity:.4;cursor:not-allowed}._0bBxiW_serverDetail{flex-direction:column;flex:1;min-width:0;min-height:0;display:flex;overflow:hidden}._0bBxiW_detailHeader{border-bottom:.5px solid var(--color-border-subtle);flex-shrink:0;justify-content:space-between;align-items:center;gap:12px;padding:10px 24px;display:flex}._0bBxiW_detailHeaderContent{flex:1;width:100%;max-width:768px;margin:0}._0bBxiW_detailTitle{color:var(--color-text-primary);margin:0;font-size:20px;font-weight:600;line-height:28px}._0bBxiW_detailMeta{color:var(--color-text-tertiary);align-items:center;gap:12px;margin-top:4px;font-size:13px;display:flex}._0bBxiW_detailMetaItem{align-items:center;gap:4px;display:flex}._0bBxiW_tabBar{border-bottom:.5px solid var(--color-border-subtle);flex-shrink:0;align-items:center;gap:4px;margin-top:8px;padding:0 24px;display:flex}._0bBxiW_tab{color:var(--color-text-secondary);cursor:pointer;background:0 0;border:none;border-radius:6px 6px 0 0;align-items:center;padding:8px 12px;font-size:13px;font-weight:500;transition:all .2s;display:flex;position:relative}._0bBxiW_tab:hover{color:var(--color-text-primary);background:var(--color-background-hover)}._0bBxiW_tabActive{color:var(--color-text-primary);border-bottom:2px solid var(--color-primary);margin-bottom:-.5px;}._0bBxiW_detailScroll{flex:1;min-height:0;padding:6px 24px 24px;overflow:hidden auto}._0bBxiW_detailContentMaxWidth{flex-direction:column;gap:20px;width:100%;min-width:0;max-width:768px;min-height:100%;margin:0 auto;display:flex}._0bBxiW_section{flex-direction:column;gap:12px;display:flex}._0bBxiW_sectionHeading{color:var(--color-text-primary);margin:0;font-size:14px;font-weight:500;line-height:1.3}._0bBxiW_sectionBody{flex-direction:column;gap:14px;display:flex}._0bBxiW_placeholder{color:var(--color-text-tertiary);margin:0;font-size:14px;line-height:20px}._0bBxiW_dangerZone{border:1px solid var(--color-border-base);background:var(--color-background-elevated);border-radius:8px;justify-content:space-between;align-items:flex-start;gap:16px;padding:16px;display:flex}._0bBxiW_dangerZoneText{flex-direction:column;flex:1;gap:4px;display:flex}._0bBxiW_dangerZoneTitle{color:var(--color-text-primary);font-size:14px;font-weight:500;line-height:20px}._0bBxiW_dangerZoneDescription{color:var(--color-text-secondary);font-size:13px;line-height:1.33}._0bBxiW_dangerButton{border:1px solid var(--color-error-border);background:var(--color-error-bg);height:32px;color:var(--color-error-text);cursor:pointer;border-radius:6px;flex-shrink:0;justify-content:center;align-items:center;padding:0 16px;font-size:14px;font-weight:500;transition:all .2s;display:inline-flex}._0bBxiW_dangerButton:hover{background:var(--color-error-bg-hover)}._0bBxiW_secondaryButton{border:1px solid var(--color-border-base);background:var(--color-background-elevated);height:32px;color:var(--color-text-primary);cursor:pointer;border-radius:6px;flex-shrink:0;justify-content:center;align-items:center;padding:0 16px;font-size:14px;transition:all .2s;display:inline-flex}._0bBxiW_secondaryButton:hover{border-color:var(--color-border-hover);background:var(--color-background-base)}._0bBxiW_emptyState{text-align:center;min-height:160px;color:var(--color-text-tertiary);justify-content:center;align-items:center;padding:24px;font-size:14px;line-height:20px;display:flex}._0bBxiW_emptyDetailState{text-align:center;flex-direction:column;justify-content:center;align-items:center;height:100%;padding:64px 24px;display:flex}._0bBxiW_emptyIcon{width:64px;height:64px;color:var(--color-text-tertiary);margin-bottom:16px}._0bBxiW_emptyTitle{color:var(--color-text-primary);margin-bottom:8px;font-size:16px;font-weight:600}._0bBxiW_emptyDescription{color:var(--color-text-secondary);max-width:400px;font-size:14px}._0bBxiW_loading{color:var(--color-text-tertiary);justify-content:center;align-items:center;height:100%;padding:64px 24px;display:flex}._0bBxiW_error{text-align:center;color:var(--color-error-text);flex-direction:column;justify-content:center;align-items:center;height:100%;padding:64px 24px;display:flex}._0bBxiW_toolsList{flex-direction:column;gap:12px;display:flex}._0bBxiW_toolItem{border:1px solid var(--color-border-base);background:var(--color-background-elevated);border-radius:8px;flex-direction:column;gap:6px;padding:12px;display:flex}._0bBxiW_toolHeader{justify-content:space-between;align-items:center;gap:8px;display:flex}._0bBxiW_toolName{color:var(--color-text-primary);font-size:14px;font-weight:500;font-family:var(--font-mono)}._0bBxiW_toolDescription{color:var(--color-text-secondary);font-size:13px;line-height:1.5}._0bBxiW_resourceUri{font-size:12px;font-family:var(--font-mono);color:var(--color-text-tertiary);word-break:break-all}._0bBxiW_descriptionText{color:var(--color-text-secondary);white-space:pre-wrap;font-size:14px;line-height:1.6}._0bBxiW_fieldGroup{flex-direction:column;gap:6px;display:flex}._0bBxiW_fieldLabel{color:var(--color-text-primary);font-size:13px;font-weight:500;line-height:1.3}._0bBxiW_fieldRow{align-items:center;gap:8px;display:flex}._0bBxiW_fieldRow ._0bBxiW_fieldLabel{cursor:pointer;align-items:center;gap:8px;display:flex}._0bBxiW_fieldHint{color:var(--color-text-tertiary);font-size:12px;line-height:1.4}._0bBxiW_input{border:1px solid var(--color-border-base);background:var(--color-background-elevated);width:100%;height:32px;color:var(--color-text-primary);border-radius:6px;outline:none;padding:0 10px;font-size:14px;transition:all .2s}._0bBxiW_input:focus{border-color:var(--color-primary);background:var(--color-background-base)}._0bBxiW_input:disabled{opacity:.5;cursor:not-allowed}._0bBxiW_textarea{border:1px solid var(--color-border-base);background:var(--color-background-elevated);width:100%;font-size:14px;font-family:var(--font-mono);color:var(--color-text-primary);resize:vertical;border-radius:6px;outline:none;padding:8px 10px;transition:all .2s}._0bBxiW_textarea:focus{border-color:var(--color-primary);background:var(--color-background-base)}._0bBxiW_checkbox{cursor:pointer;flex-shrink:0;width:16px;height:16px}._0bBxiW_formActions{align-items:center;gap:12px;display:flex}._0bBxiW_primaryButton{border:1px solid var(--color-primary);background:var(--color-primary);color:#fff;cursor:pointer;border-radius:6px;flex-shrink:0;justify-content:center;align-items:center;height:32px;padding:0 16px;font-size:14px;font-weight:500;transition:all .2s;display:inline-flex}._0bBxiW_primaryButton:hover:not(:disabled){opacity:.9}._0bBxiW_primaryButton:disabled{opacity:.5;cursor:not-allowed}._0bBxiW_switchWrapper{cursor:pointer;width:36px;height:20px;display:inline-block;position:relative}._0bBxiW_switchInput{opacity:0;width:0;height:0}._0bBxiW_switchSlider{cursor:pointer;background-color:var(--color-border-base);border-radius:20px;transition:all .2s;position:absolute;inset:0}._0bBxiW_switchSlider:before{content:\"\";background-color:#fff;border-radius:50%;width:14px;height:14px;transition:all .2s;position:absolute;bottom:3px;left:3px}._0bBxiW_switchInput:checked+._0bBxiW_switchSlider{background-color:var(--color-primary)}._0bBxiW_switchInput:checked+._0bBxiW_switchSlider:before{transform:translate(16px)}._0bBxiW_switchInput:focus+._0bBxiW_switchSlider{box-shadow:0 0 0 2px var(--color-primary-alpha)}";
 		const tagId$11 = "@dsh-control-center/control-center/McpSection.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$11) + "]") === null) {
 			const tag = document.createElement("style");
@@ -3046,68 +3046,71 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var McpSection_module_css_default = {
-			"toolsList": "_0bBxiW_toolsList",
-			"emptyIcon": "_0bBxiW_emptyIcon",
-			"listItemAvatar": "_0bBxiW_listItemAvatar",
-			"sectionBody": "_0bBxiW_sectionBody",
-			"searchIcon": "_0bBxiW_searchIcon",
-			"emptyState": "_0bBxiW_emptyState",
-			"listItem": "_0bBxiW_listItem",
 			"loading": "_0bBxiW_loading",
-			"resourceUri": "_0bBxiW_resourceUri",
-			"serverList": "_0bBxiW_serverList",
-			"listItems": "_0bBxiW_listItems",
-			"secondaryButton": "_0bBxiW_secondaryButton",
-			"searchWrap": "_0bBxiW_searchWrap",
-			"listItemIdle": "_0bBxiW_listItemIdle",
-			"dangerZoneText": "_0bBxiW_dangerZoneText",
-			"toolHeader": "_0bBxiW_toolHeader",
-			"dangerZone": "_0bBxiW_dangerZone",
-			"detailHeader": "_0bBxiW_detailHeader",
-			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
-			"section": "_0bBxiW_section",
-			"addFooter": "_0bBxiW_addFooter",
-			"addButton": "_0bBxiW_addButton",
-			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
-			"listScroller": "_0bBxiW_listScroller",
-			"toolItem": "_0bBxiW_toolItem",
-			"fieldRow": "_0bBxiW_fieldRow",
-			"listItemSelected": "_0bBxiW_listItemSelected",
+			"switchSlider": "_0bBxiW_switchSlider",
 			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
-			"fieldHint": "_0bBxiW_fieldHint",
-			"activeDot": "_0bBxiW_activeDot",
-			"sectionHeading": "_0bBxiW_sectionHeading",
-			"dangerButton": "_0bBxiW_dangerButton",
-			"primaryButton": "_0bBxiW_primaryButton",
-			"fieldLabel": "_0bBxiW_fieldLabel",
-			"fieldGroup": "_0bBxiW_fieldGroup",
-			"formActions": "_0bBxiW_formActions",
-			"detailTitle": "_0bBxiW_detailTitle",
-			"tabActive": "_0bBxiW_tabActive",
-			"searchClearButton": "_0bBxiW_searchClearButton",
-			"placeholder": "_0bBxiW_placeholder",
-			"detailMeta": "_0bBxiW_detailMeta",
-			"toolDescription": "_0bBxiW_toolDescription",
+			"emptyIcon": "_0bBxiW_emptyIcon",
+			"detailHeader": "_0bBxiW_detailHeader",
+			"listItem": "_0bBxiW_listItem",
 			"listItemLabel": "_0bBxiW_listItemLabel",
-			"detailScroll": "_0bBxiW_detailScroll",
-			"tabBar": "_0bBxiW_tabBar",
-			"searchRow": "_0bBxiW_searchRow",
-			"descriptionText": "_0bBxiW_descriptionText",
-			"emptyTitle": "_0bBxiW_emptyTitle",
-			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
+			"fieldHint": "_0bBxiW_fieldHint",
+			"toolsList": "_0bBxiW_toolsList",
 			"serverDetail": "_0bBxiW_serverDetail",
-			"detailMetaItem": "_0bBxiW_detailMetaItem",
 			"listItemMain": "_0bBxiW_listItemMain",
-			"error": "_0bBxiW_error",
-			"tab": "_0bBxiW_tab",
-			"emptyDetailState": "_0bBxiW_emptyDetailState",
-			"input": "_0bBxiW_input",
-			"textarea": "_0bBxiW_textarea",
-			"searchInput": "_0bBxiW_searchInput",
+			"dangerButton": "_0bBxiW_dangerButton",
+			"secondaryButton": "_0bBxiW_secondaryButton",
+			"toolName": "_0bBxiW_toolName",
+			"serverList": "_0bBxiW_serverList",
+			"dangerZoneText": "_0bBxiW_dangerZoneText",
 			"emptyDescription": "_0bBxiW_emptyDescription",
+			"switchWrapper": "_0bBxiW_switchWrapper",
+			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
+			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
+			"dangerZone": "_0bBxiW_dangerZone",
+			"emptyDetailState": "_0bBxiW_emptyDetailState",
+			"detailMeta": "_0bBxiW_detailMeta",
+			"detailMetaItem": "_0bBxiW_detailMetaItem",
+			"tabActive": "_0bBxiW_tabActive",
 			"splitRoot": "_0bBxiW_splitRoot",
+			"listItemSelected": "_0bBxiW_listItemSelected",
+			"section": "_0bBxiW_section",
+			"emptyTitle": "_0bBxiW_emptyTitle",
+			"tab": "_0bBxiW_tab",
+			"formActions": "_0bBxiW_formActions",
+			"fieldRow": "_0bBxiW_fieldRow",
+			"listItemIdle": "_0bBxiW_listItemIdle",
+			"activeDot": "_0bBxiW_activeDot",
+			"input": "_0bBxiW_input",
+			"emptyState": "_0bBxiW_emptyState",
+			"fieldGroup": "_0bBxiW_fieldGroup",
+			"toolItem": "_0bBxiW_toolItem",
+			"error": "_0bBxiW_error",
+			"listScroller": "_0bBxiW_listScroller",
+			"searchIcon": "_0bBxiW_searchIcon",
+			"searchClearButton": "_0bBxiW_searchClearButton",
+			"sectionHeading": "_0bBxiW_sectionHeading",
+			"toolHeader": "_0bBxiW_toolHeader",
+			"addFooter": "_0bBxiW_addFooter",
+			"searchInput": "_0bBxiW_searchInput",
+			"searchWrap": "_0bBxiW_searchWrap",
+			"sectionBody": "_0bBxiW_sectionBody",
+			"listItemAvatar": "_0bBxiW_listItemAvatar",
+			"detailScroll": "_0bBxiW_detailScroll",
+			"listItems": "_0bBxiW_listItems",
+			"searchRow": "_0bBxiW_searchRow",
+			"placeholder": "_0bBxiW_placeholder",
+			"detailTitle": "_0bBxiW_detailTitle",
 			"checkbox": "_0bBxiW_checkbox",
-			"toolName": "_0bBxiW_toolName"
+			"primaryButton": "_0bBxiW_primaryButton",
+			"switchInput": "_0bBxiW_switchInput",
+			"tabBar": "_0bBxiW_tabBar",
+			"textarea": "_0bBxiW_textarea",
+			"addButton": "_0bBxiW_addButton",
+			"resourceUri": "_0bBxiW_resourceUri",
+			"fieldLabel": "_0bBxiW_fieldLabel",
+			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
+			"descriptionText": "_0bBxiW_descriptionText",
+			"toolDescription": "_0bBxiW_toolDescription"
 		};
 		//#endregion
 		//#region lib/types/client/McpSection.js
@@ -3764,19 +3767,48 @@ window.__ModuleLoader__.load({
 											className: McpSection_module_css_default.sectionBody,
 											children: capabilities.tools.length > 0 ? (0, react_jsx_runtime.jsx)("div", {
 												className: McpSection_module_css_default.toolsList,
-												children: capabilities.tools.map((tool, idx) => (0, react_jsx_runtime.jsxs)("div", {
-													className: McpSection_module_css_default.toolItem,
-													children: [(0, react_jsx_runtime.jsx)("div", {
-														className: McpSection_module_css_default.toolHeader,
-														children: (0, react_jsx_runtime.jsx)("span", {
-															className: McpSection_module_css_default.toolName,
-															children: tool.name
-														})
-													}), tool.description && (0, react_jsx_runtime.jsx)("div", {
-														className: McpSection_module_css_default.toolDescription,
-														children: tool.description
-													})]
-												}, idx))
+												children: capabilities.tools.map((tool, idx) => {
+													const isEnabled = !selectedServer.disabledTools?.includes(tool.name);
+													return (0, react_jsx_runtime.jsxs)("div", {
+														className: McpSection_module_css_default.toolItem,
+														children: [(0, react_jsx_runtime.jsxs)("div", {
+															className: McpSection_module_css_default.toolHeader,
+															children: [(0, react_jsx_runtime.jsx)("span", {
+																className: McpSection_module_css_default.toolName,
+																children: tool.name
+															}), (0, react_jsx_runtime.jsxs)("label", {
+																className: McpSection_module_css_default.switchWrapper,
+																children: [(0, react_jsx_runtime.jsx)("input", {
+																	type: "checkbox",
+																	className: McpSection_module_css_default.switchInput,
+																	checked: isEnabled,
+																	onChange: async (e) => {
+																		if (!mcpService) return;
+																		const checked = e.target.checked;
+																		const disabledTools = [...selectedServer.disabledTools || []];
+																		if (checked) {
+																			const filtered = disabledTools.filter((name) => name !== tool.name);
+																			await mcpService.update({
+																				serverId: selectedServer.id,
+																				dto: { disabledTools: filtered }
+																			});
+																		} else {
+																			if (!disabledTools.includes(tool.name)) disabledTools.push(tool.name);
+																			await mcpService.update({
+																				serverId: selectedServer.id,
+																				dto: { disabledTools }
+																			});
+																		}
+																		await loadServers();
+																	}
+																}), (0, react_jsx_runtime.jsx)("span", { className: McpSection_module_css_default.switchSlider })]
+															})]
+														}), tool.description && (0, react_jsx_runtime.jsx)("div", {
+															className: McpSection_module_css_default.toolDescription,
+															children: tool.description
+														})]
+													}, idx);
+												})
 											}) : (0, react_jsx_runtime.jsx)("div", {
 												className: McpSection_module_css_default.emptyState,
 												children: "暂无工具"
@@ -3908,28 +3940,28 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
-			"actions": "_4STY0G_actions",
-			"navCell": "_4STY0G_navCell",
 			"navScroll": "_4STY0G_navScroll",
-			"panel": "_4STY0G_panel",
-			"navGroup": "_4STY0G_navGroup",
-			"navList": "_4STY0G_navList",
-			"navLabel": "_4STY0G_navLabel",
-			"navGroupTitle": "_4STY0G_navGroupTitle",
-			"navTitle": "_4STY0G_navTitle",
-			"nav": "_4STY0G_nav",
-			"mask": "_4STY0G_mask",
-			"rail": "_4STY0G_rail",
-			"overlay": "_4STY0G_overlay",
-			"triggerLabel": "_4STY0G_triggerLabel",
-			"navIcon": "_4STY0G_navIcon",
-			"header": "_4STY0G_header",
-			"close": "_4STY0G_close",
-			"options": "_4STY0G_options",
-			"hiddenLabel": "_4STY0G_hiddenLabel",
-			"active": "_4STY0G_active",
 			"content": "_4STY0G_content",
-			"trigger": "_4STY0G_trigger"
+			"triggerLabel": "_4STY0G_triggerLabel",
+			"header": "_4STY0G_header",
+			"navTitle": "_4STY0G_navTitle",
+			"navCell": "_4STY0G_navCell",
+			"actions": "_4STY0G_actions",
+			"close": "_4STY0G_close",
+			"navLabel": "_4STY0G_navLabel",
+			"navList": "_4STY0G_navList",
+			"panel": "_4STY0G_panel",
+			"hiddenLabel": "_4STY0G_hiddenLabel",
+			"navGroup": "_4STY0G_navGroup",
+			"trigger": "_4STY0G_trigger",
+			"mask": "_4STY0G_mask",
+			"navIcon": "_4STY0G_navIcon",
+			"options": "_4STY0G_options",
+			"overlay": "_4STY0G_overlay",
+			"nav": "_4STY0G_nav",
+			"navGroupTitle": "_4STY0G_navGroupTitle",
+			"rail": "_4STY0G_rail",
+			"active": "_4STY0G_active"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsRoot.js
@@ -4399,69 +4431,69 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelsSection_module_css_default = {
-			"iconButton": "tKsOKa_iconButton",
-			"editorHeader": "tKsOKa_editorHeader",
-			"selectInput": "tKsOKa_selectInput",
-			"rowIdentity": "tKsOKa_rowIdentity",
-			"deleteDialog": "tKsOKa_deleteDialog",
-			"candidateLabel": "tKsOKa_candidateLabel",
-			"customized": "tKsOKa_customized",
-			"notice": "tKsOKa_notice",
-			"secondaryButton": "tKsOKa_secondaryButton",
-			"error": "tKsOKa_error",
-			"candidateId": "tKsOKa_candidateId",
-			"title": "tKsOKa_title",
-			"candidate": "tKsOKa_candidate",
-			"setupCard": "tKsOKa_setupCard",
-			"input": "tKsOKa_input",
-			"editor": "tKsOKa_editor",
-			"candidateList": "tKsOKa_candidateList",
-			"dangerButton": "tKsOKa_dangerButton",
-			"rowName": "tKsOKa_rowName",
-			"advancedHint": "tKsOKa_advancedHint",
-			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
-			"modelEmpty": "tKsOKa_modelEmpty",
-			"iconButtonDanger": "tKsOKa_iconButtonDanger",
-			"modelRow": "tKsOKa_modelRow",
-			"addActions": "tKsOKa_addActions",
-			"addButton": "tKsOKa_addButton",
-			"rows": "tKsOKa_rows",
-			"rowCard": "tKsOKa_rowCard",
-			"modelSelectionTitle": "tKsOKa_modelSelectionTitle",
-			"hiddenLabel": "tKsOKa_hiddenLabel",
-			"fieldLabel": "tKsOKa_fieldLabel",
-			"modelSelectionPanel": "tKsOKa_modelSelectionPanel",
-			"addBlock": "tKsOKa_addBlock",
-			"credentialDot": "tKsOKa_credentialDot",
-			"rowHead": "tKsOKa_rowHead",
-			"editorRoute": "tKsOKa_editorRoute",
 			"editorTitle": "tKsOKa_editorTitle",
-			"modelFieldLabel": "tKsOKa_modelFieldLabel",
-			"credentialDotMissing": "tKsOKa_credentialDotMissing",
-			"modelEntry": "tKsOKa_modelEntry",
-			"modelListHead": "tKsOKa_modelListHead",
-			"customizedSummary": "tKsOKa_customizedSummary",
-			"addCard": "tKsOKa_addCard",
-			"modelCatalog": "tKsOKa_modelCatalog",
-			"modelList": "tKsOKa_modelList",
-			"editorActions": "tKsOKa_editorActions",
-			"intro": "tKsOKa_intro",
-			"addModelButton": "tKsOKa_addModelButton",
-			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
-			"primaryButton": "tKsOKa_primaryButton",
-			"section": "tKsOKa_section",
-			"customizedBody": "tKsOKa_customizedBody",
-			"deleteConfirm": "tKsOKa_deleteConfirm",
-			"linkButton": "tKsOKa_linkButton",
 			"rowActions": "tKsOKa_rowActions",
-			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
+			"customizedSummary": "tKsOKa_customizedSummary",
+			"credentialDot": "tKsOKa_credentialDot",
+			"linkButton": "tKsOKa_linkButton",
+			"iconButton": "tKsOKa_iconButton",
+			"modelRow": "tKsOKa_modelRow",
+			"input": "tKsOKa_input",
+			"rowIdentity": "tKsOKa_rowIdentity",
+			"addCard": "tKsOKa_addCard",
 			"fetchDialog": "tKsOKa_fetchDialog",
-			"field": "tKsOKa_field",
-			"rowTag": "tKsOKa_rowTag",
-			"modelAdvanced": "tKsOKa_modelAdvanced",
-			"modelField": "tKsOKa_modelField",
+			"addModelButton": "tKsOKa_addModelButton",
+			"modelListHead": "tKsOKa_modelListHead",
+			"dangerButton": "tKsOKa_dangerButton",
+			"editor": "tKsOKa_editor",
+			"hiddenLabel": "tKsOKa_hiddenLabel",
+			"rowHead": "tKsOKa_rowHead",
+			"modelEntry": "tKsOKa_modelEntry",
+			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
+			"editorRoute": "tKsOKa_editorRoute",
+			"editorActions": "tKsOKa_editorActions",
+			"section": "tKsOKa_section",
+			"addButton": "tKsOKa_addButton",
+			"customized": "tKsOKa_customized",
+			"deleteConfirm": "tKsOKa_deleteConfirm",
+			"candidateId": "tKsOKa_candidateId",
+			"editorHeader": "tKsOKa_editorHeader",
+			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
+			"rowCard": "tKsOKa_rowCard",
+			"iconButtonDanger": "tKsOKa_iconButtonDanger",
+			"candidateLabel": "tKsOKa_candidateLabel",
 			"savedNotice": "tKsOKa_savedNotice",
-			"credentialDotConfigured": "tKsOKa_credentialDotConfigured"
+			"setupCard": "tKsOKa_setupCard",
+			"addBlock": "tKsOKa_addBlock",
+			"intro": "tKsOKa_intro",
+			"rows": "tKsOKa_rows",
+			"modelCatalog": "tKsOKa_modelCatalog",
+			"modelAdvanced": "tKsOKa_modelAdvanced",
+			"rowTag": "tKsOKa_rowTag",
+			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
+			"advancedHint": "tKsOKa_advancedHint",
+			"rowName": "tKsOKa_rowName",
+			"addActions": "tKsOKa_addActions",
+			"candidate": "tKsOKa_candidate",
+			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"modelSelectionPanel": "tKsOKa_modelSelectionPanel",
+			"modelFieldLabel": "tKsOKa_modelFieldLabel",
+			"customizedBody": "tKsOKa_customizedBody",
+			"notice": "tKsOKa_notice",
+			"selectInput": "tKsOKa_selectInput",
+			"candidateList": "tKsOKa_candidateList",
+			"error": "tKsOKa_error",
+			"primaryButton": "tKsOKa_primaryButton",
+			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
+			"modelSelectionTitle": "tKsOKa_modelSelectionTitle",
+			"title": "tKsOKa_title",
+			"modelList": "tKsOKa_modelList",
+			"field": "tKsOKa_field",
+			"secondaryButton": "tKsOKa_secondaryButton",
+			"deleteDialog": "tKsOKa_deleteDialog",
+			"modelField": "tKsOKa_modelField",
+			"modelEmpty": "tKsOKa_modelEmpty",
+			"fieldLabel": "tKsOKa_fieldLabel"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -7577,9 +7609,9 @@ window.__ModuleLoader__.load({
 		}
 		var OnboardingModal_module_css_default = {
 			"dialog": "C_CJ_a_dialog",
+			"content": "C_CJ_a_content",
 			"body": "C_CJ_a_body",
-			"title": "C_CJ_a_title",
-			"content": "C_CJ_a_content"
+			"title": "C_CJ_a_title"
 		};
 		//#endregion
 		//#region lib/types/client/OnboardingModal.js
@@ -7729,10 +7761,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WelcomeNotice_module_css_default = {
-			"error": "RFswhG_error",
-			"copy": "RFswhG_copy",
 			"actions": "RFswhG_actions",
-			"primary": "RFswhG_primary"
+			"primary": "RFswhG_primary",
+			"copy": "RFswhG_copy",
+			"error": "RFswhG_error"
 		};
 		//#endregion
 		//#region lib/types/client/WelcomeNotice.js
@@ -8195,13 +8227,13 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProductWorkspaceSurface_module_css_default = {
-			"header": "mzcFbW_header",
-			"root": "mzcFbW_root",
-			"icon": "mzcFbW_icon",
+			"identity": "mzcFbW_identity",
 			"close": "mzcFbW_close",
+			"header": "mzcFbW_header",
 			"body": "mzcFbW_body",
-			"eyebrow": "mzcFbW_eyebrow",
-			"identity": "mzcFbW_identity"
+			"icon": "mzcFbW_icon",
+			"root": "mzcFbW_root",
+			"eyebrow": "mzcFbW_eyebrow"
 		};
 		//#endregion
 		//#region lib/types/client/ProductWorkspaceSurface.js
@@ -8249,19 +8281,19 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TranslationWorkspace_module_css_default = {
-			"secondary": "_8lesPa_secondary",
-			"toolbar": "_8lesPa_toolbar",
-			"historyItem": "_8lesPa_historyItem",
-			"eyebrow": "_8lesPa_eyebrow",
-			"link": "_8lesPa_link",
-			"empty": "_8lesPa_empty",
-			"panes": "_8lesPa_panes",
-			"root": "_8lesPa_root",
 			"error": "_8lesPa_error",
 			"history": "_8lesPa_history",
+			"empty": "_8lesPa_empty",
 			"pane": "_8lesPa_pane",
-			"actions": "_8lesPa_actions",
 			"header": "_8lesPa_header",
+			"toolbar": "_8lesPa_toolbar",
+			"link": "_8lesPa_link",
+			"actions": "_8lesPa_actions",
+			"historyItem": "_8lesPa_historyItem",
+			"eyebrow": "_8lesPa_eyebrow",
+			"root": "_8lesPa_root",
+			"panes": "_8lesPa_panes",
+			"secondary": "_8lesPa_secondary",
 			"swap": "_8lesPa_swap"
 		};
 		//#endregion
