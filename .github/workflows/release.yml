@@ -43,16 +43,19 @@ jobs:
           node-version: 24
 
       - name: Install dependencies
+        working-directory: control-center
         run: pnpm install --frozen-lockfile
 
       - name: Check
+        working-directory: control-center
         run: pnpm run check
 
       - name: Pack the bundle
-        run: pnpm --filter @dsh-control-center/bundle pack --out ../dsh-control-center-bundle.tgz
-        working-directory: packages/bundle
+        working-directory: control-center/packages/bundle
+        run: pnpm --filter @dsh-control-center/bundle pack --out ../../dsh-control-center-bundle.tgz
 
       - name: Draft GitHub release
+        working-directory: control-center
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
