@@ -131,31 +131,31 @@ window.__ModuleLoader__.load({
 		};
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\PaintingWorkspace.module.css.mjs
-		const css$14 = "._-UrTq_root{background:var(--dsw-alias-bg-base);min-width:0;min-height:0;color:var(--dsw-alias-label-primary);flex-direction:column;flex:1;gap:16px;padding:24px;display:flex;overflow:auto}._-UrTq_header{justify-content:space-between;align-items:center;gap:16px;display:flex}._-UrTq_header h1{margin:2px 0 0;font-size:28px}._-UrTq_eyebrow{color:var(--dsw-alias-label-tertiary);letter-spacing:.08em;text-transform:uppercase;margin:0;font-size:12px}._-UrTq_composer{border:1px solid var(--dsw-alias-border-l1);border-radius:14px;flex-direction:column;gap:10px;padding:14px;display:flex}._-UrTq_composer textarea{resize:vertical;border:1px solid var(--dsw-alias-border-l2);box-sizing:border-box;width:100%;min-height:96px;color:inherit;font:inherit;background:0 0;border-radius:10px;padding:12px;line-height:1.6}._-UrTq_controls{flex-wrap:wrap;align-items:center;gap:8px;display:flex}._-UrTq_controls select{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);min-height:34px;color:inherit;border-radius:9px;padding:0 10px}._-UrTq_controls button:last-child{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;margin-left:auto;padding:0 16px}._-UrTq_controls button:disabled{opacity:.45;cursor:not-allowed}._-UrTq_secondary{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;background:0 0;border-radius:9px;padding:0 12px}._-UrTq_progress{color:var(--dsw-alias-label-secondary);margin:0}._-UrTq_error{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover-danger);border-radius:9px;margin:0;padding:10px 12px}._-UrTq_gallery,._-UrTq_history{padding-top:4px}._-UrTq_gallery>*,._-UrTq_historyImages{flex-wrap:wrap;gap:12px;display:flex}._-UrTq_history h2{margin:0 0 10px;font-size:18px}._-UrTq_figure{flex-direction:column;gap:6px;margin:0;display:flex}._-UrTq_figure img{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;max-width:220px;height:auto}._-UrTq_figure figcaption{gap:10px;display:flex}._-UrTq_historyItem{border-top:1px solid var(--dsw-alias-border-l1);padding:14px 0}._-UrTq_historyItem>div:first-child{justify-content:space-between;gap:12px;display:flex}._-UrTq_historyItem time{color:var(--dsw-alias-label-tertiary);font-size:12px}._-UrTq_link{color:var(--dsw-alias-brand-primary);cursor:pointer;background:0 0;border:none;margin-right:12px;padding:0}._-UrTq_empty{color:var(--dsw-alias-label-tertiary)}@media (width<=760px){._-UrTq_root{padding:14px}._-UrTq_controls button:last-child{margin-left:0}}";
-		const tagId$14 = "@dsh-control-center/control-center/PaintingWorkspace.module.css";
-		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$14) + "]") === null) {
+		const css$17 = "._-UrTq_root{background:var(--dsw-alias-bg-base);min-width:0;min-height:0;color:var(--dsw-alias-label-primary);flex-direction:column;flex:1;gap:16px;padding:24px;display:flex;overflow:auto}._-UrTq_header{justify-content:space-between;align-items:center;gap:16px;display:flex}._-UrTq_header h1{margin:2px 0 0;font-size:28px}._-UrTq_eyebrow{color:var(--dsw-alias-label-tertiary);letter-spacing:.08em;text-transform:uppercase;margin:0;font-size:12px}._-UrTq_composer{border:1px solid var(--dsw-alias-border-l1);border-radius:14px;flex-direction:column;gap:10px;padding:14px;display:flex}._-UrTq_composer textarea{resize:vertical;border:1px solid var(--dsw-alias-border-l2);box-sizing:border-box;width:100%;min-height:96px;color:inherit;font:inherit;background:0 0;border-radius:10px;padding:12px;line-height:1.6}._-UrTq_controls{flex-wrap:wrap;align-items:center;gap:8px;display:flex}._-UrTq_controls select{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);min-height:34px;color:inherit;border-radius:9px;padding:0 10px}._-UrTq_controls button:last-child{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;margin-left:auto;padding:0 16px}._-UrTq_controls button:disabled{opacity:.45;cursor:not-allowed}._-UrTq_secondary{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;background:0 0;border-radius:9px;padding:0 12px}._-UrTq_progress{color:var(--dsw-alias-label-secondary);margin:0}._-UrTq_error{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover-danger);border-radius:9px;margin:0;padding:10px 12px}._-UrTq_gallery,._-UrTq_history{padding-top:4px}._-UrTq_gallery>*,._-UrTq_historyImages{flex-wrap:wrap;gap:12px;display:flex}._-UrTq_history h2{margin:0 0 10px;font-size:18px}._-UrTq_figure{flex-direction:column;gap:6px;margin:0;display:flex}._-UrTq_figure img{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;max-width:220px;height:auto}._-UrTq_figure figcaption{gap:10px;display:flex}._-UrTq_historyItem{border-top:1px solid var(--dsw-alias-border-l1);padding:14px 0}._-UrTq_historyItem>div:first-child{justify-content:space-between;gap:12px;display:flex}._-UrTq_historyItem time{color:var(--dsw-alias-label-tertiary);font-size:12px}._-UrTq_link{color:var(--dsw-alias-brand-primary);cursor:pointer;background:0 0;border:none;margin-right:12px;padding:0}._-UrTq_empty{color:var(--dsw-alias-label-tertiary)}@media (width<=760px){._-UrTq_root{padding:14px}._-UrTq_controls button:last-child{margin-left:0}}";
+		const tagId$17 = "@dsh-control-center/control-center/PaintingWorkspace.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$17) + "]") === null) {
 			const tag = document.createElement("style");
 			tag.dataset.plugin = "@dsh-control-center/control-center";
-			tag.dataset.pluginCss = tagId$14;
-			tag.textContent = css$14;
+			tag.dataset.pluginCss = tagId$17;
+			tag.textContent = css$17;
 			document.head.appendChild(tag);
 		}
 		var PaintingWorkspace_module_css_default = {
-			"root": "_-UrTq_root",
+			"error": "_-UrTq_error",
+			"history": "_-UrTq_history",
 			"header": "_-UrTq_header",
-			"eyebrow": "_-UrTq_eyebrow",
 			"gallery": "_-UrTq_gallery",
 			"controls": "_-UrTq_controls",
-			"figure": "_-UrTq_figure",
-			"historyImages": "_-UrTq_historyImages",
-			"historyItem": "_-UrTq_historyItem",
-			"empty": "_-UrTq_empty",
-			"progress": "_-UrTq_progress",
-			"link": "_-UrTq_link",
-			"composer": "_-UrTq_composer",
 			"secondary": "_-UrTq_secondary",
-			"history": "_-UrTq_history",
-			"error": "_-UrTq_error"
+			"link": "_-UrTq_link",
+			"figure": "_-UrTq_figure",
+			"empty": "_-UrTq_empty",
+			"historyItem": "_-UrTq_historyItem",
+			"root": "_-UrTq_root",
+			"eyebrow": "_-UrTq_eyebrow",
+			"composer": "_-UrTq_composer",
+			"progress": "_-UrTq_progress",
+			"historyImages": "_-UrTq_historyImages"
 		};
 		//#endregion
 		//#region lib/types/client/PaintingWorkspace.js
@@ -560,40 +560,40 @@ window.__ModuleLoader__.load({
 		};
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\KnowledgeWorkspace.module.css.mjs
-		const css$13 = ".uHDY1a_root{background:var(--dsw-alias-bg-base);min-width:0;min-height:0;color:var(--dsw-alias-label-primary);flex-direction:column;flex:1;gap:16px;padding:24px;display:flex;overflow:auto}.uHDY1a_header{justify-content:space-between;align-items:center;gap:16px;display:flex}.uHDY1a_header h1{margin:2px 0 0;font-size:28px}.uHDY1a_eyebrow{color:var(--dsw-alias-label-tertiary);letter-spacing:.08em;text-transform:uppercase;margin:0;font-size:12px}.uHDY1a_panel{border:1px solid var(--dsw-alias-border-l1);border-radius:14px;flex-direction:column;gap:10px;padding:14px;display:flex}.uHDY1a_panel h2{margin:0;font-size:16px}.uHDY1a_bases,.uHDY1a_hits,.uHDY1a_chunks{flex-direction:column;gap:10px;display:flex}.uHDY1a_bases h2{margin:0 0 4px;font-size:16px}.uHDY1a_row{flex-wrap:wrap;align-items:center;gap:8px;display:flex}.uHDY1a_row input,.uHDY1a_row textarea{border:1px solid var(--dsw-alias-border-l2);min-width:0;color:inherit;font:inherit;background:0 0;border-radius:9px;flex:1;padding:9px 11px}.uHDY1a_row textarea{resize:vertical;flex-basis:100%;min-height:72px}.uHDY1a_row button{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;padding:0 16px}.uHDY1a_row button:disabled{opacity:.45;cursor:not-allowed}.uHDY1a_primary{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;padding:0 16px}.uHDY1a_secondary{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;background:0 0;border-radius:9px;padding:0 12px}.uHDY1a_link{color:var(--dsw-alias-brand-primary);cursor:pointer;background:0 0;border:none;padding:0}.uHDY1a_fileButton{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;border-radius:9px;align-items:center;padding:0 12px;font-size:14px;display:inline-flex}.uHDY1a_fileButton input{display:none}.uHDY1a_baseCard{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;justify-content:space-between;align-items:center;gap:12px;padding:12px;display:flex}.uHDY1a_baseMeta{flex-direction:column;gap:3px;min-width:0;display:flex}.uHDY1a_baseMeta span{color:var(--dsw-alias-label-tertiary);font-size:12px}.uHDY1a_baseActions{flex-shrink:0;align-items:center;gap:10px;display:flex}.uHDY1a_sourceTabs{flex-direction:column;gap:10px;display:flex}.uHDY1a_sourceItem{border-top:1px solid var(--dsw-alias-border-l1);justify-content:space-between;align-items:center;gap:12px;padding:10px 0;display:flex}.uHDY1a_sourceMeta{flex-direction:column;gap:2px;min-width:0;display:flex}.uHDY1a_sourceMeta span{color:var(--dsw-alias-label-tertiary);font-size:12px}.uHDY1a_muted{color:var(--dsw-alias-label-secondary);margin:0;font-size:13px}.uHDY1a_hits{margin:0;padding-left:20px}.uHDY1a_hit{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;padding:10px}.uHDY1a_hitMeta{justify-content:space-between;gap:12px;display:flex}.uHDY1a_hitMeta span{color:var(--dsw-alias-label-tertiary);font-size:12px}.uHDY1a_hit p{margin:6px 0 0;line-height:1.6}.uHDY1a_chunk{border:1px solid var(--dsw-alias-border-l1);border-radius:8px;padding:8px 10px}.uHDY1a_chunk summary{cursor:pointer;color:var(--dsw-alias-label-secondary)}.uHDY1a_chunk p{white-space:pre-wrap;margin:8px 0 0;line-height:1.6}.uHDY1a_error{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover-danger);border-radius:9px;margin:0;padding:10px 12px}.uHDY1a_empty{color:var(--dsw-alias-label-tertiary)}@media (width<=760px){.uHDY1a_root{padding:14px}.uHDY1a_baseCard{flex-direction:column;align-items:flex-start}}";
-		const tagId$13 = "@dsh-control-center/control-center/KnowledgeWorkspace.module.css";
-		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$13) + "]") === null) {
+		const css$16 = ".uHDY1a_root{background:var(--dsw-alias-bg-base);min-width:0;min-height:0;color:var(--dsw-alias-label-primary);flex-direction:column;flex:1;gap:16px;padding:24px;display:flex;overflow:auto}.uHDY1a_header{justify-content:space-between;align-items:center;gap:16px;display:flex}.uHDY1a_header h1{margin:2px 0 0;font-size:28px}.uHDY1a_eyebrow{color:var(--dsw-alias-label-tertiary);letter-spacing:.08em;text-transform:uppercase;margin:0;font-size:12px}.uHDY1a_panel{border:1px solid var(--dsw-alias-border-l1);border-radius:14px;flex-direction:column;gap:10px;padding:14px;display:flex}.uHDY1a_panel h2{margin:0;font-size:16px}.uHDY1a_bases,.uHDY1a_hits,.uHDY1a_chunks{flex-direction:column;gap:10px;display:flex}.uHDY1a_bases h2{margin:0 0 4px;font-size:16px}.uHDY1a_row{flex-wrap:wrap;align-items:center;gap:8px;display:flex}.uHDY1a_row input,.uHDY1a_row textarea{border:1px solid var(--dsw-alias-border-l2);min-width:0;color:inherit;font:inherit;background:0 0;border-radius:9px;flex:1;padding:9px 11px}.uHDY1a_row textarea{resize:vertical;flex-basis:100%;min-height:72px}.uHDY1a_row button{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;padding:0 16px}.uHDY1a_row button:disabled{opacity:.45;cursor:not-allowed}.uHDY1a_primary{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;padding:0 16px}.uHDY1a_secondary{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;background:0 0;border-radius:9px;padding:0 12px}.uHDY1a_link{color:var(--dsw-alias-brand-primary);cursor:pointer;background:0 0;border:none;padding:0}.uHDY1a_fileButton{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;border-radius:9px;align-items:center;padding:0 12px;font-size:14px;display:inline-flex}.uHDY1a_fileButton input{display:none}.uHDY1a_baseCard{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;justify-content:space-between;align-items:center;gap:12px;padding:12px;display:flex}.uHDY1a_baseMeta{flex-direction:column;gap:3px;min-width:0;display:flex}.uHDY1a_baseMeta span{color:var(--dsw-alias-label-tertiary);font-size:12px}.uHDY1a_baseActions{flex-shrink:0;align-items:center;gap:10px;display:flex}.uHDY1a_sourceTabs{flex-direction:column;gap:10px;display:flex}.uHDY1a_sourceItem{border-top:1px solid var(--dsw-alias-border-l1);justify-content:space-between;align-items:center;gap:12px;padding:10px 0;display:flex}.uHDY1a_sourceMeta{flex-direction:column;gap:2px;min-width:0;display:flex}.uHDY1a_sourceMeta span{color:var(--dsw-alias-label-tertiary);font-size:12px}.uHDY1a_muted{color:var(--dsw-alias-label-secondary);margin:0;font-size:13px}.uHDY1a_hits{margin:0;padding-left:20px}.uHDY1a_hit{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;padding:10px}.uHDY1a_hitMeta{justify-content:space-between;gap:12px;display:flex}.uHDY1a_hitMeta span{color:var(--dsw-alias-label-tertiary);font-size:12px}.uHDY1a_hit p{margin:6px 0 0;line-height:1.6}.uHDY1a_chunk{border:1px solid var(--dsw-alias-border-l1);border-radius:8px;padding:8px 10px}.uHDY1a_chunk summary{cursor:pointer;color:var(--dsw-alias-label-secondary)}.uHDY1a_chunk p{white-space:pre-wrap;margin:8px 0 0;line-height:1.6}.uHDY1a_error{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover-danger);border-radius:9px;margin:0;padding:10px 12px}.uHDY1a_empty{color:var(--dsw-alias-label-tertiary)}@media (width<=760px){.uHDY1a_root{padding:14px}.uHDY1a_baseCard{flex-direction:column;align-items:flex-start}}";
+		const tagId$16 = "@dsh-control-center/control-center/KnowledgeWorkspace.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$16) + "]") === null) {
 			const tag = document.createElement("style");
 			tag.dataset.plugin = "@dsh-control-center/control-center";
-			tag.dataset.pluginCss = tagId$13;
-			tag.textContent = css$13;
+			tag.dataset.pluginCss = tagId$16;
+			tag.textContent = css$16;
 			document.head.appendChild(tag);
 		}
 		var KnowledgeWorkspace_module_css_default = {
-			"muted": "uHDY1a_muted",
-			"hit": "uHDY1a_hit",
-			"empty": "uHDY1a_empty",
+			"error": "uHDY1a_error",
+			"link": "uHDY1a_link",
 			"chunks": "uHDY1a_chunks",
+			"header": "uHDY1a_header",
+			"panel": "uHDY1a_panel",
 			"chunk": "uHDY1a_chunk",
-			"root": "uHDY1a_root",
+			"muted": "uHDY1a_muted",
+			"empty": "uHDY1a_empty",
 			"primary": "uHDY1a_primary",
+			"hit": "uHDY1a_hit",
+			"fileButton": "uHDY1a_fileButton",
+			"sourceMeta": "uHDY1a_sourceMeta",
+			"eyebrow": "uHDY1a_eyebrow",
 			"sourceItem": "uHDY1a_sourceItem",
+			"bases": "uHDY1a_bases",
+			"baseActions": "uHDY1a_baseActions",
+			"sourceTabs": "uHDY1a_sourceTabs",
 			"hitMeta": "uHDY1a_hitMeta",
 			"baseCard": "uHDY1a_baseCard",
-			"hits": "uHDY1a_hits",
-			"eyebrow": "uHDY1a_eyebrow",
-			"bases": "uHDY1a_bases",
-			"sourceTabs": "uHDY1a_sourceTabs",
-			"fileButton": "uHDY1a_fileButton",
-			"link": "uHDY1a_link",
-			"panel": "uHDY1a_panel",
+			"row": "uHDY1a_row",
 			"secondary": "uHDY1a_secondary",
-			"baseActions": "uHDY1a_baseActions",
-			"sourceMeta": "uHDY1a_sourceMeta",
-			"header": "uHDY1a_header",
-			"error": "uHDY1a_error",
 			"baseMeta": "uHDY1a_baseMeta",
-			"row": "uHDY1a_row"
+			"root": "uHDY1a_root",
+			"hits": "uHDY1a_hits"
 		};
 		//#endregion
 		//#region lib/types/client/KnowledgeWorkspace.js
@@ -1188,47 +1188,47 @@ window.__ModuleLoader__.load({
 		};
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\SkillsSection.module.css.mjs
-		const css$12 = ".pyHmqW_root{background:var(--color-background-base);flex-direction:column;flex:1;min-height:0;display:flex}.pyHmqW_header{border-bottom:1px solid var(--color-border-subtle);justify-content:space-between;align-items:center;padding:16px 24px;display:flex}.pyHmqW_headerLeft{flex-direction:column;gap:4px;display:flex}.pyHmqW_title{color:var(--color-text-primary);font-size:20px;font-weight:600;line-height:28px}.pyHmqW_description{color:var(--color-text-secondary);font-size:14px;line-height:20px}.pyHmqW_headerActions{align-items:center;gap:8px;display:flex}.pyHmqW_searchRow{border-bottom:1px solid var(--color-border-subtle);align-items:center;gap:12px;padding:12px 24px;display:flex}.pyHmqW_searchInput{border:1px solid var(--color-border-base);background:var(--color-background-elevated);height:32px;color:var(--color-text-primary);border-radius:6px;flex:1;padding:0 12px;font-size:14px;transition:border-color .2s}.pyHmqW_searchInput:focus{border-color:var(--color-accent-primary);outline:none}.pyHmqW_searchInput::placeholder{color:var(--color-text-tertiary)}.pyHmqW_content{flex:1;min-height:0;padding:24px;overflow-y:auto}.pyHmqW_grid{grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;display:grid}.pyHmqW_card{border:1px solid var(--color-border-subtle);background:var(--color-background-elevated);cursor:pointer;border-radius:8px;flex-direction:column;padding:16px;transition:all .2s;display:flex}.pyHmqW_card:hover{border-color:var(--color-border-base);box-shadow:0 2px 8px #00000014}.pyHmqW_cardHeader{justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;display:flex}.pyHmqW_cardTitle{color:var(--color-text-primary);flex:1;font-size:16px;font-weight:600;line-height:22px}.pyHmqW_cardActions{opacity:0;align-items:center;gap:4px;transition:opacity .2s;display:flex}.pyHmqW_card:hover .pyHmqW_cardActions{opacity:1}.pyHmqW_cardDescription{color:var(--color-text-secondary);text-overflow:ellipsis;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin-bottom:12px;font-size:14px;line-height:20px;display:-webkit-box;overflow:hidden}.pyHmqW_cardMeta{color:var(--color-text-tertiary);align-items:center;gap:12px;font-size:13px;display:flex}.pyHmqW_cardMetaItem{align-items:center;gap:4px;display:flex}.pyHmqW_cardFooter{border-top:1px solid var(--color-border-subtle);justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;display:flex}.pyHmqW_cardTags{flex-wrap:wrap;gap:6px;display:flex}.pyHmqW_tag{background:var(--color-background-base);color:var(--color-text-secondary);border-radius:4px;padding:2px 8px;font-size:12px;line-height:18px}.pyHmqW_enabledBadge{background:var(--color-success-bg);color:var(--color-success-text);border-radius:4px;padding:2px 8px;font-size:12px;font-weight:500;line-height:18px}.pyHmqW_disabledBadge{background:var(--color-background-base);color:var(--color-text-tertiary);border-radius:4px;padding:2px 8px;font-size:12px;line-height:18px}.pyHmqW_iconButton{width:28px;height:28px;color:var(--color-text-secondary);cursor:pointer;background:0 0;border:none;border-radius:4px;justify-content:center;align-items:center;padding:0;transition:all .2s;display:inline-flex}.pyHmqW_iconButton:hover{background:var(--color-background-base);color:var(--color-text-primary)}.pyHmqW_primaryButton{background:var(--color-accent-primary);color:#fff;cursor:pointer;border:none;border-radius:6px;justify-content:center;align-items:center;gap:6px;height:32px;padding:0 16px;font-size:14px;font-weight:500;transition:all .2s;display:inline-flex}.pyHmqW_primaryButton:hover{background:var(--color-accent-primary-hover)}.pyHmqW_secondaryButton{border:1px solid var(--color-border-base);background:var(--color-background-elevated);height:32px;color:var(--color-text-primary);cursor:pointer;border-radius:6px;justify-content:center;align-items:center;gap:6px;padding:0 16px;font-size:14px;transition:all .2s;display:inline-flex}.pyHmqW_secondaryButton:hover{border-color:var(--color-border-hover);background:var(--color-background-base)}.pyHmqW_empty{text-align:center;flex-direction:column;justify-content:center;align-items:center;padding:64px 24px;display:flex}.pyHmqW_emptyIcon{width:64px;height:64px;color:var(--color-text-tertiary);margin-bottom:16px}.pyHmqW_emptyTitle{color:var(--color-text-primary);margin-bottom:8px;font-size:16px;font-weight:600}.pyHmqW_emptyDescription{color:var(--color-text-secondary);max-width:400px;margin-bottom:24px;font-size:14px}.pyHmqW_error{text-align:center;color:var(--color-error-text);flex-direction:column;justify-content:center;align-items:center;padding:64px 24px;display:flex}.pyHmqW_loading{color:var(--color-text-tertiary);justify-content:center;align-items:center;padding:64px 24px;display:flex}";
-		const tagId$12 = "@dsh-control-center/control-center/SkillsSection.module.css";
-		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$12) + "]") === null) {
+		const css$15 = ".pyHmqW_root{background:var(--color-background-base);flex-direction:column;flex:1;min-height:0;display:flex}.pyHmqW_header{border-bottom:1px solid var(--color-border-subtle);justify-content:space-between;align-items:center;padding:16px 24px;display:flex}.pyHmqW_headerLeft{flex-direction:column;gap:4px;display:flex}.pyHmqW_title{color:var(--color-text-primary);font-size:20px;font-weight:600;line-height:28px}.pyHmqW_description{color:var(--color-text-secondary);font-size:14px;line-height:20px}.pyHmqW_headerActions{align-items:center;gap:8px;display:flex}.pyHmqW_searchRow{border-bottom:1px solid var(--color-border-subtle);align-items:center;gap:12px;padding:12px 24px;display:flex}.pyHmqW_searchInput{border:1px solid var(--color-border-base);background:var(--color-background-elevated);height:32px;color:var(--color-text-primary);border-radius:6px;flex:1;padding:0 12px;font-size:14px;transition:border-color .2s}.pyHmqW_searchInput:focus{border-color:var(--color-accent-primary);outline:none}.pyHmqW_searchInput::placeholder{color:var(--color-text-tertiary)}.pyHmqW_content{flex:1;min-height:0;padding:24px;overflow-y:auto}.pyHmqW_grid{grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;display:grid}.pyHmqW_card{border:1px solid var(--color-border-subtle);background:var(--color-background-elevated);cursor:pointer;border-radius:8px;flex-direction:column;padding:16px;transition:all .2s;display:flex}.pyHmqW_card:hover{border-color:var(--color-border-base);box-shadow:0 2px 8px #00000014}.pyHmqW_cardHeader{justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;display:flex}.pyHmqW_cardTitle{color:var(--color-text-primary);flex:1;font-size:16px;font-weight:600;line-height:22px}.pyHmqW_cardActions{opacity:0;align-items:center;gap:4px;transition:opacity .2s;display:flex}.pyHmqW_card:hover .pyHmqW_cardActions{opacity:1}.pyHmqW_cardDescription{color:var(--color-text-secondary);text-overflow:ellipsis;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin-bottom:12px;font-size:14px;line-height:20px;display:-webkit-box;overflow:hidden}.pyHmqW_cardMeta{color:var(--color-text-tertiary);align-items:center;gap:12px;font-size:13px;display:flex}.pyHmqW_cardMetaItem{align-items:center;gap:4px;display:flex}.pyHmqW_cardFooter{border-top:1px solid var(--color-border-subtle);justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;display:flex}.pyHmqW_cardTags{flex-wrap:wrap;gap:6px;display:flex}.pyHmqW_tag{background:var(--color-background-base);color:var(--color-text-secondary);border-radius:4px;padding:2px 8px;font-size:12px;line-height:18px}.pyHmqW_enabledBadge{background:var(--color-success-bg);color:var(--color-success-text);border-radius:4px;padding:2px 8px;font-size:12px;font-weight:500;line-height:18px}.pyHmqW_disabledBadge{background:var(--color-background-base);color:var(--color-text-tertiary);border-radius:4px;padding:2px 8px;font-size:12px;line-height:18px}.pyHmqW_iconButton{width:28px;height:28px;color:var(--color-text-secondary);cursor:pointer;background:0 0;border:none;border-radius:4px;justify-content:center;align-items:center;padding:0;transition:all .2s;display:inline-flex}.pyHmqW_iconButton:hover{background:var(--color-background-base);color:var(--color-text-primary)}.pyHmqW_primaryButton{background:var(--color-accent-primary);color:#fff;cursor:pointer;border:none;border-radius:6px;justify-content:center;align-items:center;gap:6px;height:32px;padding:0 16px;font-size:14px;font-weight:500;transition:all .2s;display:inline-flex}.pyHmqW_primaryButton:hover{background:var(--color-accent-primary-hover)}.pyHmqW_secondaryButton{border:1px solid var(--color-border-base);background:var(--color-background-elevated);height:32px;color:var(--color-text-primary);cursor:pointer;border-radius:6px;justify-content:center;align-items:center;gap:6px;padding:0 16px;font-size:14px;transition:all .2s;display:inline-flex}.pyHmqW_secondaryButton:hover{border-color:var(--color-border-hover);background:var(--color-background-base)}.pyHmqW_empty{text-align:center;flex-direction:column;justify-content:center;align-items:center;padding:64px 24px;display:flex}.pyHmqW_emptyIcon{width:64px;height:64px;color:var(--color-text-tertiary);margin-bottom:16px}.pyHmqW_emptyTitle{color:var(--color-text-primary);margin-bottom:8px;font-size:16px;font-weight:600}.pyHmqW_emptyDescription{color:var(--color-text-secondary);max-width:400px;margin-bottom:24px;font-size:14px}.pyHmqW_error{text-align:center;color:var(--color-error-text);flex-direction:column;justify-content:center;align-items:center;padding:64px 24px;display:flex}.pyHmqW_loading{color:var(--color-text-tertiary);justify-content:center;align-items:center;padding:64px 24px;display:flex}";
+		const tagId$15 = "@dsh-control-center/control-center/SkillsSection.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$15) + "]") === null) {
 			const tag = document.createElement("style");
 			tag.dataset.plugin = "@dsh-control-center/control-center";
-			tag.dataset.pluginCss = tagId$12;
-			tag.textContent = css$12;
+			tag.dataset.pluginCss = tagId$15;
+			tag.textContent = css$15;
 			document.head.appendChild(tag);
 		}
 		var SkillsSection_module_css_default = {
-			"searchInput": "pyHmqW_searchInput",
-			"content": "pyHmqW_content",
-			"cardTitle": "pyHmqW_cardTitle",
-			"loading": "pyHmqW_loading",
-			"secondaryButton": "pyHmqW_secondaryButton",
-			"emptyTitle": "pyHmqW_emptyTitle",
-			"header": "pyHmqW_header",
 			"cardFooter": "pyHmqW_cardFooter",
-			"error": "pyHmqW_error",
-			"cardMeta": "pyHmqW_cardMeta",
-			"grid": "pyHmqW_grid",
-			"headerLeft": "pyHmqW_headerLeft",
-			"cardTags": "pyHmqW_cardTags",
-			"emptyIcon": "pyHmqW_emptyIcon",
-			"searchRow": "pyHmqW_searchRow",
-			"root": "pyHmqW_root",
-			"cardDescription": "pyHmqW_cardDescription",
-			"cardMetaItem": "pyHmqW_cardMetaItem",
-			"primaryButton": "pyHmqW_primaryButton",
-			"tag": "pyHmqW_tag",
-			"empty": "pyHmqW_empty",
-			"emptyDescription": "pyHmqW_emptyDescription",
-			"iconButton": "pyHmqW_iconButton",
-			"description": "pyHmqW_description",
-			"headerActions": "pyHmqW_headerActions",
-			"disabledBadge": "pyHmqW_disabledBadge",
 			"cardHeader": "pyHmqW_cardHeader",
-			"title": "pyHmqW_title",
+			"searchInput": "pyHmqW_searchInput",
+			"header": "pyHmqW_header",
+			"cardTitle": "pyHmqW_cardTitle",
+			"disabledBadge": "pyHmqW_disabledBadge",
+			"emptyDescription": "pyHmqW_emptyDescription",
+			"cardTags": "pyHmqW_cardTags",
+			"headerActions": "pyHmqW_headerActions",
+			"content": "pyHmqW_content",
+			"searchRow": "pyHmqW_searchRow",
+			"cardDescription": "pyHmqW_cardDescription",
+			"grid": "pyHmqW_grid",
+			"cardMetaItem": "pyHmqW_cardMetaItem",
 			"enabledBadge": "pyHmqW_enabledBadge",
+			"empty": "pyHmqW_empty",
+			"iconButton": "pyHmqW_iconButton",
+			"emptyIcon": "pyHmqW_emptyIcon",
+			"title": "pyHmqW_title",
+			"root": "pyHmqW_root",
+			"loading": "pyHmqW_loading",
+			"primaryButton": "pyHmqW_primaryButton",
+			"cardMeta": "pyHmqW_cardMeta",
+			"emptyTitle": "pyHmqW_emptyTitle",
+			"secondaryButton": "pyHmqW_secondaryButton",
+			"description": "pyHmqW_description",
+			"tag": "pyHmqW_tag",
+			"cardActions": "pyHmqW_cardActions",
 			"card": "pyHmqW_card",
-			"cardActions": "pyHmqW_cardActions"
+			"error": "pyHmqW_error",
+			"headerLeft": "pyHmqW_headerLeft"
 		};
 		//#endregion
 		//#region lib/types/client/SkillsSection.js
@@ -1606,8 +1606,830 @@ window.__ModuleLoader__.load({
 			}))
 		};
 		//#endregion
+		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\ProviderAuthentication.module.css.mjs
+		const css$14 = ".AU4RWG_section{flex-direction:column;gap:20px;display:flex}.AU4RWG_sectionTitle{color:var(--color-text-primary,#e5e5e5);font-size:14px;font-weight:600;line-height:20px}.AU4RWG_field{flex-direction:column;gap:8px;display:flex}.AU4RWG_fieldLabel{color:var(--color-text-secondary,#a0a0a0);justify-content:space-between;align-items:center;font-size:12px;font-weight:500;line-height:16px;display:flex}.AU4RWG_fieldLink{color:var(--color-accent,#3b82f6);font-size:12px;font-weight:500;text-decoration:none;transition:opacity .15s}.AU4RWG_fieldLink:hover{opacity:.8}.AU4RWG_inputRow{align-items:stretch;gap:8px;display:flex}.AU4RWG_inputGroup{border:1px solid var(--color-border-base,#2a2a2a);background:var(--color-surface-elevated,#1a1a1a);border-radius:10px;flex:1;align-items:stretch;height:32px;transition:border-color .15s;display:flex;position:relative;overflow:hidden}.AU4RWG_inputGroup:focus-within{border-color:var(--color-accent,#3b82f6)}.AU4RWG_input{height:100%;color:var(--color-text-primary,#e5e5e5);background:0 0;border:none;outline:none;flex:1;padding:0 10px;font-size:14px}.AU4RWG_input::placeholder{color:var(--color-text-tertiary,#6a6a6a)}.AU4RWG_input[type=password]{letter-spacing:.15em;font-family:text-security-disc,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif}.AU4RWG_inputAddon{width:32px;height:100%;color:var(--color-text-tertiary,#6a6a6a);cursor:pointer;background:0 0;border:none;justify-content:center;align-items:center;padding:0;transition:color .15s;display:flex}.AU4RWG_inputAddon:hover{color:var(--color-text-secondary,#a0a0a0)}.AU4RWG_iconButton{width:32px;height:32px;color:var(--color-text-secondary,#a0a0a0);background:var(--color-surface-elevated,#1a1a1a);border:1px solid var(--color-border-base,#2a2a2a);cursor:pointer;border-radius:10px;flex-shrink:0;justify-content:center;align-items:center;padding:0;transition:all .15s;display:flex}.AU4RWG_iconButton:hover:not(:disabled){color:var(--color-text-primary,#e5e5e5);border-color:var(--color-border-hover,#3a3a3a);background:var(--color-surface-hover,#242424)}.AU4RWG_iconButton:disabled{opacity:.4;cursor:not-allowed}.AU4RWG_spin{animation:1s linear infinite AU4RWG_spin}@keyframes AU4RWG_spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}.AU4RWG_successMessage{color:var(--color-success,#10b981);font-size:12px;line-height:16px}.AU4RWG_errorMessage{color:var(--color-error,#ef4444);font-size:12px;line-height:16px}.AU4RWG_actionRow{align-items:center;gap:8px;display:flex}.AU4RWG_primaryButton{color:#fff;background:var(--color-accent,#3b82f6);cursor:pointer;border:none;border-radius:10px;height:32px;padding:0 16px;font-size:14px;font-weight:500;transition:opacity .15s}.AU4RWG_primaryButton:hover:not(:disabled){opacity:.9}.AU4RWG_primaryButton:disabled{opacity:.4;cursor:not-allowed}.AU4RWG_secondaryButton{height:32px;color:var(--color-text-primary,#e5e5e5);background:var(--color-surface-elevated,#1a1a1a);border:1px solid var(--color-border-base,#2a2a2a);cursor:pointer;border-radius:10px;padding:0 16px;font-size:14px;font-weight:500;transition:all .15s}.AU4RWG_secondaryButton:hover:not(:disabled){border-color:var(--color-border-hover,#3a3a3a);background:var(--color-surface-hover,#242424)}.AU4RWG_secondaryButton:disabled{opacity:.4;cursor:not-allowed}.AU4RWG_timestamp{color:var(--color-text-tertiary,#6a6a6a);font-size:12px;line-height:16px}";
+		const tagId$14 = "@dsh-control-center/control-center/ProviderAuthentication.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$14) + "]") === null) {
+			const tag = document.createElement("style");
+			tag.dataset.plugin = "@dsh-control-center/control-center";
+			tag.dataset.pluginCss = tagId$14;
+			tag.textContent = css$14;
+			document.head.appendChild(tag);
+		}
+		var ProviderAuthentication_module_css_default = {
+			"fieldLabel": "AU4RWG_fieldLabel",
+			"secondaryButton": "AU4RWG_secondaryButton",
+			"actionRow": "AU4RWG_actionRow",
+			"primaryButton": "AU4RWG_primaryButton",
+			"field": "AU4RWG_field",
+			"spin": "AU4RWG_spin",
+			"timestamp": "AU4RWG_timestamp",
+			"inputAddon": "AU4RWG_inputAddon",
+			"fieldLink": "AU4RWG_fieldLink",
+			"successMessage": "AU4RWG_successMessage",
+			"errorMessage": "AU4RWG_errorMessage",
+			"iconButton": "AU4RWG_iconButton",
+			"inputGroup": "AU4RWG_inputGroup",
+			"section": "AU4RWG_section",
+			"sectionTitle": "AU4RWG_sectionTitle",
+			"input": "AU4RWG_input",
+			"inputRow": "AU4RWG_inputRow"
+		};
+		//#endregion
+		//#region lib/types/client/ProviderAuthentication.js
+		function ProviderAuthentication({ provider, onUpdateProvider, onTestConnection, onDiscoverModels, isTestingConnection, isDiscoveringModels, connectionTestResult }) {
+			const [apiKey, setApiKey] = (0, react.useState)("");
+			const [baseURL, setBaseURL] = (0, react.useState)(provider.baseURL || "");
+			const [showApiKey, setShowApiKey] = (0, react.useState)(false);
+			const [hasEdits, setHasEdits] = (0, react.useState)(false);
+			(0, react.useEffect)(() => {
+				setBaseURL(provider.baseURL || "");
+				setApiKey("");
+				setHasEdits(false);
+			}, [provider.id, provider.baseURL]);
+			const handleApiKeyChange = (0, react.useCallback)((value) => {
+				setApiKey(value);
+				setHasEdits(true);
+			}, []);
+			const handleBaseURLChange = (0, react.useCallback)((value) => {
+				setBaseURL(value);
+				setHasEdits(true);
+			}, []);
+			const handleSave = (0, react.useCallback)(async () => {
+				if (!hasEdits) return;
+				await onUpdateProvider({
+					...apiKey ? { apiKey } : {},
+					...baseURL !== provider.baseURL ? { baseURL } : {}
+				});
+				setHasEdits(false);
+				setApiKey("");
+			}, [
+				hasEdits,
+				apiKey,
+				baseURL,
+				provider.baseURL,
+				onUpdateProvider
+			]);
+			return (0, react_jsx_runtime.jsxs)("section", {
+				className: ProviderAuthentication_module_css_default.section,
+				children: [
+					(0, react_jsx_runtime.jsx)("div", {
+						className: ProviderAuthentication_module_css_default.sectionTitle,
+						children: "Authentication"
+					}),
+					(0, react_jsx_runtime.jsxs)("div", {
+						className: ProviderAuthentication_module_css_default.field,
+						children: [
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: ProviderAuthentication_module_css_default.fieldLabel,
+								children: [(0, react_jsx_runtime.jsx)("span", { children: "API Key" }), (0, react_jsx_runtime.jsx)("a", {
+									href: getApiKeyUrl(provider.type),
+									target: "_blank",
+									rel: "noopener noreferrer",
+									className: ProviderAuthentication_module_css_default.fieldLink,
+									children: "Get API Key"
+								})]
+							}),
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: ProviderAuthentication_module_css_default.inputRow,
+								children: [(0, react_jsx_runtime.jsxs)("div", {
+									className: ProviderAuthentication_module_css_default.inputGroup,
+									children: [(0, react_jsx_runtime.jsx)("input", {
+										type: showApiKey ? "text" : "password",
+										className: ProviderAuthentication_module_css_default.input,
+										value: apiKey,
+										placeholder: provider.hasApiKey ? "••••••••••••••••" : "Enter your API key",
+										onChange: (e) => handleApiKeyChange(e.target.value)
+									}), (0, react_jsx_runtime.jsx)("button", {
+										type: "button",
+										className: ProviderAuthentication_module_css_default.inputAddon,
+										onClick: () => setShowApiKey(!showApiKey),
+										title: showApiKey ? "Hide API key" : "Show API key",
+										children: (0, react_jsx_runtime.jsx)("svg", {
+											width: "14",
+											height: "14",
+											viewBox: "0 0 24 24",
+											fill: "none",
+											stroke: "currentColor",
+											strokeWidth: "2",
+											children: showApiKey ? (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsx)("path", { d: "M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" }), (0, react_jsx_runtime.jsx)("line", {
+												x1: "1",
+												y1: "1",
+												x2: "23",
+												y2: "23"
+											})] }) : (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsx)("path", { d: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" }), (0, react_jsx_runtime.jsx)("circle", {
+												cx: "12",
+												cy: "12",
+												r: "3"
+											})] })
+										})
+									})]
+								}), (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: ProviderAuthentication_module_css_default.iconButton,
+									onClick: onTestConnection,
+									disabled: isTestingConnection || !provider.hasApiKey && !apiKey,
+									title: "Test connection",
+									children: isTestingConnection ? (0, react_jsx_runtime.jsx)("svg", {
+										width: "14",
+										height: "14",
+										viewBox: "0 0 24 24",
+										fill: "none",
+										stroke: "currentColor",
+										strokeWidth: "2",
+										className: ProviderAuthentication_module_css_default.spin,
+										children: (0, react_jsx_runtime.jsx)("path", { d: "M21 12a9 9 0 1 1-6.219-8.56" })
+									}) : (0, react_jsx_runtime.jsx)("svg", {
+										width: "14",
+										height: "14",
+										viewBox: "0 0 24 24",
+										fill: "none",
+										stroke: "currentColor",
+										strokeWidth: "2",
+										children: (0, react_jsx_runtime.jsx)("polyline", { points: "22 12 18 12 15 21 9 3 6 12 2 12" })
+									})
+								})]
+							}),
+							connectionTestResult && (0, react_jsx_runtime.jsx)("div", {
+								className: connectionTestResult.success ? ProviderAuthentication_module_css_default.successMessage : ProviderAuthentication_module_css_default.errorMessage,
+								children: connectionTestResult.success ? `Connected successfully (${connectionTestResult.latencyMs}ms)` : connectionTestResult.error
+							})
+						]
+					}),
+					(0, react_jsx_runtime.jsxs)("div", {
+						className: ProviderAuthentication_module_css_default.field,
+						children: [(0, react_jsx_runtime.jsx)("div", {
+							className: ProviderAuthentication_module_css_default.fieldLabel,
+							children: (0, react_jsx_runtime.jsx)("span", { children: "Base URL" })
+						}), (0, react_jsx_runtime.jsx)("input", {
+							type: "text",
+							className: ProviderAuthentication_module_css_default.input,
+							value: baseURL,
+							placeholder: "https://api.example.com",
+							onChange: (e) => handleBaseURLChange(e.target.value)
+						})]
+					}),
+					hasEdits && (0, react_jsx_runtime.jsxs)("div", {
+						className: ProviderAuthentication_module_css_default.actionRow,
+						children: [(0, react_jsx_runtime.jsx)("button", {
+							type: "button",
+							className: ProviderAuthentication_module_css_default.primaryButton,
+							onClick: handleSave,
+							children: "Save Changes"
+						}), (0, react_jsx_runtime.jsx)("button", {
+							type: "button",
+							className: ProviderAuthentication_module_css_default.secondaryButton,
+							onClick: () => {
+								setApiKey("");
+								setBaseURL(provider.baseURL || "");
+								setHasEdits(false);
+							},
+							children: "Cancel"
+						})]
+					}),
+					(0, react_jsx_runtime.jsxs)("div", {
+						className: ProviderAuthentication_module_css_default.actionRow,
+						children: [(0, react_jsx_runtime.jsx)("button", {
+							type: "button",
+							className: ProviderAuthentication_module_css_default.secondaryButton,
+							onClick: onDiscoverModels,
+							disabled: isDiscoveringModels || !provider.hasApiKey && !apiKey,
+							children: isDiscoveringModels ? "Discovering..." : "Discover Models"
+						}), provider.lastDiscoveredAt && (0, react_jsx_runtime.jsxs)("span", {
+							className: ProviderAuthentication_module_css_default.timestamp,
+							children: ["Last discovered: ", new Date(provider.lastDiscoveredAt).toLocaleString()]
+						})]
+					})
+				]
+			});
+		}
+		function getApiKeyUrl(providerType) {
+			return {
+				openai: "https://platform.openai.com/api-keys",
+				anthropic: "https://console.anthropic.com/settings/keys",
+				gemini: "https://aistudio.google.com/app/apikey",
+				deepseek: "https://platform.deepseek.com/api_keys",
+				groq: "https://console.groq.com/keys",
+				"mistral-ai": "https://console.mistral.ai/api-keys",
+				cohere: "https://dashboard.cohere.com/api-keys"
+			}[providerType] || "#";
+		}
+		//#endregion
+		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\ProviderModelList.module.css.mjs
+		const css$13 = "._2yiUCa_section{flex-direction:column;gap:20px;display:flex}._2yiUCa_sectionHeaderRow{justify-content:space-between;align-items:center;gap:12px;display:flex}._2yiUCa_sectionHeading{color:var(--color-text-primary,#e5e5e5);margin:0;font-size:14px;font-weight:600;line-height:20px}._2yiUCa_headerMeta{align-items:center;gap:8px;display:flex}._2yiUCa_countBadge{min-width:20px;height:20px;color:var(--color-text-primary,#e5e5e5);background:var(--color-surface-elevated,#1a1a1a);border:1px solid var(--color-border-base,#2a2a2a);border-radius:10px;justify-content:center;align-items:center;padding:0 6px;font-size:11px;font-weight:600;line-height:1;display:inline-flex}._2yiUCa_enabledCount{color:var(--color-text-tertiary,#6a6a6a);font-size:12px;line-height:16px}._2yiUCa_emptyState{text-align:center;flex-direction:column;align-items:center;gap:12px;padding:48px 24px;display:flex}._2yiUCa_emptyIcon{color:var(--color-text-tertiary,#6a6a6a)}._2yiUCa_emptyText{color:var(--color-text-secondary,#a0a0a0);font-size:14px;font-weight:500;line-height:20px}._2yiUCa_emptyHint{color:var(--color-text-tertiary,#6a6a6a);max-width:320px;font-size:12px;line-height:16px}._2yiUCa_modelGroup{flex-direction:column;gap:8px;display:flex}._2yiUCa_groupHeader{align-items:center;gap:8px;padding:0 4px;display:flex}._2yiUCa_groupTitle{color:var(--color-text-secondary,#a0a0a0);text-transform:uppercase;letter-spacing:.05em;font-size:12px;font-weight:600;line-height:16px}._2yiUCa_groupCount{color:var(--color-text-tertiary,#6a6a6a);font-size:11px;font-weight:500;line-height:16px}._2yiUCa_modelList{flex-direction:column;gap:4px;display:flex}._2yiUCa_modelItem{background:var(--color-surface-base,#0f0f0f);border:1px solid var(--color-border-base,#2a2a2a);border-radius:10px;justify-content:space-between;align-items:center;gap:12px;padding:8px 12px;transition:all .15s;display:flex}._2yiUCa_modelItem:hover{background:var(--color-surface-hover,#1a1a1a);border-color:var(--color-border-hover,#3a3a3a)}._2yiUCa_modelItemDisabled{opacity:.5}._2yiUCa_modelMain{flex:1;align-items:center;gap:10px;min-width:0;display:flex}._2yiUCa_modelIcon{width:32px;height:32px;color:var(--color-accent,#3b82f6);background:var(--color-surface-elevated,#1a1a1a);border-radius:8px;flex-shrink:0;justify-content:center;align-items:center;display:flex}._2yiUCa_modelInfo{flex-direction:column;flex:1;gap:4px;min-width:0;display:flex}._2yiUCa_modelName{color:var(--color-text-primary,#e5e5e5);white-space:nowrap;text-overflow:ellipsis;font-size:13px;font-weight:500;line-height:18px;overflow:hidden}._2yiUCa_modelMeta{flex-wrap:wrap;align-items:center;gap:8px;display:flex}._2yiUCa_metaItem{color:var(--color-text-tertiary,#6a6a6a);align-items:center;gap:4px;font-size:11px;line-height:14px;display:flex}._2yiUCa_metaItem svg{flex-shrink:0}._2yiUCa_toggleButton{cursor:pointer;background:0 0;border:none;flex-shrink:0;justify-content:center;align-items:center;padding:0;display:flex}._2yiUCa_toggleTrack{background:var(--color-surface-elevated,#1a1a1a);border:1px solid var(--color-border-base,#2a2a2a);border-radius:10px;width:36px;height:20px;transition:all .2s;display:block;position:relative}._2yiUCa_toggleButtonEnabled ._2yiUCa_toggleTrack{background:var(--color-accent,#3b82f6);border-color:var(--color-accent,#3b82f6)}._2yiUCa_toggleThumb{background:#fff;border-radius:7px;width:14px;height:14px;transition:transform .2s;position:absolute;top:2px;left:2px}._2yiUCa_toggleButtonEnabled ._2yiUCa_toggleThumb{transform:translate(16px)}._2yiUCa_discoveryInfo{color:var(--color-text-tertiary,#6a6a6a);text-align:center;border-top:1px solid var(--color-border-subtle,#1a1a1a);padding:8px 12px;font-size:11px;line-height:14px}";
+		const tagId$13 = "@dsh-control-center/control-center/ProviderModelList.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$13) + "]") === null) {
+			const tag = document.createElement("style");
+			tag.dataset.plugin = "@dsh-control-center/control-center";
+			tag.dataset.pluginCss = tagId$13;
+			tag.textContent = css$13;
+			document.head.appendChild(tag);
+		}
+		var ProviderModelList_module_css_default = {
+			"modelMeta": "_2yiUCa_modelMeta",
+			"toggleButtonEnabled": "_2yiUCa_toggleButtonEnabled",
+			"emptyIcon": "_2yiUCa_emptyIcon",
+			"toggleThumb": "_2yiUCa_toggleThumb",
+			"modelIcon": "_2yiUCa_modelIcon",
+			"emptyState": "_2yiUCa_emptyState",
+			"discoveryInfo": "_2yiUCa_discoveryInfo",
+			"modelName": "_2yiUCa_modelName",
+			"section": "_2yiUCa_section",
+			"toggleTrack": "_2yiUCa_toggleTrack",
+			"modelItemDisabled": "_2yiUCa_modelItemDisabled",
+			"emptyHint": "_2yiUCa_emptyHint",
+			"groupTitle": "_2yiUCa_groupTitle",
+			"emptyText": "_2yiUCa_emptyText",
+			"modelList": "_2yiUCa_modelList",
+			"modelItem": "_2yiUCa_modelItem",
+			"metaItem": "_2yiUCa_metaItem",
+			"toggleButton": "_2yiUCa_toggleButton",
+			"enabledCount": "_2yiUCa_enabledCount",
+			"groupCount": "_2yiUCa_groupCount",
+			"countBadge": "_2yiUCa_countBadge",
+			"headerMeta": "_2yiUCa_headerMeta",
+			"sectionHeading": "_2yiUCa_sectionHeading",
+			"modelGroup": "_2yiUCa_modelGroup",
+			"sectionHeaderRow": "_2yiUCa_sectionHeaderRow",
+			"groupHeader": "_2yiUCa_groupHeader",
+			"modelMain": "_2yiUCa_modelMain",
+			"modelInfo": "_2yiUCa_modelInfo"
+		};
+		//#endregion
+		//#region lib/types/client/ProviderModelList.js
+		function ProviderModelList({ provider, onToggleModel }) {
+			const { enabledModels, disabledModels } = (0, react.useMemo)(() => {
+				return {
+					enabledModels: provider.models.filter((m) => m.enabled),
+					disabledModels: provider.models.filter((m) => !m.enabled)
+				};
+			}, [provider.models]);
+			if (provider.models.length === 0) return (0, react_jsx_runtime.jsxs)("section", {
+				className: ProviderModelList_module_css_default.section,
+				children: [(0, react_jsx_runtime.jsxs)("div", {
+					className: ProviderModelList_module_css_default.sectionHeaderRow,
+					children: [(0, react_jsx_runtime.jsx)("h3", {
+						className: ProviderModelList_module_css_default.sectionHeading,
+						children: "Models"
+					}), (0, react_jsx_runtime.jsx)("span", {
+						className: ProviderModelList_module_css_default.countBadge,
+						children: "0"
+					})]
+				}), (0, react_jsx_runtime.jsxs)("div", {
+					className: ProviderModelList_module_css_default.emptyState,
+					children: [
+						(0, react_jsx_runtime.jsxs)("svg", {
+							width: "40",
+							height: "40",
+							viewBox: "0 0 40 40",
+							fill: "none",
+							className: ProviderModelList_module_css_default.emptyIcon,
+							children: [(0, react_jsx_runtime.jsx)("rect", {
+								x: "8",
+								y: "8",
+								width: "24",
+								height: "24",
+								rx: "4",
+								stroke: "currentColor",
+								strokeWidth: "2",
+								opacity: "0.3"
+							}), (0, react_jsx_runtime.jsx)("path", {
+								d: "M14 20H26M20 14V26",
+								stroke: "currentColor",
+								strokeWidth: "2",
+								strokeLinecap: "round",
+								opacity: "0.3"
+							})]
+						}),
+						(0, react_jsx_runtime.jsx)("div", {
+							className: ProviderModelList_module_css_default.emptyText,
+							children: "No models discovered yet"
+						}),
+						(0, react_jsx_runtime.jsx)("div", {
+							className: ProviderModelList_module_css_default.emptyHint,
+							children: "Click \"Discover Models\" to fetch available models from this provider"
+						})
+					]
+				})]
+			});
+			return (0, react_jsx_runtime.jsxs)("section", {
+				className: ProviderModelList_module_css_default.section,
+				children: [
+					(0, react_jsx_runtime.jsxs)("div", {
+						className: ProviderModelList_module_css_default.sectionHeaderRow,
+						children: [(0, react_jsx_runtime.jsx)("h3", {
+							className: ProviderModelList_module_css_default.sectionHeading,
+							children: "Models"
+						}), (0, react_jsx_runtime.jsxs)("div", {
+							className: ProviderModelList_module_css_default.headerMeta,
+							children: [(0, react_jsx_runtime.jsx)("span", {
+								className: ProviderModelList_module_css_default.countBadge,
+								children: provider.models.length
+							}), enabledModels.length > 0 && (0, react_jsx_runtime.jsxs)("span", {
+								className: ProviderModelList_module_css_default.enabledCount,
+								children: [enabledModels.length, " enabled"]
+							})]
+						})]
+					}),
+					enabledModels.length > 0 && (0, react_jsx_runtime.jsxs)("div", {
+						className: ProviderModelList_module_css_default.modelGroup,
+						children: [(0, react_jsx_runtime.jsxs)("div", {
+							className: ProviderModelList_module_css_default.groupHeader,
+							children: [(0, react_jsx_runtime.jsx)("span", {
+								className: ProviderModelList_module_css_default.groupTitle,
+								children: "Enabled"
+							}), (0, react_jsx_runtime.jsx)("span", {
+								className: ProviderModelList_module_css_default.groupCount,
+								children: enabledModels.length
+							})]
+						}), (0, react_jsx_runtime.jsx)("div", {
+							className: ProviderModelList_module_css_default.modelList,
+							children: enabledModels.map((model) => (0, react_jsx_runtime.jsx)(ModelItem, {
+								model,
+								onToggle: onToggleModel
+							}, model.id))
+						})]
+					}),
+					disabledModels.length > 0 && (0, react_jsx_runtime.jsxs)("div", {
+						className: ProviderModelList_module_css_default.modelGroup,
+						children: [(0, react_jsx_runtime.jsxs)("div", {
+							className: ProviderModelList_module_css_default.groupHeader,
+							children: [(0, react_jsx_runtime.jsx)("span", {
+								className: ProviderModelList_module_css_default.groupTitle,
+								children: "Disabled"
+							}), (0, react_jsx_runtime.jsx)("span", {
+								className: ProviderModelList_module_css_default.groupCount,
+								children: disabledModels.length
+							})]
+						}), (0, react_jsx_runtime.jsx)("div", {
+							className: ProviderModelList_module_css_default.modelList,
+							children: disabledModels.map((model) => (0, react_jsx_runtime.jsx)(ModelItem, {
+								model,
+								onToggle: onToggleModel
+							}, model.id))
+						})]
+					}),
+					provider.lastDiscoveredAt && (0, react_jsx_runtime.jsxs)("div", {
+						className: ProviderModelList_module_css_default.discoveryInfo,
+						children: ["Last discovered: ", new Date(provider.lastDiscoveredAt).toLocaleString()]
+					})
+				]
+			});
+		}
+		function ModelItem({ model, onToggle }) {
+			const handleToggle = async () => {
+				if (onToggle) await onToggle(model.id, !model.enabled);
+			};
+			return (0, react_jsx_runtime.jsxs)("div", {
+				className: `${ProviderModelList_module_css_default.modelItem} ${model.enabled ? ProviderModelList_module_css_default.modelItemEnabled : ProviderModelList_module_css_default.modelItemDisabled}`,
+				children: [(0, react_jsx_runtime.jsxs)("div", {
+					className: ProviderModelList_module_css_default.modelMain,
+					children: [(0, react_jsx_runtime.jsx)("div", {
+						className: ProviderModelList_module_css_default.modelIcon,
+						children: (0, react_jsx_runtime.jsxs)("svg", {
+							width: "16",
+							height: "16",
+							viewBox: "0 0 16 16",
+							fill: "none",
+							children: [(0, react_jsx_runtime.jsx)("rect", {
+								width: "16",
+								height: "16",
+								rx: "3",
+								fill: "currentColor",
+								opacity: "0.1"
+							}), (0, react_jsx_runtime.jsx)("path", {
+								d: "M8 5V8L10 10",
+								stroke: "currentColor",
+								strokeWidth: "1.5",
+								strokeLinecap: "round",
+								strokeLinejoin: "round"
+							})]
+						})
+					}), (0, react_jsx_runtime.jsxs)("div", {
+						className: ProviderModelList_module_css_default.modelInfo,
+						children: [(0, react_jsx_runtime.jsx)("div", {
+							className: ProviderModelList_module_css_default.modelName,
+							children: model.name
+						}), (0, react_jsx_runtime.jsxs)("div", {
+							className: ProviderModelList_module_css_default.modelMeta,
+							children: [
+								model.contextWindow && (0, react_jsx_runtime.jsxs)("span", {
+									className: ProviderModelList_module_css_default.metaItem,
+									children: [(0, react_jsx_runtime.jsx)("svg", {
+										width: "10",
+										height: "10",
+										viewBox: "0 0 10 10",
+										fill: "none",
+										children: (0, react_jsx_runtime.jsx)("rect", {
+											x: "2",
+											y: "2",
+											width: "6",
+											height: "6",
+											rx: "1",
+											stroke: "currentColor",
+											strokeWidth: "1"
+										})
+									}), formatContextWindow(model.contextWindow)]
+								}),
+								model.maxOutputTokens && (0, react_jsx_runtime.jsxs)("span", {
+									className: ProviderModelList_module_css_default.metaItem,
+									children: [
+										(0, react_jsx_runtime.jsx)("svg", {
+											width: "10",
+											height: "10",
+											viewBox: "0 0 10 10",
+											fill: "none",
+											children: (0, react_jsx_runtime.jsx)("path", {
+												d: "M2 5H8M5 2V8",
+												stroke: "currentColor",
+												strokeWidth: "1",
+												strokeLinecap: "round"
+											})
+										}),
+										formatTokens(model.maxOutputTokens),
+										" out"
+									]
+								}),
+								model.capabilities && (0, react_jsx_runtime.jsx)("span", {
+									className: ProviderModelList_module_css_default.metaItem,
+									children: getCapabilityBadges(model.capabilities)
+								})
+							]
+						})]
+					})]
+				}), (0, react_jsx_runtime.jsx)("button", {
+					type: "button",
+					className: `${ProviderModelList_module_css_default.toggleButton} ${model.enabled ? ProviderModelList_module_css_default.toggleButtonEnabled : ProviderModelList_module_css_default.toggleButtonDisabled}`,
+					onClick: handleToggle,
+					"aria-label": model.enabled ? "Disable model" : "Enable model",
+					children: (0, react_jsx_runtime.jsx)("span", {
+						className: ProviderModelList_module_css_default.toggleTrack,
+						children: (0, react_jsx_runtime.jsx)("span", { className: ProviderModelList_module_css_default.toggleThumb })
+					})
+				})]
+			});
+		}
+		function formatContextWindow(tokens) {
+			if (tokens >= 1e6) return `${(tokens / 1e6).toFixed(1)}M ctx`;
+			if (tokens >= 1e3) return `${(tokens / 1e3).toFixed(0)}K ctx`;
+			return `${tokens} ctx`;
+		}
+		function formatTokens(tokens) {
+			if (tokens >= 1e3) return `${(tokens / 1e3).toFixed(0)}K`;
+			return `${tokens}`;
+		}
+		function getCapabilityBadges(capabilities) {
+			const badges = [];
+			if (capabilities?.chat) badges.push("chat");
+			if (capabilities?.vision) badges.push("vision");
+			if (capabilities?.functionCalling) badges.push("tools");
+			if (capabilities?.embedding) badges.push("embedding");
+			return badges.join(" · ");
+		}
+		//#endregion
+		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\ProviderDialog.module.css.mjs
+		const css$12 = ".Y2Uoaq_overlay{z-index:1000;background-color:#00000080;justify-content:center;align-items:center;padding:20px;display:flex;position:fixed;inset:0}.Y2Uoaq_dialog{background-color:var(--color-surface-elevated);border-radius:10px;flex-direction:column;width:100%;max-width:560px;max-height:90vh;display:flex;box-shadow:0 8px 24px #00000026}.Y2Uoaq_header{border-bottom:.5px solid var(--color-border-subtle);padding:20px 24px}.Y2Uoaq_title{color:var(--color-text-primary);margin:0;font-size:16px;font-weight:600;line-height:1.5}.Y2Uoaq_content{flex-direction:column;flex:1;gap:20px;padding:24px;display:flex;overflow-y:auto}.Y2Uoaq_error{background-color:var(--color-destructive-bg);border:1px solid var(--color-destructive-border);color:var(--color-destructive-text);border-radius:8px;padding:12px;font-size:14px;line-height:1.5}.Y2Uoaq_field{flex-direction:column;gap:8px;display:flex}.Y2Uoaq_label{color:var(--color-text-secondary);font-size:12px;font-weight:500;line-height:1.5}.Y2Uoaq_required{color:var(--color-destructive)}.Y2Uoaq_input,.Y2Uoaq_select,.Y2Uoaq_textarea{background-color:var(--color-input-bg);border:1px solid var(--color-border-base);width:100%;height:32px;color:var(--color-text-primary);border-radius:10px;padding:0 12px;font-size:14px;line-height:1.5;transition:border-color .15s}.Y2Uoaq_input:focus,.Y2Uoaq_select:focus,.Y2Uoaq_textarea:focus{border-color:var(--color-primary);outline:none}.Y2Uoaq_input::placeholder,.Y2Uoaq_textarea::placeholder{color:var(--color-text-tertiary)}.Y2Uoaq_select{cursor:pointer;appearance:none;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;padding-right:32px}.Y2Uoaq_textarea{resize:vertical;height:auto;min-height:80px;padding:8px 12px;font-family:Monaco,Menlo,Ubuntu Mono,monospace;font-size:13px}.Y2Uoaq_hint{color:var(--color-text-tertiary);font-size:12px;line-height:1.4}.Y2Uoaq_checkboxField{align-items:center;display:flex}.Y2Uoaq_checkboxLabel{color:var(--color-text-primary);cursor:pointer;user-select:none;align-items:center;gap:8px;font-size:14px;display:flex}.Y2Uoaq_checkbox{cursor:pointer;width:16px;height:16px;accent-color:var(--color-primary);margin:0}.Y2Uoaq_footer{border-top:.5px solid var(--color-border-subtle);justify-content:flex-end;align-items:center;gap:12px;padding:16px 24px;display:flex}.Y2Uoaq_cancelButton,.Y2Uoaq_submitButton{cursor:pointer;border:none;border-radius:10px;height:32px;padding:0 16px;font-size:14px;font-weight:500;transition:all .15s}.Y2Uoaq_cancelButton{color:var(--color-text-secondary);background-color:#0000}.Y2Uoaq_cancelButton:hover:not(:disabled){background-color:var(--color-surface-hover)}.Y2Uoaq_submitButton{background-color:var(--color-primary);color:#fff}.Y2Uoaq_submitButton:hover:not(:disabled){opacity:.9}.Y2Uoaq_cancelButton:disabled,.Y2Uoaq_submitButton:disabled{opacity:.5;cursor:not-allowed}";
+		const tagId$12 = "@dsh-control-center/control-center/ProviderDialog.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$12) + "]") === null) {
+			const tag = document.createElement("style");
+			tag.dataset.plugin = "@dsh-control-center/control-center";
+			tag.dataset.pluginCss = tagId$12;
+			tag.textContent = css$12;
+			document.head.appendChild(tag);
+		}
+		var ProviderDialog_module_css_default = {
+			"field": "Y2Uoaq_field",
+			"required": "Y2Uoaq_required",
+			"cancelButton": "Y2Uoaq_cancelButton",
+			"submitButton": "Y2Uoaq_submitButton",
+			"label": "Y2Uoaq_label",
+			"checkbox": "Y2Uoaq_checkbox",
+			"error": "Y2Uoaq_error",
+			"input": "Y2Uoaq_input",
+			"checkboxLabel": "Y2Uoaq_checkboxLabel",
+			"header": "Y2Uoaq_header",
+			"overlay": "Y2Uoaq_overlay",
+			"checkboxField": "Y2Uoaq_checkboxField",
+			"content": "Y2Uoaq_content",
+			"dialog": "Y2Uoaq_dialog",
+			"select": "Y2Uoaq_select",
+			"title": "Y2Uoaq_title",
+			"textarea": "Y2Uoaq_textarea",
+			"hint": "Y2Uoaq_hint",
+			"footer": "Y2Uoaq_footer"
+		};
+		//#endregion
+		//#region lib/types/client/ProviderDialog.js
+		/**
+		* Provider Add/Edit Dialog Component
+		*
+		* Modal dialog for creating new providers or editing existing ones.
+		* Follows the Settings + Credentials + TypertRemote pattern.
+		*/
+		const PROVIDER_TYPES = [
+			{
+				value: "openai",
+				label: "OpenAI"
+			},
+			{
+				value: "anthropic",
+				label: "Anthropic"
+			},
+			{
+				value: "google",
+				label: "Google (Gemini)"
+			},
+			{
+				value: "azure",
+				label: "Azure OpenAI"
+			},
+			{
+				value: "deepseek",
+				label: "DeepSeek"
+			},
+			{
+				value: "openai-compatible",
+				label: "OpenAI Compatible"
+			},
+			{
+				value: "custom",
+				label: "Custom"
+			}
+		];
+		const DEFAULT_BASE_URLS = {
+			openai: "https://api.openai.com/v1",
+			anthropic: "https://api.anthropic.com/v1",
+			google: "https://generativelanguage.googleapis.com/v1",
+			azure: "https://<resource>.openai.azure.com",
+			deepseek: "https://api.deepseek.com/v1",
+			"openai-compatible": "",
+			custom: ""
+		};
+		function ProviderDialog({ open, mode, provider, providersService, onClose, onSuccess }) {
+			const [name, setName] = (0, react.useState)("");
+			const [type, setType] = (0, react.useState)("openai-compatible");
+			const [baseURL, setBaseURL] = (0, react.useState)("");
+			const [apiKey, setApiKey] = (0, react.useState)("");
+			const [customHeaders, setCustomHeaders] = (0, react.useState)("");
+			const [enabled, setEnabled] = (0, react.useState)(true);
+			const [saving, setSaving] = (0, react.useState)(false);
+			const [error, setError] = (0, react.useState)(null);
+			(0, react.useEffect)(() => {
+				if (mode === "edit" && provider) {
+					setName(provider.name);
+					setType(provider.type);
+					setBaseURL(provider.baseURL);
+					setApiKey("");
+					setCustomHeaders(provider.customHeaders ? JSON.stringify(provider.customHeaders, null, 2) : "");
+					setEnabled(provider.enabled);
+				} else if (mode === "create") {
+					setName("");
+					setType("openai-compatible");
+					setBaseURL("");
+					setApiKey("");
+					setCustomHeaders("");
+					setEnabled(true);
+				}
+				setError(null);
+			}, [
+				mode,
+				provider,
+				open
+			]);
+			(0, react.useEffect)(() => {
+				if (mode === "create" && type) setBaseURL(DEFAULT_BASE_URLS[type]);
+			}, [type, mode]);
+			const handleSubmit = (0, react.useCallback)(async (e) => {
+				e.preventDefault();
+				if (!providersService) {
+					setError("Providers service not available");
+					return;
+				}
+				setError(null);
+				setSaving(true);
+				try {
+					let parsedHeaders;
+					if (customHeaders.trim()) try {
+						parsedHeaders = JSON.parse(customHeaders);
+						if (typeof parsedHeaders !== "object" || Array.isArray(parsedHeaders)) throw new Error("Headers must be a JSON object");
+					} catch (err) {
+						setError(`Invalid JSON in custom headers: ${err instanceof Error ? err.message : String(err)}`);
+						setSaving(false);
+						return;
+					}
+					if (mode === "create") {
+						const dto = {
+							name: name.trim(),
+							type,
+							baseURL: baseURL.trim(),
+							...apiKey.trim() ? { apiKey: apiKey.trim() } : {},
+							...parsedHeaders ? { customHeaders: parsedHeaders } : {},
+							enabled
+						};
+						await providersService.create({ dto });
+					} else if (mode === "edit" && provider) {
+						const dto = {
+							name: name.trim(),
+							baseURL: baseURL.trim(),
+							...apiKey.trim() ? { apiKey: apiKey.trim() } : {},
+							...parsedHeaders ? { customHeaders: parsedHeaders } : {},
+							enabled
+						};
+						await providersService.update({
+							providerId: provider.id,
+							dto
+						});
+					}
+					onSuccess?.();
+					onClose();
+				} catch (err) {
+					setError(err instanceof Error ? err.message : String(err));
+				} finally {
+					setSaving(false);
+				}
+			}, [
+				providersService,
+				mode,
+				provider,
+				name,
+				type,
+				baseURL,
+				apiKey,
+				customHeaders,
+				enabled,
+				onSuccess,
+				onClose
+			]);
+			const handleCancel = (0, react.useCallback)(() => {
+				onClose();
+			}, [onClose]);
+			if (!open) return null;
+			return (0, react_jsx_runtime.jsx)("div", {
+				className: ProviderDialog_module_css_default.overlay,
+				onClick: handleCancel,
+				children: (0, react_jsx_runtime.jsxs)("div", {
+					className: ProviderDialog_module_css_default.dialog,
+					onClick: (e) => e.stopPropagation(),
+					children: [(0, react_jsx_runtime.jsx)("div", {
+						className: ProviderDialog_module_css_default.header,
+						children: (0, react_jsx_runtime.jsx)("h2", {
+							className: ProviderDialog_module_css_default.title,
+							children: mode === "create" ? "添加提供商" : "编辑提供商"
+						})
+					}), (0, react_jsx_runtime.jsxs)("form", {
+						className: ProviderDialog_module_css_default.content,
+						onSubmit: handleSubmit,
+						children: [
+							error && (0, react_jsx_runtime.jsx)("div", {
+								className: ProviderDialog_module_css_default.error,
+								children: error
+							}),
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: ProviderDialog_module_css_default.field,
+								children: [(0, react_jsx_runtime.jsxs)("label", {
+									className: ProviderDialog_module_css_default.label,
+									htmlFor: "provider-name",
+									children: ["名称 ", (0, react_jsx_runtime.jsx)("span", {
+										className: ProviderDialog_module_css_default.required,
+										children: "*"
+									})]
+								}), (0, react_jsx_runtime.jsx)("input", {
+									id: "provider-name",
+									className: ProviderDialog_module_css_default.input,
+									type: "text",
+									value: name,
+									onChange: (e) => setName(e.target.value),
+									placeholder: "例如：My OpenAI Provider",
+									required: true,
+									autoFocus: true
+								})]
+							}),
+							mode === "create" && (0, react_jsx_runtime.jsxs)("div", {
+								className: ProviderDialog_module_css_default.field,
+								children: [(0, react_jsx_runtime.jsxs)("label", {
+									className: ProviderDialog_module_css_default.label,
+									htmlFor: "provider-type",
+									children: ["类型 ", (0, react_jsx_runtime.jsx)("span", {
+										className: ProviderDialog_module_css_default.required,
+										children: "*"
+									})]
+								}), (0, react_jsx_runtime.jsx)("select", {
+									id: "provider-type",
+									className: ProviderDialog_module_css_default.select,
+									value: type,
+									onChange: (e) => setType(e.target.value),
+									required: true,
+									children: PROVIDER_TYPES.map((pt) => (0, react_jsx_runtime.jsx)("option", {
+										value: pt.value,
+										children: pt.label
+									}, pt.value))
+								})]
+							}),
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: ProviderDialog_module_css_default.field,
+								children: [
+									(0, react_jsx_runtime.jsxs)("label", {
+										className: ProviderDialog_module_css_default.label,
+										htmlFor: "provider-baseurl",
+										children: ["Base URL ", (0, react_jsx_runtime.jsx)("span", {
+											className: ProviderDialog_module_css_default.required,
+											children: "*"
+										})]
+									}),
+									(0, react_jsx_runtime.jsx)("input", {
+										id: "provider-baseurl",
+										className: ProviderDialog_module_css_default.input,
+										type: "text",
+										value: baseURL,
+										onChange: (e) => setBaseURL(e.target.value),
+										placeholder: "https://api.example.com/v1",
+										required: true
+									}),
+									(0, react_jsx_runtime.jsx)("div", {
+										className: ProviderDialog_module_css_default.hint,
+										children: "完整的 API 端点地址（不含路径后缀）"
+									})
+								]
+							}),
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: ProviderDialog_module_css_default.field,
+								children: [
+									(0, react_jsx_runtime.jsx)("label", {
+										className: ProviderDialog_module_css_default.label,
+										htmlFor: "provider-apikey",
+										children: "API Key"
+									}),
+									(0, react_jsx_runtime.jsx)("input", {
+										id: "provider-apikey",
+										className: ProviderDialog_module_css_default.input,
+										type: "password",
+										value: apiKey,
+										onChange: (e) => setApiKey(e.target.value),
+										placeholder: mode === "edit" ? "留空则不修改" : "可选"
+									}),
+									(0, react_jsx_runtime.jsx)("div", {
+										className: ProviderDialog_module_css_default.hint,
+										children: mode === "edit" ? "仅在需要更新时填写" : "API 密钥将安全存储"
+									})
+								]
+							}),
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: ProviderDialog_module_css_default.field,
+								children: [
+									(0, react_jsx_runtime.jsx)("label", {
+										className: ProviderDialog_module_css_default.label,
+										htmlFor: "provider-headers",
+										children: "自定义 Headers (JSON)"
+									}),
+									(0, react_jsx_runtime.jsx)("textarea", {
+										id: "provider-headers",
+										className: ProviderDialog_module_css_default.textarea,
+										value: customHeaders,
+										onChange: (e) => setCustomHeaders(e.target.value),
+										placeholder: "{\"X-Custom-Header\": \"value\"}",
+										rows: 3
+									}),
+									(0, react_jsx_runtime.jsx)("div", {
+										className: ProviderDialog_module_css_default.hint,
+										children: "可选，JSON 格式的额外请求头"
+									})
+								]
+							}),
+							(0, react_jsx_runtime.jsx)("div", {
+								className: ProviderDialog_module_css_default.checkboxField,
+								children: (0, react_jsx_runtime.jsxs)("label", {
+									className: ProviderDialog_module_css_default.checkboxLabel,
+									children: [(0, react_jsx_runtime.jsx)("input", {
+										type: "checkbox",
+										className: ProviderDialog_module_css_default.checkbox,
+										checked: enabled,
+										onChange: (e) => setEnabled(e.target.checked)
+									}), (0, react_jsx_runtime.jsx)("span", { children: "启用此提供商" })]
+								})
+							}),
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: ProviderDialog_module_css_default.footer,
+								children: [(0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: ProviderDialog_module_css_default.cancelButton,
+									onClick: handleCancel,
+									disabled: saving,
+									children: "取消"
+								}), (0, react_jsx_runtime.jsx)("button", {
+									type: "submit",
+									className: ProviderDialog_module_css_default.submitButton,
+									disabled: saving,
+									children: saving ? "保存中..." : mode === "create" ? "创建" : "保存"
+								})]
+							})
+						]
+					})]
+				})
+			});
+		}
+		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\ProvidersSection.module.css.mjs
-		const css$11 = ".ExuySa_root{background:var(--color-background-base);flex-direction:column;flex:1;min-height:0;display:flex}.ExuySa_header{border-bottom:1px solid var(--color-border-subtle);justify-content:space-between;align-items:center;padding:16px 24px;display:flex}.ExuySa_headerLeft{flex-direction:column;gap:4px;display:flex}.ExuySa_title{color:var(--color-text-primary);font-size:20px;font-weight:600;line-height:28px}.ExuySa_description{color:var(--color-text-secondary);font-size:14px;line-height:20px}.ExuySa_headerActions{align-items:center;gap:8px;display:flex}.ExuySa_searchRow{border-bottom:1px solid var(--color-border-subtle);align-items:center;gap:12px;padding:12px 24px;display:flex}.ExuySa_searchInput{border:1px solid var(--color-border-base);background:var(--color-background-elevated);height:32px;color:var(--color-text-primary);border-radius:6px;flex:1;padding:0 12px;font-size:14px;transition:border-color .2s}.ExuySa_searchInput:focus{border-color:var(--color-accent-primary);outline:none}.ExuySa_searchInput::placeholder{color:var(--color-text-tertiary)}.ExuySa_content{flex:1;min-height:0;padding:24px;overflow-y:auto}.ExuySa_grid{grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;display:grid}.ExuySa_card{border:1px solid var(--color-border-subtle);background:var(--color-background-elevated);cursor:pointer;border-radius:8px;flex-direction:column;padding:16px;transition:all .2s;display:flex}.ExuySa_card:hover{border-color:var(--color-border-base);box-shadow:0 2px 8px #00000014}.ExuySa_cardHeader{justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;display:flex}.ExuySa_cardTitle{color:var(--color-text-primary);flex:1;font-size:16px;font-weight:600;line-height:22px}.ExuySa_cardActions{opacity:0;align-items:center;gap:4px;transition:opacity .2s;display:flex}.ExuySa_card:hover .ExuySa_cardActions{opacity:1}.ExuySa_cardDescription{color:var(--color-text-secondary);text-overflow:ellipsis;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin-bottom:12px;font-size:14px;line-height:20px;display:-webkit-box;overflow:hidden}.ExuySa_cardMeta{color:var(--color-text-tertiary);align-items:center;gap:12px;font-size:13px;display:flex}.ExuySa_cardMetaItem{align-items:center;gap:4px;display:flex}.ExuySa_cardFooter{border-top:1px solid var(--color-border-subtle);justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;display:flex}.ExuySa_cardTags{flex-wrap:wrap;gap:6px;display:flex}.ExuySa_tag{background:var(--color-background-base);color:var(--color-text-secondary);border-radius:4px;padding:2px 8px;font-size:12px;line-height:18px}.ExuySa_enabledBadge{background:var(--color-success-bg);color:var(--color-success-text);border-radius:4px;padding:2px 8px;font-size:12px;font-weight:500;line-height:18px}.ExuySa_disabledBadge{background:var(--color-background-base);color:var(--color-text-tertiary);border-radius:4px;padding:2px 8px;font-size:12px;line-height:18px}.ExuySa_iconButton{width:28px;height:28px;color:var(--color-text-secondary);cursor:pointer;background:0 0;border:none;border-radius:4px;justify-content:center;align-items:center;padding:0;transition:all .2s;display:inline-flex}.ExuySa_iconButton:hover{background:var(--color-background-base);color:var(--color-text-primary)}.ExuySa_primaryButton{background:var(--color-accent-primary);color:#fff;cursor:pointer;border:none;border-radius:6px;justify-content:center;align-items:center;gap:6px;height:32px;padding:0 16px;font-size:14px;font-weight:500;transition:all .2s;display:inline-flex}.ExuySa_primaryButton:hover{background:var(--color-accent-primary-hover)}.ExuySa_primaryButton:disabled{opacity:.5;cursor:not-allowed}.ExuySa_secondaryButton{border:1px solid var(--color-border-base);background:var(--color-background-elevated);height:32px;color:var(--color-text-primary);cursor:pointer;border-radius:6px;justify-content:center;align-items:center;gap:6px;padding:0 16px;font-size:14px;transition:all .2s;display:inline-flex}.ExuySa_secondaryButton:hover{border-color:var(--color-border-hover);background:var(--color-background-base)}.ExuySa_empty{text-align:center;flex-direction:column;justify-content:center;align-items:center;padding:64px 24px;display:flex}.ExuySa_emptyIcon{width:64px;height:64px;color:var(--color-text-tertiary);margin-bottom:16px}.ExuySa_emptyTitle{color:var(--color-text-primary);margin-bottom:8px;font-size:16px;font-weight:600}.ExuySa_emptyDescription{color:var(--color-text-secondary);max-width:400px;margin-bottom:24px;font-size:14px}.ExuySa_error{text-align:center;color:var(--color-error-text);flex-direction:column;justify-content:center;align-items:center;padding:64px 24px;display:flex}.ExuySa_loading{color:var(--color-text-tertiary);justify-content:center;align-items:center;padding:64px 24px;display:flex}";
+		const css$11 = ".ExuySa_splitRoot{background:var(--color-background-base);width:100%;min-width:0;height:100%;min-height:0;display:flex;overflow:hidden}.ExuySa_providerList{border-right:.5px solid var(--color-border-subtle);flex-direction:column;flex-shrink:0;flex-basis:248px;width:248px;height:100%;display:flex}.ExuySa_searchRow{align-items:center;gap:6px;padding:10px;display:flex}.ExuySa_searchWrap{border:1px solid var(--color-border-base);background:var(--color-background-elevated);border-radius:10px;flex:1;align-items:center;gap:4px;height:32px;padding:4px 4px 4px 10px;display:flex}.ExuySa_searchIcon{width:14px;height:14px;color:var(--color-text-tertiary);flex-shrink:0;margin-right:2px}.ExuySa_searchInput{min-width:0;color:var(--color-text-primary);background:0 0;border:none;outline:none;flex:1;font-size:14px;line-height:20px}.ExuySa_searchInput::placeholder{color:var(--color-text-tertiary)}.ExuySa_searchClearButton{width:22px;height:22px;color:var(--color-text-tertiary);cursor:pointer;background:0 0;border:none;border-radius:6px;flex-shrink:0;justify-content:center;align-items:center;transition:all .2s;display:flex}.ExuySa_searchClearButton:hover{background:var(--color-background-hover);color:var(--color-text-primary)}.ExuySa_listScroller{flex:1;min-height:0;padding:8px 10px 0;overflow:hidden auto}.ExuySa_listItems{flex-direction:column;gap:8px;display:flex}.ExuySa_listItem{text-align:left;cursor:pointer;background:0 0;border:1px solid #0000;border-radius:10px;outline:none;justify-content:space-between;align-items:center;width:100%;height:32px;padding:0 10px 0 2px;transition:all .2s;display:flex;position:relative}.ExuySa_listItemIdle:hover,.ExuySa_listItemSelected{background:var(--color-background-hover)}.ExuySa_listItemMain{flex:1;align-items:center;gap:0;min-width:0;display:flex}.ExuySa_listItemAvatar{border:1px solid var(--color-border-subtle);width:20px;height:20px;color:var(--color-text-secondary);border-radius:6px;flex-shrink:0;margin-right:10px}.ExuySa_listItemLabel{text-overflow:ellipsis;white-space:nowrap;min-width:0;color:var(--color-text-primary);flex:1;font-size:14px;line-height:1.35;overflow:hidden}.ExuySa_listItemSelected .ExuySa_listItemLabel{font-weight:500}.ExuySa_enabledDot{background:var(--color-success-text);border-radius:999px;flex-shrink:0;width:6px;height:6px}.ExuySa_addFooter{flex-shrink:0;padding:10px}.ExuySa_addButton{border:1px solid var(--color-border-base);width:100%;height:32px;color:var(--color-text-primary);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 10px;font-size:12px;transition:all .2s;display:flex}.ExuySa_addButton:hover:not(:disabled){border-color:var(--color-border-hover);background:var(--color-background-hover)}.ExuySa_addButton:disabled{opacity:.4;cursor:not-allowed}.ExuySa_providerDetail{flex-direction:column;flex:1;min-width:0;min-height:0;display:flex;overflow:hidden}.ExuySa_detailHeader{flex-shrink:0;justify-content:space-between;align-items:center;gap:12px;padding:10px 24px;display:flex}.ExuySa_detailHeaderContent{flex:1;width:100%;max-width:768px;margin:0}.ExuySa_editButton{width:32px;height:32px;color:var(--color-text-secondary);cursor:pointer;background:0 0;border:none;border-radius:10px;flex-shrink:0;justify-content:center;align-items:center;transition:all .15s;display:flex}.ExuySa_editButton:hover{background:var(--color-background-hover);color:var(--color-text-primary)}.ExuySa_detailTitle{color:var(--color-text-primary);margin:0;font-size:20px;font-weight:600;line-height:28px}.ExuySa_detailMeta{color:var(--color-text-tertiary);align-items:center;gap:12px;margin-top:4px;font-size:13px;display:flex}.ExuySa_detailMetaItem{align-items:center;gap:4px;display:flex}.ExuySa_detailScroll{flex:1;min-height:0;padding:6px 24px 24px;overflow:hidden auto}.ExuySa_detailContentMaxWidth{flex-direction:column;gap:20px;width:100%;min-width:0;max-width:768px;min-height:100%;margin:0 auto;display:flex}.ExuySa_section{flex-direction:column;gap:12px;display:flex}.ExuySa_sectionHeading{color:var(--color-text-primary);margin:0;font-size:14px;font-weight:500;line-height:1.3}.ExuySa_sectionHeaderRow{justify-content:space-between;align-items:center;gap:12px;display:flex}.ExuySa_countMeta{color:var(--color-text-tertiary);font-variant-numeric:tabular-nums;font-size:12px;line-height:1.33}.ExuySa_sectionBody{flex-direction:column;gap:14px;display:flex}.ExuySa_field{flex-direction:column;gap:6px;display:flex}.ExuySa_fieldLabel{color:var(--color-text-secondary);font-size:14px;line-height:20px}.ExuySa_input{border:1px solid var(--color-border-base);background:var(--color-background-elevated);width:100%;height:32px;min-height:32px;color:var(--color-text-primary);border-radius:6px;outline:none;padding:0 12px;font-size:14px;line-height:20px;transition:border-color .2s}.ExuySa_input:focus{border-color:var(--color-accent-primary)}.ExuySa_input::placeholder{color:var(--color-text-tertiary)}.ExuySa_input:read-only{background:var(--color-background-base);color:var(--color-text-secondary)}.ExuySa_actionRow{flex-wrap:wrap;align-items:center;gap:12px;display:flex}.ExuySa_actionButton{border:1px solid var(--color-border-subtle);height:auto;min-height:0;color:var(--color-text-secondary);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;gap:8px;padding:6px 12px;font-size:13px;line-height:1.33;transition:all .2s;display:inline-flex}.ExuySa_actionButton:hover{background:var(--color-background-hover);color:var(--color-text-primary)}.ExuySa_modelList{border:1px solid var(--color-border-subtle);border-radius:8px;flex-direction:column;gap:0;display:flex;overflow:hidden}.ExuySa_modelRow{border-bottom:1px solid var(--color-border-subtle);background:var(--color-background-elevated);align-items:center;gap:10px;padding:12px 16px;display:flex}.ExuySa_modelRow:last-child{border-bottom:none}.ExuySa_modelMain{flex-direction:column;flex:1;gap:4px;min-width:0;display:flex}.ExuySa_modelName{color:var(--color-text-primary);text-overflow:ellipsis;white-space:nowrap;font-size:14px;line-height:20px;overflow:hidden}.ExuySa_modelId{text-overflow:ellipsis;white-space:nowrap;background:var(--color-background-subtle);min-width:0;max-width:50%;color:var(--color-text-tertiary);border-radius:4px;flex-shrink:1;padding:1px 6px;font-family:monospace;font-size:12px;line-height:1.33;overflow:hidden}.ExuySa_switch{flex-shrink:0;width:44px;height:24px;display:inline-block;position:relative}.ExuySa_switch input{opacity:0;width:0;height:0}.ExuySa_switchSlider{cursor:pointer;background:var(--color-background-subtle);border-radius:999px;transition:all .2s;position:absolute;inset:0}.ExuySa_switchSlider:before{content:\"\";background:#fff;border-radius:999px;width:18px;height:18px;transition:all .2s;position:absolute;bottom:3px;left:3px}.ExuySa_switch input:checked+.ExuySa_switchSlider{background:var(--color-accent-primary)}.ExuySa_switch input:checked+.ExuySa_switchSlider:before{transform:translate(20px)}.ExuySa_dangerZone{border:1px solid var(--color-border-base);background:var(--color-background-elevated);border-radius:8px;justify-content:space-between;align-items:flex-start;gap:16px;padding:16px;display:flex}.ExuySa_dangerZoneText{flex-direction:column;flex:1;gap:4px;display:flex}.ExuySa_dangerZoneTitle{color:var(--color-text-primary);font-size:14px;font-weight:500;line-height:20px}.ExuySa_dangerZoneDescription{color:var(--color-text-secondary);font-size:13px;line-height:1.33}.ExuySa_dangerButton{border:1px solid var(--color-error-border);background:var(--color-error-bg);height:32px;color:var(--color-error-text);cursor:pointer;border-radius:6px;flex-shrink:0;justify-content:center;align-items:center;padding:0 16px;font-size:14px;font-weight:500;transition:all .2s;display:inline-flex}.ExuySa_dangerButton:hover{background:var(--color-error-bg-hover)}.ExuySa_secondaryButton{border:1px solid var(--color-border-base);background:var(--color-background-elevated);height:32px;color:var(--color-text-primary);cursor:pointer;border-radius:6px;flex-shrink:0;justify-content:center;align-items:center;padding:0 16px;font-size:14px;transition:all .2s;display:inline-flex}.ExuySa_secondaryButton:hover{border-color:var(--color-border-hover);background:var(--color-background-base)}.ExuySa_emptyState{text-align:center;min-height:160px;color:var(--color-text-tertiary);justify-content:center;align-items:center;padding:24px;font-size:14px;line-height:20px;display:flex}.ExuySa_emptyDetailState{text-align:center;flex-direction:column;justify-content:center;align-items:center;height:100%;padding:64px 24px;display:flex}.ExuySa_emptyIcon{width:64px;height:64px;color:var(--color-text-tertiary);margin-bottom:16px}.ExuySa_emptyTitle{color:var(--color-text-primary);margin-bottom:8px;font-size:16px;font-weight:600}.ExuySa_emptyDescription{color:var(--color-text-secondary);max-width:400px;font-size:14px}.ExuySa_loading{color:var(--color-text-tertiary);justify-content:center;align-items:center;height:100%;padding:64px 24px;display:flex}.ExuySa_error{text-align:center;color:var(--color-error-text);flex-direction:column;justify-content:center;align-items:center;height:100%;padding:64px 24px;display:flex}";
 		const tagId$11 = "@dsh-control-center/control-center/ProvidersSection.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$11) + "]") === null) {
 			const tag = document.createElement("style");
@@ -1617,54 +2439,83 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProvidersSection_module_css_default = {
-			"iconButton": "ExuySa_iconButton",
-			"root": "ExuySa_root",
-			"cardFooter": "ExuySa_cardFooter",
-			"primaryButton": "ExuySa_primaryButton",
-			"cardActions": "ExuySa_cardActions",
-			"content": "ExuySa_content",
-			"description": "ExuySa_description",
-			"tag": "ExuySa_tag",
-			"grid": "ExuySa_grid",
-			"cardDescription": "ExuySa_cardDescription",
-			"cardMetaItem": "ExuySa_cardMetaItem",
-			"headerActions": "ExuySa_headerActions",
-			"searchInput": "ExuySa_searchInput",
-			"enabledBadge": "ExuySa_enabledBadge",
-			"emptyIcon": "ExuySa_emptyIcon",
-			"cardTitle": "ExuySa_cardTitle",
-			"searchRow": "ExuySa_searchRow",
-			"emptyTitle": "ExuySa_emptyTitle",
-			"cardHeader": "ExuySa_cardHeader",
-			"card": "ExuySa_card",
+			"providerDetail": "ExuySa_providerDetail",
+			"sectionBody": "ExuySa_sectionBody",
+			"listItemSelected": "ExuySa_listItemSelected",
+			"listScroller": "ExuySa_listScroller",
+			"detailTitle": "ExuySa_detailTitle",
+			"sectionHeaderRow": "ExuySa_sectionHeaderRow",
+			"input": "ExuySa_input",
+			"modelId": "ExuySa_modelId",
 			"emptyDescription": "ExuySa_emptyDescription",
-			"cardMeta": "ExuySa_cardMeta",
-			"headerLeft": "ExuySa_headerLeft",
-			"disabledBadge": "ExuySa_disabledBadge",
+			"modelRow": "ExuySa_modelRow",
+			"searchWrap": "ExuySa_searchWrap",
+			"providerList": "ExuySa_providerList",
+			"addFooter": "ExuySa_addFooter",
+			"dangerZoneTitle": "ExuySa_dangerZoneTitle",
+			"emptyDetailState": "ExuySa_emptyDetailState",
+			"listItemLabel": "ExuySa_listItemLabel",
+			"modelList": "ExuySa_modelList",
+			"detailMetaItem": "ExuySa_detailMetaItem",
+			"switch": "ExuySa_switch",
+			"actionRow": "ExuySa_actionRow",
 			"loading": "ExuySa_loading",
-			"title": "ExuySa_title",
-			"cardTags": "ExuySa_cardTags",
-			"header": "ExuySa_header",
+			"detailHeaderContent": "ExuySa_detailHeaderContent",
+			"detailHeader": "ExuySa_detailHeader",
+			"emptyState": "ExuySa_emptyState",
+			"listItemIdle": "ExuySa_listItemIdle",
+			"listItemMain": "ExuySa_listItemMain",
+			"detailMeta": "ExuySa_detailMeta",
+			"actionButton": "ExuySa_actionButton",
+			"section": "ExuySa_section",
+			"dangerButton": "ExuySa_dangerButton",
+			"modelMain": "ExuySa_modelMain",
+			"enabledDot": "ExuySa_enabledDot",
+			"splitRoot": "ExuySa_splitRoot",
+			"fieldLabel": "ExuySa_fieldLabel",
+			"listItemAvatar": "ExuySa_listItemAvatar",
+			"searchInput": "ExuySa_searchInput",
+			"listItems": "ExuySa_listItems",
+			"addButton": "ExuySa_addButton",
+			"detailContentMaxWidth": "ExuySa_detailContentMaxWidth",
+			"switchSlider": "ExuySa_switchSlider",
 			"secondaryButton": "ExuySa_secondaryButton",
-			"empty": "ExuySa_empty",
-			"error": "ExuySa_error"
+			"emptyTitle": "ExuySa_emptyTitle",
+			"modelName": "ExuySa_modelName",
+			"editButton": "ExuySa_editButton",
+			"searchIcon": "ExuySa_searchIcon",
+			"searchClearButton": "ExuySa_searchClearButton",
+			"detailScroll": "ExuySa_detailScroll",
+			"emptyIcon": "ExuySa_emptyIcon",
+			"listItem": "ExuySa_listItem",
+			"searchRow": "ExuySa_searchRow",
+			"error": "ExuySa_error",
+			"dangerZone": "ExuySa_dangerZone",
+			"dangerZoneDescription": "ExuySa_dangerZoneDescription",
+			"field": "ExuySa_field",
+			"countMeta": "ExuySa_countMeta",
+			"dangerZoneText": "ExuySa_dangerZoneText",
+			"sectionHeading": "ExuySa_sectionHeading"
 		};
 		//#endregion
 		//#region lib/types/client/ProvidersSection.js
 		/**
-		* Providers management section component.
-		*
-		* Cherry-style providers management UI over the controlCenterProviders Remote service.
-		* Displays configured providers in a card grid with search, enable/disable, test, and delete actions.
-		*
-		* AGPL-3.0-only – adapted from Cherry Studio provider management pattern.
+		* Provider Management - Split-pane layout with 100% UI parity to Cherry Studio.
+		* Left sidebar: provider list with search/filter. Right detail: provider settings + model list.
 		*/
 		function ProvidersSection(props) {
 			const { providers: providersService } = props;
 			const [providers, setProviders] = (0, react.useState)([]);
+			const [selectedId, setSelectedId] = (0, react.useState)(void 0);
 			const [search, setSearch] = (0, react.useState)("");
 			const [loading, setLoading] = (0, react.useState)(true);
 			const [error, setError] = (0, react.useState)(null);
+			const [isTestingConnection, setIsTestingConnection] = (0, react.useState)(false);
+			const [isDiscoveringModels, setIsDiscoveringModels] = (0, react.useState)(false);
+			const [connectionTestResult, setConnectionTestResult] = (0, react.useState)(null);
+			const [dialogOpen, setDialogOpen] = (0, react.useState)(false);
+			const [dialogMode, setDialogMode] = (0, react.useState)("create");
+			const [editingProvider, setEditingProvider] = (0, react.useState)(void 0);
 			const loadProviders = (0, react.useCallback)(async () => {
 				if (!providersService) {
 					setError("Providers service not available");
@@ -1676,15 +2527,70 @@ window.__ModuleLoader__.load({
 					setError(null);
 					const result = await providersService.list();
 					setProviders(result);
+					if (result.length > 0 && !selectedId && result[0] !== void 0) setSelectedId(result[0].id);
 				} catch (err) {
 					setError(err instanceof Error ? err.message : "Failed to load providers");
 				} finally {
 					setLoading(false);
 				}
-			}, [providersService]);
+			}, [providersService, selectedId]);
 			(0, react.useEffect)(() => {
 				loadProviders();
 			}, [loadProviders]);
+			const filteredProviders = (0, react.useMemo)(() => {
+				if (!search) return providers;
+				const keywords = search.toLowerCase().split(/\s+/).filter(Boolean);
+				return providers.filter((p) => keywords.every((kw) => p.name.toLowerCase().includes(kw) || p.type.toLowerCase().includes(kw) || p.baseURL.toLowerCase().includes(kw)));
+			}, [providers, search]);
+			const selectedProvider = (0, react.useMemo)(() => filteredProviders.find((p) => p.id === selectedId), [filteredProviders, selectedId]);
+			const handleUpdateProvider = (0, react.useCallback)(async (updates) => {
+				if (!providersService || !selectedId) return;
+				try {
+					await providersService.update({
+						providerId: selectedId,
+						dto: updates
+					});
+					await loadProviders();
+				} catch (err) {
+					console.error("Failed to update provider:", err);
+				}
+			}, [
+				providersService,
+				selectedId,
+				loadProviders
+			]);
+			const handleTestConnection = (0, react.useCallback)(async () => {
+				if (!providersService || !selectedId) return;
+				try {
+					setIsTestingConnection(true);
+					setConnectionTestResult(null);
+					const result = await providersService.testConnection({ providerId: selectedId });
+					setConnectionTestResult(result);
+				} catch (err) {
+					setConnectionTestResult({
+						success: false,
+						error: err instanceof Error ? err.message : "Connection test failed"
+					});
+				} finally {
+					setIsTestingConnection(false);
+				}
+			}, [providersService, selectedId]);
+			const handleDiscoverModels = (0, react.useCallback)(async () => {
+				if (!providersService || !selectedId) return;
+				try {
+					setIsDiscoveringModels(true);
+					await providersService.discoverModels({ providerId: selectedId });
+					await loadProviders();
+				} catch (err) {
+					console.error("Failed to discover models:", err);
+				} finally {
+					setIsDiscoveringModels(false);
+				}
+			}, [
+				providersService,
+				selectedId,
+				loadProviders
+			]);
 			const handleToggleEnable = (0, react.useCallback)(async (providerId, currentEnabled) => {
 				if (!providersService) return;
 				try {
@@ -1707,75 +2613,323 @@ window.__ModuleLoader__.load({
 					setError(err instanceof Error ? err.message : "Failed to delete provider");
 				}
 			}, [providersService, loadProviders]);
-			const filteredProviders = search ? providers.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()) || p.type.toLowerCase().includes(search.toLowerCase())) : providers;
+			const handleOpenCreateDialog = (0, react.useCallback)(() => {
+				setDialogMode("create");
+				setEditingProvider(void 0);
+				setDialogOpen(true);
+			}, []);
+			const handleOpenEditDialog = (0, react.useCallback)((provider) => {
+				setDialogMode("edit");
+				setEditingProvider(provider);
+				setDialogOpen(true);
+			}, []);
+			const handleCloseDialog = (0, react.useCallback)(() => {
+				setDialogOpen(false);
+				setEditingProvider(void 0);
+			}, []);
+			const handleDialogSuccess = (0, react.useCallback)(async () => {
+				await loadProviders();
+			}, [loadProviders]);
+			if (loading) return (0, react_jsx_runtime.jsx)("div", {
+				className: ProvidersSection_module_css_default.splitRoot,
+				children: (0, react_jsx_runtime.jsx)("div", {
+					className: ProvidersSection_module_css_default.loading,
+					children: "加载中..."
+				})
+			});
+			if (error) return (0, react_jsx_runtime.jsx)("div", {
+				className: ProvidersSection_module_css_default.splitRoot,
+				children: (0, react_jsx_runtime.jsxs)("div", {
+					className: ProvidersSection_module_css_default.error,
+					children: [
+						(0, react_jsx_runtime.jsx)("div", {
+							className: ProvidersSection_module_css_default.emptyTitle,
+							children: "加载失败"
+						}),
+						(0, react_jsx_runtime.jsx)("div", {
+							className: ProvidersSection_module_css_default.emptyDescription,
+							children: error
+						}),
+						(0, react_jsx_runtime.jsx)("button", {
+							className: ProvidersSection_module_css_default.secondaryButton,
+							onClick: () => void loadProviders(),
+							children: "重试"
+						})
+					]
+				})
+			});
 			return (0, react_jsx_runtime.jsxs)("div", {
-				className: ProvidersSection_module_css_default.root,
+				className: ProvidersSection_module_css_default.splitRoot,
 				children: [
-					(0, react_jsx_runtime.jsxs)("div", {
-						className: ProvidersSection_module_css_default.header,
+					(0, react_jsx_runtime.jsxs)("aside", {
+						className: ProvidersSection_module_css_default.providerList,
+						children: [
+							(0, react_jsx_runtime.jsx)("div", {
+								className: ProvidersSection_module_css_default.searchRow,
+								children: (0, react_jsx_runtime.jsxs)("div", {
+									className: ProvidersSection_module_css_default.searchWrap,
+									children: [
+										(0, react_jsx_runtime.jsxs)("svg", {
+											className: ProvidersSection_module_css_default.searchIcon,
+											viewBox: "0 0 16 16",
+											fill: "none",
+											children: [(0, react_jsx_runtime.jsx)("circle", {
+												cx: "7",
+												cy: "7",
+												r: "5",
+												stroke: "currentColor",
+												strokeWidth: "1.5"
+											}), (0, react_jsx_runtime.jsx)("path", {
+												d: "M11 11L14 14",
+												stroke: "currentColor",
+												strokeWidth: "1.5",
+												strokeLinecap: "round"
+											})]
+										}),
+										(0, react_jsx_runtime.jsx)("input", {
+											type: "text",
+											className: ProvidersSection_module_css_default.searchInput,
+											placeholder: "搜索提供商...",
+											value: search,
+											onChange: (e) => setSearch(e.target.value)
+										}),
+										search && (0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: ProvidersSection_module_css_default.searchClearButton,
+											onClick: () => setSearch(""),
+											"aria-label": "清除搜索",
+											children: (0, react_jsx_runtime.jsx)("svg", {
+												width: "12",
+												height: "12",
+												viewBox: "0 0 12 12",
+												fill: "none",
+												children: (0, react_jsx_runtime.jsx)("path", {
+													d: "M9 3L3 9M3 3L9 9",
+													stroke: "currentColor",
+													strokeWidth: "1.5",
+													strokeLinecap: "round"
+												})
+											})
+										})
+									]
+								})
+							}),
+							(0, react_jsx_runtime.jsx)("div", {
+								className: ProvidersSection_module_css_default.listScroller,
+								children: filteredProviders.length === 0 ? (0, react_jsx_runtime.jsx)("div", {
+									className: ProvidersSection_module_css_default.emptyState,
+									children: search ? "没有找到匹配的提供商" : "暂无配置的提供商"
+								}) : (0, react_jsx_runtime.jsx)("div", {
+									className: ProvidersSection_module_css_default.listItems,
+									children: filteredProviders.map((provider) => (0, react_jsx_runtime.jsxs)("button", {
+										type: "button",
+										className: `${ProvidersSection_module_css_default.listItem} ${provider.id === selectedId ? ProvidersSection_module_css_default.listItemSelected : ProvidersSection_module_css_default.listItemIdle}`,
+										onClick: () => setSelectedId(provider.id),
+										children: [(0, react_jsx_runtime.jsxs)("div", {
+											className: ProvidersSection_module_css_default.listItemMain,
+											children: [(0, react_jsx_runtime.jsx)("div", {
+												className: ProvidersSection_module_css_default.listItemAvatar,
+												children: (0, react_jsx_runtime.jsxs)("svg", {
+													width: "20",
+													height: "20",
+													viewBox: "0 0 20 20",
+													fill: "none",
+													children: [(0, react_jsx_runtime.jsx)("rect", {
+														width: "20",
+														height: "20",
+														rx: "4",
+														fill: "currentColor",
+														opacity: "0.1"
+													}), (0, react_jsx_runtime.jsx)("path", {
+														d: "M6 8L10 12L14 8",
+														stroke: "currentColor",
+														strokeWidth: "1.5",
+														strokeLinecap: "round",
+														strokeLinejoin: "round"
+													})]
+												})
+											}), (0, react_jsx_runtime.jsx)("span", {
+												className: ProvidersSection_module_css_default.listItemLabel,
+												children: provider.name
+											})]
+										}), provider.enabled && (0, react_jsx_runtime.jsx)("span", { className: ProvidersSection_module_css_default.enabledDot })]
+									}, provider.id))
+								})
+							}),
+							(0, react_jsx_runtime.jsx)("div", {
+								className: ProvidersSection_module_css_default.addFooter,
+								children: (0, react_jsx_runtime.jsxs)("button", {
+									type: "button",
+									className: ProvidersSection_module_css_default.addButton,
+									onClick: handleOpenCreateDialog,
+									children: [(0, react_jsx_runtime.jsx)("svg", {
+										width: "14",
+										height: "14",
+										viewBox: "0 0 14 14",
+										fill: "none",
+										children: (0, react_jsx_runtime.jsx)("path", {
+											d: "M7 3V11M3 7H11",
+											stroke: "currentColor",
+											strokeWidth: "1.5",
+											strokeLinecap: "round"
+										})
+									}), (0, react_jsx_runtime.jsx)("span", { children: "添加提供商" })]
+								})
+							})
+						]
+					}),
+					selectedProvider ? (0, react_jsx_runtime.jsxs)("main", {
+						className: ProvidersSection_module_css_default.providerDetail,
 						children: [(0, react_jsx_runtime.jsxs)("div", {
-							className: ProvidersSection_module_css_default.headerLeft,
-							children: [(0, react_jsx_runtime.jsx)("h1", {
-								className: ProvidersSection_module_css_default.title,
-								children: "API Providers"
-							}), (0, react_jsx_runtime.jsx)("p", {
-								className: ProvidersSection_module_css_default.description,
-								children: "管理 OpenAI 兼容的 API 提供商配置"
-							})]
-						}), (0, react_jsx_runtime.jsx)("div", {
-							className: ProvidersSection_module_css_default.headerActions,
-							children: (0, react_jsx_runtime.jsxs)("button", {
+							className: ProvidersSection_module_css_default.detailHeader,
+							children: [(0, react_jsx_runtime.jsxs)("div", {
+								className: ProvidersSection_module_css_default.detailHeaderContent,
+								children: [(0, react_jsx_runtime.jsx)("h2", {
+									className: ProvidersSection_module_css_default.detailTitle,
+									children: selectedProvider.name
+								}), (0, react_jsx_runtime.jsxs)("div", {
+									className: ProvidersSection_module_css_default.detailMeta,
+									children: [(0, react_jsx_runtime.jsxs)("span", {
+										className: ProvidersSection_module_css_default.detailMetaItem,
+										children: [(0, react_jsx_runtime.jsx)("svg", {
+											width: "12",
+											height: "12",
+											viewBox: "0 0 12 12",
+											fill: "none",
+											children: (0, react_jsx_runtime.jsx)("path", {
+												d: "M6 2L3 4V8L6 10L9 8V4L6 2Z",
+												stroke: "currentColor",
+												strokeWidth: "1.5",
+												strokeLinecap: "round",
+												strokeLinejoin: "round"
+											})
+										}), selectedProvider.type]
+									}), (0, react_jsx_runtime.jsxs)("span", {
+										className: ProvidersSection_module_css_default.detailMetaItem,
+										children: [
+											(0, react_jsx_runtime.jsxs)("svg", {
+												width: "12",
+												height: "12",
+												viewBox: "0 0 12 12",
+												fill: "none",
+												children: [(0, react_jsx_runtime.jsx)("circle", {
+													cx: "6",
+													cy: "6",
+													r: "4",
+													stroke: "currentColor",
+													strokeWidth: "1.5"
+												}), (0, react_jsx_runtime.jsx)("path", {
+													d: "M6 3V6L8 8",
+													stroke: "currentColor",
+													strokeWidth: "1.5",
+													strokeLinecap: "round"
+												})]
+											}),
+											selectedProvider.models.length,
+											" 模型"
+										]
+									})]
+								})]
+							}), (0, react_jsx_runtime.jsx)("button", {
 								type: "button",
-								className: ProvidersSection_module_css_default.primaryButton,
-								onClick: () => alert("添加提供商功能开发中"),
-								disabled: true,
-								children: [(0, react_jsx_runtime.jsx)("svg", {
+								className: ProvidersSection_module_css_default.editButton,
+								onClick: () => handleOpenEditDialog(selectedProvider),
+								title: "编辑提供商",
+								children: (0, react_jsx_runtime.jsx)("svg", {
 									width: "16",
 									height: "16",
 									viewBox: "0 0 16 16",
 									fill: "none",
 									children: (0, react_jsx_runtime.jsx)("path", {
-										d: "M14 7H9V2C9 1.45 8.55 1 8 1C7.45 1 7 1.45 7 2V7H2C1.45 7 1 7.45 1 8C1 8.55 1.45 9 2 9H7V14C7 14.55 7.45 15 8 15C8.55 15 9 14.55 9 14V9H14C14.55 9 15 8.55 15 8C15 7.45 14.55 7 14 7Z",
-										fill: "currentColor"
+										d: "M11.333 2.00004C11.5081 1.82494 11.716 1.68605 11.9447 1.59129C12.1735 1.49653 12.4187 1.44775 12.6663 1.44775C12.914 1.44775 13.1592 1.49653 13.3879 1.59129C13.6167 1.68605 13.8246 1.82494 13.9997 2.00004C14.1748 2.17513 14.3137 2.383 14.4084 2.61178C14.5032 2.84055 14.552 3.08575 14.552 3.33337C14.552 3.58099 14.5032 3.82619 14.4084 4.05497C14.3137 4.28374 14.1748 4.49161 13.9997 4.66671L5.33301 13.3334L2.66634 14L3.33301 11.3334L11.333 2.00004Z",
+										stroke: "currentColor",
+										strokeWidth: "1.5",
+										strokeLinecap: "round",
+										strokeLinejoin: "round"
 									})
-								}), "添加提供商"]
+								})
+							})]
+						}), (0, react_jsx_runtime.jsx)("div", {
+							className: ProvidersSection_module_css_default.detailScroll,
+							children: (0, react_jsx_runtime.jsxs)("div", {
+								className: ProvidersSection_module_css_default.detailContentMaxWidth,
+								children: [
+									(0, react_jsx_runtime.jsx)(ProviderAuthentication, {
+										provider: selectedProvider,
+										onUpdateProvider: handleUpdateProvider,
+										onTestConnection: handleTestConnection,
+										onDiscoverModels: handleDiscoverModels,
+										isTestingConnection,
+										isDiscoveringModels,
+										connectionTestResult
+									}),
+									(0, react_jsx_runtime.jsx)(ProviderModelList, {
+										provider: selectedProvider,
+										onToggleModel: async (modelId, enabled) => {
+											if (!providersService) return;
+											try {
+												await providersService.updateModel({
+													providerId: selectedProvider.id,
+													modelId,
+													dto: { enabled }
+												});
+												await loadProviders();
+											} catch (err) {
+												setError(err instanceof Error ? err.message : "Failed to update model");
+											}
+										}
+									}),
+									(0, react_jsx_runtime.jsxs)("section", {
+										className: ProvidersSection_module_css_default.section,
+										children: [(0, react_jsx_runtime.jsx)("h3", {
+											className: ProvidersSection_module_css_default.sectionHeading,
+											children: "危险操作"
+										}), (0, react_jsx_runtime.jsxs)("div", {
+											className: ProvidersSection_module_css_default.sectionBody,
+											children: [(0, react_jsx_runtime.jsxs)("div", {
+												className: ProvidersSection_module_css_default.dangerZone,
+												children: [(0, react_jsx_runtime.jsxs)("div", {
+													className: ProvidersSection_module_css_default.dangerZoneText,
+													children: [(0, react_jsx_runtime.jsx)("div", {
+														className: ProvidersSection_module_css_default.dangerZoneTitle,
+														children: "删除提供商"
+													}), (0, react_jsx_runtime.jsx)("div", {
+														className: ProvidersSection_module_css_default.dangerZoneDescription,
+														children: "此操作不可撤销。删除后，所有关联的模型配置也将被移除。"
+													})]
+												}), (0, react_jsx_runtime.jsx)("button", {
+													type: "button",
+													className: ProvidersSection_module_css_default.dangerButton,
+													onClick: () => handleDelete(selectedProvider.id, selectedProvider.name),
+													children: "删除"
+												})]
+											}), (0, react_jsx_runtime.jsxs)("div", {
+												className: ProvidersSection_module_css_default.dangerZone,
+												children: [(0, react_jsx_runtime.jsxs)("div", {
+													className: ProvidersSection_module_css_default.dangerZoneText,
+													children: [(0, react_jsx_runtime.jsxs)("div", {
+														className: ProvidersSection_module_css_default.dangerZoneTitle,
+														children: [selectedProvider.enabled ? "禁用" : "启用", "提供商"]
+													}), (0, react_jsx_runtime.jsx)("div", {
+														className: ProvidersSection_module_css_default.dangerZoneDescription,
+														children: selectedProvider.enabled ? "禁用后，此提供商的所有模型将无法使用。" : "启用后，此提供商的模型将可以在对话中使用。"
+													})]
+												}), (0, react_jsx_runtime.jsx)("button", {
+													type: "button",
+													className: ProvidersSection_module_css_default.secondaryButton,
+													onClick: () => handleToggleEnable(selectedProvider.id, selectedProvider.enabled),
+													children: selectedProvider.enabled ? "禁用" : "启用"
+												})]
+											})]
+										})]
+									})
+								]
 							})
 						})]
-					}),
-					(0, react_jsx_runtime.jsx)("div", {
-						className: ProvidersSection_module_css_default.searchRow,
-						children: (0, react_jsx_runtime.jsx)("input", {
-							type: "text",
-							className: ProvidersSection_module_css_default.searchInput,
-							placeholder: "搜索提供商...",
-							value: search,
-							onChange: (e) => setSearch(e.target.value)
-						})
-					}),
-					(0, react_jsx_runtime.jsx)("div", {
-						className: ProvidersSection_module_css_default.content,
-						children: loading ? (0, react_jsx_runtime.jsx)("div", {
-							className: ProvidersSection_module_css_default.loading,
-							children: "加载中..."
-						}) : error ? (0, react_jsx_runtime.jsxs)("div", {
-							className: ProvidersSection_module_css_default.error,
-							children: [
-								(0, react_jsx_runtime.jsx)("div", {
-									className: ProvidersSection_module_css_default.emptyTitle,
-									children: "加载失败"
-								}),
-								(0, react_jsx_runtime.jsx)("div", {
-									className: ProvidersSection_module_css_default.emptyDescription,
-									children: error
-								}),
-								(0, react_jsx_runtime.jsx)("button", {
-									className: ProvidersSection_module_css_default.secondaryButton,
-									onClick: () => loadProviders(),
-									children: "重试"
-								})
-							]
-						}) : filteredProviders.length === 0 ? (0, react_jsx_runtime.jsxs)("div", {
-							className: ProvidersSection_module_css_default.empty,
+					}) : (0, react_jsx_runtime.jsx)("main", {
+						className: ProvidersSection_module_css_default.providerDetail,
+						children: (0, react_jsx_runtime.jsxs)("div", {
+							className: ProvidersSection_module_css_default.emptyDetailState,
 							children: [
 								(0, react_jsx_runtime.jsxs)("svg", {
 									className: ProvidersSection_module_css_default.emptyIcon,
@@ -1798,159 +2952,22 @@ window.__ModuleLoader__.load({
 								}),
 								(0, react_jsx_runtime.jsx)("div", {
 									className: ProvidersSection_module_css_default.emptyTitle,
-									children: "暂无配置的提供商"
+									children: "选择一个提供商"
 								}),
 								(0, react_jsx_runtime.jsx)("div", {
 									className: ProvidersSection_module_css_default.emptyDescription,
-									children: search ? "没有找到匹配的提供商" : "点击上方按钮添加新的 API 提供商"
+									children: "在左侧列表中选择一个提供商以查看和管理其配置"
 								})
 							]
-						}) : (0, react_jsx_runtime.jsx)("div", {
-							className: ProvidersSection_module_css_default.grid,
-							children: filteredProviders.map((provider) => (0, react_jsx_runtime.jsxs)("div", {
-								className: ProvidersSection_module_css_default.card,
-								children: [
-									(0, react_jsx_runtime.jsxs)("div", {
-										className: ProvidersSection_module_css_default.cardHeader,
-										children: [(0, react_jsx_runtime.jsx)("h3", {
-											className: ProvidersSection_module_css_default.cardTitle,
-											children: provider.name
-										}), (0, react_jsx_runtime.jsxs)("div", {
-											className: ProvidersSection_module_css_default.cardActions,
-											children: [(0, react_jsx_runtime.jsx)("button", {
-												type: "button",
-												className: ProvidersSection_module_css_default.iconButton,
-												title: provider.enabled ? "禁用" : "启用",
-												onClick: () => handleToggleEnable(provider.id, provider.enabled),
-												children: provider.enabled ? (0, react_jsx_runtime.jsx)("svg", {
-													width: "16",
-													height: "16",
-													viewBox: "0 0 16 16",
-													fill: "none",
-													children: (0, react_jsx_runtime.jsx)("path", {
-														d: "M8 2C4.7 2 2 4.7 2 8C2 11.3 4.7 14 8 14C11.3 14 14 11.3 14 8C14 4.7 11.3 2 8 2ZM6.5 11L3 7.5L4.4 6.1L6.5 8.2L11.6 3.1L13 4.5L6.5 11Z",
-														fill: "currentColor"
-													})
-												}) : (0, react_jsx_runtime.jsx)("svg", {
-													width: "16",
-													height: "16",
-													viewBox: "0 0 16 16",
-													fill: "none",
-													children: (0, react_jsx_runtime.jsx)("circle", {
-														cx: "8",
-														cy: "8",
-														r: "6",
-														stroke: "currentColor",
-														strokeWidth: "2",
-														fill: "none"
-													})
-												})
-											}), (0, react_jsx_runtime.jsx)("button", {
-												type: "button",
-												className: ProvidersSection_module_css_default.iconButton,
-												title: "删除",
-												onClick: () => handleDelete(provider.id, provider.name),
-												children: (0, react_jsx_runtime.jsx)("svg", {
-													width: "16",
-													height: "16",
-													viewBox: "0 0 16 16",
-													fill: "none",
-													children: (0, react_jsx_runtime.jsx)("path", {
-														d: "M3 5H13L12 14H4L3 5ZM6 2H10V3H6V2ZM7 7V12H8V7H7ZM9 7V12H10V7H9Z",
-														fill: "currentColor"
-													})
-												})
-											})]
-										})]
-									}),
-									(0, react_jsx_runtime.jsx)("p", {
-										className: ProvidersSection_module_css_default.cardDescription,
-										children: provider.baseURL
-									}),
-									(0, react_jsx_runtime.jsxs)("div", {
-										className: ProvidersSection_module_css_default.cardMeta,
-										children: [
-											(0, react_jsx_runtime.jsxs)("span", {
-												className: ProvidersSection_module_css_default.cardMetaItem,
-												children: [(0, react_jsx_runtime.jsx)("svg", {
-													width: "12",
-													height: "12",
-													viewBox: "0 0 12 12",
-													fill: "none",
-													children: (0, react_jsx_runtime.jsx)("path", {
-														d: "M6 2L3 4V8L6 10L9 8V4L6 2Z",
-														stroke: "currentColor",
-														strokeWidth: "1.5",
-														strokeLinecap: "round",
-														strokeLinejoin: "round"
-													})
-												}), provider.type]
-											}),
-											(0, react_jsx_runtime.jsxs)("span", {
-												className: ProvidersSection_module_css_default.cardMetaItem,
-												children: [
-													(0, react_jsx_runtime.jsxs)("svg", {
-														width: "12",
-														height: "12",
-														viewBox: "0 0 12 12",
-														fill: "none",
-														children: [(0, react_jsx_runtime.jsx)("path", {
-															d: "M6 3V6L8 8",
-															stroke: "currentColor",
-															strokeWidth: "1.5",
-															strokeLinecap: "round"
-														}), (0, react_jsx_runtime.jsx)("circle", {
-															cx: "6",
-															cy: "6",
-															r: "4",
-															stroke: "currentColor",
-															strokeWidth: "1.5"
-														})]
-													}),
-													provider.models.length,
-													" 模型"
-												]
-											}),
-											provider.hasApiKey && (0, react_jsx_runtime.jsxs)("span", {
-												className: ProvidersSection_module_css_default.cardMetaItem,
-												children: [(0, react_jsx_runtime.jsxs)("svg", {
-													width: "12",
-													height: "12",
-													viewBox: "0 0 12 12",
-													fill: "none",
-													children: [(0, react_jsx_runtime.jsx)("rect", {
-														x: "2",
-														y: "5",
-														width: "8",
-														height: "5",
-														rx: "1",
-														stroke: "currentColor",
-														strokeWidth: "1.5"
-													}), (0, react_jsx_runtime.jsx)("path", {
-														d: "M4 5V3.5C4 2.67 4.67 2 5.5 2H6.5C7.33 2 8 2.67 8 3.5V5",
-														stroke: "currentColor",
-														strokeWidth: "1.5"
-													})]
-												}), "已配置密钥"]
-											})
-										]
-									}),
-									(0, react_jsx_runtime.jsx)("div", {
-										className: ProvidersSection_module_css_default.cardFooter,
-										children: (0, react_jsx_runtime.jsx)("div", {
-											className: ProvidersSection_module_css_default.cardTags,
-											children: provider.enabled ? (0, react_jsx_runtime.jsx)("span", {
-												className: ProvidersSection_module_css_default.enabledBadge,
-												children: "已启用"
-											}) : (0, react_jsx_runtime.jsx)("span", {
-												className: ProvidersSection_module_css_default.disabledBadge,
-												children: "未启用"
-											})
-										})
-									})
-								]
-							}, provider.id))
 						})
+					}),
+					(0, react_jsx_runtime.jsx)(ProviderDialog, {
+						open: dialogOpen,
+						mode: dialogMode,
+						provider: editingProvider,
+						providersService,
+						onClose: handleCloseDialog,
+						onSuccess: handleDialogSuccess
 					})
 				]
 			});
@@ -1982,28 +2999,28 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
-			"nav": "_4STY0G_nav",
-			"content": "_4STY0G_content",
-			"navTitle": "_4STY0G_navTitle",
-			"navScroll": "_4STY0G_navScroll",
-			"navList": "_4STY0G_navList",
-			"triggerLabel": "_4STY0G_triggerLabel",
-			"header": "_4STY0G_header",
-			"actions": "_4STY0G_actions",
-			"close": "_4STY0G_close",
-			"navIcon": "_4STY0G_navIcon",
-			"trigger": "_4STY0G_trigger",
-			"navCell": "_4STY0G_navCell",
-			"navGroup": "_4STY0G_navGroup",
-			"panel": "_4STY0G_panel",
-			"overlay": "_4STY0G_overlay",
 			"rail": "_4STY0G_rail",
 			"active": "_4STY0G_active",
-			"hiddenLabel": "_4STY0G_hiddenLabel",
-			"navGroupTitle": "_4STY0G_navGroupTitle",
-			"options": "_4STY0G_options",
+			"navGroup": "_4STY0G_navGroup",
 			"mask": "_4STY0G_mask",
-			"navLabel": "_4STY0G_navLabel"
+			"trigger": "_4STY0G_trigger",
+			"navCell": "_4STY0G_navCell",
+			"navList": "_4STY0G_navList",
+			"navLabel": "_4STY0G_navLabel",
+			"content": "_4STY0G_content",
+			"triggerLabel": "_4STY0G_triggerLabel",
+			"nav": "_4STY0G_nav",
+			"options": "_4STY0G_options",
+			"navTitle": "_4STY0G_navTitle",
+			"panel": "_4STY0G_panel",
+			"navIcon": "_4STY0G_navIcon",
+			"close": "_4STY0G_close",
+			"actions": "_4STY0G_actions",
+			"overlay": "_4STY0G_overlay",
+			"hiddenLabel": "_4STY0G_hiddenLabel",
+			"header": "_4STY0G_header",
+			"navScroll": "_4STY0G_navScroll",
+			"navGroupTitle": "_4STY0G_navGroupTitle"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsRoot.js
@@ -2473,69 +3490,69 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelsSection_module_css_default = {
-			"fetchDialog": "tKsOKa_fetchDialog",
-			"error": "tKsOKa_error",
-			"credentialDot": "tKsOKa_credentialDot",
-			"intro": "tKsOKa_intro",
-			"savedNotice": "tKsOKa_savedNotice",
-			"primaryButton": "tKsOKa_primaryButton",
-			"advancedHint": "tKsOKa_advancedHint",
-			"rowName": "tKsOKa_rowName",
-			"modelCatalog": "tKsOKa_modelCatalog",
-			"notice": "tKsOKa_notice",
-			"iconButtonDanger": "tKsOKa_iconButtonDanger",
-			"addCard": "tKsOKa_addCard",
-			"modelListHead": "tKsOKa_modelListHead",
-			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
-			"rowCard": "tKsOKa_rowCard",
-			"customizedSummary": "tKsOKa_customizedSummary",
-			"editorActions": "tKsOKa_editorActions",
-			"dangerButton": "tKsOKa_dangerButton",
-			"customized": "tKsOKa_customized",
-			"rowHead": "tKsOKa_rowHead",
-			"rowActions": "tKsOKa_rowActions",
-			"linkButton": "tKsOKa_linkButton",
-			"modelRow": "tKsOKa_modelRow",
-			"section": "tKsOKa_section",
-			"modelEmpty": "tKsOKa_modelEmpty",
-			"selectInput": "tKsOKa_selectInput",
-			"candidate": "tKsOKa_candidate",
-			"modelSelectionPanel": "tKsOKa_modelSelectionPanel",
-			"addActions": "tKsOKa_addActions",
-			"credentialDotMissing": "tKsOKa_credentialDotMissing",
-			"rowIdentity": "tKsOKa_rowIdentity",
-			"fieldLabel": "tKsOKa_fieldLabel",
-			"setupCard": "tKsOKa_setupCard",
-			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
-			"rows": "tKsOKa_rows",
-			"field": "tKsOKa_field",
-			"addBlock": "tKsOKa_addBlock",
-			"modelField": "tKsOKa_modelField",
-			"editorHeader": "tKsOKa_editorHeader",
-			"deleteDialog": "tKsOKa_deleteDialog",
 			"iconButton": "tKsOKa_iconButton",
-			"modelAdvanced": "tKsOKa_modelAdvanced",
-			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
-			"modelSelectionTitle": "tKsOKa_modelSelectionTitle",
+			"modelEmpty": "tKsOKa_modelEmpty",
 			"deleteConfirm": "tKsOKa_deleteConfirm",
-			"hiddenLabel": "tKsOKa_hiddenLabel",
-			"editorRoute": "tKsOKa_editorRoute",
-			"modelFieldLabel": "tKsOKa_modelFieldLabel",
-			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
-			"candidateId": "tKsOKa_candidateId",
-			"modelEntry": "tKsOKa_modelEntry",
-			"title": "tKsOKa_title",
-			"editorTitle": "tKsOKa_editorTitle",
 			"candidateList": "tKsOKa_candidateList",
+			"modelCatalog": "tKsOKa_modelCatalog",
+			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
+			"modelField": "tKsOKa_modelField",
+			"addCard": "tKsOKa_addCard",
 			"candidateLabel": "tKsOKa_candidateLabel",
-			"secondaryButton": "tKsOKa_secondaryButton",
-			"input": "tKsOKa_input",
-			"addButton": "tKsOKa_addButton",
-			"addModelButton": "tKsOKa_addModelButton",
+			"modelRow": "tKsOKa_modelRow",
+			"hiddenLabel": "tKsOKa_hiddenLabel",
+			"rowHead": "tKsOKa_rowHead",
+			"title": "tKsOKa_title",
+			"rowActions": "tKsOKa_rowActions",
+			"selectInput": "tKsOKa_selectInput",
+			"addBlock": "tKsOKa_addBlock",
 			"editor": "tKsOKa_editor",
-			"customizedBody": "tKsOKa_customizedBody",
+			"modelSelectionTitle": "tKsOKa_modelSelectionTitle",
+			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"modelFieldLabel": "tKsOKa_modelFieldLabel",
+			"editorRoute": "tKsOKa_editorRoute",
+			"credentialDot": "tKsOKa_credentialDot",
+			"rowName": "tKsOKa_rowName",
+			"fetchDialog": "tKsOKa_fetchDialog",
+			"addButton": "tKsOKa_addButton",
+			"deleteDialog": "tKsOKa_deleteDialog",
+			"intro": "tKsOKa_intro",
+			"error": "tKsOKa_error",
+			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
+			"rowIdentity": "tKsOKa_rowIdentity",
+			"customized": "tKsOKa_customized",
+			"input": "tKsOKa_input",
+			"savedNotice": "tKsOKa_savedNotice",
+			"editorActions": "tKsOKa_editorActions",
+			"section": "tKsOKa_section",
+			"advancedHint": "tKsOKa_advancedHint",
+			"rowCard": "tKsOKa_rowCard",
+			"rows": "tKsOKa_rows",
+			"fieldLabel": "tKsOKa_fieldLabel",
 			"modelList": "tKsOKa_modelList",
-			"rowTag": "tKsOKa_rowTag"
+			"modelAdvanced": "tKsOKa_modelAdvanced",
+			"secondaryButton": "tKsOKa_secondaryButton",
+			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
+			"editorHeader": "tKsOKa_editorHeader",
+			"setupCard": "tKsOKa_setupCard",
+			"iconButtonDanger": "tKsOKa_iconButtonDanger",
+			"modelSelectionPanel": "tKsOKa_modelSelectionPanel",
+			"candidateId": "tKsOKa_candidateId",
+			"customizedBody": "tKsOKa_customizedBody",
+			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
+			"modelListHead": "tKsOKa_modelListHead",
+			"notice": "tKsOKa_notice",
+			"linkButton": "tKsOKa_linkButton",
+			"primaryButton": "tKsOKa_primaryButton",
+			"editorTitle": "tKsOKa_editorTitle",
+			"dangerButton": "tKsOKa_dangerButton",
+			"field": "tKsOKa_field",
+			"rowTag": "tKsOKa_rowTag",
+			"addModelButton": "tKsOKa_addModelButton",
+			"modelEntry": "tKsOKa_modelEntry",
+			"candidate": "tKsOKa_candidate",
+			"addActions": "tKsOKa_addActions",
+			"customizedSummary": "tKsOKa_customizedSummary"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -5650,10 +6667,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var OnboardingModal_module_css_default = {
-			"content": "C_CJ_a_content",
 			"title": "C_CJ_a_title",
 			"body": "C_CJ_a_body",
-			"dialog": "C_CJ_a_dialog"
+			"dialog": "C_CJ_a_dialog",
+			"content": "C_CJ_a_content"
 		};
 		//#endregion
 		//#region lib/types/client/OnboardingModal.js
@@ -5712,8 +6729,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var DeepSeekOnboardingDialog_module_css_default = {
-			"editor": "oxcHWa_editor",
-			"description": "oxcHWa_description"
+			"description": "oxcHWa_description",
+			"editor": "oxcHWa_editor"
 		};
 		//#endregion
 		//#region lib/types/client/DeepSeekOnboardingDialog.js
@@ -5803,10 +6820,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WelcomeNotice_module_css_default = {
-			"primary": "RFswhG_primary",
-			"copy": "RFswhG_copy",
 			"error": "RFswhG_error",
-			"actions": "RFswhG_actions"
+			"actions": "RFswhG_actions",
+			"primary": "RFswhG_primary",
+			"copy": "RFswhG_copy"
 		};
 		//#endregion
 		//#region lib/types/client/WelcomeNotice.js
@@ -6269,13 +7286,13 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProductWorkspaceSurface_module_css_default = {
-			"root": "mzcFbW_root",
+			"header": "mzcFbW_header",
 			"icon": "mzcFbW_icon",
-			"eyebrow": "mzcFbW_eyebrow",
-			"identity": "mzcFbW_identity",
-			"close": "mzcFbW_close",
 			"body": "mzcFbW_body",
-			"header": "mzcFbW_header"
+			"close": "mzcFbW_close",
+			"eyebrow": "mzcFbW_eyebrow",
+			"root": "mzcFbW_root",
+			"identity": "mzcFbW_identity"
 		};
 		//#endregion
 		//#region lib/types/client/ProductWorkspaceSurface.js
@@ -6323,20 +7340,20 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TranslationWorkspace_module_css_default = {
-			"toolbar": "_8lesPa_toolbar",
-			"link": "_8lesPa_link",
-			"actions": "_8lesPa_actions",
+			"historyItem": "_8lesPa_historyItem",
 			"eyebrow": "_8lesPa_eyebrow",
-			"swap": "_8lesPa_swap",
+			"header": "_8lesPa_header",
+			"link": "_8lesPa_link",
+			"pane": "_8lesPa_pane",
 			"root": "_8lesPa_root",
 			"secondary": "_8lesPa_secondary",
-			"panes": "_8lesPa_panes",
-			"header": "_8lesPa_header",
-			"history": "_8lesPa_history",
-			"historyItem": "_8lesPa_historyItem",
-			"empty": "_8lesPa_empty",
 			"error": "_8lesPa_error",
-			"pane": "_8lesPa_pane"
+			"empty": "_8lesPa_empty",
+			"history": "_8lesPa_history",
+			"toolbar": "_8lesPa_toolbar",
+			"swap": "_8lesPa_swap",
+			"actions": "_8lesPa_actions",
+			"panes": "_8lesPa_panes"
 		};
 		//#endregion
 		//#region lib/types/client/TranslationWorkspace.js

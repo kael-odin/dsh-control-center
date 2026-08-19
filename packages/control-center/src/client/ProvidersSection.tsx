@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState, useMemo } from 'react'
 import type { ProviderView, CreateProviderDto, UpdateProviderDto, UpdateModelDto, ModelView } from '../provider-types.ts'
 import { ProviderAuthentication } from './ProviderAuthentication.tsx'
 import { ProviderModelList } from './ProviderModelList.tsx'
+import { ProviderDialog } from './ProviderDialog.tsx'
 import css from './ProvidersSection.module.css'
 
 interface ProvidersService {
@@ -33,6 +34,9 @@ export function ProvidersSection(props: ProvidersSectionProps) {
   const [isTestingConnection, setIsTestingConnection] = useState(false)
   const [isDiscoveringModels, setIsDiscoveringModels] = useState(false)
   const [connectionTestResult, setConnectionTestResult] = useState<{ success: boolean; latencyMs?: number; error?: string } | null>(null)
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [dialogMode, setDialogMode] = useState<'create' | 'edit'>('create')
+  const [editingProvider, setEditingProvider] = useState<ProviderView | undefined>(undefined)
 
   const loadProviders = useCallback(async () => {
     if (!providersService) {
@@ -144,6 +148,27 @@ export function ProvidersSection(props: ProvidersSectionProps) {
     [providersService, loadProviders]
   )
 
+  const handleOpenCreateDialog = useCallback(() => {
+    setDialogMode('create')
+    setEditingProvider(undefined)
+    setDialogOpen(true)
+  }, [])
+
+  const handleOpenEditDialog = useCallback((provider: ProviderView) => {
+    setDialogMode('edit')
+    setEditingProvider(provider)
+    setDialogOpen(true)
+  }, [])
+
+  const handleCloseDialog = useCallback(() => {
+    setDialogOpen(false)
+    setEditingProvider(undefined)
+  }, [])
+
+  const handleDialogSuccess = useCallback(async () => {
+    await loadProviders()
+  }, [loadProviders])
+
   if (loading) {
     return (
       <div className={css.splitRoot}>
@@ -246,8 +271,7 @@ export function ProvidersSection(props: ProvidersSectionProps) {
           <button
             type="button"
             className={css.addButton}
-            onClick={() => alert('添加提供商功能开发中')}
-            disabled
+            onClick={handleOpenCreateDialog}
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path
@@ -291,6 +315,22 @@ export function ProvidersSection(props: ProvidersSectionProps) {
                 </span>
               </div>
             </div>
+            <button
+              type="button"
+              className={css.editButton}
+              onClick={() => handleOpenEditDialog(selectedProvider)}
+              title="编辑提供商"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M11.333 2.00004C11.5081 1.82494 11.716 1.68605 11.9447 1.59129C12.1735 1.49653 12.4187 1.44775 12.6663 1.44775C12.914 1.44775 13.1592 1.49653 13.3879 1.59129C13.6167 1.68605 13.8246 1.82494 13.9997 2.00004C14.1748 2.17513 14.3137 2.383 14.4084 2.61178C14.5032 2.84055 14.552 3.08575 14.552 3.33337C14.552 3.58099 14.5032 3.82619 14.4084 4.05497C14.3137 4.28374 14.1748 4.49161 13.9997 4.66671L5.33301 13.3334L2.66634 14L3.33301 11.3334L11.333 2.00004Z"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
           </div>
 
           {/* Provider detail content */}
@@ -382,6 +422,16 @@ export function ProvidersSection(props: ProvidersSectionProps) {
           </div>
         </main>
       )}
+
+      {/* Provider Add/Edit Dialog */}
+      <ProviderDialog
+        open={dialogOpen}
+        mode={dialogMode}
+        provider={editingProvider}
+        providersService={providersService}
+        onClose={handleCloseDialog}
+        onSuccess={handleDialogSuccess}
+      />
     </div>
   )
 }

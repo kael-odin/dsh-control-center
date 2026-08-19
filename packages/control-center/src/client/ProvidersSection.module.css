@@ -218,14 +218,39 @@
 
 /* Detail header */
 .detailHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   flex-shrink: 0;
   padding: 10px 24px;
 }
 
 .detailHeaderContent {
-  margin: 0 auto;
+  margin: 0;
+  flex: 1;
   width: 100%;
   max-width: 768px;
+}
+
+.editButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.editButton:hover {
+  background: var(--color-background-hover);
+  color: var(--color-text-primary);
 }
 
 .detailTitle {
