@@ -29,7 +29,7 @@ export declare class WebSearchService extends Service {
 }
 declare module '@deepseek-ai/cordis' {
     interface Context {
-        'control-center-websearch': WebSearchService;
+        'controlCenterWebSearch': WebSearchService;
     }
 }
 //# sourceMappingURL=websearch.d.ts.map

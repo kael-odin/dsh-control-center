@@ -1,10 +1,10 @@
 import { createRequire } from "node:module";
-import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
-import { createHash, randomUUID } from "node:crypto";
-import { mkdir, rm, writeFile } from "node:fs/promises";
-import { DatabaseSync } from "node:sqlite";
 import { basename, join, relative, resolve } from "node:path";
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { mkdir, rm, writeFile } from "node:fs/promises";
 import { homedir } from "node:os";
+import { createHash, randomUUID } from "node:crypto";
+import { DatabaseSync } from "node:sqlite";
 import process$1 from "node:process";
 import { PassThrough } from "node:stream";
 //#region \0rolldown/runtime.js
@@ -9186,6 +9186,49 @@ function settingsNamespace(value) {
 }
 Service.init;
 //#endregion
+//#region node_modules/.pnpm/@deepseek-ai+dsh-home-paths_769580a48b74bc9cf5adad9d464e25ab/node_modules/@deepseek-ai/dsh-home-paths/lib/index.js
+/**
+* Shared filesystem path helpers for DeepSeek Harness user data.
+*
+* @module @deepseek-ai/dsh-home-paths
+*/
+/** Directory name for the default DeepSeek Harness home under the OS home. */
+const DSH_HOME_DIR_NAME = ".dsh";
+/** Environment variable that overrides the default DeepSeek Harness home. */
+const DSH_HOME_ENV = "DSH_HOME";
+/**
+* Resolve the default DeepSeek Harness home using Node's platform path rules.
+* @returns the absolute default harness home path.
+*/
+function defaultDshHome() {
+	return join(homedir(), DSH_HOME_DIR_NAME);
+}
+/**
+* Expand supported tilde prefixes against the operating-system home.
+* @param path - configured path that may begin with `~`, `~/`, or `~\`.
+* @returns the expanded path, or the original value when no supported prefix is present.
+*/
+function expandHomePath(path) {
+	if (path === "~") return homedir();
+	if (path.startsWith("~/") || path.startsWith("~\\")) return join(homedir(), path.slice(2));
+	return path;
+}
+/**
+* Resolve the single-root DeepSeek Harness home.
+*
+* Precedence, highest first: an explicit configured path, `$DSH_HOME`, then
+* `~/.dsh`. The harness keeps all user data under one root. An empty or
+* whitespace-only `$DSH_HOME` is treated as unset, so a blank override never
+* resolves the home to the current working directory.
+* @param configured - explicit harness-home override, which has highest precedence.
+* @param env - environment mapping used to read `DSH_HOME`.
+* @returns the normalized absolute harness home path.
+*/
+function resolveDshHome(configured, env = process.env) {
+	const fromEnv = env[DSH_HOME_ENV];
+	return resolve(expandHomePath(configured ?? (fromEnv !== void 0 && fromEnv.trim().length > 0 ? fromEnv : defaultDshHome())));
+}
+//#endregion
 //#region node_modules/.pnpm/@deepseek-ai+dsh-timeout@0._22adfdf3ba29bade6675fa7bb401c215/node_modules/@deepseek-ai/dsh-timeout/lib/index.js
 /** Largest delay Node schedules without clamping it to one millisecond. */
 const MAX_TIMER_DELAY_MS = 2147483647;
@@ -9491,49 +9534,6 @@ function getPath(value, path) {
 		current = current[key];
 	}
 	return current;
-}
-//#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-home-paths_769580a48b74bc9cf5adad9d464e25ab/node_modules/@deepseek-ai/dsh-home-paths/lib/index.js
-/**
-* Shared filesystem path helpers for DeepSeek Harness user data.
-*
-* @module @deepseek-ai/dsh-home-paths
-*/
-/** Directory name for the default DeepSeek Harness home under the OS home. */
-const DSH_HOME_DIR_NAME = ".dsh";
-/** Environment variable that overrides the default DeepSeek Harness home. */
-const DSH_HOME_ENV = "DSH_HOME";
-/**
-* Resolve the default DeepSeek Harness home using Node's platform path rules.
-* @returns the absolute default harness home path.
-*/
-function defaultDshHome() {
-	return join(homedir(), DSH_HOME_DIR_NAME);
-}
-/**
-* Expand supported tilde prefixes against the operating-system home.
-* @param path - configured path that may begin with `~`, `~/`, or `~\`.
-* @returns the expanded path, or the original value when no supported prefix is present.
-*/
-function expandHomePath(path) {
-	if (path === "~") return homedir();
-	if (path.startsWith("~/") || path.startsWith("~\\")) return join(homedir(), path.slice(2));
-	return path;
-}
-/**
-* Resolve the single-root DeepSeek Harness home.
-*
-* Precedence, highest first: an explicit configured path, `$DSH_HOME`, then
-* `~/.dsh`. The harness keeps all user data under one root. An empty or
-* whitespace-only `$DSH_HOME` is treated as unset, so a blank override never
-* resolves the home to the current working directory.
-* @param configured - explicit harness-home override, which has highest precedence.
-* @param env - environment mapping used to read `DSH_HOME`.
-* @returns the normalized absolute harness home path.
-*/
-function resolveDshHome(configured, env = process.env) {
-	const fromEnv = env[DSH_HOME_ENV];
-	return resolve(expandHomePath(configured ?? (fromEnv !== void 0 && fromEnv.trim().length > 0 ? fromEnv : defaultDshHome())));
 }
 //#endregion
 //#region node_modules/.pnpm/@deepseek-ai+dsh-scope@0.1._3209d8827439c33684c2bfb6239ba3bb/node_modules/@deepseek-ai/dsh-scope/lib/index.js
@@ -21990,11 +21990,33 @@ var StdioClientTransport = class {
 	}
 };
 //#endregion
+//#region node_modules/.pnpm/@deepseek-ai+dsh-credential_6df341f05d8885c9ff6d5b51570dc623/node_modules/@deepseek-ai/dsh-credentials/lib/index.js
+/**
+* Service Definition for the credential-reference capability seam (`ctx.credentials`). Settings and composition files carry
+* *references* to secrets — environment-variable names — while providers own
+* the actual values and their storage. Consumers resolve a reference once per
+* operation, so a changed credential reaches the next operation without any
+* plugin restart, and configuration surfaces describe a reference without
+* ever seeing its value.
+* @module @deepseek-ai/dsh-credentials
+*/
+const REF_PATTERN = /^[A-Za-z_][A-Za-z0-9_]*$/;
+/**
+* Brand a raw string as a {@link CredentialRef}.
+* @param value - candidate reference; a POSIX shell identifier such as `DEEPSEEK_API_KEY`.
+* @returns the branded reference.
+*/
+function credentialRef(value) {
+	if (!REF_PATTERN.test(value)) throw new TypeError(`credential ref "${value}" must match ${String(REF_PATTERN)}`);
+	return value;
+}
+//#endregion
 //#region packages/control-center/lib/index.js
 var lib_exports = /* @__PURE__ */ __exportAll({
 	KnowledgeService: () => KnowledgeService,
 	McpService: () => McpService,
 	PaintingService: () => PaintingService,
+	ProvidersService: () => ProvidersService,
 	SkillsService: () => SkillsService,
 	TranslationService: () => TranslationService,
 	WebSearchService: () => WebSearchService,
@@ -22042,9 +22064,34 @@ const REQUIRED_PACKAGES = [
 		client: false
 	}
 ];
+function resolveManifest(requireFrom, name) {
+	try {
+		return requireFrom.resolve(`${name}/package.json`);
+	} catch {
+		return;
+	}
+}
+/**
+* Resolve DSH contract packages from the profile dependency root.
+*
+* When the bundle is installed into a profile, the plugin resolves DSH
+* packages from its own node_modules. The linked-repo dev layout breaks that:
+* pnpm `link:` resolves from the link target's real path, so the plugin
+* cannot see the profile's node_modules. Fall back to the framework's flat
+* module fallback (`$DSH_HOME/profiles/node_modules`), which symlinks every
+* DSH package and is the shared dependency root for all plugins.
+*/
+function profileRequire() {
+	const own = createRequire(import.meta.url);
+	if (REQUIRED_PACKAGES.every((required) => resolveManifest(own, required.name) !== void 0)) return own;
+	try {
+		const fallback = createRequire(join(resolveDshHome(), "profiles", "node_modules", "package.json"));
+		if (REQUIRED_PACKAGES.every((required) => resolveManifest(fallback, required.name) !== void 0)) return fallback;
+	} catch {}
+	return own;
+}
 /** Reject a DSH installation whose resolved contract packages differ from rc.7. */
-function assertCompatibleDsh(requireFrom = createRequire(import.meta.url)) {
-	if (import.meta.url.startsWith("file:///D:/Github_Open/dsh-control-center")) return;
+function assertCompatibleDsh(requireFrom = profileRequire()) {
 	for (const required of REQUIRED_PACKAGES) {
 		let manifestPath;
 		try {
@@ -23850,7 +23897,7 @@ var McpService = class extends Service {
 	scope;
 	runtimeStates = /* @__PURE__ */ new Map();
 	constructor(ctx) {
-		super(ctx, "control-center-mcp");
+		super(ctx, "controlCenterMcp");
 		this.scope = ctx.settings.register(MCP_NAMESPACE, Schema.object({ servers: Schema.array(Schema.object({
 			id: Schema.string(),
 			name: Schema.string(),
@@ -24076,7 +24123,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-Boc8ROEN.js");
+				const { SSEClientTransport } = await import("./sse-DuWUVBqk.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -24098,7 +24145,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-DBJ7Emir.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-B62CjLlf.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -24558,7 +24605,7 @@ var WebSearchService = class extends Service {
 	typertRemote = bindTypertRemote(this, "controlCenterWebSearch");
 	scope;
 	constructor(ctx, _config) {
-		super(ctx, "control-center-websearch");
+		super(ctx, "controlCenterWebSearch");
 		this.scope = ctx.settings.register(WEBSEARCH_NAMESPACE, Schema.object({
 			defaultSearchKeywordsProvider: Schema.union([
 				"zhipu",
@@ -24697,6 +24744,369 @@ const webSearchRemote = {
 		result: STRICT_JSON_WEBSEARCH
 	}))
 };
+/**
+* Control Center Providers Service - Host side provider management.
+*/
+const PROVIDERS_NAMESPACE = settingsNamespace("control-center-providers");
+var ProvidersService = class extends Service {
+	static inject = ["settings", "credentials"];
+	typertRemote = bindTypertRemote(this, "controlCenterProviders");
+	scope;
+	constructor(ctx, _config) {
+		super(ctx, "controlCenterProviders");
+		this.scope = ctx.settings.register(PROVIDERS_NAMESPACE, Schema.object({ providers: Schema.array(Schema.object({
+			id: Schema.string(),
+			name: Schema.string(),
+			type: Schema.string(),
+			baseURL: Schema.string(),
+			enabled: Schema.boolean().default(true),
+			apiKeyRef: Schema.string().role("secret"),
+			customHeaders: Schema.dict(String),
+			models: Schema.array(Schema.any()),
+			lastTestedAt: Schema.string(),
+			lastDiscoveredAt: Schema.string(),
+			createdAt: Schema.string(),
+			updatedAt: Schema.string()
+		})).default([]) }), { base: { providers: [] } });
+	}
+	async list() {
+		const providers = this.scope.get().providers || [];
+		return Promise.all(providers.map(async (record) => {
+			const hasApiKey = record.apiKeyRef ? (await this.ctx.credentials.describe(credentialRef(record.apiKeyRef))).configured : false;
+			return this.recordToView(record, hasApiKey);
+		}));
+	}
+	async getById(params) {
+		const record = this.scope.get().providers.find((p) => p.id === params.providerId);
+		if (!record) return null;
+		const hasApiKey = record.apiKeyRef ? (await this.ctx.credentials.describe(credentialRef(record.apiKeyRef))).configured : false;
+		return this.recordToView(record, hasApiKey);
+	}
+	async create(params) {
+		const { dto } = params;
+		const settings = this.scope.get();
+		const id = dto.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+		if (settings.providers.some((p) => p.id === id)) throw new Error(`Provider with ID "${id}" already exists`);
+		const now = (/* @__PURE__ */ new Date()).toISOString();
+		let apiKeyRef;
+		if (dto.apiKey) {
+			apiKeyRef = `CC_PROVIDER_${id.toUpperCase().replace(/-/g, "_")}_API_KEY`;
+			await this.ctx.credentials.set(credentialRef(apiKeyRef), dto.apiKey);
+		}
+		const record = {
+			id,
+			name: dto.name,
+			type: dto.type,
+			baseURL: dto.baseURL,
+			enabled: dto.enabled ?? true,
+			...apiKeyRef !== void 0 ? { apiKeyRef } : {},
+			...dto.customHeaders !== void 0 ? { customHeaders: dto.customHeaders } : {},
+			models: [],
+			createdAt: now,
+			updatedAt: now
+		};
+		await this.ctx.settings.update(PROVIDERS_NAMESPACE, { providers: [...settings.providers, record] });
+		return this.recordToView(record, !!dto.apiKey);
+	}
+	async update(params) {
+		const { providerId, dto } = params;
+		const settings = this.scope.get();
+		const index = settings.providers.findIndex((p) => p.id === providerId);
+		if (index === -1) throw new Error(`Provider "${providerId}" not found`);
+		const record = settings.providers[index];
+		if (record === void 0) throw new Error(`Provider "${providerId}" not found`);
+		const now = (/* @__PURE__ */ new Date()).toISOString();
+		if (dto.apiKey !== void 0) {
+			if (!record.apiKeyRef) record.apiKeyRef = `CC_PROVIDER_${providerId.toUpperCase().replace(/-/g, "_")}_API_KEY`;
+			await this.ctx.credentials.set(credentialRef(record.apiKeyRef), dto.apiKey);
+		}
+		const updated = {
+			...record,
+			name: dto.name ?? record.name,
+			baseURL: dto.baseURL ?? record.baseURL,
+			...dto.customHeaders !== void 0 ? { customHeaders: dto.customHeaders } : {},
+			enabled: dto.enabled ?? record.enabled,
+			updatedAt: now
+		};
+		const newProviders = [...settings.providers];
+		newProviders[index] = updated;
+		await this.ctx.settings.update(PROVIDERS_NAMESPACE, { providers: newProviders });
+		const hasApiKey = updated.apiKeyRef ? (await this.ctx.credentials.describe(credentialRef(updated.apiKeyRef))).configured : false;
+		return this.recordToView(updated, hasApiKey);
+	}
+	async delete(params) {
+		const settings = this.scope.get();
+		const record = settings.providers.find((p) => p.id === params.providerId);
+		if (!record) throw new Error(`Provider "${params.providerId}" not found`);
+		if (record.apiKeyRef) await this.ctx.credentials.unset(credentialRef(record.apiKeyRef));
+		await this.ctx.settings.update(PROVIDERS_NAMESPACE, { providers: settings.providers.filter((p) => p.id !== params.providerId) });
+	}
+	async testConnection(params) {
+		const settings = this.scope.get();
+		const record = settings.providers.find((p) => p.id === params.providerId);
+		if (!record) throw new Error(`Provider "${params.providerId}" not found`);
+		const testedAt = (/* @__PURE__ */ new Date()).toISOString();
+		const startTime = Date.now();
+		try {
+			let apiKey;
+			if (record.apiKeyRef) apiKey = (await this.ctx.credentials.resolve(credentialRef(record.apiKeyRef)))?.value;
+			const headers = {
+				"Content-Type": "application/json",
+				...record.customHeaders || {}
+			};
+			if (apiKey) {
+				if (record.type === "anthropic") {
+					headers["x-api-key"] = apiKey;
+					headers["anthropic-version"] = "2023-06-01";
+				} else if (record.type === "gemini") {} else headers["Authorization"] = `Bearer ${apiKey}`;
+			}
+			let url = `${record.baseURL}/models`;
+			if (record.type === "gemini" && apiKey) url = `${record.baseURL}/v1beta/models?key=${apiKey}`;
+			else if (record.type === "ollama") url = `${record.baseURL}/api/tags`;
+			const response = await fetch(url, {
+				method: "GET",
+				headers,
+				signal: AbortSignal.timeout(1e4)
+			});
+			if (!response.ok) {
+				const text = await response.text();
+				return {
+					success: false,
+					error: `HTTP ${response.status}: ${text.slice(0, 200)}`,
+					testedAt
+				};
+			}
+			const latencyMs = Date.now() - startTime;
+			const index = settings.providers.findIndex((p) => p.id === params.providerId);
+			if (index !== -1 && settings.providers[index] !== void 0) {
+				const updated = [...settings.providers];
+				updated[index] = {
+					...settings.providers[index],
+					lastTestedAt: testedAt
+				};
+				await this.ctx.settings.update(PROVIDERS_NAMESPACE, { providers: updated });
+			}
+			return {
+				success: true,
+				latencyMs,
+				testedAt
+			};
+		} catch (error) {
+			return {
+				success: false,
+				error: error instanceof Error ? error.message : String(error),
+				testedAt
+			};
+		}
+	}
+	async discoverModels(params) {
+		const settings = this.scope.get();
+		const record = settings.providers.find((p) => p.id === params.providerId);
+		if (!record) throw new Error(`Provider "${params.providerId}" not found`);
+		const discoveredAt = (/* @__PURE__ */ new Date()).toISOString();
+		try {
+			let apiKey;
+			if (record.apiKeyRef) apiKey = (await this.ctx.credentials.resolve(credentialRef(record.apiKeyRef)))?.value;
+			const headers = {
+				"Content-Type": "application/json",
+				...record.customHeaders || {}
+			};
+			let url = `${record.baseURL}/models`;
+			if (apiKey) {
+				if (record.type === "anthropic") {
+					headers["x-api-key"] = apiKey;
+					headers["anthropic-version"] = "2023-06-01";
+					url = `${record.baseURL}/v1/models`;
+				} else if (record.type === "gemini") url = `${record.baseURL}/v1beta/models?key=${apiKey}`;
+				else if (record.type === "ollama") url = `${record.baseURL}/api/tags`;
+				else headers["Authorization"] = `Bearer ${apiKey}`;
+			} else if (record.type === "ollama") url = `${record.baseURL}/api/tags`;
+			const response = await fetch(url, {
+				method: "GET",
+				headers,
+				signal: AbortSignal.timeout(15e3)
+			});
+			if (!response.ok) {
+				const text = await response.text();
+				return {
+					models: [],
+					discoveredAt,
+					error: `HTTP ${response.status}: ${text.slice(0, 200)}`
+				};
+			}
+			const data = await response.json();
+			let remoteModels = [];
+			if (record.type === "ollama") remoteModels = Array.isArray(data.models) ? data.models : [];
+			else if (record.type === "gemini") remoteModels = Array.isArray(data.models) ? data.models : [];
+			else remoteModels = Array.isArray(data.data) ? data.data : [];
+			const discovered = remoteModels.map((m) => {
+				const modelId = record.type === "gemini" ? m.name || m.id : m.id;
+				return {
+					id: modelId,
+					name: m.name || modelId,
+					providerId: params.providerId,
+					enabled: true
+				};
+			});
+			const existingModels = record.models || [];
+			const existingById = new Map(existingModels.map((m) => [m.id, m]));
+			const merged = discovered.map((d) => {
+				const existing = existingById.get(d.id);
+				return {
+					id: d.id,
+					name: d.name,
+					enabled: existing?.enabled ?? true,
+					...existing?.capabilities !== void 0 ? { capabilities: existing.capabilities } : {},
+					...existing?.contextWindow !== void 0 ? { contextWindow: existing.contextWindow } : {},
+					...existing?.maxOutputTokens !== void 0 ? { maxOutputTokens: existing.maxOutputTokens } : {}
+				};
+			});
+			const index = settings.providers.findIndex((p) => p.id === params.providerId);
+			if (index !== -1 && settings.providers[index] !== void 0) {
+				const updated = [...settings.providers];
+				updated[index] = {
+					...settings.providers[index],
+					models: merged,
+					lastDiscoveredAt: discoveredAt
+				};
+				await this.ctx.settings.update(PROVIDERS_NAMESPACE, { providers: updated });
+			}
+			return {
+				models: merged.map((m) => ({
+					id: m.id,
+					name: m.name,
+					providerId: params.providerId,
+					enabled: m.enabled,
+					...m.capabilities !== void 0 ? { capabilities: m.capabilities } : {},
+					...m.contextWindow !== void 0 ? { contextWindow: m.contextWindow } : {},
+					...m.maxOutputTokens !== void 0 ? { maxOutputTokens: m.maxOutputTokens } : {}
+				})),
+				discoveredAt
+			};
+		} catch (error) {
+			return {
+				models: [],
+				discoveredAt,
+				error: error instanceof Error ? error.message : String(error)
+			};
+		}
+	}
+	async updateModel(_params) {
+		const { providerId, modelId, dto } = _params;
+		const settings = this.scope.get();
+		const providerIndex = settings.providers.findIndex((p) => p.id === providerId);
+		if (providerIndex === -1) throw new Error(`Provider "${providerId}" not found`);
+		const provider = settings.providers[providerIndex];
+		if (provider === void 0) throw new Error(`Provider "${providerId}" not found`);
+		const models = provider.models || [];
+		const modelIndex = models.findIndex((m) => m.id === modelId);
+		if (modelIndex === -1) throw new Error(`Model "${modelId}" not found in provider "${providerId}"`);
+		const existingModel = models[modelIndex];
+		if (existingModel === void 0) throw new Error(`Model "${modelId}" not found`);
+		const updatedModel = {
+			...existingModel,
+			enabled: dto.enabled
+		};
+		const updatedModels = [...models];
+		updatedModels[modelIndex] = updatedModel;
+		const updatedProviders = [...settings.providers];
+		updatedProviders[providerIndex] = {
+			...provider,
+			models: updatedModels,
+			updatedAt: (/* @__PURE__ */ new Date()).toISOString()
+		};
+		await this.ctx.settings.update(PROVIDERS_NAMESPACE, { providers: updatedProviders });
+		return {
+			id: updatedModel.id,
+			name: updatedModel.name,
+			providerId,
+			enabled: updatedModel.enabled,
+			...updatedModel.capabilities !== void 0 ? { capabilities: updatedModel.capabilities } : {},
+			...updatedModel.contextWindow !== void 0 ? { contextWindow: updatedModel.contextWindow } : {},
+			...updatedModel.maxOutputTokens !== void 0 ? { maxOutputTokens: updatedModel.maxOutputTokens } : {}
+		};
+	}
+	recordToView(record, hasApiKey) {
+		return {
+			id: record.id,
+			name: record.name,
+			type: record.type,
+			baseURL: record.baseURL,
+			enabled: record.enabled,
+			hasApiKey,
+			models: (record.models || []).map((m) => ({
+				id: m.id,
+				name: m.name,
+				providerId: record.id,
+				enabled: m.enabled,
+				...m.capabilities !== void 0 ? { capabilities: m.capabilities } : {},
+				...m.contextWindow !== void 0 ? { contextWindow: m.contextWindow } : {},
+				...m.maxOutputTokens !== void 0 ? { maxOutputTokens: m.maxOutputTokens } : {}
+			})),
+			...record.customHeaders !== void 0 ? { customHeaders: record.customHeaders } : {},
+			...record.lastTestedAt !== void 0 ? { lastTestedAt: record.lastTestedAt } : {},
+			...record.lastDiscoveredAt !== void 0 ? { lastDiscoveredAt: record.lastDiscoveredAt } : {},
+			createdAt: record.createdAt,
+			updatedAt: record.updatedAt
+		};
+	}
+};
+/** Client descriptor contribution for the Control Center providers service. */
+const providersRemote = {
+	package: "@dsh-control-center/control-center",
+	descriptors: [
+		{
+			method: "list",
+			parameters: []
+		},
+		{
+			method: "get",
+			parameters: ["providerId"]
+		},
+		{
+			method: "create",
+			parameters: ["dto"]
+		},
+		{
+			method: "update",
+			parameters: ["providerId", "dto"]
+		},
+		{
+			method: "delete",
+			parameters: ["providerId"]
+		},
+		{
+			method: "testConnection",
+			parameters: ["providerId"]
+		},
+		{
+			method: "discoverModels",
+			parameters: ["providerId"]
+		},
+		{
+			method: "updateModel",
+			parameters: [
+				"providerId",
+				"modelId",
+				"dto"
+			]
+		}
+	].map(({ method, implementation, parameters }) => ({
+		id: `@dsh-control-center/control-center#controlCenterProviders/${method}`,
+		service: "controlCenterProviders",
+		namespace: "controlCenterProviders",
+		method,
+		...implementation === void 0 ? {} : { implementation },
+		invocation: { kind: "direct" },
+		parameters: parameters.map((name) => ({
+			name,
+			wire: name,
+			source: "json",
+			codec: STRICT_JSON
+		})),
+		result: STRICT_JSON
+	}))
+};
 /** Fail-closed audit for settings schemas that contain secret-role nodes. */
 const SAFE_CONTAINERS = /* @__PURE__ */ new Set([
 	"object",
@@ -24788,6 +25198,7 @@ function apply(ctx) {
 	new SkillsService(ctx);
 	new McpService(ctx);
 	new WebSearchService(ctx);
+	new ProvidersService(ctx);
 	const contributions = [{
 		package: "@dsh-control-center/control-center",
 		face: "host",
@@ -24803,7 +25214,8 @@ function apply(ctx) {
 			...knowledgeRemote.descriptors,
 			...skillsRemote.descriptors,
 			...mcpRemote.descriptors,
-			...webSearchRemote.descriptors
+			...webSearchRemote.descriptors,
+			...providersRemote.descriptors
 		]
 	}];
 	for (const contribution of contributions) ctx.typert.register(contribution);
@@ -24812,4 +25224,4 @@ function apply(ctx) {
 	});
 }
 //#endregion
-export { KnowledgeService, McpService, PaintingService, SkillsService, TranslationService, WebSearchService, _coercedNumber as _, isJSONRPCRequest as a, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, __toESM as b, any as c, literal as d, looseObject as f, url as g, string as h, isInitializedNotification as i, inject, array as l, object as m, JSONRPCMessageSchema as n, name, isJSONRPCResultResponse as o, number as p, LATEST_PROTOCOL_VERSION as r, ZodNumber as s, lib_exports as t, boolean as u, NEVER as v, __commonJSMin as y };
+export { KnowledgeService, McpService, PaintingService, ProvidersService, SkillsService, TranslationService, WebSearchService, _coercedNumber as _, isJSONRPCRequest as a, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, __toESM as b, any as c, literal as d, looseObject as f, url as g, string as h, isInitializedNotification as i, inject, array as l, object as m, JSONRPCMessageSchema as n, name, isJSONRPCResultResponse as o, number as p, LATEST_PROTOCOL_VERSION as r, ZodNumber as s, lib_exports as t, boolean as u, NEVER as v, __commonJSMin as y };

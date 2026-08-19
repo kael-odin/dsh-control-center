@@ -18,6 +18,8 @@ export { McpService } from './mcp.ts';
 export type * from './mcp-types.ts';
 export { WebSearchService } from './websearch.ts';
 export type * from './websearch/types.ts';
+export { ProvidersService } from './providers.ts';
+export type * from './provider-types.ts';
 export { assertSecretSchemaSafe, auditSecretSchema } from './secret-schema.ts';
 export type { SecretSchemaViolation } from './secret-schema.ts';
 //# sourceMappingURL=index.d.ts.map

@@ -123,12 +123,12 @@ export interface MarketplaceSearchResponse {
 declare module '@deepseek-ai/dsh-typert-protocol' {
   interface TypertRemoteNamespaceMap {
     controlCenterSkills: {
-      list(query?: ListSkillsQuery): Promise<InstalledSkill[]>
-      getById(params: { skillId: string }): Promise<InstalledSkill | null>
-      update(params: { skillId: string; dto: UpdateSkillDto }): Promise<InstalledSkill>
-      installSkill(params: { options: SkillInstallOptions }): Promise<InstalledSkill>
-      uninstall(params: { skillId: string }): Promise<void>
-      searchMarketplace(params: { query: MarketplaceSearchQuery }): Promise<MarketplaceSearchResponse>
+      list(query?: ListSkillsQuery): Promise<{ ok: true; value: InstalledSkill[] } | { ok: false; error: { code: string; message: string; details: object } }>
+      getById(params: { skillId: string }): Promise<{ ok: true; value: InstalledSkill | null } | { ok: false; error: { code: string; message: string; details: object } }>
+      update(params: { skillId: string; dto: UpdateSkillDto }): Promise<{ ok: true; value: InstalledSkill } | { ok: false; error: { code: string; message: string; details: object } }>
+      installSkill(params: { options: SkillInstallOptions }): Promise<{ ok: true; value: InstalledSkill } | { ok: false; error: { code: string; message: string; details: object } }>
+      uninstall(params: { skillId: string }): Promise<{ ok: true; value: { absent: true } } | { ok: false; error: { code: string; message: string; details: object } }>
+      searchMarketplace(params: { query: MarketplaceSearchQuery }): Promise<{ ok: true; value: MarketplaceSearchResponse } | { ok: false; error: { code: string; message: string; details: object } }>
     }
   }
 }

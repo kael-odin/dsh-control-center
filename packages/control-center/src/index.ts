@@ -16,6 +16,8 @@ import { McpService } from './mcp.ts'
 import mcpRemote from './mcp-remote-client.ts'
 import { WebSearchService } from './websearch.ts'
 import websearchRemote from './websearch-remote-client.ts'
+import { ProvidersService } from './providers.ts'
+import providersRemote from './provider-remote-client.ts'
 
 const ONBOARDING_SETTINGS_NAMESPACE = 'ui-onboarding'
 
@@ -41,6 +43,7 @@ export function apply(ctx: Context): void {
   new SkillsService(ctx)
   new McpService(ctx)
   new WebSearchService(ctx)
+  new ProvidersService(ctx)
   const contributions: readonly TypertContribution[] = [
     {
       package: '@dsh-control-center/control-center',
@@ -53,7 +56,8 @@ export function apply(ctx: Context): void {
         ...knowledgeRemote.descriptors,
         ...skillsRemote.descriptors,
         ...mcpRemote.descriptors,
-        ...websearchRemote.descriptors
+        ...websearchRemote.descriptors,
+        ...providersRemote.descriptors
       ]
     }
   ]
@@ -79,5 +83,7 @@ export { McpService } from './mcp.ts'
 export type * from './mcp-types.ts'
 export { WebSearchService } from './websearch.ts'
 export type * from './websearch/types.ts'
+export { ProvidersService } from './providers.ts'
+export type * from './provider-types.ts'
 export { assertSecretSchemaSafe, auditSecretSchema } from './secret-schema.ts'
 export type { SecretSchemaViolation } from './secret-schema.ts'

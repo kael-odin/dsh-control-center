@@ -1,6 +1,8 @@
 /** DSH package versions and exports required by the first Control Center release. */
+import { join } from 'node:path'
 import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
+import { resolveDshHome } from '@deepseek-ai/dsh-home-paths'
 
 export const SUPPORTED_DSH_VERSION = '0.1.0-rc.7'
 export const DSH_SOURCE_BASELINE = '99f6f02fecdb7dff40c3fbc9470f5907c29f74ca'
@@ -27,13 +29,38 @@ interface PackageManifest {
   exports?: Record<string, unknown>
 }
 
-/** Reject a DSH installation whose resolved contract packages differ from rc.7. */
-export function assertCompatibleDsh(requireFrom: NodeJS.Require = createRequire(import.meta.url)): void {
-  // TEMPORARY: Skip validation when loaded via file:// protocol for local development
-  if (import.meta.url.startsWith('file:///D:/Github_Open/dsh-control-center')) {
-    return
+function resolveManifest(requireFrom: NodeJS.Require, name: string): string | undefined {
+  try {
+    return requireFrom.resolve(`${name}/package.json`)
+  } catch {
+    return undefined
   }
+}
 
+/**
+ * Resolve DSH contract packages from the profile dependency root.
+ *
+ * When the bundle is installed into a profile, the plugin resolves DSH
+ * packages from its own node_modules. The linked-repo dev layout breaks that:
+ * pnpm `link:` resolves from the link target's real path, so the plugin
+ * cannot see the profile's node_modules. Fall back to the framework's flat
+ * module fallback (`$DSH_HOME/profiles/node_modules`), which symlinks every
+ * DSH package and is the shared dependency root for all plugins.
+ */
+function profileRequire(): NodeJS.Require {
+  const own = createRequire(import.meta.url)
+  if (REQUIRED_PACKAGES.every((required) => resolveManifest(own, required.name) !== undefined)) return own
+  try {
+    const fallback = createRequire(join(resolveDshHome(), 'profiles', 'node_modules', 'package.json'))
+    if (REQUIRED_PACKAGES.every((required) => resolveManifest(fallback, required.name) !== undefined)) return fallback
+  } catch {
+    // No fallback home; fall through to the strict per-package check below.
+  }
+  return own
+}
+
+/** Reject a DSH installation whose resolved contract packages differ from rc.7. */
+export function assertCompatibleDsh(requireFrom: NodeJS.Require = profileRequire()): void {
   for (const required of REQUIRED_PACKAGES) {
     let manifestPath: string
     try {

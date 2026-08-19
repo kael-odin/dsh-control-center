@@ -10,14 +10,17 @@ import { ProviderModelList } from './ProviderModelList.tsx'
 import { ProviderDialog } from './ProviderDialog.tsx'
 import css from './ProvidersSection.module.css'
 
+/** Wire envelope of a strict-mode Typert remote call (same shape as translation-types). */
+type RemoteResult<T> = { ok: true; value: T } | { ok: false; error: { code: string; message: string; details: object } }
+
 interface ProvidersService {
-  list(): Promise<ProviderView[]>
-  create(params: { dto: CreateProviderDto }): Promise<ProviderView>
-  update(params: { providerId: string; dto: UpdateProviderDto }): Promise<ProviderView>
-  delete(params: { providerId: string }): Promise<void>
-  testConnection(params: { providerId: string }): Promise<{ success: boolean; latencyMs?: number; error?: string }>
-  discoverModels(params: { providerId: string }): Promise<{ models: any[]; error?: string }>
-  updateModel(params: { providerId: string; modelId: string; dto: UpdateModelDto }): Promise<ModelView>
+  list(): Promise<RemoteResult<ProviderView[]>>
+  create(params: { dto: CreateProviderDto }): Promise<RemoteResult<ProviderView>>
+  update(params: { providerId: string; dto: UpdateProviderDto }): Promise<RemoteResult<ProviderView>>
+  delete(params: { providerId: string }): Promise<RemoteResult<{ absent: true }>>
+  testConnection(params: { providerId: string }): Promise<RemoteResult<{ success: boolean; latencyMs?: number; error?: string }>>
+  discoverModels(params: { providerId: string }): Promise<RemoteResult<{ models: any[]; error?: string }>>
+  updateModel(params: { providerId: string; modelId: string; dto: UpdateModelDto }): Promise<RemoteResult<ModelView>>
 }
 
 export interface ProvidersSectionProps {
@@ -48,9 +51,11 @@ export function ProvidersSection(props: ProvidersSectionProps) {
       setLoading(true)
       setError(null)
       const result = await providersService.list()
-      setProviders(result)
-      if (result.length > 0 && !selectedId && result[0] !== undefined) {
-        setSelectedId(result[0].id)
+      if (!result.ok) throw new Error(result.error.message)
+      const list = result.value
+      setProviders(list)
+      if (list.length > 0 && !selectedId && list[0] !== undefined) {
+        setSelectedId(list[0].id)
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load providers')
@@ -83,7 +88,8 @@ export function ProvidersSection(props: ProvidersSectionProps) {
   const handleUpdateProvider = useCallback(async (updates: { apiKey?: string; baseURL?: string; customHeaders?: Record<string, string> }) => {
     if (!providersService || !selectedId) return
     try {
-      await providersService.update({ providerId: selectedId, dto: updates })
+      const result = await providersService.update({ providerId: selectedId, dto: updates })
+      if (!result.ok) throw new Error(result.error.message)
       await loadProviders()
     } catch (err) {
       console.error('Failed to update provider:', err)
@@ -96,7 +102,8 @@ export function ProvidersSection(props: ProvidersSectionProps) {
       setIsTestingConnection(true)
       setConnectionTestResult(null)
       const result = await providersService.testConnection({ providerId: selectedId })
-      setConnectionTestResult(result)
+      if (!result.ok) throw new Error(result.error.message)
+      setConnectionTestResult(result.value)
     } catch (err) {
       setConnectionTestResult({ success: false, error: err instanceof Error ? err.message : 'Connection test failed' })
     } finally {
@@ -108,7 +115,8 @@ export function ProvidersSection(props: ProvidersSectionProps) {
     if (!providersService || !selectedId) return
     try {
       setIsDiscoveringModels(true)
-      await providersService.discoverModels({ providerId: selectedId })
+      const result = await providersService.discoverModels({ providerId: selectedId })
+      if (!result.ok) throw new Error(result.error.message)
       await loadProviders()
     } catch (err) {
       console.error('Failed to discover models:', err)
@@ -121,10 +129,11 @@ export function ProvidersSection(props: ProvidersSectionProps) {
     async (providerId: string, currentEnabled: boolean) => {
       if (!providersService) return
       try {
-        await providersService.update({
+        const result = await providersService.update({
           providerId,
           dto: { enabled: !currentEnabled }
         })
+        if (!result.ok) throw new Error(result.error.message)
         await loadProviders()
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to update provider')
@@ -139,7 +148,8 @@ export function ProvidersSection(props: ProvidersSectionProps) {
       if (!window.confirm(`确定要删除 "${providerName}" 提供商吗？`)) return
 
       try {
-        await providersService.delete({ providerId })
+        const result = await providersService.delete({ providerId })
+        if (!result.ok) throw new Error(result.error.message)
         await loadProviders()
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to delete provider')
@@ -353,11 +363,12 @@ export function ProvidersSection(props: ProvidersSectionProps) {
                 onToggleModel={async (modelId: string, enabled: boolean) => {
                   if (!providersService) return
                   try {
-                    await providersService.updateModel({
+                    const result = await providersService.updateModel({
                       providerId: selectedProvider.id,
                       modelId,
                       dto: { enabled }
                     })
+                    if (!result.ok) throw new Error(result.error.message)
                     await loadProviders()
                   } catch (err) {
                     setError(err instanceof Error ? err.message : 'Failed to update model')

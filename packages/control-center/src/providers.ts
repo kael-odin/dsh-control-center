@@ -65,7 +65,7 @@ export class ProvidersService extends Service {
   private scope: SettingsScope<ProvidersSettings>
 
   constructor(ctx: Context, _config?: ProvidersServiceConfig) {
-    super(ctx, 'control-center-providers')
+    super(ctx, 'controlCenterProviders')
     this.scope = ctx.settings.register(PROVIDERS_NAMESPACE, Schema.object({
       providers: Schema.array(Schema.object({
         id: Schema.string(),

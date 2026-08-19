@@ -141,21 +141,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var PaintingWorkspace_module_css_default = {
-			"link": "_-UrTq_link",
-			"controls": "_-UrTq_controls",
-			"header": "_-UrTq_header",
-			"gallery": "_-UrTq_gallery",
-			"empty": "_-UrTq_empty",
-			"root": "_-UrTq_root",
-			"historyItem": "_-UrTq_historyItem",
-			"error": "_-UrTq_error",
 			"figure": "_-UrTq_figure",
-			"composer": "_-UrTq_composer",
-			"progress": "_-UrTq_progress",
 			"historyImages": "_-UrTq_historyImages",
+			"controls": "_-UrTq_controls",
+			"gallery": "_-UrTq_gallery",
+			"root": "_-UrTq_root",
 			"history": "_-UrTq_history",
+			"secondary": "_-UrTq_secondary",
+			"progress": "_-UrTq_progress",
+			"empty": "_-UrTq_empty",
+			"header": "_-UrTq_header",
+			"link": "_-UrTq_link",
+			"error": "_-UrTq_error",
 			"eyebrow": "_-UrTq_eyebrow",
-			"secondary": "_-UrTq_secondary"
+			"historyItem": "_-UrTq_historyItem",
+			"composer": "_-UrTq_composer"
 		};
 		//#endregion
 		//#region lib/types/client/PaintingWorkspace.js
@@ -570,30 +570,30 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var KnowledgeWorkspace_module_css_default = {
-			"fileButton": "uHDY1a_fileButton",
-			"root": "uHDY1a_root",
 			"eyebrow": "uHDY1a_eyebrow",
-			"panel": "uHDY1a_panel",
-			"primary": "uHDY1a_primary",
-			"bases": "uHDY1a_bases",
-			"sourceTabs": "uHDY1a_sourceTabs",
+			"link": "uHDY1a_link",
 			"sourceItem": "uHDY1a_sourceItem",
+			"root": "uHDY1a_root",
+			"baseMeta": "uHDY1a_baseMeta",
+			"sourceTabs": "uHDY1a_sourceTabs",
 			"sourceMeta": "uHDY1a_sourceMeta",
 			"muted": "uHDY1a_muted",
 			"hit": "uHDY1a_hit",
-			"chunks": "uHDY1a_chunks",
+			"hitMeta": "uHDY1a_hitMeta",
+			"header": "uHDY1a_header",
+			"secondary": "uHDY1a_secondary",
+			"baseCard": "uHDY1a_baseCard",
+			"hits": "uHDY1a_hits",
 			"chunk": "uHDY1a_chunk",
 			"error": "uHDY1a_error",
-			"secondary": "uHDY1a_secondary",
+			"panel": "uHDY1a_panel",
+			"chunks": "uHDY1a_chunks",
+			"primary": "uHDY1a_primary",
 			"empty": "uHDY1a_empty",
+			"bases": "uHDY1a_bases",
 			"row": "uHDY1a_row",
 			"baseActions": "uHDY1a_baseActions",
-			"hitMeta": "uHDY1a_hitMeta",
-			"hits": "uHDY1a_hits",
-			"link": "uHDY1a_link",
-			"baseMeta": "uHDY1a_baseMeta",
-			"baseCard": "uHDY1a_baseCard",
-			"header": "uHDY1a_header"
+			"fileButton": "uHDY1a_fileButton"
 		};
 		//#endregion
 		//#region lib/types/client/KnowledgeWorkspace.js
@@ -1198,37 +1198,37 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SkillsSection_module_css_default = {
-			"grid": "pyHmqW_grid",
-			"error": "pyHmqW_error",
-			"iconButton": "pyHmqW_iconButton",
-			"card": "pyHmqW_card",
-			"content": "pyHmqW_content",
-			"cardActions": "pyHmqW_cardActions",
-			"tag": "pyHmqW_tag",
-			"headerActions": "pyHmqW_headerActions",
 			"header": "pyHmqW_header",
-			"empty": "pyHmqW_empty",
-			"primaryButton": "pyHmqW_primaryButton",
+			"grid": "pyHmqW_grid",
 			"secondaryButton": "pyHmqW_secondaryButton",
-			"emptyIcon": "pyHmqW_emptyIcon",
-			"cardTitle": "pyHmqW_cardTitle",
-			"headerLeft": "pyHmqW_headerLeft",
-			"cardMetaItem": "pyHmqW_cardMetaItem",
-			"root": "pyHmqW_root",
-			"cardDescription": "pyHmqW_cardDescription",
-			"cardTags": "pyHmqW_cardTags",
-			"enabledBadge": "pyHmqW_enabledBadge",
-			"emptyTitle": "pyHmqW_emptyTitle",
-			"cardMeta": "pyHmqW_cardMeta",
-			"disabledBadge": "pyHmqW_disabledBadge",
-			"title": "pyHmqW_title",
-			"loading": "pyHmqW_loading",
-			"emptyDescription": "pyHmqW_emptyDescription",
-			"searchRow": "pyHmqW_searchRow",
-			"cardHeader": "pyHmqW_cardHeader",
 			"searchInput": "pyHmqW_searchInput",
+			"disabledBadge": "pyHmqW_disabledBadge",
+			"loading": "pyHmqW_loading",
+			"cardDescription": "pyHmqW_cardDescription",
+			"cardActions": "pyHmqW_cardActions",
+			"cardMeta": "pyHmqW_cardMeta",
+			"cardTags": "pyHmqW_cardTags",
+			"content": "pyHmqW_content",
+			"card": "pyHmqW_card",
+			"primaryButton": "pyHmqW_primaryButton",
+			"root": "pyHmqW_root",
+			"cardMetaItem": "pyHmqW_cardMetaItem",
+			"headerActions": "pyHmqW_headerActions",
+			"error": "pyHmqW_error",
+			"description": "pyHmqW_description",
+			"empty": "pyHmqW_empty",
+			"emptyDescription": "pyHmqW_emptyDescription",
+			"iconButton": "pyHmqW_iconButton",
+			"emptyIcon": "pyHmqW_emptyIcon",
+			"emptyTitle": "pyHmqW_emptyTitle",
+			"cardHeader": "pyHmqW_cardHeader",
 			"cardFooter": "pyHmqW_cardFooter",
-			"description": "pyHmqW_description"
+			"searchRow": "pyHmqW_searchRow",
+			"cardTitle": "pyHmqW_cardTitle",
+			"enabledBadge": "pyHmqW_enabledBadge",
+			"title": "pyHmqW_title",
+			"headerLeft": "pyHmqW_headerLeft",
+			"tag": "pyHmqW_tag"
 		};
 		//#endregion
 		//#region lib/types/client/SkillsSection.js
@@ -1257,7 +1257,8 @@ window.__ModuleLoader__.load({
 					setError(null);
 					const params = search ? { search } : {};
 					const result = await skillsService.list(params);
-					setSkills(result);
+					if (!result.ok) throw new Error(result.error.message);
+					setSkills(result.value);
 				} catch (err) {
 					setError(err instanceof Error ? err.message : "Failed to load skills");
 				} finally {
@@ -1270,10 +1271,11 @@ window.__ModuleLoader__.load({
 			const handleToggleEnable = (0, react.useCallback)(async (skillId, currentEnabled) => {
 				if (!skillsService) return;
 				try {
-					await skillsService.update({
+					const result = await skillsService.update({
 						skillId,
 						dto: { isGlobalEnabled: !currentEnabled }
 					});
+					if (!result.ok) throw new Error(result.error.message);
 					await loadSkills();
 				} catch (err) {
 					setError(err instanceof Error ? err.message : "Failed to update skill");
@@ -1283,7 +1285,8 @@ window.__ModuleLoader__.load({
 				if (!skillsService) return;
 				if (!window.confirm(`确定要卸载 "${skillName}" 吗？`)) return;
 				try {
-					await skillsService.uninstall({ skillId });
+					const result = await skillsService.uninstall({ skillId });
+					if (!result.ok) throw new Error(result.error.message);
 					await loadSkills();
 				} catch (err) {
 					setError(err instanceof Error ? err.message : "Failed to uninstall skill");
@@ -1617,23 +1620,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderAuthentication_module_css_default = {
-			"secondaryButton": "AU4RWG_secondaryButton",
-			"spin": "AU4RWG_spin",
-			"fieldLink": "AU4RWG_fieldLink",
-			"timestamp": "AU4RWG_timestamp",
-			"inputGroup": "AU4RWG_inputGroup",
-			"input": "AU4RWG_input",
-			"actionRow": "AU4RWG_actionRow",
-			"inputRow": "AU4RWG_inputRow",
-			"field": "AU4RWG_field",
 			"fieldLabel": "AU4RWG_fieldLabel",
-			"errorMessage": "AU4RWG_errorMessage",
-			"sectionTitle": "AU4RWG_sectionTitle",
-			"iconButton": "AU4RWG_iconButton",
-			"primaryButton": "AU4RWG_primaryButton",
-			"inputAddon": "AU4RWG_inputAddon",
+			"actionRow": "AU4RWG_actionRow",
 			"successMessage": "AU4RWG_successMessage",
-			"section": "AU4RWG_section"
+			"inputAddon": "AU4RWG_inputAddon",
+			"section": "AU4RWG_section",
+			"iconButton": "AU4RWG_iconButton",
+			"field": "AU4RWG_field",
+			"sectionTitle": "AU4RWG_sectionTitle",
+			"fieldLink": "AU4RWG_fieldLink",
+			"inputRow": "AU4RWG_inputRow",
+			"errorMessage": "AU4RWG_errorMessage",
+			"secondaryButton": "AU4RWG_secondaryButton",
+			"input": "AU4RWG_input",
+			"inputGroup": "AU4RWG_inputGroup",
+			"spin": "AU4RWG_spin",
+			"primaryButton": "AU4RWG_primaryButton",
+			"timestamp": "AU4RWG_timestamp"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderAuthentication.js
@@ -1826,34 +1829,34 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderModelList_module_css_default = {
-			"groupHeader": "_2yiUCa_groupHeader",
 			"section": "_2yiUCa_section",
-			"modelInfo": "_2yiUCa_modelInfo",
-			"modelName": "_2yiUCa_modelName",
-			"metaItem": "_2yiUCa_metaItem",
-			"modelItem": "_2yiUCa_modelItem",
-			"toggleButton": "_2yiUCa_toggleButton",
-			"modelMain": "_2yiUCa_modelMain",
-			"modelMeta": "_2yiUCa_modelMeta",
-			"toggleThumb": "_2yiUCa_toggleThumb",
-			"toggleButtonEnabled": "_2yiUCa_toggleButtonEnabled",
-			"headerMeta": "_2yiUCa_headerMeta",
-			"discoveryInfo": "_2yiUCa_discoveryInfo",
-			"toggleTrack": "_2yiUCa_toggleTrack",
-			"sectionHeading": "_2yiUCa_sectionHeading",
-			"emptyIcon": "_2yiUCa_emptyIcon",
-			"modelGroup": "_2yiUCa_modelGroup",
-			"enabledCount": "_2yiUCa_enabledCount",
 			"emptyHint": "_2yiUCa_emptyHint",
-			"sectionHeaderRow": "_2yiUCa_sectionHeaderRow",
+			"modelMain": "_2yiUCa_modelMain",
+			"modelInfo": "_2yiUCa_modelInfo",
+			"emptyIcon": "_2yiUCa_emptyIcon",
+			"modelMeta": "_2yiUCa_modelMeta",
 			"modelList": "_2yiUCa_modelList",
-			"groupCount": "_2yiUCa_groupCount",
+			"metaItem": "_2yiUCa_metaItem",
+			"toggleButtonEnabled": "_2yiUCa_toggleButtonEnabled",
+			"sectionHeaderRow": "_2yiUCa_sectionHeaderRow",
+			"sectionHeading": "_2yiUCa_sectionHeading",
+			"emptyText": "_2yiUCa_emptyText",
+			"emptyState": "_2yiUCa_emptyState",
+			"groupTitle": "_2yiUCa_groupTitle",
+			"enabledCount": "_2yiUCa_enabledCount",
 			"modelItemDisabled": "_2yiUCa_modelItemDisabled",
 			"modelIcon": "_2yiUCa_modelIcon",
-			"emptyText": "_2yiUCa_emptyText",
-			"groupTitle": "_2yiUCa_groupTitle",
-			"emptyState": "_2yiUCa_emptyState",
-			"countBadge": "_2yiUCa_countBadge"
+			"modelItem": "_2yiUCa_modelItem",
+			"toggleTrack": "_2yiUCa_toggleTrack",
+			"toggleButton": "_2yiUCa_toggleButton",
+			"groupHeader": "_2yiUCa_groupHeader",
+			"modelGroup": "_2yiUCa_modelGroup",
+			"headerMeta": "_2yiUCa_headerMeta",
+			"countBadge": "_2yiUCa_countBadge",
+			"modelName": "_2yiUCa_modelName",
+			"toggleThumb": "_2yiUCa_toggleThumb",
+			"discoveryInfo": "_2yiUCa_discoveryInfo",
+			"groupCount": "_2yiUCa_groupCount"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderModelList.js
@@ -2098,25 +2101,25 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderDialog_module_css_default = {
-			"input": "Y2Uoaq_input",
-			"submitButton": "Y2Uoaq_submitButton",
+			"footer": "Y2Uoaq_footer",
 			"checkboxField": "Y2Uoaq_checkboxField",
-			"overlay": "Y2Uoaq_overlay",
-			"title": "Y2Uoaq_title",
-			"dialog": "Y2Uoaq_dialog",
-			"hint": "Y2Uoaq_hint",
 			"required": "Y2Uoaq_required",
+			"input": "Y2Uoaq_input",
+			"select": "Y2Uoaq_select",
+			"checkboxLabel": "Y2Uoaq_checkboxLabel",
+			"cancelButton": "Y2Uoaq_cancelButton",
+			"dialog": "Y2Uoaq_dialog",
+			"error": "Y2Uoaq_error",
+			"title": "Y2Uoaq_title",
+			"checkbox": "Y2Uoaq_checkbox",
+			"overlay": "Y2Uoaq_overlay",
+			"textarea": "Y2Uoaq_textarea",
+			"hint": "Y2Uoaq_hint",
+			"submitButton": "Y2Uoaq_submitButton",
+			"field": "Y2Uoaq_field",
 			"header": "Y2Uoaq_header",
 			"content": "Y2Uoaq_content",
-			"label": "Y2Uoaq_label",
-			"checkbox": "Y2Uoaq_checkbox",
-			"checkboxLabel": "Y2Uoaq_checkboxLabel",
-			"field": "Y2Uoaq_field",
-			"select": "Y2Uoaq_select",
-			"footer": "Y2Uoaq_footer",
-			"error": "Y2Uoaq_error",
-			"cancelButton": "Y2Uoaq_cancelButton",
-			"textarea": "Y2Uoaq_textarea"
+			"label": "Y2Uoaq_label"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderDialog.js
@@ -2226,7 +2229,8 @@ window.__ModuleLoader__.load({
 							...parsedHeaders ? { customHeaders: parsedHeaders } : {},
 							enabled
 						};
-						await providersService.create({ dto });
+						const result = await providersService.create({ dto });
+						if (!result.ok) throw new Error(result.error.message);
 					} else if (mode === "edit" && provider) {
 						const dto = {
 							name: name.trim(),
@@ -2235,10 +2239,11 @@ window.__ModuleLoader__.load({
 							...parsedHeaders ? { customHeaders: parsedHeaders } : {},
 							enabled
 						};
-						await providersService.update({
+						const result = await providersService.update({
 							providerId: provider.id,
 							dto
 						});
+						if (!result.ok) throw new Error(result.error.message);
 					}
 					onSuccess?.();
 					onClose();
@@ -2439,63 +2444,63 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProvidersSection_module_css_default = {
-			"detailTitle": "ExuySa_detailTitle",
-			"detailHeader": "ExuySa_detailHeader",
+			"emptyState": "ExuySa_emptyState",
 			"emptyDescription": "ExuySa_emptyDescription",
-			"listItemMain": "ExuySa_listItemMain",
-			"sectionHeaderRow": "ExuySa_sectionHeaderRow",
-			"searchClearButton": "ExuySa_searchClearButton",
-			"detailContentMaxWidth": "ExuySa_detailContentMaxWidth",
-			"actionButton": "ExuySa_actionButton",
-			"enabledDot": "ExuySa_enabledDot",
-			"providerList": "ExuySa_providerList",
-			"detailHeaderContent": "ExuySa_detailHeaderContent",
-			"section": "ExuySa_section",
-			"dangerZone": "ExuySa_dangerZone",
-			"dangerButton": "ExuySa_dangerButton",
-			"modelId": "ExuySa_modelId",
-			"loading": "ExuySa_loading",
-			"field": "ExuySa_field",
-			"searchWrap": "ExuySa_searchWrap",
-			"emptyIcon": "ExuySa_emptyIcon",
-			"error": "ExuySa_error",
-			"listItems": "ExuySa_listItems",
-			"sectionHeading": "ExuySa_sectionHeading",
-			"sectionBody": "ExuySa_sectionBody",
-			"splitRoot": "ExuySa_splitRoot",
+			"addButton": "ExuySa_addButton",
+			"dangerZoneDescription": "ExuySa_dangerZoneDescription",
+			"editButton": "ExuySa_editButton",
 			"secondaryButton": "ExuySa_secondaryButton",
+			"modelId": "ExuySa_modelId",
+			"field": "ExuySa_field",
+			"splitRoot": "ExuySa_splitRoot",
+			"searchInput": "ExuySa_searchInput",
 			"listScroller": "ExuySa_listScroller",
-			"switch": "ExuySa_switch",
-			"emptyTitle": "ExuySa_emptyTitle",
 			"searchIcon": "ExuySa_searchIcon",
 			"searchRow": "ExuySa_searchRow",
-			"editButton": "ExuySa_editButton",
-			"searchInput": "ExuySa_searchInput",
+			"providerList": "ExuySa_providerList",
+			"dangerZoneTitle": "ExuySa_dangerZoneTitle",
+			"dangerButton": "ExuySa_dangerButton",
+			"modelName": "ExuySa_modelName",
+			"providerDetail": "ExuySa_providerDetail",
+			"sectionHeaderRow": "ExuySa_sectionHeaderRow",
+			"modelList": "ExuySa_modelList",
+			"dangerZone": "ExuySa_dangerZone",
+			"error": "ExuySa_error",
+			"detailScroll": "ExuySa_detailScroll",
+			"actionButton": "ExuySa_actionButton",
+			"detailTitle": "ExuySa_detailTitle",
+			"input": "ExuySa_input",
+			"dangerZoneText": "ExuySa_dangerZoneText",
+			"modelRow": "ExuySa_modelRow",
+			"fieldLabel": "ExuySa_fieldLabel",
+			"listItemLabel": "ExuySa_listItemLabel",
+			"detailHeaderContent": "ExuySa_detailHeaderContent",
+			"detailMetaItem": "ExuySa_detailMetaItem",
+			"switchSlider": "ExuySa_switchSlider",
+			"countMeta": "ExuySa_countMeta",
+			"emptyTitle": "ExuySa_emptyTitle",
+			"listItem": "ExuySa_listItem",
+			"listItems": "ExuySa_listItems",
+			"enabledDot": "ExuySa_enabledDot",
+			"modelMain": "ExuySa_modelMain",
+			"switch": "ExuySa_switch",
+			"loading": "ExuySa_loading",
+			"section": "ExuySa_section",
+			"detailContentMaxWidth": "ExuySa_detailContentMaxWidth",
+			"searchClearButton": "ExuySa_searchClearButton",
+			"searchWrap": "ExuySa_searchWrap",
+			"listItemIdle": "ExuySa_listItemIdle",
+			"sectionHeading": "ExuySa_sectionHeading",
+			"emptyDetailState": "ExuySa_emptyDetailState",
+			"detailMeta": "ExuySa_detailMeta",
+			"sectionBody": "ExuySa_sectionBody",
+			"addFooter": "ExuySa_addFooter",
 			"listItemAvatar": "ExuySa_listItemAvatar",
 			"listItemSelected": "ExuySa_listItemSelected",
-			"listItemLabel": "ExuySa_listItemLabel",
-			"listItemIdle": "ExuySa_listItemIdle",
-			"providerDetail": "ExuySa_providerDetail",
-			"listItem": "ExuySa_listItem",
-			"detailMetaItem": "ExuySa_detailMetaItem",
-			"modelList": "ExuySa_modelList",
-			"dangerZoneTitle": "ExuySa_dangerZoneTitle",
-			"input": "ExuySa_input",
-			"addFooter": "ExuySa_addFooter",
-			"countMeta": "ExuySa_countMeta",
-			"switchSlider": "ExuySa_switchSlider",
-			"fieldLabel": "ExuySa_fieldLabel",
-			"emptyDetailState": "ExuySa_emptyDetailState",
-			"addButton": "ExuySa_addButton",
-			"detailScroll": "ExuySa_detailScroll",
-			"dangerZoneText": "ExuySa_dangerZoneText",
-			"modelMain": "ExuySa_modelMain",
+			"emptyIcon": "ExuySa_emptyIcon",
+			"detailHeader": "ExuySa_detailHeader",
 			"actionRow": "ExuySa_actionRow",
-			"detailMeta": "ExuySa_detailMeta",
-			"dangerZoneDescription": "ExuySa_dangerZoneDescription",
-			"modelRow": "ExuySa_modelRow",
-			"modelName": "ExuySa_modelName",
-			"emptyState": "ExuySa_emptyState"
+			"listItemMain": "ExuySa_listItemMain"
 		};
 		//#endregion
 		//#region lib/types/client/ProvidersSection.js
@@ -2526,8 +2531,10 @@ window.__ModuleLoader__.load({
 					setLoading(true);
 					setError(null);
 					const result = await providersService.list();
-					setProviders(result);
-					if (result.length > 0 && !selectedId && result[0] !== void 0) setSelectedId(result[0].id);
+					if (!result.ok) throw new Error(result.error.message);
+					const list = result.value;
+					setProviders(list);
+					if (list.length > 0 && !selectedId && list[0] !== void 0) setSelectedId(list[0].id);
 				} catch (err) {
 					setError(err instanceof Error ? err.message : "Failed to load providers");
 				} finally {
@@ -2546,10 +2553,11 @@ window.__ModuleLoader__.load({
 			const handleUpdateProvider = (0, react.useCallback)(async (updates) => {
 				if (!providersService || !selectedId) return;
 				try {
-					await providersService.update({
+					const result = await providersService.update({
 						providerId: selectedId,
 						dto: updates
 					});
+					if (!result.ok) throw new Error(result.error.message);
 					await loadProviders();
 				} catch (err) {
 					console.error("Failed to update provider:", err);
@@ -2565,7 +2573,8 @@ window.__ModuleLoader__.load({
 					setIsTestingConnection(true);
 					setConnectionTestResult(null);
 					const result = await providersService.testConnection({ providerId: selectedId });
-					setConnectionTestResult(result);
+					if (!result.ok) throw new Error(result.error.message);
+					setConnectionTestResult(result.value);
 				} catch (err) {
 					setConnectionTestResult({
 						success: false,
@@ -2579,7 +2588,8 @@ window.__ModuleLoader__.load({
 				if (!providersService || !selectedId) return;
 				try {
 					setIsDiscoveringModels(true);
-					await providersService.discoverModels({ providerId: selectedId });
+					const result = await providersService.discoverModels({ providerId: selectedId });
+					if (!result.ok) throw new Error(result.error.message);
 					await loadProviders();
 				} catch (err) {
 					console.error("Failed to discover models:", err);
@@ -2594,10 +2604,11 @@ window.__ModuleLoader__.load({
 			const handleToggleEnable = (0, react.useCallback)(async (providerId, currentEnabled) => {
 				if (!providersService) return;
 				try {
-					await providersService.update({
+					const result = await providersService.update({
 						providerId,
 						dto: { enabled: !currentEnabled }
 					});
+					if (!result.ok) throw new Error(result.error.message);
 					await loadProviders();
 				} catch (err) {
 					setError(err instanceof Error ? err.message : "Failed to update provider");
@@ -2607,7 +2618,8 @@ window.__ModuleLoader__.load({
 				if (!providersService) return;
 				if (!window.confirm(`确定要删除 "${providerName}" 提供商吗？`)) return;
 				try {
-					await providersService.delete({ providerId });
+					const result = await providersService.delete({ providerId });
+					if (!result.ok) throw new Error(result.error.message);
 					await loadProviders();
 				} catch (err) {
 					setError(err instanceof Error ? err.message : "Failed to delete provider");
@@ -2868,11 +2880,12 @@ window.__ModuleLoader__.load({
 										onToggleModel: async (modelId, enabled) => {
 											if (!providersService) return;
 											try {
-												await providersService.updateModel({
+												const result = await providersService.updateModel({
 													providerId: selectedProvider.id,
 													modelId,
 													dto: { enabled }
 												});
+												if (!result.ok) throw new Error(result.error.message);
 												await loadProviders();
 											} catch (err) {
 												setError(err instanceof Error ? err.message : "Failed to update model");
@@ -3046,21 +3059,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var AddMcpServerDialog_module_css_default = {
-			"cancelButton": "uv_otq_cancelButton",
-			"select": "uv_otq_select",
-			"submitButton": "uv_otq_submitButton",
-			"field": "uv_otq_field",
-			"label": "uv_otq_label",
-			"textarea": "uv_otq_textarea",
-			"dialog": "uv_otq_dialog",
-			"title": "uv_otq_title",
-			"closeButton": "uv_otq_closeButton",
-			"input": "uv_otq_input",
 			"header": "uv_otq_header",
-			"footer": "uv_otq_footer",
-			"overlay": "uv_otq_overlay",
+			"cancelButton": "uv_otq_cancelButton",
+			"title": "uv_otq_title",
 			"form": "uv_otq_form",
-			"error": "uv_otq_error"
+			"label": "uv_otq_label",
+			"error": "uv_otq_error",
+			"select": "uv_otq_select",
+			"field": "uv_otq_field",
+			"submitButton": "uv_otq_submitButton",
+			"input": "uv_otq_input",
+			"dialog": "uv_otq_dialog",
+			"closeButton": "uv_otq_closeButton",
+			"textarea": "uv_otq_textarea",
+			"footer": "uv_otq_footer",
+			"overlay": "uv_otq_overlay"
 		};
 		//#endregion
 		//#region lib/types/client/AddMcpServerDialog.js
@@ -3296,75 +3309,75 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var McpSection_module_css_default = {
-			"detailScroll": "_0bBxiW_detailScroll",
-			"searchWrap": "_0bBxiW_searchWrap",
-			"addFooter": "_0bBxiW_addFooter",
-			"searchRow": "_0bBxiW_searchRow",
-			"resourceUri": "_0bBxiW_resourceUri",
-			"toolHeader": "_0bBxiW_toolHeader",
-			"listItemSelected": "_0bBxiW_listItemSelected",
-			"listItems": "_0bBxiW_listItems",
-			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
-			"loading": "_0bBxiW_loading",
-			"tab": "_0bBxiW_tab",
-			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
-			"sectionBody": "_0bBxiW_sectionBody",
-			"tabActive": "_0bBxiW_tabActive",
-			"fieldGroup": "_0bBxiW_fieldGroup",
-			"toolsList": "_0bBxiW_toolsList",
-			"searchInput": "_0bBxiW_searchInput",
-			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
-			"toolName": "_0bBxiW_toolName",
-			"logInfo": "_0bBxiW_logInfo",
-			"emptyTitle": "_0bBxiW_emptyTitle",
-			"tabBar": "_0bBxiW_tabBar",
-			"fieldLabel": "_0bBxiW_fieldLabel",
-			"dangerZone": "_0bBxiW_dangerZone",
-			"switchInput": "_0bBxiW_switchInput",
-			"codeBlock": "_0bBxiW_codeBlock",
-			"fieldHint": "_0bBxiW_fieldHint",
-			"listItemMain": "_0bBxiW_listItemMain",
-			"emptyState": "_0bBxiW_emptyState",
-			"listScroller": "_0bBxiW_listScroller",
-			"codeLine": "_0bBxiW_codeLine",
-			"detailHeader": "_0bBxiW_detailHeader",
-			"descriptionText": "_0bBxiW_descriptionText",
-			"serverDetail": "_0bBxiW_serverDetail",
-			"secondaryButton": "_0bBxiW_secondaryButton",
-			"activeDot": "_0bBxiW_activeDot",
-			"listItemLabel": "_0bBxiW_listItemLabel",
-			"emptyIcon": "_0bBxiW_emptyIcon",
-			"searchIcon": "_0bBxiW_searchIcon",
-			"listItem": "_0bBxiW_listItem",
-			"listItemIdle": "_0bBxiW_listItemIdle",
-			"placeholder": "_0bBxiW_placeholder",
-			"detailMeta": "_0bBxiW_detailMeta",
-			"error": "_0bBxiW_error",
-			"formActions": "_0bBxiW_formActions",
-			"input": "_0bBxiW_input",
-			"switchWrapper": "_0bBxiW_switchWrapper",
-			"sectionHeading": "_0bBxiW_sectionHeading",
-			"searchClearButton": "_0bBxiW_searchClearButton",
-			"addButton": "_0bBxiW_addButton",
-			"checkbox": "_0bBxiW_checkbox",
-			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
-			"splitRoot": "_0bBxiW_splitRoot",
-			"listItemAvatar": "_0bBxiW_listItemAvatar",
-			"toolDescription": "_0bBxiW_toolDescription",
-			"detailMetaItem": "_0bBxiW_detailMetaItem",
-			"toolItem": "_0bBxiW_toolItem",
-			"section": "_0bBxiW_section",
-			"detailTitle": "_0bBxiW_detailTitle",
-			"dangerButton": "_0bBxiW_dangerButton",
-			"textarea": "_0bBxiW_textarea",
-			"emptyDetailState": "_0bBxiW_emptyDetailState",
-			"dangerZoneText": "_0bBxiW_dangerZoneText",
-			"switchSlider": "_0bBxiW_switchSlider",
-			"logHeader": "_0bBxiW_logHeader",
 			"fieldRow": "_0bBxiW_fieldRow",
+			"resourceUri": "_0bBxiW_resourceUri",
+			"switchWrapper": "_0bBxiW_switchWrapper",
+			"switchSlider": "_0bBxiW_switchSlider",
+			"fieldLabel": "_0bBxiW_fieldLabel",
+			"emptyTitle": "_0bBxiW_emptyTitle",
+			"detailMetaItem": "_0bBxiW_detailMetaItem",
+			"emptyIcon": "_0bBxiW_emptyIcon",
+			"toolItem": "_0bBxiW_toolItem",
+			"error": "_0bBxiW_error",
+			"codeLine": "_0bBxiW_codeLine",
+			"listItemLabel": "_0bBxiW_listItemLabel",
+			"toolsList": "_0bBxiW_toolsList",
+			"tabBar": "_0bBxiW_tabBar",
+			"codeBlock": "_0bBxiW_codeBlock",
+			"dangerButton": "_0bBxiW_dangerButton",
 			"primaryButton": "_0bBxiW_primaryButton",
+			"listScroller": "_0bBxiW_listScroller",
+			"searchInput": "_0bBxiW_searchInput",
+			"toolName": "_0bBxiW_toolName",
+			"addFooter": "_0bBxiW_addFooter",
+			"section": "_0bBxiW_section",
+			"textarea": "_0bBxiW_textarea",
+			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
+			"secondaryButton": "_0bBxiW_secondaryButton",
+			"descriptionText": "_0bBxiW_descriptionText",
+			"dangerZone": "_0bBxiW_dangerZone",
+			"fieldGroup": "_0bBxiW_fieldGroup",
+			"switchInput": "_0bBxiW_switchInput",
+			"logHeader": "_0bBxiW_logHeader",
+			"tab": "_0bBxiW_tab",
+			"searchIcon": "_0bBxiW_searchIcon",
+			"loading": "_0bBxiW_loading",
+			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
+			"fieldHint": "_0bBxiW_fieldHint",
+			"listItemAvatar": "_0bBxiW_listItemAvatar",
+			"searchWrap": "_0bBxiW_searchWrap",
+			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
+			"searchClearButton": "_0bBxiW_searchClearButton",
+			"searchRow": "_0bBxiW_searchRow",
+			"listItemMain": "_0bBxiW_listItemMain",
+			"sectionHeading": "_0bBxiW_sectionHeading",
+			"sectionBody": "_0bBxiW_sectionBody",
+			"listItem": "_0bBxiW_listItem",
 			"emptyDescription": "_0bBxiW_emptyDescription",
-			"serverList": "_0bBxiW_serverList"
+			"listItemSelected": "_0bBxiW_listItemSelected",
+			"emptyDetailState": "_0bBxiW_emptyDetailState",
+			"toolDescription": "_0bBxiW_toolDescription",
+			"input": "_0bBxiW_input",
+			"serverList": "_0bBxiW_serverList",
+			"listItems": "_0bBxiW_listItems",
+			"activeDot": "_0bBxiW_activeDot",
+			"detailMeta": "_0bBxiW_detailMeta",
+			"emptyState": "_0bBxiW_emptyState",
+			"detailHeader": "_0bBxiW_detailHeader",
+			"listItemIdle": "_0bBxiW_listItemIdle",
+			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
+			"splitRoot": "_0bBxiW_splitRoot",
+			"addButton": "_0bBxiW_addButton",
+			"detailScroll": "_0bBxiW_detailScroll",
+			"placeholder": "_0bBxiW_placeholder",
+			"toolHeader": "_0bBxiW_toolHeader",
+			"checkbox": "_0bBxiW_checkbox",
+			"formActions": "_0bBxiW_formActions",
+			"logInfo": "_0bBxiW_logInfo",
+			"detailTitle": "_0bBxiW_detailTitle",
+			"tabActive": "_0bBxiW_tabActive",
+			"serverDetail": "_0bBxiW_serverDetail",
+			"dangerZoneText": "_0bBxiW_dangerZoneText"
 		};
 		//#endregion
 		//#region lib/types/client/McpSection.js
@@ -3397,8 +3410,10 @@ window.__ModuleLoader__.load({
 					setLoading(true);
 					setError(null);
 					const result = await mcpService.list();
-					setServers(result);
-					if (result.length > 0 && !selectedId && result[0] !== void 0) setSelectedId(result[0].id);
+					if (!result.ok) throw new Error(result.error.message);
+					const list = result.value;
+					setServers(list);
+					if (list.length > 0 && !selectedId && list[0] !== void 0) setSelectedId(list[0].id);
 				} catch (err) {
 					setError(err instanceof Error ? err.message : "Failed to load MCP servers");
 				} finally {
@@ -3418,7 +3433,9 @@ window.__ModuleLoader__.load({
 				if (activeTab === "logs" && selectedId && mcpService) mcpService.getServerLogs({
 					serverId: selectedId,
 					lines: 100
-				}).then(setLogs).catch(() => setLogs([]));
+				}).then((result) => {
+					if (result.ok) setLogs(result.value);
+				}).catch(() => setLogs([]));
 			}, [
 				activeTab,
 				selectedId,
@@ -3430,7 +3447,9 @@ window.__ModuleLoader__.load({
 					mcpService.getServerLogs({
 						serverId: selectedId,
 						lines: 100
-					}).then(setLogs).catch(() => {});
+					}).then((result) => {
+						if (result.ok) setLogs(result.value);
+					}).catch(() => {});
 				}, 3e3);
 				return () => clearInterval(interval);
 			}, [
@@ -3439,7 +3458,9 @@ window.__ModuleLoader__.load({
 				mcpService
 			]);
 			(0, react.useEffect)(() => {
-				if (selectedId && mcpService && selectedServer?.isActive) mcpService.getCapabilities({ serverId: selectedId }).then(setCapabilities).catch(() => setCapabilities(null));
+				if (selectedId && mcpService && selectedServer?.isActive) mcpService.getCapabilities({ serverId: selectedId }).then((result) => {
+					if (result.ok) setCapabilities(result.value);
+				}).catch(() => setCapabilities(null));
 				else setCapabilities(null);
 			}, [
 				selectedId,
@@ -3492,16 +3513,19 @@ window.__ModuleLoader__.load({
 						longRunning: formData.longRunning
 					};
 					if (Object.keys(envParsed).length > 0) dto.env = envParsed;
-					await mcpService.update({
+					const updateResult = await mcpService.update({
 						serverId: selectedServer.id,
 						dto
 					});
+					if (!updateResult.ok) throw new Error(updateResult.error.message);
 					if (selectedServer.isActive) {
-						await mcpService.stopServer({ serverId: selectedServer.id });
-						await mcpService.update({
+						const stopResult = await mcpService.stopServer({ serverId: selectedServer.id });
+						if (!stopResult.ok) throw new Error(stopResult.error.message);
+						const restartResult = await mcpService.update({
 							serverId: selectedServer.id,
 							dto: { isActive: true }
 						});
+						if (!restartResult.ok) throw new Error(restartResult.error.message);
 					}
 					await loadServers();
 					setIsFormChanged(false);
@@ -3531,7 +3555,8 @@ window.__ModuleLoader__.load({
 			}, [selectedServer]);
 			const handleCreate = (0, react.useCallback)(async (dto) => {
 				if (!mcpService) return;
-				await mcpService.create({ dto });
+				const result = await mcpService.create({ dto });
+				if (!result.ok) throw new Error(result.error.message);
 				await loadServers();
 				setShowAddDialog(false);
 			}, [mcpService, loadServers]);
@@ -3539,7 +3564,8 @@ window.__ModuleLoader__.load({
 				if (!mcpService) return;
 				if (!window.confirm(`确定要删除 "${serverName}" MCP 服务器吗？`)) return;
 				try {
-					await mcpService.delete({ serverId });
+					const result = await mcpService.delete({ serverId });
+					if (!result.ok) throw new Error(result.error.message);
 					await loadServers();
 				} catch (err) {
 					setError(err instanceof Error ? err.message : "Failed to delete server");
@@ -3801,10 +3827,11 @@ window.__ModuleLoader__.load({
 																onChange: async (e) => {
 																	if (!mcpService) return;
 																	try {
-																		await mcpService.update({
+																		const result = await mcpService.update({
 																			serverId: selectedServer.id,
 																			dto: { isActive: e.target.checked }
 																		});
+																		if (!result.ok) throw new Error(result.error.message);
 																		await loadServers();
 																	} catch (err) {
 																		setError(err instanceof Error ? err.message : "Failed to update server");
@@ -4043,7 +4070,9 @@ window.__ModuleLoader__.load({
 															if (selectedId && mcpService) mcpService.getServerLogs({
 																serverId: selectedId,
 																lines: 100
-															}).then(setLogs).catch(() => setLogs([]));
+															}).then((result) => {
+																if (result.ok) setLogs(result.value);
+															}).catch(() => setLogs([]));
 														},
 														children: "刷新"
 													})]
@@ -4080,9 +4109,11 @@ window.__ModuleLoader__.load({
 															if (!selectedId || !mcpService) return;
 															setIsRefreshingTools(true);
 															try {
-																await mcpService.refreshTools({ serverId: selectedId });
+																const refreshResult = await mcpService.refreshTools({ serverId: selectedId });
+																if (!refreshResult.ok) throw new Error(refreshResult.error.message);
 																const caps = await mcpService.getCapabilities({ serverId: selectedId });
-																setCapabilities(caps);
+																if (!caps.ok) throw new Error(caps.error.message);
+																setCapabilities(caps.value);
 															} catch (error) {
 																console.error("Failed to refresh tools:", error);
 															} finally {
@@ -4112,20 +4143,26 @@ window.__ModuleLoader__.load({
 																			if (!mcpService) return;
 																			const checked = e.target.checked;
 																			const disabledTools = [...selectedServer.disabledTools || []];
-																			if (checked) {
-																				const filtered = disabledTools.filter((name) => name !== tool.name);
-																				await mcpService.update({
-																					serverId: selectedServer.id,
-																					dto: { disabledTools: filtered }
-																				});
-																			} else {
-																				if (!disabledTools.includes(tool.name)) disabledTools.push(tool.name);
-																				await mcpService.update({
-																					serverId: selectedServer.id,
-																					dto: { disabledTools }
-																				});
+																			try {
+																				if (checked) {
+																					const filtered = disabledTools.filter((name) => name !== tool.name);
+																					const result = await mcpService.update({
+																						serverId: selectedServer.id,
+																						dto: { disabledTools: filtered }
+																					});
+																					if (!result.ok) throw new Error(result.error.message);
+																				} else {
+																					if (!disabledTools.includes(tool.name)) disabledTools.push(tool.name);
+																					const result = await mcpService.update({
+																						serverId: selectedServer.id,
+																						dto: { disabledTools }
+																					});
+																					if (!result.ok) throw new Error(result.error.message);
+																				}
+																				await loadServers();
+																			} catch (err) {
+																				setError(err instanceof Error ? err.message : "Failed to update server");
 																			}
-																			await loadServers();
 																		}
 																	}), (0, react_jsx_runtime.jsx)("span", { className: McpSection_module_css_default.switchSlider })]
 																})]
@@ -4301,6 +4338,11 @@ window.__ModuleLoader__.load({
 		};
 		//#endregion
 		//#region lib/types/client/WebSearchSection.js
+		/** Unwrap a strict-mode Typert envelope, throwing the wire error message on failure. */
+		function unwrap(result) {
+			if (!result.ok) throw new Error(result.error.message);
+			return result.value;
+		}
 		const CAPABILITY_TITLES = {
 			searchKeywords: "Search Keywords",
 			fetchUrls: "Fetch URLs"
@@ -4328,9 +4370,12 @@ window.__ModuleLoader__.load({
 			const [loading, setLoading] = (0, react.useState)(true);
 			(0, react.useEffect)(() => {
 				Promise.all([websearch.getConfig(), websearch.listProviders()]).then(([cfg, pvs]) => {
-					setConfig(cfg);
-					setProviders(pvs);
+					setConfig(unwrap(cfg));
+					setProviders(unwrap(pvs));
 					setLoading(false);
+				}).catch((err) => {
+					setLoading(false);
+					console.error("Failed to load web search config:", err);
 				});
 			}, [websearch]);
 			if (loading || !config) return (0, react_jsx_runtime.jsx)("div", {
@@ -4340,21 +4385,21 @@ window.__ModuleLoader__.load({
 			const featureSections = getFeatureSections(providers);
 			const handleDefaultProviderChange = async (capability, providerId) => {
 				const update = capability === "searchKeywords" ? { defaultSearchKeywordsProvider: providerId } : { defaultFetchUrlsProvider: providerId };
-				const updated = await websearch.updateConfig(update);
+				const updated = unwrap(await websearch.updateConfig(update));
 				setConfig(updated);
 			};
 			const handleApiKeyChange = async (providerId, apiKeys) => {
-				const updated = await websearch.updateProviderOverride({
+				const updated = unwrap(await websearch.updateProviderOverride({
 					providerId,
 					override: { apiKeys }
-				});
+				}));
 				setProviders((prevProviders) => prevProviders.map((p) => p.id === providerId ? updated : p));
 			};
 			const handleApiHostChange = async (providerId, capability, apiHost) => {
-				const updated = await websearch.updateProviderOverride({
+				const updated = unwrap(await websearch.updateProviderOverride({
 					providerId,
 					override: { capabilities: { [capability]: { apiHost } } }
-				});
+				}));
 				setProviders((prevProviders) => prevProviders.map((p) => p.id === providerId ? updated : p));
 			};
 			return (0, react_jsx_runtime.jsxs)("div", {
@@ -4388,7 +4433,7 @@ window.__ModuleLoader__.load({
 										value: config.maxResults,
 										onChange: async (e) => {
 											const maxResults = parseInt(e.target.value, 10);
-											const updated = await websearch.updateConfig({ maxResults });
+											const updated = unwrap(await websearch.updateConfig({ maxResults }));
 											setConfig(updated);
 										},
 										className: "w-full px-3 py-2 border rounded-md"
@@ -4404,7 +4449,7 @@ window.__ModuleLoader__.load({
 											type: "checkbox",
 											checked: config.clientToolsPreferred,
 											onChange: async (e) => {
-												const updated = await websearch.updateConfig({ clientToolsPreferred: e.target.checked });
+												const updated = unwrap(await websearch.updateConfig({ clientToolsPreferred: e.target.checked }));
 												setConfig(updated);
 											},
 											className: "rounded"
@@ -4426,7 +4471,7 @@ window.__ModuleLoader__.load({
 									value: config.excludeDomains.join(", "),
 									onChange: async (e) => {
 										const domains = e.target.value.split(",").map((d) => d.trim()).filter(Boolean);
-										const updated = await websearch.updateConfig({ excludeDomains: domains });
+										const updated = unwrap(await websearch.updateConfig({ excludeDomains: domains }));
 										setConfig(updated);
 									},
 									className: "w-full px-3 py-2 border rounded-md"
@@ -4440,10 +4485,10 @@ window.__ModuleLoader__.load({
 								}), (0, react_jsx_runtime.jsxs)("select", {
 									value: config.compression.method,
 									onChange: async (e) => {
-										const updated = await websearch.updateConfig({ compression: {
+										const updated = unwrap(await websearch.updateConfig({ compression: {
 											...config.compression,
 											method: e.target.value
-										} });
+										} }));
 										setConfig(updated);
 									},
 									className: "w-full px-3 py-2 border rounded-md",
@@ -4468,10 +4513,10 @@ window.__ModuleLoader__.load({
 									step: "100",
 									value: config.compression.cutoffLimit,
 									onChange: async (e) => {
-										const updated = await websearch.updateConfig({ compression: {
+										const updated = unwrap(await websearch.updateConfig({ compression: {
 											method: "cutoff",
 											cutoffLimit: parseInt(e.target.value, 10)
-										} });
+										} }));
 										setConfig(updated);
 									},
 									className: "w-full px-3 py-2 border rounded-md"
@@ -4579,10 +4624,10 @@ window.__ModuleLoader__.load({
 													type: "text",
 													value: selectedProvider.basicAuthUsername ?? "",
 													onChange: async (e) => {
-														await websearch.updateProviderOverride({
+														unwrap(await websearch.updateProviderOverride({
 															providerId: selectedProvider.id,
 															override: { basicAuthUsername: e.target.value }
-														});
+														}));
 													},
 													className: "w-full px-3 py-2 border rounded-md"
 												})]
@@ -4595,10 +4640,10 @@ window.__ModuleLoader__.load({
 													type: "password",
 													value: selectedProvider.basicAuthPassword ?? "",
 													onChange: async (e) => {
-														await websearch.updateProviderOverride({
+														unwrap(await websearch.updateProviderOverride({
 															providerId: selectedProvider.id,
 															override: { basicAuthPassword: e.target.value }
-														});
+														}));
 													},
 													className: "w-full px-3 py-2 border rounded-md"
 												})]
@@ -4639,28 +4684,28 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
-			"navLabel": "_4STY0G_navLabel",
 			"header": "_4STY0G_header",
-			"close": "_4STY0G_close",
-			"triggerLabel": "_4STY0G_triggerLabel",
-			"active": "_4STY0G_active",
-			"content": "_4STY0G_content",
-			"options": "_4STY0G_options",
-			"trigger": "_4STY0G_trigger",
-			"panel": "_4STY0G_panel",
-			"actions": "_4STY0G_actions",
-			"navList": "_4STY0G_navList",
-			"hiddenLabel": "_4STY0G_hiddenLabel",
-			"nav": "_4STY0G_nav",
-			"rail": "_4STY0G_rail",
-			"navTitle": "_4STY0G_navTitle",
-			"overlay": "_4STY0G_overlay",
-			"mask": "_4STY0G_mask",
-			"navIcon": "_4STY0G_navIcon",
 			"navGroup": "_4STY0G_navGroup",
+			"rail": "_4STY0G_rail",
+			"nav": "_4STY0G_nav",
+			"active": "_4STY0G_active",
+			"overlay": "_4STY0G_overlay",
+			"navTitle": "_4STY0G_navTitle",
+			"navIcon": "_4STY0G_navIcon",
+			"navLabel": "_4STY0G_navLabel",
+			"options": "_4STY0G_options",
+			"hiddenLabel": "_4STY0G_hiddenLabel",
+			"triggerLabel": "_4STY0G_triggerLabel",
+			"mask": "_4STY0G_mask",
 			"navGroupTitle": "_4STY0G_navGroupTitle",
-			"navCell": "_4STY0G_navCell",
-			"navScroll": "_4STY0G_navScroll"
+			"actions": "_4STY0G_actions",
+			"content": "_4STY0G_content",
+			"navScroll": "_4STY0G_navScroll",
+			"panel": "_4STY0G_panel",
+			"trigger": "_4STY0G_trigger",
+			"navList": "_4STY0G_navList",
+			"close": "_4STY0G_close",
+			"navCell": "_4STY0G_navCell"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsRoot.js
@@ -5132,69 +5177,69 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelsSection_module_css_default = {
-			"notice": "tKsOKa_notice",
-			"credentialDot": "tKsOKa_credentialDot",
-			"iconButton": "tKsOKa_iconButton",
-			"editor": "tKsOKa_editor",
-			"editorRoute": "tKsOKa_editorRoute",
-			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
-			"candidateId": "tKsOKa_candidateId",
-			"editorActions": "tKsOKa_editorActions",
-			"addBlock": "tKsOKa_addBlock",
-			"modelSelectionTitle": "tKsOKa_modelSelectionTitle",
-			"editorTitle": "tKsOKa_editorTitle",
-			"modelEntry": "tKsOKa_modelEntry",
-			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
-			"section": "tKsOKa_section",
-			"credentialDotMissing": "tKsOKa_credentialDotMissing",
-			"dangerButton": "tKsOKa_dangerButton",
-			"customizedBody": "tKsOKa_customizedBody",
-			"modelList": "tKsOKa_modelList",
-			"candidateLabel": "tKsOKa_candidateLabel",
-			"linkButton": "tKsOKa_linkButton",
-			"rowHead": "tKsOKa_rowHead",
-			"intro": "tKsOKa_intro",
-			"modelFieldLabel": "tKsOKa_modelFieldLabel",
-			"modelSelectionPanel": "tKsOKa_modelSelectionPanel",
-			"candidate": "tKsOKa_candidate",
-			"addButton": "tKsOKa_addButton",
-			"iconButtonDanger": "tKsOKa_iconButtonDanger",
-			"deleteDialog": "tKsOKa_deleteDialog",
-			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
-			"fieldLabel": "tKsOKa_fieldLabel",
-			"modelField": "tKsOKa_modelField",
-			"candidateList": "tKsOKa_candidateList",
-			"modelCatalog": "tKsOKa_modelCatalog",
-			"error": "tKsOKa_error",
-			"modelEmpty": "tKsOKa_modelEmpty",
-			"primaryButton": "tKsOKa_primaryButton",
-			"editorHeader": "tKsOKa_editorHeader",
-			"modelListHead": "tKsOKa_modelListHead",
-			"rowIdentity": "tKsOKa_rowIdentity",
-			"title": "tKsOKa_title",
-			"modelRow": "tKsOKa_modelRow",
-			"deleteConfirm": "tKsOKa_deleteConfirm",
-			"rowName": "tKsOKa_rowName",
-			"rowActions": "tKsOKa_rowActions",
-			"addActions": "tKsOKa_addActions",
-			"addModelButton": "tKsOKa_addModelButton",
-			"setupCard": "tKsOKa_setupCard",
-			"rowTag": "tKsOKa_rowTag",
-			"advancedHint": "tKsOKa_advancedHint",
-			"input": "tKsOKa_input",
-			"hiddenLabel": "tKsOKa_hiddenLabel",
-			"modelAdvanced": "tKsOKa_modelAdvanced",
-			"fetchDialog": "tKsOKa_fetchDialog",
-			"savedNotice": "tKsOKa_savedNotice",
-			"addCard": "tKsOKa_addCard",
-			"customized": "tKsOKa_customized",
-			"field": "tKsOKa_field",
-			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
-			"rows": "tKsOKa_rows",
-			"selectInput": "tKsOKa_selectInput",
-			"rowCard": "tKsOKa_rowCard",
 			"customizedSummary": "tKsOKa_customizedSummary",
-			"secondaryButton": "tKsOKa_secondaryButton"
+			"modelRow": "tKsOKa_modelRow",
+			"setupCard": "tKsOKa_setupCard",
+			"candidateLabel": "tKsOKa_candidateLabel",
+			"deleteDialog": "tKsOKa_deleteDialog",
+			"modelEmpty": "tKsOKa_modelEmpty",
+			"addCard": "tKsOKa_addCard",
+			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
+			"hiddenLabel": "tKsOKa_hiddenLabel",
+			"candidateId": "tKsOKa_candidateId",
+			"editorTitle": "tKsOKa_editorTitle",
+			"notice": "tKsOKa_notice",
+			"modelEntry": "tKsOKa_modelEntry",
+			"modelSelectionPanel": "tKsOKa_modelSelectionPanel",
+			"section": "tKsOKa_section",
+			"savedNotice": "tKsOKa_savedNotice",
+			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
+			"candidate": "tKsOKa_candidate",
+			"primaryButton": "tKsOKa_primaryButton",
+			"editor": "tKsOKa_editor",
+			"advancedHint": "tKsOKa_advancedHint",
+			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"editorRoute": "tKsOKa_editorRoute",
+			"dangerButton": "tKsOKa_dangerButton",
+			"rowCard": "tKsOKa_rowCard",
+			"linkButton": "tKsOKa_linkButton",
+			"fetchDialog": "tKsOKa_fetchDialog",
+			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
+			"customizedBody": "tKsOKa_customizedBody",
+			"modelField": "tKsOKa_modelField",
+			"iconButtonDanger": "tKsOKa_iconButtonDanger",
+			"intro": "tKsOKa_intro",
+			"fieldLabel": "tKsOKa_fieldLabel",
+			"selectInput": "tKsOKa_selectInput",
+			"modelAdvanced": "tKsOKa_modelAdvanced",
+			"rowActions": "tKsOKa_rowActions",
+			"secondaryButton": "tKsOKa_secondaryButton",
+			"modelListHead": "tKsOKa_modelListHead",
+			"deleteConfirm": "tKsOKa_deleteConfirm",
+			"addActions": "tKsOKa_addActions",
+			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
+			"field": "tKsOKa_field",
+			"credentialDot": "tKsOKa_credentialDot",
+			"editorHeader": "tKsOKa_editorHeader",
+			"customized": "tKsOKa_customized",
+			"addModelButton": "tKsOKa_addModelButton",
+			"title": "tKsOKa_title",
+			"modelCatalog": "tKsOKa_modelCatalog",
+			"modelList": "tKsOKa_modelList",
+			"addButton": "tKsOKa_addButton",
+			"editorActions": "tKsOKa_editorActions",
+			"rows": "tKsOKa_rows",
+			"input": "tKsOKa_input",
+			"rowName": "tKsOKa_rowName",
+			"rowTag": "tKsOKa_rowTag",
+			"rowIdentity": "tKsOKa_rowIdentity",
+			"modelFieldLabel": "tKsOKa_modelFieldLabel",
+			"candidateList": "tKsOKa_candidateList",
+			"error": "tKsOKa_error",
+			"modelSelectionTitle": "tKsOKa_modelSelectionTitle",
+			"rowHead": "tKsOKa_rowHead",
+			"iconButton": "tKsOKa_iconButton",
+			"addBlock": "tKsOKa_addBlock"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -8309,10 +8354,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var OnboardingModal_module_css_default = {
-			"title": "C_CJ_a_title",
-			"body": "C_CJ_a_body",
 			"content": "C_CJ_a_content",
-			"dialog": "C_CJ_a_dialog"
+			"dialog": "C_CJ_a_dialog",
+			"body": "C_CJ_a_body",
+			"title": "C_CJ_a_title"
 		};
 		//#endregion
 		//#region lib/types/client/OnboardingModal.js
@@ -8462,10 +8507,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WelcomeNotice_module_css_default = {
-			"actions": "RFswhG_actions",
+			"error": "RFswhG_error",
 			"copy": "RFswhG_copy",
 			"primary": "RFswhG_primary",
-			"error": "RFswhG_error"
+			"actions": "RFswhG_actions"
 		};
 		//#endregion
 		//#region lib/types/client/WelcomeNotice.js
@@ -8928,12 +8973,12 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProductWorkspaceSurface_module_css_default = {
-			"body": "mzcFbW_body",
 			"root": "mzcFbW_root",
-			"icon": "mzcFbW_icon",
-			"header": "mzcFbW_header",
 			"eyebrow": "mzcFbW_eyebrow",
+			"icon": "mzcFbW_icon",
 			"identity": "mzcFbW_identity",
+			"body": "mzcFbW_body",
+			"header": "mzcFbW_header",
 			"close": "mzcFbW_close"
 		};
 		//#endregion
@@ -8982,20 +9027,20 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TranslationWorkspace_module_css_default = {
-			"error": "_8lesPa_error",
-			"eyebrow": "_8lesPa_eyebrow",
-			"link": "_8lesPa_link",
-			"header": "_8lesPa_header",
-			"empty": "_8lesPa_empty",
-			"root": "_8lesPa_root",
-			"history": "_8lesPa_history",
-			"swap": "_8lesPa_swap",
-			"panes": "_8lesPa_panes",
-			"pane": "_8lesPa_pane",
-			"actions": "_8lesPa_actions",
 			"toolbar": "_8lesPa_toolbar",
 			"secondary": "_8lesPa_secondary",
-			"historyItem": "_8lesPa_historyItem"
+			"root": "_8lesPa_root",
+			"eyebrow": "_8lesPa_eyebrow",
+			"history": "_8lesPa_history",
+			"historyItem": "_8lesPa_historyItem",
+			"pane": "_8lesPa_pane",
+			"actions": "_8lesPa_actions",
+			"error": "_8lesPa_error",
+			"header": "_8lesPa_header",
+			"empty": "_8lesPa_empty",
+			"link": "_8lesPa_link",
+			"swap": "_8lesPa_swap",
+			"panes": "_8lesPa_panes"
 		};
 		//#endregion
 		//#region lib/types/client/TranslationWorkspace.js

@@ -11,10 +11,13 @@ import { useCallback, useEffect, useState } from 'react'
 import type { InstalledSkill } from '../skills-types.ts'
 import css from './SkillsSection.module.css'
 
+/** Wire envelope of a strict-mode Typert remote call (same shape as translation-types). */
+type RemoteResult<T> = { ok: true; value: T } | { ok: false; error: { code: string; message: string; details: object } }
+
 interface SkillsService {
-  list(params: { search?: string }): Promise<InstalledSkill[]>
-  update(params: { skillId: string; dto: { isGlobalEnabled: boolean } }): Promise<InstalledSkill>
-  uninstall(params: { skillId: string }): Promise<void>
+  list(params: { search?: string }): Promise<RemoteResult<InstalledSkill[]>>
+  update(params: { skillId: string; dto: { isGlobalEnabled: boolean } }): Promise<RemoteResult<InstalledSkill>>
+  uninstall(params: { skillId: string }): Promise<RemoteResult<{ absent: true }>>
 }
 
 export interface SkillsSectionProps {
@@ -39,7 +42,8 @@ export function SkillsSection(props: SkillsSectionProps) {
       setError(null)
       const params = search ? { search } : {}
       const result = await skillsService.list(params)
-      setSkills(result)
+      if (!result.ok) throw new Error(result.error.message)
+      setSkills(result.value)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load skills')
     } finally {
@@ -55,10 +59,11 @@ export function SkillsSection(props: SkillsSectionProps) {
     async (skillId: string, currentEnabled: boolean) => {
       if (!skillsService) return
       try {
-        await skillsService.update({
+        const result = await skillsService.update({
           skillId,
           dto: { isGlobalEnabled: !currentEnabled }
         })
+        if (!result.ok) throw new Error(result.error.message)
         await loadSkills()
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to update skill')
@@ -73,7 +78,8 @@ export function SkillsSection(props: SkillsSectionProps) {
       if (!window.confirm(`确定要卸载 "${skillName}" 吗？`)) return
 
       try {
-        await skillsService.uninstall({ skillId })
+        const result = await skillsService.uninstall({ skillId })
+        if (!result.ok) throw new Error(result.error.message)
         await loadSkills()
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to uninstall skill')

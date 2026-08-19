@@ -28,7 +28,7 @@ export class WebSearchService extends Service {
   private scope: SettingsScope<WebSearchConfig>
 
   constructor(ctx: Context, _config?: WebSearchServiceConfig) {
-    super(ctx, 'control-center-websearch')
+    super(ctx, 'controlCenterWebSearch')
     this.scope = ctx.settings.register(WEBSEARCH_NAMESPACE, Schema.object({
       defaultSearchKeywordsProvider: Schema.union(['zhipu', 'tavily', 'searxng', 'exa', 'exa-mcp', 'bocha', 'querit', 'jina', 'firecrawl'] as const).default('exa-mcp'),
       defaultFetchUrlsProvider: Schema.union(['querit', 'fetch', 'jina', 'firecrawl'] as const).default('jina'),
@@ -116,6 +116,6 @@ export class WebSearchService extends Service {
 
 declare module '@deepseek-ai/cordis' {
   interface Context {
-    'control-center-websearch': WebSearchService
+    'controlCenterWebSearch': WebSearchService
   }
 }

@@ -16,6 +16,12 @@ interface FeatureSection {
   entries: ProviderEntry[]
 }
 
+/** Unwrap a strict-mode Typert envelope, throwing the wire error message on failure. */
+function unwrap<T>(result: { ok: true; value: T } | { ok: false; error: { code: string; message: string; details: object } }): T {
+  if (!result.ok) throw new Error(result.error.message)
+  return result.value
+}
+
 const CAPABILITY_TITLES: Record<WebSearchCapability, string> = {
   searchKeywords: 'Search Keywords',
   fetchUrls: 'Fetch URLs'
@@ -52,9 +58,12 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
       websearch.getConfig(),
       websearch.listProviders()
     ]).then(([cfg, pvs]) => {
-      setConfig(cfg)
-      setProviders(pvs)
+      setConfig(unwrap(cfg))
+      setProviders(unwrap(pvs))
       setLoading(false)
+    }).catch((err) => {
+      setLoading(false)
+      console.error('Failed to load web search config:', err)
     })
   }, [websearch])
 
@@ -69,15 +78,15 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
       ? { defaultSearchKeywordsProvider: providerId as any }
       : { defaultFetchUrlsProvider: providerId as any }
 
-    const updated = await websearch.updateConfig(update)
+    const updated = unwrap(await websearch.updateConfig(update))
     setConfig(updated)
   }
 
   const handleApiKeyChange = async (providerId: string, apiKeys: string[]) => {
-    const updated = await websearch.updateProviderOverride({
+    const updated = unwrap(await websearch.updateProviderOverride({
       providerId: providerId as any,
       override: { apiKeys }
-    })
+    }))
 
     setProviders(prevProviders =>
       prevProviders.map(p => p.id === providerId ? updated : p)
@@ -85,14 +94,14 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
   }
 
   const handleApiHostChange = async (providerId: string, capability: WebSearchCapability, apiHost: string) => {
-    const updated = await websearch.updateProviderOverride({
+    const updated = unwrap(await websearch.updateProviderOverride({
       providerId: providerId as any,
       override: {
         capabilities: {
           [capability]: { apiHost }
         }
       }
-    })
+    }))
 
     setProviders(prevProviders =>
       prevProviders.map(p => p.id === providerId ? updated : p)
@@ -122,7 +131,7 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
               value={config.maxResults}
               onChange={async (e) => {
                 const maxResults = parseInt(e.target.value, 10)
-                const updated = await websearch.updateConfig({ maxResults })
+                const updated = unwrap(await websearch.updateConfig({ maxResults }))
                 setConfig(updated)
               }}
               className="w-full px-3 py-2 border rounded-md"
@@ -136,9 +145,9 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
                 type="checkbox"
                 checked={config.clientToolsPreferred}
                 onChange={async (e) => {
-                  const updated = await websearch.updateConfig({
+                  const updated = unwrap(await websearch.updateConfig({
                     clientToolsPreferred: e.target.checked
-                  })
+                  }))
                   setConfig(updated)
                 }}
                 className="rounded"
@@ -156,7 +165,7 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
             value={config.excludeDomains.join(', ')}
             onChange={async (e) => {
               const domains = e.target.value.split(',').map(d => d.trim()).filter(Boolean)
-              const updated = await websearch.updateConfig({ excludeDomains: domains })
+              const updated = unwrap(await websearch.updateConfig({ excludeDomains: domains }))
               setConfig(updated)
             }}
             className="w-full px-3 py-2 border rounded-md"
@@ -169,12 +178,12 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
           <select
             value={config.compression.method}
             onChange={async (e) => {
-              const updated = await websearch.updateConfig({
+              const updated = unwrap(await websearch.updateConfig({
                 compression: {
                   ...config.compression,
                   method: e.target.value as 'cutoff' | 'none'
                 }
-              })
+              }))
               setConfig(updated)
             }}
             className="w-full px-3 py-2 border rounded-md"
@@ -194,12 +203,12 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
               step="100"
               value={config.compression.cutoffLimit}
               onChange={async (e) => {
-                const updated = await websearch.updateConfig({
+                const updated = unwrap(await websearch.updateConfig({
                   compression: {
                     method: 'cutoff',
                     cutoffLimit: parseInt(e.target.value, 10)
                   }
-                })
+                }))
                 setConfig(updated)
               }}
               className="w-full px-3 py-2 border rounded-md"
@@ -322,10 +331,10 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
                         type="text"
                         value={selectedProvider.basicAuthUsername ?? ''}
                         onChange={async (e) => {
-                          await websearch.updateProviderOverride({
+                          unwrap(await websearch.updateProviderOverride({
                             providerId: selectedProvider.id as any,
                             override: { basicAuthUsername: e.target.value }
-                          })
+                          }))
                         }}
                         className="w-full px-3 py-2 border rounded-md"
                       />
@@ -336,10 +345,10 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
                         type="password"
                         value={selectedProvider.basicAuthPassword ?? ''}
                         onChange={async (e) => {
-                          await websearch.updateProviderOverride({
+                          unwrap(await websearch.updateProviderOverride({
                             providerId: selectedProvider.id as any,
                             override: { basicAuthPassword: e.target.value }
-                          })
+                          }))
                         }}
                         className="w-full px-3 py-2 border rounded-md"
                       />

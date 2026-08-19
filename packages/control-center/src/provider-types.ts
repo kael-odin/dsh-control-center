@@ -94,14 +94,14 @@ export interface UpdateModelDto {
 declare module '@deepseek-ai/dsh-typert-protocol' {
   interface TypertRemoteNamespaceMap {
     controlCenterProviders: {
-      list(): Promise<ProviderView[]>
-      get(params: { providerId: string }): Promise<ProviderView | null>
-      create(params: { dto: CreateProviderDto }): Promise<ProviderView>
-      update(params: { providerId: string; dto: UpdateProviderDto }): Promise<ProviderView>
-      delete(params: { providerId: string }): Promise<void>
-      testConnection(params: { providerId: string }): Promise<TestConnectionResult>
-      discoverModels(params: { providerId: string }): Promise<DiscoverModelsResult>
-      updateModel(params: { providerId: string; modelId: string; dto: UpdateModelDto }): Promise<ModelView>
+      list(): Promise<{ ok: true; value: ProviderView[] } | { ok: false; error: { code: string; message: string; details: object } }>
+      get(params: { providerId: string }): Promise<{ ok: true; value: ProviderView | null } | { ok: false; error: { code: string; message: string; details: object } }>
+      create(params: { dto: CreateProviderDto }): Promise<{ ok: true; value: ProviderView } | { ok: false; error: { code: string; message: string; details: object } }>
+      update(params: { providerId: string; dto: UpdateProviderDto }): Promise<{ ok: true; value: ProviderView } | { ok: false; error: { code: string; message: string; details: object } }>
+      delete(params: { providerId: string }): Promise<{ ok: true; value: { absent: true } } | { ok: false; error: { code: string; message: string; details: object } }>
+      testConnection(params: { providerId: string }): Promise<{ ok: true; value: TestConnectionResult } | { ok: false; error: { code: string; message: string; details: object } }>
+      discoverModels(params: { providerId: string }): Promise<{ ok: true; value: DiscoverModelsResult } | { ok: false; error: { code: string; message: string; details: object } }>
+      updateModel(params: { providerId: string; modelId: string; dto: UpdateModelDto }): Promise<{ ok: true; value: ModelView } | { ok: false; error: { code: string; message: string; details: object } }>
     }
   }
 }

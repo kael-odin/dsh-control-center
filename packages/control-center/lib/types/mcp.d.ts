@@ -4,36 +4,136 @@ import type { CreateMcpServerDto, McpServerCapabilities, McpServerView, UpdateMc
 declare module '@deepseek-ai/dsh-api-remotes/client' {
     interface TypertClientRemote {
         controlCenterMcp?: {
-            list(): Promise<McpServerView[]>;
+            list(): Promise<{
+                ok: true;
+                value: McpServerView[];
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
             getById(params: {
                 serverId: string;
-            }): Promise<McpServerView | null>;
+            }): Promise<{
+                ok: true;
+                value: McpServerView | null;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
             create(params: {
                 dto: CreateMcpServerDto;
-            }): Promise<McpServerView>;
+            }): Promise<{
+                ok: true;
+                value: McpServerView;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
             update(params: {
                 serverId: string;
                 dto: UpdateMcpServerDto;
-            }): Promise<McpServerView>;
+            }): Promise<{
+                ok: true;
+                value: McpServerView;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
             delete(params: {
                 serverId: string;
-            }): Promise<void>;
+            }): Promise<{
+                ok: true;
+                value: null;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
             reorder(params: {
                 serverIds: string[];
-            }): Promise<void>;
+            }): Promise<{
+                ok: true;
+                value: null;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
             stopServer(params: {
                 serverId: string;
-            }): Promise<void>;
+            }): Promise<{
+                ok: true;
+                value: null;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
             refreshTools(params: {
                 serverId: string;
-            }): Promise<void>;
+            }): Promise<{
+                ok: true;
+                value: null;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
             getServerLogs(params: {
                 serverId: string;
                 lines?: number;
-            }): Promise<string[]>;
+            }): Promise<{
+                ok: true;
+                value: string[];
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
             getCapabilities(params: {
                 serverId: string;
-            }): Promise<McpServerCapabilities | null>;
+            }): Promise<{
+                ok: true;
+                value: McpServerCapabilities | null;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
         };
     }
 }

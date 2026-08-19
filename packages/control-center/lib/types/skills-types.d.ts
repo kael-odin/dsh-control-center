@@ -104,23 +104,85 @@ export interface MarketplaceSearchResponse {
 declare module '@deepseek-ai/dsh-typert-protocol' {
     interface TypertRemoteNamespaceMap {
         controlCenterSkills: {
-            list(query?: ListSkillsQuery): Promise<InstalledSkill[]>;
+            list(query?: ListSkillsQuery): Promise<{
+                ok: true;
+                value: InstalledSkill[];
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
             getById(params: {
                 skillId: string;
-            }): Promise<InstalledSkill | null>;
+            }): Promise<{
+                ok: true;
+                value: InstalledSkill | null;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
             update(params: {
                 skillId: string;
                 dto: UpdateSkillDto;
-            }): Promise<InstalledSkill>;
+            }): Promise<{
+                ok: true;
+                value: InstalledSkill;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
             installSkill(params: {
                 options: SkillInstallOptions;
-            }): Promise<InstalledSkill>;
+            }): Promise<{
+                ok: true;
+                value: InstalledSkill;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
             uninstall(params: {
                 skillId: string;
-            }): Promise<void>;
+            }): Promise<{
+                ok: true;
+                value: {
+                    absent: true;
+                };
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
             searchMarketplace(params: {
                 query: MarketplaceSearchQuery;
-            }): Promise<MarketplaceSearchResponse>;
+            }): Promise<{
+                ok: true;
+                value: MarketplaceSearchResponse;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
         };
     }
 }

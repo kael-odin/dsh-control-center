@@ -7,19 +7,33 @@
  * AGPL-3.0-only – adapted from Cherry Studio ResourceCatalog pattern for skills.
  */
 import type { InstalledSkill } from '../skills-types.ts';
+/** Wire envelope of a strict-mode Typert remote call (same shape as translation-types). */
+type RemoteResult<T> = {
+    ok: true;
+    value: T;
+} | {
+    ok: false;
+    error: {
+        code: string;
+        message: string;
+        details: object;
+    };
+};
 interface SkillsService {
     list(params: {
         search?: string;
-    }): Promise<InstalledSkill[]>;
+    }): Promise<RemoteResult<InstalledSkill[]>>;
     update(params: {
         skillId: string;
         dto: {
             isGlobalEnabled: boolean;
         };
-    }): Promise<InstalledSkill>;
+    }): Promise<RemoteResult<InstalledSkill>>;
     uninstall(params: {
         skillId: string;
-    }): Promise<void>;
+    }): Promise<RemoteResult<{
+        absent: true;
+    }>>;
 }
 export interface SkillsSectionProps {
     skills?: SkillsService;

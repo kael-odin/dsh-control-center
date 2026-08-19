@@ -8,11 +8,31 @@ import type { CreateProviderDto, ProviderView, UpdateProviderDto } from '../prov
 interface ProvidersService {
     create(params: {
         dto: CreateProviderDto;
-    }): Promise<ProviderView>;
+    }): Promise<{
+        ok: true;
+        value: ProviderView;
+    } | {
+        ok: false;
+        error: {
+            code: string;
+            message: string;
+            details: object;
+        };
+    }>;
     update(params: {
         providerId: string;
         dto: UpdateProviderDto;
-    }): Promise<ProviderView>;
+    }): Promise<{
+        ok: true;
+        value: ProviderView;
+    } | {
+        ok: false;
+        error: {
+            code: string;
+            message: string;
+            details: object;
+        };
+    }>;
 }
 interface ProviderDialogProps {
     open: boolean;

@@ -1,0 +1,46 @@
+新会话
+工作区
+Desktop
+新会话
+设置
+设置
+模型
+DSH 原生
+通用
+插件
+Agent 预设
+DSH 原生／其他
+Skills
+API 提供商
+MCP
+插件
+网络搜索
+打开配置文件
+关闭设置
+Agent 预设
+对此后新建的会话生效。运行中的会话保持它开始时的预设。
+PTC 模式
+权限
+选择新会话的默认权限模式
+Full access
+语言
+中文
+外观
+浅色
+深色
+跟随系统
+繁忙时 Enter 键行为
+仅在智能体运行时生效；Cmd/Ctrl+Enter 使用另一行为
+排队发送
+探索未至之境
+预览版
+Desktop
+PTC 模式
+Full access
+deepseek-v4-flash
+Max
+详情
+点击消息流中的工具行查看详情
+翻译
+绘画
+知识库

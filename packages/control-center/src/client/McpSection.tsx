@@ -10,15 +10,18 @@ import css from './McpSection.module.css'
 
 type TabKey = 'settings' | 'description' | 'logs' | 'tools' | 'prompts' | 'resources'
 
+/** Wire envelope of a strict-mode Typert remote call (same shape as translation-types). */
+type RemoteResult<T> = { ok: true; value: T } | { ok: false; error: { code: string; message: string; details: object } }
+
 interface McpService {
-  list(): Promise<McpServerView[]>
-  create(params: { dto: CreateMcpServerDto }): Promise<McpServerView>
-  update(params: { serverId: string; dto: UpdateMcpServerDto }): Promise<McpServerView>
-  delete(params: { serverId: string }): Promise<void>
-  stopServer(params: { serverId: string }): Promise<void>
-  refreshTools(params: { serverId: string }): Promise<void>
-  getServerLogs(params: { serverId: string; lines?: number }): Promise<string[]>
-  getCapabilities(params: { serverId: string }): Promise<McpServerCapabilities | null>
+  list(): Promise<RemoteResult<McpServerView[]>>
+  create(params: { dto: CreateMcpServerDto }): Promise<RemoteResult<McpServerView>>
+  update(params: { serverId: string; dto: UpdateMcpServerDto }): Promise<RemoteResult<McpServerView>>
+  delete(params: { serverId: string }): Promise<RemoteResult<null>>
+  stopServer(params: { serverId: string }): Promise<RemoteResult<null>>
+  refreshTools(params: { serverId: string }): Promise<RemoteResult<null>>
+  getServerLogs(params: { serverId: string; lines?: number }): Promise<RemoteResult<string[]>>
+  getCapabilities(params: { serverId: string }): Promise<RemoteResult<McpServerCapabilities | null>>
 }
 
 export interface McpSectionProps {
@@ -60,9 +63,11 @@ export function McpSection(props: McpSectionProps) {
       setLoading(true)
       setError(null)
       const result = await mcpService.list()
-      setServers(result)
-      if (result.length > 0 && !selectedId && result[0] !== undefined) {
-        setSelectedId(result[0].id)
+      if (!result.ok) throw new Error(result.error.message)
+      const list = result.value
+      setServers(list)
+      if (list.length > 0 && !selectedId && list[0] !== undefined) {
+        setSelectedId(list[0].id)
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load MCP servers')
@@ -96,7 +101,7 @@ export function McpSection(props: McpSectionProps) {
   useEffect(() => {
     if (activeTab === 'logs' && selectedId && mcpService) {
       void mcpService.getServerLogs({ serverId: selectedId, lines: 100 })
-        .then(setLogs)
+        .then((result) => { if (result.ok) setLogs(result.value) })
         .catch(() => setLogs([]))
     }
   }, [activeTab, selectedId, mcpService])
@@ -109,7 +114,7 @@ export function McpSection(props: McpSectionProps) {
 
     const interval = setInterval(() => {
       void mcpService.getServerLogs({ serverId: selectedId, lines: 100 })
-        .then(setLogs)
+        .then((result) => { if (result.ok) setLogs(result.value) })
         .catch(() => {}) // Silently fail during polling
     }, 3000) // Poll every 3 seconds
 
@@ -120,7 +125,7 @@ export function McpSection(props: McpSectionProps) {
   useEffect(() => {
     if (selectedId && mcpService && selectedServer?.isActive) {
       void mcpService.getCapabilities({ serverId: selectedId })
-        .then(setCapabilities)
+        .then((result) => { if (result.ok) setCapabilities(result.value) })
         .catch(() => setCapabilities(null))
     } else {
       setCapabilities(null)
@@ -194,18 +199,21 @@ export function McpSection(props: McpSectionProps) {
         dto.env = envParsed
       }
 
-      await mcpService.update({
+      const updateResult = await mcpService.update({
         serverId: selectedServer.id,
         dto
       })
+      if (!updateResult.ok) throw new Error(updateResult.error.message)
 
       // Restart server if active
       if (selectedServer.isActive) {
-        await mcpService.stopServer({ serverId: selectedServer.id })
-        await mcpService.update({
+        const stopResult = await mcpService.stopServer({ serverId: selectedServer.id })
+        if (!stopResult.ok) throw new Error(stopResult.error.message)
+        const restartResult = await mcpService.update({
           serverId: selectedServer.id,
           dto: { isActive: true }
         })
+        if (!restartResult.ok) throw new Error(restartResult.error.message)
       }
 
       await loadServers()
@@ -238,7 +246,8 @@ export function McpSection(props: McpSectionProps) {
   const handleCreate = useCallback(async (dto: CreateMcpServerDto) => {
     if (!mcpService) return
 
-    await mcpService.create({ dto })
+    const result = await mcpService.create({ dto })
+    if (!result.ok) throw new Error(result.error.message)
     await loadServers()
     setShowAddDialog(false)
   }, [mcpService, loadServers])
@@ -249,7 +258,8 @@ export function McpSection(props: McpSectionProps) {
       if (!window.confirm(`确定要删除 "${serverName}" MCP 服务器吗？`)) return
 
       try {
-        await mcpService.delete({ serverId })
+        const result = await mcpService.delete({ serverId })
+        if (!result.ok) throw new Error(result.error.message)
         await loadServers()
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to delete server')
@@ -471,10 +481,11 @@ export function McpSection(props: McpSectionProps) {
                         onChange={async (e) => {
                           if (!mcpService) return
                           try {
-                            await mcpService.update({
+                            const result = await mcpService.update({
                               serverId: selectedServer.id,
                               dto: { isActive: e.target.checked }
                             })
+                            if (!result.ok) throw new Error(result.error.message)
                             await loadServers()
                           } catch (err) {
                             setError(err instanceof Error ? err.message : 'Failed to update server')
@@ -665,7 +676,7 @@ export function McpSection(props: McpSectionProps) {
                             onClick={() => {
                               if (selectedId && mcpService) {
                                 void mcpService.getServerLogs({ serverId: selectedId, lines: 100 })
-                                  .then(setLogs)
+                                  .then((result) => { if (result.ok) setLogs(result.value) })
                                   .catch(() => setLogs([]))
                               }
                             }}
@@ -703,9 +714,11 @@ export function McpSection(props: McpSectionProps) {
                               if (!selectedId || !mcpService) return
                               setIsRefreshingTools(true)
                               try {
-                                await mcpService.refreshTools({ serverId: selectedId })
+                                const refreshResult = await mcpService.refreshTools({ serverId: selectedId })
+                                if (!refreshResult.ok) throw new Error(refreshResult.error.message)
                                 const caps = await mcpService.getCapabilities({ serverId: selectedId })
-                                setCapabilities(caps)
+                                if (!caps.ok) throw new Error(caps.error.message)
+                                setCapabilities(caps.value)
                               } catch (error) {
                                 console.error('Failed to refresh tools:', error)
                               } finally {
@@ -733,25 +746,31 @@ export function McpSection(props: McpSectionProps) {
                                         const checked = e.target.checked
                                         const disabledTools = [...(selectedServer.disabledTools || [])]
 
-                                        if (checked) {
-                                          // Enable: remove from disabledTools
-                                          const filtered = disabledTools.filter(name => name !== tool.name)
-                                          await mcpService.update({
-                                            serverId: selectedServer.id,
-                                            dto: { disabledTools: filtered }
-                                          })
-                                        } else {
-                                          // Disable: add to disabledTools
-                                          if (!disabledTools.includes(tool.name)) {
-                                            disabledTools.push(tool.name)
+                                        try {
+                                          if (checked) {
+                                            // Enable: remove from disabledTools
+                                            const filtered = disabledTools.filter(name => name !== tool.name)
+                                            const result = await mcpService.update({
+                                              serverId: selectedServer.id,
+                                              dto: { disabledTools: filtered }
+                                            })
+                                            if (!result.ok) throw new Error(result.error.message)
+                                          } else {
+                                            // Disable: add to disabledTools
+                                            if (!disabledTools.includes(tool.name)) {
+                                              disabledTools.push(tool.name)
+                                            }
+                                            const result = await mcpService.update({
+                                              serverId: selectedServer.id,
+                                              dto: { disabledTools }
+                                            })
+                                            if (!result.ok) throw new Error(result.error.message)
                                           }
-                                          await mcpService.update({
-                                            serverId: selectedServer.id,
-                                            dto: { disabledTools }
-                                          })
-                                        }
 
-                                        await loadServers()
+                                          await loadServers()
+                                        } catch (err) {
+                                          setError(err instanceof Error ? err.message : 'Failed to update server')
+                                        }
                                       }}
                                     />
                                     <span className={css.switchSlider}></span>

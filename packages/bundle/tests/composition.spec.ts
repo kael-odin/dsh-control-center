@@ -17,7 +17,7 @@ describe('bundle composition', () => {
     const byId = new Map(rows.map(row => [row.id, row]))
     expect(byId.get('ui-settings-general')?.disabled).toBe(true)
     expect(byId.get('ui-settings-models')?.disabled).toBe(true)
-    expect(byId.get('dsh-control-center')?.name).toBe('@dsh-control-center/control-center')
+    expect(byId.get('dsh-control-center')?.name).toBe('@dsh-control-center/bundle')
     for (const kept of ['ui-settings', 'ui-settings-plugin-inventory', 'ui-settings-plugins', 'ui-permission', 'ui-agent-preset', 'ui-model-selection']) {
       expect(byId.get(kept)?.disabled).not.toBe(true)
     }

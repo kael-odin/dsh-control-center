@@ -3,31 +3,43 @@
  * Left sidebar: server list with search/filter. Right detail: server settings + logs.
  */
 import type { CreateMcpServerDto, McpServerView, UpdateMcpServerDto, McpServerCapabilities } from '../mcp-types.ts';
+/** Wire envelope of a strict-mode Typert remote call (same shape as translation-types). */
+type RemoteResult<T> = {
+    ok: true;
+    value: T;
+} | {
+    ok: false;
+    error: {
+        code: string;
+        message: string;
+        details: object;
+    };
+};
 interface McpService {
-    list(): Promise<McpServerView[]>;
+    list(): Promise<RemoteResult<McpServerView[]>>;
     create(params: {
         dto: CreateMcpServerDto;
-    }): Promise<McpServerView>;
+    }): Promise<RemoteResult<McpServerView>>;
     update(params: {
         serverId: string;
         dto: UpdateMcpServerDto;
-    }): Promise<McpServerView>;
+    }): Promise<RemoteResult<McpServerView>>;
     delete(params: {
         serverId: string;
-    }): Promise<void>;
+    }): Promise<RemoteResult<null>>;
     stopServer(params: {
         serverId: string;
-    }): Promise<void>;
+    }): Promise<RemoteResult<null>>;
     refreshTools(params: {
         serverId: string;
-    }): Promise<void>;
+    }): Promise<RemoteResult<null>>;
     getServerLogs(params: {
         serverId: string;
         lines?: number;
-    }): Promise<string[]>;
+    }): Promise<RemoteResult<string[]>>;
     getCapabilities(params: {
         serverId: string;
-    }): Promise<McpServerCapabilities | null>;
+    }): Promise<RemoteResult<McpServerCapabilities | null>>;
 }
 export interface McpSectionProps {
     mcp?: McpService;
