@@ -560,8 +560,8 @@ export class KnowledgeService extends Service {
     const tools = this.ctx.get('tools')
     if (tools === undefined) return
     // The tool runtime calls execute() with the tool object as `this`, so the
-    // service reference must be captured here (oxlint: no-alias-this).
-    // oxlint-disable-next-line no-alias-this
+    // service reference must be captured here.
+    // oxlint-disable-next-line
     const serviceRef = this
     const disposer = tools.register(defineTool({
         name: 'knowledge_retrieve',
