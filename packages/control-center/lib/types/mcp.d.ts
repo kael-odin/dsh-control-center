@@ -39,6 +39,7 @@ declare module '@deepseek-ai/dsh-api-remotes/client' {
 }
 export declare class McpService extends Service {
     static inject: readonly ["settings"];
+    static optional: readonly ["tools"];
     readonly typertRemote: import("@deepseek-ai/dsh-typert-protocol").TypertGatewayBinding<this>;
     private scope;
     private runtimeStates;

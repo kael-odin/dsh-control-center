@@ -388,11 +388,18 @@ export class McpService extends Service {
                 // Register tool with DSH tool registry
                 const toolName = `mcp_${serverId}_${tool.name}`
 
-                toolService.register(toolName, {
+                toolService.register({
+                  name: toolName,
                   description: tool.description || `MCP tool: ${tool.name}`,
                   parameters: tool.inputSchema as any,
-                  handler: async (input: any) => {
-                    const result = await client.callTool({ name: tool.name, arguments: input })
+                  output: {
+                    schema: { type: 'object' },
+                    render: (_args: unknown, value: any) => {
+                      return [{ type: 'text' as const, text: JSON.stringify(value) }]
+                    }
+                  },
+                  execute: async (args: any) => {
+                    const result = await client.callTool({ name: tool.name, arguments: args })
                     return result.content
                   }
                 })
@@ -521,12 +528,18 @@ export class McpService extends Service {
             // Prefix tool name with server ID to avoid naming conflicts
             const toolName = `mcp_${params.serverId}_${tool.name}`
 
-            toolService.register(toolName, {
+            toolService.register({
+              name: toolName,
               description: tool.description || `MCP tool: ${tool.name}`,
-              parameters: tool.inputSchema as any, // MCP uses JSON Schema format
-              handler: async (input: any) => {
-                // Call the MCP tool through the client
-                const result = await client.callTool({ name: tool.name, arguments: input })
+              parameters: tool.inputSchema as any,
+              output: {
+                schema: { type: 'object' },
+                render: (_args: unknown, value: any) => {
+                  return [{ type: 'text' as const, text: JSON.stringify(value) }]
+                }
+              },
+              execute: async (args: any) => {
+                const result = await client.callTool({ name: tool.name, arguments: args })
                 return result.content
               }
             })

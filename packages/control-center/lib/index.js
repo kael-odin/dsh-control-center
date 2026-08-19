@@ -1879,6 +1879,7 @@ const skillsRemote = {
 const MCP_NAMESPACE = settingsNamespace("control-center-mcp");
 var McpService = class extends Service {
 	static inject = ["settings"];
+	static optional = ["tools"];
 	typertRemote = bindTypertRemote(this, "controlCenterMcp");
 	scope;
 	runtimeStates = /* @__PURE__ */ new Map();
@@ -2114,6 +2115,33 @@ var McpService = class extends Service {
 						if (tool.description !== void 0) mapped.description = tool.description;
 						return mapped;
 					});
+					const disabledTools = record.disabledTools || [];
+					const toolService = this.ctx.get("tools", false);
+					if (toolService) for (const tool of capabilities.tools) {
+						if (disabledTools.includes(tool.name)) continue;
+						const toolName = `mcp_${serverId}_${tool.name}`;
+						toolService.register({
+							name: toolName,
+							description: tool.description || `MCP tool: ${tool.name}`,
+							parameters: tool.inputSchema,
+							output: {
+								schema: { type: "object" },
+								render: (_args, value) => {
+									return [{
+										type: "text",
+										text: JSON.stringify(value)
+									}];
+								}
+							},
+							execute: async (args) => {
+								return (await client.callTool({
+									name: tool.name,
+									arguments: args
+								})).content;
+							}
+						});
+						this.addServerLog(serverId, `Registered tool: ${tool.name}`);
+					}
 				} catch (error) {
 					this.ctx.logger.warn(`Failed to list tools for ${serverId}`, error);
 				}
@@ -2187,14 +2215,44 @@ var McpService = class extends Service {
 			const client = state.client;
 			const serverCapabilities = client.getServerCapabilities();
 			const capabilities = {};
-			if (serverCapabilities?.tools) capabilities.tools = (await client.listTools()).tools.map((tool) => {
-				const mapped = {
-					name: tool.name,
-					inputSchema: tool.inputSchema
-				};
-				if (tool.description !== void 0) mapped.description = tool.description;
-				return mapped;
-			});
+			if (serverCapabilities?.tools) {
+				capabilities.tools = (await client.listTools()).tools.map((tool) => {
+					const mapped = {
+						name: tool.name,
+						inputSchema: tool.inputSchema
+					};
+					if (tool.description !== void 0) mapped.description = tool.description;
+					return mapped;
+				});
+				const disabledTools = this.scope.get().servers.find((s) => s.id === params.serverId)?.disabledTools || [];
+				const toolService = this.ctx.get("tools", false);
+				if (toolService) for (const tool of capabilities.tools) {
+					if (disabledTools.includes(tool.name)) continue;
+					const toolName = `mcp_${params.serverId}_${tool.name}`;
+					toolService.register({
+						name: toolName,
+						description: tool.description || `MCP tool: ${tool.name}`,
+						parameters: tool.inputSchema,
+						output: {
+							schema: { type: "object" },
+							render: (_args, value) => {
+								return [{
+									type: "text",
+									text: JSON.stringify(value)
+								}];
+							}
+						},
+						execute: async (args) => {
+							return (await client.callTool({
+								name: tool.name,
+								arguments: args
+							})).content;
+						}
+					});
+					this.addServerLog(params.serverId, `Registered tool: ${tool.name}`);
+				}
+				else this.ctx.logger.warn("Tool service not available for registration");
+			}
 			if (serverCapabilities?.prompts) capabilities.prompts = (await client.listPrompts()).prompts.map((prompt) => {
 				const mapped = { name: prompt.name };
 				if (prompt.description !== void 0) mapped.description = prompt.description;
