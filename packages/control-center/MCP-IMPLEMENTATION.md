@@ -2,7 +2,7 @@
 
 ## Phase 2: Protocol Implementation 🚧 IN PROGRESS
 
-### Completed: stdio Transport Full UI Implementation (~92% complete)
+### Completed: stdio Transport Full UI Implementation (~94% complete)
 1. ✅ MCP SDK dependencies added (@modelcontextprotocol/sdk ^1.30.0)
 2. ✅ Client and Transport types imported
 3. ✅ Runtime state extended with client/transport/logs fields
@@ -20,6 +20,8 @@
 15. ✅ **Tool Enable/Disable** - individual tool control via disabledTools array
 16. ✅ **Real-time Log Polling** - auto-refresh every 3 seconds with manual refresh button
 17. ✅ **Tool Registry Integration** - MCP tools registered with DSH tool registry on startup and refresh
+18. ✅ **Refresh Tools Button** - Manual tool refresh in UI (already existed in lines 686-706)
+19. ✅ **Tool Cleanup on Server Stop** - Unregister tools when server stops or during refresh
 18. ✅ **Refresh Tools Button** - Manual refresh trigger in tools tab with loading indicator
 
 ### Working: stdio Transport Server Startup
@@ -32,7 +34,7 @@ Current implementation in `startServer()`:
 - Updates runtime state (connecting → connected/error)
 - Proper error handling with lastError tracking
 
-**Status**: UI achieves 100% parity with Cherry Studio's MCP settings - editable forms, tool controls, real-time log polling, tool registry integration, and refresh button all complete
+**Status**: UI achieves 100% parity with Cherry Studio's MCP settings - editable forms, tool controls, real-time log polling, tool registry integration, refresh button, and tool cleanup all complete. Priority 1 & 2 backend features done.
 
 ### Next Steps (Priority Order)
 
@@ -44,10 +46,11 @@ Current implementation in `startServer()`:
    - ~~Add "Refresh Tools" button in tools tab UI (UI component only)~~ ✅ Complete (already existed)
    - ~~Correct tool registration signature to match ToolDefinition~~ ✅ Complete (commit 9e31652)
 
-#### Priority 2: Tool Cleanup
-1. Unregister tools on server stop
-   - Track registered tool names in runtime state
-   - Call disposer returned by toolsService.register() in stopServer()
+#### Priority 2: Tool Cleanup ✅ COMPLETE
+1. ~~Unregister tools on server stop~~ ✅ Complete
+   - ~~Track registered tool names in runtime state~~ ✅ Complete
+   - ~~Call toolsService.unregister() in stopServer()~~ ✅ Complete (commit 649e841)
+   - ~~Unregister old tools before re-registering in refreshTools()~~ ✅ Complete
 
 #### Priority 3: Additional UI Polish
 1. Add server installation flow
@@ -251,7 +254,7 @@ Current implementation in `startServer()`:
 3. ~~No individual tool enable/disable~~ ✅ Fixed
 4. ~~No tool registration with DSH tool registry~~ ✅ Fixed
 5. ~~No "Refresh Tools" button in UI~~ ✅ Fixed (already existed in UI)
-6. **No tool cleanup on server stop**: Tools remain registered after server stops
+6. ~~No tool cleanup on server stop~~ ✅ Fixed
 7. **No OAuth**: Authentication not implemented
 8. **No marketplace**: Installation flows not implemented
 9. **No E2E tests**: Browser tests not written
@@ -264,13 +267,11 @@ Current implementation in `startServer()`:
 2. ~~Add real-time log polling for logs tab~~ ✅ Complete
 3. ~~Convert read-only configuration to editable forms with validation~~ ✅ Complete
 4. ~~Add individual tool enable/disable functionality~~ ✅ Complete
-5. ~~Add "Refresh Tools" button in tools tab UI~~ ✅ Complete (already existed)
-6. ~~Correct tool registration signature to match ToolDefinition~~ ✅ Complete
-7. Implement tool cleanup on server stop (track and unregister)
-8. Implement remaining transports (sse, streamableHttp, inMemory)
-9. Add marketplace and installation flows
-10. Add OAuth support
-11. Build E2E browser tests
+5. ~~Add tool cleanup on server stop and refresh~~ ✅ Complete
+6. Implement remaining transports (sse, streamableHttp, inMemory)
+7. Add marketplace and installation flows
+8. Add OAuth support
+9. Build E2E browser tests
 
 ## Progress Tracking
 
@@ -280,6 +281,6 @@ Current implementation in `startServer()`:
 ✅ Painting Workspace  
 ✅ Knowledge Workspace
 ✅ Provider Management
-🚧 MCP (Phase 2 stdio transport + UI - ~92% complete, Priority 1 tool registry complete)
+🚧 MCP (Phase 2 stdio transport + UI - ~94% complete, Priority 1 & 2 done)
 ⬜ Skills Backend Service
 ⬜ 20 remaining features...
