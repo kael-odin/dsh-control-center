@@ -28,6 +28,18 @@ export function McpSection(props: McpSectionProps) {
   const { mcp: mcpService } = props
   const [servers, setServers] = useState<McpServerView[]>([])
   const [selectedId, setSelectedId] = useState<string | undefined>(undefined)
+
+  // Form state for editable fields
+  const [formData, setFormData] = useState<{
+    name: string
+    command: string
+    args: string
+    env: string
+    timeout: number
+    longRunning: boolean
+  } | null>(null)
+  const [isFormChanged, setIsFormChanged] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
   const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -96,6 +108,114 @@ export function McpSection(props: McpSectionProps) {
       setCapabilities(null)
     }
   }, [selectedId, mcpService, selectedServer?.isActive])
+
+  // Initialize form data when selected server changes
+  useEffect(() => {
+    if (selectedServer) {
+      setFormData({
+        name: selectedServer.name,
+        command: selectedServer.command || '',
+        args: selectedServer.args?.join('\n') || '',
+        env: selectedServer.env
+          ? Object.entries(selectedServer.env)
+              .map(([key, value]) => `${key}=${value}`)
+              .join('\n')
+          : '',
+        timeout: selectedServer.timeout || 30,
+        longRunning: selectedServer.longRunning || false
+      })
+      setIsFormChanged(false)
+    } else {
+      setFormData(null)
+      setIsFormChanged(false)
+    }
+  }, [selectedServer])
+
+  const handleFormChange = useCallback((field: string, value: any) => {
+    setFormData(prev => prev ? { ...prev, [field]: value } : null)
+    setIsFormChanged(true)
+  }, [])
+
+  const handleSave = useCallback(async () => {
+    if (!mcpService || !selectedServer || !formData) return
+
+    // Validate required fields for stdio transport
+    if (!selectedServer.type || selectedServer.type === 'stdio') {
+      if (!formData.command.trim()) {
+        setError('命令字段不能为空')
+        return
+      }
+    }
+
+    setIsSaving(true)
+    setError(null)
+
+    try {
+      const envParsed = formData.env
+        ? Object.fromEntries(
+            formData.env
+              .split('\n')
+              .filter(line => line.includes('='))
+              .map(line => {
+                const idx = line.indexOf('=')
+                return [line.slice(0, idx), line.slice(idx + 1)]
+              })
+          )
+        : {}
+
+      const dto: UpdateMcpServerDto = {
+        name: formData.name,
+        command: formData.command,
+        args: formData.args.split('\n').filter(arg => arg.trim() !== ''),
+        timeout: formData.timeout,
+        longRunning: formData.longRunning
+      }
+
+      // Only add env if it has entries
+      if (Object.keys(envParsed).length > 0) {
+        dto.env = envParsed
+      }
+
+      await mcpService.update({
+        serverId: selectedServer.id,
+        dto
+      })
+
+      // Restart server if active
+      if (selectedServer.isActive) {
+        await mcpService.stopServer({ serverId: selectedServer.id })
+        await mcpService.update({
+          serverId: selectedServer.id,
+          dto: { isActive: true }
+        })
+      }
+
+      await loadServers()
+      setIsFormChanged(false)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '保存失败')
+    } finally {
+      setIsSaving(false)
+    }
+  }, [mcpService, selectedServer, formData, loadServers])
+
+  const handleCancel = useCallback(() => {
+    if (selectedServer) {
+      setFormData({
+        name: selectedServer.name,
+        command: selectedServer.command || '',
+        args: selectedServer.args?.join('\n') || '',
+        env: selectedServer.env
+          ? Object.entries(selectedServer.env)
+              .map(([key, value]) => `${key}=${value}`)
+              .join('\n')
+          : '',
+        timeout: selectedServer.timeout || 30,
+        longRunning: selectedServer.longRunning || false
+      })
+      setIsFormChanged(false)
+    }
+  }, [selectedServer])
 
   const handleDelete = useCallback(
     async (serverId: string, serverName: string) => {
@@ -350,56 +470,71 @@ export function McpSection(props: McpSectionProps) {
               </section>
 
               {/* Configuration section - stdio transport */}
-              {(!selectedServer.type || selectedServer.type === 'stdio') && (
+              {(!selectedServer.type || selectedServer.type === 'stdio') && formData && (
                 <section className={css.section}>
                   <div className={css.sectionHeader}>
                     <h3 className={css.sectionHeading}>命令配置</h3>
                   </div>
                   <div className={css.sectionBody}>
                     <div className={css.fieldGroup}>
-                      <label className={css.fieldLabel}>命令</label>
+                      <label className={css.fieldLabel}>服务器名称 *</label>
                       <input
                         type="text"
                         className={css.input}
-                        value={selectedServer.command || ''}
-                        placeholder="例如: npx, uvx, python"
-                        readOnly
+                        value={formData.name}
+                        onChange={(e) => handleFormChange('name', e.target.value)}
+                        placeholder="例如: my-mcp-server"
                       />
                     </div>
-                    {selectedServer.args && selectedServer.args.length > 0 && (
-                      <div className={css.fieldGroup}>
-                        <label className={css.fieldLabel}>参数</label>
-                        <div className={css.codeBlock}>
-                          {selectedServer.args.map((arg, idx) => (
-                            <div key={idx} className={css.codeLine}>{arg}</div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
+                    <div className={css.fieldGroup}>
+                      <label className={css.fieldLabel}>命令 *</label>
+                      <input
+                        type="text"
+                        className={css.input}
+                        value={formData.command}
+                        onChange={(e) => handleFormChange('command', e.target.value)}
+                        placeholder="例如: npx, uvx, python"
+                      />
+                    </div>
+                    <div className={css.fieldGroup}>
+                      <label className={css.fieldLabel}>参数</label>
+                      <textarea
+                        className={css.textarea}
+                        value={formData.args}
+                        onChange={(e) => handleFormChange('args', e.target.value)}
+                        placeholder="每行一个参数&#10;例如:&#10;-m&#10;mcp_server"
+                        rows={5}
+                      />
+                      <div className={css.fieldHint}>每行一个参数</div>
+                    </div>
                   </div>
                 </section>
               )}
 
               {/* Environment variables section */}
-              {selectedServer.env && Object.keys(selectedServer.env).length > 0 && (
+              {(!selectedServer.type || selectedServer.type === 'stdio') && formData && (
                 <section className={css.section}>
                   <div className={css.sectionHeader}>
                     <h3 className={css.sectionHeading}>环境变量</h3>
                   </div>
                   <div className={css.sectionBody}>
-                    <div className={css.codeBlock}>
-                      {Object.entries(selectedServer.env).map(([key, value]) => (
-                        <div key={key} className={css.codeLine}>
-                          <span className={css.codeKey}>{key}</span>=<span className={css.codeValue}>{value}</span>
-                        </div>
-                      ))}
+                    <div className={css.fieldGroup}>
+                      <label className={css.fieldLabel}>环境变量</label>
+                      <textarea
+                        className={css.textarea}
+                        value={formData.env}
+                        onChange={(e) => handleFormChange('env', e.target.value)}
+                        placeholder="每行一个键值对&#10;例如:&#10;API_KEY=your_key&#10;DEBUG=true"
+                        rows={5}
+                      />
+                      <div className={css.fieldHint}>格式: KEY=VALUE，每行一个</div>
                     </div>
                   </div>
                 </section>
               )}
 
               {/* Timeout settings section */}
-              {selectedServer.timeout !== undefined && (
+              {formData && (
                 <section className={css.section}>
                   <div className={css.sectionHeader}>
                     <h3 className={css.sectionHeading}>超时设置</h3>
@@ -410,9 +545,48 @@ export function McpSection(props: McpSectionProps) {
                       <input
                         type="number"
                         className={css.input}
-                        value={selectedServer.timeout}
-                        readOnly
+                        value={formData.timeout}
+                        onChange={(e) => handleFormChange('timeout', parseInt(e.target.value) || 30)}
+                        min={1}
+                        max={300}
                       />
+                    </div>
+                    <div className={css.fieldRow}>
+                      <label className={css.fieldLabel}>
+                        <input
+                          type="checkbox"
+                          className={css.checkbox}
+                          checked={formData.longRunning}
+                          onChange={(e) => handleFormChange('longRunning', e.target.checked)}
+                        />
+                        <span>长时间运行</span>
+                      </label>
+                    </div>
+                  </div>
+                </section>
+              )}
+
+              {/* Save/Cancel buttons */}
+              {formData && isFormChanged && (
+                <section className={css.section}>
+                  <div className={css.sectionBody}>
+                    <div className={css.formActions}>
+                      <button
+                        type="button"
+                        className={css.primaryButton}
+                        onClick={handleSave}
+                        disabled={isSaving}
+                      >
+                        {isSaving ? '保存中...' : '保存更改'}
+                      </button>
+                      <button
+                        type="button"
+                        className={css.secondaryButton}
+                        onClick={handleCancel}
+                        disabled={isSaving}
+                      >
+                        取消
+                      </button>
                     </div>
                   </div>
                 </section>
