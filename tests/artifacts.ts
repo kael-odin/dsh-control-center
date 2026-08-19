@@ -3,7 +3,7 @@ import { resolve } from 'node:path'
 
 const root = resolve(import.meta.dirname, '..')
 const client = readFileSync(resolve(root, 'packages/control-center/lib/client.js'), 'utf8')
-const handoff = /window\.__ModuleLoader__\.load\(\{\s*id:\s*["']@dsh-control-center\/control-center["'],\s*factory:\s*\(require\)\s*=>\s*\{/g
+const handoff = /window\.__ModuleLoader__\.load\(\{\s*id:\s*["']@dsh-control-center\/bundle["'],\s*factory:\s*\(require\)\s*=>\s*\{/g
 if ([...client.matchAll(handoff)].length !== 1) throw new Error('artifact: client bundle must register exactly one expected lazy factory')
 const factory = client.search(handoff)
 const style = client.indexOf('data-plugin-css')
