@@ -23,11 +23,19 @@ dsh plugin --profile web remove @dsh-control-center/bundle
 
 Removal restores DSH's native settings packages. It does not delete DSH settings, credentials, providers, or sessions.
 
-## Status and roadmap
+## Status
 
-The verified delivery includes the settings shell, General contributions, local settings-document action, onboarding, provider creation/edit/removal, write-only credentials, draft model discovery and adoption, default/current model selection, and the additive product-workspace navigation/surface seam.
+Delivered (v0.1.0, all browser-verified against the real DeepSeek API):
 
-The committed full-parity roadmap also includes product workspaces for translation, image generation, and knowledge bases plus MCP, Skills, search, document processing, OCR, local models, API Gateway, data and backup, usage analytics, Channels, scheduled tasks, shortcuts, assistant surfaces, capture, diagnostics, and updates. Those capabilities are not represented by inactive controls: each appears only after it has real Host behavior, persistence, cancellation, recovery, and integration with DSH authorities.
+- **Settings shell**: Cherry design-token system (light/dark following the host theme), grouped navigation (核心/能力/个人/自动化/系统), 250px Cherry settings geometry
+- **Core**: provider management with real connection test and model discovery, DSH-native model page, MCP server management, Skills catalog, Web Search provider config
+- **Product workspaces**: Translation (real streaming via DSH LLM), Painting (image generation), Knowledge Base (ingestion/embedding/retrieval), Repositories (browse any local repo: file tree, previews, git branch)
+- **Document processing & OCR**: processor catalog + config, local text extraction, OpenAI-compatible vision OCR, capability-gated cloud processors
+- **Personal**: usage analytics (live service counts), data export/import/clear (credentials stay in the DSH credentials store)
+- **Automation**: scheduled tasks with a real host cron scheduler (notification and command actions, run history)
+- **System**: about/versions, dependency resolution (8 contract packages), compatibility gate
+
+Capabilities DSH already owns (themes, sessions, permissions, presets, credentials, plugin inventory) stay authoritative; the Control Center surfaces them without duplicating their storage.
 
 See the bilingual [product specification](docs/control-center-web-edition.md) and [implementation ledger](docs/implementation-status.md) for the authoritative target and current status.
 
