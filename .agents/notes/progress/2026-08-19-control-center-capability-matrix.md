@@ -57,15 +57,20 @@
 
 #### Core Group（核心分组）
 
-##### 5. Provider Management（提供方管理）
+##### 5. Provider Management（提供方管理）✅
 **规格对应**: `| 提供方与模型管理 |` (line 95)
-- ❌ Provider 列表/编辑器
-- ❌ API Key 管理（DSH credentials integration）
-- ❌ Endpoint & Header 配置
-- ❌ 连通性测试
-- ❌ 远程模型发现
+- ✅ Provider 列表/编辑器（split-pane UI with 248px sidebar）
+- ✅ API Key 管理（DSH credentials integration with apiKeyRef）
+- ✅ Endpoint & Header 配置
+- ✅ 连通性测试（testConnection with latency）
+- ✅ 远程模型发现（discoverModels with OpenAI-compatible fetcher）
+- ✅ Model enable/disable toggle
+- ⚠️ **未完成**: Provider Add/Edit 对话框
+- ⚠️ **未完成**: Provider-specific fetchers (Anthropic, Gemini, Azure)
+- ⚠️ **未完成**: E2E browser tests
 - **Cherry 文件**: `src/renderer/routes/settings/provider.tsx`
-- **DSH 集成**: 扩展现有 DSH LLM 注册表
+- **DSH 集成**: ProvidersService with Settings + Credentials
+- **提交**: 49cb08f
 
 ##### 6. Model Management（模型管理）
 **规格对应**: `| 提供方与模型管理 |` (line 95)
