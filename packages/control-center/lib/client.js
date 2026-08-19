@@ -141,21 +141,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var PaintingWorkspace_module_css_default = {
-			"gallery": "_-UrTq_gallery",
-			"figure": "_-UrTq_figure",
 			"eyebrow": "_-UrTq_eyebrow",
+			"header": "_-UrTq_header",
+			"root": "_-UrTq_root",
+			"progress": "_-UrTq_progress",
+			"error": "_-UrTq_error",
+			"composer": "_-UrTq_composer",
 			"historyItem": "_-UrTq_historyItem",
+			"figure": "_-UrTq_figure",
+			"empty": "_-UrTq_empty",
 			"controls": "_-UrTq_controls",
 			"historyImages": "_-UrTq_historyImages",
-			"empty": "_-UrTq_empty",
-			"progress": "_-UrTq_progress",
-			"link": "_-UrTq_link",
-			"error": "_-UrTq_error",
-			"header": "_-UrTq_header",
-			"composer": "_-UrTq_composer",
-			"root": "_-UrTq_root",
 			"secondary": "_-UrTq_secondary",
-			"history": "_-UrTq_history"
+			"gallery": "_-UrTq_gallery",
+			"history": "_-UrTq_history",
+			"link": "_-UrTq_link"
 		};
 		//#endregion
 		//#region lib/types/client/PaintingWorkspace.js
@@ -570,30 +570,30 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var KnowledgeWorkspace_module_css_default = {
-			"panel": "uHDY1a_panel",
-			"sourceTabs": "uHDY1a_sourceTabs",
-			"muted": "uHDY1a_muted",
-			"hitMeta": "uHDY1a_hitMeta",
-			"root": "uHDY1a_root",
-			"header": "uHDY1a_header",
-			"row": "uHDY1a_row",
-			"baseActions": "uHDY1a_baseActions",
-			"empty": "uHDY1a_empty",
-			"primary": "uHDY1a_primary",
-			"baseCard": "uHDY1a_baseCard",
-			"hit": "uHDY1a_hit",
-			"chunk": "uHDY1a_chunk",
-			"hits": "uHDY1a_hits",
-			"eyebrow": "uHDY1a_eyebrow",
-			"error": "uHDY1a_error",
-			"fileButton": "uHDY1a_fileButton",
-			"sourceItem": "uHDY1a_sourceItem",
-			"sourceMeta": "uHDY1a_sourceMeta",
 			"chunks": "uHDY1a_chunks",
-			"secondary": "uHDY1a_secondary",
+			"hits": "uHDY1a_hits",
+			"baseMeta": "uHDY1a_baseMeta",
+			"sourceMeta": "uHDY1a_sourceMeta",
+			"header": "uHDY1a_header",
 			"bases": "uHDY1a_bases",
+			"secondary": "uHDY1a_secondary",
+			"fileButton": "uHDY1a_fileButton",
+			"baseCard": "uHDY1a_baseCard",
+			"sourceItem": "uHDY1a_sourceItem",
+			"empty": "uHDY1a_empty",
 			"link": "uHDY1a_link",
-			"baseMeta": "uHDY1a_baseMeta"
+			"muted": "uHDY1a_muted",
+			"error": "uHDY1a_error",
+			"hit": "uHDY1a_hit",
+			"root": "uHDY1a_root",
+			"hitMeta": "uHDY1a_hitMeta",
+			"panel": "uHDY1a_panel",
+			"row": "uHDY1a_row",
+			"primary": "uHDY1a_primary",
+			"baseActions": "uHDY1a_baseActions",
+			"sourceTabs": "uHDY1a_sourceTabs",
+			"chunk": "uHDY1a_chunk",
+			"eyebrow": "uHDY1a_eyebrow"
 		};
 		//#endregion
 		//#region lib/types/client/KnowledgeWorkspace.js
@@ -1198,19 +1198,19 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SkillsSection_module_css_default = {
-			"searchRow": "pyHmqW_searchRow",
-			"searchInput": "pyHmqW_searchInput",
-			"cardDescription": "pyHmqW_cardDescription",
-			"cardTags": "pyHmqW_cardTags",
 			"grid": "pyHmqW_grid",
-			"cardMeta": "pyHmqW_cardMeta",
+			"cardTitle": "pyHmqW_cardTitle",
+			"cardTags": "pyHmqW_cardTags",
 			"tag": "pyHmqW_tag",
 			"cardFooter": "pyHmqW_cardFooter",
-			"cardMetaItem": "pyHmqW_cardMetaItem",
-			"cardTitle": "pyHmqW_cardTitle",
+			"cardDescription": "pyHmqW_cardDescription",
+			"searchRow": "pyHmqW_searchRow",
 			"cardHeader": "pyHmqW_cardHeader",
-			"cardActions": "pyHmqW_cardActions",
-			"card": "pyHmqW_card"
+			"cardMeta": "pyHmqW_cardMeta",
+			"cardMetaItem": "pyHmqW_cardMetaItem",
+			"searchInput": "pyHmqW_searchInput",
+			"card": "pyHmqW_card",
+			"cardActions": "pyHmqW_cardActions"
 		};
 		//#endregion
 		//#region lib/types/client/SkillsSection.js
@@ -1553,24 +1553,24 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderAuthentication_module_css_default = {
-			"fieldLink": "AU4RWG_fieldLink",
-			"inputRow": "AU4RWG_inputRow",
-			"spin": "AU4RWG_spin",
-			"sectionTitle": "AU4RWG_sectionTitle",
-			"input": "AU4RWG_input",
 			"fieldLabel": "AU4RWG_fieldLabel",
-			"actionRow": "AU4RWG_actionRow",
-			"errorMessage": "AU4RWG_errorMessage",
-			"cc-spin": "AU4RWG_cc-spin",
-			"section": "AU4RWG_section",
-			"successMessage": "AU4RWG_successMessage",
-			"iconButton": "AU4RWG_iconButton",
-			"primaryButton": "AU4RWG_primaryButton",
-			"field": "AU4RWG_field",
-			"timestamp": "AU4RWG_timestamp",
 			"inputAddon": "AU4RWG_inputAddon",
+			"secondaryButton": "AU4RWG_secondaryButton",
+			"field": "AU4RWG_field",
+			"iconButton": "AU4RWG_iconButton",
 			"inputGroup": "AU4RWG_inputGroup",
-			"secondaryButton": "AU4RWG_secondaryButton"
+			"sectionTitle": "AU4RWG_sectionTitle",
+			"inputRow": "AU4RWG_inputRow",
+			"actionRow": "AU4RWG_actionRow",
+			"primaryButton": "AU4RWG_primaryButton",
+			"section": "AU4RWG_section",
+			"errorMessage": "AU4RWG_errorMessage",
+			"spin": "AU4RWG_spin",
+			"successMessage": "AU4RWG_successMessage",
+			"fieldLink": "AU4RWG_fieldLink",
+			"input": "AU4RWG_input",
+			"timestamp": "AU4RWG_timestamp",
+			"cc-spin": "AU4RWG_cc-spin"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderAuthentication.js
@@ -1763,34 +1763,34 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderModelList_module_css_default = {
-			"groupCount": "_2yiUCa_groupCount",
-			"modelInfo": "_2yiUCa_modelInfo",
-			"modelName": "_2yiUCa_modelName",
-			"toggleThumb": "_2yiUCa_toggleThumb",
-			"emptyState": "_2yiUCa_emptyState",
-			"section": "_2yiUCa_section",
-			"groupTitle": "_2yiUCa_groupTitle",
-			"modelItem": "_2yiUCa_modelItem",
-			"groupHeader": "_2yiUCa_groupHeader",
-			"headerMeta": "_2yiUCa_headerMeta",
-			"modelList": "_2yiUCa_modelList",
-			"countBadge": "_2yiUCa_countBadge",
-			"modelIcon": "_2yiUCa_modelIcon",
-			"modelGroup": "_2yiUCa_modelGroup",
-			"sectionHeading": "_2yiUCa_sectionHeading",
-			"modelMeta": "_2yiUCa_modelMeta",
-			"toggleButtonDisabled": "_2yiUCa_toggleButtonDisabled",
-			"emptyHint": "_2yiUCa_emptyHint",
-			"discoveryInfo": "_2yiUCa_discoveryInfo",
-			"modelItemDisabled": "_2yiUCa_modelItemDisabled",
-			"toggleButton": "_2yiUCa_toggleButton",
-			"toggleButtonEnabled": "_2yiUCa_toggleButtonEnabled",
 			"sectionHeaderRow": "_2yiUCa_sectionHeaderRow",
 			"modelMain": "_2yiUCa_modelMain",
-			"metaItem": "_2yiUCa_metaItem",
-			"emptyIcon": "_2yiUCa_emptyIcon",
+			"emptyState": "_2yiUCa_emptyState",
+			"modelInfo": "_2yiUCa_modelInfo",
+			"discoveryInfo": "_2yiUCa_discoveryInfo",
+			"groupCount": "_2yiUCa_groupCount",
+			"modelGroup": "_2yiUCa_modelGroup",
+			"modelMeta": "_2yiUCa_modelMeta",
+			"modelItem": "_2yiUCa_modelItem",
+			"toggleButtonEnabled": "_2yiUCa_toggleButtonEnabled",
+			"toggleThumb": "_2yiUCa_toggleThumb",
+			"toggleButtonDisabled": "_2yiUCa_toggleButtonDisabled",
+			"countBadge": "_2yiUCa_countBadge",
+			"modelItemDisabled": "_2yiUCa_modelItemDisabled",
+			"sectionHeading": "_2yiUCa_sectionHeading",
 			"emptyText": "_2yiUCa_emptyText",
-			"enabledCount": "_2yiUCa_enabledCount"
+			"headerMeta": "_2yiUCa_headerMeta",
+			"emptyHint": "_2yiUCa_emptyHint",
+			"modelIcon": "_2yiUCa_modelIcon",
+			"toggleButton": "_2yiUCa_toggleButton",
+			"groupHeader": "_2yiUCa_groupHeader",
+			"groupTitle": "_2yiUCa_groupTitle",
+			"modelName": "_2yiUCa_modelName",
+			"section": "_2yiUCa_section",
+			"modelList": "_2yiUCa_modelList",
+			"metaItem": "_2yiUCa_metaItem",
+			"enabledCount": "_2yiUCa_enabledCount",
+			"emptyIcon": "_2yiUCa_emptyIcon"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderModelList.js
@@ -2035,25 +2035,25 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderDialog_module_css_default = {
+			"dialog": "Y2Uoaq_dialog",
 			"submitButton": "Y2Uoaq_submitButton",
+			"textarea": "Y2Uoaq_textarea",
+			"footer": "Y2Uoaq_footer",
+			"hint": "Y2Uoaq_hint",
+			"title": "Y2Uoaq_title",
+			"error": "Y2Uoaq_error",
+			"cancelButton": "Y2Uoaq_cancelButton",
 			"label": "Y2Uoaq_label",
 			"checkbox": "Y2Uoaq_checkbox",
-			"cancelButton": "Y2Uoaq_cancelButton",
-			"checkboxField": "Y2Uoaq_checkboxField",
-			"checkboxLabel": "Y2Uoaq_checkboxLabel",
-			"footer": "Y2Uoaq_footer",
-			"dialog": "Y2Uoaq_dialog",
-			"required": "Y2Uoaq_required",
-			"textarea": "Y2Uoaq_textarea",
-			"content": "Y2Uoaq_content",
+			"input": "Y2Uoaq_input",
 			"select": "Y2Uoaq_select",
+			"required": "Y2Uoaq_required",
+			"checkboxLabel": "Y2Uoaq_checkboxLabel",
 			"header": "Y2Uoaq_header",
-			"hint": "Y2Uoaq_hint",
-			"field": "Y2Uoaq_field",
-			"title": "Y2Uoaq_title",
 			"overlay": "Y2Uoaq_overlay",
-			"error": "Y2Uoaq_error",
-			"input": "Y2Uoaq_input"
+			"content": "Y2Uoaq_content",
+			"checkboxField": "Y2Uoaq_checkboxField",
+			"field": "Y2Uoaq_field"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderDialog.js
@@ -2375,49 +2375,49 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProvidersSection_module_css_default = {
-			"listItems": "ExuySa_listItems",
-			"emptyDetailState": "ExuySa_emptyDetailState",
-			"addButton": "ExuySa_addButton",
-			"detailHeader": "ExuySa_detailHeader",
-			"dangerButton": "ExuySa_dangerButton",
-			"secondaryButton": "ExuySa_secondaryButton",
-			"emptyIcon": "ExuySa_emptyIcon",
-			"detailTitle": "ExuySa_detailTitle",
-			"detailContentMaxWidth": "ExuySa_detailContentMaxWidth",
-			"detailMeta": "ExuySa_detailMeta",
-			"listItem": "ExuySa_listItem",
-			"enabledDot": "ExuySa_enabledDot",
-			"listItemLabel": "ExuySa_listItemLabel",
-			"splitRoot": "ExuySa_splitRoot",
-			"error": "ExuySa_error",
-			"addFooter": "ExuySa_addFooter",
-			"dangerZoneDescription": "ExuySa_dangerZoneDescription",
-			"providerList": "ExuySa_providerList",
-			"detailHeaderContent": "ExuySa_detailHeaderContent",
-			"emptyTitle": "ExuySa_emptyTitle",
-			"listItemIdle": "ExuySa_listItemIdle",
-			"searchWrap": "ExuySa_searchWrap",
-			"sectionHeading": "ExuySa_sectionHeading",
-			"sectionBody": "ExuySa_sectionBody",
-			"emptyDescription": "ExuySa_emptyDescription",
-			"listItemMain": "ExuySa_listItemMain",
-			"listScroller": "ExuySa_listScroller",
-			"listItemAvatar": "ExuySa_listItemAvatar",
-			"searchClearButton": "ExuySa_searchClearButton",
-			"dangerZoneTitle": "ExuySa_dangerZoneTitle",
-			"detailMetaItem": "ExuySa_detailMetaItem",
-			"dangerZoneText": "ExuySa_dangerZoneText",
-			"detailScroll": "ExuySa_detailScroll",
-			"listItemSelected": "ExuySa_listItemSelected",
-			"loading": "ExuySa_loading",
-			"emptyState": "ExuySa_emptyState",
-			"section": "ExuySa_section",
-			"searchIcon": "ExuySa_searchIcon",
-			"dangerZone": "ExuySa_dangerZone",
-			"searchRow": "ExuySa_searchRow",
-			"editButton": "ExuySa_editButton",
 			"providerDetail": "ExuySa_providerDetail",
-			"searchInput": "ExuySa_searchInput"
+			"secondaryButton": "ExuySa_secondaryButton",
+			"listItemMain": "ExuySa_listItemMain",
+			"addFooter": "ExuySa_addFooter",
+			"dangerZoneTitle": "ExuySa_dangerZoneTitle",
+			"loading": "ExuySa_loading",
+			"detailTitle": "ExuySa_detailTitle",
+			"emptyState": "ExuySa_emptyState",
+			"listScroller": "ExuySa_listScroller",
+			"searchRow": "ExuySa_searchRow",
+			"detailMetaItem": "ExuySa_detailMetaItem",
+			"providerList": "ExuySa_providerList",
+			"splitRoot": "ExuySa_splitRoot",
+			"sectionBody": "ExuySa_sectionBody",
+			"dangerZone": "ExuySa_dangerZone",
+			"error": "ExuySa_error",
+			"searchIcon": "ExuySa_searchIcon",
+			"section": "ExuySa_section",
+			"searchClearButton": "ExuySa_searchClearButton",
+			"detailMeta": "ExuySa_detailMeta",
+			"detailScroll": "ExuySa_detailScroll",
+			"sectionHeading": "ExuySa_sectionHeading",
+			"listItem": "ExuySa_listItem",
+			"dangerZoneText": "ExuySa_dangerZoneText",
+			"searchInput": "ExuySa_searchInput",
+			"addButton": "ExuySa_addButton",
+			"listItemAvatar": "ExuySa_listItemAvatar",
+			"dangerZoneDescription": "ExuySa_dangerZoneDescription",
+			"listItems": "ExuySa_listItems",
+			"emptyTitle": "ExuySa_emptyTitle",
+			"detailHeaderContent": "ExuySa_detailHeaderContent",
+			"listItemLabel": "ExuySa_listItemLabel",
+			"emptyIcon": "ExuySa_emptyIcon",
+			"dangerButton": "ExuySa_dangerButton",
+			"emptyDetailState": "ExuySa_emptyDetailState",
+			"listItemSelected": "ExuySa_listItemSelected",
+			"detailHeader": "ExuySa_detailHeader",
+			"detailContentMaxWidth": "ExuySa_detailContentMaxWidth",
+			"editButton": "ExuySa_editButton",
+			"enabledDot": "ExuySa_enabledDot",
+			"emptyDescription": "ExuySa_emptyDescription",
+			"listItemIdle": "ExuySa_listItemIdle",
+			"searchWrap": "ExuySa_searchWrap"
 		};
 		//#endregion
 		//#region lib/types/client/ProvidersSection.js
@@ -2966,21 +2966,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var AddMcpServerDialog_module_css_default = {
-			"select": "uv_otq_select",
-			"form": "uv_otq_form",
-			"header": "uv_otq_header",
-			"overlay": "uv_otq_overlay",
-			"title": "uv_otq_title",
-			"cancelButton": "uv_otq_cancelButton",
-			"input": "uv_otq_input",
 			"field": "uv_otq_field",
-			"closeButton": "uv_otq_closeButton",
-			"textarea": "uv_otq_textarea",
-			"footer": "uv_otq_footer",
+			"title": "uv_otq_title",
+			"submitButton": "uv_otq_submitButton",
+			"overlay": "uv_otq_overlay",
+			"select": "uv_otq_select",
+			"header": "uv_otq_header",
+			"form": "uv_otq_form",
+			"input": "uv_otq_input",
 			"error": "uv_otq_error",
+			"cancelButton": "uv_otq_cancelButton",
 			"label": "uv_otq_label",
+			"textarea": "uv_otq_textarea",
 			"dialog": "uv_otq_dialog",
-			"submitButton": "uv_otq_submitButton"
+			"closeButton": "uv_otq_closeButton",
+			"footer": "uv_otq_footer"
 		};
 		//#endregion
 		//#region lib/types/client/AddMcpServerDialog.js
@@ -3216,76 +3216,76 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var McpSection_module_css_default = {
-			"detailMetaItem": "_0bBxiW_detailMetaItem",
-			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
-			"searchIcon": "_0bBxiW_searchIcon",
-			"switchWrapper": "_0bBxiW_switchWrapper",
-			"switchInput": "_0bBxiW_switchInput",
-			"toolsList": "_0bBxiW_toolsList",
-			"splitRoot": "_0bBxiW_splitRoot",
-			"dangerButton": "_0bBxiW_dangerButton",
-			"fieldLabel": "_0bBxiW_fieldLabel",
-			"sectionBody": "_0bBxiW_sectionBody",
-			"primaryButton": "_0bBxiW_primaryButton",
-			"listItemAvatar": "_0bBxiW_listItemAvatar",
-			"toolHeader": "_0bBxiW_toolHeader",
-			"listItemMain": "_0bBxiW_listItemMain",
-			"searchRow": "_0bBxiW_searchRow",
-			"detailScroll": "_0bBxiW_detailScroll",
-			"section": "_0bBxiW_section",
-			"detailMeta": "_0bBxiW_detailMeta",
-			"listItemSelected": "_0bBxiW_listItemSelected",
-			"fieldHint": "_0bBxiW_fieldHint",
-			"emptyTitle": "_0bBxiW_emptyTitle",
-			"emptyIcon": "_0bBxiW_emptyIcon",
-			"tab": "_0bBxiW_tab",
-			"fieldRow": "_0bBxiW_fieldRow",
-			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
-			"emptyState": "_0bBxiW_emptyState",
-			"toolDescription": "_0bBxiW_toolDescription",
-			"codeLine": "_0bBxiW_codeLine",
-			"switchSlider": "_0bBxiW_switchSlider",
-			"tabActive": "_0bBxiW_tabActive",
-			"detailTitle": "_0bBxiW_detailTitle",
-			"listItems": "_0bBxiW_listItems",
-			"textarea": "_0bBxiW_textarea",
-			"dangerZone": "_0bBxiW_dangerZone",
-			"listScroller": "_0bBxiW_listScroller",
-			"listItem": "_0bBxiW_listItem",
-			"detailHeader": "_0bBxiW_detailHeader",
-			"listItemLabel": "_0bBxiW_listItemLabel",
-			"resourceUri": "_0bBxiW_resourceUri",
-			"fieldGroup": "_0bBxiW_fieldGroup",
-			"dangerZoneText": "_0bBxiW_dangerZoneText",
-			"searchWrap": "_0bBxiW_searchWrap",
-			"secondaryButton": "_0bBxiW_secondaryButton",
-			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
-			"codeBlock": "_0bBxiW_codeBlock",
-			"logHeader": "_0bBxiW_logHeader",
 			"tabBar": "_0bBxiW_tabBar",
-			"sectionHeader": "_0bBxiW_sectionHeader",
-			"input": "_0bBxiW_input",
-			"error": "_0bBxiW_error",
-			"descriptionText": "_0bBxiW_descriptionText",
-			"checkbox": "_0bBxiW_checkbox",
-			"listItemIdle": "_0bBxiW_listItemIdle",
-			"activeDot": "_0bBxiW_activeDot",
-			"serverList": "_0bBxiW_serverList",
+			"listItemMain": "_0bBxiW_listItemMain",
 			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
-			"toolName": "_0bBxiW_toolName",
-			"errorBox": "_0bBxiW_errorBox",
+			"listItemSelected": "_0bBxiW_listItemSelected",
+			"searchRow": "_0bBxiW_searchRow",
+			"dangerZone": "_0bBxiW_dangerZone",
+			"dangerButton": "_0bBxiW_dangerButton",
+			"sectionBody": "_0bBxiW_sectionBody",
+			"serverList": "_0bBxiW_serverList",
+			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
+			"input": "_0bBxiW_input",
+			"emptyDescription": "_0bBxiW_emptyDescription",
+			"emptyTitle": "_0bBxiW_emptyTitle",
+			"detailMeta": "_0bBxiW_detailMeta",
+			"codeLine": "_0bBxiW_codeLine",
+			"emptyIcon": "_0bBxiW_emptyIcon",
 			"loading": "_0bBxiW_loading",
+			"toolName": "_0bBxiW_toolName",
+			"checkbox": "_0bBxiW_checkbox",
+			"listItems": "_0bBxiW_listItems",
+			"detailMetaItem": "_0bBxiW_detailMetaItem",
+			"codeBlock": "_0bBxiW_codeBlock",
+			"textarea": "_0bBxiW_textarea",
+			"secondaryButton": "_0bBxiW_secondaryButton",
+			"detailTitle": "_0bBxiW_detailTitle",
+			"section": "_0bBxiW_section",
+			"toolHeader": "_0bBxiW_toolHeader",
+			"logHeader": "_0bBxiW_logHeader",
+			"primaryButton": "_0bBxiW_primaryButton",
+			"dangerZoneText": "_0bBxiW_dangerZoneText",
+			"switchSlider": "_0bBxiW_switchSlider",
+			"detailScroll": "_0bBxiW_detailScroll",
+			"addButton": "_0bBxiW_addButton",
+			"splitRoot": "_0bBxiW_splitRoot",
+			"logInfo": "_0bBxiW_logInfo",
+			"listScroller": "_0bBxiW_listScroller",
+			"tabActive": "_0bBxiW_tabActive",
+			"searchClearButton": "_0bBxiW_searchClearButton",
+			"sectionHeading": "_0bBxiW_sectionHeading",
+			"switchInput": "_0bBxiW_switchInput",
+			"toolItem": "_0bBxiW_toolItem",
+			"addFooter": "_0bBxiW_addFooter",
+			"searchInput": "_0bBxiW_searchInput",
+			"listItemAvatar": "_0bBxiW_listItemAvatar",
+			"toolsList": "_0bBxiW_toolsList",
 			"formActions": "_0bBxiW_formActions",
 			"serverDetail": "_0bBxiW_serverDetail",
-			"searchClearButton": "_0bBxiW_searchClearButton",
-			"searchInput": "_0bBxiW_searchInput",
-			"toolItem": "_0bBxiW_toolItem",
-			"addButton": "_0bBxiW_addButton",
+			"descriptionText": "_0bBxiW_descriptionText",
+			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
+			"tab": "_0bBxiW_tab",
+			"resourceUri": "_0bBxiW_resourceUri",
+			"emptyState": "_0bBxiW_emptyState",
+			"detailHeader": "_0bBxiW_detailHeader",
+			"listItemIdle": "_0bBxiW_listItemIdle",
+			"fieldLabel": "_0bBxiW_fieldLabel",
+			"fieldHint": "_0bBxiW_fieldHint",
+			"searchIcon": "_0bBxiW_searchIcon",
+			"activeDot": "_0bBxiW_activeDot",
+			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
+			"listItemLabel": "_0bBxiW_listItemLabel",
+			"fieldRow": "_0bBxiW_fieldRow",
+			"searchWrap": "_0bBxiW_searchWrap",
 			"emptyDetailState": "_0bBxiW_emptyDetailState",
-			"emptyDescription": "_0bBxiW_emptyDescription",
-			"sectionHeading": "_0bBxiW_sectionHeading",
-			"logInfo": "_0bBxiW_logInfo",
-			"addFooter": "_0bBxiW_addFooter"
+			"toolDescription": "_0bBxiW_toolDescription",
+			"error": "_0bBxiW_error",
+			"switchWrapper": "_0bBxiW_switchWrapper",
+			"fieldGroup": "_0bBxiW_fieldGroup",
+			"errorBox": "_0bBxiW_errorBox",
+			"sectionHeader": "_0bBxiW_sectionHeader",
+			"listItem": "_0bBxiW_listItem"
 		};
 		//#endregion
 		//#region lib/types/client/McpSection.js
@@ -4232,25 +4232,25 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WebSearchSection_module_css_default = {
-			"iconButton": "_0WjBOa_iconButton",
 			"loading": "_0WjBOa_loading",
-			"input": "_0WjBOa_input",
-			"pageHeader": "_0WjBOa_pageHeader",
-			"providerDescription": "_0WjBOa_providerDescription",
-			"fieldHint": "_0WjBOa_fieldHint",
-			"cardDescription": "_0WjBOa_cardDescription",
-			"pageDescription": "_0WjBOa_pageDescription",
-			"root": "_0WjBOa_root",
 			"pageTitle": "_0WjBOa_pageTitle",
-			"select": "_0WjBOa_select",
-			"card": "_0WjBOa_card",
-			"providerDetail": "_0WjBOa_providerDetail",
-			"apiKeyRow": "_0WjBOa_apiKeyRow",
-			"fieldRow": "_0WjBOa_fieldRow",
-			"checkbox": "_0WjBOa_checkbox",
-			"cardTitle": "_0WjBOa_cardTitle",
+			"iconButton": "_0WjBOa_iconButton",
+			"root": "_0WjBOa_root",
+			"pageDescription": "_0WjBOa_pageDescription",
+			"cardDescription": "_0WjBOa_cardDescription",
 			"fieldLabel": "_0WjBOa_fieldLabel",
-			"providerName": "_0WjBOa_providerName"
+			"providerDescription": "_0WjBOa_providerDescription",
+			"card": "_0WjBOa_card",
+			"providerName": "_0WjBOa_providerName",
+			"cardTitle": "_0WjBOa_cardTitle",
+			"pageHeader": "_0WjBOa_pageHeader",
+			"fieldRow": "_0WjBOa_fieldRow",
+			"select": "_0WjBOa_select",
+			"checkbox": "_0WjBOa_checkbox",
+			"input": "_0WjBOa_input",
+			"providerDetail": "_0WjBOa_providerDetail",
+			"fieldHint": "_0WjBOa_fieldHint",
+			"apiKeyRow": "_0WjBOa_apiKeyRow"
 		};
 		//#endregion
 		//#region lib/types/client/WebSearchSection.js
@@ -4261,7 +4261,7 @@ window.__ModuleLoader__.load({
 		* SettingsPrimitives (content column, setting cards, compact field style).
 		*/
 		/** Unwrap a strict-mode Typert envelope, throwing the wire error message on failure. */
-		function unwrap$3(result) {
+		function unwrap$4(result) {
 			if (!result.ok) throw new Error(result.error.message);
 			return result.value;
 		}
@@ -4296,8 +4296,8 @@ window.__ModuleLoader__.load({
 			const [loading, setLoading] = (0, react.useState)(true);
 			(0, react.useEffect)(() => {
 				Promise.all([websearch.getConfig(), websearch.listProviders()]).then(([cfg, pvs]) => {
-					setConfig(unwrap$3(cfg));
-					setProviders(unwrap$3(pvs));
+					setConfig(unwrap$4(cfg));
+					setProviders(unwrap$4(pvs));
 					setLoading(false);
 				}).catch((err) => {
 					setLoading(false);
@@ -4311,18 +4311,18 @@ window.__ModuleLoader__.load({
 			const featureSections = getFeatureSections(providers);
 			const handleDefaultProviderChange = async (capability, providerId) => {
 				const update = capability === "searchKeywords" ? { defaultSearchKeywordsProvider: providerId } : { defaultFetchUrlsProvider: providerId };
-				const updated = unwrap$3(await websearch.updateConfig(update));
+				const updated = unwrap$4(await websearch.updateConfig(update));
 				setConfig(updated);
 			};
 			const handleApiKeyChange = async (providerId, apiKeys) => {
-				const updated = unwrap$3(await websearch.updateProviderOverride({
+				const updated = unwrap$4(await websearch.updateProviderOverride({
 					providerId,
 					override: { apiKeys }
 				}));
 				setProviders((prevProviders) => prevProviders.map((p) => p.id === providerId ? updated : p));
 			};
 			const handleApiHostChange = async (providerId, capability, apiHost) => {
-				const updated = unwrap$3(await websearch.updateProviderOverride({
+				const updated = unwrap$4(await websearch.updateProviderOverride({
 					providerId,
 					override: { capabilities: { [capability]: { apiHost } } }
 				}));
@@ -4360,7 +4360,7 @@ window.__ModuleLoader__.load({
 									value: config.maxResults,
 									onChange: async (e) => {
 										const maxResults = parseInt(e.target.value, 10);
-										const updated = unwrap$3(await websearch.updateConfig({ maxResults }));
+										const updated = unwrap$4(await websearch.updateConfig({ maxResults }));
 										setConfig(updated);
 									},
 									className: WebSearchSection_module_css_default.input
@@ -4378,7 +4378,7 @@ window.__ModuleLoader__.load({
 									type: "checkbox",
 									checked: config.clientToolsPreferred,
 									onChange: async (e) => {
-										const updated = unwrap$3(await websearch.updateConfig({ clientToolsPreferred: e.target.checked }));
+										const updated = unwrap$4(await websearch.updateConfig({ clientToolsPreferred: e.target.checked }));
 										setConfig(updated);
 									},
 									className: WebSearchSection_module_css_default.checkbox
@@ -4398,7 +4398,7 @@ window.__ModuleLoader__.load({
 									value: config.excludeDomains.join(", "),
 									onChange: async (e) => {
 										const domains = e.target.value.split(",").map((d) => d.trim()).filter(Boolean);
-										const updated = unwrap$3(await websearch.updateConfig({ excludeDomains: domains }));
+										const updated = unwrap$4(await websearch.updateConfig({ excludeDomains: domains }));
 										setConfig(updated);
 									},
 									className: WebSearchSection_module_css_default.input
@@ -4415,7 +4415,7 @@ window.__ModuleLoader__.load({
 								}), (0, react_jsx_runtime.jsxs)("select", {
 									value: config.compression.method,
 									onChange: async (e) => {
-										const updated = unwrap$3(await websearch.updateConfig({ compression: {
+										const updated = unwrap$4(await websearch.updateConfig({ compression: {
 											...config.compression,
 											method: e.target.value
 										} }));
@@ -4443,7 +4443,7 @@ window.__ModuleLoader__.load({
 									step: "100",
 									value: config.compression.cutoffLimit,
 									onChange: async (e) => {
-										const updated = unwrap$3(await websearch.updateConfig({ compression: {
+										const updated = unwrap$4(await websearch.updateConfig({ compression: {
 											method: "cutoff",
 											cutoffLimit: parseInt(e.target.value, 10)
 										} }));
@@ -4559,7 +4559,7 @@ window.__ModuleLoader__.load({
 												type: "text",
 												value: selectedProvider.basicAuthUsername ?? "",
 												onChange: async (e) => {
-													unwrap$3(await websearch.updateProviderOverride({
+													unwrap$4(await websearch.updateProviderOverride({
 														providerId: selectedProvider.id,
 														override: { basicAuthUsername: e.target.value }
 													}));
@@ -4575,7 +4575,7 @@ window.__ModuleLoader__.load({
 												type: "password",
 												value: selectedProvider.basicAuthPassword ?? "",
 												onChange: async (e) => {
-													unwrap$3(await websearch.updateProviderOverride({
+													unwrap$4(await websearch.updateProviderOverride({
 														providerId: selectedProvider.id,
 														override: { basicAuthPassword: e.target.value }
 													}));
@@ -4650,40 +4650,40 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var RepoWorkspace_module_css_default = {
-			"repoItemName": "iqKKIW_repoItemName",
-			"addInput": "iqKKIW_addInput",
+			"truncateNote": "iqKKIW_truncateNote",
+			"repoList": "iqKKIW_repoList",
+			"sidebar": "iqKKIW_sidebar",
+			"repoItem": "iqKKIW_repoItem",
+			"treeTitle": "iqKKIW_treeTitle",
+			"split": "iqKKIW_split",
+			"eyebrow": "iqKKIW_eyebrow",
 			"repoItemMain": "iqKKIW_repoItemMain",
-			"sidebarTitle": "iqKKIW_sidebarTitle",
-			"emptyTitle": "iqKKIW_emptyTitle",
-			"treeHeader": "iqKKIW_treeHeader",
-			"previewPane": "iqKKIW_previewPane",
-			"header": "iqKKIW_header",
+			"addInput": "iqKKIW_addInput",
+			"previewHint": "iqKKIW_previewHint",
+			"root": "iqKKIW_root",
+			"treeName": "iqKKIW_treeName",
+			"branch": "iqKKIW_branch",
+			"treeRow": "iqKKIW_treeRow",
+			"main": "iqKKIW_main",
+			"repoItemSelected": "iqKKIW_repoItemSelected",
+			"previewHeader": "iqKKIW_previewHeader",
 			"treeMeta": "iqKKIW_treeMeta",
+			"treeScroll": "iqKKIW_treeScroll",
+			"previewPane": "iqKKIW_previewPane",
+			"emptyTitle": "iqKKIW_emptyTitle",
 			"treeIcon": "iqKKIW_treeIcon",
+			"emptyDescription": "iqKKIW_emptyDescription",
+			"treeHeader": "iqKKIW_treeHeader",
+			"treePane": "iqKKIW_treePane",
+			"repoItemName": "iqKKIW_repoItemName",
+			"addRow": "iqKKIW_addRow",
+			"treeRowSelected": "iqKKIW_treeRowSelected",
 			"previewBody": "iqKKIW_previewBody",
 			"empty": "iqKKIW_empty",
-			"treeRow": "iqKKIW_treeRow",
-			"emptyDescription": "iqKKIW_emptyDescription",
-			"repoList": "iqKKIW_repoList",
-			"repoItem": "iqKKIW_repoItem",
-			"root": "iqKKIW_root",
-			"repoItemPath": "iqKKIW_repoItemPath",
-			"split": "iqKKIW_split",
-			"sidebar": "iqKKIW_sidebar",
-			"treeTitle": "iqKKIW_treeTitle",
-			"treeRowSelected": "iqKKIW_treeRowSelected",
-			"treeName": "iqKKIW_treeName",
-			"previewHeader": "iqKKIW_previewHeader",
-			"truncateNote": "iqKKIW_truncateNote",
-			"addRow": "iqKKIW_addRow",
-			"treeScroll": "iqKKIW_treeScroll",
-			"main": "iqKKIW_main",
 			"title": "iqKKIW_title",
-			"branch": "iqKKIW_branch",
-			"treePane": "iqKKIW_treePane",
-			"eyebrow": "iqKKIW_eyebrow",
-			"previewHint": "iqKKIW_previewHint",
-			"repoItemSelected": "iqKKIW_repoItemSelected"
+			"repoItemPath": "iqKKIW_repoItemPath",
+			"sidebarTitle": "iqKKIW_sidebarTitle",
+			"header": "iqKKIW_header"
 		};
 		//#endregion
 		//#region lib/types/client/RepoWorkspace.js
@@ -5129,23 +5129,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProcessorSection_module_css_default = {
-			"providerName": "CL8zIa_providerName",
-			"select": "CL8zIa_select",
-			"fieldRow": "CL8zIa_fieldRow",
-			"card": "CL8zIa_card",
+			"pageDescription": "CL8zIa_pageDescription",
 			"apiKeyRow": "CL8zIa_apiKeyRow",
-			"cardDescription": "CL8zIa_cardDescription",
+			"fieldRow": "CL8zIa_fieldRow",
+			"cardTitle": "CL8zIa_cardTitle",
 			"providerDetail": "CL8zIa_providerDetail",
 			"iconButton": "CL8zIa_iconButton",
-			"loading": "CL8zIa_loading",
+			"card": "CL8zIa_card",
 			"root": "CL8zIa_root",
 			"pageTitle": "CL8zIa_pageTitle",
-			"cardTitle": "CL8zIa_cardTitle",
-			"fieldHint": "CL8zIa_fieldHint",
 			"input": "CL8zIa_input",
-			"pageDescription": "CL8zIa_pageDescription",
 			"providerDescription": "CL8zIa_providerDescription",
-			"fieldLabel": "CL8zIa_fieldLabel"
+			"cardDescription": "CL8zIa_cardDescription",
+			"providerName": "CL8zIa_providerName",
+			"select": "CL8zIa_select",
+			"fieldHint": "CL8zIa_fieldHint",
+			"fieldLabel": "CL8zIa_fieldLabel",
+			"loading": "CL8zIa_loading"
 		};
 		//#endregion
 		//#region lib/types/client/ProcessorSection.js
@@ -5156,7 +5156,7 @@ window.__ModuleLoader__.load({
 		* controlCenterFileProcessing Remote service, composed like Cherry's
 		* ProcessorPanel: default-processor select + per-processor config cards.
 		*/
-		function unwrap$2(result) {
+		function unwrap$3(result) {
 			if (!result.ok) throw new Error(result.error.message);
 			return result.value;
 		}
@@ -5168,8 +5168,8 @@ window.__ModuleLoader__.load({
 			const load = (0, react.useCallback)(async () => {
 				try {
 					const [p, c] = await Promise.all([service.listProcessors(), service.getConfig()]);
-					setProcessors(unwrap$2(p));
-					setConfig(unwrap$2(c));
+					setProcessors(unwrap$3(p));
+					setConfig(unwrap$3(c));
 					setLoading(false);
 				} catch (err) {
 					setError(err instanceof Error ? err.message : String(err));
@@ -5195,7 +5195,7 @@ window.__ModuleLoader__.load({
 			const selectedId = entries.some((p) => p.id === defaultId) ? defaultId : entries[0]?.id ?? "";
 			const setDefault = async (processor) => {
 				try {
-					unwrap$2(await service.setDefault(feature, processor));
+					unwrap$3(await service.setDefault(feature, processor));
 					setConfig((prev) => prev === null ? prev : {
 						...prev,
 						...feature === "image_to_text" ? { defaultImageProcessor: processor } : { defaultDocumentProcessor: processor }
@@ -5206,7 +5206,7 @@ window.__ModuleLoader__.load({
 			};
 			const setOverride = async (processor, override) => {
 				try {
-					unwrap$2(await service.setOverride(processor, override));
+					unwrap$3(await service.setOverride(processor, override));
 					setConfig((prev) => prev === null ? prev : {
 						...prev,
 						overrides: {
@@ -5416,16 +5416,16 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var UsageSection_module_css_default = {
-			"cardTitle": "ej6-VW_cardTitle",
-			"pageDescription": "ej6-VW_pageDescription",
 			"loading": "ej6-VW_loading",
-			"pageTitle": "ej6-VW_pageTitle",
-			"grid": "ej6-VW_grid",
+			"metricLabel": "ej6-VW_metricLabel",
+			"metricValue": "ej6-VW_metricValue",
 			"metric": "ej6-VW_metric",
 			"root": "ej6-VW_root",
+			"pageTitle": "ej6-VW_pageTitle",
+			"pageDescription": "ej6-VW_pageDescription",
 			"card": "ej6-VW_card",
-			"metricLabel": "ej6-VW_metricLabel",
-			"metricValue": "ej6-VW_metricValue"
+			"cardTitle": "ej6-VW_cardTitle",
+			"grid": "ej6-VW_grid"
 		};
 		//#endregion
 		//#region lib/types/client/UsageSection.js
@@ -5766,23 +5766,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SystemSection_module_css_default = {
+			"cardTitle": "MzTzwq_cardTitle",
+			"loading": "MzTzwq_loading",
+			"infoRow": "MzTzwq_infoRow",
+			"infoLabel": "MzTzwq_infoLabel",
+			"root": "MzTzwq_root",
+			"pageDescription": "MzTzwq_pageDescription",
 			"pageTitle": "MzTzwq_pageTitle",
 			"infoValue": "MzTzwq_infoValue",
 			"badge": "MzTzwq_badge",
-			"loading": "MzTzwq_loading",
-			"root": "MzTzwq_root",
-			"pageDescription": "MzTzwq_pageDescription",
-			"card": "MzTzwq_card",
-			"infoLabel": "MzTzwq_infoLabel",
-			"infoRow": "MzTzwq_infoRow",
-			"cardTitle": "MzTzwq_cardTitle"
+			"card": "MzTzwq_card"
 		};
 		//#endregion
 		//#region lib/types/client/SystemSection.js
 		/**
 		* System settings pages: About (versions + diagnostics) and Dependencies.
 		*/
-		function unwrap$1(result) {
+		function unwrap$2(result) {
 			if (!result.ok) throw new Error(result.error.message);
 			return result.value;
 		}
@@ -5796,7 +5796,7 @@ window.__ModuleLoader__.load({
 				if (system === void 0) return;
 				system.getInfo().then((result) => {
 					try {
-						setInfo(unwrap$1(result));
+						setInfo(unwrap$2(result));
 					} catch (err) {
 						setError(err instanceof Error ? err.message : String(err));
 					}
@@ -5941,7 +5941,7 @@ window.__ModuleLoader__.load({
 				if (system === void 0) return;
 				system.listDependencies().then((result) => {
 					try {
-						setDeps(unwrap$1(result));
+						setDeps(unwrap$2(result));
 					} catch (err) {
 						setError(err instanceof Error ? err.message : String(err));
 					}
@@ -6039,30 +6039,30 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TasksSection_module_css_default = {
-			"pageDescription": "_3yT94W_pageDescription",
-			"runTime": "_3yT94W_runTime",
-			"card": "_3yT94W_card",
-			"taskMeta": "_3yT94W_taskMeta",
-			"runFail": "_3yT94W_runFail",
-			"taskName": "_3yT94W_taskName",
-			"root": "_3yT94W_root",
-			"taskMain": "_3yT94W_taskMain",
-			"loading": "_3yT94W_loading",
-			"input": "_3yT94W_input",
-			"select": "_3yT94W_select",
-			"taskRow": "_3yT94W_taskRow",
-			"cardTitle": "_3yT94W_cardTitle",
 			"runRow": "_3yT94W_runRow",
-			"runDetail": "_3yT94W_runDetail",
+			"card": "_3yT94W_card",
+			"pageDescription": "_3yT94W_pageDescription",
 			"pageTitle": "_3yT94W_pageTitle",
-			"runOk": "_3yT94W_runOk"
+			"taskName": "_3yT94W_taskName",
+			"taskMeta": "_3yT94W_taskMeta",
+			"runOk": "_3yT94W_runOk",
+			"loading": "_3yT94W_loading",
+			"taskMain": "_3yT94W_taskMain",
+			"cardTitle": "_3yT94W_cardTitle",
+			"root": "_3yT94W_root",
+			"runFail": "_3yT94W_runFail",
+			"runDetail": "_3yT94W_runDetail",
+			"select": "_3yT94W_select",
+			"runTime": "_3yT94W_runTime",
+			"taskRow": "_3yT94W_taskRow",
+			"input": "_3yT94W_input"
 		};
 		//#endregion
 		//#region lib/types/client/TasksSection.js
 		/**
 		* Scheduled Tasks settings section: cron tasks with a real host scheduler.
 		*/
-		function unwrap(result) {
+		function unwrap$1(result) {
 			if (!result.ok) throw new Error(result.error.message);
 			return result.value;
 		}
@@ -6078,8 +6078,8 @@ window.__ModuleLoader__.load({
 			const refresh = (0, react.useCallback)(() => {
 				if (tasks === void 0) return;
 				Promise.all([tasks.list(), tasks.listHistory()]).then(([t, h]) => {
-					setList(unwrap(t));
-					setHistory(unwrap(h));
+					setList(unwrap$1(t));
+					setHistory(unwrap$1(h));
 				}).catch((reason) => setError(reason instanceof Error ? reason.message : String(reason)));
 			}, [tasks]);
 			(0, react.useEffect)(() => {
@@ -6096,7 +6096,7 @@ window.__ModuleLoader__.load({
 					message: actionText.trim()
 				};
 				try {
-					unwrap(await tasks.create({
+					unwrap$1(await tasks.create({
 						name: name.trim(),
 						schedule: schedule.trim(),
 						action
@@ -6111,7 +6111,7 @@ window.__ModuleLoader__.load({
 			const handleToggle = async (taskId, enabled) => {
 				if (tasks === void 0) return;
 				try {
-					unwrap(await tasks.update(taskId, { enabled }));
+					unwrap$1(await tasks.update(taskId, { enabled }));
 					refresh();
 				} catch (err) {
 					setError(err instanceof Error ? err.message : String(err));
@@ -6121,7 +6121,7 @@ window.__ModuleLoader__.load({
 				if (tasks === void 0) return;
 				if (!window.confirm(`删除任务 "${taskName}" 吗？`)) return;
 				try {
-					unwrap(await tasks.removeTask(taskId));
+					unwrap$1(await tasks.removeTask(taskId));
 					refresh();
 				} catch (err) {
 					setError(err instanceof Error ? err.message : String(err));
@@ -6306,6 +6306,455 @@ window.__ModuleLoader__.load({
 			});
 		}
 		//#endregion
+		//#region lib/types/local-models-remote-client.js
+		const localModelsMethods = [
+			{
+				method: "listServers",
+				parameters: []
+			},
+			{
+				method: "addServer",
+				parameters: ["input"]
+			},
+			{
+				method: "removeServer",
+				parameters: ["serverId"]
+			},
+			{
+				method: "discoverModels",
+				parameters: ["serverId"]
+			}
+		];
+		const updateMethods = [{
+			method: "checkForUpdates",
+			parameters: []
+		}];
+		function descriptors(methods, namespace) {
+			return methods.map(({ method, parameters }) => ({
+				id: `@dsh-control-center/control-center#${namespace}/${method}`,
+				service: namespace,
+				namespace,
+				method,
+				invocation: { kind: "direct" },
+				parameters: parameters.map((name) => ({
+					name,
+					wire: name,
+					source: "json",
+					codec: STRICT_JSON
+				})),
+				result: STRICT_JSON
+			}));
+		}
+		/** Client descriptor contributions for local models + update services. */
+		const localModelsRemote = {
+			package: "@dsh-control-center/control-center",
+			descriptors: descriptors(localModelsMethods, "controlCenterLocalModels")
+		};
+		const updateRemote = {
+			package: "@dsh-control-center/control-center",
+			descriptors: descriptors(updateMethods, "controlCenterUpdate")
+		};
+		//#endregion
+		//#region lib/types/client/LocalModelsSection.js
+		/**
+		* Local Models settings section: register local model servers (Ollama,
+		* llama.cpp, OpenAI-compatible), discover their models, and adopt them
+		* into the provider catalog.
+		*/
+		function unwrap(result) {
+			if (!result.ok) throw new Error(result.error.message);
+			return result.value;
+		}
+		const KIND_LABELS = {
+			ollama: "Ollama",
+			llamacpp: "llama.cpp",
+			"openai-compatible": "OpenAI 兼容"
+		};
+		function LocalModelsSection({ getLocalModels, useLocalModelsReady }) {
+			const service = useLocalModelsReady((value) => value) ? getLocalModels() : void 0;
+			const [servers, setServers] = (0, react.useState)([]);
+			const [name, setName] = (0, react.useState)("");
+			const [kind, setKind] = (0, react.useState)("ollama");
+			const [baseUrl, setBaseUrl] = (0, react.useState)("");
+			const [models, setModels] = (0, react.useState)({});
+			const [discovering, setDiscovering] = (0, react.useState)(null);
+			const [error, setError] = (0, react.useState)(null);
+			const refresh = (0, react.useCallback)(() => {
+				if (service === void 0) return;
+				service.listServers().then((result) => {
+					setServers(unwrap(result));
+				}).catch((reason) => setError(reason instanceof Error ? reason.message : String(reason)));
+			}, [service]);
+			(0, react.useEffect)(() => {
+				refresh();
+			}, [refresh, service !== void 0]);
+			const handleAdd = async () => {
+				if (service === void 0 || name.trim() === "") return;
+				setError(null);
+				try {
+					const result = unwrap(await service.addServer({
+						name: name.trim(),
+						kind,
+						...baseUrl.trim() ? { baseUrl: baseUrl.trim() } : {}
+					}));
+					setName("");
+					setBaseUrl("");
+					setServers((prev) => [...prev, result]);
+				} catch (err) {
+					setError(err instanceof Error ? err.message : String(err));
+				}
+			};
+			const handleDiscover = async (serverId) => {
+				if (service === void 0) return;
+				setDiscovering(serverId);
+				setError(null);
+				try {
+					const found = unwrap(await service.discoverModels(serverId));
+					setModels((prev) => ({
+						...prev,
+						[serverId]: found
+					}));
+				} catch (err) {
+					setError(err instanceof Error ? err.message : String(err));
+				} finally {
+					setDiscovering(null);
+				}
+			};
+			const handleRemove = async (serverId, serverName) => {
+				if (service === void 0) return;
+				if (!window.confirm(`移除本地模型服务器 "${serverName}" 吗？`)) return;
+				try {
+					unwrap(await service.removeServer(serverId));
+					setServers((prev) => prev.filter((server) => server.id !== serverId));
+				} catch (err) {
+					setError(err instanceof Error ? err.message : String(err));
+				}
+			};
+			return (0, react_jsx_runtime.jsxs)("div", {
+				className: UsageSection_module_css_default.root,
+				children: [
+					(0, react_jsx_runtime.jsxs)("div", { children: [(0, react_jsx_runtime.jsx)("h2", {
+						className: UsageSection_module_css_default.pageTitle,
+						children: "本地模型"
+					}), (0, react_jsx_runtime.jsx)("p", {
+						className: UsageSection_module_css_default.pageDescription,
+						children: "管理本地推理服务器（Ollama、llama.cpp 等），发现模型后可添加到提供商目录"
+					})] }),
+					error !== null && (0, react_jsx_runtime.jsx)("div", {
+						className: "cc-notice-error",
+						children: error
+					}),
+					(0, react_jsx_runtime.jsxs)("div", {
+						className: "cc-card",
+						children: [
+							(0, react_jsx_runtime.jsx)("div", {
+								className: "cc-card-title",
+								children: "添加本地服务器"
+							}),
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: "cc-field-row",
+								children: [(0, react_jsx_runtime.jsx)("div", {
+									className: "cc-field-label",
+									children: "名称"
+								}), (0, react_jsx_runtime.jsx)("input", {
+									className: "cc-input",
+									value: name,
+									placeholder: "例如：本机 Ollama",
+									onChange: (e) => setName(e.target.value)
+								})]
+							}),
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: "cc-field-row",
+								children: [(0, react_jsx_runtime.jsx)("div", {
+									className: "cc-field-label",
+									children: "类型"
+								}), (0, react_jsx_runtime.jsxs)("select", {
+									className: "cc-select",
+									value: kind,
+									onChange: (e) => setKind(e.target.value),
+									children: [
+										(0, react_jsx_runtime.jsx)("option", {
+											value: "ollama",
+											children: "Ollama"
+										}),
+										(0, react_jsx_runtime.jsx)("option", {
+											value: "llamacpp",
+											children: "llama.cpp"
+										}),
+										(0, react_jsx_runtime.jsx)("option", {
+											value: "openai-compatible",
+											children: "OpenAI 兼容"
+										})
+									]
+								})]
+							}),
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: "cc-field-row",
+								children: [(0, react_jsx_runtime.jsxs)("div", {
+									className: "cc-field-label",
+									children: ["Base URL", (0, react_jsx_runtime.jsx)("div", {
+										className: "cc-field-hint",
+										children: "留空使用默认值（Ollama: http://127.0.0.1:11434/v1）"
+									})]
+								}), (0, react_jsx_runtime.jsx)("input", {
+									className: "cc-input",
+									value: baseUrl,
+									placeholder: "http://127.0.0.1:11434/v1",
+									onChange: (e) => setBaseUrl(e.target.value)
+								})]
+							}),
+							(0, react_jsx_runtime.jsx)("div", { children: (0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								className: "cc-btn cc-btn-primary",
+								onClick: () => void handleAdd(),
+								children: "添加服务器"
+							}) })
+						]
+					}),
+					servers.map((server) => (0, react_jsx_runtime.jsxs)("div", {
+						className: "cc-card",
+						children: [
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: "cc-card-title",
+								children: [
+									server.name,
+									" ",
+									(0, react_jsx_runtime.jsx)("span", {
+										className: "cc-badge-disabled",
+										children: KIND_LABELS[server.kind]
+									})
+								]
+							}),
+							(0, react_jsx_runtime.jsx)("p", {
+								className: "cc-card-description",
+								children: server.baseUrl
+							}),
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: "cc-field-row",
+								children: [(0, react_jsx_runtime.jsx)("div", { children: (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: "cc-btn cc-btn-secondary",
+									disabled: discovering === server.id,
+									onClick: () => void handleDiscover(server.id),
+									children: discovering === server.id ? "发现中…" : "发现模型"
+								}) }), (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: "cc-btn cc-btn-danger",
+									onClick: () => void handleRemove(server.id, server.name),
+									children: "移除"
+								})]
+							}),
+							models[server.id] !== void 0 && (0, react_jsx_runtime.jsx)("div", {
+								style: {
+									display: "flex",
+									flexDirection: "column",
+									gap: 4
+								},
+								children: models[server.id].length === 0 ? (0, react_jsx_runtime.jsx)("span", {
+									className: "cc-card-description",
+									children: "未发现模型（服务器可能未运行）"
+								}) : models[server.id].map((model) => (0, react_jsx_runtime.jsx)("span", {
+									style: {
+										fontSize: 13,
+										color: "var(--foreground)",
+										fontFamily: "var(--ds-font-family-code), monospace"
+									},
+									children: model.name
+								}, model.id))
+							})
+						]
+					}, server.id))
+				]
+			});
+		}
+		//#endregion
+		//#region lib/types/client/UpdateSection.js
+		/**
+		* Update settings section: check the GitHub release feed for a newer
+		* Control Center version.
+		*/
+		function UpdateSection({ getUpdate, useUpdateReady }) {
+			const service = useUpdateReady((value) => value) ? getUpdate() : void 0;
+			const [info, setInfo] = (0, react.useState)(null);
+			const [checking, setChecking] = (0, react.useState)(false);
+			const [error, setError] = (0, react.useState)(null);
+			const check = async () => {
+				if (service === void 0) return;
+				setChecking(true);
+				setError(null);
+				try {
+					const result = await service.checkForUpdates();
+					if (!result.ok) throw new Error(result.error.message);
+					setInfo(result.value);
+				} catch (err) {
+					setError(err instanceof Error ? err.message : String(err));
+				} finally {
+					setChecking(false);
+				}
+			};
+			(0, react.useEffect)(() => {
+				check();
+			}, [service !== void 0]);
+			return (0, react_jsx_runtime.jsxs)("div", {
+				className: UsageSection_module_css_default.root,
+				children: [
+					(0, react_jsx_runtime.jsxs)("div", { children: [(0, react_jsx_runtime.jsx)("h2", {
+						className: UsageSection_module_css_default.pageTitle,
+						children: "更新"
+					}), (0, react_jsx_runtime.jsx)("p", {
+						className: UsageSection_module_css_default.pageDescription,
+						children: "检查 DSH Control Center 的新版本"
+					})] }),
+					error !== null && (0, react_jsx_runtime.jsx)("div", {
+						className: "cc-notice-error",
+						children: error
+					}),
+					(0, react_jsx_runtime.jsxs)("div", {
+						className: "cc-card",
+						children: [
+							(0, react_jsx_runtime.jsx)("div", {
+								className: "cc-card-title",
+								children: "版本状态"
+							}),
+							info === null ? (0, react_jsx_runtime.jsx)("div", {
+								className: "cc-loading",
+								style: { minHeight: 80 },
+								children: "检查中…"
+							}) : (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [
+								(0, react_jsx_runtime.jsxs)("div", {
+									className: "cc-field-row",
+									children: [(0, react_jsx_runtime.jsx)("span", {
+										className: "cc-field-label",
+										children: "当前版本"
+									}), (0, react_jsx_runtime.jsxs)("span", {
+										className: "cc-field-label",
+										style: { fontFamily: "var(--ds-font-family-code), monospace" },
+										children: ["v", info.currentVersion]
+									})]
+								}),
+								(0, react_jsx_runtime.jsxs)("div", {
+									className: "cc-field-row",
+									children: [(0, react_jsx_runtime.jsx)("span", {
+										className: "cc-field-label",
+										children: "最新版本"
+									}), (0, react_jsx_runtime.jsx)("span", {
+										className: "cc-field-label",
+										style: { fontFamily: "var(--ds-font-family-code), monospace" },
+										children: info.latestVersion ?? "无法获取"
+									})]
+								}),
+								info.updateAvailable && info.latestVersion !== null && (0, react_jsx_runtime.jsxs)("div", {
+									className: "cc-notice-error",
+									style: {
+										borderColor: "var(--success-border)",
+										background: "var(--success-subtle)",
+										color: "var(--success-subtle-foreground)"
+									},
+									children: [
+										"发现新版本 ",
+										info.latestVersion,
+										info.releaseUrl !== null && (0, react_jsx_runtime.jsx)("a", {
+											href: info.releaseUrl,
+											target: "_blank",
+											rel: "noreferrer",
+											style: {
+												marginLeft: 8,
+												color: "var(--link, var(--primary))"
+											},
+											children: "前往下载"
+										})
+									]
+								}),
+								!info.updateAvailable && (0, react_jsx_runtime.jsx)("div", {
+									className: "cc-notice-error",
+									style: {
+										borderColor: "var(--success-border)",
+										background: "var(--success-subtle)",
+										color: "var(--success-subtle-foreground)"
+									},
+									children: "已是最新版本"
+								})
+							] }),
+							(0, react_jsx_runtime.jsx)("div", { children: (0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								className: "cc-btn cc-btn-secondary",
+								disabled: checking,
+								onClick: () => void check(),
+								children: checking ? "检查中…" : "重新检查"
+							}) })
+						]
+					})
+				]
+			});
+		}
+		//#endregion
+		//#region lib/types/client/CapabilityGateSection.js
+		function CapabilityGateSection({ title, description, supported, unavailable, note }) {
+			return (0, react_jsx_runtime.jsxs)("div", {
+				className: UsageSection_module_css_default.root,
+				children: [
+					(0, react_jsx_runtime.jsxs)("div", { children: [(0, react_jsx_runtime.jsx)("h2", {
+						className: UsageSection_module_css_default.pageTitle,
+						children: title
+					}), (0, react_jsx_runtime.jsx)("p", {
+						className: UsageSection_module_css_default.pageDescription,
+						children: description
+					})] }),
+					(0, react_jsx_runtime.jsxs)("div", {
+						className: "cc-card",
+						children: [(0, react_jsx_runtime.jsx)("div", {
+							className: "cc-card-title",
+							children: "Web 版已支持"
+						}), (0, react_jsx_runtime.jsx)("ul", {
+							style: {
+								margin: 0,
+								paddingLeft: 18,
+								display: "flex",
+								flexDirection: "column",
+								gap: 4
+							},
+							children: supported.map((item) => (0, react_jsx_runtime.jsx)("li", {
+								style: {
+									fontSize: 13,
+									color: "var(--foreground)"
+								},
+								children: item
+							}, item))
+						})]
+					}),
+					(0, react_jsx_runtime.jsxs)("div", {
+						className: "cc-card",
+						children: [
+							(0, react_jsx_runtime.jsx)("div", {
+								className: "cc-card-title",
+								children: "需要桌面环境（不可用）"
+							}),
+							(0, react_jsx_runtime.jsx)("ul", {
+								style: {
+									margin: 0,
+									paddingLeft: 18,
+									display: "flex",
+									flexDirection: "column",
+									gap: 4
+								},
+								children: unavailable.map((item) => (0, react_jsx_runtime.jsx)("li", {
+									style: {
+										fontSize: 13,
+										color: "var(--muted-foreground)"
+									},
+									children: item
+								}, item))
+							}),
+							(0, react_jsx_runtime.jsx)("p", {
+								className: "cc-card-description",
+								children: note
+							})
+						]
+					})
+				]
+			});
+		}
+		//#endregion
 		//#region ../../node_modules/.pnpm/clsx@2.1.1/node_modules/clsx/dist/clsx.mjs
 		function r(e) {
 			var t, f, n = "";
@@ -6332,28 +6781,28 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
-			"navGroup": "_4STY0G_navGroup",
-			"mask": "_4STY0G_mask",
-			"navTitle": "_4STY0G_navTitle",
-			"content": "_4STY0G_content",
 			"actions": "_4STY0G_actions",
-			"navGroupTitle": "_4STY0G_navGroupTitle",
-			"trigger": "_4STY0G_trigger",
 			"close": "_4STY0G_close",
+			"navGroupTitle": "_4STY0G_navGroupTitle",
 			"hiddenLabel": "_4STY0G_hiddenLabel",
-			"overlay": "_4STY0G_overlay",
-			"navList": "_4STY0G_navList",
-			"navIcon": "_4STY0G_navIcon",
-			"navScroll": "_4STY0G_navScroll",
-			"navCell": "_4STY0G_navCell",
-			"nav": "_4STY0G_nav",
-			"active": "_4STY0G_active",
-			"header": "_4STY0G_header",
-			"triggerLabel": "_4STY0G_triggerLabel",
-			"options": "_4STY0G_options",
-			"navLabel": "_4STY0G_navLabel",
+			"trigger": "_4STY0G_trigger",
 			"panel": "_4STY0G_panel",
-			"rail": "_4STY0G_rail"
+			"navScroll": "_4STY0G_navScroll",
+			"nav": "_4STY0G_nav",
+			"header": "_4STY0G_header",
+			"navList": "_4STY0G_navList",
+			"navCell": "_4STY0G_navCell",
+			"mask": "_4STY0G_mask",
+			"content": "_4STY0G_content",
+			"navLabel": "_4STY0G_navLabel",
+			"rail": "_4STY0G_rail",
+			"navGroup": "_4STY0G_navGroup",
+			"overlay": "_4STY0G_overlay",
+			"navTitle": "_4STY0G_navTitle",
+			"options": "_4STY0G_options",
+			"navIcon": "_4STY0G_navIcon",
+			"active": "_4STY0G_active",
+			"triggerLabel": "_4STY0G_triggerLabel"
 		};
 		//#endregion
 		//#region \0dsh-control-center-plain-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\cherry-tokens.css.mjs
@@ -6636,8 +7085,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsDocumentAction_module_css_default = {
-			"error": "SgSrUG_error",
-			"action": "SgSrUG_action"
+			"action": "SgSrUG_action",
+			"error": "SgSrUG_error"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsDocumentAction.js
@@ -6795,7 +7244,14 @@ window.__ModuleLoader__.load({
 			dependenciesNav: "Dependencies",
 			aboutNav: "About",
 			automationGroup: "Automation",
-			tasksNav: "Scheduled Tasks"
+			tasksNav: "Scheduled Tasks",
+			localModelsNav: "Local Models",
+			updateNav: "Update",
+			channelsNav: "Channels",
+			shortcutsNav: "Shortcuts",
+			quickAssistantNav: "Quick Assistant",
+			selectionAssistantNav: "Selection Assistant",
+			screenshotNav: "Screenshot"
 		};
 		const zh$1 = {
 			trigger: "设置",
@@ -6832,7 +7288,14 @@ window.__ModuleLoader__.load({
 			dependenciesNav: "依赖",
 			aboutNav: "关于",
 			automationGroup: "自动化",
-			tasksNav: "计划任务"
+			tasksNav: "计划任务",
+			localModelsNav: "本地模型",
+			updateNav: "更新",
+			channelsNav: "Channels",
+			shortcutsNav: "快捷键",
+			quickAssistantNav: "Quick Assistant",
+			selectionAssistantNav: "Selection Assistant",
+			screenshotNav: "截图"
 		};
 		//#endregion
 		//#region lib/types/client/apiKey.js
@@ -6893,34 +7356,34 @@ window.__ModuleLoader__.load({
 		}
 		var ModelsSection_module_css_default = {
 			"rowHead": "tKsOKa_rowHead",
-			"deleteConfirm": "tKsOKa_deleteConfirm",
-			"rowActions": "tKsOKa_rowActions",
-			"rowName": "tKsOKa_rowName",
-			"savedNotice": "tKsOKa_savedNotice",
-			"error": "tKsOKa_error",
-			"deleteDialog": "tKsOKa_deleteDialog",
-			"credentialDot": "tKsOKa_credentialDot",
-			"setupCard": "tKsOKa_setupCard",
-			"addCard": "tKsOKa_addCard",
-			"credentialDotMissing": "tKsOKa_credentialDotMissing",
-			"addActions": "tKsOKa_addActions",
-			"notice": "tKsOKa_notice",
-			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
-			"addBlock": "tKsOKa_addBlock",
-			"rowCard": "tKsOKa_rowCard",
-			"dangerButton": "tKsOKa_dangerButton",
 			"title": "tKsOKa_title",
+			"rowTag": "tKsOKa_rowTag",
+			"error": "tKsOKa_error",
+			"field": "tKsOKa_field",
+			"rowName": "tKsOKa_rowName",
 			"input": "tKsOKa_input",
-			"fieldLabel": "tKsOKa_fieldLabel",
-			"selectInput": "tKsOKa_selectInput",
-			"secondaryButton": "tKsOKa_secondaryButton",
-			"intro": "tKsOKa_intro",
-			"rows": "tKsOKa_rows",
 			"addButton": "tKsOKa_addButton",
+			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
+			"dangerButton": "tKsOKa_dangerButton",
+			"rowActions": "tKsOKa_rowActions",
+			"savedNotice": "tKsOKa_savedNotice",
+			"intro": "tKsOKa_intro",
+			"addBlock": "tKsOKa_addBlock",
+			"credentialDot": "tKsOKa_credentialDot",
+			"addCard": "tKsOKa_addCard",
+			"setupCard": "tKsOKa_setupCard",
+			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"selectInput": "tKsOKa_selectInput",
+			"rowCard": "tKsOKa_rowCard",
+			"fieldLabel": "tKsOKa_fieldLabel",
+			"deleteDialog": "tKsOKa_deleteDialog",
 			"section": "tKsOKa_section",
 			"rowIdentity": "tKsOKa_rowIdentity",
-			"rowTag": "tKsOKa_rowTag",
-			"field": "tKsOKa_field"
+			"rows": "tKsOKa_rows",
+			"secondaryButton": "tKsOKa_secondaryButton",
+			"deleteConfirm": "tKsOKa_deleteConfirm",
+			"addActions": "tKsOKa_addActions",
+			"notice": "tKsOKa_notice"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -10035,10 +10498,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var OnboardingModal_module_css_default = {
-			"body": "C_CJ_a_body",
-			"title": "C_CJ_a_title",
 			"dialog": "C_CJ_a_dialog",
-			"content": "C_CJ_a_content"
+			"content": "C_CJ_a_content",
+			"title": "C_CJ_a_title",
+			"body": "C_CJ_a_body"
 		};
 		//#endregion
 		//#region lib/types/client/OnboardingModal.js
@@ -10097,8 +10560,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var DeepSeekOnboardingDialog_module_css_default = {
-			"editor": "oxcHWa_editor",
-			"description": "oxcHWa_description"
+			"description": "oxcHWa_description",
+			"editor": "oxcHWa_editor"
 		};
 		//#endregion
 		//#region lib/types/client/DeepSeekOnboardingDialog.js
@@ -10188,9 +10651,9 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WelcomeNotice_module_css_default = {
-			"copy": "RFswhG_copy",
-			"actions": "RFswhG_actions",
 			"error": "RFswhG_error",
+			"actions": "RFswhG_actions",
+			"copy": "RFswhG_copy",
 			"primary": "RFswhG_primary"
 		};
 		//#endregion
@@ -10654,13 +11117,13 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProductWorkspaceSurface_module_css_default = {
+			"identity": "mzcFbW_identity",
 			"icon": "mzcFbW_icon",
 			"root": "mzcFbW_root",
-			"close": "mzcFbW_close",
-			"body": "mzcFbW_body",
-			"eyebrow": "mzcFbW_eyebrow",
 			"header": "mzcFbW_header",
-			"identity": "mzcFbW_identity"
+			"eyebrow": "mzcFbW_eyebrow",
+			"close": "mzcFbW_close",
+			"body": "mzcFbW_body"
 		};
 		//#endregion
 		//#region lib/types/client/ProductWorkspaceSurface.js
@@ -10708,20 +11171,20 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TranslationWorkspace_module_css_default = {
+			"historyItem": "_8lesPa_historyItem",
 			"toolbar": "_8lesPa_toolbar",
-			"actions": "_8lesPa_actions",
-			"pane": "_8lesPa_pane",
-			"header": "_8lesPa_header",
-			"root": "_8lesPa_root",
-			"secondary": "_8lesPa_secondary",
-			"eyebrow": "_8lesPa_eyebrow",
-			"error": "_8lesPa_error",
-			"empty": "_8lesPa_empty",
 			"swap": "_8lesPa_swap",
 			"panes": "_8lesPa_panes",
-			"link": "_8lesPa_link",
+			"header": "_8lesPa_header",
+			"root": "_8lesPa_root",
+			"actions": "_8lesPa_actions",
+			"secondary": "_8lesPa_secondary",
+			"error": "_8lesPa_error",
 			"history": "_8lesPa_history",
-			"historyItem": "_8lesPa_historyItem"
+			"link": "_8lesPa_link",
+			"empty": "_8lesPa_empty",
+			"eyebrow": "_8lesPa_eyebrow",
+			"pane": "_8lesPa_pane"
 		};
 		//#endregion
 		//#region lib/types/client/TranslationWorkspace.js
@@ -11066,7 +11529,8 @@ window.__ModuleLoader__.load({
 			if (id === "skills" || id === "providers" || id === "mcp" || id === "websearch" || id === "file-processing" || id === "ocr") return "capabilities";
 			if (id === "usage" || id === "data") return "personal";
 			if (id === "about" || id === "dependencies") return "system";
-			if (id === "tasks") return "automation";
+			if (id === "tasks" || id === "shortcuts" || id === "quick-assistant" || id === "selection-assistant" || id === "screenshot" || id === "channels") return "automation";
+			if (id === "local-models" || id === "update") return "system";
 			if (KNOWN_NATIVE.has(id)) return "native";
 			return "other";
 		}
@@ -11132,6 +11596,38 @@ window.__ModuleLoader__.load({
 			let data;
 			let system;
 			let tasks;
+			let localModels;
+			let update;
+			const localModelsReadySource = {
+				getSnapshot: () => localModels !== void 0,
+				subscribe: (listener) => {
+					const timer = window.setInterval(() => {
+						if (localModels === void 0) return;
+						window.clearInterval(timer);
+						listener();
+					}, 25);
+					return () => {
+						window.clearInterval(timer);
+					};
+				}
+			};
+			const updateReadySource = {
+				getSnapshot: () => update !== void 0,
+				subscribe: (listener) => {
+					const timer = window.setInterval(() => {
+						if (update === void 0) return;
+						window.clearInterval(timer);
+						listener();
+					}, 25);
+					return () => {
+						window.clearInterval(timer);
+					};
+				}
+			};
+			const alwaysReadySource = {
+				getSnapshot: () => true,
+				subscribe: () => () => {}
+			};
 			const tasksReadySource = {
 				getSnapshot: () => tasks !== void 0,
 				subscribe: (listener) => {
@@ -11213,7 +11709,9 @@ window.__ModuleLoader__.load({
 						...usageRemote.descriptors,
 						...dataRemote.descriptors,
 						...systemRemote.descriptors,
-						...tasksRemote.descriptors
+						...tasksRemote.descriptors,
+						...localModelsRemote.descriptors,
+						...updateRemote.descriptors
 					]
 				};
 				const dispose = await remote.$mount(controlCenterRemote);
@@ -11230,6 +11728,8 @@ window.__ModuleLoader__.load({
 				data = ctx.get("remote.controlCenterData");
 				system = ctx.get("remote.controlCenterSystem");
 				tasks = ctx.get("remote.controlCenterTasks");
+				localModels = ctx.get("remote.controlCenterLocalModels");
+				update = ctx.get("remote.controlCenterUpdate");
 				return dispose;
 			}, "control-center: control-center Remote namespaces");
 			ctx.effect(() => ctx.locale.register(SHELL_NS, {
@@ -11647,6 +12147,101 @@ window.__ModuleLoader__.load({
 					hooks: { tasksReady: tasksReadySource }
 				})
 			}, TasksSection));
+			ctx.slots.inject("settings.section", () => ctx.slots.register({
+				name: "settings.section",
+				id: "local-models",
+				order: 105,
+				label: () => shellT("localModelsNav"),
+				inject: () => ({
+					getLocalModels: () => {
+						if (localModels === void 0) throw new Error("local models Remote namespace is not mounted");
+						return localModels;
+					},
+					hooks: { localModelsReady: localModelsReadySource }
+				})
+			}, LocalModelsSection));
+			ctx.slots.inject("settings.section", () => ctx.slots.register({
+				name: "settings.section",
+				id: "update",
+				order: 110,
+				label: () => shellT("updateNav"),
+				inject: () => ({
+					getUpdate: () => {
+						if (update === void 0) throw new Error("update Remote namespace is not mounted");
+						return update;
+					},
+					hooks: { updateReady: updateReadySource }
+				})
+			}, UpdateSection));
+			const gated = [
+				{
+					id: "channels",
+					order: 210,
+					label: shellT("channelsNav"),
+					props: {
+						supported: ["会话消息推送", "通知类计划任务"],
+						unavailable: ["Webhook/Channel 绑定（需要桌面伴生进程）"],
+						note: "Web 版不附带独立伴生程序；Channel 绑定与消息推送需要桌面环境支持。"
+					}
+				},
+				{
+					id: "shortcuts",
+					order: 220,
+					label: shellT("shortcutsNav"),
+					props: {
+						supported: ["设置面板内快捷键（Esc 关闭等）"],
+						unavailable: ["全局快捷键（需要操作系统级注册）"],
+						note: "浏览器无法注册系统级全局快捷键；应用内快捷键正常工作。"
+					}
+				},
+				{
+					id: "quick-assistant",
+					order: 230,
+					label: shellT("quickAssistantNav"),
+					props: {
+						supported: ["计划任务触发的通知动作"],
+						unavailable: ["全局唤起 Quick Assistant（需要桌面伴生进程）"],
+						note: "Quick Assistant 的全局唤起依赖系统级热键与悬浮窗，Web 版不可用。"
+					}
+				},
+				{
+					id: "selection-assistant",
+					order: 240,
+					label: shellT("selectionAssistantNav"),
+					props: {
+						supported: ["复制文本后手动翻译/检索"],
+						unavailable: ["选中文本自动唤起（需要系统级事件监听）"],
+						note: "Selection Assistant 依赖操作系统选中事件，浏览器无法拦截。"
+					}
+				},
+				{
+					id: "screenshot",
+					order: 250,
+					label: shellT("screenshotNav"),
+					props: {
+						supported: ["文件导入（图片/文档）到知识库与 OCR"],
+						unavailable: ["屏幕截图（需要桌面截屏能力）"],
+						note: "浏览器受限无法实现全屏截图；图片处理通过文件导入进行。"
+					}
+				}
+			];
+			for (const entry of gated) {
+				const props = entry.props;
+				ctx.slots.inject("settings.section", () => ctx.slots.register({
+					name: "settings.section",
+					id: entry.id,
+					order: entry.order,
+					label: () => entry.label,
+					inject: () => ({
+						title: entry.label,
+						description: props.supported[0] ?? "",
+						supported: props.supported,
+						unavailable: props.unavailable,
+						note: props.note,
+						hooks: { gateReady: alwaysReadySource }
+					})
+				}, CapabilityGateSection));
+			}
 			ctx.slots.inject("settings.onboarding", () => ctx.slots.register({
 				name: "settings.onboarding",
 				id: "welcome-notice",

@@ -35,6 +35,13 @@ export declare const en: {
     aboutNav: string;
     automationGroup: string;
     tasksNav: string;
+    localModelsNav: string;
+    updateNav: string;
+    channelsNav: string;
+    shortcutsNav: string;
+    quickAssistantNav: string;
+    selectionAssistantNav: string;
+    screenshotNav: string;
 };
 export type SettingsKey = keyof typeof en;
 export declare const zh: {

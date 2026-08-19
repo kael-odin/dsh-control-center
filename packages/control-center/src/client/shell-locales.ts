@@ -36,6 +36,13 @@ export const en = {
   aboutNav: 'About',
   automationGroup: 'Automation',
   tasksNav: 'Scheduled Tasks',
+  localModelsNav: 'Local Models',
+  updateNav: 'Update',
+  channelsNav: 'Channels',
+  shortcutsNav: 'Shortcuts',
+  quickAssistantNav: 'Quick Assistant',
+  selectionAssistantNav: 'Selection Assistant',
+  screenshotNav: 'Screenshot',
 }
 
 export type SettingsKey = keyof typeof en
@@ -76,4 +83,11 @@ export const zh: { [Key in SettingsKey]: string } = {
   aboutNav: '关于',
   automationGroup: '自动化',
   tasksNav: '计划任务',
+  localModelsNav: '本地模型',
+  updateNav: '更新',
+  channelsNav: 'Channels',
+  shortcutsNav: '快捷键',
+  quickAssistantNav: 'Quick Assistant',
+  selectionAssistantNav: 'Selection Assistant',
+  screenshotNav: '截图',
 }

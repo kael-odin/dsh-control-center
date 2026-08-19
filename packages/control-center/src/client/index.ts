@@ -58,6 +58,14 @@ import type {} from '../tasks-types.ts'
 import tasksRemote from '../tasks-remote-client.ts'
 import { TasksSection } from './TasksSection.tsx'
 import type { TasksSectionInjected } from './TasksSection.tsx'
+import type {} from '../local-models-types.ts'
+import { localModelsRemote, updateRemote } from '../local-models-remote-client.ts'
+import { LocalModelsSection } from './LocalModelsSection.tsx'
+import type { LocalModelsSectionInjected } from './LocalModelsSection.tsx'
+import { UpdateSection } from './UpdateSection.tsx'
+import type { UpdateSectionInjected } from './UpdateSection.tsx'
+import { CapabilityGateSection } from './CapabilityGateSection.tsx'
+import type { CapabilityGateSectionProps } from './CapabilityGateSection.tsx'
 import { SettingsRoot } from './SettingsRoot.tsx'
 import type { SettingsOnboardingStep, SettingsRootInjected, SettingsSectionRow } from './shell-contract.ts'
 import { CloseLabel, HeaderContent, TriggerContent } from './chrome.tsx'
@@ -97,7 +105,8 @@ function groupOf(id: string): SettingsSectionRow['group'] {
   if (id === 'skills' || id === 'providers' || id === 'mcp' || id === 'websearch' || id === 'file-processing' || id === 'ocr') return 'capabilities'
   if (id === 'usage' || id === 'data') return 'personal'
   if (id === 'about' || id === 'dependencies') return 'system'
-  if (id === 'tasks') return 'automation'
+  if (id === 'tasks' || id === 'shortcuts' || id === 'quick-assistant' || id === 'selection-assistant' || id === 'screenshot' || id === 'channels') return 'automation'
+  if (id === 'local-models' || id === 'update') return 'system'
   if (KNOWN_NATIVE.has(id)) return 'native'
   return 'other'
 }
@@ -160,6 +169,34 @@ export function apply(ctx: ClientContext): void {
   let data: NonNullable<typeof remote.controlCenterData> | undefined
   let system: NonNullable<typeof remote.controlCenterSystem> | undefined
   let tasks: NonNullable<typeof remote.controlCenterTasks> | undefined
+  let localModels: NonNullable<typeof remote.controlCenterLocalModels> | undefined
+  let update: NonNullable<typeof remote.controlCenterUpdate> | undefined
+  const localModelsReadySource: HostObservable<boolean> = {
+    getSnapshot: () => localModels !== undefined,
+    subscribe: (listener) => {
+      const timer = window.setInterval(() => {
+        if (localModels === undefined) return
+        window.clearInterval(timer)
+        listener()
+      }, 25)
+      return () => { window.clearInterval(timer) }
+    },
+  }
+  const updateReadySource: HostObservable<boolean> = {
+    getSnapshot: () => update !== undefined,
+    subscribe: (listener) => {
+      const timer = window.setInterval(() => {
+        if (update === undefined) return
+        window.clearInterval(timer)
+        listener()
+      }, 25)
+      return () => { window.clearInterval(timer) }
+    },
+  }
+  const alwaysReadySource: HostObservable<boolean> = {
+    getSnapshot: () => true,
+    subscribe: () => () => {},
+  }
   const tasksReadySource: HostObservable<boolean> = {
     getSnapshot: () => tasks !== undefined,
     subscribe: (listener) => {
@@ -233,7 +270,9 @@ export function apply(ctx: ClientContext): void {
         ...usageRemote.descriptors,
         ...dataRemote.descriptors,
         ...systemRemote.descriptors,
-        ...tasksRemote.descriptors
+        ...tasksRemote.descriptors,
+        ...localModelsRemote.descriptors,
+        ...updateRemote.descriptors
       ],
     }
     const dispose = await remote.$mount(controlCenterRemote)
@@ -250,6 +289,8 @@ export function apply(ctx: ClientContext): void {
     data = ctx.get('remote.controlCenterData') as NonNullable<typeof remote.controlCenterData>
     system = ctx.get('remote.controlCenterSystem') as NonNullable<typeof remote.controlCenterSystem>
     tasks = ctx.get('remote.controlCenterTasks') as NonNullable<typeof remote.controlCenterTasks>
+    localModels = ctx.get('remote.controlCenterLocalModels') as NonNullable<typeof remote.controlCenterLocalModels>
+    update = ctx.get('remote.controlCenterUpdate') as NonNullable<typeof remote.controlCenterUpdate>
     return dispose
   }, 'control-center: control-center Remote namespaces')
   ctx.effect(() => ctx.locale.register(SHELL_NS, { zh: shellZh, en: shellEn }), 'control-center: shell dictionaries')
@@ -620,6 +661,76 @@ export function apply(ctx: ClientContext): void {
       hooks: { tasksReady: tasksReadySource },
     }),
   }, TasksSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'local-models',
+    order: 105,
+    label: () => shellT('localModelsNav'),
+    inject: (): LocalModelsSectionInjected => ({
+      getLocalModels: () => {
+        if (localModels === undefined) throw new Error('local models Remote namespace is not mounted')
+        return localModels
+      },
+      hooks: { localModelsReady: localModelsReadySource },
+    }),
+  }, LocalModelsSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'update',
+    order: 110,
+    label: () => shellT('updateNav'),
+    inject: (): UpdateSectionInjected => ({
+      getUpdate: () => {
+        if (update === undefined) throw new Error('update Remote namespace is not mounted')
+        return update
+      },
+      hooks: { updateReady: updateReadySource },
+    }),
+  }, UpdateSection))
+  const gated: ReadonlyArray<{ id: string; order: number; label: string; props: Omit<CapabilityGateSectionProps, 'title' | 'description'> }> = [
+    { id: 'channels', order: 210, label: shellT('channelsNav'), props: {
+      supported: ['会话消息推送', '通知类计划任务'],
+      unavailable: ['Webhook/Channel 绑定（需要桌面伴生进程）'],
+      note: 'Web 版不附带独立伴生程序；Channel 绑定与消息推送需要桌面环境支持。',
+    } },
+    { id: 'shortcuts', order: 220, label: shellT('shortcutsNav'), props: {
+      supported: ['设置面板内快捷键（Esc 关闭等）'],
+      unavailable: ['全局快捷键（需要操作系统级注册）'],
+      note: '浏览器无法注册系统级全局快捷键；应用内快捷键正常工作。',
+    } },
+    { id: 'quick-assistant', order: 230, label: shellT('quickAssistantNav'), props: {
+      supported: ['计划任务触发的通知动作'],
+      unavailable: ['全局唤起 Quick Assistant（需要桌面伴生进程）'],
+      note: 'Quick Assistant 的全局唤起依赖系统级热键与悬浮窗，Web 版不可用。',
+    } },
+    { id: 'selection-assistant', order: 240, label: shellT('selectionAssistantNav'), props: {
+      supported: ['复制文本后手动翻译/检索'],
+      unavailable: ['选中文本自动唤起（需要系统级事件监听）'],
+      note: 'Selection Assistant 依赖操作系统选中事件，浏览器无法拦截。',
+    } },
+    { id: 'screenshot', order: 250, label: shellT('screenshotNav'), props: {
+      supported: ['文件导入（图片/文档）到知识库与 OCR'],
+      unavailable: ['屏幕截图（需要桌面截屏能力）'],
+      note: '浏览器受限无法实现全屏截图；图片处理通过文件导入进行。',
+    } },
+  ]
+  for (const entry of gated) {
+    const props = entry.props
+    ctx.slots.inject('settings.section', () => ctx.slots.register({
+      name: 'settings.section',
+      id: entry.id,
+      order: entry.order,
+      label: () => entry.label,
+      inject: () => ({
+        title: entry.label,
+        description: props.supported[0] ?? '',
+        supported: props.supported,
+        unavailable: props.unavailable,
+        note: props.note,
+        hooks: { gateReady: alwaysReadySource },
+      }),
+    }, CapabilityGateSection))
+  }
   ctx.slots.inject('settings.onboarding', () => ctx.slots.register({
     name: 'settings.onboarding', id: 'welcome-notice', order: -100, inject: welcomeInjected,
   }, WelcomeNotice))

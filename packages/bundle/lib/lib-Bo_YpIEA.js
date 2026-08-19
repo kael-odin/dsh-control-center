@@ -22016,6 +22016,7 @@ var lib_exports = /* @__PURE__ */ __exportAll({
 	DataService: () => DataService,
 	FileProcessingService: () => FileProcessingService,
 	KnowledgeService: () => KnowledgeService,
+	LocalModelsService: () => LocalModelsService,
 	McpService: () => McpService,
 	PaintingService: () => PaintingService,
 	ProvidersService: () => ProvidersService,
@@ -22024,6 +22025,7 @@ var lib_exports = /* @__PURE__ */ __exportAll({
 	SystemService: () => SystemService,
 	TasksService: () => TasksService,
 	TranslationService: () => TranslationService,
+	UpdateService: () => UpdateService,
 	UsageService: () => UsageService,
 	WebSearchService: () => WebSearchService,
 	apply: () => apply,
@@ -24132,7 +24134,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-lmqREQ0j.js");
+				const { SSEClientTransport } = await import("./sse-DwiADp1U.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -24154,7 +24156,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-eGWtESCB.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-BuvAi6Tm.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -26161,6 +26163,201 @@ const tasksRemote = {
 		result: STRICT_JSON
 	}))
 };
+/**
+* Local Models Host service: manage local model servers (Ollama,
+* llama.cpp, any OpenAI-compatible localhost endpoint) and discover their
+* models. Configuration persists in the control-center-local-models
+* namespace; models can be adopted into the provider catalog with one click.
+*/
+const LOCAL_MODELS_NAMESPACE = settingsNamespace("control-center-local-models");
+const KIND_DEFAULTS = {
+	ollama: "http://127.0.0.1:11434/v1",
+	llamacpp: "http://127.0.0.1:8080/v1",
+	"openai-compatible": "http://127.0.0.1:8000/v1"
+};
+var LocalModelsService = class extends Service {
+	static inject = ["settings"];
+	typertRemote = bindTypertRemote(this, "controlCenterLocalModels");
+	scope;
+	constructor(ctx, _config) {
+		super(ctx, "controlCenterLocalModels");
+		this.scope = ctx.settings.register(LOCAL_MODELS_NAMESPACE, Schema.object({ servers: Schema.array(Schema.object({
+			id: Schema.string(),
+			name: Schema.string(),
+			baseUrl: Schema.string(),
+			kind: Schema.union([
+				"ollama",
+				"llamacpp",
+				"openai-compatible"
+			]),
+			addedAt: Schema.string()
+		})).default([]) }), { base: { servers: [] } });
+	}
+	async listServers() {
+		return this.scope.get().servers;
+	}
+	async addServer(input) {
+		const server = {
+			id: `local-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+			name: input.name,
+			kind: input.kind,
+			baseUrl: (input.baseUrl ?? KIND_DEFAULTS[input.kind]).replace(/\/+$/, ""),
+			addedAt: (/* @__PURE__ */ new Date()).toISOString()
+		};
+		await this.scope.update({ servers: [...this.scope.get().servers, server] });
+		this.ctx.logger.info("Registered local model server", {
+			id: server.id,
+			kind: server.kind,
+			baseUrl: server.baseUrl
+		});
+		return server;
+	}
+	async removeServer(serverId) {
+		const servers = this.scope.get().servers;
+		const next = servers.filter((server) => server.id !== serverId);
+		if (next.length === servers.length) return { absent: true };
+		await this.scope.update({ servers: next });
+		return { absent: true };
+	}
+	/** Probe a local server: GET {baseUrl}/models, return reachable models. */
+	async discoverModels(serverId) {
+		const server = this.scope.get().servers.find((candidate) => candidate.id === serverId);
+		if (server === void 0) throw new Error(`Local model server not found: ${serverId}`);
+		const controller = new AbortController();
+		const timer = setTimeout(() => controller.abort(), 5e3);
+		try {
+			const response = await fetch(`${server.baseUrl}/models`, { signal: controller.signal });
+			if (!response.ok) throw new Error(`HTTP ${response.status} from ${server.baseUrl}/models`);
+			const payload = await response.json();
+			return "data" in payload && Array.isArray(payload.data) ? payload.data.map((model) => ({
+				id: model.id ?? "unknown",
+				name: model.id ?? "unknown"
+			})) : "models" in payload && Array.isArray(payload.models) ? payload.models.map((model) => ({
+				id: model.name ?? "unknown",
+				name: model.name ?? "unknown"
+			})) : [];
+		} finally {
+			clearTimeout(timer);
+		}
+	}
+	[Symbol.dispose]() {}
+};
+/**
+* Update Host service: check the GitHub release feed for a newer Control
+* Center version than the installed one.
+*/
+const REPO = "kael-odin/dsh-control-center";
+var UpdateService = class extends Service {
+	static inject = ["settings"];
+	typertRemote = bindTypertRemote(this, "controlCenterUpdate");
+	constructor(ctx, _config) {
+		super(ctx, "controlCenterUpdate");
+	}
+	async checkForUpdates() {
+		const currentVersion = this.currentVersion();
+		const checkedAt = (/* @__PURE__ */ new Date()).toISOString();
+		try {
+			const controller = new AbortController();
+			const timer = setTimeout(() => controller.abort(), 8e3);
+			try {
+				const response = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`, {
+					headers: {
+						"Accept": "application/vnd.github+json",
+						"User-Agent": "dsh-control-center"
+					},
+					signal: controller.signal
+				});
+				if (!response.ok) return {
+					currentVersion,
+					latestVersion: null,
+					updateAvailable: false,
+					releaseUrl: null,
+					notes: null,
+					checkedAt
+				};
+				const payload = await response.json();
+				const latest = payload.tag_name ?? null;
+				return {
+					currentVersion,
+					latestVersion: latest,
+					updateAvailable: latest !== null && latest !== `v${currentVersion}` && latest !== currentVersion,
+					releaseUrl: payload.html_url ?? null,
+					notes: payload.body ?? null,
+					checkedAt
+				};
+			} finally {
+				clearTimeout(timer);
+			}
+		} catch {
+			return {
+				currentVersion,
+				latestVersion: null,
+				updateAvailable: false,
+				releaseUrl: null,
+				notes: null,
+				checkedAt
+			};
+		}
+	}
+	currentVersion() {
+		try {
+			return JSON.parse(readFileSync(join(this.packageRoot(), "package.json"), "utf8")).version ?? "0.1.0";
+		} catch {
+			return "0.1.0";
+		}
+	}
+	packageRoot() {
+		return new URL("..", import.meta.url).pathname;
+	}
+	[Symbol.dispose]() {}
+};
+const localModelsMethods = [
+	{
+		method: "listServers",
+		parameters: []
+	},
+	{
+		method: "addServer",
+		parameters: ["input"]
+	},
+	{
+		method: "removeServer",
+		parameters: ["serverId"]
+	},
+	{
+		method: "discoverModels",
+		parameters: ["serverId"]
+	}
+];
+const updateMethods = [{
+	method: "checkForUpdates",
+	parameters: []
+}];
+function descriptors(methods, namespace) {
+	return methods.map(({ method, parameters }) => ({
+		id: `@dsh-control-center/control-center#${namespace}/${method}`,
+		service: namespace,
+		namespace,
+		method,
+		invocation: { kind: "direct" },
+		parameters: parameters.map((name) => ({
+			name,
+			wire: name,
+			source: "json",
+			codec: STRICT_JSON
+		})),
+		result: STRICT_JSON
+	}));
+}
+/** Client descriptor contributions for local models + update services. */
+const localModelsRemote = {
+	package: "@dsh-control-center/control-center",
+	descriptors: descriptors(localModelsMethods, "controlCenterLocalModels")
+};
+const updateRemote = {
+	package: "@dsh-control-center/control-center",
+	descriptors: descriptors(updateMethods, "controlCenterUpdate")
+};
 /** Fail-closed audit for settings schemas that contain secret-role nodes. */
 const SAFE_CONTAINERS = /* @__PURE__ */ new Set([
 	"object",
@@ -26259,6 +26456,8 @@ function apply(ctx) {
 	new DataService(ctx);
 	new SystemService(ctx);
 	new TasksService(ctx);
+	new LocalModelsService(ctx);
+	new UpdateService(ctx);
 	const contributions = [{
 		package: "@dsh-control-center/control-center",
 		face: "host",
@@ -26281,7 +26480,9 @@ function apply(ctx) {
 			...usageRemote.descriptors,
 			...dataRemote.descriptors,
 			...systemRemote.descriptors,
-			...tasksRemote.descriptors
+			...tasksRemote.descriptors,
+			...localModelsRemote.descriptors,
+			...updateRemote.descriptors
 		]
 	}];
 	for (const contribution of contributions) ctx.typert.register(contribution);
@@ -26290,4 +26491,4 @@ function apply(ctx) {
 	});
 }
 //#endregion
-export { DataService, FileProcessingService, KnowledgeService, McpService, PaintingService, ProvidersService, ReposService, SkillsService, SystemService, TasksService, TranslationService, UsageService, WebSearchService, _coercedNumber as _, isJSONRPCRequest as a, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, __toESM as b, any as c, cronMatches, literal as d, looseObject as f, url as g, string as h, isInitializedNotification as i, inject, array as l, object as m, JSONRPCMessageSchema as n, name, isJSONRPCResultResponse as o, number as p, LATEST_PROTOCOL_VERSION as r, ZodNumber as s, lib_exports as t, boolean as u, NEVER as v, __commonJSMin as y };
+export { DataService, FileProcessingService, KnowledgeService, LocalModelsService, McpService, PaintingService, ProvidersService, ReposService, SkillsService, SystemService, TasksService, TranslationService, UpdateService, UsageService, WebSearchService, _coercedNumber as _, isJSONRPCRequest as a, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, __toESM as b, any as c, cronMatches, literal as d, looseObject as f, url as g, string as h, isInitializedNotification as i, inject, array as l, object as m, JSONRPCMessageSchema as n, name, isJSONRPCResultResponse as o, number as p, LATEST_PROTOCOL_VERSION as r, ZodNumber as s, lib_exports as t, boolean as u, NEVER as v, __commonJSMin as y };

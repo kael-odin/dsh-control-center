@@ -30,6 +30,9 @@ import { SystemService } from './system.ts'
 import systemRemote from './system-remote-client.ts'
 import { TasksService } from './tasks.ts'
 import tasksRemote from './tasks-remote-client.ts'
+import { LocalModelsService } from './local-models.ts'
+import { UpdateService } from './update.ts'
+import { localModelsRemote, updateRemote } from './local-models-remote-client.ts'
 
 const ONBOARDING_SETTINGS_NAMESPACE = 'ui-onboarding'
 
@@ -62,6 +65,8 @@ export function apply(ctx: Context): void {
   new DataService(ctx)
   new SystemService(ctx)
   new TasksService(ctx)
+  new LocalModelsService(ctx)
+  new UpdateService(ctx)
   const contributions: readonly TypertContribution[] = [
     {
       package: '@dsh-control-center/control-center',
@@ -81,7 +86,9 @@ export function apply(ctx: Context): void {
         ...usageRemote.descriptors,
         ...dataRemote.descriptors,
         ...systemRemote.descriptors,
-        ...tasksRemote.descriptors
+        ...tasksRemote.descriptors,
+        ...localModelsRemote.descriptors,
+        ...updateRemote.descriptors
       ]
     }
   ]
@@ -121,5 +128,8 @@ export { SystemService } from './system.ts'
 export type * from './system-types.ts'
 export { TasksService, cronMatches } from './tasks.ts'
 export type * from './tasks-types.ts'
+export { LocalModelsService } from './local-models.ts'
+export { UpdateService } from './update.ts'
+export type * from './local-models-types.ts'
 export { assertSecretSchemaSafe, auditSecretSchema } from './secret-schema.ts'
 export type { SecretSchemaViolation } from './secret-schema.ts'
