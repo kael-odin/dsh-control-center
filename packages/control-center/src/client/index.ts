@@ -10,6 +10,10 @@ import type {} from '@deepseek-ai/dsh-client-locale/client'
 import type {} from '@deepseek-ai/dsh-api-remotes/client'
 import type {} from '../translation-types.ts'
 import translationRemote from '../translation-remote-client.ts'
+import type {} from '../painting-types.ts'
+import paintingRemote from '../painting-remote-client.ts'
+import { PaintingWorkspace } from './PaintingWorkspace.tsx'
+import type { PaintWorkspaceInjected } from './PaintingWorkspace.tsx'
 import { SettingsRoot } from './SettingsRoot.tsx'
 import type { SettingsOnboardingStep, SettingsRootInjected, SettingsSectionRow } from './shell-contract.ts'
 import { CloseLabel, HeaderContent, TriggerContent } from './chrome.tsx'
@@ -71,11 +75,28 @@ export function apply(ctx: ClientContext): void {
       return () => { window.clearInterval(timer) }
     },
   }
+  let painting: NonNullable<typeof remote.controlCenterPainting> | undefined
+  const paintingReadySource: HostObservable<boolean> = {
+    getSnapshot: () => painting !== undefined,
+    subscribe: (listener) => {
+      const timer = window.setInterval(() => {
+        if (painting === undefined) return
+        window.clearInterval(timer)
+        listener()
+      }, 25)
+      return () => { window.clearInterval(timer) }
+    },
+  }
   ctx.effect(async () => {
     const dispose = await remote.$mount(translationRemote)
     translation = ctx.get('remote.controlCenterTranslation') as NonNullable<typeof remote.controlCenterTranslation>
     return dispose
   }, 'control-center: translation Remote namespace')
+  ctx.effect(async () => {
+    const dispose = await remote.$mount(paintingRemote)
+    painting = ctx.get('remote.controlCenterPainting') as NonNullable<typeof remote.controlCenterPainting>
+    return dispose
+  }, 'control-center: painting Remote namespace')
   ctx.effect(() => ctx.locale.register(SHELL_NS, { zh: shellZh, en: shellEn }), 'control-center: shell dictionaries')
   ctx.effect(() => ctx.locale.register(MODELS_NS, { zh: modelsZh, en: modelsEn }), 'control-center: model dictionaries')
   const shellT = ctx.locale.bind(SHELL_NS)
@@ -229,6 +250,18 @@ export function apply(ctx: ClientContext): void {
           },
         }),
       }, TranslationWorkspace))
+    } else if (workspace.id === 'painting') {
+      ctx.slots.inject('application.surface', () => ctx.slots.register({
+        name: 'application.surface',
+        key: 'painting',
+        inject: (): PaintWorkspaceInjected => ({
+          getPainting: () => {
+            if (painting === undefined) throw new Error('painting Remote namespace is not mounted')
+            return painting
+          },
+          hooks: { paintingReady: paintingReadySource },
+        }),
+      }, PaintingWorkspace))
     } else {
       ctx.slots.inject('application.surface', () => ctx.slots.register({
         name: 'application.surface',

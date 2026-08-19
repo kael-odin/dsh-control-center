@@ -6,6 +6,8 @@ import { assertCompatibleDsh } from './compatibility.ts'
 import type { TypertContribution } from '@deepseek-ai/dsh-typert-registry'
 import TranslationService from './translation.ts'
 import translationRemote from './translation-remote-client.ts'
+import PaintingService from './painting.ts'
+import paintingRemote from './painting-remote-client.ts'
 
 const ONBOARDING_SETTINGS_NAMESPACE = 'ui-onboarding'
 
@@ -26,13 +28,24 @@ export const inject = ['typert']
 export function apply(ctx: Context): void {
   assertCompatibleDsh()
   new TranslationService(ctx)
-  ctx.typert.register({
-    package: '@dsh-control-center/control-center',
-    face: 'host',
-    schemas: [],
-    model: { services: [], events: [], objects: [] },
-    invocations: translationRemote.descriptors,
-  } satisfies TypertContribution)
+  new PaintingService(ctx)
+  const contributions: readonly TypertContribution[] = [
+    {
+      package: '@dsh-control-center/control-center',
+      face: 'host',
+      schemas: [],
+      model: { services: [], events: [], objects: [] },
+      invocations: translationRemote.descriptors,
+    },
+    {
+      package: '@dsh-control-center/control-center',
+      face: 'host',
+      schemas: [],
+      model: { services: [], events: [], objects: [] },
+      invocations: paintingRemote.descriptors,
+    },
+  ]
+  for (const contribution of contributions) ctx.typert.register(contribution)
   ctx.inject(['settings'], (settingsCtx) => {
     settingsCtx.settings.register(
       settingsNamespace(ONBOARDING_SETTINGS_NAMESPACE),
@@ -44,5 +57,7 @@ export function apply(ctx: Context): void {
 export { assertCompatibleDsh } from './compatibility.ts'
 export { TranslationService } from './translation.ts'
 export type * from './translation-types.ts'
+export { PaintingService } from './painting.ts'
+export type * from './painting-types.ts'
 export { assertSecretSchemaSafe, auditSecretSchema } from './secret-schema.ts'
 export type { SecretSchemaViolation } from './secret-schema.ts'

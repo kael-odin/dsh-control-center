@@ -1,4 +1,5 @@
 import { t as translationRemote } from "./translation-remote-client-DedbChWd.js";
+import { t as paintingRemote } from "./painting-remote-client-X1tWq7oF.js";
 import { createRequire } from "node:module";
 import z from "@deepseek-ai/schemastery";
 import { settingsNamespace } from "@deepseek-ai/dsh-settings";
@@ -7,6 +8,7 @@ import { randomUUID } from "node:crypto";
 import { Service } from "@deepseek-ai/cordis";
 import { ReasoningEffortId, createUserMessage } from "@deepseek-ai/dsh-llm";
 import { Remote, bindTypertRemote } from "@deepseek-ai/dsh-typert-protocol";
+import { getPath } from "@deepseek-ai/dsh-client-schema-form";
 //#region lib/types/compatibility.js
 /** DSH package versions and exports required by the first Control Center release. */
 const SUPPORTED_DSH_VERSION = "0.1.0-rc.7";
@@ -62,8 +64,8 @@ function assertCompatibleDsh(requireFrom = createRequire(import.meta.url)) {
 }
 //#endregion
 //#region lib/types/translation.js
-const MAX_TEXT_CHARS = 1e5;
-const MAX_HISTORY_PAGE = 100;
+const MAX_TEXT_CHARS$1 = 1e5;
+const MAX_HISTORY_PAGE$1 = 100;
 const BUILTIN_LANGUAGES = Object.freeze([
 	{
 		id: "auto",
@@ -106,12 +108,12 @@ const BUILTIN_LANGUAGES = Object.freeze([
 		builtin: true
 	}
 ]);
-function cloneJob(view) {
+function cloneJob$1(view) {
 	return structuredClone(view);
 }
 function assertText(text) {
 	if (typeof text !== "string" || text.trim().length === 0) throw new Error("translation text must not be blank");
-	if (text.length > MAX_TEXT_CHARS) throw new Error(`translation text exceeds ${MAX_TEXT_CHARS} characters`);
+	if (text.length > MAX_TEXT_CHARS$1) throw new Error(`translation text exceeds ${MAX_TEXT_CHARS$1} characters`);
 	return text;
 }
 function language(id, allowAuto) {
@@ -216,16 +218,16 @@ var TranslationService = class extends Service {
 	get(jobId) {
 		const job = this.jobs.get(jobId);
 		if (job === void 0) throw new Error(`unknown translation job "${jobId}"`);
-		return cloneJob(job.view);
+		return cloneJob$1(job.view);
 	}
 	cancel(jobId) {
 		const job = this.jobs.get(jobId);
 		if (job === void 0) throw new Error(`unknown translation job "${jobId}"`);
 		if (job.view.status === "running") job.controller.abort();
-		return cloneJob(job.view);
+		return cloneJob$1(job.view);
 	}
 	listHistory(cursor, limit) {
-		const bounded = Math.min(MAX_HISTORY_PAGE, Math.max(1, Math.trunc(limit)));
+		const bounded = Math.min(MAX_HISTORY_PAGE$1, Math.max(1, Math.trunc(limit)));
 		const ordered = [...this.history.values()].sort((left, right) => right.createdAt - left.createdAt);
 		const offset = cursor === null ? 0 : Number.parseInt(cursor, 10);
 		if (!Number.isSafeInteger(offset) || offset < 0) throw new Error("invalid translation history cursor");
@@ -314,6 +316,324 @@ var TranslationService = class extends Service {
 		} catch (error) {
 			job.view.status = job.controller.signal.aborted ? "cancelled" : "error";
 			if (job.view.status === "error") job.view.failure = failureOf(error);
+		} finally {
+			job.view.updatedAt = Date.now();
+		}
+	}
+};
+//#endregion
+//#region lib/types/painting.js
+const MAX_TEXT_CHARS = 2e4;
+const MAX_HISTORY_PAGE = 100;
+const DEFAULT_SAMPLES = 1;
+function markPaintingRemoteMethods(service) {
+	const initializers = [];
+	for (const [method, exportName] of [
+		["catalog", "catalog"],
+		["start", "start"],
+		["get", "get"],
+		["cancel", "cancel"],
+		["listHistory", "history"],
+		["deleteHistory", "deleteHistory"]
+	]) {
+		const implementation = Reflect.get(PaintingService.prototype, method);
+		Remote(exportName)(implementation, {
+			kind: "method",
+			name: method,
+			static: false,
+			private: false,
+			access: {
+				has: (value) => method in value,
+				get: (value) => Reflect.get(value, method)
+			},
+			addInitializer: (initializer) => {
+				initializers.push(initializer);
+			},
+			metadata: void 0
+		});
+	}
+	for (const initialize of initializers) initialize.call(service);
+}
+function cloneJob(view) {
+	return structuredClone(view);
+}
+function assertPrompt(prompt) {
+	const trimmed = typeof prompt === "string" ? prompt.trim() : "";
+	if (trimmed.length === 0) throw new Error("painting prompt must not be blank");
+	if (trimmed.length > MAX_TEXT_CHARS) throw new Error(`painting prompt exceeds ${MAX_TEXT_CHARS} characters`);
+	return trimmed;
+}
+function sampleCountOf(value) {
+	const n = typeof value === "number" ? value : Number(value);
+	if (!Number.isInteger(n) || n < 1 || n > 8) throw new Error("sampleCount must be an integer from 1 through 8");
+	return n;
+}
+function providerProfile(settings, ns, path) {
+	const view = settings.describe().find((candidate) => candidate.ns === ns);
+	const raw = view === void 0 ? void 0 : getPath(view.value, path);
+	return typeof raw === "object" && raw !== null ? raw : {};
+}
+/**
+* Resolve a configured provider's endpoint from settings through the same
+* authority the Models page reads.
+* @param settings - Host settings service.
+* @param llm - Host LLM service.
+* @param providerId - provider route key.
+* @returns resolved display name, endpoint, and settings identity.
+*/
+async function resolveProvider(settings, llm, providerId) {
+	const entry = llm.listConfigurableProviders().find((candidate) => candidate.provider === providerId);
+	if (entry === void 0) throw new Error(`provider "${providerId}" has no configurable route`);
+	const settingsNs = entry.settingsNs;
+	const settingsPath = [...entry.settingsPath];
+	const baseURLValue = providerProfile(settings, settingsNs, settingsPath).baseURL;
+	const baseURL = typeof baseURLValue === "string" && baseURLValue.trim().length > 0 ? baseURLValue.trim().replace(/\/$/, "") : void 0;
+	if (baseURL === void 0) throw new Error(`provider "${providerId}" has no endpoint configured`);
+	return {
+		name: entry.displayName,
+		baseURL,
+		settingsNs,
+		settingsPath
+	};
+}
+/**
+* Get the provider credential value through the DSH credentials authority.
+* @param settings - Host settings service.
+* @param credentials - Host credentials service.
+* @param providerId - provider route key (diagnostic only).
+* @param ns - provider settings namespace.
+* @param path - provider settings path.
+* @returns the resolved secret value, or '' when unconfigured.
+*/
+async function resolveKey(settings, credentials, providerId, ns, path) {
+	const refName = providerProfile(settings, ns, path).apiKeyEnv;
+	if (typeof refName !== "string" || refName.length === 0) return "";
+	const resolved = await credentials.resolve(refName);
+	if (resolved === void 0) throw new Error(`provider "${providerId}" has no credential configured for ${refName}`);
+	return resolved.value.trim();
+}
+/** Call an OpenAI-compatible `/images/generations` endpoint and decode returned images. */
+async function callImageGeneration(baseURL, apiKey, model, prompt, params, signal, onProgress) {
+	const payload = {
+		model,
+		prompt,
+		...params
+	};
+	onProgress(.2);
+	const response = await fetch(`${baseURL}/images/generations`, {
+		method: "POST",
+		headers: {
+			"content-type": "application/json",
+			...apiKey.length === 0 ? {} : { authorization: `Bearer ${apiKey}` }
+		},
+		body: JSON.stringify(payload),
+		signal
+	});
+	onProgress(.5);
+	if (!response.ok) {
+		const text = await response.text().catch(() => "");
+		throw new Error(`image generation failed (HTTP ${response.status}): ${text.slice(0, 300)}`);
+	}
+	const items = (await response.json()).data ?? [];
+	if (items.length === 0) throw new Error("image generation returned no images");
+	const images = [];
+	let fraction = .6;
+	for (const item of items) {
+		const fromB64 = typeof item.b64_json === "string" && item.b64_json.length > 0;
+		let bytes;
+		if (fromB64) bytes = Uint8Array.from(Buffer.from(item.b64_json, "base64"));
+		else {
+			const url = item.url;
+			if (typeof url !== "string" || url.length === 0) throw new Error("image generation returned an item with no data");
+			const fetched = await fetch(url, { signal });
+			if (!fetched.ok) throw new Error(`failed to download generated image (HTTP ${fetched.status})`);
+			bytes = new Uint8Array(await fetched.arrayBuffer());
+		}
+		const dimensions = detectDimensions(bytes);
+		images.push({
+			data: bytes,
+			mediaType: "image/png",
+			width: dimensions.width,
+			height: dimensions.height
+		});
+		fraction += .4 / items.length;
+		onProgress(Math.min(.95, fraction));
+	}
+	return images;
+}
+/** Heuristic PNG/JPEG dimension probe for the durable ref metadata. */
+function detectDimensions(bytes) {
+	if (bytes.length >= 24 && bytes[0] === 137 && bytes[1] === 80 && bytes[2] === 78 && bytes[3] === 71) {
+		const width = (bytes[16] ?? 0) << 24 | (bytes[17] ?? 0) << 16 | (bytes[18] ?? 0) << 8 | (bytes[19] ?? 0);
+		const height = (bytes[20] ?? 0) << 24 | (bytes[21] ?? 0) << 16 | (bytes[22] ?? 0) << 8 | (bytes[23] ?? 0);
+		return {
+			width: width > 0 ? width : 1024,
+			height: height > 0 ? height : 1024
+		};
+	}
+	if (bytes.length >= 8 && bytes[0] === 255 && bytes[1] === 216 && bytes[2] !== void 0) {
+		const width = (bytes[6] ?? 0) << 8 | (bytes[7] ?? 0);
+		const height = (bytes[4] ?? 0) << 8 | (bytes[5] ?? 0);
+		return {
+			width: width > 0 ? width : 1024,
+			height: height > 0 ? height : 1024
+		};
+	}
+	return {
+		width: 1024,
+		height: 1024
+	};
+}
+/** Real async image-generation jobs and durable gallery over DSH providers, credentials, and attachments. */
+var PaintingService = class extends Service {
+	static inject = [
+		"settings",
+		"credentials",
+		"llm",
+		"attachments"
+	];
+	typertRemote = bindTypertRemote(this, "controlCenterPainting");
+	jobs = /* @__PURE__ */ new Map();
+	history = /* @__PURE__ */ new Map();
+	accepting = true;
+	constructor(ctx) {
+		super(ctx, "controlCenterPainting");
+		markPaintingRemoteMethods(this);
+		ctx.effect(() => async () => {
+			this.accepting = false;
+			for (const job of this.jobs.values()) job.controller.abort();
+			await Promise.allSettled([...this.jobs.values()].map((job) => job.task));
+			this.jobs.clear();
+		}, "control-center.painting: settle jobs");
+	}
+	async catalog() {
+		const llm = this.ctx.get("llm");
+		const directory = llm.listConfigurableProviders();
+		const models = [];
+		for (const provider of directory) try {
+			const listed = await llm.listModels(provider.provider);
+			for (const model of listed) models.push({
+				providerId: provider.provider,
+				id: model.id,
+				label: model.name
+			});
+		} catch {}
+		return {
+			models,
+			errors: []
+		};
+	}
+	start(request) {
+		if (!this.accepting) throw new Error("painting service is stopping");
+		const resolved = {
+			providerId: (request.providerId ?? "").trim(),
+			model: (request.model ?? "").trim(),
+			prompt: assertPrompt(request.prompt),
+			params: request.params === void 0 ? {} : structuredClone(request.params),
+			sampleCount: sampleCountOf(request.sampleCount ?? DEFAULT_SAMPLES)
+		};
+		if (resolved.providerId.length === 0 || resolved.model.length === 0) throw new Error("painting provider and model are required");
+		const now = Date.now();
+		const jobId = `painting-${randomUUID()}`;
+		const controller = new AbortController();
+		const mutable = {
+			view: {
+				jobId,
+				status: "running",
+				providerId: resolved.providerId,
+				model: resolved.model,
+				prompt: resolved.prompt,
+				params: structuredClone(resolved.params),
+				sampleCount: resolved.sampleCount,
+				progress: 0,
+				createdImages: [],
+				createdAt: now,
+				updatedAt: now
+			},
+			controller,
+			task: Promise.resolve()
+		};
+		this.jobs.set(jobId, mutable);
+		mutable.task = this.run(mutable, resolved);
+		return { jobId };
+	}
+	get(jobId) {
+		const job = this.jobs.get(jobId);
+		if (job === void 0) throw new Error(`unknown painting job "${jobId}"`);
+		return cloneJob(job.view);
+	}
+	cancel(jobId) {
+		const job = this.jobs.get(jobId);
+		if (job === void 0) throw new Error(`unknown painting job "${jobId}"`);
+		if (job.view.status === "running") job.controller.abort();
+		return cloneJob(job.view);
+	}
+	listHistory(cursor, limit) {
+		const bounded = Math.min(MAX_HISTORY_PAGE, Math.max(1, Math.trunc(limit)));
+		const ordered = [...this.history.values()].sort((left, right) => right.createdAt - left.createdAt);
+		const offset = cursor === null ? 0 : Number.parseInt(cursor, 10);
+		if (!Number.isSafeInteger(offset) || offset < 0) throw new Error("invalid painting history cursor");
+		const items = ordered.slice(offset, offset + bounded).map((item) => structuredClone(item));
+		const next = offset + items.length;
+		return {
+			items,
+			...next < ordered.length ? { nextCursor: String(next) } : {}
+		};
+	}
+	deleteHistory(id) {
+		this.history.delete(id);
+		return { absent: true };
+	}
+	async run(job, request) {
+		try {
+			const settings = this.ctx.get("settings");
+			const credentials = this.ctx.get("credentials");
+			const llm = this.ctx.get("llm");
+			const attachments = this.ctx.get("attachments");
+			const provider = await resolveProvider(settings, llm, request.providerId);
+			const apiKey = await resolveKey(settings, credentials, request.providerId, provider.settingsNs, provider.settingsPath);
+			job.view.progress = .1;
+			const generated = await callImageGeneration(provider.baseURL, apiKey, request.model, request.prompt, request.params, job.controller.signal, (fraction) => {
+				job.view.progress = fraction;
+				job.view.updatedAt = Date.now();
+			});
+			if (job.controller.signal.aborted) {
+				job.view.status = "cancelled";
+				return;
+			}
+			const refs = [];
+			for (const image of generated.slice(0, request.sampleCount)) {
+				const ref = await attachments.saveImage({
+					data: image.data,
+					mediaType: image.mediaType,
+					name: `${request.model}.png`
+				});
+				refs.push({
+					attachmentId: ref.attachmentId,
+					mediaType: ref.mediaType,
+					bytes: ref.bytes,
+					width: ref.width,
+					height: ref.height,
+					dataUrl: `data:${ref.mediaType};base64,${Buffer.from(image.data).toString("base64")}`
+				});
+			}
+			job.view.progress = 1;
+			job.view.createdImages = refs;
+			job.view.status = "completed";
+			const id = `painting-history-${randomUUID()}`;
+			const item = {
+				id,
+				prompt: request.prompt,
+				model: request.model,
+				providerId: request.providerId,
+				images: structuredClone(refs),
+				createdAt: Date.now()
+			};
+			this.history.set(id, item);
+			job.view.historyId = id;
+		} catch (error) {
+			job.view.status = job.controller.signal.aborted ? "cancelled" : "error";
+			if (job.view.status === "error") job.view.error = error instanceof Error ? error.message : String(error);
 		} finally {
 			job.view.updatedAt = Date.now();
 		}
@@ -409,7 +729,8 @@ const inject = ["typert"];
 function apply(ctx) {
 	assertCompatibleDsh();
 	new TranslationService(ctx);
-	ctx.typert.register({
+	new PaintingService(ctx);
+	const contributions = [{
 		package: "@dsh-control-center/control-center",
 		face: "host",
 		schemas: [],
@@ -419,10 +740,21 @@ function apply(ctx) {
 			objects: []
 		},
 		invocations: translationRemote.descriptors
-	});
+	}, {
+		package: "@dsh-control-center/control-center",
+		face: "host",
+		schemas: [],
+		model: {
+			services: [],
+			events: [],
+			objects: []
+		},
+		invocations: paintingRemote.descriptors
+	}];
+	for (const contribution of contributions) ctx.typert.register(contribution);
 	ctx.inject(["settings"], (settingsCtx) => {
 		settingsCtx.settings.register(settingsNamespace(ONBOARDING_SETTINGS_NAMESPACE), OnboardingSettingsSchema);
 	});
 }
 //#endregion
-export { TranslationService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, inject, name };
+export { PaintingService, TranslationService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, inject, name };

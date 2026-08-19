@@ -8,6 +8,8 @@ export declare function apply(ctx: Context): void;
 export { assertCompatibleDsh } from './compatibility.ts';
 export { TranslationService } from './translation.ts';
 export type * from './translation-types.ts';
+export { PaintingService } from './painting.ts';
+export type * from './painting-types.ts';
 export { assertSecretSchemaSafe, auditSecretSchema } from './secret-schema.ts';
 export type { SecretSchemaViolation } from './secret-schema.ts';
 //# sourceMappingURL=index.d.ts.map
