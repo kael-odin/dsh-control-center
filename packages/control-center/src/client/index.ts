@@ -24,6 +24,10 @@ import { SkillsSection } from './SkillsSection.tsx'
 import type {} from '../provider-types.ts'
 import providersRemote from '../provider-remote-client.ts'
 import { ProvidersSection } from './ProvidersSection.tsx'
+import type {} from '../mcp-types.ts'
+import mcpRemote from '../mcp-remote-client.ts'
+import type {} from './mcp-remote-types.ts'
+import { McpSection } from './McpSection.tsx'
 import { SettingsRoot } from './SettingsRoot.tsx'
 import type { SettingsOnboardingStep, SettingsRootInjected, SettingsSectionRow } from './shell-contract.ts'
 import { CloseLabel, HeaderContent, TriggerContent } from './chrome.tsx'
@@ -111,6 +115,7 @@ export function apply(ctx: ClientContext): void {
   }
   let skills: NonNullable<typeof remote.controlCenterSkills> | undefined
   let providers: NonNullable<typeof remote.controlCenterProviders> | undefined
+  let mcp: NonNullable<typeof remote.controlCenterMcp> | undefined
   ctx.effect(async () => {
     // The client Remote registry keys contributions by package, so every
     // namespace must be mounted through one merged contribution.
@@ -121,7 +126,8 @@ export function apply(ctx: ClientContext): void {
         ...paintingRemote.descriptors,
         ...knowledgeRemote.descriptors,
         ...skillsRemote.descriptors,
-        ...providersRemote.descriptors
+        ...providersRemote.descriptors,
+        ...mcpRemote.descriptors
       ],
     }
     const dispose = await remote.$mount(controlCenterRemote)
@@ -130,6 +136,7 @@ export function apply(ctx: ClientContext): void {
     knowledge = ctx.get('remote.controlCenterKnowledge') as NonNullable<typeof remote.controlCenterKnowledge>
     skills = ctx.get('remote.controlCenterSkills') as NonNullable<typeof remote.controlCenterSkills>
     providers = ctx.get('remote.controlCenterProviders') as NonNullable<typeof remote.controlCenterProviders>
+    mcp = ctx.get('remote.controlCenterMcp') as NonNullable<typeof remote.controlCenterMcp>
     return dispose
   }, 'control-center: control-center Remote namespaces')
   ctx.effect(() => ctx.locale.register(SHELL_NS, { zh: shellZh, en: shellEn }), 'control-center: shell dictionaries')
@@ -222,6 +229,9 @@ export function apply(ctx: ClientContext): void {
   })
   const providersInjected = () => ({
     providers: providers!,
+  })
+  const mcpInjected = () => ({
+    mcp: mcp!,
   })
   const deepSeekOnboardingInjected = (): DeepSeekOnboardingInjected => ({
     controller: modelsController,
@@ -374,6 +384,13 @@ export function apply(ctx: ClientContext): void {
     label: () => shellT('providersNav'),
     inject: providersInjected,
   }, ProvidersSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'mcp',
+    order: 40,
+    label: () => 'MCP',
+    inject: mcpInjected,
+  }, McpSection))
   ctx.slots.inject('settings.onboarding', () => ctx.slots.register({
     name: 'settings.onboarding', id: 'welcome-notice', order: -100, inject: welcomeInjected,
   }, WelcomeNotice))

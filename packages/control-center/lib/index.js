@@ -2,7 +2,7 @@ import { n as STRICT_JSON, t as translationRemote } from "./translation-remote-c
 import { t as paintingRemote } from "./painting-remote-client-X1tWq7oF.js";
 import { t as knowledgeRemote } from "./knowledge-remote-client-M9c72Jol.js";
 import { createRequire } from "node:module";
-import z from "@deepseek-ai/schemastery";
+import Schema from "@deepseek-ai/schemastery";
 import { settingsNamespace } from "@deepseek-ai/dsh-settings";
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { createHash, randomUUID } from "node:crypto";
@@ -15,6 +15,8 @@ import { DatabaseSync } from "node:sqlite";
 import { basename, join, relative, resolve } from "node:path";
 import { resolveDshHome } from "@deepseek-ai/dsh-home-paths";
 import { defineTool } from "@deepseek-ai/dsh-tools";
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 //#region lib/types/compatibility.js
 /** DSH package versions and exports required by the first Control Center release. */
 const SUPPORTED_DSH_VERSION = "0.1.0-rc.7";
@@ -1873,6 +1875,438 @@ const skillsRemote = {
 	}))
 };
 //#endregion
+//#region lib/types/mcp.js
+const MCP_NAMESPACE = settingsNamespace("control-center-mcp");
+var McpService = class extends Service {
+	static inject = ["settings"];
+	typertRemote = bindTypertRemote(this, "controlCenterMcp");
+	scope;
+	runtimeStates = /* @__PURE__ */ new Map();
+	constructor(ctx) {
+		super(ctx, "control-center-mcp");
+		this.scope = ctx.settings.register(MCP_NAMESPACE, Schema.object({ servers: Schema.array(Schema.object({
+			id: Schema.string(),
+			name: Schema.string(),
+			type: Schema.union([
+				"stdio",
+				"sse",
+				"streamableHttp",
+				"inMemory"
+			]),
+			description: Schema.string(),
+			baseUrl: Schema.string(),
+			command: Schema.string(),
+			registryUrl: Schema.string(),
+			args: Schema.array(Schema.string()),
+			env: Schema.dict(Schema.string()),
+			headers: Schema.dict(Schema.string()),
+			provider: Schema.string(),
+			providerUrl: Schema.string(),
+			logoUrl: Schema.string(),
+			tags: Schema.array(Schema.string()),
+			longRunning: Schema.boolean(),
+			timeout: Schema.number(),
+			dxtVersion: Schema.string(),
+			dxtPath: Schema.string(),
+			reference: Schema.string(),
+			searchKey: Schema.string(),
+			disabledTools: Schema.array(Schema.string()),
+			disabledAutoApproveTools: Schema.array(Schema.string()),
+			shouldConfig: Schema.boolean(),
+			sortOrder: Schema.number(),
+			isActive: Schema.boolean(),
+			installSource: Schema.union([
+				"builtin",
+				"manual",
+				"protocol",
+				"unknown"
+			]),
+			isTrusted: Schema.boolean(),
+			trustedAt: Schema.number(),
+			installedAt: Schema.number(),
+			createdAt: Schema.string(),
+			updatedAt: Schema.string()
+		})).default([]) }), { base: { servers: [] } });
+	}
+	recordToView(record) {
+		const runtimeState = this.runtimeStates.get(record.id);
+		const state = record.isActive ? runtimeState?.state ?? "disabled" : "disabled";
+		const view = {
+			id: record.id,
+			name: record.name,
+			isActive: record.isActive,
+			createdAt: record.createdAt,
+			updatedAt: record.updatedAt,
+			runtimeState: state
+		};
+		if (record.type !== void 0) view.type = record.type;
+		if (record.description !== void 0) view.description = record.description;
+		if (record.baseUrl !== void 0) view.baseUrl = record.baseUrl;
+		if (record.command !== void 0) view.command = record.command;
+		if (record.registryUrl !== void 0) view.registryUrl = record.registryUrl;
+		if (record.args !== void 0) view.args = record.args;
+		if (record.env !== void 0) view.env = record.env;
+		if (record.headers !== void 0) view.headers = record.headers;
+		if (record.provider !== void 0) view.provider = record.provider;
+		if (record.providerUrl !== void 0) view.providerUrl = record.providerUrl;
+		if (record.logoUrl !== void 0) view.logoUrl = record.logoUrl;
+		if (record.tags !== void 0) view.tags = record.tags;
+		if (record.longRunning !== void 0) view.longRunning = record.longRunning;
+		if (record.timeout !== void 0) view.timeout = record.timeout;
+		if (record.disabledTools !== void 0) view.disabledTools = record.disabledTools;
+		if (record.sortOrder !== void 0) view.sortOrder = record.sortOrder;
+		if (record.installSource !== void 0) view.installSource = record.installSource;
+		if (record.isTrusted !== void 0) view.isTrusted = record.isTrusted;
+		if (runtimeState?.lastError !== void 0) view.lastError = runtimeState.lastError;
+		if (runtimeState?.version !== void 0) view.version = runtimeState.version;
+		return view;
+	}
+	async list() {
+		return this.scope.get().servers.sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999)).map((record) => this.recordToView(record));
+	}
+	async getById(params) {
+		const record = this.scope.get().servers.find((s) => s.id === params.serverId);
+		return record ? this.recordToView(record) : null;
+	}
+	async create(params) {
+		const { dto } = params;
+		const settings = this.scope.get();
+		const now = (/* @__PURE__ */ new Date()).toISOString();
+		const record = {
+			id: `mcp-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+			name: dto.name,
+			isActive: dto.isActive ?? false,
+			createdAt: now,
+			updatedAt: now
+		};
+		if (dto.type !== void 0) record.type = dto.type;
+		if (dto.description !== void 0) record.description = dto.description;
+		if (dto.baseUrl !== void 0) record.baseUrl = dto.baseUrl;
+		if (dto.command !== void 0) record.command = dto.command;
+		if (dto.args !== void 0) record.args = dto.args;
+		if (dto.env !== void 0) record.env = dto.env;
+		if (dto.headers !== void 0) record.headers = dto.headers;
+		if (dto.provider !== void 0) record.provider = dto.provider;
+		if (dto.providerUrl !== void 0) record.providerUrl = dto.providerUrl;
+		if (dto.logoUrl !== void 0) record.logoUrl = dto.logoUrl;
+		if (dto.tags !== void 0) record.tags = dto.tags;
+		if (dto.longRunning !== void 0) record.longRunning = dto.longRunning;
+		if (dto.timeout !== void 0) record.timeout = dto.timeout;
+		record.sortOrder = settings.servers.length;
+		record.installSource = dto.installSource ?? "manual";
+		if (dto.isTrusted !== void 0) record.isTrusted = dto.isTrusted;
+		record.installedAt = Date.now();
+		await this.ctx.settings.update(MCP_NAMESPACE, { servers: [...settings.servers, record] });
+		return this.recordToView(record);
+	}
+	async update(params) {
+		const { serverId, dto } = params;
+		const settings = this.scope.get();
+		const index = settings.servers.findIndex((s) => s.id === serverId);
+		if (index === -1) throw new Error(`MCP server not found: ${serverId}`);
+		const record = settings.servers[index];
+		const now = (/* @__PURE__ */ new Date()).toISOString();
+		const updated = {
+			...record,
+			name: dto.name ?? record.name,
+			isActive: dto.isActive ?? record.isActive,
+			updatedAt: now
+		};
+		if (dto.description !== void 0) updated.description = dto.description;
+		if (dto.baseUrl !== void 0) updated.baseUrl = dto.baseUrl;
+		if (dto.command !== void 0) updated.command = dto.command;
+		if (dto.args !== void 0) updated.args = dto.args;
+		if (dto.env !== void 0) updated.env = dto.env;
+		if (dto.headers !== void 0) updated.headers = dto.headers;
+		if (dto.longRunning !== void 0) updated.longRunning = dto.longRunning;
+		if (dto.timeout !== void 0) updated.timeout = dto.timeout;
+		if (dto.disabledTools !== void 0) updated.disabledTools = dto.disabledTools;
+		if (dto.isTrusted !== void 0) {
+			updated.isTrusted = dto.isTrusted;
+			if (dto.isTrusted && !record.isTrusted) updated.trustedAt = Date.now();
+		}
+		if (dto.isActive !== void 0 && dto.isActive !== record.isActive) {
+			if (dto.isActive) this.startServer(serverId).catch((err) => {
+				this.ctx.logger.error(`Failed to start MCP server ${serverId}:`, err);
+			});
+			else await this.stopServer({ serverId });
+		}
+		const updatedServers = [...settings.servers];
+		updatedServers[index] = updated;
+		await this.ctx.settings.update(MCP_NAMESPACE, { servers: updatedServers });
+		return this.recordToView(updated);
+	}
+	async delete(params) {
+		const { serverId } = params;
+		const settings = this.scope.get();
+		const record = settings.servers.find((s) => s.id === serverId);
+		if (!record) throw new Error(`MCP server not found: ${serverId}`);
+		if (record.isActive) await this.stopServer({ serverId });
+		await this.ctx.settings.update(MCP_NAMESPACE, { servers: settings.servers.filter((s) => s.id !== serverId) });
+	}
+	async reorder(params) {
+		const { serverIds } = params;
+		const updatedServers = this.scope.get().servers.map((server) => {
+			const newOrder = serverIds.indexOf(server.id);
+			return newOrder !== -1 ? {
+				...server,
+				sortOrder: newOrder
+			} : server;
+		});
+		await this.ctx.settings.update(MCP_NAMESPACE, { servers: updatedServers });
+	}
+	async startServer(serverId) {
+		const record = this.scope.get().servers.find((s) => s.id === serverId);
+		if (!record) throw new Error(`MCP server not found: ${serverId}`);
+		if (!record.isTrusted) throw new Error("Server must be trusted before starting");
+		this.runtimeStates.set(serverId, {
+			serverId,
+			state: "connecting",
+			connectedAt: (/* @__PURE__ */ new Date()).toISOString(),
+			logs: []
+		});
+		try {
+			let transport;
+			let client;
+			if (record.type === "stdio" || !record.type) {
+				if (!record.command) throw new Error("Command is required for stdio transport");
+				const args = record.args || [];
+				const env = record.env || {};
+				const processEnv = {};
+				for (const [key, value] of Object.entries({
+					...process.env,
+					...env
+				})) if (value !== void 0) processEnv[key] = value;
+				this.ctx.logger.info(`Starting MCP server via stdio`, {
+					serverId,
+					command: record.command,
+					args
+				});
+				transport = new StdioClientTransport({
+					command: record.command,
+					args,
+					env: processEnv,
+					stderr: "pipe"
+				});
+				const stderrStream = transport.stderr;
+				if (stderrStream && typeof stderrStream.on === "function") {
+					const decoder = new TextDecoder("utf-8", { fatal: false });
+					stderrStream.on("data", (data) => {
+						const msg = decoder.decode(data, { stream: true });
+						this.addServerLog(serverId, `[stderr] ${msg.trim()}`);
+					});
+				}
+				client = new Client({
+					name: "dsh-control-center",
+					version: "1.0.0"
+				}, { capabilities: {} });
+				const timeout = (record.timeout || 30) * 1e3;
+				await Promise.race([client.connect(transport), new Promise((_, reject) => setTimeout(() => reject(/* @__PURE__ */ new Error("Connection timeout")), timeout))]);
+				this.addServerLog(serverId, "Server connected");
+				const serverCapabilities = client.getServerCapabilities();
+				const capabilities = {};
+				if (serverCapabilities?.tools) try {
+					capabilities.tools = (await client.listTools()).tools.map((tool) => {
+						const mapped = {
+							name: tool.name,
+							inputSchema: tool.inputSchema
+						};
+						if (tool.description !== void 0) mapped.description = tool.description;
+						return mapped;
+					});
+				} catch (error) {
+					this.ctx.logger.warn(`Failed to list tools for ${serverId}`, error);
+				}
+				if (serverCapabilities?.prompts) try {
+					capabilities.prompts = (await client.listPrompts()).prompts.map((prompt) => {
+						const mapped = { name: prompt.name };
+						if (prompt.description !== void 0) mapped.description = prompt.description;
+						if (prompt.arguments !== void 0) mapped.arguments = prompt.arguments;
+						return mapped;
+					});
+				} catch (error) {
+					this.ctx.logger.warn(`Failed to list prompts for ${serverId}`, error);
+				}
+				if (serverCapabilities?.resources) try {
+					capabilities.resources = (await client.listResources()).resources.map((resource) => {
+						const mapped = {
+							uri: resource.uri,
+							name: resource.name
+						};
+						if (resource.description !== void 0) mapped.description = resource.description;
+						if (resource.mimeType !== void 0) mapped.mimeType = resource.mimeType;
+						return mapped;
+					});
+				} catch (error) {
+					this.ctx.logger.warn(`Failed to list resources for ${serverId}`, error);
+				}
+				this.runtimeStates.set(serverId, {
+					serverId,
+					state: "connected",
+					version: "1.0.0",
+					capabilities,
+					connectedAt: (/* @__PURE__ */ new Date()).toISOString(),
+					client,
+					transport,
+					logs: this.runtimeStates.get(serverId)?.logs || []
+				});
+				this.addServerLog(serverId, "Server activated");
+				this.ctx.logger.info(`MCP server ${serverId} connected successfully`);
+			} else throw new Error(`Transport type '${record.type}' not yet implemented`);
+		} catch (error) {
+			const errorMessage = error instanceof Error ? error.message : String(error);
+			this.addServerLog(serverId, `Error: ${errorMessage}`);
+			this.runtimeStates.set(serverId, {
+				serverId,
+				state: "error",
+				lastError: errorMessage,
+				logs: this.runtimeStates.get(serverId)?.logs || []
+			});
+			this.ctx.logger.error(`Failed to start MCP server ${serverId}`, error);
+			throw error;
+		}
+	}
+	async stopServer(params) {
+		const state = this.runtimeStates.get(params.serverId);
+		if (!state) return;
+		try {
+			if (state.client) {
+				await state.client.close();
+				this.addServerLog(params.serverId, "Server stopped");
+			}
+		} catch (error) {
+			this.ctx.logger.error(`Error stopping MCP server ${params.serverId}`, error);
+		} finally {
+			this.runtimeStates.delete(params.serverId);
+		}
+	}
+	async refreshTools(params) {
+		const state = this.runtimeStates.get(params.serverId);
+		if (!state || state.state !== "connected" || !state.client) throw new Error("Server must be connected to refresh tools");
+		try {
+			const client = state.client;
+			const serverCapabilities = client.getServerCapabilities();
+			const capabilities = {};
+			if (serverCapabilities?.tools) capabilities.tools = (await client.listTools()).tools.map((tool) => {
+				const mapped = {
+					name: tool.name,
+					inputSchema: tool.inputSchema
+				};
+				if (tool.description !== void 0) mapped.description = tool.description;
+				return mapped;
+			});
+			if (serverCapabilities?.prompts) capabilities.prompts = (await client.listPrompts()).prompts.map((prompt) => {
+				const mapped = { name: prompt.name };
+				if (prompt.description !== void 0) mapped.description = prompt.description;
+				if (prompt.arguments !== void 0) mapped.arguments = prompt.arguments;
+				return mapped;
+			});
+			if (serverCapabilities?.resources) capabilities.resources = (await client.listResources()).resources.map((resource) => {
+				const mapped = {
+					uri: resource.uri,
+					name: resource.name
+				};
+				if (resource.description !== void 0) mapped.description = resource.description;
+				if (resource.mimeType !== void 0) mapped.mimeType = resource.mimeType;
+				return mapped;
+			});
+			this.runtimeStates.set(params.serverId, {
+				...state,
+				capabilities
+			});
+			this.addServerLog(params.serverId, "Tools refreshed");
+			this.ctx.logger.info(`Refreshed tools for MCP server ${params.serverId}`);
+		} catch (error) {
+			this.ctx.logger.error(`Failed to refresh tools for ${params.serverId}`, error);
+			throw error;
+		}
+	}
+	async getServerLogs(params) {
+		const state = this.runtimeStates.get(params.serverId);
+		if (!state || !state.logs) return [];
+		const logs = state.logs;
+		const lineCount = params.lines || 100;
+		return logs.slice(-lineCount);
+	}
+	async getCapabilities(params) {
+		return this.runtimeStates.get(params.serverId)?.capabilities || null;
+	}
+	addServerLog(serverId, message) {
+		const state = this.runtimeStates.get(serverId);
+		if (!state) return;
+		const logLine = `[${(/* @__PURE__ */ new Date()).toISOString()}] ${message}`;
+		const logs = state.logs || [];
+		logs.push(logLine);
+		if (logs.length > 1e3) logs.shift();
+		this.runtimeStates.set(serverId, {
+			...state,
+			logs
+		});
+	}
+};
+//#endregion
+//#region lib/types/mcp-remote-client.js
+/** Client descriptor contribution for the Control Center MCP service. */
+const mcpRemote = {
+	package: "@dsh-control-center/control-center",
+	descriptors: [
+		{
+			method: "list",
+			parameters: []
+		},
+		{
+			method: "getById",
+			parameters: ["serverId"]
+		},
+		{
+			method: "create",
+			parameters: ["dto"]
+		},
+		{
+			method: "update",
+			parameters: ["serverId", "dto"]
+		},
+		{
+			method: "delete",
+			parameters: ["serverId"]
+		},
+		{
+			method: "reorder",
+			parameters: ["serverIds"]
+		},
+		{
+			method: "stopServer",
+			parameters: ["serverId"]
+		},
+		{
+			method: "refreshTools",
+			parameters: ["serverId"]
+		},
+		{
+			method: "getServerLogs",
+			parameters: ["serverId", "lines"]
+		},
+		{
+			method: "getCapabilities",
+			parameters: ["serverId"]
+		}
+	].map(({ method, implementation, parameters }) => ({
+		id: `@dsh-control-center/control-center#controlCenterMcp/${method}`,
+		service: "controlCenterMcp",
+		namespace: "controlCenterMcp",
+		method,
+		...implementation === void 0 ? {} : { implementation },
+		invocation: { kind: "direct" },
+		parameters: parameters.map((name) => ({
+			name,
+			wire: name,
+			source: "json",
+			codec: STRICT_JSON
+		})),
+		result: STRICT_JSON
+	}))
+};
+//#endregion
 //#region lib/types/secret-schema.js
 /** Fail-closed audit for settings schemas that contain secret-role nodes. */
 const SAFE_CONTAINERS = /* @__PURE__ */ new Set([
@@ -1954,7 +2388,7 @@ function assertSecretSchemaSafe(namespace, schema) {
 //#endregion
 //#region lib/types/index.js
 const ONBOARDING_SETTINGS_NAMESPACE = "ui-onboarding";
-const OnboardingSettingsSchema = z.object({ welcomeNoticeVersion: z.string() });
+const OnboardingSettingsSchema = Schema.object({ welcomeNoticeVersion: Schema.string() });
 /** Cordis plugin name. */
 const name = "dsh-control-center";
 const inject = ["typert"];
@@ -1965,6 +2399,7 @@ function apply(ctx) {
 	new PaintingService(ctx);
 	new KnowledgeService(ctx);
 	new SkillsService(ctx);
+	new McpService(ctx);
 	const contributions = [{
 		package: "@dsh-control-center/control-center",
 		face: "host",
@@ -1978,7 +2413,8 @@ function apply(ctx) {
 			...translationRemote.descriptors,
 			...paintingRemote.descriptors,
 			...knowledgeRemote.descriptors,
-			...skillsRemote.descriptors
+			...skillsRemote.descriptors,
+			...mcpRemote.descriptors
 		]
 	}];
 	for (const contribution of contributions) ctx.typert.register(contribution);
@@ -1987,4 +2423,4 @@ function apply(ctx) {
 	});
 }
 //#endregion
-export { KnowledgeService, PaintingService, SkillsService, TranslationService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, inject, name };
+export { KnowledgeService, McpService, PaintingService, SkillsService, TranslationService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, inject, name };

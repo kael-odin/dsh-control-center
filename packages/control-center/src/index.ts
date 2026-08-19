@@ -12,6 +12,8 @@ import KnowledgeService from './knowledge.ts'
 import knowledgeRemote from './knowledge-remote-client.ts'
 import { SkillsService } from './skills.ts'
 import skillsRemote from './skills-remote-client.ts'
+import { McpService } from './mcp.ts'
+import mcpRemote from './mcp-remote-client.ts'
 
 const ONBOARDING_SETTINGS_NAMESPACE = 'ui-onboarding'
 
@@ -35,6 +37,7 @@ export function apply(ctx: Context): void {
   new PaintingService(ctx)
   new KnowledgeService(ctx)
   new SkillsService(ctx)
+  new McpService(ctx)
   const contributions: readonly TypertContribution[] = [
     {
       package: '@dsh-control-center/control-center',
@@ -45,7 +48,8 @@ export function apply(ctx: Context): void {
         ...translationRemote.descriptors,
         ...paintingRemote.descriptors,
         ...knowledgeRemote.descriptors,
-        ...skillsRemote.descriptors
+        ...skillsRemote.descriptors,
+        ...mcpRemote.descriptors
       ]
     }
   ]
@@ -67,5 +71,7 @@ export { KnowledgeService } from './knowledge.ts'
 export type * from './knowledge-types.ts'
 export { SkillsService } from './skills.ts'
 export type * from './skills-types.ts'
+export { McpService } from './mcp.ts'
+export type * from './mcp-types.ts'
 export { assertSecretSchemaSafe, auditSecretSchema } from './secret-schema.ts'
 export type { SecretSchemaViolation } from './secret-schema.ts'
