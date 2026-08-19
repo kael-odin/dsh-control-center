@@ -1,5 +1,5 @@
-import { a as normalizeHeaders, i as createFetchWithInit, n as auth, o as createParser, r as extractWWWAuthenticateParams, t as UnauthorizedError } from "./auth-CKbq7qH5.js";
-import { a as isJSONRPCRequest, b as __toESM, i as isInitializedNotification, n as JSONRPCMessageSchema, o as isJSONRPCResultResponse, y as __commonJSMin } from "./lib-D-Xllk5k.js";
+import { a as normalizeHeaders, i as createFetchWithInit, n as auth, o as createParser, r as extractWWWAuthenticateParams, t as UnauthorizedError } from "./auth-qps3fSfV.js";
+import { a as isJSONRPCRequest, b as __toESM, i as isInitializedNotification, n as JSONRPCMessageSchema, o as isJSONRPCResultResponse, y as __commonJSMin } from "./lib-BHhTLXI8.js";
 /*!
 * content-type
 * Copyright(c) 2015 Douglas Christopher Wilson

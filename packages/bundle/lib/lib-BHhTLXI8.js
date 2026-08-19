@@ -22013,6 +22013,7 @@ function credentialRef(value) {
 //#endregion
 //#region packages/control-center/lib/index.js
 var lib_exports = /* @__PURE__ */ __exportAll({
+	DataService: () => DataService,
 	FileProcessingService: () => FileProcessingService,
 	KnowledgeService: () => KnowledgeService,
 	McpService: () => McpService,
@@ -22021,6 +22022,7 @@ var lib_exports = /* @__PURE__ */ __exportAll({
 	ReposService: () => ReposService,
 	SkillsService: () => SkillsService,
 	TranslationService: () => TranslationService,
+	UsageService: () => UsageService,
 	WebSearchService: () => WebSearchService,
 	apply: () => apply,
 	assertCompatibleDsh: () => assertCompatibleDsh,
@@ -22268,6 +22270,10 @@ var TranslationService = class extends Service {
 		if (job === void 0) throw new Error(`unknown translation job "${jobId}"`);
 		if (job.view.status === "running") job.controller.abort();
 		return cloneJob$1(job.view);
+	}
+	/** Total persisted history entries (for usage analytics). */
+	countHistory() {
+		return this.history.size;
 	}
 	listHistory(cursor, limit) {
 		const bounded = Math.min(MAX_HISTORY_PAGE$1, Math.max(1, Math.trunc(limit)));
@@ -24123,7 +24129,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-DXsb4HTs.js");
+				const { SSEClientTransport } = await import("./sse-D-ATMlHm.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -24145,7 +24151,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-BnKshrZw.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-C2OdDGUR.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -25618,6 +25624,180 @@ const fileProcessingRemote = {
 		result: STRICT_JSON
 	}))
 };
+/**
+* Usage Analytics Host service: aggregates Control Center service counts
+* into one overview (session-level analytics stay client-side, where the
+* DSH session store lives).
+*/
+var UsageService = class extends Service {
+	static inject = ["settings"];
+	typertRemote = bindTypertRemote(this, "controlCenterUsage");
+	constructor(ctx, _config) {
+		super(ctx, "controlCenterUsage");
+	}
+	async getOverview() {
+		const overview = {
+			providers: 0,
+			enabledModels: 0,
+			totalModels: 0,
+			repos: 0,
+			skills: 0,
+			mcpServers: 0,
+			mcpActive: 0,
+			translationHistory: 0,
+			knowledgeBases: 0,
+			knowledgeSources: 0,
+			collectedAt: (/* @__PURE__ */ new Date()).toISOString()
+		};
+		const providers = this.ctx.get("controlCenterProviders");
+		if (providers !== void 0) {
+			const list = await providers.list();
+			overview.providers = list.length;
+			for (const provider of list) {
+				const models = provider.models ?? [];
+				overview.totalModels += models.length;
+				overview.enabledModels += models.filter((model) => model.enabled).length;
+			}
+		}
+		const repos = this.ctx.get("controlCenterRepos");
+		if (repos !== void 0) overview.repos = (await repos.list()).length;
+		const skills = this.ctx.get("controlCenterSkills");
+		if (skills !== void 0) overview.skills = (await skills.list()).length;
+		const mcp = this.ctx.get("controlCenterMcp");
+		if (mcp !== void 0) {
+			const servers = await mcp.list();
+			overview.mcpServers = servers.length;
+			overview.mcpActive = servers.filter((server) => server.isActive).length;
+		}
+		const translation = this.ctx.get("controlCenterTranslation");
+		if (translation !== void 0) overview.translationHistory = translation.countHistory();
+		const knowledge = this.ctx.get("controlCenterKnowledge");
+		if (knowledge !== void 0) {
+			const bases = knowledge.listBases().bases;
+			overview.knowledgeBases = bases.length;
+			overview.knowledgeSources = bases.reduce((sum, base) => sum + (base.sourceCount ?? 0), 0);
+		}
+		return overview;
+	}
+	[Symbol.dispose]() {}
+};
+/** Client descriptor contribution for the Control Center usage service. */
+const usageRemote = {
+	package: "@dsh-control-center/control-center",
+	descriptors: [{
+		method: "getOverview",
+		parameters: []
+	}].map(({ method, parameters }) => ({
+		id: `@dsh-control-center/control-center#controlCenterUsage/${method}`,
+		service: "controlCenterUsage",
+		namespace: "controlCenterUsage",
+		method,
+		invocation: { kind: "direct" },
+		parameters: parameters.map((name) => ({
+			name,
+			wire: name,
+			source: "json",
+			codec: STRICT_JSON
+		})),
+		result: STRICT_JSON
+	}))
+};
+/**
+* Data management Host service: export / import / clear the Control Center
+* settings namespaces as one JSON snapshot (credentials stay in the DSH
+* credentials store and are never part of the export).
+*/
+const DATA_NAMESPACES = [
+	settingsNamespace("control-center-providers"),
+	settingsNamespace("control-center-repos"),
+	settingsNamespace("control-center-skills"),
+	settingsNamespace("control-center-mcp"),
+	settingsNamespace("control-center-websearch"),
+	settingsNamespace("control-center-file-processing")
+];
+var DataService = class extends Service {
+	static inject = ["settings"];
+	typertRemote = bindTypertRemote(this, "controlCenterData");
+	constructor(ctx, _config) {
+		super(ctx, "controlCenterData");
+	}
+	async exportControlCenter() {
+		const namespaces = {};
+		for (const ns of DATA_NAMESPACES) namespaces[ns] = this.ctx.settings.get(ns);
+		return {
+			version: 1,
+			exportedAt: (/* @__PURE__ */ new Date()).toISOString(),
+			namespaces
+		};
+	}
+	async importControlCenter(snapshot) {
+		if (snapshot?.version !== 1 || typeof snapshot.namespaces !== "object" || snapshot.namespaces === null) throw new Error("Invalid Control Center data snapshot");
+		for (const ns of DATA_NAMESPACES) {
+			const value = snapshot.namespaces[ns];
+			if (value !== void 0 && typeof value === "object" && value !== null) await this.ctx.settings.update(ns, value);
+		}
+		this.ctx.logger.info("Imported Control Center data snapshot", { namespaces: Object.keys(snapshot.namespaces).length });
+		return { absent: true };
+	}
+	/** Reset every Control Center settings namespace to its default. */
+	async clearControlCenter() {
+		for (const ns of DATA_NAMESPACES) await this.ctx.settings.update(ns, {});
+		this.ctx.logger.info("Cleared Control Center data");
+		return { absent: true };
+	}
+	/** Write the snapshot to a file (backup to a local path). */
+	async exportToFile(path) {
+		const snapshot = await this.exportControlCenter();
+		writeFileSync(path, JSON.stringify(snapshot, null, 2), "utf8");
+		return { absent: true };
+	}
+	/** Read a snapshot from a file and import it. */
+	async importFromFile(path) {
+		const raw = readFileSync(path, "utf8");
+		const snapshot = JSON.parse(raw);
+		return this.importControlCenter(snapshot);
+	}
+	[Symbol.dispose]() {}
+};
+/** Client descriptor contribution for the Control Center data service. */
+const dataRemote = {
+	package: "@dsh-control-center/control-center",
+	descriptors: [
+		{
+			method: "exportControlCenter",
+			parameters: []
+		},
+		{
+			method: "importControlCenter",
+			parameters: ["snapshot"]
+		},
+		{
+			method: "clearControlCenter",
+			parameters: []
+		},
+		{
+			method: "exportToFile",
+			parameters: ["path"]
+		},
+		{
+			method: "importFromFile",
+			parameters: ["path"]
+		}
+	].map(({ method, parameters }) => ({
+		id: `@dsh-control-center/control-center#controlCenterData/${method}`,
+		service: "controlCenterData",
+		namespace: "controlCenterData",
+		method,
+		invocation: { kind: "direct" },
+		parameters: parameters.map((name) => ({
+			name,
+			wire: name,
+			source: "json",
+			codec: STRICT_JSON
+		})),
+		result: STRICT_JSON
+	}))
+};
 /** Fail-closed audit for settings schemas that contain secret-role nodes. */
 const SAFE_CONTAINERS = /* @__PURE__ */ new Set([
 	"object",
@@ -25712,6 +25892,8 @@ function apply(ctx) {
 	new ProvidersService(ctx);
 	new ReposService(ctx);
 	new FileProcessingService(ctx);
+	new UsageService(ctx);
+	new DataService(ctx);
 	const contributions = [{
 		package: "@dsh-control-center/control-center",
 		face: "host",
@@ -25730,7 +25912,9 @@ function apply(ctx) {
 			...webSearchRemote.descriptors,
 			...providersRemote.descriptors,
 			...reposRemote.descriptors,
-			...fileProcessingRemote.descriptors
+			...fileProcessingRemote.descriptors,
+			...usageRemote.descriptors,
+			...dataRemote.descriptors
 		]
 	}];
 	for (const contribution of contributions) ctx.typert.register(contribution);
@@ -25739,4 +25923,4 @@ function apply(ctx) {
 	});
 }
 //#endregion
-export { FileProcessingService, KnowledgeService, McpService, PaintingService, ProvidersService, ReposService, SkillsService, TranslationService, WebSearchService, _coercedNumber as _, isJSONRPCRequest as a, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, __toESM as b, any as c, literal as d, looseObject as f, url as g, string as h, isInitializedNotification as i, inject, array as l, object as m, JSONRPCMessageSchema as n, name, isJSONRPCResultResponse as o, number as p, LATEST_PROTOCOL_VERSION as r, ZodNumber as s, lib_exports as t, boolean as u, NEVER as v, __commonJSMin as y };
+export { DataService, FileProcessingService, KnowledgeService, McpService, PaintingService, ProvidersService, ReposService, SkillsService, TranslationService, UsageService, WebSearchService, _coercedNumber as _, isJSONRPCRequest as a, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, __toESM as b, any as c, literal as d, looseObject as f, url as g, string as h, isInitializedNotification as i, inject, array as l, object as m, JSONRPCMessageSchema as n, name, isJSONRPCResultResponse as o, number as p, LATEST_PROTOCOL_VERSION as r, ZodNumber as s, lib_exports as t, boolean as u, NEVER as v, __commonJSMin as y };

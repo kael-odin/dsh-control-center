@@ -28,6 +28,8 @@ export declare const en: {
     ocrNav: string;
     ocrTitle: string;
     ocrDescription: string;
+    usageNav: string;
+    dataNav: string;
 };
 export type SettingsKey = keyof typeof en;
 export declare const zh: {

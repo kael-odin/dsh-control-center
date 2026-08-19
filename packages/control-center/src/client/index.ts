@@ -38,6 +38,14 @@ import type { RepoWorkspaceInjected } from './RepoWorkspace.tsx'
 import type {} from '../file-processing-types.ts'
 import fileProcessingRemote from '../file-processing-remote-client.ts'
 import { ProcessorSection } from './ProcessorSection.tsx'
+import type {} from '../usage-types.ts'
+import usageRemote from '../usage-remote-client.ts'
+import { UsageSection } from './UsageSection.tsx'
+import type { UsageSectionInjected } from './UsageSection.tsx'
+import type {} from '../data-types.ts'
+import dataRemote from '../data-remote-client.ts'
+import { DataSection } from './DataSection.tsx'
+import type { DataSectionInjected } from './DataSection.tsx'
 import { SettingsRoot } from './SettingsRoot.tsx'
 import type { SettingsOnboardingStep, SettingsRootInjected, SettingsSectionRow } from './shell-contract.ts'
 import { CloseLabel, HeaderContent, TriggerContent } from './chrome.tsx'
@@ -75,6 +83,7 @@ function groupOf(id: string): SettingsSectionRow['group'] {
   if (id === 'models') return 'core'
   if (id === 'general') return 'personal'
   if (id === 'skills' || id === 'providers' || id === 'mcp' || id === 'websearch' || id === 'file-processing' || id === 'ocr') return 'capabilities'
+  if (id === 'usage' || id === 'data') return 'personal'
   if (KNOWN_NATIVE.has(id)) return 'native'
   return 'other'
 }
@@ -133,6 +142,30 @@ export function apply(ctx: ClientContext): void {
   let websearch: NonNullable<typeof remote.controlCenterWebSearch> | undefined
   let repos: NonNullable<typeof remote.controlCenterRepos> | undefined
   let fileProcessing: NonNullable<typeof remote.controlCenterFileProcessing> | undefined
+  let usage: NonNullable<typeof remote.controlCenterUsage> | undefined
+  let data: NonNullable<typeof remote.controlCenterData> | undefined
+  const usageReadySource: HostObservable<boolean> = {
+    getSnapshot: () => usage !== undefined,
+    subscribe: (listener) => {
+      const timer = window.setInterval(() => {
+        if (usage === undefined) return
+        window.clearInterval(timer)
+        listener()
+      }, 25)
+      return () => { window.clearInterval(timer) }
+    },
+  }
+  const dataReadySource: HostObservable<boolean> = {
+    getSnapshot: () => data !== undefined,
+    subscribe: (listener) => {
+      const timer = window.setInterval(() => {
+        if (data === undefined) return
+        window.clearInterval(timer)
+        listener()
+      }, 25)
+      return () => { window.clearInterval(timer) }
+    },
+  }
   const reposReadySource: HostObservable<boolean> = {
     getSnapshot: () => repos !== undefined,
     subscribe: (listener) => {
@@ -158,7 +191,9 @@ export function apply(ctx: ClientContext): void {
         ...mcpRemote.descriptors,
         ...websearchRemote.descriptors,
         ...reposRemote.descriptors,
-        ...fileProcessingRemote.descriptors
+        ...fileProcessingRemote.descriptors,
+        ...usageRemote.descriptors,
+        ...dataRemote.descriptors
       ],
     }
     const dispose = await remote.$mount(controlCenterRemote)
@@ -171,6 +206,8 @@ export function apply(ctx: ClientContext): void {
     websearch = ctx.get('remote.controlCenterWebSearch') as NonNullable<typeof remote.controlCenterWebSearch>
     repos = ctx.get('remote.controlCenterRepos') as NonNullable<typeof remote.controlCenterRepos>
     fileProcessing = ctx.get('remote.controlCenterFileProcessing') as NonNullable<typeof remote.controlCenterFileProcessing>
+    usage = ctx.get('remote.controlCenterUsage') as NonNullable<typeof remote.controlCenterUsage>
+    data = ctx.get('remote.controlCenterData') as NonNullable<typeof remote.controlCenterData>
     return dispose
   }, 'control-center: control-center Remote namespaces')
   ctx.effect(() => ctx.locale.register(SHELL_NS, { zh: shellZh, en: shellEn }), 'control-center: shell dictionaries')
@@ -474,6 +511,32 @@ export function apply(ctx: ClientContext): void {
       service: fileProcessing!,
     }),
   }, ProcessorSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'usage',
+    order: 70,
+    label: () => shellT('usageNav'),
+    inject: (): UsageSectionInjected => ({
+      getUsage: () => {
+        if (usage === undefined) throw new Error('usage Remote namespace is not mounted')
+        return usage
+      },
+      hooks: { usageReady: usageReadySource },
+    }),
+  }, UsageSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'data',
+    order: 80,
+    label: () => shellT('dataNav'),
+    inject: (): DataSectionInjected => ({
+      getData: () => {
+        if (data === undefined) throw new Error('data Remote namespace is not mounted')
+        return data
+      },
+      hooks: { dataReady: dataReadySource },
+    }),
+  }, DataSection))
   ctx.slots.inject('settings.onboarding', () => ctx.slots.register({
     name: 'settings.onboarding', id: 'welcome-notice', order: -100, inject: welcomeInjected,
   }, WelcomeNotice))

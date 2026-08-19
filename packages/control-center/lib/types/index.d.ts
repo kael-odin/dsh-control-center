@@ -24,6 +24,10 @@ export { ReposService } from './repos.ts';
 export type * from './repo-types.ts';
 export { FileProcessingService } from './file-processing.ts';
 export type * from './file-processing-types.ts';
+export { UsageService } from './usage.ts';
+export type * from './usage-types.ts';
+export { DataService } from './data.ts';
+export type * from './data-types.ts';
 export { assertSecretSchemaSafe, auditSecretSchema } from './secret-schema.ts';
 export type { SecretSchemaViolation } from './secret-schema.ts';
 //# sourceMappingURL=index.d.ts.map

@@ -146,6 +146,11 @@ export class TranslationService extends Service {
     return cloneJob(job.view)
   }
 
+  /** Total persisted history entries (for usage analytics). */
+  countHistory(): number {
+    return this.history.size
+  }
+
   listHistory(cursor: string | null, limit: number): TranslationHistoryPage {
     const bounded = Math.min(MAX_HISTORY_PAGE, Math.max(1, Math.trunc(limit)))
     const ordered = [...this.history.values()].sort((left, right) => right.createdAt - left.createdAt)

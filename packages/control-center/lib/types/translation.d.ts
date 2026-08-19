@@ -21,6 +21,8 @@ export declare class TranslationService extends Service {
     start(request: TranslationRequest): TranslationStartResult;
     get(jobId: string): TranslationJobView;
     cancel(jobId: string): TranslationJobView;
+    /** Total persisted history entries (for usage analytics). */
+    countHistory(): number;
     listHistory(cursor: string | null, limit: number): TranslationHistoryPage;
     deleteHistory(id: TranslationHistoryId): {
         absent: true;
