@@ -47,6 +47,7 @@ interface McpServerRuntimeState {
   client?: Client
   transport?: Transport
   logs?: string[]
+  registeredToolNames?: string[]
 }
 
 export class McpService extends Service {
@@ -377,6 +378,7 @@ export class McpService extends Service {
             // Register tools with DSH tool registry on startup
             const disabledTools = record.disabledTools || []
             const toolService = this.ctx.get('tools', false)
+            const registeredToolNames: string[] = []
 
             if (toolService) {
               for (const tool of capabilities.tools) {
@@ -404,6 +406,7 @@ export class McpService extends Service {
                   }
                 })
 
+                registeredToolNames.push(toolName)
                 this.addServerLog(serverId, `Registered tool: ${tool.name}`)
               }
             }
@@ -452,6 +455,7 @@ export class McpService extends Service {
           client,
           transport,
           logs: this.runtimeStates.get(serverId)?.logs || [],
+          registeredToolNames,
         })
 
         this.addServerLog(serverId, 'Server activated')
@@ -480,6 +484,19 @@ export class McpService extends Service {
     }
 
     try {
+      // Unregister tools from DSH tool registry
+      const toolService = this.ctx.get('tools', false)
+      if (toolService && state.registeredToolNames) {
+        for (const toolName of state.registeredToolNames) {
+          try {
+            toolService.unregister(toolName)
+            this.addServerLog(params.serverId, `Unregistered tool: ${toolName}`)
+          } catch (error) {
+            this.ctx.logger.warn(`Failed to unregister tool ${toolName}`, error)
+          }
+        }
+      }
+
       if (state.client) {
         await state.client.close()
         this.addServerLog(params.serverId, 'Server stopped')
@@ -502,6 +519,21 @@ export class McpService extends Service {
       const serverCapabilities = client.getServerCapabilities()
       const capabilities: McpServerCapabilities = {}
 
+      // Unregister old tools first
+      const toolService = this.ctx.get('tools', false)
+      if (toolService && state.registeredToolNames) {
+        for (const toolName of state.registeredToolNames) {
+          try {
+            toolService.unregister(toolName)
+            this.addServerLog(params.serverId, `Unregistered old tool: ${toolName}`)
+          } catch (error) {
+            this.ctx.logger.warn(`Failed to unregister tool ${toolName}`, error)
+          }
+        }
+      }
+
+      const registeredToolNames: string[] = []
+
       // Fetch tools if available
       if (serverCapabilities?.tools) {
         const toolsResult = await client.listTools()
@@ -516,7 +548,6 @@ export class McpService extends Service {
         const serverRecord = settings.servers.find(s => s.id === params.serverId)
         const disabledTools = serverRecord?.disabledTools || []
 
-        const toolService = this.ctx.get('tools', false)
         if (toolService) {
           for (const tool of capabilities.tools) {
             // Skip disabled tools
@@ -544,6 +575,7 @@ export class McpService extends Service {
               }
             })
 
+            registeredToolNames.push(toolName)
             this.addServerLog(params.serverId, `Registered tool: ${tool.name}`)
           }
         } else {
@@ -577,6 +609,7 @@ export class McpService extends Service {
       this.runtimeStates.set(params.serverId, {
         ...state,
         capabilities,
+        registeredToolNames,
       })
 
       this.addServerLog(params.serverId, 'Tools refreshed')
