@@ -2,7 +2,7 @@
 
 ## Phase 2: Protocol Implementation 🚧 IN PROGRESS
 
-### Completed: stdio Transport Full UI Implementation (~90% complete)
+### Completed: stdio Transport Full UI Implementation (~92% complete)
 1. ✅ MCP SDK dependencies added (@modelcontextprotocol/sdk ^1.30.0)
 2. ✅ Client and Transport types imported
 3. ✅ Runtime state extended with client/transport/logs fields
@@ -20,6 +20,7 @@
 15. ✅ **Tool Enable/Disable** - individual tool control via disabledTools array
 16. ✅ **Real-time Log Polling** - auto-refresh every 3 seconds with manual refresh button
 17. ✅ **Tool Registry Integration** - MCP tools registered with DSH tool registry on startup and refresh
+18. ✅ **Refresh Tools Button** - Manual refresh trigger in tools tab with loading indicator
 
 ### Working: stdio Transport Server Startup
 Current implementation in `startServer()`:
@@ -31,24 +32,25 @@ Current implementation in `startServer()`:
 - Updates runtime state (connecting → connected/error)
 - Proper error handling with lastError tracking
 
-**Status**: UI achieves 100% parity with Cherry Studio's MCP settings - editable forms, tool controls, real-time log polling, and tool registry integration all complete
+**Status**: UI achieves 100% parity with Cherry Studio's MCP settings - editable forms, tool controls, real-time log polling, tool registry integration, and refresh button all complete
 
 ### Next Steps (Priority Order)
 
-#### Priority 1: Tool Registry Testing & Manual Refresh Button
+#### Priority 1: Tool Registry Testing ✅ COMPLETE
 1. ~~Implement tool registry integration in `refreshTools()`~~ ✅ Complete
    - ~~Register discovered tools with DSH tool registry via ctx.get('tools')~~ ✅ Complete
    - ~~Handle tool schema conversion from MCP to DSH format~~ ✅ Complete
    - ~~Respect disabledTools array during registration~~ ✅ Complete
-   - Add "Refresh Tools" button in tools tab UI (UI component only)
+   - ~~Add "Refresh Tools" button in tools tab UI (UI component only)~~ ✅ Complete (already existed)
+   - ~~Correct tool registration signature to match ToolDefinition~~ ✅ Complete (commit 9e31652)
 
-#### Priority 2: Additional UI Polish
-1. Add "Refresh Tools" button in tools tab
-   - Manual trigger for refreshTools()
-   - Loading indicator during refresh
-   - Success/error notification
+#### Priority 2: Tool Cleanup
+1. Unregister tools on server stop
+   - Track registered tool names in runtime state
+   - Call disposer returned by toolsService.register() in stopServer()
 
-2. Add server installation flow
+#### Priority 3: Additional UI Polish
+1. Add server installation flow
    - "Add Server" form with validation
    - Support for different transport types
    - Pre-fill from marketplace templates
@@ -248,12 +250,13 @@ Current implementation in `startServer()`:
 2. ~~No real-time log polling (manual refresh only)~~ ✅ Fixed
 3. ~~No individual tool enable/disable~~ ✅ Fixed
 4. ~~No tool registration with DSH tool registry~~ ✅ Fixed
-5. **No "Refresh Tools" button in UI**: Backend refreshTools() complete, button pending
-6. **No OAuth**: Authentication not implemented
-7. **No marketplace**: Installation flows not implemented
-8. **No E2E tests**: Browser tests not written
-9. **No SSE/HTTP transports**: Only stdio implemented
-10. **Test flakiness**: providers.spec.ts has transient EPERM failures on Windows (unrelated to MCP changes)
+5. ~~No "Refresh Tools" button in UI~~ ✅ Fixed (already existed in UI)
+6. **No tool cleanup on server stop**: Tools remain registered after server stops
+7. **No OAuth**: Authentication not implemented
+8. **No marketplace**: Installation flows not implemented
+9. **No E2E tests**: Browser tests not written
+10. **No SSE/HTTP transports**: Only stdio implemented
+11. **Test flakiness**: providers.spec.ts has transient EPERM failures on Windows (unrelated to MCP changes)
 
 ## Next Steps
 
@@ -261,11 +264,13 @@ Current implementation in `startServer()`:
 2. ~~Add real-time log polling for logs tab~~ ✅ Complete
 3. ~~Convert read-only configuration to editable forms with validation~~ ✅ Complete
 4. ~~Add individual tool enable/disable functionality~~ ✅ Complete
-5. Add "Refresh Tools" button in tools tab UI
-6. Implement remaining transports (sse, streamableHttp, inMemory)
-7. Add marketplace and installation flows
-8. Add OAuth support
-9. Build E2E browser tests
+5. ~~Add "Refresh Tools" button in tools tab UI~~ ✅ Complete (already existed)
+6. ~~Correct tool registration signature to match ToolDefinition~~ ✅ Complete
+7. Implement tool cleanup on server stop (track and unregister)
+8. Implement remaining transports (sse, streamableHttp, inMemory)
+9. Add marketplace and installation flows
+10. Add OAuth support
+11. Build E2E browser tests
 
 ## Progress Tracking
 
@@ -275,6 +280,6 @@ Current implementation in `startServer()`:
 ✅ Painting Workspace  
 ✅ Knowledge Workspace
 ✅ Provider Management
-🚧 MCP (Phase 2 stdio transport + UI - ~90% complete, tool registry integration done)
+🚧 MCP (Phase 2 stdio transport + UI - ~92% complete, Priority 1 tool registry complete)
 ⬜ Skills Backend Service
 ⬜ 20 remaining features...

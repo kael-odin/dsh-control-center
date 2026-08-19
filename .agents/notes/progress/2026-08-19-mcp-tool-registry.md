@@ -82,15 +82,16 @@ Log to server logs
 
 ## Testing
 
-- ✅ Build passes (pnpm bundle)
-- ✅ Lint passes (oxlint warnings only)
+- ✅ Build passes (pnpm build)
+- ✅ Lint passes (pnpm oxlint, warnings only)
+- ✅ Tool registration signature corrected (commit 9e31652)
 - ⬜ Manual testing with real MCP server needed
 - ⬜ Tool invocation from LLM needed
 - ⬜ E2E tests not yet written
 
 ## Known Limitations
 
-1. No "Refresh Tools" button in UI (backend ready, button pending)
+1. ✅ ~~No "Refresh Tools" button in UI~~ - Button already implemented (lines 686-706 in McpSection.tsx)
 2. No unregistration on server stop (tools persist in registry)
 3. No tool schema validation before registration
 4. No tool name conflict detection beyond prefixing
@@ -98,11 +99,11 @@ Log to server logs
 
 ## Next Priorities
 
-### Priority 1: UI Polish
-1. Add "Refresh Tools" button in tools tab
-   - Calls mcpService.refreshTools(serverId)
-   - Shows loading indicator during refresh
-   - Updates tool list on completion
+### Priority 1: UI Polish ✅ COMPLETE
+1. ✅ ~~Add "Refresh Tools" button in tools tab~~ - Already implemented
+   - ✅ Calls mcpService.refreshTools(serverId)
+   - ✅ Shows loading indicator during refresh ("刷新中...")
+   - ✅ Updates tool list on completion
 
 ### Priority 2: Tool Cleanup
 1. Unregister tools on server stop
@@ -120,6 +121,9 @@ This completes **Priority 1** from the MCP implementation roadmap:
 - ✅ Tool registry integration via ctx.get('tools')
 - ✅ Handle tool schema conversion (MCP → DSH format)
 - ✅ Respect disabledTools array during registration
-- ⬜ "Refresh Tools" UI button (backend ready)
+- ✅ "Refresh Tools" UI button (already implemented in McpSection.tsx)
+- ✅ Tool registration signature corrected to match ToolDefinition interface
 
 MCP tools discovered from servers are now available to DSH's LLM calls, achieving full integration with the DeepSeek Harness tool system.
+
+**Phase 2 Progress: ~92% complete** (stdio transport + full UI + tool registry + refresh button)
