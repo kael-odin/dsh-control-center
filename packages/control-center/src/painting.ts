@@ -5,8 +5,9 @@ import type { SettingsProvider } from '@deepseek-ai/dsh-settings'
 import type { CredentialProvider } from '@deepseek-ai/dsh-credentials'
 import type { AttachmentStore } from '@deepseek-ai/dsh-attachment'
 import type { LlmRuntime } from '@deepseek-ai/dsh-llm'
-import { getPath } from '@deepseek-ai/dsh-client-schema-form'
-import { bindTypertRemote, Remote } from '@deepseek-ai/dsh-typert-protocol'
+import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
+import { markRemoteMethods } from './knowledge/remote-methods.ts'
+import { resolveKey, resolveProvider } from './knowledge/provider-resolve.ts'
 import type {
   PaintingCatalogModel, PaintingCatalogView, PaintingHistoryId, PaintingHistoryItem, PaintingHistoryPage,
   PaintingImageRef, PaintingJobView, PaintingRequest, PaintingStartResult,
@@ -15,24 +16,6 @@ import type {
 const MAX_TEXT_CHARS = 20_000
 const MAX_HISTORY_PAGE = 100
 const DEFAULT_SAMPLES = 1
-
-function markPaintingRemoteMethods(service: PaintingService): void {
-  const initializers: Array<(this: PaintingService) => void> = []
-  for (const [method, exportName] of [
-    ['catalog', 'catalog'], ['start', 'start'], ['get', 'get'], ['cancel', 'cancel'],
-    ['listHistory', 'history'], ['deleteHistory', 'deleteHistory'],
-  ] as const) {
-    const implementation = Reflect.get(PaintingService.prototype, method) as (this: PaintingService, ...args: never[]) => unknown
-    const decorator = Remote(exportName as never)
-    decorator(implementation, {
-      kind: 'method', name: method, static: false, private: false,
-      access: { has: value => method in value, get: value => Reflect.get(value, method) as never },
-      addInitializer: initializer => { initializers.push(initializer) },
-      metadata: undefined,
-    })
-  }
-  for (const initialize of initializers) initialize.call(service)
-}
 
 interface MutableJob {
   view: PaintingJobView
@@ -55,75 +38,6 @@ function sampleCountOf(value: unknown): number {
   const n = typeof value === 'number' ? value : Number(value)
   if (!Number.isInteger(n) || n < 1 || n > 8) throw new Error('sampleCount must be an integer from 1 through 8')
   return n
-}
-
-/**
- * Resolve a configured provider's endpoint from settings through the same
- * authority the Models page reads.
- * @param settings - Host settings service.
- * @param llm - Host LLM service.
- * @param providerId - provider route key.
- * @returns resolved display name, endpoint, and settings identity.
- */
-/** Provider profile value: a plain object with optional endpoint and key-ref. */
-interface PaintingProviderProfile {
-  baseURL?: unknown
-  apiKeyEnv?: unknown
-}
-
-function providerProfile(settings: SettingsProvider, ns: string, path: readonly string[]): PaintingProviderProfile {
-  const view = settings.describe().find(candidate => candidate.ns === ns)
-  const raw = view === undefined ? undefined : getPath(view.value, path)
-  return (typeof raw === 'object' && raw !== null ? raw : {}) as PaintingProviderProfile
-}
-
-/**
- * Resolve a configured provider's endpoint from settings through the same
- * authority the Models page reads.
- * @param settings - Host settings service.
- * @param llm - Host LLM service.
- * @param providerId - provider route key.
- * @returns resolved display name, endpoint, and settings identity.
- */
-async function resolveProvider(
-  settings: SettingsProvider,
-  llm: LlmRuntime,
-  providerId: string,
-): Promise<{ name: string; baseURL: string; settingsNs: string; settingsPath: readonly string[] }> {
-  const directory = llm.listConfigurableProviders()
-  const entry = directory.find(candidate => candidate.provider === providerId)
-  if (entry === undefined) throw new Error(`provider "${providerId}" has no configurable route`)
-  const settingsNs = entry.settingsNs
-  const settingsPath = [...entry.settingsPath]
-  const baseURLValue = providerProfile(settings, settingsNs, settingsPath).baseURL
-  const baseURL = typeof baseURLValue === 'string' && baseURLValue.trim().length > 0
-    ? baseURLValue.trim().replace(/\/$/, '')
-    : undefined
-  if (baseURL === undefined) throw new Error(`provider "${providerId}" has no endpoint configured`)
-  return { name: entry.displayName, baseURL, settingsNs, settingsPath }
-}
-
-/**
- * Get the provider credential value through the DSH credentials authority.
- * @param settings - Host settings service.
- * @param credentials - Host credentials service.
- * @param providerId - provider route key (diagnostic only).
- * @param ns - provider settings namespace.
- * @param path - provider settings path.
- * @returns the resolved secret value, or '' when unconfigured.
- */
-async function resolveKey(
-  settings: SettingsProvider,
-  credentials: CredentialProvider,
-  providerId: string,
-  ns: string,
-  path: readonly string[],
-): Promise<string> {
-  const refName = providerProfile(settings, ns, path).apiKeyEnv
-  if (typeof refName !== 'string' || refName.length === 0) return ''
-  const resolved = await credentials.resolve(refName as never)
-  if (resolved === undefined) throw new Error(`provider "${providerId}" has no credential configured for ${refName}`)
-  return resolved.value.trim()
 }
 
 interface GeneratedImage {
@@ -210,7 +124,10 @@ export class PaintingService extends Service {
 
   constructor(ctx: Context) {
     super(ctx, 'controlCenterPainting')
-    markPaintingRemoteMethods(this)
+    markRemoteMethods(this, [
+      ['catalog', 'catalog'], ['start', 'start'], ['get', 'get'], ['cancel', 'cancel'],
+      ['listHistory', 'history'], ['deleteHistory', 'deleteHistory'],
+    ])
     ctx.effect(() => async () => {
       this.accepting = false
       for (const job of this.jobs.values()) job.controller.abort()

@@ -8,6 +8,8 @@ import TranslationService from './translation.ts'
 import translationRemote from './translation-remote-client.ts'
 import PaintingService from './painting.ts'
 import paintingRemote from './painting-remote-client.ts'
+import KnowledgeService from './knowledge.ts'
+import knowledgeRemote from './knowledge-remote-client.ts'
 
 const ONBOARDING_SETTINGS_NAMESPACE = 'ui-onboarding'
 
@@ -29,13 +31,14 @@ export function apply(ctx: Context): void {
   assertCompatibleDsh()
   new TranslationService(ctx)
   new PaintingService(ctx)
+  new KnowledgeService(ctx)
   const contributions: readonly TypertContribution[] = [
     {
       package: '@dsh-control-center/control-center',
       face: 'host',
       schemas: [],
       model: { services: [], events: [], objects: [] },
-      invocations: [...translationRemote.descriptors, ...paintingRemote.descriptors],
+      invocations: [...translationRemote.descriptors, ...paintingRemote.descriptors, ...knowledgeRemote.descriptors],
     },
   ]
   for (const contribution of contributions) ctx.typert.register(contribution)
@@ -52,5 +55,7 @@ export { TranslationService } from './translation.ts'
 export type * from './translation-types.ts'
 export { PaintingService } from './painting.ts'
 export type * from './painting-types.ts'
+export { KnowledgeService } from './knowledge.ts'
+export type * from './knowledge-types.ts'
 export { assertSecretSchemaSafe, auditSecretSchema } from './secret-schema.ts'
 export type { SecretSchemaViolation } from './secret-schema.ts'
