@@ -98,6 +98,21 @@ export function McpSection(props: McpSectionProps) {
     }
   }, [activeTab, selectedId, mcpService])
 
+  // Real-time log polling when logs tab is active
+  useEffect(() => {
+    if (activeTab !== 'logs' || !selectedId || !mcpService) {
+      return
+    }
+
+    const interval = setInterval(() => {
+      void mcpService.getServerLogs({ serverId: selectedId, lines: 100 })
+        .then(setLogs)
+        .catch(() => {}) // Silently fail during polling
+    }, 3000) // Poll every 3 seconds
+
+    return () => clearInterval(interval)
+  }, [activeTab, selectedId, mcpService])
+
   // Fetch capabilities when selected server changes and is active
   useEffect(() => {
     if (selectedId && mcpService && selectedServer?.isActive) {
@@ -626,13 +641,32 @@ export function McpSection(props: McpSectionProps) {
 
               {activeTab === 'logs' && (
                 <section className={css.section}>
+                  <h3 className={css.sectionHeading}>服务器日志</h3>
                   <div className={css.sectionBody}>
                     {logs.length > 0 ? (
-                      <div className={css.codeBlock}>
-                        {logs.map((line, idx) => (
-                          <div key={idx} className={css.codeLine}>{line}</div>
-                        ))}
-                      </div>
+                      <>
+                        <div className={css.logHeader}>
+                          <span className={css.logInfo}>实时更新 (每3秒)</span>
+                          <button
+                            type="button"
+                            className={css.secondaryButton}
+                            onClick={() => {
+                              if (selectedId && mcpService) {
+                                void mcpService.getServerLogs({ serverId: selectedId, lines: 100 })
+                                  .then(setLogs)
+                                  .catch(() => setLogs([]))
+                              }
+                            }}
+                          >
+                            刷新
+                          </button>
+                        </div>
+                        <div className={css.codeBlock}>
+                          {logs.map((line, idx) => (
+                            <div key={idx} className={css.codeLine}>{line}</div>
+                          ))}
+                        </div>
+                      </>
                     ) : (
                       <div className={css.emptyState}>暂无日志</div>
                     )}

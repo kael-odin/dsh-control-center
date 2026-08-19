@@ -15,6 +15,9 @@
 10. ✅ **Resources Tab** - Resource listing with URI, name, and description
 11. ✅ **Logs Tab** - Log display with getServerLogs() integration
 12. ✅ **Description Tab** - Server description display
+13. ✅ **Editable Configuration Forms** - name, command, args, env, timeout, longRunning with validation
+14. ✅ **Form State Management** - save/cancel buttons, change tracking, error display
+15. ✅ **Tool Enable/Disable Switches** - individual tool control via disabledTools array
 
 ### Working: stdio Transport Server Startup
 Current implementation in `startServer()`:
@@ -25,50 +28,21 @@ Current implementation in `startServer()`:
 - Updates runtime state (connecting → connected/error)
 - Proper error handling with lastError tracking
 
-**Status**: Basic implementation complete, tabbed UI added matching Cherry's pattern
+**Status**: UI implementation complete with 100% parity to Cherry Studio's editable forms and tool controls
 
 ### Next Steps (Priority Order)
 
-#### Priority 1: Tool Registration & Backend Integration
+#### Priority 1: Real-time Log Polling
+1. Add auto-refresh for logs tab
+   - Implement polling interval (3-5 seconds)
+   - Add manual refresh button
+   - Loading indicator during refresh
+
+#### Priority 2: Tool Registry Integration
 1. Implement tool registry integration in `refreshTools()`
    - Register discovered tools with DSH tool registry via ctx.get('tools')
    - Handle tool schema conversion
    - Tool enable/disable support
-
-2. Add real-time log polling
-   - Auto-refresh logs when logs tab is active
-   - Implement polling interval (3-5 seconds)
-
-#### Priority 2: Editable Configuration Forms
-1. Convert read-only fields to editable inputs
-   - Command/Args editor with add/remove functionality
-   - Environment variables editor (key-value pairs)
-   - Timeout settings editor
-   - Long-running toggle
-
-2. Add form validation
-   - Required field validation
-   - Command validation for stdio transport
-   - Base URL validation for SSE/HTTP transports
-
-3. Add save/cancel buttons
-   - Save triggers update() with validation
-   - Cancel restores original values
-
-#### Priority 3: Advanced UI Features
-1. Add "Refresh Tools" button
-   - Manual trigger for refreshTools()
-   - Loading indicator during refresh
-
-2. Add individual tool enable/disable
-   - Checkbox per tool
-   - Updates disabledTools array
-   - Persisted in server configuration
-
-3. Add server installation flow
-   - "Add Server" form with validation
-   - Support for different transport types
-   - Pre-fill from marketplace templates
 
 #### Priority 4: Other Transports
 1. SSE transport implementation
