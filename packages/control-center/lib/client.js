@@ -141,21 +141,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var PaintingWorkspace_module_css_default = {
-			"secondary": "_-UrTq_secondary",
-			"header": "_-UrTq_header",
 			"composer": "_-UrTq_composer",
-			"historyImages": "_-UrTq_historyImages",
+			"gallery": "_-UrTq_gallery",
+			"historyItem": "_-UrTq_historyItem",
+			"controls": "_-UrTq_controls",
 			"empty": "_-UrTq_empty",
-			"progress": "_-UrTq_progress",
+			"link": "_-UrTq_link",
+			"header": "_-UrTq_header",
 			"history": "_-UrTq_history",
 			"error": "_-UrTq_error",
-			"gallery": "_-UrTq_gallery",
-			"link": "_-UrTq_link",
 			"eyebrow": "_-UrTq_eyebrow",
-			"controls": "_-UrTq_controls",
-			"historyItem": "_-UrTq_historyItem",
 			"figure": "_-UrTq_figure",
-			"root": "_-UrTq_root"
+			"secondary": "_-UrTq_secondary",
+			"progress": "_-UrTq_progress",
+			"root": "_-UrTq_root",
+			"historyImages": "_-UrTq_historyImages"
 		};
 		//#endregion
 		//#region lib/types/client/PaintingWorkspace.js
@@ -570,30 +570,30 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var KnowledgeWorkspace_module_css_default = {
-			"baseCard": "uHDY1a_baseCard",
-			"hit": "uHDY1a_hit",
-			"chunk": "uHDY1a_chunk",
-			"error": "uHDY1a_error",
 			"bases": "uHDY1a_bases",
-			"eyebrow": "uHDY1a_eyebrow",
-			"chunks": "uHDY1a_chunks",
-			"muted": "uHDY1a_muted",
-			"root": "uHDY1a_root",
-			"fileButton": "uHDY1a_fileButton",
-			"hits": "uHDY1a_hits",
+			"hit": "uHDY1a_hit",
 			"baseMeta": "uHDY1a_baseMeta",
-			"sourceMeta": "uHDY1a_sourceMeta",
-			"empty": "uHDY1a_empty",
 			"sourceTabs": "uHDY1a_sourceTabs",
-			"baseActions": "uHDY1a_baseActions",
-			"secondary": "uHDY1a_secondary",
+			"eyebrow": "uHDY1a_eyebrow",
+			"error": "uHDY1a_error",
+			"chunks": "uHDY1a_chunks",
+			"primary": "uHDY1a_primary",
 			"link": "uHDY1a_link",
+			"row": "uHDY1a_row",
+			"chunk": "uHDY1a_chunk",
+			"baseCard": "uHDY1a_baseCard",
+			"fileButton": "uHDY1a_fileButton",
+			"baseActions": "uHDY1a_baseActions",
+			"sourceMeta": "uHDY1a_sourceMeta",
+			"panel": "uHDY1a_panel",
+			"root": "uHDY1a_root",
+			"secondary": "uHDY1a_secondary",
 			"sourceItem": "uHDY1a_sourceItem",
+			"muted": "uHDY1a_muted",
+			"hits": "uHDY1a_hits",
 			"header": "uHDY1a_header",
 			"hitMeta": "uHDY1a_hitMeta",
-			"panel": "uHDY1a_panel",
-			"row": "uHDY1a_row",
-			"primary": "uHDY1a_primary"
+			"empty": "uHDY1a_empty"
 		};
 		//#endregion
 		//#region lib/types/client/KnowledgeWorkspace.js
@@ -1198,18 +1198,18 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SkillsSection_module_css_default = {
+			"cardTitle": "pyHmqW_cardTitle",
+			"cardTags": "pyHmqW_cardTags",
+			"cardMeta": "pyHmqW_cardMeta",
+			"searchInput": "pyHmqW_searchInput",
 			"searchRow": "pyHmqW_searchRow",
 			"grid": "pyHmqW_grid",
-			"cardHeader": "pyHmqW_cardHeader",
-			"cardDescription": "pyHmqW_cardDescription",
-			"cardTitle": "pyHmqW_cardTitle",
-			"cardActions": "pyHmqW_cardActions",
-			"cardMeta": "pyHmqW_cardMeta",
 			"cardMetaItem": "pyHmqW_cardMetaItem",
-			"cardFooter": "pyHmqW_cardFooter",
-			"searchInput": "pyHmqW_searchInput",
 			"card": "pyHmqW_card",
-			"cardTags": "pyHmqW_cardTags",
+			"cardHeader": "pyHmqW_cardHeader",
+			"cardFooter": "pyHmqW_cardFooter",
+			"cardActions": "pyHmqW_cardActions",
+			"cardDescription": "pyHmqW_cardDescription",
 			"tag": "pyHmqW_tag"
 		};
 		//#endregion
@@ -1553,24 +1553,24 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderAuthentication_module_css_default = {
-			"secondaryButton": "AU4RWG_secondaryButton",
-			"input": "AU4RWG_input",
-			"inputAddon": "AU4RWG_inputAddon",
-			"actionRow": "AU4RWG_actionRow",
-			"errorMessage": "AU4RWG_errorMessage",
-			"inputGroup": "AU4RWG_inputGroup",
-			"spin": "AU4RWG_spin",
-			"primaryButton": "AU4RWG_primaryButton",
-			"cc-spin": "AU4RWG_cc-spin",
-			"timestamp": "AU4RWG_timestamp",
-			"successMessage": "AU4RWG_successMessage",
-			"sectionTitle": "AU4RWG_sectionTitle",
-			"fieldLink": "AU4RWG_fieldLink",
 			"field": "AU4RWG_field",
-			"section": "AU4RWG_section",
+			"input": "AU4RWG_input",
+			"secondaryButton": "AU4RWG_secondaryButton",
+			"spin": "AU4RWG_spin",
+			"cc-spin": "AU4RWG_cc-spin",
 			"iconButton": "AU4RWG_iconButton",
+			"successMessage": "AU4RWG_successMessage",
+			"actionRow": "AU4RWG_actionRow",
 			"inputRow": "AU4RWG_inputRow",
-			"fieldLabel": "AU4RWG_fieldLabel"
+			"section": "AU4RWG_section",
+			"sectionTitle": "AU4RWG_sectionTitle",
+			"fieldLabel": "AU4RWG_fieldLabel",
+			"inputAddon": "AU4RWG_inputAddon",
+			"inputGroup": "AU4RWG_inputGroup",
+			"fieldLink": "AU4RWG_fieldLink",
+			"primaryButton": "AU4RWG_primaryButton",
+			"errorMessage": "AU4RWG_errorMessage",
+			"timestamp": "AU4RWG_timestamp"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderAuthentication.js
@@ -1763,34 +1763,34 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderModelList_module_css_default = {
-			"modelMeta": "_2yiUCa_modelMeta",
-			"modelGroup": "_2yiUCa_modelGroup",
-			"groupTitle": "_2yiUCa_groupTitle",
-			"sectionHeaderRow": "_2yiUCa_sectionHeaderRow",
-			"toggleButton": "_2yiUCa_toggleButton",
-			"toggleButtonEnabled": "_2yiUCa_toggleButtonEnabled",
-			"modelList": "_2yiUCa_modelList",
-			"toggleThumb": "_2yiUCa_toggleThumb",
-			"emptyText": "_2yiUCa_emptyText",
-			"groupHeader": "_2yiUCa_groupHeader",
-			"emptyState": "_2yiUCa_emptyState",
-			"sectionHeading": "_2yiUCa_sectionHeading",
-			"emptyIcon": "_2yiUCa_emptyIcon",
-			"modelName": "_2yiUCa_modelName",
-			"emptyHint": "_2yiUCa_emptyHint",
-			"toggleButtonDisabled": "_2yiUCa_toggleButtonDisabled",
-			"countBadge": "_2yiUCa_countBadge",
-			"modelIcon": "_2yiUCa_modelIcon",
-			"discoveryInfo": "_2yiUCa_discoveryInfo",
-			"headerMeta": "_2yiUCa_headerMeta",
-			"modelInfo": "_2yiUCa_modelInfo",
-			"metaItem": "_2yiUCa_metaItem",
-			"modelItemDisabled": "_2yiUCa_modelItemDisabled",
 			"groupCount": "_2yiUCa_groupCount",
-			"section": "_2yiUCa_section",
+			"modelName": "_2yiUCa_modelName",
+			"toggleButton": "_2yiUCa_toggleButton",
+			"modelGroup": "_2yiUCa_modelGroup",
+			"groupHeader": "_2yiUCa_groupHeader",
+			"modelItemDisabled": "_2yiUCa_modelItemDisabled",
+			"modelInfo": "_2yiUCa_modelInfo",
+			"toggleButtonEnabled": "_2yiUCa_toggleButtonEnabled",
+			"toggleThumb": "_2yiUCa_toggleThumb",
+			"metaItem": "_2yiUCa_metaItem",
+			"emptyIcon": "_2yiUCa_emptyIcon",
+			"emptyText": "_2yiUCa_emptyText",
+			"emptyHint": "_2yiUCa_emptyHint",
+			"sectionHeaderRow": "_2yiUCa_sectionHeaderRow",
+			"sectionHeading": "_2yiUCa_sectionHeading",
+			"countBadge": "_2yiUCa_countBadge",
 			"enabledCount": "_2yiUCa_enabledCount",
-			"modelItem": "_2yiUCa_modelItem",
-			"modelMain": "_2yiUCa_modelMain"
+			"modelMeta": "_2yiUCa_modelMeta",
+			"discoveryInfo": "_2yiUCa_discoveryInfo",
+			"section": "_2yiUCa_section",
+			"headerMeta": "_2yiUCa_headerMeta",
+			"groupTitle": "_2yiUCa_groupTitle",
+			"modelIcon": "_2yiUCa_modelIcon",
+			"toggleButtonDisabled": "_2yiUCa_toggleButtonDisabled",
+			"emptyState": "_2yiUCa_emptyState",
+			"modelList": "_2yiUCa_modelList",
+			"modelMain": "_2yiUCa_modelMain",
+			"modelItem": "_2yiUCa_modelItem"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderModelList.js
@@ -2035,25 +2035,25 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderDialog_module_css_default = {
+			"submitButton": "Y2Uoaq_submitButton",
 			"checkbox": "Y2Uoaq_checkbox",
-			"field": "Y2Uoaq_field",
-			"required": "Y2Uoaq_required",
-			"hint": "Y2Uoaq_hint",
+			"footer": "Y2Uoaq_footer",
+			"dialog": "Y2Uoaq_dialog",
+			"cancelButton": "Y2Uoaq_cancelButton",
+			"content": "Y2Uoaq_content",
 			"header": "Y2Uoaq_header",
+			"title": "Y2Uoaq_title",
 			"overlay": "Y2Uoaq_overlay",
 			"input": "Y2Uoaq_input",
-			"select": "Y2Uoaq_select",
-			"checkboxField": "Y2Uoaq_checkboxField",
-			"dialog": "Y2Uoaq_dialog",
-			"textarea": "Y2Uoaq_textarea",
-			"content": "Y2Uoaq_content",
-			"error": "Y2Uoaq_error",
-			"title": "Y2Uoaq_title",
 			"label": "Y2Uoaq_label",
+			"checkboxField": "Y2Uoaq_checkboxField",
+			"select": "Y2Uoaq_select",
+			"hint": "Y2Uoaq_hint",
+			"error": "Y2Uoaq_error",
 			"checkboxLabel": "Y2Uoaq_checkboxLabel",
-			"footer": "Y2Uoaq_footer",
-			"cancelButton": "Y2Uoaq_cancelButton",
-			"submitButton": "Y2Uoaq_submitButton"
+			"field": "Y2Uoaq_field",
+			"required": "Y2Uoaq_required",
+			"textarea": "Y2Uoaq_textarea"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderDialog.js
@@ -2375,49 +2375,49 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProvidersSection_module_css_default = {
-			"listItemMain": "ExuySa_listItemMain",
-			"section": "ExuySa_section",
-			"searchIcon": "ExuySa_searchIcon",
-			"listItemSelected": "ExuySa_listItemSelected",
-			"listItems": "ExuySa_listItems",
-			"detailTitle": "ExuySa_detailTitle",
-			"error": "ExuySa_error",
-			"sectionHeading": "ExuySa_sectionHeading",
-			"addButton": "ExuySa_addButton",
-			"editButton": "ExuySa_editButton",
-			"addFooter": "ExuySa_addFooter",
-			"searchWrap": "ExuySa_searchWrap",
-			"emptyIcon": "ExuySa_emptyIcon",
-			"detailHeader": "ExuySa_detailHeader",
-			"listScroller": "ExuySa_listScroller",
-			"detailHeaderContent": "ExuySa_detailHeaderContent",
-			"searchInput": "ExuySa_searchInput",
-			"loading": "ExuySa_loading",
 			"providerDetail": "ExuySa_providerDetail",
-			"emptyDescription": "ExuySa_emptyDescription",
-			"listItem": "ExuySa_listItem",
-			"detailScroll": "ExuySa_detailScroll",
-			"dangerZoneDescription": "ExuySa_dangerZoneDescription",
+			"searchInput": "ExuySa_searchInput",
+			"searchIcon": "ExuySa_searchIcon",
 			"listItemLabel": "ExuySa_listItemLabel",
-			"providerList": "ExuySa_providerList",
-			"enabledDot": "ExuySa_enabledDot",
-			"detailMetaItem": "ExuySa_detailMetaItem",
-			"detailContentMaxWidth": "ExuySa_detailContentMaxWidth",
-			"secondaryButton": "ExuySa_secondaryButton",
 			"searchClearButton": "ExuySa_searchClearButton",
-			"emptyDetailState": "ExuySa_emptyDetailState",
-			"listItemIdle": "ExuySa_listItemIdle",
-			"searchRow": "ExuySa_searchRow",
-			"sectionBody": "ExuySa_sectionBody",
-			"dangerZoneTitle": "ExuySa_dangerZoneTitle",
+			"providerList": "ExuySa_providerList",
 			"detailMeta": "ExuySa_detailMeta",
+			"dangerZoneTitle": "ExuySa_dangerZoneTitle",
+			"detailHeaderContent": "ExuySa_detailHeaderContent",
+			"emptyState": "ExuySa_emptyState",
+			"listScroller": "ExuySa_listScroller",
+			"dangerZoneDescription": "ExuySa_dangerZoneDescription",
+			"addFooter": "ExuySa_addFooter",
+			"detailMetaItem": "ExuySa_detailMetaItem",
 			"dangerButton": "ExuySa_dangerButton",
-			"splitRoot": "ExuySa_splitRoot",
-			"dangerZoneText": "ExuySa_dangerZoneText",
 			"listItemAvatar": "ExuySa_listItemAvatar",
-			"dangerZone": "ExuySa_dangerZone",
 			"emptyTitle": "ExuySa_emptyTitle",
-			"emptyState": "ExuySa_emptyState"
+			"dangerZone": "ExuySa_dangerZone",
+			"listItemSelected": "ExuySa_listItemSelected",
+			"sectionHeading": "ExuySa_sectionHeading",
+			"emptyIcon": "ExuySa_emptyIcon",
+			"splitRoot": "ExuySa_splitRoot",
+			"sectionBody": "ExuySa_sectionBody",
+			"searchRow": "ExuySa_searchRow",
+			"detailHeader": "ExuySa_detailHeader",
+			"detailScroll": "ExuySa_detailScroll",
+			"listItemIdle": "ExuySa_listItemIdle",
+			"editButton": "ExuySa_editButton",
+			"dangerZoneText": "ExuySa_dangerZoneText",
+			"error": "ExuySa_error",
+			"emptyDetailState": "ExuySa_emptyDetailState",
+			"loading": "ExuySa_loading",
+			"searchWrap": "ExuySa_searchWrap",
+			"addButton": "ExuySa_addButton",
+			"listItemMain": "ExuySa_listItemMain",
+			"listItem": "ExuySa_listItem",
+			"emptyDescription": "ExuySa_emptyDescription",
+			"detailTitle": "ExuySa_detailTitle",
+			"secondaryButton": "ExuySa_secondaryButton",
+			"section": "ExuySa_section",
+			"detailContentMaxWidth": "ExuySa_detailContentMaxWidth",
+			"enabledDot": "ExuySa_enabledDot",
+			"listItems": "ExuySa_listItems"
 		};
 		//#endregion
 		//#region lib/types/client/ProvidersSection.js
@@ -2966,21 +2966,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var AddMcpServerDialog_module_css_default = {
-			"field": "uv_otq_field",
-			"label": "uv_otq_label",
-			"closeButton": "uv_otq_closeButton",
-			"error": "uv_otq_error",
-			"overlay": "uv_otq_overlay",
-			"input": "uv_otq_input",
 			"submitButton": "uv_otq_submitButton",
-			"cancelButton": "uv_otq_cancelButton",
-			"dialog": "uv_otq_dialog",
-			"form": "uv_otq_form",
 			"header": "uv_otq_header",
-			"footer": "uv_otq_footer",
 			"title": "uv_otq_title",
+			"cancelButton": "uv_otq_cancelButton",
+			"closeButton": "uv_otq_closeButton",
+			"dialog": "uv_otq_dialog",
+			"label": "uv_otq_label",
+			"error": "uv_otq_error",
+			"footer": "uv_otq_footer",
+			"input": "uv_otq_input",
+			"field": "uv_otq_field",
 			"textarea": "uv_otq_textarea",
-			"select": "uv_otq_select"
+			"select": "uv_otq_select",
+			"overlay": "uv_otq_overlay",
+			"form": "uv_otq_form"
 		};
 		//#endregion
 		//#region lib/types/client/AddMcpServerDialog.js
@@ -3216,76 +3216,76 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var McpSection_module_css_default = {
-			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
-			"primaryButton": "_0bBxiW_primaryButton",
-			"secondaryButton": "_0bBxiW_secondaryButton",
-			"codeBlock": "_0bBxiW_codeBlock",
 			"dangerZone": "_0bBxiW_dangerZone",
-			"error": "_0bBxiW_error",
-			"sectionHeading": "_0bBxiW_sectionHeading",
-			"addButton": "_0bBxiW_addButton",
-			"serverDetail": "_0bBxiW_serverDetail",
-			"input": "_0bBxiW_input",
-			"listItemLabel": "_0bBxiW_listItemLabel",
-			"detailScroll": "_0bBxiW_detailScroll",
-			"resourceUri": "_0bBxiW_resourceUri",
-			"logInfo": "_0bBxiW_logInfo",
-			"codeLine": "_0bBxiW_codeLine",
-			"splitRoot": "_0bBxiW_splitRoot",
-			"listItemAvatar": "_0bBxiW_listItemAvatar",
-			"formActions": "_0bBxiW_formActions",
-			"fieldGroup": "_0bBxiW_fieldGroup",
-			"searchWrap": "_0bBxiW_searchWrap",
-			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
-			"sectionHeader": "_0bBxiW_sectionHeader",
-			"tabBar": "_0bBxiW_tabBar",
-			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
-			"detailMetaItem": "_0bBxiW_detailMetaItem",
-			"dangerZoneText": "_0bBxiW_dangerZoneText",
 			"tabActive": "_0bBxiW_tabActive",
 			"sectionBody": "_0bBxiW_sectionBody",
-			"fieldHint": "_0bBxiW_fieldHint",
-			"listItemMain": "_0bBxiW_listItemMain",
-			"toolsList": "_0bBxiW_toolsList",
-			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
-			"toolHeader": "_0bBxiW_toolHeader",
-			"dangerButton": "_0bBxiW_dangerButton",
-			"detailHeader": "_0bBxiW_detailHeader",
-			"toolName": "_0bBxiW_toolName",
-			"emptyTitle": "_0bBxiW_emptyTitle",
-			"switchWrapper": "_0bBxiW_switchWrapper",
-			"emptyDetailState": "_0bBxiW_emptyDetailState",
-			"checkbox": "_0bBxiW_checkbox",
-			"switchInput": "_0bBxiW_switchInput",
-			"addFooter": "_0bBxiW_addFooter",
-			"listItems": "_0bBxiW_listItems",
-			"activeDot": "_0bBxiW_activeDot",
-			"loading": "_0bBxiW_loading",
-			"toolDescription": "_0bBxiW_toolDescription",
-			"errorBox": "_0bBxiW_errorBox",
-			"emptyState": "_0bBxiW_emptyState",
-			"section": "_0bBxiW_section",
-			"toolItem": "_0bBxiW_toolItem",
-			"searchClearButton": "_0bBxiW_searchClearButton",
-			"listItemSelected": "_0bBxiW_listItemSelected",
-			"emptyIcon": "_0bBxiW_emptyIcon",
-			"detailTitle": "_0bBxiW_detailTitle",
-			"searchInput": "_0bBxiW_searchInput",
+			"searchWrap": "_0bBxiW_searchWrap",
 			"listItem": "_0bBxiW_listItem",
-			"searchRow": "_0bBxiW_searchRow",
-			"listItemIdle": "_0bBxiW_listItemIdle",
-			"detailMeta": "_0bBxiW_detailMeta",
-			"tab": "_0bBxiW_tab",
-			"listScroller": "_0bBxiW_listScroller",
-			"fieldRow": "_0bBxiW_fieldRow",
-			"textarea": "_0bBxiW_textarea",
+			"detailHeader": "_0bBxiW_detailHeader",
+			"toolHeader": "_0bBxiW_toolHeader",
+			"primaryButton": "_0bBxiW_primaryButton",
+			"dangerZoneText": "_0bBxiW_dangerZoneText",
+			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
+			"input": "_0bBxiW_input",
+			"toolItem": "_0bBxiW_toolItem",
+			"searchInput": "_0bBxiW_searchInput",
+			"listItemAvatar": "_0bBxiW_listItemAvatar",
 			"switchSlider": "_0bBxiW_switchSlider",
-			"serverList": "_0bBxiW_serverList",
+			"switchWrapper": "_0bBxiW_switchWrapper",
+			"detailMeta": "_0bBxiW_detailMeta",
+			"fieldGroup": "_0bBxiW_fieldGroup",
+			"toolsList": "_0bBxiW_toolsList",
 			"searchIcon": "_0bBxiW_searchIcon",
-			"emptyDescription": "_0bBxiW_emptyDescription",
+			"sectionHeading": "_0bBxiW_sectionHeading",
+			"addFooter": "_0bBxiW_addFooter",
+			"searchRow": "_0bBxiW_searchRow",
+			"detailTitle": "_0bBxiW_detailTitle",
 			"fieldLabel": "_0bBxiW_fieldLabel",
+			"resourceUri": "_0bBxiW_resourceUri",
+			"errorBox": "_0bBxiW_errorBox",
+			"emptyTitle": "_0bBxiW_emptyTitle",
+			"checkbox": "_0bBxiW_checkbox",
+			"codeLine": "_0bBxiW_codeLine",
+			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
+			"serverList": "_0bBxiW_serverList",
+			"listScroller": "_0bBxiW_listScroller",
+			"detailScroll": "_0bBxiW_detailScroll",
+			"tabBar": "_0bBxiW_tabBar",
+			"serverDetail": "_0bBxiW_serverDetail",
+			"loading": "_0bBxiW_loading",
+			"listItems": "_0bBxiW_listItems",
+			"emptyDescription": "_0bBxiW_emptyDescription",
+			"secondaryButton": "_0bBxiW_secondaryButton",
+			"listItemMain": "_0bBxiW_listItemMain",
+			"searchClearButton": "_0bBxiW_searchClearButton",
+			"toolDescription": "_0bBxiW_toolDescription",
+			"fieldRow": "_0bBxiW_fieldRow",
+			"fieldHint": "_0bBxiW_fieldHint",
+			"addButton": "_0bBxiW_addButton",
+			"tab": "_0bBxiW_tab",
+			"section": "_0bBxiW_section",
+			"textarea": "_0bBxiW_textarea",
+			"logInfo": "_0bBxiW_logInfo",
+			"listItemLabel": "_0bBxiW_listItemLabel",
+			"switchInput": "_0bBxiW_switchInput",
+			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
+			"toolName": "_0bBxiW_toolName",
+			"splitRoot": "_0bBxiW_splitRoot",
+			"error": "_0bBxiW_error",
+			"listItemIdle": "_0bBxiW_listItemIdle",
+			"emptyDetailState": "_0bBxiW_emptyDetailState",
+			"descriptionText": "_0bBxiW_descriptionText",
+			"codeBlock": "_0bBxiW_codeBlock",
+			"emptyState": "_0bBxiW_emptyState",
+			"dangerButton": "_0bBxiW_dangerButton",
 			"logHeader": "_0bBxiW_logHeader",
-			"descriptionText": "_0bBxiW_descriptionText"
+			"activeDot": "_0bBxiW_activeDot",
+			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
+			"detailMetaItem": "_0bBxiW_detailMetaItem",
+			"formActions": "_0bBxiW_formActions",
+			"emptyIcon": "_0bBxiW_emptyIcon",
+			"sectionHeader": "_0bBxiW_sectionHeader",
+			"listItemSelected": "_0bBxiW_listItemSelected"
 		};
 		//#endregion
 		//#region lib/types/client/McpSection.js
@@ -4232,25 +4232,25 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WebSearchSection_module_css_default = {
+			"providerDetail": "_0WjBOa_providerDetail",
+			"loading": "_0WjBOa_loading",
+			"fieldHint": "_0WjBOa_fieldHint",
+			"iconButton": "_0WjBOa_iconButton",
+			"input": "_0WjBOa_input",
+			"pageTitle": "_0WjBOa_pageTitle",
 			"cardDescription": "_0WjBOa_cardDescription",
 			"fieldRow": "_0WjBOa_fieldRow",
-			"cardTitle": "_0WjBOa_cardTitle",
-			"providerName": "_0WjBOa_providerName",
-			"loading": "_0WjBOa_loading",
-			"card": "_0WjBOa_card",
-			"pageHeader": "_0WjBOa_pageHeader",
-			"root": "_0WjBOa_root",
-			"pageDescription": "_0WjBOa_pageDescription",
-			"fieldLabel": "_0WjBOa_fieldLabel",
-			"iconButton": "_0WjBOa_iconButton",
-			"pageTitle": "_0WjBOa_pageTitle",
-			"input": "_0WjBOa_input",
-			"providerDescription": "_0WjBOa_providerDescription",
 			"apiKeyRow": "_0WjBOa_apiKeyRow",
 			"select": "_0WjBOa_select",
-			"fieldHint": "_0WjBOa_fieldHint",
-			"providerDetail": "_0WjBOa_providerDetail",
-			"checkbox": "_0WjBOa_checkbox"
+			"providerName": "_0WjBOa_providerName",
+			"pageHeader": "_0WjBOa_pageHeader",
+			"card": "_0WjBOa_card",
+			"checkbox": "_0WjBOa_checkbox",
+			"pageDescription": "_0WjBOa_pageDescription",
+			"cardTitle": "_0WjBOa_cardTitle",
+			"fieldLabel": "_0WjBOa_fieldLabel",
+			"root": "_0WjBOa_root",
+			"providerDescription": "_0WjBOa_providerDescription"
 		};
 		//#endregion
 		//#region lib/types/client/WebSearchSection.js
@@ -4650,40 +4650,40 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var RepoWorkspace_module_css_default = {
-			"treeName": "iqKKIW_treeName",
-			"repoItem": "iqKKIW_repoItem",
-			"repoItemPath": "iqKKIW_repoItemPath",
-			"treeMeta": "iqKKIW_treeMeta",
-			"treePane": "iqKKIW_treePane",
-			"treeRowSelected": "iqKKIW_treeRowSelected",
-			"empty": "iqKKIW_empty",
-			"sidebar": "iqKKIW_sidebar",
-			"previewHeader": "iqKKIW_previewHeader",
-			"previewBody": "iqKKIW_previewBody",
-			"eyebrow": "iqKKIW_eyebrow",
-			"treeRow": "iqKKIW_treeRow",
-			"repoItemName": "iqKKIW_repoItemName",
-			"title": "iqKKIW_title",
-			"addInput": "iqKKIW_addInput",
-			"treeTitle": "iqKKIW_treeTitle",
-			"repoItemMain": "iqKKIW_repoItemMain",
-			"split": "iqKKIW_split",
-			"truncateNote": "iqKKIW_truncateNote",
-			"previewPane": "iqKKIW_previewPane",
 			"emptyTitle": "iqKKIW_emptyTitle",
-			"previewHint": "iqKKIW_previewHint",
-			"treeScroll": "iqKKIW_treeScroll",
-			"emptyDescription": "iqKKIW_emptyDescription",
-			"treeHeader": "iqKKIW_treeHeader",
-			"repoItemSelected": "iqKKIW_repoItemSelected",
+			"split": "iqKKIW_split",
 			"addRow": "iqKKIW_addRow",
-			"sidebarTitle": "iqKKIW_sidebarTitle",
-			"branch": "iqKKIW_branch",
-			"root": "iqKKIW_root",
-			"header": "iqKKIW_header",
 			"main": "iqKKIW_main",
 			"treeIcon": "iqKKIW_treeIcon",
-			"repoList": "iqKKIW_repoList"
+			"previewHint": "iqKKIW_previewHint",
+			"treePane": "iqKKIW_treePane",
+			"truncateNote": "iqKKIW_truncateNote",
+			"eyebrow": "iqKKIW_eyebrow",
+			"repoList": "iqKKIW_repoList",
+			"repoItemMain": "iqKKIW_repoItemMain",
+			"repoItem": "iqKKIW_repoItem",
+			"sidebar": "iqKKIW_sidebar",
+			"empty": "iqKKIW_empty",
+			"addInput": "iqKKIW_addInput",
+			"repoItemSelected": "iqKKIW_repoItemSelected",
+			"previewHeader": "iqKKIW_previewHeader",
+			"treeMeta": "iqKKIW_treeMeta",
+			"repoItemPath": "iqKKIW_repoItemPath",
+			"root": "iqKKIW_root",
+			"repoItemName": "iqKKIW_repoItemName",
+			"treeScroll": "iqKKIW_treeScroll",
+			"header": "iqKKIW_header",
+			"treeTitle": "iqKKIW_treeTitle",
+			"branch": "iqKKIW_branch",
+			"emptyDescription": "iqKKIW_emptyDescription",
+			"previewPane": "iqKKIW_previewPane",
+			"treeName": "iqKKIW_treeName",
+			"previewBody": "iqKKIW_previewBody",
+			"sidebarTitle": "iqKKIW_sidebarTitle",
+			"treeRowSelected": "iqKKIW_treeRowSelected",
+			"treeHeader": "iqKKIW_treeHeader",
+			"treeRow": "iqKKIW_treeRow",
+			"title": "iqKKIW_title"
 		};
 		//#endregion
 		//#region lib/types/client/RepoWorkspace.js
@@ -5129,23 +5129,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProcessorSection_module_css_default = {
+			"apiKeyRow": "CL8zIa_apiKeyRow",
+			"input": "CL8zIa_input",
+			"select": "CL8zIa_select",
+			"providerName": "CL8zIa_providerName",
+			"fieldHint": "CL8zIa_fieldHint",
+			"pageDescription": "CL8zIa_pageDescription",
+			"fieldLabel": "CL8zIa_fieldLabel",
+			"cardTitle": "CL8zIa_cardTitle",
+			"fieldRow": "CL8zIa_fieldRow",
 			"cardDescription": "CL8zIa_cardDescription",
+			"iconButton": "CL8zIa_iconButton",
 			"loading": "CL8zIa_loading",
 			"providerDescription": "CL8zIa_providerDescription",
-			"cardTitle": "CL8zIa_cardTitle",
-			"apiKeyRow": "CL8zIa_apiKeyRow",
-			"pageTitle": "CL8zIa_pageTitle",
 			"providerDetail": "CL8zIa_providerDetail",
-			"select": "CL8zIa_select",
-			"pageDescription": "CL8zIa_pageDescription",
-			"card": "CL8zIa_card",
-			"fieldHint": "CL8zIa_fieldHint",
-			"input": "CL8zIa_input",
-			"iconButton": "CL8zIa_iconButton",
-			"providerName": "CL8zIa_providerName",
 			"root": "CL8zIa_root",
-			"fieldRow": "CL8zIa_fieldRow",
-			"fieldLabel": "CL8zIa_fieldLabel"
+			"card": "CL8zIa_card",
+			"pageTitle": "CL8zIa_pageTitle"
 		};
 		//#endregion
 		//#region lib/types/client/ProcessorSection.js
@@ -5417,15 +5417,15 @@ window.__ModuleLoader__.load({
 		}
 		var UsageSection_module_css_default = {
 			"pageDescription": "ej6-VW_pageDescription",
-			"cardTitle": "ej6-VW_cardTitle",
-			"metric": "ej6-VW_metric",
-			"metricValue": "ej6-VW_metricValue",
-			"metricLabel": "ej6-VW_metricLabel",
-			"root": "ej6-VW_root",
-			"grid": "ej6-VW_grid",
 			"card": "ej6-VW_card",
 			"loading": "ej6-VW_loading",
-			"pageTitle": "ej6-VW_pageTitle"
+			"metric": "ej6-VW_metric",
+			"grid": "ej6-VW_grid",
+			"metricValue": "ej6-VW_metricValue",
+			"cardTitle": "ej6-VW_cardTitle",
+			"metricLabel": "ej6-VW_metricLabel",
+			"pageTitle": "ej6-VW_pageTitle",
+			"root": "ej6-VW_root"
 		};
 		//#endregion
 		//#region lib/types/client/UsageSection.js
@@ -5766,16 +5766,16 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SystemSection_module_css_default = {
-			"infoLabel": "MzTzwq_infoLabel",
-			"cardTitle": "MzTzwq_cardTitle",
-			"pageDescription": "MzTzwq_pageDescription",
-			"loading": "MzTzwq_loading",
-			"badge": "MzTzwq_badge",
 			"root": "MzTzwq_root",
-			"card": "MzTzwq_card",
+			"loading": "MzTzwq_loading",
+			"cardTitle": "MzTzwq_cardTitle",
+			"infoRow": "MzTzwq_infoRow",
+			"infoLabel": "MzTzwq_infoLabel",
 			"pageTitle": "MzTzwq_pageTitle",
+			"pageDescription": "MzTzwq_pageDescription",
+			"card": "MzTzwq_card",
 			"infoValue": "MzTzwq_infoValue",
-			"infoRow": "MzTzwq_infoRow"
+			"badge": "MzTzwq_badge"
 		};
 		//#endregion
 		//#region lib/types/client/SystemSection.js
@@ -6039,23 +6039,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TasksSection_module_css_default = {
+			"taskName": "_3yT94W_taskName",
+			"runFail": "_3yT94W_runFail",
+			"runOk": "_3yT94W_runOk",
+			"taskRow": "_3yT94W_taskRow",
 			"select": "_3yT94W_select",
-			"runRow": "_3yT94W_runRow",
-			"root": "_3yT94W_root",
-			"cardTitle": "_3yT94W_cardTitle",
+			"input": "_3yT94W_input",
 			"pageDescription": "_3yT94W_pageDescription",
 			"card": "_3yT94W_card",
-			"taskRow": "_3yT94W_taskRow",
-			"input": "_3yT94W_input",
-			"taskName": "_3yT94W_taskName",
-			"loading": "_3yT94W_loading",
-			"taskMeta": "_3yT94W_taskMeta",
-			"runFail": "_3yT94W_runFail",
+			"runRow": "_3yT94W_runRow",
+			"root": "_3yT94W_root",
 			"runTime": "_3yT94W_runTime",
-			"taskMain": "_3yT94W_taskMain",
+			"cardTitle": "_3yT94W_cardTitle",
 			"runDetail": "_3yT94W_runDetail",
-			"runOk": "_3yT94W_runOk",
-			"pageTitle": "_3yT94W_pageTitle"
+			"loading": "_3yT94W_loading",
+			"taskMain": "_3yT94W_taskMain",
+			"pageTitle": "_3yT94W_pageTitle",
+			"taskMeta": "_3yT94W_taskMeta"
 		};
 		//#endregion
 		//#region lib/types/client/TasksSection.js
@@ -6332,28 +6332,28 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
-			"nav": "_4STY0G_nav",
-			"navScroll": "_4STY0G_navScroll",
-			"navLabel": "_4STY0G_navLabel",
-			"mask": "_4STY0G_mask",
-			"triggerLabel": "_4STY0G_triggerLabel",
-			"panel": "_4STY0G_panel",
-			"overlay": "_4STY0G_overlay",
-			"navList": "_4STY0G_navList",
-			"header": "_4STY0G_header",
-			"close": "_4STY0G_close",
-			"navGroup": "_4STY0G_navGroup",
-			"trigger": "_4STY0G_trigger",
 			"active": "_4STY0G_active",
 			"navIcon": "_4STY0G_navIcon",
-			"navCell": "_4STY0G_navCell",
-			"navGroupTitle": "_4STY0G_navGroupTitle",
-			"content": "_4STY0G_content",
-			"rail": "_4STY0G_rail",
-			"actions": "_4STY0G_actions",
-			"hiddenLabel": "_4STY0G_hiddenLabel",
+			"panel": "_4STY0G_panel",
 			"navTitle": "_4STY0G_navTitle",
-			"options": "_4STY0G_options"
+			"actions": "_4STY0G_actions",
+			"nav": "_4STY0G_nav",
+			"triggerLabel": "_4STY0G_triggerLabel",
+			"content": "_4STY0G_content",
+			"close": "_4STY0G_close",
+			"navScroll": "_4STY0G_navScroll",
+			"trigger": "_4STY0G_trigger",
+			"navGroup": "_4STY0G_navGroup",
+			"navLabel": "_4STY0G_navLabel",
+			"overlay": "_4STY0G_overlay",
+			"navList": "_4STY0G_navList",
+			"hiddenLabel": "_4STY0G_hiddenLabel",
+			"options": "_4STY0G_options",
+			"mask": "_4STY0G_mask",
+			"navGroupTitle": "_4STY0G_navGroupTitle",
+			"navCell": "_4STY0G_navCell",
+			"rail": "_4STY0G_rail",
+			"header": "_4STY0G_header"
 		};
 		//#endregion
 		//#region \0dsh-control-center-plain-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\cherry-tokens.css.mjs
@@ -6892,35 +6892,35 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelsSection_module_css_default = {
-			"rows": "tKsOKa_rows",
-			"rowHead": "tKsOKa_rowHead",
-			"secondaryButton": "tKsOKa_secondaryButton",
+			"rowIdentity": "tKsOKa_rowIdentity",
 			"error": "tKsOKa_error",
-			"addCard": "tKsOKa_addCard",
+			"intro": "tKsOKa_intro",
+			"rowCard": "tKsOKa_rowCard",
+			"notice": "tKsOKa_notice",
+			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
+			"setupCard": "tKsOKa_setupCard",
+			"addButton": "tKsOKa_addButton",
+			"addBlock": "tKsOKa_addBlock",
+			"deleteDialog": "tKsOKa_deleteDialog",
+			"fieldLabel": "tKsOKa_fieldLabel",
+			"rowHead": "tKsOKa_rowHead",
+			"addActions": "tKsOKa_addActions",
+			"rowTag": "tKsOKa_rowTag",
 			"selectInput": "tKsOKa_selectInput",
 			"credentialDotMissing": "tKsOKa_credentialDotMissing",
-			"rowCard": "tKsOKa_rowCard",
-			"deleteConfirm": "tKsOKa_deleteConfirm",
-			"credentialDot": "tKsOKa_credentialDot",
-			"dangerButton": "tKsOKa_dangerButton",
-			"rowTag": "tKsOKa_rowTag",
-			"addBlock": "tKsOKa_addBlock",
 			"savedNotice": "tKsOKa_savedNotice",
-			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
-			"intro": "tKsOKa_intro",
-			"addButton": "tKsOKa_addButton",
-			"field": "tKsOKa_field",
-			"fieldLabel": "tKsOKa_fieldLabel",
-			"section": "tKsOKa_section",
-			"notice": "tKsOKa_notice",
-			"rowName": "tKsOKa_rowName",
 			"rowActions": "tKsOKa_rowActions",
+			"credentialDot": "tKsOKa_credentialDot",
+			"addCard": "tKsOKa_addCard",
+			"rows": "tKsOKa_rows",
 			"title": "tKsOKa_title",
-			"deleteDialog": "tKsOKa_deleteDialog",
+			"field": "tKsOKa_field",
+			"rowName": "tKsOKa_rowName",
+			"section": "tKsOKa_section",
 			"input": "tKsOKa_input",
-			"setupCard": "tKsOKa_setupCard",
-			"addActions": "tKsOKa_addActions",
-			"rowIdentity": "tKsOKa_rowIdentity"
+			"deleteConfirm": "tKsOKa_deleteConfirm",
+			"dangerButton": "tKsOKa_dangerButton",
+			"secondaryButton": "tKsOKa_secondaryButton"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -10035,10 +10035,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var OnboardingModal_module_css_default = {
-			"body": "C_CJ_a_body",
+			"content": "C_CJ_a_content",
 			"title": "C_CJ_a_title",
-			"dialog": "C_CJ_a_dialog",
-			"content": "C_CJ_a_content"
+			"body": "C_CJ_a_body",
+			"dialog": "C_CJ_a_dialog"
 		};
 		//#endregion
 		//#region lib/types/client/OnboardingModal.js
@@ -10097,8 +10097,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var DeepSeekOnboardingDialog_module_css_default = {
-			"description": "oxcHWa_description",
-			"editor": "oxcHWa_editor"
+			"editor": "oxcHWa_editor",
+			"description": "oxcHWa_description"
 		};
 		//#endregion
 		//#region lib/types/client/DeepSeekOnboardingDialog.js
@@ -10188,10 +10188,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WelcomeNotice_module_css_default = {
+			"copy": "RFswhG_copy",
 			"error": "RFswhG_error",
 			"primary": "RFswhG_primary",
-			"actions": "RFswhG_actions",
-			"copy": "RFswhG_copy"
+			"actions": "RFswhG_actions"
 		};
 		//#endregion
 		//#region lib/types/client/WelcomeNotice.js
@@ -10654,13 +10654,13 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProductWorkspaceSurface_module_css_default = {
-			"eyebrow": "mzcFbW_eyebrow",
-			"root": "mzcFbW_root",
+			"close": "mzcFbW_close",
+			"body": "mzcFbW_body",
 			"identity": "mzcFbW_identity",
 			"icon": "mzcFbW_icon",
-			"body": "mzcFbW_body",
 			"header": "mzcFbW_header",
-			"close": "mzcFbW_close"
+			"eyebrow": "mzcFbW_eyebrow",
+			"root": "mzcFbW_root"
 		};
 		//#endregion
 		//#region lib/types/client/ProductWorkspaceSurface.js
@@ -10708,20 +10708,20 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TranslationWorkspace_module_css_default = {
+			"actions": "_8lesPa_actions",
+			"eyebrow": "_8lesPa_eyebrow",
+			"swap": "_8lesPa_swap",
+			"empty": "_8lesPa_empty",
 			"toolbar": "_8lesPa_toolbar",
 			"root": "_8lesPa_root",
-			"swap": "_8lesPa_swap",
-			"panes": "_8lesPa_panes",
-			"link": "_8lesPa_link",
+			"secondary": "_8lesPa_secondary",
 			"error": "_8lesPa_error",
 			"header": "_8lesPa_header",
+			"panes": "_8lesPa_panes",
 			"history": "_8lesPa_history",
 			"historyItem": "_8lesPa_historyItem",
-			"empty": "_8lesPa_empty",
-			"eyebrow": "_8lesPa_eyebrow",
-			"actions": "_8lesPa_actions",
-			"secondary": "_8lesPa_secondary",
-			"pane": "_8lesPa_pane"
+			"pane": "_8lesPa_pane",
+			"link": "_8lesPa_link"
 		};
 		//#endregion
 		//#region lib/types/client/TranslationWorkspace.js

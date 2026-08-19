@@ -6,6 +6,10 @@ import { resolveSlotLabel, type HostObservable } from '@deepseek-ai/dsh-client-u
 import type {} from '@deepseek-ai/dsh-client-ui-settings/client'
 import type {} from '@deepseek-ai/dsh-client-ui-sidebar/client'
 import type {} from '@deepseek-ai/dsh-client-ui-layout/client'
+// The application workspace seam types ship in the harness source baseline,
+// not in the published rc.7 ui-layout — vendor the declaration mirror so the
+// build is self-contained (runtime slots still come from the harness).
+import type {} from './application-slots.ts'
 import type {} from '@deepseek-ai/dsh-client-locale/client'
 import type {} from '@deepseek-ai/dsh-api-remotes/client'
 import type {} from '../translation-types.ts'
