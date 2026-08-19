@@ -3,13 +3,18 @@ import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import clsx from 'clsx'
 import {
   IconAgentPresetOutline16,
+  IconApiOutline14,
+  IconBranchOutline16,
   IconCloseOutline16,
+  IconCodeOutline16,
   IconDataOutline16,
   IconPersonalizationOutline16,
+  IconSearchOutline16,
   IconSettingsOutline16,
 } from '@deepseek-ai/dsh-client-ui-primitives'
 import type { SettingsRootComponentProps, SettingsSectionRow } from './shell-contract.ts'
 import css from './SettingsRoot.module.css'
+import './cherry-tokens.css'
 
 interface PanelProps {
   rows: readonly SettingsSectionRow[]
@@ -20,10 +25,16 @@ interface PanelProps {
   groupLabels: Record<SettingsSectionRow['group'], string>
 }
 
-const GROUPS: readonly SettingsSectionRow['group'][] = ['core', 'native', 'other']
+/** Nav groups in Cherry's settings order: core, capabilities, personal,
+ * then the DSH-owned sections as a native group. */
+const GROUPS: readonly SettingsSectionRow['group'][] = ['core', 'capabilities', 'personal', 'native', 'other']
 
 function navIcon(id: string) {
   if (id === 'models') return <IconDataOutline16 className={css.navIcon} size={16} />
+  if (id === 'skills') return <IconCodeOutline16 className={css.navIcon} size={16} />
+  if (id === 'providers') return <IconApiOutline14 className={css.navIcon} size={14} />
+  if (id === 'mcp') return <IconBranchOutline16 className={css.navIcon} size={16} />
+  if (id === 'websearch') return <IconSearchOutline16 className={css.navIcon} size={16} />
   if (id === 'agent-presets') return <IconAgentPresetOutline16 className={css.navIcon} size={16} />
   if (id === 'plugins') return <IconPersonalizationOutline16 className={css.navIcon} size={16} />
   return <IconSettingsOutline16 className={css.navIcon} size={16} />
@@ -46,7 +57,7 @@ function SettingsPanel({ rows, renderSlot, activeId, onSelect, onClose, groupLab
   return (
     <div className={css.overlay} role="presentation">
       <div className={css.mask} aria-hidden="true" onClick={onClose} />
-      <div className={css.panel} role="dialog" aria-modal="true" aria-labelledby={titleId}>
+      <div className={clsx(css.panel, 'cc-surface')} role="dialog" aria-modal="true" aria-labelledby={titleId}>
         <nav className={css.nav}>
           <div className={css.navTitle} id={titleId}>{renderSlot('settings.header', {})}</div>
           <div className={css.navScroll}>
@@ -55,7 +66,7 @@ function SettingsPanel({ rows, renderSlot, activeId, onSelect, onClose, groupLab
               if (entries.length === 0) return null
               return (
                 <section className={css.navGroup} key={group} aria-label={groupLabels[group]}>
-                  {group === 'core' ? null : <div className={css.navGroupTitle}>{groupLabels[group]}</div>}
+                  <div className={css.navGroupTitle}>{groupLabels[group]}</div>
                   <div className={css.navList}>
                     {entries.map(row => (
                       <button

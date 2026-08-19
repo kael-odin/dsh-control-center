@@ -5,6 +5,8 @@ export declare const en: {
     close: string;
     generalNav: string;
     coreGroup: string;
+    capabilitiesGroup: string;
+    personalGroup: string;
     nativeGroup: string;
     otherGroup: string;
     openDocument: string;

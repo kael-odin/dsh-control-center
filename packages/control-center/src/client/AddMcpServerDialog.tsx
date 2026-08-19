@@ -105,7 +105,7 @@ export function AddMcpServerDialog({ visible, onClose, onSubmit }: AddMcpServerD
 
   return (
     <div className={css.overlay} onClick={onClose}>
-      <div className={css.dialog} onClick={(e) => e.stopPropagation()}>
+      <div className={`${css.dialog} cc-surface`} onClick={(e) => e.stopPropagation()}>
         <div className={css.header}>
           <h2 className={css.title}>添加 MCP 服务器</h2>
           <button className={css.closeButton} onClick={onClose} type="button">

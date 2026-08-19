@@ -1,4 +1,6 @@
-/* Cherry-derived settings geometry adapted to DSH semantic tokens. */
+/* Settings shell styled to Cherry Studio's settings page geometry, consuming
+   the Cherry token contract (cherry-tokens.css). Adapted from Cherry's
+   SettingsPage.tsx + settingsStyles.ts layout rules. */
 
 /* Trigger row: the 42px foot-row box shared with the Cordis footer action. */
 .trigger {
@@ -42,8 +44,8 @@
   white-space: nowrap;
 }
 
-/* Full-viewport layer (figma Mask 501:29946 #000@24%): mask tokens match the
-   Modal primitive (--dsw-alias-bg-mask-1 + --dsw-mask-blur). */
+/* Full-viewport layer; the mask keeps the dialog affordance while the panel
+   fills the screen like Cherry's settings page. */
 .overlay {
   position: fixed;
   inset: 0;
@@ -57,120 +59,115 @@
   position: absolute;
   inset: 0;
   background: var(--dsw-alias-bg-mask-1);
-  backdrop-filter: var(--dsw-mask-blur);
 }
 
-/* Panel (figma Settings 501:29947): r24, white, lv3 shadow (figma effects
-   match --dsw-shadow-lv3 exactly); figma's 1080x700 is shrunk to 800 wide.
-   One height for every section, taken from the viewport rather than the
-   content: sections differ by hundreds of pixels (a settings list against the
-   composition editor), and a content-sized panel would resize under the
-   pointer on every nav click. Whatever does not fit scrolls in `.options`. */
+/* Panel: full settings page (SettingsPage.tsx: bg-background flex row). */
 .panel {
   position: relative;
   z-index: 1;
   display: flex;
-  width: min(1080px, calc(100vw - 48px));
-  height: min(700px, calc(100vh - 48px));
-  border-radius: 18px;
+  width: min(1180px, calc(100vw - 48px));
+  height: min(760px, calc(100vh - 48px));
+  border-radius: 14px;
   overflow: hidden;
-  background: var(--dsw-alias-bg-layer-2);
+  background: var(--background);
   box-shadow: var(--dsw-shadow-lv3);
-  /* Elevated surface: the scrollbar thumb takes the l2 elevation tokens.
-     Declared on the panel rather than the scrolling `.options` child so the
-     elevation choice sits with the surface; the custom properties inherit
-     down to whichever descendant scrolls (see ui-theme
-     styles/scrollbar.css for the rebinding contract). */
+  font-family: var(--cs-font-family-body), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+  color: var(--foreground);
   --dsh-scrollbar-thumb: var(--dsw-alias-scrollbar-bg-l2);
   --dsh-scrollbar-thumb-hover: var(--dsw-alias-scrollbar-hover-l2);
 }
 
-/* Nav rail (figma .Setting-nav 501:29958): 188 wide, pad (12,22,12,0),
-   gap 18, no own fill — the panel white shows through. */
+/* Nav rail (SettingsPage.tsx settings.navigation): w-(--settings-width),
+   border-r-[0.5px], header + scrollable MenuList. */
 .nav {
   flex: none;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  width: 236px;
-  padding: 22px 14px 14px;
+  width: 250px;
+  min-width: 250px;
   box-sizing: border-box;
-  border-right: 1px solid var(--dsw-alias-border-l2);
-  background: var(--dsw-alias-bg-layer-1);
+  border-right: 0.5px solid var(--border);
+  background: var(--background);
 }
 
-/* Title row (figma 501:29959): 16/500 lh24, 12px side padding. */
+/* PageHeader seat: title + close affordance live in the header slot. */
 .navTitle {
-  padding: 0 12px;
+  padding: 14px 20px 10px;
   font-size: 16px;
   line-height: 24px;
   font-weight: 500;
-  color: var(--dsw-alias-label-primary);
+  color: var(--foreground);
 }
 
-/* Cell stack (figma 501:29961): gap 4. */
+/* MenuList (settingsStyles settingsSubmenuListClassName): flex-col gap-0.5
+   px-2.5 pb-2.5. */
 .navScroll {
   min-height: 0;
+  flex: 1;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 10px 10px;
+  box-sizing: border-box;
 }
 
+/* Group section title (settingsSubmenuSectionTitleClassName): px-2.5 pt-2
+   pb-0.5 text-xs foreground-tertiary. */
 .navGroup {
-  padding: 8px 0;
-  border-top: 1px solid var(--dsw-alias-border-l2);
-}
-
-.navGroup:first-child {
-  padding-top: 0;
-  border-top: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .navGroupTitle {
-  padding: 4px 12px 6px;
-  color: var(--dsw-alias-label-tertiary);
-  font-size: 11px;
+  padding: 8px 10px 2px;
+  color: var(--foreground-tertiary);
+  font-size: 12px;
   line-height: 16px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-weight: 400;
 }
 
 .navList {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
-/* Nav cell (figma .Setting-nav-cell 501:29962): 164x40, r12, pad
-   (12,9,16,9), gap 8; label 14/400 lh22; selected fill #EBEEF2. */
+/* MenuItem (settingsSubmenuItemClassName): h-8 rounded-[10px] px-2.5 text-sm
+   text-foreground, hover bg-muted, active bg-muted + font-medium, svg 16px. */
 .navCell {
   display: flex;
   align-items: center;
   gap: 8px;
-  height: 40px;
-  padding: 9px 16px 9px 12px;
+  height: 32px;
+  padding: 0 10px;
   box-sizing: border-box;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
   background: transparent;
   cursor: pointer;
   font-family: inherit;
   font-size: 14px;
-  line-height: 22px;
+  line-height: 20px;
   font-weight: 400;
-  color: var(--dsw-alias-label-primary);
+  color: var(--foreground);
   text-align: left;
 }
 
 .navCell:hover {
-  background: var(--dsw-specific-sidebar-nav-item-hover);
+  background: var(--muted);
 }
 
 .navCell.active {
-  background: var(--dsw-specific-sidebar-nav-item-active);
+  background: var(--muted);
+  font-weight: 500;
 }
 
 .navIcon {
   flex: none;
+  color: var(--foreground);
 }
 
 .navLabel {
@@ -181,7 +178,8 @@
   text-overflow: ellipsis;
 }
 
-/* Content column (figma Content 501:29980): header + options. */
+/* Content column (settingsContentScrollClassName + bodyClassName): flex-1
+   min-w-0, p-6, header mb-5. */
 .content {
   flex: 1;
   min-width: 0;
@@ -189,15 +187,14 @@
   flex-direction: column;
 }
 
-/* Header (figma .Header 501:29981): h54, pad (10,20,14,8), close right. */
 .header {
   flex: none;
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: flex-end;
   gap: 8px;
-  height: 54px;
-  padding: 20px 14px 8px 10px;
+  height: 48px;
+  padding: 0 14px 0 24px;
   box-sizing: border-box;
 }
 
@@ -210,7 +207,7 @@
   margin-left: auto;
 }
 
-/* Close button (figma .Icon_container 501:29982): 28x28, r28, 14px glyph. */
+/* Close button: quiet 28px ghost, hover muted. */
 .close {
   display: inline-flex;
   align-items: center;
@@ -219,22 +216,26 @@
   height: 28px;
   padding: 0;
   border: none;
-  border-radius: 28px;
+  border-radius: 8px;
   background: transparent;
   cursor: pointer;
-  color: var(--dsw-alias-label-primary);
+  color: var(--muted-foreground);
 }
 
 .close:hover {
-  background: var(--dsw-alias-interactive-bg-hover);
+  background: var(--muted);
+  color: var(--foreground);
 }
 
-/* Options area (figma Options 501:29983): pad (24,0,24,24), scrolls. */
+/* Options area: content pages scroll inside the p-6 body (Cherry:
+   settingsContentScrollClassName flex-1 min-h-0 min-w-0 overflow-x-hidden). */
 .options {
   flex: 1;
   min-height: 0;
+  min-width: 0;
   padding: 0 24px 24px;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 @media (max-width: 760px) {
@@ -249,8 +250,8 @@
   }
 
   .nav {
-    width: 176px;
-    padding-inline: 10px;
+    width: 210px;
+    min-width: 210px;
   }
 }
 
@@ -263,11 +264,7 @@
     width: 100%;
     max-height: 42vh;
     border-right: none;
-    border-bottom: 1px solid var(--dsw-alias-border-l2);
-  }
-
-  .navGroup {
-    padding-block: 4px;
+    border-bottom: 0.5px solid var(--border);
   }
 
   .options {

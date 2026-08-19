@@ -1,0 +1,597 @@
+/**
+ * Cherry Studio design tokens, ported for the Control Center surfaces.
+ *
+ * AGPL-3.0-only – adapted from Cherry Studio `packages/ui/src/styles`
+ * (tokens/colors/primitive.css + providers.css, tokens/typography.css,
+ * tokens/radius.css, shadcn.css). Structure is preserved; the dark-mode
+ * class selector is replaced with DSH's `body[data-ds-dark-theme]` so the
+ * Control Center follows the host theme. Tokens are scoped to `.cc-surface`
+ * so they never leak into the DSH shell around us.
+ *
+ * Components consume the unprefixed public contract (`--background`,
+ * `--foreground`, `--border`, …) exactly like Cherry product code; the
+ * `--cs-*` providers are internal.
+ */
+
+/* ------------------------------------------------------------------ */
+/* Primitives (tokens/colors/primitive.css)                            */
+/* ------------------------------------------------------------------ */
+.cc-surface {
+  --cs-neutral-50: oklch(0.98 0 0);
+  --cs-neutral-100: oklch(0.97 0 0);
+  --cs-neutral-200: oklch(0.92 0 0);
+  --cs-neutral-300: oklch(0.87 0 0);
+  --cs-neutral-400: oklch(0.72 0 0);
+  --cs-neutral-500: oklch(0.55 0 0);
+  --cs-neutral-600: oklch(0.44 0.027 257);
+  --cs-neutral-700: oklch(0.37 0 0);
+  --cs-neutral-800: oklch(0.27 0 0);
+  --cs-neutral-900: oklch(0.2 0 0);
+  --cs-neutral-950: oklch(0.15 0 0);
+
+  --cs-brand-50: oklch(0.98 0.015 152);
+  --cs-brand-100: oklch(0.96 0.034 151);
+  --cs-brand-200: oklch(0.91 0.073 151);
+  --cs-brand-300: oklch(0.85 0.13 149);
+  --cs-brand-400: oklch(0.81 0.173 148);
+  --cs-brand-500: oklch(0.77 0.208 146);
+  --cs-brand-600: oklch(0.67 0.192 146);
+  --cs-brand-700: oklch(0.56 0.156 146);
+  --cs-brand-800: oklch(0.43 0.117 146);
+  --cs-brand-900: oklch(0.32 0.086 146);
+
+  --cs-red-50: oklch(0.97 0.014 17);
+  --cs-red-100: oklch(0.93 0.031 18);
+  --cs-red-200: oklch(0.88 0.062 18);
+  --cs-red-300: oklch(0.81 0.103 20);
+  --cs-red-400: oklch(0.71 0.166 22);
+  --cs-red-500: oklch(0.64 0.208 25);
+  --cs-red-600: oklch(0.58 0.214 27);
+  --cs-red-700: oklch(0.51 0.192 28);
+  --cs-red-800: oklch(0.44 0.16 27);
+  --cs-red-900: oklch(0.4 0.135 26);
+  --cs-red-950: oklch(0.25 0.087 26);
+
+  --cs-amber-50: oklch(0.99 0.022 95);
+  --cs-amber-100: oklch(0.96 0.057 96);
+  --cs-amber-200: oklch(0.93 0.114 96);
+  --cs-amber-300: oklch(0.88 0.153 92);
+  --cs-amber-400: oklch(0.83 0.164 84);
+  --cs-amber-500: oklch(0.77 0.165 71);
+  --cs-amber-600: oklch(0.67 0.159 58);
+  --cs-amber-700: oklch(0.55 0.145 49);
+  --cs-amber-800: oklch(0.47 0.124 47);
+  --cs-amber-900: oklch(0.41 0.104 46);
+  --cs-amber-950: oklch(0.28 0.074 46);
+
+  --cs-green-50: oklch(0.98 0.016 156);
+  --cs-green-100: oklch(0.96 0.041 157);
+  --cs-green-200: oklch(0.92 0.081 156);
+  --cs-green-300: oklch(0.87 0.137 155);
+  --cs-green-400: oklch(0.8 0.182 152);
+  --cs-green-500: oklch(0.72 0.192 149);
+  --cs-green-600: oklch(0.62 0.169 149);
+  --cs-green-700: oklch(0.52 0.137 150);
+  --cs-green-800: oklch(0.42 0.108 151);
+  --cs-green-900: oklch(0.35 0.084 152);
+  --cs-green-950: oklch(0.24 0.059 152);
+
+  --cs-blue-50: oklch(0.97 0.017 261);
+  --cs-blue-100: oklch(0.94 0.033 261);
+  --cs-blue-200: oklch(0.88 0.067 261);
+  --cs-blue-300: oklch(0.8 0.113 261);
+  --cs-blue-400: oklch(0.71 0.152 261);
+  --cs-blue-500: oklch(0.62 0.17 260);
+  --cs-blue-600: oklch(0.54 0.157 259);
+  --cs-blue-700: oklch(0.46 0.13 258);
+  --cs-blue-800: oklch(0.38 0.104 256);
+  --cs-blue-900: oklch(0.33 0.086 255);
+  --cs-blue-950: oklch(0.22 0.056 254);
+
+  --cs-white: oklch(1 0 0);
+  --cs-black: oklch(0 0 0);
+
+  /* Typography (tokens/typography.css) */
+  --cs-font-family-heading: Inter;
+  --cs-font-family-body: Inter;
+  --cs-font-weight-regular: 400;
+  --cs-font-weight-medium: 500;
+  --cs-font-weight-bold: 700;
+  --cs-font-size-body-xs: 0.75rem;
+  --cs-font-size-body-sm: 0.875rem;
+  --cs-font-size-body-md: 1rem;
+  --cs-font-size-body-lg: 1.125rem;
+  --cs-font-size-heading-xs: 1.25rem;
+  --cs-font-size-heading-sm: 1.5rem;
+  --cs-line-height-body-xs: 1.25rem;
+  --cs-line-height-body-sm: 1.5rem;
+  --cs-line-height-body-md: 1.5rem;
+  --cs-line-height-body-lg: 1.75rem;
+  --cs-line-height-heading-xs: 2rem;
+  --cs-line-height-heading-sm: 2.5rem;
+
+  /* Radius (tokens/radius.css) */
+  --cs-radius-xs: 0.125rem;
+  --cs-radius-sm: 0.375rem;
+  --cs-radius-md: 0.5rem;
+  --cs-radius-lg: 0.625rem;
+  --cs-radius-xl: 0.875rem;
+  --cs-radius-2xl: 1.125rem;
+  --cs-radius-3xl: 1.375rem;
+  --cs-radius-round: 9999px;
+
+  /* ------------------------------------------------------------------ */
+  /* Semantic providers (tokens/colors/providers.css) – light            */
+  /* ------------------------------------------------------------------ */
+  --cs-primary: var(--cs-brand-500);
+  --cs-destructive: var(--cs-red-500);
+  --cs-destructive-hover: var(--cs-red-400);
+  --cs-success: var(--cs-green-500);
+  --cs-warning: var(--cs-amber-500);
+  --cs-info: var(--cs-blue-500);
+
+  --cs-background: var(--cs-white);
+  --cs-background-subtle: oklch(0 0 0 / 0.02);
+  --cs-foreground: oklch(0.213 0 0);
+  --cs-muted-foreground: oklch(0.556 0 0);
+  --cs-foreground-tertiary: oklch(0.669 0 0);
+  --cs-foreground-disabled: var(--cs-foreground-tertiary);
+
+  --cs-card: var(--cs-white);
+  --cs-popover: var(--cs-white);
+
+  --cs-border: oklch(0 0 0 / 0.1);
+  --cs-border-subtle: oklch(0 0 0 / 0.04);
+  --cs-border-strong: oklch(0 0 0 / 0.2);
+  --cs-border-selected: oklch(0 0 0 / 0.3);
+
+  --cs-ring: color-mix(in srgb, var(--cs-primary) 40%, transparent);
+
+  --cs-secondary: oklch(0 0 0 / 0.05);
+  --cs-secondary-hover: oklch(0 0 0 / 0.1);
+  --cs-secondary-active: oklch(0 0 0 / 0.15);
+  --cs-muted: oklch(0 0 0 / 0.05);
+  --cs-accent: oklch(0 0 0 / 0.05);
+  --cs-ghost-active: oklch(0 0 0 / 0.1);
+
+  --cs-sidebar: oklch(0.9672 0 0);
+  --cs-sidebar-accent: oklch(0.97 0 0);
+
+  --cs-card-foreground: oklch(0.145 0 0);
+  --cs-popover-foreground: oklch(0.145 0 0);
+  --cs-secondary-foreground: oklch(0.205 0 0);
+  --cs-accent-foreground: oklch(0.205 0 0);
+  --cs-primary-foreground: oklch(0.985 0 0);
+  --cs-destructive-foreground: var(--cs-white);
+
+  --cs-input: oklch(0.922 0 0);
+
+  --cs-sidebar-foreground: oklch(0.145 0 0);
+  --cs-sidebar-primary: oklch(0.205 0 0);
+  --cs-sidebar-primary-foreground: oklch(0.985 0 0);
+  --cs-sidebar-accent-foreground: oklch(0.205 0 0);
+  --cs-sidebar-border: oklch(0.922 0 0);
+  --cs-sidebar-ring: oklch(0.708 0 0);
+
+  --cs-error: var(--cs-red-500);
+  --cs-error-subtle: var(--cs-red-50);
+  --cs-error-subtle-foreground: var(--cs-red-700);
+  --cs-error-border: var(--cs-red-200);
+  --cs-success-subtle: var(--cs-green-50);
+  --cs-success-subtle-foreground: var(--cs-green-800);
+  --cs-success-border: var(--cs-green-200);
+  --cs-warning-subtle: var(--cs-amber-50);
+  --cs-warning-subtle-foreground: var(--cs-amber-800);
+  --cs-warning-border: var(--cs-amber-200);
+  --cs-info-subtle: var(--cs-blue-50);
+  --cs-info-subtle-foreground: var(--cs-blue-800);
+  --cs-info-border: var(--cs-blue-200);
+
+  /* ------------------------------------------------------------------ */
+  /* Public contract (shadcn.css)                                        */
+  /* ------------------------------------------------------------------ */
+  --background: var(--cs-background);
+  --foreground: var(--cs-foreground);
+  --card: var(--cs-card);
+  --card-foreground: var(--cs-card-foreground);
+  --popover: var(--cs-popover);
+  --popover-foreground: var(--cs-popover-foreground);
+  --primary: var(--cs-primary);
+  --primary-foreground: var(--cs-primary-foreground);
+  --secondary: var(--cs-secondary);
+  --secondary-foreground: var(--cs-secondary-foreground);
+  --muted: var(--cs-muted);
+  --muted-foreground: var(--cs-muted-foreground);
+  --accent: var(--cs-accent);
+  --accent-foreground: var(--cs-accent-foreground);
+  --destructive: var(--cs-destructive);
+  --destructive-foreground: var(--cs-destructive-foreground);
+
+  --border: var(--cs-border);
+  --border-subtle: var(--cs-border-subtle);
+  --border-strong: var(--cs-border-strong);
+  --border-selected: var(--cs-border-selected);
+  --input: var(--cs-input);
+  --ring: var(--cs-ring);
+
+  --background-subtle: var(--cs-background-subtle);
+  --foreground-tertiary: var(--cs-foreground-tertiary);
+  --foreground-disabled: var(--cs-foreground-disabled);
+  --ghost-active: var(--cs-ghost-active);
+  --secondary-hover: var(--cs-secondary-hover);
+  --secondary-active: var(--cs-secondary-active);
+
+  --sidebar: var(--cs-sidebar);
+  --sidebar-foreground: var(--cs-sidebar-foreground);
+  --sidebar-primary: var(--cs-sidebar-primary);
+  --sidebar-primary-foreground: var(--cs-sidebar-primary-foreground);
+  --sidebar-accent: var(--cs-sidebar-accent);
+  --sidebar-accent-foreground: var(--cs-sidebar-accent-foreground);
+  --sidebar-border: var(--cs-sidebar-border);
+  --sidebar-ring: var(--cs-sidebar-ring);
+
+  --error: var(--cs-error);
+  --error-subtle: var(--cs-error-subtle);
+  --error-subtle-foreground: var(--cs-error-subtle-foreground);
+  --error-border: var(--cs-error-border);
+  --success: var(--cs-success);
+  --success-subtle: var(--cs-success-subtle);
+  --success-subtle-foreground: var(--cs-success-subtle-foreground);
+  --success-border: var(--cs-success-border);
+  --warning: var(--cs-warning);
+  --warning-subtle: var(--cs-warning-subtle);
+  --warning-subtle-foreground: var(--cs-warning-subtle-foreground);
+  --warning-border: var(--cs-warning-border);
+  --info: var(--cs-info);
+  --info-subtle: var(--cs-info-subtle);
+  --info-subtle-foreground: var(--cs-info-subtle-foreground);
+  --info-border: var(--cs-info-border);
+}
+
+/* ------------------------------------------------------------------ */
+/* Shared component kit (Cherry settings composition patterns)         */
+/* ------------------------------------------------------------------ */
+
+/* Settings content column (SettingsContentColumn: p-6 + mx-auto max-w-3xl). */
+.cc-settings-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Page header (settingsContentHeaderClassName: mb-5). */
+.cc-page-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.cc-page-description {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--muted-foreground);
+}
+
+/* Setting card: contained surface with subtle border (SettingGroup). */
+.cc-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  background: var(--card);
+}
+
+.cc-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.cc-card-description {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+
+/* SettingRow: label left, control right, wraps. */
+.cc-field-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  min-height: 24px;
+}
+
+.cc-field-label {
+  font-size: 14px;
+  color: var(--foreground);
+}
+
+.cc-field-hint {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+
+/* Compact field: h-8 rounded-lg border-border-subtle bg-muted/30 px-2.5,
+   focus ring-[1px] ring-ring/35 (webSearchFieldClassName). */
+.cc-input {
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--muted) 30%, transparent);
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 32px;
+  box-shadow: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.cc-input:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent);
+}
+
+.cc-input::placeholder {
+  color: var(--foreground-tertiary);
+}
+
+.cc-select {
+  height: 32px;
+  padding: 0 28px 0 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--muted) 30%, transparent);
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.cc-select:focus-visible {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent);
+}
+
+.cc-textarea {
+  padding: 8px 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--muted) 30%, transparent);
+  color: var(--foreground);
+  font-family: var(--ds-font-family-code), monospace;
+  font-size: 13px;
+  line-height: 20px;
+  box-shadow: none;
+  outline: none;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.cc-textarea:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent);
+}
+
+.cc-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+/* Buttons: primary (brand fill), secondary (muted fill), ghost (quiet). */
+.cc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  cursor: pointer;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.cc-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cc-btn-primary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.cc-btn-primary:hover:not(:disabled) {
+  background: var(--cs-brand-600);
+}
+
+.cc-btn-secondary {
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+}
+
+.cc-btn-secondary:hover:not(:disabled) {
+  background: var(--secondary-hover);
+}
+
+.cc-btn-ghost {
+  background: transparent;
+  color: var(--foreground);
+}
+
+.cc-btn-ghost:hover:not(:disabled) {
+  background: var(--muted);
+}
+
+.cc-btn-danger {
+  background: transparent;
+  color: var(--destructive);
+  border-color: var(--border-subtle);
+}
+
+.cc-btn-danger:hover:not(:disabled) {
+  background: var(--error-subtle);
+}
+
+/* Small icon-only button (size-8 ghost). */
+.cc-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+
+.cc-icon-btn:hover {
+  background: var(--muted);
+  color: var(--foreground);
+}
+
+/* Empty state (foreground-tertiary, centered). */
+.cc-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 48px 16px;
+  color: var(--muted-foreground);
+  font-size: 14px;
+  text-align: center;
+}
+
+.cc-empty-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.cc-empty-description {
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+
+/* Loading seat. */
+.cc-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: var(--muted-foreground);
+  font-size: 14px;
+}
+
+/* Inline notice (feedback surfaces: error/success subtles). */
+.cc-notice-error {
+  padding: 8px 12px;
+  border: 1px solid var(--error-border);
+  border-radius: 8px;
+  background: var(--error-subtle);
+  color: var(--error-subtle-foreground);
+  font-size: 13px;
+}
+
+.cc-badge-enabled {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: 9999px;
+  background: var(--success-subtle);
+  color: var(--success-subtle-foreground);
+  font-size: 12px;
+}
+
+.cc-badge-disabled {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: 9999px;
+  background: var(--muted);
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Dark mode (providers.css `.dark` block, keyed to DSH's host theme)  */
+/* ------------------------------------------------------------------ */
+body[data-ds-dark-theme] .cc-surface {
+  --cs-success: var(--cs-green-400);
+  --cs-warning: var(--cs-amber-400);
+  --cs-info: var(--cs-blue-400);
+
+  --cs-background: oklch(0.209 0 0 / 0.55);
+  --cs-background-subtle: oklch(1 0 0 / 0.02);
+  --cs-foreground: oklch(0.931 0 0);
+  --cs-muted-foreground: oklch(0.708 0 0);
+  --cs-foreground-tertiary: oklch(0.559 0 0);
+
+  /* Surfaces stack via color: the higher the layer, the lighter. */
+  --cs-card: var(--cs-neutral-900);
+  --cs-popover: var(--cs-neutral-800);
+
+  --cs-border: oklch(1 0 0 / 0.1);
+  --cs-border-subtle: oklch(1 0 0 / 0.05);
+  --cs-border-strong: oklch(1 0 0 / 0.2);
+  --cs-border-selected: oklch(1 0 0 / 0.3);
+
+  --cs-ring: oklch(0.76 0.204 131 / 0.4);
+
+  --cs-secondary: oklch(1 0 0 / 0.1);
+  --cs-secondary-hover: oklch(1 0 0 / 0.2);
+  --cs-secondary-active: oklch(1 0 0 / 0.25);
+  --cs-muted: oklch(1 0 0 / 0.1);
+  --cs-accent: oklch(1 0 0 / 0.1);
+  --cs-ghost-active: oklch(1 0 0 / 0.15);
+
+  --cs-sidebar: oklch(0.2393 0 0);
+  --cs-sidebar-accent: oklch(0.269 0 0);
+
+  --cs-card-foreground: oklch(0.985 0 0);
+  --cs-popover-foreground: oklch(0.985 0 0);
+  --cs-secondary-foreground: oklch(0.985 0 0);
+  --cs-accent-foreground: oklch(0.985 0 0);
+  --cs-primary-foreground: oklch(0.205 0 0);
+  --cs-destructive-foreground: var(--cs-white);
+
+  --cs-input: oklch(0.269 0 0);
+
+  --cs-sidebar-foreground: oklch(0.985 0 0);
+  --cs-sidebar-primary: oklch(0.488 0.243 264.376);
+  --cs-sidebar-primary-foreground: oklch(0.985 0 0);
+  --cs-sidebar-accent-foreground: oklch(0.985 0 0);
+  --cs-sidebar-border: oklch(0.269 0 0);
+  --cs-sidebar-ring: oklch(0.439 0 0);
+
+  --cs-success-subtle-foreground: var(--cs-green-100);
+  --cs-success-border: var(--cs-green-700);
+  --cs-warning-subtle-foreground: var(--cs-amber-100);
+  --cs-warning-border: var(--cs-amber-700);
+  --cs-info-subtle-foreground: var(--cs-blue-100);
+  --cs-info-border: var(--cs-blue-700);
+}

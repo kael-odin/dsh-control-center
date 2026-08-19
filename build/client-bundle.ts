@@ -11,6 +11,8 @@ import { transform } from 'lightningcss'
 
 const CSS_VIRTUAL_PREFIX = '\0dsh-control-center-css:'
 const CSS_VIRTUAL_SUFFIX = '.mjs'
+const PLAIN_CSS_VIRTUAL_PREFIX = '\0dsh-control-center-plain-css:'
+const PLAIN_CSS_VIRTUAL_SUFFIX = '.mjs'
 
 export const PLATFORM_MODULES = [
   'react',
@@ -109,6 +111,33 @@ export function clientBundle(id: string, libEntry: readonly string[]): UserConfi
               '  document.head.appendChild(tag);',
               '}',
               `export default ${JSON.stringify(classMap)};`,
+            ].join('\n')
+          },
+        },
+        {
+          name: 'dsh-control-center-plain-css',
+          resolveId(source: string, importer: string | undefined) {
+            if (!source.endsWith('.css') || source.endsWith('.module.css')) return null
+            const absolute = importer === undefined ? source : sourceAssetPath(source, importer)
+            return PLAIN_CSS_VIRTUAL_PREFIX + absolute + PLAIN_CSS_VIRTUAL_SUFFIX
+          },
+          async load(virtualId: string) {
+            if (!virtualId.startsWith(PLAIN_CSS_VIRTUAL_PREFIX)) return null
+            const fileId = virtualId.slice(PLAIN_CSS_VIRTUAL_PREFIX.length, -PLAIN_CSS_VIRTUAL_SUFFIX.length)
+            this.addWatchFile(fileId)
+            const code = await readFile(fileId)
+            const result = transform({ filename: fileId, code, minify: true })
+            const tagId = `${id}/${basename(fileId)}`
+            return [
+              `const css = ${JSON.stringify(result.code.toString())};`,
+              `const tagId = ${JSON.stringify(tagId)};`,
+              'if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId) + "]") === null) {',
+              '  const tag = document.createElement("style");',
+              `  tag.dataset.plugin = ${JSON.stringify(id)};`,
+              '  tag.dataset.pluginCss = tagId;',
+              '  tag.textContent = css;',
+              '  document.head.appendChild(tag);',
+              '}',
             ].join('\n')
           },
         },

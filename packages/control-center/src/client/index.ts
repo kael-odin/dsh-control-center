@@ -62,8 +62,12 @@ const SHELL_NS = 'control-center'
 const MODELS_NS = 'control-center.models'
 const KNOWN_NATIVE = new Set(['general', 'agent-presets', 'plugins'])
 
+/** Cherry settings group mapping: models are core, capabilities/personal get
+ * their own groups, DSH-owned sections stay native. */
 function groupOf(id: string): SettingsSectionRow['group'] {
   if (id === 'models') return 'core'
+  if (id === 'general') return 'personal'
+  if (id === 'skills' || id === 'providers' || id === 'mcp' || id === 'websearch') return 'capabilities'
   if (KNOWN_NATIVE.has(id)) return 'native'
   return 'other'
 }
@@ -172,6 +176,8 @@ export function apply(ctx: ClientContext): void {
   const shellInjected = (): SettingsRootInjected => ({
     labels: {
       core: shellT('coreGroup'),
+      capabilities: shellT('capabilitiesGroup'),
+      personal: shellT('personalGroup'),
       native: shellT('nativeGroup'),
       other: shellT('otherGroup'),
     },

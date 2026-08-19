@@ -101,11 +101,11 @@ export function TranslationWorkspace({ getTranslation, listModels, useTranslatio
   }
 
   if (!translationReady) {
-    return <main className={css.root}><p role="status">正在连接翻译服务…</p></main>
+    return <main className={` cc-surface`}><p role="status">正在连接翻译服务…</p></main>
   }
 
   return (
-    <main className={css.root}>
+    <main className={` cc-surface`}>
       <header className={css.header}>
         <div><p className={css.eyebrow}>DSH Control Center</p><h1>翻译</h1></div>
         <button type="button" className={css.secondary} onClick={close}>返回对话</button>

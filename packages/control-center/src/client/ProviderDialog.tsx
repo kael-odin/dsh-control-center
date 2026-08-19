@@ -148,7 +148,7 @@ export function ProviderDialog({ open, mode, provider, providersService, onClose
 
   return (
     <div className={css.overlay} onClick={handleCancel}>
-      <div className={css.dialog} onClick={(e) => e.stopPropagation()}>
+      <div className={`${css.dialog} cc-surface`} onClick={(e) => e.stopPropagation()}>
         <div className={css.header}>
           <h2 className={css.title}>
             {mode === 'create' ? '添加提供商' : '编辑提供商'}

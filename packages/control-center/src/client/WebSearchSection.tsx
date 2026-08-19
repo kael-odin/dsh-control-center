@@ -1,6 +1,14 @@
+/**
+ * Web Search settings page (Cherry-composition: SettingsContentColumn cards).
+ *
+ * AGPL-3.0-only – layout adapted from Cherry Studio WebSearchSettings +
+ * SettingsPrimitives (content column, setting cards, compact field style).
+ */
+
 import { useState, useEffect } from 'react'
 import type { WebSearchProvider, WebSearchConfig, WebSearchCapability } from '../websearch/types.ts'
 import type { TypertClientRemote } from '@deepseek-ai/dsh-typert-protocol'
+import css from './WebSearchSection.module.css'
 
 interface WebSearchSectionProps {
   websearch: NonNullable<TypertClientRemote['controlCenterWebSearch']>
@@ -25,6 +33,11 @@ function unwrap<T>(result: { ok: true; value: T } | { ok: false; error: { code: 
 const CAPABILITY_TITLES: Record<WebSearchCapability, string> = {
   searchKeywords: 'Search Keywords',
   fetchUrls: 'Fetch URLs'
+}
+
+const CAPABILITY_DESCRIPTIONS: Record<WebSearchCapability, string> = {
+  searchKeywords: 'Provider used to search the web for keywords and return ranked results.',
+  fetchUrls: 'Provider used to fetch and convert a URL into readable content.'
 }
 
 function getFeatureSections(providers: WebSearchProvider[]): FeatureSection[] {
@@ -68,7 +81,7 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
   }, [websearch])
 
   if (loading || !config) {
-    return <div className="p-4">Loading...</div>
+    return <div className={css.loading}>Loading...</div>
   }
 
   const featureSections = getFeatureSections(providers)
@@ -109,72 +122,75 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
   }
 
   return (
-    <div className="p-6 space-y-8">
-      <div>
-        <h2 className="text-2xl font-semibold mb-2">Web Search</h2>
-        <p className="text-sm text-muted-foreground">
+    <div className={css.root}>
+      <div className={css.pageHeader}>
+        <h2 className={css.pageTitle}>Web Search</h2>
+        <p className={css.pageDescription}>
           Configure web search providers and capabilities
         </p>
       </div>
 
-      {/* General Settings */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-medium">General Settings</h3>
+      {/* General settings card */}
+      <div className={css.card}>
+        <div className={css.cardTitle}>General Settings</div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Max Results</label>
-            <input
-              type="number"
-              min="1"
-              max="50"
-              value={config.maxResults}
-              onChange={async (e) => {
-                const maxResults = parseInt(e.target.value, 10)
-                const updated = unwrap(await websearch.updateConfig({ maxResults }))
-                setConfig(updated)
-              }}
-              className="w-full px-3 py-2 border rounded-md"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Client Tools Preferred</label>
-            <label className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={config.clientToolsPreferred}
-                onChange={async (e) => {
-                  const updated = unwrap(await websearch.updateConfig({
-                    clientToolsPreferred: e.target.checked
-                  }))
-                  setConfig(updated)
-                }}
-                className="rounded"
-              />
-              <span className="text-sm">Use client-side tools when available</span>
-            </label>
-          </div>
+        <div className={css.fieldRow}>
+          <div className={css.fieldLabel}>Max Results</div>
+          <input
+            type="number"
+            min="1"
+            max="50"
+            value={config.maxResults}
+            onChange={async (e) => {
+              const maxResults = parseInt(e.target.value, 10)
+              const updated = unwrap(await websearch.updateConfig({ maxResults }))
+              setConfig(updated)
+            }}
+            className={css.input}
+          />
         </div>
 
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Exclude Domains</label>
+        <div className={css.fieldRow}>
+          <div className={css.fieldLabel}>
+            Client Tools Preferred
+            <div className={css.fieldHint}>Use client-side tools when available</div>
+          </div>
+          <input
+            type="checkbox"
+            checked={config.clientToolsPreferred}
+            onChange={async (e) => {
+              const updated = unwrap(await websearch.updateConfig({
+                clientToolsPreferred: e.target.checked
+              }))
+              setConfig(updated)
+            }}
+            className={css.checkbox}
+          />
+        </div>
+
+        <div className={css.fieldRow}>
+          <div className={css.fieldLabel}>
+            Exclude Domains
+            <div className={css.fieldHint}>Comma-separated domains to exclude from results</div>
+          </div>
           <input
             type="text"
-            placeholder="example.com, spam.com (comma-separated)"
+            placeholder="example.com, spam.com"
             value={config.excludeDomains.join(', ')}
             onChange={async (e) => {
               const domains = e.target.value.split(',').map(d => d.trim()).filter(Boolean)
               const updated = unwrap(await websearch.updateConfig({ excludeDomains: domains }))
               setConfig(updated)
             }}
-            className="w-full px-3 py-2 border rounded-md"
+            className={css.input}
           />
         </div>
 
-        {/* Compression Settings */}
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Compression Method</label>
+        <div className={css.fieldRow}>
+          <div className={css.fieldLabel}>
+            Compression Method
+            <div className={css.fieldHint}>How search results are compressed before passing to the model</div>
+          </div>
           <select
             value={config.compression.method}
             onChange={async (e) => {
@@ -186,7 +202,7 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
               }))
               setConfig(updated)
             }}
-            className="w-full px-3 py-2 border rounded-md"
+            className={css.select}
           >
             <option value="none">None</option>
             <option value="cutoff">Cutoff</option>
@@ -194,8 +210,8 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
         </div>
 
         {config.compression.method === 'cutoff' && (
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Cutoff Limit (characters)</label>
+          <div className={css.fieldRow}>
+            <div className={css.fieldLabel}>Cutoff Limit (characters)</div>
             <input
               type="number"
               min="500"
@@ -211,13 +227,13 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
                 }))
                 setConfig(updated)
               }}
-              className="w-full px-3 py-2 border rounded-md"
+              className={css.input}
             />
           </div>
         )}
       </div>
 
-      {/* Provider Settings by Capability */}
+      {/* Per-capability provider cards */}
       {featureSections.map((section) => {
         const defaultProviderId = section.capability === 'searchKeywords'
           ? config.defaultSearchKeywordsProvider
@@ -227,16 +243,18 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
           ?? section.entries[0]?.provider
 
         return (
-          <div key={section.capability} className="space-y-4">
-            <h3 className="text-lg font-medium">{CAPABILITY_TITLES[section.capability]}</h3>
+          <div key={section.capability} className={css.card}>
+            <div>
+              <div className={css.cardTitle}>{CAPABILITY_TITLES[section.capability]}</div>
+              <div className={css.cardDescription}>{CAPABILITY_DESCRIPTIONS[section.capability]}</div>
+            </div>
 
-            {/* Provider Selection */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Default Provider</label>
+            <div className={css.fieldRow}>
+              <div className={css.fieldLabel}>Default Provider</div>
               <select
                 value={selectedProvider?.id ?? ''}
                 onChange={(e) => handleDefaultProviderChange(section.capability, e.target.value)}
-                className="w-full px-3 py-2 border rounded-md"
+                className={css.select}
               >
                 {section.entries.map(({ provider }) => (
                   <option key={provider.id} value={provider.id}>
@@ -246,23 +264,19 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
               </select>
             </div>
 
-            {/* Selected Provider Configuration */}
             {selectedProvider && (
-              <div className="border rounded-lg p-4 space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-medium">{selectedProvider.name}</h4>
-                    <p className="text-sm text-muted-foreground">{selectedProvider.description}</p>
-                  </div>
+              <div className={css.providerDetail}>
+                <div>
+                  <div className={css.providerName}>{selectedProvider.name}</div>
+                  <div className={css.providerDescription}>{selectedProvider.description}</div>
                 </div>
 
-                {/* API Keys */}
                 {selectedProvider.requiresApiKey && (
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">API Keys</label>
-                    <div className="space-y-2">
+                  <div className={css.fieldRow}>
+                    <div className={css.fieldLabel}>API Keys</div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-end' }}>
                       {(selectedProvider.apiKeys.length > 0 ? selectedProvider.apiKeys : ['']).map((key, index) => (
-                        <div key={index} className="flex items-center space-x-2">
+                        <div key={index} className={css.apiKeyRow}>
                           <input
                             type="password"
                             value={key}
@@ -272,15 +286,16 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
                               await handleApiKeyChange(selectedProvider.id, newKeys.filter(Boolean))
                             }}
                             placeholder="Enter API key"
-                            className="flex-1 px-3 py-2 border rounded-md font-mono text-sm"
+                            className={css.input}
                           />
                           {selectedProvider.apiKeys.length > 1 && (
                             <button
+                              type="button"
+                              className={css.iconButton}
                               onClick={async () => {
                                 const newKeys = selectedProvider.apiKeys.filter((_, i) => i !== index)
                                 await handleApiKeyChange(selectedProvider.id, newKeys)
                               }}
-                              className="px-3 py-2 text-sm border rounded-md hover:bg-muted"
                             >
                               Remove
                             </button>
@@ -288,10 +303,11 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
                         </div>
                       ))}
                       <button
+                        type="button"
+                        className={css.iconButton}
                         onClick={async () => {
                           await handleApiKeyChange(selectedProvider.id, [...selectedProvider.apiKeys, ''])
                         }}
-                        className="px-3 py-2 text-sm border rounded-md hover:bg-muted"
                       >
                         Add API Key
                       </button>
@@ -299,12 +315,11 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
                   </div>
                 )}
 
-                {/* API Host */}
                 {selectedProvider.capabilities.some(c =>
                   c.feature === section.capability && 'apiHost' in c
                 ) && (
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">API Host</label>
+                  <div className={css.fieldRow}>
+                    <div className={css.fieldLabel}>API Host</div>
                     <input
                       type="url"
                       value={
@@ -315,18 +330,17 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
                         await handleApiHostChange(selectedProvider.id, section.capability, e.target.value)
                       }}
                       placeholder="https://example.com/api"
-                      className="w-full px-3 py-2 border rounded-md font-mono text-sm"
+                      className={css.input}
                     />
                   </div>
                 )}
 
-                {/* Basic Auth */}
                 {selectedProvider.capabilities.some(c =>
                   c.feature === section.capability && c.auth?.type === 'basic'
                 ) && (
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">Basic Auth Username</label>
+                  <>
+                    <div className={css.fieldRow}>
+                      <div className={css.fieldLabel}>Basic Auth Username</div>
                       <input
                         type="text"
                         value={selectedProvider.basicAuthUsername ?? ''}
@@ -336,11 +350,11 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
                             override: { basicAuthUsername: e.target.value }
                           }))
                         }}
-                        className="w-full px-3 py-2 border rounded-md"
+                        className={css.input}
                       />
                     </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">Basic Auth Password</label>
+                    <div className={css.fieldRow}>
+                      <div className={css.fieldLabel}>Basic Auth Password</div>
                       <input
                         type="password"
                         value={selectedProvider.basicAuthPassword ?? ''}
@@ -350,10 +364,10 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
                             override: { basicAuthPassword: e.target.value }
                           }))
                         }}
-                        className="w-full px-3 py-2 border rounded-md"
+                        className={css.input}
                       />
                     </div>
-                  </div>
+                  </>
                 )}
               </div>
             )}

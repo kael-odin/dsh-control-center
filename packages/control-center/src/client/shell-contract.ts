@@ -18,7 +18,7 @@ export interface SettingsSectionRow {
   id: string
   order: number
   label: string
-  group: 'core' | 'native' | 'other'
+  group: 'core' | 'capabilities' | 'personal' | 'native' | 'other'
 }
 
 /** One ordered onboarding step projected from a slot registration. */
