@@ -23,7 +23,9 @@ jobs:
         with:
           repository: deepseek-ai/deepseek-harness
           path: deepseek-harness
-          ref: 99f6f02fecdb7dff40c3fbc9470f5907c29f74ca
+          # First ref carrying packages/bundle/base/cordis.patch.yml (the
+          # npm-public merge; the rc.7 baseline predates the overlay files).
+          ref: 47f943859b
 
       - uses: pnpm/action-setup@v4
 
