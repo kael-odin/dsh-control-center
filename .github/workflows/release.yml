@@ -17,16 +17,19 @@ jobs:
           fetch-depth: 0
 
       # The tests compose overlay patches from and alias typert-protocol to the
-      # sibling harness checkout (vitest.config.ts ../deepseek-harness).
+      # sibling harness checkout (vitest.config.ts ../deepseek-harness). The
+      # rc.7 baseline predates the bundle overlay files; the first ref carrying
+      # them is the npm-public merge, so checkout main and detach to that SHA.
       - name: Checkout DeepSeek Harness
         uses: actions/checkout@v4
         with:
           repository: deepseek-ai/deepseek-harness
           path: deepseek-harness
           fetch-depth: 0
-          # First ref carrying packages/bundle/base/cordis.patch.yml (the
-          # npm-public merge; the rc.7 baseline predates the overlay files).
-          ref: 47f943859b
+
+      - name: Detach harness to the npm-public merge
+        working-directory: deepseek-harness
+        run: git checkout 47f943859b
 
       - uses: pnpm/action-setup@v4
 
