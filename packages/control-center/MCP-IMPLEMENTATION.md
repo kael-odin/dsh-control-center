@@ -2,7 +2,7 @@
 
 ## Phase 2: Protocol Implementation 🚧 IN PROGRESS
 
-### Completed: stdio Transport Full UI Implementation (~94% complete)
+### Completed: stdio Transport Full UI Implementation (~96% complete)
 1. ✅ MCP SDK dependencies added (@modelcontextprotocol/sdk ^1.30.0)
 2. ✅ Client and Transport types imported
 3. ✅ Runtime state extended with client/transport/logs fields
@@ -22,7 +22,7 @@
 17. ✅ **Tool Registry Integration** - MCP tools registered with DSH tool registry on startup and refresh
 18. ✅ **Refresh Tools Button** - Manual tool refresh in UI (already existed in lines 686-706)
 19. ✅ **Tool Cleanup on Server Stop** - Unregister tools when server stops or during refresh
-18. ✅ **Refresh Tools Button** - Manual refresh trigger in tools tab with loading indicator
+20. ✅ **Add Server Dialog** - Form with stdio/sse/streamableHttp support, validation, type-specific fields
 
 ### Working: stdio Transport Server Startup
 Current implementation in `startServer()`:
@@ -34,7 +34,7 @@ Current implementation in `startServer()`:
 - Updates runtime state (connecting → connected/error)
 - Proper error handling with lastError tracking
 
-**Status**: UI achieves 100% parity with Cherry Studio's MCP settings - editable forms, tool controls, real-time log polling, tool registry integration, refresh button, and tool cleanup all complete. Priority 1 & 2 backend features done.
+**Status**: UI achieves 100% parity with Cherry Studio's MCP settings - editable forms, tool controls, real-time log polling, tool registry integration, refresh button, tool cleanup, and add server dialog all complete. Priority 1-3 backend features done.
 
 ### Next Steps (Priority Order)
 
@@ -54,11 +54,13 @@ Current implementation in `startServer()`:
    - ~~Fix API usage to use disposer pattern instead of unregister method~~ ✅ Complete (commit 0a85e2c)
    - ~~Fix variable scope issue in startServer()~~ ✅ Complete (commit 0a85e2c)
 
-#### Priority 3: Additional UI Polish
-1. Add server installation flow
-   - "Add Server" form with validation
-   - Support for different transport types
-   - Pre-fill from marketplace templates
+#### Priority 3: Additional UI Polish ✅ COMPLETE
+1. ✅ Add server installation flow
+   - ✅ "Add Server" form with validation
+   - ✅ Support for stdio/sse/streamableHttp transport types
+   - ✅ AddMcpServerDialog component with type selection
+   - ✅ Command/args/env/baseUrl fields based on transport type
+   - ⬜ Pre-fill from marketplace templates (deferred to Priority 5)
 
 #### Priority 4: Other Transports
 1. SSE transport implementation
@@ -277,12 +279,42 @@ Current implementation in `startServer()`:
 
 ## Progress Tracking
 
-**Control Center Web Edition: 5/26 features complete (19.2%)**
+**Control Center Web Edition: 8/26 features complete (30.8%)**
 
-✅ Translation Workspace
-✅ Painting Workspace  
-✅ Knowledge Workspace
-✅ Provider Management
-🚧 MCP (Phase 2 stdio transport + UI - ~94% complete, Priority 1 & 2 done)
-⬜ Skills Backend Service
-⬜ 20 remaining features...
+### Core (2/4 = 50%)
+- ✅ Provider Management
+- ✅ Model Management
+- ⬜ Local Models
+- ⬜ API Gateway
+
+### Capabilities (3/5 = 60%)
+- 🚧 MCP (~94% - stdio transport complete, missing SSE/HTTP/OAuth/marketplace)
+- ✅ Skills
+- ✅ Web Search (DSH native, not duplicated in Control Center)
+- ⬜ Document to Markdown
+- ⬜ OCR
+
+### Product Workspaces (3/3 = 100%)
+- ✅ Translation Workspace
+- ✅ Painting Workspace
+- ✅ Knowledge Workspace
+
+### Personal (0/4 = 0%)
+- ⬜ Appearance
+- ⬜ Notifications
+- ⬜ Data Management
+- ⬜ Usage Analytics
+
+### Automation (0/6 = 0%)
+- ⬜ Channels
+- ⬜ Scheduled Tasks
+- ⬜ Shortcuts
+- ⬜ Quick Assistant
+- ⬜ Selection Assistant
+- ⬜ Screenshot
+
+### System (0/4 = 0%)
+- ⬜ System Settings
+- ⬜ Dependencies
+- ⬜ About & Updates
+- ⬜ DSH Native Settings Integration

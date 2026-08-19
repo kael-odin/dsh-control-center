@@ -100,7 +100,7 @@
 
 #### Capabilities Group（能力分组）
 
-##### 9. MCP (Model Context Protocol) ✅ (~94%)
+##### 9. MCP (Model Context Protocol) ✅ (~96%)
 **规格对应**: `| MCP |` (line 98)
 - ✅ MCP 服务器目录/编辑器 (split-pane UI with tabbed detail)
 - ✅ 服务器配置编辑 (command/args/env/timeout/longRunning)
@@ -110,7 +110,7 @@
 - ✅ stdio 客户端 (StdioClientTransport with @modelcontextprotocol/sdk)
 - ✅ 进程生命周期管理 (startServer/stopServer/refreshTools)
 - ✅ 工具注册到 DSH 工具注册表 (disposer pattern cleanup)
-- ⚠️ **未完成**: Server installation flow UI
+- ✅ Server installation flow UI (AddMcpServerDialog with type selection)
 - ⚠️ **未完成**: SSE transport
 - ⚠️ **未完成**: streamableHttp transport  
 - ⚠️ **未完成**: inMemory transport
@@ -118,7 +118,7 @@
 - ⚠️ **未完成**: Marketplace integration
 - ⚠️ **未完成**: E2E browser tests
 - **Cherry 文件**: `src/renderer/routes/settings/mcp.tsx`, `mcp/` subdirectory
-- **DSH 实现**: `packages/control-center/src/mcp.ts`, `McpSection.tsx`
+- **DSH 实现**: `packages/control-center/src/mcp.ts`, `McpSection.tsx`, `AddMcpServerDialog.tsx`
 - **提交**: 67084e6 (tool registry), 649e841 (cleanup), 0a85e2c (disposer fix)
 
 ##### 10. Web Search（网络搜索）
@@ -270,13 +270,13 @@
 |------|--------|--------|--------|
 | **产品工作区** | 3 | 0 | 100% |
 | **核心设置** | 1 | 3 | 25% |
-| **能力设置** | 1.94* | 3.06 | 38.8%* |
+| **能力设置** | 1.96* | 3.04 | 39.2%* |
 | **个人设置** | 0 | 4 | 0% |
 | **自动化设置** | 0 | 6 | 0% |
 | **系统设置** | 0 | 4 | 0% |
-| **总计** | 5.94 | 20.06 | 22.9% |
+| **总计** | 5.96 | 20.04 | 22.9% |
 
-*Provider Management 100% 完成，Skills 基础完成但 Install/Marketplace 未实现，MCP ~94% 完成（stdio transport + UI + tool lifecycle，缺 SSE/HTTP transports + OAuth + marketplace）
+*Provider Management 100% 完成，Skills 基础完成但 Install/Marketplace 未实现，MCP ~96% 完成（stdio transport + UI + tool lifecycle + server installation dialog，缺 SSE/HTTP transports + OAuth + marketplace）
 
 ---
 
@@ -300,7 +300,7 @@
 
 #### P1 - 核心能力
 3. **MCP 剩余工作** - 完成 MCP 到 100%
-   - Server installation flow UI (Add Server form with validation)
+   - ~~Server installation flow UI (Add Server form with validation)~~ ✅ 已完成
    - SSE transport implementation (EventSource connection)
    - streamableHttp transport implementation
    - inMemory transport implementation
@@ -349,7 +349,7 @@
 ### 当前已知问题
 1. ~~**Skills Install 未实现**~~ - Phase 2 优先级
 2. ~~**Skills Marketplace 是 stub**~~ - 需实现真实搜索
-3. **MCP 剩余 ~6%** - Server installation UI, SSE/HTTP transports, OAuth, marketplace
+3. **MCP 剩余 ~4%** - SSE/HTTP transports, OAuth, marketplace, E2E tests
 4. **缺少 E2E 测试** - 所有产品工作区 + Provider + MCP
 5. **设置外壳未替换** - 需要复制 Cherry 设置导航
 6. ~~**Provider 管理缺失**~~ - ✅ 已完成 (Phase 2 完成)
@@ -405,3 +405,4 @@
 - 2026-08-19: 初始矩阵创建，Skills Client UI 基础完成（15.4%）
 - 2026-08-19: Provider Management 完成（commit 49cb08f, cf0ec27），进度 19.2% → 22.9%
 - 2026-08-19: MCP stdio transport + tool lifecycle 完成（commit 67084e6, 649e841, 0a85e2c），MCP ~94% 完成
+- 2026-08-19: MCP server installation dialog 完成（AddMcpServerDialog with stdio/sse/streamableHttp support），MCP ~96% 完成，进度 22.9% 不变（整体完成度微增）

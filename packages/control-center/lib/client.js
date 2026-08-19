@@ -131,31 +131,31 @@ window.__ModuleLoader__.load({
 		};
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\PaintingWorkspace.module.css.mjs
-		const css$18 = "._-UrTq_root{background:var(--dsw-alias-bg-base);min-width:0;min-height:0;color:var(--dsw-alias-label-primary);flex-direction:column;flex:1;gap:16px;padding:24px;display:flex;overflow:auto}._-UrTq_header{justify-content:space-between;align-items:center;gap:16px;display:flex}._-UrTq_header h1{margin:2px 0 0;font-size:28px}._-UrTq_eyebrow{color:var(--dsw-alias-label-tertiary);letter-spacing:.08em;text-transform:uppercase;margin:0;font-size:12px}._-UrTq_composer{border:1px solid var(--dsw-alias-border-l1);border-radius:14px;flex-direction:column;gap:10px;padding:14px;display:flex}._-UrTq_composer textarea{resize:vertical;border:1px solid var(--dsw-alias-border-l2);box-sizing:border-box;width:100%;min-height:96px;color:inherit;font:inherit;background:0 0;border-radius:10px;padding:12px;line-height:1.6}._-UrTq_controls{flex-wrap:wrap;align-items:center;gap:8px;display:flex}._-UrTq_controls select{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);min-height:34px;color:inherit;border-radius:9px;padding:0 10px}._-UrTq_controls button:last-child{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;margin-left:auto;padding:0 16px}._-UrTq_controls button:disabled{opacity:.45;cursor:not-allowed}._-UrTq_secondary{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;background:0 0;border-radius:9px;padding:0 12px}._-UrTq_progress{color:var(--dsw-alias-label-secondary);margin:0}._-UrTq_error{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover-danger);border-radius:9px;margin:0;padding:10px 12px}._-UrTq_gallery,._-UrTq_history{padding-top:4px}._-UrTq_gallery>*,._-UrTq_historyImages{flex-wrap:wrap;gap:12px;display:flex}._-UrTq_history h2{margin:0 0 10px;font-size:18px}._-UrTq_figure{flex-direction:column;gap:6px;margin:0;display:flex}._-UrTq_figure img{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;max-width:220px;height:auto}._-UrTq_figure figcaption{gap:10px;display:flex}._-UrTq_historyItem{border-top:1px solid var(--dsw-alias-border-l1);padding:14px 0}._-UrTq_historyItem>div:first-child{justify-content:space-between;gap:12px;display:flex}._-UrTq_historyItem time{color:var(--dsw-alias-label-tertiary);font-size:12px}._-UrTq_link{color:var(--dsw-alias-brand-primary);cursor:pointer;background:0 0;border:none;margin-right:12px;padding:0}._-UrTq_empty{color:var(--dsw-alias-label-tertiary)}@media (width<=760px){._-UrTq_root{padding:14px}._-UrTq_controls button:last-child{margin-left:0}}";
-		const tagId$18 = "@dsh-control-center/control-center/PaintingWorkspace.module.css";
-		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$18) + "]") === null) {
+		const css$19 = "._-UrTq_root{background:var(--dsw-alias-bg-base);min-width:0;min-height:0;color:var(--dsw-alias-label-primary);flex-direction:column;flex:1;gap:16px;padding:24px;display:flex;overflow:auto}._-UrTq_header{justify-content:space-between;align-items:center;gap:16px;display:flex}._-UrTq_header h1{margin:2px 0 0;font-size:28px}._-UrTq_eyebrow{color:var(--dsw-alias-label-tertiary);letter-spacing:.08em;text-transform:uppercase;margin:0;font-size:12px}._-UrTq_composer{border:1px solid var(--dsw-alias-border-l1);border-radius:14px;flex-direction:column;gap:10px;padding:14px;display:flex}._-UrTq_composer textarea{resize:vertical;border:1px solid var(--dsw-alias-border-l2);box-sizing:border-box;width:100%;min-height:96px;color:inherit;font:inherit;background:0 0;border-radius:10px;padding:12px;line-height:1.6}._-UrTq_controls{flex-wrap:wrap;align-items:center;gap:8px;display:flex}._-UrTq_controls select{border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-base);min-height:34px;color:inherit;border-radius:9px;padding:0 10px}._-UrTq_controls button:last-child{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;margin-left:auto;padding:0 16px}._-UrTq_controls button:disabled{opacity:.45;cursor:not-allowed}._-UrTq_secondary{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;background:0 0;border-radius:9px;padding:0 12px}._-UrTq_progress{color:var(--dsw-alias-label-secondary);margin:0}._-UrTq_error{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover-danger);border-radius:9px;margin:0;padding:10px 12px}._-UrTq_gallery,._-UrTq_history{padding-top:4px}._-UrTq_gallery>*,._-UrTq_historyImages{flex-wrap:wrap;gap:12px;display:flex}._-UrTq_history h2{margin:0 0 10px;font-size:18px}._-UrTq_figure{flex-direction:column;gap:6px;margin:0;display:flex}._-UrTq_figure img{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;max-width:220px;height:auto}._-UrTq_figure figcaption{gap:10px;display:flex}._-UrTq_historyItem{border-top:1px solid var(--dsw-alias-border-l1);padding:14px 0}._-UrTq_historyItem>div:first-child{justify-content:space-between;gap:12px;display:flex}._-UrTq_historyItem time{color:var(--dsw-alias-label-tertiary);font-size:12px}._-UrTq_link{color:var(--dsw-alias-brand-primary);cursor:pointer;background:0 0;border:none;margin-right:12px;padding:0}._-UrTq_empty{color:var(--dsw-alias-label-tertiary)}@media (width<=760px){._-UrTq_root{padding:14px}._-UrTq_controls button:last-child{margin-left:0}}";
+		const tagId$19 = "@dsh-control-center/control-center/PaintingWorkspace.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$19) + "]") === null) {
 			const tag = document.createElement("style");
 			tag.dataset.plugin = "@dsh-control-center/control-center";
-			tag.dataset.pluginCss = tagId$18;
-			tag.textContent = css$18;
+			tag.dataset.pluginCss = tagId$19;
+			tag.textContent = css$19;
 			document.head.appendChild(tag);
 		}
 		var PaintingWorkspace_module_css_default = {
-			"history": "_-UrTq_history",
-			"gallery": "_-UrTq_gallery",
-			"historyItem": "_-UrTq_historyItem",
-			"root": "_-UrTq_root",
 			"eyebrow": "_-UrTq_eyebrow",
-			"secondary": "_-UrTq_secondary",
 			"progress": "_-UrTq_progress",
-			"historyImages": "_-UrTq_historyImages",
-			"link": "_-UrTq_link",
-			"composer": "_-UrTq_composer",
-			"header": "_-UrTq_header",
 			"empty": "_-UrTq_empty",
+			"history": "_-UrTq_history",
+			"link": "_-UrTq_link",
+			"controls": "_-UrTq_controls",
 			"figure": "_-UrTq_figure",
+			"historyItem": "_-UrTq_historyItem",
+			"header": "_-UrTq_header",
+			"root": "_-UrTq_root",
+			"historyImages": "_-UrTq_historyImages",
 			"error": "_-UrTq_error",
-			"controls": "_-UrTq_controls"
+			"gallery": "_-UrTq_gallery",
+			"secondary": "_-UrTq_secondary",
+			"composer": "_-UrTq_composer"
 		};
 		//#endregion
 		//#region lib/types/client/PaintingWorkspace.js
@@ -560,40 +560,40 @@ window.__ModuleLoader__.load({
 		};
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\KnowledgeWorkspace.module.css.mjs
-		const css$17 = ".uHDY1a_root{background:var(--dsw-alias-bg-base);min-width:0;min-height:0;color:var(--dsw-alias-label-primary);flex-direction:column;flex:1;gap:16px;padding:24px;display:flex;overflow:auto}.uHDY1a_header{justify-content:space-between;align-items:center;gap:16px;display:flex}.uHDY1a_header h1{margin:2px 0 0;font-size:28px}.uHDY1a_eyebrow{color:var(--dsw-alias-label-tertiary);letter-spacing:.08em;text-transform:uppercase;margin:0;font-size:12px}.uHDY1a_panel{border:1px solid var(--dsw-alias-border-l1);border-radius:14px;flex-direction:column;gap:10px;padding:14px;display:flex}.uHDY1a_panel h2{margin:0;font-size:16px}.uHDY1a_bases,.uHDY1a_hits,.uHDY1a_chunks{flex-direction:column;gap:10px;display:flex}.uHDY1a_bases h2{margin:0 0 4px;font-size:16px}.uHDY1a_row{flex-wrap:wrap;align-items:center;gap:8px;display:flex}.uHDY1a_row input,.uHDY1a_row textarea{border:1px solid var(--dsw-alias-border-l2);min-width:0;color:inherit;font:inherit;background:0 0;border-radius:9px;flex:1;padding:9px 11px}.uHDY1a_row textarea{resize:vertical;flex-basis:100%;min-height:72px}.uHDY1a_row button{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;padding:0 16px}.uHDY1a_row button:disabled{opacity:.45;cursor:not-allowed}.uHDY1a_primary{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;padding:0 16px}.uHDY1a_secondary{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;background:0 0;border-radius:9px;padding:0 12px}.uHDY1a_link{color:var(--dsw-alias-brand-primary);cursor:pointer;background:0 0;border:none;padding:0}.uHDY1a_fileButton{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;border-radius:9px;align-items:center;padding:0 12px;font-size:14px;display:inline-flex}.uHDY1a_fileButton input{display:none}.uHDY1a_baseCard{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;justify-content:space-between;align-items:center;gap:12px;padding:12px;display:flex}.uHDY1a_baseMeta{flex-direction:column;gap:3px;min-width:0;display:flex}.uHDY1a_baseMeta span{color:var(--dsw-alias-label-tertiary);font-size:12px}.uHDY1a_baseActions{flex-shrink:0;align-items:center;gap:10px;display:flex}.uHDY1a_sourceTabs{flex-direction:column;gap:10px;display:flex}.uHDY1a_sourceItem{border-top:1px solid var(--dsw-alias-border-l1);justify-content:space-between;align-items:center;gap:12px;padding:10px 0;display:flex}.uHDY1a_sourceMeta{flex-direction:column;gap:2px;min-width:0;display:flex}.uHDY1a_sourceMeta span{color:var(--dsw-alias-label-tertiary);font-size:12px}.uHDY1a_muted{color:var(--dsw-alias-label-secondary);margin:0;font-size:13px}.uHDY1a_hits{margin:0;padding-left:20px}.uHDY1a_hit{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;padding:10px}.uHDY1a_hitMeta{justify-content:space-between;gap:12px;display:flex}.uHDY1a_hitMeta span{color:var(--dsw-alias-label-tertiary);font-size:12px}.uHDY1a_hit p{margin:6px 0 0;line-height:1.6}.uHDY1a_chunk{border:1px solid var(--dsw-alias-border-l1);border-radius:8px;padding:8px 10px}.uHDY1a_chunk summary{cursor:pointer;color:var(--dsw-alias-label-secondary)}.uHDY1a_chunk p{white-space:pre-wrap;margin:8px 0 0;line-height:1.6}.uHDY1a_error{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover-danger);border-radius:9px;margin:0;padding:10px 12px}.uHDY1a_empty{color:var(--dsw-alias-label-tertiary)}@media (width<=760px){.uHDY1a_root{padding:14px}.uHDY1a_baseCard{flex-direction:column;align-items:flex-start}}";
-		const tagId$17 = "@dsh-control-center/control-center/KnowledgeWorkspace.module.css";
-		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$17) + "]") === null) {
+		const css$18 = ".uHDY1a_root{background:var(--dsw-alias-bg-base);min-width:0;min-height:0;color:var(--dsw-alias-label-primary);flex-direction:column;flex:1;gap:16px;padding:24px;display:flex;overflow:auto}.uHDY1a_header{justify-content:space-between;align-items:center;gap:16px;display:flex}.uHDY1a_header h1{margin:2px 0 0;font-size:28px}.uHDY1a_eyebrow{color:var(--dsw-alias-label-tertiary);letter-spacing:.08em;text-transform:uppercase;margin:0;font-size:12px}.uHDY1a_panel{border:1px solid var(--dsw-alias-border-l1);border-radius:14px;flex-direction:column;gap:10px;padding:14px;display:flex}.uHDY1a_panel h2{margin:0;font-size:16px}.uHDY1a_bases,.uHDY1a_hits,.uHDY1a_chunks{flex-direction:column;gap:10px;display:flex}.uHDY1a_bases h2{margin:0 0 4px;font-size:16px}.uHDY1a_row{flex-wrap:wrap;align-items:center;gap:8px;display:flex}.uHDY1a_row input,.uHDY1a_row textarea{border:1px solid var(--dsw-alias-border-l2);min-width:0;color:inherit;font:inherit;background:0 0;border-radius:9px;flex:1;padding:9px 11px}.uHDY1a_row textarea{resize:vertical;flex-basis:100%;min-height:72px}.uHDY1a_row button{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;padding:0 16px}.uHDY1a_row button:disabled{opacity:.45;cursor:not-allowed}.uHDY1a_primary{background:var(--dsw-alias-button-primary-fill);min-height:34px;color:var(--dsw-alias-label-primary-foreground);cursor:pointer;border:none;border-radius:9px;padding:0 16px}.uHDY1a_secondary{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;background:0 0;border-radius:9px;padding:0 12px}.uHDY1a_link{color:var(--dsw-alias-brand-primary);cursor:pointer;background:0 0;border:none;padding:0}.uHDY1a_fileButton{border:1px solid var(--dsw-alias-border-l2);min-height:34px;color:inherit;cursor:pointer;border-radius:9px;align-items:center;padding:0 12px;font-size:14px;display:inline-flex}.uHDY1a_fileButton input{display:none}.uHDY1a_baseCard{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;justify-content:space-between;align-items:center;gap:12px;padding:12px;display:flex}.uHDY1a_baseMeta{flex-direction:column;gap:3px;min-width:0;display:flex}.uHDY1a_baseMeta span{color:var(--dsw-alias-label-tertiary);font-size:12px}.uHDY1a_baseActions{flex-shrink:0;align-items:center;gap:10px;display:flex}.uHDY1a_sourceTabs{flex-direction:column;gap:10px;display:flex}.uHDY1a_sourceItem{border-top:1px solid var(--dsw-alias-border-l1);justify-content:space-between;align-items:center;gap:12px;padding:10px 0;display:flex}.uHDY1a_sourceMeta{flex-direction:column;gap:2px;min-width:0;display:flex}.uHDY1a_sourceMeta span{color:var(--dsw-alias-label-tertiary);font-size:12px}.uHDY1a_muted{color:var(--dsw-alias-label-secondary);margin:0;font-size:13px}.uHDY1a_hits{margin:0;padding-left:20px}.uHDY1a_hit{border:1px solid var(--dsw-alias-border-l1);border-radius:10px;padding:10px}.uHDY1a_hitMeta{justify-content:space-between;gap:12px;display:flex}.uHDY1a_hitMeta span{color:var(--dsw-alias-label-tertiary);font-size:12px}.uHDY1a_hit p{margin:6px 0 0;line-height:1.6}.uHDY1a_chunk{border:1px solid var(--dsw-alias-border-l1);border-radius:8px;padding:8px 10px}.uHDY1a_chunk summary{cursor:pointer;color:var(--dsw-alias-label-secondary)}.uHDY1a_chunk p{white-space:pre-wrap;margin:8px 0 0;line-height:1.6}.uHDY1a_error{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-interactive-bg-hover-danger);border-radius:9px;margin:0;padding:10px 12px}.uHDY1a_empty{color:var(--dsw-alias-label-tertiary)}@media (width<=760px){.uHDY1a_root{padding:14px}.uHDY1a_baseCard{flex-direction:column;align-items:flex-start}}";
+		const tagId$18 = "@dsh-control-center/control-center/KnowledgeWorkspace.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$18) + "]") === null) {
 			const tag = document.createElement("style");
 			tag.dataset.plugin = "@dsh-control-center/control-center";
-			tag.dataset.pluginCss = tagId$17;
-			tag.textContent = css$17;
+			tag.dataset.pluginCss = tagId$18;
+			tag.textContent = css$18;
 			document.head.appendChild(tag);
 		}
 		var KnowledgeWorkspace_module_css_default = {
-			"chunk": "uHDY1a_chunk",
-			"error": "uHDY1a_error",
-			"baseMeta": "uHDY1a_baseMeta",
-			"primary": "uHDY1a_primary",
-			"panel": "uHDY1a_panel",
-			"sourceTabs": "uHDY1a_sourceTabs",
-			"header": "uHDY1a_header",
-			"fileButton": "uHDY1a_fileButton",
-			"link": "uHDY1a_link",
-			"chunks": "uHDY1a_chunks",
-			"hit": "uHDY1a_hit",
-			"secondary": "uHDY1a_secondary",
-			"row": "uHDY1a_row",
-			"empty": "uHDY1a_empty",
-			"muted": "uHDY1a_muted",
-			"eyebrow": "uHDY1a_eyebrow",
-			"baseCard": "uHDY1a_baseCard",
 			"root": "uHDY1a_root",
-			"bases": "uHDY1a_bases",
-			"hitMeta": "uHDY1a_hitMeta",
-			"sourceItem": "uHDY1a_sourceItem",
-			"baseActions": "uHDY1a_baseActions",
+			"fileButton": "uHDY1a_fileButton",
+			"muted": "uHDY1a_muted",
 			"hits": "uHDY1a_hits",
-			"sourceMeta": "uHDY1a_sourceMeta"
+			"header": "uHDY1a_header",
+			"hit": "uHDY1a_hit",
+			"chunk": "uHDY1a_chunk",
+			"sourceMeta": "uHDY1a_sourceMeta",
+			"error": "uHDY1a_error",
+			"baseActions": "uHDY1a_baseActions",
+			"hitMeta": "uHDY1a_hitMeta",
+			"chunks": "uHDY1a_chunks",
+			"row": "uHDY1a_row",
+			"link": "uHDY1a_link",
+			"eyebrow": "uHDY1a_eyebrow",
+			"primary": "uHDY1a_primary",
+			"sourceItem": "uHDY1a_sourceItem",
+			"empty": "uHDY1a_empty",
+			"secondary": "uHDY1a_secondary",
+			"baseMeta": "uHDY1a_baseMeta",
+			"baseCard": "uHDY1a_baseCard",
+			"sourceTabs": "uHDY1a_sourceTabs",
+			"panel": "uHDY1a_panel",
+			"bases": "uHDY1a_bases"
 		};
 		//#endregion
 		//#region lib/types/client/KnowledgeWorkspace.js
@@ -1188,47 +1188,47 @@ window.__ModuleLoader__.load({
 		};
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\SkillsSection.module.css.mjs
-		const css$16 = ".pyHmqW_root{background:var(--color-background-base);flex-direction:column;flex:1;min-height:0;display:flex}.pyHmqW_header{border-bottom:1px solid var(--color-border-subtle);justify-content:space-between;align-items:center;padding:16px 24px;display:flex}.pyHmqW_headerLeft{flex-direction:column;gap:4px;display:flex}.pyHmqW_title{color:var(--color-text-primary);font-size:20px;font-weight:600;line-height:28px}.pyHmqW_description{color:var(--color-text-secondary);font-size:14px;line-height:20px}.pyHmqW_headerActions{align-items:center;gap:8px;display:flex}.pyHmqW_searchRow{border-bottom:1px solid var(--color-border-subtle);align-items:center;gap:12px;padding:12px 24px;display:flex}.pyHmqW_searchInput{border:1px solid var(--color-border-base);background:var(--color-background-elevated);height:32px;color:var(--color-text-primary);border-radius:6px;flex:1;padding:0 12px;font-size:14px;transition:border-color .2s}.pyHmqW_searchInput:focus{border-color:var(--color-accent-primary);outline:none}.pyHmqW_searchInput::placeholder{color:var(--color-text-tertiary)}.pyHmqW_content{flex:1;min-height:0;padding:24px;overflow-y:auto}.pyHmqW_grid{grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;display:grid}.pyHmqW_card{border:1px solid var(--color-border-subtle);background:var(--color-background-elevated);cursor:pointer;border-radius:8px;flex-direction:column;padding:16px;transition:all .2s;display:flex}.pyHmqW_card:hover{border-color:var(--color-border-base);box-shadow:0 2px 8px #00000014}.pyHmqW_cardHeader{justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;display:flex}.pyHmqW_cardTitle{color:var(--color-text-primary);flex:1;font-size:16px;font-weight:600;line-height:22px}.pyHmqW_cardActions{opacity:0;align-items:center;gap:4px;transition:opacity .2s;display:flex}.pyHmqW_card:hover .pyHmqW_cardActions{opacity:1}.pyHmqW_cardDescription{color:var(--color-text-secondary);text-overflow:ellipsis;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin-bottom:12px;font-size:14px;line-height:20px;display:-webkit-box;overflow:hidden}.pyHmqW_cardMeta{color:var(--color-text-tertiary);align-items:center;gap:12px;font-size:13px;display:flex}.pyHmqW_cardMetaItem{align-items:center;gap:4px;display:flex}.pyHmqW_cardFooter{border-top:1px solid var(--color-border-subtle);justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;display:flex}.pyHmqW_cardTags{flex-wrap:wrap;gap:6px;display:flex}.pyHmqW_tag{background:var(--color-background-base);color:var(--color-text-secondary);border-radius:4px;padding:2px 8px;font-size:12px;line-height:18px}.pyHmqW_enabledBadge{background:var(--color-success-bg);color:var(--color-success-text);border-radius:4px;padding:2px 8px;font-size:12px;font-weight:500;line-height:18px}.pyHmqW_disabledBadge{background:var(--color-background-base);color:var(--color-text-tertiary);border-radius:4px;padding:2px 8px;font-size:12px;line-height:18px}.pyHmqW_iconButton{width:28px;height:28px;color:var(--color-text-secondary);cursor:pointer;background:0 0;border:none;border-radius:4px;justify-content:center;align-items:center;padding:0;transition:all .2s;display:inline-flex}.pyHmqW_iconButton:hover{background:var(--color-background-base);color:var(--color-text-primary)}.pyHmqW_primaryButton{background:var(--color-accent-primary);color:#fff;cursor:pointer;border:none;border-radius:6px;justify-content:center;align-items:center;gap:6px;height:32px;padding:0 16px;font-size:14px;font-weight:500;transition:all .2s;display:inline-flex}.pyHmqW_primaryButton:hover{background:var(--color-accent-primary-hover)}.pyHmqW_secondaryButton{border:1px solid var(--color-border-base);background:var(--color-background-elevated);height:32px;color:var(--color-text-primary);cursor:pointer;border-radius:6px;justify-content:center;align-items:center;gap:6px;padding:0 16px;font-size:14px;transition:all .2s;display:inline-flex}.pyHmqW_secondaryButton:hover{border-color:var(--color-border-hover);background:var(--color-background-base)}.pyHmqW_empty{text-align:center;flex-direction:column;justify-content:center;align-items:center;padding:64px 24px;display:flex}.pyHmqW_emptyIcon{width:64px;height:64px;color:var(--color-text-tertiary);margin-bottom:16px}.pyHmqW_emptyTitle{color:var(--color-text-primary);margin-bottom:8px;font-size:16px;font-weight:600}.pyHmqW_emptyDescription{color:var(--color-text-secondary);max-width:400px;margin-bottom:24px;font-size:14px}.pyHmqW_error{text-align:center;color:var(--color-error-text);flex-direction:column;justify-content:center;align-items:center;padding:64px 24px;display:flex}.pyHmqW_loading{color:var(--color-text-tertiary);justify-content:center;align-items:center;padding:64px 24px;display:flex}";
-		const tagId$16 = "@dsh-control-center/control-center/SkillsSection.module.css";
-		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$16) + "]") === null) {
+		const css$17 = ".pyHmqW_root{background:var(--color-background-base);flex-direction:column;flex:1;min-height:0;display:flex}.pyHmqW_header{border-bottom:1px solid var(--color-border-subtle);justify-content:space-between;align-items:center;padding:16px 24px;display:flex}.pyHmqW_headerLeft{flex-direction:column;gap:4px;display:flex}.pyHmqW_title{color:var(--color-text-primary);font-size:20px;font-weight:600;line-height:28px}.pyHmqW_description{color:var(--color-text-secondary);font-size:14px;line-height:20px}.pyHmqW_headerActions{align-items:center;gap:8px;display:flex}.pyHmqW_searchRow{border-bottom:1px solid var(--color-border-subtle);align-items:center;gap:12px;padding:12px 24px;display:flex}.pyHmqW_searchInput{border:1px solid var(--color-border-base);background:var(--color-background-elevated);height:32px;color:var(--color-text-primary);border-radius:6px;flex:1;padding:0 12px;font-size:14px;transition:border-color .2s}.pyHmqW_searchInput:focus{border-color:var(--color-accent-primary);outline:none}.pyHmqW_searchInput::placeholder{color:var(--color-text-tertiary)}.pyHmqW_content{flex:1;min-height:0;padding:24px;overflow-y:auto}.pyHmqW_grid{grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;display:grid}.pyHmqW_card{border:1px solid var(--color-border-subtle);background:var(--color-background-elevated);cursor:pointer;border-radius:8px;flex-direction:column;padding:16px;transition:all .2s;display:flex}.pyHmqW_card:hover{border-color:var(--color-border-base);box-shadow:0 2px 8px #00000014}.pyHmqW_cardHeader{justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;display:flex}.pyHmqW_cardTitle{color:var(--color-text-primary);flex:1;font-size:16px;font-weight:600;line-height:22px}.pyHmqW_cardActions{opacity:0;align-items:center;gap:4px;transition:opacity .2s;display:flex}.pyHmqW_card:hover .pyHmqW_cardActions{opacity:1}.pyHmqW_cardDescription{color:var(--color-text-secondary);text-overflow:ellipsis;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin-bottom:12px;font-size:14px;line-height:20px;display:-webkit-box;overflow:hidden}.pyHmqW_cardMeta{color:var(--color-text-tertiary);align-items:center;gap:12px;font-size:13px;display:flex}.pyHmqW_cardMetaItem{align-items:center;gap:4px;display:flex}.pyHmqW_cardFooter{border-top:1px solid var(--color-border-subtle);justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;display:flex}.pyHmqW_cardTags{flex-wrap:wrap;gap:6px;display:flex}.pyHmqW_tag{background:var(--color-background-base);color:var(--color-text-secondary);border-radius:4px;padding:2px 8px;font-size:12px;line-height:18px}.pyHmqW_enabledBadge{background:var(--color-success-bg);color:var(--color-success-text);border-radius:4px;padding:2px 8px;font-size:12px;font-weight:500;line-height:18px}.pyHmqW_disabledBadge{background:var(--color-background-base);color:var(--color-text-tertiary);border-radius:4px;padding:2px 8px;font-size:12px;line-height:18px}.pyHmqW_iconButton{width:28px;height:28px;color:var(--color-text-secondary);cursor:pointer;background:0 0;border:none;border-radius:4px;justify-content:center;align-items:center;padding:0;transition:all .2s;display:inline-flex}.pyHmqW_iconButton:hover{background:var(--color-background-base);color:var(--color-text-primary)}.pyHmqW_primaryButton{background:var(--color-accent-primary);color:#fff;cursor:pointer;border:none;border-radius:6px;justify-content:center;align-items:center;gap:6px;height:32px;padding:0 16px;font-size:14px;font-weight:500;transition:all .2s;display:inline-flex}.pyHmqW_primaryButton:hover{background:var(--color-accent-primary-hover)}.pyHmqW_secondaryButton{border:1px solid var(--color-border-base);background:var(--color-background-elevated);height:32px;color:var(--color-text-primary);cursor:pointer;border-radius:6px;justify-content:center;align-items:center;gap:6px;padding:0 16px;font-size:14px;transition:all .2s;display:inline-flex}.pyHmqW_secondaryButton:hover{border-color:var(--color-border-hover);background:var(--color-background-base)}.pyHmqW_empty{text-align:center;flex-direction:column;justify-content:center;align-items:center;padding:64px 24px;display:flex}.pyHmqW_emptyIcon{width:64px;height:64px;color:var(--color-text-tertiary);margin-bottom:16px}.pyHmqW_emptyTitle{color:var(--color-text-primary);margin-bottom:8px;font-size:16px;font-weight:600}.pyHmqW_emptyDescription{color:var(--color-text-secondary);max-width:400px;margin-bottom:24px;font-size:14px}.pyHmqW_error{text-align:center;color:var(--color-error-text);flex-direction:column;justify-content:center;align-items:center;padding:64px 24px;display:flex}.pyHmqW_loading{color:var(--color-text-tertiary);justify-content:center;align-items:center;padding:64px 24px;display:flex}";
+		const tagId$17 = "@dsh-control-center/control-center/SkillsSection.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$17) + "]") === null) {
 			const tag = document.createElement("style");
 			tag.dataset.plugin = "@dsh-control-center/control-center";
-			tag.dataset.pluginCss = tagId$16;
-			tag.textContent = css$16;
+			tag.dataset.pluginCss = tagId$17;
+			tag.textContent = css$17;
 			document.head.appendChild(tag);
 		}
 		var SkillsSection_module_css_default = {
-			"card": "pyHmqW_card",
-			"loading": "pyHmqW_loading",
-			"error": "pyHmqW_error",
-			"header": "pyHmqW_header",
-			"cardDescription": "pyHmqW_cardDescription",
-			"cardTitle": "pyHmqW_cardTitle",
-			"content": "pyHmqW_content",
-			"title": "pyHmqW_title",
-			"cardMetaItem": "pyHmqW_cardMetaItem",
-			"cardFooter": "pyHmqW_cardFooter",
-			"empty": "pyHmqW_empty",
-			"cardActions": "pyHmqW_cardActions",
-			"iconButton": "pyHmqW_iconButton",
-			"tag": "pyHmqW_tag",
-			"searchInput": "pyHmqW_searchInput",
-			"disabledBadge": "pyHmqW_disabledBadge",
-			"primaryButton": "pyHmqW_primaryButton",
-			"secondaryButton": "pyHmqW_secondaryButton",
-			"cardMeta": "pyHmqW_cardMeta",
-			"description": "pyHmqW_description",
-			"emptyDescription": "pyHmqW_emptyDescription",
-			"headerLeft": "pyHmqW_headerLeft",
-			"enabledBadge": "pyHmqW_enabledBadge",
 			"grid": "pyHmqW_grid",
+			"cardFooter": "pyHmqW_cardFooter",
+			"cardMetaItem": "pyHmqW_cardMetaItem",
+			"content": "pyHmqW_content",
+			"headerLeft": "pyHmqW_headerLeft",
 			"cardTags": "pyHmqW_cardTags",
-			"root": "pyHmqW_root",
-			"headerActions": "pyHmqW_headerActions",
-			"searchRow": "pyHmqW_searchRow",
-			"cardHeader": "pyHmqW_cardHeader",
+			"emptyDescription": "pyHmqW_emptyDescription",
+			"secondaryButton": "pyHmqW_secondaryButton",
 			"emptyIcon": "pyHmqW_emptyIcon",
-			"emptyTitle": "pyHmqW_emptyTitle"
+			"loading": "pyHmqW_loading",
+			"cardActions": "pyHmqW_cardActions",
+			"headerActions": "pyHmqW_headerActions",
+			"searchInput": "pyHmqW_searchInput",
+			"description": "pyHmqW_description",
+			"card": "pyHmqW_card",
+			"tag": "pyHmqW_tag",
+			"cardTitle": "pyHmqW_cardTitle",
+			"cardHeader": "pyHmqW_cardHeader",
+			"emptyTitle": "pyHmqW_emptyTitle",
+			"iconButton": "pyHmqW_iconButton",
+			"error": "pyHmqW_error",
+			"cardMeta": "pyHmqW_cardMeta",
+			"searchRow": "pyHmqW_searchRow",
+			"disabledBadge": "pyHmqW_disabledBadge",
+			"empty": "pyHmqW_empty",
+			"title": "pyHmqW_title",
+			"cardDescription": "pyHmqW_cardDescription",
+			"enabledBadge": "pyHmqW_enabledBadge",
+			"root": "pyHmqW_root",
+			"header": "pyHmqW_header",
+			"primaryButton": "pyHmqW_primaryButton"
 		};
 		//#endregion
 		//#region lib/types/client/SkillsSection.js
@@ -1607,33 +1607,33 @@ window.__ModuleLoader__.load({
 		};
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\ProviderAuthentication.module.css.mjs
-		const css$15 = ".AU4RWG_section{flex-direction:column;gap:20px;display:flex}.AU4RWG_sectionTitle{color:var(--color-text-primary,#e5e5e5);font-size:14px;font-weight:600;line-height:20px}.AU4RWG_field{flex-direction:column;gap:8px;display:flex}.AU4RWG_fieldLabel{color:var(--color-text-secondary,#a0a0a0);justify-content:space-between;align-items:center;font-size:12px;font-weight:500;line-height:16px;display:flex}.AU4RWG_fieldLink{color:var(--color-accent,#3b82f6);font-size:12px;font-weight:500;text-decoration:none;transition:opacity .15s}.AU4RWG_fieldLink:hover{opacity:.8}.AU4RWG_inputRow{align-items:stretch;gap:8px;display:flex}.AU4RWG_inputGroup{border:1px solid var(--color-border-base,#2a2a2a);background:var(--color-surface-elevated,#1a1a1a);border-radius:10px;flex:1;align-items:stretch;height:32px;transition:border-color .15s;display:flex;position:relative;overflow:hidden}.AU4RWG_inputGroup:focus-within{border-color:var(--color-accent,#3b82f6)}.AU4RWG_input{height:100%;color:var(--color-text-primary,#e5e5e5);background:0 0;border:none;outline:none;flex:1;padding:0 10px;font-size:14px}.AU4RWG_input::placeholder{color:var(--color-text-tertiary,#6a6a6a)}.AU4RWG_input[type=password]{letter-spacing:.15em;font-family:text-security-disc,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif}.AU4RWG_inputAddon{width:32px;height:100%;color:var(--color-text-tertiary,#6a6a6a);cursor:pointer;background:0 0;border:none;justify-content:center;align-items:center;padding:0;transition:color .15s;display:flex}.AU4RWG_inputAddon:hover{color:var(--color-text-secondary,#a0a0a0)}.AU4RWG_iconButton{width:32px;height:32px;color:var(--color-text-secondary,#a0a0a0);background:var(--color-surface-elevated,#1a1a1a);border:1px solid var(--color-border-base,#2a2a2a);cursor:pointer;border-radius:10px;flex-shrink:0;justify-content:center;align-items:center;padding:0;transition:all .15s;display:flex}.AU4RWG_iconButton:hover:not(:disabled){color:var(--color-text-primary,#e5e5e5);border-color:var(--color-border-hover,#3a3a3a);background:var(--color-surface-hover,#242424)}.AU4RWG_iconButton:disabled{opacity:.4;cursor:not-allowed}.AU4RWG_spin{animation:1s linear infinite AU4RWG_spin}@keyframes AU4RWG_spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}.AU4RWG_successMessage{color:var(--color-success,#10b981);font-size:12px;line-height:16px}.AU4RWG_errorMessage{color:var(--color-error,#ef4444);font-size:12px;line-height:16px}.AU4RWG_actionRow{align-items:center;gap:8px;display:flex}.AU4RWG_primaryButton{color:#fff;background:var(--color-accent,#3b82f6);cursor:pointer;border:none;border-radius:10px;height:32px;padding:0 16px;font-size:14px;font-weight:500;transition:opacity .15s}.AU4RWG_primaryButton:hover:not(:disabled){opacity:.9}.AU4RWG_primaryButton:disabled{opacity:.4;cursor:not-allowed}.AU4RWG_secondaryButton{height:32px;color:var(--color-text-primary,#e5e5e5);background:var(--color-surface-elevated,#1a1a1a);border:1px solid var(--color-border-base,#2a2a2a);cursor:pointer;border-radius:10px;padding:0 16px;font-size:14px;font-weight:500;transition:all .15s}.AU4RWG_secondaryButton:hover:not(:disabled){border-color:var(--color-border-hover,#3a3a3a);background:var(--color-surface-hover,#242424)}.AU4RWG_secondaryButton:disabled{opacity:.4;cursor:not-allowed}.AU4RWG_timestamp{color:var(--color-text-tertiary,#6a6a6a);font-size:12px;line-height:16px}";
-		const tagId$15 = "@dsh-control-center/control-center/ProviderAuthentication.module.css";
-		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$15) + "]") === null) {
+		const css$16 = ".AU4RWG_section{flex-direction:column;gap:20px;display:flex}.AU4RWG_sectionTitle{color:var(--color-text-primary,#e5e5e5);font-size:14px;font-weight:600;line-height:20px}.AU4RWG_field{flex-direction:column;gap:8px;display:flex}.AU4RWG_fieldLabel{color:var(--color-text-secondary,#a0a0a0);justify-content:space-between;align-items:center;font-size:12px;font-weight:500;line-height:16px;display:flex}.AU4RWG_fieldLink{color:var(--color-accent,#3b82f6);font-size:12px;font-weight:500;text-decoration:none;transition:opacity .15s}.AU4RWG_fieldLink:hover{opacity:.8}.AU4RWG_inputRow{align-items:stretch;gap:8px;display:flex}.AU4RWG_inputGroup{border:1px solid var(--color-border-base,#2a2a2a);background:var(--color-surface-elevated,#1a1a1a);border-radius:10px;flex:1;align-items:stretch;height:32px;transition:border-color .15s;display:flex;position:relative;overflow:hidden}.AU4RWG_inputGroup:focus-within{border-color:var(--color-accent,#3b82f6)}.AU4RWG_input{height:100%;color:var(--color-text-primary,#e5e5e5);background:0 0;border:none;outline:none;flex:1;padding:0 10px;font-size:14px}.AU4RWG_input::placeholder{color:var(--color-text-tertiary,#6a6a6a)}.AU4RWG_input[type=password]{letter-spacing:.15em;font-family:text-security-disc,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif}.AU4RWG_inputAddon{width:32px;height:100%;color:var(--color-text-tertiary,#6a6a6a);cursor:pointer;background:0 0;border:none;justify-content:center;align-items:center;padding:0;transition:color .15s;display:flex}.AU4RWG_inputAddon:hover{color:var(--color-text-secondary,#a0a0a0)}.AU4RWG_iconButton{width:32px;height:32px;color:var(--color-text-secondary,#a0a0a0);background:var(--color-surface-elevated,#1a1a1a);border:1px solid var(--color-border-base,#2a2a2a);cursor:pointer;border-radius:10px;flex-shrink:0;justify-content:center;align-items:center;padding:0;transition:all .15s;display:flex}.AU4RWG_iconButton:hover:not(:disabled){color:var(--color-text-primary,#e5e5e5);border-color:var(--color-border-hover,#3a3a3a);background:var(--color-surface-hover,#242424)}.AU4RWG_iconButton:disabled{opacity:.4;cursor:not-allowed}.AU4RWG_spin{animation:1s linear infinite AU4RWG_spin}@keyframes AU4RWG_spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}.AU4RWG_successMessage{color:var(--color-success,#10b981);font-size:12px;line-height:16px}.AU4RWG_errorMessage{color:var(--color-error,#ef4444);font-size:12px;line-height:16px}.AU4RWG_actionRow{align-items:center;gap:8px;display:flex}.AU4RWG_primaryButton{color:#fff;background:var(--color-accent,#3b82f6);cursor:pointer;border:none;border-radius:10px;height:32px;padding:0 16px;font-size:14px;font-weight:500;transition:opacity .15s}.AU4RWG_primaryButton:hover:not(:disabled){opacity:.9}.AU4RWG_primaryButton:disabled{opacity:.4;cursor:not-allowed}.AU4RWG_secondaryButton{height:32px;color:var(--color-text-primary,#e5e5e5);background:var(--color-surface-elevated,#1a1a1a);border:1px solid var(--color-border-base,#2a2a2a);cursor:pointer;border-radius:10px;padding:0 16px;font-size:14px;font-weight:500;transition:all .15s}.AU4RWG_secondaryButton:hover:not(:disabled){border-color:var(--color-border-hover,#3a3a3a);background:var(--color-surface-hover,#242424)}.AU4RWG_secondaryButton:disabled{opacity:.4;cursor:not-allowed}.AU4RWG_timestamp{color:var(--color-text-tertiary,#6a6a6a);font-size:12px;line-height:16px}";
+		const tagId$16 = "@dsh-control-center/control-center/ProviderAuthentication.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$16) + "]") === null) {
 			const tag = document.createElement("style");
 			tag.dataset.plugin = "@dsh-control-center/control-center";
-			tag.dataset.pluginCss = tagId$15;
-			tag.textContent = css$15;
+			tag.dataset.pluginCss = tagId$16;
+			tag.textContent = css$16;
 			document.head.appendChild(tag);
 		}
 		var ProviderAuthentication_module_css_default = {
 			"section": "AU4RWG_section",
+			"fieldLink": "AU4RWG_fieldLink",
+			"actionRow": "AU4RWG_actionRow",
+			"primaryButton": "AU4RWG_primaryButton",
 			"timestamp": "AU4RWG_timestamp",
 			"sectionTitle": "AU4RWG_sectionTitle",
+			"secondaryButton": "AU4RWG_secondaryButton",
+			"inputAddon": "AU4RWG_inputAddon",
+			"iconButton": "AU4RWG_iconButton",
 			"inputGroup": "AU4RWG_inputGroup",
+			"field": "AU4RWG_field",
 			"fieldLabel": "AU4RWG_fieldLabel",
-			"primaryButton": "AU4RWG_primaryButton",
-			"spin": "AU4RWG_spin",
+			"inputRow": "AU4RWG_inputRow",
+			"errorMessage": "AU4RWG_errorMessage",
 			"successMessage": "AU4RWG_successMessage",
 			"input": "AU4RWG_input",
-			"secondaryButton": "AU4RWG_secondaryButton",
-			"iconButton": "AU4RWG_iconButton",
-			"fieldLink": "AU4RWG_fieldLink",
-			"field": "AU4RWG_field",
-			"actionRow": "AU4RWG_actionRow",
-			"inputAddon": "AU4RWG_inputAddon",
-			"inputRow": "AU4RWG_inputRow",
-			"errorMessage": "AU4RWG_errorMessage"
+			"spin": "AU4RWG_spin"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderAuthentication.js
@@ -1816,44 +1816,44 @@ window.__ModuleLoader__.load({
 		}
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\ProviderModelList.module.css.mjs
-		const css$14 = "._2yiUCa_section{flex-direction:column;gap:20px;display:flex}._2yiUCa_sectionHeaderRow{justify-content:space-between;align-items:center;gap:12px;display:flex}._2yiUCa_sectionHeading{color:var(--color-text-primary,#e5e5e5);margin:0;font-size:14px;font-weight:600;line-height:20px}._2yiUCa_headerMeta{align-items:center;gap:8px;display:flex}._2yiUCa_countBadge{min-width:20px;height:20px;color:var(--color-text-primary,#e5e5e5);background:var(--color-surface-elevated,#1a1a1a);border:1px solid var(--color-border-base,#2a2a2a);border-radius:10px;justify-content:center;align-items:center;padding:0 6px;font-size:11px;font-weight:600;line-height:1;display:inline-flex}._2yiUCa_enabledCount{color:var(--color-text-tertiary,#6a6a6a);font-size:12px;line-height:16px}._2yiUCa_emptyState{text-align:center;flex-direction:column;align-items:center;gap:12px;padding:48px 24px;display:flex}._2yiUCa_emptyIcon{color:var(--color-text-tertiary,#6a6a6a)}._2yiUCa_emptyText{color:var(--color-text-secondary,#a0a0a0);font-size:14px;font-weight:500;line-height:20px}._2yiUCa_emptyHint{color:var(--color-text-tertiary,#6a6a6a);max-width:320px;font-size:12px;line-height:16px}._2yiUCa_modelGroup{flex-direction:column;gap:8px;display:flex}._2yiUCa_groupHeader{align-items:center;gap:8px;padding:0 4px;display:flex}._2yiUCa_groupTitle{color:var(--color-text-secondary,#a0a0a0);text-transform:uppercase;letter-spacing:.05em;font-size:12px;font-weight:600;line-height:16px}._2yiUCa_groupCount{color:var(--color-text-tertiary,#6a6a6a);font-size:11px;font-weight:500;line-height:16px}._2yiUCa_modelList{flex-direction:column;gap:4px;display:flex}._2yiUCa_modelItem{background:var(--color-surface-base,#0f0f0f);border:1px solid var(--color-border-base,#2a2a2a);border-radius:10px;justify-content:space-between;align-items:center;gap:12px;padding:8px 12px;transition:all .15s;display:flex}._2yiUCa_modelItem:hover{background:var(--color-surface-hover,#1a1a1a);border-color:var(--color-border-hover,#3a3a3a)}._2yiUCa_modelItemDisabled{opacity:.5}._2yiUCa_modelMain{flex:1;align-items:center;gap:10px;min-width:0;display:flex}._2yiUCa_modelIcon{width:32px;height:32px;color:var(--color-accent,#3b82f6);background:var(--color-surface-elevated,#1a1a1a);border-radius:8px;flex-shrink:0;justify-content:center;align-items:center;display:flex}._2yiUCa_modelInfo{flex-direction:column;flex:1;gap:4px;min-width:0;display:flex}._2yiUCa_modelName{color:var(--color-text-primary,#e5e5e5);white-space:nowrap;text-overflow:ellipsis;font-size:13px;font-weight:500;line-height:18px;overflow:hidden}._2yiUCa_modelMeta{flex-wrap:wrap;align-items:center;gap:8px;display:flex}._2yiUCa_metaItem{color:var(--color-text-tertiary,#6a6a6a);align-items:center;gap:4px;font-size:11px;line-height:14px;display:flex}._2yiUCa_metaItem svg{flex-shrink:0}._2yiUCa_toggleButton{cursor:pointer;background:0 0;border:none;flex-shrink:0;justify-content:center;align-items:center;padding:0;display:flex}._2yiUCa_toggleTrack{background:var(--color-surface-elevated,#1a1a1a);border:1px solid var(--color-border-base,#2a2a2a);border-radius:10px;width:36px;height:20px;transition:all .2s;display:block;position:relative}._2yiUCa_toggleButtonEnabled ._2yiUCa_toggleTrack{background:var(--color-accent,#3b82f6);border-color:var(--color-accent,#3b82f6)}._2yiUCa_toggleThumb{background:#fff;border-radius:7px;width:14px;height:14px;transition:transform .2s;position:absolute;top:2px;left:2px}._2yiUCa_toggleButtonEnabled ._2yiUCa_toggleThumb{transform:translate(16px)}._2yiUCa_discoveryInfo{color:var(--color-text-tertiary,#6a6a6a);text-align:center;border-top:1px solid var(--color-border-subtle,#1a1a1a);padding:8px 12px;font-size:11px;line-height:14px}";
-		const tagId$14 = "@dsh-control-center/control-center/ProviderModelList.module.css";
-		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$14) + "]") === null) {
+		const css$15 = "._2yiUCa_section{flex-direction:column;gap:20px;display:flex}._2yiUCa_sectionHeaderRow{justify-content:space-between;align-items:center;gap:12px;display:flex}._2yiUCa_sectionHeading{color:var(--color-text-primary,#e5e5e5);margin:0;font-size:14px;font-weight:600;line-height:20px}._2yiUCa_headerMeta{align-items:center;gap:8px;display:flex}._2yiUCa_countBadge{min-width:20px;height:20px;color:var(--color-text-primary,#e5e5e5);background:var(--color-surface-elevated,#1a1a1a);border:1px solid var(--color-border-base,#2a2a2a);border-radius:10px;justify-content:center;align-items:center;padding:0 6px;font-size:11px;font-weight:600;line-height:1;display:inline-flex}._2yiUCa_enabledCount{color:var(--color-text-tertiary,#6a6a6a);font-size:12px;line-height:16px}._2yiUCa_emptyState{text-align:center;flex-direction:column;align-items:center;gap:12px;padding:48px 24px;display:flex}._2yiUCa_emptyIcon{color:var(--color-text-tertiary,#6a6a6a)}._2yiUCa_emptyText{color:var(--color-text-secondary,#a0a0a0);font-size:14px;font-weight:500;line-height:20px}._2yiUCa_emptyHint{color:var(--color-text-tertiary,#6a6a6a);max-width:320px;font-size:12px;line-height:16px}._2yiUCa_modelGroup{flex-direction:column;gap:8px;display:flex}._2yiUCa_groupHeader{align-items:center;gap:8px;padding:0 4px;display:flex}._2yiUCa_groupTitle{color:var(--color-text-secondary,#a0a0a0);text-transform:uppercase;letter-spacing:.05em;font-size:12px;font-weight:600;line-height:16px}._2yiUCa_groupCount{color:var(--color-text-tertiary,#6a6a6a);font-size:11px;font-weight:500;line-height:16px}._2yiUCa_modelList{flex-direction:column;gap:4px;display:flex}._2yiUCa_modelItem{background:var(--color-surface-base,#0f0f0f);border:1px solid var(--color-border-base,#2a2a2a);border-radius:10px;justify-content:space-between;align-items:center;gap:12px;padding:8px 12px;transition:all .15s;display:flex}._2yiUCa_modelItem:hover{background:var(--color-surface-hover,#1a1a1a);border-color:var(--color-border-hover,#3a3a3a)}._2yiUCa_modelItemDisabled{opacity:.5}._2yiUCa_modelMain{flex:1;align-items:center;gap:10px;min-width:0;display:flex}._2yiUCa_modelIcon{width:32px;height:32px;color:var(--color-accent,#3b82f6);background:var(--color-surface-elevated,#1a1a1a);border-radius:8px;flex-shrink:0;justify-content:center;align-items:center;display:flex}._2yiUCa_modelInfo{flex-direction:column;flex:1;gap:4px;min-width:0;display:flex}._2yiUCa_modelName{color:var(--color-text-primary,#e5e5e5);white-space:nowrap;text-overflow:ellipsis;font-size:13px;font-weight:500;line-height:18px;overflow:hidden}._2yiUCa_modelMeta{flex-wrap:wrap;align-items:center;gap:8px;display:flex}._2yiUCa_metaItem{color:var(--color-text-tertiary,#6a6a6a);align-items:center;gap:4px;font-size:11px;line-height:14px;display:flex}._2yiUCa_metaItem svg{flex-shrink:0}._2yiUCa_toggleButton{cursor:pointer;background:0 0;border:none;flex-shrink:0;justify-content:center;align-items:center;padding:0;display:flex}._2yiUCa_toggleTrack{background:var(--color-surface-elevated,#1a1a1a);border:1px solid var(--color-border-base,#2a2a2a);border-radius:10px;width:36px;height:20px;transition:all .2s;display:block;position:relative}._2yiUCa_toggleButtonEnabled ._2yiUCa_toggleTrack{background:var(--color-accent,#3b82f6);border-color:var(--color-accent,#3b82f6)}._2yiUCa_toggleThumb{background:#fff;border-radius:7px;width:14px;height:14px;transition:transform .2s;position:absolute;top:2px;left:2px}._2yiUCa_toggleButtonEnabled ._2yiUCa_toggleThumb{transform:translate(16px)}._2yiUCa_discoveryInfo{color:var(--color-text-tertiary,#6a6a6a);text-align:center;border-top:1px solid var(--color-border-subtle,#1a1a1a);padding:8px 12px;font-size:11px;line-height:14px}";
+		const tagId$15 = "@dsh-control-center/control-center/ProviderModelList.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$15) + "]") === null) {
 			const tag = document.createElement("style");
 			tag.dataset.plugin = "@dsh-control-center/control-center";
-			tag.dataset.pluginCss = tagId$14;
-			tag.textContent = css$14;
+			tag.dataset.pluginCss = tagId$15;
+			tag.textContent = css$15;
 			document.head.appendChild(tag);
 		}
 		var ProviderModelList_module_css_default = {
-			"toggleThumb": "_2yiUCa_toggleThumb",
-			"modelInfo": "_2yiUCa_modelInfo",
-			"modelItemDisabled": "_2yiUCa_modelItemDisabled",
-			"modelMeta": "_2yiUCa_modelMeta",
-			"enabledCount": "_2yiUCa_enabledCount",
-			"groupCount": "_2yiUCa_groupCount",
-			"emptyState": "_2yiUCa_emptyState",
-			"headerMeta": "_2yiUCa_headerMeta",
-			"modelMain": "_2yiUCa_modelMain",
-			"groupHeader": "_2yiUCa_groupHeader",
-			"modelIcon": "_2yiUCa_modelIcon",
-			"countBadge": "_2yiUCa_countBadge",
-			"emptyText": "_2yiUCa_emptyText",
-			"emptyIcon": "_2yiUCa_emptyIcon",
-			"section": "_2yiUCa_section",
-			"toggleButton": "_2yiUCa_toggleButton",
-			"emptyHint": "_2yiUCa_emptyHint",
-			"sectionHeaderRow": "_2yiUCa_sectionHeaderRow",
-			"modelItem": "_2yiUCa_modelItem",
-			"toggleButtonEnabled": "_2yiUCa_toggleButtonEnabled",
 			"discoveryInfo": "_2yiUCa_discoveryInfo",
-			"sectionHeading": "_2yiUCa_sectionHeading",
-			"groupTitle": "_2yiUCa_groupTitle",
+			"emptyHint": "_2yiUCa_emptyHint",
+			"toggleThumb": "_2yiUCa_toggleThumb",
+			"modelIcon": "_2yiUCa_modelIcon",
+			"emptyIcon": "_2yiUCa_emptyIcon",
 			"modelGroup": "_2yiUCa_modelGroup",
-			"modelList": "_2yiUCa_modelList",
+			"modelItemDisabled": "_2yiUCa_modelItemDisabled",
+			"countBadge": "_2yiUCa_countBadge",
+			"modelInfo": "_2yiUCa_modelInfo",
 			"modelName": "_2yiUCa_modelName",
+			"toggleTrack": "_2yiUCa_toggleTrack",
+			"modelMeta": "_2yiUCa_modelMeta",
+			"toggleButtonEnabled": "_2yiUCa_toggleButtonEnabled",
+			"section": "_2yiUCa_section",
+			"modelItem": "_2yiUCa_modelItem",
+			"emptyText": "_2yiUCa_emptyText",
+			"groupTitle": "_2yiUCa_groupTitle",
+			"sectionHeaderRow": "_2yiUCa_sectionHeaderRow",
+			"modelList": "_2yiUCa_modelList",
+			"modelMain": "_2yiUCa_modelMain",
+			"enabledCount": "_2yiUCa_enabledCount",
 			"metaItem": "_2yiUCa_metaItem",
-			"toggleTrack": "_2yiUCa_toggleTrack"
+			"sectionHeading": "_2yiUCa_sectionHeading",
+			"emptyState": "_2yiUCa_emptyState",
+			"groupHeader": "_2yiUCa_groupHeader",
+			"groupCount": "_2yiUCa_groupCount",
+			"toggleButton": "_2yiUCa_toggleButton",
+			"headerMeta": "_2yiUCa_headerMeta"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderModelList.js
@@ -2088,35 +2088,35 @@ window.__ModuleLoader__.load({
 		}
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\ProviderDialog.module.css.mjs
-		const css$13 = ".Y2Uoaq_overlay{z-index:1000;background-color:#00000080;justify-content:center;align-items:center;padding:20px;display:flex;position:fixed;inset:0}.Y2Uoaq_dialog{background-color:var(--color-surface-elevated);border-radius:10px;flex-direction:column;width:100%;max-width:560px;max-height:90vh;display:flex;box-shadow:0 8px 24px #00000026}.Y2Uoaq_header{border-bottom:.5px solid var(--color-border-subtle);padding:20px 24px}.Y2Uoaq_title{color:var(--color-text-primary);margin:0;font-size:16px;font-weight:600;line-height:1.5}.Y2Uoaq_content{flex-direction:column;flex:1;gap:20px;padding:24px;display:flex;overflow-y:auto}.Y2Uoaq_error{background-color:var(--color-destructive-bg);border:1px solid var(--color-destructive-border);color:var(--color-destructive-text);border-radius:8px;padding:12px;font-size:14px;line-height:1.5}.Y2Uoaq_field{flex-direction:column;gap:8px;display:flex}.Y2Uoaq_label{color:var(--color-text-secondary);font-size:12px;font-weight:500;line-height:1.5}.Y2Uoaq_required{color:var(--color-destructive)}.Y2Uoaq_input,.Y2Uoaq_select,.Y2Uoaq_textarea{background-color:var(--color-input-bg);border:1px solid var(--color-border-base);width:100%;height:32px;color:var(--color-text-primary);border-radius:10px;padding:0 12px;font-size:14px;line-height:1.5;transition:border-color .15s}.Y2Uoaq_input:focus,.Y2Uoaq_select:focus,.Y2Uoaq_textarea:focus{border-color:var(--color-primary);outline:none}.Y2Uoaq_input::placeholder,.Y2Uoaq_textarea::placeholder{color:var(--color-text-tertiary)}.Y2Uoaq_select{cursor:pointer;appearance:none;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;padding-right:32px}.Y2Uoaq_textarea{resize:vertical;height:auto;min-height:80px;padding:8px 12px;font-family:Monaco,Menlo,Ubuntu Mono,monospace;font-size:13px}.Y2Uoaq_hint{color:var(--color-text-tertiary);font-size:12px;line-height:1.4}.Y2Uoaq_checkboxField{align-items:center;display:flex}.Y2Uoaq_checkboxLabel{color:var(--color-text-primary);cursor:pointer;user-select:none;align-items:center;gap:8px;font-size:14px;display:flex}.Y2Uoaq_checkbox{cursor:pointer;width:16px;height:16px;accent-color:var(--color-primary);margin:0}.Y2Uoaq_footer{border-top:.5px solid var(--color-border-subtle);justify-content:flex-end;align-items:center;gap:12px;padding:16px 24px;display:flex}.Y2Uoaq_cancelButton,.Y2Uoaq_submitButton{cursor:pointer;border:none;border-radius:10px;height:32px;padding:0 16px;font-size:14px;font-weight:500;transition:all .15s}.Y2Uoaq_cancelButton{color:var(--color-text-secondary);background-color:#0000}.Y2Uoaq_cancelButton:hover:not(:disabled){background-color:var(--color-surface-hover)}.Y2Uoaq_submitButton{background-color:var(--color-primary);color:#fff}.Y2Uoaq_submitButton:hover:not(:disabled){opacity:.9}.Y2Uoaq_cancelButton:disabled,.Y2Uoaq_submitButton:disabled{opacity:.5;cursor:not-allowed}";
-		const tagId$13 = "@dsh-control-center/control-center/ProviderDialog.module.css";
-		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$13) + "]") === null) {
+		const css$14 = ".Y2Uoaq_overlay{z-index:1000;background-color:#00000080;justify-content:center;align-items:center;padding:20px;display:flex;position:fixed;inset:0}.Y2Uoaq_dialog{background-color:var(--color-surface-elevated);border-radius:10px;flex-direction:column;width:100%;max-width:560px;max-height:90vh;display:flex;box-shadow:0 8px 24px #00000026}.Y2Uoaq_header{border-bottom:.5px solid var(--color-border-subtle);padding:20px 24px}.Y2Uoaq_title{color:var(--color-text-primary);margin:0;font-size:16px;font-weight:600;line-height:1.5}.Y2Uoaq_content{flex-direction:column;flex:1;gap:20px;padding:24px;display:flex;overflow-y:auto}.Y2Uoaq_error{background-color:var(--color-destructive-bg);border:1px solid var(--color-destructive-border);color:var(--color-destructive-text);border-radius:8px;padding:12px;font-size:14px;line-height:1.5}.Y2Uoaq_field{flex-direction:column;gap:8px;display:flex}.Y2Uoaq_label{color:var(--color-text-secondary);font-size:12px;font-weight:500;line-height:1.5}.Y2Uoaq_required{color:var(--color-destructive)}.Y2Uoaq_input,.Y2Uoaq_select,.Y2Uoaq_textarea{background-color:var(--color-input-bg);border:1px solid var(--color-border-base);width:100%;height:32px;color:var(--color-text-primary);border-radius:10px;padding:0 12px;font-size:14px;line-height:1.5;transition:border-color .15s}.Y2Uoaq_input:focus,.Y2Uoaq_select:focus,.Y2Uoaq_textarea:focus{border-color:var(--color-primary);outline:none}.Y2Uoaq_input::placeholder,.Y2Uoaq_textarea::placeholder{color:var(--color-text-tertiary)}.Y2Uoaq_select{cursor:pointer;appearance:none;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E\");background-position:right 10px center;background-repeat:no-repeat;padding-right:32px}.Y2Uoaq_textarea{resize:vertical;height:auto;min-height:80px;padding:8px 12px;font-family:Monaco,Menlo,Ubuntu Mono,monospace;font-size:13px}.Y2Uoaq_hint{color:var(--color-text-tertiary);font-size:12px;line-height:1.4}.Y2Uoaq_checkboxField{align-items:center;display:flex}.Y2Uoaq_checkboxLabel{color:var(--color-text-primary);cursor:pointer;user-select:none;align-items:center;gap:8px;font-size:14px;display:flex}.Y2Uoaq_checkbox{cursor:pointer;width:16px;height:16px;accent-color:var(--color-primary);margin:0}.Y2Uoaq_footer{border-top:.5px solid var(--color-border-subtle);justify-content:flex-end;align-items:center;gap:12px;padding:16px 24px;display:flex}.Y2Uoaq_cancelButton,.Y2Uoaq_submitButton{cursor:pointer;border:none;border-radius:10px;height:32px;padding:0 16px;font-size:14px;font-weight:500;transition:all .15s}.Y2Uoaq_cancelButton{color:var(--color-text-secondary);background-color:#0000}.Y2Uoaq_cancelButton:hover:not(:disabled){background-color:var(--color-surface-hover)}.Y2Uoaq_submitButton{background-color:var(--color-primary);color:#fff}.Y2Uoaq_submitButton:hover:not(:disabled){opacity:.9}.Y2Uoaq_cancelButton:disabled,.Y2Uoaq_submitButton:disabled{opacity:.5;cursor:not-allowed}";
+		const tagId$14 = "@dsh-control-center/control-center/ProviderDialog.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$14) + "]") === null) {
 			const tag = document.createElement("style");
 			tag.dataset.plugin = "@dsh-control-center/control-center";
-			tag.dataset.pluginCss = tagId$13;
-			tag.textContent = css$13;
+			tag.dataset.pluginCss = tagId$14;
+			tag.textContent = css$14;
 			document.head.appendChild(tag);
 		}
 		var ProviderDialog_module_css_default = {
-			"error": "Y2Uoaq_error",
-			"footer": "Y2Uoaq_footer",
-			"textarea": "Y2Uoaq_textarea",
-			"title": "Y2Uoaq_title",
-			"select": "Y2Uoaq_select",
-			"input": "Y2Uoaq_input",
 			"checkboxLabel": "Y2Uoaq_checkboxLabel",
-			"checkbox": "Y2Uoaq_checkbox",
-			"required": "Y2Uoaq_required",
-			"cancelButton": "Y2Uoaq_cancelButton",
 			"submitButton": "Y2Uoaq_submitButton",
-			"field": "Y2Uoaq_field",
-			"overlay": "Y2Uoaq_overlay",
-			"header": "Y2Uoaq_header",
-			"content": "Y2Uoaq_content",
-			"label": "Y2Uoaq_label",
-			"hint": "Y2Uoaq_hint",
 			"dialog": "Y2Uoaq_dialog",
-			"checkboxField": "Y2Uoaq_checkboxField"
+			"required": "Y2Uoaq_required",
+			"checkbox": "Y2Uoaq_checkbox",
+			"title": "Y2Uoaq_title",
+			"header": "Y2Uoaq_header",
+			"select": "Y2Uoaq_select",
+			"overlay": "Y2Uoaq_overlay",
+			"input": "Y2Uoaq_input",
+			"hint": "Y2Uoaq_hint",
+			"checkboxField": "Y2Uoaq_checkboxField",
+			"field": "Y2Uoaq_field",
+			"content": "Y2Uoaq_content",
+			"textarea": "Y2Uoaq_textarea",
+			"footer": "Y2Uoaq_footer",
+			"cancelButton": "Y2Uoaq_cancelButton",
+			"error": "Y2Uoaq_error",
+			"label": "Y2Uoaq_label"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderDialog.js
@@ -2429,73 +2429,73 @@ window.__ModuleLoader__.load({
 		}
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\ProvidersSection.module.css.mjs
-		const css$12 = ".ExuySa_splitRoot{background:var(--color-background-base);width:100%;min-width:0;height:100%;min-height:0;display:flex;overflow:hidden}.ExuySa_providerList{border-right:.5px solid var(--color-border-subtle);flex-direction:column;flex-shrink:0;flex-basis:248px;width:248px;height:100%;display:flex}.ExuySa_searchRow{align-items:center;gap:6px;padding:10px;display:flex}.ExuySa_searchWrap{border:1px solid var(--color-border-base);background:var(--color-background-elevated);border-radius:10px;flex:1;align-items:center;gap:4px;height:32px;padding:4px 4px 4px 10px;display:flex}.ExuySa_searchIcon{width:14px;height:14px;color:var(--color-text-tertiary);flex-shrink:0;margin-right:2px}.ExuySa_searchInput{min-width:0;color:var(--color-text-primary);background:0 0;border:none;outline:none;flex:1;font-size:14px;line-height:20px}.ExuySa_searchInput::placeholder{color:var(--color-text-tertiary)}.ExuySa_searchClearButton{width:22px;height:22px;color:var(--color-text-tertiary);cursor:pointer;background:0 0;border:none;border-radius:6px;flex-shrink:0;justify-content:center;align-items:center;transition:all .2s;display:flex}.ExuySa_searchClearButton:hover{background:var(--color-background-hover);color:var(--color-text-primary)}.ExuySa_listScroller{flex:1;min-height:0;padding:8px 10px 0;overflow:hidden auto}.ExuySa_listItems{flex-direction:column;gap:8px;display:flex}.ExuySa_listItem{text-align:left;cursor:pointer;background:0 0;border:1px solid #0000;border-radius:10px;outline:none;justify-content:space-between;align-items:center;width:100%;height:32px;padding:0 10px 0 2px;transition:all .2s;display:flex;position:relative}.ExuySa_listItemIdle:hover,.ExuySa_listItemSelected{background:var(--color-background-hover)}.ExuySa_listItemMain{flex:1;align-items:center;gap:0;min-width:0;display:flex}.ExuySa_listItemAvatar{border:1px solid var(--color-border-subtle);width:20px;height:20px;color:var(--color-text-secondary);border-radius:6px;flex-shrink:0;margin-right:10px}.ExuySa_listItemLabel{text-overflow:ellipsis;white-space:nowrap;min-width:0;color:var(--color-text-primary);flex:1;font-size:14px;line-height:1.35;overflow:hidden}.ExuySa_listItemSelected .ExuySa_listItemLabel{font-weight:500}.ExuySa_enabledDot{background:var(--color-success-text);border-radius:999px;flex-shrink:0;width:6px;height:6px}.ExuySa_addFooter{flex-shrink:0;padding:10px}.ExuySa_addButton{border:1px solid var(--color-border-base);width:100%;height:32px;color:var(--color-text-primary);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 10px;font-size:12px;transition:all .2s;display:flex}.ExuySa_addButton:hover:not(:disabled){border-color:var(--color-border-hover);background:var(--color-background-hover)}.ExuySa_addButton:disabled{opacity:.4;cursor:not-allowed}.ExuySa_providerDetail{flex-direction:column;flex:1;min-width:0;min-height:0;display:flex;overflow:hidden}.ExuySa_detailHeader{flex-shrink:0;justify-content:space-between;align-items:center;gap:12px;padding:10px 24px;display:flex}.ExuySa_detailHeaderContent{flex:1;width:100%;max-width:768px;margin:0}.ExuySa_editButton{width:32px;height:32px;color:var(--color-text-secondary);cursor:pointer;background:0 0;border:none;border-radius:10px;flex-shrink:0;justify-content:center;align-items:center;transition:all .15s;display:flex}.ExuySa_editButton:hover{background:var(--color-background-hover);color:var(--color-text-primary)}.ExuySa_detailTitle{color:var(--color-text-primary);margin:0;font-size:20px;font-weight:600;line-height:28px}.ExuySa_detailMeta{color:var(--color-text-tertiary);align-items:center;gap:12px;margin-top:4px;font-size:13px;display:flex}.ExuySa_detailMetaItem{align-items:center;gap:4px;display:flex}.ExuySa_detailScroll{flex:1;min-height:0;padding:6px 24px 24px;overflow:hidden auto}.ExuySa_detailContentMaxWidth{flex-direction:column;gap:20px;width:100%;min-width:0;max-width:768px;min-height:100%;margin:0 auto;display:flex}.ExuySa_section{flex-direction:column;gap:12px;display:flex}.ExuySa_sectionHeading{color:var(--color-text-primary);margin:0;font-size:14px;font-weight:500;line-height:1.3}.ExuySa_sectionHeaderRow{justify-content:space-between;align-items:center;gap:12px;display:flex}.ExuySa_countMeta{color:var(--color-text-tertiary);font-variant-numeric:tabular-nums;font-size:12px;line-height:1.33}.ExuySa_sectionBody{flex-direction:column;gap:14px;display:flex}.ExuySa_field{flex-direction:column;gap:6px;display:flex}.ExuySa_fieldLabel{color:var(--color-text-secondary);font-size:14px;line-height:20px}.ExuySa_input{border:1px solid var(--color-border-base);background:var(--color-background-elevated);width:100%;height:32px;min-height:32px;color:var(--color-text-primary);border-radius:6px;outline:none;padding:0 12px;font-size:14px;line-height:20px;transition:border-color .2s}.ExuySa_input:focus{border-color:var(--color-accent-primary)}.ExuySa_input::placeholder{color:var(--color-text-tertiary)}.ExuySa_input:read-only{background:var(--color-background-base);color:var(--color-text-secondary)}.ExuySa_actionRow{flex-wrap:wrap;align-items:center;gap:12px;display:flex}.ExuySa_actionButton{border:1px solid var(--color-border-subtle);height:auto;min-height:0;color:var(--color-text-secondary);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;gap:8px;padding:6px 12px;font-size:13px;line-height:1.33;transition:all .2s;display:inline-flex}.ExuySa_actionButton:hover{background:var(--color-background-hover);color:var(--color-text-primary)}.ExuySa_modelList{border:1px solid var(--color-border-subtle);border-radius:8px;flex-direction:column;gap:0;display:flex;overflow:hidden}.ExuySa_modelRow{border-bottom:1px solid var(--color-border-subtle);background:var(--color-background-elevated);align-items:center;gap:10px;padding:12px 16px;display:flex}.ExuySa_modelRow:last-child{border-bottom:none}.ExuySa_modelMain{flex-direction:column;flex:1;gap:4px;min-width:0;display:flex}.ExuySa_modelName{color:var(--color-text-primary);text-overflow:ellipsis;white-space:nowrap;font-size:14px;line-height:20px;overflow:hidden}.ExuySa_modelId{text-overflow:ellipsis;white-space:nowrap;background:var(--color-background-subtle);min-width:0;max-width:50%;color:var(--color-text-tertiary);border-radius:4px;flex-shrink:1;padding:1px 6px;font-family:monospace;font-size:12px;line-height:1.33;overflow:hidden}.ExuySa_switch{flex-shrink:0;width:44px;height:24px;display:inline-block;position:relative}.ExuySa_switch input{opacity:0;width:0;height:0}.ExuySa_switchSlider{cursor:pointer;background:var(--color-background-subtle);border-radius:999px;transition:all .2s;position:absolute;inset:0}.ExuySa_switchSlider:before{content:\"\";background:#fff;border-radius:999px;width:18px;height:18px;transition:all .2s;position:absolute;bottom:3px;left:3px}.ExuySa_switch input:checked+.ExuySa_switchSlider{background:var(--color-accent-primary)}.ExuySa_switch input:checked+.ExuySa_switchSlider:before{transform:translate(20px)}.ExuySa_dangerZone{border:1px solid var(--color-border-base);background:var(--color-background-elevated);border-radius:8px;justify-content:space-between;align-items:flex-start;gap:16px;padding:16px;display:flex}.ExuySa_dangerZoneText{flex-direction:column;flex:1;gap:4px;display:flex}.ExuySa_dangerZoneTitle{color:var(--color-text-primary);font-size:14px;font-weight:500;line-height:20px}.ExuySa_dangerZoneDescription{color:var(--color-text-secondary);font-size:13px;line-height:1.33}.ExuySa_dangerButton{border:1px solid var(--color-error-border);background:var(--color-error-bg);height:32px;color:var(--color-error-text);cursor:pointer;border-radius:6px;flex-shrink:0;justify-content:center;align-items:center;padding:0 16px;font-size:14px;font-weight:500;transition:all .2s;display:inline-flex}.ExuySa_dangerButton:hover{background:var(--color-error-bg-hover)}.ExuySa_secondaryButton{border:1px solid var(--color-border-base);background:var(--color-background-elevated);height:32px;color:var(--color-text-primary);cursor:pointer;border-radius:6px;flex-shrink:0;justify-content:center;align-items:center;padding:0 16px;font-size:14px;transition:all .2s;display:inline-flex}.ExuySa_secondaryButton:hover{border-color:var(--color-border-hover);background:var(--color-background-base)}.ExuySa_emptyState{text-align:center;min-height:160px;color:var(--color-text-tertiary);justify-content:center;align-items:center;padding:24px;font-size:14px;line-height:20px;display:flex}.ExuySa_emptyDetailState{text-align:center;flex-direction:column;justify-content:center;align-items:center;height:100%;padding:64px 24px;display:flex}.ExuySa_emptyIcon{width:64px;height:64px;color:var(--color-text-tertiary);margin-bottom:16px}.ExuySa_emptyTitle{color:var(--color-text-primary);margin-bottom:8px;font-size:16px;font-weight:600}.ExuySa_emptyDescription{color:var(--color-text-secondary);max-width:400px;font-size:14px}.ExuySa_loading{color:var(--color-text-tertiary);justify-content:center;align-items:center;height:100%;padding:64px 24px;display:flex}.ExuySa_error{text-align:center;color:var(--color-error-text);flex-direction:column;justify-content:center;align-items:center;height:100%;padding:64px 24px;display:flex}";
-		const tagId$12 = "@dsh-control-center/control-center/ProvidersSection.module.css";
-		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$12) + "]") === null) {
+		const css$13 = ".ExuySa_splitRoot{background:var(--color-background-base);width:100%;min-width:0;height:100%;min-height:0;display:flex;overflow:hidden}.ExuySa_providerList{border-right:.5px solid var(--color-border-subtle);flex-direction:column;flex-shrink:0;flex-basis:248px;width:248px;height:100%;display:flex}.ExuySa_searchRow{align-items:center;gap:6px;padding:10px;display:flex}.ExuySa_searchWrap{border:1px solid var(--color-border-base);background:var(--color-background-elevated);border-radius:10px;flex:1;align-items:center;gap:4px;height:32px;padding:4px 4px 4px 10px;display:flex}.ExuySa_searchIcon{width:14px;height:14px;color:var(--color-text-tertiary);flex-shrink:0;margin-right:2px}.ExuySa_searchInput{min-width:0;color:var(--color-text-primary);background:0 0;border:none;outline:none;flex:1;font-size:14px;line-height:20px}.ExuySa_searchInput::placeholder{color:var(--color-text-tertiary)}.ExuySa_searchClearButton{width:22px;height:22px;color:var(--color-text-tertiary);cursor:pointer;background:0 0;border:none;border-radius:6px;flex-shrink:0;justify-content:center;align-items:center;transition:all .2s;display:flex}.ExuySa_searchClearButton:hover{background:var(--color-background-hover);color:var(--color-text-primary)}.ExuySa_listScroller{flex:1;min-height:0;padding:8px 10px 0;overflow:hidden auto}.ExuySa_listItems{flex-direction:column;gap:8px;display:flex}.ExuySa_listItem{text-align:left;cursor:pointer;background:0 0;border:1px solid #0000;border-radius:10px;outline:none;justify-content:space-between;align-items:center;width:100%;height:32px;padding:0 10px 0 2px;transition:all .2s;display:flex;position:relative}.ExuySa_listItemIdle:hover,.ExuySa_listItemSelected{background:var(--color-background-hover)}.ExuySa_listItemMain{flex:1;align-items:center;gap:0;min-width:0;display:flex}.ExuySa_listItemAvatar{border:1px solid var(--color-border-subtle);width:20px;height:20px;color:var(--color-text-secondary);border-radius:6px;flex-shrink:0;margin-right:10px}.ExuySa_listItemLabel{text-overflow:ellipsis;white-space:nowrap;min-width:0;color:var(--color-text-primary);flex:1;font-size:14px;line-height:1.35;overflow:hidden}.ExuySa_listItemSelected .ExuySa_listItemLabel{font-weight:500}.ExuySa_enabledDot{background:var(--color-success-text);border-radius:999px;flex-shrink:0;width:6px;height:6px}.ExuySa_addFooter{flex-shrink:0;padding:10px}.ExuySa_addButton{border:1px solid var(--color-border-base);width:100%;height:32px;color:var(--color-text-primary);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 10px;font-size:12px;transition:all .2s;display:flex}.ExuySa_addButton:hover:not(:disabled){border-color:var(--color-border-hover);background:var(--color-background-hover)}.ExuySa_addButton:disabled{opacity:.4;cursor:not-allowed}.ExuySa_providerDetail{flex-direction:column;flex:1;min-width:0;min-height:0;display:flex;overflow:hidden}.ExuySa_detailHeader{flex-shrink:0;justify-content:space-between;align-items:center;gap:12px;padding:10px 24px;display:flex}.ExuySa_detailHeaderContent{flex:1;width:100%;max-width:768px;margin:0}.ExuySa_editButton{width:32px;height:32px;color:var(--color-text-secondary);cursor:pointer;background:0 0;border:none;border-radius:10px;flex-shrink:0;justify-content:center;align-items:center;transition:all .15s;display:flex}.ExuySa_editButton:hover{background:var(--color-background-hover);color:var(--color-text-primary)}.ExuySa_detailTitle{color:var(--color-text-primary);margin:0;font-size:20px;font-weight:600;line-height:28px}.ExuySa_detailMeta{color:var(--color-text-tertiary);align-items:center;gap:12px;margin-top:4px;font-size:13px;display:flex}.ExuySa_detailMetaItem{align-items:center;gap:4px;display:flex}.ExuySa_detailScroll{flex:1;min-height:0;padding:6px 24px 24px;overflow:hidden auto}.ExuySa_detailContentMaxWidth{flex-direction:column;gap:20px;width:100%;min-width:0;max-width:768px;min-height:100%;margin:0 auto;display:flex}.ExuySa_section{flex-direction:column;gap:12px;display:flex}.ExuySa_sectionHeading{color:var(--color-text-primary);margin:0;font-size:14px;font-weight:500;line-height:1.3}.ExuySa_sectionHeaderRow{justify-content:space-between;align-items:center;gap:12px;display:flex}.ExuySa_countMeta{color:var(--color-text-tertiary);font-variant-numeric:tabular-nums;font-size:12px;line-height:1.33}.ExuySa_sectionBody{flex-direction:column;gap:14px;display:flex}.ExuySa_field{flex-direction:column;gap:6px;display:flex}.ExuySa_fieldLabel{color:var(--color-text-secondary);font-size:14px;line-height:20px}.ExuySa_input{border:1px solid var(--color-border-base);background:var(--color-background-elevated);width:100%;height:32px;min-height:32px;color:var(--color-text-primary);border-radius:6px;outline:none;padding:0 12px;font-size:14px;line-height:20px;transition:border-color .2s}.ExuySa_input:focus{border-color:var(--color-accent-primary)}.ExuySa_input::placeholder{color:var(--color-text-tertiary)}.ExuySa_input:read-only{background:var(--color-background-base);color:var(--color-text-secondary)}.ExuySa_actionRow{flex-wrap:wrap;align-items:center;gap:12px;display:flex}.ExuySa_actionButton{border:1px solid var(--color-border-subtle);height:auto;min-height:0;color:var(--color-text-secondary);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;gap:8px;padding:6px 12px;font-size:13px;line-height:1.33;transition:all .2s;display:inline-flex}.ExuySa_actionButton:hover{background:var(--color-background-hover);color:var(--color-text-primary)}.ExuySa_modelList{border:1px solid var(--color-border-subtle);border-radius:8px;flex-direction:column;gap:0;display:flex;overflow:hidden}.ExuySa_modelRow{border-bottom:1px solid var(--color-border-subtle);background:var(--color-background-elevated);align-items:center;gap:10px;padding:12px 16px;display:flex}.ExuySa_modelRow:last-child{border-bottom:none}.ExuySa_modelMain{flex-direction:column;flex:1;gap:4px;min-width:0;display:flex}.ExuySa_modelName{color:var(--color-text-primary);text-overflow:ellipsis;white-space:nowrap;font-size:14px;line-height:20px;overflow:hidden}.ExuySa_modelId{text-overflow:ellipsis;white-space:nowrap;background:var(--color-background-subtle);min-width:0;max-width:50%;color:var(--color-text-tertiary);border-radius:4px;flex-shrink:1;padding:1px 6px;font-family:monospace;font-size:12px;line-height:1.33;overflow:hidden}.ExuySa_switch{flex-shrink:0;width:44px;height:24px;display:inline-block;position:relative}.ExuySa_switch input{opacity:0;width:0;height:0}.ExuySa_switchSlider{cursor:pointer;background:var(--color-background-subtle);border-radius:999px;transition:all .2s;position:absolute;inset:0}.ExuySa_switchSlider:before{content:\"\";background:#fff;border-radius:999px;width:18px;height:18px;transition:all .2s;position:absolute;bottom:3px;left:3px}.ExuySa_switch input:checked+.ExuySa_switchSlider{background:var(--color-accent-primary)}.ExuySa_switch input:checked+.ExuySa_switchSlider:before{transform:translate(20px)}.ExuySa_dangerZone{border:1px solid var(--color-border-base);background:var(--color-background-elevated);border-radius:8px;justify-content:space-between;align-items:flex-start;gap:16px;padding:16px;display:flex}.ExuySa_dangerZoneText{flex-direction:column;flex:1;gap:4px;display:flex}.ExuySa_dangerZoneTitle{color:var(--color-text-primary);font-size:14px;font-weight:500;line-height:20px}.ExuySa_dangerZoneDescription{color:var(--color-text-secondary);font-size:13px;line-height:1.33}.ExuySa_dangerButton{border:1px solid var(--color-error-border);background:var(--color-error-bg);height:32px;color:var(--color-error-text);cursor:pointer;border-radius:6px;flex-shrink:0;justify-content:center;align-items:center;padding:0 16px;font-size:14px;font-weight:500;transition:all .2s;display:inline-flex}.ExuySa_dangerButton:hover{background:var(--color-error-bg-hover)}.ExuySa_secondaryButton{border:1px solid var(--color-border-base);background:var(--color-background-elevated);height:32px;color:var(--color-text-primary);cursor:pointer;border-radius:6px;flex-shrink:0;justify-content:center;align-items:center;padding:0 16px;font-size:14px;transition:all .2s;display:inline-flex}.ExuySa_secondaryButton:hover{border-color:var(--color-border-hover);background:var(--color-background-base)}.ExuySa_emptyState{text-align:center;min-height:160px;color:var(--color-text-tertiary);justify-content:center;align-items:center;padding:24px;font-size:14px;line-height:20px;display:flex}.ExuySa_emptyDetailState{text-align:center;flex-direction:column;justify-content:center;align-items:center;height:100%;padding:64px 24px;display:flex}.ExuySa_emptyIcon{width:64px;height:64px;color:var(--color-text-tertiary);margin-bottom:16px}.ExuySa_emptyTitle{color:var(--color-text-primary);margin-bottom:8px;font-size:16px;font-weight:600}.ExuySa_emptyDescription{color:var(--color-text-secondary);max-width:400px;font-size:14px}.ExuySa_loading{color:var(--color-text-tertiary);justify-content:center;align-items:center;height:100%;padding:64px 24px;display:flex}.ExuySa_error{text-align:center;color:var(--color-error-text);flex-direction:column;justify-content:center;align-items:center;height:100%;padding:64px 24px;display:flex}";
+		const tagId$13 = "@dsh-control-center/control-center/ProvidersSection.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$13) + "]") === null) {
 			const tag = document.createElement("style");
 			tag.dataset.plugin = "@dsh-control-center/control-center";
-			tag.dataset.pluginCss = tagId$12;
-			tag.textContent = css$12;
+			tag.dataset.pluginCss = tagId$13;
+			tag.textContent = css$13;
 			document.head.appendChild(tag);
 		}
 		var ProvidersSection_module_css_default = {
-			"detailMetaItem": "ExuySa_detailMetaItem",
-			"sectionHeading": "ExuySa_sectionHeading",
-			"dangerZoneDescription": "ExuySa_dangerZoneDescription",
-			"listItemAvatar": "ExuySa_listItemAvatar",
-			"detailHeaderContent": "ExuySa_detailHeaderContent",
-			"listItemSelected": "ExuySa_listItemSelected",
-			"detailMeta": "ExuySa_detailMeta",
-			"listItem": "ExuySa_listItem",
-			"actionRow": "ExuySa_actionRow",
-			"dangerZoneTitle": "ExuySa_dangerZoneTitle",
-			"searchClearButton": "ExuySa_searchClearButton",
-			"modelRow": "ExuySa_modelRow",
-			"detailContentMaxWidth": "ExuySa_detailContentMaxWidth",
-			"dangerButton": "ExuySa_dangerButton",
-			"emptyTitle": "ExuySa_emptyTitle",
-			"loading": "ExuySa_loading",
-			"searchInput": "ExuySa_searchInput",
-			"actionButton": "ExuySa_actionButton",
-			"providerList": "ExuySa_providerList",
-			"modelName": "ExuySa_modelName",
-			"secondaryButton": "ExuySa_secondaryButton",
 			"splitRoot": "ExuySa_splitRoot",
-			"error": "ExuySa_error",
-			"addFooter": "ExuySa_addFooter",
-			"modelList": "ExuySa_modelList",
-			"detailScroll": "ExuySa_detailScroll",
-			"listItemIdle": "ExuySa_listItemIdle",
+			"providerList": "ExuySa_providerList",
+			"editButton": "ExuySa_editButton",
+			"listItemLabel": "ExuySa_listItemLabel",
+			"actionButton": "ExuySa_actionButton",
+			"dangerZoneText": "ExuySa_dangerZoneText",
 			"section": "ExuySa_section",
 			"switchSlider": "ExuySa_switchSlider",
-			"listItemMain": "ExuySa_listItemMain",
-			"switch": "ExuySa_switch",
-			"enabledDot": "ExuySa_enabledDot",
-			"sectionHeaderRow": "ExuySa_sectionHeaderRow",
-			"dangerZoneText": "ExuySa_dangerZoneText",
-			"emptyIcon": "ExuySa_emptyIcon",
-			"fieldLabel": "ExuySa_fieldLabel",
-			"detailHeader": "ExuySa_detailHeader",
-			"searchWrap": "ExuySa_searchWrap",
 			"searchRow": "ExuySa_searchRow",
-			"modelMain": "ExuySa_modelMain",
+			"detailScroll": "ExuySa_detailScroll",
 			"input": "ExuySa_input",
-			"emptyDescription": "ExuySa_emptyDescription",
-			"dangerZone": "ExuySa_dangerZone",
-			"listItemLabel": "ExuySa_listItemLabel",
-			"detailTitle": "ExuySa_detailTitle",
-			"addButton": "ExuySa_addButton",
-			"emptyState": "ExuySa_emptyState",
-			"countMeta": "ExuySa_countMeta",
-			"providerDetail": "ExuySa_providerDetail",
-			"emptyDetailState": "ExuySa_emptyDetailState",
-			"listScroller": "ExuySa_listScroller",
-			"sectionBody": "ExuySa_sectionBody",
+			"listItemIdle": "ExuySa_listItemIdle",
 			"modelId": "ExuySa_modelId",
-			"searchIcon": "ExuySa_searchIcon",
-			"editButton": "ExuySa_editButton",
+			"emptyState": "ExuySa_emptyState",
+			"addButton": "ExuySa_addButton",
+			"dangerButton": "ExuySa_dangerButton",
+			"detailContentMaxWidth": "ExuySa_detailContentMaxWidth",
+			"addFooter": "ExuySa_addFooter",
+			"listItem": "ExuySa_listItem",
+			"searchClearButton": "ExuySa_searchClearButton",
+			"enabledDot": "ExuySa_enabledDot",
+			"sectionHeading": "ExuySa_sectionHeading",
+			"loading": "ExuySa_loading",
+			"sectionBody": "ExuySa_sectionBody",
+			"listItems": "ExuySa_listItems",
+			"detailHeader": "ExuySa_detailHeader",
+			"listItemMain": "ExuySa_listItemMain",
+			"actionRow": "ExuySa_actionRow",
+			"emptyDetailState": "ExuySa_emptyDetailState",
+			"listItemAvatar": "ExuySa_listItemAvatar",
+			"secondaryButton": "ExuySa_secondaryButton",
+			"error": "ExuySa_error",
+			"modelMain": "ExuySa_modelMain",
+			"emptyTitle": "ExuySa_emptyTitle",
+			"modelRow": "ExuySa_modelRow",
+			"dangerZoneDescription": "ExuySa_dangerZoneDescription",
+			"modelList": "ExuySa_modelList",
+			"countMeta": "ExuySa_countMeta",
+			"modelName": "ExuySa_modelName",
+			"emptyDescription": "ExuySa_emptyDescription",
+			"emptyIcon": "ExuySa_emptyIcon",
 			"field": "ExuySa_field",
-			"listItems": "ExuySa_listItems"
+			"detailTitle": "ExuySa_detailTitle",
+			"dangerZone": "ExuySa_dangerZone",
+			"listItemSelected": "ExuySa_listItemSelected",
+			"sectionHeaderRow": "ExuySa_sectionHeaderRow",
+			"detailMeta": "ExuySa_detailMeta",
+			"listScroller": "ExuySa_listScroller",
+			"dangerZoneTitle": "ExuySa_dangerZoneTitle",
+			"switch": "ExuySa_switch",
+			"searchIcon": "ExuySa_searchIcon",
+			"detailHeaderContent": "ExuySa_detailHeaderContent",
+			"searchWrap": "ExuySa_searchWrap",
+			"providerDetail": "ExuySa_providerDetail",
+			"fieldLabel": "ExuySa_fieldLabel",
+			"detailMetaItem": "ExuySa_detailMetaItem",
+			"searchInput": "ExuySa_searchInput"
 		};
 		//#endregion
 		//#region lib/types/client/ProvidersSection.js
@@ -3035,6 +3035,256 @@ window.__ModuleLoader__.load({
 			}))
 		};
 		//#endregion
+		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\AddMcpServerDialog.module.css.mjs
+		const css$12 = ".uv_otq_overlay{z-index:1000;background:#00000080;justify-content:center;align-items:center;display:flex;position:fixed;inset:0}.uv_otq_dialog{background:var(--surface-2);border-radius:10px;width:90%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 8px 32px #0006}.uv_otq_header{border-bottom:1px solid var(--border);justify-content:space-between;align-items:center;padding:20px 24px;display:flex}.uv_otq_title{color:var(--text-1);margin:0;font-size:16px;font-weight:600}.uv_otq_closeButton{cursor:pointer;color:var(--text-2);background:0 0;border:none;border-radius:4px;justify-content:center;align-items:center;padding:4px;transition:background .15s;display:flex}.uv_otq_closeButton:hover{background:var(--surface-3)}.uv_otq_form{flex-direction:column;gap:20px;padding:24px;display:flex}.uv_otq_error{color:#ff4d4d;background:#ff4d4d1a;border:1px solid #ff4d4d4d;border-radius:6px;padding:12px;font-size:13px}.uv_otq_field{flex-direction:column;gap:8px;display:flex}.uv_otq_label{color:var(--text-2);font-size:13px;font-weight:500}.uv_otq_input,.uv_otq_select,.uv_otq_textarea{background:var(--surface-1);border:1px solid var(--border);color:var(--text-1);border-radius:6px;padding:8px 12px;font-family:inherit;font-size:13px;transition:border-color .15s}.uv_otq_input:focus,.uv_otq_select:focus,.uv_otq_textarea:focus{border-color:var(--accent);outline:none}.uv_otq_textarea{resize:vertical;font-family:Monaco,Menlo,Courier New,monospace}.uv_otq_footer{justify-content:flex-end;gap:12px;padding-top:4px;display:flex}.uv_otq_cancelButton,.uv_otq_submitButton{cursor:pointer;border:none;border-radius:6px;padding:8px 16px;font-size:13px;font-weight:500;transition:all .15s}.uv_otq_cancelButton{background:var(--surface-3);color:var(--text-2)}.uv_otq_cancelButton:hover{background:var(--surface-4)}.uv_otq_submitButton{background:var(--accent);color:#fff}.uv_otq_submitButton:hover:not(:disabled){opacity:.9}.uv_otq_submitButton:disabled{opacity:.5;cursor:not-allowed}";
+		const tagId$12 = "@dsh-control-center/control-center/AddMcpServerDialog.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$12) + "]") === null) {
+			const tag = document.createElement("style");
+			tag.dataset.plugin = "@dsh-control-center/control-center";
+			tag.dataset.pluginCss = tagId$12;
+			tag.textContent = css$12;
+			document.head.appendChild(tag);
+		}
+		var AddMcpServerDialog_module_css_default = {
+			"field": "uv_otq_field",
+			"overlay": "uv_otq_overlay",
+			"closeButton": "uv_otq_closeButton",
+			"select": "uv_otq_select",
+			"submitButton": "uv_otq_submitButton",
+			"footer": "uv_otq_footer",
+			"dialog": "uv_otq_dialog",
+			"cancelButton": "uv_otq_cancelButton",
+			"title": "uv_otq_title",
+			"form": "uv_otq_form",
+			"textarea": "uv_otq_textarea",
+			"label": "uv_otq_label",
+			"error": "uv_otq_error",
+			"header": "uv_otq_header",
+			"input": "uv_otq_input"
+		};
+		//#endregion
+		//#region lib/types/client/AddMcpServerDialog.js
+		function AddMcpServerDialog({ visible, onClose, onSubmit }) {
+			const [name, setName] = (0, react.useState)("");
+			const [command, setCommand] = (0, react.useState)("");
+			const [args, setArgs] = (0, react.useState)("");
+			const [env, setEnv] = (0, react.useState)("");
+			const [type, setType] = (0, react.useState)("stdio");
+			const [baseUrl, setBaseUrl] = (0, react.useState)("");
+			const [loading, setLoading] = (0, react.useState)(false);
+			const [error, setError] = (0, react.useState)("");
+			const handleSubmit = async (e) => {
+				e.preventDefault();
+				setError("");
+				if (!name.trim()) {
+					setError("服务器名称不能为空");
+					return;
+				}
+				if (type === "stdio" && !command.trim()) {
+					setError("命令不能为空");
+					return;
+				}
+				if ((type === "sse" || type === "streamableHttp") && !baseUrl.trim()) {
+					setError("Base URL 不能为空");
+					return;
+				}
+				try {
+					setLoading(true);
+					let parsedArgs = [];
+					if (args.trim()) try {
+						parsedArgs = JSON.parse(args);
+						if (!Array.isArray(parsedArgs)) {
+							setError("Args 必须是 JSON 数组");
+							return;
+						}
+					} catch {
+						setError("Args JSON 格式错误");
+						return;
+					}
+					let parsedEnv = {};
+					if (env.trim()) try {
+						parsedEnv = JSON.parse(env);
+						if (typeof parsedEnv !== "object" || Array.isArray(parsedEnv)) {
+							setError("Env 必须是 JSON 对象");
+							return;
+						}
+					} catch {
+						setError("Env JSON 格式错误");
+						return;
+					}
+					const dto = {
+						name: name.trim(),
+						type,
+						timeout: 3e4,
+						longRunning: false
+					};
+					if (type === "stdio") {
+						if (command.trim()) dto.command = command.trim();
+						if (parsedArgs.length > 0) dto.args = parsedArgs;
+						if (Object.keys(parsedEnv).length > 0) dto.env = parsedEnv;
+					} else if (baseUrl.trim()) dto.baseUrl = baseUrl.trim();
+					await onSubmit(dto);
+					setName("");
+					setCommand("");
+					setArgs("");
+					setEnv("");
+					setType("stdio");
+					setBaseUrl("");
+					onClose();
+				} catch (err) {
+					setError(err instanceof Error ? err.message : "创建失败");
+				} finally {
+					setLoading(false);
+				}
+			};
+			if (!visible) return null;
+			return (0, react_jsx_runtime.jsx)("div", {
+				className: AddMcpServerDialog_module_css_default.overlay,
+				onClick: onClose,
+				children: (0, react_jsx_runtime.jsxs)("div", {
+					className: AddMcpServerDialog_module_css_default.dialog,
+					onClick: (e) => e.stopPropagation(),
+					children: [(0, react_jsx_runtime.jsxs)("div", {
+						className: AddMcpServerDialog_module_css_default.header,
+						children: [(0, react_jsx_runtime.jsx)("h2", {
+							className: AddMcpServerDialog_module_css_default.title,
+							children: "添加 MCP 服务器"
+						}), (0, react_jsx_runtime.jsx)("button", {
+							className: AddMcpServerDialog_module_css_default.closeButton,
+							onClick: onClose,
+							type: "button",
+							children: (0, react_jsx_runtime.jsx)("svg", {
+								width: "16",
+								height: "16",
+								viewBox: "0 0 16 16",
+								fill: "none",
+								children: (0, react_jsx_runtime.jsx)("path", {
+									d: "M12 4L4 12M4 4L12 12",
+									stroke: "currentColor",
+									strokeWidth: "1.5",
+									strokeLinecap: "round"
+								})
+							})
+						})]
+					}), (0, react_jsx_runtime.jsxs)("form", {
+						className: AddMcpServerDialog_module_css_default.form,
+						onSubmit: handleSubmit,
+						children: [
+							error && (0, react_jsx_runtime.jsx)("div", {
+								className: AddMcpServerDialog_module_css_default.error,
+								children: error
+							}),
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: AddMcpServerDialog_module_css_default.field,
+								children: [(0, react_jsx_runtime.jsx)("label", {
+									className: AddMcpServerDialog_module_css_default.label,
+									children: "服务器名称 *"
+								}), (0, react_jsx_runtime.jsx)("input", {
+									type: "text",
+									className: AddMcpServerDialog_module_css_default.input,
+									value: name,
+									onChange: (e) => setName(e.target.value),
+									placeholder: "my-mcp-server"
+								})]
+							}),
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: AddMcpServerDialog_module_css_default.field,
+								children: [(0, react_jsx_runtime.jsx)("label", {
+									className: AddMcpServerDialog_module_css_default.label,
+									children: "传输类型"
+								}), (0, react_jsx_runtime.jsxs)("select", {
+									className: AddMcpServerDialog_module_css_default.select,
+									value: type,
+									onChange: (e) => setType(e.target.value),
+									children: [
+										(0, react_jsx_runtime.jsx)("option", {
+											value: "stdio",
+											children: "stdio"
+										}),
+										(0, react_jsx_runtime.jsx)("option", {
+											value: "sse",
+											children: "SSE"
+										}),
+										(0, react_jsx_runtime.jsx)("option", {
+											value: "streamableHttp",
+											children: "Streamable HTTP"
+										})
+									]
+								})]
+							}),
+							type === "stdio" ? (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [
+								(0, react_jsx_runtime.jsxs)("div", {
+									className: AddMcpServerDialog_module_css_default.field,
+									children: [(0, react_jsx_runtime.jsx)("label", {
+										className: AddMcpServerDialog_module_css_default.label,
+										children: "命令 *"
+									}), (0, react_jsx_runtime.jsx)("input", {
+										type: "text",
+										className: AddMcpServerDialog_module_css_default.input,
+										value: command,
+										onChange: (e) => setCommand(e.target.value),
+										placeholder: "npx"
+									})]
+								}),
+								(0, react_jsx_runtime.jsxs)("div", {
+									className: AddMcpServerDialog_module_css_default.field,
+									children: [(0, react_jsx_runtime.jsx)("label", {
+										className: AddMcpServerDialog_module_css_default.label,
+										children: "参数（JSON 数组）"
+									}), (0, react_jsx_runtime.jsx)("textarea", {
+										className: AddMcpServerDialog_module_css_default.textarea,
+										value: args,
+										onChange: (e) => setArgs(e.target.value),
+										placeholder: "[\"-y\", \"@modelcontextprotocol/server-filesystem\"]",
+										rows: 3
+									})]
+								}),
+								(0, react_jsx_runtime.jsxs)("div", {
+									className: AddMcpServerDialog_module_css_default.field,
+									children: [(0, react_jsx_runtime.jsx)("label", {
+										className: AddMcpServerDialog_module_css_default.label,
+										children: "环境变量（JSON 对象）"
+									}), (0, react_jsx_runtime.jsx)("textarea", {
+										className: AddMcpServerDialog_module_css_default.textarea,
+										value: env,
+										onChange: (e) => setEnv(e.target.value),
+										placeholder: "{\"PATH\": \"/usr/local/bin\"}",
+										rows: 3
+									})]
+								})
+							] }) : (0, react_jsx_runtime.jsxs)("div", {
+								className: AddMcpServerDialog_module_css_default.field,
+								children: [(0, react_jsx_runtime.jsx)("label", {
+									className: AddMcpServerDialog_module_css_default.label,
+									children: "Base URL *"
+								}), (0, react_jsx_runtime.jsx)("input", {
+									type: "text",
+									className: AddMcpServerDialog_module_css_default.input,
+									value: baseUrl,
+									onChange: (e) => setBaseUrl(e.target.value),
+									placeholder: "http://localhost:3000"
+								})]
+							}),
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: AddMcpServerDialog_module_css_default.footer,
+								children: [(0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: AddMcpServerDialog_module_css_default.cancelButton,
+									onClick: onClose,
+									children: "取消"
+								}), (0, react_jsx_runtime.jsx)("button", {
+									type: "submit",
+									className: AddMcpServerDialog_module_css_default.submitButton,
+									disabled: loading,
+									children: loading ? "创建中..." : "创建"
+								})]
+							})
+						]
+					})]
+				})
+			});
+		}
+		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\McpSection.module.css.mjs
 		const css$11 = "._0bBxiW_splitRoot{background:var(--color-background-base);width:100%;min-width:0;height:100%;min-height:0;display:flex;overflow:hidden}._0bBxiW_serverList{border-right:.5px solid var(--color-border-subtle);flex-direction:column;flex-shrink:0;flex-basis:248px;width:248px;height:100%;display:flex}._0bBxiW_searchRow{align-items:center;gap:6px;padding:10px;display:flex}._0bBxiW_searchWrap{border:1px solid var(--color-border-base);background:var(--color-background-elevated);border-radius:10px;flex:1;align-items:center;gap:4px;height:32px;padding:4px 4px 4px 10px;display:flex}._0bBxiW_searchIcon{width:14px;height:14px;color:var(--color-text-tertiary);flex-shrink:0;margin-right:2px}._0bBxiW_searchInput{min-width:0;color:var(--color-text-primary);background:0 0;border:none;outline:none;flex:1;font-size:14px;line-height:20px}._0bBxiW_searchInput::placeholder{color:var(--color-text-tertiary)}._0bBxiW_searchClearButton{width:22px;height:22px;color:var(--color-text-tertiary);cursor:pointer;background:0 0;border:none;border-radius:6px;flex-shrink:0;justify-content:center;align-items:center;transition:all .2s;display:flex}._0bBxiW_searchClearButton:hover{background:var(--color-background-hover);color:var(--color-text-primary)}._0bBxiW_listScroller{flex:1;min-height:0;padding:8px 10px 0;overflow:hidden auto}._0bBxiW_listItems{flex-direction:column;gap:8px;display:flex}._0bBxiW_listItem{text-align:left;cursor:pointer;background:0 0;border:1px solid #0000;border-radius:10px;outline:none;justify-content:space-between;align-items:center;width:100%;height:32px;padding:0 10px 0 2px;transition:all .2s;display:flex;position:relative}._0bBxiW_listItemIdle:hover,._0bBxiW_listItemSelected{background:var(--color-background-hover)}._0bBxiW_listItemMain{flex:1;align-items:center;gap:0;min-width:0;display:flex}._0bBxiW_listItemAvatar{border:1px solid var(--color-border-subtle);width:20px;height:20px;color:var(--color-text-secondary);border-radius:6px;flex-shrink:0;margin-right:10px}._0bBxiW_listItemLabel{text-overflow:ellipsis;white-space:nowrap;min-width:0;color:var(--color-text-primary);flex:1;font-size:14px;line-height:1.35;overflow:hidden}._0bBxiW_listItemSelected ._0bBxiW_listItemLabel{font-weight:500}._0bBxiW_activeDot{background:var(--color-success-text);border-radius:999px;flex-shrink:0;width:6px;height:6px}._0bBxiW_addFooter{flex-shrink:0;padding:10px}._0bBxiW_addButton{border:1px solid var(--color-border-base);width:100%;height:32px;color:var(--color-text-primary);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 10px;font-size:12px;transition:all .2s;display:flex}._0bBxiW_addButton:hover:not(:disabled){border-color:var(--color-border-hover);background:var(--color-background-hover)}._0bBxiW_addButton:disabled{opacity:.4;cursor:not-allowed}._0bBxiW_serverDetail{flex-direction:column;flex:1;min-width:0;min-height:0;display:flex;overflow:hidden}._0bBxiW_detailHeader{border-bottom:.5px solid var(--color-border-subtle);flex-shrink:0;justify-content:space-between;align-items:center;gap:12px;padding:10px 24px;display:flex}._0bBxiW_detailHeaderContent{flex:1;width:100%;max-width:768px;margin:0}._0bBxiW_detailTitle{color:var(--color-text-primary);margin:0;font-size:20px;font-weight:600;line-height:28px}._0bBxiW_detailMeta{color:var(--color-text-tertiary);align-items:center;gap:12px;margin-top:4px;font-size:13px;display:flex}._0bBxiW_detailMetaItem{align-items:center;gap:4px;display:flex}._0bBxiW_tabBar{border-bottom:.5px solid var(--color-border-subtle);flex-shrink:0;align-items:center;gap:4px;margin-top:8px;padding:0 24px;display:flex}._0bBxiW_tab{color:var(--color-text-secondary);cursor:pointer;background:0 0;border:none;border-radius:6px 6px 0 0;align-items:center;padding:8px 12px;font-size:13px;font-weight:500;transition:all .2s;display:flex;position:relative}._0bBxiW_tab:hover{color:var(--color-text-primary);background:var(--color-background-hover)}._0bBxiW_tabActive{color:var(--color-text-primary);border-bottom:2px solid var(--color-primary);margin-bottom:-.5px;}._0bBxiW_detailScroll{flex:1;min-height:0;padding:6px 24px 24px;overflow:hidden auto}._0bBxiW_detailContentMaxWidth{flex-direction:column;gap:20px;width:100%;min-width:0;max-width:768px;min-height:100%;margin:0 auto;display:flex}._0bBxiW_section{flex-direction:column;gap:12px;display:flex}._0bBxiW_sectionHeading{color:var(--color-text-primary);margin:0;font-size:14px;font-weight:500;line-height:1.3}._0bBxiW_sectionBody{flex-direction:column;gap:14px;display:flex}._0bBxiW_placeholder{color:var(--color-text-tertiary);margin:0;font-size:14px;line-height:20px}._0bBxiW_dangerZone{border:1px solid var(--color-border-base);background:var(--color-background-elevated);border-radius:8px;justify-content:space-between;align-items:flex-start;gap:16px;padding:16px;display:flex}._0bBxiW_dangerZoneText{flex-direction:column;flex:1;gap:4px;display:flex}._0bBxiW_dangerZoneTitle{color:var(--color-text-primary);font-size:14px;font-weight:500;line-height:20px}._0bBxiW_dangerZoneDescription{color:var(--color-text-secondary);font-size:13px;line-height:1.33}._0bBxiW_dangerButton{border:1px solid var(--color-error-border);background:var(--color-error-bg);height:32px;color:var(--color-error-text);cursor:pointer;border-radius:6px;flex-shrink:0;justify-content:center;align-items:center;padding:0 16px;font-size:14px;font-weight:500;transition:all .2s;display:inline-flex}._0bBxiW_dangerButton:hover{background:var(--color-error-bg-hover)}._0bBxiW_secondaryButton{border:1px solid var(--color-border-base);background:var(--color-background-elevated);height:32px;color:var(--color-text-primary);cursor:pointer;border-radius:6px;flex-shrink:0;justify-content:center;align-items:center;padding:0 16px;font-size:14px;transition:all .2s;display:inline-flex}._0bBxiW_secondaryButton:hover{border-color:var(--color-border-hover);background:var(--color-background-base)}._0bBxiW_emptyState{text-align:center;min-height:160px;color:var(--color-text-tertiary);justify-content:center;align-items:center;padding:24px;font-size:14px;line-height:20px;display:flex}._0bBxiW_emptyDetailState{text-align:center;flex-direction:column;justify-content:center;align-items:center;height:100%;padding:64px 24px;display:flex}._0bBxiW_emptyIcon{width:64px;height:64px;color:var(--color-text-tertiary);margin-bottom:16px}._0bBxiW_emptyTitle{color:var(--color-text-primary);margin-bottom:8px;font-size:16px;font-weight:600}._0bBxiW_emptyDescription{color:var(--color-text-secondary);max-width:400px;font-size:14px}._0bBxiW_loading{color:var(--color-text-tertiary);justify-content:center;align-items:center;height:100%;padding:64px 24px;display:flex}._0bBxiW_error{text-align:center;color:var(--color-error-text);flex-direction:column;justify-content:center;align-items:center;height:100%;padding:64px 24px;display:flex}._0bBxiW_toolsList{flex-direction:column;gap:12px;display:flex}._0bBxiW_toolItem{border:1px solid var(--color-border-base);background:var(--color-background-elevated);border-radius:8px;flex-direction:column;gap:6px;padding:12px;display:flex}._0bBxiW_toolHeader{justify-content:space-between;align-items:center;gap:8px;display:flex}._0bBxiW_toolName{color:var(--color-text-primary);font-size:14px;font-weight:500;font-family:var(--font-mono)}._0bBxiW_toolDescription{color:var(--color-text-secondary);font-size:13px;line-height:1.5}._0bBxiW_resourceUri{font-size:12px;font-family:var(--font-mono);color:var(--color-text-tertiary);word-break:break-all}._0bBxiW_descriptionText{color:var(--color-text-secondary);white-space:pre-wrap;font-size:14px;line-height:1.6}._0bBxiW_fieldGroup{flex-direction:column;gap:6px;display:flex}._0bBxiW_fieldLabel{color:var(--color-text-primary);font-size:13px;font-weight:500;line-height:1.3}._0bBxiW_fieldRow{align-items:center;gap:8px;display:flex}._0bBxiW_fieldRow ._0bBxiW_fieldLabel{cursor:pointer;align-items:center;gap:8px;display:flex}._0bBxiW_fieldHint{color:var(--color-text-tertiary);font-size:12px;line-height:1.4}._0bBxiW_input{border:1px solid var(--color-border-base);background:var(--color-background-elevated);width:100%;height:32px;color:var(--color-text-primary);border-radius:6px;outline:none;padding:0 10px;font-size:14px;transition:all .2s}._0bBxiW_input:focus{border-color:var(--color-primary);background:var(--color-background-base)}._0bBxiW_input:disabled{opacity:.5;cursor:not-allowed}._0bBxiW_textarea{border:1px solid var(--color-border-base);background:var(--color-background-elevated);width:100%;font-size:14px;font-family:var(--font-mono);color:var(--color-text-primary);resize:vertical;border-radius:6px;outline:none;padding:8px 10px;transition:all .2s}._0bBxiW_textarea:focus{border-color:var(--color-primary);background:var(--color-background-base)}._0bBxiW_checkbox{cursor:pointer;flex-shrink:0;width:16px;height:16px}._0bBxiW_formActions{align-items:center;gap:12px;display:flex}._0bBxiW_primaryButton{border:1px solid var(--color-primary);background:var(--color-primary);color:#fff;cursor:pointer;border-radius:6px;flex-shrink:0;justify-content:center;align-items:center;height:32px;padding:0 16px;font-size:14px;font-weight:500;transition:all .2s;display:inline-flex}._0bBxiW_primaryButton:hover:not(:disabled){opacity:.9}._0bBxiW_primaryButton:disabled{opacity:.5;cursor:not-allowed}._0bBxiW_switchWrapper{cursor:pointer;width:36px;height:20px;display:inline-block;position:relative}._0bBxiW_switchInput{opacity:0;width:0;height:0}._0bBxiW_switchSlider{cursor:pointer;background-color:var(--color-border-base);border-radius:20px;transition:all .2s;position:absolute;inset:0}._0bBxiW_switchSlider:before{content:\"\";background-color:#fff;border-radius:50%;width:14px;height:14px;transition:all .2s;position:absolute;bottom:3px;left:3px}._0bBxiW_switchInput:checked+._0bBxiW_switchSlider{background-color:var(--color-primary)}._0bBxiW_switchInput:checked+._0bBxiW_switchSlider:before{transform:translate(16px)}._0bBxiW_switchInput:focus+._0bBxiW_switchSlider{box-shadow:0 0 0 2px var(--color-primary-alpha)}._0bBxiW_logHeader{justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;display:flex}._0bBxiW_logInfo{color:var(--color-text-tertiary);font-size:12px}._0bBxiW_codeBlock{background:var(--color-background-elevated);border:1px solid var(--color-border-base);font-family:var(--font-mono);border-radius:6px;flex-direction:column;gap:2px;max-height:400px;padding:12px;font-size:12px;display:flex;overflow-y:auto}._0bBxiW_codeLine{color:var(--color-text-primary);word-break:break-all;line-height:1.5}";
 		const tagId$11 = "@dsh-control-center/control-center/McpSection.module.css";
@@ -3046,75 +3296,75 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var McpSection_module_css_default = {
-			"toolName": "_0bBxiW_toolName",
-			"secondaryButton": "_0bBxiW_secondaryButton",
-			"searchClearButton": "_0bBxiW_searchClearButton",
-			"input": "_0bBxiW_input",
-			"emptyState": "_0bBxiW_emptyState",
-			"loading": "_0bBxiW_loading",
-			"placeholder": "_0bBxiW_placeholder",
-			"textarea": "_0bBxiW_textarea",
-			"splitRoot": "_0bBxiW_splitRoot",
-			"listItemAvatar": "_0bBxiW_listItemAvatar",
-			"tabActive": "_0bBxiW_tabActive",
 			"detailScroll": "_0bBxiW_detailScroll",
-			"descriptionText": "_0bBxiW_descriptionText",
-			"checkbox": "_0bBxiW_checkbox",
-			"listItems": "_0bBxiW_listItems",
 			"dangerZoneText": "_0bBxiW_dangerZoneText",
-			"logHeader": "_0bBxiW_logHeader",
-			"listItemSelected": "_0bBxiW_listItemSelected",
-			"listItemLabel": "_0bBxiW_listItemLabel",
-			"listItemIdle": "_0bBxiW_listItemIdle",
-			"emptyTitle": "_0bBxiW_emptyTitle",
-			"detailMetaItem": "_0bBxiW_detailMetaItem",
-			"addFooter": "_0bBxiW_addFooter",
-			"codeBlock": "_0bBxiW_codeBlock",
-			"switchWrapper": "_0bBxiW_switchWrapper",
-			"fieldGroup": "_0bBxiW_fieldGroup",
-			"switchSlider": "_0bBxiW_switchSlider",
-			"formActions": "_0bBxiW_formActions",
-			"dangerZone": "_0bBxiW_dangerZone",
-			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
-			"fieldLabel": "_0bBxiW_fieldLabel",
-			"primaryButton": "_0bBxiW_primaryButton",
-			"logInfo": "_0bBxiW_logInfo",
-			"listItemMain": "_0bBxiW_listItemMain",
-			"error": "_0bBxiW_error",
-			"searchInput": "_0bBxiW_searchInput",
-			"detailTitle": "_0bBxiW_detailTitle",
 			"toolItem": "_0bBxiW_toolItem",
-			"fieldRow": "_0bBxiW_fieldRow",
-			"switchInput": "_0bBxiW_switchInput",
-			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
-			"tabBar": "_0bBxiW_tabBar",
-			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
-			"emptyDescription": "_0bBxiW_emptyDescription",
-			"toolHeader": "_0bBxiW_toolHeader",
-			"toolDescription": "_0bBxiW_toolDescription",
-			"searchRow": "_0bBxiW_searchRow",
-			"searchIcon": "_0bBxiW_searchIcon",
-			"sectionHeading": "_0bBxiW_sectionHeading",
-			"emptyIcon": "_0bBxiW_emptyIcon",
-			"serverDetail": "_0bBxiW_serverDetail",
-			"addButton": "_0bBxiW_addButton",
-			"sectionBody": "_0bBxiW_sectionBody",
-			"tab": "_0bBxiW_tab",
-			"section": "_0bBxiW_section",
 			"codeLine": "_0bBxiW_codeLine",
-			"emptyDetailState": "_0bBxiW_emptyDetailState",
-			"toolsList": "_0bBxiW_toolsList",
-			"activeDot": "_0bBxiW_activeDot",
-			"dangerButton": "_0bBxiW_dangerButton",
-			"resourceUri": "_0bBxiW_resourceUri",
 			"listScroller": "_0bBxiW_listScroller",
-			"detailMeta": "_0bBxiW_detailMeta",
+			"logHeader": "_0bBxiW_logHeader",
+			"serverDetail": "_0bBxiW_serverDetail",
+			"emptyState": "_0bBxiW_emptyState",
+			"fieldRow": "_0bBxiW_fieldRow",
 			"fieldHint": "_0bBxiW_fieldHint",
+			"sectionBody": "_0bBxiW_sectionBody",
+			"addFooter": "_0bBxiW_addFooter",
+			"emptyDetailState": "_0bBxiW_emptyDetailState",
+			"secondaryButton": "_0bBxiW_secondaryButton",
+			"emptyIcon": "_0bBxiW_emptyIcon",
+			"textarea": "_0bBxiW_textarea",
+			"listItemSelected": "_0bBxiW_listItemSelected",
+			"detailTitle": "_0bBxiW_detailTitle",
+			"switchWrapper": "_0bBxiW_switchWrapper",
+			"logInfo": "_0bBxiW_logInfo",
+			"input": "_0bBxiW_input",
+			"sectionHeading": "_0bBxiW_sectionHeading",
+			"placeholder": "_0bBxiW_placeholder",
+			"emptyTitle": "_0bBxiW_emptyTitle",
+			"searchWrap": "_0bBxiW_searchWrap",
+			"section": "_0bBxiW_section",
+			"loading": "_0bBxiW_loading",
+			"detailMetaItem": "_0bBxiW_detailMetaItem",
+			"listItemAvatar": "_0bBxiW_listItemAvatar",
+			"emptyDescription": "_0bBxiW_emptyDescription",
+			"fieldLabel": "_0bBxiW_fieldLabel",
 			"detailHeader": "_0bBxiW_detailHeader",
+			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
+			"detailMeta": "_0bBxiW_detailMeta",
+			"toolHeader": "_0bBxiW_toolHeader",
+			"checkbox": "_0bBxiW_checkbox",
+			"formActions": "_0bBxiW_formActions",
 			"listItem": "_0bBxiW_listItem",
-			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
+			"dangerButton": "_0bBxiW_dangerButton",
+			"switchSlider": "_0bBxiW_switchSlider",
+			"dangerZone": "_0bBxiW_dangerZone",
+			"searchInput": "_0bBxiW_searchInput",
+			"tabBar": "_0bBxiW_tabBar",
+			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
 			"serverList": "_0bBxiW_serverList",
-			"searchWrap": "_0bBxiW_searchWrap"
+			"searchRow": "_0bBxiW_searchRow",
+			"fieldGroup": "_0bBxiW_fieldGroup",
+			"error": "_0bBxiW_error",
+			"toolName": "_0bBxiW_toolName",
+			"toolsList": "_0bBxiW_toolsList",
+			"tab": "_0bBxiW_tab",
+			"addButton": "_0bBxiW_addButton",
+			"listItemLabel": "_0bBxiW_listItemLabel",
+			"resourceUri": "_0bBxiW_resourceUri",
+			"listItemIdle": "_0bBxiW_listItemIdle",
+			"listItems": "_0bBxiW_listItems",
+			"searchClearButton": "_0bBxiW_searchClearButton",
+			"listItemMain": "_0bBxiW_listItemMain",
+			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
+			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
+			"switchInput": "_0bBxiW_switchInput",
+			"searchIcon": "_0bBxiW_searchIcon",
+			"primaryButton": "_0bBxiW_primaryButton",
+			"tabActive": "_0bBxiW_tabActive",
+			"splitRoot": "_0bBxiW_splitRoot",
+			"descriptionText": "_0bBxiW_descriptionText",
+			"codeBlock": "_0bBxiW_codeBlock",
+			"toolDescription": "_0bBxiW_toolDescription",
+			"activeDot": "_0bBxiW_activeDot"
 		};
 		//#endregion
 		//#region lib/types/client/McpSection.js
@@ -3136,6 +3386,7 @@ window.__ModuleLoader__.load({
 			const [logs, setLogs] = (0, react.useState)([]);
 			const [capabilities, setCapabilities] = (0, react.useState)(null);
 			const [isRefreshingTools, setIsRefreshingTools] = (0, react.useState)(false);
+			const [showAddDialog, setShowAddDialog] = (0, react.useState)(false);
 			const loadServers = (0, react.useCallback)(async () => {
 				if (!mcpService) {
 					setError("MCP service not available");
@@ -3278,6 +3529,16 @@ window.__ModuleLoader__.load({
 					setIsFormChanged(false);
 				}
 			}, [selectedServer]);
+			const handleCreate = (0, react.useCallback)(async (dto) => {
+				if (!mcpService) return;
+				try {
+					await mcpService.create({ dto });
+					await loadServers();
+					setShowAddDialog(false);
+				} catch (err) {
+					throw err;
+				}
+			}, [mcpService, loadServers]);
 			const handleDelete = (0, react.useCallback)(async (serverId, serverName) => {
 				if (!mcpService) return;
 				if (!window.confirm(`确定要删除 "${serverName}" MCP 服务器吗？`)) return;
@@ -3318,665 +3579,674 @@ window.__ModuleLoader__.load({
 			});
 			return (0, react_jsx_runtime.jsxs)("div", {
 				className: McpSection_module_css_default.splitRoot,
-				children: [(0, react_jsx_runtime.jsxs)("aside", {
-					className: McpSection_module_css_default.serverList,
-					children: [
-						(0, react_jsx_runtime.jsx)("div", {
-							className: McpSection_module_css_default.searchRow,
-							children: (0, react_jsx_runtime.jsxs)("div", {
-								className: McpSection_module_css_default.searchWrap,
-								children: [
-									(0, react_jsx_runtime.jsxs)("svg", {
-										className: McpSection_module_css_default.searchIcon,
-										viewBox: "0 0 16 16",
-										fill: "none",
-										children: [(0, react_jsx_runtime.jsx)("circle", {
-											cx: "7",
-											cy: "7",
-											r: "5",
-											stroke: "currentColor",
-											strokeWidth: "1.5"
-										}), (0, react_jsx_runtime.jsx)("path", {
-											d: "M11 11L14 14",
-											stroke: "currentColor",
-											strokeWidth: "1.5",
-											strokeLinecap: "round"
-										})]
-									}),
-									(0, react_jsx_runtime.jsx)("input", {
-										type: "text",
-										className: McpSection_module_css_default.searchInput,
-										placeholder: "搜索 MCP 服务器...",
-										value: search,
-										onChange: (e) => setSearch(e.target.value)
-									}),
-									search && (0, react_jsx_runtime.jsx)("button", {
-										type: "button",
-										className: McpSection_module_css_default.searchClearButton,
-										onClick: () => setSearch(""),
-										"aria-label": "清除搜索",
-										children: (0, react_jsx_runtime.jsx)("svg", {
-											width: "12",
-											height: "12",
-											viewBox: "0 0 12 12",
+				children: [
+					(0, react_jsx_runtime.jsxs)("aside", {
+						className: McpSection_module_css_default.serverList,
+						children: [
+							(0, react_jsx_runtime.jsx)("div", {
+								className: McpSection_module_css_default.searchRow,
+								children: (0, react_jsx_runtime.jsxs)("div", {
+									className: McpSection_module_css_default.searchWrap,
+									children: [
+										(0, react_jsx_runtime.jsxs)("svg", {
+											className: McpSection_module_css_default.searchIcon,
+											viewBox: "0 0 16 16",
 											fill: "none",
-											children: (0, react_jsx_runtime.jsx)("path", {
-												d: "M9 3L3 9M3 3L9 9",
+											children: [(0, react_jsx_runtime.jsx)("circle", {
+												cx: "7",
+												cy: "7",
+												r: "5",
+												stroke: "currentColor",
+												strokeWidth: "1.5"
+											}), (0, react_jsx_runtime.jsx)("path", {
+												d: "M11 11L14 14",
 												stroke: "currentColor",
 												strokeWidth: "1.5",
 												strokeLinecap: "round"
+											})]
+										}),
+										(0, react_jsx_runtime.jsx)("input", {
+											type: "text",
+											className: McpSection_module_css_default.searchInput,
+											placeholder: "搜索 MCP 服务器...",
+											value: search,
+											onChange: (e) => setSearch(e.target.value)
+										}),
+										search && (0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: McpSection_module_css_default.searchClearButton,
+											onClick: () => setSearch(""),
+											"aria-label": "清除搜索",
+											children: (0, react_jsx_runtime.jsx)("svg", {
+												width: "12",
+												height: "12",
+												viewBox: "0 0 12 12",
+												fill: "none",
+												children: (0, react_jsx_runtime.jsx)("path", {
+													d: "M9 3L3 9M3 3L9 9",
+													stroke: "currentColor",
+													strokeWidth: "1.5",
+													strokeLinecap: "round"
+												})
 											})
 										})
-									})
-								]
-							})
-						}),
-						(0, react_jsx_runtime.jsx)("div", {
-							className: McpSection_module_css_default.listScroller,
-							children: filteredServers.length === 0 ? (0, react_jsx_runtime.jsx)("div", {
-								className: McpSection_module_css_default.emptyState,
-								children: search ? "没有找到匹配的服务器" : "暂无配置的 MCP 服务器"
-							}) : (0, react_jsx_runtime.jsx)("div", {
-								className: McpSection_module_css_default.listItems,
-								children: filteredServers.map((server) => (0, react_jsx_runtime.jsxs)("button", {
-									type: "button",
-									className: `${McpSection_module_css_default.listItem} ${server.id === selectedId ? McpSection_module_css_default.listItemSelected : McpSection_module_css_default.listItemIdle}`,
-									onClick: () => setSelectedId(server.id),
-									children: [(0, react_jsx_runtime.jsxs)("div", {
-										className: McpSection_module_css_default.listItemMain,
-										children: [(0, react_jsx_runtime.jsx)("div", {
-											className: McpSection_module_css_default.listItemAvatar,
-											children: (0, react_jsx_runtime.jsxs)("svg", {
-												width: "20",
-												height: "20",
-												viewBox: "0 0 20 20",
-												fill: "none",
-												children: [(0, react_jsx_runtime.jsx)("rect", {
+									]
+								})
+							}),
+							(0, react_jsx_runtime.jsx)("div", {
+								className: McpSection_module_css_default.listScroller,
+								children: filteredServers.length === 0 ? (0, react_jsx_runtime.jsx)("div", {
+									className: McpSection_module_css_default.emptyState,
+									children: search ? "没有找到匹配的服务器" : "暂无配置的 MCP 服务器"
+								}) : (0, react_jsx_runtime.jsx)("div", {
+									className: McpSection_module_css_default.listItems,
+									children: filteredServers.map((server) => (0, react_jsx_runtime.jsxs)("button", {
+										type: "button",
+										className: `${McpSection_module_css_default.listItem} ${server.id === selectedId ? McpSection_module_css_default.listItemSelected : McpSection_module_css_default.listItemIdle}`,
+										onClick: () => setSelectedId(server.id),
+										children: [(0, react_jsx_runtime.jsxs)("div", {
+											className: McpSection_module_css_default.listItemMain,
+											children: [(0, react_jsx_runtime.jsx)("div", {
+												className: McpSection_module_css_default.listItemAvatar,
+												children: (0, react_jsx_runtime.jsxs)("svg", {
 													width: "20",
 													height: "20",
-													rx: "4",
-													fill: "currentColor",
-													opacity: "0.1"
-												}), (0, react_jsx_runtime.jsx)("path", {
-													d: "M6 8L10 12L14 8",
+													viewBox: "0 0 20 20",
+													fill: "none",
+													children: [(0, react_jsx_runtime.jsx)("rect", {
+														width: "20",
+														height: "20",
+														rx: "4",
+														fill: "currentColor",
+														opacity: "0.1"
+													}), (0, react_jsx_runtime.jsx)("path", {
+														d: "M6 8L10 12L14 8",
+														stroke: "currentColor",
+														strokeWidth: "1.5",
+														strokeLinecap: "round",
+														strokeLinejoin: "round"
+													})]
+												})
+											}), (0, react_jsx_runtime.jsx)("span", {
+												className: McpSection_module_css_default.listItemLabel,
+												children: server.name
+											})]
+										}), server.isActive && (0, react_jsx_runtime.jsx)("span", { className: McpSection_module_css_default.activeDot })]
+									}, server.id))
+								})
+							}),
+							(0, react_jsx_runtime.jsx)("div", {
+								className: McpSection_module_css_default.addFooter,
+								children: (0, react_jsx_runtime.jsxs)("button", {
+									type: "button",
+									className: McpSection_module_css_default.addButton,
+									onClick: () => setShowAddDialog(true),
+									children: [(0, react_jsx_runtime.jsx)("svg", {
+										width: "14",
+										height: "14",
+										viewBox: "0 0 14 14",
+										fill: "none",
+										children: (0, react_jsx_runtime.jsx)("path", {
+											d: "M7 3V11M3 7H11",
+											stroke: "currentColor",
+											strokeWidth: "1.5",
+											strokeLinecap: "round"
+										})
+									}), (0, react_jsx_runtime.jsx)("span", { children: "添加服务器" })]
+								})
+							})
+						]
+					}),
+					selectedServer ? (0, react_jsx_runtime.jsxs)("main", {
+						className: McpSection_module_css_default.serverDetail,
+						children: [
+							(0, react_jsx_runtime.jsx)("div", {
+								className: McpSection_module_css_default.detailHeader,
+								children: (0, react_jsx_runtime.jsxs)("div", {
+									className: McpSection_module_css_default.detailHeaderContent,
+									children: [(0, react_jsx_runtime.jsx)("h2", {
+										className: McpSection_module_css_default.detailTitle,
+										children: selectedServer.name
+									}), (0, react_jsx_runtime.jsxs)("div", {
+										className: McpSection_module_css_default.detailMeta,
+										children: [(0, react_jsx_runtime.jsxs)("span", {
+											className: McpSection_module_css_default.detailMetaItem,
+											children: [(0, react_jsx_runtime.jsx)("svg", {
+												width: "12",
+												height: "12",
+												viewBox: "0 0 12 12",
+												fill: "none",
+												children: (0, react_jsx_runtime.jsx)("path", {
+													d: "M6 2L3 4V8L6 10L9 8V4L6 2Z",
 													stroke: "currentColor",
 													strokeWidth: "1.5",
 													strokeLinecap: "round",
 													strokeLinejoin: "round"
-												})]
-											})
-										}), (0, react_jsx_runtime.jsx)("span", {
-											className: McpSection_module_css_default.listItemLabel,
-											children: server.name
+												})
+											}), selectedServer.type || "stdio"]
+										}), selectedServer.runtimeState && (0, react_jsx_runtime.jsxs)("span", {
+											className: McpSection_module_css_default.detailMetaItem,
+											children: [(0, react_jsx_runtime.jsx)("svg", {
+												width: "12",
+												height: "12",
+												viewBox: "0 0 12 12",
+												fill: "none",
+												children: (0, react_jsx_runtime.jsx)("circle", {
+													cx: "6",
+													cy: "6",
+													r: "4",
+													stroke: "currentColor",
+													strokeWidth: "1.5"
+												})
+											}), selectedServer.runtimeState === "connected" ? "已连接" : selectedServer.runtimeState === "connecting" ? "连接中" : selectedServer.runtimeState === "error" ? "错误" : "已禁用"]
 										})]
-									}), server.isActive && (0, react_jsx_runtime.jsx)("span", { className: McpSection_module_css_default.activeDot })]
-								}, server.id))
-							})
-						}),
-						(0, react_jsx_runtime.jsx)("div", {
-							className: McpSection_module_css_default.addFooter,
-							children: (0, react_jsx_runtime.jsxs)("button", {
-								type: "button",
-								className: McpSection_module_css_default.addButton,
-								children: [(0, react_jsx_runtime.jsx)("svg", {
-									width: "14",
-									height: "14",
-									viewBox: "0 0 14 14",
-									fill: "none",
-									children: (0, react_jsx_runtime.jsx)("path", {
-										d: "M7 3V11M3 7H11",
-										stroke: "currentColor",
-										strokeWidth: "1.5",
-										strokeLinecap: "round"
-									})
-								}), (0, react_jsx_runtime.jsx)("span", { children: "添加服务器" })]
-							})
-						})
-					]
-				}), selectedServer ? (0, react_jsx_runtime.jsxs)("main", {
-					className: McpSection_module_css_default.serverDetail,
-					children: [
-						(0, react_jsx_runtime.jsx)("div", {
-							className: McpSection_module_css_default.detailHeader,
-							children: (0, react_jsx_runtime.jsxs)("div", {
-								className: McpSection_module_css_default.detailHeaderContent,
-								children: [(0, react_jsx_runtime.jsx)("h2", {
-									className: McpSection_module_css_default.detailTitle,
-									children: selectedServer.name
-								}), (0, react_jsx_runtime.jsxs)("div", {
-									className: McpSection_module_css_default.detailMeta,
-									children: [(0, react_jsx_runtime.jsxs)("span", {
-										className: McpSection_module_css_default.detailMetaItem,
-										children: [(0, react_jsx_runtime.jsx)("svg", {
-											width: "12",
-											height: "12",
-											viewBox: "0 0 12 12",
-											fill: "none",
-											children: (0, react_jsx_runtime.jsx)("path", {
-												d: "M6 2L3 4V8L6 10L9 8V4L6 2Z",
-												stroke: "currentColor",
-												strokeWidth: "1.5",
-												strokeLinecap: "round",
-												strokeLinejoin: "round"
-											})
-										}), selectedServer.type || "stdio"]
-									}), selectedServer.runtimeState && (0, react_jsx_runtime.jsxs)("span", {
-										className: McpSection_module_css_default.detailMetaItem,
-										children: [(0, react_jsx_runtime.jsx)("svg", {
-											width: "12",
-											height: "12",
-											viewBox: "0 0 12 12",
-											fill: "none",
-											children: (0, react_jsx_runtime.jsx)("circle", {
-												cx: "6",
-												cy: "6",
-												r: "4",
-												stroke: "currentColor",
-												strokeWidth: "1.5"
-											})
-										}), selectedServer.runtimeState === "connected" ? "已连接" : selectedServer.runtimeState === "connecting" ? "连接中" : selectedServer.runtimeState === "error" ? "错误" : "已禁用"]
 									})]
-								})]
-							})
-						}),
-						(0, react_jsx_runtime.jsxs)("div", {
-							className: McpSection_module_css_default.tabBar,
-							children: [
-								(0, react_jsx_runtime.jsx)("button", {
-									className: activeTab === "settings" ? McpSection_module_css_default.tabActive : McpSection_module_css_default.tab,
-									onClick: () => setActiveTab("settings"),
-									children: "设置"
-								}),
-								selectedServer.description && (0, react_jsx_runtime.jsx)("button", {
-									className: activeTab === "description" ? McpSection_module_css_default.tabActive : McpSection_module_css_default.tab,
-									onClick: () => setActiveTab("description"),
-									children: "描述"
-								}),
-								(0, react_jsx_runtime.jsx)("button", {
-									className: activeTab === "logs" ? McpSection_module_css_default.tabActive : McpSection_module_css_default.tab,
-									onClick: () => setActiveTab("logs"),
-									children: "日志"
-								}),
-								selectedServer.isActive && capabilities?.tools && (0, react_jsx_runtime.jsxs)("button", {
-									className: activeTab === "tools" ? McpSection_module_css_default.tabActive : McpSection_module_css_default.tab,
-									onClick: () => setActiveTab("tools"),
-									children: ["工具 ", capabilities.tools.length > 0 ? `(${capabilities.tools.length})` : ""]
-								}),
-								selectedServer.isActive && capabilities?.prompts && (0, react_jsx_runtime.jsxs)("button", {
-									className: activeTab === "prompts" ? McpSection_module_css_default.tabActive : McpSection_module_css_default.tab,
-									onClick: () => setActiveTab("prompts"),
-									children: ["提示词 ", capabilities.prompts.length > 0 ? `(${capabilities.prompts.length})` : ""]
-								}),
-								selectedServer.isActive && capabilities?.resources && (0, react_jsx_runtime.jsxs)("button", {
-									className: activeTab === "resources" ? McpSection_module_css_default.tabActive : McpSection_module_css_default.tab,
-									onClick: () => setActiveTab("resources"),
-									children: ["资源 ", capabilities.resources.length > 0 ? `(${capabilities.resources.length})` : ""]
 								})
-							]
-						}),
-						(0, react_jsx_runtime.jsx)("div", {
-							className: McpSection_module_css_default.detailScroll,
-							children: (0, react_jsx_runtime.jsxs)("div", {
-								className: McpSection_module_css_default.detailContentMaxWidth,
+							}),
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: McpSection_module_css_default.tabBar,
 								children: [
-									activeTab === "settings" && (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [
-										(0, react_jsx_runtime.jsxs)("section", {
-											className: McpSection_module_css_default.section,
-											children: [(0, react_jsx_runtime.jsx)("div", {
-												className: McpSection_module_css_default.sectionHeader,
-												children: (0, react_jsx_runtime.jsx)("h3", {
-													className: McpSection_module_css_default.sectionHeading,
-													children: "状态"
-												})
-											}), (0, react_jsx_runtime.jsxs)("div", {
-												className: McpSection_module_css_default.sectionBody,
+									(0, react_jsx_runtime.jsx)("button", {
+										className: activeTab === "settings" ? McpSection_module_css_default.tabActive : McpSection_module_css_default.tab,
+										onClick: () => setActiveTab("settings"),
+										children: "设置"
+									}),
+									selectedServer.description && (0, react_jsx_runtime.jsx)("button", {
+										className: activeTab === "description" ? McpSection_module_css_default.tabActive : McpSection_module_css_default.tab,
+										onClick: () => setActiveTab("description"),
+										children: "描述"
+									}),
+									(0, react_jsx_runtime.jsx)("button", {
+										className: activeTab === "logs" ? McpSection_module_css_default.tabActive : McpSection_module_css_default.tab,
+										onClick: () => setActiveTab("logs"),
+										children: "日志"
+									}),
+									selectedServer.isActive && capabilities?.tools && (0, react_jsx_runtime.jsxs)("button", {
+										className: activeTab === "tools" ? McpSection_module_css_default.tabActive : McpSection_module_css_default.tab,
+										onClick: () => setActiveTab("tools"),
+										children: ["工具 ", capabilities.tools.length > 0 ? `(${capabilities.tools.length})` : ""]
+									}),
+									selectedServer.isActive && capabilities?.prompts && (0, react_jsx_runtime.jsxs)("button", {
+										className: activeTab === "prompts" ? McpSection_module_css_default.tabActive : McpSection_module_css_default.tab,
+										onClick: () => setActiveTab("prompts"),
+										children: ["提示词 ", capabilities.prompts.length > 0 ? `(${capabilities.prompts.length})` : ""]
+									}),
+									selectedServer.isActive && capabilities?.resources && (0, react_jsx_runtime.jsxs)("button", {
+										className: activeTab === "resources" ? McpSection_module_css_default.tabActive : McpSection_module_css_default.tab,
+										onClick: () => setActiveTab("resources"),
+										children: ["资源 ", capabilities.resources.length > 0 ? `(${capabilities.resources.length})` : ""]
+									})
+								]
+							}),
+							(0, react_jsx_runtime.jsx)("div", {
+								className: McpSection_module_css_default.detailScroll,
+								children: (0, react_jsx_runtime.jsxs)("div", {
+									className: McpSection_module_css_default.detailContentMaxWidth,
+									children: [
+										activeTab === "settings" && (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [
+											(0, react_jsx_runtime.jsxs)("section", {
+												className: McpSection_module_css_default.section,
 												children: [(0, react_jsx_runtime.jsx)("div", {
-													className: McpSection_module_css_default.fieldRow,
-													children: (0, react_jsx_runtime.jsxs)("label", {
-														className: McpSection_module_css_default.fieldLabel,
-														children: [(0, react_jsx_runtime.jsx)("input", {
-															type: "checkbox",
-															className: McpSection_module_css_default.checkbox,
-															checked: selectedServer.isActive,
-															onChange: async (e) => {
-																if (!mcpService) return;
-																try {
-																	await mcpService.update({
-																		serverId: selectedServer.id,
-																		dto: { isActive: e.target.checked }
-																	});
-																	await loadServers();
-																} catch (err) {
-																	setError(err instanceof Error ? err.message : "Failed to update server");
-																}
-															}
-														}), (0, react_jsx_runtime.jsx)("span", { children: "启用此服务器" })]
+													className: McpSection_module_css_default.sectionHeader,
+													children: (0, react_jsx_runtime.jsx)("h3", {
+														className: McpSection_module_css_default.sectionHeading,
+														children: "状态"
 													})
-												}), selectedServer.lastError && (0, react_jsx_runtime.jsxs)("div", {
-													className: McpSection_module_css_default.errorBox,
-													children: [(0, react_jsx_runtime.jsxs)("svg", {
-														width: "14",
-														height: "14",
-														viewBox: "0 0 14 14",
-														fill: "none",
-														children: [(0, react_jsx_runtime.jsx)("circle", {
-															cx: "7",
-															cy: "7",
-															r: "6",
-															stroke: "currentColor",
-															strokeWidth: "1.5"
-														}), (0, react_jsx_runtime.jsx)("path", {
-															d: "M7 4V7M7 9.5V10",
-															stroke: "currentColor",
-															strokeWidth: "1.5",
-															strokeLinecap: "round"
-														})]
-													}), (0, react_jsx_runtime.jsx)("span", { children: selectedServer.lastError })]
+												}), (0, react_jsx_runtime.jsxs)("div", {
+													className: McpSection_module_css_default.sectionBody,
+													children: [(0, react_jsx_runtime.jsx)("div", {
+														className: McpSection_module_css_default.fieldRow,
+														children: (0, react_jsx_runtime.jsxs)("label", {
+															className: McpSection_module_css_default.fieldLabel,
+															children: [(0, react_jsx_runtime.jsx)("input", {
+																type: "checkbox",
+																className: McpSection_module_css_default.checkbox,
+																checked: selectedServer.isActive,
+																onChange: async (e) => {
+																	if (!mcpService) return;
+																	try {
+																		await mcpService.update({
+																			serverId: selectedServer.id,
+																			dto: { isActive: e.target.checked }
+																		});
+																		await loadServers();
+																	} catch (err) {
+																		setError(err instanceof Error ? err.message : "Failed to update server");
+																	}
+																}
+															}), (0, react_jsx_runtime.jsx)("span", { children: "启用此服务器" })]
+														})
+													}), selectedServer.lastError && (0, react_jsx_runtime.jsxs)("div", {
+														className: McpSection_module_css_default.errorBox,
+														children: [(0, react_jsx_runtime.jsxs)("svg", {
+															width: "14",
+															height: "14",
+															viewBox: "0 0 14 14",
+															fill: "none",
+															children: [(0, react_jsx_runtime.jsx)("circle", {
+																cx: "7",
+																cy: "7",
+																r: "6",
+																stroke: "currentColor",
+																strokeWidth: "1.5"
+															}), (0, react_jsx_runtime.jsx)("path", {
+																d: "M7 4V7M7 9.5V10",
+																stroke: "currentColor",
+																strokeWidth: "1.5",
+																strokeLinecap: "round"
+															})]
+														}), (0, react_jsx_runtime.jsx)("span", { children: selectedServer.lastError })]
+													})]
 												})]
-											})]
-										}),
-										(!selectedServer.type || selectedServer.type === "stdio") && formData && (0, react_jsx_runtime.jsxs)("section", {
-											className: McpSection_module_css_default.section,
-											children: [(0, react_jsx_runtime.jsx)("div", {
-												className: McpSection_module_css_default.sectionHeader,
-												children: (0, react_jsx_runtime.jsx)("h3", {
-													className: McpSection_module_css_default.sectionHeading,
-													children: "命令配置"
-												})
-											}), (0, react_jsx_runtime.jsxs)("div", {
-												className: McpSection_module_css_default.sectionBody,
-												children: [
-													(0, react_jsx_runtime.jsxs)("div", {
-														className: McpSection_module_css_default.fieldGroup,
-														children: [(0, react_jsx_runtime.jsx)("label", {
-															className: McpSection_module_css_default.fieldLabel,
-															children: "服务器名称 *"
-														}), (0, react_jsx_runtime.jsx)("input", {
-															type: "text",
-															className: McpSection_module_css_default.input,
-															value: formData.name,
-															onChange: (e) => handleFormChange("name", e.target.value),
-															placeholder: "例如: my-mcp-server"
-														})]
-													}),
-													(0, react_jsx_runtime.jsxs)("div", {
-														className: McpSection_module_css_default.fieldGroup,
-														children: [(0, react_jsx_runtime.jsx)("label", {
-															className: McpSection_module_css_default.fieldLabel,
-															children: "命令 *"
-														}), (0, react_jsx_runtime.jsx)("input", {
-															type: "text",
-															className: McpSection_module_css_default.input,
-															value: formData.command,
-															onChange: (e) => handleFormChange("command", e.target.value),
-															placeholder: "例如: npx, uvx, python"
-														})]
-													}),
-													(0, react_jsx_runtime.jsxs)("div", {
+											}),
+											(!selectedServer.type || selectedServer.type === "stdio") && formData && (0, react_jsx_runtime.jsxs)("section", {
+												className: McpSection_module_css_default.section,
+												children: [(0, react_jsx_runtime.jsx)("div", {
+													className: McpSection_module_css_default.sectionHeader,
+													children: (0, react_jsx_runtime.jsx)("h3", {
+														className: McpSection_module_css_default.sectionHeading,
+														children: "命令配置"
+													})
+												}), (0, react_jsx_runtime.jsxs)("div", {
+													className: McpSection_module_css_default.sectionBody,
+													children: [
+														(0, react_jsx_runtime.jsxs)("div", {
+															className: McpSection_module_css_default.fieldGroup,
+															children: [(0, react_jsx_runtime.jsx)("label", {
+																className: McpSection_module_css_default.fieldLabel,
+																children: "服务器名称 *"
+															}), (0, react_jsx_runtime.jsx)("input", {
+																type: "text",
+																className: McpSection_module_css_default.input,
+																value: formData.name,
+																onChange: (e) => handleFormChange("name", e.target.value),
+																placeholder: "例如: my-mcp-server"
+															})]
+														}),
+														(0, react_jsx_runtime.jsxs)("div", {
+															className: McpSection_module_css_default.fieldGroup,
+															children: [(0, react_jsx_runtime.jsx)("label", {
+																className: McpSection_module_css_default.fieldLabel,
+																children: "命令 *"
+															}), (0, react_jsx_runtime.jsx)("input", {
+																type: "text",
+																className: McpSection_module_css_default.input,
+																value: formData.command,
+																onChange: (e) => handleFormChange("command", e.target.value),
+																placeholder: "例如: npx, uvx, python"
+															})]
+														}),
+														(0, react_jsx_runtime.jsxs)("div", {
+															className: McpSection_module_css_default.fieldGroup,
+															children: [
+																(0, react_jsx_runtime.jsx)("label", {
+																	className: McpSection_module_css_default.fieldLabel,
+																	children: "参数"
+																}),
+																(0, react_jsx_runtime.jsx)("textarea", {
+																	className: McpSection_module_css_default.textarea,
+																	value: formData.args,
+																	onChange: (e) => handleFormChange("args", e.target.value),
+																	placeholder: "每行一个参数\n例如:\n-m\nmcp_server",
+																	rows: 5
+																}),
+																(0, react_jsx_runtime.jsx)("div", {
+																	className: McpSection_module_css_default.fieldHint,
+																	children: "每行一个参数"
+																})
+															]
+														})
+													]
+												})]
+											}),
+											(!selectedServer.type || selectedServer.type === "stdio") && formData && (0, react_jsx_runtime.jsxs)("section", {
+												className: McpSection_module_css_default.section,
+												children: [(0, react_jsx_runtime.jsx)("div", {
+													className: McpSection_module_css_default.sectionHeader,
+													children: (0, react_jsx_runtime.jsx)("h3", {
+														className: McpSection_module_css_default.sectionHeading,
+														children: "环境变量"
+													})
+												}), (0, react_jsx_runtime.jsx)("div", {
+													className: McpSection_module_css_default.sectionBody,
+													children: (0, react_jsx_runtime.jsxs)("div", {
 														className: McpSection_module_css_default.fieldGroup,
 														children: [
 															(0, react_jsx_runtime.jsx)("label", {
 																className: McpSection_module_css_default.fieldLabel,
-																children: "参数"
+																children: "环境变量"
 															}),
 															(0, react_jsx_runtime.jsx)("textarea", {
 																className: McpSection_module_css_default.textarea,
-																value: formData.args,
-																onChange: (e) => handleFormChange("args", e.target.value),
-																placeholder: "每行一个参数\n例如:\n-m\nmcp_server",
+																value: formData.env,
+																onChange: (e) => handleFormChange("env", e.target.value),
+																placeholder: "每行一个键值对\n例如:\nAPI_KEY=your_key\nDEBUG=true",
 																rows: 5
 															}),
 															(0, react_jsx_runtime.jsx)("div", {
 																className: McpSection_module_css_default.fieldHint,
-																children: "每行一个参数"
+																children: "格式: KEY=VALUE，每行一个"
 															})
 														]
 													})
-												]
-											})]
-										}),
-										(!selectedServer.type || selectedServer.type === "stdio") && formData && (0, react_jsx_runtime.jsxs)("section", {
-											className: McpSection_module_css_default.section,
-											children: [(0, react_jsx_runtime.jsx)("div", {
-												className: McpSection_module_css_default.sectionHeader,
-												children: (0, react_jsx_runtime.jsx)("h3", {
-													className: McpSection_module_css_default.sectionHeading,
-													children: "环境变量"
-												})
-											}), (0, react_jsx_runtime.jsx)("div", {
-												className: McpSection_module_css_default.sectionBody,
-												children: (0, react_jsx_runtime.jsxs)("div", {
-													className: McpSection_module_css_default.fieldGroup,
-													children: [
-														(0, react_jsx_runtime.jsx)("label", {
+												})]
+											}),
+											formData && (0, react_jsx_runtime.jsxs)("section", {
+												className: McpSection_module_css_default.section,
+												children: [(0, react_jsx_runtime.jsx)("div", {
+													className: McpSection_module_css_default.sectionHeader,
+													children: (0, react_jsx_runtime.jsx)("h3", {
+														className: McpSection_module_css_default.sectionHeading,
+														children: "超时设置"
+													})
+												}), (0, react_jsx_runtime.jsxs)("div", {
+													className: McpSection_module_css_default.sectionBody,
+													children: [(0, react_jsx_runtime.jsxs)("div", {
+														className: McpSection_module_css_default.fieldGroup,
+														children: [(0, react_jsx_runtime.jsx)("label", {
 															className: McpSection_module_css_default.fieldLabel,
-															children: "环境变量"
-														}),
-														(0, react_jsx_runtime.jsx)("textarea", {
-															className: McpSection_module_css_default.textarea,
-															value: formData.env,
-															onChange: (e) => handleFormChange("env", e.target.value),
-															placeholder: "每行一个键值对\n例如:\nAPI_KEY=your_key\nDEBUG=true",
-															rows: 5
-														}),
-														(0, react_jsx_runtime.jsx)("div", {
-															className: McpSection_module_css_default.fieldHint,
-															children: "格式: KEY=VALUE，每行一个"
+															children: "连接超时（秒）"
+														}), (0, react_jsx_runtime.jsx)("input", {
+															type: "number",
+															className: McpSection_module_css_default.input,
+															value: formData.timeout,
+															onChange: (e) => handleFormChange("timeout", parseInt(e.target.value) || 30),
+															min: 1,
+															max: 300
+														})]
+													}), (0, react_jsx_runtime.jsx)("div", {
+														className: McpSection_module_css_default.fieldRow,
+														children: (0, react_jsx_runtime.jsxs)("label", {
+															className: McpSection_module_css_default.fieldLabel,
+															children: [(0, react_jsx_runtime.jsx)("input", {
+																type: "checkbox",
+																className: McpSection_module_css_default.checkbox,
+																checked: formData.longRunning,
+																onChange: (e) => handleFormChange("longRunning", e.target.checked)
+															}), (0, react_jsx_runtime.jsx)("span", { children: "长时间运行" })]
 														})
-													]
-												})
-											})]
-										}),
-										formData && (0, react_jsx_runtime.jsxs)("section", {
-											className: McpSection_module_css_default.section,
-											children: [(0, react_jsx_runtime.jsx)("div", {
-												className: McpSection_module_css_default.sectionHeader,
-												children: (0, react_jsx_runtime.jsx)("h3", {
-													className: McpSection_module_css_default.sectionHeading,
-													children: "超时设置"
-												})
-											}), (0, react_jsx_runtime.jsxs)("div", {
-												className: McpSection_module_css_default.sectionBody,
-												children: [(0, react_jsx_runtime.jsxs)("div", {
-													className: McpSection_module_css_default.fieldGroup,
-													children: [(0, react_jsx_runtime.jsx)("label", {
-														className: McpSection_module_css_default.fieldLabel,
-														children: "连接超时（秒）"
-													}), (0, react_jsx_runtime.jsx)("input", {
-														type: "number",
-														className: McpSection_module_css_default.input,
-														value: formData.timeout,
-														onChange: (e) => handleFormChange("timeout", parseInt(e.target.value) || 30),
-														min: 1,
-														max: 300
 													})]
+												})]
+											}),
+											formData && isFormChanged && (0, react_jsx_runtime.jsx)("section", {
+												className: McpSection_module_css_default.section,
+												children: (0, react_jsx_runtime.jsx)("div", {
+													className: McpSection_module_css_default.sectionBody,
+													children: (0, react_jsx_runtime.jsxs)("div", {
+														className: McpSection_module_css_default.formActions,
+														children: [(0, react_jsx_runtime.jsx)("button", {
+															type: "button",
+															className: McpSection_module_css_default.primaryButton,
+															onClick: handleSave,
+															disabled: isSaving,
+															children: isSaving ? "保存中..." : "保存更改"
+														}), (0, react_jsx_runtime.jsx)("button", {
+															type: "button",
+															className: McpSection_module_css_default.secondaryButton,
+															onClick: handleCancel,
+															disabled: isSaving,
+															children: "取消"
+														})]
+													})
+												})
+											}),
+											(0, react_jsx_runtime.jsxs)("section", {
+												className: McpSection_module_css_default.section,
+												children: [(0, react_jsx_runtime.jsx)("h3", {
+													className: McpSection_module_css_default.sectionHeading,
+													children: "危险操作"
 												}), (0, react_jsx_runtime.jsx)("div", {
-													className: McpSection_module_css_default.fieldRow,
-													children: (0, react_jsx_runtime.jsxs)("label", {
-														className: McpSection_module_css_default.fieldLabel,
-														children: [(0, react_jsx_runtime.jsx)("input", {
-															type: "checkbox",
-															className: McpSection_module_css_default.checkbox,
-															checked: formData.longRunning,
-															onChange: (e) => handleFormChange("longRunning", e.target.checked)
-														}), (0, react_jsx_runtime.jsx)("span", { children: "长时间运行" })]
+													className: McpSection_module_css_default.sectionBody,
+													children: (0, react_jsx_runtime.jsxs)("div", {
+														className: McpSection_module_css_default.dangerZone,
+														children: [(0, react_jsx_runtime.jsxs)("div", {
+															className: McpSection_module_css_default.dangerZoneText,
+															children: [(0, react_jsx_runtime.jsx)("div", {
+																className: McpSection_module_css_default.dangerZoneTitle,
+																children: "删除服务器"
+															}), (0, react_jsx_runtime.jsx)("div", {
+																className: McpSection_module_css_default.dangerZoneDescription,
+																children: "此操作不可撤销。删除后，所有关联的工具和配置也将被移除。"
+															})]
+														}), (0, react_jsx_runtime.jsx)("button", {
+															type: "button",
+															className: McpSection_module_css_default.dangerButton,
+															onClick: () => handleDelete(selectedServer.id, selectedServer.name),
+															children: "删除"
+														})]
 													})
 												})]
-											})]
-										}),
-										formData && isFormChanged && (0, react_jsx_runtime.jsx)("section", {
+											})
+										] }),
+										activeTab === "description" && selectedServer.description && (0, react_jsx_runtime.jsx)("section", {
 											className: McpSection_module_css_default.section,
 											children: (0, react_jsx_runtime.jsx)("div", {
 												className: McpSection_module_css_default.sectionBody,
-												children: (0, react_jsx_runtime.jsxs)("div", {
-													className: McpSection_module_css_default.formActions,
-													children: [(0, react_jsx_runtime.jsx)("button", {
-														type: "button",
-														className: McpSection_module_css_default.primaryButton,
-														onClick: handleSave,
-														disabled: isSaving,
-														children: isSaving ? "保存中..." : "保存更改"
-													}), (0, react_jsx_runtime.jsx)("button", {
-														type: "button",
-														className: McpSection_module_css_default.secondaryButton,
-														onClick: handleCancel,
-														disabled: isSaving,
-														children: "取消"
-													})]
+												children: (0, react_jsx_runtime.jsx)("div", {
+													className: McpSection_module_css_default.descriptionText,
+													children: selectedServer.description
 												})
 											})
 										}),
-										(0, react_jsx_runtime.jsxs)("section", {
+										activeTab === "logs" && (0, react_jsx_runtime.jsxs)("section", {
 											className: McpSection_module_css_default.section,
 											children: [(0, react_jsx_runtime.jsx)("h3", {
 												className: McpSection_module_css_default.sectionHeading,
-												children: "危险操作"
+												children: "服务器日志"
 											}), (0, react_jsx_runtime.jsx)("div", {
 												className: McpSection_module_css_default.sectionBody,
-												children: (0, react_jsx_runtime.jsxs)("div", {
-													className: McpSection_module_css_default.dangerZone,
-													children: [(0, react_jsx_runtime.jsxs)("div", {
-														className: McpSection_module_css_default.dangerZoneText,
-														children: [(0, react_jsx_runtime.jsx)("div", {
-															className: McpSection_module_css_default.dangerZoneTitle,
-															children: "删除服务器"
-														}), (0, react_jsx_runtime.jsx)("div", {
-															className: McpSection_module_css_default.dangerZoneDescription,
-															children: "此操作不可撤销。删除后，所有关联的工具和配置也将被移除。"
-														})]
+												children: logs.length > 0 ? (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsxs)("div", {
+													className: McpSection_module_css_default.logHeader,
+													children: [(0, react_jsx_runtime.jsx)("span", {
+														className: McpSection_module_css_default.logInfo,
+														children: "实时更新 (每3秒)"
 													}), (0, react_jsx_runtime.jsx)("button", {
 														type: "button",
-														className: McpSection_module_css_default.dangerButton,
-														onClick: () => handleDelete(selectedServer.id, selectedServer.name),
-														children: "删除"
+														className: McpSection_module_css_default.secondaryButton,
+														onClick: () => {
+															if (selectedId && mcpService) mcpService.getServerLogs({
+																serverId: selectedId,
+																lines: 100
+															}).then(setLogs).catch(() => setLogs([]));
+														},
+														children: "刷新"
 													})]
+												}), (0, react_jsx_runtime.jsx)("div", {
+													className: McpSection_module_css_default.codeBlock,
+													children: logs.map((line, idx) => (0, react_jsx_runtime.jsx)("div", {
+														className: McpSection_module_css_default.codeLine,
+														children: line
+													}, idx))
+												})] }) : (0, react_jsx_runtime.jsx)("div", {
+													className: McpSection_module_css_default.emptyState,
+													children: "暂无日志"
 												})
 											})]
-										})
-									] }),
-									activeTab === "description" && selectedServer.description && (0, react_jsx_runtime.jsx)("section", {
-										className: McpSection_module_css_default.section,
-										children: (0, react_jsx_runtime.jsx)("div", {
-											className: McpSection_module_css_default.sectionBody,
+										}),
+										activeTab === "tools" && capabilities?.tools && (0, react_jsx_runtime.jsx)("section", {
+											className: McpSection_module_css_default.section,
 											children: (0, react_jsx_runtime.jsx)("div", {
-												className: McpSection_module_css_default.descriptionText,
-												children: selectedServer.description
-											})
-										})
-									}),
-									activeTab === "logs" && (0, react_jsx_runtime.jsxs)("section", {
-										className: McpSection_module_css_default.section,
-										children: [(0, react_jsx_runtime.jsx)("h3", {
-											className: McpSection_module_css_default.sectionHeading,
-											children: "服务器日志"
-										}), (0, react_jsx_runtime.jsx)("div", {
-											className: McpSection_module_css_default.sectionBody,
-											children: logs.length > 0 ? (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsxs)("div", {
-												className: McpSection_module_css_default.logHeader,
-												children: [(0, react_jsx_runtime.jsx)("span", {
-													className: McpSection_module_css_default.logInfo,
-													children: "实时更新 (每3秒)"
-												}), (0, react_jsx_runtime.jsx)("button", {
-													type: "button",
-													className: McpSection_module_css_default.secondaryButton,
-													onClick: () => {
-														if (selectedId && mcpService) mcpService.getServerLogs({
-															serverId: selectedId,
-															lines: 100
-														}).then(setLogs).catch(() => setLogs([]));
-													},
-													children: "刷新"
-												})]
-											}), (0, react_jsx_runtime.jsx)("div", {
-												className: McpSection_module_css_default.codeBlock,
-												children: logs.map((line, idx) => (0, react_jsx_runtime.jsx)("div", {
-													className: McpSection_module_css_default.codeLine,
-													children: line
-												}, idx))
-											})] }) : (0, react_jsx_runtime.jsx)("div", {
-												className: McpSection_module_css_default.emptyState,
-												children: "暂无日志"
-											})
-										})]
-									}),
-									activeTab === "tools" && capabilities?.tools && (0, react_jsx_runtime.jsx)("section", {
-										className: McpSection_module_css_default.section,
-										children: (0, react_jsx_runtime.jsx)("div", {
-											className: McpSection_module_css_default.sectionBody,
-											children: capabilities.tools.length > 0 ? (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsxs)("div", {
-												className: McpSection_module_css_default.logHeader,
-												children: [(0, react_jsx_runtime.jsxs)("div", {
-													className: McpSection_module_css_default.logInfo,
-													children: [
-														"共 ",
-														capabilities.tools.length,
-														" 个工具"
-													]
-												}), (0, react_jsx_runtime.jsx)("button", {
-													type: "button",
-													className: McpSection_module_css_default.secondaryButton,
-													disabled: isRefreshingTools,
-													onClick: async () => {
-														if (!selectedId || !mcpService) return;
-														setIsRefreshingTools(true);
-														try {
-															await mcpService.refreshTools({ serverId: selectedId });
-															const caps = await mcpService.getCapabilities({ serverId: selectedId });
-															setCapabilities(caps);
-														} catch (error) {
-															console.error("Failed to refresh tools:", error);
-														} finally {
-															setIsRefreshingTools(false);
-														}
-													},
-													children: isRefreshingTools ? "刷新中..." : "刷新工具"
-												})]
-											}), (0, react_jsx_runtime.jsx)("div", {
-												className: McpSection_module_css_default.toolsList,
-												children: capabilities.tools.map((tool, idx) => {
-													const isEnabled = !selectedServer.disabledTools?.includes(tool.name);
-													return (0, react_jsx_runtime.jsxs)("div", {
-														className: McpSection_module_css_default.toolItem,
-														children: [(0, react_jsx_runtime.jsxs)("div", {
-															className: McpSection_module_css_default.toolHeader,
-															children: [(0, react_jsx_runtime.jsx)("span", {
-																className: McpSection_module_css_default.toolName,
-																children: tool.name
-															}), (0, react_jsx_runtime.jsxs)("label", {
-																className: McpSection_module_css_default.switchWrapper,
-																children: [(0, react_jsx_runtime.jsx)("input", {
-																	type: "checkbox",
-																	className: McpSection_module_css_default.switchInput,
-																	checked: isEnabled,
-																	onChange: async (e) => {
-																		if (!mcpService) return;
-																		const checked = e.target.checked;
-																		const disabledTools = [...selectedServer.disabledTools || []];
-																		if (checked) {
-																			const filtered = disabledTools.filter((name) => name !== tool.name);
-																			await mcpService.update({
-																				serverId: selectedServer.id,
-																				dto: { disabledTools: filtered }
-																			});
-																		} else {
-																			if (!disabledTools.includes(tool.name)) disabledTools.push(tool.name);
-																			await mcpService.update({
-																				serverId: selectedServer.id,
-																				dto: { disabledTools }
-																			});
-																		}
-																		await loadServers();
-																	}
-																}), (0, react_jsx_runtime.jsx)("span", { className: McpSection_module_css_default.switchSlider })]
-															})]
-														}), tool.description && (0, react_jsx_runtime.jsx)("div", {
-															className: McpSection_module_css_default.toolDescription,
-															children: tool.description
-														})]
-													}, idx);
-												})
-											})] }) : (0, react_jsx_runtime.jsx)("div", {
-												className: McpSection_module_css_default.emptyState,
-												children: "暂无工具"
-											})
-										})
-									}),
-									activeTab === "prompts" && capabilities?.prompts && (0, react_jsx_runtime.jsx)("section", {
-										className: McpSection_module_css_default.section,
-										children: (0, react_jsx_runtime.jsx)("div", {
-											className: McpSection_module_css_default.sectionBody,
-											children: capabilities.prompts.length > 0 ? (0, react_jsx_runtime.jsx)("div", {
-												className: McpSection_module_css_default.toolsList,
-												children: capabilities.prompts.map((prompt, idx) => (0, react_jsx_runtime.jsxs)("div", {
-													className: McpSection_module_css_default.toolItem,
-													children: [(0, react_jsx_runtime.jsx)("div", {
-														className: McpSection_module_css_default.toolHeader,
-														children: (0, react_jsx_runtime.jsx)("span", {
-															className: McpSection_module_css_default.toolName,
-															children: prompt.name
-														})
-													}), prompt.description && (0, react_jsx_runtime.jsx)("div", {
-														className: McpSection_module_css_default.toolDescription,
-														children: prompt.description
+												className: McpSection_module_css_default.sectionBody,
+												children: capabilities.tools.length > 0 ? (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsxs)("div", {
+													className: McpSection_module_css_default.logHeader,
+													children: [(0, react_jsx_runtime.jsxs)("div", {
+														className: McpSection_module_css_default.logInfo,
+														children: [
+															"共 ",
+															capabilities.tools.length,
+															" 个工具"
+														]
+													}), (0, react_jsx_runtime.jsx)("button", {
+														type: "button",
+														className: McpSection_module_css_default.secondaryButton,
+														disabled: isRefreshingTools,
+														onClick: async () => {
+															if (!selectedId || !mcpService) return;
+															setIsRefreshingTools(true);
+															try {
+																await mcpService.refreshTools({ serverId: selectedId });
+																const caps = await mcpService.getCapabilities({ serverId: selectedId });
+																setCapabilities(caps);
+															} catch (error) {
+																console.error("Failed to refresh tools:", error);
+															} finally {
+																setIsRefreshingTools(false);
+															}
+														},
+														children: isRefreshingTools ? "刷新中..." : "刷新工具"
 													})]
-												}, idx))
-											}) : (0, react_jsx_runtime.jsx)("div", {
-												className: McpSection_module_css_default.emptyState,
-												children: "暂无提示词"
+												}), (0, react_jsx_runtime.jsx)("div", {
+													className: McpSection_module_css_default.toolsList,
+													children: capabilities.tools.map((tool, idx) => {
+														const isEnabled = !selectedServer.disabledTools?.includes(tool.name);
+														return (0, react_jsx_runtime.jsxs)("div", {
+															className: McpSection_module_css_default.toolItem,
+															children: [(0, react_jsx_runtime.jsxs)("div", {
+																className: McpSection_module_css_default.toolHeader,
+																children: [(0, react_jsx_runtime.jsx)("span", {
+																	className: McpSection_module_css_default.toolName,
+																	children: tool.name
+																}), (0, react_jsx_runtime.jsxs)("label", {
+																	className: McpSection_module_css_default.switchWrapper,
+																	children: [(0, react_jsx_runtime.jsx)("input", {
+																		type: "checkbox",
+																		className: McpSection_module_css_default.switchInput,
+																		checked: isEnabled,
+																		onChange: async (e) => {
+																			if (!mcpService) return;
+																			const checked = e.target.checked;
+																			const disabledTools = [...selectedServer.disabledTools || []];
+																			if (checked) {
+																				const filtered = disabledTools.filter((name) => name !== tool.name);
+																				await mcpService.update({
+																					serverId: selectedServer.id,
+																					dto: { disabledTools: filtered }
+																				});
+																			} else {
+																				if (!disabledTools.includes(tool.name)) disabledTools.push(tool.name);
+																				await mcpService.update({
+																					serverId: selectedServer.id,
+																					dto: { disabledTools }
+																				});
+																			}
+																			await loadServers();
+																		}
+																	}), (0, react_jsx_runtime.jsx)("span", { className: McpSection_module_css_default.switchSlider })]
+																})]
+															}), tool.description && (0, react_jsx_runtime.jsx)("div", {
+																className: McpSection_module_css_default.toolDescription,
+																children: tool.description
+															})]
+														}, idx);
+													})
+												})] }) : (0, react_jsx_runtime.jsx)("div", {
+													className: McpSection_module_css_default.emptyState,
+													children: "暂无工具"
+												})
 											})
-										})
-									}),
-									activeTab === "resources" && capabilities?.resources && (0, react_jsx_runtime.jsx)("section", {
-										className: McpSection_module_css_default.section,
-										children: (0, react_jsx_runtime.jsx)("div", {
-											className: McpSection_module_css_default.sectionBody,
-											children: capabilities.resources.length > 0 ? (0, react_jsx_runtime.jsx)("div", {
-												className: McpSection_module_css_default.toolsList,
-												children: capabilities.resources.map((resource, idx) => (0, react_jsx_runtime.jsxs)("div", {
-													className: McpSection_module_css_default.toolItem,
-													children: [
-														(0, react_jsx_runtime.jsx)("div", {
+										}),
+										activeTab === "prompts" && capabilities?.prompts && (0, react_jsx_runtime.jsx)("section", {
+											className: McpSection_module_css_default.section,
+											children: (0, react_jsx_runtime.jsx)("div", {
+												className: McpSection_module_css_default.sectionBody,
+												children: capabilities.prompts.length > 0 ? (0, react_jsx_runtime.jsx)("div", {
+													className: McpSection_module_css_default.toolsList,
+													children: capabilities.prompts.map((prompt, idx) => (0, react_jsx_runtime.jsxs)("div", {
+														className: McpSection_module_css_default.toolItem,
+														children: [(0, react_jsx_runtime.jsx)("div", {
 															className: McpSection_module_css_default.toolHeader,
 															children: (0, react_jsx_runtime.jsx)("span", {
 																className: McpSection_module_css_default.toolName,
-																children: resource.name
+																children: prompt.name
 															})
-														}),
-														(0, react_jsx_runtime.jsx)("div", {
-															className: McpSection_module_css_default.resourceUri,
-															children: resource.uri
-														}),
-														resource.description && (0, react_jsx_runtime.jsx)("div", {
+														}), prompt.description && (0, react_jsx_runtime.jsx)("div", {
 															className: McpSection_module_css_default.toolDescription,
-															children: resource.description
-														})
-													]
-												}, idx))
-											}) : (0, react_jsx_runtime.jsx)("div", {
-												className: McpSection_module_css_default.emptyState,
-												children: "暂无资源"
+															children: prompt.description
+														})]
+													}, idx))
+												}) : (0, react_jsx_runtime.jsx)("div", {
+													className: McpSection_module_css_default.emptyState,
+													children: "暂无提示词"
+												})
+											})
+										}),
+										activeTab === "resources" && capabilities?.resources && (0, react_jsx_runtime.jsx)("section", {
+											className: McpSection_module_css_default.section,
+											children: (0, react_jsx_runtime.jsx)("div", {
+												className: McpSection_module_css_default.sectionBody,
+												children: capabilities.resources.length > 0 ? (0, react_jsx_runtime.jsx)("div", {
+													className: McpSection_module_css_default.toolsList,
+													children: capabilities.resources.map((resource, idx) => (0, react_jsx_runtime.jsxs)("div", {
+														className: McpSection_module_css_default.toolItem,
+														children: [
+															(0, react_jsx_runtime.jsx)("div", {
+																className: McpSection_module_css_default.toolHeader,
+																children: (0, react_jsx_runtime.jsx)("span", {
+																	className: McpSection_module_css_default.toolName,
+																	children: resource.name
+																})
+															}),
+															(0, react_jsx_runtime.jsx)("div", {
+																className: McpSection_module_css_default.resourceUri,
+																children: resource.uri
+															}),
+															resource.description && (0, react_jsx_runtime.jsx)("div", {
+																className: McpSection_module_css_default.toolDescription,
+																children: resource.description
+															})
+														]
+													}, idx))
+												}) : (0, react_jsx_runtime.jsx)("div", {
+													className: McpSection_module_css_default.emptyState,
+													children: "暂无资源"
+												})
 											})
 										})
-									})
-								]
-							})
-						})
-					]
-				}) : (0, react_jsx_runtime.jsx)("main", {
-					className: McpSection_module_css_default.serverDetail,
-					children: (0, react_jsx_runtime.jsxs)("div", {
-						className: McpSection_module_css_default.emptyDetailState,
-						children: [
-							(0, react_jsx_runtime.jsxs)("svg", {
-								className: McpSection_module_css_default.emptyIcon,
-								viewBox: "0 0 64 64",
-								fill: "none",
-								children: [(0, react_jsx_runtime.jsx)("rect", {
-									x: "12",
-									y: "12",
-									width: "40",
-									height: "40",
-									rx: "4",
-									stroke: "currentColor",
-									strokeWidth: "2"
-								}), (0, react_jsx_runtime.jsx)("path", {
-									d: "M24 28H40M24 32H36M24 36H40",
-									stroke: "currentColor",
-									strokeWidth: "2",
-									strokeLinecap: "round"
-								})]
-							}),
-							(0, react_jsx_runtime.jsx)("div", {
-								className: McpSection_module_css_default.emptyTitle,
-								children: "选择一个 MCP 服务器"
-							}),
-							(0, react_jsx_runtime.jsx)("div", {
-								className: McpSection_module_css_default.emptyDescription,
-								children: "在左侧列表中选择一个服务器以查看和管理其配置"
+									]
+								})
 							})
 						]
+					}) : (0, react_jsx_runtime.jsx)("main", {
+						className: McpSection_module_css_default.serverDetail,
+						children: (0, react_jsx_runtime.jsxs)("div", {
+							className: McpSection_module_css_default.emptyDetailState,
+							children: [
+								(0, react_jsx_runtime.jsxs)("svg", {
+									className: McpSection_module_css_default.emptyIcon,
+									viewBox: "0 0 64 64",
+									fill: "none",
+									children: [(0, react_jsx_runtime.jsx)("rect", {
+										x: "12",
+										y: "12",
+										width: "40",
+										height: "40",
+										rx: "4",
+										stroke: "currentColor",
+										strokeWidth: "2"
+									}), (0, react_jsx_runtime.jsx)("path", {
+										d: "M24 28H40M24 32H36M24 36H40",
+										stroke: "currentColor",
+										strokeWidth: "2",
+										strokeLinecap: "round"
+									})]
+								}),
+								(0, react_jsx_runtime.jsx)("div", {
+									className: McpSection_module_css_default.emptyTitle,
+									children: "选择一个 MCP 服务器"
+								}),
+								(0, react_jsx_runtime.jsx)("div", {
+									className: McpSection_module_css_default.emptyDescription,
+									children: "在左侧列表中选择一个服务器以查看和管理其配置"
+								})
+							]
+						})
+					}),
+					(0, react_jsx_runtime.jsx)(AddMcpServerDialog, {
+						visible: showAddDialog,
+						onClose: () => setShowAddDialog(false),
+						onSubmit: handleCreate
 					})
-				})]
+				]
 			});
 		}
 		//#endregion
@@ -4006,28 +4276,28 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
-			"panel": "_4STY0G_panel",
-			"navGroupTitle": "_4STY0G_navGroupTitle",
-			"active": "_4STY0G_active",
-			"navLabel": "_4STY0G_navLabel",
-			"navScroll": "_4STY0G_navScroll",
-			"header": "_4STY0G_header",
-			"hiddenLabel": "_4STY0G_hiddenLabel",
-			"mask": "_4STY0G_mask",
-			"close": "_4STY0G_close",
-			"trigger": "_4STY0G_trigger",
-			"content": "_4STY0G_content",
 			"overlay": "_4STY0G_overlay",
-			"navTitle": "_4STY0G_navTitle",
-			"navCell": "_4STY0G_navCell",
-			"navList": "_4STY0G_navList",
-			"actions": "_4STY0G_actions",
-			"triggerLabel": "_4STY0G_triggerLabel",
-			"navGroup": "_4STY0G_navGroup",
-			"options": "_4STY0G_options",
-			"navIcon": "_4STY0G_navIcon",
+			"content": "_4STY0G_content",
+			"header": "_4STY0G_header",
 			"rail": "_4STY0G_rail",
-			"nav": "_4STY0G_nav"
+			"navCell": "_4STY0G_navCell",
+			"mask": "_4STY0G_mask",
+			"navLabel": "_4STY0G_navLabel",
+			"trigger": "_4STY0G_trigger",
+			"triggerLabel": "_4STY0G_triggerLabel",
+			"close": "_4STY0G_close",
+			"panel": "_4STY0G_panel",
+			"navTitle": "_4STY0G_navTitle",
+			"active": "_4STY0G_active",
+			"navGroupTitle": "_4STY0G_navGroupTitle",
+			"navGroup": "_4STY0G_navGroup",
+			"actions": "_4STY0G_actions",
+			"nav": "_4STY0G_nav",
+			"navIcon": "_4STY0G_navIcon",
+			"hiddenLabel": "_4STY0G_hiddenLabel",
+			"navList": "_4STY0G_navList",
+			"options": "_4STY0G_options",
+			"navScroll": "_4STY0G_navScroll"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsRoot.js
@@ -4277,8 +4547,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsDocumentAction_module_css_default = {
-			"action": "SgSrUG_action",
-			"error": "SgSrUG_error"
+			"error": "SgSrUG_error",
+			"action": "SgSrUG_action"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsDocumentAction.js
@@ -4497,69 +4767,69 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelsSection_module_css_default = {
-			"addButton": "tKsOKa_addButton",
-			"editor": "tKsOKa_editor",
-			"modelCatalog": "tKsOKa_modelCatalog",
-			"rowCard": "tKsOKa_rowCard",
-			"title": "tKsOKa_title",
-			"selectInput": "tKsOKa_selectInput",
-			"rowName": "tKsOKa_rowName",
-			"credentialDot": "tKsOKa_credentialDot",
-			"rowHead": "tKsOKa_rowHead",
-			"section": "tKsOKa_section",
-			"modelAdvanced": "tKsOKa_modelAdvanced",
-			"editorRoute": "tKsOKa_editorRoute",
-			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
-			"addActions": "tKsOKa_addActions",
-			"modelList": "tKsOKa_modelList",
-			"modelListHead": "tKsOKa_modelListHead",
-			"rowTag": "tKsOKa_rowTag",
-			"intro": "tKsOKa_intro",
-			"customizedSummary": "tKsOKa_customizedSummary",
-			"editorHeader": "tKsOKa_editorHeader",
-			"editorTitle": "tKsOKa_editorTitle",
-			"field": "tKsOKa_field",
-			"addCard": "tKsOKa_addCard",
-			"customizedBody": "tKsOKa_customizedBody",
-			"modelEmpty": "tKsOKa_modelEmpty",
-			"modelField": "tKsOKa_modelField",
-			"error": "tKsOKa_error",
-			"candidateId": "tKsOKa_candidateId",
-			"hiddenLabel": "tKsOKa_hiddenLabel",
-			"dangerButton": "tKsOKa_dangerButton",
-			"advancedHint": "tKsOKa_advancedHint",
-			"customized": "tKsOKa_customized",
-			"deleteConfirm": "tKsOKa_deleteConfirm",
-			"candidateLabel": "tKsOKa_candidateLabel",
-			"candidateList": "tKsOKa_candidateList",
-			"addModelButton": "tKsOKa_addModelButton",
+			"rowActions": "tKsOKa_rowActions",
 			"secondaryButton": "tKsOKa_secondaryButton",
+			"rows": "tKsOKa_rows",
+			"rowHead": "tKsOKa_rowHead",
+			"notice": "tKsOKa_notice",
+			"savedNotice": "tKsOKa_savedNotice",
 			"deleteDialog": "tKsOKa_deleteDialog",
+			"setupCard": "tKsOKa_setupCard",
+			"candidateLabel": "tKsOKa_candidateLabel",
+			"editorTitle": "tKsOKa_editorTitle",
+			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"fetchDialog": "tKsOKa_fetchDialog",
+			"candidateList": "tKsOKa_candidateList",
+			"modelFieldLabel": "tKsOKa_modelFieldLabel",
+			"candidateId": "tKsOKa_candidateId",
+			"modelListHead": "tKsOKa_modelListHead",
+			"candidate": "tKsOKa_candidate",
+			"editorHeader": "tKsOKa_editorHeader",
+			"section": "tKsOKa_section",
+			"linkButton": "tKsOKa_linkButton",
+			"customized": "tKsOKa_customized",
+			"rowIdentity": "tKsOKa_rowIdentity",
+			"rowCard": "tKsOKa_rowCard",
+			"hiddenLabel": "tKsOKa_hiddenLabel",
+			"addCard": "tKsOKa_addCard",
+			"modelSelectionTitle": "tKsOKa_modelSelectionTitle",
+			"addButton": "tKsOKa_addButton",
+			"credentialDot": "tKsOKa_credentialDot",
+			"selectInput": "tKsOKa_selectInput",
+			"error": "tKsOKa_error",
+			"deleteConfirm": "tKsOKa_deleteConfirm",
+			"customizedBody": "tKsOKa_customizedBody",
+			"input": "tKsOKa_input",
+			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
+			"modelField": "tKsOKa_modelField",
+			"modelEntry": "tKsOKa_modelEntry",
+			"primaryButton": "tKsOKa_primaryButton",
+			"modelAdvanced": "tKsOKa_modelAdvanced",
+			"customizedSummary": "tKsOKa_customizedSummary",
+			"modelEmpty": "tKsOKa_modelEmpty",
+			"addModelButton": "tKsOKa_addModelButton",
 			"fieldLabel": "tKsOKa_fieldLabel",
-			"modelRow": "tKsOKa_modelRow",
-			"modelSelectionPanel": "tKsOKa_modelSelectionPanel",
+			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
 			"editorActions": "tKsOKa_editorActions",
 			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
-			"modelSelectionTitle": "tKsOKa_modelSelectionTitle",
-			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
-			"addBlock": "tKsOKa_addBlock",
-			"iconButtonDanger": "tKsOKa_iconButtonDanger",
-			"savedNotice": "tKsOKa_savedNotice",
-			"notice": "tKsOKa_notice",
-			"linkButton": "tKsOKa_linkButton",
-			"modelFieldLabel": "tKsOKa_modelFieldLabel",
-			"rowIdentity": "tKsOKa_rowIdentity",
-			"rows": "tKsOKa_rows",
-			"input": "tKsOKa_input",
-			"modelEntry": "tKsOKa_modelEntry",
-			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"editorRoute": "tKsOKa_editorRoute",
+			"modelRow": "tKsOKa_modelRow",
+			"addActions": "tKsOKa_addActions",
 			"iconButton": "tKsOKa_iconButton",
-			"rowActions": "tKsOKa_rowActions",
-			"primaryButton": "tKsOKa_primaryButton",
-			"candidate": "tKsOKa_candidate",
-			"fetchDialog": "tKsOKa_fetchDialog",
-			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
-			"setupCard": "tKsOKa_setupCard"
+			"editor": "tKsOKa_editor",
+			"advancedHint": "tKsOKa_advancedHint",
+			"title": "tKsOKa_title",
+			"field": "tKsOKa_field",
+			"rowTag": "tKsOKa_rowTag",
+			"intro": "tKsOKa_intro",
+			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
+			"modelSelectionPanel": "tKsOKa_modelSelectionPanel",
+			"modelList": "tKsOKa_modelList",
+			"modelCatalog": "tKsOKa_modelCatalog",
+			"iconButtonDanger": "tKsOKa_iconButtonDanger",
+			"dangerButton": "tKsOKa_dangerButton",
+			"addBlock": "tKsOKa_addBlock",
+			"rowName": "tKsOKa_rowName"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -7674,10 +7944,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var OnboardingModal_module_css_default = {
-			"title": "C_CJ_a_title",
 			"body": "C_CJ_a_body",
-			"content": "C_CJ_a_content",
-			"dialog": "C_CJ_a_dialog"
+			"dialog": "C_CJ_a_dialog",
+			"title": "C_CJ_a_title",
+			"content": "C_CJ_a_content"
 		};
 		//#endregion
 		//#region lib/types/client/OnboardingModal.js
@@ -7736,8 +8006,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var DeepSeekOnboardingDialog_module_css_default = {
-			"editor": "oxcHWa_editor",
-			"description": "oxcHWa_description"
+			"description": "oxcHWa_description",
+			"editor": "oxcHWa_editor"
 		};
 		//#endregion
 		//#region lib/types/client/DeepSeekOnboardingDialog.js
@@ -7828,9 +8098,9 @@ window.__ModuleLoader__.load({
 		}
 		var WelcomeNotice_module_css_default = {
 			"copy": "RFswhG_copy",
-			"actions": "RFswhG_actions",
+			"error": "RFswhG_error",
 			"primary": "RFswhG_primary",
-			"error": "RFswhG_error"
+			"actions": "RFswhG_actions"
 		};
 		//#endregion
 		//#region lib/types/client/WelcomeNotice.js
@@ -8294,12 +8564,12 @@ window.__ModuleLoader__.load({
 		}
 		var ProductWorkspaceSurface_module_css_default = {
 			"eyebrow": "mzcFbW_eyebrow",
-			"icon": "mzcFbW_icon",
-			"header": "mzcFbW_header",
-			"close": "mzcFbW_close",
-			"body": "mzcFbW_body",
 			"identity": "mzcFbW_identity",
-			"root": "mzcFbW_root"
+			"root": "mzcFbW_root",
+			"icon": "mzcFbW_icon",
+			"body": "mzcFbW_body",
+			"header": "mzcFbW_header",
+			"close": "mzcFbW_close"
 		};
 		//#endregion
 		//#region lib/types/client/ProductWorkspaceSurface.js
@@ -8348,19 +8618,19 @@ window.__ModuleLoader__.load({
 		}
 		var TranslationWorkspace_module_css_default = {
 			"root": "_8lesPa_root",
-			"header": "_8lesPa_header",
-			"actions": "_8lesPa_actions",
-			"secondary": "_8lesPa_secondary",
-			"error": "_8lesPa_error",
-			"eyebrow": "_8lesPa_eyebrow",
-			"swap": "_8lesPa_swap",
-			"history": "_8lesPa_history",
-			"link": "_8lesPa_link",
-			"empty": "_8lesPa_empty",
-			"historyItem": "_8lesPa_historyItem",
+			"toolbar": "_8lesPa_toolbar",
 			"panes": "_8lesPa_panes",
 			"pane": "_8lesPa_pane",
-			"toolbar": "_8lesPa_toolbar"
+			"actions": "_8lesPa_actions",
+			"secondary": "_8lesPa_secondary",
+			"empty": "_8lesPa_empty",
+			"error": "_8lesPa_error",
+			"history": "_8lesPa_history",
+			"header": "_8lesPa_header",
+			"eyebrow": "_8lesPa_eyebrow",
+			"swap": "_8lesPa_swap",
+			"historyItem": "_8lesPa_historyItem",
+			"link": "_8lesPa_link"
 		};
 		//#endregion
 		//#region lib/types/client/TranslationWorkspace.js

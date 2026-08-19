@@ -5,6 +5,7 @@
 
 import { useCallback, useEffect, useState, useMemo } from 'react'
 import type { CreateMcpServerDto, McpServerView, UpdateMcpServerDto, McpServerCapabilities } from '../mcp-types.ts'
+import { AddMcpServerDialog } from './AddMcpServerDialog.tsx'
 import css from './McpSection.module.css'
 
 type TabKey = 'settings' | 'description' | 'logs' | 'tools' | 'prompts' | 'resources'
@@ -47,6 +48,7 @@ export function McpSection(props: McpSectionProps) {
   const [logs, setLogs] = useState<string[]>([])
   const [capabilities, setCapabilities] = useState<McpServerCapabilities | null>(null)
   const [isRefreshingTools, setIsRefreshingTools] = useState(false)
+  const [showAddDialog, setShowAddDialog] = useState(false)
 
   const loadServers = useCallback(async () => {
     if (!mcpService) {
@@ -233,6 +235,14 @@ export function McpSection(props: McpSectionProps) {
     }
   }, [selectedServer])
 
+  const handleCreate = useCallback(async (dto: CreateMcpServerDto) => {
+    if (!mcpService) return
+
+    await mcpService.create({ dto })
+    await loadServers()
+    setShowAddDialog(false)
+  }, [mcpService, loadServers])
+
   const handleDelete = useCallback(
     async (serverId: string, serverName: string) => {
       if (!mcpService) return
@@ -350,6 +360,7 @@ export function McpSection(props: McpSectionProps) {
           <button
             type="button"
             className={css.addButton}
+            onClick={() => setShowAddDialog(true)}
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path
@@ -824,6 +835,12 @@ export function McpSection(props: McpSectionProps) {
           </div>
         </main>
       )}
+
+      <AddMcpServerDialog
+        visible={showAddDialog}
+        onClose={() => setShowAddDialog(false)}
+        onSubmit={handleCreate}
+      />
     </div>
   )
 }
