@@ -23600,6 +23600,7 @@ var KnowledgeService = class extends Service {
 	}
 	async indexBase(baseId) {
 		this.requireBase(baseId);
+		this.db.prepare("DELETE FROM knowledge_chunks WHERE base_id = ?").run(baseId);
 		const config = await this.resolveEmbedding(baseId);
 		const sourceRows = this.db.prepare("SELECT * FROM knowledge_sources WHERE base_id = ? AND status = ?").all(baseId, "ready");
 		if (sourceRows.length === 0) return {
@@ -24394,7 +24395,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-z-sL-YTM.js");
+				const { SSEClientTransport } = await import("./sse-DP2Y2bMP.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -24416,7 +24417,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-CV4ZmIL5.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-tkv2pc0K.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {

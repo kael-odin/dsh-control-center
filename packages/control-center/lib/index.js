@@ -1567,6 +1567,7 @@ var KnowledgeService = class extends Service {
 	}
 	async indexBase(baseId) {
 		this.requireBase(baseId);
+		this.db.prepare("DELETE FROM knowledge_chunks WHERE base_id = ?").run(baseId);
 		const config = await this.resolveEmbedding(baseId);
 		const sourceRows = this.db.prepare("SELECT * FROM knowledge_sources WHERE base_id = ? AND status = ?").all(baseId, "ready");
 		if (sourceRows.length === 0) return {

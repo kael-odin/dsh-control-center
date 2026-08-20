@@ -27,7 +27,7 @@ interface PositionStyle {
 /** Cherry carousel positions for offsets -2..+2: wide spacing so each card
  *  stays mostly visible with a gentle fan overlap. */
 function positionStyle(offset: number): PositionStyle {
-  const x = offset * 52
+  const x = offset * 62
   const abs = Math.abs(offset)
   const rotate = offset * 3.5
   const scale = 1.08 - abs * 0.1

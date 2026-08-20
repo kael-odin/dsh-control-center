@@ -244,12 +244,12 @@ async function main(): Promise<void> {
       const body = await page.locator('body').innerText()
       throw new Error(`knowledge source did not render; browser: ${errors.join(' | ')}; body: ${body.slice(-2500)}`, { cause: error })
     }
-    await page.getByRole('button', { name: '建立索引' }).click()
+    // Sources auto-index after add (Cherry behavior); the notice confirms it.
     try {
       await page.getByText(/已索引 1 个来源/).waitFor({ timeout: 20_000 })
     } catch (error) {
       const body = await page.locator('body').innerText()
-      throw new Error(`knowledge index did not report; browser: ${errors.join(' | ')}; body: ${body.slice(-2500)}`, { cause: error })
+      throw new Error(`knowledge auto-index did not report; browser: ${errors.join(' | ')}; body: ${body.slice(-2500)}`, { cause: error })
     }
     await page.getByRole('button', { name: '召回测试' }).click()
     await page.getByPlaceholder('输入测试 Query...').fill('发布流程')

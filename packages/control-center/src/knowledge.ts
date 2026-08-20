@@ -569,6 +569,8 @@ export class KnowledgeService extends Service {
 
   async indexBase(baseId: string): Promise<KnowledgeIndexResult> {
     this.requireBase(baseId)
+    // Idempotent re-index: rebuild chunks from scratch (Cherry auto-indexes).
+    this.db.prepare('DELETE FROM knowledge_chunks WHERE base_id = ?').run(baseId)
     const config = await this.resolveEmbedding(baseId)
     const sourceRows = this.db.prepare('SELECT * FROM knowledge_sources WHERE base_id = ? AND status = ?').all(baseId, 'ready') as unknown as SourceRow[]
     if (sourceRows.length === 0) {

@@ -100,7 +100,6 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
   const [bases, setBases] = useState<KnowledgeBaseView[]>([])
   const [selectedId, setSelectedId] = useState<string>('')
   const [sources, setSources] = useState<KnowledgeSourceView[]>([])
-  const [indexing, setIndexing] = useState(false)
   const [notice, setNotice] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
@@ -292,6 +291,12 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
     void knowledge.listSources(selectedId).then(result => {
       if (result.ok) setSources(result.value.sources)
     })
+    // Cherry indexes automatically after sources arrive; fire-and-forget.
+    void knowledge.indexBase(selectedId).then(result => {
+      if (result.ok && result.value.chunksWritten > 0) {
+        setNotice(`已索引 ${result.value.sourcesIndexed} 个来源，写入 ${result.value.chunksWritten} 个分块`)
+      }
+    }).catch(() => {})
   }
 
   const deleteSource = async (): Promise<void> => {
@@ -300,20 +305,6 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
     if (!result.ok) { setError(result.error.message); return }
     setDeleteSourceTarget(null)
     reloadSources()
-  }
-
-  const indexBase = async (): Promise<void> => {
-    if (knowledge === undefined || selectedId === '') return
-    setError(null)
-    setIndexing(true)
-    try {
-      const result = await knowledge.indexBase(selectedId)
-      if (!result.ok) { setError(result.error.message); return }
-      setNotice(`已索引 ${result.value.sourcesIndexed} 个来源，写入 ${result.value.chunksWritten} 个分块`)
-      reloadSources()
-    } finally {
-      setIndexing(false)
-    }
   }
 
   const recall = async (): Promise<void> => {
@@ -452,7 +443,6 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
                     onClick={() => { setConfigOpen(true) }}
                   >
                     <IconSlidersHorizontal size={14} />
-                    <span>知识库设置</span>
                   </button>
                   <button type="button" className={css.ghostButton} title="返回对话" onClick={close}>
                     <IconChevronLeftOutline14 size={16} />
@@ -467,14 +457,6 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
                 <div className={css.dataHeader}>
                   <span className={css.dataHeaderLeft}>更新于 {relativeTime(selected.updatedAt)}</span>
                   <div className={css.dataHeaderActions}>
-                    <button
-                      type="button"
-                      className={css.indexButton}
-                      disabled={indexing || sources.length === 0}
-                      onClick={() => { void indexBase() }}
-                    >
-                      {indexing ? '索引中…' : '建立索引'}
-                    </button>
                     <div style={{ position: 'relative' }}>
                       <button type="button" className={css.addSourceButton} onClick={() => { setAddMenuOpen(open => !open) }}>
                         <IconPlus size={12} />
@@ -550,7 +532,7 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
                                   <button
                                     type="button"
                                     className={css.menuItem}
-                                    onClick={() => { setRowMenuFor(null); void indexBase() }}
+                                    onClick={() => { setRowMenuFor(null); reloadSources() }}
                                   >
                                     <IconRefreshCw size={13} />
                                     <span>重新索引</span>
