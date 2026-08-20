@@ -12,15 +12,15 @@ import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const harness = process.env.DSH_HARNESS_DIR || 'D:/Github_Open/deepseek-harness'
-const src = resolve(harness, 'apps/cli/node_modules')
-const out = resolve(root, '.materialize-tmp')
+const src = resolve(harness)
+const out = resolve(root, '.materialize-tmp/harness')
 
 const script = resolve(root, 'scripts/materialize-harness.mjs')
 const child = spawn(process.execPath, [script, src, out], { cwd: root, stdio: ['ignore', 'pipe', 'pipe'], shell: false })
 let err = ''
 child.stderr.on('data', (b) => { err += b.toString() })
 
-const timer = setTimeout(() => { console.error('materialize smoke: timeout'); child.kill('SIGKILL'); process.exit(1) }, 300_000)
+const timer = setTimeout(() => { console.error('materialize smoke: timeout (full tree materialize is slow)'); child.kill('SIGKILL'); process.exit(1) }, 3_600_000)
 
 child.on('close', (code) => {
   clearTimeout(timer)
