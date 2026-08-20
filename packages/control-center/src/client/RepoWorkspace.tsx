@@ -193,10 +193,7 @@ export function RepoWorkspace({ getRepos, useReposReady }: RepoWorkspaceProps) {
   return (
     <main className={`${css.root} cc-surface`}>
       <div className={css.header}>
-        <div>
-          <p className={css.eyebrow}>Workspace</p>
-          <h1 className={css.title}>代码仓库</h1>
-        </div>
+        <h1 className={css.title}>代码仓库</h1>
         {selected !== null && branch !== null
           ? <span className={css.branch}>{branch}</span>
           : null}

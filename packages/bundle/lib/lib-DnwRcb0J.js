@@ -22265,12 +22265,13 @@ var TranslationService = class extends Service {
 	jobs = /* @__PURE__ */ new Map();
 	history = /* @__PURE__ */ new Map();
 	customLanguages = /* @__PURE__ */ new Map();
-	scope;
+	scope = null;
+	promptOverride = null;
 	accepting = true;
 	constructor(ctx, _config) {
 		super(ctx, "controlCenterTranslation");
 		this.llm = ctx.get("llm");
-		this.scope = ctx.settings.register(TRANSLATION_NAMESPACE, Schema.object({ prompt: Schema.string().default("") }), { base: { prompt: "" } });
+		if (ctx.settings !== void 0) this.scope = ctx.settings.register(TRANSLATION_NAMESPACE, Schema.object({ prompt: Schema.string().default("") }), { base: { prompt: "" } });
 		markTranslationRemoteMethods(this);
 		ctx.effect(() => async () => {
 			this.accepting = false;
@@ -22351,10 +22352,12 @@ var TranslationService = class extends Service {
 		return { cleared };
 	}
 	getPrompt() {
-		return this.scope.get().prompt;
+		return this.scope === null ? this.promptOverride ?? "" : this.scope.get().prompt;
 	}
 	async setPrompt(prompt) {
-		await this.scope.update({ prompt: prompt.slice(0, 4e3) });
+		const resolved = prompt.slice(0, 4e3);
+		if (this.scope === null) this.promptOverride = resolved;
+		else await this.scope.update({ prompt: resolved });
 		return { saved: true };
 	}
 	languages() {
@@ -22402,7 +22405,7 @@ var TranslationService = class extends Service {
 			for await (const chunk of prepared.stream({
 				...prepared.config,
 				messages: [message],
-				system: prompt(request, this.scope.get().prompt),
+				system: prompt(request, this.scope === null ? this.promptOverride ?? "" : this.scope.get().prompt),
 				signal: job.controller.signal
 			})) {
 				if (chunk.type === "usage" && !recorded) {
@@ -24284,7 +24287,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-DY5hRErO.js");
+				const { SSEClientTransport } = await import("./sse-BEkQsh7D.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -24306,7 +24309,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-CzoCfPwQ.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-D7m8uXA-.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {

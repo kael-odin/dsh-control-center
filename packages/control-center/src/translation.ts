@@ -127,17 +127,22 @@ export class TranslationService extends Service {
   private readonly jobs = new Map<string, MutableJob>()
   private readonly history = new Map<TranslationHistoryId, TranslationHistoryItem>()
   private readonly customLanguages = new Map<string, TranslationLanguage>()
-  private scope: SettingsScope<{ prompt: string }>
+  private scope: SettingsScope<{ prompt: string }> | null = null
+  private promptOverride: string | null = null
   private accepting = true
 
   constructor(ctx: Context, _config?: TranslationServiceConfig) {
     super(ctx, 'controlCenterTranslation')
     this.llm = ctx.get('llm') as LlmRuntime
-    this.scope = ctx.settings.register(TRANSLATION_NAMESPACE, Schema.object({
-      prompt: Schema.string().default(''),
-    }), {
-      base: { prompt: '' },
-    })
+    // Lazy: standalone-service tests construct bare contexts without a
+    // settings provider; the prompt override then stays in memory.
+    if (ctx.settings !== undefined) {
+      this.scope = ctx.settings.register(TRANSLATION_NAMESPACE, Schema.object({
+        prompt: Schema.string().default(''),
+      }), {
+        base: { prompt: '' },
+      })
+    }
     markTranslationRemoteMethods(this)
     ctx.effect(() => async () => {
       this.accepting = false
@@ -221,11 +226,16 @@ export class TranslationService extends Service {
   }
 
   getPrompt(): string {
-    return this.scope.get().prompt
+    return this.scope === null ? (this.promptOverride ?? '') : this.scope.get().prompt
   }
 
   async setPrompt(prompt: string): Promise<{ saved: true }> {
-    await this.scope.update({ prompt: prompt.slice(0, 4_000) })
+    const resolved = prompt.slice(0, 4_000)
+    if (this.scope === null) {
+      this.promptOverride = resolved
+    } else {
+      await this.scope.update({ prompt: resolved })
+    }
     return { saved: true }
   }
 
@@ -269,7 +279,7 @@ export class TranslationService extends Service {
       for await (const chunk of prepared.stream({
         ...prepared.config,
         messages: [message],
-        system: prompt(request, this.scope.get().prompt),
+        system: prompt(request, this.scope === null ? (this.promptOverride ?? '') : this.scope.get().prompt),
         signal: job.controller.signal,
       })) {
         if (chunk.type === 'usage' && !recorded) {

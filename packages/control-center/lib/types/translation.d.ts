@@ -20,6 +20,7 @@ export declare class TranslationService extends Service {
     private readonly history;
     private readonly customLanguages;
     private scope;
+    private promptOverride;
     private accepting;
     constructor(ctx: Context, _config?: TranslationServiceConfig);
     start(request: TranslationRequest): TranslationStartResult;

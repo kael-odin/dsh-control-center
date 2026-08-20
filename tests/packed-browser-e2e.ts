@@ -128,7 +128,7 @@ async function main(): Promise<void> {
     await expectPoll(async () => await settingsButton.getAttribute('aria-expanded'), 'true', 15_000)
     const dialog = page.getByRole('dialog', { name: '设置' })
     await dialog.waitFor({ timeout: 15_000 })
-    await dialog.getByRole('button', { name: '模型' }).evaluate((button: HTMLButtonElement) => { button.click() })
+    await dialog.getByRole('button', { name: '模型', exact: true }).evaluate((button: HTMLButtonElement) => { button.click() })
     await dialog.getByText('Control Center E2E', { exact: true }).waitFor({ timeout: 15_000 })
     const betaNotice = page.getByRole('dialog', { name: '内测声明' })
     if (await betaNotice.count() > 0) {
