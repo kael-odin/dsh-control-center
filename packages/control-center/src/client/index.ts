@@ -71,6 +71,9 @@ import type { AppearanceSectionInjected } from './AppearanceSection.tsx'
 import { NotificationSection } from './NotificationSection.tsx'
 import { ShortcutSection } from './ShortcutSection.tsx'
 import { SelectionAssistantSection } from './SelectionAssistantSection.tsx'
+import { QuickAssistantSection } from './QuickAssistantSection.tsx'
+import { ScreenshotSection } from './ScreenshotSection.tsx'
+import { ChannelsSection } from './ChannelsSection.tsx'
 import { SettingsDocumentAction } from './SettingsDocumentAction.tsx'
 import type { SettingsDocumentActionInjected } from './SettingsDocumentAction.tsx'
 import { refreshDocumentIfLoaded, SettingsDocumentStore } from './settings-document-store.ts'
@@ -691,24 +694,27 @@ export function apply(ctx: ClientContext): void {
     order: 240,
     label: () => shellT('selectionAssistantNav'),
   }, SelectionAssistantSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'quick-assistant',
+    order: 230,
+    label: () => shellT('quickAssistantNav'),
+  }, QuickAssistantSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'screenshot',
+    order: 250,
+    label: () => shellT('screenshotNav'),
+  }, ScreenshotSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'channels',
+    order: 210,
+    label: () => shellT('channelsNav'),
+  }, ChannelsSection))
   const gated: ReadonlyArray<{ id: string; order: number; label: string; props: Omit<CapabilityGateSectionProps, 'title' | 'description'> }> = [
-    { id: 'channels', order: 210, label: shellT('channelsNav'), props: {
-      supported: ['会话消息推送', '通知类计划任务'],
-      unavailable: ['Webhook/Channel 绑定（需要桌面伴生进程）'],
-      note: 'Web 版不附带独立伴生程序；Channel 绑定与消息推送需要桌面环境支持。',
-    } },
 
-    { id: 'quick-assistant', order: 230, label: shellT('quickAssistantNav'), props: {
-      supported: ['计划任务触发的通知动作'],
-      unavailable: ['全局唤起 Quick Assistant（需要桌面伴生进程）'],
-      note: 'Quick Assistant 的全局唤起依赖系统级热键与悬浮窗，Web 版不可用。',
-    } },
 
-    { id: 'screenshot', order: 250, label: shellT('screenshotNav'), props: {
-      supported: ['文件导入（图片/文档）到知识库与 OCR'],
-      unavailable: ['屏幕截图（需要桌面截屏能力）'],
-      note: '浏览器受限无法实现全屏截图；图片处理通过文件导入进行。',
-    } },
   ]
   for (const entry of gated) {
     const props = entry.props

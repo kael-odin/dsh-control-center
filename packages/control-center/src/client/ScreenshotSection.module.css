@@ -1,0 +1,75 @@
+/* Screenshot settings page styles. */
+.notice {
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border: 1px solid var(--info-border, var(--border));
+  border-radius: 10px;
+  background: var(--info-subtle, color-mix(in srgb, var(--muted) 30%, transparent));
+  color: var(--muted-foreground);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.groupTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.shortcutLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.shortcutTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.shortcutDesc {
+  color: var(--muted-foreground);
+  font-size: 10px;
+  line-height: 14px;
+}
+
+.shortcutRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.shortcutBadge {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 11px;
+}
+
+.linkBtn {
+  border: none;
+  background: transparent;
+  padding: 0;
+  color: var(--primary);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.ocrStatus {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 0 8px;
+  color: var(--muted-foreground);
+  font-size: 12px;
+}

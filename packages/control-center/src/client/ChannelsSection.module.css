@@ -1,0 +1,371 @@
+/* Channels settings page: submenu (w-250) + detail column. */
+.split {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+.submenu {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  box-sizing: border-box;
+  border-right: 0.5px solid var(--border);
+}
+
+.submenuTitle {
+  padding: 14px 20px 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.submenuList {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 10px 10px;
+  box-sizing: border-box;
+}
+
+.submenuItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.submenuItem:hover {
+  background: var(--muted);
+}
+
+.submenuItemActive {
+  background: var(--muted);
+  font-weight: 500;
+}
+
+.typeIcon {
+  flex: none;
+  font-size: 16px;
+}
+
+.detail {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+}
+
+.detailBody {
+  flex: 1;
+  padding: 24px;
+  max-width: 768px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.detailHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.detailTitleBlock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.typeIconLarge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.detailTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.addBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  flex: none;
+}
+
+.addBtn:hover {
+  background: var(--accent);
+}
+
+.detailDesc {
+  margin: 6px 0 0;
+  color: var(--muted-foreground);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.divider {
+  height: 1px;
+  margin: 16px 0;
+  background: var(--border-subtle);
+}
+
+.notice {
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border: 1px solid var(--info-border, var(--border));
+  border-radius: 10px;
+  background: var(--info-subtle, color-mix(in srgb, var(--muted) 30%, transparent));
+  color: var(--muted-foreground);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.emptyState {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--foreground-tertiary);
+  font-size: 13px;
+}
+
+.instanceRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 4px;
+  border-bottom: 0.5px solid var(--border-subtle);
+}
+
+.instanceRow:last-child {
+  border-bottom: none;
+}
+
+.statusDot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--muted-foreground);
+}
+
+.statusDotActive {
+  background: var(--success);
+}
+
+.instanceMain {
+  flex: 1;
+  min-width: 0;
+}
+
+.instanceName {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--foreground);
+}
+
+.connectedBadge {
+  padding: 1px 6px;
+  border: 1px solid var(--success-border, var(--border));
+  border-radius: 4px;
+  background: var(--success-subtle, transparent);
+  color: var(--success);
+  font-size: 10px;
+  line-height: 14px;
+}
+
+.instanceSummary {
+  margin-top: 2px;
+  color: var(--foreground-tertiary);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.instanceOps {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+}
+
+.opBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted-foreground);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.opBtn:hover {
+  background: var(--accent);
+  color: var(--foreground);
+}
+
+.opBtnDanger:hover {
+  color: var(--destructive);
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modalCard {
+  width: min(500px, calc(100vw - 48px));
+  max-height: 82vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 20px;
+  border-radius: 16px;
+  background: var(--card);
+  color: var(--card-foreground);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.3);
+}
+
+.modalCard h3 {
+  margin: 0 0 14px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.formField label {
+  color: var(--foreground-tertiary);
+  font-size: 13px;
+}
+
+.formInput, .formSelect {
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--muted) 40%, transparent);
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.formSelect {
+  cursor: pointer;
+  background: var(--background);
+  border-color: var(--border);
+}
+
+.formInput:focus, .formSelect:focus {
+  border-color: var(--ring);
+}
+
+.formHint {
+  color: var(--foreground-tertiary);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: var(--muted);
+}
+
+.btnPrimary {
+  border-color: transparent;
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.btnPrimary:hover {
+  background: var(--primary);
+  opacity: 0.9;
+}
+
+.logsBody {
+  min-height: 120px;
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--background-subtle);
+  color: var(--muted-foreground);
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
