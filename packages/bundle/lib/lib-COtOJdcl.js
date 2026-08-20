@@ -6327,7 +6327,7 @@ var UrlElicitationRequiredError = class extends McpError {
 	}
 };
 //#endregion
-//#region packages/control-center/lib/translation-remote-client-CAk8pC3-.js
+//#region packages/control-center/lib/translation-remote-client-DPBgRDh5.js
 const STRICT_JSON = {
 	mode: "strict",
 	typeSymbol: "@dsh-control-center/json",
@@ -6360,6 +6360,22 @@ const translationRemote = {
 		{
 			method: "deleteHistory",
 			parameters: ["id"]
+		},
+		{
+			method: "starHistory",
+			parameters: ["id", "starred"]
+		},
+		{
+			method: "clearHistory",
+			parameters: []
+		},
+		{
+			method: "getPrompt",
+			parameters: []
+		},
+		{
+			method: "setPrompt",
+			parameters: ["prompt"]
 		},
 		{
 			method: "languages",
@@ -24268,7 +24284,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-BQ82G-Gm.js");
+				const { SSEClientTransport } = await import("./sse-DY5hRErO.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -24290,7 +24306,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-IM1Nzeza.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-CzoCfPwQ.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {

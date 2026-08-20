@@ -1,2 +1,2 @@
-import { t as translationRemote } from "./translation-remote-client-CAk8pC3-.js";
+import { t as translationRemote } from "./translation-remote-client-DPBgRDh5.js";
 export { translationRemote as default };

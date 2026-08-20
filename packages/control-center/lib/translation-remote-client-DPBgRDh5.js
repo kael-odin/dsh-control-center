@@ -34,6 +34,22 @@ const translationRemote = {
 			parameters: ["id"]
 		},
 		{
+			method: "starHistory",
+			parameters: ["id", "starred"]
+		},
+		{
+			method: "clearHistory",
+			parameters: []
+		},
+		{
+			method: "getPrompt",
+			parameters: []
+		},
+		{
+			method: "setPrompt",
+			parameters: ["prompt"]
+		},
+		{
 			method: "languages",
 			parameters: []
 		},

@@ -47,7 +47,7 @@ await page.evaluate(() => {
 })
 await page.waitForTimeout(800)
 await page.evaluate(() => {
-  const cell = [...document.querySelectorAll('button')].find(b => (b.textContent ?? '').trim() === '用量统计')
+  const cell = [...document.querySelectorAll('button')].find(b => (b.textContent ?? '').trim() === '用量统计' || (b.textContent ?? '').trim() === '用量分析')
   if (cell) cell.click()
 })
 await page.waitForTimeout(1500)

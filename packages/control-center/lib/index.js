@@ -1,4 +1,4 @@
-import { n as STRICT_JSON, t as translationRemote } from "./translation-remote-client-CAk8pC3-.js";
+import { n as STRICT_JSON, t as translationRemote } from "./translation-remote-client-DPBgRDh5.js";
 import { t as paintingRemote } from "./painting-remote-client-X1tWq7oF.js";
 import { t as knowledgeRemote } from "./knowledge-remote-client-DAVExb28.js";
 import { createRequire } from "node:module";

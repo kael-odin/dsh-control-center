@@ -76,7 +76,7 @@ export const zh: { [Key in SettingsKey]: string } = {
   ocrNav: 'OCR',
   ocrTitle: '图片文字识别',
   ocrDescription: '使用配置的 OCR 处理器从图片中提取文字。',
-  usageNav: '用量分析',
+  usageNav: '用量统计',
   dataNav: '数据',
   systemGroup: '系统',
   dependenciesNav: '依赖',
