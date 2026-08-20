@@ -63,7 +63,18 @@ renderer (DSH surface 页面)
   Electron main 服务）。
 - **打包**：`packed exe` 冒烟同样 REACHED，证明打包产物内的微服务与握手可用。
 
-## 五、历史记录（供参考）
+## 六、发行状态与物化瓶颈（2026-08）
+
+- **正式安装器已交付**：`pnpm pack:win` 产出 `release/DSH Control Center Setup 0.1.0.exe`（NSIS，93MB，
+  用户级安装），静默安装 → exe `--e2e`（surface + 桥 + 托盘 + 全局快捷键）→ 卸载器彻底移除，全程验证。
+- **内置 node 已落地**：`vendor/node`（node 24，ABI 与 harness 匹配）经 `extraResources` 打进
+  `resources/vendor/node`；`startSelfHost` 优先用内置 node —— **自启免系统 node**（dev + packed 均验证）。
+- **完全自包含（免 `DSH_HARNESS_DIR`）受阻 — harness 物化**：首次物化器
+  `apps/desktop/scripts/materialize-harness.mjs`（`fs.cpSync dereference:true`）在 harness 的**循环
+  pnpm-store 符号链接**（如 `cordis ↔ cordis-plugin-include`）上实测 **ELOOP** 失败。正确物化需要
+  **循环感知物化器**（参照 `deepseek-harness-desktop/scripts/materialize3.js`），且整树物化体积数百 MB。
+  这是后续发布架构项（需专门的物化器实现/复用，并评估体积），当前以"内置 node + 复用本机 harness"
+  形态为可用发行基线。
 
 - `probe:hostinmain`（B0 门禁）已验证 host 的 app-boot trunk 可在 harness resolver 下**准备 profile**
   （`HOST_IN_MAIN=OK`），并验证 host 可在当前进程真·boot loopback surface（编译版
