@@ -32,6 +32,20 @@ harness cwd 下验证：
 解析；因此门禁把探针以 **cwd=harness** 子进程启动，运行时 `chdir()` 无效（需进程启动时即 harness）。
 实际 host-in-main 的 Electron main 也必须以 harness 为 resolver 锚。
 
+**B0 主体破冰（2026-08）**：用 harness **编译产物** `apps/cli/lib/profile-boot-BnJoK_kl.js`（纯 JS、直接
+导出 `runProfile`）在当前进程真·boot web profile：
+
+- `node tests`（system node + `--import tsx/esm`，cwd=harness，隔离 `DSH_HOME`）→ 打印
+  `dsh web: http://127.0.0.1:<port>`、`HOST_CTX_READY=true`、`HOST_HAS_SERVICES=true`、`B0_BODY_MOUNTED=OK`。
+- **结论**：host 可在"进程内"真·起 loopback surface，Host ctx（loader 等 service）可用——能力桥的
+  Host service 注册 + renderer RPC 的基座成立。
+
+**已知技术障碍（host 跑在 Electron main）**：让 host 跑进 Electron 内置 node（`ELECTRON_RUN_AS_NODE=1`）
+时，harness 的 workspace 裸依赖在 Electron 的 resolver 下解析失败（`@deepseek-ai/dsh-llm` /
+`directory-picker-native` 等 `Cannot find package`）；system node + tsx 解析正常但那是**子进程**、拿不到
+Electron API。因此"host 与 Electron main 同进程并直接拿 `dialog`/`Notification`"在当前工具链受阻，
+能力桥落地方式需要在"main 进程受控原生微服务桥"与"host 内嵌 Electron+匹配 node"之间决策（见下）。
+
 ## 三、目标架构
 
 ```
