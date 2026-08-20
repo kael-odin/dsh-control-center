@@ -54,6 +54,10 @@
 | 阶段 | 能力 | 依赖 |
 |---|---|---|
 | P0 | Electron 壳 + DSH host 内嵌 + bundle 安装 | 路线 A 或 B 落地 |
+
+> **P0 已落地（路线 B，2026-08）**：`apps/desktop`（Electron main 单实例锁 + 探测/唤起 loopback
+> surface + BrowserWindow `--e2e` smoke 断言 SURFACE_LOADED 与 CONTROL_CENTER_ATTACHED）。当前先
+> 连接已运行的 `dsh web` surface 作外接验证；host 内嵌（main 里 spawn/profile-boot）为下一步。
 | P1 | 原生文件/目录对话框（替换 showDirectoryPicker）、系统通知 | preload IPC 桥 |
 | P2 | 全局快捷键（快捷键页从"桌面"标签变真实生效）、托盘 | 同上 |
 | P3 | 屏幕截图（截图页真实化）、划词助手（取词/工具栏/悬浮窗） | Cherry 实现借鉴 |

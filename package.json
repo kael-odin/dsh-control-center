@@ -14,6 +14,7 @@
     "typecheck": "tsc -b --pretty false",
     "test": "vitest run",
     "test:browser": "pnpm run pack:check && tsx tests/packed-browser-e2e.ts",
+    "smoke:desktop": "pnpm --dir apps/desktop smoke",
     "lint": "oxlint packages/*/src build tests --deny-warnings",
     "verify:provenance": "tsx tests/provenance.ts",
     "verify:artifacts": "tsx tests/artifacts.ts",

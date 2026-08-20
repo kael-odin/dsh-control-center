@@ -1,0 +1,23 @@
+{
+  "name": "@dsh-control-center/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "description": "DSH Control Center desktop shell — Electron runner that loads the DSH loopback Web surface and mounts the Control Center plugin surface.",
+  "main": "bin/main.mjs",
+  "bin": {
+    "dsh-control-desktop": "bin/main.mjs"
+  },
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "smoke": "node tests/smoke.mjs"
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "devDependencies": {
+    "electron": "41.8.0"
+  }
+}
