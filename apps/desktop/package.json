@@ -17,6 +17,7 @@
     "smoke:packed": "node tests/packed-smoke.mjs",
     "probe:hostinmain": "node tests/host-in-main-probe.mjs",
     "probe:materialize": "node tests/materialize-smoke.mjs",
+    "probe:v6synth": "node tests/v6-synth.mjs",
     "probe:selfcontained": "node tests/selfcontained-smoke.mjs",
     "pack:dir": "electron-builder --dir",
     "pack:win": "electron-builder --win nsis"

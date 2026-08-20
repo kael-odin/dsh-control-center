@@ -24,7 +24,7 @@
 import {
   mkdirSync, rmSync, copyFileSync, lstatSync, realpathSync, statSync, readdirSync, symlinkSync, cpSync,
 } from 'node:fs'
-import { resolve, join, relative, dirname } from 'node:path'
+import { resolve, join, relative, dirname, basename } from 'node:path'
 
 const src = resolve(process.argv[2])
 const out = resolve(process.argv[3])
@@ -54,6 +54,19 @@ function linkTo(dest, targetAbs) {
         console.warn(`linkTo fallback copied (no symlink): ${dest}\nr1=${String(e1 && e1.message)?.slice(0,80)}\nr2=${String(e2 && e2.message)?.slice(0,80)}\nr3=${String(e3 && e3.message)?.slice(0,80)}`)
         return
       }
+    }
+  }
+  stats.links += 1
+}
+/** Strict junction: never falls back to copying (copy could recurse/loop). */
+function linkToStrict(dest, targetAbs) {
+  mkdirSync(dirname(dest), { recursive: true })
+  try { symlinkSync(targetAbs.replace(/\\/g, '/'), dest, 'junction') }
+  catch (e1) {
+    try { symlinkSync(targetAbs.replace(/\\/g, '/'), dest, 'dir') }
+    catch (e2) {
+      console.warn(`[v3] linkToStrict failed ${dest} -> ${targetAbs}: ${String((e2 && e2.message) || e2)?.slice(0, 80)}`)
+      return
     }
   }
   stats.links += 1
@@ -178,12 +191,27 @@ for (const entry of readdirSync(srcNM)) {
   if (st.isFile()) { copyFileSync(es, ed); stats.files += 1; continue }
   if (st.isDirectory()) {
     if (entry === '@deepseek-ai') {
-      // Top-level workspace links (@deepseek-ai/* -> packages) are NOT expanded
-      // here. v5 attempted to re-link each to the materialized packages, but that
-      // created junction self-loops (infinite nesting) on this Windows tree.
-      // Safely skip; materializing node_modules/@deepseek-ai/* against isolated
-      // packages without recursion is v6 release work. .pnpm deps ARE materialized.
-      console.warn('[v3] skip top-level @deepseek-ai workspace links (v6 pending)')
+      // v6: top-level workspace links -> harness/packages/<name>. Each is a pure
+      // junction to the materialized out/packages/<name> (a real file copy that
+      // contains NO node_modules thanks to step-1 skipNM), so a junction cannot
+      // recurse/loop. We never fall back to copying here.
+      mkdirSync(ed, { recursive: true })
+      for (const child of readdirSync(es)) {
+        const cs = join(es, child)
+        const cd = join(ed, child)
+        let cst
+        try { cst = lstatSync(cs) } catch { continue }
+        if (!cst.isSymbolicLink()) continue
+        let t
+        try { t = realpathSync(cs) } catch { continue }
+        const name = basename(t)
+        const matPkg = resolve(out, 'packages', name)
+        if (lstatSafeDir(matPkg) && !lstatSafeDir(join(matPkg, 'node_modules'))) {
+          linkToStrict(cd, matPkg)
+        } else {
+          console.warn(`[v3] skip @deepseek-ai/${child}: no safe materialized package`)
+        }
+      }
       continue
     }
     copyTree(es, ed)
