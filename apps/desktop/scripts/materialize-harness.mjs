@@ -33,7 +33,7 @@ if (!src || !out || src === out) {
   process.exit(1)
 }
 const SKIP_TOP = new Set(['.git', '.dsh', 'logs', 'sessions', 'storages', '.test-home'])
-const norm = (p) => realpathSync(p).replace(/\\/g, '/').toLowerCase()
+const norm = (p) => resolve(p).replace(/\\/g, '/').toLowerCase()
 let stats = { dirs: 0, files: 0, links: 0 }
 
 function linkTo(dest, targetAbs) {
@@ -59,13 +59,11 @@ function linkTo(dest, targetAbs) {
   stats.links += 1
 }
 function copyTree(s, d) {
-  copyTreeRec(s, d, [])
+  copyTreeRec(s, d)
 }
-function copyTreeRec(s, d, realStack) {
+function copyTreeRec(s, d) {
   mkdirSync(d, { recursive: true })
   stats.dirs += 1
-  const real = norm(s)
-  if (realStack.includes(real)) return
   for (const entry of readdirSync(s)) {
     const ss = join(s, entry)
     const sd = join(d, entry)
@@ -75,11 +73,11 @@ function copyTreeRec(s, d, realStack) {
       let target
       try { target = realpathSync(ss) } catch { continue }
       if (statSync(target).isFile()) { copyFileSync(target, sd); stats.files += 1 }
-      else copyTreeRec(target, sd, [...realStack, real])
+      else copyTreeRec(target, sd)
       continue
     }
     if (st.isFile()) { copyFileSync(ss, sd); stats.files += 1; continue }
-    if (st.isDirectory()) copyTreeRec(ss, sd, [...realStack, real])
+    if (st.isDirectory()) copyTreeRec(ss, sd)
   }
 }
 
@@ -178,7 +176,18 @@ for (const entry of readdirSync(srcNM)) {
     continue
   }
   if (st.isFile()) { copyFileSync(es, ed); stats.files += 1; continue }
-  if (st.isDirectory()) copyTree(es, ed)
+  if (st.isDirectory()) {
+    if (entry === '@deepseek-ai') {
+      // Top-level workspace links (@deepseek-ai/* -> packages) are NOT expanded
+      // here. v5 attempted to re-link each to the materialized packages, but that
+      // created junction self-loops (infinite nesting) on this Windows tree.
+      // Safely skip; materializing node_modules/@deepseek-ai/* against isolated
+      // packages without recursion is v6 release work. .pnpm deps ARE materialized.
+      console.warn('[v3] skip top-level @deepseek-ai workspace links (v6 pending)')
+      continue
+    }
+    copyTree(es, ed)
+  }
 }
 
 // .bin: reproduce as copy (contains the shims; keep as real so Node/PnPM may use).
