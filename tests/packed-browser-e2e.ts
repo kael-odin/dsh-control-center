@@ -231,7 +231,7 @@ async function main(): Promise<void> {
       throw new Error(`knowledge base row did not render; browser: ${errors.join(' | ')}`, { cause: error })
     }
     await page.getByRole('button', { name: '添加数据源' }).click()
-    await page.getByRole('button', { name: '笔记', exact: true }).click()
+    await page.getByRole('button', { name: '笔记', exact: true }).first().click()
     await page.getByLabel('内容').fill('发布流程要求所有变更先经过本地检查，再进入发布流水线。')
     await page.getByRole('button', { name: '添加', exact: true }).click()
     try {
