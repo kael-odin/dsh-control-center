@@ -17,6 +17,7 @@ import { app, BrowserWindow, dialog, Notification } from 'electron'
 import { spawn } from 'node:child_process'
 import { createServer } from 'node:http'
 import { randomBytes } from 'node:crypto'
+import { readFileSync, statSync } from 'node:fs'
 
 const DEFAULT_LOOPBACK = 'http://127.0.0.1:3080/'
 const DEFAULT_HARNESS_DIR = process.env.DSH_HARNESS_DIR || 'D:\\Github_Open\\deepseek-harness'
@@ -160,7 +161,15 @@ function startNativeService() {
           const raw = await readBody(req)
           const opts = raw && raw.properties ? { properties: raw.properties } : { properties: ['openFile'] }
           const result = await dialog.showOpenDialog(mainWindow, opts)
+          // Record what the user just picked; readFile will be confined to these.
+          lastPickedPaths = result.filePaths || []
           return send(200, { ok: true, canceled: result.canceled, filePaths: result.filePaths })
+        }
+        if (req.method === 'POST' && url.pathname === '/dsh-native/readFile') {
+          const raw = await readBody(req)
+          return readPickedFile(raw && raw.path)
+            .then((r) => send(200, r))
+            .catch((err) => send(500, { ok: false, error: String((err && err.message) || err) }))
         }
         if (req.method === 'POST' && url.pathname === '/dsh-native/notify') {
           const raw = await readBody(req)
@@ -196,9 +205,51 @@ function readBody(req) {
   })
 }
 
+/** MIME guess for well-known text extensions used by the Knowledge Base. */
+function guessMediaType(name) {
+  const ext = (name.split('.').pop() || '').toLowerCase()
+  const map = {
+    txt: 'text/plain', md: 'text/markdown', markdown: 'text/markdown',
+    html: 'text/html', htm: 'text/html', csv: 'text/csv',
+    json: 'application/json', yaml: 'application/yaml', yml: 'application/yaml',
+    xml: 'application/xml', pdf: 'application/pdf', docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  }
+  return map[ext] || 'application/octet-stream'
+}
+
+/**
+ * Read a user-picked local file and return its content as base64 plus metadata.
+ * Confined to `lastPickedPaths` (paths the user just chose in the native dialog)
+ * so the token-protected bridge cannot read arbitrary local files.
+ * @param path - the absolute path to read (must be a recent native-dialog pick).
+ * @returns `{ ok, name, contentBase64, mediaType }` or an error result.
+ */
+function readPickedFile(path) {
+  if (typeof path !== 'string' || !lastPickedPaths.includes(path)) {
+    return Promise.resolve({ ok: false, error: 'path not granted by the native dialog' })
+  }
+  return new Promise((resolveBody) => {
+    try {
+      const name = path.split(/[\\/]/).pop() || 'file'
+      const st = statSync(path)
+      if (st.size > 50 * 1024 * 1024) {
+        resolveBody({ ok: false, error: 'file too large (>50MB) for the native bridge read' })
+        return
+      }
+      const buf = readFileSync(path)
+      resolveBody({ ok: true, name, contentBase64: buf.toString('base64'), mediaType: guessMediaType(name) })
+    } catch (err) {
+      resolveBody({ ok: false, error: String((err && err.message) || err) })
+    }
+  })
+}
+
 let mainWindow = null
 /** Self-hosted DSH surface child, owned and torn down with the app. */
 let activeChild = null
+/** Paths the user most recently picked via the native file dialog; readFile is
+ * confined to these so the token-protected bridge cannot read arbitrary files. */
+let lastPickedPaths = []
 
 function createWindow(url, native) {
   const smoke = process.argv.includes('--e2e')

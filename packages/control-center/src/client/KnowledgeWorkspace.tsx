@@ -19,6 +19,7 @@ import {
   IconMoreHorizontal, IconPlus, IconRefreshCw, IconSlidersHorizontal, IconStickyNote, IconZap,
 } from './cherry-icons.tsx'
 import { ConfirmDialog, HelpTooltip, PanelShell, Switch, useCopy } from './panel-ui.tsx'
+import { hasNativeBridge, desktopNativeApi } from './desktop-capabilities.ts'
 
 export interface KnowledgeWorkspaceInjected {
   getKnowledge: () => NonNullable<ClientRemote['controlCenterKnowledge']>
@@ -348,6 +349,25 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
     setAddMenuOpen(false)
     if (type === 'file') {
       setAddDialog('file')
+      if (hasNativeBridge()) {
+        // Native dialog + bridge read: pick local file(s) via Electron, read the
+        // bytes through the bridge, then feed them into the existing addFile().
+        void (async () => {
+          const picked = await desktopNativeApi.pickFile(['openFile', 'multiSelections'])
+          setAddDialog(null)
+          if (!picked.ok || picked.canceled || !picked.filePaths) return
+          for (const path of picked.filePaths) {
+            const read = await desktopNativeApi.readFile(path)
+            if (!read.ok || read.contentBase64 === undefined) continue
+            try {
+              const bytes = Uint8Array.from(atob(read.contentBase64), c => c.charCodeAt(0))
+              const file = new File([bytes], read.name ?? 'file', { type: read.mediaType ?? 'text/plain' })
+              void addFile(file)
+            } catch { /* skip unreadable */ }
+          }
+        })()
+        return
+      }
       fileRef.current?.click()
       return
     }

@@ -53,6 +53,15 @@ export declare const desktopNativeApi: {
     }>;
     /** Open the system file dialog (Electron dialog.showOpenDialog via main). */
     pickFile(properties?: readonly string[]): Promise<NativeDialogResult>;
+    /** Read a local file the user just picked via the native dialog (confined to
+     * the last-picked paths by the main-process bridge). */
+    readFile(path: string): Promise<{
+        ok: boolean;
+        name?: string;
+        contentBase64?: string;
+        mediaType?: string;
+        error?: string;
+    }>;
     /** Send a system notification (Electron Notification via main). */
     notify(title: string, body?: string): Promise<{
         ok: boolean;

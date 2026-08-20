@@ -98,9 +98,26 @@ export const desktopNativeApi = {
     }
   },
 
-  /** Send a system notification (Electron Notification via main). */
-  async notify(title: string, body = ''): Promise<{ ok: boolean; supported?: boolean; error?: string }> {
+  /** Read a local file the user just picked via the native dialog (confined to
+   * the last-picked paths by the main-process bridge). */
+  async readFile(path: string): Promise<{ ok: boolean; name?: string; contentBase64?: string; mediaType?: string; error?: string }> {
     const m = getDesktopCapabilities()
+    if (!m?.nativeUrl || !m.nativeToken) return { ok: false, error: 'native bridge unavailable' }
+    try {
+      const r = await fetch(`${m.nativeUrl}/dsh-native/readFile`, {
+        method: 'POST',
+        headers: { authorization: `Bearer ${m.nativeToken}`, 'content-type': 'application/json' },
+        body: JSON.stringify({ path }),
+        signal: AbortSignal.timeout(60000),
+      })
+      return (await r.json()) as { ok: boolean; name?: string; contentBase64?: string; mediaType?: string }
+    } catch (e) {
+      return { ok: false, error: String((e as Error)?.message ?? e) }
+    }
+  },
+
+  /** Send a system notification (Electron Notification via main). */
+  async notify(title: string, body = ''): Promise<{ ok: boolean; supported?: boolean; error?: string }> {    const m = getDesktopCapabilities()
     if (!m?.nativeUrl || !m.nativeToken) return { ok: false, error: 'native bridge unavailable' }
     try {
       const r = await fetch(`${m.nativeUrl}/dsh-native/notify`, {
