@@ -37,9 +37,11 @@ export const en = {
   localModelsNav: 'Local Models',
   updateNav: 'Update',
   channelsNav: 'Channels',
+  appearanceNav: 'Appearance',
+  notificationsNav: 'Notifications',
   shortcutsNav: 'Shortcuts',
   quickAssistantNav: 'Quick Assistant',
-  selectionAssistantNav: 'Selection Assistant',
+  selectionAssistantNav: '划词助手',
   screenshotNav: 'Screenshot',
 }
 
@@ -82,8 +84,10 @@ export const zh: { [Key in SettingsKey]: string } = {
   localModelsNav: '本地模型',
   updateNav: '更新',
   channelsNav: 'Channels',
+  appearanceNav: '外观',
+  notificationsNav: '通知',
   shortcutsNav: '快捷键',
   quickAssistantNav: 'Quick Assistant',
-  selectionAssistantNav: 'Selection Assistant',
+  selectionAssistantNav: '划词助手',
   screenshotNav: '截图',
 }

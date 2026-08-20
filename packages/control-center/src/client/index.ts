@@ -66,6 +66,11 @@ import { SettingsRoot } from './SettingsRoot.tsx'
 import type { SettingsOnboardingStep, SettingsRootInjected, SettingsSectionRow } from './shell-contract.ts'
 import { CloseLabel, HeaderContent, TriggerContent } from './chrome.tsx'
 import { GeneralSection } from './GeneralSection.tsx'
+import { AppearanceSection } from './AppearanceSection.tsx'
+import type { AppearanceSectionInjected } from './AppearanceSection.tsx'
+import { NotificationSection } from './NotificationSection.tsx'
+import { ShortcutSection } from './ShortcutSection.tsx'
+import { SelectionAssistantSection } from './SelectionAssistantSection.tsx'
 import { SettingsDocumentAction } from './SettingsDocumentAction.tsx'
 import type { SettingsDocumentActionInjected } from './SettingsDocumentAction.tsx'
 import { refreshDocumentIfLoaded, SettingsDocumentStore } from './settings-document-store.ts'
@@ -99,7 +104,7 @@ function groupOf(id: string): SettingsSectionRow['group'] {
   if (id === 'models') return 'core'
   if (id === 'general') return 'personal'
   if (id === 'skills' || id === 'providers' || id === 'mcp' || id === 'websearch' || id === 'file-processing' || id === 'ocr') return 'capabilities'
-  if (id === 'usage' || id === 'data') return 'personal'
+  if (id === 'usage' || id === 'data' || id === 'appearance' || id === 'notifications') return 'personal'
   if (id === 'about' || id === 'dependencies') return 'system'
   if (id === 'tasks' || id === 'shortcuts' || id === 'quick-assistant' || id === 'selection-assistant' || id === 'screenshot' || id === 'channels') return 'automation'
   if (id === 'local-models' || id === 'update') return 'system'
@@ -598,6 +603,19 @@ export function apply(ctx: ClientContext): void {
   }, DataSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
+    id: 'appearance',
+    order: 85,
+    label: () => shellT('appearanceNav'),
+    inject: (): AppearanceSectionInjected => ({ api: connection.api }),
+  }, AppearanceSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'notifications',
+    order: 86,
+    label: () => shellT('notificationsNav'),
+  }, NotificationSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
     id: 'dependencies',
     order: 90,
     label: () => shellT('dependenciesNav'),
@@ -661,27 +679,31 @@ export function apply(ctx: ClientContext): void {
       hooks: { updateReady: updateReadySource },
     }),
   }, UpdateSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'shortcuts',
+    order: 220,
+    label: () => shellT('shortcutsNav'),
+  }, ShortcutSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'selection-assistant',
+    order: 240,
+    label: () => shellT('selectionAssistantNav'),
+  }, SelectionAssistantSection))
   const gated: ReadonlyArray<{ id: string; order: number; label: string; props: Omit<CapabilityGateSectionProps, 'title' | 'description'> }> = [
     { id: 'channels', order: 210, label: shellT('channelsNav'), props: {
       supported: ['会话消息推送', '通知类计划任务'],
       unavailable: ['Webhook/Channel 绑定（需要桌面伴生进程）'],
       note: 'Web 版不附带独立伴生程序；Channel 绑定与消息推送需要桌面环境支持。',
     } },
-    { id: 'shortcuts', order: 220, label: shellT('shortcutsNav'), props: {
-      supported: ['设置面板内快捷键（Esc 关闭等）'],
-      unavailable: ['全局快捷键（需要操作系统级注册）'],
-      note: '浏览器无法注册系统级全局快捷键；应用内快捷键正常工作。',
-    } },
+
     { id: 'quick-assistant', order: 230, label: shellT('quickAssistantNav'), props: {
       supported: ['计划任务触发的通知动作'],
       unavailable: ['全局唤起 Quick Assistant（需要桌面伴生进程）'],
       note: 'Quick Assistant 的全局唤起依赖系统级热键与悬浮窗，Web 版不可用。',
     } },
-    { id: 'selection-assistant', order: 240, label: shellT('selectionAssistantNav'), props: {
-      supported: ['复制文本后手动翻译/检索'],
-      unavailable: ['选中文本自动唤起（需要系统级事件监听）'],
-      note: 'Selection Assistant 依赖操作系统选中事件，浏览器无法拦截。',
-    } },
+
     { id: 'screenshot', order: 250, label: shellT('screenshotNav'), props: {
       supported: ['文件导入（图片/文档）到知识库与 OCR'],
       unavailable: ['屏幕截图（需要桌面截屏能力）'],

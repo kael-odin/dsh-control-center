@@ -36,6 +36,8 @@ export declare const en: {
     localModelsNav: string;
     updateNav: string;
     channelsNav: string;
+    appearanceNav: string;
+    notificationsNav: string;
     shortcutsNav: string;
     quickAssistantNav: string;
     selectionAssistantNav: string;

@@ -1,0 +1,173 @@
+/* Appearance settings page styles (Cherry theme selector / color row / fonts). */
+.groupHeader {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.themeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.themeOption {
+  min-width: 0;
+  padding: 0 0 6px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--foreground);
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+}
+
+.previewFrame {
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--background-subtle);
+  padding: 6px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.themeOption:hover .previewFrame {
+  border-color: var(--border-strong);
+}
+
+.themePreviewActive .previewFrame {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 20%, transparent);
+}
+
+.themeLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.colorRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.swatch:hover {
+  opacity: 0.8;
+}
+
+.swatchActive {
+  border-color: var(--border-strong);
+  box-shadow: 0 0 0 2px var(--background), 0 0 0 3px var(--border-strong);
+}
+
+.nativePicker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--background);
+  cursor: pointer;
+}
+
+.nativePicker input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.nativeSwatch {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.hexInput {
+  width: 96px;
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.hexInput:focus {
+  border-color: var(--ring);
+}
+
+.staticValue {
+  color: var(--muted-foreground);
+  font-size: 13px;
+}
+
+.fontSelect {
+  height: 32px;
+  min-width: 200px;
+  max-width: 260px;
+  padding: 0 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  outline: none;
+}
+
+.fontSelect:focus {
+  border-color: var(--ring);
+}
+
+.cssEditor {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 180px;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--muted) 30%, transparent);
+  color: var(--foreground);
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  resize: vertical;
+  outline: none;
+}
+
+.cssEditor:focus {
+  border-color: var(--ring);
+}
