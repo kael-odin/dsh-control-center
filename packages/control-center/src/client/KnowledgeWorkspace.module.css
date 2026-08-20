@@ -991,3 +991,24 @@
   font-size: 13px;
   line-height: 1.7;
 }
+
+/* Create-dialog select: clear control look (not 2% transparent). */
+.dialogSelect {
+  background: var(--background);
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  cursor: pointer;
+}
+
+.dialogSliderRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dialogFieldRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}

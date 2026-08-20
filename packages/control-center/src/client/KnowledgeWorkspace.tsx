@@ -123,6 +123,11 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
   const [baseDescription, setBaseDescription] = useState('')
   const [embeddingOptions, setEmbeddingOptions] = useState<Array<{ value: string; label: string; provider?: string; model?: string }>>([])
   const [embeddingChoice, setEmbeddingChoice] = useState('local-hash')
+  const [draftTopK, setDraftTopK] = useState(8)
+  const [draftChunkSize, setDraftChunkSize] = useState(600)
+  const [draftChunkOverlap, setDraftChunkOverlap] = useState(60)
+  const [draftStrategy, setDraftStrategy] = useState<'structured' | 'delimiter'>('structured')
+  const [draftSeparators, setDraftSeparators] = useState('')
   const [noteName, setNoteName] = useState('')
   const [noteBody, setNoteBody] = useState('')
   const [urlText, setUrlText] = useState('')
@@ -155,11 +160,13 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
     if (!knowledgeReady || knowledge === undefined) return
     refreshBases()
     void listModels().then(groups => {
+      // Cherry's embedding picker only shows embedding-capable models.
       const options: Array<{ value: string; label: string; provider?: string; model?: string }> = [
         { value: 'local-hash', label: '本地 Hash Embedding（离线可用）' },
       ]
       for (const group of groups) {
         for (const model of group.models) {
+          if (!/(embed|bge|m3e|gte|e5)/i.test(model.name)) continue
           options.push({
             value: `${group.id}/${model.id}`,
             label: `${group.name} · ${model.name}`,
@@ -200,6 +207,15 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
       ...(embeddingModel === undefined ? {} : { embeddingModel }),
     })
     if (!result.ok) { setError(result.error.message); return }
+    // Apply the RAG tuning chosen at creation time (Cherry create dialog parity).
+    const configResult = await knowledge.setBaseConfig(result.value.id, {
+      chunkSize: Math.min(8000, Math.max(100, Math.trunc(draftChunkSize))),
+      chunkOverlap: Math.min(4000, Math.max(0, Math.trunc(draftChunkOverlap))),
+      topK: Math.min(50, Math.max(1, Math.trunc(draftTopK))),
+      strategy: draftStrategy,
+      separators: draftSeparators.slice(0, 200),
+    })
+    if (!configResult.ok) { setError(configResult.error.message); return }
     setBaseName('')
     setBaseDescription('')
     setCreateOpen(false)
@@ -435,6 +451,7 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
                     onClick={() => { setConfigOpen(true) }}
                   >
                     <IconSlidersHorizontal size={14} />
+                    <span>知识库设置</span>
                   </button>
                   <button type="button" className={css.ghostButton} title="返回对话" onClick={close}>
                     <IconChevronLeftOutline14 size={16} />
@@ -773,7 +790,7 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
               <label htmlFor="cc-kb-embedding">嵌入模型</label>
               <select
                 id="cc-kb-embedding"
-                className={css.dialogInput}
+                className={`${css.dialogInput} ${css.dialogSelect}`}
                 value={embeddingChoice}
                 onChange={event => { setEmbeddingChoice(event.target.value) }}
               >
@@ -782,6 +799,74 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
                 ))}
               </select>
               <div className={css.dialogHint}>{embeddingChoice === 'local-hash' ? '离线可用，无需配置' : '将使用所选模型的 embeddings 接口；索引与检索均走该模型'}</div>
+            </div>
+            <div className={css.dialogField}>
+              <label htmlFor="cc-kb-topk">Top K</label>
+              <div className={css.dialogSliderRow}>
+                <input
+                  type="range"
+                  className={css.ragSlider}
+                  min={1}
+                  max={50}
+                  value={draftTopK}
+                  onChange={event => { setDraftTopK(Number(event.target.value)) }}
+                />
+                <input
+                  type="number"
+                  className={css.ragNumber}
+                  min={1}
+                  max={50}
+                  value={draftTopK}
+                  onChange={event => { setDraftTopK(Math.min(50, Math.max(1, Number(event.target.value) || 1))) }}
+                />
+              </div>
+            </div>
+            <div className={css.dialogField}>
+              <label htmlFor="cc-kb-chunk-size">分段大小（tokens）</label>
+              <input
+                id="cc-kb-chunk-size"
+                type="number"
+                className={css.dialogInput}
+                min={100}
+                max={8000}
+                step={50}
+                value={draftChunkSize}
+                onChange={event => { setDraftChunkSize(Math.min(8000, Math.max(100, Number(event.target.value) || 100))) }}
+              />
+            </div>
+            <div className={css.dialogField}>
+              <label htmlFor="cc-kb-overlap">重叠大小（tokens）</label>
+              <input
+                id="cc-kb-overlap"
+                type="number"
+                className={css.dialogInput}
+                min={0}
+                max={4000}
+                step={10}
+                value={draftChunkOverlap}
+                onChange={event => { setDraftChunkOverlap(Math.min(4000, Math.max(0, Number(event.target.value) || 0))) }}
+              />
+            </div>
+            <div className={css.dialogField}>
+              <label htmlFor="cc-kb-separators">分隔符（\n 表示换行，留空使用默认段落分隔）</label>
+              <input
+                id="cc-kb-separators"
+                className={css.dialogInput}
+                value={draftSeparators}
+                onChange={event => { setDraftSeparators(event.target.value.slice(0, 200)) }}
+                placeholder={'\\n\\n'}
+              />
+            </div>
+            <div className={css.dialogField}>
+              <div className={css.dialogFieldRow}>
+                <span className={css.ragLabel}>智能分段</span>
+                <Switch
+                  checked={draftStrategy === 'structured'}
+                  onChange={next => { setDraftStrategy(next ? 'structured' : 'delimiter') }}
+                  label="智能分段"
+                />
+              </div>
+              <div className={css.dialogHint}>分块设置的修改只针对新添加的内容有效</div>
             </div>
             <div className={css.dialogActions}>
               <button type="button" className={css.btn} onClick={() => { setCreateOpen(false) }}>取消</button>
