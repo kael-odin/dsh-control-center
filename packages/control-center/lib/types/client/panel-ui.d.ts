@@ -50,6 +50,11 @@ export interface PanelShellProps {
     bodyClassName?: string | undefined;
 } /** Floating right side panel (Cherry PageSidePanel geometry). */
 export declare function PanelShell({ title, onClose, children, headerExtra, bodyClassName }: PanelShellProps): import("react").JSX.Element;
+/** Cherry HelpTooltip: circled question mark revealing an explanation bubble. */
+export declare function HelpTooltip({ text, label }: {
+    text: string;
+    label?: string;
+}): import("react").JSX.Element;
 /** Copy-to-clipboard with transient check feedback. */
 export declare function useCopy(): {
     copied: boolean;

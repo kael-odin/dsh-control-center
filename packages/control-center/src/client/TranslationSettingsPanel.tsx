@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { TranslationLanguage } from '../translation-types.ts'
 import css from './TranslationWorkspace.module.css'
 import { IconArrowLeftRight, IconPenLine, IconPlus, IconTrash2 } from './cherry-icons.tsx'
-import { IconButton, PanelShell, Segmented, Switch } from './panel-ui.tsx'
+import { HelpTooltip, IconButton, PanelShell, Segmented, Switch } from './panel-ui.tsx'
 
 export interface TranslationSettingsState {
   markdown: boolean
@@ -123,14 +123,14 @@ export function TranslationSettingsPanel(props: TranslationSettingsPanelProps) {
         </div>
         <div className={css.settingRow}>
           <div>
-            <div className={css.settingLabel}>自动检测方法</div>
-            <div className={css.settingHint}>自动检测输入语言时使用的方法</div>
+            <div className={css.settingLabel}>自动检测方法 <HelpTooltip text="自动检测输入语言时使用的方法" /></div>
+            <div className={css.settingHint}>算法：本地轻量识别，零消耗；LLM：调用当前翻译模型识别，更准确</div>
           </div>
           <Segmented
             options={[
               { value: 'auto', label: '自动' },
-              { value: 'algo', label: '算法', disabled: true },
-              { value: 'llm', label: 'LLM', disabled: true },
+              { value: 'algo', label: '算法' },
+              { value: 'llm', label: 'LLM' },
             ]}
             value={settings.detectMethod}
             onChange={next => { onChange({ detectMethod: next }) }}
@@ -138,7 +138,7 @@ export function TranslationSettingsPanel(props: TranslationSettingsPanelProps) {
         </div>
         <div className={css.settingRow}>
           <div>
-            <div className={css.settingLabel}>双向翻译设置</div>
+            <div className={css.settingLabel}>双向翻译设置 <HelpTooltip text="开启后，仅支持在源语言和目标语言之间进行双向翻译" /></div>
             <div className={css.settingHint}>开启后，仅支持在源语言和目标语言之间进行双向翻译</div>
           </div>
           <Switch checked={settings.bidirectional} onChange={next => { onChange({ bidirectional: next }) }} label="双向翻译设置" />
@@ -172,7 +172,7 @@ export function TranslationSettingsPanel(props: TranslationSettingsPanelProps) {
 
         <div>
           <div className={css.sectionTitle}>
-            <span>翻译提示词</span>
+            <span>翻译提示词 <HelpTooltip text="自定义翻译指令；留空时使用内置提示词，会附加源语言与目标语言指令" /></span>
             {promptDirty && (
               <button type="button" className={css.resetLink} onClick={resetPrompt}>重置</button>
             )}

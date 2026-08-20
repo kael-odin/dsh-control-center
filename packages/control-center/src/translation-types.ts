@@ -79,6 +79,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
       /** Current custom translation prompt override (empty = built-in prompt). */
       getPrompt(): Promise<{ ok: true; value: string } | { ok: false; error: { code: string; message: string; details: object } }>
       setPrompt(prompt: string): Promise<{ ok: true; value: { saved: true } } | { ok: false; error: { code: string; message: string; details: object } }>
+      detectLanguage(text: string, selection: TranslationModelSelection): Promise<{ ok: true; value: { language: string | null } } | { ok: false; error: { code: string; message: string; details: object } }>
       languages(): Promise<{ ok: true; value: TranslationLanguagesView } | { ok: false; error: { code: string; message: string; details: object } }>
       putLanguage(id: string, label: string): Promise<{ ok: true; value: TranslationLanguage } | { ok: false; error: { code: string; message: string; details: object } }>
       deleteLanguage(id: string): Promise<{ ok: true; value: { absent: true } } | { ok: false; error: { code: string; message: string; details: object } }>

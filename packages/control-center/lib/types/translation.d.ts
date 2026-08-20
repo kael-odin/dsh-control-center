@@ -1,6 +1,6 @@
 import { Service } from '@deepseek-ai/cordis';
 import type { Context } from '@deepseek-ai/cordis';
-import type { TranslationHistoryId, TranslationHistoryItem, TranslationHistoryPage, TranslationJobView, TranslationLanguage, TranslationLanguagesView, TranslationRequest, TranslationStartResult } from './translation-types.ts';
+import type { TranslationHistoryId, TranslationHistoryItem, TranslationHistoryPage, TranslationJobView, TranslationLanguage, TranslationLanguagesView, TranslationModelSelection, TranslationRequest, TranslationStartResult } from './translation-types.ts';
 export interface TranslationServiceConfig {
     logger?: Context['logger'];
 }
@@ -39,6 +39,10 @@ export declare class TranslationService extends Service {
     getPrompt(): string;
     setPrompt(prompt: string): Promise<{
         saved: true;
+    }>;
+    /** One-shot language detection via the selected model (LLM detection method). */
+    detectLanguage(text: string, selection: TranslationModelSelection): Promise<{
+        language: string | null;
     }>;
     languages(): TranslationLanguagesView;
     putLanguage(id: string, label: string): TranslationLanguage;

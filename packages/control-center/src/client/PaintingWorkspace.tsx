@@ -187,7 +187,7 @@ export function PaintingWorkspace({ getPainting, usePaintingReady, close }: Pain
     })
   }, [])
 
-  const showShowcase = current.historyId === null && current.images.length === 0 && attachments.length === 0 && !running && job === null
+  const showShowcase = current.images.length === 0 && attachments.length === 0 && !running && job === null
 
   if (!paintingReady) {
     return <main className=" cc-surface"><p role="status" style={{ padding: 24 }}>正在连接绘画服务…</p></main>

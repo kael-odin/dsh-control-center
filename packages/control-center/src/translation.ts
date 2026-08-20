@@ -7,7 +7,7 @@ import Schema from '@deepseek-ai/schemastery'
 import { bindTypertRemote, Remote } from '@deepseek-ai/dsh-typert-protocol'
 import type {
   TranslationHistoryId, TranslationHistoryItem, TranslationHistoryPage, TranslationJobView,
-  TranslationLanguage, TranslationLanguagesView, TranslationRequest, TranslationStartResult,
+  TranslationLanguage, TranslationLanguagesView, TranslationModelSelection, TranslationRequest, TranslationStartResult,
 } from './translation-types.ts'
 
 const MAX_TEXT_CHARS = 100_000
@@ -97,6 +97,7 @@ function markTranslationRemoteMethods(service: TranslationService): void {
     ['putLanguage', 'putLanguage'], ['deleteLanguage', 'deleteLanguage'],
     ['starHistory', 'starHistory'], ['clearHistory', 'clearHistory'],
     ['getPrompt', 'getPrompt'], ['setPrompt', 'setPrompt'],
+    ['detectLanguage', 'detectLanguage'],
   ] as const) {
     const implementation = Reflect.get(TranslationService.prototype, method) as (this: TranslationService, ...args: never[]) => unknown
     const decorator = Remote(exportName)
@@ -237,6 +238,37 @@ export class TranslationService extends Service {
       await this.scope.update({ prompt: resolved })
     }
     return { saved: true }
+  }
+
+  /** One-shot language detection via the selected model (LLM detection method). */
+  async detectLanguage(text: string, selection: TranslationModelSelection): Promise<{ language: string | null }> {
+    const sample = (typeof text === 'string' ? text : '').slice(0, 4_000)
+    if (sample.trim().length === 0) return { language: null }
+    const llm = this.llm
+    const callConfig = {
+      provider: selection.provider,
+      model: selection.model,
+      ...(selection.reasoningEffort === undefined ? {} : { reasoningEffort: ReasoningEffortId(selection.reasoningEffort) }),
+    }
+    const prepared = await llm.prepareCall(callConfig, new AbortController().signal)
+    const message = createUserMessage({
+      source: { kind: 'user' },
+      content: [{ type: 'text', text: `Detect the language of the following text. Reply with ONLY a language code from this list: zh-CN, zh-TW, en, ja, ko, fr, de, es, it, pt, ru, ar, hi, th, vi, id, tr, nl, pl, uk. If unsure reply auto.
+
+${sample}` }],
+    })
+    let output = ''
+    for await (const chunk of prepared.stream({
+      ...prepared.config,
+      messages: [message],
+      system: 'You are a language detection helper. Reply with a single language code.',
+      signal: new AbortController().signal,
+    })) {
+      if (chunk.type === 'text-delta') output += chunk.text
+    }
+    const code = output.trim().toLowerCase().match(/[a-z]{2,3}(-[a-z]{2,3})?/)?.[0]
+    if (code === undefined || code === 'auto') return { language: null }
+    return { language: code }
   }
 
   languages(): TranslationLanguagesView {

@@ -50,6 +50,10 @@ const translationRemote = {
 			parameters: ["prompt"]
 		},
 		{
+			method: "detectLanguage",
+			parameters: ["text", "selection"]
+		},
+		{
 			method: "languages",
 			parameters: []
 		},

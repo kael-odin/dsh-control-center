@@ -1,4 +1,4 @@
-import { n as STRICT_JSON, t as translationRemote } from "./translation-remote-client-DPBgRDh5.js";
+import { n as STRICT_JSON, t as translationRemote } from "./translation-remote-client-DuSXw1eU.js";
 import { t as paintingRemote } from "./painting-remote-client-X1tWq7oF.js";
 import { t as knowledgeRemote } from "./knowledge-remote-client-z0vloa3L.js";
 import { createRequire } from "node:module";
@@ -197,7 +197,8 @@ function markTranslationRemoteMethods(service) {
 		["starHistory", "starHistory"],
 		["clearHistory", "clearHistory"],
 		["getPrompt", "getPrompt"],
-		["setPrompt", "setPrompt"]
+		["setPrompt", "setPrompt"],
+		["detectLanguage", "detectLanguage"]
 	]) {
 		const implementation = Reflect.get(TranslationService.prototype, method);
 		Remote(exportName)(implementation, {
@@ -321,6 +322,37 @@ var TranslationService = class extends Service {
 		if (this.scope === null) this.promptOverride = resolved;
 		else await this.scope.update({ prompt: resolved });
 		return { saved: true };
+	}
+	/** One-shot language detection via the selected model (LLM detection method). */
+	async detectLanguage(text, selection) {
+		const sample = (typeof text === "string" ? text : "").slice(0, 4e3);
+		if (sample.trim().length === 0) return { language: null };
+		const llm = this.llm;
+		const callConfig = {
+			provider: selection.provider,
+			model: selection.model,
+			...selection.reasoningEffort === void 0 ? {} : { reasoningEffort: ReasoningEffortId(selection.reasoningEffort) }
+		};
+		const prepared = await llm.prepareCall(callConfig, new AbortController().signal);
+		const message = createUserMessage({
+			source: { kind: "user" },
+			content: [{
+				type: "text",
+				text: `Detect the language of the following text. Reply with ONLY a language code from this list: zh-CN, zh-TW, en, ja, ko, fr, de, es, it, pt, ru, ar, hi, th, vi, id, tr, nl, pl, uk. If unsure reply auto.
+
+${sample}`
+			}]
+		});
+		let output = "";
+		for await (const chunk of prepared.stream({
+			...prepared.config,
+			messages: [message],
+			system: "You are a language detection helper. Reply with a single language code.",
+			signal: new AbortController().signal
+		})) if (chunk.type === "text-delta") output += chunk.text;
+		const code = output.trim().toLowerCase().match(/[a-z]{2,3}(-[a-z]{2,3})?/)?.[0];
+		if (code === void 0 || code === "auto") return { language: null };
+		return { language: code };
 	}
 	languages() {
 		const custom = [...this.customLanguages.values()].sort((left, right) => left.label.localeCompare(right.label));
@@ -1220,14 +1252,18 @@ var KnowledgeService = class extends Service {
 		if (!columns.has("chunk_size")) this.db.exec("ALTER TABLE knowledge_bases ADD COLUMN chunk_size INTEGER NOT NULL DEFAULT 600");
 		if (!columns.has("chunk_overlap")) this.db.exec("ALTER TABLE knowledge_bases ADD COLUMN chunk_overlap INTEGER NOT NULL DEFAULT 60");
 		if (!columns.has("top_k")) this.db.exec("ALTER TABLE knowledge_bases ADD COLUMN top_k INTEGER NOT NULL DEFAULT 8");
+		if (!columns.has("chunk_strategy")) this.db.exec("ALTER TABLE knowledge_bases ADD COLUMN chunk_strategy TEXT NOT NULL DEFAULT 'structured'");
+		if (!columns.has("chunk_separators")) this.db.exec("ALTER TABLE knowledge_bases ADD COLUMN chunk_separators TEXT NOT NULL DEFAULT ''");
 	}
 	baseConfigOf(baseId) {
-		const row = this.db.prepare("SELECT chunk_size, chunk_overlap, top_k FROM knowledge_bases WHERE id = ?").get(baseId);
+		const row = this.db.prepare("SELECT chunk_size, chunk_overlap, top_k, chunk_strategy, chunk_separators FROM knowledge_bases WHERE id = ?").get(baseId);
 		if (row === void 0) throw new Error(`knowledge base "${baseId}" does not exist`);
 		return {
 			chunkSize: row.chunk_size,
 			chunkOverlap: row.chunk_overlap,
-			topK: row.top_k
+			topK: row.top_k,
+			strategy: row.chunk_strategy === "delimiter" ? "delimiter" : "structured",
+			separators: row.chunk_separators
 		};
 	}
 	getBaseConfig(baseId) {
@@ -1238,11 +1274,15 @@ var KnowledgeService = class extends Service {
 		const chunkSize = Math.min(8e3, Math.max(100, Math.trunc(config.chunkSize)));
 		const chunkOverlap = Math.min(4e3, Math.max(0, Math.trunc(config.chunkOverlap)));
 		const topK = Math.min(MAX_TOP_K, Math.max(1, Math.trunc(config.topK)));
-		this.db.prepare("UPDATE knowledge_bases SET chunk_size = ?, chunk_overlap = ?, top_k = ?, updated_at = ? WHERE id = ?").run(chunkSize, chunkOverlap, topK, now(), baseId);
+		const strategy = config.strategy === "delimiter" ? "delimiter" : "structured";
+		const separators = typeof config.separators === "string" ? config.separators.slice(0, 200) : "";
+		this.db.prepare("UPDATE knowledge_bases SET chunk_size = ?, chunk_overlap = ?, top_k = ?, chunk_strategy = ?, chunk_separators = ?, updated_at = ? WHERE id = ?").run(chunkSize, chunkOverlap, topK, strategy, separators, now(), baseId);
 		return {
 			chunkSize,
 			chunkOverlap,
-			topK
+			topK,
+			strategy,
+			separators
 		};
 	}
 	baseFromRow(row, sourceCount, chunkCount) {
@@ -1520,7 +1560,8 @@ var KnowledgeService = class extends Service {
 			const chunks = splitTextWithOffsets(source.content, {
 				chunkSize: chunkConfig.chunkSize,
 				chunkOverlap: chunkConfig.chunkOverlap,
-				strategy: "structured"
+				strategy: chunkConfig.strategy,
+				...chunkConfig.separators.trim().length === 0 ? {} : { separator: chunkConfig.separators.replace(/\n/g, String.fromCharCode(10)) }
 			});
 			pending.push({
 				source,

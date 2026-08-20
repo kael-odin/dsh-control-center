@@ -165,6 +165,19 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
+            detectLanguage(text: string, selection: TranslationModelSelection): Promise<{
+                ok: true;
+                value: {
+                    language: string | null;
+                };
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
             languages(): Promise<{
                 ok: true;
                 value: TranslationLanguagesView;

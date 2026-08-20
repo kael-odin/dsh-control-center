@@ -128,6 +128,30 @@ export function PanelShell({ title, onClose, children, headerExtra, bodyClassNam
   )
 }
 
+/** Cherry HelpTooltip: circled question mark revealing an explanation bubble. */
+export function HelpTooltip({ text, label }: { text: string; label?: string }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <span
+      className={css.helpWrap}
+      onMouseEnter={() => { setOpen(true) }}
+      onMouseLeave={() => { setOpen(false) }}
+    >
+      <span
+        className={css.helpIcon}
+        role="img"
+        aria-label={label ?? '帮助'}
+        tabIndex={0}
+        onFocus={() => { setOpen(true) }}
+        onBlur={() => { setOpen(false) }}
+      >
+        ?
+      </span>
+      {open && <span className={css.helpBubble}>{text}</span>}
+    </span>
+  )
+}
+
 /** Copy-to-clipboard with transient check feedback. */
 export function useCopy(): { copied: boolean; copy: (text: string) => void } {
   const [copied, setCopied] = useState(false)

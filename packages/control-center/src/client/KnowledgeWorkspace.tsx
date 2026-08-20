@@ -17,7 +17,7 @@ import {
   IconCircleAlert, IconCopy, IconFileText, IconFlaskConical, IconFolder, IconLink2,
   IconMoreHorizontal, IconPlus, IconRefreshCw, IconSlidersHorizontal, IconStickyNote, IconZap,
 } from './cherry-icons.tsx'
-import { ConfirmDialog, PanelShell, useCopy } from './panel-ui.tsx'
+import { ConfirmDialog, PanelShell, Switch, useCopy } from './panel-ui.tsx'
 
 export interface KnowledgeWorkspaceInjected {
   getKnowledge: () => NonNullable<ClientRemote['controlCenterKnowledge']>
@@ -296,7 +296,12 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, close }: K
 
   const saveConfig = async (): Promise<void> => {
     if (knowledge === undefined || selectedId === '' || configDraft === null) return
-    const result = await knowledge.setBaseConfig(selectedId, configDraft)
+    const result = await knowledge.setBaseConfig(selectedId, {
+      ...configDraft,
+      chunkSize: Math.min(8000, Math.max(100, Math.trunc(configDraft.chunkSize))),
+      chunkOverlap: Math.min(4000, Math.max(0, Math.trunc(configDraft.chunkOverlap))),
+      topK: Math.min(50, Math.max(1, Math.trunc(configDraft.topK))),
+    })
     if (!result.ok) { setError(result.error.message); return }
     setConfig(result.value)
     setConfigDraft(result.value)
@@ -544,12 +549,20 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, close }: K
         <PanelShell title="知识库设置" onClose={() => { setConfigOpen(false) }}>
           <div className={css.ragBody}>
             <div className={css.ragSection}>
+              <div className={css.ragTitle}>文档处理</div>
+              <div className={css.ragReadonly}>未配置（DSH 原生文本解析）</div>
+            </div>
+            <div className={css.ragSection}>
               <div className={css.ragTitle}>嵌入模型</div>
               <div className={css.ragReadonly}>
                 {selected?.embedding.providerId === 'local-hash'
                   ? '本地 Hash Embedding（离线可用）'
                   : `${selected?.embedding.providerId ?? ''} · ${selected?.embedding.model ?? ''}`}
               </div>
+            </div>
+            <div className={css.ragSection}>
+              <div className={css.ragTitle}>重排模型</div>
+              <div className={css.ragReadonly}>不使用</div>
             </div>
             <div className={css.ragSection}>
               <div className={css.ragTitle}>Top K</div>
@@ -578,6 +591,24 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, close }: K
             </div>
             <div className={css.ragSection}>
               <div className={css.ragTitle}>高级设置</div>
+              <div className={css.ragFieldRow}>
+                <span className={css.ragLabel}>智能分段</span>
+                <Switch
+                  checked={configDraft.strategy === 'structured'}
+                  onChange={next => { setConfigDraft(current => current === null ? current : { ...current, strategy: next ? 'structured' : 'delimiter' }) }}
+                  label="智能分段"
+                />
+              </div>
+              <div className={css.ragField}>
+                <label className={css.ragLabel} htmlFor="cc-rag-separators">分隔符（\n 表示换行，留空使用默认段落分隔）</label>
+                <input
+                  id="cc-rag-separators"
+                  className={css.ragNumberFull}
+                  value={configDraft.separators}
+                  onChange={event => { setConfigDraft(current => current === null ? current : { ...current, separators: event.target.value.slice(0, 200) }) }}
+                  placeholder={"\n\n"}
+                />
+              </div>
               <div className={css.ragField}>
                 <label className={css.ragLabel} htmlFor="cc-rag-chunk-size">分段大小（tokens）</label>
                 <input
@@ -617,7 +648,7 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, close }: K
             <button
               type="button"
               className={css.btn}
-              disabled={config === null || (configDraft.chunkSize === config.chunkSize && configDraft.chunkOverlap === config.chunkOverlap && configDraft.topK === config.topK)}
+              disabled={config === null || (configDraft.chunkSize === config.chunkSize && configDraft.chunkOverlap === config.chunkOverlap && configDraft.topK === config.topK && configDraft.strategy === config.strategy && configDraft.separators === config.separators)}
               onClick={() => { setConfigDraft(config) }}
             >
               恢复默认

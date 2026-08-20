@@ -89,6 +89,8 @@
 }
 
 .searchIcon {
+  width: 16px;
+  height: 16px;
   flex: none;
   color: var(--foreground-tertiary);
 }

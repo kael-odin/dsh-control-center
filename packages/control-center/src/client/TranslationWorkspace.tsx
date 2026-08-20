@@ -67,6 +67,39 @@ function languageEmojiOf(id: string): string {
   return LANGUAGE_EMOJIS[id] ?? '🌐'
 }
 
+/** Local script-based language detection for the 算法 method (zero cost). */
+function detectLanguageHeuristic(text: string): string | null {
+  const sample = text.slice(0, 3000)
+  let han = 0
+  let kana = 0
+  let hangul = 0
+  let cyrillic = 0
+  let latin = 0
+  let arabic = 0
+  let thai = 0
+  for (const ch of sample) {
+    const code = ch.codePointAt(0) ?? 0
+    if (code >= 0x4e00 && code <= 0x9fff) han++
+    else if (code >= 0x3040 && code <= 0x30ff) kana++
+    else if (code >= 0xac00 && code <= 0xd7af) hangul++
+    else if (code >= 0x0400 && code <= 0x04ff) cyrillic++
+    else if (code >= 0x0600 && code <= 0x06ff) arabic++
+    else if (code >= 0x0e00 && code <= 0x0e7f) thai++
+    else if (/[a-zA-Z]/.test(ch)) latin++
+  }
+  const total = han + kana + hangul + cyrillic + latin + arabic + thai
+  if (total === 0) return null
+  const ratio = (n: number): number => n / total
+  if (ratio(han) > 0.5 && ratio(kana) < 0.2) return 'zh-CN'
+  if (ratio(kana) > 0.3) return 'ja'
+  if (ratio(hangul) > 0.5) return 'ko'
+  if (ratio(cyrillic) > 0.5) return 'ru'
+  if (ratio(arabic) > 0.5) return 'ar'
+  if (ratio(thai) > 0.5) return 'th'
+  if (ratio(latin) > 0.8) return 'en'
+  return null
+}
+
 function loadSettings(): TranslationSettingsState {
   try {
     const raw = localStorage.getItem(PREFS_KEY)
@@ -197,7 +230,17 @@ export function TranslationWorkspace({ getTranslation, listModels, useTranslatio
   const translate = useCallback(async (): Promise<void> => {
     if (selection === null || input.trim() === '' || running) return
     setError(null)
-    const result = await translation!.start({ sourceLanguage, targetLanguage, text: input, selection })
+    let source = sourceLanguage
+    if (source === 'auto' && settings.detectMethod !== 'auto') {
+      if (settings.detectMethod === 'algo') {
+        const detected = detectLanguageHeuristic(input)
+        if (detected !== null) source = detected
+      } else {
+        const detection = await translation!.detectLanguage(input, selection)
+        if (detection.ok && detection.value.language !== null) source = detection.value.language
+      }
+    }
+    const result = await translation!.start({ sourceLanguage: source, targetLanguage, text: input, selection })
     if (!result.ok) { setError(result.error.message); return }
     const view = await translation!.get(result.value.jobId)
     if (!view.ok) { setError(view.error.message); return }
@@ -419,7 +462,7 @@ export function TranslationWorkspace({ getTranslation, listModels, useTranslatio
             />
           </div>
           <div className={css.paneCorner}>
-            <button type="button" className={css.smallIconBtn} title="复制" disabled={input.length === 0} onClick={() => { copyInput(input) }}>
+            <button type="button" className={`${css.smallIconBtn} ${input.length === 0 ? css.smallIconBtnEmpty : ''}`} title="复制" onClick={() => { if (input.length > 0) copyInput(input) }}>
               {copiedInput ? <IconCheckOutline16 size={14} /> : <IconCopyOutline16 size={14} />}
             </button>
           </div>
@@ -449,7 +492,7 @@ export function TranslationWorkspace({ getTranslation, listModels, useTranslatio
             )}
           </div>
           <div className={css.paneCorner}>
-            <button type="button" className={css.smallIconBtn} title="复制" disabled={output.length === 0} onClick={() => { copyOutput(output) }}>
+            <button type="button" className={`${css.smallIconBtn} ${output.length === 0 ? css.smallIconBtnEmpty : ''}`} title="复制" onClick={() => { if (output.length > 0) copyOutput(output) }}>
               {copiedOutput ? <IconCheckOutline16 size={14} /> : <IconCopyOutline16 size={14} />}
             </button>
           </div>

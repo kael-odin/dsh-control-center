@@ -1280,3 +1280,16 @@
     left: 8px;
   }
 }
+
+/* Portal-rendered popover: fixed, viewport-adapted, never clipped. */
+.portalPanel {
+  max-height: 60vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--popover);
+  color: var(--popover-foreground);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+}

@@ -10,6 +10,7 @@ const methods: ReadonlyArray<{ method: string; implementation?: string; paramete
   { method: 'clearHistory', parameters: [] },
   { method: 'getPrompt', parameters: [] },
   { method: 'setPrompt', parameters: ['prompt'] },
+  { method: 'detectLanguage', parameters: ['text', 'selection'] },
   { method: 'languages', parameters: [] },
   { method: 'putLanguage', parameters: ['id', 'label'] },
   { method: 'deleteLanguage', parameters: ['id'] },

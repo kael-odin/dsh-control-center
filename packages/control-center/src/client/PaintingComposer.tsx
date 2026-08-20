@@ -4,6 +4,7 @@
  * prompt library), send/pause.
  */
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { IconChevronDownOutline14, IconPauseOutline16, IconPlusOutline16, IconSendOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
 
 import css from './PaintingWorkspace.module.css'
@@ -51,6 +52,34 @@ export interface PaintingComposerProps {
 
 const PROMPTS_KEY = 'cc.painting.prompts'
 
+/** Viewport-adaptive fixed positioning for portal popovers (never clipped). */
+function anchoredStyle(rect: DOMRect, height: number, alignRight = false): React.CSSProperties {
+  const width = Math.max(rect.width, 240)
+  const upward = rect.top > height + 16
+  const base: React.CSSProperties = { position: 'fixed', zIndex: 300, width }
+  if (alignRight) {
+    base.right = window.innerWidth - rect.right
+    base.left = undefined
+  } else {
+    base.left = rect.left
+  }
+  if (upward) {
+    base.bottom = window.innerHeight - rect.top + 8
+  } else {
+    base.top = rect.bottom + 8
+  }
+  return base
+}
+
+function useAnchor(open: boolean): { ref: React.RefObject<HTMLButtonElement>; rect: DOMRect | null } {
+  const ref = useRef<HTMLButtonElement>(null)
+  const [rect, setRect] = useState<DOMRect | null>(null)
+  useEffect(() => {
+    if (open && ref.current !== null) setRect(ref.current.getBoundingClientRect())
+  }, [open])
+  return { ref, rect }
+}
+
 export function loadPaintingPrompts(): PaintingPromptEntry[] {
   try {
     const raw = localStorage.getItem(PROMPTS_KEY)
@@ -96,6 +125,9 @@ export function PaintingComposer(props: PaintingComposerProps) {
   const [paramsOpen, setParamsOpen] = useState(false)
   const [quickOpen, setQuickOpen] = useState(false)
   const [libOpen, setLibOpen] = useState(false)
+  const paramsAnchor = useAnchor(paramsOpen)
+  const quickAnchor = useAnchor(quickOpen)
+  const libAnchor = useAnchor(libOpen)
   const [addingPrompt, setAddingPrompt] = useState(false)
   const [formTitle, setFormTitle] = useState('')
   const [formContent, setFormContent] = useState('')
@@ -179,6 +211,7 @@ export function PaintingComposer(props: PaintingComposerProps) {
 
           <div style={{ position: 'relative' }}>
             <button
+              ref={paramsAnchor.ref}
               type="button"
               className={`${css.pillButton} ${css.muted}`}
               aria-label={`设置: ${paramsSummary(params)}`}
@@ -187,8 +220,8 @@ export function PaintingComposer(props: PaintingComposerProps) {
               <IconSettings2 size={14} />
               <span className={css.pillSummary}>{paramsSummary(params)}</span>
             </button>
-            {paramsOpen && (
-              <div className={css.paramsPopover}>
+            {paramsOpen && paramsAnchor.rect !== null && createPortal(
+              <div className={css.portalPanel} style={anchoredStyle(paramsAnchor.rect, 330)}>
                 <div className={css.paramsField}>
                   <div className={css.paramsFieldTitle}><span>背景</span></div>
                   <div className={css.paramsSelectWrap}>
@@ -266,12 +299,14 @@ export function PaintingComposer(props: PaintingComposerProps) {
                     ))}
                   </div>
                 </div>
-              </div>
+              </div>,
+              document.body,
             )}
           </div>
 
           <div style={{ position: 'relative' }}>
             <button
+              ref={quickAnchor.ref}
               type="button"
               className={css.roundButton}
               title="输入快捷面板"
@@ -279,8 +314,8 @@ export function PaintingComposer(props: PaintingComposerProps) {
             >
               <IconPlusOutline16 size={18} />
             </button>
-            {quickOpen && (
-              <div className={css.quickPanel}>
+            {quickOpen && quickAnchor.rect !== null && createPortal(
+              <div className={css.portalPanel} style={anchoredStyle(quickAnchor.rect, 140)}>
                 <button
                   type="button"
                   className={css.quickItem}
@@ -298,10 +333,11 @@ export function PaintingComposer(props: PaintingComposerProps) {
                   <span className={css.quickItemLabel}>提示词管理</span>
                   <IconMoreHorizontal size={12} className={css.quickItemIcon} />
                 </button>
-              </div>
+              </div>,
+              document.body,
             )}
-            {libOpen && (
-              <div className={css.promptLib}>
+            {libOpen && libAnchor.rect !== null && createPortal(
+              <div className={css.portalPanel} style={anchoredStyle(libAnchor.rect, 260, true)}>
                 <div className={css.promptLibList}>
                   {prompts.length === 0
                     ? <div className={css.promptLibEmpty}>暂无提示词</div>
@@ -328,7 +364,8 @@ export function PaintingComposer(props: PaintingComposerProps) {
                     <span className={css.quickItemLabel}>添加提示词...</span>
                   </button>
                 </div>
-              </div>
+              </div>,
+              document.body,
             )}
           </div>
         </div>

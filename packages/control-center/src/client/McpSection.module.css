@@ -32,6 +32,8 @@
 }
 
 .searchIcon {
+  width: 16px;
+  height: 16px;
   position: absolute;
   left: 10px;
   top: 50%;
@@ -670,6 +672,8 @@
 }
 
 .emptyIcon {
+  width: 64px;
+  height: 64px;
   color: var(--foreground-tertiary);
 }
 

@@ -15,6 +15,12 @@ export interface KnowledgeBaseConfig {
   chunkOverlap: number
   /** Default Top K for recall. */
   topK: number
+  /** 智能分段: structured paragraph-aware vs plain separator/length splitting. */
+  strategy: 'structured' | 'delimiter'
+  /** Separator used in plain mode (newline-escaped); empty = default 
+
+. */
+  separators: string
 }
 
 export interface KnowledgeEmbeddingConfig {

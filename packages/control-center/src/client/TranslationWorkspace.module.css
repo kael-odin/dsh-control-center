@@ -1259,3 +1259,62 @@
   width: 26px;
   height: 26px;
 }
+
+/* Cherry HelpTooltip: circled ? with hover bubble. */
+.helpWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  margin-left: 2px;
+}
+
+.helpIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  color: var(--foreground-tertiary);
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: help;
+  user-select: none;
+}
+
+.helpIcon:hover, .helpIcon:focus-visible {
+  color: var(--foreground);
+  border-color: var(--foreground);
+  outline: none;
+}
+
+.helpBubble {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 6px);
+  z-index: 200;
+  max-width: 240px;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--popover);
+  color: var(--popover-foreground);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+  font-size: 12px;
+  line-height: 1.6;
+  white-space: normal;
+  pointer-events: none;
+}
+
+/* Copy button without content: clickable but visually muted (no not-allowed). */
+.smallIconBtnEmpty {
+  opacity: 0.35;
+}
+
+.smallIconBtnEmpty:hover {
+  opacity: 1;
+}

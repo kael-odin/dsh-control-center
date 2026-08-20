@@ -203,13 +203,25 @@ export class KnowledgeService extends Service {
     if (!columns.has('top_k')) {
       this.db.exec('ALTER TABLE knowledge_bases ADD COLUMN top_k INTEGER NOT NULL DEFAULT 8')
     }
+    if (!columns.has('chunk_strategy')) {
+      this.db.exec("ALTER TABLE knowledge_bases ADD COLUMN chunk_strategy TEXT NOT NULL DEFAULT 'structured'")
+    }
+    if (!columns.has('chunk_separators')) {
+      this.db.exec("ALTER TABLE knowledge_bases ADD COLUMN chunk_separators TEXT NOT NULL DEFAULT ''")
+    }
   }
 
   private baseConfigOf(baseId: string): KnowledgeBaseConfig {
-    const row = this.db.prepare('SELECT chunk_size, chunk_overlap, top_k FROM knowledge_bases WHERE id = ?').get(baseId) as
-      { chunk_size: number; chunk_overlap: number; top_k: number } | undefined
+    const row = this.db.prepare('SELECT chunk_size, chunk_overlap, top_k, chunk_strategy, chunk_separators FROM knowledge_bases WHERE id = ?').get(baseId) as
+      { chunk_size: number; chunk_overlap: number; top_k: number; chunk_strategy: string; chunk_separators: string } | undefined
     if (row === undefined) throw new Error(`knowledge base "${baseId}" does not exist`)
-    return { chunkSize: row.chunk_size, chunkOverlap: row.chunk_overlap, topK: row.top_k }
+    return {
+      chunkSize: row.chunk_size,
+      chunkOverlap: row.chunk_overlap,
+      topK: row.top_k,
+      strategy: row.chunk_strategy === 'delimiter' ? 'delimiter' : 'structured',
+      separators: row.chunk_separators,
+    }
   }
 
   getBaseConfig(baseId: string): KnowledgeBaseConfig {
@@ -221,10 +233,12 @@ export class KnowledgeService extends Service {
     const chunkSize = Math.min(8_000, Math.max(100, Math.trunc(config.chunkSize)))
     const chunkOverlap = Math.min(4_000, Math.max(0, Math.trunc(config.chunkOverlap)))
     const topK = Math.min(MAX_TOP_K, Math.max(1, Math.trunc(config.topK)))
+    const strategy = config.strategy === 'delimiter' ? 'delimiter' : 'structured'
+    const separators = typeof config.separators === 'string' ? config.separators.slice(0, 200) : ''
     this.db.prepare(
-      'UPDATE knowledge_bases SET chunk_size = ?, chunk_overlap = ?, top_k = ?, updated_at = ? WHERE id = ?',
-    ).run(chunkSize, chunkOverlap, topK, now(), baseId)
-    return { chunkSize, chunkOverlap, topK }
+      'UPDATE knowledge_bases SET chunk_size = ?, chunk_overlap = ?, top_k = ?, chunk_strategy = ?, chunk_separators = ?, updated_at = ? WHERE id = ?',
+    ).run(chunkSize, chunkOverlap, topK, strategy, separators, now(), baseId)
+    return { chunkSize, chunkOverlap, topK, strategy, separators }
   }
 
   private baseFromRow(row: BaseRow, sourceCount: number, chunkCount: number): KnowledgeBaseView {
@@ -558,7 +572,10 @@ export class KnowledgeService extends Service {
       const chunks = splitTextWithOffsets(source.content, {
         chunkSize: chunkConfig.chunkSize,
         chunkOverlap: chunkConfig.chunkOverlap,
-        strategy: 'structured',
+        strategy: chunkConfig.strategy,
+        ...(chunkConfig.separators.trim().length === 0
+          ? {}
+          : { separator: chunkConfig.separators.replace(/\n/g, String.fromCharCode(10)) }),
       })
       pending.push({ source, chunks: chunks.map((chunk, position) => ({ position, text: chunk.text, tokens: estimateTokenCount(chunk.text) })) })
     }
