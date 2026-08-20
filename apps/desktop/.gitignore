@@ -4,3 +4,6 @@
 release/
 # Bundled Node.js runtime (downloaded, not committed).
 vendor/node/
+# Materialized harness output / smoke temp.
+.materialize-tmp/
+.materialize-test/

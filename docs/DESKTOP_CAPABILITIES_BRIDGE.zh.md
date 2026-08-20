@@ -69,12 +69,16 @@ renderer (DSH surface 页面)
   用户级安装），静默安装 → exe `--e2e`（surface + 桥 + 托盘 + 全局快捷键）→ 卸载器彻底移除，全程验证。
 - **内置 node 已落地**：`vendor/node`（node 24，ABI 与 harness 匹配）经 `extraResources` 打进
   `resources/vendor/node`；`startSelfHost` 优先用内置 node —— **自启免系统 node**（dev + packed 均验证）。
-- **完全自包含（免 `DSH_HARNESS_DIR`）受阻 — harness 物化**：首次物化器
-  `apps/desktop/scripts/materialize-harness.mjs`（`fs.cpSync dereference:true`）在 harness 的**循环
-  pnpm-store 符号链接**（如 `cordis ↔ cordis-plugin-include`）上实测 **ELOOP** 失败。正确物化需要
-  **循环感知物化器**（参照 `deepseek-harness-desktop/scripts/materialize3.js`），且整树物化体积数百 MB。
-  这是后续发布架构项（需专门的物化器实现/复用，并评估体积），当前以"内置 node + 复用本机 harness"
-  形态为可用发行基线。
+- **完全自包含（免 `DSH_HARNESS_DIR`）— harness 物化**：
+  - v1（`fs.cpSync dereference:true`）在 harness 循环 pnpm-store 符号链接（`cordis ↔
+    cordis-plugin-include`）上实测 **ELOOP**。
+  - **v2（循环感知 DFS 物化器，`scripts/materialize-harness.mjs`）已验证可行**：realpath 栈防环 +
+    已物化 target 复用（物化树内相对链接）。`tests/materialize-smoke.mjs`（`pnpm probe:materialize`）
+    断言 exit=0 + `danglingLinks=0` 通过。
+  - **体积实测（大）**：仅 `.pnpm` 虚拟商店（926 包）物化 → 约 109s、1.5 万目录 / 12 万文件、数百 MB
+    （磁盘 quota 放宽但不小）。完整 harness 物化 + 打包含整树会更大（~1GB 级安装包）。
+  - **剩余**：全量物化、`DSH_HARNESS_DIR` 指向物化树 + 打包含 1GB 安装包 + 自包含安装验证。这是后续
+    发布架构项（需大体积打包策略），当前以"内置 node + 复用本机 harness"为可用发行基线。
 
 - `probe:hostinmain`（B0 门禁）已验证 host 的 app-boot trunk 可在 harness resolver 下**准备 profile**
   （`HOST_IN_MAIN=OK`），并验证 host 可在当前进程真·boot loopback surface（编译版
