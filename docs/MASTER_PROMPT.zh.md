@@ -24,12 +24,12 @@
 - 结构：`packages/control-center/src/`（host 服务）与 `.../client/`（UI）；`packages/bundle/`（安装包）；wire 三层：`*-types.ts`（类型图）+ `*-remote-client.ts`（**客户端描述符才是代理方法面的真相**）+ host 服务 `markRemoteMethods`
 - 真实模型测试 key：DeepSeek `https://api.deepseek.com/v1`（OpenAI 兼容）/ `https://api.deepseek.com/anthropic`，模型 `deepseek-v4-flash`
 
-## 四、已完成（当前基线 HEAD 9538467）
+## 四、已完成（当前基线 HEAD 59f9d89）
 
 - **翻译工作区**：Cherry 全页布局（语言 Combobox 带搜索/emoji、交换钮、emerald 翻译按钮、ModelSelector 带服务商头像分组+配置自定义模型跳转、历史/设置浮动面板、拖入或点击上传 6 格式图标、Cherry 内置提示词模板 {{text}}/{{target_language}}、自动检测 自动/算法/LLM 三模式真实生效、HelpTooltip 问号）
 - **绘画工作区**：68px 会话轨道、25 个 Cherry 模板轮盘（固定尺寸确定性布局+像素间距层叠）、参数弹层（背景/生成数量/质量/尺寸 chips，portal 视口自适应）、+号快捷面板（上传附件/提示词管理/管理对话框）、Artboard 工具栏、生成骨架屏
 - **知识库工作区**：250px 导航（新建/重命名/删除）、两行 header（标题+召回测试+齿轮 / 更新于 X 前+添加数据源）、空态四卡片（文件/笔记/目录/链接）、数据源表格（类型彩色图标/状态徽章/行菜单）、召回测试抽屉、设置抽屉（文档处理/嵌入模型可编辑/重排模型/TopK/高级设置折叠：智能分段+分隔符+分段大小 1024+重叠 200+提示）、添加后自动索引（幂等）
-- **设置**：Cherry 外壳（250px 导航分组+lucide 图标）、API 提供商（56 预设+搜索创建）、用量统计（真实 token 记录+指标条+热力图+分布图+请求表）、MCP/Skills/网络搜索/文档处理/OCR/通用/数据/计划任务/系统/本地模型/更新
+- **设置**：Cherry 外壳（250px 导航分组+lucide 图标）、API 提供商（56 预设+搜索创建）、用量统计（真实 token 记录+指标条+热力图+分布图+请求表）、MCP/Skills/网络搜索/文档处理/OCR/通用/数据/计划任务/系统/本地模型/更新；**快捷键页预置与分组已按 Cherry COMMAND_DEFINITIONS 逐条对齐（23 条 / 全局10·会话4·对话5·助手4，缺窗口显示/缩放 4 条已补，桌面标签诚实标注）**；**外观页显示组拆分为独立行并对齐 Cherry 文案（缩放/右键菜单样式/透明窗口）**
 - **代码仓库工作区已按用户要求整体移除**
 
 ## 五、待办（按用户明确顺序）

@@ -204,7 +204,17 @@ export function AppearanceSection({ api }: AppearanceSectionProps) {
         </SettingRow>
         <SettingDivider />
         <SettingRow>
-          <SettingRowTitle>缩放 / 右键菜单样式 / 透明窗口</SettingRowTitle>
+          <SettingRowTitle>缩放 <span className={css.desktopTag}>桌面</span></SettingRowTitle>
+          <span className={css.staticValue}>需要桌面版</span>
+        </SettingRow>
+        <SettingDivider />
+        <SettingRow>
+          <SettingRowTitle>右键菜单样式 <span className={css.desktopTag}>桌面</span></SettingRowTitle>
+          <span className={css.staticValue}>需要桌面版</span>
+        </SettingRow>
+        <SettingDivider />
+        <SettingRow>
+          <SettingRowTitle>透明窗口 <span className={css.desktopTag}>桌面</span></SettingRowTitle>
           <span className={css.staticValue}>需要桌面版</span>
         </SettingRow>
       </SettingGroup>

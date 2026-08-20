@@ -29,16 +29,16 @@ export const SHORTCUT_GROUPS: ReadonlyArray<{ id: ShortcutEntry['group']; label:
 ]
 
 export const DEFAULT_SHORTCUTS: readonly ShortcutEntry[] = [
+  // Order mirrors Cherry COMMAND_DEFINITIONS so each group lists entries in Cherry's order.
   { id: 'app.fullscreen.exit', label: '退出全屏', group: 'general', defaultBinding: 'Escape', editable: false, applicable: false },
-  { id: 'app.settings.open', label: '打开设置', group: 'general', defaultBinding: 'Ctrl+,', editable: false, applicable: true, onTrigger: openSettings },
   { id: 'app.search', label: '搜索消息', group: 'general', defaultBinding: 'Ctrl+Shift+F', editable: true, applicable: false },
   { id: 'app.print', label: '打印', group: 'general', defaultBinding: 'Ctrl+P', editable: true, applicable: false },
-  { id: 'tab.next', label: '下一个标签页', group: 'general', defaultBinding: 'Ctrl+Tab', editable: true, applicable: false },
-  { id: 'tab.prev', label: '上一个标签页', group: 'general', defaultBinding: 'Ctrl+Shift+Tab', editable: true, applicable: false },
-  { id: 'topic.create', label: '新建对话', group: 'topic', defaultBinding: 'Ctrl+N', editable: true, applicable: false },
-  { id: 'topic.rename', label: '重命名对话', group: 'topic', defaultBinding: 'Ctrl+T', editable: true, applicable: false },
   { id: 'app.sidebar.toggle', label: '切换左侧边栏', group: 'topic', defaultBinding: 'Ctrl+[', editable: true, applicable: false },
-  { id: 'topic.sidebar.toggle', label: '切换右侧边栏', group: 'topic', defaultBinding: 'Ctrl+]', editable: true, applicable: false },
+  { id: 'app.settings.open', label: '打开设置', group: 'general', defaultBinding: 'Ctrl+,', editable: false, applicable: true, onTrigger: openSettings },
+  { id: 'app.window.show', label: '显示 / 隐藏应用', group: 'general', defaultBinding: '', editable: true, applicable: false },
+  { id: 'app.zoom.in', label: '放大界面', group: 'general', defaultBinding: 'Ctrl+=', editable: false, applicable: false },
+  { id: 'app.zoom.out', label: '缩小界面', group: 'general', defaultBinding: 'Ctrl+-', editable: false, applicable: false },
+  { id: 'app.zoom.reset', label: '重置缩放', group: 'general', defaultBinding: 'Ctrl+0', editable: false, applicable: false },
   { id: 'chat.context.toggle_new', label: '清除上下文', group: 'chat', defaultBinding: 'Ctrl+K', editable: true, applicable: false },
   { id: 'chat.message.copy_last', label: '复制上一条消息', group: 'chat', defaultBinding: 'Ctrl+Shift+C', editable: true, applicable: false },
   { id: 'chat.message.edit_last_user', label: '编辑最后一条用户消息', group: 'chat', defaultBinding: 'Ctrl+Shift+E', editable: true, applicable: false },
@@ -48,6 +48,11 @@ export const DEFAULT_SHORTCUTS: readonly ShortcutEntry[] = [
   { id: 'selection.capture_text', label: '划词助手：取词', group: 'assistant', defaultBinding: '', editable: true, applicable: false },
   { id: 'selection.toggle', label: '开关划词助手', group: 'assistant', defaultBinding: '', editable: true, applicable: false },
   { id: 'screenshot.capture', label: '屏幕截图', group: 'assistant', defaultBinding: 'Ctrl+Shift+A', editable: true, applicable: false },
+  { id: 'topic.create', label: '新建对话', group: 'topic', defaultBinding: 'Ctrl+N', editable: true, applicable: false },
+  { id: 'topic.rename', label: '重命名对话', group: 'topic', defaultBinding: 'Ctrl+T', editable: true, applicable: false },
+  { id: 'topic.sidebar.toggle', label: '切换右侧边栏', group: 'topic', defaultBinding: 'Ctrl+]', editable: true, applicable: false },
+  { id: 'tab.next', label: '下一个标签页', group: 'general', defaultBinding: 'Ctrl+Tab', editable: true, applicable: false },
+  { id: 'tab.prev', label: '上一个标签页', group: 'general', defaultBinding: 'Ctrl+Shift+Tab', editable: true, applicable: false },
 ]
 
 function openSettings(): void {
