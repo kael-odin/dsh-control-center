@@ -83,11 +83,17 @@ smoke PASS(self-host)
 - `pnpm pack:dir` — 产出未安装目录 `release/win-unpacked/DSH Control Center.exe`（快速冒烟用，不生成安装器）。
 - `pnpm pack:win` — 产出 Windows NSIS 安装器（需要证书/下载 nsis + winCodeSign，CI 或发布时用）。
 - 配置在 `electron-builder.json`：appId、productName=DSH Control Center、win(`build/icon.png` 品牌图标)/mac/linux
-  的 `--dir` 目标、`files` 只收 `bin/**` + `package.json`（asar 打包主进程）。
+  的 `--dir` 目标、`files` 只收 `bin/**` + `build/**` + `package.json`（asar 打包主进程 + 托盘图标）。
 - 打包冒烟：`pnpm smoke:packed` spawn 打包后的 exe `--e2e`，断言 `SURFACE_LOADED` + `CONTROL_CENTER_ATTACHED=true`。
+- 正式安装器：`pnpm pack:win` 产出 `release/DSH Control Center Setup 0.1.0.exe`（NSIS，93MB，用户级安装）。
+  已本地验证：静默安装到 `%LOCALAPPDATA%\Programs\@dsh-control-centerdesktop` → exe `--e2e` 冒烟
+  （surface + NATIVE_BRIDGE=REACHED + tray/hotkeyRegistered:true）；卸载器静默卸载彻底移除目录。
 
-> `build/icon.png` 是 ffmpeg 生成的**过渡品牌图标**（纯品牌绿），正式设计后替换；代码签名留作发布前接入。
-> 发行还会涉及随应用内置匹配版本的 node（自启 host 现依赖系统 node，见上文已知边界）。
+> `build/icon.png` 是 ffmpeg 生成的**过渡品牌图标**（纯品牌绿），正式设计后替换；代码签名需要受信证书
+> （当前 signtool 走未签名 → Windows SmartScreen 提示未知发布者，可"仍要运行"）。**分布边界**：当前正式
+> 安装包是"复用本机已有 `deepseek-harness` 的开发/已有环境发行"——自启 host 依赖 `DSH_HARNESS_DIR`
+> （默认 `D:\Github_Open\deepseek-harness`）与系统 node（`DSH_DESKTOP_NODE`）。要做**完全自包含**
+> （随安装内置匹配 ABI 的 node + 物化 harness）是更大的发布架构项，见 `docs/DESKTOP_CAPABILITIES_BRIDGE.zh.md`。
 
 ## 原生能力桥（main 原生微服务）
 
