@@ -12,7 +12,8 @@
   "asar": true,
   "npmRebuild": false,
   "win": {
-    "target": ["dir"]
+    "target": ["dir"],
+    "icon": "build/icon.png"
   },
   "mac": {
     "target": ["dir"],

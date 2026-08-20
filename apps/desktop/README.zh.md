@@ -82,12 +82,19 @@ smoke PASS(self-host)
 
 - `pnpm pack:dir` — 产出未安装目录 `release/win-unpacked/DSH Control Center.exe`（快速冒烟用，不生成安装器）。
 - `pnpm pack:win` — 产出 Windows NSIS 安装器（需要证书/下载 nsis + winCodeSign，CI 或发布时用）。
-- 配置在 `electron-builder.json`：appId、productName=DSH Control Center、win/mac/linux 的 `--dir` 目标、
-  `files` 只收 `bin/**` + `package.json`（asar 打包主进程）。
+- 配置在 `electron-builder.json`：appId、productName=DSH Control Center、win(`build/icon.png` 品牌图标)/mac/linux
+  的 `--dir` 目标、`files` 只收 `bin/**` + `package.json`（asar 打包主进程）。
 - 打包冒烟：`pnpm smoke:packed` spawn 打包后的 exe `--e2e`，断言 `SURFACE_LOADED` + `CONTROL_CENTER_ATTACHED=true`。
 
-> 当前用默认 Electron 图标；品牌图标（`build/icon.ico`）与代码签名留作发布前接入。发行还会涉及随应用
-> 内置匹配版本的 node（自启 host 现依赖系统 node，见上文已知边界）。
+> `build/icon.png` 是 ffmpeg 生成的**过渡品牌图标**（纯品牌绿），正式设计后替换；代码签名留作发布前接入。
+> 发行还会涉及随应用内置匹配版本的 node（自启 host 现依赖系统 node，见上文已知边界）。
+
+## 原生能力桥（B0 门禁）
+
+`pnpm probe:hostinmain` 验证 DSH Host 能在 Electron main 进程内挂载（profile-boot 准备 web profile）——
+这是把 Electron `dialog`/`Notification` 经 Host Cordis service 真实暴露给 renderer（能力桥）的基座。
+约束：探针须以 **cwd=harness** 启动（bare specifiers 需解析到 harness node_modules）。详见
+`docs/DESKTOP_CAPABILITIES_BRIDGE.zh.md`。
 
 ## 桌面环境探测
 

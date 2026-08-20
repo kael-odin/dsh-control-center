@@ -15,6 +15,7 @@
     "smoke": "node tests/smoke.mjs",
     "smoke:selfhost": "node tests/smoke.mjs --selfhost",
     "smoke:packed": "node tests/packed-smoke.mjs",
+    "probe:hostinmain": "node tests/host-in-main-probe.mjs",
     "pack:dir": "electron-builder --dir",
     "pack:win": "electron-builder --win nsis"
   },
