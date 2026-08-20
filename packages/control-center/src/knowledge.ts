@@ -22,7 +22,7 @@ import {
 import { resolveKey, resolveProvider } from './knowledge/provider-resolve.ts'
 import { markRemoteMethods } from './knowledge/remote-methods.ts'
 import type {
-  KnowledgeAddFileRequest, KnowledgeAddTextRequest, KnowledgeAddUrlRequest,
+  KnowledgeAddDirectoryRequest, KnowledgeAddFileRequest, KnowledgeAddTextRequest, KnowledgeAddUrlRequest,
   KnowledgeBaseView, KnowledgeChunkView, KnowledgeCreateBaseRequest, KnowledgeEmbeddingConfig,
   KnowledgeIndexResult, KnowledgeRetrievalHit, KnowledgeRetrievalResult, KnowledgeRetrieveRequest,
   KnowledgeSourceKind, KnowledgeSourceView,
@@ -31,6 +31,8 @@ import type {
 const MAX_TEXT_CHARS = 200_000
 const MAX_URL_CHARS = 2_000_000
 const MAX_FILE_CHARS = 5_000_000
+const MAX_DIRECTORY_FILES = 500
+const MAX_DIRECTORY_BYTES = 20 * 1024 * 1024
 const MAX_BASE_NAME = 200
 const DEFAULT_CHUNK_SIZE = 600
 const DEFAULT_CHUNK_OVERLAP = 60
@@ -175,7 +177,8 @@ export class KnowledgeService extends Service {
     this.registerTool()
     markRemoteMethods(this, [
       ['listBases', 'listBases'], ['createBase', 'createBase'], ['getBase', 'getBase'], ['deleteBase', 'deleteBase'],
-      ['addText', 'addText'], ['addUrl', 'addUrl'], ['addFile', 'addFile'],
+      ['renameBase', 'renameBase'],
+      ['addText', 'addText'], ['addUrl', 'addUrl'], ['addFile', 'addFile'], ['addDirectory', 'addDirectory'],
       ['listSources', 'listSources'], ['deleteSource', 'deleteSource'],
       ['indexBase', 'indexBase'], ['listChunks', 'listChunks'], ['retrieve', 'retrieve'],
     ])
@@ -331,6 +334,15 @@ export class KnowledgeService extends Service {
     return { absent: true }
   }
 
+  renameBase(baseId: string, name: string): KnowledgeBaseView {
+    this.requireBase(baseId)
+    const resolved = assertName(name)
+    this.db.prepare('UPDATE knowledge_bases SET name = ?, updated_at = ? WHERE id = ?').run(resolved, now(), baseId)
+    const base = this.requireBase(baseId)
+    const counts = this.counts(baseId)
+    return this.baseFromRow(base, counts.sources, counts.chunks)
+  }
+
   // --- sources ---
 
   private insertSource(input: {
@@ -380,6 +392,41 @@ export class KnowledgeService extends Service {
       if (isAbort(error)) throw new Error('url fetch timed out')
       throw error
     }
+  }
+
+  addDirectory(request: KnowledgeAddDirectoryRequest): KnowledgeSourceView {
+    const baseId = assertBaseId(request.baseId)
+    const name = assertName(request.name)
+    const files = Array.isArray(request.files) ? request.files : []
+    if (files.length === 0) throw new Error('directory import requires at least one file')
+    if (files.length > MAX_DIRECTORY_FILES) throw new Error(`directory import exceeds ${MAX_DIRECTORY_FILES} files`)
+    const parts: string[] = []
+    let totalBytes = 0
+    for (const file of files) {
+      const fileName = assertName(file.name)
+      const mediaType = typeof file.mediaType === 'string' ? file.mediaType.toLowerCase() : ''
+      const mimeFamily = mediaType.split(';')[0]?.trim() ?? ''
+      if (!TEXT_MEDIA_TYPES.has(mimeFamily) && !mimeFamily.startsWith('text/')) {
+        throw new Error(`file type "${mimeFamily}" is not supported; text, markdown, HTML, CSV, JSON, and YAML sources are supported`)
+      }
+      if (typeof file.dataBase64 !== 'string' || file.dataBase64.length === 0) {
+        throw new Error(`directory file "${fileName}" has no data`)
+      }
+      const bytes = Buffer.from(file.dataBase64, 'base64')
+      totalBytes += bytes.byteLength
+      if (totalBytes > MAX_DIRECTORY_BYTES) throw new Error('directory import exceeds the supported total size')
+      parts.push(`# ${fileName}\n\n${bytes.toString('utf8')}`)
+    }
+    const content = parts.join('\n\n---\n\n')
+    if (content.length > MAX_TEXT_CHARS) throw new Error(`directory content exceeds ${MAX_TEXT_CHARS} characters`)
+    const id = `knowledge-source-${randomUUID()}`
+    const timestamp = now()
+    this.requireBase(baseId)
+    this.db.prepare(
+      'INSERT INTO knowledge_sources (id, base_id, kind, name, ref, content, status, error, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    ).run(id, baseId, 'directory', name, name, content, 'ready', null, timestamp, timestamp)
+    this.updateBaseStamp(baseId)
+    return this.sourceFromRow(this.requireSource(id), 0)
   }
 
   addFile(request: KnowledgeAddFileRequest): KnowledgeSourceView {

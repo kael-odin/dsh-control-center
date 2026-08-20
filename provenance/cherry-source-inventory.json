@@ -1,70 +1,127 @@
 {
-  "schemaVersion": 1,
-  "upstream": {
-    "project": "Cherry Studio",
-    "repository": "https://github.com/CherryHQ/cherry-studio",
-    "commit": "13687df354e9845c7e2b6d155eac6a9171f6a533",
-    "applicationVersion": "2.0.7",
-    "license": "AGPL-3.0-only"
+ "schemaVersion": 1,
+ "upstream": {
+  "project": "Cherry Studio",
+  "repository": "https://github.com/CherryHQ/cherry-studio",
+  "commit": "13687df354e9845c7e2b6d155eac6a9171f6a533",
+  "applicationVersion": "2.0.7",
+  "license": "AGPL-3.0-only"
+ },
+ "adaptedAt": "2026-08-18",
+ "files": [
+  {
+   "source": "src/renderer/pages/settings/SettingsPage.tsx",
+   "destinations": [
+    "packages/control-center/src/client/SettingsRoot.tsx",
+    "packages/control-center/src/client/SettingsRoot.module.css"
+   ],
+   "modifications": "Reimplemented the grouped two-column settings geometry on DSH slots, local active-section state, CSS Modules, semantic tokens, and DSH primitives; removed TanStack Router, Tailwind, window transparency, and Cherry component dependencies.",
+   "notice": "NOTICE",
+   "verified": true
   },
-  "adaptedAt": "2026-08-18",
-  "files": [
-    {
-      "source": "src/renderer/pages/settings/SettingsPage.tsx",
-      "destinations": [
-        "packages/control-center/src/client/SettingsRoot.tsx",
-        "packages/control-center/src/client/SettingsRoot.module.css"
-      ],
-      "modifications": "Reimplemented the grouped two-column settings geometry on DSH slots, local active-section state, CSS Modules, semantic tokens, and DSH primitives; removed TanStack Router, Tailwind, window transparency, and Cherry component dependencies.",
-      "notice": "NOTICE",
-      "verified": true
-    },
-    {
-      "source": "src/renderer/pages/settings/ProviderSettings/ProviderSettingsPage.tsx",
-      "destinations": [
-        "packages/control-center/src/client/ModelsSection.tsx",
-        "packages/control-center/src/client/ModelsSection.module.css"
-      ],
-      "modifications": "Adapted the provider-list/detail split to DSH's authoritative llm.providers, settings.describe, credentials.describe, and session APIs.",
-      "notice": "NOTICE",
-      "verified": true
-    },
-    {
-      "source": "src/renderer/pages/settings/ProviderSettings/ProviderList/ProviderList.tsx",
-      "destinations": [
-        "packages/control-center/src/client/ModelsSection.tsx"
-      ],
-      "modifications": "Adapted search, selection, add, configured state, and custom-provider presentation without Cherry Redux or Electron services.",
-      "notice": "NOTICE",
-      "verified": true
-    },
-    {
-      "source": "src/renderer/pages/settings/ProviderSettings/ProviderSetting.tsx",
-      "destinations": [
-        "packages/control-center/src/client/ProviderEditor.tsx",
-        "packages/control-center/src/client/ModelListEditor.tsx"
-      ],
-      "modifications": "Mapped visible provider and model controls to revision-fenced DSH settings operations, write-only credentials, and draft model discovery.",
-      "notice": "NOTICE",
-      "verified": true
-    },
-    {
-      "source": "src/renderer/pages/settings/ModelSettings/ModelSettings.tsx",
-      "destinations": [
-        "packages/control-center/src/client/ModelSelectionPanel.tsx"
-      ],
-      "modifications": "Separated future-session default selection from current-session selection while retaining DSH as the only model authority.",
-      "notice": "NOTICE",
-      "verified": true
-    },
-    {
-      "source": "src/main/features/knowledge/pipeline/indexing/splitter.ts",
-      "destinations": [
-        "packages/control-center/src/knowledge/splitter.ts"
-      ],
-      "modifications": "Preserved the structure-aware break scoring, code-fence guard, window decay, and the verbatim-slice invariant; replaced the tokenx estimator with the local estimateTokenCount and inlined KnowledgeChunkStrategy as ChunkStrategy.",
-      "notice": "NOTICE",
-      "verified": true
-    }
-  ]
+  {
+   "source": "src/renderer/pages/settings/ProviderSettings/ProviderSettingsPage.tsx",
+   "destinations": [
+    "packages/control-center/src/client/ModelsSection.tsx",
+    "packages/control-center/src/client/ModelsSection.module.css"
+   ],
+   "modifications": "Adapted the provider-list/detail split to DSH's authoritative llm.providers, settings.describe, credentials.describe, and session APIs.",
+   "notice": "NOTICE",
+   "verified": true
+  },
+  {
+   "source": "src/renderer/pages/settings/ProviderSettings/ProviderList/ProviderList.tsx",
+   "destinations": [
+    "packages/control-center/src/client/ModelsSection.tsx"
+   ],
+   "modifications": "Adapted search, selection, add, configured state, and custom-provider presentation without Cherry Redux or Electron services.",
+   "notice": "NOTICE",
+   "verified": true
+  },
+  {
+   "source": "src/renderer/pages/settings/ProviderSettings/ProviderSetting.tsx",
+   "destinations": [
+    "packages/control-center/src/client/ProviderEditor.tsx",
+    "packages/control-center/src/client/ModelListEditor.tsx"
+   ],
+   "modifications": "Mapped visible provider and model controls to revision-fenced DSH settings operations, write-only credentials, and draft model discovery.",
+   "notice": "NOTICE",
+   "verified": true
+  },
+  {
+   "source": "src/renderer/pages/settings/ModelSettings/ModelSettings.tsx",
+   "destinations": [
+    "packages/control-center/src/client/ModelSelectionPanel.tsx"
+   ],
+   "modifications": "Separated future-session default selection from current-session selection while retaining DSH as the only model authority.",
+   "notice": "NOTICE",
+   "verified": true
+  },
+  {
+   "source": "src/main/features/knowledge/pipeline/indexing/splitter.ts",
+   "destinations": [
+    "packages/control-center/src/knowledge/splitter.ts"
+   ],
+   "modifications": "Preserved the structure-aware break scoring, code-fence guard, window decay, and the verbatim-slice invariant; replaced the tokenx estimator with the local estimateTokenCount and inlined KnowledgeChunkStrategy as ChunkStrategy.",
+   "notice": "NOTICE",
+   "verified": true
+  },
+  {
+   "source": "src/renderer/pages/translate/TranslatePage.tsx",
+   "destinations": [
+    "packages/control-center/src/client/TranslationWorkspace.tsx",
+    "packages/control-center/src/client/TranslationWorkspace.module.css"
+   ],
+   "modifications": "Reimplemented the translate view geometry (toolbar p-3, grid-cols-2 panes, right-cluster toggles) on DSH services; native selects replace Cherry Comboboxes, emerald translate button kept, polling job view replaces Cherry streaming store.",
+   "notice": "NOTICE",
+   "verified": true
+  },
+  {
+   "source": "src/renderer/pages/translate/components/TranslateHistory.tsx",
+   "destinations": [
+    "packages/control-center/src/client/TranslationHistoryPanel.tsx"
+   ],
+   "modifications": "Adapted the list/detail history side panel (star filter, clear all, row hover star, chips, reuse/copy actions) with host starHistory/clearHistory wire methods.",
+   "notice": "NOTICE",
+   "verified": true
+  },
+  {
+   "source": "src/renderer/pages/translate/TranslateSettings.tsx",
+   "destinations": [
+    "packages/control-center/src/client/TranslationSettingsPanel.tsx"
+   ],
+   "modifications": "Adapted switches, detection segmented control, custom prompt (persisted via host settings namespace), and custom language CRUD; emoji picker omitted, algorithm/LLM detection stubbed.",
+   "notice": "NOTICE",
+   "verified": true
+  },
+  {
+   "source": "resources/data/painting-templates/catalog.json",
+   "destinations": [
+    "vendor/painting-templates/catalog.json",
+    "packages/control-center/src/client/painting-templates-data.ts"
+   ],
+   "modifications": "Copied catalog ids verbatim; preview images downscaled to 240px webp and embedded as data URIs (plugin route cannot serve static files).",
+   "notice": "NOTICE",
+   "verified": true
+  },
+  {
+   "source": "resources/data/painting-templates/locales/zh-cn.json",
+   "destinations": [
+    "vendor/painting-templates/zh-cn.json",
+    "packages/control-center/src/client/painting-templates-data.ts"
+   ],
+   "modifications": "Copied template labels/prompts verbatim (zh-CN).",
+   "notice": "NOTICE",
+   "verified": true
+  },
+  {
+   "source": "resources/data/painting-templates/images/*.webp",
+   "destinations": [
+    "vendor/painting-templates/images/"
+   ],
+   "modifications": "Copied verbatim as upstream source; the runtime previews are the downscaled data-URI versions.",
+   "notice": "NOTICE",
+   "verified": true
+  }
+ ]
 }

@@ -1,0 +1,116 @@
+{
+  "main": {
+    "tag": "MAIN",
+    "cls": "_-UrTq_root cc-surface",
+    "rect": {
+      "x": 280,
+      "y": 0,
+      "w": 1160,
+      "h": 900
+    },
+    "bg": "oklch(1 0 0)",
+    "color": "oklch(0.213 0 0)",
+    "font": "16px/normal",
+    "radius": "0px"
+  },
+  "mainText": "给你的下一幅杰作，留一个位置。\nY2K 街拍\n\n选择一个模板作为起点，再在下方把提示词改成你的表达。\n\ndeepseek-official · DeepSeek-V4-Flash\ndeepseek-official · DeepSeek-V4-Pro\nopencode-go · deepseek-v4-flash\n背景自动 · 1 · 质量自动 · 自动",
+  "bodyBg": "rgb(255, 255, 255)",
+  "buttons": [
+    {
+      "t": "",
+      "cls": "lKojsq_brand lKojsq_wide"
+    },
+    {
+      "t": "",
+      "cls": "lKojsq_iconButton lKojsq_toggle"
+    },
+    {
+      "t": "新会话",
+      "cls": "lKojsq_newSession"
+    },
+    {
+      "t": "",
+      "cls": "eSDWIq_searchButton"
+    },
+    {
+      "t": "",
+      "cls": "eSDWIq_iconButton eSDWIq_wide"
+    },
+    {
+      "t": "",
+      "cls": "eSDWIq_iconButton"
+    },
+    {
+      "t": "",
+      "cls": "epwvVW_iconButton"
+    },
+    {
+      "t": "",
+      "cls": "epwvVW_iconButton"
+    },
+    {
+      "t": "设置",
+      "cls": "_4STY0G_trigger"
+    },
+    {
+      "t": "",
+      "cls": "_-UrTq_backButton"
+    },
+    {
+      "t": "",
+      "cls": "_-UrTq_newButton"
+    },
+    {
+      "t": "",
+      "cls": "_-UrTq_carouselCard  "
+    },
+    {
+      "t": "",
+      "cls": "_-UrTq_carouselCard  "
+    },
+    {
+      "t": "Y2K 街拍",
+      "cls": "_-UrTq_carouselCard _-UrTq_selected "
+    },
+    {
+      "t": "",
+      "cls": "_-UrTq_carouselCard  "
+    },
+    {
+      "t": "",
+      "cls": "_-UrTq_carouselCard  "
+    },
+    {
+      "t": "",
+      "cls": "_-UrTq_addImageButton"
+    },
+    {
+      "t": "背景自动 · 1 · 质量自动 · 自动",
+      "cls": "_-UrTq_pillButton _-UrTq_muted"
+    },
+    {
+      "t": "",
+      "cls": "_-UrTq_roundButton"
+    },
+    {
+      "t": "",
+      "cls": "_-UrTq_sendButton"
+    },
+    {
+      "t": "翻译",
+      "cls": "UFuZ_q_item"
+    },
+    {
+      "t": "绘画",
+      "cls": "UFuZ_q_item"
+    },
+    {
+      "t": "知识库",
+      "cls": "UFuZ_q_item"
+    },
+    {
+      "t": "代码仓库",
+      "cls": "UFuZ_q_item"
+    }
+  ]
+}

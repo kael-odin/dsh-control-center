@@ -1,0 +1,80 @@
+{
+  "main": {
+    "tag": "MAIN",
+    "cls": "uHDY1a_root cc-surface",
+    "rect": {
+      "x": 280,
+      "y": 0,
+      "w": 1160,
+      "h": 900
+    },
+    "bg": "oklch(1 0 0)",
+    "color": "oklch(0.213 0 0)",
+    "font": "16px/normal",
+    "radius": "0px"
+  },
+  "mainText": "新建知识库\n暂无知识库\n点击上方「新建知识库」开始\n暂无知识库\n与 AI 一起积累知识\n创建知识库",
+  "bodyBg": "rgb(255, 255, 255)",
+  "buttons": [
+    {
+      "t": "",
+      "cls": "lKojsq_brand lKojsq_wide"
+    },
+    {
+      "t": "",
+      "cls": "lKojsq_iconButton lKojsq_toggle"
+    },
+    {
+      "t": "新会话",
+      "cls": "lKojsq_newSession"
+    },
+    {
+      "t": "",
+      "cls": "eSDWIq_searchButton"
+    },
+    {
+      "t": "",
+      "cls": "eSDWIq_iconButton eSDWIq_wide"
+    },
+    {
+      "t": "",
+      "cls": "eSDWIq_iconButton"
+    },
+    {
+      "t": "",
+      "cls": "epwvVW_iconButton"
+    },
+    {
+      "t": "",
+      "cls": "epwvVW_iconButton"
+    },
+    {
+      "t": "设置",
+      "cls": "_4STY0G_trigger"
+    },
+    {
+      "t": "新建知识库",
+      "cls": "uHDY1a_navCreate"
+    },
+    {
+      "t": "创建知识库",
+      "cls": "uHDY1a_btn uHDY1a_btnPrimary"
+    },
+    {
+      "t": "翻译",
+      "cls": "UFuZ_q_item"
+    },
+    {
+      "t": "绘画",
+      "cls": "UFuZ_q_item"
+    },
+    {
+      "t": "知识库",
+      "cls": "UFuZ_q_item"
+    },
+    {
+      "t": "代码仓库",
+      "cls": "UFuZ_q_item"
+    }
+  ]
+}

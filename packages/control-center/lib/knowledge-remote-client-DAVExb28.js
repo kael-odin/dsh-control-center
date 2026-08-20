@@ -29,6 +29,10 @@ const knowledgeRemote = {
 			parameters: ["baseId"]
 		},
 		{
+			method: "renameBase",
+			parameters: ["baseId", "name"]
+		},
+		{
 			method: "addText",
 			parameters: ["request"]
 		},
@@ -38,6 +42,10 @@ const knowledgeRemote = {
 		},
 		{
 			method: "addFile",
+			parameters: ["request"]
+		},
+		{
+			method: "addDirectory",
 			parameters: ["request"]
 		},
 		{

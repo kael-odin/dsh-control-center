@@ -2,7 +2,7 @@
 export type KnowledgeBaseId = string;
 export type KnowledgeSourceId = string;
 export type KnowledgeChunkId = string;
-export type KnowledgeSourceKind = 'text' | 'file' | 'url';
+export type KnowledgeSourceKind = 'text' | 'file' | 'directory' | 'url';
 /** Embedding mode actually used for a base: a configured provider route or the local hashing fallback. */
 export interface KnowledgeEmbeddingConfig {
     /** `local-hash` or a provider id configured in DSH settings. */
@@ -79,6 +79,18 @@ export interface KnowledgeAddFileRequest {
     /** Base64-encoded bytes; the Host writes them to the hosted data directory. */
     dataBase64: string;
     mediaType: string;
+}
+/** One file inside a directory import. */
+export interface KnowledgeDirectoryFile {
+    name: string;
+    dataBase64: string;
+    mediaType: string;
+}
+export interface KnowledgeAddDirectoryRequest {
+    baseId: KnowledgeBaseId;
+    /** Display name of the directory source. */
+    name: string;
+    files: KnowledgeDirectoryFile[];
 }
 export interface KnowledgeRetrieveRequest {
     baseId: KnowledgeBaseId;
@@ -169,6 +181,28 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
             addFile(request: KnowledgeAddFileRequest): Promise<{
                 ok: true;
                 value: KnowledgeSourceView;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            addDirectory(request: KnowledgeAddDirectoryRequest): Promise<{
+                ok: true;
+                value: KnowledgeSourceView;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            renameBase(baseId: KnowledgeBaseId, name: string): Promise<{
+                ok: true;
+                value: KnowledgeBaseView;
             } | {
                 ok: false;
                 error: {

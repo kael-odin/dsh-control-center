@@ -1,6 +1,6 @@
 import { Service } from '@deepseek-ai/cordis';
 import type { Context } from '@deepseek-ai/cordis';
-import type { KnowledgeAddFileRequest, KnowledgeAddTextRequest, KnowledgeAddUrlRequest, KnowledgeBaseView, KnowledgeChunkView, KnowledgeCreateBaseRequest, KnowledgeIndexResult, KnowledgeRetrievalResult, KnowledgeRetrieveRequest, KnowledgeSourceView } from './knowledge-types.ts';
+import type { KnowledgeAddDirectoryRequest, KnowledgeAddFileRequest, KnowledgeAddTextRequest, KnowledgeAddUrlRequest, KnowledgeBaseView, KnowledgeChunkView, KnowledgeCreateBaseRequest, KnowledgeIndexResult, KnowledgeRetrievalResult, KnowledgeRetrieveRequest, KnowledgeSourceView } from './knowledge-types.ts';
 export interface KnowledgeServiceOptions {
     /** Override the DSH home (tests). */
     dshHome?: string;
@@ -34,10 +34,12 @@ export declare class KnowledgeService extends Service {
     deleteBase(baseId: string): {
         absent: true;
     };
+    renameBase(baseId: string, name: string): KnowledgeBaseView;
     private insertSource;
     addText(request: KnowledgeAddTextRequest): KnowledgeSourceView;
     addUrl(request: KnowledgeAddUrlRequest): Promise<KnowledgeSourceView>;
     private fetchUrl;
+    addDirectory(request: KnowledgeAddDirectoryRequest): KnowledgeSourceView;
     addFile(request: KnowledgeAddFileRequest): KnowledgeSourceView;
     private requireSource;
     listSources(baseId: string): {

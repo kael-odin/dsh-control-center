@@ -149,7 +149,7 @@ async function main(): Promise<void> {
     await translationNav.waitFor({ timeout: 15_000 })
     await translationNav.click()
     try {
-      await page.getByRole('heading', { name: '翻译', exact: true }).waitFor({ timeout: 15_000 })
+      await page.getByLabel('待翻译文本').waitFor({ timeout: 15_000 })
     } catch (error) {
       const body = await page.locator('body').innerText().catch(() => '')
       const consoleErrors = await page.evaluate(() => (window as unknown as { __ccErrors?: string[] }).__ccErrors ?? []).catch(() => [])
@@ -167,19 +167,23 @@ async function main(): Promise<void> {
     await expectPoll(async () => await translateButton.isEnabled(), true, 15_000)
     await translateButton.click()
     try {
-      await expectPoll(async () => (await page.getByLabel('翻译结果').inputValue()).includes('CONTROL_CENTER_E2E_RESPONSE'), true, 30_000)
+      await expectPoll(async () => (await page.getByLabel('翻译结果').innerText()).includes('CONTROL_CENTER_E2E_RESPONSE'), true, 30_000)
     } catch (error) {
       const body = await page.locator('body').innerText()
       throw new Error(`translation response did not render; fixture: ${JSON.stringify(fixture.requests)}; browser: ${errors.join(' | ')}; body: ${body.slice(-3000)}`, { cause: error })
     }
-    await page.getByRole('heading', { name: '翻译历史' }).waitFor({ timeout: 15_000 })
+    // History: open the right-hand panel and confirm the entry plus actions.
+    await page.getByRole('button', { name: '翻译历史', exact: true }).click()
+    await page.getByText('翻译历史 (1)', { exact: true }).waitFor({ timeout: 15_000 })
+    await page.getByText('Hello translation fixture', { exact: false }).first().waitFor({ timeout: 15_000 })
+    await page.getByRole('button', { name: '关闭' }).first().click()
 
     // Painting workspace must render, generate against the real provider, and show an image.
     const paintingNav = page.getByRole('button', { name: '绘画' })
     await paintingNav.waitFor({ timeout: 15_000 })
     await paintingNav.click()
     try {
-      await page.getByRole('heading', { name: '绘画', exact: true }).waitFor({ timeout: 15_000 })
+      await page.getByText('给你的下一幅杰作，留一个位置。', { exact: true }).waitFor({ timeout: 15_000 })
     } catch (error) {
       const body = await page.locator('body').innerText().catch(() => '')
       const surface = await page.evaluate(() => {
@@ -192,61 +196,68 @@ async function main(): Promise<void> {
     await expectPoll(async () => await page.getByLabel('图像模型').count() > 0, true, 15_000)
     await page.getByLabel('图像模型').selectOption({ label: 'control-center-e2e · Control Center Alpha' })
     await page.getByLabel('绘画提示词').fill('a painting fixture image')
-    const generateButton = page.getByRole('main').getByRole('button', { name: '生成', exact: true })
-    await generateButton.waitFor({ state: 'visible', timeout: 15_000 })
-    await expectPoll(async () => await generateButton.isEnabled(), true, 15_000)
-    await generateButton.click()
+    const sendButton = page.getByRole('main').getByRole('button', { name: '发送' })
+    await sendButton.waitFor({ state: 'visible', timeout: 15_000 })
+    await expectPoll(async () => await sendButton.isEnabled(), true, 15_000)
+    await sendButton.click()
     try {
       await page.getByRole('img', { name: 'a painting fixture image' }).first().waitFor({ timeout: 30_000 })
     } catch (error) {
       const body = await page.locator('body').innerText()
       throw new Error(`painting gallery did not render; fixture: ${JSON.stringify(fixture.requests)}; browser: ${errors.join(' | ')}; body: ${body.slice(-3000)}`, { cause: error })
     }
-    await page.getByRole('heading', { name: '绘画历史' }).waitFor({ timeout: 15_000 })
-    await page.getByRole('button', { name: '返回对话' }).click()
+    // The session strip gains a thumbnail for the new generation.
+    await page.getByRole('button', { name: '选择图片' }).first().waitFor({ timeout: 15_000 })
+    await page.getByRole('button', { name: '返回对话' }).first().click()
     await page.getByRole('button', { name: '发送消息' }).waitFor({ timeout: 15_000 })
 
-    // Knowledge Base workspace: create a base, add a text source, index with
+    // Knowledge Base workspace: create a base, add a note source, index with
     // local-hash, and recall a citation through the real service.
     const knowledgeNav = page.getByRole('button', { name: '知识库' })
     await knowledgeNav.waitFor({ timeout: 15_000 })
     await knowledgeNav.click()
     try {
-      await page.getByRole('heading', { name: '知识库', exact: true }).waitFor({ timeout: 15_000 })
+      await page.getByRole('button', { name: '新建知识库' }).waitFor({ timeout: 15_000 })
     } catch (error) {
       const body = await page.locator('body').innerText().catch(() => '')
       throw new Error(`knowledge workspace did not render; browser: ${errors.join(' | ')}; body: ${body.slice(-2500)}`, { cause: error })
     }
-    await page.getByLabel('知识库名称').fill('e2e 手册')
+    await page.getByRole('button', { name: '新建知识库' }).click()
+    await page.getByLabel('名称').fill('e2e 手册')
     await page.getByRole('button', { name: '创建', exact: true }).click()
     try {
-      await page.getByText('e2e 手册', { exact: true }).waitFor({ timeout: 15_000 })
+      await page.getByText('e2e 手册', { exact: true }).first().waitFor({ timeout: 15_000 })
     } catch (error) {
-      throw new Error(`knowledge base card did not render; browser: ${errors.join(' | ')}`, { cause: error })
+      throw new Error(`knowledge base row did not render; browser: ${errors.join(' | ')}`, { cause: error })
     }
-    await page.getByRole('button', { name: '打开', exact: true }).click()
-    await page.getByLabel('文本内容').fill('发布流程要求所有变更先经过本地检查，再进入发布流水线。')
-    await page.getByRole('button', { name: '添加文本', exact: true }).click()
+    await page.getByRole('button', { name: '添加数据源' }).click()
+    await page.getByRole('button', { name: '笔记', exact: true }).click()
+    await page.getByLabel('内容').fill('发布流程要求所有变更先经过本地检查，再进入发布流水线。')
+    await page.getByRole('button', { name: '添加', exact: true }).click()
     try {
-      await page.getByText('发布流程要求所有变更先经过本地检查，再进入发布流水线。').waitFor({ timeout: 15_000 })
+      await page.getByText('更新于', { exact: false }).waitFor({ timeout: 15_000 })
+      await page.getByText('就绪', { exact: true }).first().waitFor({ timeout: 15_000 })
     } catch (error) {
-      throw new Error(`knowledge source did not render; browser: ${errors.join(' | ')}`, { cause: error })
+      const body = await page.locator('body').innerText()
+      throw new Error(`knowledge source did not render; browser: ${errors.join(' | ')}; body: ${body.slice(-2500)}`, { cause: error })
     }
-    await page.getByRole('button', { name: '建立索引', exact: true }).click()
+    await page.getByRole('button', { name: '建立索引' }).click()
     try {
       await page.getByText(/已索引 1 个来源/).waitFor({ timeout: 20_000 })
     } catch (error) {
       const body = await page.locator('body').innerText()
       throw new Error(`knowledge index did not report; browser: ${errors.join(' | ')}; body: ${body.slice(-2500)}`, { cause: error })
     }
-    await page.getByLabel('检索查询').fill('发布流程')
+    await page.getByRole('button', { name: '召回测试' }).click()
+    await page.getByPlaceholder('输入测试 Query...').fill('发布流程')
     await page.getByRole('button', { name: '检索', exact: true }).click()
     try {
-      await page.getByRole('list', { name: '检索结果' }).waitFor({ timeout: 15_000 })
+      await page.getByText('发布流程要求所有变更先经过本地检查，再进入发布流水线。', { exact: false }).first().waitFor({ timeout: 15_000 })
     } catch (error) {
       const body = await page.locator('body').innerText()
       throw new Error(`knowledge recall returned no hits; browser: ${errors.join(' | ')}; body: ${body.slice(-2500)}`, { cause: error })
     }
+    await page.getByRole('button', { name: '关闭' }).first().click()
     await page.getByRole('button', { name: '返回对话' }).click()
     await page.getByRole('button', { name: '发送消息' }).waitFor({ timeout: 15_000 })
 

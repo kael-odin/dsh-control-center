@@ -1,2 +1,2 @@
-import { t as knowledgeRemote } from "./knowledge-remote-client-M9c72Jol.js";
+import { t as knowledgeRemote } from "./knowledge-remote-client-DAVExb28.js";
 export { knowledgeRemote as default };

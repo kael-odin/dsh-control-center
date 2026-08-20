@@ -376,7 +376,7 @@ export function TranslationWorkspace({ getTranslation, listModels, useTranslatio
           </div>
         </section>
         <section className={`${css.pane} ${css.outputPane}`}>
-          <div className={css.textareaScroll} ref={outputRef} onScroll={() => { onScrollSync('output') }}>
+          <div className={css.textareaScroll} ref={outputRef} onScroll={() => { onScrollSync('output') }} aria-label="翻译结果" role="region">
             {job?.status === 'running' ? (
               <div className={css.translating} style={{ padding: '16px 48px 16px 16px' }}>
                 <span className={css.spinner} />

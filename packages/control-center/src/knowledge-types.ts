@@ -4,7 +4,7 @@ export type KnowledgeBaseId = string
 export type KnowledgeSourceId = string
 export type KnowledgeChunkId = string
 
-export type KnowledgeSourceKind = 'text' | 'file' | 'url'
+export type KnowledgeSourceKind = 'text' | 'file' | 'directory' | 'url'
 
 /** Embedding mode actually used for a base: a configured provider route or the local hashing fallback. */
 export interface KnowledgeEmbeddingConfig {
@@ -93,6 +93,20 @@ export interface KnowledgeAddFileRequest {
   mediaType: string
 }
 
+/** One file inside a directory import. */
+export interface KnowledgeDirectoryFile {
+  name: string
+  dataBase64: string
+  mediaType: string
+}
+
+export interface KnowledgeAddDirectoryRequest {
+  baseId: KnowledgeBaseId
+  /** Display name of the directory source. */
+  name: string
+  files: KnowledgeDirectoryFile[]
+}
+
 export interface KnowledgeRetrieveRequest {
   baseId: KnowledgeBaseId
   query: string
@@ -118,6 +132,8 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
       addText(request: KnowledgeAddTextRequest): Promise<{ ok: true; value: KnowledgeSourceView } | { ok: false; error: { code: string; message: string; details: object } }>
       addUrl(request: KnowledgeAddUrlRequest): Promise<{ ok: true; value: KnowledgeSourceView } | { ok: false; error: { code: string; message: string; details: object } }>
       addFile(request: KnowledgeAddFileRequest): Promise<{ ok: true; value: KnowledgeSourceView } | { ok: false; error: { code: string; message: string; details: object } }>
+      addDirectory(request: KnowledgeAddDirectoryRequest): Promise<{ ok: true; value: KnowledgeSourceView } | { ok: false; error: { code: string; message: string; details: object } }>
+      renameBase(baseId: KnowledgeBaseId, name: string): Promise<{ ok: true; value: KnowledgeBaseView } | { ok: false; error: { code: string; message: string; details: object } }>
       listSources(baseId: KnowledgeBaseId): Promise<{ ok: true; value: { sources: KnowledgeSourceView[] } } | { ok: false; error: { code: string; message: string; details: object } }>
       deleteSource(baseId: KnowledgeBaseId, sourceId: KnowledgeSourceId): Promise<{ ok: true; value: { absent: true } } | { ok: false; error: { code: string; message: string; details: object } }>
       indexBase(baseId: KnowledgeBaseId): Promise<{ ok: true; value: KnowledgeIndexResult } | { ok: false; error: { code: string; message: string; details: object } }>

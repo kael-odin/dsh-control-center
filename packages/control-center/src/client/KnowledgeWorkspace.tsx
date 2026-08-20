@@ -1,10 +1,23 @@
-import { useEffect, useMemo, useState } from 'react'
+/**
+ * Knowledge workspace — Cherry knowledge page parity: left navigator with
+ * create/rename/delete, right detail with data-source grid (files/notes/
+ * directories/links), recall-test drawer.
+ */
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { HostObservable, InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
+import {
+  IconCheckOutline16, IconChevronLeftOutline14, IconSearchOutline16, IconPlusOutline16,
+} from '@deepseek-ai/dsh-client-ui-primitives'
 import type {
-  KnowledgeBaseView, KnowledgeChunkView, KnowledgeRetrievalHit, KnowledgeSourceView,
+  KnowledgeBaseView, KnowledgeRetrievalHit, KnowledgeSourceView,
 } from '../knowledge-types.ts'
 import css from './KnowledgeWorkspace.module.css'
+import {
+  IconCircleAlert, IconCopy, IconFileText, IconFlaskConical, IconFolder, IconLink2,
+  IconMoreHorizontal, IconPlus, IconRefreshCw, IconStickyNote, IconZap,
+} from './cherry-icons.tsx'
+import { ConfirmDialog, PanelShell, useCopy } from './panel-ui.tsx'
 
 export interface KnowledgeWorkspaceInjected {
   getKnowledge: () => NonNullable<ClientRemote['controlCenterKnowledge']>
@@ -13,6 +26,71 @@ export interface KnowledgeWorkspaceInjected {
 
 export type KnowledgeWorkspaceProps = PropsRuntime<'application.surface', 'knowledge'> & InjectFace<KnowledgeWorkspaceInjected>
 
+type AddSourceType = 'file' | 'note' | 'directory' | 'url'
+
+const SOURCE_TYPE_LABELS: Record<AddSourceType, string> = { file: '文件', note: '笔记', directory: '目录', url: '链接' }
+
+function relativeTime(timestamp: number): string {
+  const minutes = Math.floor((Date.now() - timestamp) / 60_000)
+  if (minutes < 1) return '刚刚'
+  if (minutes < 60) return `${minutes} 分钟前`
+  const hours = Math.floor(minutes / 60)
+  if (hours < 24) return `${hours} 小时前`
+  const days = Math.floor(hours / 24)
+  if (days < 30) return `${days} 天前`
+  const months = Math.floor(days / 30)
+  if (months < 12) return `${months} 个月前`
+  return `${Math.floor(months / 12)} 年前`
+}
+
+function sourceIcon(kind: KnowledgeSourceView['kind']): { icon: React.ReactNode; color: string } {
+  switch (kind) {
+    case 'file': return { icon: <IconFileText size={14} />, color: '#3b82f6' }
+    case 'directory': return { icon: <IconFolder size={14} />, color: '#8b5cf6' }
+    case 'url': return { icon: <IconLink2 size={14} />, color: '#06b6d4' }
+    default: return { icon: <IconStickyNote size={14} />, color: '#f59e0b' }
+  }
+}
+
+function kindLabel(kind: KnowledgeSourceView['kind']): string {
+  return kind === 'file' ? '文件' : kind === 'text' ? '笔记' : kind === 'directory' ? '目录' : '链接'
+}
+
+interface DirectoryFile {
+  name: string
+  dataBase64: string
+  mediaType: string
+}
+
+async function pickDirectoryFiles(): Promise<DirectoryFile[] | null> {
+  const picker = (window as unknown as { showDirectoryPicker?: () => Promise<FileSystemDirectoryHandle> }).showDirectoryPicker
+  if (picker === undefined) return null
+  let handle: FileSystemDirectoryHandle
+  try {
+    handle = await picker()
+  } catch {
+    return [] // cancelled
+  }
+  const files: DirectoryFile[] = []
+  const walk = async (dir: FileSystemDirectoryHandle, prefix: string): Promise<void> => {
+    for await (const entry of dir.values()) {
+      if (files.length >= 200) return
+      if (entry.kind === 'directory') {
+        await walk(entry as FileSystemDirectoryHandle, `${prefix}${entry.name}/`)
+      } else {
+        const file = await (entry as FileSystemFileHandle).getFile()
+        if (!file.type.startsWith('text/') && !/\.(txt|md|markdown|html|htm|csv|json|yaml|yml|xml)$/i.test(file.name)) continue
+        const bytes = new Uint8Array(await file.arrayBuffer())
+        let binary = ''
+        for (const byte of bytes) binary += String.fromCharCode(byte)
+        files.push({ name: `${prefix}${file.name}`, dataBase64: btoa(binary), mediaType: file.type || 'text/plain' })
+      }
+    }
+  }
+  await walk(handle, '')
+  return files
+}
+
 /** Full Knowledge Base workspace over the real Control Center knowledge service. */
 export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, close }: KnowledgeWorkspaceProps) {
   const knowledgeReady = useKnowledgeReady(value => value)
@@ -20,30 +98,39 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, close }: K
   const [bases, setBases] = useState<KnowledgeBaseView[]>([])
   const [selectedId, setSelectedId] = useState<string>('')
   const [sources, setSources] = useState<KnowledgeSourceView[]>([])
-  const [chunks, setChunks] = useState<KnowledgeChunkView[]>([])
-  const [nextChunkCursor, setNextChunkCursor] = useState<string | null>(null)
-  const [indexing, setIndexing] = useState<string | null>(null)
-  const [indexResult, setIndexResult] = useState<string | null>(null)
+  const [indexing, setIndexing] = useState(false)
+  const [notice, setNotice] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
+  // Dialogs & popovers.
+  const [createOpen, setCreateOpen] = useState(false)
+  const [renameTarget, setRenameTarget] = useState<KnowledgeBaseView | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<KnowledgeBaseView | null>(null)
+  const [deleteSourceTarget, setDeleteSourceTarget] = useState<KnowledgeSourceView | null>(null)
+  const [navMenuFor, setNavMenuFor] = useState<string | null>(null)
+  const [rowMenuFor, setRowMenuFor] = useState<string | null>(null)
+  const [addMenuOpen, setAddMenuOpen] = useState(false)
+  const [addDialog, setAddDialog] = useState<AddSourceType | null>(null)
+  const [recallOpen, setRecallOpen] = useState(false)
+
+  // Form states.
   const [baseName, setBaseName] = useState('')
   const [baseDescription, setBaseDescription] = useState('')
-
-  const [textName, setTextName] = useState('')
-  const [textBody, setTextBody] = useState('')
+  const [noteName, setNoteName] = useState('')
+  const [noteBody, setNoteBody] = useState('')
   const [urlText, setUrlText] = useState('')
-  const [fileName, setFileName] = useState('')
-
-  const [query, setQuery] = useState('')
-  const [topK, setTopK] = useState(8)
+  const [recallQuery, setRecallQuery] = useState('')
+  const [recallSearching, setRecallSearching] = useState(false)
   const [hits, setHits] = useState<KnowledgeRetrievalHit[]>([])
   const [retrievalProvider, setRetrievalProvider] = useState<string | null>(null)
+  const [recallMs, setRecallMs] = useState(0)
 
-  const [error, setError] = useState<string | null>(null)
-  const [busy, setBusy] = useState(false)
+  const fileRef = useRef<HTMLInputElement | null>(null)
+  const { copied, copy } = useCopy()
 
   const selected = useMemo(() => bases.find(base => base.id === selectedId) ?? null, [bases, selectedId])
 
-  const refreshBases = (): void => {
+  const refreshBases = useCallback((): void => {
     if (knowledge === undefined) return
     void knowledge.listBases().then(result => {
       if (!result.ok) { setError(result.error.message); return }
@@ -51,17 +138,16 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, close }: K
       if (result.value.bases.length === 0) {
         setSelectedId('')
         setSources([])
-        setChunks([])
       } else if (!result.value.bases.some(base => base.id === selectedId)) {
         setSelectedId(result.value.bases[0]!.id)
       }
     }).catch(reason => setError(reason instanceof Error ? reason.message : String(reason)))
-  }
+  }, [knowledge, selectedId])
 
   useEffect(() => {
     if (!knowledgeReady || knowledge === undefined) return
     refreshBases()
-  }, [knowledgeReady, knowledge])
+  }, [knowledgeReady, knowledge, refreshBases])
 
   useEffect(() => {
     if (!knowledgeReady || knowledge === undefined || selectedId === '') return
@@ -69,11 +155,6 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, close }: K
     void knowledge.listSources(selectedId).then(result => {
       if (!active || !result.ok) return
       setSources(result.value.sources)
-    })
-    void knowledge.listChunks(selectedId, null, 50).then(result => {
-      if (!active || !result.ok) return
-      setChunks(result.value.chunks)
-      setNextChunkCursor(result.value.nextCursor ?? null)
     })
     return () => { active = false }
   }, [knowledgeReady, knowledge, selectedId])
@@ -85,60 +166,79 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, close }: K
     if (!result.ok) { setError(result.error.message); return }
     setBaseName('')
     setBaseDescription('')
+    setCreateOpen(false)
     setSelectedId(result.value.id)
     refreshBases()
   }
 
-  const deleteBase = async (id: string): Promise<void> => {
-    if (knowledge === undefined) return
-    setError(null)
-    const result = await knowledge.deleteBase(id)
+  const renameBase = async (): Promise<void> => {
+    if (knowledge === undefined || renameTarget === null || baseName.trim() === '') return
+    const result = await knowledge.renameBase(renameTarget.id, baseName.trim())
     if (!result.ok) { setError(result.error.message); return }
+    setRenameTarget(null)
+    setBaseName('')
     refreshBases()
   }
 
-  const addText = async (): Promise<void> => {
-    if (knowledge === undefined || selectedId === '' || textBody.trim() === '') return
-    setError(null)
-    const result = await knowledge.addText({ baseId: selectedId, name: textName.trim() || `text-${Date.now()}`, text: textBody })
+  const deleteBase = async (): Promise<void> => {
+    if (knowledge === undefined || deleteTarget === null) return
+    const result = await knowledge.deleteBase(deleteTarget.id)
     if (!result.ok) { setError(result.error.message); return }
-    setTextName('')
-    setTextBody('')
-    void reloadSources()
-  }
-
-  const addUrl = async (): Promise<void> => {
-    if (knowledge === undefined || selectedId === '' || urlText.trim() === '') return
-    setError(null)
-    setBusy(true)
-    try {
-      const result = await knowledge.addUrl({ baseId: selectedId, url: urlText.trim() })
-      if (!result.ok) { setError(result.error.message); return }
-      setUrlText('')
-      void reloadSources()
-    } finally {
-      setBusy(false)
-    }
+    setDeleteTarget(null)
+    refreshBases()
   }
 
   const addFile = async (file: File): Promise<void> => {
     if (knowledge === undefined || selectedId === '') return
-    setError(null)
     const dataBase64 = await file.arrayBuffer().then(buffer => {
       const bytes = new Uint8Array(buffer)
       let binary = ''
       for (const byte of bytes) binary += String.fromCharCode(byte)
       return btoa(binary)
     })
-    const result = await knowledge.addFile({
+    const result = await knowledge.addFile({ baseId: selectedId, name: file.name, dataBase64, mediaType: file.type || 'text/plain' })
+    if (!result.ok) { setError(result.error.message); return }
+    reloadSources()
+  }
+
+  const addNote = async (): Promise<void> => {
+    if (knowledge === undefined || selectedId === '' || noteBody.trim() === '') return
+    const result = await knowledge.addText({ baseId: selectedId, name: noteName.trim() || `笔记-${Date.now()}`, text: noteBody })
+    if (!result.ok) { setError(result.error.message); return }
+    setNoteName('')
+    setNoteBody('')
+    setAddDialog(null)
+    reloadSources()
+  }
+
+  const addUrl = async (): Promise<void> => {
+    if (knowledge === undefined || selectedId === '' || urlText.trim() === '') return
+    setError(null)
+    const result = await knowledge.addUrl({ baseId: selectedId, url: urlText.trim() })
+    if (!result.ok) { setError(result.error.message); return }
+    setUrlText('')
+    setAddDialog(null)
+    reloadSources()
+  }
+
+  const addDirectory = async (): Promise<void> => {
+    if (knowledge === undefined || selectedId === '') return
+    setError(null)
+    const files = await pickDirectoryFiles()
+    if (files === null) {
+      setAddDialog(null)
+      fileRef.current?.click()
+      return
+    }
+    if (files.length === 0) { setAddDialog(null); return } // cancelled
+    const result = await knowledge.addDirectory({
       baseId: selectedId,
-      name: fileName.trim() || file.name,
-      dataBase64,
-      mediaType: file.type || 'text/plain',
+      name: files[0]!.name.split('/')[0] ?? '目录',
+      files,
     })
     if (!result.ok) { setError(result.error.message); return }
-    setFileName('')
-    void reloadSources()
+    setAddDialog(null)
+    reloadSources()
   }
 
   const reloadSources = (): void => {
@@ -148,176 +248,488 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, close }: K
     })
   }
 
-  const deleteSource = async (id: string): Promise<void> => {
-    if (knowledge === undefined || selectedId === '') return
-    setError(null)
-    const result = await knowledge.deleteSource(selectedId, id)
+  const deleteSource = async (): Promise<void> => {
+    if (knowledge === undefined || selectedId === '' || deleteSourceTarget === null) return
+    const result = await knowledge.deleteSource(selectedId, deleteSourceTarget.id)
     if (!result.ok) { setError(result.error.message); return }
-    void reloadSources()
-    void knowledge.listChunks(selectedId, null, 50).then(listResult => {
-      if (listResult.ok) { setChunks(listResult.value.chunks); setNextChunkCursor(listResult.value.nextCursor ?? null) }
-    })
+    setDeleteSourceTarget(null)
+    reloadSources()
   }
 
   const indexBase = async (): Promise<void> => {
     if (knowledge === undefined || selectedId === '') return
     setError(null)
-    setIndexing(selectedId)
+    setIndexing(true)
     try {
       const result = await knowledge.indexBase(selectedId)
       if (!result.ok) { setError(result.error.message); return }
-      setIndexResult(`已索引 ${result.value.sourcesIndexed} 个来源，写入 ${result.value.chunksWritten} 个分块`)
-      void reloadSources()
-      void knowledge.listChunks(selectedId, null, 50).then(listResult => {
-        if (listResult.ok) { setChunks(listResult.value.chunks); setNextChunkCursor(listResult.value.nextCursor ?? null) }
-      })
+      setNotice(`已索引 ${result.value.sourcesIndexed} 个来源，写入 ${result.value.chunksWritten} 个分块`)
+      reloadSources()
     } finally {
-      setIndexing(null)
+      setIndexing(false)
     }
   }
 
   const recall = async (): Promise<void> => {
-    if (knowledge === undefined || selectedId === '' || query.trim() === '') return
+    if (knowledge === undefined || selectedId === '' || recallQuery.trim() === '') return
     setError(null)
-    const result = await knowledge.retrieve({ baseId: selectedId, query: query.trim(), topK })
-    if (!result.ok) { setError(result.error.message); return }
-    setHits(result.value.hits)
-    setRetrievalProvider(result.value.embeddingProvider)
+    setRecallSearching(true)
+    const startedAt = Date.now()
+    try {
+      const result = await knowledge.retrieve({ baseId: selectedId, query: recallQuery.trim(), topK: 8 })
+      if (!result.ok) { setError(result.error.message); return }
+      setHits(result.value.hits)
+      setRetrievalProvider(result.value.embeddingProvider)
+      setRecallMs(Date.now() - startedAt)
+    } finally {
+      setRecallSearching(false)
+    }
   }
 
-  const loadMoreChunks = (): void => {
-    if (knowledge === undefined || selectedId === '' || nextChunkCursor === null) return
-    void knowledge.listChunks(selectedId, nextChunkCursor, 50).then(result => {
-      if (!result.ok) { setError(result.error.message); return }
-      setChunks(current => [...current, ...result.value.chunks])
-      setNextChunkCursor(result.value.nextCursor ?? null)
-    })
+  const openAdd = (type: AddSourceType): void => {
+    setAddMenuOpen(false)
+    if (type === 'file') {
+      setAddDialog('file')
+      fileRef.current?.click()
+      return
+    }
+    if (type === 'directory') {
+      setAddDialog('directory')
+      void addDirectory()
+      return
+    }
+    setAddDialog(type)
   }
 
   if (!knowledgeReady) {
-    return <main className={` cc-surface`}><p role="status">正在连接知识库服务…</p></main>
+    return <main className=" cc-surface"><p role="status" style={{ padding: 24 }}>正在连接知识库服务…</p></main>
   }
 
   return (
-    <main className={` cc-surface`}>
-      <header className={css.header}>
-        <div><p className={css.eyebrow}>DSH Control Center</p><h1>知识库</h1></div>
-        <button type="button" className={css.secondary} onClick={close}>返回对话</button>
-      </header>
-      {error === null ? null : <p role="alert" className={css.error}>{error}</p>}
-
-      <section className={css.panel} aria-label="新建知识库">
-        <h2>新建知识库</h2>
-        <div className={css.row}>
-          <input aria-label="知识库名称" placeholder="名称（必填）" value={baseName} onChange={event => { setBaseName(event.target.value) }} />
-          <input aria-label="知识库描述" placeholder="描述（可选）" value={baseDescription} onChange={event => { setBaseDescription(event.target.value) }} />
-          <button type="button" disabled={baseName.trim() === ''} onClick={() => { void createBase() }}>创建</button>
-        </div>
-      </section>
-
-      <section className={css.bases} aria-label="知识库列表">
-        <h2>知识库（{bases.length}）</h2>
-        {bases.length === 0 ? <p className={css.empty}>暂无知识库，先创建一个。</p> : bases.map(base => (
-          <article key={base.id} className={css.baseCard}>
-            <div className={css.baseMeta}>
-              <strong>{base.name}</strong>
-              <span>{base.embedding.providerId === 'local-hash' ? '本地 Hash Embedding' : `${base.embedding.providerId} · ${base.embedding.model ?? ''}`}</span>
-              <span>{base.sourceCount} 个来源 · {base.chunkCount} 个分块</span>
-            </div>
-            <div className={css.baseActions}>
-              <button type="button" className={selected?.id === base.id ? css.primary : css.secondary}
-                onClick={() => { setSelectedId(base.id); setHits([]) }}>打开</button>
-              <button type="button" className={css.link} onClick={() => { void deleteBase(base.id) }}>删除</button>
-            </div>
-          </article>
-        ))}
-      </section>
-
-      {selected !== null && (
-        <>
-          <section className={css.panel} aria-label="添加来源">
-            <h2>向「{selected.name}」添加来源</h2>
-            <div className={css.sourceTabs}>
-              <div className={css.row}>
-                <input aria-label="文本名称" placeholder="名称（可选）" value={textName} onChange={event => { setTextName(event.target.value) }} />
-                <textarea aria-label="文本内容" placeholder="粘贴文本内容" value={textBody} onChange={event => { setTextBody(event.target.value) }} />
-                <button type="button" disabled={textBody.trim() === ''} onClick={() => { void addText() }}>添加文本</button>
-              </div>
-              <div className={css.row}>
-                <input aria-label="网页地址" placeholder="https://…" value={urlText} onChange={event => { setUrlText(event.target.value) }} />
-                <button type="button" disabled={urlText.trim() === '' || busy} onClick={() => { void addUrl() }}>{busy ? '抓取中…' : '抓取网页'}</button>
-              </div>
-              <div className={css.row}>
-                <input aria-label="文件名称" placeholder="文件显示名（可选）" value={fileName} onChange={event => { setFileName(event.target.value) }} />
-                <label className={css.fileButton}>
-                  选择文本文件
-                  <input type="file" accept=".txt,.md,.html,.csv,.json,.yaml,.yml,text/plain,text/markdown,text/html,application/json,application/xml"
-                    onChange={event => {
-                      const file = event.target.files?.[0]
-                      if (file !== undefined) void addFile(file)
-                      event.target.value = ''
-                    }} />
-                </label>
-              </div>
-            </div>
-          </section>
-
-          <section className={css.panel} aria-label="索引与检索">
-            <h2>索引与检索</h2>
-            <div className={css.row}>
-              <button type="button" disabled={indexing !== null} onClick={() => { void indexBase() }}>
-                {indexing !== null ? '索引中…' : '建立索引'}
-              </button>
-              <input aria-label="检索查询" placeholder="输入查询，回车检索" value={query}
-                onChange={event => { setQuery(event.target.value) }}
-                onKeyDown={event => { if (event.key === 'Enter') void recall() }} />
-              <select aria-label="返回条数" value={String(topK)} onChange={event => { setTopK(Number(event.target.value)) }}>
-                {[4, 8, 16].map(n => <option key={n} value={String(n)}>{n}</option>)}
-              </select>
-              <button type="button" className={css.primary} disabled={query.trim() === ''} onClick={() => { void recall() }}>检索</button>
-            </div>
-            {indexResult === null ? null : <p className={css.muted}>{indexResult}</p>}
-            {retrievalProvider === null ? null : <p className={css.muted}>检索模式：{retrievalProvider}</p>}
-            {hits.length === 0 ? null : (
-              <ol className={css.hits} aria-label="检索结果">
-                {hits.map(hit => (
-                  <li key={hit.chunkId} className={css.hit}>
-                    <div className={css.hitMeta}><strong>{hit.sourceName}</strong><span>得分 {hit.score.toFixed(3)}</span></div>
-                    <p>{hit.text}</p>
-                  </li>
-                ))}
-              </ol>
-            )}
-          </section>
-
-          <section className={css.panel} aria-label="来源与分块">
-            <h2>来源（{sources.length}）</h2>
-            {sources.length === 0 ? <p className={css.empty}>还没有来源。</p> : sources.map(source => (
-              <article key={source.id} className={css.sourceItem}>
-                <div className={css.sourceMeta}>
-                  <strong>{source.name}</strong>
-                  <span>{source.kind} · {source.chunks} 个分块 · {source.tokens} tokens · {source.status}</span>
+    <main className={`${css.root} cc-surface`}>
+      <div className={css.split}>
+        <aside className={css.navigator} data-ui="knowledge.navigation">
+          <button type="button" className={css.navCreate} onClick={() => { setCreateOpen(true) }}>
+            <IconPlusOutline16 size={16} />
+            <span>新建知识库</span>
+          </button>
+          <div className={css.navScroll}>
+            {bases.length === 0
+              ? <div className={css.navEmpty}>暂无知识库<br />点击上方「新建知识库」开始</div>
+              : bases.map(base => (
+                <div key={base.id} style={{ position: 'relative' }}>
+                  <button
+                    type="button"
+                    className={`${css.navRow} ${base.id === selectedId ? css.active : ''}`}
+                    onClick={() => { setSelectedId(base.id); setHits([]) }}
+                  >
+                    <span className={css.navRowName}>{base.name}</span>
+                    <span
+                      className={css.navRowMenu}
+                      role="button"
+                      title="更多"
+                      onClick={(event) => { event.stopPropagation(); setNavMenuFor(navMenuFor === base.id ? null : base.id) }}
+                    >
+                      <IconMoreHorizontal size={14} />
+                    </span>
+                  </button>
+                  {navMenuFor === base.id && (
+                    <div className={css.menuPopover} style={{ top: '100%', left: 4, right: 4 }}>
+                      <button
+                        type="button"
+                        className={css.menuItem}
+                        onClick={() => { setNavMenuFor(null); setBaseName(base.name); setRenameTarget(base) }}
+                      >
+                        <IconPenLineInline />
+                        <span>重命名</span>
+                      </button>
+                      <button
+                        type="button"
+                        className={`${css.menuItem} ${css.destructive}`}
+                        onClick={() => { setNavMenuFor(null); setDeleteTarget(base) }}
+                      >
+                        <IconTrashInline />
+                        <span>删除</span>
+                      </button>
+                    </div>
+                  )}
                 </div>
-                <button type="button" className={css.link} onClick={() => { void deleteSource(source.id) }}>删除</button>
-              </article>
-            ))}
-            <h2>分块（{chunks.length}）</h2>
-            {chunks.length === 0 ? <p className={css.empty}>索引后才会生成分块。</p> : (
-              <>
-                {chunks.map(chunk => (
-                  <details key={chunk.id} className={css.chunk}>
-                    <summary>{chunk.sourceName} · #{chunk.position} · {chunk.tokens} tokens</summary>
-                    <p>{chunk.text}</p>
-                  </details>
-                ))}
-                {nextChunkCursor === null ? null : (
-                  <button type="button" className={css.secondary} onClick={loadMoreChunks}>加载更多分块</button>
+              ))}
+          </div>
+        </aside>
+
+        <main className={css.detail} data-ui="knowledge.content">
+          {selected === null ? (
+            <div className={css.detailEmpty}>
+              <div className={css.detailEmptyTitle}>暂无知识库</div>
+              <div className={css.detailEmptyDescription}>与 AI 一起积累知识</div>
+              <button type="button" className={`${css.btn} ${css.btnPrimary}`} style={{ marginTop: 8 }} onClick={() => { setCreateOpen(true) }}>
+                创建知识库
+              </button>
+            </div>
+          ) : (
+            <>
+              <header className={css.detailHeader}>
+                <span className={css.detailHeaderTitle}>{selected.name}</span>
+                <div className={css.detailHeaderActions}>
+                  <button type="button" className={css.ghostButton} onClick={() => { setRecallOpen(true) }}>
+                    <IconFlaskConical size={14} />
+                    <span>召回测试</span>
+                  </button>
+                  <button type="button" className={css.ghostButton} title="返回对话" onClick={close}>
+                    <IconChevronLeftOutline14 size={16} />
+                  </button>
+                </div>
+              </header>
+
+              {error === null ? null : <div className={css.errorBanner} role="alert">{error}</div>}
+              {notice === null ? null : <div className={css.notice}>{notice}</div>}
+
+              <div className={css.dataPanel}>
+                <div className={css.dataHeader}>
+                  <span className={css.dataHeaderLeft}>更新于 {relativeTime(selected.updatedAt)}</span>
+                  <div className={css.dataHeaderActions}>
+                    <button
+                      type="button"
+                      className={css.indexButton}
+                      disabled={indexing || sources.length === 0}
+                      onClick={() => { void indexBase() }}
+                    >
+                      {indexing ? '索引中…' : '建立索引'}
+                    </button>
+                    <div style={{ position: 'relative' }}>
+                      <button type="button" className={css.addSourceButton} onClick={() => { setAddMenuOpen(open => !open) }}>
+                        <IconPlus size={12} />
+                        <span>添加数据源</span>
+                      </button>
+                      {addMenuOpen && (
+                        <div className={css.menuPopover} style={{ top: 'calc(100% + 4px)', right: 0 }}>
+                          {(Object.keys(SOURCE_TYPE_LABELS) as AddSourceType[]).map(type => (
+                            <button key={type} type="button" className={css.menuItem} onClick={() => { openAdd(type) }}>
+                              <span style={{ color: sourceIcon(type === 'note' ? 'text' : type).color, display: 'inline-flex' }}>
+                                {sourceIcon(type === 'note' ? 'text' : type).icon}
+                              </span>
+                              <span>{SOURCE_TYPE_LABELS[type]}</span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {sources.length === 0 ? (
+                  <div className={css.sourcesEmpty}>
+                    <div className={css.sourcesEmptyTitle}>暂无数据源</div>
+                    <div className={css.sourcesEmptyDesc}>上传第一个数据源</div>
+                    <div className={css.sourceTypeCards}>
+                      {(Object.keys(SOURCE_TYPE_LABELS) as AddSourceType[]).map(type => (
+                        <button key={type} type="button" className={css.sourceTypeCard} onClick={() => { openAdd(type) }}>
+                          <span className={css.sourceTypeCardIcon} style={{ color: sourceIcon(type === 'note' ? 'text' : type).color }}>
+                            {sourceIcon(type === 'note' ? 'text' : type).icon}
+                          </span>
+                          <span>{SOURCE_TYPE_LABELS[type]}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div className={css.gridHeader} role="row">
+                      <span>名称</span>
+                      <span>类型</span>
+                      <span>状态</span>
+                      <span>更新时间</span>
+                      <span aria-label="操作" />
+                    </div>
+                    <div className={css.gridScroll} role="rowgroup">
+                      {sources.map(source => {
+                        const icon = sourceIcon(source.kind)
+                        return (
+                          <div key={source.id} className={css.gridRow} role="row">
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
+                              <span className={css.sourceIcon} style={{ color: icon.color }}>{icon.icon}</span>
+                              <span className={css.sourceName} title={source.name}>{source.name}</span>
+                            </div>
+                            <span className={css.sourceType}>{kindLabel(source.kind)}</span>
+                            <span className={css.statusBadge} title={source.error}>
+                              {source.status === 'ready' && <span className={css.statusReady}><IconCheckOutline16 size={12} />就绪</span>}
+                              {source.status === 'indexing' && <span className={css.statusIndexing}><span className={css.statusSpinner} />处理中</span>}
+                              {source.status === 'failed' && <span className={css.statusFailed}><IconCircleAlert size={12} />错误</span>}
+                            </span>
+                            <span className={css.sourceUpdated}>{relativeTime(source.updatedAt)}</span>
+                            <div style={{ position: 'relative' }}>
+                              <button
+                                type="button"
+                                className={css.rowMenu}
+                                title="更多"
+                                onClick={() => { setRowMenuFor(rowMenuFor === source.id ? null : source.id) }}
+                              >
+                                <IconMoreHorizontal size={14} />
+                              </button>
+                              {rowMenuFor === source.id && (
+                                <div className={css.menuPopover} style={{ top: 'calc(100% + 2px)', right: 0 }}>
+                                  <button
+                                    type="button"
+                                    className={css.menuItem}
+                                    onClick={() => { setRowMenuFor(null); void indexBase() }}
+                                  >
+                                    <IconRefreshCw size={13} />
+                                    <span>重新索引</span>
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className={`${css.menuItem} ${css.destructive}`}
+                                    onClick={() => { setRowMenuFor(null); setDeleteSourceTarget(source) }}
+                                  >
+                                    <IconTrashInline />
+                                    <span>删除</span>
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </>
                 )}
+              </div>
+            </>
+          )}
+        </main>
+      </div>
+
+      <input
+        ref={fileRef}
+        type="file"
+        multiple
+        accept=".txt,.md,.markdown,.html,.htm,.csv,.json,.yaml,.yml,text/plain,text/markdown,text/html,application/json,application/xml"
+        style={{ display: 'none' }}
+        onChange={(event) => {
+          const files = [...(event.target.files ?? [])]
+          setAddDialog(null)
+          for (const file of files) void addFile(file)
+          event.target.value = ''
+        }}
+      />
+
+      {recallOpen && (
+        <PanelShell title="召回测试" onClose={() => { setRecallOpen(false) }}>
+          <div className={css.recallBar}>
+            <div className={css.recallInputWrap}>
+              <span style={{ display: 'inline-flex', color: 'var(--foreground-tertiary)' }}><IconSearchOutline16 size={14} /></span>
+              <input
+                className={css.recallInput}
+                placeholder="输入测试 Query..."
+                value={recallQuery}
+                onChange={event => { setRecallQuery(event.target.value) }}
+                onKeyDown={event => { if (event.key === 'Enter') void recall() }}
+              />
+            </div>
+            <button type="button" className={css.recallSubmit} disabled={recallQuery.trim() === '' || recallSearching} onClick={() => { void recall() }}>
+              <IconZap size={14} />
+              <span>检索</span>
+            </button>
+          </div>
+          <div className={css.recallResults}>
+            {recallSearching ? (
+              <div className={css.recallEmpty}>正在检索...</div>
+            ) : hits.length === 0 ? (
+              <div className={css.recallEmpty}>输入查询语句开始检索测试，结果将展示匹配的文档片段和分数</div>
+            ) : (
+              <>
+                <div className={css.recallSummary}>
+                  <span>{hits.length} 个结果</span>
+                  <span>{recallMs}ms</span>
+                  <span>最高: {hits[0]!.score.toFixed(3)}</span>
+                  {retrievalProvider === null ? null : <span>检索模式：{retrievalProvider}</span>}
+                </div>
+                {hits.map((hit, index) => (
+                  <div key={hit.chunkId} className={css.recallCard}>
+                    <div className={css.recallCardHeader}>
+                      <span className={css.recallRank}>{index + 1}</span>
+                      <IconFileText size={14} style={{ color: 'var(--muted-foreground)', flex: 'none' }} />
+                      <span className={css.recallSource}>{hit.sourceName}</span>
+                      <span className={css.recallChunkIndex}></span>
+                      <span className={css.recallScore}>{hit.score.toFixed(3)}</span>
+                      <button
+                        type="button"
+                        className={`${css.recallCopy} ${copied ? css.success : ''}`}
+                        title="复制片段"
+                        onClick={() => { copy(hit.text) }}
+                      >
+                        {copied ? <IconCheckOutline16 size={12} /> : <IconCopy size={12} />}
+                      </button>
+                    </div>
+                    <p className={css.recallBody} title={hit.text}>{hit.text}</p>
+                  </div>
+                ))}
               </>
             )}
-          </section>
-        </>
+          </div>
+        </PanelShell>
       )}
+
+      {createOpen && (
+        <div className={css.dialogOverlay} onMouseDown={(event) => { if (event.target === event.currentTarget) setCreateOpen(false) }}>
+          <div className={css.dialogCard} role="dialog" aria-modal="true" aria-label="新建知识库">
+            <h3>新建知识库</h3>
+            <div className={css.dialogField}>
+              <label htmlFor="cc-kb-name">名称</label>
+              <input
+                id="cc-kb-name"
+                className={css.dialogInput}
+                placeholder="名称"
+                value={baseName}
+                onChange={event => { setBaseName(event.target.value) }}
+                autoFocus
+              />
+            </div>
+            <div className={css.dialogField}>
+              <label htmlFor="cc-kb-desc">描述（可选）</label>
+              <input
+                id="cc-kb-desc"
+                className={css.dialogInput}
+                placeholder="描述"
+                value={baseDescription}
+                onChange={event => { setBaseDescription(event.target.value) }}
+              />
+            </div>
+            <div className={css.dialogHint}>嵌入模型：本地 Hash Embedding（离线可用）</div>
+            <div className={css.dialogActions} style={{ marginTop: 16 }}>
+              <button type="button" className={css.btn} onClick={() => { setCreateOpen(false) }}>取消</button>
+              <button type="button" className={`${css.btn} ${css.btnPrimary}`} disabled={baseName.trim() === ''} onClick={() => { void createBase() }}>
+                创建
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {renameTarget !== null && (
+        <div className={css.dialogOverlay} onMouseDown={(event) => { if (event.target === event.currentTarget) setRenameTarget(null) }}>
+          <div className={css.dialogCard} role="dialog" aria-modal="true" aria-label="重命名知识库">
+            <h3>重命名知识库</h3>
+            <div className={css.dialogField}>
+              <label htmlFor="cc-kb-rename">名称</label>
+              <input
+                id="cc-kb-rename"
+                className={css.dialogInput}
+                placeholder="名称"
+                value={baseName}
+                onChange={event => { setBaseName(event.target.value) }}
+                autoFocus
+              />
+            </div>
+            <div className={css.dialogActions}>
+              <button type="button" className={css.btn} onClick={() => { setRenameTarget(null) }}>取消</button>
+              <button type="button" className={`${css.btn} ${css.btnPrimary}`} disabled={baseName.trim() === ''} onClick={() => { void renameBase() }}>
+                重命名
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {addDialog === 'note' && (
+        <div className={css.dialogOverlay} onMouseDown={(event) => { if (event.target === event.currentTarget) setAddDialog(null) }}>
+          <div className={css.dialogCard} role="dialog" aria-modal="true" aria-label="添加笔记">
+            <h3>添加笔记</h3>
+            <div className={css.dialogField}>
+              <label htmlFor="cc-note-name">名称</label>
+              <input
+                id="cc-note-name"
+                className={css.dialogInput}
+                placeholder="为这篇笔记取个名字"
+                value={noteName}
+                onChange={event => { setNoteName(event.target.value) }}
+                autoFocus
+              />
+            </div>
+            <div className={css.dialogField}>
+              <label htmlFor="cc-note-body">内容</label>
+              <textarea
+                id="cc-note-body"
+                className={css.dialogTextarea}
+                placeholder="在此输入笔记内容…"
+                value={noteBody}
+                onChange={event => { setNoteBody(event.target.value) }}
+              />
+            </div>
+            <div className={css.dialogActions}>
+              <button type="button" className={css.btn} onClick={() => { setAddDialog(null) }}>取消</button>
+              <button type="button" className={`${css.btn} ${css.btnPrimary}`} disabled={noteBody.trim() === ''} onClick={() => { void addNote() }}>
+                添加
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {addDialog === 'url' && (
+        <div className={css.dialogOverlay} onMouseDown={(event) => { if (event.target === event.currentTarget) setAddDialog(null) }}>
+          <div className={css.dialogCard} role="dialog" aria-modal="true" aria-label="添加链接">
+            <h3>添加链接</h3>
+            <div className={css.dialogField}>
+              <label htmlFor="cc-url-input">输入网页链接：</label>
+              <input
+                id="cc-url-input"
+                className={css.dialogInput}
+                placeholder="https://example.com"
+                value={urlText}
+                onChange={event => { setUrlText(event.target.value) }}
+                autoFocus
+              />
+            </div>
+            <div className={css.dialogHint}>将自动抓取页面文本并分块索引</div>
+            <div className={css.dialogActions} style={{ marginTop: 16 }}>
+              <button type="button" className={css.btn} onClick={() => { setAddDialog(null) }}>取消</button>
+              <button type="button" className={`${css.btn} ${css.btnPrimary}`} disabled={urlText.trim() === ''} onClick={() => { void addUrl() }}>
+                添加
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <ConfirmDialog
+        open={deleteTarget !== null}
+        title="确认删除知识库"
+        description="删除后将无法恢复该知识库及其索引数据。"
+        confirmText="删除"
+        destructive
+        onConfirm={() => { void deleteBase() }}
+        onCancel={() => { setDeleteTarget(null) }}
+      />
+      <ConfirmDialog
+        open={deleteSourceTarget !== null}
+        title="确认删除数据源"
+        description="删除后将无法恢复该数据源及其索引数据。"
+        confirmText="删除"
+        destructive
+        onConfirm={() => { void deleteSource() }}
+        onCancel={() => { setDeleteSourceTarget(null) }}
+      />
     </main>
+  )
+}
+
+function IconPenLineInline() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M12 20h9" />
+      <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+    </svg>
+  )
+}
+
+function IconTrashInline() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M3 6h18" />
+      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+      <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+    </svg>
   )
 }
