@@ -214,7 +214,11 @@ for (const entry of readdirSync(srcNM)) {
       }
       continue
     }
-    copyTree(es, ed)
+    // Other top-level dirs (e.g. @dsh-control-center/control-center) must be
+    // copied WITHOUT their nested node_modules (a package's deps resolve via the
+    // materialized top-level node_modules), else copyTree follows the internal
+    // @deepseek-ai links infinitely (ENAMETOOLONG). cpSync + skipNM avoids that.
+    cpSync(es, ed, { recursive: true, force: true, dereference: true, filter: (e) => !skipNM(e) })
   }
 }
 
