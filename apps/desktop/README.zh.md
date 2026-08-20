@@ -54,6 +54,7 @@ pnpm start        # 连接 127.0.0.1:3080 surface（在线则连，否则自启�
 cd apps/desktop
 pnpm smoke            # 需要 3080 surface 在线：断 SURFACE_LOADED + CONTROL_CENTER_ATTACHED
 pnpm smoke:selfhost   # 无需已有 surface：断 self-host ready(URL 行解析) + SURFACE_LOADED + CONTROL_CENTER_ATTACHED
+pnpm pack:dir && pnpm smoke:packed   # 打开发包目录并验证打包后的 exe 能加载控制中心
 ```
 
 连接冒烟示例：
@@ -74,6 +75,27 @@ smoke PASS
 [desktop] CONTROL_CENTER_ATTACHED=true
 smoke PASS(self-host)
 ```
+
+## 打包发行
+
+`apps/desktop` 用 [electron-builder](https://www.electron.build/)（devDependency）打包：
+
+- `pnpm pack:dir` — 产出未安装目录 `release/win-unpacked/DSH Control Center.exe`（快速冒烟用，不生成安装器）。
+- `pnpm pack:win` — 产出 Windows NSIS 安装器（需要证书/下载 nsis + winCodeSign，CI 或发布时用）。
+- 配置在 `electron-builder.json`：appId、productName=DSH Control Center、win/mac/linux 的 `--dir` 目标、
+  `files` 只收 `bin/**` + `package.json`（asar 打包主进程）。
+- 打包冒烟：`pnpm smoke:packed` spawn 打包后的 exe `--e2e`，断言 `SURFACE_LOADED` + `CONTROL_CENTER_ATTACHED=true`。
+
+> 当前用默认 Electron 图标；品牌图标（`build/icon.ico`）与代码签名留作发布前接入。发行还会涉及随应用
+> 内置匹配版本的 node（自启 host 现依赖系统 node，见上文已知边界）。
+
+## 桌面环境探测
+
+壳加载页面后向 renderer 注入 `window.__DSH_DESKTOP__`（含 `shell`/`host`/`version`/`capabilities`）并派发
+`dsh-desktop-ready` 事件。web UI（`packages/control-center/src/client/desktop-capabilities.ts`）据此把
+"需要桌面版"的行切换为"桌面（已就绪）"——仅在桌面壳里有该标记，浏览器标签页永看不到，因此 web 预览与
+E2E 保持诚实标注。当前 `capabilities` 仅含 `window`（极简、诚实）；原生能力桥（文件对话框、通知等）落地后
+逐步扩充该列表并真实接线。
 
 ## 后续（P1–P5）
 

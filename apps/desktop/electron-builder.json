@@ -1,0 +1,24 @@
+{
+  "appId": "com.dshcontrolcontrolcenter.desktop",
+  "productName": "DSH Control Center",
+  "copyright": "Copyright © 2026 kael-odin",
+  "directories": {
+    "output": "release"
+  },
+  "files": [
+    "bin/**",
+    "package.json"
+  ],
+  "asar": true,
+  "npmRebuild": false,
+  "win": {
+    "target": ["dir"]
+  },
+  "mac": {
+    "target": ["dir"],
+    "category": "public.app-category.productivity"
+  },
+  "linux": {
+    "target": ["dir"]
+  }
+}

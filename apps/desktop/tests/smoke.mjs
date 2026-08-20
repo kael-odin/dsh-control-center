@@ -32,6 +32,7 @@ const expected = {
   loaded: false,
   attached: false,
   selfHostReady: false,
+  marker: false,
 }
 
 const env = { ...process.env }
@@ -53,6 +54,7 @@ child.stdout.on('data', (b) => {
   if (b.toString().includes('SURFACE_LOADED')) expected.loaded = true
   if (/CONTROL_CENTER_ATTACHED=true/.test(b.toString())) expected.attached = true
   if (/self-host ready/.test(b.toString())) expected.selfHostReady = true
+  if (/DESKTOP_MARKER=true/.test(b.toString())) expected.marker = true
 })
 child.stderr.on('data', (b) => { stderr += b.toString() })
 
@@ -70,18 +72,18 @@ child.on('close', (code) => {
   console.log(stderr.trim())
 
   if (selfHost) {
-    const ok = code === 0 && expected.loaded && expected.selfHostReady && expected.attached
+    const ok = code === 0 && expected.loaded && expected.selfHostReady && expected.attached && expected.marker
     if (!ok) {
-      console.error(`smoke FAIL(self-host): code=${code} loaded=${expected.loaded} selfHostReady=${expected.selfHostReady} attached=${expected.attached}`)
+      console.error(`smoke FAIL(self-host): code=${code} loaded=${expected.loaded} selfHostReady=${expected.selfHostReady} attached=${expected.attached} marker=${expected.marker}`)
       process.exit(1)
     }
     console.log('smoke PASS(self-host)')
     process.exit(0)
   }
 
-  const ok = code === 0 && expected.loaded && expected.attached
+  const ok = code === 0 && expected.loaded && expected.attached && expected.marker
   if (!ok) {
-    console.error(`smoke FAIL: code=${code} loaded=${expected.loaded} attached=${expected.attached}`)
+    console.error(`smoke FAIL: code=${code} loaded=${expected.loaded} attached=${expected.attached} marker=${expected.marker}`)
     process.exit(1)
   }
   console.log('smoke PASS')

@@ -141,6 +141,23 @@ function createWindow(url) {
   })
   mainWindow.setMenuBarVisibility(false)
   mainWindow.loadURL(url)
+  // Expose an honest desktop-environment marker so the Control Center web UI can
+  // flip its "需要桌面版" rows to real/available when running under this shell.
+  // Injected into the loaded renderer only (a plain browser tab never sees it).
+  mainWindow.webContents.on('did-finish-load', () => {
+    mainWindow.webContents.executeJavaScript(
+      `(() => {
+        const marker = {
+          shell: true,
+          host: 'dsh-control-center',
+          version: ${JSON.stringify(process.env.npm_package_version || '0.1.0')},
+          capabilities: ['window'],
+        };
+        window.__DSH_DESKTOP__ = marker;
+        document.dispatchEvent(new CustomEvent('dsh-desktop-ready', { detail: marker }));
+      })()`,
+    ).catch(() => { /* renderer may navigate away; marker loss is acceptable */ })
+  })
   if (smoke) {
     // E2E smoke: report surface load, then exit so CI/a driver can assert.
     // `SMOKE_SURFACE_ONLY=1` asserts the surface came up (self-host on a fresh
@@ -165,6 +182,17 @@ function createWindow(url) {
         console.log(`[desktop] CONTROL_CENTER_ATTACHED=${attached}`)
         if (!attached) {
           console.error('[desktop] Control Center trigger not attached in renderer')
+          app.exit(1)
+          return
+        }
+        // The shell must have injected an honest desktop-environment marker into
+        // the renderer; the Control Center web UI flips its "需要桌面版" rows on it.
+        const markerShell = await mainWindow.webContents.executeJavaScript(
+          `String(!!((globalThis.__DSH_DESKTOP__) && globalThis.__DSH_DESKTOP__.shell === true))`,
+        )
+        console.log(`[desktop] DESKTOP_MARKER=${markerShell}`)
+        if (markerShell !== 'true') {
+          console.error('[desktop] desktop marker not injected into renderer')
           app.exit(1)
           return
         }

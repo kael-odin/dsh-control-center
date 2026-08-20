@@ -1,2 +1,4 @@
 # Electron self-host smoke creates an isolated DSH home here.
 .smoke-home/
+# electron-builder output (unpacked app, installers).
+release/

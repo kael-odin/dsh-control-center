@@ -13,12 +13,16 @@
     "start": "electron .",
     "dev": "electron . --dev",
     "smoke": "node tests/smoke.mjs",
-    "smoke:selfhost": "node tests/smoke.mjs --selfhost"
+    "smoke:selfhost": "node tests/smoke.mjs --selfhost",
+    "smoke:packed": "node tests/packed-smoke.mjs",
+    "pack:dir": "electron-builder --dir",
+    "pack:win": "electron-builder --win nsis"
   },
   "engines": {
     "node": "^22.19.0 || >=24.0.0"
   },
   "devDependencies": {
-    "electron": "41.8.0"
+    "electron": "41.8.0",
+    "electron-builder": "^26.15.3"
   }
 }

@@ -10,6 +10,7 @@ import type { IApiClient } from '@deepseek-ai/dsh-client-connection/client'
 import {
   applyThemeOverrides, loadThemeOverrides, saveThemeOverrides, THEME_COLOR_PRESETS, type ThemeOverrides,
 } from './theme-overrides.ts'
+import { isDesktopEnv } from './desktop-capabilities.ts'
 import { HelpTooltip } from './panel-ui.tsx'
 import {
   SettingDivider, SettingGroup, SettingRow, SettingRowTitle, SettingsPageShell,
@@ -23,6 +24,11 @@ export interface AppearanceSectionInjected {
 export type AppearanceSectionProps = PropsRuntime<'settings.section'> & InjectFace<AppearanceSectionInjected>
 
 type ThemeMode = 'light' | 'dark' | 'system'
+
+/** Desktop-only row value: honest once a capability is real, gated otherwise. */
+function desktopRowValue(): string {
+  return isDesktopEnv() ? '桌面（已就绪）' : '需要桌面版'
+}
 
 const THEME_NS = 'ui-theme'
 
@@ -205,17 +211,17 @@ export function AppearanceSection({ api }: AppearanceSectionProps) {
         <SettingDivider />
         <SettingRow>
           <SettingRowTitle>缩放 <span className={css.desktopTag}>桌面</span></SettingRowTitle>
-          <span className={css.staticValue}>需要桌面版</span>
+          <span className={css.staticValue}>{desktopRowValue()}</span>
         </SettingRow>
         <SettingDivider />
         <SettingRow>
           <SettingRowTitle>右键菜单样式 <span className={css.desktopTag}>桌面</span></SettingRowTitle>
-          <span className={css.staticValue}>需要桌面版</span>
+          <span className={css.staticValue}>{desktopRowValue()}</span>
         </SettingRow>
         <SettingDivider />
         <SettingRow>
           <SettingRowTitle>透明窗口 <span className={css.desktopTag}>桌面</span></SettingRowTitle>
-          <span className={css.staticValue}>需要桌面版</span>
+          <span className={css.staticValue}>{desktopRowValue()}</span>
         </SettingRow>
       </SettingGroup>
 
