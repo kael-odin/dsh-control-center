@@ -1,0 +1,159 @@
+/* API gateway settings page styles. */
+.notice {
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border: 1px solid var(--info-border, var(--border));
+  border-radius: 10px;
+  background: var(--info-subtle, color-mix(in srgb, var(--muted) 30%, transparent));
+  color: var(--muted-foreground);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.groupHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 400;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.statusStopped {
+  background: var(--muted-foreground);
+}
+
+.statusText {
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+
+.outlineBtn, .ghostBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.outlineBtn:hover {
+  background: var(--accent);
+}
+
+.ghostBtn {
+  border-color: transparent;
+  color: var(--muted-foreground);
+}
+
+.ghostBtn:hover {
+  background: var(--muted);
+  color: var(--foreground);
+}
+
+.inputGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  min-width: 0;
+}
+
+.input {
+  width: 240px;
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--muted) 40%, transparent);
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 12px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.inputSmall {
+  width: 100px;
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--muted) 40%, transparent);
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 12px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.input:focus, .inputSmall:focus {
+  border-color: var(--ring);
+}
+
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+
+.iconBtn:hover {
+  background: var(--accent);
+  color: var(--foreground);
+}
+
+.headerBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  background: var(--background-subtle);
+}
+
+.headerBox code {
+  color: var(--foreground);
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 12px;
+}
+
+.copied {
+  color: var(--success);
+  font-size: 12px;
+}
+
+.docLink {
+  margin-top: 12px;
+  color: var(--primary);
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+}

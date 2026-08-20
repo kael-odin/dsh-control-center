@@ -8,6 +8,7 @@ import { useCallback, useEffect, useState } from 'react'
 import type { HostObservable, InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
 import type { LocalModelServer, LocalModelEntry } from '../local-models-types.ts'
+import { LocalModelDownloads } from './LocalModelDownloads.tsx'
 import css from './UsageSection.module.css'
 
 export interface LocalModelsSectionInjected {
@@ -92,13 +93,16 @@ export function LocalModelsSection({ getLocalModels, useLocalModelsReady }: Loca
     <div className={css.root}>
       <div>
         <h2 className={css.pageTitle}>本地模型</h2>
-        <p className={css.pageDescription}>管理本地推理服务器（Ollama、llama.cpp 等），发现模型后可添加到提供商目录</p>
+        <p className={css.pageDescription}>本地运行的模型与本地推理服务器（Ollama、llama.cpp 等）</p>
       </div>
+
+      <LocalModelDownloads />
 
       {error !== null && <div className="cc-notice-error">{error}</div>}
 
       <div className="cc-card">
-        <div className="cc-card-title">添加本地服务器</div>
+        <div className="cc-card-title">本地推理服务</div>
+        <p className="cc-card-description">管理本地推理服务器（Ollama、llama.cpp 等），发现模型后可添加到提供商目录</p>
         <div className="cc-field-row">
           <div className="cc-field-label">名称</div>
           <input className="cc-input" value={name} placeholder="例如：本机 Ollama" onChange={(e) => setName(e.target.value)} />

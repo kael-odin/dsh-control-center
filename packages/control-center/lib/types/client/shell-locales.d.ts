@@ -4,6 +4,7 @@ export declare const en: {
     title: string;
     close: string;
     generalNav: string;
+    skillsNav: string;
     coreGroup: string;
     capabilitiesGroup: string;
     personalGroup: string;
@@ -34,6 +35,7 @@ export declare const en: {
     automationGroup: string;
     tasksNav: string;
     localModelsNav: string;
+    apiGatewayNav: string;
     updateNav: string;
     channelsNav: string;
     appearanceNav: string;

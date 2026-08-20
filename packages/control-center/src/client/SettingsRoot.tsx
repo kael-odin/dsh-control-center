@@ -82,7 +82,7 @@ function SettingsPanel({ rows, renderSlot, activeId, onSelect, onClose, groupLab
               if (entries.length === 0) return null
               return (
                 <section className={css.navGroup} key={group} aria-label={groupLabels[group]}>
-                  <div className={css.navGroupTitle}>{groupLabels[group]}</div>
+{groupLabels[group] === '' ? null : <div className={css.navGroupTitle}>{groupLabels[group]}</div>}
                   <div className={css.navList}>
                     {entries.map(row => (
                       <button

@@ -57,6 +57,7 @@ import type { TasksSectionInjected } from './TasksSection.tsx'
 import type {} from '../local-models-types.ts'
 import { localModelsRemote, updateRemote } from '../local-models-remote-client.ts'
 import { LocalModelsSection } from './LocalModelsSection.tsx'
+import { ApiGatewaySection } from './ApiGatewaySection.tsx'
 import type { LocalModelsSectionInjected } from './LocalModelsSection.tsx'
 import { UpdateSection } from './UpdateSection.tsx'
 import type { UpdateSectionInjected } from './UpdateSection.tsx'
@@ -104,13 +105,13 @@ const KNOWN_NATIVE = new Set(['general', 'agent-presets', 'plugins'])
 /** Cherry settings group mapping: models are core, capabilities/personal get
  * their own groups, DSH-owned sections stay native. */
 function groupOf(id: string): SettingsSectionRow['group'] {
-  if (id === 'models') return 'core'
+  if (id === 'models' || id === 'providers' || id === 'local-models' || id === 'api-gateway') return 'core'
   if (id === 'general') return 'personal'
-  if (id === 'skills' || id === 'providers' || id === 'mcp' || id === 'websearch' || id === 'file-processing' || id === 'ocr') return 'capabilities'
+  if (id === 'skills' || id === 'mcp' || id === 'websearch' || id === 'file-processing' || id === 'ocr') return 'capabilities'
   if (id === 'usage' || id === 'data' || id === 'appearance' || id === 'notifications') return 'personal'
   if (id === 'about' || id === 'dependencies') return 'system'
   if (id === 'tasks' || id === 'shortcuts' || id === 'quick-assistant' || id === 'selection-assistant' || id === 'screenshot' || id === 'channels') return 'automation'
-  if (id === 'local-models' || id === 'update') return 'system'
+  if (id === 'update') return 'system'
   if (KNOWN_NATIVE.has(id)) return 'native'
   return 'other'
 }
@@ -530,13 +531,13 @@ export function apply(ctx: ClientContext): void {
     name: 'settings.section',
     id: 'skills',
     order: 20,
-    label: () => 'Skills',
+    label: () => shellT('skillsNav'),
     inject: skillsInjected,
   }, SkillsSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'providers',
-    order: 30,
+    order: 5,
     label: () => shellT('providersNav'),
     inject: providersInjected,
   }, ProvidersSection))
@@ -669,6 +670,12 @@ export function apply(ctx: ClientContext): void {
       hooks: { localModelsReady: localModelsReadySource },
     }),
   }, LocalModelsSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'api-gateway',
+    order: 12,
+    label: () => shellT('apiGatewayNav'),
+  }, ApiGatewaySection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'update',

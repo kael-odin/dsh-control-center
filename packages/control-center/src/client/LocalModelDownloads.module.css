@@ -1,0 +1,135 @@
+/* Local model downloads styles. */
+.groupHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.noticeTag {
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--muted);
+  color: var(--foreground-tertiary);
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.groupDesc {
+  margin: 8px 0 0;
+  color: var(--muted-foreground);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.modelCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 4px;
+  border-bottom: 0.5px solid var(--border-subtle);
+}
+
+.modelCard:last-of-type {
+  border-bottom: none;
+}
+
+.modelIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+  font-size: 17px;
+  flex: none;
+}
+
+.modelMain {
+  flex: 1;
+  min-width: 0;
+}
+
+.modelName {
+  font-size: 14px;
+  color: var(--foreground);
+}
+
+.modelSubtitle {
+  margin-top: 2px;
+  color: var(--foreground-tertiary);
+  font-size: 12px;
+}
+
+.modelStatus {
+  margin-top: 3px;
+  font-size: 12px;
+}
+
+.statusReady {
+  color: var(--success);
+}
+
+.statusDownloading {
+  color: var(--warning);
+}
+
+.statusIdle {
+  color: var(--foreground-tertiary);
+}
+
+.modelOps {
+  flex: none;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btnPrimary {
+  border-color: transparent;
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.btnPrimary:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.btnPrimary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btnDanger {
+  border-color: var(--error-border, var(--border));
+  color: var(--destructive);
+  background: var(--error-subtle, transparent);
+}
+
+.btnDanger:hover {
+  background: color-mix(in srgb, var(--destructive) 12%, transparent);
+}
+
+.noticeRow {
+  margin-top: 10px;
+}
+
+.noticeText {
+  color: var(--foreground-tertiary);
+  font-size: 12px;
+}
