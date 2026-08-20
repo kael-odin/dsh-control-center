@@ -80,6 +80,9 @@ renderer (DSH surface 页面)
   - 当前可用发行基线：**内置 node + 复用本机 harness**（正式 NSIS 安装器已交付）。
   - **剩余**：全量物化、`DSH_HARNESS_DIR` 指向物化树 + 打包含 1GB 安装包 + 自包含安装验证。这是后续
     发布架构项（需大体积打包策略），当前以"内置 node + 复用本机 harness"为可用发行基线。
+  - **v4 优化方向（如需加速长作业）**：pass2 依赖 relink 的逐 `junction` 创建（~8k 次 Windows syscall）是
+    极慢主因；可批量化（一次目录预建 + 批量 relink）或将布局扁平化为更少 junction 的 Node-可解析结构。
+    当前以"发布期一次性长作业"处理，不做开发循环内加速。
 
 - `probe:hostinmain`（B0 门禁）已验证 host 的 app-boot trunk 可在 harness resolver 下**准备 profile**
   （`HOST_IN_MAIN=OK`），并验证 host 可在当前进程真·boot loopback surface（编译版
