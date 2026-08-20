@@ -34,6 +34,8 @@ const expected = {
   selfHostReady: false,
   marker: false,
   bridge: false,
+  shellTray: false,
+  shellHotkey: false,
 }
 
 const env = { ...process.env }
@@ -57,6 +59,8 @@ child.stdout.on('data', (b) => {
   if (/self-host ready/.test(b.toString())) expected.selfHostReady = true
   if (/DESKTOP_MARKER=true/.test(b.toString())) expected.marker = true
   if (/NATIVE_BRIDGE=REACHED/.test(b.toString())) expected.bridge = true
+  if (/"tray":true/.test(b.toString())) expected.shellTray = true
+  if (/"hotkeyRegistered":true/.test(b.toString())) expected.shellHotkey = true
 })
 child.stderr.on('data', (b) => { stderr += b.toString() })
 
@@ -74,18 +78,18 @@ child.on('close', (code) => {
   console.log(stderr.trim())
 
   if (selfHost) {
-    const ok = code === 0 && expected.loaded && expected.selfHostReady && expected.attached && expected.marker && expected.bridge
+    const ok = code === 0 && expected.loaded && expected.selfHostReady && expected.attached && expected.marker && expected.bridge && expected.shellTray && expected.shellHotkey
     if (!ok) {
-      console.error(`smoke FAIL(self-host): code=${code} loaded=${expected.loaded} selfHostReady=${expected.selfHostReady} attached=${expected.attached} marker=${expected.marker} bridge=${expected.bridge}`)
+      console.error(`smoke FAIL(self-host): code=${code} loaded=${expected.loaded} ready=${expected.selfHostReady} attached=${expected.attached} marker=${expected.marker} bridge=${expected.bridge} tray=${expected.shellTray} hotkey=${expected.shellHotkey}`)
       process.exit(1)
     }
     console.log('smoke PASS(self-host)')
     process.exit(0)
   }
 
-  const ok = code === 0 && expected.loaded && expected.attached && expected.marker && expected.bridge
+  const ok = code === 0 && expected.loaded && expected.attached && expected.marker && expected.bridge && expected.shellTray && expected.shellHotkey
   if (!ok) {
-    console.error(`smoke FAIL: code=${code} loaded=${expected.loaded} attached=${expected.attached} marker=${expected.marker} bridge=${expected.bridge}`)
+    console.error(`smoke FAIL: code=${code} loaded=${expected.loaded} attached=${expected.attached} marker=${expected.marker} bridge=${expected.bridge} tray=${expected.shellTray} hotkey=${expected.shellHotkey}`)
     process.exit(1)
   }
   console.log('smoke PASS')

@@ -13,11 +13,12 @@
  *
  * @module
  */
-import { app, BrowserWindow, dialog, Notification } from 'electron'
+import { app, BrowserWindow, dialog, Notification, Tray, Menu, globalShortcut, nativeImage } from 'electron'
 import { spawn } from 'node:child_process'
 import { createServer } from 'node:http'
 import { randomBytes } from 'node:crypto'
-import { readFileSync, statSync } from 'node:fs'
+import { readFileSync, statSync, existsSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 
 const DEFAULT_LOOPBACK = 'http://127.0.0.1:3080/'
 const DEFAULT_HARNESS_DIR = process.env.DSH_HARNESS_DIR || 'D:\\Github_Open\\deepseek-harness'
@@ -155,7 +156,12 @@ function startNativeService() {
       try {
         const url = new URL(req.url || '/', 'http://127.0.0.1')
         if (req.method === 'GET' && url.pathname === '/dsh-native/status') {
-          return send(200, { ok: true, shell: true, electron: process.versions.electron, node: process.versions.node })
+          return send(200, {
+            ok: true, shell: true, electron: process.versions.electron, node: process.versions.node,
+            trayActive: tray !== null && !tray.isDestroyed(),
+            hotkey: GLOBAL_HOTKEY,
+            hotkeyRegistered,
+          })
         }
         if (req.method === 'POST' && url.pathname === '/dsh-native/fileDialog') {
           const raw = await readBody(req)
@@ -251,7 +257,54 @@ let activeChild = null
  * confined to these so the token-protected bridge cannot read arbitrary files. */
 let lastPickedPaths = []
 
+/** System tray instance, created when the app is ready. */
+let tray = null
+/** Global shortcut registration state so the bridge can report it honestly. */
+const GLOBAL_HOTKEY = process.env.DSH_DESKTOP_HOTKEY || 'CommandOrControl+Shift+8'
+let hotkeyRegistered = false
+/** The surface URL and native bridge info of the most recent window, for the hotkey to reopen. */
+let lastSurfaceUrl = null
+let nativeInfo = null
+
+/** Resolve the packaged tray icon (build/icon.png) relative to this module. */
+function trayIconPath() {
+  const candidate = fileURLToPath(new URL('../build/icon.png', import.meta.url))
+  return existsSync(candidate) ? candidate : undefined
+}
+
+/** Create the system tray (显示 / 退出) and a global shortcut to focus the window. */
+function setupTrayAndShortcut() {
+  const iconPath = trayIconPath()
+  if (iconPath) {
+    tray = new Tray(nativeImage.createFromPath(iconPath))
+    tray.setToolTip('DSH Control Center')
+    tray.setContextMenu(Menu.buildFromTemplate([
+      { label: '显示', click: () => {
+        if (mainWindow) { mainWindow.show(); mainWindow.focus() }
+      } },
+      { type: 'separator' },
+      { label: '退出', click: () => { app.quit() } },
+    ]))
+    tray.on('click', () => {
+      if (mainWindow) {
+        if (mainWindow.isVisible()) mainWindow.hide(); else mainWindow.show()
+      }
+    })
+  }
+  try {
+    hotkeyRegistered = globalShortcut.register(GLOBAL_HOTKEY, () => {
+      if (mainWindow) { mainWindow.show(); mainWindow.focus() }
+      else if (lastSurfaceUrl) { createWindow(lastSurfaceUrl, nativeInfo) }
+    })
+  } catch (err) {
+    console.warn(`[desktop] globalShortcut.register failed: ${String(err && err.message)}`)
+    hotkeyRegistered = false
+  }
+}
+
 function createWindow(url, native) {
+  lastSurfaceUrl = url
+  nativeInfo = native
   const smoke = process.argv.includes('--e2e')
   mainWindow = new BrowserWindow({
     width: 1320,
@@ -351,6 +404,18 @@ function createWindow(url, native) {
           app.exit(1)
           return
         }
+        // Report tray/hotkey state that the status route carries back.
+        const shellState = await mainWindow.webContents.executeJavaScript(
+          `(async () => {
+            const m = globalThis.__DSH_DESKTOP__;
+            try {
+              const r = await fetch(m.nativeUrl + '/dsh-native/status', { headers: { authorization: 'Bearer ' + m.nativeToken }, signal: AbortSignal.timeout(5000) });
+              const j = await r.json();
+              return JSON.stringify({ tray: !!j.trayActive, hotkeyRegistered: !!j.hotkeyRegistered, hotkey: j.hotkey });
+            } catch (e) { return 'ERR:' + String(e && e.message); }
+          })()`,
+        )
+        console.log(`[desktop] SHELL_STATE=${shellState}`)
       } catch (err) {
         console.error(`[desktop] SURFACE_CHECK_FAILED ${String(err && err.message)}`)
         app.exit(1)
@@ -385,6 +450,9 @@ async function boot() {
   })
 
   await app.whenReady()
+
+  // System tray + global shortcut (focus/reopen window).
+  setupTrayAndShortcut()
 
   // Native bridge: token-protected loopback service in this Electron main
   // process so the renderer can reach Electron dialog/Notification over HTTP.
@@ -441,6 +509,13 @@ function withTimeout(promise, ms, message) {
     )
   })
 }
+
+app.on('before-quit', () => {
+  // Release the global shortcut and destroy the tray on a clean quit.
+  try { globalShortcut.unregisterAll() } catch { /* best effort */ }
+  if (tray && !tray.isDestroyed()) { try { tray.destroy() } catch { /* best effort */ } }
+  tray = null
+})
 
 app.on('window-all-closed', () => {
   // When we own a self-hosted surface, tear it down with the app.
