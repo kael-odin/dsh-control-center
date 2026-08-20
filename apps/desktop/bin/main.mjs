@@ -18,7 +18,7 @@ import { spawn } from 'node:child_process'
 import { createServer } from 'node:http'
 import { randomBytes } from 'node:crypto'
 import { readFileSync, statSync, existsSync } from 'node:fs'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const DEFAULT_LOOPBACK = 'http://127.0.0.1:3080/'
 const DEFAULT_HARNESS_DIR = process.env.DSH_HARNESS_DIR || 'D:\\Github_Open\\deepseek-harness'
@@ -61,15 +61,15 @@ async function isListening(url) {
  * free port, avoiding collisions with an existing `dsh web`; the actual URL is
  * parsed from the boot's readiness line.
  *
- * Uses the system Node.js (`DSH_DESKTOP_NODE`, default `node`). The Electron
- * binary in Node mode does not match the harness's native-module ABI for the
- * directory-picker dependency, so an installed app will bundle/path a matching
- * Node in a later packaging phase.
+ * Uses the bundled Node.js (`vendor/node/node.exe`, node 24 — ABI-compatible
+ * with the harness) unless `DSH_DESKTOP_NODE` is set, falling back to `node`
+ * on PATH when the bundled one is absent. The Electron binary in Node mode does
+ * not match the harness's native-module ABI, so we ship a matching Node instead.
  * @returns `{ child, urlPromise }` where `urlPromise` resolves to the loopback URL once ready.
  */
 function startSelfHost() {
   const dir = resolveHarnessDir()
-  const nodeBin = process.env.DSH_DESKTOP_NODE || 'node'
+  const nodeBin = process.env.DSH_DESKTOP_NODE || bundledNodeBin() || 'node'
   const env = {
     ...process.env,
     ...(resolveSelfHome() !== undefined ? { DSH_HOME: resolveSelfHome() } : {}),
@@ -121,6 +121,18 @@ function startSelfHost() {
 
 function resolveHarnessDir() {
   return process.env.DSH_HARNESS_DIR || DEFAULT_HARNESS_DIR
+}
+
+/** Resolve the bundled Node binary (vendor/node), if present. */
+function bundledNodeBin() {
+  // Packaged: extraResources puts it at <resources>/vendor/node/node.exe.
+  if (process.resourcesPath) {
+    const packaged = fileURLToPath(new URL('vendor/node/node.exe', pathToFileURL(`${process.resourcesPath}/`)))
+    if (existsSync(packaged)) return packaged
+  }
+  // Dev checkout: apps/desktop/vendor/node/node.exe.
+  const dev = fileURLToPath(new URL('../vendor/node/node.exe', import.meta.url))
+  return existsSync(dev) ? dev : undefined
 }
 
 /**

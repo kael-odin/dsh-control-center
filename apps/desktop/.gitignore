@@ -2,3 +2,5 @@
 .smoke-home/
 # electron-builder output (unpacked app, installers).
 release/
+# Bundled Node.js runtime (downloaded, not committed).
+vendor/node/

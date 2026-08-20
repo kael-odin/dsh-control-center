@@ -29,12 +29,13 @@ apps/desktop/
 - **连接已有 surface**：一个 DSH Web surface 监听默认 `http://127.0.0.1:3080/`（即 `dsh web`），
   或用 `DSH_CONTROL_DESKTOP_URL` 指向其它 loopback surface。
 - **自启**：`DSH_HARNESS_DIR` 指向 `deepseek-harness`（默认 `D:\Github_Open\deepseek-harness`）；
-  壳用系统 Node.js（`DSH_DESKTOP_NODE`，默认 `node`）spawn host，并**复用用户默认
-  `~/.dsh` home**（与 `dsh web` 共享 profile/bundle/会话数据），因此自启 surface 同样挂载
-  Control Center；`DSH_DESKTOP_HOME` 可显式指定变为独立隔离 home。
+  - 壳用内置 Node.js（`vendor/node/node.exe`，node 24 —— ABI 与 harness 匹配）spawn host；无内置时
+    回退 `DSH_DESKTOP_NODE` 或系统 `node`。桌面壳**复用用户默认 `~/.dsh` home**（与 `dsh web`
+    共享 profile/bundle/会话数据），因此自启 surface 同样挂载 Control Center；`DSH_DESKTOP_HOME`
+    可显式指定变为独立隔离 home。
 
 > 已知边界：electron 二进制以 `ELECTRON_RUN_AS_NODE` 当 node 用时，与 harness 的原生目录选择
-> 依赖 ABI 不匹配，故 P1 暂用系统 node spawn；打包阶段将随应用内置匹配版本的 node。
+> 依赖 ABI 不匹配，故随应用内置匹配版本的 node（node 24，`vendor/node`，extraResources 打包）。
 
 ## 安装与运行（一次性步骤）
 
@@ -91,9 +92,10 @@ smoke PASS(self-host)
 
 > `build/icon.png` 是 ffmpeg 生成的**过渡品牌图标**（纯品牌绿），正式设计后替换；代码签名需要受信证书
 > （当前 signtool 走未签名 → Windows SmartScreen 提示未知发布者，可"仍要运行"）。**分布边界**：当前正式
-> 安装包是"复用本机已有 `deepseek-harness` 的开发/已有环境发行"——自启 host 依赖 `DSH_HARNESS_DIR`
-> （默认 `D:\Github_Open\deepseek-harness`）与系统 node（`DSH_DESKTOP_NODE`）。要做**完全自包含**
-> （随安装内置匹配 ABI 的 node + 物化 harness）是更大的发布架构项，见 `docs/DESKTOP_CAPABILITIES_BRIDGE.zh.md`。
+> 安装包自启 host 已用**内置 node**（`resources/vendor/node`，免系统 node），但 harness 仍是外部依赖
+> `DSH_HARNESS_DIR`（默认 `D:\Github_Open\deepseek-harness`）。做**完全自包含**（随安装物化
+> rebuild harness —— 926+ 个 pnpm 虚拟包真实实体化，体积数百 MB）是更大的发布架构项，尚待完成，
+> 见 `docs/DESKTOP_CAPABILITIES_BRIDGE.zh.md`。
 
 ## 原生能力桥（main 原生微服务）
 
