@@ -34,15 +34,14 @@ const expected = {
   selfHostReady: false,
 }
 
-const env = {
-  ...process.env,
-  // Surface-only assertion: a fresh self-host home has no Control Center bundle yet.
-  ...(selfHost ? { DSH_DESKTOP_SMOKE_SURFACE_ONLY: '1' } : {}),
-}
+const env = { ...process.env }
 
 if (selfHost) {
+  // Point the shell at an unused loopback URL so it takes the self-host path.
+  // No DSH_DESKTOP_HOME is set: the shell reuses the default `~/.dsh` home,
+  // whose web profile carries the Control Center bundle, so we can assert the
+  // trigger is actually mounted in the self-hosted surface too.
   env.DSH_CONTROL_DESKTOP_URL = `http://127.0.0.1:${TRIGGER_PORT}/`
-  env.DSH_DESKTOP_HOME = resolve(process.env.SMOKE_TMP || `${root}/.smoke-home`)
 }
 
 const child = spawn(electronBin, ['.', '--e2e'], { cwd: root, stdio: ['ignore', 'pipe', 'pipe'], shell: false, env })
@@ -71,9 +70,9 @@ child.on('close', (code) => {
   console.log(stderr.trim())
 
   if (selfHost) {
-    const ok = code === 0 && expected.loaded && expected.selfHostReady
+    const ok = code === 0 && expected.loaded && expected.selfHostReady && expected.attached
     if (!ok) {
-      console.error(`smoke FAIL(self-host): code=${code} loaded=${expected.loaded} selfHostReady=${expected.selfHostReady}`)
+      console.error(`smoke FAIL(self-host): code=${code} loaded=${expected.loaded} selfHostReady=${expected.selfHostReady} attached=${expected.attached}`)
       process.exit(1)
     }
     console.log('smoke PASS(self-host)')

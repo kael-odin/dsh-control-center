@@ -29,8 +29,9 @@ apps/desktop/
 - **连接已有 surface**：一个 DSH Web surface 监听默认 `http://127.0.0.1:3080/`（即 `dsh web`），
   或用 `DSH_CONTROL_DESKTOP_URL` 指向其它 loopback surface。
 - **自启**：`DSH_HARNESS_DIR` 指向 `deepseek-harness`（默认 `D:\Github_Open\deepseek-harness`）；
-  壳用系统 Node.js（`DSH_DESKTOP_NODE`，默认 `node`）spawn host，并为自启 host 用独立
-  `DSH_DESKTOP_HOME`（默认 `~\.dsh-desktop`）与运行中的 web 实例隔离。
+  壳用系统 Node.js（`DSH_DESKTOP_NODE`，默认 `node`）spawn host，并**复用用户默认
+  `~/.dsh` home**（与 `dsh web` 共享 profile/bundle/会话数据），因此自启 surface 同样挂载
+  Control Center；`DSH_DESKTOP_HOME` 可显式指定变为独立隔离 home。
 
 > 已知边界：electron 二进制以 `ELECTRON_RUN_AS_NODE` 当 node 用时，与 harness 的原生目录选择
 > 依赖 ABI 不匹配，故 P1 暂用系统 node spawn；打包阶段将随应用内置匹配版本的 node。
@@ -52,7 +53,7 @@ pnpm start        # 连接 127.0.0.1:3080 surface（在线则连，否则自启�
 ```bash
 cd apps/desktop
 pnpm smoke            # 需要 3080 surface 在线：断 SURFACE_LOADED + CONTROL_CENTER_ATTACHED
-pnpm smoke:selfhost   # 无需已有 surface：断 self-host ready(URL 行解析) + SURFACE_LOADED
+pnpm smoke:selfhost   # 无需已有 surface：断 self-host ready(URL 行解析) + SURFACE_LOADED + CONTROL_CENTER_ATTACHED
 ```
 
 连接冒烟示例：
@@ -68,14 +69,16 @@ smoke PASS
 
 ```
 [desktop] no DSH surface at http://127.0.0.1:39999/; self-hosting…
-[desktop] self-host ready at http://127.0.0.1:51771
+[desktop] self-host ready at http://127.0.0.1:56682
 [desktop] SURFACE_LOADED
+[desktop] CONTROL_CENTER_ATTACHED=true
 smoke PASS(self-host)
 ```
 
 ## 后续（P1–P5）
 
-- 单实例锁已实现；自启 host 已实现（`--port 0` + 就绪行 URL 解析 + 独立 home）。
-- 下一步：让自启 home 内预装 `@dsh-control-center/bundle`（`dsh plugin --profile web add`），
-  使自启 surface 也含完整 Control Center；然后接原生能力桥（经 Host Cordis service 暴露）。
+- 单实例锁已实现；自启 host 已实现（`--port 0` + 就绪行 URL 解析 + 复用默认 home，surface 含完整
+  Control Center）。
+- 下一步：接原生能力桥（文件对话框、系统通知等，经 Host Cordis service 暴露，UI 侧按能力探测启用），
+  并随应用内置 node + 打包发行。
 - 每阶段前：live 验证 + `pnpm run check` + 打包 E2E；Cherry 借鉴进 provenance。

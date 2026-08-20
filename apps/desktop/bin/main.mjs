@@ -27,9 +27,19 @@ function resolveUrl() {
   return base.endsWith('/') ? base : `${base}/`
 }
 
-/** Isolated DSH home used when the desktop shell self-hosts (defaults to `~/.dsh-desktop`). */
+/**
+ * Decide the DSH home for a self-hosted surface.
+ *
+ * Reuses the user's default home (`~/.dsh`) unless `DSH_DESKTOP_HOME` is set, so
+ * the desktop shell shares the same profile/bundle/session data as `dsh web` and
+ * the self-hosted surface mounts the installed Control Center bundle. An explicit
+ * `DSH_DESKTOP_HOME` opts into an isolated home (used by the self-host smoke to
+ * avoid colliding with a running 3080 instance during development).
+ * @returns the `DSH_HOME` value to inject, or `undefined` to use the default home.
+ */
 function resolveSelfHome() {
-  return process.env.DSH_DESKTOP_HOME || `${process.env.USERPROFILE || process.env.HOME || '.'}\\.dsh-desktop`
+  if (process.env.DSH_DESKTOP_HOME) return process.env.DSH_DESKTOP_HOME
+  return undefined
 }
 
 /** Probe whether a DSH surface is already listening at `url`. */
@@ -58,7 +68,7 @@ function startSelfHost() {
   const nodeBin = process.env.DSH_DESKTOP_NODE || 'node'
   const env = {
     ...process.env,
-    DSH_HOME: resolveSelfHome(),
+    ...(resolveSelfHome() !== undefined ? { DSH_HOME: resolveSelfHome() } : {}),
   }
   const child = spawn(
     nodeBin,
