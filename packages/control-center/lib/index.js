@@ -12,7 +12,7 @@ import { Service } from "@deepseek-ai/cordis";
 import { ReasoningEffortId, createUserMessage } from "@deepseek-ai/dsh-llm";
 import { Remote, bindTypertRemote } from "@deepseek-ai/dsh-typert-protocol";
 import { getPath } from "@deepseek-ai/dsh-client-schema-form";
-import { mkdir, rm, writeFile } from "node:fs/promises";
+import { appendFile, mkdir, rm, writeFile } from "node:fs/promises";
 import { DatabaseSync } from "node:sqlite";
 import { defineTool } from "@deepseek-ai/dsh-tools";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
@@ -103,6 +103,12 @@ function assertCompatibleDsh(requireFrom = profileRequire()) {
 const MAX_TEXT_CHARS$2 = 1e5;
 const MAX_HISTORY_PAGE$1 = 100;
 const TRANSLATION_NAMESPACE = settingsNamespace("control-center-translation");
+/** Best-effort usage recording; standalone-service tests skip it silently. */
+function recordUsage(ctx, input) {
+	try {
+		ctx.get("controlCenterUsage")?.record(input);
+	} catch {}
+}
 const BUILTIN_LANGUAGES = Object.freeze([
 	{
 		id: "auto",
@@ -353,12 +359,27 @@ var TranslationService = class extends Service {
 					text: request.text
 				}]
 			});
+			const startedAt = Date.now();
+			let recorded = false;
 			for await (const chunk of prepared.stream({
 				...prepared.config,
 				messages: [message],
 				system: prompt(request, this.scope.get().prompt),
 				signal: job.controller.signal
 			})) {
+				if (chunk.type === "usage" && !recorded) {
+					recorded = true;
+					recordUsage(this.ctx, {
+						provider: request.selection.provider,
+						model: request.selection.model,
+						kind: "translation",
+						inputTokens: chunk.usage.inputTokens,
+						outputTokens: chunk.usage.outputTokens,
+						cacheReadTokens: chunk.usage.cacheReadTokens ?? 0,
+						cacheWriteTokens: chunk.usage.cacheWriteTokens ?? 0,
+						latencyMs: Date.now() - startedAt
+					});
+				}
 				if (chunk.type === "text-delta") job.view.output += chunk.text;
 				if (chunk.type === "finish") {
 					if (chunk.reason.kind === "aborted") job.view.status = "cancelled";
@@ -467,6 +488,21 @@ async function resolveKey(settings, credentials, providerId, ns, path) {
 const MAX_TEXT_CHARS$1 = 2e4;
 const MAX_HISTORY_PAGE = 100;
 const DEFAULT_SAMPLES = 1;
+/** Best-effort usage recording; standalone-service tests skip it silently. */
+function recordPaintingUsage(ctx, provider, model) {
+	try {
+		ctx.get("controlCenterUsage")?.record({
+			provider,
+			model,
+			kind: "painting",
+			inputTokens: 0,
+			outputTokens: 0,
+			cacheReadTokens: 0,
+			cacheWriteTokens: 0,
+			latencyMs: 0
+		});
+	} catch {}
+}
 function cloneJob(view) {
 	return structuredClone(view);
 }
@@ -696,6 +732,7 @@ var PaintingService = class extends Service {
 			job.view.progress = 1;
 			job.view.createdImages = refs;
 			job.view.status = "completed";
+			recordPaintingUsage(this.ctx, request.providerId, request.model);
 			const id = `painting-history-${randomUUID()}`;
 			const item = {
 				id,
@@ -1248,11 +1285,29 @@ var KnowledgeService = class extends Service {
 			apiKey,
 			model: config.model
 		}, values, signal);
+		this.recordEmbeddingUsage(config.providerId, config.model, values);
 		for (const vector of vectors) if (vector.length !== config.dimensions) throw new Error(`embedding model returned width ${vector.length}, expected ${config.dimensions}`);
 		return vectors;
 	}
 	updateBaseStamp(id) {
 		this.db.prepare("UPDATE knowledge_bases SET updated_at = ? WHERE id = ?").run(now(), id);
+	}
+	/** Best-effort usage recording for provider embedding calls. */
+	recordEmbeddingUsage(provider, model, values) {
+		try {
+			const usage = this.ctx.get("controlCenterUsage");
+			const chars = values.reduce((sum, value) => sum + value.length, 0);
+			usage?.record({
+				provider,
+				model: model ?? "embedding",
+				kind: "embedding",
+				inputTokens: Math.ceil(chars / 4),
+				outputTokens: 0,
+				cacheReadTokens: 0,
+				cacheWriteTokens: 0,
+				latencyMs: 0
+			});
+		} catch {}
 	}
 	listBases() {
 		return { bases: this.db.prepare("SELECT * FROM knowledge_bases ORDER BY created_at DESC").all().map((row) => {
@@ -3727,17 +3782,192 @@ const fileProcessingRemote = {
 	}))
 };
 //#endregion
+//#region lib/types/usage-store.js
+/**
+* Usage record store: append-only JSONL under <dshHome>/control-center/
+* usage.jsonl with a bounded in-memory view. Keyed per DSH home so tests
+* with isolated homes never observe each other.
+*/
+const MAX_MEMORY_RECORDS = 5e3;
+const MAX_FILE_LINES = 2e3;
+const stores = /* @__PURE__ */ new Map();
+function usageStoreFor(home) {
+	let store = stores.get(home);
+	if (store === void 0) {
+		store = new UsageStore(home);
+		stores.set(home, store);
+	}
+	return store;
+}
+var UsageStore = class {
+	file;
+	records = [];
+	loaded = false;
+	constructor(home) {
+		this.file = join(home, "control-center", "usage.jsonl");
+		try {
+			mkdirSync(join(home, "control-center"), { recursive: true });
+		} catch {}
+	}
+	ensureLoaded() {
+		if (this.loaded) return;
+		this.loaded = true;
+		if (!existsSync(this.file)) return;
+		try {
+			const lines = readFileSyncSafe(this.file);
+			for (const line of lines) {
+				if (line.trim().length === 0) continue;
+				try {
+					const record = JSON.parse(line);
+					if (record.id !== void 0 && typeof record.createdAt === "number") this.records.push(record);
+				} catch {}
+			}
+			this.records.sort((left, right) => left.createdAt - right.createdAt);
+			this.records = this.records.slice(-5e3);
+		} catch {
+			this.records = [];
+		}
+	}
+	/** Append one record; the file write is fire-and-forget (never blocks calls). */
+	record(input) {
+		this.ensureLoaded();
+		const record = {
+			id: `usage-${randomUUID()}`,
+			createdAt: Date.now(),
+			...input
+		};
+		this.records.push(record);
+		if (this.records.length > MAX_MEMORY_RECORDS) this.records = this.records.slice(-5e3);
+		appendFile(this.file, `${JSON.stringify(record)}\n`).catch(() => {});
+		this.trimFile();
+		return record;
+	}
+	async trimFile() {
+		try {
+			const lines = readFileSyncSafe(this.file);
+			if (lines.length <= MAX_FILE_LINES) return;
+			await writeFile(this.file, lines.slice(-2e3).join("\n") + "\n");
+		} catch {}
+	}
+	all() {
+		this.ensureLoaded();
+		return this.records;
+	}
+};
+function readFileSyncSafe(path) {
+	try {
+		return readFileSync(path, "utf8").split(/\r?\n/);
+	} catch {
+		return [];
+	}
+}
+//#endregion
 //#region lib/types/usage.js
 /**
 * Usage Analytics Host service: aggregates Control Center service counts
 * into one overview (session-level analytics stay client-side, where the
 * DSH session store lives).
 */
+const MAX_STATS_GROUPS = 50;
+const MAX_ENTRIES_PAGE = 200;
+/** Local-day date key (YYYY-MM-DD) for bucketing. */
+function dateKey(timestamp) {
+	const date = new Date(timestamp);
+	const pad = (value) => String(value).padStart(2, "0");
+	return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+}
+function totalTokensOf(record) {
+	return record.inputTokens + record.outputTokens + record.cacheReadTokens + record.cacheWriteTokens;
+}
+/** ISO week-of-month (1-5) for weekly buckets. */
+function weekOf(timestamp) {
+	const date = new Date(timestamp);
+	return Math.floor((date.getDate() - 1) / 7) + 1;
+}
 var UsageService = class extends Service {
 	static inject = ["settings"];
 	typertRemote = bindTypertRemote(this, "controlCenterUsage");
-	constructor(ctx, _config) {
+	store;
+	constructor(ctx, config = {}) {
 		super(ctx, "controlCenterUsage");
+		this.store = usageStoreFor(resolveDshHome(config.dshHome));
+	}
+	/** Record one AI call (invoked by translation/painting/knowledge services). */
+	record(input) {
+		return this.store.record(input);
+	}
+	timeline(request) {
+		const { from, to } = request;
+		const mode = request.groupBy ?? "day";
+		const records = this.store.all().filter((record) => record.createdAt >= from && record.createdAt < to);
+		const buckets = /* @__PURE__ */ new Map();
+		for (const record of records) {
+			const key = mode === "month" ? dateKey(record.createdAt).slice(0, 7) : mode === "week" ? `${dateKey(record.createdAt).slice(0, 7)}-w${weekOf(record.createdAt)}` : dateKey(record.createdAt);
+			const bucket = buckets.get(key) ?? {
+				dateKey: key,
+				requests: 0,
+				tokens: 0,
+				inputTokens: 0,
+				outputTokens: 0,
+				cacheReadTokens: 0,
+				cacheWriteTokens: 0
+			};
+			bucket.requests += 1;
+			bucket.tokens += record.inputTokens + record.outputTokens + record.cacheReadTokens + record.cacheWriteTokens;
+			bucket.inputTokens += record.inputTokens + record.cacheReadTokens + record.cacheWriteTokens;
+			bucket.outputTokens += record.outputTokens;
+			bucket.cacheReadTokens += record.cacheReadTokens;
+			bucket.cacheWriteTokens += record.cacheWriteTokens;
+			buckets.set(key, bucket);
+		}
+		return [...buckets.values()].sort((left, right) => left.dateKey.localeCompare(right.dateKey));
+	}
+	stats(request) {
+		const { from, to } = request;
+		const groupBy = request.groupBy ?? "provider";
+		const limit = Math.min(MAX_STATS_GROUPS, Math.max(1, request.limit ?? 10));
+		const records = this.store.all().filter((record) => record.createdAt >= from && record.createdAt < to);
+		const groups = /* @__PURE__ */ new Map();
+		for (const record of records) {
+			const key = groupBy === "model" ? `${record.provider}/${record.model}` : groupBy === "kind" ? record.kind : record.provider;
+			const group = groups.get(key) ?? {
+				key,
+				requests: 0,
+				tokens: 0,
+				inputTokens: 0,
+				outputTokens: 0
+			};
+			group.requests += 1;
+			group.tokens += record.inputTokens + record.outputTokens + record.cacheReadTokens + record.cacheWriteTokens;
+			group.inputTokens += record.inputTokens + record.cacheReadTokens + record.cacheWriteTokens;
+			group.outputTokens += record.outputTokens;
+			groups.set(key, group);
+		}
+		return {
+			groups: [...groups.values()].sort((left, right) => right.tokens - left.tokens).slice(0, limit),
+			totalRequests: records.length,
+			totalTokens: records.reduce((sum, record) => sum + record.inputTokens + record.outputTokens + record.cacheReadTokens + record.cacheWriteTokens, 0),
+			totalInputTokens: records.reduce((sum, record) => sum + record.inputTokens + record.cacheReadTokens + record.cacheWriteTokens, 0),
+			totalOutputTokens: records.reduce((sum, record) => sum + record.outputTokens, 0)
+		};
+	}
+	entries(request) {
+		const { from, to } = request;
+		const limit = Math.min(MAX_ENTRIES_PAGE, Math.max(1, request.limit ?? 50));
+		const sortBy = request.sortBy ?? "createdAt";
+		const offset = request.cursor === void 0 || request.cursor === null ? 0 : Number.parseInt(request.cursor, 10);
+		if (!Number.isSafeInteger(offset) || offset < 0) throw new Error("invalid usage entries cursor");
+		const ordered = this.store.all().filter((record) => record.createdAt >= from && record.createdAt < to).sort((left, right) => {
+			if (sortBy === "createdAt") return right.createdAt - left.createdAt;
+			if (sortBy === "tokens") return totalTokensOf(right) - totalTokensOf(left);
+			return right[sortBy] - left[sortBy];
+		});
+		const items = ordered.slice(offset, offset + limit).map((record) => ({ ...record }));
+		const next = offset + items.length;
+		return {
+			items,
+			...next < ordered.length ? { nextCursor: String(next) } : {}
+		};
 	}
 	async getOverview() {
 		const overview = {
@@ -3790,10 +4020,24 @@ var UsageService = class extends Service {
 /** Client descriptor contribution for the Control Center usage service. */
 const usageRemote = {
 	package: "@dsh-control-center/control-center",
-	descriptors: [{
-		method: "getOverview",
-		parameters: []
-	}].map(({ method, parameters }) => ({
+	descriptors: [
+		{
+			method: "getOverview",
+			parameters: []
+		},
+		{
+			method: "timeline",
+			parameters: ["request"]
+		},
+		{
+			method: "stats",
+			parameters: ["request"]
+		},
+		{
+			method: "entries",
+			parameters: ["request"]
+		}
+	].map(({ method, parameters }) => ({
 		id: `@dsh-control-center/control-center#controlCenterUsage/${method}`,
 		service: "controlCenterUsage",
 		namespace: "controlCenterUsage",

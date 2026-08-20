@@ -141,102 +141,102 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var PaintingWorkspace_module_css_default = {
-			"promptLibEmpty": "_-UrTq_promptLibEmpty",
-			"addPromptOverlay": "_-UrTq_addPromptOverlay",
-			"addPromptCard": "_-UrTq_addPromptCard",
-			"promptLibFooter": "_-UrTq_promptLibFooter",
-			"dialogActions": "_-UrTq_dialogActions",
-			"showcase": "_-UrTq_showcase",
-			"errorBanner": "_-UrTq_errorBanner",
-			"btn": "_-UrTq_btn",
-			"paramsField": "_-UrTq_paramsField",
-			"promptLib": "_-UrTq_promptLib",
-			"backButton": "_-UrTq_backButton",
-			"countSlider": "_-UrTq_countSlider",
-			"promptDockInner": "_-UrTq_promptDockInner",
-			"frame": "_-UrTq_frame",
-			"pillButton": "_-UrTq_pillButton",
-			"centerPane": "_-UrTq_centerPane",
-			"stripHeader": "_-UrTq_stripHeader",
-			"promptBarText": "_-UrTq_promptBarText",
-			"roundButton": "_-UrTq_roundButton",
-			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
-			"counterPill": "_-UrTq_counterPill",
-			"skeletonGrid": "_-UrTq_skeletonGrid",
-			"promptLibItemMain": "_-UrTq_promptLibItemMain",
-			"stripEnd": "_-UrTq_stripEnd",
-			"hidden": "_-UrTq_hidden",
-			"promptLibTitle": "_-UrTq_promptLibTitle",
-			"modelPill": "_-UrTq_modelPill",
-			"surface": "_-UrTq_surface",
-			"pillSummary": "_-UrTq_pillSummary",
-			"attachmentTray": "_-UrTq_attachmentTray",
-			"progressText": "_-UrTq_progressText",
-			"promptBar": "_-UrTq_promptBar",
-			"cc-strip-loading": "_-UrTq_cc-strip-loading",
-			"newButton": "_-UrTq_newButton",
-			"pauseButton": "_-UrTq_pauseButton",
-			"sizeLabel": "_-UrTq_sizeLabel",
-			"addImageButton": "_-UrTq_addImageButton",
+			"composerToolbar": "_-UrTq_composerToolbar",
+			"muted": "_-UrTq_muted",
 			"toolbarButton": "_-UrTq_toolbarButton",
 			"toolbarRail": "_-UrTq_toolbarRail",
+			"modelPill": "_-UrTq_modelPill",
+			"promptLib": "_-UrTq_promptLib",
+			"strip": "_-UrTq_strip",
+			"promptLibItem": "_-UrTq_promptLibItem",
+			"carouselLabel": "_-UrTq_carouselLabel",
+			"errorBanner": "_-UrTq_errorBanner",
+			"stripHeader": "_-UrTq_stripHeader",
+			"addImageButton": "_-UrTq_addImageButton",
+			"hidden": "_-UrTq_hidden",
+			"sendButton": "_-UrTq_sendButton",
+			"quickItemLabel": "_-UrTq_quickItemLabel",
+			"promptLibDelete": "_-UrTq_promptLibDelete",
+			"root": "_-UrTq_root",
+			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
+			"addPromptField": "_-UrTq_addPromptField",
+			"thumb": "_-UrTq_thumb",
+			"dragging": "_-UrTq_dragging",
+			"addPromptTextarea": "_-UrTq_addPromptTextarea",
+			"promptBarText": "_-UrTq_promptBarText",
+			"showcaseTitle": "_-UrTq_showcaseTitle",
+			"countInput": "_-UrTq_countInput",
+			"quickItemIcon": "_-UrTq_quickItemIcon",
+			"promptLibTitle": "_-UrTq_promptLibTitle",
+			"centerStage": "_-UrTq_centerStage",
+			"counterPill": "_-UrTq_counterPill",
+			"sizeLabel": "_-UrTq_sizeLabel",
+			"showcaseCarousel": "_-UrTq_showcaseCarousel",
+			"promptLibItemMain": "_-UrTq_promptLibItemMain",
+			"pauseButton": "_-UrTq_pauseButton",
+			"showcase": "_-UrTq_showcase",
+			"selected": "_-UrTq_selected",
+			"promptDockInner": "_-UrTq_promptDockInner",
+			"paramsField": "_-UrTq_paramsField",
+			"pillSummary": "_-UrTq_pillSummary",
+			"promptBar": "_-UrTq_promptBar",
+			"artboardEmpty": "_-UrTq_artboardEmpty",
+			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
+			"newButton": "_-UrTq_newButton",
+			"paramsPopover": "_-UrTq_paramsPopover",
+			"quickItem": "_-UrTq_quickItem",
+			"promptLibEmpty": "_-UrTq_promptLibEmpty",
+			"artboardStage": "_-UrTq_artboardStage",
+			"addPromptInput": "_-UrTq_addPromptInput",
+			"active": "_-UrTq_active",
+			"countRow": "_-UrTq_countRow",
+			"progressText": "_-UrTq_progressText",
+			"cc-cell-blink": "_-UrTq_cc-cell-blink",
+			"quickPanel": "_-UrTq_quickPanel",
+			"skeletonGrid": "_-UrTq_skeletonGrid",
+			"btn": "_-UrTq_btn",
+			"carouselCardImage": "_-UrTq_carouselCardImage",
+			"attachmentDelete": "_-UrTq_attachmentDelete",
+			"stripEnd": "_-UrTq_stripEnd",
+			"artboard": "_-UrTq_artboard",
+			"countSlider": "_-UrTq_countSlider",
+			"addPromptCard": "_-UrTq_addPromptCard",
+			"cc-strip-loading": "_-UrTq_cc-strip-loading",
+			"ratioThumb": "_-UrTq_ratioThumb",
+			"sizeChip": "_-UrTq_sizeChip",
+			"dialogActions": "_-UrTq_dialogActions",
+			"pillButton": "_-UrTq_pillButton",
+			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
+			"imageBox": "_-UrTq_imageBox",
+			"stripItem": "_-UrTq_stripItem",
+			"composer": "_-UrTq_composer",
+			"toolbarDivider": "_-UrTq_toolbarDivider",
+			"skeletonCell": "_-UrTq_skeletonCell",
+			"stripProgress": "_-UrTq_stripProgress",
+			"promptLibContent": "_-UrTq_promptLibContent",
+			"btnPrimary": "_-UrTq_btnPrimary",
+			"attachmentTile": "_-UrTq_attachmentTile",
+			"composerTextRow": "_-UrTq_composerTextRow",
+			"showcaseInner": "_-UrTq_showcaseInner",
+			"frame": "_-UrTq_frame",
+			"stripDelete": "_-UrTq_stripDelete",
+			"centerPane": "_-UrTq_centerPane",
+			"sizeGrid": "_-UrTq_sizeGrid",
+			"surface": "_-UrTq_surface",
+			"thumbEmpty": "_-UrTq_thumbEmpty",
+			"showcaseCaption": "_-UrTq_showcaseCaption",
+			"attachmentTray": "_-UrTq_attachmentTray",
+			"backButton": "_-UrTq_backButton",
+			"carouselCard": "_-UrTq_carouselCard",
+			"paramsSelect": "_-UrTq_paramsSelect",
+			"promptLibList": "_-UrTq_promptLibList",
+			"promptLibFooter": "_-UrTq_promptLibFooter",
+			"roundButton": "_-UrTq_roundButton",
+			"addPromptOverlay": "_-UrTq_addPromptOverlay",
 			"chevron": "_-UrTq_chevron",
 			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
-			"addPromptTextarea": "_-UrTq_addPromptTextarea",
-			"showcaseCarousel": "_-UrTq_showcaseCarousel",
-			"carouselLabel": "_-UrTq_carouselLabel",
-			"composerToolbar": "_-UrTq_composerToolbar",
-			"paramsSelect": "_-UrTq_paramsSelect",
-			"composerTextarea": "_-UrTq_composerTextarea",
-			"countInput": "_-UrTq_countInput",
-			"skeletonCell": "_-UrTq_skeletonCell",
-			"addPromptInput": "_-UrTq_addPromptInput",
-			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
-			"root": "_-UrTq_root",
 			"promptDock": "_-UrTq_promptDock",
-			"artboardStage": "_-UrTq_artboardStage",
-			"dragging": "_-UrTq_dragging",
-			"strip": "_-UrTq_strip",
-			"imageBox": "_-UrTq_imageBox",
-			"quickItemIcon": "_-UrTq_quickItemIcon",
-			"carouselCard": "_-UrTq_carouselCard",
-			"stripProgress": "_-UrTq_stripProgress",
-			"artboard": "_-UrTq_artboard",
-			"artboardEmpty": "_-UrTq_artboardEmpty",
-			"showcaseTitle": "_-UrTq_showcaseTitle",
-			"thumb": "_-UrTq_thumb",
-			"promptLibContent": "_-UrTq_promptLibContent",
-			"countRow": "_-UrTq_countRow",
-			"promptLibList": "_-UrTq_promptLibList",
-			"stripItem": "_-UrTq_stripItem",
-			"selected": "_-UrTq_selected",
-			"attachmentDelete": "_-UrTq_attachmentDelete",
-			"sendButton": "_-UrTq_sendButton",
-			"showcaseCaption": "_-UrTq_showcaseCaption",
-			"quickItem": "_-UrTq_quickItem",
-			"btnPrimary": "_-UrTq_btnPrimary",
-			"sizeGrid": "_-UrTq_sizeGrid",
-			"attachmentTile": "_-UrTq_attachmentTile",
-			"active": "_-UrTq_active",
-			"ratioThumb": "_-UrTq_ratioThumb",
-			"thumbEmpty": "_-UrTq_thumbEmpty",
-			"composerTextRow": "_-UrTq_composerTextRow",
-			"promptLibDelete": "_-UrTq_promptLibDelete",
-			"carouselCardImage": "_-UrTq_carouselCardImage",
-			"centerStage": "_-UrTq_centerStage",
-			"quickItemLabel": "_-UrTq_quickItemLabel",
-			"addPromptField": "_-UrTq_addPromptField",
-			"showcaseInner": "_-UrTq_showcaseInner",
-			"paramsPopover": "_-UrTq_paramsPopover",
-			"muted": "_-UrTq_muted",
-			"composer": "_-UrTq_composer",
-			"stripDelete": "_-UrTq_stripDelete",
-			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
-			"toolbarDivider": "_-UrTq_toolbarDivider",
-			"cc-cell-blink": "_-UrTq_cc-cell-blink",
-			"promptLibItem": "_-UrTq_promptLibItem",
-			"sizeChip": "_-UrTq_sizeChip",
-			"quickPanel": "_-UrTq_quickPanel"
+			"composerTextarea": "_-UrTq_composerTextarea"
 		};
 		//#endregion
 		//#region lib/types/client/painting-icons.js
@@ -1494,108 +1494,108 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TranslationWorkspace_module_css_default = {
-			"langName": "_8lesPa_langName",
-			"langInput": "_8lesPa_langInput",
-			"langFormActions": "_8lesPa_langFormActions",
-			"paneFooter": "_8lesPa_paneFooter",
-			"resetLink": "_8lesPa_resetLink",
-			"panelBodyScroll": "_8lesPa_panelBodyScroll",
-			"cc-spin": "_8lesPa_cc-spin",
-			"visible": "_8lesPa_visible",
-			"clearBtn": "_8lesPa_clearBtn",
-			"detailMeta": "_8lesPa_detailMeta",
-			"spacer": "_8lesPa_spacer",
-			"spinner": "_8lesPa_spinner",
-			"historyRowMeta": "_8lesPa_historyRowMeta",
-			"switchTrack": "_8lesPa_switchTrack",
-			"detailBlockHeader": "_8lesPa_detailBlockHeader",
-			"switch": "_8lesPa_switch",
-			"btn": "_8lesPa_btn",
-			"confirmActions": "_8lesPa_confirmActions",
-			"stopBtn": "_8lesPa_stopBtn",
 			"copy": "_8lesPa_copy",
-			"chipTarget": "_8lesPa_chipTarget",
-			"modelSelectWrap": "_8lesPa_modelSelectWrap",
-			"settingsEmpty": "_8lesPa_settingsEmpty",
-			"outputArea": "_8lesPa_outputArea",
-			"md": "_8lesPa_md",
-			"pairChip": "_8lesPa_pairChip",
-			"langChevron": "_8lesPa_langChevron",
-			"chipArrow": "_8lesPa_chipArrow",
-			"detailBlockTarget": "_8lesPa_detailBlockTarget",
-			"detailText": "_8lesPa_detailText",
-			"detailAction": "_8lesPa_detailAction",
-			"langCode": "_8lesPa_langCode",
-			"topBar": "_8lesPa_topBar",
-			"panelHeader": "_8lesPa_panelHeader",
-			"settingsSection": "_8lesPa_settingsSection",
-			"segmented": "_8lesPa_segmented",
-			"pairRow": "_8lesPa_pairRow",
-			"panelTitle": "_8lesPa_panelTitle",
-			"settingHint": "_8lesPa_settingHint",
-			"settingsTextarea": "_8lesPa_settingsTextarea",
-			"sidePanel": "_8lesPa_sidePanel",
-			"loadMore": "_8lesPa_loadMore",
-			"sectionTitle": "_8lesPa_sectionTitle",
-			"langFormError": "_8lesPa_langFormError",
-			"modelSelect": "_8lesPa_modelSelect",
-			"outputPane": "_8lesPa_outputPane",
-			"smallIconBtn": "_8lesPa_smallIconBtn",
-			"langFormRow": "_8lesPa_langFormRow",
-			"confirmText": "_8lesPa_confirmText",
-			"errorBanner": "_8lesPa_errorBanner",
 			"paneCorner": "_8lesPa_paneCorner",
-			"backdrop": "_8lesPa_backdrop",
-			"rowTime": "_8lesPa_rowTime",
-			"starBtn": "_8lesPa_starBtn",
-			"detailBlock": "_8lesPa_detailBlock",
-			"detailActions": "_8lesPa_detailActions",
-			"settingRow": "_8lesPa_settingRow",
-			"swapBtn": "_8lesPa_swapBtn",
-			"translateBtn": "_8lesPa_translateBtn",
-			"langAdd": "_8lesPa_langAdd",
-			"countBadge": "_8lesPa_countBadge",
+			"topBar": "_8lesPa_topBar",
 			"success": "_8lesPa_success",
-			"inputArea": "_8lesPa_inputArea",
-			"on": "_8lesPa_on",
-			"historyEmpty": "_8lesPa_historyEmpty",
-			"segItem": "_8lesPa_segItem",
-			"detailBlockLabel": "_8lesPa_detailBlockLabel",
-			"rowTarget": "_8lesPa_rowTarget",
-			"langRow": "_8lesPa_langRow",
-			"langForm": "_8lesPa_langForm",
-			"panes": "_8lesPa_panes",
-			"langSelect": "_8lesPa_langSelect",
-			"root": "_8lesPa_root",
-			"langSelectWrap": "_8lesPa_langSelectWrap",
-			"active": "_8lesPa_active",
+			"md": "_8lesPa_md",
+			"panelHeader": "_8lesPa_panelHeader",
+			"switch": "_8lesPa_switch",
+			"sectionTitle": "_8lesPa_sectionTitle",
+			"switchTrack": "_8lesPa_switchTrack",
+			"langCode": "_8lesPa_langCode",
+			"langFormActions": "_8lesPa_langFormActions",
+			"detailBlockHeader": "_8lesPa_detailBlockHeader",
+			"settingsEmpty": "_8lesPa_settingsEmpty",
 			"chip": "_8lesPa_chip",
-			"historyList": "_8lesPa_historyList",
-			"rowSource": "_8lesPa_rowSource",
-			"detailBack": "_8lesPa_detailBack",
-			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
-			"settingLabel": "_8lesPa_settingLabel",
-			"switchRow": "_8lesPa_switchRow",
-			"textareaScroll": "_8lesPa_textareaScroll",
-			"cc-fade": "_8lesPa_cc-fade",
-			"langFormLabel": "_8lesPa_langFormLabel",
-			"langRowActions": "_8lesPa_langRowActions",
-			"btnPrimary": "_8lesPa_btnPrimary",
-			"confirmOverlay": "_8lesPa_confirmOverlay",
-			"confirmCard": "_8lesPa_confirmCard",
-			"rightCluster": "_8lesPa_rightCluster",
-			"iconBtn": "_8lesPa_iconBtn",
+			"cc-spin": "_8lesPa_cc-spin",
+			"langChevron": "_8lesPa_langChevron",
+			"rowTarget": "_8lesPa_rowTarget",
+			"modelSelect": "_8lesPa_modelSelect",
+			"backdrop": "_8lesPa_backdrop",
 			"historyRow": "_8lesPa_historyRow",
-			"destructive": "_8lesPa_destructive",
-			"starFill": "_8lesPa_starFill",
-			"backButton": "_8lesPa_backButton",
-			"cc-slide-in": "_8lesPa_cc-slide-in",
-			"panelBody": "_8lesPa_panelBody",
+			"settingRow": "_8lesPa_settingRow",
+			"loadMore": "_8lesPa_loadMore",
+			"btn": "_8lesPa_btn",
+			"confirmText": "_8lesPa_confirmText",
+			"confirmCard": "_8lesPa_confirmCard",
+			"historyRowMeta": "_8lesPa_historyRowMeta",
+			"pairChip": "_8lesPa_pairChip",
+			"panes": "_8lesPa_panes",
+			"switchRow": "_8lesPa_switchRow",
+			"errorBanner": "_8lesPa_errorBanner",
+			"confirmActions": "_8lesPa_confirmActions",
+			"langInput": "_8lesPa_langInput",
+			"detailBlockLabel": "_8lesPa_detailBlockLabel",
 			"count": "_8lesPa_count",
 			"translating": "_8lesPa_translating",
-			"confirmTitle": "_8lesPa_confirmTitle",
+			"modelSelectWrap": "_8lesPa_modelSelectWrap",
+			"backButton": "_8lesPa_backButton",
+			"settingsTextarea": "_8lesPa_settingsTextarea",
+			"detailMeta": "_8lesPa_detailMeta",
+			"spinner": "_8lesPa_spinner",
+			"starBtn": "_8lesPa_starBtn",
+			"clearBtn": "_8lesPa_clearBtn",
+			"visible": "_8lesPa_visible",
+			"on": "_8lesPa_on",
+			"detailText": "_8lesPa_detailText",
+			"langRowActions": "_8lesPa_langRowActions",
+			"smallIconBtn": "_8lesPa_smallIconBtn",
+			"pairRow": "_8lesPa_pairRow",
+			"textareaScroll": "_8lesPa_textareaScroll",
+			"langName": "_8lesPa_langName",
+			"rowSource": "_8lesPa_rowSource",
+			"spacer": "_8lesPa_spacer",
+			"root": "_8lesPa_root",
+			"detailBlockTarget": "_8lesPa_detailBlockTarget",
+			"chipArrow": "_8lesPa_chipArrow",
+			"historyEmpty": "_8lesPa_historyEmpty",
+			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
+			"outputPane": "_8lesPa_outputPane",
+			"langRow": "_8lesPa_langRow",
+			"langFormLabel": "_8lesPa_langFormLabel",
+			"panelTitle": "_8lesPa_panelTitle",
+			"detailBlock": "_8lesPa_detailBlock",
+			"settingLabel": "_8lesPa_settingLabel",
+			"active": "_8lesPa_active",
+			"confirmOverlay": "_8lesPa_confirmOverlay",
+			"langSelect": "_8lesPa_langSelect",
 			"pane": "_8lesPa_pane",
-			"reuse": "_8lesPa_reuse"
+			"langSelectWrap": "_8lesPa_langSelectWrap",
+			"swapBtn": "_8lesPa_swapBtn",
+			"cc-slide-in": "_8lesPa_cc-slide-in",
+			"translateBtn": "_8lesPa_translateBtn",
+			"reuse": "_8lesPa_reuse",
+			"outputArea": "_8lesPa_outputArea",
+			"rowTime": "_8lesPa_rowTime",
+			"historyList": "_8lesPa_historyList",
+			"resetLink": "_8lesPa_resetLink",
+			"panelBodyScroll": "_8lesPa_panelBodyScroll",
+			"langForm": "_8lesPa_langForm",
+			"langFormRow": "_8lesPa_langFormRow",
+			"confirmTitle": "_8lesPa_confirmTitle",
+			"destructive": "_8lesPa_destructive",
+			"settingHint": "_8lesPa_settingHint",
+			"langFormError": "_8lesPa_langFormError",
+			"chipTarget": "_8lesPa_chipTarget",
+			"iconBtn": "_8lesPa_iconBtn",
+			"inputArea": "_8lesPa_inputArea",
+			"settingsSection": "_8lesPa_settingsSection",
+			"btnPrimary": "_8lesPa_btnPrimary",
+			"stopBtn": "_8lesPa_stopBtn",
+			"panelBody": "_8lesPa_panelBody",
+			"rightCluster": "_8lesPa_rightCluster",
+			"paneFooter": "_8lesPa_paneFooter",
+			"detailAction": "_8lesPa_detailAction",
+			"detailActions": "_8lesPa_detailActions",
+			"segmented": "_8lesPa_segmented",
+			"detailBack": "_8lesPa_detailBack",
+			"countBadge": "_8lesPa_countBadge",
+			"langAdd": "_8lesPa_langAdd",
+			"starFill": "_8lesPa_starFill",
+			"segItem": "_8lesPa_segItem",
+			"cc-fade": "_8lesPa_cc-fade",
+			"sidePanel": "_8lesPa_sidePanel"
 		};
 		//#endregion
 		//#region lib/types/client/panel-ui.js
@@ -2235,81 +2235,81 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var KnowledgeWorkspace_module_css_default = {
-			"ghostButton": "uHDY1a_ghostButton",
-			"errorBanner": "uHDY1a_errorBanner",
-			"indexButton": "uHDY1a_indexButton",
-			"sourceTypeCards": "uHDY1a_sourceTypeCards",
-			"dialogTextarea": "uHDY1a_dialogTextarea",
-			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
-			"detailHeaderActions": "uHDY1a_detailHeaderActions",
-			"sourcesEmpty": "uHDY1a_sourcesEmpty",
-			"recallResults": "uHDY1a_recallResults",
-			"active": "uHDY1a_active",
+			"recallCardHeader": "uHDY1a_recallCardHeader",
+			"recallCard": "uHDY1a_recallCard",
 			"btn": "uHDY1a_btn",
+			"sourceName": "uHDY1a_sourceName",
+			"detailHeaderActions": "uHDY1a_detailHeaderActions",
+			"recallBar": "uHDY1a_recallBar",
+			"recallResults": "uHDY1a_recallResults",
+			"detailHeader": "uHDY1a_detailHeader",
+			"success": "uHDY1a_success",
+			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
+			"recallSource": "uHDY1a_recallSource",
+			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
+			"gridScroll": "uHDY1a_gridScroll",
+			"navCreate": "uHDY1a_navCreate",
+			"recallChunkIndex": "uHDY1a_recallChunkIndex",
+			"statusReady": "uHDY1a_statusReady",
+			"statusSpinner": "uHDY1a_statusSpinner",
+			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
+			"sourceTypeCard": "uHDY1a_sourceTypeCard",
 			"btnPrimary": "uHDY1a_btnPrimary",
-			"detailEmpty": "uHDY1a_detailEmpty",
-			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
-			"gridRow": "uHDY1a_gridRow",
-			"sourceType": "uHDY1a_sourceType",
-			"navScroll": "uHDY1a_navScroll",
+			"recallEmpty": "uHDY1a_recallEmpty",
 			"root": "uHDY1a_root",
 			"statusIndexing": "uHDY1a_statusIndexing",
-			"detail": "uHDY1a_detail",
-			"sourceName": "uHDY1a_sourceName",
-			"recallCard": "uHDY1a_recallCard",
-			"detailHeader": "uHDY1a_detailHeader",
-			"recallScore": "uHDY1a_recallScore",
-			"recallSource": "uHDY1a_recallSource",
-			"detailEmptyTitle": "uHDY1a_detailEmptyTitle",
-			"recallInput": "uHDY1a_recallInput",
-			"recallCopy": "uHDY1a_recallCopy",
-			"recallBar": "uHDY1a_recallBar",
-			"success": "uHDY1a_success",
-			"navRow": "uHDY1a_navRow",
-			"recallBody": "uHDY1a_recallBody",
-			"dialogCard": "uHDY1a_dialogCard",
-			"recallRank": "uHDY1a_recallRank",
-			"notice": "uHDY1a_notice",
-			"dialogInput": "uHDY1a_dialogInput",
-			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
-			"navCreate": "uHDY1a_navCreate",
-			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
-			"gridScroll": "uHDY1a_gridScroll",
-			"recallSummary": "uHDY1a_recallSummary",
-			"navRowMenu": "uHDY1a_navRowMenu",
-			"clamped": "uHDY1a_clamped",
-			"dialogField": "uHDY1a_dialogField",
-			"gridHeader": "uHDY1a_gridHeader",
-			"sourceUpdated": "uHDY1a_sourceUpdated",
-			"statusSpinner": "uHDY1a_statusSpinner",
-			"recallInputWrap": "uHDY1a_recallInputWrap",
-			"sourceIcon": "uHDY1a_sourceIcon",
-			"recallEmpty": "uHDY1a_recallEmpty",
-			"sourceTypeCard": "uHDY1a_sourceTypeCard",
-			"dataHeader": "uHDY1a_dataHeader",
-			"recallChunkIndex": "uHDY1a_recallChunkIndex",
-			"statusBadge": "uHDY1a_statusBadge",
-			"dialogActions": "uHDY1a_dialogActions",
-			"addSourceButton": "uHDY1a_addSourceButton",
-			"statusReady": "uHDY1a_statusReady",
-			"navEmpty": "uHDY1a_navEmpty",
-			"rowMenu": "uHDY1a_rowMenu",
-			"split": "uHDY1a_split",
-			"menuItem": "uHDY1a_menuItem",
 			"dialogOverlay": "uHDY1a_dialogOverlay",
-			"navigator": "uHDY1a_navigator",
+			"split": "uHDY1a_split",
+			"detail": "uHDY1a_detail",
+			"recallInputWrap": "uHDY1a_recallInputWrap",
+			"recallSummary": "uHDY1a_recallSummary",
+			"dataHeader": "uHDY1a_dataHeader",
+			"recallInput": "uHDY1a_recallInput",
+			"detailEmptyTitle": "uHDY1a_detailEmptyTitle",
+			"clamped": "uHDY1a_clamped",
+			"addSourceButton": "uHDY1a_addSourceButton",
+			"menuItem": "uHDY1a_menuItem",
+			"navScroll": "uHDY1a_navScroll",
+			"sourceUpdated": "uHDY1a_sourceUpdated",
+			"ghostButton": "uHDY1a_ghostButton",
+			"recallCopy": "uHDY1a_recallCopy",
+			"rowMenu": "uHDY1a_rowMenu",
 			"recallSubmit": "uHDY1a_recallSubmit",
-			"dialogHint": "uHDY1a_dialogHint",
 			"statusFailed": "uHDY1a_statusFailed",
-			"destructive": "uHDY1a_destructive",
+			"recallScore": "uHDY1a_recallScore",
+			"sourceType": "uHDY1a_sourceType",
+			"dialogInput": "uHDY1a_dialogInput",
+			"errorBanner": "uHDY1a_errorBanner",
+			"dialogHint": "uHDY1a_dialogHint",
+			"navRow": "uHDY1a_navRow",
+			"statusBadge": "uHDY1a_statusBadge",
+			"navRowMenu": "uHDY1a_navRowMenu",
 			"cc-spin": "uHDY1a_cc-spin",
-			"recallCardHeader": "uHDY1a_recallCardHeader",
-			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
+			"dialogField": "uHDY1a_dialogField",
+			"navEmpty": "uHDY1a_navEmpty",
+			"dialogCard": "uHDY1a_dialogCard",
+			"active": "uHDY1a_active",
+			"sourcesEmpty": "uHDY1a_sourcesEmpty",
+			"sourceTypeCards": "uHDY1a_sourceTypeCards",
+			"notice": "uHDY1a_notice",
+			"gridRow": "uHDY1a_gridRow",
+			"detailEmpty": "uHDY1a_detailEmpty",
+			"recallRank": "uHDY1a_recallRank",
 			"navRowName": "uHDY1a_navRowName",
+			"dialogActions": "uHDY1a_dialogActions",
+			"destructive": "uHDY1a_destructive",
+			"sourceIcon": "uHDY1a_sourceIcon",
+			"dialogTextarea": "uHDY1a_dialogTextarea",
+			"recallBody": "uHDY1a_recallBody",
+			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
 			"dataHeaderActions": "uHDY1a_dataHeaderActions",
-			"dataPanel": "uHDY1a_dataPanel",
 			"menuPopover": "uHDY1a_menuPopover",
-			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle"
+			"gridHeader": "uHDY1a_gridHeader",
+			"dataPanel": "uHDY1a_dataPanel",
+			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
+			"indexButton": "uHDY1a_indexButton",
+			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
+			"navigator": "uHDY1a_navigator"
 		};
 		//#endregion
 		//#region lib/types/client/KnowledgeWorkspace.js
@@ -3428,19 +3428,19 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SkillsSection_module_css_default = {
-			"cardMeta": "pyHmqW_cardMeta",
-			"cardTags": "pyHmqW_cardTags",
-			"tag": "pyHmqW_tag",
-			"cardHeader": "pyHmqW_cardHeader",
 			"grid": "pyHmqW_grid",
+			"cardMeta": "pyHmqW_cardMeta",
+			"cardTitle": "pyHmqW_cardTitle",
+			"cardActions": "pyHmqW_cardActions",
+			"cardFooter": "pyHmqW_cardFooter",
+			"card": "pyHmqW_card",
+			"tag": "pyHmqW_tag",
 			"searchRow": "pyHmqW_searchRow",
 			"cardDescription": "pyHmqW_cardDescription",
-			"card": "pyHmqW_card",
-			"cardMetaItem": "pyHmqW_cardMetaItem",
-			"cardFooter": "pyHmqW_cardFooter",
-			"cardActions": "pyHmqW_cardActions",
-			"cardTitle": "pyHmqW_cardTitle",
-			"searchInput": "pyHmqW_searchInput"
+			"searchInput": "pyHmqW_searchInput",
+			"cardHeader": "pyHmqW_cardHeader",
+			"cardTags": "pyHmqW_cardTags",
+			"cardMetaItem": "pyHmqW_cardMetaItem"
 		};
 		//#endregion
 		//#region lib/types/client/SkillsSection.js
@@ -3783,23 +3783,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderAuthentication_module_css_default = {
-			"field": "AU4RWG_field",
-			"fieldLink": "AU4RWG_fieldLink",
-			"successMessage": "AU4RWG_successMessage",
-			"actionRow": "AU4RWG_actionRow",
-			"secondaryButton": "AU4RWG_secondaryButton",
-			"inputAddon": "AU4RWG_inputAddon",
-			"fieldLabel": "AU4RWG_fieldLabel",
-			"iconButton": "AU4RWG_iconButton",
-			"inputGroup": "AU4RWG_inputGroup",
-			"input": "AU4RWG_input",
-			"primaryButton": "AU4RWG_primaryButton",
-			"cc-spin": "AU4RWG_cc-spin",
 			"sectionTitle": "AU4RWG_sectionTitle",
-			"spin": "AU4RWG_spin",
-			"section": "AU4RWG_section",
-			"timestamp": "AU4RWG_timestamp",
+			"primaryButton": "AU4RWG_primaryButton",
+			"fieldLabel": "AU4RWG_fieldLabel",
 			"errorMessage": "AU4RWG_errorMessage",
+			"iconButton": "AU4RWG_iconButton",
+			"field": "AU4RWG_field",
+			"inputGroup": "AU4RWG_inputGroup",
+			"section": "AU4RWG_section",
+			"spin": "AU4RWG_spin",
+			"fieldLink": "AU4RWG_fieldLink",
+			"secondaryButton": "AU4RWG_secondaryButton",
+			"cc-spin": "AU4RWG_cc-spin",
+			"inputAddon": "AU4RWG_inputAddon",
+			"actionRow": "AU4RWG_actionRow",
+			"timestamp": "AU4RWG_timestamp",
+			"successMessage": "AU4RWG_successMessage",
+			"input": "AU4RWG_input",
 			"inputRow": "AU4RWG_inputRow"
 		};
 		//#endregion
@@ -3993,34 +3993,34 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderModelList_module_css_default = {
-			"emptyIcon": "_2yiUCa_emptyIcon",
+			"toggleThumb": "_2yiUCa_toggleThumb",
+			"toggleButtonDisabled": "_2yiUCa_toggleButtonDisabled",
+			"emptyText": "_2yiUCa_emptyText",
+			"metaItem": "_2yiUCa_metaItem",
 			"emptyHint": "_2yiUCa_emptyHint",
-			"emptyState": "_2yiUCa_emptyState",
-			"modelItemDisabled": "_2yiUCa_modelItemDisabled",
-			"modelList": "_2yiUCa_modelList",
+			"discoveryInfo": "_2yiUCa_discoveryInfo",
+			"toggleButton": "_2yiUCa_toggleButton",
 			"modelIcon": "_2yiUCa_modelIcon",
+			"emptyIcon": "_2yiUCa_emptyIcon",
+			"toggleButtonEnabled": "_2yiUCa_toggleButtonEnabled",
+			"emptyState": "_2yiUCa_emptyState",
+			"sectionHeaderRow": "_2yiUCa_sectionHeaderRow",
+			"groupHeader": "_2yiUCa_groupHeader",
 			"section": "_2yiUCa_section",
 			"enabledCount": "_2yiUCa_enabledCount",
-			"modelGroup": "_2yiUCa_modelGroup",
-			"groupHeader": "_2yiUCa_groupHeader",
-			"sectionHeaderRow": "_2yiUCa_sectionHeaderRow",
 			"countBadge": "_2yiUCa_countBadge",
-			"modelName": "_2yiUCa_modelName",
+			"groupTitle": "_2yiUCa_groupTitle",
+			"modelItemDisabled": "_2yiUCa_modelItemDisabled",
+			"sectionHeading": "_2yiUCa_sectionHeading",
+			"modelList": "_2yiUCa_modelList",
+			"groupCount": "_2yiUCa_groupCount",
+			"modelItem": "_2yiUCa_modelItem",
 			"modelInfo": "_2yiUCa_modelInfo",
 			"headerMeta": "_2yiUCa_headerMeta",
-			"modelMeta": "_2yiUCa_modelMeta",
-			"sectionHeading": "_2yiUCa_sectionHeading",
-			"metaItem": "_2yiUCa_metaItem",
-			"toggleButton": "_2yiUCa_toggleButton",
-			"toggleThumb": "_2yiUCa_toggleThumb",
-			"groupTitle": "_2yiUCa_groupTitle",
-			"toggleButtonEnabled": "_2yiUCa_toggleButtonEnabled",
-			"emptyText": "_2yiUCa_emptyText",
-			"groupCount": "_2yiUCa_groupCount",
-			"toggleButtonDisabled": "_2yiUCa_toggleButtonDisabled",
-			"discoveryInfo": "_2yiUCa_discoveryInfo",
 			"modelMain": "_2yiUCa_modelMain",
-			"modelItem": "_2yiUCa_modelItem"
+			"modelName": "_2yiUCa_modelName",
+			"modelMeta": "_2yiUCa_modelMeta",
+			"modelGroup": "_2yiUCa_modelGroup"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderModelList.js
@@ -4213,7 +4213,7 @@ window.__ModuleLoader__.load({
 												strokeLinecap: "round"
 											})
 										}),
-										formatTokens(model.maxOutputTokens),
+										formatTokens$1(model.maxOutputTokens),
 										" out"
 									]
 								}),
@@ -4241,7 +4241,7 @@ window.__ModuleLoader__.load({
 			if (tokens >= 1e3) return `${(tokens / 1e3).toFixed(0)}K ctx`;
 			return `${tokens} ctx`;
 		}
-		function formatTokens(tokens) {
+		function formatTokens$1(tokens) {
 			if (tokens >= 1e3) return `${(tokens / 1e3).toFixed(0)}K`;
 			return `${tokens}`;
 		}
@@ -4254,46 +4254,435 @@ window.__ModuleLoader__.load({
 			return badges.join(" · ");
 		}
 		//#endregion
-		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\ProviderDialog.module.css.mjs
-		const css$20 = ".Y2Uoaq_overlay{z-index:1100;background:var(--dsw-alias-bg-mask-1);justify-content:center;align-items:center;display:flex;position:fixed;inset:0}.Y2Uoaq_dialog{background:var(--popover);width:480px;max-width:calc(100vw - 48px);max-height:calc(100vh - 96px);box-shadow:var(--dsw-shadow-lv3);font-family:var(--cs-font-family-body), -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", sans-serif;color:var(--foreground);border-radius:14px;flex-direction:column;display:flex;overflow:hidden}.Y2Uoaq_header{box-sizing:border-box;justify-content:space-between;align-items:center;gap:8px;padding:16px 20px 12px;display:flex}.Y2Uoaq_title{color:var(--foreground);font-size:16px;font-weight:600}.Y2Uoaq_content{box-sizing:border-box;flex-direction:column;flex:1;gap:14px;min-height:0;padding:0 20px 16px;display:flex;overflow-y:auto}.Y2Uoaq_field{flex-direction:column;gap:6px;display:flex}.Y2Uoaq_label{color:var(--foreground);font-size:13px;font-weight:500}.Y2Uoaq_required{color:var(--destructive);margin-left:2px}.Y2Uoaq_hint{color:var(--foreground-tertiary);font-size:12px}.Y2Uoaq_input{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px}.Y2Uoaq_input:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.Y2Uoaq_input::placeholder{color:var(--foreground-tertiary)}.Y2Uoaq_textarea{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;color:var(--foreground);font-family:var(--ds-font-family-code), monospace;box-sizing:border-box;resize:vertical;border-radius:8px;outline:none;min-height:72px;padding:8px 10px;font-size:13px;line-height:20px}.Y2Uoaq_textarea:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.Y2Uoaq_select{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 28px 0 10px;font-family:inherit;font-size:14px}.Y2Uoaq_select:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.Y2Uoaq_checkboxField{align-items:center;gap:8px;display:flex}.Y2Uoaq_checkbox{width:16px;height:16px;accent-color:var(--primary);cursor:pointer}.Y2Uoaq_checkboxLabel{color:var(--foreground);font-size:14px}.Y2Uoaq_error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.Y2Uoaq_footer{box-sizing:border-box;border-top:.5px solid var(--border);justify-content:flex-end;align-items:center;gap:8px;padding:12px 20px 16px;display:flex}.Y2Uoaq_cancelButton{border:1px solid var(--border-subtle);background:var(--secondary);height:32px;color:var(--secondary-foreground);cursor:pointer;border-radius:8px;justify-content:center;align-items:center;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.Y2Uoaq_cancelButton:hover{background:var(--secondary-hover)}.Y2Uoaq_submitButton{background:var(--primary);height:32px;color:var(--primary-foreground);cursor:pointer;border:1px solid #0000;border-radius:8px;justify-content:center;align-items:center;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.Y2Uoaq_submitButton:hover:not(:disabled){background:var(--cs-brand-600)}.Y2Uoaq_submitButton:disabled{opacity:.5;cursor:not-allowed}";
-		const tagId$20 = "@dsh-control-center/bundle/ProviderDialog.module.css";
-		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$20) + "]") === null) {
-			const tag = document.createElement("style");
-			tag.dataset.plugin = "@dsh-control-center/bundle";
-			tag.dataset.pluginCss = tagId$20;
-			tag.textContent = css$20;
-			document.head.appendChild(tag);
-		}
-		var ProviderDialog_module_css_default = {
-			"checkbox": "Y2Uoaq_checkbox",
-			"error": "Y2Uoaq_error",
-			"dialog": "Y2Uoaq_dialog",
-			"checkboxField": "Y2Uoaq_checkboxField",
-			"title": "Y2Uoaq_title",
-			"select": "Y2Uoaq_select",
-			"textarea": "Y2Uoaq_textarea",
-			"required": "Y2Uoaq_required",
-			"input": "Y2Uoaq_input",
-			"hint": "Y2Uoaq_hint",
-			"label": "Y2Uoaq_label",
-			"cancelButton": "Y2Uoaq_cancelButton",
-			"submitButton": "Y2Uoaq_submitButton",
-			"content": "Y2Uoaq_content",
-			"field": "Y2Uoaq_field",
-			"footer": "Y2Uoaq_footer",
-			"header": "Y2Uoaq_header",
-			"checkboxLabel": "Y2Uoaq_checkboxLabel",
-			"overlay": "Y2Uoaq_overlay"
-		};
-		//#endregion
-		//#region lib/types/client/ProviderDialog.js
+		//#region lib/types/client/provider-presets.js
 		/**
-		* Provider Add/Edit Dialog Component
+		* Built-in provider presets — Cherry Studio provider catalog parity
+		* (providers.json endpointConfigs). All presets are OpenAI-compatible
+		* endpoints unless noted; provider-specific IAM/OAuth flows (Vertex, Bedrock,
+		* Azure IAM) are represented by their API-key/baseURL form.
 		*
-		* Modal dialog for creating new providers or editing existing ones.
-		* Follows the Settings + Credentials + TypertRemote pattern.
+		* AGPL-3.0-only — adapted from Cherry Studio's provider registry.
 		*/
+		const PROVIDER_PRESETS = [
+			{
+				id: "zhipu",
+				name: "智谱开放平台",
+				type: "openai-compatible",
+				baseURL: "https://open.bigmodel.cn/api/paas/v4",
+				group: "domestic"
+			},
+			{
+				id: "deepseek",
+				name: "深度求索",
+				type: "deepseek",
+				baseURL: "https://api.deepseek.com/v1",
+				group: "domestic"
+			},
+			{
+				id: "moonshot",
+				name: "月之暗面",
+				type: "openai-compatible",
+				baseURL: "https://api.moonshot.cn/v1",
+				group: "domestic"
+			},
+			{
+				id: "baichuan",
+				name: "百川",
+				type: "openai-compatible",
+				baseURL: "https://api.baichuan-ai.com/v1",
+				group: "domestic"
+			},
+			{
+				id: "dashscope",
+				name: "阿里云百炼",
+				type: "openai-compatible",
+				baseURL: "https://dashscope.aliyuncs.com/compatible-mode/v1",
+				group: "domestic"
+			},
+			{
+				id: "stepfun",
+				name: "阶跃星辰",
+				type: "openai-compatible",
+				baseURL: "https://api.stepfun.com/v1",
+				group: "domestic"
+			},
+			{
+				id: "doubao",
+				name: "火山引擎",
+				type: "openai-compatible",
+				baseURL: "https://ark.cn-beijing.volces.com/api/v3",
+				group: "domestic"
+			},
+			{
+				id: "minimax",
+				name: "MiniMax",
+				type: "openai-compatible",
+				baseURL: "https://api.minimaxi.com/v1",
+				group: "domestic"
+			},
+			{
+				id: "minimax-global",
+				name: "MiniMax 海外版",
+				type: "openai-compatible",
+				baseURL: "https://api.minimax.io/v1",
+				group: "international"
+			},
+			{
+				id: "silicon",
+				name: "硅基流动",
+				type: "openai-compatible",
+				baseURL: "https://api.siliconflow.cn/v1",
+				group: "domestic"
+			},
+			{
+				id: "aihubmix",
+				name: "AiHubMix",
+				type: "openai-compatible",
+				baseURL: "https://aihubmix.com/v1",
+				group: "domestic"
+			},
+			{
+				id: "zai",
+				name: "Z.ai",
+				type: "openai-compatible",
+				baseURL: "https://api.z.ai/api/paas/v4",
+				group: "domestic"
+			},
+			{
+				id: "alayanew",
+				name: "Alaya NeW",
+				type: "openai-compatible",
+				baseURL: "https://deepseek.alayanew.com",
+				group: "domestic"
+			},
+			{
+				id: "dmxapi",
+				name: "DMXAPI",
+				type: "openai-compatible",
+				baseURL: "https://www.dmxapi.cn",
+				group: "domestic"
+			},
+			{
+				id: "aionly",
+				name: "唯一AI (AiOnly)",
+				type: "openai-compatible",
+				baseURL: "https://api.aiionly.com",
+				group: "domestic"
+			},
+			{
+				id: "burncloud",
+				name: "BurnCloud",
+				type: "openai-compatible",
+				baseURL: "https://ai.burncloud.com",
+				group: "domestic"
+			},
+			{
+				id: "302ai",
+				name: "302.AI",
+				type: "openai-compatible",
+				baseURL: "https://api.302.ai",
+				group: "domestic"
+			},
+			{
+				id: "lanyun",
+				name: "蓝耘科技",
+				type: "openai-compatible",
+				baseURL: "https://maas-api.lanyun.net",
+				group: "domestic"
+			},
+			{
+				id: "ph8",
+				name: "PH8",
+				type: "openai-compatible",
+				baseURL: "https://ph8.co",
+				group: "domestic"
+			},
+			{
+				id: "sophnet",
+				name: "SophNet",
+				type: "openai-compatible",
+				baseURL: "https://www.sophnet.com/api/open-apis/v1",
+				group: "domestic"
+			},
+			{
+				id: "ppio",
+				name: "PPIO 派欧云",
+				type: "openai-compatible",
+				baseURL: "https://api.ppinfra.com/v3/openai",
+				group: "domestic"
+			},
+			{
+				id: "qiniu",
+				name: "七牛云 AI 推理",
+				type: "openai-compatible",
+				baseURL: "https://api.qnaigc.com",
+				group: "domestic"
+			},
+			{
+				id: "modelscope",
+				name: "ModelScope 魔搭",
+				type: "openai-compatible",
+				baseURL: "https://api-inference.modelscope.cn/v1",
+				group: "domestic"
+			},
+			{
+				id: "xirang",
+				name: "天翼云息壤",
+				type: "openai-compatible",
+				baseURL: "https://wishub-x1.ctyun.cn",
+				group: "domestic"
+			},
+			{
+				id: "tokenhub",
+				name: "TokenHub",
+				type: "openai-compatible",
+				baseURL: "https://tokenhub.tencentmaas.com/v1",
+				group: "domestic"
+			},
+			{
+				id: "baidu-cloud",
+				name: "百度云千帆",
+				type: "openai-compatible",
+				baseURL: "https://qianfan.baidubce.com/v2",
+				group: "domestic"
+			},
+			{
+				id: "longcat",
+				name: "龙猫",
+				type: "openai-compatible",
+				baseURL: "https://api.longcat.chat",
+				group: "domestic"
+			},
+			{
+				id: "mimo",
+				name: "小米 MiMo",
+				type: "openai-compatible",
+				baseURL: "https://api.xiaomimimo.com",
+				group: "domestic"
+			},
+			{
+				id: "radeon-cloud",
+				name: "AMD GPU Cloud",
+				type: "openai-compatible",
+				baseURL: "https://developer.amd.com.cn/radeon/v1",
+				group: "domestic"
+			},
+			{
+				id: "ovms",
+				name: "Intel OVMS",
+				type: "openai-compatible",
+				baseURL: "http://localhost:8000/v3",
+				group: "local"
+			},
+			{
+				id: "ocoolai",
+				name: "ocoolAI",
+				type: "openai-compatible",
+				baseURL: "https://api.ocoolai.com",
+				group: "domestic"
+			},
+			{
+				id: "cherryin",
+				name: "CherryIN",
+				type: "openai-compatible",
+				baseURL: "https://open.cherryin.net",
+				group: "international"
+			},
+			{
+				id: "openai",
+				name: "OpenAI",
+				type: "openai",
+				baseURL: "https://api.openai.com/v1",
+				group: "international"
+			},
+			{
+				id: "anthropic",
+				name: "Anthropic",
+				type: "anthropic",
+				baseURL: "https://api.anthropic.com/v1",
+				group: "international"
+			},
+			{
+				id: "gemini",
+				name: "Gemini",
+				type: "google",
+				baseURL: "https://generativelanguage.googleapis.com/v1",
+				group: "international"
+			},
+			{
+				id: "openrouter",
+				name: "OpenRouter",
+				type: "openai-compatible",
+				baseURL: "https://openrouter.ai/api/v1",
+				group: "international"
+			},
+			{
+				id: "opencode",
+				name: "OpenCode Go",
+				type: "openai-compatible",
+				baseURL: "https://opencode.ai/zen/go/v1",
+				group: "international"
+			},
+			{
+				id: "azure-openai",
+				name: "Azure OpenAI",
+				type: "azure",
+				baseURL: "https://<resource>.openai.azure.com",
+				group: "international"
+			},
+			{
+				id: "github",
+				name: "GitHub Models",
+				type: "openai-compatible",
+				baseURL: "https://models.github.ai/inference",
+				group: "international"
+			},
+			{
+				id: "copilot",
+				name: "GitHub Copilot",
+				type: "openai-compatible",
+				baseURL: "https://api.githubcopilot.com",
+				group: "international"
+			},
+			{
+				id: "groq",
+				name: "Groq",
+				type: "openai-compatible",
+				baseURL: "https://api.groq.com/openai",
+				group: "international"
+			},
+			{
+				id: "together",
+				name: "Together",
+				type: "openai-compatible",
+				baseURL: "https://api.together.ai",
+				group: "international"
+			},
+			{
+				id: "fireworks",
+				name: "Fireworks",
+				type: "openai-compatible",
+				baseURL: "https://api.fireworks.ai/inference",
+				group: "international"
+			},
+			{
+				id: "nvidia",
+				name: "英伟达",
+				type: "openai-compatible",
+				baseURL: "https://integrate.api.nvidia.com",
+				group: "international"
+			},
+			{
+				id: "grok",
+				name: "Grok",
+				type: "openai-compatible",
+				baseURL: "https://api.x.ai",
+				group: "international"
+			},
+			{
+				id: "mistral",
+				name: "Mistral",
+				type: "openai-compatible",
+				baseURL: "https://api.mistral.ai",
+				group: "international"
+			},
+			{
+				id: "jina",
+				name: "Jina",
+				type: "openai-compatible",
+				baseURL: "https://api.jina.ai",
+				group: "international"
+			},
+			{
+				id: "perplexity",
+				name: "Perplexity",
+				type: "openai-compatible",
+				baseURL: "https://api.perplexity.ai",
+				group: "international"
+			},
+			{
+				id: "poe",
+				name: "Poe",
+				type: "openai-compatible",
+				baseURL: "https://api.poe.com/v1",
+				group: "international"
+			},
+			{
+				id: "huggingface",
+				name: "Hugging Face",
+				type: "openai-compatible",
+				baseURL: "https://router.huggingface.co/v1",
+				group: "international"
+			},
+			{
+				id: "gateway",
+				name: "Vercel AI Gateway",
+				type: "openai-compatible",
+				baseURL: "https://ai-gateway.vercel.sh/v1/ai",
+				group: "international"
+			},
+			{
+				id: "cerebras",
+				name: "Cerebras AI",
+				type: "openai-compatible",
+				baseURL: "https://api.cerebras.ai/v1",
+				group: "international"
+			},
+			{
+				id: "voyageai",
+				name: "Voyage AI",
+				type: "openai-compatible",
+				baseURL: "https://api.voyageai.com",
+				group: "international"
+			},
+			{
+				id: "ollama",
+				name: "Ollama",
+				type: "ollama",
+				baseURL: "http://localhost:11434",
+				group: "local"
+			},
+			{
+				id: "new-api",
+				name: "New API",
+				type: "openai-compatible",
+				baseURL: "http://localhost:3000",
+				group: "local"
+			},
+			{
+				id: "lmstudio",
+				name: "LM Studio",
+				type: "openai-compatible",
+				baseURL: "http://localhost:1234/v1",
+				group: "local"
+			},
+			{
+				id: "gpustack",
+				name: "GPUStack",
+				type: "openai-compatible",
+				baseURL: "",
+				group: "local"
+			}
+		];
+		const PROVIDER_PRESET_GROUPS = [
+			{
+				id: "domestic",
+				label: "国内平台"
+			},
+			{
+				id: "international",
+				label: "国际平台"
+			},
+			{
+				id: "local",
+				label: "本地服务"
+			}
+		];
 		const PROVIDER_TYPES = [
+			{
+				value: "openai-compatible",
+				label: "OpenAI Compatible"
+			},
 			{
 				value: "openai",
 				label: "OpenAI"
@@ -4315,8 +4704,8 @@ window.__ModuleLoader__.load({
 				label: "DeepSeek"
 			},
 			{
-				value: "openai-compatible",
-				label: "OpenAI Compatible"
+				value: "ollama",
+				label: "Ollama"
 			},
 			{
 				value: "custom",
@@ -4330,8 +4719,56 @@ window.__ModuleLoader__.load({
 			azure: "https://<resource>.openai.azure.com",
 			deepseek: "https://api.deepseek.com/v1",
 			"openai-compatible": "",
+			ollama: "http://localhost:11434",
 			custom: ""
 		};
+		//#endregion
+		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\ProviderDialog.module.css.mjs
+		const css$20 = ".Y2Uoaq_overlay{z-index:1100;background:var(--dsw-alias-bg-mask-1);justify-content:center;align-items:center;display:flex;position:fixed;inset:0}.Y2Uoaq_dialog{background:var(--popover);width:480px;max-width:calc(100vw - 48px);max-height:calc(100vh - 96px);box-shadow:var(--dsw-shadow-lv3);font-family:var(--cs-font-family-body), -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", sans-serif;color:var(--foreground);border-radius:14px;flex-direction:column;display:flex;overflow:hidden}.Y2Uoaq_header{box-sizing:border-box;justify-content:space-between;align-items:center;gap:8px;padding:16px 20px 12px;display:flex}.Y2Uoaq_title{color:var(--foreground);font-size:16px;font-weight:600}.Y2Uoaq_content{box-sizing:border-box;flex-direction:column;flex:1;gap:14px;min-height:0;padding:0 20px 16px;display:flex;overflow-y:auto}.Y2Uoaq_field{flex-direction:column;gap:6px;display:flex}.Y2Uoaq_label{color:var(--foreground);font-size:13px;font-weight:500}.Y2Uoaq_required{color:var(--destructive);margin-left:2px}.Y2Uoaq_hint{color:var(--foreground-tertiary);font-size:12px}.Y2Uoaq_input{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px}.Y2Uoaq_input:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.Y2Uoaq_input::placeholder{color:var(--foreground-tertiary)}.Y2Uoaq_textarea{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;color:var(--foreground);font-family:var(--ds-font-family-code), monospace;box-sizing:border-box;resize:vertical;border-radius:8px;outline:none;min-height:72px;padding:8px 10px;font-size:13px;line-height:20px}.Y2Uoaq_textarea:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.Y2Uoaq_select{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 28px 0 10px;font-family:inherit;font-size:14px}.Y2Uoaq_select:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.Y2Uoaq_checkboxField{align-items:center;gap:8px;display:flex}.Y2Uoaq_checkbox{width:16px;height:16px;accent-color:var(--primary);cursor:pointer}.Y2Uoaq_checkboxLabel{color:var(--foreground);font-size:14px}.Y2Uoaq_error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.Y2Uoaq_footer{box-sizing:border-box;border-top:.5px solid var(--border);justify-content:flex-end;align-items:center;gap:8px;padding:12px 20px 16px;display:flex}.Y2Uoaq_cancelButton{border:1px solid var(--border-subtle);background:var(--secondary);height:32px;color:var(--secondary-foreground);cursor:pointer;border-radius:8px;justify-content:center;align-items:center;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.Y2Uoaq_cancelButton:hover{background:var(--secondary-hover)}.Y2Uoaq_submitButton{background:var(--primary);height:32px;color:var(--primary-foreground);cursor:pointer;border:1px solid #0000;border-radius:8px;justify-content:center;align-items:center;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.Y2Uoaq_submitButton:hover:not(:disabled){background:var(--cs-brand-600)}.Y2Uoaq_submitButton:disabled{opacity:.5;cursor:not-allowed}.Y2Uoaq_presetList{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 25%, transparent);border-radius:10px;flex-direction:column;gap:6px;max-height:220px;margin-top:6px;padding:6px;display:flex;overflow-y:auto}.Y2Uoaq_presetGroup{flex-direction:column;gap:2px;display:flex}.Y2Uoaq_presetGroupTitle{color:var(--foreground-tertiary);padding:4px 6px 2px;font-size:11px;font-weight:500}.Y2Uoaq_presetItem{width:100%;min-height:30px;color:var(--foreground);text-align:left;cursor:pointer;background:0 0;border:none;border-radius:8px;align-items:center;gap:8px;padding:4px 8px;font-family:inherit;font-size:13px;display:flex}.Y2Uoaq_presetItem:hover{background:var(--muted)}.Y2Uoaq_presetName{white-space:nowrap;flex:none}.Y2Uoaq_presetUrl{min-width:0;color:var(--foreground-tertiary);white-space:nowrap;text-overflow:ellipsis;text-align:right;flex:1;font-size:11px;overflow:hidden}.Y2Uoaq_presetEmpty{text-align:center;color:var(--foreground-tertiary);padding:12px;font-size:13px}";
+		const tagId$20 = "@dsh-control-center/bundle/ProviderDialog.module.css";
+		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$20) + "]") === null) {
+			const tag = document.createElement("style");
+			tag.dataset.plugin = "@dsh-control-center/bundle";
+			tag.dataset.pluginCss = tagId$20;
+			tag.textContent = css$20;
+			document.head.appendChild(tag);
+		}
+		var ProviderDialog_module_css_default = {
+			"header": "Y2Uoaq_header",
+			"presetGroupTitle": "Y2Uoaq_presetGroupTitle",
+			"checkbox": "Y2Uoaq_checkbox",
+			"hint": "Y2Uoaq_hint",
+			"content": "Y2Uoaq_content",
+			"field": "Y2Uoaq_field",
+			"overlay": "Y2Uoaq_overlay",
+			"label": "Y2Uoaq_label",
+			"select": "Y2Uoaq_select",
+			"checkboxLabel": "Y2Uoaq_checkboxLabel",
+			"footer": "Y2Uoaq_footer",
+			"dialog": "Y2Uoaq_dialog",
+			"cancelButton": "Y2Uoaq_cancelButton",
+			"input": "Y2Uoaq_input",
+			"presetGroup": "Y2Uoaq_presetGroup",
+			"error": "Y2Uoaq_error",
+			"checkboxField": "Y2Uoaq_checkboxField",
+			"presetEmpty": "Y2Uoaq_presetEmpty",
+			"presetName": "Y2Uoaq_presetName",
+			"textarea": "Y2Uoaq_textarea",
+			"required": "Y2Uoaq_required",
+			"title": "Y2Uoaq_title",
+			"presetItem": "Y2Uoaq_presetItem",
+			"submitButton": "Y2Uoaq_submitButton",
+			"presetList": "Y2Uoaq_presetList",
+			"presetUrl": "Y2Uoaq_presetUrl"
+		};
+		//#endregion
+		//#region lib/types/client/ProviderDialog.js
+		/**
+		* Provider Add/Edit Dialog Component
+		*
+		* Modal dialog for creating new providers or editing existing ones.
+		* Follows the Settings + Credentials + TypertRemote pattern.
+		*/
 		function ProviderDialog({ open, mode, provider, providersService, onClose, onSuccess }) {
 			const [name, setName] = (0, react.useState)("");
 			const [type, setType] = (0, react.useState)("openai-compatible");
@@ -4341,6 +4778,12 @@ window.__ModuleLoader__.load({
 			const [enabled, setEnabled] = (0, react.useState)(true);
 			const [saving, setSaving] = (0, react.useState)(false);
 			const [error, setError] = (0, react.useState)(null);
+			const [presetSearch, setPresetSearch] = (0, react.useState)("");
+			const matchingPresets = (0, react.useMemo)(() => {
+				const query = presetSearch.trim().toLowerCase();
+				if (query === "") return PROVIDER_PRESETS;
+				return PROVIDER_PRESETS.filter((preset) => preset.name.toLowerCase().includes(query) || preset.id.toLowerCase().includes(query) || preset.baseURL.toLowerCase().includes(query));
+			}, [presetSearch]);
 			(0, react.useEffect)(() => {
 				if (mode === "edit" && provider) {
 					setName(provider.name);
@@ -4426,6 +4869,13 @@ window.__ModuleLoader__.load({
 				onSuccess,
 				onClose
 			]);
+			const applyPreset = (preset) => {
+				setName(preset.name);
+				setType(preset.type);
+				setBaseURL(preset.baseURL);
+				setPresetSearch("");
+				setError(null);
+			};
 			const handleCancel = (0, react.useCallback)(() => {
 				onClose();
 			}, [onClose]);
@@ -4469,6 +4919,54 @@ window.__ModuleLoader__.load({
 									required: true,
 									autoFocus: true
 								})]
+							}),
+							mode === "create" && (0, react_jsx_runtime.jsxs)("div", {
+								className: ProviderDialog_module_css_default.field,
+								children: [
+									(0, react_jsx_runtime.jsx)("label", {
+										className: ProviderDialog_module_css_default.label,
+										htmlFor: "provider-preset-search",
+										children: "从 Provider 预设创建（可选）"
+									}),
+									(0, react_jsx_runtime.jsx)("input", {
+										id: "provider-preset-search",
+										className: ProviderDialog_module_css_default.input,
+										type: "text",
+										value: presetSearch,
+										onChange: (e) => setPresetSearch(e.target.value),
+										placeholder: "搜索平台，如 DeepSeek、OpenRouter、硅基流动…"
+									}),
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: ProviderDialog_module_css_default.presetList,
+										children: [PROVIDER_PRESET_GROUPS.map((group) => {
+											const entries = matchingPresets.filter((preset) => preset.group === group.id);
+											if (entries.length === 0) return null;
+											return (0, react_jsx_runtime.jsxs)("div", {
+												className: ProviderDialog_module_css_default.presetGroup,
+												children: [(0, react_jsx_runtime.jsx)("div", {
+													className: ProviderDialog_module_css_default.presetGroupTitle,
+													children: group.label
+												}), entries.map((preset) => (0, react_jsx_runtime.jsxs)("button", {
+													type: "button",
+													className: ProviderDialog_module_css_default.presetItem,
+													onClick: () => {
+														applyPreset(preset);
+													},
+													children: [(0, react_jsx_runtime.jsx)("span", {
+														className: ProviderDialog_module_css_default.presetName,
+														children: preset.name
+													}), (0, react_jsx_runtime.jsx)("span", {
+														className: ProviderDialog_module_css_default.presetUrl,
+														children: preset.baseURL || "自定义地址"
+													})]
+												}, preset.id))]
+											}, group.id);
+										}), matchingPresets.length === 0 && (0, react_jsx_runtime.jsx)("div", {
+											className: ProviderDialog_module_css_default.presetEmpty,
+											children: "无匹配的预设"
+										})]
+									})
+								]
 							}),
 							mode === "create" && (0, react_jsx_runtime.jsxs)("div", {
 								className: ProviderDialog_module_css_default.field,
@@ -4605,49 +5103,49 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProvidersSection_module_css_default = {
-			"searchIcon": "ExuySa_searchIcon",
-			"providerDetail": "ExuySa_providerDetail",
-			"enabledDot": "ExuySa_enabledDot",
-			"editButton": "ExuySa_editButton",
-			"detailContentMaxWidth": "ExuySa_detailContentMaxWidth",
 			"dangerZoneTitle": "ExuySa_dangerZoneTitle",
-			"listItemIdle": "ExuySa_listItemIdle",
-			"dangerZoneText": "ExuySa_dangerZoneText",
-			"error": "ExuySa_error",
-			"addButton": "ExuySa_addButton",
-			"emptyIcon": "ExuySa_emptyIcon",
-			"listItemAvatar": "ExuySa_listItemAvatar",
-			"searchWrap": "ExuySa_searchWrap",
-			"secondaryButton": "ExuySa_secondaryButton",
-			"emptyState": "ExuySa_emptyState",
 			"emptyTitle": "ExuySa_emptyTitle",
-			"emptyDetailState": "ExuySa_emptyDetailState",
-			"dangerZoneDescription": "ExuySa_dangerZoneDescription",
-			"providerList": "ExuySa_providerList",
-			"dangerZone": "ExuySa_dangerZone",
-			"listItemSelected": "ExuySa_listItemSelected",
-			"addFooter": "ExuySa_addFooter",
-			"detailMeta": "ExuySa_detailMeta",
-			"sectionHeading": "ExuySa_sectionHeading",
-			"searchInput": "ExuySa_searchInput",
-			"sectionBody": "ExuySa_sectionBody",
-			"emptyDescription": "ExuySa_emptyDescription",
-			"listScroller": "ExuySa_listScroller",
-			"splitRoot": "ExuySa_splitRoot",
-			"searchClearButton": "ExuySa_searchClearButton",
-			"detailMetaItem": "ExuySa_detailMetaItem",
-			"detailScroll": "ExuySa_detailScroll",
-			"detailHeaderContent": "ExuySa_detailHeaderContent",
-			"dangerButton": "ExuySa_dangerButton",
-			"loading": "ExuySa_loading",
 			"listItemLabel": "ExuySa_listItemLabel",
-			"listItems": "ExuySa_listItems",
-			"listItem": "ExuySa_listItem",
+			"dangerButton": "ExuySa_dangerButton",
 			"searchRow": "ExuySa_searchRow",
+			"sectionHeading": "ExuySa_sectionHeading",
+			"emptyIcon": "ExuySa_emptyIcon",
+			"addFooter": "ExuySa_addFooter",
+			"providerDetail": "ExuySa_providerDetail",
 			"listItemMain": "ExuySa_listItemMain",
+			"searchInput": "ExuySa_searchInput",
+			"detailHeader": "ExuySa_detailHeader",
 			"section": "ExuySa_section",
+			"emptyDetailState": "ExuySa_emptyDetailState",
+			"detailMeta": "ExuySa_detailMeta",
+			"secondaryButton": "ExuySa_secondaryButton",
+			"searchIcon": "ExuySa_searchIcon",
+			"searchClearButton": "ExuySa_searchClearButton",
+			"listItems": "ExuySa_listItems",
+			"dangerZone": "ExuySa_dangerZone",
+			"emptyDescription": "ExuySa_emptyDescription",
+			"dangerZoneText": "ExuySa_dangerZoneText",
+			"providerList": "ExuySa_providerList",
+			"listScroller": "ExuySa_listScroller",
+			"searchWrap": "ExuySa_searchWrap",
+			"detailContentMaxWidth": "ExuySa_detailContentMaxWidth",
+			"editButton": "ExuySa_editButton",
+			"splitRoot": "ExuySa_splitRoot",
+			"detailHeaderContent": "ExuySa_detailHeaderContent",
+			"addButton": "ExuySa_addButton",
 			"detailTitle": "ExuySa_detailTitle",
-			"detailHeader": "ExuySa_detailHeader"
+			"detailMetaItem": "ExuySa_detailMetaItem",
+			"sectionBody": "ExuySa_sectionBody",
+			"error": "ExuySa_error",
+			"detailScroll": "ExuySa_detailScroll",
+			"listItem": "ExuySa_listItem",
+			"listItemSelected": "ExuySa_listItemSelected",
+			"listItemIdle": "ExuySa_listItemIdle",
+			"enabledDot": "ExuySa_enabledDot",
+			"listItemAvatar": "ExuySa_listItemAvatar",
+			"loading": "ExuySa_loading",
+			"dangerZoneDescription": "ExuySa_dangerZoneDescription",
+			"emptyState": "ExuySa_emptyState"
 		};
 		//#endregion
 		//#region lib/types/client/ProvidersSection.js
@@ -5196,21 +5694,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var AddMcpServerDialog_module_css_default = {
-			"header": "uv_otq_header",
-			"input": "uv_otq_input",
+			"overlay": "uv_otq_overlay",
 			"cancelButton": "uv_otq_cancelButton",
-			"title": "uv_otq_title",
-			"submitButton": "uv_otq_submitButton",
-			"error": "uv_otq_error",
-			"field": "uv_otq_field",
-			"form": "uv_otq_form",
+			"dialog": "uv_otq_dialog",
+			"label": "uv_otq_label",
 			"select": "uv_otq_select",
 			"textarea": "uv_otq_textarea",
-			"dialog": "uv_otq_dialog",
-			"footer": "uv_otq_footer",
-			"label": "uv_otq_label",
+			"error": "uv_otq_error",
+			"title": "uv_otq_title",
+			"submitButton": "uv_otq_submitButton",
 			"closeButton": "uv_otq_closeButton",
-			"overlay": "uv_otq_overlay"
+			"field": "uv_otq_field",
+			"header": "uv_otq_header",
+			"input": "uv_otq_input",
+			"form": "uv_otq_form",
+			"footer": "uv_otq_footer"
 		};
 		//#endregion
 		//#region lib/types/client/AddMcpServerDialog.js
@@ -5446,76 +5944,76 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var McpSection_module_css_default = {
-			"listItemMain": "_0bBxiW_listItemMain",
-			"searchWrap": "_0bBxiW_searchWrap",
-			"emptyIcon": "_0bBxiW_emptyIcon",
-			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
-			"input": "_0bBxiW_input",
-			"codeLine": "_0bBxiW_codeLine",
-			"addFooter": "_0bBxiW_addFooter",
-			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
-			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
-			"detailHeader": "_0bBxiW_detailHeader",
-			"fieldHint": "_0bBxiW_fieldHint",
-			"fieldRow": "_0bBxiW_fieldRow",
-			"primaryButton": "_0bBxiW_primaryButton",
-			"formActions": "_0bBxiW_formActions",
-			"serverDetail": "_0bBxiW_serverDetail",
-			"sectionBody": "_0bBxiW_sectionBody",
-			"searchClearButton": "_0bBxiW_searchClearButton",
-			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
-			"sectionHeader": "_0bBxiW_sectionHeader",
-			"resourceUri": "_0bBxiW_resourceUri",
-			"activeDot": "_0bBxiW_activeDot",
-			"emptyTitle": "_0bBxiW_emptyTitle",
-			"tabBar": "_0bBxiW_tabBar",
-			"errorBox": "_0bBxiW_errorBox",
-			"listItem": "_0bBxiW_listItem",
-			"logInfo": "_0bBxiW_logInfo",
-			"searchInput": "_0bBxiW_searchInput",
-			"listItemIdle": "_0bBxiW_listItemIdle",
-			"descriptionText": "_0bBxiW_descriptionText",
-			"listItemLabel": "_0bBxiW_listItemLabel",
-			"listScroller": "_0bBxiW_listScroller",
 			"dangerZoneText": "_0bBxiW_dangerZoneText",
-			"listItems": "_0bBxiW_listItems",
-			"detailTitle": "_0bBxiW_detailTitle",
-			"emptyDescription": "_0bBxiW_emptyDescription",
-			"sectionHeading": "_0bBxiW_sectionHeading",
-			"dangerButton": "_0bBxiW_dangerButton",
+			"logInfo": "_0bBxiW_logInfo",
+			"toolDescription": "_0bBxiW_toolDescription",
 			"fieldLabel": "_0bBxiW_fieldLabel",
-			"listItemSelected": "_0bBxiW_listItemSelected",
+			"checkbox": "_0bBxiW_checkbox",
+			"addFooter": "_0bBxiW_addFooter",
 			"section": "_0bBxiW_section",
-			"tabActive": "_0bBxiW_tabActive",
-			"tab": "_0bBxiW_tab",
-			"switchSlider": "_0bBxiW_switchSlider",
-			"toolsList": "_0bBxiW_toolsList",
-			"toolItem": "_0bBxiW_toolItem",
-			"toolName": "_0bBxiW_toolName",
+			"loading": "_0bBxiW_loading",
 			"toolHeader": "_0bBxiW_toolHeader",
+			"tabBar": "_0bBxiW_tabBar",
+			"serverDetail": "_0bBxiW_serverDetail",
+			"codeBlock": "_0bBxiW_codeBlock",
+			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
+			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
+			"listItems": "_0bBxiW_listItems",
+			"emptyTitle": "_0bBxiW_emptyTitle",
+			"emptyDescription": "_0bBxiW_emptyDescription",
+			"primaryButton": "_0bBxiW_primaryButton",
 			"serverList": "_0bBxiW_serverList",
 			"detailMeta": "_0bBxiW_detailMeta",
-			"toolDescription": "_0bBxiW_toolDescription",
-			"splitRoot": "_0bBxiW_splitRoot",
-			"detailMetaItem": "_0bBxiW_detailMetaItem",
+			"fieldRow": "_0bBxiW_fieldRow",
+			"searchWrap": "_0bBxiW_searchWrap",
 			"switchInput": "_0bBxiW_switchInput",
-			"codeBlock": "_0bBxiW_codeBlock",
-			"fieldGroup": "_0bBxiW_fieldGroup",
-			"emptyState": "_0bBxiW_emptyState",
-			"searchIcon": "_0bBxiW_searchIcon",
-			"textarea": "_0bBxiW_textarea",
-			"searchRow": "_0bBxiW_searchRow",
-			"secondaryButton": "_0bBxiW_secondaryButton",
-			"error": "_0bBxiW_error",
-			"addButton": "_0bBxiW_addButton",
-			"detailScroll": "_0bBxiW_detailScroll",
-			"logHeader": "_0bBxiW_logHeader",
-			"dangerZone": "_0bBxiW_dangerZone",
-			"emptyDetailState": "_0bBxiW_emptyDetailState",
+			"searchClearButton": "_0bBxiW_searchClearButton",
+			"sectionHeading": "_0bBxiW_sectionHeading",
 			"switchWrapper": "_0bBxiW_switchWrapper",
+			"toolItem": "_0bBxiW_toolItem",
+			"tab": "_0bBxiW_tab",
+			"emptyIcon": "_0bBxiW_emptyIcon",
+			"toolName": "_0bBxiW_toolName",
 			"listItemAvatar": "_0bBxiW_listItemAvatar",
-			"loading": "_0bBxiW_loading",
-			"checkbox": "_0bBxiW_checkbox"
+			"resourceUri": "_0bBxiW_resourceUri",
+			"activeDot": "_0bBxiW_activeDot",
+			"error": "_0bBxiW_error",
+			"formActions": "_0bBxiW_formActions",
+			"searchIcon": "_0bBxiW_searchIcon",
+			"addButton": "_0bBxiW_addButton",
+			"logHeader": "_0bBxiW_logHeader",
+			"emptyDetailState": "_0bBxiW_emptyDetailState",
+			"fieldHint": "_0bBxiW_fieldHint",
+			"fieldGroup": "_0bBxiW_fieldGroup",
+			"detailScroll": "_0bBxiW_detailScroll",
+			"input": "_0bBxiW_input",
+			"errorBox": "_0bBxiW_errorBox",
+			"switchSlider": "_0bBxiW_switchSlider",
+			"toolsList": "_0bBxiW_toolsList",
+			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
+			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
+			"splitRoot": "_0bBxiW_splitRoot",
+			"sectionBody": "_0bBxiW_sectionBody",
+			"codeLine": "_0bBxiW_codeLine",
+			"emptyState": "_0bBxiW_emptyState",
+			"dangerZone": "_0bBxiW_dangerZone",
+			"dangerButton": "_0bBxiW_dangerButton",
+			"detailHeader": "_0bBxiW_detailHeader",
+			"searchRow": "_0bBxiW_searchRow",
+			"listItemIdle": "_0bBxiW_listItemIdle",
+			"tabActive": "_0bBxiW_tabActive",
+			"descriptionText": "_0bBxiW_descriptionText",
+			"listItemLabel": "_0bBxiW_listItemLabel",
+			"sectionHeader": "_0bBxiW_sectionHeader",
+			"secondaryButton": "_0bBxiW_secondaryButton",
+			"listItemSelected": "_0bBxiW_listItemSelected",
+			"listItem": "_0bBxiW_listItem",
+			"textarea": "_0bBxiW_textarea",
+			"detailMetaItem": "_0bBxiW_detailMetaItem",
+			"detailTitle": "_0bBxiW_detailTitle",
+			"searchInput": "_0bBxiW_searchInput",
+			"listScroller": "_0bBxiW_listScroller",
+			"listItemMain": "_0bBxiW_listItemMain"
 		};
 		//#endregion
 		//#region lib/types/client/McpSection.js
@@ -6462,24 +6960,24 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WebSearchSection_module_css_default = {
-			"checkbox": "_0WjBOa_checkbox",
-			"fieldHint": "_0WjBOa_fieldHint",
-			"providerDescription": "_0WjBOa_providerDescription",
-			"iconButton": "_0WjBOa_iconButton",
+			"providerName": "_0WjBOa_providerName",
 			"pageDescription": "_0WjBOa_pageDescription",
-			"input": "_0WjBOa_input",
-			"apiKeyRow": "_0WjBOa_apiKeyRow",
-			"cardTitle": "_0WjBOa_cardTitle",
+			"providerDescription": "_0WjBOa_providerDescription",
+			"root": "_0WjBOa_root",
+			"pageHeader": "_0WjBOa_pageHeader",
+			"cardDescription": "_0WjBOa_cardDescription",
+			"pageTitle": "_0WjBOa_pageTitle",
 			"fieldLabel": "_0WjBOa_fieldLabel",
 			"fieldRow": "_0WjBOa_fieldRow",
+			"iconButton": "_0WjBOa_iconButton",
+			"cardTitle": "_0WjBOa_cardTitle",
+			"apiKeyRow": "_0WjBOa_apiKeyRow",
 			"providerDetail": "_0WjBOa_providerDetail",
-			"pageTitle": "_0WjBOa_pageTitle",
-			"card": "_0WjBOa_card",
-			"cardDescription": "_0WjBOa_cardDescription",
-			"root": "_0WjBOa_root",
-			"providerName": "_0WjBOa_providerName",
+			"checkbox": "_0WjBOa_checkbox",
 			"loading": "_0WjBOa_loading",
-			"pageHeader": "_0WjBOa_pageHeader",
+			"card": "_0WjBOa_card",
+			"fieldHint": "_0WjBOa_fieldHint",
+			"input": "_0WjBOa_input",
 			"select": "_0WjBOa_select"
 		};
 		//#endregion
@@ -6880,40 +7378,40 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var RepoWorkspace_module_css_default = {
-			"repoList": "iqKKIW_repoList",
-			"treeRowSelected": "iqKKIW_treeRowSelected",
-			"eyebrow": "iqKKIW_eyebrow",
-			"repoItemSelected": "iqKKIW_repoItemSelected",
 			"treeRow": "iqKKIW_treeRow",
-			"treeIcon": "iqKKIW_treeIcon",
-			"previewHint": "iqKKIW_previewHint",
-			"empty": "iqKKIW_empty",
-			"repoItem": "iqKKIW_repoItem",
-			"addRow": "iqKKIW_addRow",
-			"treeName": "iqKKIW_treeName",
-			"emptyTitle": "iqKKIW_emptyTitle",
+			"split": "iqKKIW_split",
 			"addInput": "iqKKIW_addInput",
-			"treeScroll": "iqKKIW_treeScroll",
+			"previewHeader": "iqKKIW_previewHeader",
+			"repoList": "iqKKIW_repoList",
+			"repoItem": "iqKKIW_repoItem",
+			"title": "iqKKIW_title",
 			"sidebar": "iqKKIW_sidebar",
 			"treeHeader": "iqKKIW_treeHeader",
-			"repoItemPath": "iqKKIW_repoItemPath",
 			"branch": "iqKKIW_branch",
-			"treePane": "iqKKIW_treePane",
+			"previewPane": "iqKKIW_previewPane",
+			"addRow": "iqKKIW_addRow",
+			"treeScroll": "iqKKIW_treeScroll",
+			"treeRowSelected": "iqKKIW_treeRowSelected",
 			"previewBody": "iqKKIW_previewBody",
+			"truncateNote": "iqKKIW_truncateNote",
 			"repoItemMain": "iqKKIW_repoItemMain",
+			"treeTitle": "iqKKIW_treeTitle",
+			"emptyTitle": "iqKKIW_emptyTitle",
+			"eyebrow": "iqKKIW_eyebrow",
 			"main": "iqKKIW_main",
+			"repoItemPath": "iqKKIW_repoItemPath",
+			"repoItemSelected": "iqKKIW_repoItemSelected",
+			"header": "iqKKIW_header",
+			"treeIcon": "iqKKIW_treeIcon",
+			"sidebarTitle": "iqKKIW_sidebarTitle",
 			"root": "iqKKIW_root",
 			"repoItemName": "iqKKIW_repoItemName",
-			"sidebarTitle": "iqKKIW_sidebarTitle",
-			"split": "iqKKIW_split",
-			"treeTitle": "iqKKIW_treeTitle",
-			"treeMeta": "iqKKIW_treeMeta",
-			"previewPane": "iqKKIW_previewPane",
-			"header": "iqKKIW_header",
+			"previewHint": "iqKKIW_previewHint",
+			"empty": "iqKKIW_empty",
+			"treeName": "iqKKIW_treeName",
+			"treePane": "iqKKIW_treePane",
 			"emptyDescription": "iqKKIW_emptyDescription",
-			"truncateNote": "iqKKIW_truncateNote",
-			"previewHeader": "iqKKIW_previewHeader",
-			"title": "iqKKIW_title"
+			"treeMeta": "iqKKIW_treeMeta"
 		};
 		//#endregion
 		//#region lib/types/client/RepoWorkspace.js
@@ -7359,23 +7857,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProcessorSection_module_css_default = {
-			"select": "CL8zIa_select",
-			"providerDetail": "CL8zIa_providerDetail",
-			"pageDescription": "CL8zIa_pageDescription",
-			"fieldLabel": "CL8zIa_fieldLabel",
-			"loading": "CL8zIa_loading",
-			"iconButton": "CL8zIa_iconButton",
 			"fieldRow": "CL8zIa_fieldRow",
-			"root": "CL8zIa_root",
-			"card": "CL8zIa_card",
+			"iconButton": "CL8zIa_iconButton",
+			"loading": "CL8zIa_loading",
+			"providerDetail": "CL8zIa_providerDetail",
 			"cardTitle": "CL8zIa_cardTitle",
-			"cardDescription": "CL8zIa_cardDescription",
-			"apiKeyRow": "CL8zIa_apiKeyRow",
-			"fieldHint": "CL8zIa_fieldHint",
-			"providerName": "CL8zIa_providerName",
-			"pageTitle": "CL8zIa_pageTitle",
+			"input": "CL8zIa_input",
+			"root": "CL8zIa_root",
 			"providerDescription": "CL8zIa_providerDescription",
-			"input": "CL8zIa_input"
+			"pageDescription": "CL8zIa_pageDescription",
+			"card": "CL8zIa_card",
+			"pageTitle": "CL8zIa_pageTitle",
+			"fieldLabel": "CL8zIa_fieldLabel",
+			"apiKeyRow": "CL8zIa_apiKeyRow",
+			"select": "CL8zIa_select",
+			"providerName": "CL8zIa_providerName",
+			"fieldHint": "CL8zIa_fieldHint",
+			"cardDescription": "CL8zIa_cardDescription"
 		};
 		//#endregion
 		//#region lib/types/client/ProcessorSection.js
@@ -7616,10 +8114,24 @@ window.__ModuleLoader__.load({
 		/** Client descriptor contribution for the Control Center usage service. */
 		const usageRemote = {
 			package: "@dsh-control-center/control-center",
-			descriptors: [{
-				method: "getOverview",
-				parameters: []
-			}].map(({ method, parameters }) => ({
+			descriptors: [
+				{
+					method: "getOverview",
+					parameters: []
+				},
+				{
+					method: "timeline",
+					parameters: ["request"]
+				},
+				{
+					method: "stats",
+					parameters: ["request"]
+				},
+				{
+					method: "entries",
+					parameters: ["request"]
+				}
+			].map(({ method, parameters }) => ({
 				id: `@dsh-control-center/control-center#controlCenterUsage/${method}`,
 				service: "controlCenterUsage",
 				namespace: "controlCenterUsage",
@@ -7636,7 +8148,7 @@ window.__ModuleLoader__.load({
 		};
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\UsageSection.module.css.mjs
-		const css$13 = ".ej6-VW_root{flex-direction:column;gap:16px;width:100%;max-width:768px;margin:0 auto;display:flex}.ej6-VW_pageTitle{color:var(--foreground);font-size:15px;font-weight:600}.ej6-VW_pageDescription{color:var(--muted-foreground);margin-top:4px;font-size:14px}.ej6-VW_card{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.ej6-VW_cardTitle{color:var(--foreground);font-size:15px;font-weight:600}.ej6-VW_grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;display:grid}.ej6-VW_metric{border:1px solid var(--border-subtle);background:var(--background-subtle);border-radius:10px;flex-direction:column;gap:4px;padding:12px;display:flex}.ej6-VW_metricValue{color:var(--foreground);font-variant-numeric:tabular-nums;font-size:24px;font-weight:600;line-height:32px}.ej6-VW_metricLabel{color:var(--muted-foreground);font-size:12px}.ej6-VW_loading{min-height:200px;color:var(--muted-foreground);justify-content:center;align-items:center;font-size:14px;display:flex}";
+		const css$13 = ".ej6-VW_root{flex-direction:column;gap:20px;display:flex}.ej6-VW_pageTitle{margin:0;font-size:16px;font-weight:600}.ej6-VW_pageDescription{color:var(--muted-foreground);margin:4px 0 0;font-size:13px}.ej6-VW_pageHeader{justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:4px;display:flex}.ej6-VW_windowTabs{background:var(--muted);border-radius:8px;flex:none;gap:2px;padding:2px;display:inline-flex}.ej6-VW_windowTab{height:26px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;padding:0 10px;font-family:inherit;font-size:13px}.ej6-VW_windowTab:hover{color:var(--foreground)}.ej6-VW_windowTab.ej6-VW_active{background:var(--background);color:var(--foreground);font-weight:500;box-shadow:0 1px 2px #00000014}.ej6-VW_metricStrip{border:1px solid var(--border);background:var(--border);border-radius:10px;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;display:grid;overflow:hidden}.ej6-VW_metricCell{background:var(--card);min-width:0;padding:14px 16px}.ej6-VW_metricLabel{color:var(--muted-foreground);font-size:12px;line-height:16px}.ej6-VW_metricValue{font-variant-numeric:tabular-nums;white-space:nowrap;text-overflow:ellipsis;margin-top:4px;font-size:20px;font-weight:600;line-height:28px;overflow:hidden}.ej6-VW_metricDelta{color:var(--foreground-tertiary);align-items:center;gap:4px;margin-top:2px;font-size:12px;display:flex}.ej6-VW_metricDelta.ej6-VW_up{color:var(--success)}.ej6-VW_metricDelta.ej6-VW_down{color:var(--error)}.ej6-VW_metricSparkline{margin-top:6px;display:block}.ej6-VW_insightStrip{border:1px solid var(--border);background:var(--card);border-radius:10px;flex-wrap:wrap;gap:18px;padding:10px 16px;display:flex}.ej6-VW_insightItem{min-width:0}.ej6-VW_insightLabel{color:var(--foreground-tertiary);align-items:center;gap:5px;font-size:12px;display:flex}.ej6-VW_insightValue{white-space:nowrap;text-overflow:ellipsis;margin-top:3px;font-size:14px;font-weight:500;overflow:hidden}.ej6-VW_heatmapSection{flex-direction:column;gap:8px;display:flex}.ej6-VW_heatmapTitle{color:var(--foreground);justify-content:space-between;align-items:center;gap:8px;font-size:14px;font-weight:500;display:flex}.ej6-VW_heatmapScroll{padding-bottom:4px;overflow-x:auto}.ej6-VW_heatmap{grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:3px;width:max-content;display:grid}.ej6-VW_heatmapCell{background:var(--muted);cursor:pointer;border:none;border-radius:3px;width:12px;height:12px;padding:0}.ej6-VW_heatmapCell:hover{outline:1px solid var(--foreground-tertiary);outline-offset:1px}.ej6-VW_exploreCard{border:1px solid var(--border);background:var(--card);border-radius:10px;overflow:hidden}.ej6-VW_exploreHeader{border-bottom:1px solid var(--border-subtle);flex-wrap:wrap;align-items:center;gap:8px;padding:12px 16px;display:flex}.ej6-VW_exploreTitle{margin-right:auto;font-size:14px;font-weight:500}.ej6-VW_controlRow{align-items:center;gap:6px;display:inline-flex}.ej6-VW_controlLabel{color:var(--foreground-tertiary);font-size:12px}.ej6-VW_controlSelect{border:1px solid var(--border-subtle);background:var(--background);height:26px;color:var(--foreground);cursor:pointer;border-radius:6px;outline:none;padding:0 8px;font-family:inherit;font-size:12px}.ej6-VW_controlSelect:focus{border-color:var(--ring)}.ej6-VW_exploreBody{padding:16px}.ej6-VW_summaryLine{color:var(--muted-foreground);margin:0 0 10px;font-size:13px;line-height:1.6}.ej6-VW_barChart{align-items:flex-end;gap:2px;height:160px;padding:4px 0 0;display:flex}.ej6-VW_barColumn{cursor:pointer;flex-direction:column;flex:1;justify-content:flex-end;gap:1px;min-width:2px;height:100%;display:flex}.ej6-VW_barSegment{border-radius:1px;min-height:1px}.ej6-VW_barAxis{color:var(--foreground-tertiary);justify-content:space-between;margin-top:6px;font-size:11px;display:flex}.ej6-VW_donutWrap{flex-wrap:wrap;align-items:center;gap:24px;display:flex}.ej6-VW_donutLegend{flex-direction:column;flex:1;gap:6px;min-width:180px;display:flex}.ej6-VW_donutLegendRow{align-items:center;gap:8px;min-width:0;font-size:13px;display:flex}.ej6-VW_donutSwatch{border-radius:3px;flex:none;width:10px;height:10px}.ej6-VW_donutLegendKey{white-space:nowrap;text-overflow:ellipsis;min-width:0;color:var(--foreground);flex:1;overflow:hidden}.ej6-VW_donutLegendValue{color:var(--muted-foreground);font-variant-numeric:tabular-nums;flex:none;font-size:12px}.ej6-VW_tableWrap{overflow-x:auto}.ej6-VW_entriesTable{border-collapse:collapse;width:100%;font-size:13px}.ej6-VW_entriesTable th{text-align:left;color:var(--foreground-tertiary);border-bottom:1px solid var(--border);white-space:nowrap;padding:8px 12px;font-size:12px;font-weight:500}.ej6-VW_entriesTable td{border-bottom:1px solid var(--border-subtle);white-space:nowrap;text-overflow:ellipsis;max-width:220px;padding:8px 12px;overflow:hidden}.ej6-VW_entriesTable tr:hover td{background:color-mix(in srgb, var(--muted) 40%, transparent)}.ej6-VW_tdRight{text-align:right;font-variant-numeric:tabular-nums}.ej6-VW_modelCell{flex-direction:column;min-width:0;display:flex}.ej6-VW_modelName{color:var(--foreground);white-space:nowrap;text-overflow:ellipsis;font-weight:500;overflow:hidden}.ej6-VW_modelProvider{color:var(--foreground-tertiary);white-space:nowrap;text-overflow:ellipsis;font-size:11px;overflow:hidden}.ej6-VW_loadMoreBtn{width:100%;height:34px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;font-family:inherit;font-size:13px;display:block}.ej6-VW_loadMoreBtn:hover{background:var(--muted);color:var(--foreground)}.ej6-VW_tableEmpty{text-align:center;color:var(--foreground-tertiary);padding:24px;font-size:13px}.ej6-VW_usageEmpty{text-align:center;color:var(--foreground-tertiary);flex-direction:column;align-items:center;gap:8px;padding:40px 16px;font-size:14px;display:flex}@media (width<=900px){.ej6-VW_metricStrip{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (width<=640px){.ej6-VW_metricStrip{grid-template-columns:1fr}}";
 		const tagId$13 = "@dsh-control-center/bundle/UsageSection.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$13) + "]") === null) {
 			const tag = document.createElement("style");
@@ -7646,121 +8158,823 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var UsageSection_module_css_default = {
-			"cardTitle": "ej6-VW_cardTitle",
-			"metricLabel": "ej6-VW_metricLabel",
-			"metric": "ej6-VW_metric",
-			"loading": "ej6-VW_loading",
-			"metricValue": "ej6-VW_metricValue",
-			"pageTitle": "ej6-VW_pageTitle",
-			"grid": "ej6-VW_grid",
-			"pageDescription": "ej6-VW_pageDescription",
+			"usageEmpty": "ej6-VW_usageEmpty",
 			"root": "ej6-VW_root",
-			"card": "ej6-VW_card"
+			"exploreCard": "ej6-VW_exploreCard",
+			"barSegment": "ej6-VW_barSegment",
+			"donutLegendRow": "ej6-VW_donutLegendRow",
+			"donutLegendKey": "ej6-VW_donutLegendKey",
+			"modelCell": "ej6-VW_modelCell",
+			"tableEmpty": "ej6-VW_tableEmpty",
+			"metricValue": "ej6-VW_metricValue",
+			"insightValue": "ej6-VW_insightValue",
+			"pageDescription": "ej6-VW_pageDescription",
+			"pageTitle": "ej6-VW_pageTitle",
+			"windowTab": "ej6-VW_windowTab",
+			"pageHeader": "ej6-VW_pageHeader",
+			"tdRight": "ej6-VW_tdRight",
+			"summaryLine": "ej6-VW_summaryLine",
+			"donutLegendValue": "ej6-VW_donutLegendValue",
+			"entriesTable": "ej6-VW_entriesTable",
+			"donutWrap": "ej6-VW_donutWrap",
+			"down": "ej6-VW_down",
+			"exploreTitle": "ej6-VW_exploreTitle",
+			"tableWrap": "ej6-VW_tableWrap",
+			"modelName": "ej6-VW_modelName",
+			"loadMoreBtn": "ej6-VW_loadMoreBtn",
+			"heatmap": "ej6-VW_heatmap",
+			"controlSelect": "ej6-VW_controlSelect",
+			"insightItem": "ej6-VW_insightItem",
+			"metricLabel": "ej6-VW_metricLabel",
+			"insightStrip": "ej6-VW_insightStrip",
+			"windowTabs": "ej6-VW_windowTabs",
+			"barAxis": "ej6-VW_barAxis",
+			"metricSparkline": "ej6-VW_metricSparkline",
+			"metricCell": "ej6-VW_metricCell",
+			"heatmapTitle": "ej6-VW_heatmapTitle",
+			"active": "ej6-VW_active",
+			"metricDelta": "ej6-VW_metricDelta",
+			"heatmapSection": "ej6-VW_heatmapSection",
+			"heatmapScroll": "ej6-VW_heatmapScroll",
+			"heatmapCell": "ej6-VW_heatmapCell",
+			"controlLabel": "ej6-VW_controlLabel",
+			"exploreBody": "ej6-VW_exploreBody",
+			"barColumn": "ej6-VW_barColumn",
+			"controlRow": "ej6-VW_controlRow",
+			"up": "ej6-VW_up",
+			"metricStrip": "ej6-VW_metricStrip",
+			"insightLabel": "ej6-VW_insightLabel",
+			"barChart": "ej6-VW_barChart",
+			"exploreHeader": "ej6-VW_exploreHeader",
+			"donutLegend": "ej6-VW_donutLegend",
+			"donutSwatch": "ej6-VW_donutSwatch",
+			"modelProvider": "ej6-VW_modelProvider"
 		};
 		//#endregion
 		//#region lib/types/client/UsageSection.js
 		/**
-		* Usage Analytics settings section: service counts from the Control Center
-		* catalog plus the DSH session store (client side).
+		* Usage Analytics — Cherry UsageSettings parity: window tabs, metric strip
+		* with deltas, insight strip, daily heatmap, distribution chart, entries
+		* table. Data comes from the Control Center usage record store (translation/
+		* painting/embedding calls record real tokens).
 		*/
+		const WINDOW_KEYS = [
+			{
+				value: 30,
+				label: "最近 30 天"
+			},
+			{
+				value: 90,
+				label: "最近 90 天"
+			},
+			{
+				value: 365,
+				label: "最近一年"
+			}
+		];
+		const CHART_COLORS = [
+			"#3ecf8e",
+			"#6ba6ff",
+			"#f5b544",
+			"#ef6f8e",
+			"#9b8afb",
+			"#4fc3d6",
+			"#8bd450",
+			"#f0886b"
+		];
+		/** Rough input/output price per 1M tokens (USD), matched by model prefix. */
+		const PRICE_TABLE = [
+			{
+				match: /deepseek-v4-flash/i,
+				input: .28,
+				output: .42
+			},
+			{
+				match: /deepseek-v4-pro/i,
+				input: 2,
+				output: 8
+			},
+			{
+				match: /deepseek-v3/i,
+				input: .27,
+				output: 1.1
+			},
+			{
+				match: /deepseek-reasoner/i,
+				input: .55,
+				output: 2.19
+			},
+			{
+				match: /gpt-4o/i,
+				input: 2.5,
+				output: 10
+			},
+			{
+				match: /gpt-4\.1/i,
+				input: 2,
+				output: 8
+			},
+			{
+				match: /gpt-4/i,
+				input: 30,
+				output: 60
+			},
+			{
+				match: /gpt-5/i,
+				input: 1.25,
+				output: 10
+			},
+			{
+				match: /o1/i,
+				input: 15,
+				output: 60
+			},
+			{
+				match: /claude-4/i,
+				input: 3,
+				output: 15
+			},
+			{
+				match: /claude-3\.5/i,
+				input: 3,
+				output: 15
+			},
+			{
+				match: /claude-3/i,
+				input: 3,
+				output: 15
+			},
+			{
+				match: /gemini-2\.5/i,
+				input: 1.25,
+				output: 10
+			},
+			{
+				match: /gemini-1\.5/i,
+				input: 1.25,
+				output: 5
+			},
+			{
+				match: /qwen/i,
+				input: .4,
+				output: 1.2
+			},
+			{
+				match: /glm/i,
+				input: .5,
+				output: 2
+			},
+			{
+				match: /moonshot|kimi/i,
+				input: 1,
+				output: 4
+			},
+			{
+				match: /llama-3/i,
+				input: .25,
+				output: 1
+			}
+		];
+		function priceOf(model) {
+			for (const entry of PRICE_TABLE) if (entry.match.test(model)) return {
+				input: entry.input,
+				output: entry.output
+			};
+			return null;
+		}
+		function estimateCost(record) {
+			const price = priceOf(record.model);
+			if (price === null) return 0;
+			return (record.inputTokens + record.cacheReadTokens + record.cacheWriteTokens) / 1e6 * price.input + record.outputTokens / 1e6 * price.output;
+		}
+		function rangeOf(days) {
+			const now = /* @__PURE__ */ new Date();
+			const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+			const to = startOfDay + 864e5;
+			const from = startOfDay - (days - 1) * 864e5;
+			return {
+				from,
+				to,
+				previousFrom: from - days * 864e5
+			};
+		}
+		function dateKeyOf(timestamp) {
+			const date = new Date(timestamp);
+			const pad = (value) => String(value).padStart(2, "0");
+			return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+		}
+		function formatDate(timestamp) {
+			const date = new Date(timestamp);
+			return `${date.getMonth() + 1}月${date.getDate()}日`;
+		}
+		function formatTokens(value) {
+			if (value >= 1e6) return `${(value / 1e6).toFixed(1)}M`;
+			if (value >= 1e3) return `${(value / 1e3).toFixed(1)}K`;
+			return String(value);
+		}
+		function formatCost(value) {
+			if (value === 0) return "—";
+			return `$${value < .01 ? value.toFixed(4) : value.toFixed(2)}`;
+		}
+		function totalTokensOf(point) {
+			return point.inputTokens + point.outputTokens + point.cacheReadTokens + point.cacheWriteTokens;
+		}
 		function UsageSection({ getUsage, useUsageReady }) {
 			const usage = useUsageReady((value) => value) ? getUsage() : void 0;
-			const [overview, setOverview] = (0, react.useState)(null);
+			const [windowDays, setWindowDays] = (0, react.useState)(30);
+			const [timeline, setTimeline] = (0, react.useState)([]);
+			const [previous, setPrevious] = (0, react.useState)(null);
+			const [statsByProvider, setStatsByProvider] = (0, react.useState)(null);
+			const [statsByModel, setStatsByModel] = (0, react.useState)(null);
+			const [entries, setEntries] = (0, react.useState)([]);
+			const [nextCursor, setNextCursor] = (0, react.useState)(null);
+			const [groupBy, setGroupBy] = (0, react.useState)("provider");
+			const [chartMode, setChartMode] = (0, react.useState)("total");
 			const [error, setError] = (0, react.useState)(null);
-			(0, react.useEffect)(() => {
+			const range = (0, react.useMemo)(() => rangeOf(windowDays), [windowDays]);
+			const loadAll = (0, react.useCallback)(async () => {
 				if (usage === void 0) return;
-				usage.getOverview().then((result) => {
-					if (!result.ok) {
-						setError(result.error.message);
-						return;
-					}
-					setOverview(result.value);
-				}).catch((reason) => setError(reason instanceof Error ? reason.message : String(reason)));
-			}, [usage !== void 0]);
-			if (error !== null) return (0, react_jsx_runtime.jsx)("div", {
-				className: "cc-settings-column",
-				children: (0, react_jsx_runtime.jsx)("div", {
-					className: "cc-notice-error",
-					children: error
-				})
-			});
-			if (overview === null) return (0, react_jsx_runtime.jsx)("div", {
-				className: UsageSection_module_css_default.loading,
-				children: "Loading..."
-			});
-			const metrics = [
-				{
-					label: "提供商",
-					value: overview.providers
-				},
-				{
-					label: "已启用模型",
-					value: overview.enabledModels
-				},
-				{
-					label: "模型总数",
-					value: overview.totalModels
-				},
-				{
-					label: "代码仓库",
-					value: overview.repos
-				},
-				{
-					label: "Skills",
-					value: overview.skills
-				},
-				{
-					label: "MCP 服务器",
-					value: overview.mcpServers
-				},
-				{
-					label: "MCP 启用中",
-					value: overview.mcpActive
-				},
-				{
-					label: "翻译历史",
-					value: overview.translationHistory
-				},
-				{
-					label: "知识库",
-					value: overview.knowledgeBases
-				},
-				{
-					label: "知识库来源",
-					value: overview.knowledgeSources
+				setError(null);
+				const currentRange = rangeOf(windowDays);
+				const previousRange = rangeOf(windowDays);
+				const [timelineResult, previousResult, providerResult, modelResult, entriesResult] = await Promise.allSettled([
+					usage.timeline({
+						from: currentRange.from,
+						to: currentRange.to,
+						groupBy: "day"
+					}),
+					usage.stats({
+						from: previousRange.previousFrom,
+						to: currentRange.from,
+						groupBy: "provider"
+					}),
+					usage.stats({
+						from: currentRange.from,
+						to: currentRange.to,
+						groupBy: "provider"
+					}),
+					usage.stats({
+						from: currentRange.from,
+						to: currentRange.to,
+						groupBy: "model"
+					}),
+					usage.entries({
+						from: currentRange.from,
+						to: currentRange.to,
+						limit: 50
+					})
+				]);
+				if (timelineResult.status === "fulfilled" && timelineResult.value.ok) setTimeline(timelineResult.value.value);
+				if (previousResult.status === "fulfilled" && previousResult.value.ok) setPrevious(previousResult.value.value);
+				if (providerResult.status === "fulfilled" && providerResult.value.ok) setStatsByProvider(providerResult.value.value);
+				if (modelResult.status === "fulfilled" && modelResult.value.ok) setStatsByModel(modelResult.value.value);
+				if (entriesResult.status === "fulfilled" && entriesResult.value.ok) {
+					const page = entriesResult.value.value;
+					setEntries(page.items);
+					setNextCursor(page.nextCursor ?? null);
 				}
+			}, [usage, windowDays]);
+			(0, react.useEffect)(() => {
+				loadAll();
+			}, [loadAll]);
+			const loadMore = async () => {
+				if (usage === void 0 || nextCursor === null) return;
+				const result = await usage.entries({
+					from: range.from,
+					to: range.to,
+					limit: 50,
+					cursor: nextCursor
+				});
+				if (!result.ok) {
+					setError(result.error.message);
+					return;
+				}
+				setEntries((current) => [...current, ...result.value.items]);
+				setNextCursor(result.value.nextCursor ?? null);
+			};
+			const stats = groupBy === "provider" ? statsByProvider : statsByModel;
+			const hasUsage = stats !== null && stats.totalRequests > 0;
+			const currentCost = (0, react.useMemo)(() => entries.reduce((sum, entry) => sum + estimateCost(entry), 0), [entries]);
+			const cacheTotals = (0, react.useMemo)(() => {
+				let noCache = 0;
+				let cacheRead = 0;
+				let cacheWrite = 0;
+				for (const point of timeline) {
+					noCache += point.inputTokens;
+					cacheRead += point.cacheReadTokens;
+					cacheWrite += point.cacheWriteTokens;
+				}
+				return {
+					noCache,
+					cacheRead,
+					cacheWrite
+				};
+			}, [timeline]);
+			const cacheHitRate = cacheTotals.noCache + cacheTotals.cacheRead + cacheTotals.cacheWrite === 0 ? null : cacheTotals.cacheRead / (cacheTotals.noCache + cacheTotals.cacheRead + cacheTotals.cacheWrite);
+			const totalTokens = timeline.reduce((sum, point) => sum + totalTokensOf(point), 0);
+			const totalRequests = timeline.reduce((sum, point) => sum + point.requests, 0);
+			const activeDays = timeline.filter((point) => point.requests > 0).length;
+			const peakDay = [...timeline].sort((left, right) => totalTokensOf(right) - totalTokensOf(left))[0];
+			const topModel = statsByModel?.groups[0];
+			const dailyAverage = windowDays === 0 ? 0 : Math.round(totalTokens / windowDays);
+			const spark = (0, react.useMemo)(() => timeline.slice(-64).map((point) => totalTokensOf(point)), [timeline]);
+			const heatmap = (0, react.useMemo)(() => {
+				const cells = [];
+				const start = /* @__PURE__ */ new Date();
+				start.setHours(0, 0, 0, 0);
+				const weekStart = start.getTime() - (start.getDay() + 6) % 7 * 864e5;
+				const byDay = /* @__PURE__ */ new Map();
+				for (const point of timeline) byDay.set(point.dateKey, point);
+				for (let offset = 0; offset < 371; offset++) {
+					const timestamp = weekStart - offset * 864e5;
+					if (timestamp < range.from) break;
+					const point = byDay.get(dateKeyOf(timestamp));
+					cells.unshift({
+						timestamp,
+						tokens: point === void 0 ? 0 : totalTokensOf(point),
+						requests: point?.requests ?? 0
+					});
+				}
+				return cells;
+			}, [timeline, range.from]);
+			const heatmapMax = Math.max(1, ...heatmap.map((cell) => cell.tokens));
+			const heatLevel = (tokens) => {
+				if (tokens === 0) return 0;
+				const ratio = tokens / heatmapMax;
+				if (ratio > .6) return 4;
+				if (ratio > .3) return 3;
+				if (ratio > .12) return 2;
+				return 1;
+			};
+			const HEAT_COLORS = [
+				"transparent",
+				"rgba(62,207,142,0.25)",
+				"rgba(62,207,142,0.45)",
+				"rgba(62,207,142,0.7)",
+				"rgba(62,207,142,1)"
 			];
+			const chartGroups = stats?.groups ?? [];
+			const chartTotal = stats?.totalTokens ?? 0;
+			const chartData = chartMode === "day" ? timeline : chartGroups.map((group, index) => ({
+				key: group.key,
+				value: group.tokens,
+				color: CHART_COLORS[index % CHART_COLORS.length]
+			}));
+			const donutSegments = chartMode === "total" ? chartData : [];
+			const donutCircumference = 2 * Math.PI * 56;
+			let donutOffset = 0;
+			const formatEntryTime = (timestamp) => {
+				const date = new Date(timestamp);
+				const pad = (value) => String(value).padStart(2, "0");
+				return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日 ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+			};
 			return (0, react_jsx_runtime.jsxs)("div", {
 				className: UsageSection_module_css_default.root,
-				children: [(0, react_jsx_runtime.jsxs)("div", { children: [(0, react_jsx_runtime.jsx)("h2", {
-					className: UsageSection_module_css_default.pageTitle,
-					children: "用量分析"
-				}), (0, react_jsx_runtime.jsxs)("p", {
-					className: UsageSection_module_css_default.pageDescription,
-					children: [
-						"Control Center 各服务的实时统计（",
-						new Date(overview.collectedAt).toLocaleString(),
-						"）"
-					]
-				})] }), (0, react_jsx_runtime.jsxs)("div", {
-					className: UsageSection_module_css_default.card,
-					children: [(0, react_jsx_runtime.jsx)("div", {
-						className: UsageSection_module_css_default.cardTitle,
-						children: "概览"
-					}), (0, react_jsx_runtime.jsx)("div", {
-						className: UsageSection_module_css_default.grid,
-						children: metrics.map((metric) => (0, react_jsx_runtime.jsxs)("div", {
-							className: UsageSection_module_css_default.metric,
-							children: [(0, react_jsx_runtime.jsx)("span", {
-								className: UsageSection_module_css_default.metricValue,
-								children: metric.value
-							}), (0, react_jsx_runtime.jsx)("span", {
-								className: UsageSection_module_css_default.metricLabel,
-								children: metric.label
+				children: [
+					(0, react_jsx_runtime.jsxs)("div", {
+						className: UsageSection_module_css_default.pageHeader,
+						children: [(0, react_jsx_runtime.jsxs)("div", { children: [(0, react_jsx_runtime.jsx)("h2", {
+							className: UsageSection_module_css_default.pageTitle,
+							children: "用量统计"
+						}), (0, react_jsx_runtime.jsx)("p", {
+							className: UsageSection_module_css_default.pageDescription,
+							children: "Control Center 各服务的实时统计（翻译 / 绘画 / 知识库嵌入调用）"
+						})] }), (0, react_jsx_runtime.jsx)("div", {
+							className: UsageSection_module_css_default.windowTabs,
+							role: "tablist",
+							children: WINDOW_KEYS.map((option) => (0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								role: "tab",
+								"aria-selected": option.value === windowDays,
+								className: `${UsageSection_module_css_default.windowTab} ${option.value === windowDays ? UsageSection_module_css_default.active : ""}`,
+								onClick: () => {
+									setWindowDays(option.value);
+								},
+								children: option.label
+							}, option.value))
+						})]
+					}),
+					error !== null ? (0, react_jsx_runtime.jsx)("div", {
+						className: "cc-notice-error",
+						children: error
+					}) : null,
+					!hasUsage ? (0, react_jsx_runtime.jsxs)("div", {
+						className: UsageSection_module_css_default.usageEmpty,
+						children: [
+							(0, react_jsx_runtime.jsx)(IconSparkles, { size: 26 }),
+							(0, react_jsx_runtime.jsx)("div", { children: "暂无用量" }),
+							(0, react_jsx_runtime.jsx)("div", { children: "支持的 AI 请求产生用量记录后，这里会显示数据。在翻译、绘画或知识库中发起真实调用即可。" })
+						]
+					}) : (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsxs)("section", {
+						"aria-label": "概览",
+						children: [
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: UsageSection_module_css_default.metricStrip,
+								children: [
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: UsageSection_module_css_default.metricCell,
+										children: [
+											(0, react_jsx_runtime.jsx)("div", {
+												className: UsageSection_module_css_default.metricLabel,
+												children: "请求数"
+											}),
+											(0, react_jsx_runtime.jsx)("div", {
+												className: UsageSection_module_css_default.metricValue,
+												children: totalRequests
+											}),
+											(0, react_jsx_runtime.jsx)("div", {
+												className: UsageSection_module_css_default.metricDelta,
+												children: previous === null ? "较上期 —" : previous.totalRequests === 0 ? "较上期 新增" : `较上期 ${Math.round((totalRequests - previous.totalRequests) / previous.totalRequests * 100)}%`
+											}),
+											(0, react_jsx_runtime.jsx)(Sparkline, { values: timeline.slice(-64).map((point) => point.requests) })
+										]
+									}),
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: UsageSection_module_css_default.metricCell,
+										children: [
+											(0, react_jsx_runtime.jsx)("div", {
+												className: UsageSection_module_css_default.metricLabel,
+												children: "总 Token 数"
+											}),
+											(0, react_jsx_runtime.jsx)("div", {
+												className: UsageSection_module_css_default.metricValue,
+												children: formatTokens(totalTokens)
+											}),
+											(0, react_jsx_runtime.jsx)("div", {
+												className: UsageSection_module_css_default.metricDelta,
+												children: previous === null ? "较上期 —" : `较上期 ${Math.round(totalTokens / Math.max(1, previous.totalTokens) * 100)}%`
+											}),
+											(0, react_jsx_runtime.jsx)(Sparkline, { values: spark })
+										]
+									}),
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: UsageSection_module_css_default.metricCell,
+										children: [
+											(0, react_jsx_runtime.jsx)("div", {
+												className: UsageSection_module_css_default.metricLabel,
+												children: "输入 Token"
+											}),
+											(0, react_jsx_runtime.jsx)("div", {
+												className: UsageSection_module_css_default.metricValue,
+												children: formatTokens(timeline.reduce((sum, point) => sum + point.inputTokens, 0))
+											}),
+											(0, react_jsx_runtime.jsxs)("div", {
+												className: UsageSection_module_css_default.metricDelta,
+												children: ["输出 ", formatTokens(timeline.reduce((sum, point) => sum + point.outputTokens, 0))]
+											}),
+											(0, react_jsx_runtime.jsx)(Sparkline, { values: timeline.slice(-64).map((point) => point.inputTokens) })
+										]
+									}),
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: UsageSection_module_css_default.metricCell,
+										children: [
+											(0, react_jsx_runtime.jsx)("div", {
+												className: UsageSection_module_css_default.metricLabel,
+												children: "缓存命中率"
+											}),
+											(0, react_jsx_runtime.jsx)("div", {
+												className: UsageSection_module_css_default.metricValue,
+												children: cacheHitRate === null ? "—" : `${Math.round(cacheHitRate * 100)}%`
+											}),
+											(0, react_jsx_runtime.jsx)("div", {
+												className: UsageSection_module_css_default.metricDelta,
+												children: cacheHitRate === null ? "发送新请求后开始统计" : `可观测输入：${formatTokens(cacheTotals.cacheRead + cacheTotals.cacheWrite)}`
+											}),
+											(0, react_jsx_runtime.jsx)(Sparkline, { values: timeline.slice(-64).map((point) => point.cacheReadTokens) })
+										]
+									})
+								]
+							}),
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: UsageSection_module_css_default.insightStrip,
+								style: { marginTop: 12 },
+								children: [
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: UsageSection_module_css_default.insightItem,
+										children: [(0, react_jsx_runtime.jsx)("div", {
+											className: UsageSection_module_css_default.insightLabel,
+											children: "活跃天数"
+										}), (0, react_jsx_runtime.jsxs)("div", {
+											className: UsageSection_module_css_default.insightValue,
+											children: [activeDays, " 天"]
+										})]
+									}),
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: UsageSection_module_css_default.insightItem,
+										children: [(0, react_jsx_runtime.jsx)("div", {
+											className: UsageSection_module_css_default.insightLabel,
+											children: "高峰日"
+										}), (0, react_jsx_runtime.jsx)("div", {
+											className: UsageSection_module_css_default.insightValue,
+											children: peakDay === void 0 ? "—" : `${formatDate(new Date(peakDay.dateKey).getTime())} (${formatTokens(totalTokensOf(peakDay))})`
+										})]
+									}),
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: UsageSection_module_css_default.insightItem,
+										children: [(0, react_jsx_runtime.jsx)("div", {
+											className: UsageSection_module_css_default.insightLabel,
+											children: "用量最高模型"
+										}), (0, react_jsx_runtime.jsx)("div", {
+											className: UsageSection_module_css_default.insightValue,
+											style: { maxWidth: 260 },
+											children: topModel?.key ?? "—"
+										})]
+									}),
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: UsageSection_module_css_default.insightItem,
+										children: [(0, react_jsx_runtime.jsx)("div", {
+											className: UsageSection_module_css_default.insightLabel,
+											children: "日均"
+										}), (0, react_jsx_runtime.jsxs)("div", {
+											className: UsageSection_module_css_default.insightValue,
+											children: [formatTokens(dailyAverage), " tokens"]
+										})]
+									}),
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: UsageSection_module_css_default.insightItem,
+										children: [(0, react_jsx_runtime.jsx)("div", {
+											className: UsageSection_module_css_default.insightLabel,
+											children: "估算成本（参考价）"
+										}), (0, react_jsx_runtime.jsx)("div", {
+											className: UsageSection_module_css_default.insightValue,
+											children: formatCost(currentCost)
+										})]
+									})
+								]
+							}),
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: UsageSection_module_css_default.heatmapSection,
+								style: { marginTop: 16 },
+								children: [(0, react_jsx_runtime.jsxs)("div", {
+									className: UsageSection_module_css_default.heatmapTitle,
+									children: [(0, react_jsx_runtime.jsx)("span", { children: "每日活动" }), (0, react_jsx_runtime.jsx)("span", {
+										style: {
+											fontWeight: 400,
+											color: "var(--foreground-tertiary)",
+											fontSize: 12
+										},
+										children: "Token"
+									})]
+								}), (0, react_jsx_runtime.jsx)("div", {
+									className: UsageSection_module_css_default.heatmapScroll,
+									children: (0, react_jsx_runtime.jsx)("div", {
+										className: UsageSection_module_css_default.heatmap,
+										role: "img",
+										"aria-label": "每日活动热力图",
+										children: heatmap.map((cell) => (0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: UsageSection_module_css_default.heatmapCell,
+											style: { background: HEAT_COLORS[heatLevel(cell.tokens)] },
+											title: `${dateKeyOf(cell.timestamp)} · ${cell.requests} 个请求 · ${formatTokens(cell.tokens)} tokens`
+										}, cell.timestamp))
+									})
+								})]
+							})
+						]
+					}), (0, react_jsx_runtime.jsxs)("section", {
+						"aria-label": "探索",
+						children: [(0, react_jsx_runtime.jsxs)("div", {
+							className: UsageSection_module_css_default.exploreCard,
+							children: [(0, react_jsx_runtime.jsxs)("div", {
+								className: UsageSection_module_css_default.exploreHeader,
+								children: [
+									(0, react_jsx_runtime.jsx)("span", {
+										className: UsageSection_module_css_default.exploreTitle,
+										children: "探索"
+									}),
+									(0, react_jsx_runtime.jsxs)("span", {
+										className: UsageSection_module_css_default.controlRow,
+										children: [(0, react_jsx_runtime.jsx)("span", {
+											className: UsageSection_module_css_default.controlLabel,
+											children: "分组"
+										}), (0, react_jsx_runtime.jsxs)("select", {
+											className: UsageSection_module_css_default.controlSelect,
+											value: groupBy,
+											onChange: (event) => {
+												setGroupBy(event.target.value);
+											},
+											children: [(0, react_jsx_runtime.jsx)("option", {
+												value: "provider",
+												children: "供应商"
+											}), (0, react_jsx_runtime.jsx)("option", {
+												value: "model",
+												children: "模型"
+											})]
+										})]
+									}),
+									(0, react_jsx_runtime.jsxs)("span", {
+										className: UsageSection_module_css_default.controlRow,
+										children: [(0, react_jsx_runtime.jsx)("span", {
+											className: UsageSection_module_css_default.controlLabel,
+											children: "汇总"
+										}), (0, react_jsx_runtime.jsxs)("select", {
+											className: UsageSection_module_css_default.controlSelect,
+											value: chartMode,
+											onChange: (event) => {
+												setChartMode(event.target.value);
+											},
+											children: [(0, react_jsx_runtime.jsx)("option", {
+												value: "total",
+												children: "总计"
+											}), (0, react_jsx_runtime.jsx)("option", {
+												value: "day",
+												children: "按天"
+											})]
+										})]
+									})
+								]
+							}), (0, react_jsx_runtime.jsxs)("div", {
+								className: UsageSection_module_css_default.exploreBody,
+								children: [(0, react_jsx_runtime.jsxs)("p", {
+									className: UsageSection_module_css_default.summaryLine,
+									children: [
+										groupBy === "provider" ? "供应商" : "模型",
+										" / Token / ",
+										chartMode === "total" ? "总计" : "按天",
+										" / 汇总",
+										(0, react_jsx_runtime.jsx)("span", {
+											style: {
+												float: "right",
+												color: "var(--foreground)"
+											},
+											children: formatTokens(chartTotal)
+										})
+									]
+								}), chartMode === "total" ? (0, react_jsx_runtime.jsxs)("div", {
+									className: UsageSection_module_css_default.donutWrap,
+									children: [(0, react_jsx_runtime.jsxs)("svg", {
+										width: "160",
+										height: "160",
+										viewBox: "0 0 160 160",
+										role: "img",
+										"aria-label": "用量分布图",
+										children: [(0, react_jsx_runtime.jsx)("circle", {
+											cx: "80",
+											cy: "80",
+											r: "56",
+											fill: "none",
+											stroke: "var(--muted)",
+											strokeWidth: "22"
+										}), donutSegments.map((segment) => {
+											const fraction = segment.value / Math.max(1, chartTotal);
+											const dash = fraction * donutCircumference;
+											const offset = donutOffset;
+											donutOffset -= dash;
+											if (fraction === 0) return null;
+											return (0, react_jsx_runtime.jsx)("circle", {
+												cx: "80",
+												cy: "80",
+												r: "56",
+												fill: "none",
+												stroke: segment.color,
+												strokeWidth: "22",
+												strokeDasharray: `${dash} ${donutCircumference - dash}`,
+												strokeDashoffset: offset,
+												transform: "rotate(-90 80 80)",
+												children: (0, react_jsx_runtime.jsx)("title", { children: `${segment.key}: ${formatTokens(segment.value)} tokens` })
+											}, segment.key);
+										})]
+									}), (0, react_jsx_runtime.jsxs)("div", {
+										className: UsageSection_module_css_default.donutLegend,
+										children: [donutSegments.slice(0, 8).map((segment) => (0, react_jsx_runtime.jsxs)("div", {
+											className: UsageSection_module_css_default.donutLegendRow,
+											title: segment.key,
+											children: [
+												(0, react_jsx_runtime.jsx)("span", {
+													className: UsageSection_module_css_default.donutSwatch,
+													style: { background: segment.color }
+												}),
+												(0, react_jsx_runtime.jsx)("span", {
+													className: UsageSection_module_css_default.donutLegendKey,
+													children: segment.key
+												}),
+												(0, react_jsx_runtime.jsxs)("span", {
+													className: UsageSection_module_css_default.donutLegendValue,
+													children: [
+														formatTokens(segment.value),
+														" (",
+														Math.round(segment.value / Math.max(1, chartTotal) * 100),
+														"%)"
+													]
+												})
+											]
+										}, segment.key)), donutSegments.length > 8 && (0, react_jsx_runtime.jsxs)("div", {
+											className: UsageSection_module_css_default.donutLegendRow,
+											children: [
+												"… 其余 ",
+												donutSegments.length - 8,
+												" 项"
+											]
+										})]
+									})]
+								}) : (0, react_jsx_runtime.jsxs)("div", { children: [(0, react_jsx_runtime.jsx)("div", {
+									className: UsageSection_module_css_default.barChart,
+									children: timeline.map((point) => (0, react_jsx_runtime.jsx)("div", {
+										className: UsageSection_module_css_default.barColumn,
+										title: `${point.dateKey} · ${point.requests} 个请求 · ${formatTokens(totalTokensOf(point))} tokens`,
+										children: (0, react_jsx_runtime.jsx)("span", {
+											className: UsageSection_module_css_default.barSegment,
+											style: {
+												background: CHART_COLORS[0],
+												height: `${Math.max(1, Math.round(totalTokensOf(point) / Math.max(1, chartTotal) * 100))}%`
+											}
+										})
+									}, point.dateKey))
+								}), (0, react_jsx_runtime.jsxs)("div", {
+									className: UsageSection_module_css_default.barAxis,
+									children: [(0, react_jsx_runtime.jsx)("span", { children: timeline[0]?.dateKey ?? "" }), (0, react_jsx_runtime.jsx)("span", { children: timeline[timeline.length - 1]?.dateKey ?? "" })]
+								})] })]
 							})]
-						}, metric.label))
-					})]
-				})]
+						}), (0, react_jsx_runtime.jsxs)("div", {
+							className: UsageSection_module_css_default.exploreCard,
+							style: { marginTop: 12 },
+							children: [(0, react_jsx_runtime.jsxs)("div", {
+								className: UsageSection_module_css_default.exploreHeader,
+								children: [(0, react_jsx_runtime.jsx)("span", {
+									className: UsageSection_module_css_default.exploreTitle,
+									children: "请求"
+								}), (0, react_jsx_runtime.jsxs)("span", {
+									style: {
+										color: "var(--foreground-tertiary)",
+										fontSize: 12
+									},
+									children: [entries.length, " 条记录"]
+								})]
+							}), entries.length === 0 ? (0, react_jsx_runtime.jsx)("div", {
+								className: UsageSection_module_css_default.tableEmpty,
+								children: "暂无记录"
+							}) : (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsx)("div", {
+								className: UsageSection_module_css_default.tableWrap,
+								children: (0, react_jsx_runtime.jsxs)("table", {
+									className: UsageSection_module_css_default.entriesTable,
+									children: [(0, react_jsx_runtime.jsx)("thead", { children: (0, react_jsx_runtime.jsxs)("tr", { children: [
+										(0, react_jsx_runtime.jsx)("th", { children: "模型" }),
+										(0, react_jsx_runtime.jsx)("th", { children: "来源" }),
+										(0, react_jsx_runtime.jsx)("th", { children: "日期" }),
+										(0, react_jsx_runtime.jsx)("th", {
+											className: UsageSection_module_css_default.tdRight,
+											children: "Token"
+										}),
+										(0, react_jsx_runtime.jsx)("th", {
+											className: UsageSection_module_css_default.tdRight,
+											children: "成本"
+										})
+									] }) }), (0, react_jsx_runtime.jsx)("tbody", { children: entries.map((entry) => (0, react_jsx_runtime.jsxs)("tr", { children: [
+										(0, react_jsx_runtime.jsx)("td", { children: (0, react_jsx_runtime.jsxs)("div", {
+											className: UsageSection_module_css_default.modelCell,
+											children: [(0, react_jsx_runtime.jsx)("span", {
+												className: UsageSection_module_css_default.modelName,
+												children: entry.model
+											}), (0, react_jsx_runtime.jsx)("span", {
+												className: UsageSection_module_css_default.modelProvider,
+												children: entry.provider
+											})]
+										}) }),
+										(0, react_jsx_runtime.jsx)("td", { children: entry.kind === "translation" ? "翻译" : entry.kind === "painting" ? "绘画" : "知识库" }),
+										(0, react_jsx_runtime.jsx)("td", { children: formatEntryTime(entry.createdAt) }),
+										(0, react_jsx_runtime.jsx)("td", {
+											className: UsageSection_module_css_default.tdRight,
+											children: formatTokens(entry.inputTokens + entry.outputTokens + entry.cacheReadTokens + entry.cacheWriteTokens)
+										}),
+										(0, react_jsx_runtime.jsx)("td", {
+											className: UsageSection_module_css_default.tdRight,
+											children: formatCost(estimateCost(entry))
+										})
+									] }, entry.id)) })]
+								})
+							}), nextCursor === null ? null : (0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								className: UsageSection_module_css_default.loadMoreBtn,
+								onClick: () => {
+									loadMore();
+								},
+								children: "加载更多"
+							})] })]
+						})]
+					})] })
+				]
+			});
+		}
+		/** Tiny SVG polyline sparkline (last values, 48x32). */
+		function Sparkline({ values }) {
+			const max = Math.max(1, ...values);
+			const points = values.slice(-48).map((value, index) => {
+				const x = index / Math.max(1, values.length - 1) * 48;
+				const y = 30 - value / max * 26;
+				return `${x.toFixed(1)},${y.toFixed(1)}`;
+			}).join(" ");
+			return (0, react_jsx_runtime.jsx)("svg", {
+				className: UsageSection_module_css_default.metricSparkline,
+				width: "48",
+				height: "32",
+				viewBox: "0 0 48 32",
+				"aria-hidden": true,
+				children: points === "" ? null : (0, react_jsx_runtime.jsx)("polyline", {
+					points,
+					fill: "none",
+					stroke: "var(--foreground-tertiary)",
+					strokeWidth: "1.5"
+				})
 			});
 		}
 		//#endregion
@@ -7996,16 +9210,16 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SystemSection_module_css_default = {
-			"pageDescription": "MzTzwq_pageDescription",
-			"cardTitle": "MzTzwq_cardTitle",
-			"pageTitle": "MzTzwq_pageTitle",
-			"infoRow": "MzTzwq_infoRow",
-			"infoValue": "MzTzwq_infoValue",
-			"root": "MzTzwq_root",
-			"loading": "MzTzwq_loading",
 			"infoLabel": "MzTzwq_infoLabel",
+			"infoValue": "MzTzwq_infoValue",
+			"loading": "MzTzwq_loading",
+			"root": "MzTzwq_root",
+			"cardTitle": "MzTzwq_cardTitle",
 			"badge": "MzTzwq_badge",
-			"card": "MzTzwq_card"
+			"pageTitle": "MzTzwq_pageTitle",
+			"pageDescription": "MzTzwq_pageDescription",
+			"card": "MzTzwq_card",
+			"infoRow": "MzTzwq_infoRow"
 		};
 		//#endregion
 		//#region lib/types/client/SystemSection.js
@@ -8269,23 +9483,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TasksSection_module_css_default = {
-			"runFail": "_3yT94W_runFail",
-			"root": "_3yT94W_root",
-			"pageTitle": "_3yT94W_pageTitle",
-			"pageDescription": "_3yT94W_pageDescription",
-			"card": "_3yT94W_card",
 			"select": "_3yT94W_select",
-			"runTime": "_3yT94W_runTime",
-			"taskMeta": "_3yT94W_taskMeta",
-			"cardTitle": "_3yT94W_cardTitle",
+			"root": "_3yT94W_root",
 			"runDetail": "_3yT94W_runDetail",
-			"runRow": "_3yT94W_runRow",
-			"loading": "_3yT94W_loading",
-			"taskRow": "_3yT94W_taskRow",
-			"runOk": "_3yT94W_runOk",
 			"input": "_3yT94W_input",
+			"pageTitle": "_3yT94W_pageTitle",
+			"taskMain": "_3yT94W_taskMain",
 			"taskName": "_3yT94W_taskName",
-			"taskMain": "_3yT94W_taskMain"
+			"runOk": "_3yT94W_runOk",
+			"card": "_3yT94W_card",
+			"loading": "_3yT94W_loading",
+			"taskMeta": "_3yT94W_taskMeta",
+			"runRow": "_3yT94W_runRow",
+			"pageDescription": "_3yT94W_pageDescription",
+			"taskRow": "_3yT94W_taskRow",
+			"runFail": "_3yT94W_runFail",
+			"cardTitle": "_3yT94W_cardTitle",
+			"runTime": "_3yT94W_runTime"
 		};
 		//#endregion
 		//#region lib/types/client/TasksSection.js
@@ -9011,28 +10225,28 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
-			"close": "_4STY0G_close",
-			"navIcon": "_4STY0G_navIcon",
-			"options": "_4STY0G_options",
-			"navGroupTitle": "_4STY0G_navGroupTitle",
-			"rail": "_4STY0G_rail",
-			"navTitle": "_4STY0G_navTitle",
-			"navCell": "_4STY0G_navCell",
-			"panel": "_4STY0G_panel",
-			"actions": "_4STY0G_actions",
-			"header": "_4STY0G_header",
-			"triggerLabel": "_4STY0G_triggerLabel",
-			"mask": "_4STY0G_mask",
-			"navScroll": "_4STY0G_navScroll",
-			"active": "_4STY0G_active",
-			"hiddenLabel": "_4STY0G_hiddenLabel",
-			"navGroup": "_4STY0G_navGroup",
-			"overlay": "_4STY0G_overlay",
 			"trigger": "_4STY0G_trigger",
-			"navList": "_4STY0G_navList",
+			"overlay": "_4STY0G_overlay",
+			"navGroupTitle": "_4STY0G_navGroupTitle",
+			"nav": "_4STY0G_nav",
+			"navScroll": "_4STY0G_navScroll",
 			"navLabel": "_4STY0G_navLabel",
 			"content": "_4STY0G_content",
-			"nav": "_4STY0G_nav"
+			"close": "_4STY0G_close",
+			"hiddenLabel": "_4STY0G_hiddenLabel",
+			"navCell": "_4STY0G_navCell",
+			"options": "_4STY0G_options",
+			"header": "_4STY0G_header",
+			"mask": "_4STY0G_mask",
+			"navIcon": "_4STY0G_navIcon",
+			"triggerLabel": "_4STY0G_triggerLabel",
+			"actions": "_4STY0G_actions",
+			"active": "_4STY0G_active",
+			"panel": "_4STY0G_panel",
+			"navList": "_4STY0G_navList",
+			"navTitle": "_4STY0G_navTitle",
+			"navGroup": "_4STY0G_navGroup",
+			"rail": "_4STY0G_rail"
 		};
 		//#endregion
 		//#region \0dsh-control-center-plain-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\cherry-tokens.css.mjs
@@ -9315,8 +10529,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsDocumentAction_module_css_default = {
-			"action": "SgSrUG_action",
-			"error": "SgSrUG_error"
+			"error": "SgSrUG_error",
+			"action": "SgSrUG_action"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsDocumentAction.js
@@ -9585,35 +10799,35 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelsSection_module_css_default = {
-			"intro": "tKsOKa_intro",
-			"field": "tKsOKa_field",
-			"savedNotice": "tKsOKa_savedNotice",
-			"rowHead": "tKsOKa_rowHead",
-			"addButton": "tKsOKa_addButton",
-			"dangerButton": "tKsOKa_dangerButton",
-			"deleteDialog": "tKsOKa_deleteDialog",
-			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
-			"notice": "tKsOKa_notice",
-			"rowTag": "tKsOKa_rowTag",
-			"addCard": "tKsOKa_addCard",
-			"setupCard": "tKsOKa_setupCard",
-			"title": "tKsOKa_title",
-			"rowIdentity": "tKsOKa_rowIdentity",
-			"secondaryButton": "tKsOKa_secondaryButton",
-			"credentialDot": "tKsOKa_credentialDot",
-			"selectInput": "tKsOKa_selectInput",
-			"deleteConfirm": "tKsOKa_deleteConfirm",
-			"rowName": "tKsOKa_rowName",
 			"addActions": "tKsOKa_addActions",
-			"rowCard": "tKsOKa_rowCard",
-			"rows": "tKsOKa_rows",
-			"input": "tKsOKa_input",
-			"rowActions": "tKsOKa_rowActions",
-			"credentialDotMissing": "tKsOKa_credentialDotMissing",
-			"error": "tKsOKa_error",
-			"section": "tKsOKa_section",
+			"rowHead": "tKsOKa_rowHead",
+			"notice": "tKsOKa_notice",
+			"rowIdentity": "tKsOKa_rowIdentity",
+			"addBlock": "tKsOKa_addBlock",
+			"deleteConfirm": "tKsOKa_deleteConfirm",
+			"rowTag": "tKsOKa_rowTag",
+			"addButton": "tKsOKa_addButton",
+			"setupCard": "tKsOKa_setupCard",
 			"fieldLabel": "tKsOKa_fieldLabel",
-			"addBlock": "tKsOKa_addBlock"
+			"rowActions": "tKsOKa_rowActions",
+			"rowName": "tKsOKa_rowName",
+			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"rowCard": "tKsOKa_rowCard",
+			"addCard": "tKsOKa_addCard",
+			"error": "tKsOKa_error",
+			"dangerButton": "tKsOKa_dangerButton",
+			"rows": "tKsOKa_rows",
+			"selectInput": "tKsOKa_selectInput",
+			"intro": "tKsOKa_intro",
+			"title": "tKsOKa_title",
+			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
+			"secondaryButton": "tKsOKa_secondaryButton",
+			"input": "tKsOKa_input",
+			"section": "tKsOKa_section",
+			"credentialDot": "tKsOKa_credentialDot",
+			"field": "tKsOKa_field",
+			"deleteDialog": "tKsOKa_deleteDialog",
+			"savedNotice": "tKsOKa_savedNotice"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -12728,10 +13942,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var OnboardingModal_module_css_default = {
-			"body": "C_CJ_a_body",
-			"content": "C_CJ_a_content",
 			"dialog": "C_CJ_a_dialog",
-			"title": "C_CJ_a_title"
+			"content": "C_CJ_a_content",
+			"title": "C_CJ_a_title",
+			"body": "C_CJ_a_body"
 		};
 		//#endregion
 		//#region lib/types/client/OnboardingModal.js
@@ -12790,8 +14004,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var DeepSeekOnboardingDialog_module_css_default = {
-			"editor": "oxcHWa_editor",
-			"description": "oxcHWa_description"
+			"description": "oxcHWa_description",
+			"editor": "oxcHWa_editor"
 		};
 		//#endregion
 		//#region lib/types/client/DeepSeekOnboardingDialog.js
@@ -12881,10 +14095,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WelcomeNotice_module_css_default = {
+			"primary": "RFswhG_primary",
 			"error": "RFswhG_error",
-			"actions": "RFswhG_actions",
 			"copy": "RFswhG_copy",
-			"primary": "RFswhG_primary"
+			"actions": "RFswhG_actions"
 		};
 		//#endregion
 		//#region lib/types/client/WelcomeNotice.js
@@ -13347,13 +14561,13 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProductWorkspaceSurface_module_css_default = {
-			"root": "mzcFbW_root",
-			"icon": "mzcFbW_icon",
-			"close": "mzcFbW_close",
-			"body": "mzcFbW_body",
 			"header": "mzcFbW_header",
+			"root": "mzcFbW_root",
+			"close": "mzcFbW_close",
+			"icon": "mzcFbW_icon",
 			"eyebrow": "mzcFbW_eyebrow",
-			"identity": "mzcFbW_identity"
+			"identity": "mzcFbW_identity",
+			"body": "mzcFbW_body"
 		};
 		//#endregion
 		//#region lib/types/client/ProductWorkspaceSurface.js
