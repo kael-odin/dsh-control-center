@@ -5,6 +5,7 @@
  */
 import { useEffect, useRef, useState } from 'react'
 import type { TranslationLanguage } from '../translation-types.ts'
+import { TRANSLATION_PROMPT_TEMPLATE } from '../translation-prompt.ts'
 import css from './TranslationWorkspace.module.css'
 import { IconArrowLeftRight, IconPenLine, IconPlus, IconTrash2 } from './cherry-icons.tsx'
 import { HelpTooltip, IconButton, PanelShell, Segmented, Switch } from './panel-ui.tsx'
@@ -33,14 +34,14 @@ export interface TranslationSettingsPanelProps {
   onClose: () => void
 }
 
-const BUILTIN_PROMPT = 'Translate the text faithfully and completely.'
+const BUILTIN_PROMPT = TRANSLATION_PROMPT_TEMPLATE
 
 export function TranslationSettingsPanel(props: TranslationSettingsPanelProps) {
   const {
     languages, customLanguages, settings, onChange, prompt,
     onSavePrompt, onResetPrompt, onAddLanguage, onEditLanguage, onDeleteLanguage, onClose,
   } = props
-  const [promptDraft, setPromptDraft] = useState(prompt)
+  const [promptDraft, setPromptDraft] = useState(prompt.length > 0 ? prompt : BUILTIN_PROMPT)
   const [adding, setAdding] = useState(false)
   const [editing, setEditing] = useState<string | null>(null)
   const [formId, setFormId] = useState('')
@@ -49,17 +50,21 @@ export function TranslationSettingsPanel(props: TranslationSettingsPanelProps) {
   const saveTimer = useRef<number | null>(null)
   const promptDirty = promptDraft.trim() !== '' && promptDraft !== prompt
 
-  // Reflect host prompt changes (after reset / debounced save).
-  useEffect(() => { setPromptDraft(prompt) }, [prompt])
+  // Reflect host prompt changes (after reset / debounced save); an empty host
+  // value means the built-in Cherry template is in effect.
+  useEffect(() => { setPromptDraft(prompt.length > 0 ? prompt : BUILTIN_PROMPT) }, [prompt])
 
   const updatePrompt = (value: string): void => {
     setPromptDraft(value)
     if (saveTimer.current !== null) window.clearTimeout(saveTimer.current)
-    saveTimer.current = window.setTimeout(() => { onSavePrompt(value) }, 400)
+    saveTimer.current = window.setTimeout(() => {
+      // Saving the untouched template equals using the built-in prompt.
+      onSavePrompt(value === BUILTIN_PROMPT ? '' : value)
+    }, 400)
   }
 
   const resetPrompt = (): void => {
-    setPromptDraft('')
+    setPromptDraft(BUILTIN_PROMPT)
     if (saveTimer.current !== null) window.clearTimeout(saveTimer.current)
     onResetPrompt()
   }
@@ -181,9 +186,9 @@ export function TranslationSettingsPanel(props: TranslationSettingsPanelProps) {
             className={css.settingsTextarea}
             value={promptDraft}
             onChange={event => { updatePrompt(event.target.value) }}
-            placeholder={BUILTIN_PROMPT}
+            spellCheck={false}
           />
-          <div className={css.settingHint}>留空使用内置提示词；会附加源语言与目标语言指令。</div>
+          <div className={css.settingHint}>{'支持 {{text}} 与 {{target_language}} 占位符；恢复默认即使用 Cherry 内置翻译提示词。'}</div>
         </div>
 
         <div>

@@ -9,6 +9,7 @@ import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
 import {
   IconCheckOutline16, IconChevronLeftOutline14, IconSearchOutline16, IconPlusOutline16,
 } from '@deepseek-ai/dsh-client-ui-primitives'
+import type { ModelProviderGroup } from '@deepseek-ai/dsh-api-remotes/client'
 import type {
   KnowledgeBaseConfig, KnowledgeBaseView, KnowledgeRetrievalHit, KnowledgeSourceView,
 } from '../knowledge-types.ts'
@@ -22,6 +23,7 @@ import { ConfirmDialog, PanelShell, Switch, useCopy } from './panel-ui.tsx'
 export interface KnowledgeWorkspaceInjected {
   getKnowledge: () => NonNullable<ClientRemote['controlCenterKnowledge']>
   hooks: { knowledgeReady: HostObservable<boolean> }
+  listModels: () => Promise<readonly ModelProviderGroup[]>
 }
 
 export type KnowledgeWorkspaceProps = PropsRuntime<'application.surface', 'knowledge'> & InjectFace<KnowledgeWorkspaceInjected>
@@ -92,7 +94,7 @@ async function pickDirectoryFiles(): Promise<DirectoryFile[] | null> {
 }
 
 /** Full Knowledge Base workspace over the real Control Center knowledge service. */
-export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, close }: KnowledgeWorkspaceProps) {
+export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels, close }: KnowledgeWorkspaceProps) {
   const knowledgeReady = useKnowledgeReady(value => value)
   const knowledge = knowledgeReady ? getKnowledge() : undefined
   const [bases, setBases] = useState<KnowledgeBaseView[]>([])
@@ -119,6 +121,8 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, close }: K
   // Form states.
   const [baseName, setBaseName] = useState('')
   const [baseDescription, setBaseDescription] = useState('')
+  const [embeddingOptions, setEmbeddingOptions] = useState<Array<{ value: string; label: string; provider?: string; model?: string }>>([])
+  const [embeddingChoice, setEmbeddingChoice] = useState('local-hash')
   const [noteName, setNoteName] = useState('')
   const [noteBody, setNoteBody] = useState('')
   const [urlText, setUrlText] = useState('')
@@ -150,7 +154,23 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, close }: K
   useEffect(() => {
     if (!knowledgeReady || knowledge === undefined) return
     refreshBases()
-  }, [knowledgeReady, knowledge, refreshBases])
+    void listModels().then(groups => {
+      const options: Array<{ value: string; label: string; provider?: string; model?: string }> = [
+        { value: 'local-hash', label: '本地 Hash Embedding（离线可用）' },
+      ]
+      for (const group of groups) {
+        for (const model of group.models) {
+          options.push({
+            value: `${group.id}/${model.id}`,
+            label: `${group.name} · ${model.name}`,
+            provider: group.id,
+            model: model.id,
+          })
+        }
+      }
+      setEmbeddingOptions(options)
+    }).catch(() => {})
+  }, [knowledgeReady, knowledge, refreshBases, listModels])
 
   useEffect(() => {
     if (!knowledgeReady || knowledge === undefined || selectedId === '') return
@@ -170,7 +190,15 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, close }: K
   const createBase = async (): Promise<void> => {
     if (knowledge === undefined || baseName.trim() === '') return
     setError(null)
-    const result = await knowledge.createBase({ name: baseName, description: baseDescription, embeddingProvider: 'local-hash' })
+    const [embeddingProvider, embeddingModel] = embeddingChoice === 'local-hash'
+      ? ['local-hash', undefined]
+      : embeddingChoice.split('/') as [string, string | undefined]
+    const result = await knowledge.createBase({
+      name: baseName,
+      description: baseDescription,
+      embeddingProvider,
+      ...(embeddingModel === undefined ? {} : { embeddingModel }),
+    })
     if (!result.ok) { setError(result.error.message); return }
     setBaseName('')
     setBaseDescription('')
@@ -741,8 +769,21 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, close }: K
                 onChange={event => { setBaseDescription(event.target.value) }}
               />
             </div>
-            <div className={css.dialogHint}>嵌入模型：本地 Hash Embedding（离线可用）</div>
-            <div className={css.dialogActions} style={{ marginTop: 16 }}>
+            <div className={css.dialogField}>
+              <label htmlFor="cc-kb-embedding">嵌入模型</label>
+              <select
+                id="cc-kb-embedding"
+                className={css.dialogInput}
+                value={embeddingChoice}
+                onChange={event => { setEmbeddingChoice(event.target.value) }}
+              >
+                {embeddingOptions.map(option => (
+                  <option key={option.value} value={option.value}>{option.label}</option>
+                ))}
+              </select>
+              <div className={css.dialogHint}>{embeddingChoice === 'local-hash' ? '离线可用，无需配置' : '将使用所选模型的 embeddings 接口；索引与检索均走该模型'}</div>
+            </div>
+            <div className={css.dialogActions}>
               <button type="button" className={css.btn} onClick={() => { setCreateOpen(false) }}>取消</button>
               <button type="button" className={`${css.btn} ${css.btnPrimary}`} disabled={baseName.trim() === ''} onClick={() => { void createBase() }}>
                 创建

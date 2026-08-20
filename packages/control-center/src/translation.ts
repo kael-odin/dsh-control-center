@@ -5,6 +5,7 @@ import { createUserMessage, type LlmFailure, type LlmRuntime, ReasoningEffortId 
 import { settingsNamespace, type SettingsScope } from '@deepseek-ai/dsh-settings'
 import Schema from '@deepseek-ai/schemastery'
 import { bindTypertRemote, Remote } from '@deepseek-ai/dsh-typert-protocol'
+import { TRANSLATION_PROMPT_TEMPLATE } from './translation-prompt.ts'
 import type {
   TranslationHistoryId, TranslationHistoryItem, TranslationHistoryPage, TranslationJobView,
   TranslationLanguage, TranslationLanguagesView, TranslationModelSelection, TranslationRequest, TranslationStartResult,
@@ -69,20 +70,22 @@ export interface TranslationServiceConfig {
   logger?: Context['logger']
 }
 
-function prompt(request: TranslationRequest, customPrompt: string): string {
-  const source = request.sourceLanguage === 'auto' ? 'detect the source language automatically' : `the source language is ${request.sourceLanguage}`
-  if (customPrompt.trim().length > 0) {
-    return [
-      customPrompt.trim(),
-      `Source language: ${source}.`,
-      `Target language: ${request.targetLanguage}.`,
-    ].join('\n')
+function renderPromptTemplate(template: string, request: TranslationRequest): string {
+  const targetLabel = BUILTIN_LANGUAGES.find(item => item.id === request.targetLanguage)?.label ?? request.targetLanguage
+  const rendered = template
+    .replaceAll('{{target_language}}', targetLabel)
+    .replaceAll('{{text}}', request.text)
+  // Never let the input text get lost: if the template had no {{text}} slot,
+  // append the text wrapped like Cherry does.
+  if (!template.includes('{{text}}')) {
+    return `${rendered}\n\n<translate_input>\n${request.text}\n</translate_input>`
   }
-  return [
-    'Translate the text faithfully and completely.',
-    `${source}; the target language is ${request.targetLanguage}.`,
-    'Return only the translated text. Preserve paragraphs, lists, code, URLs, names, and formatting. Do not explain.',
-  ].join(' ')
+  return rendered
+}
+
+function prompt(request: TranslationRequest, customPrompt: string): string {
+  const template = customPrompt.trim().length > 0 ? customPrompt.trim() : TRANSLATION_PROMPT_TEMPLATE
+  return renderPromptTemplate(template, request)
 }
 
 function failureOf(error: unknown): LlmFailure {

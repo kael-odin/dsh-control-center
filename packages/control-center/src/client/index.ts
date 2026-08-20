@@ -466,6 +466,11 @@ export function apply(ctx: ClientContext): void {
             return knowledge
           },
           hooks: { knowledgeReady: knowledgeReadySource },
+          listModels: async () => {
+            const result = await connection.api.llm.models({})
+            if (!result.result.ok) throw new Error(result.result.error.message)
+            return result.result.value.groups
+          },
         }),
       }, KnowledgeWorkspace))
     } else {

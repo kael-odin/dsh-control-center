@@ -25,8 +25,8 @@ interface PositionStyle {
 }
 
 /** Cherry carousel positions for offsets -2..+2 (translate/rotate/scale). */
-function positionStyle(offset: number, cw: number): PositionStyle {
-  const x = offset * cw * 0.115
+function positionStyle(offset: number): PositionStyle {
+  const x = offset * 18
   const abs = Math.abs(offset)
   const rotate = offset * 3.5
   const scale = 1.12 - abs * 0.1
@@ -69,7 +69,7 @@ export function PaintingShowcase({ onSelect }: PaintingShowcaseProps) {
               key={card.template.id}
               type="button"
               className={`${css.carouselCard} ${card.offset === 0 ? css.selected : ''} ${card.hidden ? css.hidden : ''}`}
-              style={positionStyle(card.offset, 120)}
+              style={positionStyle(card.offset)}
               aria-hidden={card.hidden || undefined}
               tabIndex={card.hidden ? -1 : 0}
               title={card.template.label}

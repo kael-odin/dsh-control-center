@@ -238,7 +238,6 @@
   position: absolute;
   inset: 0;
   z-index: 0;
-  container-type: size;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -250,6 +249,7 @@
   max-width: 1024px;
   box-sizing: border-box;
   padding: 12px 12px 144px;
+  background: var(--background);
 }
 
 .showcaseInner {
@@ -268,8 +268,8 @@
   text-align: center;
   font-weight: 700;
   letter-spacing: -0.02em;
-  font-size: clamp(22px, 4cqw, 30px);
-  line-height: 1.1;
+  font-size: 26px;
+  line-height: 1.15;
 }
 
 .showcaseCarousel {
@@ -287,10 +287,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 118px;
-  height: 92px;
-  width: clamp(56px, min(17cqw, 60cqh), 148px);
-  height: clamp(48px, min(13cqw, 46cqh), 118px);
+  width: 132px;
+  height: 100px;
   border: none;
   padding: 0;
   border-radius: 14px;
