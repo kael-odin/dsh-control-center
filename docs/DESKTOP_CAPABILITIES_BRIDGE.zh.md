@@ -88,9 +88,17 @@ renderer (DSH surface 页面)
   - **v5 事故 + v6（2026-08）**：尝试把顶层 `@deepseek-ai/*` workspace 链接 re-link 到物化 `packages/`
     时触发 **junction 自环/无限嵌套**（materialized packages 源码被误引回顶层，Windows 磁盘污染）。已
     回滚：物化器现在**安全跳过顶层 `@deepseek-ai`**（仅物化 `.pnpm` 依赖语义），并新增
-    `scripts/clean-tree.mjs`（junction-aware 删除，用于清理此类污染）。**v6**：materialize
-    `node_modules/@deepseek-ai/*` 须对**隔离的 packages 副本**（不含递归引用）做一次 link，是专门发布
-    工程；完整 1GB 自含包含暂不纳入开发循环。
+    `scripts/clean-tree.mjs`（junction-aware 删除，用于清理此类污染）。
+  - **v6.7/v6.8（2026-08）**：物化器重构成可复用的 `materializeNM`（共享 `realToMat`），枚举 harness 根
+    **所有层** node_modules（顶层 + apps/packages/vendor 嵌套）物化（commander 等嵌套依赖可解析）；
+    顶层 `@deepseek-ai/*` 用 `relative(src,t)` 映射到 out 对应位置（如 dsh-base→packages/bundle/base、
+    cordis→vendor/cordis）——**自包含启动中 `@deepseek-ai/dsh-base` 已成功解析**（此前 cannot resolve）。
+    全树物化 **~168s 无环完成**（17274 目录/135098 文件/2236 链接），主要跳过仅限源码自带 node_modules 的包。
+  - **裁定（2026-08-20）：以可用基线验收**。物化机制已充分验证（无环/快速/顶层 workspace 全 link/dsh-base
+    解析通过），但**自包含 boot 的依赖闭包是逐层迭代的发布级工程**（当前到 `vendor/hmr` chokidar→readdirp，
+    每修一层需 ~168s 物化+验证，属持续维护的物化器/trim 工作，类比社区 materialize3.js）。**完整自包含
+    （免 `DSH_HARNESS_DIR`）记录为发布 SOP/继续项**；当前桌面 app 交付以 **内置 node + 复用本机 harness**
+    的正式 NSIS 安装器（93MB，安装/卸载验证全绿）为基线。
 
 - `probe:hostinmain`（B0 门禁）已验证 host 的 app-boot trunk 可在 harness resolver 下**准备 profile**
   （`HOST_IN_MAIN=OK`），并验证 host 可在当前进程真·boot loopback surface（编译版
