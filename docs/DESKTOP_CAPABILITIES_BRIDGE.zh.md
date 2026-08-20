@@ -72,11 +72,13 @@ renderer (DSH surface 页面)
 - **完全自包含（免 `DSH_HARNESS_DIR`）— harness 物化**：
   - v1（`fs.cpSync dereference:true`）在 harness 循环 pnpm-store 符号链接（`cordis ↔
     cordis-plugin-include`）上实测 **ELOOP**。
-  - **v2（循环感知 DFS 物化器，`scripts/materialize-harness.mjs`）已验证可行**：realpath 栈防环 +
-    已物化 target 复用（物化树内相对链接）。`tests/materialize-smoke.mjs`（`pnpm probe:materialize`）
-    断言 exit=0 + `danglingLinks=0` 通过。
-  - **体积实测（大）**：仅 `.pnpm` 虚拟商店（926 包）物化 → 约 109s、1.5 万目录 / 12 万文件、数百 MB
-    （磁盘 quota 放宽但不小）。完整 harness 物化 + 打包含整树会更大（~1GB 级安装包）。
+  - **v2（循环感知 DFS 物化器，`scripts/materialize-harness.mjs`）**：realpath 环栈防环 + 已物化 target
+    复用（物化树内相对链接）。`tests/materialize-smoke.mjs`（`pnpm probe:materialize`）断言 exit=0 +
+    `danglingLinks=0` 通过；全量物化 harness 根 139s / 1.9 万目录 / 14 万文件 / 8152 链接，无 ELOOP。
+  - **物化树自包含启动仍失败**：扁平化 `.pnpm/<pkg>@v/node_modules/` 为 `@link-*` 副本破坏了 pnpm
+    解析语义——tsx 运行时 `cannot find package 'esbuild'`（同级 `.pnpm/tsx@v/node_modules/esbuild`
+    未随扁平副本放置）。**v3 方向**：把每个 `.pnpm/<pkg>@<ver>/node_modules/` 目录作为整体物化（保留其
+    直接依赖链接为同级），使 Node 的上溯解析可用。这是开放的、较大的发布架构项，体积数百 MB-1GB。
   - **剩余**：全量物化、`DSH_HARNESS_DIR` 指向物化树 + 打包含 1GB 安装包 + 自包含安装验证。这是后续
     发布架构项（需大体积打包策略），当前以"内置 node + 复用本机 harness"为可用发行基线。
 

@@ -13,6 +13,17 @@
  * Output is fully real files + intra-tree relative links; it no longer depends
  * on the source checkout's node_modules links.
  *
+ * ⚠ STATUS (2026-08): v2 materializes the whole harness tree without ELOOP and
+ * with no dangling links (tests/materialize-smoke.mjs PASS), but a self-contained
+ * boot of the materialized tree FAILS: flattening `.pnpm/<pkg>@v/node_modules/`
+ * into `@link-*` copies breaks pnpm resolution — e.g. tsx's runtime `cannot find
+ * package 'esbuild'` because the sibling `.pnpm/tsx@v/node_modules/esbuild` is
+ * absent next to the flattened tsx copy.
+ * → v3 direction: materialize each `.pnpm/<pkg>@<ver>/node_modules/` directory AS
+ *   A UNIT (preserving its direct-dependency links as siblings) so Node's walk-up
+ *   resolution works. Open, larger release-architecture item; the tree is hundreds
+ *   of MB.
+ *
  * Usage:
  *   node scripts/materialize-harness.mjs <srcHarnessSubdir> <outDir>
  */
