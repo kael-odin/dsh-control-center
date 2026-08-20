@@ -15,12 +15,19 @@
 
 ## 二、两条路线
 
-### 路线 A：deepseek-harness-desktop（推荐先试）
-- 拉取 `https://github.com/anywhere-labs/deepseek-harness-desktop`，评估其成熟度。
-- 预期形态：Electron 主进程内嵌 DSH host（node 侧）+ 渲染进程加载现有 web UI + profile 安装
-  我们的 bundle。插件身份不变——**安装即用，卸载即走**。
-- 收益：桌面壳（窗口/托盘/更新）由仓库提供，我们只补桌面能力桥；插件复用度 100%。
-- 风险：仓库可能不活跃/未达生产级，需先审阅其架构与 license。
+### 路线 A：deepseek-harness-desktop（推荐先试）— 已审计（2026-08，commit 558eb53）
+- 仓库 `https://github.com/anywhere-labs/deepseek-harness-desktop`（MIT，活跃演化中，v2.0.1）。
+- 架构：`dsh-plugin-desktop` 是一个 **Cordis 插件**，在 Electron main 里内嵌 Host Cordis 根，
+  沿用现有 loopback Web carrier（无 preload bridge，不暴露 Electron API 给 renderer）。
+  `cordis.patch.yml` 在 `dsh-web-app` 后插入 desktop-shell / desktop-profiles / desktop-terminal /
+  desktop-pnpm / desktop-updates 等 layer；**保留被选 profile 的第三方 bundle 相对顺序**。
+- 兼容性：依赖 DSH `0.1.0-rc.7`（与我们 boxed 的基线一致），经 Yarn patch 钉死相关 @deepseek-ai 包。
+- 接入路径：创建/选用 `desktop` profile → `dsh plugin --profile desktop add @dsh-control-center/bundle`，
+  我们的插件即自动进入 Loader 组合，UI 与服务**零重写**；profile 切换有 last-known-good 回滚。
+- 契合点：正是 DESKTOP_PLAN 想要的"桌面本身也是插件"的薄宿主形态。
+- 成本：需 `yarn@4.18.0`（本机为 yarn 1）+ Electron toolchain + 平台安装包下载；发布/更新由
+  anywhere-labs 主导，我们作为"被安装插件"而非常驻产品线。
+- 桌面能力桥（`window.api.*` 命名空间并不存在，桌面能力经 Host Cordis service 暴露，见插件 service 文档）。
 
 ### 路线 B：自建 Electron 壳（Cherry 同构）
 - 结构：`apps/desktop/`（electron-vite：main/preload/renderer）+ `packages/`（复用 DSH 各
@@ -60,8 +67,15 @@
 - Cherry 代码借鉴全部进 provenance
 - 及时提交推送 + 更新记忆
 
-## 六、下一步建议
+## 六、下一步建议（审计结论后）
 
-1. 拉取并审阅 `deepseek-harness-desktop`（1-2 小时），决定 A/B
-2. 若 A 可用：接 P0（壳 + bundle 安装冒烟）→ P1（文件对话框 + 通知）
-3. 若 B：按 Cherry electron-vite 结构搭 `apps/desktop/`，先补 P0-P1
+路线 A 已审计确认可落地，且与我们的插件 100% 复用。但存在两个现实约束：
+1. 路线 A 用 `yarn@4`（本机是 yarn 1）+ Electron 安装包下载，构建与发布由第三方仓库主导；
+2. 环境已具备完整 `deepseek-harness`（pnpm10 + node24），自建壳更贴近"借鉴 Cherry electron 壳、产品化"的目标。
+
+故推进顺序（每个能力上线前 live 验证 + `pnpm run check` + 打包 E2E；Cherry 借鉴进 provenance）：
+1. 确认桌面壳承载位置：在本机 `deepseek-harness` 新增 `apps/desktop`（路线 B，可控且环境就绪）
+   vs 直接安装路线 A 发布的安装包手动验证。→ 拍板后进入 P0。
+2. P0：Electron main 加载 loopback Web surface + profile 装 @dsh-control-center/bundle 冒烟。
+3. P1：桌面能力桥（原生文件/目录对话框、系统通知）——经 Host Cordis service 暴露，UI 侧能力探测启用。
+4. P2：全局快捷键真实化、托盘；P3：截图/划词；P4：OCR/PDF 本地模型；P5：频道推送。
