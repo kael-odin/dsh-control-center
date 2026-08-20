@@ -33,7 +33,7 @@ if (!existsSync(exe)) {
 }
 console.log(`packed exe: ${exe}`)
 
-const expected = { loaded: false, attached: false, marker: false }
+const expected = { loaded: false, attached: false, marker: false, bridge: false }
 const child = spawn(exe, ['--e2e'], { cwd: root, stdio: ['ignore', 'pipe', 'pipe'], shell: false })
 
 let stdout = ''
@@ -43,6 +43,7 @@ child.stdout.on('data', (b) => {
   if (b.toString().includes('SURFACE_LOADED')) expected.loaded = true
   if (/CONTROL_CENTER_ATTACHED=true/.test(b.toString())) expected.attached = true
   if (/DESKTOP_MARKER=true/.test(b.toString())) expected.marker = true
+  if (/NATIVE_BRIDGE=REACHED/.test(b.toString())) expected.bridge = true
 })
 child.stderr.on('data', (b) => { stderr += b.toString() })
 
@@ -59,9 +60,9 @@ child.on('close', (code) => {
   console.log('--- packed desktop-shell stderr ---')
   console.log(stderr.trim())
 
-  const ok = code === 0 && expected.loaded && expected.attached && expected.marker
+  const ok = code === 0 && expected.loaded && expected.attached && expected.marker && expected.bridge
   if (!ok) {
-    console.error(`smoke FAIL(packed): code=${code} loaded=${expected.loaded} attached=${expected.attached} marker=${expected.marker}`)
+    console.error(`smoke FAIL(packed): code=${code} loaded=${expected.loaded} attached=${expected.attached} marker=${expected.marker} bridge=${expected.bridge}`)
     process.exit(1)
   }
   console.log('smoke PASS(packed)')

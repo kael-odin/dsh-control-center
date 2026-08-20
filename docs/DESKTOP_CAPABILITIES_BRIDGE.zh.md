@@ -1,84 +1,71 @@
-# DSH Control Center — 桌面原生能力桥（host-in-main）架构
+# DSH Control Center — 桌面原生能力桥（main 原生微服务）
 
 > 目标：把 Cherry 桌面级的原生能力（文件/目录对话框、系统通知、托盘、全局快捷键、截图、OCR/PDF
-> 本地模型）经 **DSH Host Cordis service** 真实暴露给运行在 loopback 页面里的 Control Center web UI，
-> 让"桌面（已就绪）"过渡为真实接线。本文档记录可行性实测、架构与分阶段实施。
+> 本地模型）真实暴露给运行在 loopback 页面里的 Control Center web UI，让"桌面（已就绪）"过渡为真实接线。
 
-## 一、为何必须 host-in-main
+## 一、方案决策（2026-08 已拍板：main 原生微服务桥）
 
-Control Center web UI 运行在 Electron 加载的 loopback DSH surface 里（sandbox renderer，无 preload
-bridge，也不向 renderer 暴露 Electron API——沿用 upstream 无 preload 原则）。renderer 只能经 DSH
-`/api` RPC 与 Host service 通信。原生能力（`dialog`、`Notification`、托盘）**只在 Electron main 进程的
-API 域**存在。因此能力桥唯一干净的形态是：
+原生能力（`dialog`、`Notification`、托盘）只存在于 **Electron main 进程**。renderer（DSH surface 页面）
+是 sandbox、无 preload bridge、也不向 renderer 暴露 Electron API。
 
-> Electron main 进程内嵌 DSH Host Cordis 根；Control Center 的 desktop 插件作为 Host plugin 注册
-> `desktopNative` service（用 Electron `dialog`/`Notification` 实现），renderer 经 DSH 的
-> `*Remote` 客户端描述符调用它。
+两条候选路径：
+1. **host 内嵌 Electron main**（DSH Host Cordis service 方式）——经实测在当前工具链受阻：
+   harness workspace 裸依赖在 Electron 内置 node 的 resolver 下 `Cannot find package`（`dsh-llm`/
+   `directory-picker-native`），而 system node + tsx 能解析但那在**子进程**拿不到 Electron API。
+2. **main 原生微服务桥（已采用）**——Electron main 起一个 **loopback HTTP 微服务**（绑定 127.0.0.1
+   高端口 + 每启动随机 bearer token），renderer 用 token 鉴权的同机 `fetch` 调它，main 内直接调
+   `electron.dialog`/`Notification`。**不引入 preload bridge**（仍是 HTTP），可立即验证。
 
-这与 `deepseek-harness-desktop`（路线 A）同理：其 `desktop-shell` Host plugin "通过 Cordis effect
-拥有 BrowserWindow、导航策略"。
+## 二、已实现（2026-08）
 
-## 二、可行性实测（2026-08，本机）
-
-`apps/desktop/tests/host-in-main-probe.mjs`（`pnpm probe:hostinmain`）是一个可复现的 B0 门禁，已在
-harness cwd 下验证：
-
-- `RESOLVE_APPBOOT=OK` — 从 harness 解析 `@deepseek-ai/dsh-app-boot`。
-- `PREPARE_PROFILE=OK C:\Users\user\.dsh\profiles\web` — app-boot 的 profile-boot 能准备 web profile
-  （bundle compose）。
-- `HOST_IN_MAIN=OK` — probe PASS。
-
-**约束**：profile-boot 的 bare specifiers（`@deepseek-ai/cordis`）必须从 **harness 的 node_modules**
-解析；因此门禁把探针以 **cwd=harness** 子进程启动，运行时 `chdir()` 无效（需进程启动时即 harness）。
-实际 host-in-main 的 Electron main 也必须以 harness 为 resolver 锚。
-
-**B0 主体破冰（2026-08）**：用 harness **编译产物** `apps/cli/lib/profile-boot-BnJoK_kl.js`（纯 JS、直接
-导出 `runProfile`）在当前进程真·boot web profile：
-
-- `node tests`（system node + `--import tsx/esm`，cwd=harness，隔离 `DSH_HOME`）→ 打印
-  `dsh web: http://127.0.0.1:<port>`、`HOST_CTX_READY=true`、`HOST_HAS_SERVICES=true`、`B0_BODY_MOUNTED=OK`。
-- **结论**：host 可在"进程内"真·起 loopback surface，Host ctx（loader 等 service）可用——能力桥的
-  Host service 注册 + renderer RPC 的基座成立。
-
-**已知技术障碍（host 跑在 Electron main）**：让 host 跑进 Electron 内置 node（`ELECTRON_RUN_AS_NODE=1`）
-时，harness 的 workspace 裸依赖在 Electron 的 resolver 下解析失败（`@deepseek-ai/dsh-llm` /
-`directory-picker-native` 等 `Cannot find package`）；system node + tsx 解析正常但那是**子进程**、拿不到
-Electron API。因此"host 与 Electron main 同进程并直接拿 `dialog`/`Notification`"在当前工具链受阻，
-能力桥落地方式需要在"main 进程受控原生微服务桥"与"host 内嵌 Electron+匹配 node"之间决策（见下）。
-
-## 三、目标架构
+架构：
 
 ```
-Electron main (host-in-main)
-  └─ DSH Host Cordis 根 (profile 组合)
-       ├─ upstream dsh-web-app (+ 第三方 bundle，含 @dsh-control-center/bundle)
-       └─ desktop-native Host plugin (control-center 提供)
-            ├─ service.desktopNative.fileDialog  → electron.dialog.showOpenDialog
-            ├─ service.desktopNative.notify      → new Notification()
-            └─ (托盘/快捷键/截图/OCR 后续)
-            │      │
-renderer ← DSH /api RPC ←  (control-center client: *Remote 描述符)
-  └─ window.__DSH_DESKTOP__ marker 的 capabilities 列表按已真实接线能力扩充
+Electron main (apps/desktop/bin/main.mjs)
+  └─ startNativeService() → 127.0.0.1:<random> HTTP micro-service (bearer token + CORS)
+       ├─ GET  /dsh-native/status       → { ok, shell, electron, node }
+       ├─ POST /dsh-native/fileDialog   → electron.dialog.showOpenDialog → { canceled, filePaths }
+       ├─ POST /dsh-native/notify       → new Notification(...).show() → { ok, supported }
+       └─ token 校验(非 OPTIONS) + CORS 头(预检先于鉴权放行)
+                  │
+renderer (DSH surface 页面)
+  └─ window.__DSH_DESKTOP__ = { shell, host, version, capabilities:['window','fileDialog','notification'],
+                               nativeUrl, nativeToken }
+       └─ desktopNativeApi(packages/control-center/src/client/desktop-capabilities.ts):
+            status() / pickFile() / notify() 均为带 Bearer 的 fetch 封装
 ```
 
-## 四、分阶段实施
+端到端已验证（三种冒烟 dev-connect / dev-selfhost / packed exe 均输出 `NATIVE_BRIDGE=REACHED`）：
 
-| 阶段 | 能力 | host-in-main 前置 | 验证 |
-|---|---|---|---|
-| B0 | host 内嵌 Electron main（锚 harness resolver，boot profile 出 loopback surface） | 重构 spawn→in-main | **门禁 `probe:hostinmain` 已 PASS**（profile 可 prepare）；下一步 main 内真 boot server 出 URL line + smoke |
-| B1 | desktopNative.fileDialog = Electron showOpenDialog | B0 | 知识库「添加数据源」/文件上传走原生对话框 |
-| B2 | desktopNative.notify = Notification；配 system 通知 | B0 | 通知设置页开关真实生效 |
-| B3 | 托盘 + 全局快捷键（快捷键页从真实接线） | B0 | 托盘菜单 + 快捷键冲突检测 |
-| B4 | 截图 / 划词；OCR/PDF 本地模型 | B0 + 本地模型管线 | 截图页/OCR 实时 |
+- `native service listening on 127.0.0.1:<port>`（Electron main 起服务）
+- `DESKTOP_MARKER=true`（注入 nativeUrl/nativeToken + capabilities 扩充）
+- renderer 用 token `fetch(/dsh-native/status)` → `{ ok, shell: true, electron }` → `NATIVE_BRIDGE=REACHED`
 
-每个能力上线前：live 验证 + `pnpm run check` + 打包 E2E；沿用"能力经 Host service 暴露、无 preload
-bridge、UI 诚实标注（capabilities 列表只列真实接线的能力）"。
+## 三、分阶段实施
 
-## 五、风险与边界
+| 阶段 | 能力 | 状态 |
+|---|---|---|
+| B0 | main 原生微服务桥（status + token + CORS） | **已完成**：三种冒烟握手 REACHED |
+| B1 | 文件对话框真实接线 | 路由就绪（`dialog.showOpenDialog`）；交互弹出待 live 人工验证 + 知识库接入 |
+| B2 | 系统通知真实接线 | 路由就绪（`Notification`）；通知设置页接入待接 |
+| B3 | 托盘 + 全局快捷键 | 微服务加路由 + 托盘/快捷键注册 |
+| B4 | 截图 / 划词；OCR/PDF 本地模型 | 后续 |
 
-- host-in-main 重构是进程模型变更：spawn 子进程 → in-main，需回归现有连接/自启两条冒烟路径。
-- 依赖解析域：必须以 harness 为锚（否则 cordis 版本错乱，见实测）；**probe 需 cwd=harness 启动，运行时
-  `chdir()` 无效**。
-- B0 门禁只验证了 profile 组织（app-boot trunk）可挂载；真正的 server 启动 + `desktopNative` service
-  注册是 B0 主体的下一步（Electron main 内真·boot loopback surface，并在这层 Host 上加
-  `service.desktopNative.fileDialog/notify`，renderer 经 DSH `*Remote` 调用）。
+每个能力上线前：live 验证 + `pnpm run check` + 打包 E2E；沿用"无 preload bridge、UI 诚实标注
+（`capabilities` 列表只列真实接线的能力，`desktopNativeApi` 只有在 bridge up 且带 token 时才可用）"。
+
+## 四、风险与边界
+
+- **安全**：微服务 token 每次启动随机、只监听 127.0.0.1、CORS 预检先放行但真实请求必须带 `Bearer`；
+  `capabilities` 只列真实接线的能力，绝不静默假装。
+- **交互无法无头断言**：`dialog.showOpenDialog` 会弹 GUI 阻塞、`Notification` 无头不弹，因此 B1/B2 的
+  "真弹出"验证放在 live 人工 / 后续交互 E2E；自动化冒烟覆盖到 **握手 REACHED**（renderer 真实触达
+  Electron main 服务）。
+- **打包**：`packed exe` 冒烟同样 REACHED，证明打包产物内的微服务与握手可用。
+
+## 五、历史记录（供参考）
+
+- `probe:hostinmain`（B0 门禁）已验证 host 的 app-boot trunk 可在 harness resolver 下**准备 profile**
+  （`HOST_IN_MAIN=OK`），并验证 host 可在当前进程真·boot loopback surface（编译版
+  `profile-boot-BnJoK_kl.js` + cwd=harness）。这些是能力桥候选路径 1 的证据；因 Electron-resolver 障碍，
+  已转用 main 原生微服务桥（本方案）。

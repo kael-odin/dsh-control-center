@@ -33,6 +33,7 @@ const expected = {
   attached: false,
   selfHostReady: false,
   marker: false,
+  bridge: false,
 }
 
 const env = { ...process.env }
@@ -55,6 +56,7 @@ child.stdout.on('data', (b) => {
   if (/CONTROL_CENTER_ATTACHED=true/.test(b.toString())) expected.attached = true
   if (/self-host ready/.test(b.toString())) expected.selfHostReady = true
   if (/DESKTOP_MARKER=true/.test(b.toString())) expected.marker = true
+  if (/NATIVE_BRIDGE=REACHED/.test(b.toString())) expected.bridge = true
 })
 child.stderr.on('data', (b) => { stderr += b.toString() })
 
@@ -72,18 +74,18 @@ child.on('close', (code) => {
   console.log(stderr.trim())
 
   if (selfHost) {
-    const ok = code === 0 && expected.loaded && expected.selfHostReady && expected.attached && expected.marker
+    const ok = code === 0 && expected.loaded && expected.selfHostReady && expected.attached && expected.marker && expected.bridge
     if (!ok) {
-      console.error(`smoke FAIL(self-host): code=${code} loaded=${expected.loaded} selfHostReady=${expected.selfHostReady} attached=${expected.attached} marker=${expected.marker}`)
+      console.error(`smoke FAIL(self-host): code=${code} loaded=${expected.loaded} selfHostReady=${expected.selfHostReady} attached=${expected.attached} marker=${expected.marker} bridge=${expected.bridge}`)
       process.exit(1)
     }
     console.log('smoke PASS(self-host)')
     process.exit(0)
   }
 
-  const ok = code === 0 && expected.loaded && expected.attached && expected.marker
+  const ok = code === 0 && expected.loaded && expected.attached && expected.marker && expected.bridge
   if (!ok) {
-    console.error(`smoke FAIL: code=${code} loaded=${expected.loaded} attached=${expected.attached} marker=${expected.marker}`)
+    console.error(`smoke FAIL: code=${code} loaded=${expected.loaded} attached=${expected.attached} marker=${expected.marker} bridge=${expected.bridge}`)
     process.exit(1)
   }
   console.log('smoke PASS')

@@ -89,25 +89,34 @@ smoke PASS(self-host)
 > `build/icon.png` 是 ffmpeg 生成的**过渡品牌图标**（纯品牌绿），正式设计后替换；代码签名留作发布前接入。
 > 发行还会涉及随应用内置匹配版本的 node（自启 host 现依赖系统 node，见上文已知边界）。
 
-## 原生能力桥（B0 门禁）
+## 原生能力桥（main 原生微服务）
 
-`pnpm probe:hostinmain` 验证 DSH Host 能在 Electron main 进程内挂载（profile-boot 准备 web profile）——
-这是把 Electron `dialog`/`Notification` 经 Host Cordis service 真实暴露给 renderer（能力桥）的基座。
-约束：探针须以 **cwd=harness** 启动（bare specifiers 需解析到 harness node_modules）。详见
+Electron main 起一个 **loopback HTTP 微服务**（`startNativeService()`，127.0.0.1 高端口 + 每启动随机
+bearer token + CORS），路由：`GET /dsh-native/status`、`POST /dsh-native/fileDialog`（
+`dialog.showOpenDialog`）、`POST /dsh-native/notify`（`Notification`）。renderer 用 marker 里的
+`nativeUrl`/`nativeToken` 以带 `Bearer` 的 `fetch` 调用（`packages/control-center/.../desktop-capabilities.ts`
+`desktopNativeApi.status()/pickFile()/notify()`）。无 preload bridge。
+
+冒烟（dev-connect / dev-selfhost / packed-exe）均断言 `DESKTOP_MARKER=true` + `NATIVE_BRIDGE=REACHED`
+（renderer 真实触达 Electron main 服务）。交互弹出（真对话框/真通知）留待 live 人工验证。详见
 `docs/DESKTOP_CAPABILITIES_BRIDGE.zh.md`。
+
+> 历史：`pnpm probe:hostinmain` 验证了 host 的 app-boot trunk 在 harness resolver 下可准备 profile
+> （`HOST_IN_MAIN=OK`）；因 Electron 内置 node 解析 harness workspace 裸依赖受阻，能力桥采用
+> main 原生微服务桥而非 host 内嵌。
 
 ## 桌面环境探测
 
-壳加载页面后向 renderer 注入 `window.__DSH_DESKTOP__`（含 `shell`/`host`/`version`/`capabilities`）并派发
-`dsh-desktop-ready` 事件。web UI（`packages/control-center/src/client/desktop-capabilities.ts`）据此把
+壳加载页面后向 renderer 注入 `window.__DSH_DESKTOP__`（含 `shell`/`host`/`version`/
+`capabilities:['window','fileDialog','notification']`，以及 bridge 存在时的 `nativeUrl`/`nativeToken`）
+并派发 `dsh-desktop-ready`。web UI（`packages/control-center/src/client/desktop-capabilities.ts`）据此把
 "需要桌面版"的行切换为"桌面（已就绪）"——仅在桌面壳里有该标记，浏览器标签页永看不到，因此 web 预览与
-E2E 保持诚实标注。当前 `capabilities` 仅含 `window`（极简、诚实）；原生能力桥（文件对话框、通知等）落地后
-逐步扩充该列表并真实接线。
+E2E 保持诚实标注。
 
 ## 后续（P1–P5）
 
 - 单实例锁已实现；自启 host 已实现（`--port 0` + 就绪行 URL 解析 + 复用默认 home，surface 含完整
-  Control Center）。
-- 下一步：接原生能力桥（文件对话框、系统通知等，经 Host Cordis service 暴露，UI 侧按能力探测启用），
-  并随应用内置 node + 打包发行。
+  Control Center）；原生能力桥已握手连通（status/fileDialog/notify 路由就绪）。
+- 下一步：文件对话框/系统通知在 UI 侧真实接线（状态栏/设置页 + live 验证），随能力扩充
+  `capabilities`；接托盘/全局快捷键；随应用内置 node + 打包发行。
 - 每阶段前：live 验证 + `pnpm run check` + 打包 E2E；Cherry 借鉴进 provenance。

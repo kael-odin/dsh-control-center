@@ -10,7 +10,7 @@ import type { IApiClient } from '@deepseek-ai/dsh-client-connection/client'
 import {
   applyThemeOverrides, loadThemeOverrides, saveThemeOverrides, THEME_COLOR_PRESETS, type ThemeOverrides,
 } from './theme-overrides.ts'
-import { isDesktopEnv } from './desktop-capabilities.ts'
+import { isDesktopEnv, hasNativeBridge, desktopNativeApi } from './desktop-capabilities.ts'
 import { HelpTooltip } from './panel-ui.tsx'
 import {
   SettingDivider, SettingGroup, SettingRow, SettingRowTitle, SettingsPageShell,
@@ -25,9 +25,16 @@ export type AppearanceSectionProps = PropsRuntime<'settings.section'> & InjectFa
 
 type ThemeMode = 'light' | 'dark' | 'system'
 
-/** Desktop-only row value: honest once a capability is real, gated otherwise. */
-function desktopRowValue(): string {
-  return isDesktopEnv() ? '桌面（已就绪）' : '需要桌面版'
+/**
+ * Desktop-only row value: once the native bridge is confirmed reachable, show a
+ * real "已连接 (Electron vX)" signal; in a desktop shell without a reachable
+ * bridge show "桌面（已就绪）"; in a browser tab stay honest with "需要桌面版".
+ * @param bridgeText - electron/notification status text when bridge confirmed.
+ */
+function desktopRowValue(bridgeText: string): string {
+  if (isDesktopEnv() && bridgeText !== '') return `已连接 (${bridgeText})`
+  if (isDesktopEnv()) return '桌面（已就绪）'
+  return '需要桌面版'
 }
 
 const THEME_NS = 'ui-theme'
@@ -94,6 +101,21 @@ export function AppearanceSection({ api }: AppearanceSectionProps) {
   const [fontDraft, setFontDraft] = useState(overrides.fontFamily)
   const [codeFontDraft, setCodeFontDraft] = useState(overrides.codeFontFamily)
   const [cssDraft, setCssDraft] = useState(overrides.customCss)
+  // Real native-bridge status text (Electron version) shown by desktop-only rows
+  // once the renderer can actually reach the Electron main service.
+  const [bridgeText, setBridgeText] = useState('')
+
+  // Probe the native bridge when it's up; this also keeps desktopNativeApi wired
+  // into the bundle so the capability is genuinely exercised (not dead code).
+  useEffect(() => {
+    if (!hasNativeBridge()) return
+    let active = true
+    void desktopNativeApi.status().then(status => {
+      if (!active) return
+      setBridgeText(status.ok && status.electron ? `Electron ${status.electron}` : '')
+    }).catch(() => { if (active) setBridgeText('') })
+    return () => { active = false }
+  }, [])
 
   // Read the current theme preference once (best effort; revision-gated).
   useEffect(() => {
@@ -211,17 +233,17 @@ export function AppearanceSection({ api }: AppearanceSectionProps) {
         <SettingDivider />
         <SettingRow>
           <SettingRowTitle>缩放 <span className={css.desktopTag}>桌面</span></SettingRowTitle>
-          <span className={css.staticValue}>{desktopRowValue()}</span>
+          <span className={css.staticValue}>{desktopRowValue(bridgeText)}</span>
         </SettingRow>
         <SettingDivider />
         <SettingRow>
           <SettingRowTitle>右键菜单样式 <span className={css.desktopTag}>桌面</span></SettingRowTitle>
-          <span className={css.staticValue}>{desktopRowValue()}</span>
+          <span className={css.staticValue}>{desktopRowValue(bridgeText)}</span>
         </SettingRow>
         <SettingDivider />
         <SettingRow>
           <SettingRowTitle>透明窗口 <span className={css.desktopTag}>桌面</span></SettingRowTitle>
-          <span className={css.staticValue}>{desktopRowValue()}</span>
+          <span className={css.staticValue}>{desktopRowValue(bridgeText)}</span>
         </SettingRow>
       </SettingGroup>
 

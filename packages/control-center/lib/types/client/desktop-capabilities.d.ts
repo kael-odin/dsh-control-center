@@ -20,6 +20,10 @@ export interface DesktopCapabilityMarker {
     version: string;
     /** Honest, intentionally minimal capability list; grows as bridges land. */
     capabilities: readonly string[];
+    /** Loopback URL of the native bridge (Electron main micro-service), when up. */
+    nativeUrl?: string;
+    /** Per-launch bearer token guarding the native bridge. */
+    nativeToken?: string;
 }
 /** Read the desktop marker injected by the shell, or `null` in a browser tab. */
 export declare function getDesktopCapabilities(): DesktopCapabilityMarker | null;
@@ -27,4 +31,33 @@ export declare function getDesktopCapabilities(): DesktopCapabilityMarker | null
 export declare function isDesktopEnv(): boolean;
 /** Subscribe to the shell's "desktop ready" event (fires after marker injection). */
 export declare function onDesktopReady(listener: (marker: DesktopCapabilityMarker) => void): () => void;
+/** True when the native bridge is up (renderer can reach Electron via HTTP). */
+export declare function hasNativeBridge(): boolean;
+export interface NativeDialogResult {
+    ok: boolean;
+    canceled?: boolean;
+    filePaths?: string[];
+    error?: string;
+}
+/**
+ * Token-protected client for Electron's native bridge (loopback micro-service
+ * hosted by the shell's Electron main). Uses the marker's nativeUrl/nativeToken.
+ */
+export declare const desktopNativeApi: {
+    /** Probe the bridge — confirms the Electron main service is reachable. */
+    status(): Promise<{
+        ok: boolean;
+        shell?: boolean;
+        electron?: string;
+        error?: string;
+    }>;
+    /** Open the system file dialog (Electron dialog.showOpenDialog via main). */
+    pickFile(properties?: readonly string[]): Promise<NativeDialogResult>;
+    /** Send a system notification (Electron Notification via main). */
+    notify(title: string, body?: string): Promise<{
+        ok: boolean;
+        supported?: boolean;
+        error?: string;
+    }>;
+};
 //# sourceMappingURL=desktop-capabilities.d.ts.map
