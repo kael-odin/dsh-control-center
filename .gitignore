@@ -21,3 +21,6 @@ packages/*/lib/types/**/*.d.ts.map
 
 .DS_Store
 Thumbs.db
+
+shots/
+.tmp/

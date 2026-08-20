@@ -13,6 +13,25 @@ import type {
 const MAX_TEXT_CHARS = 100_000
 const MAX_HISTORY_PAGE = 100
 const TRANSLATION_NAMESPACE = settingsNamespace('control-center-translation')
+
+/** Best-effort usage recording; standalone-service tests skip it silently. */
+function recordUsage(ctx: Context, input: {
+  provider: string
+  model: string
+  kind: 'translation'
+  inputTokens: number
+  outputTokens: number
+  cacheReadTokens: number
+  cacheWriteTokens: number
+  latencyMs: number
+}): void {
+  try {
+    const usage = ctx.get('controlCenterUsage') as { record(input: unknown): unknown } | undefined
+    usage?.record(input)
+  } catch {
+    // The usage service is optional for translation jobs.
+  }
+}
 const BUILTIN_LANGUAGES: readonly TranslationLanguage[] = Object.freeze([
   { id: 'auto', label: 'Auto detect', builtin: true },
   { id: 'zh-CN', label: '简体中文', builtin: true },
@@ -245,12 +264,27 @@ export class TranslationService extends Service {
       }
       const prepared = await llm.prepareCall(callConfig, job.controller.signal)
       const message = createUserMessage({ source: { kind: 'user' }, content: [{ type: 'text', text: request.text }] })
+      const startedAt = Date.now()
+      let recorded = false
       for await (const chunk of prepared.stream({
         ...prepared.config,
         messages: [message],
         system: prompt(request, this.scope.get().prompt),
         signal: job.controller.signal,
       })) {
+        if (chunk.type === 'usage' && !recorded) {
+          recorded = true
+          recordUsage(this.ctx, {
+            provider: request.selection.provider,
+            model: request.selection.model,
+            kind: 'translation',
+            inputTokens: chunk.usage.inputTokens,
+            outputTokens: chunk.usage.outputTokens,
+            cacheReadTokens: chunk.usage.cacheReadTokens ?? 0,
+            cacheWriteTokens: chunk.usage.cacheWriteTokens ?? 0,
+            latencyMs: Date.now() - startedAt,
+          })
+        }
         if (chunk.type === 'text-delta') job.view.output += chunk.text
         if (chunk.type === 'finish') {
           if (chunk.reason.kind === 'aborted') job.view.status = 'cancelled'

@@ -5,6 +5,12 @@
  */
 import { Service } from '@deepseek-ai/cordis';
 import type { Context } from '@deepseek-ai/cordis';
+import type { UsageEntriesPage, UsageEntriesRequest, UsageRecord, UsageStats, UsageStatsRequest, UsageTimelinePoint, UsageTimelineRequest } from './usage-types.ts';
+export interface UsageServiceConfig {
+    logger?: Context['logger'];
+    /** Override the DSH home (tests). */
+    dshHome?: string;
+}
 export interface UsageOverview {
     providers: number;
     enabledModels: number;
@@ -21,9 +27,13 @@ export interface UsageOverview {
 export declare class UsageService extends Service {
     static inject: readonly ["settings"];
     readonly typertRemote: import("@deepseek-ai/dsh-typert-protocol").TypertGatewayBinding<this>;
-    constructor(ctx: Context, _config?: {
-        logger?: Context['logger'];
-    });
+    private readonly store;
+    constructor(ctx: Context, config?: UsageServiceConfig);
+    /** Record one AI call (invoked by translation/painting/knowledge services). */
+    record(input: Omit<UsageRecord, 'id' | 'createdAt'>): UsageRecord;
+    timeline(request: UsageTimelineRequest): UsageTimelinePoint[];
+    stats(request: UsageStatsRequest): UsageStats;
+    entries(request: UsageEntriesRequest): UsageEntriesPage;
     getOverview(): Promise<UsageOverview>;
     [Symbol.dispose](): void;
 }

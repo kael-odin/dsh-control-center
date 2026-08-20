@@ -1,6 +1,8 @@
 /**
- * Usage Analytics settings section: service counts from the Control Center
- * catalog plus the DSH session store (client side).
+ * Usage Analytics — Cherry UsageSettings parity: window tabs, metric strip
+ * with deltas, insight strip, daily heatmap, distribution chart, entries
+ * table. Data comes from the Control Center usage record store (translation/
+ * painting/embedding calls record real tokens).
  */
 import type { HostObservable, InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots';
 import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client';

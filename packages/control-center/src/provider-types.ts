@@ -12,6 +12,7 @@ export type ProviderType =
   | 'google'
   | 'azure'
   | 'deepseek'
+  | 'ollama'
   | 'openai-compatible'
   | 'custom'
 

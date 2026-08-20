@@ -1,76 +1,442 @@
-/* Usage Analytics settings page (Cherry metric-cell composition). */
-
+/* Usage analytics — Cherry UsageSettings geometry: metric strip, insight
+   strip, GitHub-style heatmap, distribution chart, entries table. */
 .root {
-  width: 100%;
-  max-width: 768px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
 
 .pageTitle {
-  font-size: 15px;
+  margin: 0;
+  font-size: 16px;
   font-weight: 600;
-  color: var(--foreground);
 }
 
 .pageDescription {
-  margin-top: 4px;
-  font-size: 14px;
+  margin: 4px 0 0;
   color: var(--muted-foreground);
+  font-size: 13px;
 }
 
-.card {
+.pageHeader {
   display: flex;
-  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
   gap: 12px;
-  padding: 16px;
-  border: 1px solid var(--border-subtle);
+  margin-bottom: 4px;
+}
+
+.windowTabs {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 8px;
+  background: var(--muted);
+  flex: none;
+}
+
+.windowTab {
+  height: 26px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted-foreground);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.windowTab:hover {
+  color: var(--foreground);
+}
+
+.windowTab.active {
+  background: var(--background);
+  color: var(--foreground);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  font-weight: 500;
+}
+
+/* ---------- Metric strip ---------- */
+.metricStrip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--border);
+}
+
+.metricCell {
+  background: var(--card);
+  padding: 14px 16px;
+  min-width: 0;
+}
+
+.metricLabel {
+  color: var(--muted-foreground);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.metricValue {
+  margin-top: 4px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.metricDelta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--foreground-tertiary);
+}
+
+.metricDelta.up {
+  color: var(--success);
+}
+
+.metricDelta.down {
+  color: var(--error);
+}
+
+.metricSparkline {
+  display: block;
+  margin-top: 6px;
+}
+
+/* ---------- Insight strip ---------- */
+.insightStrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
   border-radius: 10px;
   background: var(--card);
 }
 
-.cardTitle {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--foreground);
+.insightItem {
+  min-width: 0;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 10px;
+.insightLabel {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--foreground-tertiary);
+  font-size: 12px;
 }
 
-.metric {
+.insightValue {
+  margin-top: 3px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- Heatmap ---------- */
+.heatmapSection {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 12px;
-  border: 1px solid var(--border-subtle);
-  border-radius: 10px;
-  background: var(--background-subtle);
+  gap: 8px;
 }
 
-.metricValue {
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 32px;
+.heatmapTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
   color: var(--foreground);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.heatmapScroll {
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.heatmap {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(7, 1fr);
+  gap: 3px;
+  width: max-content;
+}
+
+.heatmapCell {
+  width: 12px;
+  height: 12px;
+  border: none;
+  border-radius: 3px;
+  padding: 0;
+  background: var(--muted);
+  cursor: pointer;
+}
+
+.heatmapCell:hover {
+  outline: 1px solid var(--foreground-tertiary);
+  outline-offset: 1px;
+}
+
+/* ---------- Explore ---------- */
+.exploreCard {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  overflow: hidden;
+}
+
+.exploreHeader {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.exploreTitle {
+  font-size: 14px;
+  font-weight: 500;
+  margin-right: auto;
+}
+
+.controlRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.controlLabel {
+  color: var(--foreground-tertiary);
+  font-size: 12px;
+}
+
+.controlSelect {
+  height: 26px;
+  padding: 0 8px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  outline: none;
+}
+
+.controlSelect:focus {
+  border-color: var(--ring);
+}
+
+.exploreBody {
+  padding: 16px;
+}
+
+.summaryLine {
+  margin: 0 0 10px;
+  color: var(--muted-foreground);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* Stacked bar chart */
+.barChart {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 160px;
+  padding: 4px 0 0;
+}
+
+.barColumn {
+  flex: 1;
+  min-width: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  gap: 1px;
+  cursor: pointer;
+}
+
+.barSegment {
+  border-radius: 1px;
+  min-height: 1px;
+}
+
+.barAxis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  color: var(--foreground-tertiary);
+  font-size: 11px;
+}
+
+/* Donut chart */
+.donutWrap {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.donutLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 180px;
+  flex: 1;
+}
+
+.donutLegendRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  min-width: 0;
+}
+
+.donutSwatch {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.donutLegendKey {
+  min-width: 0;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--foreground);
+}
+
+.donutLegendValue {
+  flex: none;
+  color: var(--muted-foreground);
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+}
+
+/* ---------- Entries table ---------- */
+.tableWrap {
+  overflow-x: auto;
+}
+
+.entriesTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.entriesTable th {
+  padding: 8px 12px;
+  text-align: left;
+  color: var(--foreground-tertiary);
+  font-weight: 500;
+  font-size: 12px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.entriesTable td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-subtle);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+.entriesTable tr:hover td {
+  background: color-mix(in srgb, var(--muted) 40%, transparent);
+}
+
+.tdRight {
+  text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-.metricLabel {
-  font-size: 12px;
-  color: var(--muted-foreground);
+.modelCell {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
-.loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
+.modelName {
+  color: var(--foreground);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modelProvider {
+  color: var(--foreground-tertiary);
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.loadMoreBtn {
+  display: block;
+  width: 100%;
+  height: 34px;
+  border: none;
+  background: transparent;
   color: var(--muted-foreground);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.loadMoreBtn:hover {
+  background: var(--muted);
+  color: var(--foreground);
+}
+
+.tableEmpty {
+  padding: 24px;
+  text-align: center;
+  color: var(--foreground-tertiary);
+  font-size: 13px;
+}
+
+.usageEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 40px 16px;
+  text-align: center;
+  color: var(--foreground-tertiary);
   font-size: 14px;
+}
+
+@media (max-width: 900px) {
+  .metricStrip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .metricStrip {
+    grid-template-columns: 1fr;
+  }
 }

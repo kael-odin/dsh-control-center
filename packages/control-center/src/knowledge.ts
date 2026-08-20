@@ -273,6 +273,7 @@ export class KnowledgeService extends Service {
     const apiKey = await resolveKey(this.settings, this.creds(), config.providerId, provider.settingsNs, provider.settingsPath)
     if (config.model === undefined) throw new Error(`embedding provider "${config.providerId}" has no model configured`)
     const vectors = await callEmbeddings({ baseURL: provider.baseURL, apiKey, model: config.model }, values, signal)
+    this.recordEmbeddingUsage(config.providerId, config.model, values)
     for (const vector of vectors) {
       if (vector.length !== config.dimensions) {
         throw new Error(`embedding model returned width ${vector.length}, expected ${config.dimensions}`)
@@ -283,6 +284,26 @@ export class KnowledgeService extends Service {
 
   private updateBaseStamp(id: string): void {
     this.db.prepare('UPDATE knowledge_bases SET updated_at = ? WHERE id = ?').run(now(), id)
+  }
+
+  /** Best-effort usage recording for provider embedding calls. */
+  private recordEmbeddingUsage(provider: string, model: string | undefined, values: readonly string[]): void {
+    try {
+      const usage = this.ctx.get('controlCenterUsage') as { record(input: unknown): unknown } | undefined
+      const chars = values.reduce((sum, value) => sum + value.length, 0)
+      usage?.record({
+        provider,
+        model: model ?? 'embedding',
+        kind: 'embedding',
+        inputTokens: Math.ceil(chars / 4),
+        outputTokens: 0,
+        cacheReadTokens: 0,
+        cacheWriteTokens: 0,
+        latencyMs: 0,
+      })
+    } catch {
+      // The usage service is optional for embedding jobs.
+    }
   }
 
   // --- bases ---

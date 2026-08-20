@@ -26,6 +26,8 @@ export declare class KnowledgeService extends Service {
     private resolveEmbedding;
     private embedValues;
     private updateBaseStamp;
+    /** Best-effort usage recording for provider embedding calls. */
+    private recordEmbeddingUsage;
     listBases(): {
         bases: KnowledgeBaseView[];
     };

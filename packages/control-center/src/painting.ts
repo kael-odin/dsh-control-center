@@ -17,6 +17,25 @@ const MAX_TEXT_CHARS = 20_000
 const MAX_HISTORY_PAGE = 100
 const DEFAULT_SAMPLES = 1
 
+/** Best-effort usage recording; standalone-service tests skip it silently. */
+function recordPaintingUsage(ctx: Context, provider: string, model: string): void {
+  try {
+    const usage = ctx.get('controlCenterUsage') as { record(input: unknown): unknown } | undefined
+    usage?.record({
+      provider,
+      model,
+      kind: 'painting',
+      inputTokens: 0,
+      outputTokens: 0,
+      cacheReadTokens: 0,
+      cacheWriteTokens: 0,
+      latencyMs: 0,
+    })
+  } catch {
+    // The usage service is optional for painting jobs.
+  }
+}
+
 interface MutableJob {
   view: PaintingJobView
   controller: AbortController
@@ -249,6 +268,7 @@ export class PaintingService extends Service {
       job.view.progress = 1
       job.view.createdImages = refs
       job.view.status = 'completed'
+      recordPaintingUsage(this.ctx, request.providerId, request.model)
       const id = `painting-history-${randomUUID()}`
       const item: PaintingHistoryItem = {
         id,

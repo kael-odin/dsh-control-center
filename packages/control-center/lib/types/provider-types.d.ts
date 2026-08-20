@@ -5,7 +5,7 @@
  * derived from their Provider management contracts and UI.
  */
 /** Provider type enum - common LLM provider categories. */
-export type ProviderType = 'openai' | 'anthropic' | 'google' | 'azure' | 'deepseek' | 'openai-compatible' | 'custom';
+export type ProviderType = 'openai' | 'anthropic' | 'google' | 'azure' | 'deepseek' | 'ollama' | 'openai-compatible' | 'custom';
 /** Provider status from connection test or discovery. */
 export type ProviderStatus = 'active' | 'inactive' | 'error' | 'unknown';
 /** Model discovered from a provider. */

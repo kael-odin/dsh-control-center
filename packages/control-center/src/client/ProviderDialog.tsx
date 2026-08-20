@@ -5,8 +5,9 @@
  * Follows the Settings + Credentials + TypertRemote pattern.
  */
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { CreateProviderDto, ProviderType, ProviderView, UpdateProviderDto } from '../provider-types'
+import { DEFAULT_BASE_URLS, PROVIDER_PRESETS, PROVIDER_PRESET_GROUPS, PROVIDER_TYPES, type ProviderPreset } from './provider-presets.ts'
 import css from './ProviderDialog.module.css'
 
 interface ProvidersService {
@@ -23,26 +24,6 @@ interface ProviderDialogProps {
   onSuccess?: (() => void) | undefined
 }
 
-const PROVIDER_TYPES: Array<{ value: ProviderType; label: string }> = [
-  { value: 'openai', label: 'OpenAI' },
-  { value: 'anthropic', label: 'Anthropic' },
-  { value: 'google', label: 'Google (Gemini)' },
-  { value: 'azure', label: 'Azure OpenAI' },
-  { value: 'deepseek', label: 'DeepSeek' },
-  { value: 'openai-compatible', label: 'OpenAI Compatible' },
-  { value: 'custom', label: 'Custom' },
-]
-
-const DEFAULT_BASE_URLS: Record<ProviderType, string> = {
-  openai: 'https://api.openai.com/v1',
-  anthropic: 'https://api.anthropic.com/v1',
-  google: 'https://generativelanguage.googleapis.com/v1',
-  azure: 'https://<resource>.openai.azure.com',
-  deepseek: 'https://api.deepseek.com/v1',
-  'openai-compatible': '',
-  custom: '',
-}
-
 export function ProviderDialog({ open, mode, provider, providersService, onClose, onSuccess }: ProviderDialogProps) {
   const [name, setName] = useState('')
   const [type, setType] = useState<ProviderType>('openai-compatible')
@@ -52,6 +33,14 @@ export function ProviderDialog({ open, mode, provider, providersService, onClose
   const [enabled, setEnabled] = useState(true)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [presetSearch, setPresetSearch] = useState('')
+
+  const matchingPresets = useMemo(() => {
+    const query = presetSearch.trim().toLowerCase()
+    if (query === '') return PROVIDER_PRESETS
+    return PROVIDER_PRESETS.filter(preset =>
+      preset.name.toLowerCase().includes(query) || preset.id.toLowerCase().includes(query) || preset.baseURL.toLowerCase().includes(query))
+  }, [presetSearch])
 
   // Initialize form when provider changes (edit mode)
   useEffect(() => {
@@ -140,6 +129,14 @@ export function ProviderDialog({ open, mode, provider, providersService, onClose
     }
   }, [providersService, mode, provider, name, type, baseURL, apiKey, customHeaders, enabled, onSuccess, onClose])
 
+  const applyPreset = (preset: ProviderPreset): void => {
+    setName(preset.name)
+    setType(preset.type)
+    setBaseURL(preset.baseURL)
+    setPresetSearch('')
+    setError(null)
+  }
+
   const handleCancel = useCallback(() => {
     onClose()
   }, [onClose])
@@ -175,6 +172,45 @@ export function ProviderDialog({ open, mode, provider, providersService, onClose
               autoFocus
             />
           </div>
+
+          {mode === 'create' && (
+            <div className={css.field}>
+              <label className={css.label} htmlFor="provider-preset-search">
+                从 Provider 预设创建（可选）
+              </label>
+              <input
+                id="provider-preset-search"
+                className={css.input}
+                type="text"
+                value={presetSearch}
+                onChange={(e) => setPresetSearch(e.target.value)}
+                placeholder="搜索平台，如 DeepSeek、OpenRouter、硅基流动…"
+              />
+              <div className={css.presetList}>
+                {PROVIDER_PRESET_GROUPS.map(group => {
+                  const entries = matchingPresets.filter(preset => preset.group === group.id)
+                  if (entries.length === 0) return null
+                  return (
+                    <div key={group.id} className={css.presetGroup}>
+                      <div className={css.presetGroupTitle}>{group.label}</div>
+                      {entries.map(preset => (
+                        <button
+                          key={preset.id}
+                          type="button"
+                          className={css.presetItem}
+                          onClick={() => { applyPreset(preset) }}
+                        >
+                          <span className={css.presetName}>{preset.name}</span>
+                          <span className={css.presetUrl}>{preset.baseURL || '自定义地址'}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )
+                })}
+                {matchingPresets.length === 0 && <div className={css.presetEmpty}>无匹配的预设</div>}
+              </div>
+            </div>
+          )}
 
           {mode === 'create' && (
             <div className={css.field}>
