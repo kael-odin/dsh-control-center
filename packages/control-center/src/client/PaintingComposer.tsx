@@ -8,7 +8,7 @@ import { createPortal } from 'react-dom'
 import { IconChevronDownOutline14, IconPauseOutline16, IconPlusOutline16, IconSendOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
 
 import css from './PaintingWorkspace.module.css'
-import { IconMoreHorizontal, IconPlus, IconTrash2, IconX, IconZap } from './cherry-icons.tsx'
+import { IconMoreHorizontal, IconPenLine, IconPlus, IconTrash2, IconX, IconZap } from './cherry-icons.tsx'
 import { IconPaperclip, IconSettings2 } from './painting-icons.tsx'
 import { ModelSelector, type ModelOption } from './ModelSelector.tsx'
 
@@ -43,6 +43,7 @@ export interface PaintingComposerProps {
   onParamsChange: (patch: Partial<PaintingParams>) => void
   prompts: readonly PaintingPromptEntry[]
   onAddPrompt: (title: string, content: string) => void
+  onUpdatePrompt: (id: string, title: string, content: string) => void
   onDeletePrompt: (id: string) => void
   running: boolean
   canSend: boolean
@@ -119,7 +120,7 @@ export function PaintingComposer(props: PaintingComposerProps) {
   const {
     models, selectedModel, onModelChange, prompt, onPromptChange,
     attachments, onAddAttachment, onRemoveAttachment,
-    params, onParamsChange, prompts, onAddPrompt, onDeletePrompt,
+    params, onParamsChange, prompts, onAddPrompt, onUpdatePrompt, onDeletePrompt,
     running, canSend, onSend, onPause,
   } = props
   const [paramsOpen, setParamsOpen] = useState(false)
@@ -127,8 +128,9 @@ export function PaintingComposer(props: PaintingComposerProps) {
   const [libOpen, setLibOpen] = useState(false)
   const paramsAnchor = useAnchor(paramsOpen)
   const quickAnchor = useAnchor(quickOpen)
-  const libAnchor = useAnchor(libOpen)
   const [addingPrompt, setAddingPrompt] = useState(false)
+  const [manageOpen, setManageOpen] = useState(false)
+  const [editingPrompt, setEditingPrompt] = useState<PaintingPromptEntry | null>(null)
   const [formTitle, setFormTitle] = useState('')
   const [formContent, setFormContent] = useState('')
   const fileRef = useRef<HTMLInputElement | null>(null)
@@ -221,7 +223,7 @@ export function PaintingComposer(props: PaintingComposerProps) {
               <span className={css.pillSummary}>{paramsSummary(params)}</span>
             </button>
             {paramsOpen && paramsAnchor.rect !== null && createPortal(
-              <div className={css.portalPanel} style={anchoredStyle(paramsAnchor.rect, 330)}>
+              <div className={`${css.portalPanel} cc-surface`} style={anchoredStyle(paramsAnchor.rect, 330)}>
                 <div className={css.paramsField}>
                   <div className={css.paramsFieldTitle}><span>背景</span></div>
                   <div className={css.paramsSelectWrap}>
@@ -315,7 +317,7 @@ export function PaintingComposer(props: PaintingComposerProps) {
               <IconPlusOutline16 size={18} />
             </button>
             {quickOpen && quickAnchor.rect !== null && createPortal(
-              <div className={css.portalPanel} style={anchoredStyle(quickAnchor.rect, 140)}>
+              <div className={`${css.portalPanel} cc-surface`} style={anchoredStyle(quickAnchor.rect, 140)}>
                 <button
                   type="button"
                   className={css.quickItem}
@@ -336,8 +338,8 @@ export function PaintingComposer(props: PaintingComposerProps) {
               </div>,
               document.body,
             )}
-            {libOpen && libAnchor.rect !== null && createPortal(
-              <div className={css.portalPanel} style={anchoredStyle(libAnchor.rect, 260, true)}>
+            {libOpen && quickAnchor.rect !== null && createPortal(
+              <div className={`${css.portalPanel} cc-surface`} style={anchoredStyle(quickAnchor.rect, 260, true)}>
                 <div className={css.promptLibList}>
                   {prompts.length === 0
                     ? <div className={css.promptLibEmpty}>暂无提示词</div>
@@ -359,6 +361,10 @@ export function PaintingComposer(props: PaintingComposerProps) {
                     ))}
                 </div>
                 <div className={css.promptLibFooter}>
+                  <button type="button" className={css.quickItem} onClick={() => { setLibOpen(false); setManageOpen(true) }}>
+                    <IconPenLine size={14} className={css.quickItemIcon} />
+                    <span className={css.quickItemLabel}>管理提示词</span>
+                  </button>
                   <button type="button" className={css.quickItem} onClick={() => { setAddingPrompt(true) }}>
                     <IconZap size={14} className={css.quickItemIcon} />
                     <span className={css.quickItemLabel}>添加提示词...</span>
@@ -380,6 +386,91 @@ export function PaintingComposer(props: PaintingComposerProps) {
           </button>
         )}
       </div>
+
+      {manageOpen && (
+        <div className={css.addPromptOverlay} onMouseDown={(event) => { if (event.target === event.currentTarget) setManageOpen(false) }}>
+          <div className={css.manageCard} role="dialog" aria-modal="true" aria-label="管理提示词">
+            <h3>管理提示词</h3>
+            <div className={css.manageList}>
+              {prompts.length === 0
+                ? <div className={css.promptLibEmpty}>暂无提示词</div>
+                : prompts.map(entry => (
+                  <div key={entry.id} className={css.manageRow}>
+                    <div className={css.manageRowMain}>
+                      <div className={css.manageRowTitle}>{entry.title}</div>
+                      <div className={css.manageRowContent}>{entry.content}</div>
+                    </div>
+                    <div className={css.manageRowActions}>
+                      <button
+                        type="button"
+                        className={css.manageRowBtn}
+                        title="编辑"
+                        onClick={() => { setEditingPrompt(entry); setFormTitle(entry.title); setFormContent(entry.content) }}
+                      >
+                        <IconPenLine size={12} />
+                      </button>
+                      <button
+                        type="button"
+                        className={`${css.manageRowBtn} ${css.manageRowBtnDanger}`}
+                        title="删除"
+                        onClick={() => { onDeletePrompt(entry.id) }}
+                      >
+                        <IconTrash2 size={12} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+            </div>
+            <div className={css.dialogActions}>
+              <button type="button" className={css.btn} onClick={() => { setManageOpen(false) }}>关闭</button>
+              <button type="button" className={`${css.btn} ${css.btnPrimary}`} onClick={() => { setAddingPrompt(true); setManageOpen(false) }}>
+                添加提示词...
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {editingPrompt !== null && (
+        <div className={css.addPromptOverlay} onMouseDown={(event) => { if (event.target === event.currentTarget) setEditingPrompt(null) }}>
+          <div className={css.addPromptCard} role="dialog" aria-modal="true" aria-label="编辑提示词">
+            <h3>编辑提示词</h3>
+            <div className={css.addPromptField}>
+              <label htmlFor="cc-prompt-edit-title">标题</label>
+              <input
+                id="cc-prompt-edit-title"
+                className={css.addPromptInput}
+                value={formTitle}
+                onChange={event => { setFormTitle(event.target.value) }}
+                autoFocus
+              />
+            </div>
+            <div className={css.addPromptField}>
+              <label htmlFor="cc-prompt-edit-content">内容</label>
+              <textarea
+                id="cc-prompt-edit-content"
+                className={css.addPromptTextarea}
+                value={formContent}
+                onChange={event => { setFormContent(event.target.value) }}
+              />
+            </div>
+            <div className={css.dialogActions}>
+              <button type="button" className={css.btn} onClick={() => { setEditingPrompt(null) }}>取消</button>
+              <button
+                type="button"
+                className={`${css.btn} ${css.btnPrimary}`}
+                disabled={formTitle.trim() === '' || formContent.trim() === ''}
+                onClick={() => {
+                  onUpdatePrompt(editingPrompt.id, formTitle.trim(), formContent.trim())
+                  setEditingPrompt(null)
+                }}
+              >
+                保存
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {addingPrompt && (
         <div className={css.addPromptOverlay} onMouseDown={(event) => { if (event.target === event.currentTarget) setAddingPrompt(false) }}>

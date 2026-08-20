@@ -238,6 +238,7 @@
   position: absolute;
   inset: 0;
   z-index: 0;
+  container-type: size;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -286,6 +287,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
+  width: 118px;
+  height: 92px;
   width: clamp(56px, min(17cqw, 60cqh), 148px);
   height: clamp(48px, min(13cqw, 46cqh), 118px);
   border: none;
@@ -1292,4 +1295,94 @@
   background: var(--popover);
   color: var(--popover-foreground);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+}
+
+/* Prompt management dialog */
+.manageCard {
+  width: min(520px, calc(100vw - 48px));
+  box-sizing: border-box;
+  padding: 20px;
+  border-radius: 16px;
+  background: var(--card);
+  color: var(--card-foreground);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.3);
+}
+
+.manageCard h3 {
+  margin: 0 0 14px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.manageList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 320px;
+  overflow-y: auto;
+  margin-bottom: 16px;
+}
+
+.manageRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--muted) 30%, transparent);
+}
+
+.manageRow:hover {
+  background: color-mix(in srgb, var(--muted) 50%, transparent);
+}
+
+.manageRowMain {
+  flex: 1;
+  min-width: 0;
+}
+
+.manageRowTitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.manageRowContent {
+  margin-top: 1px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.manageRowActions {
+  display: flex;
+  gap: 2px;
+  flex: none;
+}
+
+.manageRowBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+
+.manageRowBtn:hover {
+  background: var(--accent);
+  color: var(--foreground);
+}
+
+.manageRowBtnDanger:hover {
+  color: var(--destructive);
 }

@@ -179,6 +179,14 @@ export function PaintingWorkspace({ getPainting, usePaintingReady, close }: Pain
     })
   }, [])
 
+  const updatePrompt = useCallback((id: string, title: string, content: string): void => {
+    setPrompts(current => {
+      const next = current.map(entry => entry.id === id ? { ...entry, title, content } : entry)
+      savePaintingPrompts(next)
+      return next
+    })
+  }, [])
+
   const deletePrompt = useCallback((id: string): void => {
     setPrompts(current => {
       const next = current.filter(entry => entry.id !== id)
@@ -238,6 +246,7 @@ export function PaintingWorkspace({ getPainting, usePaintingReady, close }: Pain
                   onParamsChange={(patch) => { setParams(current => ({ ...current, ...patch })) }}
                   prompts={prompts}
                   onAddPrompt={addPrompt}
+                  onUpdatePrompt={updatePrompt}
                   onDeletePrompt={deletePrompt}
                   running={running}
                   canSend={selectedModel !== '' && (current.prompt.trim() !== '' || attachments.length > 0)}

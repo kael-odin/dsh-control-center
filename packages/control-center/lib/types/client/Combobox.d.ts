@@ -26,11 +26,9 @@ export interface ComboboxProps {
     groups?: readonly ComboboxGroup[];
     /** Optional footer row (e.g. "配置自定义模型"). */
     footer?: ReactNode;
-    /** Popover width (px or css). Defaults to trigger width. */
-    width?: number | string;
     className?: string | undefined;
     ariaLabel?: string | undefined;
     align?: 'start' | 'end' | undefined;
 }
-export declare function Combobox({ value, options, onChange, placeholder, searchable, groups, footer, width, className, ariaLabel, align }: ComboboxProps): import("react").JSX.Element;
+export declare function Combobox({ value, options, onChange, placeholder, searchable, groups, footer, className, ariaLabel, align }: ComboboxProps): import("react").JSX.Element;
 //# sourceMappingURL=Combobox.d.ts.map

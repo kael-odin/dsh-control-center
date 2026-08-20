@@ -114,8 +114,8 @@ export function DataSection({ getData, useDataReady }: DataSectionProps) {
         </div>
       </div>
 
-      <div className="cc-card" style={{ borderColor: 'var(--error-border)', background: 'var(--error-subtle)' }}>
-        <div className="cc-card-title" style={{ color: 'var(--error-subtle-foreground)' }}>清空数据</div>
+      <div className="cc-card">
+        <div className="cc-card-title">清空数据</div>
         <p className="cc-card-description">重置所有 Control Center 配置（API 密钥凭据保留）。此操作不可撤销。</p>
         <div>
           <button type="button" className="cc-btn cc-btn-danger" onClick={() => void handleClear()}>

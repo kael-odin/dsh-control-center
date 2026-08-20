@@ -373,7 +373,6 @@ export function TranslationWorkspace({ getTranslation, listModels, useTranslatio
               onChange={setSourceLanguage}
               ariaLabel="源语言"
               searchable
-              width={190}
             />
             <button type="button" className={css.swapBtn} title="交换源语言与目标语言" disabled={sourceLanguage === 'auto'} onClick={swapLanguages}>
               <IconArrowLeftRight size={14} />
@@ -384,7 +383,6 @@ export function TranslationWorkspace({ getTranslation, listModels, useTranslatio
               onChange={setTargetLanguage}
               ariaLabel="目标语言"
               searchable
-              width={190}
             />
           </>
         ) : (

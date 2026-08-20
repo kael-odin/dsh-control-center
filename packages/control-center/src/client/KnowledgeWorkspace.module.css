@@ -982,3 +982,12 @@
   justify-content: space-between;
   gap: 12px;
 }
+
+.detailEmptyHint {
+  max-width: 420px;
+  padding: 0 24px;
+  text-align: center;
+  color: var(--foreground-tertiary);
+  font-size: 13px;
+  line-height: 1.7;
+}

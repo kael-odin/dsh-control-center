@@ -172,7 +172,7 @@ export function TranslationSettingsPanel(props: TranslationSettingsPanelProps) {
 
         <div>
           <div className={css.sectionTitle}>
-            <span>翻译提示词 <HelpTooltip text="自定义翻译指令；留空时使用内置提示词，会附加源语言与目标语言指令" /></span>
+            <span>翻译提示词</span>
             {promptDirty && (
               <button type="button" className={css.resetLink} onClick={resetPrompt}>重置</button>
             )}

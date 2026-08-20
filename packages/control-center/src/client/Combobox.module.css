@@ -50,15 +50,11 @@
   flex: none;
 }
 
-.popover {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
-  z-index: 120;
+.popoverPortal {
   display: flex;
   flex-direction: column;
-  min-width: 220px;
   max-width: min(340px, calc(100vw - 32px));
+  max-height: 60vh;
   box-sizing: border-box;
   padding: 4px;
   border: 1px solid var(--border);
@@ -66,11 +62,6 @@
   background: var(--popover);
   color: var(--popover-foreground);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
-}
-
-.popoverEnd {
-  left: auto;
-  right: 0;
 }
 
 .searchWrap {

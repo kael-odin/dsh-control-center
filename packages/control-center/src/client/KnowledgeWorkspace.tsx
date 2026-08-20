@@ -385,6 +385,7 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, close }: K
             <div className={css.detailEmpty}>
               <div className={css.detailEmptyTitle}>暂无知识库</div>
               <div className={css.detailEmptyDescription}>与 AI 一起积累知识</div>
+              <div className={css.detailEmptyHint}>创建知识库后，即可上传文件 / 笔记 / 目录 / 链接，进行召回测试与知识库设置</div>
               <button type="button" className={`${css.btn} ${css.btnPrimary}`} style={{ marginTop: 8 }} onClick={() => { setCreateOpen(true) }}>
                 创建知识库
               </button>

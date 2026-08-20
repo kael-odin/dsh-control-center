@@ -1296,6 +1296,7 @@
   left: 0;
   bottom: calc(100% + 6px);
   z-index: 200;
+  width: max-content;
   max-width: 240px;
   box-sizing: border-box;
   padding: 8px 10px;

@@ -3,8 +3,28 @@
  * grouped option list, and footer slot. Used for language and model pickers.
  */
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import { IconChevronDownOutline14, IconSearchOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
 import css from './Combobox.module.css'
+
+/** Viewport-adaptive fixed positioning for the portal popover. */
+function anchoredStyle(rect: DOMRect, height: number, alignEnd: boolean): React.CSSProperties {
+  const width = Math.max(rect.width, 240)
+  const upward = rect.top > height + 16
+  const base: React.CSSProperties = { position: 'fixed', zIndex: 300, width }
+  if (alignEnd) {
+    base.right = window.innerWidth - rect.right
+    base.left = undefined
+  } else {
+    base.left = rect.left
+  }
+  if (upward) {
+    base.bottom = window.innerHeight - rect.top + 8
+  } else {
+    base.top = rect.bottom + 8
+  }
+  return base
+}
 
 export interface ComboboxOption {
   value: string
@@ -31,18 +51,23 @@ export interface ComboboxProps {
   groups?: readonly ComboboxGroup[]
   /** Optional footer row (e.g. "配置自定义模型"). */
   footer?: ReactNode
-  /** Popover width (px or css). Defaults to trigger width. */
-  width?: number | string
   className?: string | undefined
   ariaLabel?: string | undefined
   align?: 'start' | 'end' | undefined
 }
 
-export function Combobox({ value, options, onChange, placeholder, searchable, groups, footer, width, className, ariaLabel, align = 'start' }: ComboboxProps) {
+export function Combobox({ value, options, onChange, placeholder, searchable, groups, footer, className, ariaLabel, align = 'start' }: ComboboxProps) {
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
   const rootRef = useRef<HTMLDivElement | null>(null)
+  const triggerRef = useRef<HTMLButtonElement | null>(null)
+  const popoverRef = useRef<HTMLDivElement | null>(null)
+  const [anchorRect, setAnchorRect] = useState<DOMRect | null>(null)
   const searchRef = useRef<HTMLInputElement | null>(null)
+
+  useEffect(() => {
+    if (open && triggerRef.current !== null) setAnchorRect(triggerRef.current.getBoundingClientRect())
+  }, [open])
 
   const selected = options.find(option => option.value === value)
 
@@ -56,7 +81,10 @@ export function Combobox({ value, options, onChange, placeholder, searchable, gr
   useEffect(() => {
     if (!open) return
     const onDown = (event: MouseEvent): void => {
-      if (!rootRef.current?.contains(event.target as Node)) setOpen(false)
+      const target = event.target as Node
+      if (rootRef.current?.contains(target) === true) return
+      if (popoverRef.current?.contains(target) === true) return
+      setOpen(false)
     }
     const onKey = (event: KeyboardEvent): void => {
       if (event.key === 'Escape') setOpen(false)
@@ -101,6 +129,7 @@ export function Combobox({ value, options, onChange, placeholder, searchable, gr
   return (
     <div ref={rootRef} className={`${css.root} ${className ?? ''}`}>
       <button
+        ref={triggerRef}
         type="button"
         className={css.trigger}
         aria-label={ariaLabel}
@@ -112,8 +141,8 @@ export function Combobox({ value, options, onChange, placeholder, searchable, gr
         <span className={css.triggerLabel}>{selected?.label ?? placeholder ?? '请选择'}</span>
         <IconChevronDownOutline14 size={12} className={css.triggerChevron} />
       </button>
-      {open && (
-        <div className={`${css.popover} ${align === 'end' ? css.popoverEnd : ''}`} style={width === undefined ? undefined : { width }}>
+      {open && anchorRect !== null && createPortal(
+        <div ref={popoverRef} className={`${css.popoverPortal} cc-surface`} style={anchoredStyle(anchorRect, 320, align === 'end')}>
           {searchable && (
             <div className={css.searchWrap}>
               <IconSearchOutline16 size={13} className={css.searchIcon} />
@@ -134,7 +163,8 @@ export function Combobox({ value, options, onChange, placeholder, searchable, gr
             {visible.length === 0 && <div className={css.empty}>无结果</div>}
           </div>
           {footer === undefined ? null : <div className={css.footer}>{footer}</div>}
-        </div>
+        </div>,
+        document.body,
       )}
     </div>
   )

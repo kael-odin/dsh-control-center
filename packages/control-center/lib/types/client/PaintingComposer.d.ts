@@ -27,6 +27,7 @@ export interface PaintingComposerProps {
     onParamsChange: (patch: Partial<PaintingParams>) => void;
     prompts: readonly PaintingPromptEntry[];
     onAddPrompt: (title: string, content: string) => void;
+    onUpdatePrompt: (id: string, title: string, content: string) => void;
     onDeletePrompt: (id: string) => void;
     running: boolean;
     canSend: boolean;
