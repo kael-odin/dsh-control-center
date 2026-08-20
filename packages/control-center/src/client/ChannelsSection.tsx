@@ -7,6 +7,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { IconPlusOutline16, IconTrashOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
 import { ConfirmDialog, Switch } from './panel-ui.tsx'
+import { CHANNEL_ICONS } from './channel-icons.ts'
 import css from './ChannelsSection.module.css'
 
 interface ChannelTypeDef {
@@ -14,12 +15,13 @@ interface ChannelTypeDef {
   name: string
   description: string
   icon: string
+  iconKey: string
   fields: ReadonlyArray<{ key: string; label: string; secret?: boolean; fullWidth?: boolean; placeholder?: string }>
 }
 
 const CHANNEL_TYPES: readonly ChannelTypeDef[] = [
   {
-    type: 'feishu', name: '飞书', icon: '🪶',
+    type: 'feishu', name: '飞书', icon: '🪶', iconKey: 'feishu',
     description: '通过 WebSocket 使用飞书/ Lark 机器人接收并回复消息。',
     fields: [
       { key: 'app_id', label: '应用ID', placeholder: '输入你的飞书应用 ID' },
@@ -29,14 +31,14 @@ const CHANNEL_TYPES: readonly ChannelTypeDef[] = [
     ],
   },
   {
-    type: 'telegram', name: 'Telegram', icon: '✈️',
+    type: 'telegram', name: 'Telegram', icon: '✈️', iconKey: 'telegram',
     description: '通过 Telegram 机器人使用长轮询方式接收和回复消息。',
     fields: [
       { key: 'bot_token', label: 'Bot Token', secret: true, fullWidth: true, placeholder: '输入您的 Telegram 机器人 Token' },
     ],
   },
   {
-    type: 'qq', name: 'QQ', icon: '🐧',
+    type: 'qq', name: 'QQ', icon: '🐧', iconKey: 'qq',
     description: '通过 QQ 机器人官方 API 接收和回复消息。',
     fields: [
       { key: 'app_id', label: 'App ID', placeholder: '输入您的 QQ 机器人 App ID' },
@@ -44,21 +46,21 @@ const CHANNEL_TYPES: readonly ChannelTypeDef[] = [
     ],
   },
   {
-    type: 'wechat', name: '微信', icon: '💬',
+    type: 'wechat', name: '微信', icon: '💬', iconKey: 'wechat',
     description: '通过微信 iLink Bot API 接收和回复消息。',
     fields: [
       { key: 'token_path', label: 'Token 路径', fullWidth: true, placeholder: '输入微信 iLink Bot 的 Token 路径' },
     ],
   },
   {
-    type: 'discord', name: 'Discord', icon: '🎮',
+    type: 'discord', name: 'Discord', icon: '🎮', iconKey: 'discord',
     description: '通过 Discord 机器人使用 WebSocket 网关接收和回复消息。',
     fields: [
       { key: 'bot_token', label: 'Bot Token', secret: true, fullWidth: true, placeholder: '输入您的 Discord 机器人 Token' },
     ],
   },
   {
-    type: 'slack', name: 'Slack', icon: '🧵',
+    type: 'slack', name: 'Slack', icon: '🧵', iconKey: 'slack',
     description: '通过 Slack 机器人使用 Socket Mode 接收和回复消息。',
     fields: [
       { key: 'bot_token', label: 'Bot Token', secret: true, fullWidth: true, placeholder: 'xoxb-...' },
@@ -185,7 +187,7 @@ export function ChannelsSection() {
               className={`${css.submenuItem} ${type.type === selectedType ? css.submenuItemActive : ''}`}
               onClick={() => { setSelectedType(type.type) }}
             >
-              <span className={css.typeIcon}>{type.icon}</span>
+              <img className={css.typeIconImg} src={CHANNEL_ICONS[type.iconKey]} alt={type.name} />
               <span>{type.name}</span>
             </button>
           ))}
@@ -197,7 +199,7 @@ export function ChannelsSection() {
           <div className={css.detailBody}>
             <div className={css.detailHeader}>
               <div className={css.detailTitleBlock}>
-                <span className={css.typeIconLarge}>{typeDef.icon}</span>
+                <img className={css.typeIconImgLarge} src={CHANNEL_ICONS[typeDef.iconKey]} alt={typeDef.name} />
                 <span className={css.detailTitle}>{typeDef.name}</span>
               </div>
               <button type="button" className={css.addBtn} onClick={handleAdd}>

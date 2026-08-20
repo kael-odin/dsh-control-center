@@ -36,13 +36,13 @@ export const en = {
   tasksNav: 'Scheduled Tasks',
   localModelsNav: 'Local Models',
   updateNav: 'Update',
-  channelsNav: 'Channels',
+  channelsNav: '频道',
   appearanceNav: 'Appearance',
   notificationsNav: 'Notifications',
   shortcutsNav: 'Shortcuts',
-  quickAssistantNav: 'Quick Assistant',
+  quickAssistantNav: '快捷助手',
   selectionAssistantNav: '划词助手',
-  screenshotNav: 'Screenshot',
+  screenshotNav: '截图',
 }
 
 export type SettingsKey = keyof typeof en
@@ -83,11 +83,11 @@ export const zh: { [Key in SettingsKey]: string } = {
   tasksNav: '计划任务',
   localModelsNav: '本地模型',
   updateNav: '更新',
-  channelsNav: 'Channels',
+  channelsNav: '频道',
   appearanceNav: '外观',
   notificationsNav: '通知',
   shortcutsNav: '快捷键',
-  quickAssistantNav: 'Quick Assistant',
+  quickAssistantNav: '快捷助手',
   selectionAssistantNav: '划词助手',
   screenshotNav: '截图',
 }

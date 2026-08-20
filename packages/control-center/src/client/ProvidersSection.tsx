@@ -8,6 +8,7 @@ import type { ProviderView, CreateProviderDto, UpdateProviderDto, UpdateModelDto
 import { ProviderAuthentication } from './ProviderAuthentication.tsx'
 import { ProviderModelList } from './ProviderModelList.tsx'
 import { ProviderDialog } from './ProviderDialog.tsx'
+import { providerIconSvg } from './provider-icons-data.ts'
 import css from './ProvidersSection.module.css'
 
 /** Wire envelope of a strict-mode Typert remote call (same shape as translation-types). */
@@ -25,6 +26,18 @@ interface ProvidersService {
 
 export interface ProvidersSectionProps {
   providers?: ProvidersService
+}
+
+function ProviderLogo({ providerId, name, size }: { providerId: string; name: string; size: number }) {
+  const glyph = providerIconSvg(providerId, size)
+  if (glyph !== '') {
+    return <span className={css.logoWrap} dangerouslySetInnerHTML={{ __html: glyph }} />
+  }
+  return (
+    <span className={css.logoFallback} style={{ fontSize: Math.round(size * 0.5) }}>
+      {name.trim().charAt(0).toUpperCase() || '?'}
+    </span>
+  )
 }
 
 export function ProvidersSection(props: ProvidersSectionProps) {
@@ -253,16 +266,7 @@ export function ProvidersSection(props: ProvidersSectionProps) {
                 >
                   <div className={css.listItemMain}>
                     <div className={css.listItemAvatar}>
-                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <rect width="20" height="20" rx="4" fill="currentColor" opacity="0.1" />
-                        <path
-                          d="M6 8L10 12L14 8"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
+                      <ProviderLogo providerId={provider.type} name={provider.name} size={20} />
                     </div>
                     <span className={css.listItemLabel}>{provider.name}</span>
                   </div>

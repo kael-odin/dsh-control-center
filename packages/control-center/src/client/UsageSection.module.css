@@ -440,3 +440,7 @@
     grid-template-columns: 1fr;
   }
 }
+
+.heatmapCell {
+  border: 1px solid color-mix(in srgb, var(--border-subtle) 60%, transparent);
+}

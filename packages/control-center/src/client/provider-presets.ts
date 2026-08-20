@@ -56,6 +56,9 @@ export const PROVIDER_PRESETS: readonly ProviderPreset[] = [
   { id: 'ovms', name: 'Intel OVMS', type: 'openai-compatible', baseURL: 'http://localhost:8000/v3', group: 'local' },
   { id: 'ocoolai', name: 'ocoolAI', type: 'openai-compatible', baseURL: 'https://api.ocoolai.com', group: 'domestic' },
   { id: 'cherryin', name: 'CherryIN', type: 'openai-compatible', baseURL: 'https://open.cherryin.net', group: 'international' },
+  { id: 'claude-code', name: 'Claude Code', type: 'anthropic', baseURL: 'https://api.anthropic.com/v1', group: 'international' },
+  { id: 'openai-codex', name: 'OpenAI Codex', type: 'openai', baseURL: 'https://chatgpt.com/backend-api/codex', group: 'international' },
+  { id: 'grok-cli', name: 'Grok CLI', type: 'openai-compatible', baseURL: 'https://cli-chat-proxy.grok.com/v1', group: 'international' },
 
   // ----- 国际平台 -----
   { id: 'openai', name: 'OpenAI', type: 'openai', baseURL: 'https://api.openai.com/v1', group: 'international' },

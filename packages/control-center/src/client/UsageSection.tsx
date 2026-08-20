@@ -209,7 +209,7 @@ export function UsageSection({ getUsage, useUsageReady }: UsageSectionProps) {
     if (ratio > 0.12) return 2
     return 1
   }
-  const HEAT_COLORS = ['transparent', 'rgba(62,207,142,0.25)', 'rgba(62,207,142,0.45)', 'rgba(62,207,142,0.7)', 'rgba(62,207,142,1)']
+  const HEAT_COLORS = ['transparent', 'rgba(16,185,129,0.35)', 'rgba(16,185,129,0.55)', 'rgba(16,185,129,0.8)', 'rgba(5,150,105,1)']
 
   // Distribution chart.
   const chartGroups = stats?.groups ?? []

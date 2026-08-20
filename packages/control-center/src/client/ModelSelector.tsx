@@ -4,6 +4,7 @@
  */
 import { Combobox, type ComboboxGroup, type ComboboxOption } from './Combobox.tsx'
 import { IconSettings2 } from './painting-icons.tsx'
+import { providerIconSvg } from './provider-icons-data.ts'
 import css from './ModelSelector.module.css'
 
 /** Stable provider brand colors for avatar chips. */
@@ -99,6 +100,17 @@ function useModelGroups(models: readonly ModelOption[]): ComboboxGroup[] {
 }
 
 export function ProviderAvatar({ id, name, size = 22 }: { id: string; name: string; size?: number }) {
+  const glyph = providerIconSvg(id, size)
+  if (glyph !== '') {
+    return (
+      <span
+        className={css.avatar}
+        style={{ width: size, height: size, borderRadius: Math.round(size * 0.3), background: 'var(--background-subtle)' }}
+        aria-hidden
+        dangerouslySetInnerHTML={{ __html: glyph }}
+      />
+    )
+  }
   return (
     <span
       className={css.avatar}
