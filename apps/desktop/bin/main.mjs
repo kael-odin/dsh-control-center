@@ -15,15 +15,21 @@
  */
 import { app, BrowserWindow, dialog } from 'electron'
 import { spawn } from 'node:child_process'
-import { setTimeout as delay } from 'node:timers/promises'
 
 const DEFAULT_LOOPBACK = 'http://127.0.0.1:3080/'
-const DEFAULT_HARNESS_DIR = process.env.DSH_HARNESS_DIR || undefined
+const DEFAULT_HARNESS_DIR = process.env.DSH_HARNESS_DIR || 'D:\\Github_Open\\deepseek-harness'
+/** Readiness signal the DSH web boot prints once Loader is settled and the loopback server is up. */
+const WEB_URL_LINE = /dsh web:\s+(http:\/\/127\.0\.0\.1:\d+)/
 
 /** Resolve the loopback base URL for the DSH surface. */
 function resolveUrl() {
   const base = process.env.DSH_CONTROL_DESKTOP_URL || DEFAULT_LOOPBACK
   return base.endsWith('/') ? base : `${base}/`
+}
+
+/** Isolated DSH home used when the desktop shell self-hosts (defaults to `~/.dsh-desktop`). */
+function resolveSelfHome() {
+  return process.env.DSH_DESKTOP_HOME || `${process.env.USERPROFILE || process.env.HOME || '.'}\\.dsh-desktop`
 }
 
 /** Probe whether a DSH surface is already listening at `url`. */
@@ -37,38 +43,75 @@ async function isListening(url) {
 }
 
 /**
- * Spawn the DSH harness Web boot so the loopback surface comes up on its own.
- * Honest best-effort: if no harness root is resolvable we leave it to the user
- * to start `dsh web` and surface the discovery error.
+ * Self-host a dedicated DSH loopback surface. `--port 0` lets the OS pick a
+ * free port, avoiding collisions with an existing `dsh web`; the actual URL is
+ * parsed from the boot's readiness line.
+ *
+ * Uses the system Node.js (`DSH_DESKTOP_NODE`, default `node`). The Electron
+ * binary in Node mode does not match the harness's native-module ABI for the
+ * directory-picker dependency, so an installed app will bundle/path a matching
+ * Node in a later packaging phase.
+ * @returns `{ child, urlPromise }` where `urlPromise` resolves to the loopback URL once ready.
  */
-function spawnHostSelf() {
+function startSelfHost() {
   const dir = resolveHarnessDir()
-  if (!dir) throw new Error('no DSH harness root (set DSH_HARNESS_DIR)')
+  const nodeBin = process.env.DSH_DESKTOP_NODE || 'node'
+  const env = {
+    ...process.env,
+    DSH_HOME: resolveSelfHome(),
+  }
   const child = spawn(
-    process.execPath,
-    ['--import', 'tsx/esm', 'apps/cli/src/bin.ts', 'web'],
-    { cwd: dir, stdio: 'ignore', shell: false, detached: false },
+    nodeBin,
+    ['--import', 'tsx/esm', 'apps/cli/src/bin.ts', 'web', '--port', '0'],
+    { cwd: dir, env, stdio: ['ignore', 'pipe', 'pipe'], shell: false, detached: false },
   )
-  return child
+
+  const urlPromise = new Promise((resolveReady, rejectReady) => {
+    let buffer = ''
+    let settled = false
+    const cleanup = () => {
+      if (child.stdout) child.stdout.removeAllListeners('data')
+      child.removeAllListeners('exit')
+      child.removeAllListeners('error')
+    }
+    child.stdout?.on('data', (chunk) => {
+      if (settled) return
+      buffer += String(chunk)
+      const match = buffer.match(WEB_URL_LINE)
+      if (!match) return
+      settled = true
+      cleanup()
+      console.log(`[desktop] self-host ready at ${match[1]}`)
+      resolveReady(match[1])
+    })
+    // Drain stderr so a blocked pipe never stalls the child.
+    child.stderr?.on('data', () => {})
+    const onExit = (code) => {
+      if (settled) return
+      settled = true
+      cleanup()
+      rejectReady(new Error(`self-host exited before readiness (code=${code})`))
+    }
+    const onError = (err) => {
+      if (settled) return
+      settled = true
+      cleanup()
+      rejectReady(err)
+    }
+    child.on('exit', onExit)
+    child.on('error', onError)
+  })
+
+  return { child, urlPromise }
 }
 
 function resolveHarnessDir() {
-  if (DEFAULT_HARNESS_DIR) return DEFAULT_HARNESS_DIR
-  if (process.env.DSH_HARNESS_DIR) return process.env.DSH_HARNESS_DIR
-  return undefined
-}
-
-/** Poll a DSH surface until it answers (bounded). */
-async function waitForSurface(url, deadlineMs) {
-  const deadline = Date.now() + deadlineMs
-  while (Date.now() < deadline) {
-    if (await isListening(url)) return true
-    await delay(500)
-  }
-  return false
+  return process.env.DSH_HARNESS_DIR || DEFAULT_HARNESS_DIR
 }
 
 let mainWindow = null
+/** Self-hosted DSH surface child, owned and torn down with the app. */
+let activeChild = null
 
 function createWindow(url) {
   const smoke = process.argv.includes('--e2e')
@@ -90,8 +133,16 @@ function createWindow(url) {
   mainWindow.loadURL(url)
   if (smoke) {
     // E2E smoke: report surface load, then exit so CI/a driver can assert.
+    // `SMOKE_SURFACE_ONLY=1` asserts the surface came up (self-host on a fresh
+    // home has no Control Center bundle yet); otherwise it also requires the
+    // Control Center trigger to be mounted in the renderer.
+    const surfaceOnly = process.env.DSH_DESKTOP_SMOKE_SURFACE_ONLY === '1'
     mainWindow.webContents.on('did-finish-load', async () => {
       console.log('[desktop] SURFACE_LOADED')
+      if (surfaceOnly) {
+        setTimeout(() => { app.quit() }, 300)
+        return
+      }
       try {
         // Give React/carrier a beat to mount the Control Center trigger.
         let attached = false
@@ -142,24 +193,26 @@ async function boot() {
 
   await app.whenReady()
 
-  let child = null
+  let surfaceUrl = url
   if (await isListening(url)) {
     console.log(`[desktop] surface already listening at ${url}`)
   } else {
-    // Attempt a self-hosted boot; on failure surface an honest error.
+    // No external surface: self-host a dedicated loopback one (free port via --port 0).
+    console.log(`[desktop] no DSH surface at ${url}; self-hosting…`)
     try {
-      child = spawnHostSelf()
-      console.log(`[desktop] spawned DSH host; waiting for ${url}`)
+      const { child, urlPromise } = startSelfHost()
+      activeChild = child
+      const deadlineMs = Number(process.env.DSH_CONTROL_DESKTOP_READY_MS || 90000)
+      surfaceUrl = await withTimeout(
+        urlPromise,
+        deadlineMs,
+        `self-host did not become ready within ${deadlineMs}ms`,
+      )
     } catch (err) {
-      console.error(`[desktop] ${err.message}`)
-    }
-    const deadlineMs = Number(process.env.DSH_CONTROL_DESKTOP_READY_MS || 60000)
-    const up = await waitForSurface(url, deadlineMs)
-    if (!up) {
       dialog.showErrorBox(
-        '无法连接 DSH 服务',
-        `桌面壳无法在本机下方服务监听：\n\n  ${url}\n\n` +
-          '请在控制台先启动 `dsh web`（或设置 DSH_HARNESS_DIR / DSH_CONTROL_DESKTOP_URL），' +
+        '无法启动 DSH 服务',
+        `桌面壳尝试自启 DSH 服务失败：\n\n${String(err && err.message) || String(err)}\n\n` +
+          '请确认 DSH_HARNESS_DIR 指向 deepseek-harness 目录（或用 DSH_CONTROL_DESKTOP_URL 手动指定一个已运行的 surface），' +
           '然后重新打开应用。',
       )
       app.quit()
@@ -167,15 +220,31 @@ async function boot() {
     }
   }
 
-  createWindow(url)
+  createWindow(surfaceUrl)
 
   app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow(url)
+    if (BrowserWindow.getAllWindows().length === 0) createWindow(surfaceUrl)
+  })
+}
+
+/** Attach a bounded deadline to a pending promise, rejecting on timeout. */
+function withTimeout(promise, ms, message) {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      reject(new Error(message))
+    }, ms)
+    promise.then(
+      (value) => { clearTimeout(timer); resolve(value) },
+      (err) => { clearTimeout(timer); reject(err) },
+    )
   })
 }
 
 app.on('window-all-closed', () => {
-  // Quit unless we own an alive host child (its lifecycle is managed later).
+  // When we own a self-hosted surface, tear it down with the app.
+  if (activeChild && !activeChild.killed) {
+    try { activeChild.kill() } catch { /* best effort */ }
+  }
   app.quit()
 })
 

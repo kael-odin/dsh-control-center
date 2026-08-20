@@ -1,15 +1,16 @@
 /**
- * Desktop shell smoke test (P0).
+ * Desktop shell smoke test (P0/P1).
  *
- * Launches the Electron shell in `--e2e` mode against a running DSH loopback
- * surface, then asserts the process reported both a successful surface load and
- * that the Control Center trigger is attached in the renderer, and exited 0.
- *
- * Prerequisite: a DSH Web surface must be listening (e.g. `dsh web` on 127.0.0.1:3080)
- * or DSH_CONTROL_DESKTOP_URL must point at one.
+ * Two modes:
+ *  - default: asserts the shell connects to an already-running DSH loopback
+ *    surface, loads it, and the Control Center trigger is mounted in the renderer.
+ *  - SELFHOST=1: forces the shell onto the self-host path (unused loopback URL +
+ *    isolated temp DSH home) and asserts it spawns the DSH host, parses its
+ *    readiness URL, loads it, and reports SURFACE_LOADED.
  *
  * Usage:
- *   node tests/smoke.mjs
+ *   node tests/smoke.mjs                 # connect-to-existing-surface smoke
+ *   SELFHOST=1 node tests/smoke.mjs      # self-host smoke
  */
 import { spawn } from 'node:child_process'
 import { resolve, dirname } from 'node:path'
@@ -21,12 +22,30 @@ const electronBin = process.platform === 'win32'
   ? resolve(root, 'node_modules/electron/dist/electron.exe')
   : resolve(root, 'node_modules/.bin/electron')
 
+const selfHost = process.argv.includes('--selfhost')
+
+// A loopback port that is (almost certainly) not listening, to force the
+// self-host branch when SELFHOST is set.
+const TRIGGER_PORT = Number(process.env.SMOKE_TRIGGER_PORT || 39999)
+
 const expected = {
   loaded: false,
   attached: false,
+  selfHostReady: false,
 }
 
-const child = spawn(electronBin, ['.', '--e2e'], { cwd: root, stdio: ['ignore', 'pipe', 'pipe'], shell: false })
+const env = {
+  ...process.env,
+  // Surface-only assertion: a fresh self-host home has no Control Center bundle yet.
+  ...(selfHost ? { DSH_DESKTOP_SMOKE_SURFACE_ONLY: '1' } : {}),
+}
+
+if (selfHost) {
+  env.DSH_CONTROL_DESKTOP_URL = `http://127.0.0.1:${TRIGGER_PORT}/`
+  env.DSH_DESKTOP_HOME = resolve(process.env.SMOKE_TMP || `${root}/.smoke-home`)
+}
+
+const child = spawn(electronBin, ['.', '--e2e'], { cwd: root, stdio: ['ignore', 'pipe', 'pipe'], shell: false, env })
 
 let stdout = ''
 let stderr = ''
@@ -34,14 +53,15 @@ child.stdout.on('data', (b) => {
   stdout += b.toString()
   if (b.toString().includes('SURFACE_LOADED')) expected.loaded = true
   if (/CONTROL_CENTER_ATTACHED=true/.test(b.toString())) expected.attached = true
+  if (/self-host ready/.test(b.toString())) expected.selfHostReady = true
 })
 child.stderr.on('data', (b) => { stderr += b.toString() })
 
 const timeout = setTimeout(() => {
-  console.error('smoke: timed out waiting for electron to exit')
+  console.error(`smoke: timed out waiting for electron to exit (selfHost=${selfHost})`)
   child.kill('SIGKILL')
   process.exit(1)
-}, 90000)
+}, selfHost ? 200_000 : 90_000)
 
 child.on('close', (code) => {
   clearTimeout(timeout)
@@ -49,6 +69,16 @@ child.on('close', (code) => {
   console.log(stdout.trim())
   console.log('--- desktop-shell stderr ---')
   console.log(stderr.trim())
+
+  if (selfHost) {
+    const ok = code === 0 && expected.loaded && expected.selfHostReady
+    if (!ok) {
+      console.error(`smoke FAIL(self-host): code=${code} loaded=${expected.loaded} selfHostReady=${expected.selfHostReady}`)
+      process.exit(1)
+    }
+    console.log('smoke PASS(self-host)')
+    process.exit(0)
+  }
 
   const ok = code === 0 && expected.loaded && expected.attached
   if (!ok) {

@@ -12,7 +12,8 @@
   "scripts": {
     "start": "electron .",
     "dev": "electron . --dev",
-    "smoke": "node tests/smoke.mjs"
+    "smoke": "node tests/smoke.mjs",
+    "smoke:selfhost": "node tests/smoke.mjs --selfhost"
   },
   "engines": {
     "node": "^22.19.0 || >=24.0.0"
