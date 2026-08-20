@@ -25,7 +25,7 @@ import type {
   KnowledgeAddDirectoryRequest, KnowledgeAddFileRequest, KnowledgeAddTextRequest, KnowledgeAddUrlRequest,
   KnowledgeBaseView, KnowledgeChunkView, KnowledgeCreateBaseRequest, KnowledgeEmbeddingConfig,
   KnowledgeIndexResult, KnowledgeRetrievalHit, KnowledgeRetrievalResult, KnowledgeRetrieveRequest,
-  KnowledgeSourceKind, KnowledgeSourceView,
+  KnowledgeBaseConfig, KnowledgeSourceKind, KnowledgeSourceView,
 } from './knowledge-types.ts'
 
 const MAX_TEXT_CHARS = 200_000
@@ -34,8 +34,6 @@ const MAX_FILE_CHARS = 5_000_000
 const MAX_DIRECTORY_FILES = 500
 const MAX_DIRECTORY_BYTES = 20 * 1024 * 1024
 const MAX_BASE_NAME = 200
-const DEFAULT_CHUNK_SIZE = 600
-const DEFAULT_CHUNK_OVERLAP = 60
 const DEFAULT_TOP_K = 8
 const MAX_TOP_K = 50
 const MAX_CHUNKS_PAGE = 200
@@ -174,10 +172,12 @@ export class KnowledgeService extends Service {
       CREATE INDEX IF NOT EXISTS knowledge_chunks_base ON knowledge_chunks(base_id);
       CREATE INDEX IF NOT EXISTS knowledge_chunks_source ON knowledge_chunks(source_id);
     `)
+    this.migrateColumns()
     this.registerTool()
     markRemoteMethods(this, [
       ['listBases', 'listBases'], ['createBase', 'createBase'], ['getBase', 'getBase'], ['deleteBase', 'deleteBase'],
       ['renameBase', 'renameBase'],
+      ['getBaseConfig', 'getBaseConfig'], ['setBaseConfig', 'setBaseConfig'],
       ['addText', 'addText'], ['addUrl', 'addUrl'], ['addFile', 'addFile'], ['addDirectory', 'addDirectory'],
       ['listSources', 'listSources'], ['deleteSource', 'deleteSource'],
       ['indexBase', 'indexBase'], ['listChunks', 'listChunks'], ['retrieve', 'retrieve'],
@@ -186,6 +186,45 @@ export class KnowledgeService extends Service {
       this.db.close()
       for (const dispose of this.disposeTools.splice(0)) dispose()
     }, 'control-center.knowledge: close catalog')
+  }
+
+  /** Add per-base RAG config columns on pre-existing databases. */
+  private migrateColumns(): void {
+    const columns = new Set<string>()
+    for (const row of this.db.prepare('PRAGMA table_info(knowledge_bases)').all() as unknown as Array<{ name: string }>) {
+      columns.add(row.name)
+    }
+    if (!columns.has('chunk_size')) {
+      this.db.exec('ALTER TABLE knowledge_bases ADD COLUMN chunk_size INTEGER NOT NULL DEFAULT 600')
+    }
+    if (!columns.has('chunk_overlap')) {
+      this.db.exec('ALTER TABLE knowledge_bases ADD COLUMN chunk_overlap INTEGER NOT NULL DEFAULT 60')
+    }
+    if (!columns.has('top_k')) {
+      this.db.exec('ALTER TABLE knowledge_bases ADD COLUMN top_k INTEGER NOT NULL DEFAULT 8')
+    }
+  }
+
+  private baseConfigOf(baseId: string): KnowledgeBaseConfig {
+    const row = this.db.prepare('SELECT chunk_size, chunk_overlap, top_k FROM knowledge_bases WHERE id = ?').get(baseId) as
+      { chunk_size: number; chunk_overlap: number; top_k: number } | undefined
+    if (row === undefined) throw new Error(`knowledge base "${baseId}" does not exist`)
+    return { chunkSize: row.chunk_size, chunkOverlap: row.chunk_overlap, topK: row.top_k }
+  }
+
+  getBaseConfig(baseId: string): KnowledgeBaseConfig {
+    return this.baseConfigOf(baseId)
+  }
+
+  setBaseConfig(baseId: string, config: KnowledgeBaseConfig): KnowledgeBaseConfig {
+    this.requireBase(baseId)
+    const chunkSize = Math.min(8_000, Math.max(100, Math.trunc(config.chunkSize)))
+    const chunkOverlap = Math.min(4_000, Math.max(0, Math.trunc(config.chunkOverlap)))
+    const topK = Math.min(MAX_TOP_K, Math.max(1, Math.trunc(config.topK)))
+    this.db.prepare(
+      'UPDATE knowledge_bases SET chunk_size = ?, chunk_overlap = ?, top_k = ?, updated_at = ? WHERE id = ?',
+    ).run(chunkSize, chunkOverlap, topK, now(), baseId)
+    return { chunkSize, chunkOverlap, topK }
   }
 
   private baseFromRow(row: BaseRow, sourceCount: number, chunkCount: number): KnowledgeBaseView {
@@ -515,9 +554,10 @@ export class KnowledgeService extends Service {
     const pending: Pending[] = []
     for (const source of sourceRows) {
       this.db.prepare('UPDATE knowledge_sources SET status = ?, updated_at = ? WHERE id = ?').run('indexing', now(), source.id)
+      const chunkConfig = this.baseConfigOf(baseId)
       const chunks = splitTextWithOffsets(source.content, {
-        chunkSize: DEFAULT_CHUNK_SIZE,
-        chunkOverlap: DEFAULT_CHUNK_OVERLAP,
+        chunkSize: chunkConfig.chunkSize,
+        chunkOverlap: chunkConfig.chunkOverlap,
         strategy: 'structured',
       })
       pending.push({ source, chunks: chunks.map((chunk, position) => ({ position, text: chunk.text, tokens: estimateTokenCount(chunk.text) })) })
@@ -586,7 +626,8 @@ export class KnowledgeService extends Service {
     const baseId = assertBaseId(request.baseId)
     const query = assertQuery(request.query)
     this.requireBase(baseId)
-    const topK = request.topK === undefined ? DEFAULT_TOP_K : Math.min(MAX_TOP_K, Math.max(1, Math.trunc(request.topK)))
+    const baseTopK = this.baseConfigOf(baseId).topK
+    const topK = request.topK === undefined ? baseTopK : Math.min(MAX_TOP_K, Math.max(1, Math.trunc(request.topK)))
     const minScore = request.minScore === undefined ? 0 : request.minScore
     const config = await this.resolveEmbedding(baseId)
     const controller = new AbortController()

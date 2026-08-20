@@ -9,7 +9,6 @@ import type { Context } from '@deepseek-ai/cordis'
 import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
 import { resolveDshHome } from '@deepseek-ai/dsh-home-paths'
 import type { ProvidersService } from './providers.ts'
-import type { ReposService } from './repos.ts'
 import type { SkillsService } from './skills.ts'
 import type { McpService } from './mcp.ts'
 import type { TranslationService } from './translation.ts'
@@ -50,7 +49,6 @@ export interface UsageOverview {
   providers: number
   enabledModels: number
   totalModels: number
-  repos: number
   skills: number
   mcpServers: number
   mcpActive: number
@@ -143,7 +141,6 @@ export class UsageService extends Service {
       providers: 0,
       enabledModels: 0,
       totalModels: 0,
-      repos: 0,
       skills: 0,
       mcpServers: 0,
       mcpActive: 0,
@@ -162,11 +159,6 @@ export class UsageService extends Service {
         overview.totalModels += models.length
         overview.enabledModels += models.filter(model => model.enabled).length
       }
-    }
-
-    const repos = this.ctx.get('controlCenterRepos') as ReposService | undefined
-    if (repos !== undefined) {
-      overview.repos = (await repos.list()).length
     }
 
     const skills = this.ctx.get('controlCenterSkills') as SkillsService | undefined

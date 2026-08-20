@@ -161,7 +161,9 @@ async function main(): Promise<void> {
     }
     await page.getByLabel('待翻译文本').fill('Hello translation fixture')
     await expectPoll(async () => await page.getByLabel('翻译模型').count() > 0, true, 15_000)
-    await page.getByLabel('翻译模型').selectOption({ label: 'Control Center E2E · Control Center Alpha' })
+    // ModelSelector popover: open, then pick the fixture model row.
+    await page.getByLabel('翻译模型').click()
+    await page.getByRole('listbox').getByText('Control Center Alpha', { exact: false }).first().click()
     const translateButton = page.getByRole('main').getByRole('button', { name: '翻译', exact: true })
     await translateButton.waitFor({ state: 'visible', timeout: 15_000 })
     await expectPoll(async () => await translateButton.isEnabled(), true, 15_000)
@@ -194,7 +196,8 @@ async function main(): Promise<void> {
     }
     await page.getByLabel('待翻译文本').waitFor({ state: 'hidden', timeout: 15_000 }).catch(() => {})
     await expectPoll(async () => await page.getByLabel('图像模型').count() > 0, true, 15_000)
-    await page.getByLabel('图像模型').selectOption({ label: 'control-center-e2e · Control Center Alpha' })
+    await page.getByLabel('图像模型').click()
+    await page.getByRole('listbox').getByText('Control Center Alpha', { exact: false }).first().click()
     await page.getByLabel('绘画提示词').fill('a painting fixture image')
     const sendButton = page.getByRole('main').getByRole('button', { name: '发送' })
     await sendButton.waitFor({ state: 'visible', timeout: 15_000 })

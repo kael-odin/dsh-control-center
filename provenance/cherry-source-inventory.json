@@ -122,6 +122,16 @@
    "modifications": "Copied verbatim as upstream source; the runtime previews are the downscaled data-URI versions.",
    "notice": "NOTICE",
    "verified": true
+  },
+  {
+   "source": "src/renderer/assets/images/translate/upload-*.svg",
+   "destinations": [
+    "vendor/translate-upload/",
+    "packages/control-center/src/client/translate-upload-icons.ts"
+   ],
+   "modifications": "Copied the six upload-format icons verbatim and embedded them as a TS data module for the translate input empty state.",
+   "notice": "NOTICE",
+   "verified": true
   }
  ]
 }

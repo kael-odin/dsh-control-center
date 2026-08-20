@@ -59,7 +59,9 @@ export function PaintingWorkspace({ getPainting, usePaintingReady, close }: Pain
     }
     return [...seen.values()].map(model => ({
       value: `${model.providerId}/${model.id}`,
-      label: `${model.providerId} · ${model.label}`,
+      label: model.label,
+      providerId: model.providerId,
+      providerName: model.providerId,
     }))
   }, [catalog])
 

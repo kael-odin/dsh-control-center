@@ -7,6 +7,16 @@ export type KnowledgeChunkId = string
 export type KnowledgeSourceKind = 'text' | 'file' | 'directory' | 'url'
 
 /** Embedding mode actually used for a base: a configured provider route or the local hashing fallback. */
+/** Per-base RAG tuning (chunking + retrieval defaults). */
+export interface KnowledgeBaseConfig {
+  /** Chunk size in tokens. */
+  chunkSize: number
+  /** Chunk overlap in tokens. */
+  chunkOverlap: number
+  /** Default Top K for recall. */
+  topK: number
+}
+
 export interface KnowledgeEmbeddingConfig {
   /** `local-hash` or a provider id configured in DSH settings. */
   providerId: string
@@ -134,6 +144,8 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
       addFile(request: KnowledgeAddFileRequest): Promise<{ ok: true; value: KnowledgeSourceView } | { ok: false; error: { code: string; message: string; details: object } }>
       addDirectory(request: KnowledgeAddDirectoryRequest): Promise<{ ok: true; value: KnowledgeSourceView } | { ok: false; error: { code: string; message: string; details: object } }>
       renameBase(baseId: KnowledgeBaseId, name: string): Promise<{ ok: true; value: KnowledgeBaseView } | { ok: false; error: { code: string; message: string; details: object } }>
+      getBaseConfig(baseId: KnowledgeBaseId): Promise<{ ok: true; value: KnowledgeBaseConfig } | { ok: false; error: { code: string; message: string; details: object } }>
+      setBaseConfig(baseId: KnowledgeBaseId, config: KnowledgeBaseConfig): Promise<{ ok: true; value: KnowledgeBaseConfig } | { ok: false; error: { code: string; message: string; details: object } }>
       listSources(baseId: KnowledgeBaseId): Promise<{ ok: true; value: { sources: KnowledgeSourceView[] } } | { ok: false; error: { code: string; message: string; details: object } }>
       deleteSource(baseId: KnowledgeBaseId, sourceId: KnowledgeSourceId): Promise<{ ok: true; value: { absent: true } } | { ok: false; error: { code: string; message: string; details: object } }>
       indexBase(baseId: KnowledgeBaseId): Promise<{ ok: true; value: KnowledgeIndexResult } | { ok: false; error: { code: string; message: string; details: object } }>

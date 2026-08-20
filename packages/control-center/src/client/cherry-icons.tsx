@@ -268,3 +268,89 @@ export const IconX = (props: CherryIconProps) => (
     <path d="M6 6l12 12" />
   </svg>
 )
+
+/* ---------- Settings nav icons (Cherry settings menu parity) ---------- */
+
+export const IconPackage = (props: CherryIconProps) => (
+  <svg {...base(props)}><path d="M21 8l-9-5-9 5v8l9 5 9-5V8z" /><path d="M3 8l9 5 9-5" /><path d="M12 13v8" /></svg>
+)
+
+export const IconToolCase = (props: CherryIconProps) => (
+  <svg {...base(props)}><path d="M10 3h4v2h6v3h-2v11H6V8H4V5h6V3z" /><path d="M14 12h-4" /></svg>
+)
+
+export const IconCloud = (props: CherryIconProps) => (
+  <svg {...base(props)}><path d="M17.5 19H9a7 7 0 1 1 6.7-9h1.8a4.5 4.5 0 1 1 0 9z" /></svg>
+)
+
+export const IconSearch = (props: CherryIconProps) => (
+  <svg {...base(props)}><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.3-4.3" /></svg>
+)
+
+export const IconUser = (props: CherryIconProps) => (
+  <svg {...base(props)}><circle cx="12" cy="8" r="4" /><path d="M4 21v-1a7 7 0 0 1 14 0v1" /></svg>
+)
+
+export const IconActivity = (props: CherryIconProps) => (
+  <svg {...base(props)}><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></svg>
+)
+
+export const IconHardDrive = (props: CherryIconProps) => (
+  <svg {...base(props)}><rect x="2" y="6" width="20" height="12" rx="2" /><path d="M6 12h.01" /><path d="M10 12h.01" /><path d="M15 12h3" /></svg>
+)
+
+export const IconFileBox = (props: CherryIconProps) => (
+  <svg {...base(props)}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6" /></svg>
+)
+
+export const IconFileCode = (props: CherryIconProps) => (
+  <svg {...base(props)}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6" /><path d="M10 13l-2 2 2 2" /><path d="M14 13l2 2-2 2" /></svg>
+)
+
+export const IconScanText = (props: CherryIconProps) => (
+  <svg {...base(props)}><path d="M3 7V5a2 2 0 0 1 2-2h2" /><path d="M17 3h2a2 2 0 0 1 2 2v2" /><path d="M21 17v2a2 2 0 0 1-2 2h-2" /><path d="M7 21H5a2 2 0 0 1-2-2v-2" /><path d="M7 8h10" /><path d="M7 12h10" /><path d="M7 16h6" /></svg>
+)
+
+export const IconCalendarClock = (props: CherryIconProps) => (
+  <svg {...base(props)}><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M8 3v4" /><path d="M16 3v4" /><path d="M3 10h18" /><circle cx="17" cy="16" r="3" /><path d="M17 14.5V16l1.2 1" /></svg>
+)
+
+export const IconRadio = (props: CherryIconProps) => (
+  <svg {...base(props)}><circle cx="12" cy="12" r="2" /><path d="M4.9 4.9a10 10 0 0 0 0 14.2" /><path d="M19.1 4.9a10 10 0 0 1 0 14.2" /><path d="M8 8a5 5 0 0 0 0 8" /><path d="M16 8a5 5 0 0 1 0 8" /></svg>
+)
+
+export const IconCommand = (props: CherryIconProps) => (
+  <svg {...base(props)}><path d="M9 9V4a2 2 0 1 0-2 2h11a2 2 0 1 0-2-2v14a2 2 0 1 0 2-2H7a2 2 0 1 0 2 2" /><path d="M9 9h11" /><path d="M9 15h11" /></svg>
+)
+
+export const IconCrop = (props: CherryIconProps) => (
+  <svg {...base(props)}><path d="M6 2v14a2 2 0 0 0 2 2h14" /><path d="M18 22V8a2 2 0 0 0-2-2H2" /></svg>
+)
+
+export const IconBell = (props: CherryIconProps) => (
+  <svg {...base(props)}><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.7 21a2 2 0 0 1-3.4 0" /></svg>
+)
+
+export const IconPalette = (props: CherryIconProps) => (
+  <svg {...base(props)}><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z" /></svg>
+)
+
+export const IconTerminal = (props: CherryIconProps) => (
+  <svg {...base(props)}><path d="M4 17l6-6-6-6" /><path d="M12 19h8" /></svg>
+)
+
+export const IconInfo = (props: CherryIconProps) => (
+  <svg {...base(props)}><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+)
+
+export const IconDataDrive = (props: CherryIconProps) => (
+  <svg {...base(props)}><rect x="4" y="4" width="16" height="16" rx="2" /><path d="M4 12h16" /><path d="M12 12v8" /></svg>
+)
+
+/** Gear (settings) glyph. */
+export const IconSettings2 = (props: CherryIconProps) => (
+  <svg {...base(props)}>
+    <circle cx="12" cy="12" r="3" />
+    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+  </svg>
+)

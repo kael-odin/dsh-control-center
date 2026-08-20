@@ -9,6 +9,7 @@ import { IconChevronDownOutline14, IconPauseOutline16, IconPlusOutline16, IconSe
 import css from './PaintingWorkspace.module.css'
 import { IconMoreHorizontal, IconPlus, IconTrash2, IconX, IconZap } from './cherry-icons.tsx'
 import { IconPaperclip, IconSettings2 } from './painting-icons.tsx'
+import { ModelSelector, type ModelOption } from './ModelSelector.tsx'
 
 export interface PaintingAttachment {
   name: string
@@ -29,7 +30,7 @@ export interface PaintingPromptEntry {
 }
 
 export interface PaintingComposerProps {
-  models: ReadonlyArray<{ value: string; label: string }>
+  models: ReadonlyArray<ModelOption>
   selectedModel: string
   onModelChange: (value: string) => void
   prompt: string
@@ -167,19 +168,14 @@ export function PaintingComposer(props: PaintingComposerProps) {
 
       <div className={css.composerToolbar}>
         <div className={css.composerToolbarLeft}>
-          <span className={css.modelPill}>
-            <select
-              aria-label="图像模型"
-              value={selectedModel}
-              onChange={event => { onModelChange(event.target.value) }}
-            >
-              {models.length === 0 && <option value="">选择模型</option>}
-              {models.map(option => (
-                <option key={option.value} value={option.value}>{option.label}</option>
-              ))}
-            </select>
-            <IconChevronDownOutline14 size={12} className={css.chevron} />
-          </span>
+          <ModelSelector
+            models={models}
+            value={selectedModel}
+            onChange={onModelChange}
+            placeholder="选择模型"
+            ariaLabel="图像模型"
+            onConfigure={() => { window.dispatchEvent(new CustomEvent('cc:open-settings-section', { detail: 'models' })) }}
+          />
 
           <div style={{ position: 'relative' }}>
             <button

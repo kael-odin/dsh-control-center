@@ -1,0 +1,223 @@
+/* Cherry Combobox geometry: pill trigger + popover (search, grouped list). */
+.root {
+  position: relative;
+  display: inline-flex;
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  max-width: 240px;
+  min-width: 96px;
+  padding: 0 8px 0 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+}
+
+.trigger:hover {
+  background: var(--muted);
+}
+
+.trigger:focus-visible {
+  border-color: var(--ring);
+}
+
+.triggerLabel {
+  min-width: 0;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+.triggerChevron {
+  flex: none;
+  color: var(--muted-foreground);
+}
+
+.triggerIcon {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+}
+
+.popover {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 120;
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+  max-width: min(340px, calc(100vw - 32px));
+  box-sizing: border-box;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--popover);
+  color: var(--popover-foreground);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+}
+
+.popoverEnd {
+  left: auto;
+  right: 0;
+}
+
+.searchWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 2px 2px 4px;
+  padding: 0 8px;
+  height: 30px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+}
+
+.searchWrap:focus-within {
+  border-color: var(--ring);
+}
+
+.searchIcon {
+  flex: none;
+  color: var(--foreground-tertiary);
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0 0 0 6px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.searchInput::placeholder {
+  color: var(--foreground-tertiary);
+}
+
+.list {
+  max-height: 280px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding-top: 2px;
+}
+
+.groupTitle {
+  padding: 4px 8px 2px;
+  color: var(--foreground-tertiary);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 34px;
+  padding: 5px 8px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--foreground);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.option:hover {
+  background: var(--muted);
+}
+
+.optionActive {
+  background: var(--muted);
+  font-weight: 500;
+}
+
+.optionIcon {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+}
+
+.optionText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.optionLabel {
+  font-size: 13px;
+  line-height: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.optionSub {
+  font-size: 11px;
+  line-height: 14px;
+  color: var(--foreground-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.empty {
+  padding: 14px 8px;
+  text-align: center;
+  color: var(--foreground-tertiary);
+  font-size: 13px;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  padding-top: 4px;
+  margin-top: 4px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.footerButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 32px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.footerButton:hover {
+  background: var(--muted);
+}

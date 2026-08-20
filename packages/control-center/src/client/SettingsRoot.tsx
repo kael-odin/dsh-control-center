@@ -1,17 +1,12 @@
 /** Cherry-style settings shell over DSH's additive settings slots. */
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import clsx from 'clsx'
+import { IconCloseOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
 import {
-  IconAgentPresetOutline16,
-  IconApiOutline14,
-  IconBranchOutline16,
-  IconCloseOutline16,
-  IconCodeOutline16,
-  IconDataOutline16,
-  IconPersonalizationOutline16,
-  IconSearchOutline16,
-  IconSettingsOutline16,
-} from '@deepseek-ai/dsh-client-ui-primitives'
+  IconActivity, IconBell, IconCalendarClock, IconCloud, IconCommand, IconCrop, IconDataDrive,
+  IconFileBox, IconFileCode, IconHardDrive, IconInfo, IconPalette, IconPackage, IconRadio,
+  IconScanText, IconSearch, IconSettings2, IconTerminal, IconToolCase, IconUser,
+} from './cherry-icons.tsx'
 import type { SettingsRootComponentProps, SettingsSectionRow } from './shell-contract.ts'
 import css from './SettingsRoot.module.css'
 import './cherry-tokens.css'
@@ -30,14 +25,35 @@ interface PanelProps {
 const GROUPS: readonly SettingsSectionRow['group'][] = ['core', 'capabilities', 'personal', 'native', 'automation', 'system', 'other']
 
 function navIcon(id: string) {
-  if (id === 'models') return <IconDataOutline16 className={css.navIcon} size={16} />
-  if (id === 'skills') return <IconCodeOutline16 className={css.navIcon} size={16} />
-  if (id === 'providers') return <IconApiOutline14 className={css.navIcon} size={14} />
-  if (id === 'mcp') return <IconBranchOutline16 className={css.navIcon} size={16} />
-  if (id === 'websearch') return <IconSearchOutline16 className={css.navIcon} size={16} />
-  if (id === 'agent-presets') return <IconAgentPresetOutline16 className={css.navIcon} size={16} />
-  if (id === 'plugins') return <IconPersonalizationOutline16 className={css.navIcon} size={16} />
-  return <IconSettingsOutline16 className={css.navIcon} size={16} />
+  const size = 16
+  const cls = css.navIcon
+  switch (id) {
+    case 'models': return <IconPackage size={size} className={cls} />
+    case 'skills': return <IconToolCase size={size} className={cls} />
+    case 'providers': return <IconCloud size={size} className={cls} />
+    case 'mcp': return <IconSettings2 size={size} className={cls} />
+    case 'websearch': return <IconSearch size={size} className={cls} />
+    case 'agent-presets': return <IconUser size={size} className={cls} />
+    case 'plugins': return <IconPackage size={size} className={cls} />
+    case 'general': return <IconSettings2 size={size} className={cls} />
+    case 'usage': return <IconActivity size={size} className={cls} />
+    case 'data': return <IconHardDrive size={size} className={cls} />
+    case 'local-models': return <IconFileBox size={size} className={cls} />
+    case 'file-processing': return <IconFileCode size={size} className={cls} />
+    case 'ocr': return <IconScanText size={size} className={cls} />
+    case 'tasks': return <IconCalendarClock size={size} className={cls} />
+    case 'channels': return <IconRadio size={size} className={cls} />
+    case 'shortcuts': return <IconCommand size={size} className={cls} />
+    case 'quick-assistant': return <IconCrop size={size} className={cls} />
+    case 'selection-assistant': return <IconScanText size={size} className={cls} />
+    case 'screenshot': return <IconCrop size={size} className={cls} />
+    case 'notifications': return <IconBell size={size} className={cls} />
+    case 'appearance': return <IconPalette size={size} className={cls} />
+    case 'dependencies': return <IconTerminal size={size} className={cls} />
+    case 'about': return <IconInfo size={size} className={cls} />
+    case 'update': return <IconDataDrive size={size} className={cls} />
+    default: return <IconSettings2 size={size} className={cls} />
+  }
 }
 
 function SettingsPanel({ rows, renderSlot, activeId, onSelect, onClose, groupLabels }: PanelProps) {
@@ -128,6 +144,17 @@ export function SettingsRoot(props: SettingsRootComponentProps) {
   useEffect(() => {
     if (!onboardingActive) setCompletedOnboarding(new Set())
   }, [onboardingActive])
+
+  // Bridge: workspaces request the settings shell to open a section
+  // (e.g. ModelSelector's "配置自定义模型").
+  useEffect(() => {
+    const onOpenSection = (event: Event): void => {
+      const section = (event as CustomEvent<string>).detail
+      if (typeof section === 'string' && section.length > 0) openSection(section)
+    }
+    window.addEventListener('cc:open-settings-section', onOpenSection)
+    return () => { window.removeEventListener('cc:open-settings-section', onOpenSection) }
+  }, [openSection])
 
   const completeOnboardingStep = useCallback((id: string) => {
     setCompletedOnboarding(previous => previous.has(id) ? previous : new Set([...previous, id]))

@@ -7,6 +7,8 @@ const methods: ReadonlyArray<{ method: string; implementation?: string; paramete
   { method: 'getBase', parameters: ['baseId'] },
   { method: 'deleteBase', parameters: ['baseId'] },
   { method: 'renameBase', parameters: ['baseId', 'name'] },
+  { method: 'getBaseConfig', parameters: ['baseId'] },
+  { method: 'setBaseConfig', parameters: ['baseId', 'config'] },
   { method: 'addText', parameters: ['request'] },
   { method: 'addUrl', parameters: ['request'] },
   { method: 'addFile', parameters: ['request'] },
