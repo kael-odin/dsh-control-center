@@ -23,9 +23,9 @@ import { resolveKey, resolveProvider } from './knowledge/provider-resolve.ts'
 import { markRemoteMethods } from './knowledge/remote-methods.ts'
 import type {
   KnowledgeAddDirectoryRequest, KnowledgeAddFileRequest, KnowledgeAddTextRequest, KnowledgeAddUrlRequest,
-  KnowledgeBaseView, KnowledgeChunkView, KnowledgeCreateBaseRequest, KnowledgeEmbeddingConfig,
-  KnowledgeIndexResult, KnowledgeRetrievalHit, KnowledgeRetrievalResult, KnowledgeRetrieveRequest,
-  KnowledgeBaseConfig, KnowledgeSourceKind, KnowledgeSourceView,
+  KnowledgeBaseConfigUpdate, KnowledgeBaseView, KnowledgeChunkView, KnowledgeCreateBaseRequest,
+  KnowledgeEmbeddingConfig, KnowledgeIndexResult, KnowledgeRetrievalHit, KnowledgeRetrievalResult,
+  KnowledgeRetrieveRequest, KnowledgeBaseConfig, KnowledgeSourceKind, KnowledgeSourceView,
 } from './knowledge-types.ts'
 
 const MAX_TEXT_CHARS = 200_000
@@ -195,10 +195,10 @@ export class KnowledgeService extends Service {
       columns.add(row.name)
     }
     if (!columns.has('chunk_size')) {
-      this.db.exec('ALTER TABLE knowledge_bases ADD COLUMN chunk_size INTEGER NOT NULL DEFAULT 600')
+      this.db.exec('ALTER TABLE knowledge_bases ADD COLUMN chunk_size INTEGER NOT NULL DEFAULT 1024')
     }
     if (!columns.has('chunk_overlap')) {
-      this.db.exec('ALTER TABLE knowledge_bases ADD COLUMN chunk_overlap INTEGER NOT NULL DEFAULT 60')
+      this.db.exec('ALTER TABLE knowledge_bases ADD COLUMN chunk_overlap INTEGER NOT NULL DEFAULT 200')
     }
     if (!columns.has('top_k')) {
       this.db.exec('ALTER TABLE knowledge_bases ADD COLUMN top_k INTEGER NOT NULL DEFAULT 8')
@@ -228,16 +228,27 @@ export class KnowledgeService extends Service {
     return this.baseConfigOf(baseId)
   }
 
-  setBaseConfig(baseId: string, config: KnowledgeBaseConfig): KnowledgeBaseConfig {
+  setBaseConfig(baseId: string, config: KnowledgeBaseConfigUpdate): KnowledgeBaseConfig {
     this.requireBase(baseId)
-    const chunkSize = Math.min(8_000, Math.max(100, Math.trunc(config.chunkSize)))
-    const chunkOverlap = Math.min(4_000, Math.max(0, Math.trunc(config.chunkOverlap)))
-    const topK = Math.min(MAX_TOP_K, Math.max(1, Math.trunc(config.topK)))
-    const strategy = config.strategy === 'delimiter' ? 'delimiter' : 'structured'
-    const separators = typeof config.separators === 'string' ? config.separators.slice(0, 200) : ''
+    const current = this.baseConfigOf(baseId)
+    const chunkSize = config.chunkSize === undefined ? current.chunkSize : Math.min(8_000, Math.max(100, Math.trunc(config.chunkSize)))
+    const chunkOverlap = config.chunkOverlap === undefined ? current.chunkOverlap : Math.min(4_000, Math.max(0, Math.trunc(config.chunkOverlap)))
+    const topK = config.topK === undefined ? current.topK : Math.min(MAX_TOP_K, Math.max(1, Math.trunc(config.topK)))
+    const strategy = config.strategy === undefined ? current.strategy : config.strategy
+    const separators = config.separators === undefined ? current.separators : config.separators.slice(0, 200)
     this.db.prepare(
       'UPDATE knowledge_bases SET chunk_size = ?, chunk_overlap = ?, top_k = ?, chunk_strategy = ?, chunk_separators = ?, updated_at = ? WHERE id = ?',
     ).run(chunkSize, chunkOverlap, topK, strategy, separators, now(), baseId)
+    // Embedding route change invalidates every existing chunk (re-index needed).
+    if (config.embeddingProvider !== undefined) {
+      const provider = config.embeddingProvider === 'local-hash' ? 'local-hash' : config.embeddingProvider
+      const model = config.embeddingProvider === 'local-hash' ? null : (config.embeddingModel ?? null)
+      if (provider !== 'local-hash' && model === null) {
+        throw new Error('a non-local embedding provider requires an embedding model')
+      }
+      this.db.prepare('UPDATE knowledge_bases SET embedding_provider = ?, embedding_model = ? WHERE id = ?').run(provider, model, baseId)
+      this.db.prepare('DELETE FROM knowledge_chunks WHERE base_id = ?').run(baseId)
+    }
     return { chunkSize, chunkOverlap, topK, strategy, separators }
   }
 

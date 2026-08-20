@@ -1,6 +1,6 @@
 import { Service } from '@deepseek-ai/cordis';
 import type { Context } from '@deepseek-ai/cordis';
-import type { KnowledgeAddDirectoryRequest, KnowledgeAddFileRequest, KnowledgeAddTextRequest, KnowledgeAddUrlRequest, KnowledgeBaseView, KnowledgeChunkView, KnowledgeCreateBaseRequest, KnowledgeIndexResult, KnowledgeRetrievalResult, KnowledgeRetrieveRequest, KnowledgeBaseConfig, KnowledgeSourceView } from './knowledge-types.ts';
+import type { KnowledgeAddDirectoryRequest, KnowledgeAddFileRequest, KnowledgeAddTextRequest, KnowledgeAddUrlRequest, KnowledgeBaseConfigUpdate, KnowledgeBaseView, KnowledgeChunkView, KnowledgeCreateBaseRequest, KnowledgeIndexResult, KnowledgeRetrievalResult, KnowledgeRetrieveRequest, KnowledgeBaseConfig, KnowledgeSourceView } from './knowledge-types.ts';
 export interface KnowledgeServiceOptions {
     /** Override the DSH home (tests). */
     dshHome?: string;
@@ -21,7 +21,7 @@ export declare class KnowledgeService extends Service {
     private migrateColumns;
     private baseConfigOf;
     getBaseConfig(baseId: string): KnowledgeBaseConfig;
-    setBaseConfig(baseId: string, config: KnowledgeBaseConfig): KnowledgeBaseConfig;
+    setBaseConfig(baseId: string, config: KnowledgeBaseConfigUpdate): KnowledgeBaseConfig;
     private baseFromRow;
     private sourceFromRow;
     private baseRow;

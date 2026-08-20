@@ -23296,8 +23296,8 @@ var KnowledgeService = class extends Service {
 	migrateColumns() {
 		const columns = /* @__PURE__ */ new Set();
 		for (const row of this.db.prepare("PRAGMA table_info(knowledge_bases)").all()) columns.add(row.name);
-		if (!columns.has("chunk_size")) this.db.exec("ALTER TABLE knowledge_bases ADD COLUMN chunk_size INTEGER NOT NULL DEFAULT 600");
-		if (!columns.has("chunk_overlap")) this.db.exec("ALTER TABLE knowledge_bases ADD COLUMN chunk_overlap INTEGER NOT NULL DEFAULT 60");
+		if (!columns.has("chunk_size")) this.db.exec("ALTER TABLE knowledge_bases ADD COLUMN chunk_size INTEGER NOT NULL DEFAULT 1024");
+		if (!columns.has("chunk_overlap")) this.db.exec("ALTER TABLE knowledge_bases ADD COLUMN chunk_overlap INTEGER NOT NULL DEFAULT 200");
 		if (!columns.has("top_k")) this.db.exec("ALTER TABLE knowledge_bases ADD COLUMN top_k INTEGER NOT NULL DEFAULT 8");
 		if (!columns.has("chunk_strategy")) this.db.exec("ALTER TABLE knowledge_bases ADD COLUMN chunk_strategy TEXT NOT NULL DEFAULT 'structured'");
 		if (!columns.has("chunk_separators")) this.db.exec("ALTER TABLE knowledge_bases ADD COLUMN chunk_separators TEXT NOT NULL DEFAULT ''");
@@ -23318,12 +23318,20 @@ var KnowledgeService = class extends Service {
 	}
 	setBaseConfig(baseId, config) {
 		this.requireBase(baseId);
-		const chunkSize = Math.min(8e3, Math.max(100, Math.trunc(config.chunkSize)));
-		const chunkOverlap = Math.min(4e3, Math.max(0, Math.trunc(config.chunkOverlap)));
-		const topK = Math.min(MAX_TOP_K, Math.max(1, Math.trunc(config.topK)));
-		const strategy = config.strategy === "delimiter" ? "delimiter" : "structured";
-		const separators = typeof config.separators === "string" ? config.separators.slice(0, 200) : "";
+		const current = this.baseConfigOf(baseId);
+		const chunkSize = config.chunkSize === void 0 ? current.chunkSize : Math.min(8e3, Math.max(100, Math.trunc(config.chunkSize)));
+		const chunkOverlap = config.chunkOverlap === void 0 ? current.chunkOverlap : Math.min(4e3, Math.max(0, Math.trunc(config.chunkOverlap)));
+		const topK = config.topK === void 0 ? current.topK : Math.min(MAX_TOP_K, Math.max(1, Math.trunc(config.topK)));
+		const strategy = config.strategy === void 0 ? current.strategy : config.strategy;
+		const separators = config.separators === void 0 ? current.separators : config.separators.slice(0, 200);
 		this.db.prepare("UPDATE knowledge_bases SET chunk_size = ?, chunk_overlap = ?, top_k = ?, chunk_strategy = ?, chunk_separators = ?, updated_at = ? WHERE id = ?").run(chunkSize, chunkOverlap, topK, strategy, separators, now(), baseId);
+		if (config.embeddingProvider !== void 0) {
+			const provider = config.embeddingProvider === "local-hash" ? "local-hash" : config.embeddingProvider;
+			const model = config.embeddingProvider === "local-hash" ? null : config.embeddingModel ?? null;
+			if (provider !== "local-hash" && model === null) throw new Error("a non-local embedding provider requires an embedding model");
+			this.db.prepare("UPDATE knowledge_bases SET embedding_provider = ?, embedding_model = ? WHERE id = ?").run(provider, model, baseId);
+			this.db.prepare("DELETE FROM knowledge_chunks WHERE base_id = ?").run(baseId);
+		}
 		return {
 			chunkSize,
 			chunkOverlap,
@@ -24386,7 +24394,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-F2hyPE9n.js");
+				const { SSEClientTransport } = await import("./sse-z-sL-YTM.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -24408,7 +24416,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-pgNaIh79.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-CV4ZmIL5.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {

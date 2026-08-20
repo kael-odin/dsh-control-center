@@ -3,7 +3,6 @@ export type KnowledgeBaseId = string;
 export type KnowledgeSourceId = string;
 export type KnowledgeChunkId = string;
 export type KnowledgeSourceKind = 'text' | 'file' | 'directory' | 'url';
-/** Embedding mode actually used for a base: a configured provider route or the local hashing fallback. */
 /** Per-base RAG tuning (chunking + retrieval defaults). */
 export interface KnowledgeBaseConfig {
     /** Chunk size in tokens. */
@@ -18,6 +17,17 @@ export interface KnowledgeBaseConfig {
   
   . */
     separators: string;
+}
+/** RAG tuning update; embedding change clears existing chunks (re-index needed). */
+export interface KnowledgeBaseConfigUpdate {
+    chunkSize?: number;
+    chunkOverlap?: number;
+    topK?: number;
+    strategy?: 'structured' | 'delimiter';
+    separators?: string;
+    /** New embedding route ('local-hash' or providerId); requires re-index. */
+    embeddingProvider?: string;
+    embeddingModel?: string;
 }
 export interface KnowledgeEmbeddingConfig {
     /** `local-hash` or a provider id configured in DSH settings. */
@@ -237,7 +247,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            setBaseConfig(baseId: KnowledgeBaseId, config: KnowledgeBaseConfig): Promise<{
+            setBaseConfig(baseId: KnowledgeBaseId, config: KnowledgeBaseConfigUpdate): Promise<{
                 ok: true;
                 value: KnowledgeBaseConfig;
             } | {

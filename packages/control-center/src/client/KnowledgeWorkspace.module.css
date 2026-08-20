@@ -1012,3 +1012,59 @@
   justify-content: space-between;
   gap: 12px;
 }
+
+/* Settings drawer controls (Cherry RagConfigPanel style) */
+.ragSelectWrap {
+  display: flex;
+}
+
+.ragSelect {
+  appearance: none;
+  flex: 1;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  outline: none;
+}
+
+.ragSelect:focus {
+  border-color: var(--ring);
+}
+
+.advancedToggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.advancedToggle svg {
+  transition: transform 0.15s ease;
+}
+
+.advancedChevronOpen {
+  transform: rotate(90deg);
+}
+
+.advancedBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--muted) 20%, transparent);
+}

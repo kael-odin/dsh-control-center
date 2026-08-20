@@ -6,7 +6,6 @@ export type KnowledgeChunkId = string
 
 export type KnowledgeSourceKind = 'text' | 'file' | 'directory' | 'url'
 
-/** Embedding mode actually used for a base: a configured provider route or the local hashing fallback. */
 /** Per-base RAG tuning (chunking + retrieval defaults). */
 export interface KnowledgeBaseConfig {
   /** Chunk size in tokens. */
@@ -21,6 +20,18 @@ export interface KnowledgeBaseConfig {
 
 . */
   separators: string
+}
+
+/** RAG tuning update; embedding change clears existing chunks (re-index needed). */
+export interface KnowledgeBaseConfigUpdate {
+  chunkSize?: number
+  chunkOverlap?: number
+  topK?: number
+  strategy?: 'structured' | 'delimiter'
+  separators?: string
+  /** New embedding route ('local-hash' or providerId); requires re-index. */
+  embeddingProvider?: string
+  embeddingModel?: string
 }
 
 export interface KnowledgeEmbeddingConfig {
@@ -151,7 +162,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
       addDirectory(request: KnowledgeAddDirectoryRequest): Promise<{ ok: true; value: KnowledgeSourceView } | { ok: false; error: { code: string; message: string; details: object } }>
       renameBase(baseId: KnowledgeBaseId, name: string): Promise<{ ok: true; value: KnowledgeBaseView } | { ok: false; error: { code: string; message: string; details: object } }>
       getBaseConfig(baseId: KnowledgeBaseId): Promise<{ ok: true; value: KnowledgeBaseConfig } | { ok: false; error: { code: string; message: string; details: object } }>
-      setBaseConfig(baseId: KnowledgeBaseId, config: KnowledgeBaseConfig): Promise<{ ok: true; value: KnowledgeBaseConfig } | { ok: false; error: { code: string; message: string; details: object } }>
+      setBaseConfig(baseId: KnowledgeBaseId, config: KnowledgeBaseConfigUpdate): Promise<{ ok: true; value: KnowledgeBaseConfig } | { ok: false; error: { code: string; message: string; details: object } }>
       listSources(baseId: KnowledgeBaseId): Promise<{ ok: true; value: { sources: KnowledgeSourceView[] } } | { ok: false; error: { code: string; message: string; details: object } }>
       deleteSource(baseId: KnowledgeBaseId, sourceId: KnowledgeSourceId): Promise<{ ok: true; value: { absent: true } } | { ok: false; error: { code: string; message: string; details: object } }>
       indexBase(baseId: KnowledgeBaseId): Promise<{ ok: true; value: KnowledgeIndexResult } | { ok: false; error: { code: string; message: string; details: object } }>

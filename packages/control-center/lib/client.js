@@ -162,112 +162,112 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var PaintingWorkspace_module_css_default = {
-			"addPromptOverlay": "_-UrTq_addPromptOverlay",
-			"artboardStage": "_-UrTq_artboardStage",
-			"imageBox": "_-UrTq_imageBox",
-			"toolbarRail": "_-UrTq_toolbarRail",
-			"chevron": "_-UrTq_chevron",
-			"attachmentTray": "_-UrTq_attachmentTray",
-			"carouselCard": "_-UrTq_carouselCard",
-			"countSlider": "_-UrTq_countSlider",
-			"promptLibEmpty": "_-UrTq_promptLibEmpty",
-			"showcaseTitle": "_-UrTq_showcaseTitle",
-			"composerTextarea": "_-UrTq_composerTextarea",
-			"quickItemLabel": "_-UrTq_quickItemLabel",
-			"active": "_-UrTq_active",
-			"stripProgress": "_-UrTq_stripProgress",
-			"addPromptField": "_-UrTq_addPromptField",
-			"manageRowActions": "_-UrTq_manageRowActions",
-			"cc-cell-blink": "_-UrTq_cc-cell-blink",
-			"showcaseCarousel": "_-UrTq_showcaseCarousel",
-			"artboard": "_-UrTq_artboard",
-			"promptLibItem": "_-UrTq_promptLibItem",
-			"promptLibTitle": "_-UrTq_promptLibTitle",
-			"addPromptInput": "_-UrTq_addPromptInput",
-			"manageRowMain": "_-UrTq_manageRowMain",
-			"addPromptTextarea": "_-UrTq_addPromptTextarea",
-			"promptLib": "_-UrTq_promptLib",
-			"sizeChip": "_-UrTq_sizeChip",
-			"btnPrimary": "_-UrTq_btnPrimary",
-			"promptDock": "_-UrTq_promptDock",
-			"promptLibFooter": "_-UrTq_promptLibFooter",
-			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
-			"countInput": "_-UrTq_countInput",
-			"stripDelete": "_-UrTq_stripDelete",
-			"counterPill": "_-UrTq_counterPill",
-			"manageRowBtn": "_-UrTq_manageRowBtn",
-			"manageRowBtnDanger": "_-UrTq_manageRowBtnDanger",
-			"thumbEmpty": "_-UrTq_thumbEmpty",
-			"pauseButton": "_-UrTq_pauseButton",
-			"stripItem": "_-UrTq_stripItem",
-			"hidden": "_-UrTq_hidden",
-			"promptLibItemMain": "_-UrTq_promptLibItemMain",
-			"artboardEmpty": "_-UrTq_artboardEmpty",
-			"addPromptCard": "_-UrTq_addPromptCard",
-			"manageRow": "_-UrTq_manageRow",
-			"promptLibContent": "_-UrTq_promptLibContent",
-			"attachmentDelete": "_-UrTq_attachmentDelete",
-			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
-			"quickItemIcon": "_-UrTq_quickItemIcon",
-			"toolbarDivider": "_-UrTq_toolbarDivider",
-			"portalPanel": "_-UrTq_portalPanel",
-			"manageList": "_-UrTq_manageList",
-			"ratioThumb": "_-UrTq_ratioThumb",
-			"composer": "_-UrTq_composer",
-			"composerTextRow": "_-UrTq_composerTextRow",
-			"showcaseInner": "_-UrTq_showcaseInner",
-			"paramsField": "_-UrTq_paramsField",
-			"promptBar": "_-UrTq_promptBar",
-			"promptLibDelete": "_-UrTq_promptLibDelete",
-			"btn": "_-UrTq_btn",
-			"cc-strip-loading": "_-UrTq_cc-strip-loading",
-			"centerPane": "_-UrTq_centerPane",
-			"backButton": "_-UrTq_backButton",
-			"stripHeader": "_-UrTq_stripHeader",
-			"attachmentTile": "_-UrTq_attachmentTile",
-			"stripEnd": "_-UrTq_stripEnd",
-			"countRow": "_-UrTq_countRow",
-			"sizeGrid": "_-UrTq_sizeGrid",
-			"skeletonGrid": "_-UrTq_skeletonGrid",
-			"quickPanel": "_-UrTq_quickPanel",
-			"thumb": "_-UrTq_thumb",
-			"sendButton": "_-UrTq_sendButton",
-			"muted": "_-UrTq_muted",
-			"skeletonCell": "_-UrTq_skeletonCell",
-			"promptDockInner": "_-UrTq_promptDockInner",
-			"paramsSelect": "_-UrTq_paramsSelect",
-			"dragging": "_-UrTq_dragging",
-			"errorBanner": "_-UrTq_errorBanner",
-			"toolbarButton": "_-UrTq_toolbarButton",
-			"modelPill": "_-UrTq_modelPill",
-			"progressText": "_-UrTq_progressText",
-			"manageRowTitle": "_-UrTq_manageRowTitle",
-			"frame": "_-UrTq_frame",
-			"centerStage": "_-UrTq_centerStage",
-			"strip": "_-UrTq_strip",
-			"carouselCardImage": "_-UrTq_carouselCardImage",
-			"roundButton": "_-UrTq_roundButton",
-			"promptBarText": "_-UrTq_promptBarText",
-			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
-			"quickItem": "_-UrTq_quickItem",
-			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
-			"manageCard": "_-UrTq_manageCard",
-			"root": "_-UrTq_root",
-			"manageRowContent": "_-UrTq_manageRowContent",
-			"carouselLabel": "_-UrTq_carouselLabel",
-			"surface": "_-UrTq_surface",
-			"showcaseCaption": "_-UrTq_showcaseCaption",
-			"selected": "_-UrTq_selected",
-			"sizeLabel": "_-UrTq_sizeLabel",
-			"pillButton": "_-UrTq_pillButton",
-			"composerToolbar": "_-UrTq_composerToolbar",
-			"pillSummary": "_-UrTq_pillSummary",
-			"newButton": "_-UrTq_newButton",
-			"paramsPopover": "_-UrTq_paramsPopover",
-			"promptLibList": "_-UrTq_promptLibList",
-			"dialogActions": "_-UrTq_dialogActions",
 			"showcase": "_-UrTq_showcase",
-			"addImageButton": "_-UrTq_addImageButton"
+			"modelPill": "_-UrTq_modelPill",
+			"root": "_-UrTq_root",
+			"stripProgress": "_-UrTq_stripProgress",
+			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
+			"dialogActions": "_-UrTq_dialogActions",
+			"manageList": "_-UrTq_manageList",
+			"manageRowActions": "_-UrTq_manageRowActions",
+			"pillButton": "_-UrTq_pillButton",
+			"skeletonCell": "_-UrTq_skeletonCell",
+			"progressText": "_-UrTq_progressText",
+			"addPromptField": "_-UrTq_addPromptField",
+			"cc-strip-loading": "_-UrTq_cc-strip-loading",
+			"paramsSelect": "_-UrTq_paramsSelect",
+			"promptLibContent": "_-UrTq_promptLibContent",
+			"carouselCard": "_-UrTq_carouselCard",
+			"stripHeader": "_-UrTq_stripHeader",
+			"selected": "_-UrTq_selected",
+			"quickItemLabel": "_-UrTq_quickItemLabel",
+			"promptLib": "_-UrTq_promptLib",
+			"paramsPopover": "_-UrTq_paramsPopover",
+			"showcaseCaption": "_-UrTq_showcaseCaption",
+			"attachmentTray": "_-UrTq_attachmentTray",
+			"paramsField": "_-UrTq_paramsField",
+			"composerTextarea": "_-UrTq_composerTextarea",
+			"skeletonGrid": "_-UrTq_skeletonGrid",
+			"btnPrimary": "_-UrTq_btnPrimary",
+			"manageRowMain": "_-UrTq_manageRowMain",
+			"active": "_-UrTq_active",
+			"stripDelete": "_-UrTq_stripDelete",
+			"backButton": "_-UrTq_backButton",
+			"showcaseInner": "_-UrTq_showcaseInner",
+			"stripEnd": "_-UrTq_stripEnd",
+			"composer": "_-UrTq_composer",
+			"countInput": "_-UrTq_countInput",
+			"toolbarDivider": "_-UrTq_toolbarDivider",
+			"addPromptInput": "_-UrTq_addPromptInput",
+			"promptBar": "_-UrTq_promptBar",
+			"sendButton": "_-UrTq_sendButton",
+			"toolbarButton": "_-UrTq_toolbarButton",
+			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
+			"quickItem": "_-UrTq_quickItem",
+			"sizeLabel": "_-UrTq_sizeLabel",
+			"promptLibItem": "_-UrTq_promptLibItem",
+			"thumbEmpty": "_-UrTq_thumbEmpty",
+			"newButton": "_-UrTq_newButton",
+			"showcaseTitle": "_-UrTq_showcaseTitle",
+			"manageRow": "_-UrTq_manageRow",
+			"centerStage": "_-UrTq_centerStage",
+			"attachmentDelete": "_-UrTq_attachmentDelete",
+			"muted": "_-UrTq_muted",
+			"promptDockInner": "_-UrTq_promptDockInner",
+			"errorBanner": "_-UrTq_errorBanner",
+			"composerToolbar": "_-UrTq_composerToolbar",
+			"sizeChip": "_-UrTq_sizeChip",
+			"promptDock": "_-UrTq_promptDock",
+			"addImageButton": "_-UrTq_addImageButton",
+			"frame": "_-UrTq_frame",
+			"toolbarRail": "_-UrTq_toolbarRail",
+			"quickItemIcon": "_-UrTq_quickItemIcon",
+			"surface": "_-UrTq_surface",
+			"strip": "_-UrTq_strip",
+			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
+			"artboard": "_-UrTq_artboard",
+			"showcaseCarousel": "_-UrTq_showcaseCarousel",
+			"carouselCardImage": "_-UrTq_carouselCardImage",
+			"countRow": "_-UrTq_countRow",
+			"ratioThumb": "_-UrTq_ratioThumb",
+			"dragging": "_-UrTq_dragging",
+			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
+			"counterPill": "_-UrTq_counterPill",
+			"promptLibItemMain": "_-UrTq_promptLibItemMain",
+			"promptLibEmpty": "_-UrTq_promptLibEmpty",
+			"countSlider": "_-UrTq_countSlider",
+			"carouselLabel": "_-UrTq_carouselLabel",
+			"chevron": "_-UrTq_chevron",
+			"thumb": "_-UrTq_thumb",
+			"sizeGrid": "_-UrTq_sizeGrid",
+			"hidden": "_-UrTq_hidden",
+			"composerTextRow": "_-UrTq_composerTextRow",
+			"artboardEmpty": "_-UrTq_artboardEmpty",
+			"stripItem": "_-UrTq_stripItem",
+			"promptLibList": "_-UrTq_promptLibList",
+			"addPromptOverlay": "_-UrTq_addPromptOverlay",
+			"addPromptCard": "_-UrTq_addPromptCard",
+			"manageRowContent": "_-UrTq_manageRowContent",
+			"roundButton": "_-UrTq_roundButton",
+			"quickPanel": "_-UrTq_quickPanel",
+			"manageRowBtnDanger": "_-UrTq_manageRowBtnDanger",
+			"imageBox": "_-UrTq_imageBox",
+			"pillSummary": "_-UrTq_pillSummary",
+			"cc-cell-blink": "_-UrTq_cc-cell-blink",
+			"centerPane": "_-UrTq_centerPane",
+			"promptLibTitle": "_-UrTq_promptLibTitle",
+			"pauseButton": "_-UrTq_pauseButton",
+			"promptLibFooter": "_-UrTq_promptLibFooter",
+			"portalPanel": "_-UrTq_portalPanel",
+			"manageCard": "_-UrTq_manageCard",
+			"manageRowBtn": "_-UrTq_manageRowBtn",
+			"artboardStage": "_-UrTq_artboardStage",
+			"btn": "_-UrTq_btn",
+			"promptBarText": "_-UrTq_promptBarText",
+			"promptLibDelete": "_-UrTq_promptLibDelete",
+			"addPromptTextarea": "_-UrTq_addPromptTextarea",
+			"manageRowTitle": "_-UrTq_manageRowTitle",
+			"attachmentTile": "_-UrTq_attachmentTile"
 		};
 		//#endregion
 		//#region lib/types/client/painting-icons.js
@@ -968,26 +968,26 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var Combobox_module_css_default = {
-			"footerButton": "PJZ1pG_footerButton",
-			"optionActive": "PJZ1pG_optionActive",
-			"optionText": "PJZ1pG_optionText",
-			"searchIcon": "PJZ1pG_searchIcon",
-			"trigger": "PJZ1pG_trigger",
-			"optionSub": "PJZ1pG_optionSub",
-			"searchInput": "PJZ1pG_searchInput",
-			"list": "PJZ1pG_list",
-			"empty": "PJZ1pG_empty",
 			"searchWrap": "PJZ1pG_searchWrap",
+			"searchIcon": "PJZ1pG_searchIcon",
 			"optionIcon": "PJZ1pG_optionIcon",
+			"optionText": "PJZ1pG_optionText",
 			"triggerChevron": "PJZ1pG_triggerChevron",
 			"footer": "PJZ1pG_footer",
-			"triggerLabel": "PJZ1pG_triggerLabel",
-			"groupTitle": "PJZ1pG_groupTitle",
 			"root": "PJZ1pG_root",
 			"optionLabel": "PJZ1pG_optionLabel",
-			"group": "PJZ1pG_group",
+			"optionSub": "PJZ1pG_optionSub",
+			"footerButton": "PJZ1pG_footerButton",
+			"groupTitle": "PJZ1pG_groupTitle",
+			"triggerLabel": "PJZ1pG_triggerLabel",
+			"searchInput": "PJZ1pG_searchInput",
 			"option": "PJZ1pG_option",
+			"optionActive": "PJZ1pG_optionActive",
 			"triggerIcon": "PJZ1pG_triggerIcon",
+			"empty": "PJZ1pG_empty",
+			"list": "PJZ1pG_list",
+			"group": "PJZ1pG_group",
+			"trigger": "PJZ1pG_trigger",
 			"popoverPortal": "PJZ1pG_popoverPortal"
 		};
 		//#endregion
@@ -2107,16 +2107,17 @@ window.__ModuleLoader__.load({
 			}
 			return list;
 		}
-		/** Cherry carousel positions for offsets -2..+2 (translate/rotate/scale). */
+		/** Cherry carousel positions for offsets -2..+2: wide spacing so each card
+		*  stays mostly visible with a gentle fan overlap. */
 		function positionStyle(offset) {
-			const x = offset * 18;
+			const x = offset * 52;
 			const abs = Math.abs(offset);
 			const rotate = offset * 3.5;
-			const scale = 1.12 - abs * .1;
+			const scale = 1.08 - abs * .1;
 			return {
-				transform: `translate(calc(-50% + ${x}px), calc(-50% + ${abs * 6}px)) rotate(${rotate}deg) scale(${scale})`,
+				transform: `translate(calc(-50% + ${x}px), calc(-50% + ${abs * 5}px)) rotate(${rotate}deg) scale(${scale})`,
 				zIndex: 40 - abs * 10,
-				opacity: Math.max(0, 1 - abs * .15)
+				opacity: abs === 0 ? 1 : Math.max(.55, 1 - abs * .16)
 			};
 		}
 		function PaintingShowcase({ onSelect }) {
@@ -2198,115 +2199,115 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TranslationWorkspace_module_css_default = {
-			"langSelectWrap": "_8lesPa_langSelectWrap",
-			"starBtn": "_8lesPa_starBtn",
-			"rightCluster": "_8lesPa_rightCluster",
-			"detailBlock": "_8lesPa_detailBlock",
-			"translateBtn": "_8lesPa_translateBtn",
-			"detailBlockTarget": "_8lesPa_detailBlockTarget",
-			"reuse": "_8lesPa_reuse",
-			"settingHint": "_8lesPa_settingHint",
-			"panes": "_8lesPa_panes",
-			"clearBtn": "_8lesPa_clearBtn",
-			"detailText": "_8lesPa_detailText",
-			"langFormRow": "_8lesPa_langFormRow",
-			"pairRow": "_8lesPa_pairRow",
-			"countBadge": "_8lesPa_countBadge",
-			"confirmOverlay": "_8lesPa_confirmOverlay",
-			"langChevron": "_8lesPa_langChevron",
-			"panelBodyScroll": "_8lesPa_panelBodyScroll",
-			"chipTarget": "_8lesPa_chipTarget",
-			"langAdd": "_8lesPa_langAdd",
-			"confirmCard": "_8lesPa_confirmCard",
-			"cc-spin": "_8lesPa_cc-spin",
-			"md": "_8lesPa_md",
-			"cc-fade": "_8lesPa_cc-fade",
-			"pairChip": "_8lesPa_pairChip",
-			"panelTitle": "_8lesPa_panelTitle",
-			"sidePanel": "_8lesPa_sidePanel",
-			"panelBody": "_8lesPa_panelBody",
-			"langCode": "_8lesPa_langCode",
-			"uploadIcons": "_8lesPa_uploadIcons",
-			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
-			"langRowActions": "_8lesPa_langRowActions",
-			"root": "_8lesPa_root",
-			"modelSelectWrap": "_8lesPa_modelSelectWrap",
-			"rowSource": "_8lesPa_rowSource",
-			"rowTime": "_8lesPa_rowTime",
-			"langFormLabel": "_8lesPa_langFormLabel",
-			"paneFooter": "_8lesPa_paneFooter",
-			"langRow": "_8lesPa_langRow",
-			"destructive": "_8lesPa_destructive",
-			"textareaScroll": "_8lesPa_textareaScroll",
-			"paneCorner": "_8lesPa_paneCorner",
-			"starFill": "_8lesPa_starFill",
-			"outputArea": "_8lesPa_outputArea",
-			"rowTarget": "_8lesPa_rowTarget",
-			"langForm": "_8lesPa_langForm",
-			"spacer": "_8lesPa_spacer",
-			"topBar": "_8lesPa_topBar",
-			"switch": "_8lesPa_switch",
-			"uploadIcon": "_8lesPa_uploadIcon",
-			"modelSelect": "_8lesPa_modelSelect",
-			"spinner": "_8lesPa_spinner",
-			"historyRow": "_8lesPa_historyRow",
-			"langFormError": "_8lesPa_langFormError",
-			"langFormActions": "_8lesPa_langFormActions",
-			"btn": "_8lesPa_btn",
-			"historyEmpty": "_8lesPa_historyEmpty",
-			"confirmText": "_8lesPa_confirmText",
-			"stopBtn": "_8lesPa_stopBtn",
-			"backButton": "_8lesPa_backButton",
-			"success": "_8lesPa_success",
-			"visible": "_8lesPa_visible",
-			"outputPane": "_8lesPa_outputPane",
-			"cc-slide-in": "_8lesPa_cc-slide-in",
-			"detailBlockLabel": "_8lesPa_detailBlockLabel",
-			"detailAction": "_8lesPa_detailAction",
-			"copy": "_8lesPa_copy",
-			"switchRow": "_8lesPa_switchRow",
-			"loadMore": "_8lesPa_loadMore",
-			"segItem": "_8lesPa_segItem",
-			"smallIconBtn": "_8lesPa_smallIconBtn",
-			"translating": "_8lesPa_translating",
-			"chip": "_8lesPa_chip",
-			"langSelect": "_8lesPa_langSelect",
-			"pane": "_8lesPa_pane",
 			"inputArea": "_8lesPa_inputArea",
-			"resetLink": "_8lesPa_resetLink",
-			"langName": "_8lesPa_langName",
-			"detailBack": "_8lesPa_detailBack",
-			"btnPrimary": "_8lesPa_btnPrimary",
+			"switchRow": "_8lesPa_switchRow",
+			"langInput": "_8lesPa_langInput",
+			"translating": "_8lesPa_translating",
 			"confirmTitle": "_8lesPa_confirmTitle",
-			"errorBanner": "_8lesPa_errorBanner",
-			"helpIcon": "_8lesPa_helpIcon",
-			"settingRow": "_8lesPa_settingRow",
-			"on": "_8lesPa_on",
-			"historyList": "_8lesPa_historyList",
-			"detailBlockHeader": "_8lesPa_detailBlockHeader",
-			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
-			"chipArrow": "_8lesPa_chipArrow",
+			"swapBtn": "_8lesPa_swapBtn",
+			"success": "_8lesPa_success",
+			"panes": "_8lesPa_panes",
+			"historyRowMeta": "_8lesPa_historyRowMeta",
+			"reuse": "_8lesPa_reuse",
 			"detailActions": "_8lesPa_detailActions",
-			"segmented": "_8lesPa_segmented",
+			"sidePanel": "_8lesPa_sidePanel",
+			"langFormRow": "_8lesPa_langFormRow",
+			"detailAction": "_8lesPa_detailAction",
+			"rightCluster": "_8lesPa_rightCluster",
+			"spinner": "_8lesPa_spinner",
+			"on": "_8lesPa_on",
+			"btnPrimary": "_8lesPa_btnPrimary",
+			"destructive": "_8lesPa_destructive",
 			"count": "_8lesPa_count",
 			"backdrop": "_8lesPa_backdrop",
-			"switchTrack": "_8lesPa_switchTrack",
-			"detailMeta": "_8lesPa_detailMeta",
-			"settingsTextarea": "_8lesPa_settingsTextarea",
-			"confirmActions": "_8lesPa_confirmActions",
-			"settingLabel": "_8lesPa_settingLabel",
-			"helpWrap": "_8lesPa_helpWrap",
-			"sectionTitle": "_8lesPa_sectionTitle",
-			"iconBtn": "_8lesPa_iconBtn",
-			"swapBtn": "_8lesPa_swapBtn",
-			"panelHeader": "_8lesPa_panelHeader",
-			"uploadZone": "_8lesPa_uploadZone",
+			"copy": "_8lesPa_copy",
+			"paneFooter": "_8lesPa_paneFooter",
+			"chip": "_8lesPa_chip",
+			"langFormActions": "_8lesPa_langFormActions",
+			"stopBtn": "_8lesPa_stopBtn",
 			"active": "_8lesPa_active",
-			"langInput": "_8lesPa_langInput",
-			"settingsSection": "_8lesPa_settingsSection",
-			"historyRowMeta": "_8lesPa_historyRowMeta",
+			"chipArrow": "_8lesPa_chipArrow",
+			"panelHeader": "_8lesPa_panelHeader",
+			"langAdd": "_8lesPa_langAdd",
+			"spacer": "_8lesPa_spacer",
+			"settingsTextarea": "_8lesPa_settingsTextarea",
 			"helpBubble": "_8lesPa_helpBubble",
-			"settingsEmpty": "_8lesPa_settingsEmpty"
+			"panelBodyScroll": "_8lesPa_panelBodyScroll",
+			"iconBtn": "_8lesPa_iconBtn",
+			"pairChip": "_8lesPa_pairChip",
+			"translateBtn": "_8lesPa_translateBtn",
+			"settingsSection": "_8lesPa_settingsSection",
+			"langFormError": "_8lesPa_langFormError",
+			"confirmCard": "_8lesPa_confirmCard",
+			"topBar": "_8lesPa_topBar",
+			"settingHint": "_8lesPa_settingHint",
+			"settingsEmpty": "_8lesPa_settingsEmpty",
+			"backButton": "_8lesPa_backButton",
+			"uploadIcon": "_8lesPa_uploadIcon",
+			"detailBlockHeader": "_8lesPa_detailBlockHeader",
+			"modelSelect": "_8lesPa_modelSelect",
+			"detailText": "_8lesPa_detailText",
+			"langChevron": "_8lesPa_langChevron",
+			"detailBlockTarget": "_8lesPa_detailBlockTarget",
+			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
+			"smallIconBtn": "_8lesPa_smallIconBtn",
+			"sectionTitle": "_8lesPa_sectionTitle",
+			"langRow": "_8lesPa_langRow",
+			"langCode": "_8lesPa_langCode",
+			"btn": "_8lesPa_btn",
+			"settingLabel": "_8lesPa_settingLabel",
+			"confirmActions": "_8lesPa_confirmActions",
+			"errorBanner": "_8lesPa_errorBanner",
+			"outputArea": "_8lesPa_outputArea",
+			"helpIcon": "_8lesPa_helpIcon",
+			"langSelectWrap": "_8lesPa_langSelectWrap",
+			"panelTitle": "_8lesPa_panelTitle",
+			"historyList": "_8lesPa_historyList",
+			"settingRow": "_8lesPa_settingRow",
+			"confirmOverlay": "_8lesPa_confirmOverlay",
+			"clearBtn": "_8lesPa_clearBtn",
+			"detailMeta": "_8lesPa_detailMeta",
+			"paneCorner": "_8lesPa_paneCorner",
+			"outputPane": "_8lesPa_outputPane",
+			"cc-slide-in": "_8lesPa_cc-slide-in",
+			"rowSource": "_8lesPa_rowSource",
+			"panelBody": "_8lesPa_panelBody",
+			"visible": "_8lesPa_visible",
+			"detailBlockLabel": "_8lesPa_detailBlockLabel",
+			"pairRow": "_8lesPa_pairRow",
+			"uploadIcons": "_8lesPa_uploadIcons",
+			"root": "_8lesPa_root",
+			"pane": "_8lesPa_pane",
+			"modelSelectWrap": "_8lesPa_modelSelectWrap",
+			"langSelect": "_8lesPa_langSelect",
+			"chipTarget": "_8lesPa_chipTarget",
+			"switchTrack": "_8lesPa_switchTrack",
+			"langRowActions": "_8lesPa_langRowActions",
+			"confirmText": "_8lesPa_confirmText",
+			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
+			"historyEmpty": "_8lesPa_historyEmpty",
+			"rowTime": "_8lesPa_rowTime",
+			"detailBlock": "_8lesPa_detailBlock",
+			"switch": "_8lesPa_switch",
+			"resetLink": "_8lesPa_resetLink",
+			"langForm": "_8lesPa_langForm",
+			"langFormLabel": "_8lesPa_langFormLabel",
+			"helpWrap": "_8lesPa_helpWrap",
+			"md": "_8lesPa_md",
+			"textareaScroll": "_8lesPa_textareaScroll",
+			"historyRow": "_8lesPa_historyRow",
+			"starBtn": "_8lesPa_starBtn",
+			"langName": "_8lesPa_langName",
+			"rowTarget": "_8lesPa_rowTarget",
+			"starFill": "_8lesPa_starFill",
+			"uploadZone": "_8lesPa_uploadZone",
+			"segmented": "_8lesPa_segmented",
+			"detailBack": "_8lesPa_detailBack",
+			"cc-spin": "_8lesPa_cc-spin",
+			"cc-fade": "_8lesPa_cc-fade",
+			"segItem": "_8lesPa_segItem",
+			"countBadge": "_8lesPa_countBadge",
+			"loadMore": "_8lesPa_loadMore"
 		};
 		//#endregion
 		//#region lib/types/client/panel-ui.js
@@ -2987,7 +2988,7 @@ window.__ModuleLoader__.load({
 		};
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\KnowledgeWorkspace.module.css.mjs
-		const css$23 = ".uHDY1a_root{background:var(--background);min-width:0;min-height:0;color:var(--foreground);font-family:var(--cs-font-family-body), -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Microsoft YaHei\", sans-serif;flex-direction:column;flex:1;display:flex;overflow:hidden}.uHDY1a_split{flex:1;min-width:0;min-height:0;display:flex}.uHDY1a_navigator{box-sizing:border-box;border-right:.5px solid var(--border);background:var(--background);flex-direction:column;flex:none;width:250px;min-width:220px;max-width:360px;padding:6px;display:flex}.uHDY1a_navCreate{min-height:32px;color:var(--foreground);cursor:pointer;background:0 0;border:none;border-radius:10px;flex:none;align-items:center;gap:6px;padding:4px 6px;font-family:inherit;font-size:14px;display:flex}.uHDY1a_navCreate:hover{background:color-mix(in srgb, var(--accent) 60%, transparent)}.uHDY1a_navScroll{flex-direction:column;flex:1;gap:2px;min-height:0;padding:4px 0;display:flex;overflow-y:auto}.uHDY1a_navRow{box-sizing:border-box;width:100%;min-height:32px;color:var(--foreground);text-align:left;cursor:pointer;background:0 0;border:none;border-radius:10px;align-items:center;gap:6px;padding:4px 8px;font-family:inherit;font-size:14px;display:flex;position:relative}.uHDY1a_navRow:hover{background:var(--muted)}.uHDY1a_navRow.uHDY1a_active{background:var(--muted);font-weight:500}.uHDY1a_navRowName{white-space:nowrap;text-overflow:ellipsis;flex:1;min-width:0;overflow:hidden}.uHDY1a_navRowMenu{width:22px;height:22px;color:var(--muted-foreground);cursor:pointer;opacity:0;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;display:inline-flex}.uHDY1a_navRow:hover .uHDY1a_navRowMenu,.uHDY1a_navRow:focus-within .uHDY1a_navRowMenu{opacity:1}.uHDY1a_navRowMenu:hover{background:var(--accent)}.uHDY1a_navEmpty{text-align:center;color:var(--foreground-tertiary);padding:24px 12px;font-size:13px;line-height:1.6}.uHDY1a_menuPopover{z-index:90;box-sizing:border-box;border:1px solid var(--border);background:var(--popover);min-width:150px;color:var(--popover-foreground);border-radius:10px;padding:4px;position:absolute;box-shadow:0 12px 32px #00000038}.uHDY1a_menuItem{width:100%;height:32px;color:var(--foreground);text-align:left;cursor:pointer;background:0 0;border:none;border-radius:8px;align-items:center;gap:8px;padding:0 10px;font-family:inherit;font-size:14px;display:flex}.uHDY1a_menuItem:hover{background:var(--muted)}.uHDY1a_menuItem.uHDY1a_destructive{color:var(--destructive)}.uHDY1a_detail{background:var(--background);flex-direction:column;flex:1;min-width:0;min-height:0;display:flex}.uHDY1a_detailEmpty{color:var(--foreground-tertiary);flex-direction:column;flex:1;justify-content:center;align-items:center;gap:10px;display:flex}.uHDY1a_detailEmptyTitle{color:var(--foreground);font-size:18px;font-weight:600}.uHDY1a_detailEmptyDescription{font-size:14px}.uHDY1a_detailHeader{box-sizing:border-box;border-bottom:1px solid var(--border-subtle);flex:none;justify-content:space-between;align-items:center;gap:12px;height:38px;padding:0 12px 0 20px;display:flex}.uHDY1a_detailHeaderTitle{white-space:nowrap;text-overflow:ellipsis;flex:1;min-width:0;font-size:14px;font-weight:500;line-height:16px;overflow:hidden}.uHDY1a_detailHeaderActions{align-items:center;gap:4px;display:flex}.uHDY1a_ghostButton{height:28px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:8px;align-items:center;gap:6px;padding:0 8px;font-family:inherit;font-size:13px;display:inline-flex}.uHDY1a_ghostButton:hover{background:var(--accent);color:var(--foreground)}.uHDY1a_dataPanel{flex-direction:column;flex:1;min-height:0;display:flex}.uHDY1a_dataHeader{box-sizing:border-box;border-bottom:1px solid var(--border);flex:none;align-items:center;gap:12px;height:44px;padding:0 12px;display:flex}.uHDY1a_dataHeaderLeft{min-width:0;color:var(--foreground-tertiary);white-space:nowrap;text-overflow:ellipsis;flex:1;padding-left:8px;font-size:12px;line-height:16px;overflow:hidden}.uHDY1a_dataHeaderActions{flex:none;align-items:center;gap:8px;display:flex}.uHDY1a_addSourceButton{border:1px solid var(--border);height:28px;color:var(--muted-foreground);cursor:pointer;background:0 0;border-radius:8px;align-items:center;gap:4px;padding:0 8px;font-family:inherit;font-size:12px;font-weight:500;display:inline-flex}.uHDY1a_addSourceButton:hover{background:var(--accent);color:var(--foreground)}.uHDY1a_indexButton{background:var(--primary);height:28px;color:var(--primary-foreground);cursor:pointer;border:none;border-radius:8px;align-items:center;gap:6px;padding:0 10px;font-family:inherit;font-size:12px;font-weight:500;display:inline-flex}.uHDY1a_indexButton:hover:not(:disabled){opacity:.9}.uHDY1a_indexButton:disabled{opacity:.45;cursor:not-allowed}.uHDY1a_gridHeader,.uHDY1a_gridRow{box-sizing:border-box;grid-template-columns:minmax(0,1fr) 4rem 7rem 6rem 2rem;align-items:center;gap:8px;padding:0 10px;display:grid}.uHDY1a_gridHeader{border-bottom:1px solid var(--border);height:32px;color:var(--foreground-tertiary);flex:none;margin:8px 12px 4px;font-size:12px;font-weight:500}.uHDY1a_gridScroll{flex:1;min-height:0;padding:4px 12px 16px;overflow-y:auto}.uHDY1a_gridRow{cursor:pointer;border-radius:8px;min-height:44px;padding:6px 10px;transition:background .1s}.uHDY1a_gridRow:hover{background:var(--muted)}.uHDY1a_sourceIcon{background:var(--background-subtle);border-radius:6px;flex:none;justify-content:center;align-items:center;width:24px;height:24px;display:inline-flex}.uHDY1a_sourceName{white-space:nowrap;text-overflow:ellipsis;min-width:0;font-size:14px;overflow:hidden}.uHDY1a_sourceType{color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;font-size:12px;overflow:hidden}.uHDY1a_sourceUpdated{color:var(--foreground-tertiary);white-space:nowrap;text-overflow:ellipsis;font-size:12px;overflow:hidden}.uHDY1a_rowMenu{width:24px;height:24px;color:var(--muted-foreground);cursor:pointer;opacity:0;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;display:inline-flex}.uHDY1a_gridRow:hover .uHDY1a_rowMenu,.uHDY1a_gridRow:focus-within .uHDY1a_rowMenu{opacity:1}.uHDY1a_rowMenu:hover{background:var(--accent);color:var(--foreground)}.uHDY1a_statusBadge{white-space:nowrap;align-items:center;gap:4px;font-size:12px;display:inline-flex}.uHDY1a_statusReady{color:var(--success)}.uHDY1a_statusIndexing{color:var(--warning)}.uHDY1a_statusFailed{color:var(--error)}.uHDY1a_statusSpinner{border:1.5px solid color-mix(in srgb, currentColor 30%, transparent);border-top-color:currentColor;border-radius:50%;width:12px;height:12px;animation:.8s linear infinite uHDY1a_cc-spin}@keyframes uHDY1a_cc-spin{to{transform:rotate(360deg)}}.uHDY1a_sourcesEmpty{flex-direction:column;align-items:center;gap:6px;padding:56px 16px;display:flex}.uHDY1a_sourcesEmptyTitle{color:var(--foreground);font-size:18px;font-weight:600}.uHDY1a_sourcesEmptyDesc{color:var(--foreground-tertiary);font-size:14px}.uHDY1a_sourceTypeCards{flex-wrap:wrap;justify-content:center;gap:10px;margin-top:20px;display:flex}.uHDY1a_sourceTypeCard{border:1px solid var(--border);width:96px;height:56px;color:var(--foreground);cursor:pointer;background:0 0;border-radius:10px;flex-direction:column;justify-content:center;align-items:center;gap:6px;font-family:inherit;font-size:13px;font-weight:500;display:flex}.uHDY1a_sourceTypeCard:hover{background:var(--accent)}.uHDY1a_sourceTypeCardIcon{color:var(--muted-foreground)}.uHDY1a_recallBar{align-items:center;gap:8px;width:100%;max-width:720px;margin:0 auto 12px;display:flex}.uHDY1a_recallInputWrap{border:1px solid var(--border-subtle);border-radius:10px;flex:1;align-items:center;gap:8px;min-width:0;padding:5px 10px;display:flex}.uHDY1a_recallInputWrap:focus-within{border-color:var(--ring);box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 50%, transparent)}.uHDY1a_recallInput{min-width:0;height:24px;color:var(--foreground);background:0 0;border:none;outline:none;flex:1;font-family:inherit;font-size:14px}.uHDY1a_recallSubmit{background:var(--primary);height:32px;color:var(--primary-foreground);cursor:pointer;border:none;border-radius:8px;align-items:center;gap:6px;padding:0 12px;font-family:inherit;font-size:13px;font-weight:500;display:inline-flex}.uHDY1a_recallSubmit:hover:not(:disabled){opacity:.9}.uHDY1a_recallSubmit:disabled{opacity:.45;cursor:not-allowed}.uHDY1a_recallResults{box-sizing:border-box;border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;width:100%;max-width:720px;min-height:0;margin:0 auto;overflow-y:auto}.uHDY1a_recallSummary{border-bottom:1px solid var(--border-subtle);color:var(--foreground-tertiary);align-items:center;gap:12px;padding:10px 16px;font-size:12px;display:flex}.uHDY1a_recallCard{border:1px solid var(--border-subtle);background:var(--background);border-radius:8px;margin:8px;transition:border-color .15s}.uHDY1a_recallCard:hover{border-color:var(--border-strong)}.uHDY1a_recallCardHeader{align-items:center;gap:8px;padding:8px 12px;display:flex}.uHDY1a_recallRank{background:var(--background-subtle);width:20px;height:20px;color:var(--foreground-tertiary);border-radius:6px;flex:none;justify-content:center;align-items:center;font-size:12px;display:inline-flex}.uHDY1a_recallSource{white-space:nowrap;text-overflow:ellipsis;flex:1;min-width:0;font-size:13px;overflow:hidden}.uHDY1a_recallChunkIndex{color:var(--foreground-tertiary);flex:none;font-size:12px}.uHDY1a_recallScore{text-align:right;width:64px;color:var(--foreground-tertiary);font-variant-numeric:tabular-nums;flex:none;font-size:12px}.uHDY1a_recallCopy{width:26px;height:26px;color:var(--muted-foreground);cursor:pointer;opacity:0;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;display:inline-flex}.uHDY1a_recallCard:hover .uHDY1a_recallCopy{opacity:1}.uHDY1a_recallCopy:hover{background:var(--accent);color:var(--foreground)}.uHDY1a_recallCopy.uHDY1a_success{color:var(--success);opacity:1}.uHDY1a_recallBody{color:var(--muted-foreground);word-break:break-word;padding:0 12px 10px;font-size:13px;line-height:1.6}.uHDY1a_recallBody.uHDY1a_clamped{-webkit-line-clamp:2;-webkit-box-orient:vertical;display:-webkit-box;overflow:hidden}.uHDY1a_recallEmpty{text-align:center;color:var(--foreground-tertiary);padding:40px 16px;font-size:14px}.uHDY1a_dialogOverlay{z-index:95;background:#00000080;justify-content:center;align-items:center;display:flex;position:fixed;inset:0}.uHDY1a_dialogCard{box-sizing:border-box;background:var(--card);width:min(440px,100vw - 48px);color:var(--card-foreground);border-radius:16px;padding:20px;box-shadow:0 24px 48px #0000004d}.uHDY1a_dialogCard h3{margin:0 0 14px;font-size:16px;font-weight:600}.uHDY1a_dialogField{flex-direction:column;gap:6px;margin-bottom:12px;display:flex}.uHDY1a_dialogField label{color:var(--foreground-tertiary);font-size:13px}.uHDY1a_dialogInput{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 40%, transparent);height:36px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px}.uHDY1a_dialogInput:focus{border-color:var(--ring)}.uHDY1a_dialogTextarea{box-sizing:border-box;border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 40%, transparent);width:100%;min-height:120px;color:var(--foreground);resize:vertical;border-radius:8px;outline:none;padding:10px;font-family:inherit;font-size:14px;line-height:1.6}.uHDY1a_dialogTextarea:focus{border-color:var(--ring)}.uHDY1a_dialogHint{color:var(--foreground-tertiary);font-size:12px;line-height:1.5}.uHDY1a_dialogActions{justify-content:flex-end;gap:8px;display:flex}.uHDY1a_btn{border:1px solid var(--border);height:32px;color:var(--foreground);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.uHDY1a_btn:hover{background:var(--muted)}.uHDY1a_btnPrimary{background:var(--primary);color:var(--primary-foreground);border-color:#0000}.uHDY1a_btnPrimary:hover:not(:disabled){background:var(--primary);opacity:.9}.uHDY1a_btnPrimary:disabled{opacity:.45;cursor:not-allowed}.uHDY1a_errorBanner{background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;flex:none;margin:8px 12px 0;padding:8px 12px;font-size:13px;line-height:1.5}.uHDY1a_notice{background:var(--success-subtle);color:var(--success-subtle-foreground);border-radius:8px;margin:8px 12px 0;padding:8px 12px;font-size:13px}@media (width<=760px){.uHDY1a_navigator{width:200px}.uHDY1a_gridHeader,.uHDY1a_gridRow{grid-template-columns:minmax(0,1fr) 4rem 6rem 2rem}.uHDY1a_sourceUpdated{display:none}}.uHDY1a_ragBody{flex-direction:column;gap:20px;display:flex}.uHDY1a_ragSection{flex-direction:column;gap:8px;display:flex}.uHDY1a_ragTitle{color:var(--foreground);font-size:14px;font-weight:500}.uHDY1a_ragReadonly{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 40%, transparent);color:var(--muted-foreground);border-radius:8px;padding:8px 10px;font-size:13px}.uHDY1a_ragSliderRow{align-items:center;gap:12px;display:flex}.uHDY1a_ragSlider{appearance:none;background:var(--muted);border-radius:999px;outline:none;flex:1;height:4px}.uHDY1a_ragSlider::-webkit-slider-thumb{appearance:none;background:var(--primary);cursor:pointer;border:none;border-radius:50%;width:14px;height:14px}.uHDY1a_ragNumber{box-sizing:border-box;border:1px solid var(--border-subtle);width:64px;height:30px;color:var(--foreground);text-align:right;background:0 0;border-radius:8px;outline:none;padding:0 8px;font-family:inherit;font-size:13px}.uHDY1a_ragNumber:focus,.uHDY1a_ragNumberFull:focus{border-color:var(--ring)}.uHDY1a_ragField{flex-direction:column;gap:6px;display:flex}.uHDY1a_ragLabel{color:var(--foreground-tertiary);font-size:13px}.uHDY1a_ragNumberFull{box-sizing:border-box;border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 40%, transparent);width:100%;height:32px;color:var(--foreground);border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:13px}.uHDY1a_ragHint{color:var(--foreground-tertiary);font-size:12px;line-height:1.6}.uHDY1a_ragFooter{border-top:1px solid var(--border-subtle);justify-content:flex-end;gap:8px;margin-top:4px;padding-top:12px;display:flex}.uHDY1a_ragFieldRow{justify-content:space-between;align-items:center;gap:12px;display:flex}.uHDY1a_detailEmptyHint{text-align:center;max-width:420px;color:var(--foreground-tertiary);padding:0 24px;font-size:13px;line-height:1.7}.uHDY1a_dialogSelect{background:var(--background);border:1px solid var(--border);color:var(--foreground);cursor:pointer}.uHDY1a_dialogSliderRow{align-items:center;gap:12px;display:flex}.uHDY1a_dialogFieldRow{justify-content:space-between;align-items:center;gap:12px;display:flex}";
+		const css$23 = ".uHDY1a_root{background:var(--background);min-width:0;min-height:0;color:var(--foreground);font-family:var(--cs-font-family-body), -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Microsoft YaHei\", sans-serif;flex-direction:column;flex:1;display:flex;overflow:hidden}.uHDY1a_split{flex:1;min-width:0;min-height:0;display:flex}.uHDY1a_navigator{box-sizing:border-box;border-right:.5px solid var(--border);background:var(--background);flex-direction:column;flex:none;width:250px;min-width:220px;max-width:360px;padding:6px;display:flex}.uHDY1a_navCreate{min-height:32px;color:var(--foreground);cursor:pointer;background:0 0;border:none;border-radius:10px;flex:none;align-items:center;gap:6px;padding:4px 6px;font-family:inherit;font-size:14px;display:flex}.uHDY1a_navCreate:hover{background:color-mix(in srgb, var(--accent) 60%, transparent)}.uHDY1a_navScroll{flex-direction:column;flex:1;gap:2px;min-height:0;padding:4px 0;display:flex;overflow-y:auto}.uHDY1a_navRow{box-sizing:border-box;width:100%;min-height:32px;color:var(--foreground);text-align:left;cursor:pointer;background:0 0;border:none;border-radius:10px;align-items:center;gap:6px;padding:4px 8px;font-family:inherit;font-size:14px;display:flex;position:relative}.uHDY1a_navRow:hover{background:var(--muted)}.uHDY1a_navRow.uHDY1a_active{background:var(--muted);font-weight:500}.uHDY1a_navRowName{white-space:nowrap;text-overflow:ellipsis;flex:1;min-width:0;overflow:hidden}.uHDY1a_navRowMenu{width:22px;height:22px;color:var(--muted-foreground);cursor:pointer;opacity:0;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;display:inline-flex}.uHDY1a_navRow:hover .uHDY1a_navRowMenu,.uHDY1a_navRow:focus-within .uHDY1a_navRowMenu{opacity:1}.uHDY1a_navRowMenu:hover{background:var(--accent)}.uHDY1a_navEmpty{text-align:center;color:var(--foreground-tertiary);padding:24px 12px;font-size:13px;line-height:1.6}.uHDY1a_menuPopover{z-index:90;box-sizing:border-box;border:1px solid var(--border);background:var(--popover);min-width:150px;color:var(--popover-foreground);border-radius:10px;padding:4px;position:absolute;box-shadow:0 12px 32px #00000038}.uHDY1a_menuItem{width:100%;height:32px;color:var(--foreground);text-align:left;cursor:pointer;background:0 0;border:none;border-radius:8px;align-items:center;gap:8px;padding:0 10px;font-family:inherit;font-size:14px;display:flex}.uHDY1a_menuItem:hover{background:var(--muted)}.uHDY1a_menuItem.uHDY1a_destructive{color:var(--destructive)}.uHDY1a_detail{background:var(--background);flex-direction:column;flex:1;min-width:0;min-height:0;display:flex}.uHDY1a_detailEmpty{color:var(--foreground-tertiary);flex-direction:column;flex:1;justify-content:center;align-items:center;gap:10px;display:flex}.uHDY1a_detailEmptyTitle{color:var(--foreground);font-size:18px;font-weight:600}.uHDY1a_detailEmptyDescription{font-size:14px}.uHDY1a_detailHeader{box-sizing:border-box;border-bottom:1px solid var(--border-subtle);flex:none;justify-content:space-between;align-items:center;gap:12px;height:38px;padding:0 12px 0 20px;display:flex}.uHDY1a_detailHeaderTitle{white-space:nowrap;text-overflow:ellipsis;flex:1;min-width:0;font-size:14px;font-weight:500;line-height:16px;overflow:hidden}.uHDY1a_detailHeaderActions{align-items:center;gap:4px;display:flex}.uHDY1a_ghostButton{height:28px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:8px;align-items:center;gap:6px;padding:0 8px;font-family:inherit;font-size:13px;display:inline-flex}.uHDY1a_ghostButton:hover{background:var(--accent);color:var(--foreground)}.uHDY1a_dataPanel{flex-direction:column;flex:1;min-height:0;display:flex}.uHDY1a_dataHeader{box-sizing:border-box;border-bottom:1px solid var(--border);flex:none;align-items:center;gap:12px;height:44px;padding:0 12px;display:flex}.uHDY1a_dataHeaderLeft{min-width:0;color:var(--foreground-tertiary);white-space:nowrap;text-overflow:ellipsis;flex:1;padding-left:8px;font-size:12px;line-height:16px;overflow:hidden}.uHDY1a_dataHeaderActions{flex:none;align-items:center;gap:8px;display:flex}.uHDY1a_addSourceButton{border:1px solid var(--border);height:28px;color:var(--muted-foreground);cursor:pointer;background:0 0;border-radius:8px;align-items:center;gap:4px;padding:0 8px;font-family:inherit;font-size:12px;font-weight:500;display:inline-flex}.uHDY1a_addSourceButton:hover{background:var(--accent);color:var(--foreground)}.uHDY1a_indexButton{background:var(--primary);height:28px;color:var(--primary-foreground);cursor:pointer;border:none;border-radius:8px;align-items:center;gap:6px;padding:0 10px;font-family:inherit;font-size:12px;font-weight:500;display:inline-flex}.uHDY1a_indexButton:hover:not(:disabled){opacity:.9}.uHDY1a_indexButton:disabled{opacity:.45;cursor:not-allowed}.uHDY1a_gridHeader,.uHDY1a_gridRow{box-sizing:border-box;grid-template-columns:minmax(0,1fr) 4rem 7rem 6rem 2rem;align-items:center;gap:8px;padding:0 10px;display:grid}.uHDY1a_gridHeader{border-bottom:1px solid var(--border);height:32px;color:var(--foreground-tertiary);flex:none;margin:8px 12px 4px;font-size:12px;font-weight:500}.uHDY1a_gridScroll{flex:1;min-height:0;padding:4px 12px 16px;overflow-y:auto}.uHDY1a_gridRow{cursor:pointer;border-radius:8px;min-height:44px;padding:6px 10px;transition:background .1s}.uHDY1a_gridRow:hover{background:var(--muted)}.uHDY1a_sourceIcon{background:var(--background-subtle);border-radius:6px;flex:none;justify-content:center;align-items:center;width:24px;height:24px;display:inline-flex}.uHDY1a_sourceName{white-space:nowrap;text-overflow:ellipsis;min-width:0;font-size:14px;overflow:hidden}.uHDY1a_sourceType{color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;font-size:12px;overflow:hidden}.uHDY1a_sourceUpdated{color:var(--foreground-tertiary);white-space:nowrap;text-overflow:ellipsis;font-size:12px;overflow:hidden}.uHDY1a_rowMenu{width:24px;height:24px;color:var(--muted-foreground);cursor:pointer;opacity:0;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;display:inline-flex}.uHDY1a_gridRow:hover .uHDY1a_rowMenu,.uHDY1a_gridRow:focus-within .uHDY1a_rowMenu{opacity:1}.uHDY1a_rowMenu:hover{background:var(--accent);color:var(--foreground)}.uHDY1a_statusBadge{white-space:nowrap;align-items:center;gap:4px;font-size:12px;display:inline-flex}.uHDY1a_statusReady{color:var(--success)}.uHDY1a_statusIndexing{color:var(--warning)}.uHDY1a_statusFailed{color:var(--error)}.uHDY1a_statusSpinner{border:1.5px solid color-mix(in srgb, currentColor 30%, transparent);border-top-color:currentColor;border-radius:50%;width:12px;height:12px;animation:.8s linear infinite uHDY1a_cc-spin}@keyframes uHDY1a_cc-spin{to{transform:rotate(360deg)}}.uHDY1a_sourcesEmpty{flex-direction:column;align-items:center;gap:6px;padding:56px 16px;display:flex}.uHDY1a_sourcesEmptyTitle{color:var(--foreground);font-size:18px;font-weight:600}.uHDY1a_sourcesEmptyDesc{color:var(--foreground-tertiary);font-size:14px}.uHDY1a_sourceTypeCards{flex-wrap:wrap;justify-content:center;gap:10px;margin-top:20px;display:flex}.uHDY1a_sourceTypeCard{border:1px solid var(--border);width:96px;height:56px;color:var(--foreground);cursor:pointer;background:0 0;border-radius:10px;flex-direction:column;justify-content:center;align-items:center;gap:6px;font-family:inherit;font-size:13px;font-weight:500;display:flex}.uHDY1a_sourceTypeCard:hover{background:var(--accent)}.uHDY1a_sourceTypeCardIcon{color:var(--muted-foreground)}.uHDY1a_recallBar{align-items:center;gap:8px;width:100%;max-width:720px;margin:0 auto 12px;display:flex}.uHDY1a_recallInputWrap{border:1px solid var(--border-subtle);border-radius:10px;flex:1;align-items:center;gap:8px;min-width:0;padding:5px 10px;display:flex}.uHDY1a_recallInputWrap:focus-within{border-color:var(--ring);box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 50%, transparent)}.uHDY1a_recallInput{min-width:0;height:24px;color:var(--foreground);background:0 0;border:none;outline:none;flex:1;font-family:inherit;font-size:14px}.uHDY1a_recallSubmit{background:var(--primary);height:32px;color:var(--primary-foreground);cursor:pointer;border:none;border-radius:8px;align-items:center;gap:6px;padding:0 12px;font-family:inherit;font-size:13px;font-weight:500;display:inline-flex}.uHDY1a_recallSubmit:hover:not(:disabled){opacity:.9}.uHDY1a_recallSubmit:disabled{opacity:.45;cursor:not-allowed}.uHDY1a_recallResults{box-sizing:border-box;border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;width:100%;max-width:720px;min-height:0;margin:0 auto;overflow-y:auto}.uHDY1a_recallSummary{border-bottom:1px solid var(--border-subtle);color:var(--foreground-tertiary);align-items:center;gap:12px;padding:10px 16px;font-size:12px;display:flex}.uHDY1a_recallCard{border:1px solid var(--border-subtle);background:var(--background);border-radius:8px;margin:8px;transition:border-color .15s}.uHDY1a_recallCard:hover{border-color:var(--border-strong)}.uHDY1a_recallCardHeader{align-items:center;gap:8px;padding:8px 12px;display:flex}.uHDY1a_recallRank{background:var(--background-subtle);width:20px;height:20px;color:var(--foreground-tertiary);border-radius:6px;flex:none;justify-content:center;align-items:center;font-size:12px;display:inline-flex}.uHDY1a_recallSource{white-space:nowrap;text-overflow:ellipsis;flex:1;min-width:0;font-size:13px;overflow:hidden}.uHDY1a_recallChunkIndex{color:var(--foreground-tertiary);flex:none;font-size:12px}.uHDY1a_recallScore{text-align:right;width:64px;color:var(--foreground-tertiary);font-variant-numeric:tabular-nums;flex:none;font-size:12px}.uHDY1a_recallCopy{width:26px;height:26px;color:var(--muted-foreground);cursor:pointer;opacity:0;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;display:inline-flex}.uHDY1a_recallCard:hover .uHDY1a_recallCopy{opacity:1}.uHDY1a_recallCopy:hover{background:var(--accent);color:var(--foreground)}.uHDY1a_recallCopy.uHDY1a_success{color:var(--success);opacity:1}.uHDY1a_recallBody{color:var(--muted-foreground);word-break:break-word;padding:0 12px 10px;font-size:13px;line-height:1.6}.uHDY1a_recallBody.uHDY1a_clamped{-webkit-line-clamp:2;-webkit-box-orient:vertical;display:-webkit-box;overflow:hidden}.uHDY1a_recallEmpty{text-align:center;color:var(--foreground-tertiary);padding:40px 16px;font-size:14px}.uHDY1a_dialogOverlay{z-index:95;background:#00000080;justify-content:center;align-items:center;display:flex;position:fixed;inset:0}.uHDY1a_dialogCard{box-sizing:border-box;background:var(--card);width:min(440px,100vw - 48px);color:var(--card-foreground);border-radius:16px;padding:20px;box-shadow:0 24px 48px #0000004d}.uHDY1a_dialogCard h3{margin:0 0 14px;font-size:16px;font-weight:600}.uHDY1a_dialogField{flex-direction:column;gap:6px;margin-bottom:12px;display:flex}.uHDY1a_dialogField label{color:var(--foreground-tertiary);font-size:13px}.uHDY1a_dialogInput{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 40%, transparent);height:36px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px}.uHDY1a_dialogInput:focus{border-color:var(--ring)}.uHDY1a_dialogTextarea{box-sizing:border-box;border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 40%, transparent);width:100%;min-height:120px;color:var(--foreground);resize:vertical;border-radius:8px;outline:none;padding:10px;font-family:inherit;font-size:14px;line-height:1.6}.uHDY1a_dialogTextarea:focus{border-color:var(--ring)}.uHDY1a_dialogHint{color:var(--foreground-tertiary);font-size:12px;line-height:1.5}.uHDY1a_dialogActions{justify-content:flex-end;gap:8px;display:flex}.uHDY1a_btn{border:1px solid var(--border);height:32px;color:var(--foreground);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.uHDY1a_btn:hover{background:var(--muted)}.uHDY1a_btnPrimary{background:var(--primary);color:var(--primary-foreground);border-color:#0000}.uHDY1a_btnPrimary:hover:not(:disabled){background:var(--primary);opacity:.9}.uHDY1a_btnPrimary:disabled{opacity:.45;cursor:not-allowed}.uHDY1a_errorBanner{background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;flex:none;margin:8px 12px 0;padding:8px 12px;font-size:13px;line-height:1.5}.uHDY1a_notice{background:var(--success-subtle);color:var(--success-subtle-foreground);border-radius:8px;margin:8px 12px 0;padding:8px 12px;font-size:13px}@media (width<=760px){.uHDY1a_navigator{width:200px}.uHDY1a_gridHeader,.uHDY1a_gridRow{grid-template-columns:minmax(0,1fr) 4rem 6rem 2rem}.uHDY1a_sourceUpdated{display:none}}.uHDY1a_ragBody{flex-direction:column;gap:20px;display:flex}.uHDY1a_ragSection{flex-direction:column;gap:8px;display:flex}.uHDY1a_ragTitle{color:var(--foreground);font-size:14px;font-weight:500}.uHDY1a_ragReadonly{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 40%, transparent);color:var(--muted-foreground);border-radius:8px;padding:8px 10px;font-size:13px}.uHDY1a_ragSliderRow{align-items:center;gap:12px;display:flex}.uHDY1a_ragSlider{appearance:none;background:var(--muted);border-radius:999px;outline:none;flex:1;height:4px}.uHDY1a_ragSlider::-webkit-slider-thumb{appearance:none;background:var(--primary);cursor:pointer;border:none;border-radius:50%;width:14px;height:14px}.uHDY1a_ragNumber{box-sizing:border-box;border:1px solid var(--border-subtle);width:64px;height:30px;color:var(--foreground);text-align:right;background:0 0;border-radius:8px;outline:none;padding:0 8px;font-family:inherit;font-size:13px}.uHDY1a_ragNumber:focus,.uHDY1a_ragNumberFull:focus{border-color:var(--ring)}.uHDY1a_ragField{flex-direction:column;gap:6px;display:flex}.uHDY1a_ragLabel{color:var(--foreground-tertiary);font-size:13px}.uHDY1a_ragNumberFull{box-sizing:border-box;border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 40%, transparent);width:100%;height:32px;color:var(--foreground);border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:13px}.uHDY1a_ragHint{color:var(--foreground-tertiary);font-size:12px;line-height:1.6}.uHDY1a_ragFooter{border-top:1px solid var(--border-subtle);justify-content:flex-end;gap:8px;margin-top:4px;padding-top:12px;display:flex}.uHDY1a_ragFieldRow{justify-content:space-between;align-items:center;gap:12px;display:flex}.uHDY1a_detailEmptyHint{text-align:center;max-width:420px;color:var(--foreground-tertiary);padding:0 24px;font-size:13px;line-height:1.7}.uHDY1a_dialogSelect{background:var(--background);border:1px solid var(--border);color:var(--foreground);cursor:pointer}.uHDY1a_dialogSliderRow{align-items:center;gap:12px;display:flex}.uHDY1a_dialogFieldRow{justify-content:space-between;align-items:center;gap:12px;display:flex}.uHDY1a_ragSelectWrap{display:flex}.uHDY1a_ragSelect{appearance:none;border:1px solid var(--border);background:var(--background);height:34px;color:var(--foreground);cursor:pointer;border-radius:8px;outline:none;flex:1;padding:0 10px;font-family:inherit;font-size:13px}.uHDY1a_ragSelect:focus{border-color:var(--ring)}.uHDY1a_advancedToggle{color:var(--foreground);cursor:pointer;background:0 0;border:none;align-items:center;gap:6px;padding:0;font-family:inherit;font-size:14px;font-weight:500;display:flex}.uHDY1a_advancedToggle svg{transition:transform .15s}.uHDY1a_advancedChevronOpen{transform:rotate(90deg)}.uHDY1a_advancedBody{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 20%, transparent);border-radius:10px;flex-direction:column;gap:12px;padding:12px;display:flex}";
 		const tagId$23 = "@dsh-control-center/bundle/KnowledgeWorkspace.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$23) + "]") === null) {
 			const tag = document.createElement("style");
@@ -2997,98 +2998,103 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var KnowledgeWorkspace_module_css_default = {
-			"split": "uHDY1a_split",
-			"navRowMenu": "uHDY1a_navRowMenu",
-			"dataPanel": "uHDY1a_dataPanel",
-			"sourceName": "uHDY1a_sourceName",
-			"menuPopover": "uHDY1a_menuPopover",
-			"success": "uHDY1a_success",
-			"statusBadge": "uHDY1a_statusBadge",
-			"navRow": "uHDY1a_navRow",
-			"ragField": "uHDY1a_ragField",
-			"sourceTypeCards": "uHDY1a_sourceTypeCards",
-			"navCreate": "uHDY1a_navCreate",
-			"ragHint": "uHDY1a_ragHint",
-			"statusSpinner": "uHDY1a_statusSpinner",
-			"recallSubmit": "uHDY1a_recallSubmit",
-			"sourceType": "uHDY1a_sourceType",
-			"dataHeader": "uHDY1a_dataHeader",
-			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
-			"gridHeader": "uHDY1a_gridHeader",
-			"detailHeader": "uHDY1a_detailHeader",
-			"recallChunkIndex": "uHDY1a_recallChunkIndex",
-			"errorBanner": "uHDY1a_errorBanner",
-			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
-			"gridScroll": "uHDY1a_gridScroll",
-			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
-			"recallSummary": "uHDY1a_recallSummary",
-			"active": "uHDY1a_active",
-			"navEmpty": "uHDY1a_navEmpty",
-			"statusFailed": "uHDY1a_statusFailed",
-			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
-			"recallInputWrap": "uHDY1a_recallInputWrap",
-			"dialogCard": "uHDY1a_dialogCard",
-			"ragTitle": "uHDY1a_ragTitle",
-			"btnPrimary": "uHDY1a_btnPrimary",
-			"ragNumberFull": "uHDY1a_ragNumberFull",
-			"dialogSelect": "uHDY1a_dialogSelect",
-			"dialogSliderRow": "uHDY1a_dialogSliderRow",
-			"clamped": "uHDY1a_clamped",
-			"dataHeaderActions": "uHDY1a_dataHeaderActions",
-			"dialogHint": "uHDY1a_dialogHint",
-			"ragLabel": "uHDY1a_ragLabel",
-			"dialogField": "uHDY1a_dialogField",
-			"ragSliderRow": "uHDY1a_ragSliderRow",
-			"dialogFieldRow": "uHDY1a_dialogFieldRow",
-			"sourceTypeCard": "uHDY1a_sourceTypeCard",
-			"ragReadonly": "uHDY1a_ragReadonly",
-			"root": "uHDY1a_root",
-			"ragSlider": "uHDY1a_ragSlider",
-			"recallCardHeader": "uHDY1a_recallCardHeader",
-			"notice": "uHDY1a_notice",
-			"recallBar": "uHDY1a_recallBar",
-			"sourceIcon": "uHDY1a_sourceIcon",
-			"ragNumber": "uHDY1a_ragNumber",
-			"addSourceButton": "uHDY1a_addSourceButton",
-			"dialogInput": "uHDY1a_dialogInput",
-			"ragBody": "uHDY1a_ragBody",
-			"detailEmptyHint": "uHDY1a_detailEmptyHint",
-			"btn": "uHDY1a_btn",
-			"destructive": "uHDY1a_destructive",
-			"rowMenu": "uHDY1a_rowMenu",
-			"statusReady": "uHDY1a_statusReady",
-			"detailHeaderActions": "uHDY1a_detailHeaderActions",
-			"statusIndexing": "uHDY1a_statusIndexing",
-			"recallCard": "uHDY1a_recallCard",
-			"detailEmpty": "uHDY1a_detailEmpty",
-			"recallInput": "uHDY1a_recallInput",
-			"recallSource": "uHDY1a_recallSource",
+			"advancedBody": "uHDY1a_advancedBody",
 			"recallBody": "uHDY1a_recallBody",
-			"navigator": "uHDY1a_navigator",
-			"sourceUpdated": "uHDY1a_sourceUpdated",
-			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
-			"menuItem": "uHDY1a_menuItem",
-			"cc-spin": "uHDY1a_cc-spin",
-			"sourcesEmpty": "uHDY1a_sourcesEmpty",
-			"dialogOverlay": "uHDY1a_dialogOverlay",
-			"recallCopy": "uHDY1a_recallCopy",
-			"dialogActions": "uHDY1a_dialogActions",
+			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
+			"menuPopover": "uHDY1a_menuPopover",
+			"notice": "uHDY1a_notice",
+			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
+			"detailHeaderActions": "uHDY1a_detailHeaderActions",
+			"addSourceButton": "uHDY1a_addSourceButton",
+			"navRow": "uHDY1a_navRow",
 			"recallEmpty": "uHDY1a_recallEmpty",
-			"ragSection": "uHDY1a_ragSection",
-			"gridRow": "uHDY1a_gridRow",
-			"recallResults": "uHDY1a_recallResults",
-			"ragFieldRow": "uHDY1a_ragFieldRow",
-			"ghostButton": "uHDY1a_ghostButton",
-			"recallScore": "uHDY1a_recallScore",
-			"detail": "uHDY1a_detail",
-			"recallRank": "uHDY1a_recallRank",
-			"indexButton": "uHDY1a_indexButton",
-			"navRowName": "uHDY1a_navRowName",
-			"detailEmptyTitle": "uHDY1a_detailEmptyTitle",
-			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
-			"dialogTextarea": "uHDY1a_dialogTextarea",
+			"ragNumber": "uHDY1a_ragNumber",
+			"sourceUpdated": "uHDY1a_sourceUpdated",
+			"statusFailed": "uHDY1a_statusFailed",
+			"dialogField": "uHDY1a_dialogField",
+			"ragHint": "uHDY1a_ragHint",
 			"ragFooter": "uHDY1a_ragFooter",
-			"navScroll": "uHDY1a_navScroll"
+			"ghostButton": "uHDY1a_ghostButton",
+			"sourceType": "uHDY1a_sourceType",
+			"menuItem": "uHDY1a_menuItem",
+			"navRowMenu": "uHDY1a_navRowMenu",
+			"navScroll": "uHDY1a_navScroll",
+			"destructive": "uHDY1a_destructive",
+			"gridRow": "uHDY1a_gridRow",
+			"statusBadge": "uHDY1a_statusBadge",
+			"navCreate": "uHDY1a_navCreate",
+			"dataPanel": "uHDY1a_dataPanel",
+			"sourcesEmpty": "uHDY1a_sourcesEmpty",
+			"dialogHint": "uHDY1a_dialogHint",
+			"ragNumberFull": "uHDY1a_ragNumberFull",
+			"dialogInput": "uHDY1a_dialogInput",
+			"dialogOverlay": "uHDY1a_dialogOverlay",
+			"btn": "uHDY1a_btn",
+			"detailEmptyTitle": "uHDY1a_detailEmptyTitle",
+			"statusSpinner": "uHDY1a_statusSpinner",
+			"btnPrimary": "uHDY1a_btnPrimary",
+			"ragFieldRow": "uHDY1a_ragFieldRow",
+			"advancedChevronOpen": "uHDY1a_advancedChevronOpen",
+			"sourceIcon": "uHDY1a_sourceIcon",
+			"detailHeader": "uHDY1a_detailHeader",
+			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
+			"sourceTypeCards": "uHDY1a_sourceTypeCards",
+			"recallChunkIndex": "uHDY1a_recallChunkIndex",
+			"recallCardHeader": "uHDY1a_recallCardHeader",
+			"ragSection": "uHDY1a_ragSection",
+			"dialogSelect": "uHDY1a_dialogSelect",
+			"dialogFieldRow": "uHDY1a_dialogFieldRow",
+			"advancedToggle": "uHDY1a_advancedToggle",
+			"ragSlider": "uHDY1a_ragSlider",
+			"indexButton": "uHDY1a_indexButton",
+			"gridHeader": "uHDY1a_gridHeader",
+			"statusReady": "uHDY1a_statusReady",
+			"ragField": "uHDY1a_ragField",
+			"ragSelect": "uHDY1a_ragSelect",
+			"recallSource": "uHDY1a_recallSource",
+			"dialogActions": "uHDY1a_dialogActions",
+			"recallBar": "uHDY1a_recallBar",
+			"rowMenu": "uHDY1a_rowMenu",
+			"recallCard": "uHDY1a_recallCard",
+			"recallRank": "uHDY1a_recallRank",
+			"dialogCard": "uHDY1a_dialogCard",
+			"dataHeaderActions": "uHDY1a_dataHeaderActions",
+			"split": "uHDY1a_split",
+			"sourceName": "uHDY1a_sourceName",
+			"recallInputWrap": "uHDY1a_recallInputWrap",
+			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
+			"recallSubmit": "uHDY1a_recallSubmit",
+			"recallResults": "uHDY1a_recallResults",
+			"statusIndexing": "uHDY1a_statusIndexing",
+			"clamped": "uHDY1a_clamped",
+			"ragLabel": "uHDY1a_ragLabel",
+			"dialogTextarea": "uHDY1a_dialogTextarea",
+			"root": "uHDY1a_root",
+			"sourceTypeCard": "uHDY1a_sourceTypeCard",
+			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
+			"ragSelectWrap": "uHDY1a_ragSelectWrap",
+			"navRowName": "uHDY1a_navRowName",
+			"ragReadonly": "uHDY1a_ragReadonly",
+			"dataHeader": "uHDY1a_dataHeader",
+			"detailEmptyHint": "uHDY1a_detailEmptyHint",
+			"recallSummary": "uHDY1a_recallSummary",
+			"cc-spin": "uHDY1a_cc-spin",
+			"recallScore": "uHDY1a_recallScore",
+			"dialogSliderRow": "uHDY1a_dialogSliderRow",
+			"ragTitle": "uHDY1a_ragTitle",
+			"navEmpty": "uHDY1a_navEmpty",
+			"recallCopy": "uHDY1a_recallCopy",
+			"detailEmpty": "uHDY1a_detailEmpty",
+			"ragSliderRow": "uHDY1a_ragSliderRow",
+			"gridScroll": "uHDY1a_gridScroll",
+			"errorBanner": "uHDY1a_errorBanner",
+			"navigator": "uHDY1a_navigator",
+			"recallInput": "uHDY1a_recallInput",
+			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
+			"detail": "uHDY1a_detail",
+			"success": "uHDY1a_success",
+			"active": "uHDY1a_active",
+			"ragBody": "uHDY1a_ragBody"
 		};
 		//#endregion
 		//#region lib/types/client/KnowledgeWorkspace.js
@@ -3195,11 +3201,8 @@ window.__ModuleLoader__.load({
 			const [baseDescription, setBaseDescription] = (0, react.useState)("");
 			const [embeddingOptions, setEmbeddingOptions] = (0, react.useState)([]);
 			const [embeddingChoice, setEmbeddingChoice] = (0, react.useState)("local-hash");
-			const [draftTopK, setDraftTopK] = (0, react.useState)(8);
-			const [draftChunkSize, setDraftChunkSize] = (0, react.useState)(600);
-			const [draftChunkOverlap, setDraftChunkOverlap] = (0, react.useState)(60);
-			const [draftStrategy, setDraftStrategy] = (0, react.useState)("structured");
-			const [draftSeparators, setDraftSeparators] = (0, react.useState)("");
+			const [advancedOpen, setAdvancedOpen] = (0, react.useState)(false);
+			const [embeddingDraft, setEmbeddingDraft] = (0, react.useState)("local-hash");
 			const [noteName, setNoteName] = (0, react.useState)("");
 			const [noteBody, setNoteBody] = (0, react.useState)("");
 			const [urlText, setUrlText] = (0, react.useState)("");
@@ -3262,6 +3265,10 @@ window.__ModuleLoader__.load({
 					setConfig(result.value);
 					setConfigDraft(result.value);
 				});
+				knowledge.getBase(selectedId).then((result) => {
+					if (!active || !result.ok || result.value === null) return;
+					setEmbeddingDraft(result.value.embedding.providerId === "local-hash" ? "local-hash" : `${result.value.embedding.providerId}/${result.value.embedding.model ?? ""}`);
+				});
 				return () => {
 					active = false;
 				};
@@ -3282,17 +3289,6 @@ window.__ModuleLoader__.load({
 				});
 				if (!result.ok) {
 					setError(result.error.message);
-					return;
-				}
-				const configResult = await knowledge.setBaseConfig(result.value.id, {
-					chunkSize: Math.min(8e3, Math.max(100, Math.trunc(draftChunkSize))),
-					chunkOverlap: Math.min(4e3, Math.max(0, Math.trunc(draftChunkOverlap))),
-					topK: Math.min(50, Math.max(1, Math.trunc(draftTopK))),
-					strategy: draftStrategy,
-					separators: draftSeparators.slice(0, 200)
-				});
-				if (!configResult.ok) {
-					setError(configResult.error.message);
 					return;
 				}
 				setBaseName("");
@@ -3453,12 +3449,19 @@ window.__ModuleLoader__.load({
 				}
 			};
 			const saveConfig = async () => {
-				if (knowledge === void 0 || selectedId === "" || configDraft === null) return;
+				if (knowledge === void 0 || selectedId === "" || configDraft === null || config === null) return;
+				const [embeddingProvider, embeddingModel] = embeddingDraft === "local-hash" ? ["local-hash", void 0] : embeddingDraft.split("/");
+				const embeddingChanged = (selected?.embedding.providerId ?? "local-hash") !== (embeddingProvider === "local-hash" ? "local-hash" : embeddingProvider);
 				const result = await knowledge.setBaseConfig(selectedId, {
-					...configDraft,
 					chunkSize: Math.min(8e3, Math.max(100, Math.trunc(configDraft.chunkSize))),
 					chunkOverlap: Math.min(4e3, Math.max(0, Math.trunc(configDraft.chunkOverlap))),
-					topK: Math.min(50, Math.max(1, Math.trunc(configDraft.topK)))
+					topK: Math.min(50, Math.max(1, Math.trunc(configDraft.topK))),
+					strategy: configDraft.strategy,
+					separators: configDraft.separators,
+					...embeddingChanged ? {
+						embeddingProvider,
+						...embeddingModel === void 0 ? {} : { embeddingModel }
+					} : {}
 				});
 				if (!result.ok) {
 					setError(result.error.message);
@@ -3466,7 +3469,8 @@ window.__ModuleLoader__.load({
 				}
 				setConfig(result.value);
 				setConfigDraft(result.value);
-				setNotice("知识库设置已保存");
+				setNotice(embeddingChanged ? "知识库设置已保存（嵌入模型已变更，请重新建立索引）" : "知识库设置已保存");
+				refreshBases();
 			};
 			const openAdd = (type) => {
 				setAddMenuOpen(false);
@@ -3846,19 +3850,46 @@ window.__ModuleLoader__.load({
 										className: KnowledgeWorkspace_module_css_default.ragTitle,
 										children: "文档处理"
 									}), (0, react_jsx_runtime.jsx)("div", {
-										className: KnowledgeWorkspace_module_css_default.ragReadonly,
-										children: "未配置（DSH 原生文本解析）"
+										className: KnowledgeWorkspace_module_css_default.ragSelectWrap,
+										children: (0, react_jsx_runtime.jsx)("select", {
+											className: KnowledgeWorkspace_module_css_default.ragSelect,
+											value: "dsh-native",
+											onChange: () => {},
+											"aria-label": "文档处理",
+											children: (0, react_jsx_runtime.jsx)("option", {
+												value: "dsh-native",
+												children: "DSH 原生解析"
+											})
+										})
 									})]
 								}),
 								(0, react_jsx_runtime.jsxs)("div", {
 									className: KnowledgeWorkspace_module_css_default.ragSection,
-									children: [(0, react_jsx_runtime.jsx)("div", {
-										className: KnowledgeWorkspace_module_css_default.ragTitle,
-										children: "嵌入模型"
-									}), (0, react_jsx_runtime.jsx)("div", {
-										className: KnowledgeWorkspace_module_css_default.ragReadonly,
-										children: selected?.embedding.providerId === "local-hash" ? "本地 Hash Embedding（离线可用）" : `${selected?.embedding.providerId ?? ""} · ${selected?.embedding.model ?? ""}`
-									})]
+									children: [
+										(0, react_jsx_runtime.jsx)("div", {
+											className: KnowledgeWorkspace_module_css_default.ragTitle,
+											children: "嵌入模型"
+										}),
+										(0, react_jsx_runtime.jsx)("div", {
+											className: KnowledgeWorkspace_module_css_default.ragSelectWrap,
+											children: (0, react_jsx_runtime.jsx)("select", {
+												className: KnowledgeWorkspace_module_css_default.ragSelect,
+												value: embeddingDraft,
+												onChange: (event) => {
+													setEmbeddingDraft(event.target.value);
+												},
+												"aria-label": "嵌入模型",
+												children: embeddingOptions.map((option) => (0, react_jsx_runtime.jsx)("option", {
+													value: option.value,
+													children: option.label
+												}, option.value))
+											})
+										}),
+										(0, react_jsx_runtime.jsx)("div", {
+											className: KnowledgeWorkspace_module_css_default.ragHint,
+											children: "更改嵌入模型后需重新建立索引"
+										})
+									]
 								}),
 								(0, react_jsx_runtime.jsxs)("div", {
 									className: KnowledgeWorkspace_module_css_default.ragSection,
@@ -3866,8 +3897,17 @@ window.__ModuleLoader__.load({
 										className: KnowledgeWorkspace_module_css_default.ragTitle,
 										children: "重排模型"
 									}), (0, react_jsx_runtime.jsx)("div", {
-										className: KnowledgeWorkspace_module_css_default.ragReadonly,
-										children: "不使用"
+										className: KnowledgeWorkspace_module_css_default.ragSelectWrap,
+										children: (0, react_jsx_runtime.jsx)("select", {
+											className: KnowledgeWorkspace_module_css_default.ragSelect,
+											value: "none",
+											onChange: () => {},
+											"aria-label": "重排模型",
+											children: (0, react_jsx_runtime.jsx)("option", {
+												value: "none",
+												children: "不使用"
+											})
+										})
 									})]
 								}),
 								(0, react_jsx_runtime.jsxs)("div", {
@@ -3908,97 +3948,106 @@ window.__ModuleLoader__.load({
 								}),
 								(0, react_jsx_runtime.jsxs)("div", {
 									className: KnowledgeWorkspace_module_css_default.ragSection,
-									children: [
-										(0, react_jsx_runtime.jsx)("div", {
-											className: KnowledgeWorkspace_module_css_default.ragTitle,
-											children: "高级设置"
-										}),
-										(0, react_jsx_runtime.jsxs)("div", {
-											className: KnowledgeWorkspace_module_css_default.ragFieldRow,
-											children: [(0, react_jsx_runtime.jsx)("span", {
-												className: KnowledgeWorkspace_module_css_default.ragLabel,
-												children: "智能分段"
-											}), (0, react_jsx_runtime.jsx)(Switch, {
-												checked: configDraft.strategy === "structured",
-												onChange: (next) => {
-													setConfigDraft((current) => current === null ? current : {
-														...current,
-														strategy: next ? "structured" : "delimiter"
-													});
-												},
-												label: "智能分段"
-											})]
-										}),
-										(0, react_jsx_runtime.jsxs)("div", {
-											className: KnowledgeWorkspace_module_css_default.ragField,
-											children: [(0, react_jsx_runtime.jsx)("label", {
-												className: KnowledgeWorkspace_module_css_default.ragLabel,
-												htmlFor: "cc-rag-separators",
-												children: "分隔符（\\n 表示换行，留空使用默认段落分隔）"
-											}), (0, react_jsx_runtime.jsx)("input", {
-												id: "cc-rag-separators",
-												className: KnowledgeWorkspace_module_css_default.ragNumberFull,
-												value: configDraft.separators,
-												onChange: (event) => {
-													setConfigDraft((current) => current === null ? current : {
-														...current,
-														separators: event.target.value.slice(0, 200)
-													});
-												},
-												placeholder: "\n\n"
-											})]
-										}),
-										(0, react_jsx_runtime.jsxs)("div", {
-											className: KnowledgeWorkspace_module_css_default.ragField,
-											children: [(0, react_jsx_runtime.jsx)("label", {
-												className: KnowledgeWorkspace_module_css_default.ragLabel,
-												htmlFor: "cc-rag-chunk-size",
-												children: "分段大小（tokens）"
-											}), (0, react_jsx_runtime.jsx)("input", {
-												id: "cc-rag-chunk-size",
-												type: "number",
-												className: KnowledgeWorkspace_module_css_default.ragNumberFull,
-												min: 100,
-												max: 8e3,
-												step: 50,
-												value: configDraft.chunkSize,
-												onChange: (event) => {
-													const value = Math.min(8e3, Math.max(100, Number(event.target.value) || 100));
-													setConfigDraft((current) => current === null ? current : {
-														...current,
-														chunkSize: value
-													});
-												}
-											})]
-										}),
-										(0, react_jsx_runtime.jsxs)("div", {
-											className: KnowledgeWorkspace_module_css_default.ragField,
-											children: [(0, react_jsx_runtime.jsx)("label", {
-												className: KnowledgeWorkspace_module_css_default.ragLabel,
-												htmlFor: "cc-rag-overlap",
-												children: "重叠大小（tokens）"
-											}), (0, react_jsx_runtime.jsx)("input", {
-												id: "cc-rag-overlap",
-												type: "number",
-												className: KnowledgeWorkspace_module_css_default.ragNumberFull,
-												min: 0,
-												max: 4e3,
-												step: 10,
-												value: configDraft.chunkOverlap,
-												onChange: (event) => {
-													const value = Math.min(4e3, Math.max(0, Number(event.target.value) || 0));
-													setConfigDraft((current) => current === null ? current : {
-														...current,
-														chunkOverlap: value
-													});
-												}
-											})]
-										}),
-										(0, react_jsx_runtime.jsx)("div", {
-											className: KnowledgeWorkspace_module_css_default.ragHint,
-											children: "分块设置的修改只针对新添加的内容有效"
-										})
-									]
+									children: [(0, react_jsx_runtime.jsxs)("button", {
+										type: "button",
+										className: KnowledgeWorkspace_module_css_default.advancedToggle,
+										onClick: () => {
+											setAdvancedOpen((open) => !open);
+										},
+										children: [(0, react_jsx_runtime.jsx)("span", { children: "高级设置" }), (0, react_jsx_runtime.jsx)(IconChevronRight, {
+											size: 12,
+											className: advancedOpen ? KnowledgeWorkspace_module_css_default.advancedChevronOpen : void 0
+										})]
+									}), advancedOpen && (0, react_jsx_runtime.jsxs)("div", {
+										className: KnowledgeWorkspace_module_css_default.advancedBody,
+										children: [
+											(0, react_jsx_runtime.jsxs)("div", {
+												className: KnowledgeWorkspace_module_css_default.ragFieldRow,
+												children: [(0, react_jsx_runtime.jsxs)("span", {
+													className: KnowledgeWorkspace_module_css_default.ragLabel,
+													children: ["智能分段 ", (0, react_jsx_runtime.jsx)(HelpTooltip, { text: "按段落结构智能切分文本，保留语义完整性；关闭后按分隔符与长度切分" })]
+												}), (0, react_jsx_runtime.jsx)(Switch, {
+													checked: configDraft.strategy === "structured",
+													onChange: (next) => {
+														setConfigDraft((current) => current === null ? current : {
+															...current,
+															strategy: next ? "structured" : "delimiter"
+														});
+													},
+													label: "智能分段"
+												})]
+											}),
+											(0, react_jsx_runtime.jsxs)("div", {
+												className: KnowledgeWorkspace_module_css_default.ragField,
+												children: [(0, react_jsx_runtime.jsx)("label", {
+													className: KnowledgeWorkspace_module_css_default.ragLabel,
+													htmlFor: "cc-rag-separators",
+													children: "分隔符"
+												}), (0, react_jsx_runtime.jsx)("input", {
+													id: "cc-rag-separators",
+													className: KnowledgeWorkspace_module_css_default.ragNumberFull,
+													value: configDraft.separators,
+													onChange: (event) => {
+														setConfigDraft((current) => current === null ? current : {
+															...current,
+															separators: event.target.value.slice(0, 200)
+														});
+													},
+													placeholder: "\n\n"
+												})]
+											}),
+											(0, react_jsx_runtime.jsxs)("div", {
+												className: KnowledgeWorkspace_module_css_default.ragField,
+												children: [(0, react_jsx_runtime.jsx)("label", {
+													className: KnowledgeWorkspace_module_css_default.ragLabel,
+													htmlFor: "cc-rag-chunk-size",
+													children: "分段大小（tokens）"
+												}), (0, react_jsx_runtime.jsx)("input", {
+													id: "cc-rag-chunk-size",
+													type: "number",
+													className: KnowledgeWorkspace_module_css_default.ragNumberFull,
+													min: 100,
+													max: 8e3,
+													step: 50,
+													value: configDraft.chunkSize,
+													onChange: (event) => {
+														const value = Math.min(8e3, Math.max(100, Number(event.target.value) || 100));
+														setConfigDraft((current) => current === null ? current : {
+															...current,
+															chunkSize: value
+														});
+													}
+												})]
+											}),
+											(0, react_jsx_runtime.jsxs)("div", {
+												className: KnowledgeWorkspace_module_css_default.ragField,
+												children: [(0, react_jsx_runtime.jsx)("label", {
+													className: KnowledgeWorkspace_module_css_default.ragLabel,
+													htmlFor: "cc-rag-overlap",
+													children: "重叠大小（tokens）"
+												}), (0, react_jsx_runtime.jsx)("input", {
+													id: "cc-rag-overlap",
+													type: "number",
+													className: KnowledgeWorkspace_module_css_default.ragNumberFull,
+													min: 0,
+													max: 4e3,
+													step: 10,
+													value: configDraft.chunkOverlap,
+													onChange: (event) => {
+														const value = Math.min(4e3, Math.max(0, Number(event.target.value) || 0));
+														setConfigDraft((current) => current === null ? current : {
+															...current,
+															chunkOverlap: value
+														});
+													}
+												})]
+											}),
+											(0, react_jsx_runtime.jsx)("div", {
+												className: KnowledgeWorkspace_module_css_default.ragHint,
+												children: "分块设置的修改只针对新添加的内容有效"
+											})
+										]
+									})]
 								})
 							]
 						}), (0, react_jsx_runtime.jsxs)("div", {
@@ -4182,104 +4231,6 @@ window.__ModuleLoader__.load({
 											children: embeddingChoice === "local-hash" ? "离线可用，无需配置" : "将使用所选模型的 embeddings 接口；索引与检索均走该模型"
 										})
 									]
-								}),
-								(0, react_jsx_runtime.jsxs)("div", {
-									className: KnowledgeWorkspace_module_css_default.dialogField,
-									children: [(0, react_jsx_runtime.jsx)("label", {
-										htmlFor: "cc-kb-topk",
-										children: "Top K"
-									}), (0, react_jsx_runtime.jsxs)("div", {
-										className: KnowledgeWorkspace_module_css_default.dialogSliderRow,
-										children: [(0, react_jsx_runtime.jsx)("input", {
-											type: "range",
-											className: KnowledgeWorkspace_module_css_default.ragSlider,
-											min: 1,
-											max: 50,
-											value: draftTopK,
-											onChange: (event) => {
-												setDraftTopK(Number(event.target.value));
-											}
-										}), (0, react_jsx_runtime.jsx)("input", {
-											type: "number",
-											className: KnowledgeWorkspace_module_css_default.ragNumber,
-											min: 1,
-											max: 50,
-											value: draftTopK,
-											onChange: (event) => {
-												setDraftTopK(Math.min(50, Math.max(1, Number(event.target.value) || 1)));
-											}
-										})]
-									})]
-								}),
-								(0, react_jsx_runtime.jsxs)("div", {
-									className: KnowledgeWorkspace_module_css_default.dialogField,
-									children: [(0, react_jsx_runtime.jsx)("label", {
-										htmlFor: "cc-kb-chunk-size",
-										children: "分段大小（tokens）"
-									}), (0, react_jsx_runtime.jsx)("input", {
-										id: "cc-kb-chunk-size",
-										type: "number",
-										className: KnowledgeWorkspace_module_css_default.dialogInput,
-										min: 100,
-										max: 8e3,
-										step: 50,
-										value: draftChunkSize,
-										onChange: (event) => {
-											setDraftChunkSize(Math.min(8e3, Math.max(100, Number(event.target.value) || 100)));
-										}
-									})]
-								}),
-								(0, react_jsx_runtime.jsxs)("div", {
-									className: KnowledgeWorkspace_module_css_default.dialogField,
-									children: [(0, react_jsx_runtime.jsx)("label", {
-										htmlFor: "cc-kb-overlap",
-										children: "重叠大小（tokens）"
-									}), (0, react_jsx_runtime.jsx)("input", {
-										id: "cc-kb-overlap",
-										type: "number",
-										className: KnowledgeWorkspace_module_css_default.dialogInput,
-										min: 0,
-										max: 4e3,
-										step: 10,
-										value: draftChunkOverlap,
-										onChange: (event) => {
-											setDraftChunkOverlap(Math.min(4e3, Math.max(0, Number(event.target.value) || 0)));
-										}
-									})]
-								}),
-								(0, react_jsx_runtime.jsxs)("div", {
-									className: KnowledgeWorkspace_module_css_default.dialogField,
-									children: [(0, react_jsx_runtime.jsx)("label", {
-										htmlFor: "cc-kb-separators",
-										children: "分隔符（\\n 表示换行，留空使用默认段落分隔）"
-									}), (0, react_jsx_runtime.jsx)("input", {
-										id: "cc-kb-separators",
-										className: KnowledgeWorkspace_module_css_default.dialogInput,
-										value: draftSeparators,
-										onChange: (event) => {
-											setDraftSeparators(event.target.value.slice(0, 200));
-										},
-										placeholder: "\\n\\n"
-									})]
-								}),
-								(0, react_jsx_runtime.jsxs)("div", {
-									className: KnowledgeWorkspace_module_css_default.dialogField,
-									children: [(0, react_jsx_runtime.jsxs)("div", {
-										className: KnowledgeWorkspace_module_css_default.dialogFieldRow,
-										children: [(0, react_jsx_runtime.jsx)("span", {
-											className: KnowledgeWorkspace_module_css_default.ragLabel,
-											children: "智能分段"
-										}), (0, react_jsx_runtime.jsx)(Switch, {
-											checked: draftStrategy === "structured",
-											onChange: (next) => {
-												setDraftStrategy(next ? "structured" : "delimiter");
-											},
-											label: "智能分段"
-										})]
-									}), (0, react_jsx_runtime.jsx)("div", {
-										className: KnowledgeWorkspace_module_css_default.dialogHint,
-										children: "分块设置的修改只针对新添加的内容有效"
-									})]
 								}),
 								(0, react_jsx_runtime.jsxs)("div", {
 									className: KnowledgeWorkspace_module_css_default.dialogActions,
@@ -4592,19 +4543,19 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SkillsSection_module_css_default = {
-			"cardFooter": "pyHmqW_cardFooter",
 			"cardMeta": "pyHmqW_cardMeta",
-			"cardTags": "pyHmqW_cardTags",
-			"tag": "pyHmqW_tag",
-			"cardMetaItem": "pyHmqW_cardMetaItem",
-			"cardTitle": "pyHmqW_cardTitle",
 			"searchInput": "pyHmqW_searchInput",
-			"grid": "pyHmqW_grid",
+			"card": "pyHmqW_card",
+			"tag": "pyHmqW_tag",
 			"cardHeader": "pyHmqW_cardHeader",
 			"searchRow": "pyHmqW_searchRow",
-			"cardActions": "pyHmqW_cardActions",
+			"cardFooter": "pyHmqW_cardFooter",
+			"cardTitle": "pyHmqW_cardTitle",
 			"cardDescription": "pyHmqW_cardDescription",
-			"card": "pyHmqW_card"
+			"cardTags": "pyHmqW_cardTags",
+			"cardActions": "pyHmqW_cardActions",
+			"cardMetaItem": "pyHmqW_cardMetaItem",
+			"grid": "pyHmqW_grid"
 		};
 		//#endregion
 		//#region lib/types/client/SkillsSection.js
@@ -4947,24 +4898,24 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderAuthentication_module_css_default = {
-			"sectionTitle": "AU4RWG_sectionTitle",
-			"cc-spin": "AU4RWG_cc-spin",
-			"inputGroup": "AU4RWG_inputGroup",
-			"inputAddon": "AU4RWG_inputAddon",
-			"secondaryButton": "AU4RWG_secondaryButton",
-			"spin": "AU4RWG_spin",
-			"timestamp": "AU4RWG_timestamp",
-			"primaryButton": "AU4RWG_primaryButton",
-			"section": "AU4RWG_section",
-			"errorMessage": "AU4RWG_errorMessage",
-			"actionRow": "AU4RWG_actionRow",
-			"inputRow": "AU4RWG_inputRow",
-			"fieldLink": "AU4RWG_fieldLink",
-			"iconButton": "AU4RWG_iconButton",
-			"successMessage": "AU4RWG_successMessage",
-			"field": "AU4RWG_field",
 			"input": "AU4RWG_input",
-			"fieldLabel": "AU4RWG_fieldLabel"
+			"sectionTitle": "AU4RWG_sectionTitle",
+			"secondaryButton": "AU4RWG_secondaryButton",
+			"inputRow": "AU4RWG_inputRow",
+			"errorMessage": "AU4RWG_errorMessage",
+			"fieldLink": "AU4RWG_fieldLink",
+			"inputAddon": "AU4RWG_inputAddon",
+			"actionRow": "AU4RWG_actionRow",
+			"successMessage": "AU4RWG_successMessage",
+			"timestamp": "AU4RWG_timestamp",
+			"inputGroup": "AU4RWG_inputGroup",
+			"fieldLabel": "AU4RWG_fieldLabel",
+			"field": "AU4RWG_field",
+			"iconButton": "AU4RWG_iconButton",
+			"cc-spin": "AU4RWG_cc-spin",
+			"spin": "AU4RWG_spin",
+			"section": "AU4RWG_section",
+			"primaryButton": "AU4RWG_primaryButton"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderAuthentication.js
@@ -5157,34 +5108,34 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderModelList_module_css_default = {
-			"enabledCount": "_2yiUCa_enabledCount",
-			"sectionHeaderRow": "_2yiUCa_sectionHeaderRow",
-			"modelGroup": "_2yiUCa_modelGroup",
-			"toggleButton": "_2yiUCa_toggleButton",
-			"toggleThumb": "_2yiUCa_toggleThumb",
-			"groupTitle": "_2yiUCa_groupTitle",
-			"modelItemDisabled": "_2yiUCa_modelItemDisabled",
-			"modelMain": "_2yiUCa_modelMain",
-			"headerMeta": "_2yiUCa_headerMeta",
-			"toggleButtonDisabled": "_2yiUCa_toggleButtonDisabled",
-			"discoveryInfo": "_2yiUCa_discoveryInfo",
-			"metaItem": "_2yiUCa_metaItem",
-			"sectionHeading": "_2yiUCa_sectionHeading",
-			"countBadge": "_2yiUCa_countBadge",
-			"section": "_2yiUCa_section",
-			"groupCount": "_2yiUCa_groupCount",
-			"emptyState": "_2yiUCa_emptyState",
-			"modelMeta": "_2yiUCa_modelMeta",
-			"emptyText": "_2yiUCa_emptyText",
-			"toggleButtonEnabled": "_2yiUCa_toggleButtonEnabled",
 			"emptyIcon": "_2yiUCa_emptyIcon",
+			"modelGroup": "_2yiUCa_modelGroup",
 			"emptyHint": "_2yiUCa_emptyHint",
-			"groupHeader": "_2yiUCa_groupHeader",
-			"modelList": "_2yiUCa_modelList",
-			"modelItem": "_2yiUCa_modelItem",
+			"sectionHeaderRow": "_2yiUCa_sectionHeaderRow",
 			"modelIcon": "_2yiUCa_modelIcon",
+			"discoveryInfo": "_2yiUCa_discoveryInfo",
+			"enabledCount": "_2yiUCa_enabledCount",
+			"groupHeader": "_2yiUCa_groupHeader",
+			"countBadge": "_2yiUCa_countBadge",
+			"modelName": "_2yiUCa_modelName",
+			"toggleThumb": "_2yiUCa_toggleThumb",
+			"emptyState": "_2yiUCa_emptyState",
+			"modelItem": "_2yiUCa_modelItem",
+			"modelItemDisabled": "_2yiUCa_modelItemDisabled",
+			"metaItem": "_2yiUCa_metaItem",
+			"modelList": "_2yiUCa_modelList",
+			"section": "_2yiUCa_section",
+			"modelMain": "_2yiUCa_modelMain",
 			"modelInfo": "_2yiUCa_modelInfo",
-			"modelName": "_2yiUCa_modelName"
+			"toggleButton": "_2yiUCa_toggleButton",
+			"modelMeta": "_2yiUCa_modelMeta",
+			"sectionHeading": "_2yiUCa_sectionHeading",
+			"emptyText": "_2yiUCa_emptyText",
+			"groupCount": "_2yiUCa_groupCount",
+			"headerMeta": "_2yiUCa_headerMeta",
+			"groupTitle": "_2yiUCa_groupTitle",
+			"toggleButtonEnabled": "_2yiUCa_toggleButtonEnabled",
+			"toggleButtonDisabled": "_2yiUCa_toggleButtonDisabled"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderModelList.js
@@ -5898,32 +5849,32 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderDialog_module_css_default = {
-			"checkbox": "Y2Uoaq_checkbox",
+			"checkboxLabel": "Y2Uoaq_checkboxLabel",
+			"presetGroupTitle": "Y2Uoaq_presetGroupTitle",
+			"presetName": "Y2Uoaq_presetName",
+			"presetEmpty": "Y2Uoaq_presetEmpty",
+			"required": "Y2Uoaq_required",
+			"hint": "Y2Uoaq_hint",
+			"cancelButton": "Y2Uoaq_cancelButton",
 			"presetUrl": "Y2Uoaq_presetUrl",
-			"presetList": "Y2Uoaq_presetList",
+			"select": "Y2Uoaq_select",
+			"label": "Y2Uoaq_label",
+			"presetGroup": "Y2Uoaq_presetGroup",
+			"presetItem": "Y2Uoaq_presetItem",
+			"title": "Y2Uoaq_title",
+			"header": "Y2Uoaq_header",
+			"dialog": "Y2Uoaq_dialog",
+			"overlay": "Y2Uoaq_overlay",
 			"field": "Y2Uoaq_field",
 			"input": "Y2Uoaq_input",
-			"presetGroupTitle": "Y2Uoaq_presetGroupTitle",
 			"checkboxField": "Y2Uoaq_checkboxField",
-			"dialog": "Y2Uoaq_dialog",
-			"checkboxLabel": "Y2Uoaq_checkboxLabel",
-			"header": "Y2Uoaq_header",
-			"presetName": "Y2Uoaq_presetName",
-			"submitButton": "Y2Uoaq_submitButton",
-			"title": "Y2Uoaq_title",
-			"cancelButton": "Y2Uoaq_cancelButton",
-			"presetGroup": "Y2Uoaq_presetGroup",
-			"overlay": "Y2Uoaq_overlay",
-			"required": "Y2Uoaq_required",
-			"presetEmpty": "Y2Uoaq_presetEmpty",
-			"hint": "Y2Uoaq_hint",
-			"error": "Y2Uoaq_error",
-			"select": "Y2Uoaq_select",
+			"checkbox": "Y2Uoaq_checkbox",
 			"footer": "Y2Uoaq_footer",
-			"presetItem": "Y2Uoaq_presetItem",
-			"content": "Y2Uoaq_content",
+			"submitButton": "Y2Uoaq_submitButton",
+			"error": "Y2Uoaq_error",
 			"textarea": "Y2Uoaq_textarea",
-			"label": "Y2Uoaq_label"
+			"presetList": "Y2Uoaq_presetList",
+			"content": "Y2Uoaq_content"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderDialog.js
@@ -6268,48 +6219,48 @@ window.__ModuleLoader__.load({
 		}
 		var ProvidersSection_module_css_default = {
 			"dangerZoneDescription": "ExuySa_dangerZoneDescription",
-			"searchRow": "ExuySa_searchRow",
-			"listScroller": "ExuySa_listScroller",
-			"splitRoot": "ExuySa_splitRoot",
-			"listItemMain": "ExuySa_listItemMain",
-			"listItems": "ExuySa_listItems",
-			"detailMetaItem": "ExuySa_detailMetaItem",
-			"detailMeta": "ExuySa_detailMeta",
-			"dangerZone": "ExuySa_dangerZone",
-			"dangerButton": "ExuySa_dangerButton",
-			"listItem": "ExuySa_listItem",
-			"loading": "ExuySa_loading",
-			"listItemAvatar": "ExuySa_listItemAvatar",
-			"detailHeader": "ExuySa_detailHeader",
-			"enabledDot": "ExuySa_enabledDot",
-			"listItemLabel": "ExuySa_listItemLabel",
-			"detailScroll": "ExuySa_detailScroll",
-			"error": "ExuySa_error",
-			"emptyTitle": "ExuySa_emptyTitle",
-			"emptyIcon": "ExuySa_emptyIcon",
-			"section": "ExuySa_section",
-			"editButton": "ExuySa_editButton",
-			"addFooter": "ExuySa_addFooter",
-			"providerDetail": "ExuySa_providerDetail",
-			"providerList": "ExuySa_providerList",
-			"detailContentMaxWidth": "ExuySa_detailContentMaxWidth",
-			"addButton": "ExuySa_addButton",
-			"emptyDetailState": "ExuySa_emptyDetailState",
-			"listItemSelected": "ExuySa_listItemSelected",
-			"searchWrap": "ExuySa_searchWrap",
-			"sectionHeading": "ExuySa_sectionHeading",
-			"emptyDescription": "ExuySa_emptyDescription",
 			"emptyState": "ExuySa_emptyState",
-			"searchInput": "ExuySa_searchInput",
-			"secondaryButton": "ExuySa_secondaryButton",
-			"listItemIdle": "ExuySa_listItemIdle",
-			"searchClearButton": "ExuySa_searchClearButton",
+			"listItemMain": "ExuySa_listItemMain",
+			"emptyDescription": "ExuySa_emptyDescription",
+			"providerDetail": "ExuySa_providerDetail",
+			"searchRow": "ExuySa_searchRow",
+			"listItemLabel": "ExuySa_listItemLabel",
+			"addButton": "ExuySa_addButton",
 			"detailHeaderContent": "ExuySa_detailHeaderContent",
-			"searchIcon": "ExuySa_searchIcon",
-			"detailTitle": "ExuySa_detailTitle",
+			"listScroller": "ExuySa_listScroller",
 			"sectionBody": "ExuySa_sectionBody",
+			"detailHeader": "ExuySa_detailHeader",
+			"emptyIcon": "ExuySa_emptyIcon",
+			"detailMeta": "ExuySa_detailMeta",
+			"editButton": "ExuySa_editButton",
 			"dangerZoneTitle": "ExuySa_dangerZoneTitle",
-			"dangerZoneText": "ExuySa_dangerZoneText"
+			"enabledDot": "ExuySa_enabledDot",
+			"detailScroll": "ExuySa_detailScroll",
+			"searchInput": "ExuySa_searchInput",
+			"emptyTitle": "ExuySa_emptyTitle",
+			"secondaryButton": "ExuySa_secondaryButton",
+			"addFooter": "ExuySa_addFooter",
+			"sectionHeading": "ExuySa_sectionHeading",
+			"dangerZone": "ExuySa_dangerZone",
+			"searchIcon": "ExuySa_searchIcon",
+			"dangerZoneText": "ExuySa_dangerZoneText",
+			"detailMetaItem": "ExuySa_detailMetaItem",
+			"listItems": "ExuySa_listItems",
+			"listItem": "ExuySa_listItem",
+			"listItemAvatar": "ExuySa_listItemAvatar",
+			"dangerButton": "ExuySa_dangerButton",
+			"loading": "ExuySa_loading",
+			"providerList": "ExuySa_providerList",
+			"searchWrap": "ExuySa_searchWrap",
+			"detailTitle": "ExuySa_detailTitle",
+			"searchClearButton": "ExuySa_searchClearButton",
+			"emptyDetailState": "ExuySa_emptyDetailState",
+			"section": "ExuySa_section",
+			"listItemSelected": "ExuySa_listItemSelected",
+			"error": "ExuySa_error",
+			"detailContentMaxWidth": "ExuySa_detailContentMaxWidth",
+			"splitRoot": "ExuySa_splitRoot",
+			"listItemIdle": "ExuySa_listItemIdle"
 		};
 		//#endregion
 		//#region lib/types/client/ProvidersSection.js
@@ -6858,21 +6809,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var AddMcpServerDialog_module_css_default = {
-			"header": "uv_otq_header",
-			"title": "uv_otq_title",
-			"overlay": "uv_otq_overlay",
+			"textarea": "uv_otq_textarea",
 			"footer": "uv_otq_footer",
-			"cancelButton": "uv_otq_cancelButton",
+			"title": "uv_otq_title",
+			"form": "uv_otq_form",
+			"select": "uv_otq_select",
+			"header": "uv_otq_header",
 			"error": "uv_otq_error",
+			"submitButton": "uv_otq_submitButton",
 			"label": "uv_otq_label",
 			"closeButton": "uv_otq_closeButton",
-			"submitButton": "uv_otq_submitButton",
-			"select": "uv_otq_select",
+			"field": "uv_otq_field",
+			"cancelButton": "uv_otq_cancelButton",
+			"overlay": "uv_otq_overlay",
 			"input": "uv_otq_input",
-			"form": "uv_otq_form",
-			"textarea": "uv_otq_textarea",
-			"dialog": "uv_otq_dialog",
-			"field": "uv_otq_field"
+			"dialog": "uv_otq_dialog"
 		};
 		//#endregion
 		//#region lib/types/client/AddMcpServerDialog.js
@@ -7108,76 +7059,76 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var McpSection_module_css_default = {
-			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
-			"dangerZone": "_0bBxiW_dangerZone",
-			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
-			"textarea": "_0bBxiW_textarea",
-			"switchSlider": "_0bBxiW_switchSlider",
-			"addFooter": "_0bBxiW_addFooter",
-			"tabBar": "_0bBxiW_tabBar",
-			"sectionHeader": "_0bBxiW_sectionHeader",
 			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
-			"emptyDetailState": "_0bBxiW_emptyDetailState",
-			"detailMetaItem": "_0bBxiW_detailMetaItem",
-			"detailHeader": "_0bBxiW_detailHeader",
-			"addButton": "_0bBxiW_addButton",
-			"searchIcon": "_0bBxiW_searchIcon",
-			"listItemSelected": "_0bBxiW_listItemSelected",
-			"emptyTitle": "_0bBxiW_emptyTitle",
-			"input": "_0bBxiW_input",
-			"searchInput": "_0bBxiW_searchInput",
-			"searchRow": "_0bBxiW_searchRow",
-			"switchInput": "_0bBxiW_switchInput",
-			"toolItem": "_0bBxiW_toolItem",
-			"toolHeader": "_0bBxiW_toolHeader",
-			"listItemMain": "_0bBxiW_listItemMain",
-			"descriptionText": "_0bBxiW_descriptionText",
-			"tabActive": "_0bBxiW_tabActive",
-			"searchClearButton": "_0bBxiW_searchClearButton",
-			"listScroller": "_0bBxiW_listScroller",
-			"listItems": "_0bBxiW_listItems",
-			"serverDetail": "_0bBxiW_serverDetail",
-			"fieldGroup": "_0bBxiW_fieldGroup",
 			"logInfo": "_0bBxiW_logInfo",
-			"formActions": "_0bBxiW_formActions",
-			"loading": "_0bBxiW_loading",
-			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
-			"listItemLabel": "_0bBxiW_listItemLabel",
-			"serverList": "_0bBxiW_serverList",
-			"dangerButton": "_0bBxiW_dangerButton",
-			"toolName": "_0bBxiW_toolName",
-			"emptyIcon": "_0bBxiW_emptyIcon",
-			"codeLine": "_0bBxiW_codeLine",
-			"secondaryButton": "_0bBxiW_secondaryButton",
+			"emptyDetailState": "_0bBxiW_emptyDetailState",
+			"tab": "_0bBxiW_tab",
+			"searchIcon": "_0bBxiW_searchIcon",
+			"sectionHeader": "_0bBxiW_sectionHeader",
 			"error": "_0bBxiW_error",
+			"toolHeader": "_0bBxiW_toolHeader",
+			"tabBar": "_0bBxiW_tabBar",
+			"formActions": "_0bBxiW_formActions",
+			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
+			"listItemSelected": "_0bBxiW_listItemSelected",
+			"textarea": "_0bBxiW_textarea",
+			"switchWrapper": "_0bBxiW_switchWrapper",
+			"secondaryButton": "_0bBxiW_secondaryButton",
+			"codeLine": "_0bBxiW_codeLine",
+			"searchRow": "_0bBxiW_searchRow",
+			"listItems": "_0bBxiW_listItems",
+			"detailMeta": "_0bBxiW_detailMeta",
+			"tabActive": "_0bBxiW_tabActive",
+			"toolDescription": "_0bBxiW_toolDescription",
+			"addFooter": "_0bBxiW_addFooter",
+			"emptyTitle": "_0bBxiW_emptyTitle",
+			"activeDot": "_0bBxiW_activeDot",
+			"toolName": "_0bBxiW_toolName",
+			"dangerZone": "_0bBxiW_dangerZone",
+			"input": "_0bBxiW_input",
+			"codeBlock": "_0bBxiW_codeBlock",
+			"dangerButton": "_0bBxiW_dangerButton",
+			"splitRoot": "_0bBxiW_splitRoot",
+			"listItemMain": "_0bBxiW_listItemMain",
+			"switchSlider": "_0bBxiW_switchSlider",
+			"emptyDescription": "_0bBxiW_emptyDescription",
+			"logHeader": "_0bBxiW_logHeader",
+			"listItemAvatar": "_0bBxiW_listItemAvatar",
+			"resourceUri": "_0bBxiW_resourceUri",
+			"emptyState": "_0bBxiW_emptyState",
+			"sectionBody": "_0bBxiW_sectionBody",
 			"checkbox": "_0bBxiW_checkbox",
 			"dangerZoneText": "_0bBxiW_dangerZoneText",
-			"fieldRow": "_0bBxiW_fieldRow",
-			"logHeader": "_0bBxiW_logHeader",
-			"codeBlock": "_0bBxiW_codeBlock",
-			"fieldLabel": "_0bBxiW_fieldLabel",
+			"listScroller": "_0bBxiW_listScroller",
 			"listItemIdle": "_0bBxiW_listItemIdle",
-			"splitRoot": "_0bBxiW_splitRoot",
-			"fieldHint": "_0bBxiW_fieldHint",
-			"resourceUri": "_0bBxiW_resourceUri",
-			"detailScroll": "_0bBxiW_detailScroll",
-			"listItem": "_0bBxiW_listItem",
-			"listItemAvatar": "_0bBxiW_listItemAvatar",
-			"tab": "_0bBxiW_tab",
 			"section": "_0bBxiW_section",
-			"searchWrap": "_0bBxiW_searchWrap",
-			"errorBox": "_0bBxiW_errorBox",
-			"emptyState": "_0bBxiW_emptyState",
-			"detailTitle": "_0bBxiW_detailTitle",
-			"detailMeta": "_0bBxiW_detailMeta",
-			"sectionBody": "_0bBxiW_sectionBody",
-			"switchWrapper": "_0bBxiW_switchWrapper",
-			"activeDot": "_0bBxiW_activeDot",
-			"emptyDescription": "_0bBxiW_emptyDescription",
 			"primaryButton": "_0bBxiW_primaryButton",
+			"searchInput": "_0bBxiW_searchInput",
+			"detailHeader": "_0bBxiW_detailHeader",
+			"fieldGroup": "_0bBxiW_fieldGroup",
+			"addButton": "_0bBxiW_addButton",
 			"toolsList": "_0bBxiW_toolsList",
-			"toolDescription": "_0bBxiW_toolDescription",
-			"sectionHeading": "_0bBxiW_sectionHeading"
+			"fieldLabel": "_0bBxiW_fieldLabel",
+			"descriptionText": "_0bBxiW_descriptionText",
+			"toolItem": "_0bBxiW_toolItem",
+			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
+			"errorBox": "_0bBxiW_errorBox",
+			"detailMetaItem": "_0bBxiW_detailMetaItem",
+			"fieldRow": "_0bBxiW_fieldRow",
+			"fieldHint": "_0bBxiW_fieldHint",
+			"detailScroll": "_0bBxiW_detailScroll",
+			"searchClearButton": "_0bBxiW_searchClearButton",
+			"sectionHeading": "_0bBxiW_sectionHeading",
+			"emptyIcon": "_0bBxiW_emptyIcon",
+			"listItemLabel": "_0bBxiW_listItemLabel",
+			"serverList": "_0bBxiW_serverList",
+			"serverDetail": "_0bBxiW_serverDetail",
+			"detailTitle": "_0bBxiW_detailTitle",
+			"switchInput": "_0bBxiW_switchInput",
+			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
+			"searchWrap": "_0bBxiW_searchWrap",
+			"listItem": "_0bBxiW_listItem",
+			"loading": "_0bBxiW_loading"
 		};
 		//#endregion
 		//#region lib/types/client/McpSection.js
@@ -8124,25 +8075,25 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WebSearchSection_module_css_default = {
-			"fieldRow": "_0WjBOa_fieldRow",
-			"root": "_0WjBOa_root",
-			"select": "_0WjBOa_select",
-			"cardTitle": "_0WjBOa_cardTitle",
-			"apiKeyRow": "_0WjBOa_apiKeyRow",
-			"cardDescription": "_0WjBOa_cardDescription",
-			"providerName": "_0WjBOa_providerName",
 			"checkbox": "_0WjBOa_checkbox",
-			"pageDescription": "_0WjBOa_pageDescription",
-			"loading": "_0WjBOa_loading",
 			"pageTitle": "_0WjBOa_pageTitle",
 			"fieldLabel": "_0WjBOa_fieldLabel",
-			"fieldHint": "_0WjBOa_fieldHint",
-			"providerDetail": "_0WjBOa_providerDetail",
-			"input": "_0WjBOa_input",
+			"fieldRow": "_0WjBOa_fieldRow",
 			"providerDescription": "_0WjBOa_providerDescription",
-			"pageHeader": "_0WjBOa_pageHeader",
+			"fieldHint": "_0WjBOa_fieldHint",
+			"root": "_0WjBOa_root",
+			"providerName": "_0WjBOa_providerName",
+			"iconButton": "_0WjBOa_iconButton",
 			"card": "_0WjBOa_card",
-			"iconButton": "_0WjBOa_iconButton"
+			"cardTitle": "_0WjBOa_cardTitle",
+			"select": "_0WjBOa_select",
+			"pageHeader": "_0WjBOa_pageHeader",
+			"providerDetail": "_0WjBOa_providerDetail",
+			"pageDescription": "_0WjBOa_pageDescription",
+			"cardDescription": "_0WjBOa_cardDescription",
+			"input": "_0WjBOa_input",
+			"apiKeyRow": "_0WjBOa_apiKeyRow",
+			"loading": "_0WjBOa_loading"
 		};
 		//#endregion
 		//#region lib/types/client/WebSearchSection.js
@@ -8536,21 +8487,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProcessorSection_module_css_default = {
-			"fieldRow": "CL8zIa_fieldRow",
-			"root": "CL8zIa_root",
-			"fieldHint": "CL8zIa_fieldHint",
-			"apiKeyRow": "CL8zIa_apiKeyRow",
 			"pageDescription": "CL8zIa_pageDescription",
+			"providerDetail": "CL8zIa_providerDetail",
+			"fieldHint": "CL8zIa_fieldHint",
+			"providerDescription": "CL8zIa_providerDescription",
+			"iconButton": "CL8zIa_iconButton",
+			"apiKeyRow": "CL8zIa_apiKeyRow",
+			"select": "CL8zIa_select",
+			"pageTitle": "CL8zIa_pageTitle",
 			"fieldLabel": "CL8zIa_fieldLabel",
 			"loading": "CL8zIa_loading",
-			"select": "CL8zIa_select",
+			"providerName": "CL8zIa_providerName",
 			"card": "CL8zIa_card",
 			"cardTitle": "CL8zIa_cardTitle",
-			"iconButton": "CL8zIa_iconButton",
-			"providerDescription": "CL8zIa_providerDescription",
-			"pageTitle": "CL8zIa_pageTitle",
-			"providerName": "CL8zIa_providerName",
-			"providerDetail": "CL8zIa_providerDetail",
+			"root": "CL8zIa_root",
+			"fieldRow": "CL8zIa_fieldRow",
 			"cardDescription": "CL8zIa_cardDescription",
 			"input": "CL8zIa_input"
 		};
@@ -8837,57 +8788,57 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var UsageSection_module_css_default = {
-			"barSegment": "ej6-VW_barSegment",
-			"metricValue": "ej6-VW_metricValue",
+			"barAxis": "ej6-VW_barAxis",
+			"windowTabs": "ej6-VW_windowTabs",
+			"controlRow": "ej6-VW_controlRow",
+			"exploreCard": "ej6-VW_exploreCard",
+			"controlLabel": "ej6-VW_controlLabel",
+			"summaryLine": "ej6-VW_summaryLine",
 			"donutSwatch": "ej6-VW_donutSwatch",
-			"donutLegendKey": "ej6-VW_donutLegendKey",
-			"exploreTitle": "ej6-VW_exploreTitle",
-			"insightValue": "ej6-VW_insightValue",
-			"donutLegend": "ej6-VW_donutLegend",
-			"tdRight": "ej6-VW_tdRight",
+			"donutLegendValue": "ej6-VW_donutLegendValue",
+			"heatmapTitle": "ej6-VW_heatmapTitle",
+			"root": "ej6-VW_root",
+			"up": "ej6-VW_up",
 			"insightItem": "ej6-VW_insightItem",
+			"insightLabel": "ej6-VW_insightLabel",
+			"metricStrip": "ej6-VW_metricStrip",
+			"tableEmpty": "ej6-VW_tableEmpty",
+			"pageTitle": "ej6-VW_pageTitle",
+			"metricSparkline": "ej6-VW_metricSparkline",
+			"insightValue": "ej6-VW_insightValue",
+			"modelCell": "ej6-VW_modelCell",
+			"modelName": "ej6-VW_modelName",
+			"heatmapScroll": "ej6-VW_heatmapScroll",
 			"heatmapCell": "ej6-VW_heatmapCell",
+			"down": "ej6-VW_down",
+			"exploreTitle": "ej6-VW_exploreTitle",
+			"usageEmpty": "ej6-VW_usageEmpty",
+			"donutLegend": "ej6-VW_donutLegend",
+			"tableWrap": "ej6-VW_tableWrap",
+			"pageHeader": "ej6-VW_pageHeader",
+			"barSegment": "ej6-VW_barSegment",
+			"donutWrap": "ej6-VW_donutWrap",
+			"donutLegendRow": "ej6-VW_donutLegendRow",
+			"modelProvider": "ej6-VW_modelProvider",
+			"metricLabel": "ej6-VW_metricLabel",
+			"metricValue": "ej6-VW_metricValue",
+			"controlSelect": "ej6-VW_controlSelect",
+			"windowTab": "ej6-VW_windowTab",
+			"insightStrip": "ej6-VW_insightStrip",
+			"exploreHeader": "ej6-VW_exploreHeader",
+			"barChart": "ej6-VW_barChart",
 			"exploreBody": "ej6-VW_exploreBody",
+			"metricCell": "ej6-VW_metricCell",
+			"heatmap": "ej6-VW_heatmap",
+			"metricDelta": "ej6-VW_metricDelta",
+			"barColumn": "ej6-VW_barColumn",
+			"donutLegendKey": "ej6-VW_donutLegendKey",
+			"entriesTable": "ej6-VW_entriesTable",
+			"tdRight": "ej6-VW_tdRight",
 			"loadMoreBtn": "ej6-VW_loadMoreBtn",
 			"pageDescription": "ej6-VW_pageDescription",
-			"controlRow": "ej6-VW_controlRow",
-			"controlSelect": "ej6-VW_controlSelect",
-			"active": "ej6-VW_active",
-			"root": "ej6-VW_root",
-			"metricLabel": "ej6-VW_metricLabel",
-			"pageHeader": "ej6-VW_pageHeader",
 			"heatmapSection": "ej6-VW_heatmapSection",
-			"heatmapScroll": "ej6-VW_heatmapScroll",
-			"barChart": "ej6-VW_barChart",
-			"donutLegendRow": "ej6-VW_donutLegendRow",
-			"donutLegendValue": "ej6-VW_donutLegendValue",
-			"tableWrap": "ej6-VW_tableWrap",
-			"modelCell": "ej6-VW_modelCell",
-			"modelProvider": "ej6-VW_modelProvider",
-			"metricCell": "ej6-VW_metricCell",
-			"down": "ej6-VW_down",
-			"controlLabel": "ej6-VW_controlLabel",
-			"up": "ej6-VW_up",
-			"windowTabs": "ej6-VW_windowTabs",
-			"exploreHeader": "ej6-VW_exploreHeader",
-			"summaryLine": "ej6-VW_summaryLine",
-			"heatmap": "ej6-VW_heatmap",
-			"barColumn": "ej6-VW_barColumn",
-			"modelName": "ej6-VW_modelName",
-			"insightStrip": "ej6-VW_insightStrip",
-			"barAxis": "ej6-VW_barAxis",
-			"donutWrap": "ej6-VW_donutWrap",
-			"exploreCard": "ej6-VW_exploreCard",
-			"entriesTable": "ej6-VW_entriesTable",
-			"tableEmpty": "ej6-VW_tableEmpty",
-			"heatmapTitle": "ej6-VW_heatmapTitle",
-			"usageEmpty": "ej6-VW_usageEmpty",
-			"windowTab": "ej6-VW_windowTab",
-			"metricDelta": "ej6-VW_metricDelta",
-			"insightLabel": "ej6-VW_insightLabel",
-			"pageTitle": "ej6-VW_pageTitle",
-			"metricStrip": "ej6-VW_metricStrip",
-			"metricSparkline": "ej6-VW_metricSparkline"
+			"active": "ej6-VW_active"
 		};
 		//#endregion
 		//#region lib/types/client/UsageSection.js
@@ -9884,16 +9835,16 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SystemSection_module_css_default = {
-			"infoValue": "MzTzwq_infoValue",
-			"loading": "MzTzwq_loading",
-			"card": "MzTzwq_card",
-			"infoLabel": "MzTzwq_infoLabel",
-			"infoRow": "MzTzwq_infoRow",
 			"pageTitle": "MzTzwq_pageTitle",
+			"infoValue": "MzTzwq_infoValue",
 			"cardTitle": "MzTzwq_cardTitle",
 			"badge": "MzTzwq_badge",
+			"infoRow": "MzTzwq_infoRow",
 			"root": "MzTzwq_root",
-			"pageDescription": "MzTzwq_pageDescription"
+			"card": "MzTzwq_card",
+			"infoLabel": "MzTzwq_infoLabel",
+			"pageDescription": "MzTzwq_pageDescription",
+			"loading": "MzTzwq_loading"
 		};
 		//#endregion
 		//#region lib/types/client/SystemSection.js
@@ -10157,23 +10108,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TasksSection_module_css_default = {
-			"runTime": "_3yT94W_runTime",
-			"taskMeta": "_3yT94W_taskMeta",
-			"loading": "_3yT94W_loading",
-			"runOk": "_3yT94W_runOk",
 			"card": "_3yT94W_card",
-			"root": "_3yT94W_root",
+			"input": "_3yT94W_input",
+			"taskMeta": "_3yT94W_taskMeta",
+			"runFail": "_3yT94W_runFail",
+			"cardTitle": "_3yT94W_cardTitle",
 			"runRow": "_3yT94W_runRow",
-			"taskRow": "_3yT94W_taskRow",
+			"root": "_3yT94W_root",
+			"runOk": "_3yT94W_runOk",
+			"taskMain": "_3yT94W_taskMain",
+			"loading": "_3yT94W_loading",
+			"runDetail": "_3yT94W_runDetail",
+			"select": "_3yT94W_select",
 			"taskName": "_3yT94W_taskName",
 			"pageTitle": "_3yT94W_pageTitle",
 			"pageDescription": "_3yT94W_pageDescription",
-			"select": "_3yT94W_select",
-			"runDetail": "_3yT94W_runDetail",
-			"cardTitle": "_3yT94W_cardTitle",
-			"taskMain": "_3yT94W_taskMain",
-			"runFail": "_3yT94W_runFail",
-			"input": "_3yT94W_input"
+			"runTime": "_3yT94W_runTime",
+			"taskRow": "_3yT94W_taskRow"
 		};
 		//#endregion
 		//#region lib/types/client/TasksSection.js
@@ -10899,28 +10850,28 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
-			"panel": "_4STY0G_panel",
-			"navScroll": "_4STY0G_navScroll",
-			"navList": "_4STY0G_navList",
-			"navGroupTitle": "_4STY0G_navGroupTitle",
 			"navCell": "_4STY0G_navCell",
-			"navLabel": "_4STY0G_navLabel",
-			"hiddenLabel": "_4STY0G_hiddenLabel",
-			"navGroup": "_4STY0G_navGroup",
-			"actions": "_4STY0G_actions",
-			"active": "_4STY0G_active",
-			"nav": "_4STY0G_nav",
-			"trigger": "_4STY0G_trigger",
-			"content": "_4STY0G_content",
-			"header": "_4STY0G_header",
-			"triggerLabel": "_4STY0G_triggerLabel",
-			"mask": "_4STY0G_mask",
-			"navIcon": "_4STY0G_navIcon",
 			"options": "_4STY0G_options",
-			"navTitle": "_4STY0G_navTitle",
-			"rail": "_4STY0G_rail",
+			"header": "_4STY0G_header",
+			"active": "_4STY0G_active",
+			"mask": "_4STY0G_mask",
+			"content": "_4STY0G_content",
+			"trigger": "_4STY0G_trigger",
+			"actions": "_4STY0G_actions",
+			"navLabel": "_4STY0G_navLabel",
+			"navGroup": "_4STY0G_navGroup",
+			"navScroll": "_4STY0G_navScroll",
+			"overlay": "_4STY0G_overlay",
+			"navIcon": "_4STY0G_navIcon",
+			"triggerLabel": "_4STY0G_triggerLabel",
+			"panel": "_4STY0G_panel",
+			"hiddenLabel": "_4STY0G_hiddenLabel",
+			"nav": "_4STY0G_nav",
+			"navGroupTitle": "_4STY0G_navGroupTitle",
 			"close": "_4STY0G_close",
-			"overlay": "_4STY0G_overlay"
+			"rail": "_4STY0G_rail",
+			"navTitle": "_4STY0G_navTitle",
+			"navList": "_4STY0G_navList"
 		};
 		//#endregion
 		//#region \0dsh-control-center-plain-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\cherry-tokens.css.mjs
@@ -11285,8 +11236,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsDocumentAction_module_css_default = {
-			"error": "SgSrUG_error",
-			"action": "SgSrUG_action"
+			"action": "SgSrUG_action",
+			"error": "SgSrUG_error"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsDocumentAction.js
@@ -11551,35 +11502,35 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelsSection_module_css_default = {
-			"rowName": "tKsOKa_rowName",
-			"title": "tKsOKa_title",
-			"addCard": "tKsOKa_addCard",
 			"rowHead": "tKsOKa_rowHead",
-			"deleteDialog": "tKsOKa_deleteDialog",
-			"addBlock": "tKsOKa_addBlock",
-			"credentialDot": "tKsOKa_credentialDot",
-			"addActions": "tKsOKa_addActions",
-			"dangerButton": "tKsOKa_dangerButton",
-			"rowIdentity": "tKsOKa_rowIdentity",
-			"credentialDotMissing": "tKsOKa_credentialDotMissing",
-			"secondaryButton": "tKsOKa_secondaryButton",
-			"field": "tKsOKa_field",
-			"rowTag": "tKsOKa_rowTag",
-			"section": "tKsOKa_section",
-			"rowActions": "tKsOKa_rowActions",
-			"notice": "tKsOKa_notice",
-			"error": "tKsOKa_error",
-			"setupCard": "tKsOKa_setupCard",
-			"fieldLabel": "tKsOKa_fieldLabel",
-			"addButton": "tKsOKa_addButton",
 			"rows": "tKsOKa_rows",
-			"input": "tKsOKa_input",
-			"intro": "tKsOKa_intro",
+			"error": "tKsOKa_error",
 			"rowCard": "tKsOKa_rowCard",
-			"selectInput": "tKsOKa_selectInput",
-			"savedNotice": "tKsOKa_savedNotice",
+			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"rowIdentity": "tKsOKa_rowIdentity",
+			"addButton": "tKsOKa_addButton",
+			"deleteDialog": "tKsOKa_deleteDialog",
+			"rowName": "tKsOKa_rowName",
+			"addBlock": "tKsOKa_addBlock",
+			"title": "tKsOKa_title",
+			"rowTag": "tKsOKa_rowTag",
 			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
-			"deleteConfirm": "tKsOKa_deleteConfirm"
+			"fieldLabel": "tKsOKa_fieldLabel",
+			"intro": "tKsOKa_intro",
+			"rowActions": "tKsOKa_rowActions",
+			"selectInput": "tKsOKa_selectInput",
+			"credentialDot": "tKsOKa_credentialDot",
+			"input": "tKsOKa_input",
+			"section": "tKsOKa_section",
+			"field": "tKsOKa_field",
+			"setupCard": "tKsOKa_setupCard",
+			"secondaryButton": "tKsOKa_secondaryButton",
+			"savedNotice": "tKsOKa_savedNotice",
+			"deleteConfirm": "tKsOKa_deleteConfirm",
+			"notice": "tKsOKa_notice",
+			"addCard": "tKsOKa_addCard",
+			"addActions": "tKsOKa_addActions",
+			"dangerButton": "tKsOKa_dangerButton"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -14694,10 +14645,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var OnboardingModal_module_css_default = {
-			"dialog": "C_CJ_a_dialog",
+			"content": "C_CJ_a_content",
 			"title": "C_CJ_a_title",
 			"body": "C_CJ_a_body",
-			"content": "C_CJ_a_content"
+			"dialog": "C_CJ_a_dialog"
 		};
 		//#endregion
 		//#region lib/types/client/OnboardingModal.js
@@ -14847,10 +14798,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WelcomeNotice_module_css_default = {
-			"actions": "RFswhG_actions",
-			"copy": "RFswhG_copy",
 			"error": "RFswhG_error",
-			"primary": "RFswhG_primary"
+			"copy": "RFswhG_copy",
+			"primary": "RFswhG_primary",
+			"actions": "RFswhG_actions"
 		};
 		//#endregion
 		//#region lib/types/client/WelcomeNotice.js
@@ -15314,12 +15265,12 @@ window.__ModuleLoader__.load({
 		}
 		var ProductWorkspaceSurface_module_css_default = {
 			"header": "mzcFbW_header",
-			"eyebrow": "mzcFbW_eyebrow",
 			"close": "mzcFbW_close",
 			"body": "mzcFbW_body",
-			"root": "mzcFbW_root",
 			"icon": "mzcFbW_icon",
-			"identity": "mzcFbW_identity"
+			"identity": "mzcFbW_identity",
+			"eyebrow": "mzcFbW_eyebrow",
+			"root": "mzcFbW_root"
 		};
 		//#endregion
 		//#region lib/types/client/ProductWorkspaceSurface.js

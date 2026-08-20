@@ -15,10 +15,10 @@ import type {
 } from '../knowledge-types.ts'
 import css from './KnowledgeWorkspace.module.css'
 import {
-  IconCircleAlert, IconCopy, IconFileText, IconFlaskConical, IconFolder, IconLink2,
+  IconChevronRight, IconCircleAlert, IconCopy, IconFileText, IconFlaskConical, IconFolder, IconLink2,
   IconMoreHorizontal, IconPlus, IconRefreshCw, IconSlidersHorizontal, IconStickyNote, IconZap,
 } from './cherry-icons.tsx'
-import { ConfirmDialog, PanelShell, Switch, useCopy } from './panel-ui.tsx'
+import { ConfirmDialog, HelpTooltip, PanelShell, Switch, useCopy } from './panel-ui.tsx'
 
 export interface KnowledgeWorkspaceInjected {
   getKnowledge: () => NonNullable<ClientRemote['controlCenterKnowledge']>
@@ -123,11 +123,8 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
   const [baseDescription, setBaseDescription] = useState('')
   const [embeddingOptions, setEmbeddingOptions] = useState<Array<{ value: string; label: string; provider?: string; model?: string }>>([])
   const [embeddingChoice, setEmbeddingChoice] = useState('local-hash')
-  const [draftTopK, setDraftTopK] = useState(8)
-  const [draftChunkSize, setDraftChunkSize] = useState(600)
-  const [draftChunkOverlap, setDraftChunkOverlap] = useState(60)
-  const [draftStrategy, setDraftStrategy] = useState<'structured' | 'delimiter'>('structured')
-  const [draftSeparators, setDraftSeparators] = useState('')
+  const [advancedOpen, setAdvancedOpen] = useState(false)
+  const [embeddingDraft, setEmbeddingDraft] = useState('local-hash')
   const [noteName, setNoteName] = useState('')
   const [noteBody, setNoteBody] = useState('')
   const [urlText, setUrlText] = useState('')
@@ -191,6 +188,12 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
       setConfig(result.value)
       setConfigDraft(result.value)
     })
+    void knowledge.getBase(selectedId).then(result => {
+      if (!active || !result.ok || result.value === null) return
+      setEmbeddingDraft(result.value.embedding.providerId === 'local-hash'
+        ? 'local-hash'
+        : `${result.value.embedding.providerId}/${result.value.embedding.model ?? ''}`)
+    })
     return () => { active = false }
   }, [knowledgeReady, knowledge, selectedId])
 
@@ -207,15 +210,6 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
       ...(embeddingModel === undefined ? {} : { embeddingModel }),
     })
     if (!result.ok) { setError(result.error.message); return }
-    // Apply the RAG tuning chosen at creation time (Cherry create dialog parity).
-    const configResult = await knowledge.setBaseConfig(result.value.id, {
-      chunkSize: Math.min(8000, Math.max(100, Math.trunc(draftChunkSize))),
-      chunkOverlap: Math.min(4000, Math.max(0, Math.trunc(draftChunkOverlap))),
-      topK: Math.min(50, Math.max(1, Math.trunc(draftTopK))),
-      strategy: draftStrategy,
-      separators: draftSeparators.slice(0, 200),
-    })
-    if (!configResult.ok) { setError(configResult.error.message); return }
     setBaseName('')
     setBaseDescription('')
     setCreateOpen(false)
@@ -339,17 +333,24 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
   }
 
   const saveConfig = async (): Promise<void> => {
-    if (knowledge === undefined || selectedId === '' || configDraft === null) return
+    if (knowledge === undefined || selectedId === '' || configDraft === null || config === null) return
+    const [embeddingProvider, embeddingModel] = embeddingDraft === 'local-hash'
+      ? ['local-hash', undefined]
+      : embeddingDraft.split('/') as [string, string | undefined]
+    const embeddingChanged = (selected?.embedding.providerId ?? 'local-hash') !== (embeddingProvider === 'local-hash' ? 'local-hash' : embeddingProvider)
     const result = await knowledge.setBaseConfig(selectedId, {
-      ...configDraft,
       chunkSize: Math.min(8000, Math.max(100, Math.trunc(configDraft.chunkSize))),
       chunkOverlap: Math.min(4000, Math.max(0, Math.trunc(configDraft.chunkOverlap))),
       topK: Math.min(50, Math.max(1, Math.trunc(configDraft.topK))),
+      strategy: configDraft.strategy,
+      separators: configDraft.separators,
+      ...(embeddingChanged ? { embeddingProvider, ...(embeddingModel === undefined ? {} : { embeddingModel }) } : {}),
     })
     if (!result.ok) { setError(result.error.message); return }
     setConfig(result.value)
     setConfigDraft(result.value)
-    setNotice('知识库设置已保存')
+    setNotice(embeddingChanged ? '知识库设置已保存（嵌入模型已变更，请重新建立索引）' : '知识库设置已保存')
+    refreshBases()
   }
 
   const openAdd = (type: AddSourceType): void => {
@@ -596,19 +597,35 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
           <div className={css.ragBody}>
             <div className={css.ragSection}>
               <div className={css.ragTitle}>文档处理</div>
-              <div className={css.ragReadonly}>未配置（DSH 原生文本解析）</div>
-            </div>
-            <div className={css.ragSection}>
-              <div className={css.ragTitle}>嵌入模型</div>
-              <div className={css.ragReadonly}>
-                {selected?.embedding.providerId === 'local-hash'
-                  ? '本地 Hash Embedding（离线可用）'
-                  : `${selected?.embedding.providerId ?? ''} · ${selected?.embedding.model ?? ''}`}
+              <div className={css.ragSelectWrap}>
+                <select className={css.ragSelect} value="dsh-native" onChange={() => {}} aria-label="文档处理">
+                  <option value="dsh-native">DSH 原生解析</option>
+                </select>
               </div>
             </div>
             <div className={css.ragSection}>
+              <div className={css.ragTitle}>嵌入模型</div>
+              <div className={css.ragSelectWrap}>
+                <select
+                  className={css.ragSelect}
+                  value={embeddingDraft}
+                  onChange={event => { setEmbeddingDraft(event.target.value) }}
+                  aria-label="嵌入模型"
+                >
+                  {embeddingOptions.map(option => (
+                    <option key={option.value} value={option.value}>{option.label}</option>
+                  ))}
+                </select>
+              </div>
+              <div className={css.ragHint}>更改嵌入模型后需重新建立索引</div>
+            </div>
+            <div className={css.ragSection}>
               <div className={css.ragTitle}>重排模型</div>
-              <div className={css.ragReadonly}>不使用</div>
+              <div className={css.ragSelectWrap}>
+                <select className={css.ragSelect} value="none" onChange={() => {}} aria-label="重排模型">
+                  <option value="none">不使用</option>
+                </select>
+              </div>
             </div>
             <div className={css.ragSection}>
               <div className={css.ragTitle}>Top K</div>
@@ -636,58 +653,69 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
               </div>
             </div>
             <div className={css.ragSection}>
-              <div className={css.ragTitle}>高级设置</div>
-              <div className={css.ragFieldRow}>
-                <span className={css.ragLabel}>智能分段</span>
-                <Switch
-                  checked={configDraft.strategy === 'structured'}
-                  onChange={next => { setConfigDraft(current => current === null ? current : { ...current, strategy: next ? 'structured' : 'delimiter' }) }}
-                  label="智能分段"
-                />
-              </div>
-              <div className={css.ragField}>
-                <label className={css.ragLabel} htmlFor="cc-rag-separators">分隔符（\n 表示换行，留空使用默认段落分隔）</label>
-                <input
-                  id="cc-rag-separators"
-                  className={css.ragNumberFull}
-                  value={configDraft.separators}
-                  onChange={event => { setConfigDraft(current => current === null ? current : { ...current, separators: event.target.value.slice(0, 200) }) }}
-                  placeholder={"\n\n"}
-                />
-              </div>
-              <div className={css.ragField}>
-                <label className={css.ragLabel} htmlFor="cc-rag-chunk-size">分段大小（tokens）</label>
-                <input
-                  id="cc-rag-chunk-size"
-                  type="number"
-                  className={css.ragNumberFull}
-                  min={100}
-                  max={8000}
-                  step={50}
-                  value={configDraft.chunkSize}
-                  onChange={event => {
-                    const value = Math.min(8000, Math.max(100, Number(event.target.value) || 100))
-                    setConfigDraft(current => current === null ? current : { ...current, chunkSize: value })
-                  }}
-                />
-              </div>
-              <div className={css.ragField}>
-                <label className={css.ragLabel} htmlFor="cc-rag-overlap">重叠大小（tokens）</label>
-                <input
-                  id="cc-rag-overlap"
-                  type="number"
-                  className={css.ragNumberFull}
-                  min={0}
-                  max={4000}
-                  step={10}
-                  value={configDraft.chunkOverlap}
-                  onChange={event => {
-                    const value = Math.min(4000, Math.max(0, Number(event.target.value) || 0))
-                    setConfigDraft(current => current === null ? current : { ...current, chunkOverlap: value })
-                  }}
-                />
-              </div>
-              <div className={css.ragHint}>分块设置的修改只针对新添加的内容有效</div>
+              <button
+                type="button"
+                className={css.advancedToggle}
+                onClick={() => { setAdvancedOpen(open => !open) }}
+              >
+                <span>高级设置</span>
+                <IconChevronRight size={12} className={advancedOpen ? css.advancedChevronOpen : undefined} />
+              </button>
+              {advancedOpen && (
+                <div className={css.advancedBody}>
+                  <div className={css.ragFieldRow}>
+                    <span className={css.ragLabel}>智能分段 <HelpTooltip text="按段落结构智能切分文本，保留语义完整性；关闭后按分隔符与长度切分" /></span>
+                    <Switch
+                      checked={configDraft.strategy === 'structured'}
+                      onChange={next => { setConfigDraft(current => current === null ? current : { ...current, strategy: next ? 'structured' : 'delimiter' }) }}
+                      label="智能分段"
+                    />
+                  </div>
+                  <div className={css.ragField}>
+                    <label className={css.ragLabel} htmlFor="cc-rag-separators">分隔符</label>
+                    <input
+                      id="cc-rag-separators"
+                      className={css.ragNumberFull}
+                      value={configDraft.separators}
+                      onChange={event => { setConfigDraft(current => current === null ? current : { ...current, separators: event.target.value.slice(0, 200) }) }}
+                      placeholder={"\n\n"}
+                    />
+                  </div>
+                  <div className={css.ragField}>
+                    <label className={css.ragLabel} htmlFor="cc-rag-chunk-size">分段大小（tokens）</label>
+                    <input
+                      id="cc-rag-chunk-size"
+                      type="number"
+                      className={css.ragNumberFull}
+                      min={100}
+                      max={8000}
+                      step={50}
+                      value={configDraft.chunkSize}
+                      onChange={event => {
+                        const value = Math.min(8000, Math.max(100, Number(event.target.value) || 100))
+                        setConfigDraft(current => current === null ? current : { ...current, chunkSize: value })
+                      }}
+                    />
+                  </div>
+                  <div className={css.ragField}>
+                    <label className={css.ragLabel} htmlFor="cc-rag-overlap">重叠大小（tokens）</label>
+                    <input
+                      id="cc-rag-overlap"
+                      type="number"
+                      className={css.ragNumberFull}
+                      min={0}
+                      max={4000}
+                      step={10}
+                      value={configDraft.chunkOverlap}
+                      onChange={event => {
+                        const value = Math.min(4000, Math.max(0, Number(event.target.value) || 0))
+                        setConfigDraft(current => current === null ? current : { ...current, chunkOverlap: value })
+                      }}
+                    />
+                  </div>
+                  <div className={css.ragHint}>分块设置的修改只针对新添加的内容有效</div>
+                </div>
+              )}
             </div>
           </div>
           <div className={css.ragFooter}>
@@ -799,74 +827,6 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
                 ))}
               </select>
               <div className={css.dialogHint}>{embeddingChoice === 'local-hash' ? '离线可用，无需配置' : '将使用所选模型的 embeddings 接口；索引与检索均走该模型'}</div>
-            </div>
-            <div className={css.dialogField}>
-              <label htmlFor="cc-kb-topk">Top K</label>
-              <div className={css.dialogSliderRow}>
-                <input
-                  type="range"
-                  className={css.ragSlider}
-                  min={1}
-                  max={50}
-                  value={draftTopK}
-                  onChange={event => { setDraftTopK(Number(event.target.value)) }}
-                />
-                <input
-                  type="number"
-                  className={css.ragNumber}
-                  min={1}
-                  max={50}
-                  value={draftTopK}
-                  onChange={event => { setDraftTopK(Math.min(50, Math.max(1, Number(event.target.value) || 1))) }}
-                />
-              </div>
-            </div>
-            <div className={css.dialogField}>
-              <label htmlFor="cc-kb-chunk-size">分段大小（tokens）</label>
-              <input
-                id="cc-kb-chunk-size"
-                type="number"
-                className={css.dialogInput}
-                min={100}
-                max={8000}
-                step={50}
-                value={draftChunkSize}
-                onChange={event => { setDraftChunkSize(Math.min(8000, Math.max(100, Number(event.target.value) || 100))) }}
-              />
-            </div>
-            <div className={css.dialogField}>
-              <label htmlFor="cc-kb-overlap">重叠大小（tokens）</label>
-              <input
-                id="cc-kb-overlap"
-                type="number"
-                className={css.dialogInput}
-                min={0}
-                max={4000}
-                step={10}
-                value={draftChunkOverlap}
-                onChange={event => { setDraftChunkOverlap(Math.min(4000, Math.max(0, Number(event.target.value) || 0))) }}
-              />
-            </div>
-            <div className={css.dialogField}>
-              <label htmlFor="cc-kb-separators">分隔符（\n 表示换行，留空使用默认段落分隔）</label>
-              <input
-                id="cc-kb-separators"
-                className={css.dialogInput}
-                value={draftSeparators}
-                onChange={event => { setDraftSeparators(event.target.value.slice(0, 200)) }}
-                placeholder={'\\n\\n'}
-              />
-            </div>
-            <div className={css.dialogField}>
-              <div className={css.dialogFieldRow}>
-                <span className={css.ragLabel}>智能分段</span>
-                <Switch
-                  checked={draftStrategy === 'structured'}
-                  onChange={next => { setDraftStrategy(next ? 'structured' : 'delimiter') }}
-                  label="智能分段"
-                />
-              </div>
-              <div className={css.dialogHint}>分块设置的修改只针对新添加的内容有效</div>
             </div>
             <div className={css.dialogActions}>
               <button type="button" className={css.btn} onClick={() => { setCreateOpen(false) }}>取消</button>

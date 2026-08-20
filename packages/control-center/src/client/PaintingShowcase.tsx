@@ -24,17 +24,18 @@ interface PositionStyle {
   opacity: number
 }
 
-/** Cherry carousel positions for offsets -2..+2 (translate/rotate/scale). */
+/** Cherry carousel positions for offsets -2..+2: wide spacing so each card
+ *  stays mostly visible with a gentle fan overlap. */
 function positionStyle(offset: number): PositionStyle {
-  const x = offset * 18
+  const x = offset * 52
   const abs = Math.abs(offset)
   const rotate = offset * 3.5
-  const scale = 1.12 - abs * 0.1
-  const lift = abs * 6
+  const scale = 1.08 - abs * 0.1
+  const lift = abs * 5
   return {
     transform: `translate(calc(-50% + ${x}px), calc(-50% + ${lift}px)) rotate(${rotate}deg) scale(${scale})`,
     zIndex: 40 - abs * 10,
-    opacity: Math.max(0, 1 - abs * 0.15),
+    opacity: abs === 0 ? 1 : Math.max(0.55, 1 - abs * 0.16),
   }
 }
 
