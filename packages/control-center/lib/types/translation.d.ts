@@ -1,6 +1,9 @@
 import { Service } from '@deepseek-ai/cordis';
 import type { Context } from '@deepseek-ai/cordis';
-import type { TranslationHistoryId, TranslationHistoryPage, TranslationJobView, TranslationLanguage, TranslationLanguagesView, TranslationRequest, TranslationStartResult } from './translation-types.ts';
+import type { TranslationHistoryId, TranslationHistoryItem, TranslationHistoryPage, TranslationJobView, TranslationLanguage, TranslationLanguagesView, TranslationRequest, TranslationStartResult } from './translation-types.ts';
+export interface TranslationServiceConfig {
+    logger?: Context['logger'];
+}
 declare module '@deepseek-ai/cordis' {
     interface Context {
         controlCenterTranslation: TranslationService;
@@ -10,14 +13,15 @@ declare module '@deepseek-ai/cordis' {
  * One-shot translation jobs and persistent in-process history over DSH LLM routes.
  */
 export declare class TranslationService extends Service {
-    static inject: string[];
+    static inject: readonly ["llm", "settings"];
     readonly typertRemote: import("@deepseek-ai/dsh-typert-protocol").TypertGatewayBinding<this>;
     private readonly llm;
     private readonly jobs;
     private readonly history;
     private readonly customLanguages;
+    private scope;
     private accepting;
-    constructor(ctx: Context);
+    constructor(ctx: Context, _config?: TranslationServiceConfig);
     start(request: TranslationRequest): TranslationStartResult;
     get(jobId: string): TranslationJobView;
     cancel(jobId: string): TranslationJobView;
@@ -27,6 +31,14 @@ export declare class TranslationService extends Service {
     deleteHistory(id: TranslationHistoryId): {
         absent: true;
     };
+    starHistory(id: TranslationHistoryId, starred: boolean): TranslationHistoryItem;
+    clearHistory(): {
+        cleared: number;
+    };
+    getPrompt(): string;
+    setPrompt(prompt: string): Promise<{
+        saved: true;
+    }>;
     languages(): TranslationLanguagesView;
     putLanguage(id: string, label: string): TranslationLanguage;
     deleteLanguage(id: string): {

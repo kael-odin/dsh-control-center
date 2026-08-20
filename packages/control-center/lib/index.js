@@ -102,6 +102,7 @@ function assertCompatibleDsh(requireFrom = profileRequire()) {
 //#region lib/types/translation.js
 const MAX_TEXT_CHARS$2 = 1e5;
 const MAX_HISTORY_PAGE$1 = 100;
+const TRANSLATION_NAMESPACE = settingsNamespace("control-center-translation");
 const BUILTIN_LANGUAGES = Object.freeze([
 	{
 		id: "auto",
@@ -157,10 +158,16 @@ function language(id, allowAuto) {
 	if (!allowAuto && id === "auto") throw new Error("target language cannot use auto detection");
 	return id.trim();
 }
-function prompt(request) {
+function prompt(request, customPrompt) {
+	const source = request.sourceLanguage === "auto" ? "detect the source language automatically" : `the source language is ${request.sourceLanguage}`;
+	if (customPrompt.trim().length > 0) return [
+		customPrompt.trim(),
+		`Source language: ${source}.`,
+		`Target language: ${request.targetLanguage}.`
+	].join("\n");
 	return [
 		"Translate the text faithfully and completely.",
-		`${request.sourceLanguage === "auto" ? "detect the source language automatically" : `the source language is ${request.sourceLanguage}`}; the target language is ${request.targetLanguage}.`,
+		`${source}; the target language is ${request.targetLanguage}.`,
 		"Return only the translated text. Preserve paragraphs, lists, code, URLs, names, and formatting. Do not explain."
 	].join(" ");
 }
@@ -180,7 +187,11 @@ function markTranslationRemoteMethods(service) {
 		["deleteHistory", "deleteHistory"],
 		["languages", "languages"],
 		["putLanguage", "putLanguage"],
-		["deleteLanguage", "deleteLanguage"]
+		["deleteLanguage", "deleteLanguage"],
+		["starHistory", "starHistory"],
+		["clearHistory", "clearHistory"],
+		["getPrompt", "getPrompt"],
+		["setPrompt", "setPrompt"]
 	]) {
 		const implementation = Reflect.get(TranslationService.prototype, method);
 		Remote(exportName)(implementation, {
@@ -204,16 +215,18 @@ function markTranslationRemoteMethods(service) {
 * One-shot translation jobs and persistent in-process history over DSH LLM routes.
 */
 var TranslationService = class extends Service {
-	static inject = ["llm"];
+	static inject = ["llm", "settings"];
 	typertRemote = bindTypertRemote(this, "controlCenterTranslation");
 	llm;
 	jobs = /* @__PURE__ */ new Map();
 	history = /* @__PURE__ */ new Map();
 	customLanguages = /* @__PURE__ */ new Map();
+	scope;
 	accepting = true;
-	constructor(ctx) {
+	constructor(ctx, _config) {
 		super(ctx, "controlCenterTranslation");
 		this.llm = ctx.get("llm");
+		this.scope = ctx.settings.register(TRANSLATION_NAMESPACE, Schema.object({ prompt: Schema.string().default("") }), { base: { prompt: "" } });
 		markTranslationRemoteMethods(this);
 		ctx.effect(() => async () => {
 			this.accepting = false;
@@ -282,6 +295,24 @@ var TranslationService = class extends Service {
 		this.history.delete(id);
 		return { absent: true };
 	}
+	starHistory(id, starred) {
+		const item = this.history.get(id);
+		if (item === void 0) throw new Error(`unknown translation history "${id}"`);
+		item.starred = starred;
+		return structuredClone(item);
+	}
+	clearHistory() {
+		const cleared = this.history.size;
+		this.history.clear();
+		return { cleared };
+	}
+	getPrompt() {
+		return this.scope.get().prompt;
+	}
+	async setPrompt(prompt) {
+		await this.scope.update({ prompt: prompt.slice(0, 4e3) });
+		return { saved: true };
+	}
 	languages() {
 		const custom = [...this.customLanguages.values()].sort((left, right) => left.label.localeCompare(right.label));
 		return {
@@ -325,7 +356,7 @@ var TranslationService = class extends Service {
 			for await (const chunk of prepared.stream({
 				...prepared.config,
 				messages: [message],
-				system: prompt(request),
+				system: prompt(request, this.scope.get().prompt),
 				signal: job.controller.signal
 			})) {
 				if (chunk.type === "text-delta") job.view.output += chunk.text;
@@ -348,6 +379,7 @@ var TranslationService = class extends Service {
 					sourceText: request.text,
 					translatedText: job.view.output,
 					selection: structuredClone(request.selection),
+					starred: false,
 					createdAt: Date.now()
 				};
 				this.history.set(id, item);

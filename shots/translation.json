@@ -1,0 +1,96 @@
+{
+  "main": {
+    "tag": "MAIN",
+    "cls": " cc-surface",
+    "rect": {
+      "x": 280,
+      "y": 0,
+      "w": 1160,
+      "h": 569
+    },
+    "bg": "rgba(0, 0, 0, 0)",
+    "color": "rgb(15, 17, 21)",
+    "font": "16px/normal",
+    "radius": "0px"
+  },
+  "mainText": "DSH CONTROL CENTER\n\n翻译\n返回对话\nAuto detect\n简体中文\nEnglish\n日本語\n한국어\nFrançais\nDeutsch\nEspañol\n⇄\n简体中文\nEnglish\n日本語\n한국어\nFrançais\nDeutsch\nEspañol\n管理语言\nDeepSeek · DeepSeek-V4-Flash\nDeepSeek · DeepSeek-V4-Pro\nopencode-go · deepseek-v4-flash\n0 字符\n翻译\n复制\n替换原文\n翻译历史\n\n暂无历史",
+  "bodyBg": "rgb(255, 255, 255)",
+  "buttons": [
+    {
+      "t": "",
+      "cls": "lKojsq_brand lKojsq_wide"
+    },
+    {
+      "t": "",
+      "cls": "lKojsq_iconButton lKojsq_toggle"
+    },
+    {
+      "t": "新会话",
+      "cls": "lKojsq_newSession"
+    },
+    {
+      "t": "",
+      "cls": "eSDWIq_searchButton"
+    },
+    {
+      "t": "",
+      "cls": "eSDWIq_iconButton eSDWIq_wide"
+    },
+    {
+      "t": "",
+      "cls": "eSDWIq_iconButton"
+    },
+    {
+      "t": "",
+      "cls": "epwvVW_iconButton"
+    },
+    {
+      "t": "",
+      "cls": "epwvVW_iconButton"
+    },
+    {
+      "t": "设置",
+      "cls": "_4STY0G_trigger"
+    },
+    {
+      "t": "返回对话",
+      "cls": "_8lesPa_secondary"
+    },
+    {
+      "t": "⇄",
+      "cls": "_8lesPa_swap"
+    },
+    {
+      "t": "管理语言",
+      "cls": "_8lesPa_secondary"
+    },
+    {
+      "t": "翻译",
+      "cls": ""
+    },
+    {
+      "t": "复制",
+      "cls": "_8lesPa_secondary"
+    },
+    {
+      "t": "替换原文",
+      "cls": "_8lesPa_secondary"
+    },
+    {
+      "t": "翻译",
+      "cls": "UFuZ_q_item"
+    },
+    {
+      "t": "绘画",
+      "cls": "UFuZ_q_item"
+    },
+    {
+      "t": "知识库",
+      "cls": "UFuZ_q_item"
+    },
+    {
+      "t": "代码仓库",
+      "cls": "UFuZ_q_item"
+    }
+  ]
+}

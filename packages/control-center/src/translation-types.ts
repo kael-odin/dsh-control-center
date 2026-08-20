@@ -45,6 +45,8 @@ export interface TranslationHistoryItem {
   sourceText: string
   translatedText: string
   selection: TranslationModelSelection
+  /** Starred (favorited) so the history panel can filter to favorites. */
+  starred: boolean
   createdAt: number
 }
 
@@ -72,6 +74,11 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
       cancel(jobId: string): Promise<{ ok: true; value: TranslationJobView } | { ok: false; error: { code: string; message: string; details: object } }>
       history(cursor: string | null, limit: number): Promise<{ ok: true; value: TranslationHistoryPage } | { ok: false; error: { code: string; message: string; details: object } }>
       deleteHistory(id: TranslationHistoryId): Promise<{ ok: true; value: { absent: true } } | { ok: false; error: { code: string; message: string; details: object } }>
+      starHistory(id: TranslationHistoryId, starred: boolean): Promise<{ ok: true; value: TranslationHistoryItem } | { ok: false; error: { code: string; message: string; details: object } }>
+      clearHistory(): Promise<{ ok: true; value: { cleared: number } } | { ok: false; error: { code: string; message: string; details: object } }>
+      /** Current custom translation prompt override (empty = built-in prompt). */
+      getPrompt(): Promise<{ ok: true; value: string } | { ok: false; error: { code: string; message: string; details: object } }>
+      setPrompt(prompt: string): Promise<{ ok: true; value: { saved: true } } | { ok: false; error: { code: string; message: string; details: object } }>
       languages(): Promise<{ ok: true; value: TranslationLanguagesView } | { ok: false; error: { code: string; message: string; details: object } }>
       putLanguage(id: string, label: string): Promise<{ ok: true; value: TranslationLanguage } | { ok: false; error: { code: string; message: string; details: object } }>
       deleteLanguage(id: string): Promise<{ ok: true; value: { absent: true } } | { ok: false; error: { code: string; message: string; details: object } }>

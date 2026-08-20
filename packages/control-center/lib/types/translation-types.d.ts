@@ -39,6 +39,8 @@ export interface TranslationHistoryItem {
     sourceText: string;
     translatedText: string;
     selection: TranslationModelSelection;
+    /** Starred (favorited) so the history panel can filter to favorites. */
+    starred: boolean;
     createdAt: number;
 }
 export interface TranslationHistoryPage {
@@ -105,6 +107,55 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                 ok: true;
                 value: {
                     absent: true;
+                };
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            starHistory(id: TranslationHistoryId, starred: boolean): Promise<{
+                ok: true;
+                value: TranslationHistoryItem;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            clearHistory(): Promise<{
+                ok: true;
+                value: {
+                    cleared: number;
+                };
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            /** Current custom translation prompt override (empty = built-in prompt). */
+            getPrompt(): Promise<{
+                ok: true;
+                value: string;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            setPrompt(prompt: string): Promise<{
+                ok: true;
+                value: {
+                    saved: true;
                 };
             } | {
                 ok: false;

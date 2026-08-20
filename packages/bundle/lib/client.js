@@ -141,21 +141,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var PaintingWorkspace_module_css_default = {
-			"eyebrow": "_-UrTq_eyebrow",
 			"header": "_-UrTq_header",
 			"root": "_-UrTq_root",
+			"historyItem": "_-UrTq_historyItem",
+			"historyImages": "_-UrTq_historyImages",
+			"empty": "_-UrTq_empty",
+			"secondary": "_-UrTq_secondary",
+			"link": "_-UrTq_link",
+			"figure": "_-UrTq_figure",
+			"composer": "_-UrTq_composer",
+			"history": "_-UrTq_history",
+			"gallery": "_-UrTq_gallery",
+			"controls": "_-UrTq_controls",
 			"progress": "_-UrTq_progress",
 			"error": "_-UrTq_error",
-			"composer": "_-UrTq_composer",
-			"historyItem": "_-UrTq_historyItem",
-			"figure": "_-UrTq_figure",
-			"empty": "_-UrTq_empty",
-			"controls": "_-UrTq_controls",
-			"historyImages": "_-UrTq_historyImages",
-			"secondary": "_-UrTq_secondary",
-			"gallery": "_-UrTq_gallery",
-			"history": "_-UrTq_history",
-			"link": "_-UrTq_link"
+			"eyebrow": "_-UrTq_eyebrow"
 		};
 		//#endregion
 		//#region lib/types/client/PaintingWorkspace.js
@@ -570,30 +570,30 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var KnowledgeWorkspace_module_css_default = {
-			"chunks": "uHDY1a_chunks",
-			"hits": "uHDY1a_hits",
-			"baseMeta": "uHDY1a_baseMeta",
-			"sourceMeta": "uHDY1a_sourceMeta",
-			"header": "uHDY1a_header",
-			"bases": "uHDY1a_bases",
-			"secondary": "uHDY1a_secondary",
-			"fileButton": "uHDY1a_fileButton",
-			"baseCard": "uHDY1a_baseCard",
-			"sourceItem": "uHDY1a_sourceItem",
-			"empty": "uHDY1a_empty",
-			"link": "uHDY1a_link",
-			"muted": "uHDY1a_muted",
-			"error": "uHDY1a_error",
-			"hit": "uHDY1a_hit",
-			"root": "uHDY1a_root",
-			"hitMeta": "uHDY1a_hitMeta",
-			"panel": "uHDY1a_panel",
-			"row": "uHDY1a_row",
-			"primary": "uHDY1a_primary",
-			"baseActions": "uHDY1a_baseActions",
-			"sourceTabs": "uHDY1a_sourceTabs",
 			"chunk": "uHDY1a_chunk",
-			"eyebrow": "uHDY1a_eyebrow"
+			"baseCard": "uHDY1a_baseCard",
+			"baseActions": "uHDY1a_baseActions",
+			"sourceMeta": "uHDY1a_sourceMeta",
+			"row": "uHDY1a_row",
+			"error": "uHDY1a_error",
+			"empty": "uHDY1a_empty",
+			"hits": "uHDY1a_hits",
+			"hitMeta": "uHDY1a_hitMeta",
+			"eyebrow": "uHDY1a_eyebrow",
+			"panel": "uHDY1a_panel",
+			"sourceItem": "uHDY1a_sourceItem",
+			"baseMeta": "uHDY1a_baseMeta",
+			"hit": "uHDY1a_hit",
+			"bases": "uHDY1a_bases",
+			"muted": "uHDY1a_muted",
+			"chunks": "uHDY1a_chunks",
+			"link": "uHDY1a_link",
+			"header": "uHDY1a_header",
+			"primary": "uHDY1a_primary",
+			"fileButton": "uHDY1a_fileButton",
+			"root": "uHDY1a_root",
+			"secondary": "uHDY1a_secondary",
+			"sourceTabs": "uHDY1a_sourceTabs"
 		};
 		//#endregion
 		//#region lib/types/client/KnowledgeWorkspace.js
@@ -1198,19 +1198,19 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SkillsSection_module_css_default = {
-			"grid": "pyHmqW_grid",
-			"cardTitle": "pyHmqW_cardTitle",
-			"cardTags": "pyHmqW_cardTags",
-			"tag": "pyHmqW_tag",
-			"cardFooter": "pyHmqW_cardFooter",
-			"cardDescription": "pyHmqW_cardDescription",
-			"searchRow": "pyHmqW_searchRow",
-			"cardHeader": "pyHmqW_cardHeader",
-			"cardMeta": "pyHmqW_cardMeta",
-			"cardMetaItem": "pyHmqW_cardMetaItem",
 			"searchInput": "pyHmqW_searchInput",
+			"searchRow": "pyHmqW_searchRow",
+			"grid": "pyHmqW_grid",
 			"card": "pyHmqW_card",
-			"cardActions": "pyHmqW_cardActions"
+			"cardHeader": "pyHmqW_cardHeader",
+			"cardTitle": "pyHmqW_cardTitle",
+			"cardDescription": "pyHmqW_cardDescription",
+			"cardMetaItem": "pyHmqW_cardMetaItem",
+			"cardMeta": "pyHmqW_cardMeta",
+			"cardFooter": "pyHmqW_cardFooter",
+			"cardTags": "pyHmqW_cardTags",
+			"cardActions": "pyHmqW_cardActions",
+			"tag": "pyHmqW_tag"
 		};
 		//#endregion
 		//#region lib/types/client/SkillsSection.js
@@ -1553,24 +1553,24 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderAuthentication_module_css_default = {
-			"fieldLabel": "AU4RWG_fieldLabel",
-			"inputAddon": "AU4RWG_inputAddon",
-			"secondaryButton": "AU4RWG_secondaryButton",
-			"field": "AU4RWG_field",
-			"iconButton": "AU4RWG_iconButton",
+			"actionRow": "AU4RWG_actionRow",
 			"inputGroup": "AU4RWG_inputGroup",
 			"sectionTitle": "AU4RWG_sectionTitle",
-			"inputRow": "AU4RWG_inputRow",
-			"actionRow": "AU4RWG_actionRow",
-			"primaryButton": "AU4RWG_primaryButton",
-			"section": "AU4RWG_section",
-			"errorMessage": "AU4RWG_errorMessage",
-			"spin": "AU4RWG_spin",
-			"successMessage": "AU4RWG_successMessage",
-			"fieldLink": "AU4RWG_fieldLink",
 			"input": "AU4RWG_input",
+			"section": "AU4RWG_section",
+			"cc-spin": "AU4RWG_cc-spin",
+			"fieldLabel": "AU4RWG_fieldLabel",
+			"fieldLink": "AU4RWG_fieldLink",
+			"iconButton": "AU4RWG_iconButton",
+			"inputAddon": "AU4RWG_inputAddon",
 			"timestamp": "AU4RWG_timestamp",
-			"cc-spin": "AU4RWG_cc-spin"
+			"spin": "AU4RWG_spin",
+			"inputRow": "AU4RWG_inputRow",
+			"primaryButton": "AU4RWG_primaryButton",
+			"field": "AU4RWG_field",
+			"secondaryButton": "AU4RWG_secondaryButton",
+			"successMessage": "AU4RWG_successMessage",
+			"errorMessage": "AU4RWG_errorMessage"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderAuthentication.js
@@ -1763,34 +1763,34 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderModelList_module_css_default = {
-			"sectionHeaderRow": "_2yiUCa_sectionHeaderRow",
-			"modelMain": "_2yiUCa_modelMain",
-			"emptyState": "_2yiUCa_emptyState",
+			"section": "_2yiUCa_section",
+			"modelIcon": "_2yiUCa_modelIcon",
+			"sectionHeading": "_2yiUCa_sectionHeading",
+			"modelList": "_2yiUCa_modelList",
 			"modelInfo": "_2yiUCa_modelInfo",
-			"discoveryInfo": "_2yiUCa_discoveryInfo",
-			"groupCount": "_2yiUCa_groupCount",
-			"modelGroup": "_2yiUCa_modelGroup",
+			"emptyState": "_2yiUCa_emptyState",
 			"modelMeta": "_2yiUCa_modelMeta",
+			"modelGroup": "_2yiUCa_modelGroup",
+			"modelMain": "_2yiUCa_modelMain",
+			"toggleButtonDisabled": "_2yiUCa_toggleButtonDisabled",
 			"modelItem": "_2yiUCa_modelItem",
 			"toggleButtonEnabled": "_2yiUCa_toggleButtonEnabled",
-			"toggleThumb": "_2yiUCa_toggleThumb",
-			"toggleButtonDisabled": "_2yiUCa_toggleButtonDisabled",
 			"countBadge": "_2yiUCa_countBadge",
+			"emptyIcon": "_2yiUCa_emptyIcon",
+			"toggleThumb": "_2yiUCa_toggleThumb",
+			"enabledCount": "_2yiUCa_enabledCount",
+			"groupCount": "_2yiUCa_groupCount",
 			"modelItemDisabled": "_2yiUCa_modelItemDisabled",
-			"sectionHeading": "_2yiUCa_sectionHeading",
-			"emptyText": "_2yiUCa_emptyText",
-			"headerMeta": "_2yiUCa_headerMeta",
-			"emptyHint": "_2yiUCa_emptyHint",
-			"modelIcon": "_2yiUCa_modelIcon",
-			"toggleButton": "_2yiUCa_toggleButton",
-			"groupHeader": "_2yiUCa_groupHeader",
 			"groupTitle": "_2yiUCa_groupTitle",
 			"modelName": "_2yiUCa_modelName",
-			"section": "_2yiUCa_section",
-			"modelList": "_2yiUCa_modelList",
+			"groupHeader": "_2yiUCa_groupHeader",
+			"emptyText": "_2yiUCa_emptyText",
+			"discoveryInfo": "_2yiUCa_discoveryInfo",
 			"metaItem": "_2yiUCa_metaItem",
-			"enabledCount": "_2yiUCa_enabledCount",
-			"emptyIcon": "_2yiUCa_emptyIcon"
+			"toggleButton": "_2yiUCa_toggleButton",
+			"sectionHeaderRow": "_2yiUCa_sectionHeaderRow",
+			"emptyHint": "_2yiUCa_emptyHint",
+			"headerMeta": "_2yiUCa_headerMeta"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderModelList.js
@@ -2035,25 +2035,25 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderDialog_module_css_default = {
-			"dialog": "Y2Uoaq_dialog",
-			"submitButton": "Y2Uoaq_submitButton",
-			"textarea": "Y2Uoaq_textarea",
-			"footer": "Y2Uoaq_footer",
-			"hint": "Y2Uoaq_hint",
 			"title": "Y2Uoaq_title",
-			"error": "Y2Uoaq_error",
-			"cancelButton": "Y2Uoaq_cancelButton",
-			"label": "Y2Uoaq_label",
-			"checkbox": "Y2Uoaq_checkbox",
-			"input": "Y2Uoaq_input",
 			"select": "Y2Uoaq_select",
-			"required": "Y2Uoaq_required",
-			"checkboxLabel": "Y2Uoaq_checkboxLabel",
-			"header": "Y2Uoaq_header",
+			"submitButton": "Y2Uoaq_submitButton",
+			"dialog": "Y2Uoaq_dialog",
+			"textarea": "Y2Uoaq_textarea",
+			"label": "Y2Uoaq_label",
+			"hint": "Y2Uoaq_hint",
 			"overlay": "Y2Uoaq_overlay",
-			"content": "Y2Uoaq_content",
+			"field": "Y2Uoaq_field",
+			"checkboxLabel": "Y2Uoaq_checkboxLabel",
+			"input": "Y2Uoaq_input",
 			"checkboxField": "Y2Uoaq_checkboxField",
-			"field": "Y2Uoaq_field"
+			"required": "Y2Uoaq_required",
+			"content": "Y2Uoaq_content",
+			"checkbox": "Y2Uoaq_checkbox",
+			"error": "Y2Uoaq_error",
+			"header": "Y2Uoaq_header",
+			"footer": "Y2Uoaq_footer",
+			"cancelButton": "Y2Uoaq_cancelButton"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderDialog.js
@@ -2375,49 +2375,49 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProvidersSection_module_css_default = {
-			"providerDetail": "ExuySa_providerDetail",
-			"secondaryButton": "ExuySa_secondaryButton",
-			"listItemMain": "ExuySa_listItemMain",
-			"addFooter": "ExuySa_addFooter",
-			"dangerZoneTitle": "ExuySa_dangerZoneTitle",
-			"loading": "ExuySa_loading",
-			"detailTitle": "ExuySa_detailTitle",
-			"emptyState": "ExuySa_emptyState",
-			"listScroller": "ExuySa_listScroller",
-			"searchRow": "ExuySa_searchRow",
-			"detailMetaItem": "ExuySa_detailMetaItem",
-			"providerList": "ExuySa_providerList",
-			"splitRoot": "ExuySa_splitRoot",
-			"sectionBody": "ExuySa_sectionBody",
-			"dangerZone": "ExuySa_dangerZone",
-			"error": "ExuySa_error",
-			"searchIcon": "ExuySa_searchIcon",
-			"section": "ExuySa_section",
-			"searchClearButton": "ExuySa_searchClearButton",
-			"detailMeta": "ExuySa_detailMeta",
-			"detailScroll": "ExuySa_detailScroll",
-			"sectionHeading": "ExuySa_sectionHeading",
-			"listItem": "ExuySa_listItem",
-			"dangerZoneText": "ExuySa_dangerZoneText",
-			"searchInput": "ExuySa_searchInput",
 			"addButton": "ExuySa_addButton",
-			"listItemAvatar": "ExuySa_listItemAvatar",
-			"dangerZoneDescription": "ExuySa_dangerZoneDescription",
-			"listItems": "ExuySa_listItems",
+			"error": "ExuySa_error",
+			"listItem": "ExuySa_listItem",
+			"detailMeta": "ExuySa_detailMeta",
 			"emptyTitle": "ExuySa_emptyTitle",
-			"detailHeaderContent": "ExuySa_detailHeaderContent",
-			"listItemLabel": "ExuySa_listItemLabel",
-			"emptyIcon": "ExuySa_emptyIcon",
-			"dangerButton": "ExuySa_dangerButton",
-			"emptyDetailState": "ExuySa_emptyDetailState",
-			"listItemSelected": "ExuySa_listItemSelected",
-			"detailHeader": "ExuySa_detailHeader",
-			"detailContentMaxWidth": "ExuySa_detailContentMaxWidth",
-			"editButton": "ExuySa_editButton",
-			"enabledDot": "ExuySa_enabledDot",
 			"emptyDescription": "ExuySa_emptyDescription",
+			"providerList": "ExuySa_providerList",
+			"enabledDot": "ExuySa_enabledDot",
+			"searchInput": "ExuySa_searchInput",
+			"sectionHeading": "ExuySa_sectionHeading",
+			"dangerZoneText": "ExuySa_dangerZoneText",
+			"dangerZoneTitle": "ExuySa_dangerZoneTitle",
+			"emptyIcon": "ExuySa_emptyIcon",
+			"splitRoot": "ExuySa_splitRoot",
+			"searchIcon": "ExuySa_searchIcon",
+			"emptyState": "ExuySa_emptyState",
+			"searchWrap": "ExuySa_searchWrap",
+			"listItemAvatar": "ExuySa_listItemAvatar",
+			"section": "ExuySa_section",
+			"dangerZone": "ExuySa_dangerZone",
+			"dangerZoneDescription": "ExuySa_dangerZoneDescription",
+			"loading": "ExuySa_loading",
+			"emptyDetailState": "ExuySa_emptyDetailState",
+			"searchRow": "ExuySa_searchRow",
+			"detailHeaderContent": "ExuySa_detailHeaderContent",
+			"searchClearButton": "ExuySa_searchClearButton",
+			"detailHeader": "ExuySa_detailHeader",
+			"secondaryButton": "ExuySa_secondaryButton",
+			"listItemSelected": "ExuySa_listItemSelected",
+			"listScroller": "ExuySa_listScroller",
+			"addFooter": "ExuySa_addFooter",
+			"detailScroll": "ExuySa_detailScroll",
+			"listItemLabel": "ExuySa_listItemLabel",
 			"listItemIdle": "ExuySa_listItemIdle",
-			"searchWrap": "ExuySa_searchWrap"
+			"dangerButton": "ExuySa_dangerButton",
+			"editButton": "ExuySa_editButton",
+			"sectionBody": "ExuySa_sectionBody",
+			"listItems": "ExuySa_listItems",
+			"detailMetaItem": "ExuySa_detailMetaItem",
+			"detailContentMaxWidth": "ExuySa_detailContentMaxWidth",
+			"listItemMain": "ExuySa_listItemMain",
+			"detailTitle": "ExuySa_detailTitle",
+			"providerDetail": "ExuySa_providerDetail"
 		};
 		//#endregion
 		//#region lib/types/client/ProvidersSection.js
@@ -2966,21 +2966,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var AddMcpServerDialog_module_css_default = {
-			"field": "uv_otq_field",
 			"title": "uv_otq_title",
-			"submitButton": "uv_otq_submitButton",
-			"overlay": "uv_otq_overlay",
-			"select": "uv_otq_select",
+			"label": "uv_otq_label",
 			"header": "uv_otq_header",
-			"form": "uv_otq_form",
-			"input": "uv_otq_input",
+			"textarea": "uv_otq_textarea",
 			"error": "uv_otq_error",
 			"cancelButton": "uv_otq_cancelButton",
-			"label": "uv_otq_label",
-			"textarea": "uv_otq_textarea",
-			"dialog": "uv_otq_dialog",
+			"footer": "uv_otq_footer",
+			"input": "uv_otq_input",
+			"overlay": "uv_otq_overlay",
+			"form": "uv_otq_form",
 			"closeButton": "uv_otq_closeButton",
-			"footer": "uv_otq_footer"
+			"field": "uv_otq_field",
+			"dialog": "uv_otq_dialog",
+			"submitButton": "uv_otq_submitButton",
+			"select": "uv_otq_select"
 		};
 		//#endregion
 		//#region lib/types/client/AddMcpServerDialog.js
@@ -3216,75 +3216,75 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var McpSection_module_css_default = {
-			"tabBar": "_0bBxiW_tabBar",
-			"listItemMain": "_0bBxiW_listItemMain",
-			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
-			"listItemSelected": "_0bBxiW_listItemSelected",
-			"searchRow": "_0bBxiW_searchRow",
-			"dangerZone": "_0bBxiW_dangerZone",
-			"dangerButton": "_0bBxiW_dangerButton",
-			"sectionBody": "_0bBxiW_sectionBody",
-			"serverList": "_0bBxiW_serverList",
-			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
-			"input": "_0bBxiW_input",
-			"emptyDescription": "_0bBxiW_emptyDescription",
-			"emptyTitle": "_0bBxiW_emptyTitle",
-			"detailMeta": "_0bBxiW_detailMeta",
-			"codeLine": "_0bBxiW_codeLine",
-			"emptyIcon": "_0bBxiW_emptyIcon",
-			"loading": "_0bBxiW_loading",
-			"toolName": "_0bBxiW_toolName",
-			"checkbox": "_0bBxiW_checkbox",
-			"listItems": "_0bBxiW_listItems",
-			"detailMetaItem": "_0bBxiW_detailMetaItem",
-			"codeBlock": "_0bBxiW_codeBlock",
-			"textarea": "_0bBxiW_textarea",
-			"secondaryButton": "_0bBxiW_secondaryButton",
-			"detailTitle": "_0bBxiW_detailTitle",
-			"section": "_0bBxiW_section",
-			"toolHeader": "_0bBxiW_toolHeader",
-			"logHeader": "_0bBxiW_logHeader",
-			"primaryButton": "_0bBxiW_primaryButton",
-			"dangerZoneText": "_0bBxiW_dangerZoneText",
-			"switchSlider": "_0bBxiW_switchSlider",
-			"detailScroll": "_0bBxiW_detailScroll",
-			"addButton": "_0bBxiW_addButton",
-			"splitRoot": "_0bBxiW_splitRoot",
-			"logInfo": "_0bBxiW_logInfo",
 			"listScroller": "_0bBxiW_listScroller",
-			"tabActive": "_0bBxiW_tabActive",
-			"searchClearButton": "_0bBxiW_searchClearButton",
-			"sectionHeading": "_0bBxiW_sectionHeading",
-			"switchInput": "_0bBxiW_switchInput",
-			"toolItem": "_0bBxiW_toolItem",
-			"addFooter": "_0bBxiW_addFooter",
-			"searchInput": "_0bBxiW_searchInput",
-			"listItemAvatar": "_0bBxiW_listItemAvatar",
-			"toolsList": "_0bBxiW_toolsList",
-			"formActions": "_0bBxiW_formActions",
-			"serverDetail": "_0bBxiW_serverDetail",
-			"descriptionText": "_0bBxiW_descriptionText",
-			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
-			"tab": "_0bBxiW_tab",
-			"resourceUri": "_0bBxiW_resourceUri",
-			"emptyState": "_0bBxiW_emptyState",
-			"detailHeader": "_0bBxiW_detailHeader",
 			"listItemIdle": "_0bBxiW_listItemIdle",
-			"fieldLabel": "_0bBxiW_fieldLabel",
-			"fieldHint": "_0bBxiW_fieldHint",
-			"searchIcon": "_0bBxiW_searchIcon",
+			"toolsList": "_0bBxiW_toolsList",
+			"detailScroll": "_0bBxiW_detailScroll",
+			"emptyTitle": "_0bBxiW_emptyTitle",
+			"splitRoot": "_0bBxiW_splitRoot",
+			"primaryButton": "_0bBxiW_primaryButton",
+			"input": "_0bBxiW_input",
+			"sectionHeading": "_0bBxiW_sectionHeading",
+			"toolItem": "_0bBxiW_toolItem",
+			"serverList": "_0bBxiW_serverList",
+			"listItemMain": "_0bBxiW_listItemMain",
+			"listItemSelected": "_0bBxiW_listItemSelected",
+			"detailTitle": "_0bBxiW_detailTitle",
+			"switchSlider": "_0bBxiW_switchSlider",
+			"dangerZone": "_0bBxiW_dangerZone",
+			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
 			"activeDot": "_0bBxiW_activeDot",
-			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
 			"listItemLabel": "_0bBxiW_listItemLabel",
-			"fieldRow": "_0bBxiW_fieldRow",
-			"searchWrap": "_0bBxiW_searchWrap",
-			"emptyDetailState": "_0bBxiW_emptyDetailState",
-			"toolDescription": "_0bBxiW_toolDescription",
-			"error": "_0bBxiW_error",
-			"switchWrapper": "_0bBxiW_switchWrapper",
-			"fieldGroup": "_0bBxiW_fieldGroup",
+			"emptyIcon": "_0bBxiW_emptyIcon",
+			"sectionBody": "_0bBxiW_sectionBody",
 			"errorBox": "_0bBxiW_errorBox",
+			"searchWrap": "_0bBxiW_searchWrap",
+			"tabBar": "_0bBxiW_tabBar",
+			"toolDescription": "_0bBxiW_toolDescription",
+			"switchInput": "_0bBxiW_switchInput",
+			"dangerZoneText": "_0bBxiW_dangerZoneText",
+			"listItemAvatar": "_0bBxiW_listItemAvatar",
+			"secondaryButton": "_0bBxiW_secondaryButton",
+			"emptyDescription": "_0bBxiW_emptyDescription",
+			"fieldRow": "_0bBxiW_fieldRow",
+			"searchIcon": "_0bBxiW_searchIcon",
+			"tabActive": "_0bBxiW_tabActive",
+			"switchWrapper": "_0bBxiW_switchWrapper",
+			"detailMeta": "_0bBxiW_detailMeta",
+			"searchInput": "_0bBxiW_searchInput",
+			"fieldHint": "_0bBxiW_fieldHint",
+			"fieldGroup": "_0bBxiW_fieldGroup",
 			"sectionHeader": "_0bBxiW_sectionHeader",
+			"dangerButton": "_0bBxiW_dangerButton",
+			"loading": "_0bBxiW_loading",
+			"searchClearButton": "_0bBxiW_searchClearButton",
+			"emptyDetailState": "_0bBxiW_emptyDetailState",
+			"codeLine": "_0bBxiW_codeLine",
+			"emptyState": "_0bBxiW_emptyState",
+			"searchRow": "_0bBxiW_searchRow",
+			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
+			"codeBlock": "_0bBxiW_codeBlock",
+			"resourceUri": "_0bBxiW_resourceUri",
+			"section": "_0bBxiW_section",
+			"formActions": "_0bBxiW_formActions",
+			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
+			"toolHeader": "_0bBxiW_toolHeader",
+			"serverDetail": "_0bBxiW_serverDetail",
+			"tab": "_0bBxiW_tab",
+			"checkbox": "_0bBxiW_checkbox",
+			"logHeader": "_0bBxiW_logHeader",
+			"fieldLabel": "_0bBxiW_fieldLabel",
+			"error": "_0bBxiW_error",
+			"addFooter": "_0bBxiW_addFooter",
+			"detailHeader": "_0bBxiW_detailHeader",
+			"detailMetaItem": "_0bBxiW_detailMetaItem",
+			"logInfo": "_0bBxiW_logInfo",
+			"descriptionText": "_0bBxiW_descriptionText",
+			"listItems": "_0bBxiW_listItems",
+			"toolName": "_0bBxiW_toolName",
+			"addButton": "_0bBxiW_addButton",
+			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
+			"textarea": "_0bBxiW_textarea",
 			"listItem": "_0bBxiW_listItem"
 		};
 		//#endregion
@@ -4232,25 +4232,25 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WebSearchSection_module_css_default = {
-			"loading": "_0WjBOa_loading",
-			"pageTitle": "_0WjBOa_pageTitle",
-			"iconButton": "_0WjBOa_iconButton",
-			"root": "_0WjBOa_root",
-			"pageDescription": "_0WjBOa_pageDescription",
 			"cardDescription": "_0WjBOa_cardDescription",
-			"fieldLabel": "_0WjBOa_fieldLabel",
-			"providerDescription": "_0WjBOa_providerDescription",
-			"card": "_0WjBOa_card",
-			"providerName": "_0WjBOa_providerName",
-			"cardTitle": "_0WjBOa_cardTitle",
-			"pageHeader": "_0WjBOa_pageHeader",
-			"fieldRow": "_0WjBOa_fieldRow",
-			"select": "_0WjBOa_select",
-			"checkbox": "_0WjBOa_checkbox",
-			"input": "_0WjBOa_input",
-			"providerDetail": "_0WjBOa_providerDetail",
+			"root": "_0WjBOa_root",
+			"apiKeyRow": "_0WjBOa_apiKeyRow",
 			"fieldHint": "_0WjBOa_fieldHint",
-			"apiKeyRow": "_0WjBOa_apiKeyRow"
+			"providerDescription": "_0WjBOa_providerDescription",
+			"pageHeader": "_0WjBOa_pageHeader",
+			"checkbox": "_0WjBOa_checkbox",
+			"loading": "_0WjBOa_loading",
+			"input": "_0WjBOa_input",
+			"cardTitle": "_0WjBOa_cardTitle",
+			"card": "_0WjBOa_card",
+			"pageDescription": "_0WjBOa_pageDescription",
+			"select": "_0WjBOa_select",
+			"providerDetail": "_0WjBOa_providerDetail",
+			"providerName": "_0WjBOa_providerName",
+			"iconButton": "_0WjBOa_iconButton",
+			"pageTitle": "_0WjBOa_pageTitle",
+			"fieldRow": "_0WjBOa_fieldRow",
+			"fieldLabel": "_0WjBOa_fieldLabel"
 		};
 		//#endregion
 		//#region lib/types/client/WebSearchSection.js
@@ -4650,40 +4650,40 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var RepoWorkspace_module_css_default = {
-			"truncateNote": "iqKKIW_truncateNote",
-			"repoList": "iqKKIW_repoList",
 			"sidebar": "iqKKIW_sidebar",
-			"repoItem": "iqKKIW_repoItem",
-			"treeTitle": "iqKKIW_treeTitle",
+			"addInput": "iqKKIW_addInput",
 			"split": "iqKKIW_split",
 			"eyebrow": "iqKKIW_eyebrow",
-			"repoItemMain": "iqKKIW_repoItemMain",
-			"addInput": "iqKKIW_addInput",
-			"previewHint": "iqKKIW_previewHint",
-			"root": "iqKKIW_root",
-			"treeName": "iqKKIW_treeName",
-			"branch": "iqKKIW_branch",
-			"treeRow": "iqKKIW_treeRow",
-			"main": "iqKKIW_main",
-			"repoItemSelected": "iqKKIW_repoItemSelected",
-			"previewHeader": "iqKKIW_previewHeader",
-			"treeMeta": "iqKKIW_treeMeta",
-			"treeScroll": "iqKKIW_treeScroll",
-			"previewPane": "iqKKIW_previewPane",
-			"emptyTitle": "iqKKIW_emptyTitle",
-			"treeIcon": "iqKKIW_treeIcon",
-			"emptyDescription": "iqKKIW_emptyDescription",
-			"treeHeader": "iqKKIW_treeHeader",
-			"treePane": "iqKKIW_treePane",
-			"repoItemName": "iqKKIW_repoItemName",
 			"addRow": "iqKKIW_addRow",
+			"header": "iqKKIW_header",
+			"treeTitle": "iqKKIW_treeTitle",
 			"treeRowSelected": "iqKKIW_treeRowSelected",
-			"previewBody": "iqKKIW_previewBody",
-			"empty": "iqKKIW_empty",
-			"title": "iqKKIW_title",
-			"repoItemPath": "iqKKIW_repoItemPath",
+			"truncateNote": "iqKKIW_truncateNote",
 			"sidebarTitle": "iqKKIW_sidebarTitle",
-			"header": "iqKKIW_header"
+			"root": "iqKKIW_root",
+			"treeHeader": "iqKKIW_treeHeader",
+			"treeIcon": "iqKKIW_treeIcon",
+			"previewHint": "iqKKIW_previewHint",
+			"treeMeta": "iqKKIW_treeMeta",
+			"previewBody": "iqKKIW_previewBody",
+			"previewHeader": "iqKKIW_previewHeader",
+			"main": "iqKKIW_main",
+			"repoItemMain": "iqKKIW_repoItemMain",
+			"emptyDescription": "iqKKIW_emptyDescription",
+			"treeScroll": "iqKKIW_treeScroll",
+			"treeRow": "iqKKIW_treeRow",
+			"emptyTitle": "iqKKIW_emptyTitle",
+			"repoItemPath": "iqKKIW_repoItemPath",
+			"repoItemSelected": "iqKKIW_repoItemSelected",
+			"title": "iqKKIW_title",
+			"branch": "iqKKIW_branch",
+			"treePane": "iqKKIW_treePane",
+			"repoItem": "iqKKIW_repoItem",
+			"treeName": "iqKKIW_treeName",
+			"repoItemName": "iqKKIW_repoItemName",
+			"repoList": "iqKKIW_repoList",
+			"empty": "iqKKIW_empty",
+			"previewPane": "iqKKIW_previewPane"
 		};
 		//#endregion
 		//#region lib/types/client/RepoWorkspace.js
@@ -5129,23 +5129,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProcessorSection_module_css_default = {
-			"pageDescription": "CL8zIa_pageDescription",
-			"apiKeyRow": "CL8zIa_apiKeyRow",
-			"fieldRow": "CL8zIa_fieldRow",
 			"cardTitle": "CL8zIa_cardTitle",
-			"providerDetail": "CL8zIa_providerDetail",
-			"iconButton": "CL8zIa_iconButton",
+			"pageDescription": "CL8zIa_pageDescription",
 			"card": "CL8zIa_card",
-			"root": "CL8zIa_root",
-			"pageTitle": "CL8zIa_pageTitle",
-			"input": "CL8zIa_input",
-			"providerDescription": "CL8zIa_providerDescription",
-			"cardDescription": "CL8zIa_cardDescription",
-			"providerName": "CL8zIa_providerName",
+			"fieldRow": "CL8zIa_fieldRow",
 			"select": "CL8zIa_select",
+			"providerDescription": "CL8zIa_providerDescription",
 			"fieldHint": "CL8zIa_fieldHint",
+			"input": "CL8zIa_input",
 			"fieldLabel": "CL8zIa_fieldLabel",
-			"loading": "CL8zIa_loading"
+			"loading": "CL8zIa_loading",
+			"cardDescription": "CL8zIa_cardDescription",
+			"iconButton": "CL8zIa_iconButton",
+			"providerName": "CL8zIa_providerName",
+			"apiKeyRow": "CL8zIa_apiKeyRow",
+			"root": "CL8zIa_root",
+			"providerDetail": "CL8zIa_providerDetail",
+			"pageTitle": "CL8zIa_pageTitle"
 		};
 		//#endregion
 		//#region lib/types/client/ProcessorSection.js
@@ -5416,16 +5416,16 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var UsageSection_module_css_default = {
-			"loading": "ej6-VW_loading",
+			"metric": "ej6-VW_metric",
+			"cardTitle": "ej6-VW_cardTitle",
+			"pageDescription": "ej6-VW_pageDescription",
+			"pageTitle": "ej6-VW_pageTitle",
+			"card": "ej6-VW_card",
+			"root": "ej6-VW_root",
+			"grid": "ej6-VW_grid",
 			"metricLabel": "ej6-VW_metricLabel",
 			"metricValue": "ej6-VW_metricValue",
-			"metric": "ej6-VW_metric",
-			"root": "ej6-VW_root",
-			"pageTitle": "ej6-VW_pageTitle",
-			"pageDescription": "ej6-VW_pageDescription",
-			"card": "ej6-VW_card",
-			"cardTitle": "ej6-VW_cardTitle",
-			"grid": "ej6-VW_grid"
+			"loading": "ej6-VW_loading"
 		};
 		//#endregion
 		//#region lib/types/client/UsageSection.js
@@ -5766,16 +5766,16 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SystemSection_module_css_default = {
-			"cardTitle": "MzTzwq_cardTitle",
-			"loading": "MzTzwq_loading",
-			"infoRow": "MzTzwq_infoRow",
-			"infoLabel": "MzTzwq_infoLabel",
-			"root": "MzTzwq_root",
-			"pageDescription": "MzTzwq_pageDescription",
-			"pageTitle": "MzTzwq_pageTitle",
-			"infoValue": "MzTzwq_infoValue",
 			"badge": "MzTzwq_badge",
-			"card": "MzTzwq_card"
+			"loading": "MzTzwq_loading",
+			"root": "MzTzwq_root",
+			"infoLabel": "MzTzwq_infoLabel",
+			"pageDescription": "MzTzwq_pageDescription",
+			"infoValue": "MzTzwq_infoValue",
+			"pageTitle": "MzTzwq_pageTitle",
+			"card": "MzTzwq_card",
+			"cardTitle": "MzTzwq_cardTitle",
+			"infoRow": "MzTzwq_infoRow"
 		};
 		//#endregion
 		//#region lib/types/client/SystemSection.js
@@ -6039,23 +6039,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TasksSection_module_css_default = {
-			"runRow": "_3yT94W_runRow",
-			"card": "_3yT94W_card",
-			"pageDescription": "_3yT94W_pageDescription",
-			"pageTitle": "_3yT94W_pageTitle",
-			"taskName": "_3yT94W_taskName",
-			"taskMeta": "_3yT94W_taskMeta",
-			"runOk": "_3yT94W_runOk",
-			"loading": "_3yT94W_loading",
-			"taskMain": "_3yT94W_taskMain",
-			"cardTitle": "_3yT94W_cardTitle",
-			"root": "_3yT94W_root",
-			"runFail": "_3yT94W_runFail",
-			"runDetail": "_3yT94W_runDetail",
 			"select": "_3yT94W_select",
+			"pageTitle": "_3yT94W_pageTitle",
 			"runTime": "_3yT94W_runTime",
 			"taskRow": "_3yT94W_taskRow",
-			"input": "_3yT94W_input"
+			"taskMeta": "_3yT94W_taskMeta",
+			"input": "_3yT94W_input",
+			"runOk": "_3yT94W_runOk",
+			"runDetail": "_3yT94W_runDetail",
+			"taskName": "_3yT94W_taskName",
+			"loading": "_3yT94W_loading",
+			"root": "_3yT94W_root",
+			"runFail": "_3yT94W_runFail",
+			"taskMain": "_3yT94W_taskMain",
+			"pageDescription": "_3yT94W_pageDescription",
+			"card": "_3yT94W_card",
+			"cardTitle": "_3yT94W_cardTitle",
+			"runRow": "_3yT94W_runRow"
 		};
 		//#endregion
 		//#region lib/types/client/TasksSection.js
@@ -6781,32 +6781,32 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
-			"actions": "_4STY0G_actions",
-			"close": "_4STY0G_close",
-			"navGroupTitle": "_4STY0G_navGroupTitle",
-			"hiddenLabel": "_4STY0G_hiddenLabel",
-			"trigger": "_4STY0G_trigger",
-			"panel": "_4STY0G_panel",
-			"navScroll": "_4STY0G_navScroll",
-			"nav": "_4STY0G_nav",
-			"header": "_4STY0G_header",
-			"navList": "_4STY0G_navList",
-			"navCell": "_4STY0G_navCell",
-			"mask": "_4STY0G_mask",
-			"content": "_4STY0G_content",
 			"navLabel": "_4STY0G_navLabel",
-			"rail": "_4STY0G_rail",
+			"triggerLabel": "_4STY0G_triggerLabel",
+			"navGroupTitle": "_4STY0G_navGroupTitle",
 			"navGroup": "_4STY0G_navGroup",
-			"overlay": "_4STY0G_overlay",
-			"navTitle": "_4STY0G_navTitle",
-			"options": "_4STY0G_options",
-			"navIcon": "_4STY0G_navIcon",
+			"hiddenLabel": "_4STY0G_hiddenLabel",
 			"active": "_4STY0G_active",
-			"triggerLabel": "_4STY0G_triggerLabel"
+			"options": "_4STY0G_options",
+			"panel": "_4STY0G_panel",
+			"navList": "_4STY0G_navList",
+			"actions": "_4STY0G_actions",
+			"rail": "_4STY0G_rail",
+			"nav": "_4STY0G_nav",
+			"overlay": "_4STY0G_overlay",
+			"header": "_4STY0G_header",
+			"close": "_4STY0G_close",
+			"mask": "_4STY0G_mask",
+			"navScroll": "_4STY0G_navScroll",
+			"trigger": "_4STY0G_trigger",
+			"navTitle": "_4STY0G_navTitle",
+			"navCell": "_4STY0G_navCell",
+			"navIcon": "_4STY0G_navIcon",
+			"content": "_4STY0G_content"
 		};
 		//#endregion
 		//#region \0dsh-control-center-plain-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\cherry-tokens.css.mjs
-		const css$10 = ".cc-surface{--cs-neutral-50:oklch(98% 0 0);--cs-neutral-100:oklch(97% 0 0);--cs-neutral-200:oklch(92% 0 0);--cs-neutral-300:oklch(87% 0 0);--cs-neutral-400:oklch(72% 0 0);--cs-neutral-500:oklch(55% 0 0);--cs-neutral-600:oklch(44% .027 257);--cs-neutral-700:oklch(37% 0 0);--cs-neutral-800:oklch(27% 0 0);--cs-neutral-900:oklch(20% 0 0);--cs-neutral-950:oklch(15% 0 0);--cs-brand-50:oklch(98% .015 152);--cs-brand-100:oklch(96% .034 151);--cs-brand-200:oklch(91% .073 151);--cs-brand-300:oklch(85% .13 149);--cs-brand-400:oklch(81% .173 148);--cs-brand-500:oklch(77% .208 146);--cs-brand-600:oklch(67% .192 146);--cs-brand-700:oklch(56% .156 146);--cs-brand-800:oklch(43% .117 146);--cs-brand-900:oklch(32% .086 146);--cs-red-50:oklch(97% .014 17);--cs-red-100:oklch(93% .031 18);--cs-red-200:oklch(88% .062 18);--cs-red-300:oklch(81% .103 20);--cs-red-400:oklch(71% .166 22);--cs-red-500:oklch(64% .208 25);--cs-red-600:oklch(58% .214 27);--cs-red-700:oklch(51% .192 28);--cs-red-800:oklch(44% .16 27);--cs-red-900:oklch(40% .135 26);--cs-red-950:oklch(25% .087 26);--cs-amber-50:oklch(99% .022 95);--cs-amber-100:oklch(96% .057 96);--cs-amber-200:oklch(93% .114 96);--cs-amber-300:oklch(88% .153 92);--cs-amber-400:oklch(83% .164 84);--cs-amber-500:oklch(77% .165 71);--cs-amber-600:oklch(67% .159 58);--cs-amber-700:oklch(55% .145 49);--cs-amber-800:oklch(47% .124 47);--cs-amber-900:oklch(41% .104 46);--cs-amber-950:oklch(28% .074 46);--cs-green-50:oklch(98% .016 156);--cs-green-100:oklch(96% .041 157);--cs-green-200:oklch(92% .081 156);--cs-green-300:oklch(87% .137 155);--cs-green-400:oklch(80% .182 152);--cs-green-500:oklch(72% .192 149);--cs-green-600:oklch(62% .169 149);--cs-green-700:oklch(52% .137 150);--cs-green-800:oklch(42% .108 151);--cs-green-900:oklch(35% .084 152);--cs-green-950:oklch(24% .059 152);--cs-blue-50:oklch(97% .017 261);--cs-blue-100:oklch(94% .033 261);--cs-blue-200:oklch(88% .067 261);--cs-blue-300:oklch(80% .113 261);--cs-blue-400:oklch(71% .152 261);--cs-blue-500:oklch(62% .17 260);--cs-blue-600:oklch(54% .157 259);--cs-blue-700:oklch(46% .13 258);--cs-blue-800:oklch(38% .104 256);--cs-blue-900:oklch(33% .086 255);--cs-blue-950:oklch(22% .056 254);--cs-white:oklch(100% 0 0);--cs-black:oklch(0% 0 0);--cs-font-family-heading:Inter;--cs-font-family-body:Inter;--cs-font-weight-regular:400;--cs-font-weight-medium:500;--cs-font-weight-bold:700;--cs-font-size-body-xs:.75rem;--cs-font-size-body-sm:.875rem;--cs-font-size-body-md:1rem;--cs-font-size-body-lg:1.125rem;--cs-font-size-heading-xs:1.25rem;--cs-font-size-heading-sm:1.5rem;--cs-line-height-body-xs:1.25rem;--cs-line-height-body-sm:1.5rem;--cs-line-height-body-md:1.5rem;--cs-line-height-body-lg:1.75rem;--cs-line-height-heading-xs:2rem;--cs-line-height-heading-sm:2.5rem;--cs-radius-xs:.125rem;--cs-radius-sm:.375rem;--cs-radius-md:.5rem;--cs-radius-lg:.625rem;--cs-radius-xl:.875rem;--cs-radius-2xl:1.125rem;--cs-radius-3xl:1.375rem;--cs-radius-round:9999px;--cs-primary:var(--cs-brand-500);--cs-destructive:var(--cs-red-500);--cs-destructive-hover:var(--cs-red-400);--cs-success:var(--cs-green-500);--cs-warning:var(--cs-amber-500);--cs-info:var(--cs-blue-500);--cs-background:var(--cs-white);--cs-background-subtle:oklch(0% 0 0/.02);--cs-foreground:oklch(21.3% 0 0);--cs-muted-foreground:oklch(55.6% 0 0);--cs-foreground-tertiary:oklch(66.9% 0 0);--cs-foreground-disabled:var(--cs-foreground-tertiary);--cs-card:var(--cs-white);--cs-popover:var(--cs-white);--cs-border:oklch(0% 0 0/.1);--cs-border-subtle:oklch(0% 0 0/.04);--cs-border-strong:oklch(0% 0 0/.2);--cs-border-selected:oklch(0% 0 0/.3);--cs-ring:color-mix(in srgb, var(--cs-primary) 40%, transparent);--cs-secondary:oklch(0% 0 0/.05);--cs-secondary-hover:oklch(0% 0 0/.1);--cs-secondary-active:oklch(0% 0 0/.15);--cs-muted:oklch(0% 0 0/.05);--cs-accent:oklch(0% 0 0/.05);--cs-ghost-active:oklch(0% 0 0/.1);--cs-sidebar:oklch(96.72% 0 0);--cs-sidebar-accent:oklch(97% 0 0);--cs-card-foreground:oklch(14.5% 0 0);--cs-popover-foreground:oklch(14.5% 0 0);--cs-secondary-foreground:oklch(20.5% 0 0);--cs-accent-foreground:oklch(20.5% 0 0);--cs-primary-foreground:oklch(98.5% 0 0);--cs-destructive-foreground:var(--cs-white);--cs-input:oklch(92.2% 0 0);--cs-sidebar-foreground:oklch(14.5% 0 0);--cs-sidebar-primary:oklch(20.5% 0 0);--cs-sidebar-primary-foreground:oklch(98.5% 0 0);--cs-sidebar-accent-foreground:oklch(20.5% 0 0);--cs-sidebar-border:oklch(92.2% 0 0);--cs-sidebar-ring:oklch(70.8% 0 0);--cs-error:var(--cs-red-500);--cs-error-subtle:var(--cs-red-50);--cs-error-subtle-foreground:var(--cs-red-700);--cs-error-border:var(--cs-red-200);--cs-success-subtle:var(--cs-green-50);--cs-success-subtle-foreground:var(--cs-green-800);--cs-success-border:var(--cs-green-200);--cs-warning-subtle:var(--cs-amber-50);--cs-warning-subtle-foreground:var(--cs-amber-800);--cs-warning-border:var(--cs-amber-200);--cs-info-subtle:var(--cs-blue-50);--cs-info-subtle-foreground:var(--cs-blue-800);--cs-info-border:var(--cs-blue-200);--background:var(--cs-background);--foreground:var(--cs-foreground);--card:var(--cs-card);--card-foreground:var(--cs-card-foreground);--popover:var(--cs-popover);--popover-foreground:var(--cs-popover-foreground);--primary:var(--cs-primary);--primary-foreground:var(--cs-primary-foreground);--secondary:var(--cs-secondary);--secondary-foreground:var(--cs-secondary-foreground);--muted:var(--cs-muted);--muted-foreground:var(--cs-muted-foreground);--accent:var(--cs-accent);--accent-foreground:var(--cs-accent-foreground);--destructive:var(--cs-destructive);--destructive-foreground:var(--cs-destructive-foreground);--border:var(--cs-border);--border-subtle:var(--cs-border-subtle);--border-strong:var(--cs-border-strong);--border-selected:var(--cs-border-selected);--input:var(--cs-input);--ring:var(--cs-ring);--background-subtle:var(--cs-background-subtle);--foreground-tertiary:var(--cs-foreground-tertiary);--foreground-disabled:var(--cs-foreground-disabled);--ghost-active:var(--cs-ghost-active);--secondary-hover:var(--cs-secondary-hover);--secondary-active:var(--cs-secondary-active);--sidebar:var(--cs-sidebar);--sidebar-foreground:var(--cs-sidebar-foreground);--sidebar-primary:var(--cs-sidebar-primary);--sidebar-primary-foreground:var(--cs-sidebar-primary-foreground);--sidebar-accent:var(--cs-sidebar-accent);--sidebar-accent-foreground:var(--cs-sidebar-accent-foreground);--sidebar-border:var(--cs-sidebar-border);--sidebar-ring:var(--cs-sidebar-ring);--error:var(--cs-error);--error-subtle:var(--cs-error-subtle);--error-subtle-foreground:var(--cs-error-subtle-foreground);--error-border:var(--cs-error-border);--success:var(--cs-success);--success-subtle:var(--cs-success-subtle);--success-subtle-foreground:var(--cs-success-subtle-foreground);--success-border:var(--cs-success-border);--warning:var(--cs-warning);--warning-subtle:var(--cs-warning-subtle);--warning-subtle-foreground:var(--cs-warning-subtle-foreground);--warning-border:var(--cs-warning-border);--info:var(--cs-info);--info-subtle:var(--cs-info-subtle);--info-subtle-foreground:var(--cs-info-subtle-foreground);--info-border:var(--cs-info-border)}.cc-settings-column{box-sizing:border-box;flex-direction:column;gap:16px;width:100%;max-width:768px;margin:0 auto;display:flex}.cc-page-title{color:var(--foreground);font-size:15px;font-weight:600}.cc-page-description{color:var(--muted-foreground);margin-top:4px;font-size:14px}.cc-card{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.cc-card-title{color:var(--foreground);font-size:15px;font-weight:600}.cc-card-description{color:var(--muted-foreground);margin-top:2px;font-size:12px}.cc-field-row{flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 16px;min-height:24px;display:flex}.cc-field-label{color:var(--foreground);font-size:14px}.cc-field-hint{color:var(--muted-foreground);margin-top:2px;font-size:12px}.cc-input{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);height:32px;color:var(--foreground);box-shadow:none;box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px;line-height:32px}.cc-input:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent);outline:none}.cc-input::placeholder{color:var(--foreground-tertiary)}.cc-select{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 28px 0 10px;font-family:inherit;font-size:14px}.cc-select:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.cc-textarea{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);color:var(--foreground);font-family:var(--ds-font-family-code), monospace;box-shadow:none;box-sizing:border-box;resize:vertical;border-radius:8px;outline:none;padding:8px 10px;font-size:13px;line-height:20px}.cc-textarea:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent);outline:none}.cc-checkbox{width:16px;height:16px;accent-color:var(--primary);cursor:pointer}.cc-btn{cursor:pointer;white-space:nowrap;box-sizing:border-box;border:1px solid #0000;border-radius:8px;justify-content:center;align-items:center;gap:6px;height:32px;padding:0 14px;font-family:inherit;font-size:14px;font-weight:400;line-height:20px;display:inline-flex}.cc-btn:disabled{opacity:.5;cursor:not-allowed}.cc-btn-primary{background:var(--primary);color:var(--primary-foreground)}.cc-btn-primary:hover:not(:disabled){background:var(--cs-brand-600)}.cc-btn-secondary{background:var(--secondary);color:var(--secondary-foreground)}.cc-btn-secondary:hover:not(:disabled){background:var(--secondary-hover)}.cc-btn-ghost{color:var(--foreground);background:0 0}.cc-btn-ghost:hover:not(:disabled){background:var(--muted)}.cc-btn-danger{color:var(--destructive);border-color:var(--border-subtle);background:0 0}.cc-btn-danger:hover:not(:disabled){background:var(--error-subtle)}.cc-icon-btn{width:32px;height:32px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:8px;justify-content:center;align-items:center;padding:0;display:inline-flex}.cc-icon-btn:hover{background:var(--muted);color:var(--foreground)}.cc-empty{color:var(--muted-foreground);text-align:center;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:48px 16px;font-size:14px;display:flex}.cc-empty-title{color:var(--foreground);font-size:15px;font-weight:600}.cc-empty-description{color:var(--muted-foreground);font-size:13px}.cc-loading{min-height:200px;color:var(--muted-foreground);justify-content:center;align-items:center;font-size:14px;display:flex}.cc-notice-error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.cc-badge-enabled{background:var(--success-subtle);height:20px;color:var(--success-subtle-foreground);border-radius:9999px;align-items:center;padding:0 8px;font-size:12px;display:inline-flex}.cc-badge-disabled{background:var(--muted);height:20px;color:var(--muted-foreground);border-radius:9999px;align-items:center;padding:0 8px;font-size:12px;display:inline-flex}body[data-ds-dark-theme] .cc-surface{--cs-success:var(--cs-green-400);--cs-warning:var(--cs-amber-400);--cs-info:var(--cs-blue-400);--cs-background:oklch(20.9% 0 0/.55);--cs-background-subtle:oklch(100% 0 0/.02);--cs-foreground:oklch(93.1% 0 0);--cs-muted-foreground:oklch(70.8% 0 0);--cs-foreground-tertiary:oklch(55.9% 0 0);--cs-card:var(--cs-neutral-900);--cs-popover:var(--cs-neutral-800);--cs-border:oklch(100% 0 0/.1);--cs-border-subtle:oklch(100% 0 0/.05);--cs-border-strong:oklch(100% 0 0/.2);--cs-border-selected:oklch(100% 0 0/.3);--cs-ring:oklch(76% .204 131/.4);--cs-secondary:oklch(100% 0 0/.1);--cs-secondary-hover:oklch(100% 0 0/.2);--cs-secondary-active:oklch(100% 0 0/.25);--cs-muted:oklch(100% 0 0/.1);--cs-accent:oklch(100% 0 0/.1);--cs-ghost-active:oklch(100% 0 0/.15);--cs-sidebar:oklch(23.93% 0 0);--cs-sidebar-accent:oklch(26.9% 0 0);--cs-card-foreground:oklch(98.5% 0 0);--cs-popover-foreground:oklch(98.5% 0 0);--cs-secondary-foreground:oklch(98.5% 0 0);--cs-accent-foreground:oklch(98.5% 0 0);--cs-primary-foreground:oklch(20.5% 0 0);--cs-destructive-foreground:var(--cs-white);--cs-input:oklch(26.9% 0 0);--cs-sidebar-foreground:oklch(98.5% 0 0);--cs-sidebar-primary:oklch(48.8% .243 264.376);--cs-sidebar-primary-foreground:oklch(98.5% 0 0);--cs-sidebar-accent-foreground:oklch(98.5% 0 0);--cs-sidebar-border:oklch(26.9% 0 0);--cs-sidebar-ring:oklch(43.9% 0 0);--cs-success-subtle-foreground:var(--cs-green-100);--cs-success-border:var(--cs-green-700);--cs-warning-subtle-foreground:var(--cs-amber-100);--cs-warning-border:var(--cs-amber-700);--cs-info-subtle-foreground:var(--cs-blue-100);--cs-info-border:var(--cs-blue-700)}";
+		const css$10 = ".cc-surface{background:var(--background);color:var(--foreground);--cs-neutral-50:oklch(98% 0 0);--cs-neutral-100:oklch(97% 0 0);--cs-neutral-200:oklch(92% 0 0);--cs-neutral-300:oklch(87% 0 0);--cs-neutral-400:oklch(72% 0 0);--cs-neutral-500:oklch(55% 0 0);--cs-neutral-600:oklch(44% .027 257);--cs-neutral-700:oklch(37% 0 0);--cs-neutral-800:oklch(27% 0 0);--cs-neutral-900:oklch(20% 0 0);--cs-neutral-950:oklch(15% 0 0);--cs-brand-50:oklch(98% .015 152);--cs-brand-100:oklch(96% .034 151);--cs-brand-200:oklch(91% .073 151);--cs-brand-300:oklch(85% .13 149);--cs-brand-400:oklch(81% .173 148);--cs-brand-500:oklch(77% .208 146);--cs-brand-600:oklch(67% .192 146);--cs-brand-700:oklch(56% .156 146);--cs-brand-800:oklch(43% .117 146);--cs-brand-900:oklch(32% .086 146);--cs-red-50:oklch(97% .014 17);--cs-red-100:oklch(93% .031 18);--cs-red-200:oklch(88% .062 18);--cs-red-300:oklch(81% .103 20);--cs-red-400:oklch(71% .166 22);--cs-red-500:oklch(64% .208 25);--cs-red-600:oklch(58% .214 27);--cs-red-700:oklch(51% .192 28);--cs-red-800:oklch(44% .16 27);--cs-red-900:oklch(40% .135 26);--cs-red-950:oklch(25% .087 26);--cs-amber-50:oklch(99% .022 95);--cs-amber-100:oklch(96% .057 96);--cs-amber-200:oklch(93% .114 96);--cs-amber-300:oklch(88% .153 92);--cs-amber-400:oklch(83% .164 84);--cs-amber-500:oklch(77% .165 71);--cs-amber-600:oklch(67% .159 58);--cs-amber-700:oklch(55% .145 49);--cs-amber-800:oklch(47% .124 47);--cs-amber-900:oklch(41% .104 46);--cs-amber-950:oklch(28% .074 46);--cs-green-50:oklch(98% .016 156);--cs-green-100:oklch(96% .041 157);--cs-green-200:oklch(92% .081 156);--cs-green-300:oklch(87% .137 155);--cs-green-400:oklch(80% .182 152);--cs-green-500:oklch(72% .192 149);--cs-green-600:oklch(62% .169 149);--cs-green-700:oklch(52% .137 150);--cs-green-800:oklch(42% .108 151);--cs-green-900:oklch(35% .084 152);--cs-green-950:oklch(24% .059 152);--cs-blue-50:oklch(97% .017 261);--cs-blue-100:oklch(94% .033 261);--cs-blue-200:oklch(88% .067 261);--cs-blue-300:oklch(80% .113 261);--cs-blue-400:oklch(71% .152 261);--cs-blue-500:oklch(62% .17 260);--cs-blue-600:oklch(54% .157 259);--cs-blue-700:oklch(46% .13 258);--cs-blue-800:oklch(38% .104 256);--cs-blue-900:oklch(33% .086 255);--cs-blue-950:oklch(22% .056 254);--cs-white:oklch(100% 0 0);--cs-black:oklch(0% 0 0);--cs-font-family-heading:Inter;--cs-font-family-body:Inter;--cs-font-weight-regular:400;--cs-font-weight-medium:500;--cs-font-weight-bold:700;--cs-font-size-body-xs:.75rem;--cs-font-size-body-sm:.875rem;--cs-font-size-body-md:1rem;--cs-font-size-body-lg:1.125rem;--cs-font-size-heading-xs:1.25rem;--cs-font-size-heading-sm:1.5rem;--cs-line-height-body-xs:1.25rem;--cs-line-height-body-sm:1.5rem;--cs-line-height-body-md:1.5rem;--cs-line-height-body-lg:1.75rem;--cs-line-height-heading-xs:2rem;--cs-line-height-heading-sm:2.5rem;--cs-radius-xs:.125rem;--cs-radius-sm:.375rem;--cs-radius-md:.5rem;--cs-radius-lg:.625rem;--cs-radius-xl:.875rem;--cs-radius-2xl:1.125rem;--cs-radius-3xl:1.375rem;--cs-radius-round:9999px;--cs-primary:var(--cs-brand-500);--cs-destructive:var(--cs-red-500);--cs-destructive-hover:var(--cs-red-400);--cs-success:var(--cs-green-500);--cs-warning:var(--cs-amber-500);--cs-info:var(--cs-blue-500);--cs-background:var(--cs-white);--cs-background-subtle:oklch(0% 0 0/.02);--cs-foreground:oklch(21.3% 0 0);--cs-muted-foreground:oklch(55.6% 0 0);--cs-foreground-tertiary:oklch(66.9% 0 0);--cs-foreground-disabled:var(--cs-foreground-tertiary);--cs-card:var(--cs-white);--cs-popover:var(--cs-white);--cs-border:oklch(0% 0 0/.1);--cs-border-subtle:oklch(0% 0 0/.04);--cs-border-strong:oklch(0% 0 0/.2);--cs-border-selected:oklch(0% 0 0/.3);--cs-ring:color-mix(in srgb, var(--cs-primary) 40%, transparent);--cs-secondary:oklch(0% 0 0/.05);--cs-secondary-hover:oklch(0% 0 0/.1);--cs-secondary-active:oklch(0% 0 0/.15);--cs-muted:oklch(0% 0 0/.05);--cs-accent:oklch(0% 0 0/.05);--cs-ghost-active:oklch(0% 0 0/.1);--cs-sidebar:oklch(96.72% 0 0);--cs-sidebar-accent:oklch(97% 0 0);--cs-card-foreground:oklch(14.5% 0 0);--cs-popover-foreground:oklch(14.5% 0 0);--cs-secondary-foreground:oklch(20.5% 0 0);--cs-accent-foreground:oklch(20.5% 0 0);--cs-primary-foreground:oklch(98.5% 0 0);--cs-destructive-foreground:var(--cs-white);--cs-input:oklch(92.2% 0 0);--cs-sidebar-foreground:oklch(14.5% 0 0);--cs-sidebar-primary:oklch(20.5% 0 0);--cs-sidebar-primary-foreground:oklch(98.5% 0 0);--cs-sidebar-accent-foreground:oklch(20.5% 0 0);--cs-sidebar-border:oklch(92.2% 0 0);--cs-sidebar-ring:oklch(70.8% 0 0);--cs-error:var(--cs-red-500);--cs-error-subtle:var(--cs-red-50);--cs-error-subtle-foreground:var(--cs-red-700);--cs-error-border:var(--cs-red-200);--cs-success-subtle:var(--cs-green-50);--cs-success-subtle-foreground:var(--cs-green-800);--cs-success-border:var(--cs-green-200);--cs-warning-subtle:var(--cs-amber-50);--cs-warning-subtle-foreground:var(--cs-amber-800);--cs-warning-border:var(--cs-amber-200);--cs-info-subtle:var(--cs-blue-50);--cs-info-subtle-foreground:var(--cs-blue-800);--cs-info-border:var(--cs-blue-200);--background:var(--cs-background);--foreground:var(--cs-foreground);--card:var(--cs-card);--card-foreground:var(--cs-card-foreground);--popover:var(--cs-popover);--popover-foreground:var(--cs-popover-foreground);--primary:var(--cs-primary);--primary-foreground:var(--cs-primary-foreground);--secondary:var(--cs-secondary);--secondary-foreground:var(--cs-secondary-foreground);--muted:var(--cs-muted);--muted-foreground:var(--cs-muted-foreground);--accent:var(--cs-accent);--accent-foreground:var(--cs-accent-foreground);--destructive:var(--cs-destructive);--destructive-foreground:var(--cs-destructive-foreground);--border:var(--cs-border);--border-subtle:var(--cs-border-subtle);--border-strong:var(--cs-border-strong);--border-selected:var(--cs-border-selected);--input:var(--cs-input);--ring:var(--cs-ring);--background-subtle:var(--cs-background-subtle);--foreground-tertiary:var(--cs-foreground-tertiary);--foreground-disabled:var(--cs-foreground-disabled);--ghost-active:var(--cs-ghost-active);--secondary-hover:var(--cs-secondary-hover);--secondary-active:var(--cs-secondary-active);--sidebar:var(--cs-sidebar);--sidebar-foreground:var(--cs-sidebar-foreground);--sidebar-primary:var(--cs-sidebar-primary);--sidebar-primary-foreground:var(--cs-sidebar-primary-foreground);--sidebar-accent:var(--cs-sidebar-accent);--sidebar-accent-foreground:var(--cs-sidebar-accent-foreground);--sidebar-border:var(--cs-sidebar-border);--sidebar-ring:var(--cs-sidebar-ring);--error:var(--cs-error);--error-subtle:var(--cs-error-subtle);--error-subtle-foreground:var(--cs-error-subtle-foreground);--error-border:var(--cs-error-border);--success:var(--cs-success);--success-subtle:var(--cs-success-subtle);--success-subtle-foreground:var(--cs-success-subtle-foreground);--success-border:var(--cs-success-border);--warning:var(--cs-warning);--warning-subtle:var(--cs-warning-subtle);--warning-subtle-foreground:var(--cs-warning-subtle-foreground);--warning-border:var(--cs-warning-border);--info:var(--cs-info);--info-subtle:var(--cs-info-subtle);--info-subtle-foreground:var(--cs-info-subtle-foreground);--info-border:var(--cs-info-border)}.cc-settings-column{box-sizing:border-box;flex-direction:column;gap:16px;width:100%;max-width:768px;margin:0 auto;display:flex}.cc-page-title{color:var(--foreground);font-size:15px;font-weight:600}.cc-page-description{color:var(--muted-foreground);margin-top:4px;font-size:14px}.cc-card{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.cc-card-title{color:var(--foreground);font-size:15px;font-weight:600}.cc-card-description{color:var(--muted-foreground);margin-top:2px;font-size:12px}.cc-field-row{flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 16px;min-height:24px;display:flex}.cc-field-label{color:var(--foreground);font-size:14px}.cc-field-hint{color:var(--muted-foreground);margin-top:2px;font-size:12px}.cc-input{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);height:32px;color:var(--foreground);box-shadow:none;box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px;line-height:32px}.cc-input:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent);outline:none}.cc-input::placeholder{color:var(--foreground-tertiary)}.cc-select{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 28px 0 10px;font-family:inherit;font-size:14px}.cc-select:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.cc-textarea{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);color:var(--foreground);font-family:var(--ds-font-family-code), monospace;box-shadow:none;box-sizing:border-box;resize:vertical;border-radius:8px;outline:none;padding:8px 10px;font-size:13px;line-height:20px}.cc-textarea:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent);outline:none}.cc-checkbox{width:16px;height:16px;accent-color:var(--primary);cursor:pointer}.cc-btn{cursor:pointer;white-space:nowrap;box-sizing:border-box;border:1px solid #0000;border-radius:8px;justify-content:center;align-items:center;gap:6px;height:32px;padding:0 14px;font-family:inherit;font-size:14px;font-weight:400;line-height:20px;display:inline-flex}.cc-btn:disabled{opacity:.5;cursor:not-allowed}.cc-btn-primary{background:var(--primary);color:var(--primary-foreground)}.cc-btn-primary:hover:not(:disabled){background:var(--cs-brand-600)}.cc-btn-secondary{background:var(--secondary);color:var(--secondary-foreground)}.cc-btn-secondary:hover:not(:disabled){background:var(--secondary-hover)}.cc-btn-ghost{color:var(--foreground);background:0 0}.cc-btn-ghost:hover:not(:disabled){background:var(--muted)}.cc-btn-danger{color:var(--destructive);border-color:var(--border-subtle);background:0 0}.cc-btn-danger:hover:not(:disabled){background:var(--error-subtle)}.cc-icon-btn{width:32px;height:32px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:8px;justify-content:center;align-items:center;padding:0;display:inline-flex}.cc-icon-btn:hover{background:var(--muted);color:var(--foreground)}.cc-empty{color:var(--muted-foreground);text-align:center;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:48px 16px;font-size:14px;display:flex}.cc-empty-title{color:var(--foreground);font-size:15px;font-weight:600}.cc-empty-description{color:var(--muted-foreground);font-size:13px}.cc-loading{min-height:200px;color:var(--muted-foreground);justify-content:center;align-items:center;font-size:14px;display:flex}.cc-notice-error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.cc-badge-enabled{background:var(--success-subtle);height:20px;color:var(--success-subtle-foreground);border-radius:9999px;align-items:center;padding:0 8px;font-size:12px;display:inline-flex}.cc-badge-disabled{background:var(--muted);height:20px;color:var(--muted-foreground);border-radius:9999px;align-items:center;padding:0 8px;font-size:12px;display:inline-flex}body[data-ds-dark-theme] .cc-surface{--cs-success:var(--cs-green-400);--cs-warning:var(--cs-amber-400);--cs-info:var(--cs-blue-400);--cs-background:oklch(20.9% 0 0);--cs-background-subtle:oklch(100% 0 0/.02);--cs-foreground:oklch(93.1% 0 0);--cs-muted-foreground:oklch(70.8% 0 0);--cs-foreground-tertiary:oklch(55.9% 0 0);--cs-card:var(--cs-neutral-900);--cs-popover:var(--cs-neutral-800);--cs-border:oklch(100% 0 0/.1);--cs-border-subtle:oklch(100% 0 0/.05);--cs-border-strong:oklch(100% 0 0/.2);--cs-border-selected:oklch(100% 0 0/.3);--cs-ring:oklch(76% .204 131/.4);--cs-secondary:oklch(100% 0 0/.1);--cs-secondary-hover:oklch(100% 0 0/.2);--cs-secondary-active:oklch(100% 0 0/.25);--cs-muted:oklch(100% 0 0/.1);--cs-accent:oklch(100% 0 0/.1);--cs-ghost-active:oklch(100% 0 0/.15);--cs-sidebar:oklch(23.93% 0 0);--cs-sidebar-accent:oklch(26.9% 0 0);--cs-card-foreground:oklch(98.5% 0 0);--cs-popover-foreground:oklch(98.5% 0 0);--cs-secondary-foreground:oklch(98.5% 0 0);--cs-accent-foreground:oklch(98.5% 0 0);--cs-primary-foreground:oklch(20.5% 0 0);--cs-destructive-foreground:var(--cs-white);--cs-input:oklch(26.9% 0 0);--cs-sidebar-foreground:oklch(98.5% 0 0);--cs-sidebar-primary:oklch(48.8% .243 264.376);--cs-sidebar-primary-foreground:oklch(98.5% 0 0);--cs-sidebar-accent-foreground:oklch(98.5% 0 0);--cs-sidebar-border:oklch(26.9% 0 0);--cs-sidebar-ring:oklch(43.9% 0 0);--cs-success-subtle-foreground:var(--cs-green-100);--cs-success-border:var(--cs-green-700);--cs-warning-subtle-foreground:var(--cs-amber-100);--cs-warning-border:var(--cs-amber-700);--cs-info-subtle-foreground:var(--cs-blue-100);--cs-info-border:var(--cs-blue-700)}";
 		const tagId$10 = "@dsh-control-center/bundle/cherry-tokens.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$10) + "]") === null) {
 			const tag = document.createElement("style");
@@ -7355,35 +7355,35 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelsSection_module_css_default = {
-			"rowHead": "tKsOKa_rowHead",
-			"title": "tKsOKa_title",
-			"rowTag": "tKsOKa_rowTag",
-			"error": "tKsOKa_error",
-			"field": "tKsOKa_field",
-			"rowName": "tKsOKa_rowName",
-			"input": "tKsOKa_input",
-			"addButton": "tKsOKa_addButton",
-			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
-			"dangerButton": "tKsOKa_dangerButton",
-			"rowActions": "tKsOKa_rowActions",
-			"savedNotice": "tKsOKa_savedNotice",
-			"intro": "tKsOKa_intro",
-			"addBlock": "tKsOKa_addBlock",
-			"credentialDot": "tKsOKa_credentialDot",
-			"addCard": "tKsOKa_addCard",
 			"setupCard": "tKsOKa_setupCard",
-			"credentialDotMissing": "tKsOKa_credentialDotMissing",
-			"selectInput": "tKsOKa_selectInput",
-			"rowCard": "tKsOKa_rowCard",
-			"fieldLabel": "tKsOKa_fieldLabel",
-			"deleteDialog": "tKsOKa_deleteDialog",
-			"section": "tKsOKa_section",
-			"rowIdentity": "tKsOKa_rowIdentity",
-			"rows": "tKsOKa_rows",
+			"savedNotice": "tKsOKa_savedNotice",
+			"title": "tKsOKa_title",
 			"secondaryButton": "tKsOKa_secondaryButton",
+			"input": "tKsOKa_input",
+			"dangerButton": "tKsOKa_dangerButton",
+			"addBlock": "tKsOKa_addBlock",
+			"field": "tKsOKa_field",
+			"section": "tKsOKa_section",
+			"rowCard": "tKsOKa_rowCard",
+			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
+			"rowActions": "tKsOKa_rowActions",
+			"addButton": "tKsOKa_addButton",
 			"deleteConfirm": "tKsOKa_deleteConfirm",
-			"addActions": "tKsOKa_addActions",
-			"notice": "tKsOKa_notice"
+			"rowTag": "tKsOKa_rowTag",
+			"intro": "tKsOKa_intro",
+			"rows": "tKsOKa_rows",
+			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"notice": "tKsOKa_notice",
+			"rowIdentity": "tKsOKa_rowIdentity",
+			"error": "tKsOKa_error",
+			"fieldLabel": "tKsOKa_fieldLabel",
+			"rowName": "tKsOKa_rowName",
+			"addCard": "tKsOKa_addCard",
+			"rowHead": "tKsOKa_rowHead",
+			"selectInput": "tKsOKa_selectInput",
+			"deleteDialog": "tKsOKa_deleteDialog",
+			"credentialDot": "tKsOKa_credentialDot",
+			"addActions": "tKsOKa_addActions"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -10499,9 +10499,9 @@ window.__ModuleLoader__.load({
 		}
 		var OnboardingModal_module_css_default = {
 			"dialog": "C_CJ_a_dialog",
+			"body": "C_CJ_a_body",
 			"content": "C_CJ_a_content",
-			"title": "C_CJ_a_title",
-			"body": "C_CJ_a_body"
+			"title": "C_CJ_a_title"
 		};
 		//#endregion
 		//#region lib/types/client/OnboardingModal.js
@@ -10651,10 +10651,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WelcomeNotice_module_css_default = {
-			"error": "RFswhG_error",
+			"primary": "RFswhG_primary",
 			"actions": "RFswhG_actions",
-			"copy": "RFswhG_copy",
-			"primary": "RFswhG_primary"
+			"error": "RFswhG_error",
+			"copy": "RFswhG_copy"
 		};
 		//#endregion
 		//#region lib/types/client/WelcomeNotice.js
@@ -11117,13 +11117,13 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProductWorkspaceSurface_module_css_default = {
+			"root": "mzcFbW_root",
 			"identity": "mzcFbW_identity",
 			"icon": "mzcFbW_icon",
-			"root": "mzcFbW_root",
 			"header": "mzcFbW_header",
 			"eyebrow": "mzcFbW_eyebrow",
-			"close": "mzcFbW_close",
-			"body": "mzcFbW_body"
+			"body": "mzcFbW_body",
+			"close": "mzcFbW_close"
 		};
 		//#endregion
 		//#region lib/types/client/ProductWorkspaceSurface.js
@@ -11160,8 +11160,286 @@ window.__ModuleLoader__.load({
 			});
 		}
 		//#endregion
+		//#region lib/types/client/markdown.js
+		/**
+		* Tiny markdown renderer for the translate output pane (Cherry parity for
+		* the "Markdown 预览" setting). Supports the common inline/block shapes;
+		* anything unrecognized falls through to plain pre-wrap text.
+		*/
+		const TOKEN_RE = /(\*\*[^*]+\*\*|\*[^*\n]+\*|`[^`]+`|\[[^\]\n]+\]\([^)\s]+\))/g;
+		function inlineTokens(text) {
+			const tokens = [];
+			let last = 0;
+			for (const match of text.matchAll(TOKEN_RE)) {
+				const index = match.index ?? 0;
+				if (index > last) tokens.push({
+					type: "text",
+					value: text.slice(last, index)
+				});
+				const raw = match[0];
+				if (raw.startsWith("**") && raw.endsWith("**")) tokens.push({
+					type: "bold",
+					value: raw.slice(2, -2)
+				});
+				else if (raw.startsWith("`") && raw.endsWith("`")) tokens.push({
+					type: "code",
+					value: raw.slice(1, -1)
+				});
+				else if (raw.startsWith("[") && raw.endsWith(")")) {
+					const close = raw.indexOf("](");
+					tokens.push({
+						type: "link",
+						value: raw.slice(1, close),
+						href: raw.slice(close + 2, -1)
+					});
+				} else if (raw.startsWith("*") && raw.endsWith("*")) tokens.push({
+					type: "italic",
+					value: raw.slice(1, -1)
+				});
+				else tokens.push({
+					type: "text",
+					value: raw
+				});
+				last = index + raw.length;
+			}
+			if (last < text.length) tokens.push({
+				type: "text",
+				value: text.slice(last)
+			});
+			return tokens;
+		}
+		function renderInline(text, keyPrefix) {
+			return inlineTokens(text).map((token, index) => {
+				const key = `${keyPrefix}-${index}`;
+				switch (token.type) {
+					case "bold": return (0, react_jsx_runtime.jsx)("strong", { children: token.value }, key);
+					case "italic": return (0, react_jsx_runtime.jsx)("em", { children: token.value }, key);
+					case "code": return (0, react_jsx_runtime.jsx)("code", { children: token.value }, key);
+					case "link": return (0, react_jsx_runtime.jsx)("a", {
+						href: token.href,
+						target: "_blank",
+						rel: "noreferrer",
+						children: token.value
+					}, key);
+					default: return (0, react_jsx_runtime.jsx)(react.Fragment, { children: token.value }, key);
+				}
+			});
+		}
+		const HEADING_RE = /^(#{1,4})\s+(.+)$/;
+		const FENCE_RE = /^```(?:\w+)?\s*$/;
+		const UL_RE = /^\s*[-*]\s+(.+)$/;
+		const OL_RE = /^\s*\d+[.)]\s+(.+)$/;
+		const QUOTE_RE = /^\s*>\s?(.+)$/;
+		const HR_RE = /^\s*(---+|\*\*\*+)\s*$/;
+		function renderMarkdown(source) {
+			const lines = source.split(/\r?\n/);
+			const nodes = [];
+			let paragraph = [];
+			let fence = null;
+			let list = null;
+			let key = 0;
+			const flushParagraph = () => {
+				if (paragraph.length === 0) return;
+				nodes.push((0, react_jsx_runtime.jsx)("p", { children: renderInline(paragraph.join(" "), `p${key}`) }, key++));
+				paragraph = [];
+			};
+			const flushList = () => {
+				if (list === null) return;
+				const { ordered, items, key: listKey } = list;
+				const Tag = ordered ? "ol" : "ul";
+				nodes.push((0, react_jsx_runtime.jsx)(Tag, { children: items.map((item, index) => (0, react_jsx_runtime.jsx)("li", { children: renderInline(item, `li${listKey}-${index}`) }, `${listKey}-${index}`)) }, listKey));
+				list = null;
+			};
+			for (const line of lines) {
+				if (FENCE_RE.test(line.trim())) {
+					if (fence === null) {
+						flushParagraph();
+						flushList();
+						fence = [];
+					} else {
+						nodes.push((0, react_jsx_runtime.jsx)("pre", { children: (0, react_jsx_runtime.jsx)("code", { children: fence.join("\n") }) }, key++));
+						fence = null;
+					}
+					continue;
+				}
+				if (fence !== null) {
+					fence.push(line);
+					continue;
+				}
+				if (line.trim() === "") {
+					flushParagraph();
+					flushList();
+					continue;
+				}
+				const heading = HEADING_RE.exec(line);
+				if (heading !== null) {
+					flushParagraph();
+					flushList();
+					const Tag = `h${heading[1].length}`;
+					nodes.push((0, react_jsx_runtime.jsx)(Tag, { children: renderInline(heading[2], `h${key}`) }, key++));
+					continue;
+				}
+				if (HR_RE.test(line)) {
+					flushParagraph();
+					flushList();
+					nodes.push((0, react_jsx_runtime.jsx)("hr", {}, key++));
+					continue;
+				}
+				const quote = QUOTE_RE.exec(line);
+				if (quote !== null) {
+					flushParagraph();
+					flushList();
+					nodes.push((0, react_jsx_runtime.jsx)("blockquote", { children: renderInline(quote[1], `q${key}`) }, key++));
+					continue;
+				}
+				const ul = UL_RE.exec(line);
+				const ol = OL_RE.exec(line);
+				if (ul !== null || ol !== null) {
+					flushParagraph();
+					if (list === null || list.ordered !== (ol !== null)) {
+						flushList();
+						list = {
+							ordered: ol !== null,
+							items: [],
+							key: key++
+						};
+					}
+					list.items.push(ul?.[1] ?? ol?.[1] ?? "");
+					continue;
+				}
+				flushList();
+				paragraph.push(line);
+			}
+			flushParagraph();
+			flushList();
+			if (fence !== null) nodes.push((0, react_jsx_runtime.jsx)("pre", { children: (0, react_jsx_runtime.jsx)("code", { children: fence.join("\n") }) }, key++));
+			return nodes;
+		}
+		//#endregion
+		//#region lib/types/client/cherry-icons.js
+		function base({ size = 14, ...rest }) {
+			return {
+				width: size,
+				height: size,
+				viewBox: "0 0 24 24",
+				fill: "none",
+				stroke: "currentColor",
+				strokeWidth: 2,
+				strokeLinecap: "round",
+				strokeLinejoin: "round",
+				"aria-hidden": true,
+				...rest
+			};
+		}
+		/** Star (favorite) glyph; fill via className when active. */
+		const IconStar = (props) => (0, react_jsx_runtime.jsx)("svg", {
+			...base(props),
+			children: (0, react_jsx_runtime.jsx)("path", { d: "M12 2.5l2.95 5.98 6.6.96-4.78 4.66 1.13 6.58L12 17.57l-5.9 3.1 1.13-6.58L2.45 9.44l6.6-.96L12 2.5z" })
+		});
+		/** History clock glyph. */
+		const IconHistory = (props) => (0, react_jsx_runtime.jsxs)("svg", {
+			...base(props),
+			children: [
+				(0, react_jsx_runtime.jsx)("path", { d: "M3 12a9 9 0 1 0 3-6.7L3 8" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M3 3v5h5" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M12 7v5l3 2" })
+			]
+		});
+		/** Horizontal sliders (translate settings trigger). */
+		const IconSlidersHorizontal = (props) => (0, react_jsx_runtime.jsxs)("svg", {
+			...base(props),
+			children: [
+				(0, react_jsx_runtime.jsx)("path", { d: "M21 4h-7" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M10 4H3" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M21 12h-9" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M8 12H3" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M21 20h-5" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M12 20H3" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M14 2v4" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M8 10v4" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M16 18v4" })
+			]
+		});
+		/** Swap source/target arrows. */
+		const IconArrowLeftRight = (props) => (0, react_jsx_runtime.jsxs)("svg", {
+			...base(props),
+			children: [
+				(0, react_jsx_runtime.jsx)("path", { d: "M8 3L4 7l4 4" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M4 7h16" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M16 21l4-4-4-4" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M20 17H4" })
+			]
+		});
+		/** Languages glyph (translate button). */
+		const IconLanguages = (props) => (0, react_jsx_runtime.jsxs)("svg", {
+			...base(props),
+			children: [
+				(0, react_jsx_runtime.jsx)("path", { d: "M5 8l6 6" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M4 14l6-6 2-3" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M2 5h12" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M7 2h1" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M22 22l-5-10-5 10" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M14 18h6" })
+			]
+		});
+		/** Pen for custom language edit. */
+		const IconPenLine = (props) => (0, react_jsx_runtime.jsxs)("svg", {
+			...base(props),
+			children: [(0, react_jsx_runtime.jsx)("path", { d: "M12 20h9" }), (0, react_jsx_runtime.jsx)("path", { d: "M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" })]
+		});
+		/** Back arrow (chevron-left alias). */
+		const IconChevronLeft = (props) => (0, react_jsx_runtime.jsx)("svg", {
+			...base(props),
+			children: (0, react_jsx_runtime.jsx)("path", { d: "M15 18l-6-6 6-6" })
+		});
+		/** Check glyph (filled variant for copy feedback). */
+		const IconCheck = (props) => (0, react_jsx_runtime.jsx)("svg", {
+			...base(props),
+			children: (0, react_jsx_runtime.jsx)("path", { d: "M20 6L9 17l-5-5" })
+		});
+		/** Trash glyph. */
+		const IconTrash2 = (props) => (0, react_jsx_runtime.jsxs)("svg", {
+			...base(props),
+			children: [
+				(0, react_jsx_runtime.jsx)("path", { d: "M3 6h18" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M10 11v6" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M14 11v6" })
+			]
+		});
+		/** Copy glyph. */
+		const IconCopy = (props) => (0, react_jsx_runtime.jsxs)("svg", {
+			...base(props),
+			children: [(0, react_jsx_runtime.jsx)("rect", {
+				x: "9",
+				y: "9",
+				width: "13",
+				height: "13",
+				rx: "2"
+			}), (0, react_jsx_runtime.jsx)("path", { d: "M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" })]
+		});
+		/** Pause circle for stop button. */
+		const IconCirclePause = (props) => (0, react_jsx_runtime.jsxs)("svg", {
+			...base(props),
+			children: [
+				(0, react_jsx_runtime.jsx)("circle", {
+					cx: "12",
+					cy: "12",
+					r: "10"
+				}),
+				(0, react_jsx_runtime.jsx)("path", { d: "M10 9v6" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M14 9v6" })
+			]
+		});
+		/** Plus glyph. */
+		const IconPlus = (props) => (0, react_jsx_runtime.jsxs)("svg", {
+			...base(props),
+			children: [(0, react_jsx_runtime.jsx)("path", { d: "M12 5v14" }), (0, react_jsx_runtime.jsx)("path", { d: "M5 12h14" })]
+		});
+		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\TranslationWorkspace.module.css.mjs
-		const css = "._8lesPa_root{background:var(--background);min-width:0;min-height:0;color:var(--foreground);flex-direction:column;flex:1;gap:16px;padding:24px;display:flex;overflow:auto}._8lesPa_header{justify-content:space-between;align-items:center;gap:16px;display:flex}._8lesPa_header h1{margin:2px 0 0;font-size:28px}._8lesPa_eyebrow{color:var(--foreground-tertiary);letter-spacing:.08em;text-transform:uppercase;margin:0;font-size:12px}._8lesPa_toolbar{border:1px solid var(--border-subtle);border-radius:12px;flex-wrap:wrap;align-items:center;gap:8px;padding:12px;display:flex}._8lesPa_toolbar select{border:1px solid var(--border);background:var(--background);min-height:34px;color:inherit;border-radius:9px;padding:0 10px}._8lesPa_toolbar select:last-child{max-width:260px;margin-left:auto}._8lesPa_swap{background:var(--muted);width:34px;height:34px;color:inherit;cursor:pointer;border:none;border-radius:50%}._8lesPa_panes{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;min-height:360px;display:grid}._8lesPa_pane{border:1px solid var(--border-subtle);background:var(--background);border-radius:14px;flex-direction:column;min-width:0;display:flex;overflow:hidden}._8lesPa_pane textarea{resize:none;box-sizing:border-box;width:100%;min-height:300px;color:inherit;font:inherit;background:0 0;border:none;outline:none;flex:1;padding:18px;line-height:1.65}._8lesPa_actions{border-top:1px solid var(--border-subtle);min-height:52px;color:var(--foreground-tertiary);justify-content:flex-end;align-items:center;gap:8px;padding:8px 12px;display:flex}._8lesPa_actions span{margin-right:auto}._8lesPa_actions button:not(._8lesPa_secondary),._8lesPa_pane ._8lesPa_actions>button:first-of-type{background:var(--primary);min-height:34px;color:var(--primary-foreground);cursor:pointer;border:none;border-radius:9px;padding:0 16px}._8lesPa_secondary{border:1px solid var(--border);min-height:34px;color:inherit;cursor:pointer;background:0 0;border-radius:9px;padding:0 12px}._8lesPa_secondary:disabled,._8lesPa_actions button:disabled{opacity:.45;cursor:not-allowed}._8lesPa_error{color:var(--foreground);background:var(--error-subtle);border-radius:9px;margin:0;padding:10px 12px}._8lesPa_history{padding-top:6px}._8lesPa_history h2{margin:0 0 10px;font-size:18px}._8lesPa_historyItem{border-top:1px solid var(--border-subtle);padding:14px 0}._8lesPa_historyItem>div{justify-content:space-between;gap:12px;display:flex}._8lesPa_historyItem time{color:var(--foreground-tertiary);font-size:12px}._8lesPa_historyItem p{white-space:pre-wrap;margin:7px 0;line-height:1.5}._8lesPa_historyItem p:nth-of-type(2){color:var(--muted-foreground)}._8lesPa_link{color:var(--primary);cursor:pointer;background:0 0;border:none;margin-right:12px;padding:0}._8lesPa_empty{color:var(--foreground-tertiary)}@media (width<=760px){._8lesPa_root{padding:14px}._8lesPa_panes{grid-template-columns:1fr}._8lesPa_toolbar select:last-child{margin-left:0}}";
+		const css = "._8lesPa_root{background:var(--background);min-width:0;min-height:0;color:var(--foreground);font-family:var(--cs-font-family-body), -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"PingFang SC\", \"Microsoft YaHei\", sans-serif;flex-direction:column;flex:1;display:flex;overflow:hidden}._8lesPa_topBar{border-bottom:1px solid var(--border-subtle);background:var(--background);flex:none;align-items:center;gap:12px;padding:12px;display:flex}._8lesPa_backButton{width:28px;height:28px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:8px;flex:none;justify-content:center;align-items:center;padding:0;display:inline-flex}._8lesPa_backButton:hover{background:var(--muted);color:var(--foreground)}._8lesPa_langSelectWrap{align-items:center;display:inline-flex;position:relative}._8lesPa_langSelect{appearance:none;background:var(--background-subtle);min-width:128px;max-width:220px;height:32px;color:var(--foreground);cursor:pointer;border:1px solid #0000;border-radius:8px;outline:none;padding:0 26px 0 10px;font-family:inherit;font-size:14px;line-height:32px}._8lesPa_langSelect:hover{background:var(--muted)}._8lesPa_langSelect:focus-visible{border-color:var(--ring)}._8lesPa_langChevron{pointer-events:none;color:var(--muted-foreground);position:absolute;right:8px}._8lesPa_swapBtn{width:32px;height:32px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:50%;flex:none;justify-content:center;align-items:center;padding:0;display:inline-flex}._8lesPa_swapBtn:hover{background:var(--accent);color:var(--foreground)}._8lesPa_swapBtn:disabled{opacity:.45;cursor:not-allowed}._8lesPa_pairChip{border:1px solid var(--border);background:var(--background-subtle);max-width:280px;height:32px;color:var(--foreground);white-space:nowrap;text-overflow:ellipsis;border-radius:8px;align-items:center;gap:6px;padding:0 12px;font-size:14px;display:inline-flex;overflow:hidden}._8lesPa_translateBtn{cursor:pointer;color:#fff;background:#059669;border:none;border-radius:8px;align-items:center;gap:6px;height:32px;padding:0 12px;font-family:inherit;font-size:14px;display:inline-flex}._8lesPa_translateBtn:hover:not(:disabled){opacity:.9}._8lesPa_translateBtn:disabled{background:var(--muted);color:var(--foreground-disabled);cursor:not-allowed}._8lesPa_stopBtn{background:var(--secondary);height:32px;color:var(--secondary-foreground);cursor:pointer;border:none;border-radius:8px;align-items:center;gap:6px;padding:0 12px;font-family:inherit;font-size:14px;display:inline-flex}._8lesPa_spacer{flex:1}._8lesPa_rightCluster{align-items:center;gap:4px;display:flex}._8lesPa_modelSelectWrap{align-items:center;display:inline-flex;position:relative}._8lesPa_modelSelect{appearance:none;min-width:96px;max-width:240px;height:32px;color:var(--foreground);cursor:pointer;background:0 0;border:none;border-radius:8px;outline:none;padding:0 24px 0 10px;font-family:inherit;font-size:14px}._8lesPa_modelSelect:hover{background:var(--muted)}._8lesPa_iconBtn{width:32px;height:32px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:50%;justify-content:center;align-items:center;padding:0;display:inline-flex}._8lesPa_iconBtn:hover{background:var(--accent);color:var(--foreground)}._8lesPa_iconBtn._8lesPa_active{color:var(--foreground);background:var(--accent)}._8lesPa_iconBtn:disabled{opacity:.45;cursor:not-allowed}._8lesPa_panes{flex:1;grid-template-rows:1fr;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:0;display:grid}._8lesPa_pane{background:var(--background);flex-direction:column;min-width:0;min-height:0;display:flex;overflow:hidden}._8lesPa_outputPane{border-left:1px solid var(--border-subtle)}._8lesPa_textareaScroll{flex:1;min-height:0;overflow-y:auto}._8lesPa_inputArea{box-sizing:border-box;width:100%;min-height:100%;color:var(--foreground);font:inherit;resize:none;white-space:pre-wrap;background:0 0;border:none;outline:none;padding:16px 48px 16px 16px;font-size:16px;line-height:1.65;display:block}._8lesPa_inputArea::placeholder{color:var(--muted-foreground)}._8lesPa_outputArea{box-sizing:border-box;min-height:100%;color:var(--foreground);white-space:pre-wrap;word-break:break-word;padding:16px 48px 16px 16px;font-size:16px;line-height:1.65}._8lesPa_paneCorner{gap:4px;display:flex;position:absolute;top:16px;right:12px}._8lesPa_smallIconBtn{width:28px;height:28px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:8px;justify-content:center;align-items:center;padding:0;display:inline-flex}._8lesPa_smallIconBtn:hover{background:var(--accent);color:var(--foreground)}._8lesPa_smallIconBtn:disabled{opacity:.45;cursor:not-allowed}._8lesPa_smallIconBtn._8lesPa_success{color:var(--success)}._8lesPa_paneFooter{box-sizing:border-box;flex:none;align-items:center;gap:8px;min-height:44px;padding:8px 16px 12px;display:flex}._8lesPa_paneFooter ._8lesPa_count{color:var(--foreground-tertiary);margin-right:auto;font-size:12px;line-height:16px}._8lesPa_clearBtn{height:28px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:8px;align-items:center;gap:4px;padding:0 8px;font-family:inherit;font-size:13px;display:inline-flex}._8lesPa_clearBtn:hover{background:var(--accent);color:var(--foreground)}._8lesPa_translating{color:var(--muted-foreground);align-items:center;gap:8px;font-size:14px;display:inline-flex}._8lesPa_spinner{border:2px solid color-mix(in srgb, var(--muted-foreground) 30%, transparent);border-top-color:var(--muted-foreground);border-radius:50%;width:16px;height:16px;animation:.8s linear infinite _8lesPa_cc-spin}@keyframes _8lesPa_cc-spin{to{transform:rotate(360deg)}}._8lesPa_md{white-space:normal}._8lesPa_md h1,._8lesPa_md h2,._8lesPa_md h3,._8lesPa_md h4{margin:14px 0 6px;font-weight:600;line-height:1.35}._8lesPa_md h1{font-size:1.4em}._8lesPa_md h2{font-size:1.25em}._8lesPa_md h3{font-size:1.1em}._8lesPa_md h4{font-size:1em}._8lesPa_md p{margin:7px 0}._8lesPa_md code{background:var(--muted);border-radius:5px;padding:1px 5px;font-family:ui-monospace,Cascadia Code,Consolas,monospace;font-size:.9em}._8lesPa_md pre{background:var(--muted);border-radius:9px;margin:9px 0;padding:11px 13px;overflow-x:auto}._8lesPa_md pre code{white-space:pre;background:0 0;padding:0}._8lesPa_md blockquote{border-left:3px solid var(--border-strong);color:var(--muted-foreground);margin:9px 0;padding:2px 12px}._8lesPa_md ul,._8lesPa_md ol{margin:7px 0;padding-left:22px}._8lesPa_md li{margin:3px 0}._8lesPa_md hr{border:none;border-top:1px solid var(--border);margin:14px 0}._8lesPa_md a{color:var(--primary);text-decoration:underline}._8lesPa_backdrop{z-index:60;background:#00000080;animation:.15s _8lesPa_cc-fade;position:fixed;inset:0}._8lesPa_sidePanel{z-index:70;background:var(--card);width:400px;max-width:calc(100vw - 24px);color:var(--card-foreground);border-radius:24px;flex-direction:column;animation:.18s cubic-bezier(.16,1,.3,1) _8lesPa_cc-slide-in;display:flex;position:fixed;top:12px;bottom:12px;right:12px;overflow:hidden;box-shadow:0 24px 48px #00000047}@keyframes _8lesPa_cc-slide-in{0%{transform:translate(100%)}to{transform:translate(0)}}@keyframes _8lesPa_cc-fade{0%{opacity:0}to{opacity:1}}._8lesPa_panelHeader{flex:none;align-items:center;gap:8px;padding:24px 24px 12px;display:flex}._8lesPa_panelTitle{min-width:0;color:var(--foreground);white-space:nowrap;text-overflow:ellipsis;flex:1;font-size:16px;font-weight:600;overflow:hidden}._8lesPa_panelBody{flex:1;min-height:0;padding:16px 24px 20px;overflow-y:auto}._8lesPa_panelBodyScroll{padding:8px 12px 12px;overflow-y:auto}._8lesPa_historyList{flex-direction:column;gap:2px;display:flex}._8lesPa_historyRow{box-sizing:border-box;width:100%;color:inherit;text-align:left;cursor:pointer;background:0 0;border:none;border-radius:8px;flex-direction:column;gap:6px;padding:10px;font-family:inherit;display:flex;position:relative}._8lesPa_historyRow:hover,._8lesPa_historyRow:focus-visible{background:var(--accent);outline:none}._8lesPa_historyRowMeta{align-items:center;gap:6px;min-width:0;padding-right:20px;display:flex}._8lesPa_chip{background:var(--muted);color:var(--muted-foreground);white-space:nowrap;border-radius:4px;flex:none;padding:1px 4px;font-size:13px;line-height:18px}._8lesPa_chipTarget{background:color-mix(in srgb, var(--primary) 10%, transparent);color:var(--primary)}._8lesPa_chipArrow{color:var(--foreground-tertiary);flex:none}._8lesPa_rowTime{text-align:right;min-width:0;color:var(--foreground-tertiary);white-space:nowrap;text-overflow:ellipsis;flex:1;margin-left:auto;font-size:13px;overflow:hidden}._8lesPa_rowSource{color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;margin:0;font-size:14px;line-height:1.4;overflow:hidden}._8lesPa_rowTarget{color:var(--foreground);white-space:nowrap;text-overflow:ellipsis;margin:0;font-size:14px;line-height:1.4;overflow:hidden}._8lesPa_starBtn{opacity:0;position:absolute;top:8px;right:8px}._8lesPa_historyRow:hover ._8lesPa_starBtn,._8lesPa_historyRow:focus-visible ._8lesPa_starBtn,._8lesPa_starBtn._8lesPa_visible{opacity:1}._8lesPa_starBtn._8lesPa_on{color:#f59e0b}._8lesPa_starFill{fill:#f59e0b;color:#f59e0b}._8lesPa_detailBack{color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:8px;align-items:center;gap:4px;margin-bottom:12px;padding:4px 6px;font-family:inherit;font-size:14px;display:inline-flex}._8lesPa_detailBack:hover{background:var(--accent);color:var(--foreground)}._8lesPa_detailMeta{flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:12px;display:flex}._8lesPa_detailBlock{background:color-mix(in srgb, var(--muted) 40%, transparent);border-radius:8px;margin-bottom:12px;padding:12px}._8lesPa_detailBlockTarget{border:1px solid var(--border);background:color-mix(in srgb, var(--accent) 40%, transparent)}._8lesPa_detailBlockHeader{justify-content:space-between;align-items:center;margin-bottom:8px;display:flex}._8lesPa_detailBlockLabel{color:var(--foreground-tertiary);font-size:14px}._8lesPa_detailBlockTarget ._8lesPa_detailBlockLabel{color:var(--muted-foreground)}._8lesPa_detailText{max-height:200px;color:var(--foreground);white-space:pre-wrap;word-break:break-word;margin:0;font-size:14px;line-height:1.6;overflow-y:auto}._8lesPa_detailActions{gap:8px;padding-top:4px;display:flex}._8lesPa_detailAction{cursor:pointer;border:none;border-radius:8px;flex:1;justify-content:center;align-items:center;gap:6px;height:34px;padding:0 12px;font-family:inherit;font-size:14px;display:inline-flex}._8lesPa_detailAction._8lesPa_reuse{background:var(--accent);color:var(--muted-foreground)}._8lesPa_detailAction._8lesPa_reuse:hover{background:var(--accent);color:var(--foreground)}._8lesPa_detailAction._8lesPa_copy{background:var(--primary);color:var(--primary-foreground)}._8lesPa_detailAction._8lesPa_copy:hover{opacity:.9}._8lesPa_loadMore{border:1px solid var(--border);width:100%;height:34px;color:var(--muted-foreground);cursor:pointer;background:0 0;border-radius:8px;margin-top:8px;font-family:inherit;font-size:14px;display:block}._8lesPa_loadMore:hover{background:var(--muted);color:var(--foreground)}._8lesPa_historyEmpty{color:var(--foreground-tertiary);flex-direction:column;align-items:center;gap:8px;padding:48px 0;display:flex}._8lesPa_historyEmptyIcon{color:var(--foreground-tertiary)}._8lesPa_settingsSection{flex-direction:column;gap:18px;display:flex}._8lesPa_settingRow{justify-content:space-between;align-items:center;gap:12px;display:flex}._8lesPa_settingLabel{min-width:0;color:var(--foreground);font-size:14px;line-height:20px}._8lesPa_settingHint{color:var(--foreground-tertiary);font-size:12px;line-height:16px}._8lesPa_switchRow{flex:none}._8lesPa_switch{flex:none;width:36px;height:20px;display:inline-block;position:relative}._8lesPa_switch input{opacity:0;width:0;height:0;position:absolute}._8lesPa_switchTrack{background:var(--muted);cursor:pointer;border-radius:999px;transition:background .15s;position:absolute;inset:0}._8lesPa_switchTrack:after{content:\"\";background:#fff;border-radius:50%;width:16px;height:16px;transition:transform .15s;position:absolute;top:2px;left:2px;box-shadow:0 1px 2px #00000040}._8lesPa_switch input:checked+._8lesPa_switchTrack{background:var(--primary)}._8lesPa_switch input:checked+._8lesPa_switchTrack:after{transform:translate(16px)}._8lesPa_switch input:focus-visible+._8lesPa_switchTrack{box-shadow:0 0 0 2px var(--ring)}._8lesPa_segmented{background:var(--muted);border-radius:8px;gap:2px;padding:2px;display:inline-flex}._8lesPa_segItem{height:26px;color:var(--muted-foreground);cursor:pointer;white-space:nowrap;background:0 0;border:none;border-radius:6px;padding:0 10px;font-family:inherit;font-size:13px}._8lesPa_segItem:hover:not(:disabled){color:var(--foreground)}._8lesPa_segItem._8lesPa_active{background:var(--background);color:var(--foreground);font-weight:500;box-shadow:0 1px 2px #00000014}._8lesPa_segItem:disabled{opacity:.45;cursor:not-allowed}._8lesPa_settingsTextarea{box-sizing:border-box;border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 40%, transparent);width:100%;min-height:108px;color:var(--muted-foreground);resize:vertical;border-radius:8px;outline:none;padding:12px;font-family:inherit;font-size:14px;line-height:1.6}._8lesPa_settingsTextarea:focus{border-color:var(--ring);color:var(--foreground)}._8lesPa_sectionTitle{color:var(--foreground);justify-content:space-between;align-items:center;gap:8px;margin:2px 0 8px;font-size:14px;font-weight:500;display:flex}._8lesPa_resetLink{color:var(--primary);cursor:pointer;background:0 0;border:none;border-radius:6px;padding:2px 6px;font-family:inherit;font-size:13px}._8lesPa_resetLink:hover{background:var(--accent)}._8lesPa_langRow{border-radius:8px;align-items:center;gap:8px;padding:6px 8px;display:flex}._8lesPa_langRow:hover{background:color-mix(in srgb, var(--muted) 30%, transparent)}._8lesPa_langName{min-width:0;color:var(--foreground);white-space:nowrap;text-overflow:ellipsis;flex:1;font-size:14px;overflow:hidden}._8lesPa_langCode{color:var(--foreground-tertiary);font-family:ui-monospace,Consolas,monospace;font-size:12px}._8lesPa_langRowActions{opacity:0;gap:2px;display:flex}._8lesPa_langRow:hover ._8lesPa_langRowActions{opacity:1}._8lesPa_langAdd{border:1px solid var(--border);width:100%;height:34px;color:var(--foreground);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;gap:6px;margin-top:4px;font-family:inherit;font-size:14px;display:flex}._8lesPa_langAdd:hover{background:var(--muted)}._8lesPa_langForm{flex-direction:column;gap:10px;margin-top:12px;display:flex}._8lesPa_langFormRow{flex-direction:column;gap:6px;display:flex}._8lesPa_langFormLabel{color:var(--foreground-tertiary);font-size:13px}._8lesPa_langInput{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 40%, transparent);height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px}._8lesPa_langInput:focus{border-color:var(--ring)}._8lesPa_langFormActions{justify-content:flex-end;gap:8px;display:flex}._8lesPa_btn{border:1px solid var(--border);height:32px;color:var(--foreground);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}._8lesPa_btn:hover{background:var(--muted)}._8lesPa_btnPrimary{background:var(--primary);color:var(--primary-foreground);border-color:#0000}._8lesPa_btnPrimary:hover{background:var(--primary);opacity:.9}._8lesPa_btnPrimary:disabled{opacity:.45;cursor:not-allowed}._8lesPa_settingsEmpty{color:var(--foreground-tertiary);text-align:center;background:color-mix(in srgb, var(--muted) 30%, transparent);border-radius:8px;padding:12px;font-size:14px}._8lesPa_pairRow{background:color-mix(in srgb, var(--muted) 30%, transparent);color:var(--foreground-tertiary);border-radius:10px;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;display:flex}._8lesPa_pairRow ._8lesPa_langSelect{background:var(--background);border-color:var(--border-subtle);flex:1;min-width:0;max-width:none}._8lesPa_countBadge{color:var(--foreground-tertiary);font-size:13px;font-weight:400}._8lesPa_langFormError{background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;padding:6px 10px;font-size:13px;line-height:1.5}._8lesPa_confirmOverlay{z-index:90;background:#00000080;justify-content:center;align-items:center;animation:.15s _8lesPa_cc-fade;display:flex;position:fixed;inset:0}._8lesPa_confirmCard{background:var(--card);width:min(420px,100vw - 48px);color:var(--card-foreground);border-radius:16px;padding:20px;box-shadow:0 24px 48px #0000004d}._8lesPa_confirmTitle{margin:0 0 8px;font-size:16px;font-weight:600}._8lesPa_confirmText{color:var(--muted-foreground);margin:0 0 18px;font-size:14px;line-height:1.6}._8lesPa_confirmActions{justify-content:flex-end;gap:8px;display:flex}._8lesPa_destructive{background:var(--destructive);color:var(--destructive-foreground);border-color:#0000}._8lesPa_destructive:hover{background:var(--destructive);opacity:.9}._8lesPa_errorBanner{background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;flex:none;margin:8px 12px 0;padding:8px 12px;font-size:13px;line-height:1.5}@media (width<=820px){._8lesPa_panes{grid-template-rows:1fr 1fr;grid-template-columns:1fr}._8lesPa_outputPane{border-left:none;border-top:1px solid var(--border-subtle)}._8lesPa_langSelect{min-width:104px;max-width:160px}._8lesPa_modelSelect{max-width:140px}}@media (width<=640px){._8lesPa_topBar{flex-wrap:wrap}._8lesPa_sidePanel{border-radius:20px;top:8px;bottom:8px;right:8px}}";
 		const tagId = "@dsh-control-center/bundle/TranslationWorkspace.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId) + "]") === null) {
 			const tag = document.createElement("style");
@@ -11171,23 +11449,929 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TranslationWorkspace_module_css_default = {
-			"historyItem": "_8lesPa_historyItem",
-			"toolbar": "_8lesPa_toolbar",
-			"swap": "_8lesPa_swap",
-			"panes": "_8lesPa_panes",
-			"header": "_8lesPa_header",
+			"backButton": "_8lesPa_backButton",
+			"sidePanel": "_8lesPa_sidePanel",
+			"cc-slide-in": "_8lesPa_cc-slide-in",
+			"detailBlockTarget": "_8lesPa_detailBlockTarget",
 			"root": "_8lesPa_root",
-			"actions": "_8lesPa_actions",
-			"secondary": "_8lesPa_secondary",
-			"error": "_8lesPa_error",
-			"history": "_8lesPa_history",
-			"link": "_8lesPa_link",
-			"empty": "_8lesPa_empty",
-			"eyebrow": "_8lesPa_eyebrow",
-			"pane": "_8lesPa_pane"
+			"modelSelect": "_8lesPa_modelSelect",
+			"sectionTitle": "_8lesPa_sectionTitle",
+			"detailBlock": "_8lesPa_detailBlock",
+			"topBar": "_8lesPa_topBar",
+			"copy": "_8lesPa_copy",
+			"cc-spin": "_8lesPa_cc-spin",
+			"countBadge": "_8lesPa_countBadge",
+			"reuse": "_8lesPa_reuse",
+			"langFormError": "_8lesPa_langFormError",
+			"outputArea": "_8lesPa_outputArea",
+			"inputArea": "_8lesPa_inputArea",
+			"translateBtn": "_8lesPa_translateBtn",
+			"langChevron": "_8lesPa_langChevron",
+			"outputPane": "_8lesPa_outputPane",
+			"panelHeader": "_8lesPa_panelHeader",
+			"panelBodyScroll": "_8lesPa_panelBodyScroll",
+			"iconBtn": "_8lesPa_iconBtn",
+			"historyList": "_8lesPa_historyList",
+			"pane": "_8lesPa_pane",
+			"visible": "_8lesPa_visible",
+			"detailText": "_8lesPa_detailText",
+			"detailActions": "_8lesPa_detailActions",
+			"segmented": "_8lesPa_segmented",
+			"langRowActions": "_8lesPa_langRowActions",
+			"langFormLabel": "_8lesPa_langFormLabel",
+			"panelBody": "_8lesPa_panelBody",
+			"active": "_8lesPa_active",
+			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
+			"swapBtn": "_8lesPa_swapBtn",
+			"langAdd": "_8lesPa_langAdd",
+			"historyRow": "_8lesPa_historyRow",
+			"confirmCard": "_8lesPa_confirmCard",
+			"paneCorner": "_8lesPa_paneCorner",
+			"pairRow": "_8lesPa_pairRow",
+			"count": "_8lesPa_count",
+			"historyRowMeta": "_8lesPa_historyRowMeta",
+			"langSelectWrap": "_8lesPa_langSelectWrap",
+			"detailBlockLabel": "_8lesPa_detailBlockLabel",
+			"rowTarget": "_8lesPa_rowTarget",
+			"loadMore": "_8lesPa_loadMore",
+			"settingsTextarea": "_8lesPa_settingsTextarea",
+			"md": "_8lesPa_md",
+			"pairChip": "_8lesPa_pairChip",
+			"clearBtn": "_8lesPa_clearBtn",
+			"translating": "_8lesPa_translating",
+			"settingsSection": "_8lesPa_settingsSection",
+			"paneFooter": "_8lesPa_paneFooter",
+			"spacer": "_8lesPa_spacer",
+			"langCode": "_8lesPa_langCode",
+			"chipArrow": "_8lesPa_chipArrow",
+			"chip": "_8lesPa_chip",
+			"switch": "_8lesPa_switch",
+			"settingRow": "_8lesPa_settingRow",
+			"langFormActions": "_8lesPa_langFormActions",
+			"chipTarget": "_8lesPa_chipTarget",
+			"detailBack": "_8lesPa_detailBack",
+			"detailMeta": "_8lesPa_detailMeta",
+			"stopBtn": "_8lesPa_stopBtn",
+			"starFill": "_8lesPa_starFill",
+			"historyEmpty": "_8lesPa_historyEmpty",
+			"rowSource": "_8lesPa_rowSource",
+			"langName": "_8lesPa_langName",
+			"btn": "_8lesPa_btn",
+			"btnPrimary": "_8lesPa_btnPrimary",
+			"langSelect": "_8lesPa_langSelect",
+			"panes": "_8lesPa_panes",
+			"rowTime": "_8lesPa_rowTime",
+			"spinner": "_8lesPa_spinner",
+			"resetLink": "_8lesPa_resetLink",
+			"segItem": "_8lesPa_segItem",
+			"backdrop": "_8lesPa_backdrop",
+			"detailAction": "_8lesPa_detailAction",
+			"langRow": "_8lesPa_langRow",
+			"settingHint": "_8lesPa_settingHint",
+			"confirmOverlay": "_8lesPa_confirmOverlay",
+			"switchRow": "_8lesPa_switchRow",
+			"confirmTitle": "_8lesPa_confirmTitle",
+			"confirmText": "_8lesPa_confirmText",
+			"success": "_8lesPa_success",
+			"modelSelectWrap": "_8lesPa_modelSelectWrap",
+			"langForm": "_8lesPa_langForm",
+			"confirmActions": "_8lesPa_confirmActions",
+			"smallIconBtn": "_8lesPa_smallIconBtn",
+			"starBtn": "_8lesPa_starBtn",
+			"textareaScroll": "_8lesPa_textareaScroll",
+			"switchTrack": "_8lesPa_switchTrack",
+			"rightCluster": "_8lesPa_rightCluster",
+			"settingLabel": "_8lesPa_settingLabel",
+			"langFormRow": "_8lesPa_langFormRow",
+			"settingsEmpty": "_8lesPa_settingsEmpty",
+			"detailBlockHeader": "_8lesPa_detailBlockHeader",
+			"langInput": "_8lesPa_langInput",
+			"cc-fade": "_8lesPa_cc-fade",
+			"panelTitle": "_8lesPa_panelTitle",
+			"destructive": "_8lesPa_destructive",
+			"on": "_8lesPa_on",
+			"errorBanner": "_8lesPa_errorBanner"
 		};
 		//#endregion
+		//#region lib/types/client/panel-ui.js
+		/**
+		* Shared Cherry-faithful panel primitives for the translate side panels:
+		* switch, segmented control, icon button, confirm dialog, copy feedback.
+		*/
+		function Switch({ checked, onChange, label }) {
+			return (0, react_jsx_runtime.jsxs)("label", {
+				className: TranslationWorkspace_module_css_default.switch,
+				title: label,
+				children: [(0, react_jsx_runtime.jsx)("input", {
+					type: "checkbox",
+					checked,
+					onChange: (event) => {
+						onChange(event.target.checked);
+					}
+				}), (0, react_jsx_runtime.jsx)("span", { className: TranslationWorkspace_module_css_default.switchTrack })]
+			});
+		}
+		function Segmented({ options, value, onChange }) {
+			return (0, react_jsx_runtime.jsx)("div", {
+				className: TranslationWorkspace_module_css_default.segmented,
+				role: "tablist",
+				children: options.map((option) => (0, react_jsx_runtime.jsx)("button", {
+					type: "button",
+					role: "tab",
+					"aria-selected": option.value === value,
+					disabled: option.disabled,
+					className: `${TranslationWorkspace_module_css_default.segItem} ${option.value === value ? TranslationWorkspace_module_css_default.active : ""}`,
+					onClick: () => {
+						onChange(option.value);
+					},
+					children: option.label
+				}, option.value))
+			});
+		}
+		/** Cherry IconButton (size sm/md variants, ghost tone). */
+		function IconButton({ onClick, title, disabled, active, on, className, children }) {
+			const classes = [TranslationWorkspace_module_css_default.iconBtn];
+			if (active) classes.push(TranslationWorkspace_module_css_default.active);
+			if (on) classes.push(TranslationWorkspace_module_css_default.on);
+			if (className !== void 0) classes.push(className);
+			return (0, react_jsx_runtime.jsx)("button", {
+				type: "button",
+				className: classes.join(" "),
+				title,
+				"aria-label": title,
+				disabled,
+				onClick,
+				children
+			});
+		}
+		function ConfirmDialog({ open, title, description, confirmText, cancelText = "取消", destructive, onConfirm, onCancel }) {
+			if (!open) return null;
+			return (0, react_jsx_runtime.jsx)("div", {
+				className: TranslationWorkspace_module_css_default.confirmOverlay,
+				role: "presentation",
+				onMouseDown: (event) => {
+					if (event.target === event.currentTarget) onCancel();
+				},
+				children: (0, react_jsx_runtime.jsxs)("div", {
+					className: TranslationWorkspace_module_css_default.confirmCard,
+					role: "dialog",
+					"aria-modal": "true",
+					"aria-label": title,
+					children: [
+						(0, react_jsx_runtime.jsx)("h3", {
+							className: TranslationWorkspace_module_css_default.confirmTitle,
+							children: title
+						}),
+						description === void 0 ? null : (0, react_jsx_runtime.jsx)("p", {
+							className: TranslationWorkspace_module_css_default.confirmText,
+							children: description
+						}),
+						(0, react_jsx_runtime.jsxs)("div", {
+							className: TranslationWorkspace_module_css_default.confirmActions,
+							children: [(0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								className: TranslationWorkspace_module_css_default.btn,
+								onClick: onCancel,
+								children: cancelText
+							}), (0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								className: `${TranslationWorkspace_module_css_default.btn} ${TranslationWorkspace_module_css_default.btnPrimary} ${destructive ? TranslationWorkspace_module_css_default.destructive : ""}`,
+								onClick: onConfirm,
+								children: confirmText
+							})]
+						})
+					]
+				})
+			});
+		}
+		function PanelShell({ title, onClose, children, headerExtra, bodyClassName }) {
+			return (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsx)("div", {
+				className: TranslationWorkspace_module_css_default.backdrop,
+				onClick: onClose
+			}), (0, react_jsx_runtime.jsxs)("section", {
+				className: TranslationWorkspace_module_css_default.sidePanel,
+				role: "dialog",
+				"aria-modal": "true",
+				"aria-label": title,
+				children: [(0, react_jsx_runtime.jsxs)("header", {
+					className: TranslationWorkspace_module_css_default.panelHeader,
+					children: [
+						(0, react_jsx_runtime.jsx)("div", {
+							className: TranslationWorkspace_module_css_default.panelTitle,
+							children: title
+						}),
+						headerExtra,
+						(0, react_jsx_runtime.jsx)(IconButton, {
+							onClick: onClose,
+							title: "关闭",
+							children: (0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.IconCloseOutline16, { size: 16 })
+						})
+					]
+				}), (0, react_jsx_runtime.jsx)("div", {
+					className: `${TranslationWorkspace_module_css_default.panelBody} ${bodyClassName ?? ""}`,
+					children
+				})]
+			})] });
+		}
+		/** Copy-to-clipboard with transient check feedback. */
+		function useCopy() {
+			const [copied, setCopied] = (0, react.useState)(false);
+			const timer = (0, react.useRef)(null);
+			return {
+				copied,
+				copy: (0, react.useCallback)((text) => {
+					navigator.clipboard.writeText(text).then(() => {
+						setCopied(true);
+						if (timer.current !== null) window.clearTimeout(timer.current);
+						timer.current = window.setTimeout(() => {
+							setCopied(false);
+						}, 1600);
+					}).catch(() => {});
+				}, [])
+			};
+		}
+		//#endregion
+		//#region lib/types/client/TranslationHistoryPanel.js
+		/**
+		* Translate history side panel: Cherry list + detail views (star filter,
+		* clear all, row hover star, chips, detail with reuse/copy actions).
+		*/
+		const LANGUAGE_EMOJI = {
+			"auto": "🌐",
+			"zh-CN": "🇨🇳",
+			"en": "🇺🇸",
+			"ja": "🇯🇵",
+			"ko": "🇰🇷",
+			"fr": "🇫🇷",
+			"de": "🇩🇪",
+			"es": "🇪🇸"
+		};
+		function formatHistoryTime(timestamp) {
+			const date = new Date(timestamp);
+			const now = /* @__PURE__ */ new Date();
+			const sameDay = date.getFullYear() === now.getFullYear() && date.getMonth() === now.getMonth() && date.getDate() === now.getDate();
+			const pad = (value) => String(value).padStart(2, "0");
+			const clock = `${pad(date.getHours())}:${pad(date.getMinutes())}`;
+			if (sameDay) return clock;
+			return `${date.getMonth() + 1}月${date.getDate()}日 ${clock}`;
+		}
+		function languageEmoji(id) {
+			return LANGUAGE_EMOJI[id] ?? "🌐";
+		}
+		function TranslationHistoryPanel(props) {
+			const { history, total, nextCursor, starredOnly, onStarredOnlyChange, onLoadMore, onStar, onDelete, onClearAll, onReuse, onClose } = props;
+			const [selectedId, setSelectedId] = (0, react.useState)(null);
+			const [confirmClear, setConfirmClear] = (0, react.useState)(false);
+			const [confirmDelete, setConfirmDelete] = (0, react.useState)(null);
+			const bodyRef = (0, react.useRef)(null);
+			const { copied, copy } = useCopy();
+			const selected = history.find((item) => item.id === selectedId) ?? null;
+			(0, react.useEffect)(() => {
+				if (selectedId !== null && !history.some((item) => item.id === selectedId)) setSelectedId(null);
+			}, [history, selectedId]);
+			const onScroll = () => {
+				const el = bodyRef.current;
+				if (el === null || nextCursor === null) return;
+				if (el.scrollTop + el.clientHeight >= el.scrollHeight - 160) onLoadMore();
+			};
+			const handleDelete = (id) => {
+				onDelete(id);
+				setConfirmDelete(null);
+				if (selectedId === id) setSelectedId(null);
+			};
+			const handleClear = () => {
+				onClearAll();
+				setConfirmClear(false);
+				setSelectedId(null);
+			};
+			return (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [
+				(0, react_jsx_runtime.jsx)(PanelShell, {
+					title: `翻译历史 (${total})`,
+					onClose,
+					bodyClassName: TranslationWorkspace_module_css_default.panelBodyScroll,
+					headerExtra: selected === null ? (0, react_jsx_runtime.jsxs)("div", {
+						style: {
+							display: "flex",
+							gap: 4,
+							flex: "none"
+						},
+						children: [(0, react_jsx_runtime.jsx)(IconButton, {
+							title: "仅显示收藏",
+							active: starredOnly,
+							on: starredOnly,
+							onClick: () => {
+								onStarredOnlyChange(!starredOnly);
+							},
+							children: (0, react_jsx_runtime.jsx)(IconStar, {
+								size: 14,
+								className: starredOnly ? TranslationWorkspace_module_css_default.starFill : void 0
+							})
+						}), (0, react_jsx_runtime.jsx)(IconButton, {
+							title: "清空历史",
+							disabled: history.length === 0,
+							onClick: () => {
+								setConfirmClear(true);
+							},
+							children: (0, react_jsx_runtime.jsx)(IconTrash2, { size: 14 })
+						})]
+					}) : null,
+					children: selected === null ? (0, react_jsx_runtime.jsxs)("div", {
+						className: TranslationWorkspace_module_css_default.historyList,
+						onScroll,
+						ref: bodyRef,
+						children: [history.length === 0 ? (0, react_jsx_runtime.jsxs)("div", {
+							className: TranslationWorkspace_module_css_default.historyEmpty,
+							children: [(0, react_jsx_runtime.jsx)(IconHistory, {
+								size: 28,
+								className: TranslationWorkspace_module_css_default.historyEmptyIcon
+							}), (0, react_jsx_runtime.jsx)("span", { children: starredOnly ? "暂无收藏" : "暂无翻译历史" })]
+						}) : history.map((item) => (0, react_jsx_runtime.jsxs)("button", {
+							type: "button",
+							className: TranslationWorkspace_module_css_default.historyRow,
+							onClick: () => {
+								setSelectedId(item.id);
+							},
+							children: [
+								(0, react_jsx_runtime.jsx)("span", {
+									className: TranslationWorkspace_module_css_default.starBtn,
+									children: (0, react_jsx_runtime.jsx)(IconButton, {
+										title: "收藏",
+										on: item.starred,
+										onClick: (event) => {
+											event.stopPropagation();
+											onStar(item.id, !item.starred);
+										},
+										children: (0, react_jsx_runtime.jsx)(IconStar, {
+											size: 10,
+											className: item.starred ? TranslationWorkspace_module_css_default.starFill : void 0
+										})
+									})
+								}),
+								(0, react_jsx_runtime.jsxs)("div", {
+									className: TranslationWorkspace_module_css_default.historyRowMeta,
+									children: [
+										(0, react_jsx_runtime.jsxs)("span", {
+											className: TranslationWorkspace_module_css_default.chip,
+											children: [
+												languageEmoji(item.sourceLanguage),
+												" ",
+												item.sourceLanguage
+											]
+										}),
+										(0, react_jsx_runtime.jsx)(IconArrowLeftRight, {
+											size: 10,
+											className: TranslationWorkspace_module_css_default.chipArrow
+										}),
+										(0, react_jsx_runtime.jsxs)("span", {
+											className: TranslationWorkspace_module_css_default.chipTarget,
+											children: [
+												languageEmoji(item.targetLanguage),
+												" ",
+												item.targetLanguage
+											]
+										}),
+										(0, react_jsx_runtime.jsx)("span", {
+											className: TranslationWorkspace_module_css_default.rowTime,
+											children: formatHistoryTime(item.createdAt)
+										})
+									]
+								}),
+								(0, react_jsx_runtime.jsx)("p", {
+									className: TranslationWorkspace_module_css_default.rowSource,
+									children: item.sourceText
+								}),
+								(0, react_jsx_runtime.jsx)("p", {
+									className: TranslationWorkspace_module_css_default.rowTarget,
+									children: item.translatedText
+								})
+							]
+						}, item.id)), nextCursor === null ? null : (0, react_jsx_runtime.jsx)("button", {
+							type: "button",
+							className: TranslationWorkspace_module_css_default.loadMore,
+							onClick: onLoadMore,
+							children: "加载更多"
+						})]
+					}) : (0, react_jsx_runtime.jsxs)("div", {
+						className: TranslationWorkspace_module_css_default.detail,
+						children: [
+							(0, react_jsx_runtime.jsxs)("button", {
+								type: "button",
+								className: TranslationWorkspace_module_css_default.detailBack,
+								onClick: () => {
+									setSelectedId(null);
+								},
+								children: [(0, react_jsx_runtime.jsx)(IconChevronLeft, { size: 12 }), (0, react_jsx_runtime.jsx)("span", { children: "返回列表" })]
+							}),
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: TranslationWorkspace_module_css_default.detailMeta,
+								children: [
+									(0, react_jsx_runtime.jsxs)("span", {
+										className: TranslationWorkspace_module_css_default.chip,
+										children: [
+											languageEmoji(selected.sourceLanguage),
+											" ",
+											selected.sourceLanguage
+										]
+									}),
+									(0, react_jsx_runtime.jsx)(IconArrowLeftRight, {
+										size: 10,
+										className: TranslationWorkspace_module_css_default.chipArrow
+									}),
+									(0, react_jsx_runtime.jsxs)("span", {
+										className: TranslationWorkspace_module_css_default.chipTarget,
+										children: [
+											languageEmoji(selected.targetLanguage),
+											" ",
+											selected.targetLanguage
+										]
+									}),
+									(0, react_jsx_runtime.jsx)("span", { style: { flex: 1 } }),
+									(0, react_jsx_runtime.jsx)(IconButton, {
+										title: "删除翻译历史",
+										onClick: () => {
+											setConfirmDelete(selected.id);
+										},
+										children: (0, react_jsx_runtime.jsx)(IconTrash2, { size: 12 })
+									}),
+									(0, react_jsx_runtime.jsx)(IconButton, {
+										title: "收藏",
+										on: selected.starred,
+										onClick: () => {
+											onStar(selected.id, !selected.starred);
+										},
+										children: (0, react_jsx_runtime.jsx)(IconStar, {
+											size: 12,
+											className: selected.starred ? TranslationWorkspace_module_css_default.starFill : void 0
+										})
+									}),
+									(0, react_jsx_runtime.jsx)("span", {
+										className: TranslationWorkspace_module_css_default.rowTime,
+										style: { position: "static" },
+										children: formatHistoryTime(selected.createdAt)
+									})
+								]
+							}),
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: TranslationWorkspace_module_css_default.detailBlock,
+								children: [(0, react_jsx_runtime.jsxs)("div", {
+									className: TranslationWorkspace_module_css_default.detailBlockHeader,
+									children: [(0, react_jsx_runtime.jsx)("span", {
+										className: TranslationWorkspace_module_css_default.detailBlockLabel,
+										children: "原文"
+									}), (0, react_jsx_runtime.jsx)(IconButton, {
+										title: "复制",
+										onClick: () => {
+											copy(selected.sourceText);
+										},
+										children: copied ? (0, react_jsx_runtime.jsx)(IconCheck, { size: 12 }) : (0, react_jsx_runtime.jsx)(IconCopy, { size: 12 })
+									})]
+								}), (0, react_jsx_runtime.jsx)("p", {
+									className: TranslationWorkspace_module_css_default.detailText,
+									children: selected.sourceText
+								})]
+							}),
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: `${TranslationWorkspace_module_css_default.detailBlock} ${TranslationWorkspace_module_css_default.detailBlockTarget}`,
+								children: [(0, react_jsx_runtime.jsxs)("div", {
+									className: TranslationWorkspace_module_css_default.detailBlockHeader,
+									children: [(0, react_jsx_runtime.jsx)("span", {
+										className: TranslationWorkspace_module_css_default.detailBlockLabel,
+										children: "译文"
+									}), (0, react_jsx_runtime.jsx)(IconButton, {
+										title: "复制",
+										onClick: () => {
+											copy(selected.translatedText);
+										},
+										children: copied ? (0, react_jsx_runtime.jsx)(IconCheck, { size: 12 }) : (0, react_jsx_runtime.jsx)(IconCopy, { size: 12 })
+									})]
+								}), (0, react_jsx_runtime.jsx)("p", {
+									className: TranslationWorkspace_module_css_default.detailText,
+									children: selected.translatedText
+								})]
+							}),
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: TranslationWorkspace_module_css_default.detailActions,
+								children: [(0, react_jsx_runtime.jsxs)("button", {
+									type: "button",
+									className: `${TranslationWorkspace_module_css_default.detailAction} ${TranslationWorkspace_module_css_default.reuse}`,
+									onClick: () => {
+										onReuse(selected);
+									},
+									children: [(0, react_jsx_runtime.jsx)(IconArrowLeftRight, { size: 12 }), (0, react_jsx_runtime.jsx)("span", { children: "使用此翻译" })]
+								}), (0, react_jsx_runtime.jsxs)("button", {
+									type: "button",
+									className: `${TranslationWorkspace_module_css_default.detailAction} ${TranslationWorkspace_module_css_default.copy}`,
+									onClick: () => {
+										copy(selected.translatedText);
+									},
+									children: [(0, react_jsx_runtime.jsx)(IconCopy, { size: 12 }), (0, react_jsx_runtime.jsx)("span", { children: copied ? "已复制" : "复制译文" })]
+								})]
+							})
+						]
+					})
+				}),
+				(0, react_jsx_runtime.jsx)(ConfirmDialog, {
+					open: confirmClear,
+					title: "清空历史",
+					description: "清空历史将删除所有翻译历史记录，是否继续？",
+					confirmText: "清空历史",
+					destructive: true,
+					onConfirm: handleClear,
+					onCancel: () => {
+						setConfirmClear(false);
+					}
+				}),
+				(0, react_jsx_runtime.jsx)(ConfirmDialog, {
+					open: confirmDelete !== null,
+					title: "删除翻译历史",
+					description: "确定要删除这条翻译历史记录吗？此操作不可撤销。",
+					confirmText: "删除翻译历史",
+					destructive: true,
+					onConfirm: () => {
+						if (confirmDelete !== null) handleDelete(confirmDelete);
+					},
+					onCancel: () => {
+						setConfirmDelete(null);
+					}
+				})
+			] });
+		}
+		//#endregion
+		//#region lib/types/client/TranslationSettingsPanel.js
+		/**
+		* Translate settings side panel: Cherry TranslateSettings parity —
+		* Markdown preview / auto-copy / scroll sync switches, detection method,
+		* bidirectional pair, custom translation prompt, custom languages.
+		*/
+		const BUILTIN_PROMPT = "Translate the text faithfully and completely.";
+		function TranslationSettingsPanel(props) {
+			const { languages, customLanguages, settings, onChange, prompt, onSavePrompt, onResetPrompt, onAddLanguage, onEditLanguage, onDeleteLanguage, onClose } = props;
+			const [promptDraft, setPromptDraft] = (0, react.useState)(prompt);
+			const [adding, setAdding] = (0, react.useState)(false);
+			const [editing, setEditing] = (0, react.useState)(null);
+			const [formId, setFormId] = (0, react.useState)("");
+			const [formLabel, setFormLabel] = (0, react.useState)("");
+			const [formError, setFormError] = (0, react.useState)(null);
+			const saveTimer = (0, react.useRef)(null);
+			const promptDirty = promptDraft.trim() !== "" && promptDraft !== prompt;
+			(0, react.useEffect)(() => {
+				setPromptDraft(prompt);
+			}, [prompt]);
+			const updatePrompt = (value) => {
+				setPromptDraft(value);
+				if (saveTimer.current !== null) window.clearTimeout(saveTimer.current);
+				saveTimer.current = window.setTimeout(() => {
+					onSavePrompt(value);
+				}, 400);
+			};
+			const resetPrompt = () => {
+				setPromptDraft("");
+				if (saveTimer.current !== null) window.clearTimeout(saveTimer.current);
+				onResetPrompt();
+			};
+			const startAdd = () => {
+				setEditing(null);
+				setFormId("");
+				setFormLabel("");
+				setFormError(null);
+				setAdding(true);
+			};
+			const startEdit = (item) => {
+				setAdding(false);
+				setEditing(item.id);
+				setFormId(item.id);
+				setFormLabel(item.label);
+				setFormError(null);
+			};
+			const submitForm = async () => {
+				const id = formId.trim().toLowerCase();
+				const label = formLabel.trim();
+				if (id === "" || label === "") {
+					setFormError("语言名称和语言代码均为必填项");
+					return;
+				}
+				if (!/^[a-z]{2,3}(-[a-z]{2,3})?$/.test(id)) {
+					setFormError("语言代码格式：2~3 位小写字母，可选 [-区域]（如 zh-cn）");
+					return;
+				}
+				if (!(editing === null ? await onAddLanguage(id, label) : await onEditLanguage(editing, label))) {
+					setFormError("保存失败（语言代码可能已存在）");
+					return;
+				}
+				setAdding(false);
+				setEditing(null);
+			};
+			const targetOptions = languages.filter((item) => item.id !== "auto" && item.id !== settings.pairSource);
+			return (0, react_jsx_runtime.jsx)(PanelShell, {
+				title: "翻译设置",
+				onClose,
+				children: (0, react_jsx_runtime.jsxs)("div", {
+					className: TranslationWorkspace_module_css_default.settingsSection,
+					children: [
+						(0, react_jsx_runtime.jsxs)("div", {
+							className: TranslationWorkspace_module_css_default.settingRow,
+							children: [(0, react_jsx_runtime.jsxs)("div", { children: [(0, react_jsx_runtime.jsx)("div", {
+								className: TranslationWorkspace_module_css_default.settingLabel,
+								children: "Markdown 预览"
+							}), (0, react_jsx_runtime.jsx)("div", {
+								className: TranslationWorkspace_module_css_default.settingHint,
+								children: "翻译结果按 Markdown 渲染"
+							})] }), (0, react_jsx_runtime.jsx)(Switch, {
+								checked: settings.markdown,
+								onChange: (next) => {
+									onChange({ markdown: next });
+								},
+								label: "Markdown 预览"
+							})]
+						}),
+						(0, react_jsx_runtime.jsxs)("div", {
+							className: TranslationWorkspace_module_css_default.settingRow,
+							children: [(0, react_jsx_runtime.jsx)("div", { children: (0, react_jsx_runtime.jsx)("div", {
+								className: TranslationWorkspace_module_css_default.settingLabel,
+								children: "翻译完成后自动复制"
+							}) }), (0, react_jsx_runtime.jsx)(Switch, {
+								checked: settings.autoCopy,
+								onChange: (next) => {
+									onChange({ autoCopy: next });
+								},
+								label: "翻译完成后自动复制"
+							})]
+						}),
+						(0, react_jsx_runtime.jsxs)("div", {
+							className: TranslationWorkspace_module_css_default.settingRow,
+							children: [(0, react_jsx_runtime.jsxs)("div", { children: [(0, react_jsx_runtime.jsx)("div", {
+								className: TranslationWorkspace_module_css_default.settingLabel,
+								children: "滚动同步设置"
+							}), (0, react_jsx_runtime.jsx)("div", {
+								className: TranslationWorkspace_module_css_default.settingHint,
+								children: "原文与译文滚动位置保持同步"
+							})] }), (0, react_jsx_runtime.jsx)(Switch, {
+								checked: settings.scrollSync,
+								onChange: (next) => {
+									onChange({ scrollSync: next });
+								},
+								label: "滚动同步设置"
+							})]
+						}),
+						(0, react_jsx_runtime.jsxs)("div", {
+							className: TranslationWorkspace_module_css_default.settingRow,
+							children: [(0, react_jsx_runtime.jsxs)("div", { children: [(0, react_jsx_runtime.jsx)("div", {
+								className: TranslationWorkspace_module_css_default.settingLabel,
+								children: "自动检测方法"
+							}), (0, react_jsx_runtime.jsx)("div", {
+								className: TranslationWorkspace_module_css_default.settingHint,
+								children: "自动检测输入语言时使用的方法"
+							})] }), (0, react_jsx_runtime.jsx)(Segmented, {
+								options: [
+									{
+										value: "auto",
+										label: "自动"
+									},
+									{
+										value: "algo",
+										label: "算法",
+										disabled: true
+									},
+									{
+										value: "llm",
+										label: "LLM",
+										disabled: true
+									}
+								],
+								value: settings.detectMethod,
+								onChange: (next) => {
+									onChange({ detectMethod: next });
+								}
+							})]
+						}),
+						(0, react_jsx_runtime.jsxs)("div", {
+							className: TranslationWorkspace_module_css_default.settingRow,
+							children: [(0, react_jsx_runtime.jsxs)("div", { children: [(0, react_jsx_runtime.jsx)("div", {
+								className: TranslationWorkspace_module_css_default.settingLabel,
+								children: "双向翻译设置"
+							}), (0, react_jsx_runtime.jsx)("div", {
+								className: TranslationWorkspace_module_css_default.settingHint,
+								children: "开启后，仅支持在源语言和目标语言之间进行双向翻译"
+							})] }), (0, react_jsx_runtime.jsx)(Switch, {
+								checked: settings.bidirectional,
+								onChange: (next) => {
+									onChange({ bidirectional: next });
+								},
+								label: "双向翻译设置"
+							})]
+						}),
+						settings.bidirectional && (0, react_jsx_runtime.jsxs)("div", {
+							className: TranslationWorkspace_module_css_default.pairRow,
+							children: [
+								(0, react_jsx_runtime.jsx)("select", {
+									"aria-label": "双向源语言",
+									className: TranslationWorkspace_module_css_default.langSelect,
+									value: settings.pairSource,
+									onChange: (event) => {
+										onChange({ pairSource: event.target.value });
+									},
+									children: languages.filter((item) => item.id !== "auto").map((item) => (0, react_jsx_runtime.jsx)("option", {
+										value: item.id,
+										children: item.label
+									}, item.id))
+								}),
+								(0, react_jsx_runtime.jsx)(IconArrowLeftRight, { size: 12 }),
+								(0, react_jsx_runtime.jsx)("select", {
+									"aria-label": "双向目标语言",
+									className: TranslationWorkspace_module_css_default.langSelect,
+									value: settings.pairTarget,
+									onChange: (event) => {
+										onChange({ pairTarget: event.target.value });
+									},
+									children: targetOptions.map((item) => (0, react_jsx_runtime.jsx)("option", {
+										value: item.id,
+										children: item.label
+									}, item.id))
+								})
+							]
+						}),
+						(0, react_jsx_runtime.jsxs)("div", { children: [
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: TranslationWorkspace_module_css_default.sectionTitle,
+								children: [(0, react_jsx_runtime.jsx)("span", { children: "翻译提示词" }), promptDirty && (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: TranslationWorkspace_module_css_default.resetLink,
+									onClick: resetPrompt,
+									children: "重置"
+								})]
+							}),
+							(0, react_jsx_runtime.jsx)("textarea", {
+								className: TranslationWorkspace_module_css_default.settingsTextarea,
+								value: promptDraft,
+								onChange: (event) => {
+									updatePrompt(event.target.value);
+								},
+								placeholder: BUILTIN_PROMPT
+							}),
+							(0, react_jsx_runtime.jsx)("div", {
+								className: TranslationWorkspace_module_css_default.settingHint,
+								children: "留空使用内置提示词；会附加源语言与目标语言指令。"
+							})
+						] }),
+						(0, react_jsx_runtime.jsxs)("div", { children: [
+							(0, react_jsx_runtime.jsx)("div", {
+								className: TranslationWorkspace_module_css_default.sectionTitle,
+								children: (0, react_jsx_runtime.jsxs)("span", { children: ["自定义语言 ", (0, react_jsx_runtime.jsxs)("span", {
+									className: TranslationWorkspace_module_css_default.countBadge,
+									children: [customLanguages.length, " 个"]
+								})] })
+							}),
+							customLanguages.length === 0 ? (0, react_jsx_runtime.jsx)("div", {
+								className: TranslationWorkspace_module_css_default.settingsEmpty,
+								children: "无结果"
+							}) : customLanguages.map((item) => (0, react_jsx_runtime.jsxs)("div", {
+								className: TranslationWorkspace_module_css_default.langRow,
+								children: [
+									(0, react_jsx_runtime.jsx)("span", {
+										className: TranslationWorkspace_module_css_default.langName,
+										children: item.label
+									}),
+									(0, react_jsx_runtime.jsx)("span", {
+										className: TranslationWorkspace_module_css_default.langCode,
+										children: item.id
+									}),
+									(0, react_jsx_runtime.jsxs)("span", {
+										className: TranslationWorkspace_module_css_default.langRowActions,
+										children: [(0, react_jsx_runtime.jsx)(IconButton, {
+											title: "编辑",
+											onClick: () => {
+												startEdit(item);
+											},
+											children: (0, react_jsx_runtime.jsx)(IconPenLine, { size: 10 })
+										}), (0, react_jsx_runtime.jsx)(IconButton, {
+											title: "删除",
+											onClick: () => {
+												onDeleteLanguage(item.id);
+											},
+											children: (0, react_jsx_runtime.jsx)(IconTrash2, { size: 10 })
+										})]
+									})
+								]
+							}, item.id)),
+							(0, react_jsx_runtime.jsxs)("button", {
+								type: "button",
+								className: TranslationWorkspace_module_css_default.langAdd,
+								onClick: startAdd,
+								children: [(0, react_jsx_runtime.jsx)(IconPlus, { size: 13 }), (0, react_jsx_runtime.jsx)("span", { children: "添加语言" })]
+							}),
+							adding && (0, react_jsx_runtime.jsxs)("div", {
+								className: TranslationWorkspace_module_css_default.langForm,
+								children: [
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: TranslationWorkspace_module_css_default.langFormRow,
+										children: [(0, react_jsx_runtime.jsx)("label", {
+											className: TranslationWorkspace_module_css_default.langFormLabel,
+											htmlFor: "cc-lang-name",
+											children: "语言名称"
+										}), (0, react_jsx_runtime.jsx)("input", {
+											id: "cc-lang-name",
+											className: TranslationWorkspace_module_css_default.langInput,
+											placeholder: "中文",
+											value: formLabel,
+											onChange: (event) => {
+												setFormLabel(event.target.value);
+											}
+										})]
+									}),
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: TranslationWorkspace_module_css_default.langFormRow,
+										children: [(0, react_jsx_runtime.jsx)("label", {
+											className: TranslationWorkspace_module_css_default.langFormLabel,
+											htmlFor: "cc-lang-code",
+											children: "语言代码"
+										}), (0, react_jsx_runtime.jsx)("input", {
+											id: "cc-lang-code",
+											className: TranslationWorkspace_module_css_default.langInput,
+											placeholder: "zh-cn",
+											value: formId,
+											onChange: (event) => {
+												setFormId(event.target.value);
+											}
+										})]
+									}),
+									formError === null ? null : (0, react_jsx_runtime.jsx)("div", {
+										className: TranslationWorkspace_module_css_default.langFormError,
+										children: formError
+									}),
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: TranslationWorkspace_module_css_default.langFormActions,
+										children: [(0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: TranslationWorkspace_module_css_default.btn,
+											onClick: () => {
+												setAdding(false);
+											},
+											children: "取消"
+										}), (0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: `${TranslationWorkspace_module_css_default.btn} ${TranslationWorkspace_module_css_default.btnPrimary}`,
+											onClick: () => {
+												submitForm();
+											},
+											children: "添加"
+										})]
+									})
+								]
+							}),
+							editing !== null && (0, react_jsx_runtime.jsxs)("div", {
+								className: TranslationWorkspace_module_css_default.langForm,
+								children: [
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: TranslationWorkspace_module_css_default.langFormRow,
+										children: [(0, react_jsx_runtime.jsx)("label", {
+											className: TranslationWorkspace_module_css_default.langFormLabel,
+											htmlFor: "cc-lang-name-edit",
+											children: "语言名称"
+										}), (0, react_jsx_runtime.jsx)("input", {
+											id: "cc-lang-name-edit",
+											className: TranslationWorkspace_module_css_default.langInput,
+											placeholder: "中文",
+											value: formLabel,
+											onChange: (event) => {
+												setFormLabel(event.target.value);
+											}
+										})]
+									}),
+									formError === null ? null : (0, react_jsx_runtime.jsx)("div", {
+										className: TranslationWorkspace_module_css_default.langFormError,
+										children: formError
+									}),
+									(0, react_jsx_runtime.jsxs)("div", {
+										className: TranslationWorkspace_module_css_default.langFormActions,
+										children: [(0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: TranslationWorkspace_module_css_default.btn,
+											onClick: () => {
+												setEditing(null);
+											},
+											children: "取消"
+										}), (0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: `${TranslationWorkspace_module_css_default.btn} ${TranslationWorkspace_module_css_default.btnPrimary}`,
+											onClick: () => {
+												submitForm();
+											},
+											children: "保存"
+										})]
+									})
+								]
+							})
+						] })
+					]
+				})
+			});
+		}
+		//#endregion
 		//#region lib/types/client/TranslationWorkspace.js
+		/**
+		* Translation workspace — Cherry translate page parity:
+		* full-bleed toolbar, two equal panes, floating history & settings panels.
+		*/
 		function modelOptions(groups) {
 			return groups.flatMap((group) => group.models.map((model) => ({
 				value: `${group.id}/${model.id}`,
@@ -11198,6 +12382,33 @@ window.__ModuleLoader__.load({
 					...model.reasoning?.defaultEffort === void 0 ? {} : { reasoningEffort: model.reasoning.defaultEffort }
 				}
 			})));
+		}
+		const PREFS_KEY = "cc.translate.settings";
+		function loadSettings() {
+			try {
+				const raw = localStorage.getItem(PREFS_KEY);
+				if (raw === null) throw new Error("no prefs");
+				const parsed = JSON.parse(raw);
+				return {
+					markdown: parsed.markdown ?? false,
+					autoCopy: parsed.autoCopy ?? false,
+					scrollSync: parsed.scrollSync ?? false,
+					detectMethod: parsed.detectMethod ?? "auto",
+					bidirectional: parsed.bidirectional ?? false,
+					pairSource: parsed.pairSource ?? "zh-CN",
+					pairTarget: parsed.pairTarget ?? "en"
+				};
+			} catch {
+				return {
+					markdown: false,
+					autoCopy: false,
+					scrollSync: false,
+					detectMethod: "auto",
+					bidirectional: false,
+					pairSource: "zh-CN",
+					pairTarget: "en"
+				};
+			}
 		}
 		/** Full Translation product workspace over the Control Center Host service. */
 		function TranslationWorkspace({ getTranslation, listModels, useTranslationReady, close }) {
@@ -11212,14 +12423,35 @@ window.__ModuleLoader__.load({
 			const [job, setJob] = (0, react.useState)(null);
 			const [history, setHistory] = (0, react.useState)([]);
 			const [nextCursor, setNextCursor] = (0, react.useState)(null);
+			const [starredOnly, setStarredOnly] = (0, react.useState)(false);
+			const [historyOpen, setHistoryOpen] = (0, react.useState)(false);
+			const [settingsOpen, setSettingsOpen] = (0, react.useState)(false);
+			const [settings, setSettings] = (0, react.useState)(loadSettings);
+			const [prompt, setPrompt] = (0, react.useState)("");
+			const [customLanguages, setCustomLanguages] = (0, react.useState)([]);
 			const [error, setError] = (0, react.useState)(null);
 			const options = (0, react.useMemo)(() => modelOptions(models), [models]);
-			const refreshHistory = async (cursor, append = false) => {
+			const inputRef = (0, react.useRef)(null);
+			const outputRef = (0, react.useRef)(null);
+			const inputScrollRef = (0, react.useRef)(null);
+			const { copied: copiedOutput, copy: copyOutput } = useCopy();
+			const { copied: copiedInput, copy: copyInput } = useCopy();
+			const running = job?.status === "running";
+			const couldTranslate = selection !== null && input.trim() !== "" && !running;
+			const output = job?.output ?? "";
+			const languagesAll = (0, react.useMemo)(() => [...languages], [languages]);
+			(0, react.useEffect)(() => {
+				try {
+					localStorage.setItem(PREFS_KEY, JSON.stringify(settings));
+				} catch {}
+			}, [settings]);
+			const refreshHistory = (0, react.useCallback)(async (cursor, append = false) => {
+				if (translation === void 0) return;
 				const result = await translation.history(cursor, 20);
 				if (!result.ok) throw new Error(result.error.message);
 				setHistory((previous) => append ? [...previous, ...result.value.items] : result.value.items);
 				setNextCursor(result.value.nextCursor ?? null);
-			};
+			}, [translation]);
 			(0, react.useEffect)(() => {
 				if (!translationReady) return;
 				let active = true;
@@ -11230,13 +12462,19 @@ window.__ModuleLoader__.load({
 				}).catch((reason) => {
 					if (active) setError(reason instanceof Error ? reason.message : String(reason));
 				});
-				Promise.all([translation.languages(), translation.history(null, 20)]).then(([languageResult, historyResult]) => {
+				Promise.all([
+					translation.languages(),
+					translation.history(null, 20),
+					translation.getPrompt()
+				]).then(([languageResult, historyResult, promptResult]) => {
 					if (!active) return;
 					if (!languageResult.ok) throw new Error(languageResult.error.message);
 					if (!historyResult.ok) throw new Error(historyResult.error.message);
-					setLanguages(languageResult.value.source);
+					setLanguages(languageResult.value.target);
+					setCustomLanguages(languageResult.value.target.filter((item) => !item.builtin));
 					setHistory(historyResult.value.items);
 					setNextCursor(historyResult.value.nextCursor ?? null);
+					if (promptResult.ok) setPrompt(promptResult.value);
 				}).catch((reason) => {
 					if (active) setError(reason instanceof Error ? reason.message : String(reason));
 				});
@@ -11257,9 +12495,12 @@ window.__ModuleLoader__.load({
 							return;
 						}
 						setJob(result.value);
-						if (result.value.status === "completed") refreshHistory(null).catch((reason) => {
-							setError(String(reason));
-						});
+						if (result.value.status === "completed") {
+							if (settings.autoCopy && result.value.output.length > 0) navigator.clipboard.writeText(result.value.output).catch(() => {});
+							refreshHistory(null).catch((reason) => {
+								setError(String(reason));
+							});
+						}
 					});
 				}, 250);
 				return () => {
@@ -11268,10 +12509,12 @@ window.__ModuleLoader__.load({
 			}, [
 				job?.jobId,
 				job?.status,
-				translation
+				translation,
+				settings.autoCopy,
+				refreshHistory
 			]);
-			const translate = async () => {
-				if (selection === null || input.trim() === "") return;
+			const translate = (0, react.useCallback)(async () => {
+				if (selection === null || input.trim() === "" || running) return;
 				setError(null);
 				const result = await translation.start({
 					sourceLanguage,
@@ -11289,225 +12532,408 @@ window.__ModuleLoader__.load({
 					return;
 				}
 				setJob(view.value);
-			};
-			const addLanguage = async () => {
-				const id = window.prompt("Language id")?.trim();
-				if (!id) return;
-				const label = window.prompt("Language label", id)?.trim();
-				if (!label) return;
-				const result = await translation.putLanguage(id, label);
+			}, [
+				selection,
+				input,
+				running,
+				translation,
+				sourceLanguage,
+				targetLanguage
+			]);
+			(0, react.useEffect)(() => {
+				const onKeyDown = (event) => {
+					if ((event.ctrlKey || event.metaKey) && event.key === "Enter") translate();
+				};
+				document.addEventListener("keydown", onKeyDown);
+				return () => {
+					document.removeEventListener("keydown", onKeyDown);
+				};
+			}, [translate]);
+			const stop = (0, react.useCallback)(async () => {
+				if (job === null || !running) return;
+				const result = await translation.cancel(job.jobId);
 				if (!result.ok) {
 					setError(result.error.message);
 					return;
 				}
+				setJob(result.value);
+			}, [
+				job,
+				running,
+				translation
+			]);
+			const swapLanguages = () => {
+				if (sourceLanguage === "auto") return;
+				setSourceLanguage(targetLanguage);
+				setTargetLanguage(sourceLanguage);
+			};
+			const clearInput = () => {
+				setInput("");
+				inputRef.current?.focus();
+			};
+			const onScrollSync = (source) => {
+				if (!settings.scrollSync) return;
+				const inputEl = inputScrollRef.current;
+				const outputEl = outputRef.current;
+				if (inputEl === null || outputEl === null) return;
+				const from = source === "input" ? inputEl : outputEl;
+				const to = source === "input" ? outputEl : inputEl;
+				const max = from.scrollHeight - from.clientHeight;
+				if (max <= 0) return;
+				to.scrollTop = from.scrollTop / max * (to.scrollHeight - to.clientHeight);
+			};
+			const updateSettings = (patch) => {
+				setSettings((current) => ({
+					...current,
+					...patch
+				}));
+			};
+			const openHistory = () => {
+				setHistoryOpen(true);
+				setSettingsOpen(false);
+			};
+			const openSettings = () => {
+				setSettingsOpen(true);
+				setHistoryOpen(false);
+			};
+			const addLanguage = async (id, label) => {
+				if (translation === void 0) return false;
+				const result = await translation.putLanguage(id, label);
+				if (!result.ok) return false;
 				setLanguages((current) => [...current, result.value].sort((left, right) => left.label.localeCompare(right.label)));
+				setCustomLanguages((current) => [...current, result.value].sort((left, right) => left.label.localeCompare(right.label)));
+				return true;
+			};
+			const editLanguage = async (id, label) => {
+				if (translation === void 0) return false;
+				const existing = customLanguages.find((item) => item.id === id);
+				if (!(await translation.putLanguage(id, label)).ok) return false;
+				if (existing !== void 0 && existing.label !== label) {
+					setLanguages((current) => current.map((item) => item.id === id ? {
+						...item,
+						label
+					} : item));
+					setCustomLanguages((current) => current.map((item) => item.id === id ? {
+						...item,
+						label
+					} : item));
+				}
+				return true;
+			};
+			const deleteLanguage = async (id) => {
+				if (translation === void 0) return;
+				if ((await translation.deleteLanguage(id)).ok) {
+					setLanguages((current) => current.filter((item) => item.id !== id));
+					setCustomLanguages((current) => current.filter((item) => item.id !== id));
+				}
+			};
+			const starHistory = async (id, starred) => {
+				if (translation === void 0) return;
+				if (!(await translation.starHistory(id, starred)).ok) return;
+				setHistory((current) => current.map((item) => item.id === id ? {
+					...item,
+					starred
+				} : item));
+				if (starredOnly && !starred) setHistory((current) => current.filter((item) => item.id !== id));
+			};
+			const deleteHistoryItem = async (id) => {
+				if (translation === void 0) return;
+				if ((await translation.deleteHistory(id)).ok) setHistory((current) => current.filter((item) => item.id !== id));
+			};
+			const clearHistory = async () => {
+				if (translation === void 0) return;
+				if ((await translation.clearHistory()).ok) {
+					setHistory([]);
+					setNextCursor(null);
+				}
+			};
+			const reuseHistory = (item) => {
+				setSourceLanguage(item.sourceLanguage);
+				setTargetLanguage(item.targetLanguage);
+				setInput(item.sourceText);
+				setHistoryOpen(false);
 			};
 			if (!translationReady) return (0, react_jsx_runtime.jsx)("main", {
-				className: ` cc-surface`,
+				className: " cc-surface",
 				children: (0, react_jsx_runtime.jsx)("p", {
 					role: "status",
+					style: { padding: 24 },
 					children: "正在连接翻译服务…"
 				})
 			});
 			return (0, react_jsx_runtime.jsxs)("main", {
-				className: ` cc-surface`,
+				className: `${TranslationWorkspace_module_css_default.root} cc-surface`,
+				"data-ui": "translate.view",
 				children: [
-					(0, react_jsx_runtime.jsxs)("header", {
-						className: TranslationWorkspace_module_css_default.header,
-						children: [(0, react_jsx_runtime.jsxs)("div", { children: [(0, react_jsx_runtime.jsx)("p", {
-							className: TranslationWorkspace_module_css_default.eyebrow,
-							children: "DSH Control Center"
-						}), (0, react_jsx_runtime.jsx)("h1", { children: "翻译" })] }), (0, react_jsx_runtime.jsx)("button", {
-							type: "button",
-							className: TranslationWorkspace_module_css_default.secondary,
-							onClick: close,
-							children: "返回对话"
-						})]
-					}),
-					error === null ? null : (0, react_jsx_runtime.jsx)("p", {
-						role: "alert",
-						className: TranslationWorkspace_module_css_default.error,
-						children: error
-					}),
 					(0, react_jsx_runtime.jsxs)("div", {
-						className: TranslationWorkspace_module_css_default.toolbar,
+						className: TranslationWorkspace_module_css_default.topBar,
 						children: [
-							(0, react_jsx_runtime.jsx)("select", {
-								"aria-label": "源语言",
-								value: sourceLanguage,
-								onChange: (event) => {
-									setSourceLanguage(event.target.value);
-								},
-								children: languages.map((item) => (0, react_jsx_runtime.jsx)("option", {
-									value: item.id,
-									children: item.label
-								}, item.id))
-							}),
 							(0, react_jsx_runtime.jsx)("button", {
 								type: "button",
-								className: TranslationWorkspace_module_css_default.swap,
-								onClick: () => {
-									if (sourceLanguage === "auto") return;
-									setSourceLanguage(targetLanguage);
-									setTargetLanguage(sourceLanguage);
-								},
-								children: "⇄"
+								className: TranslationWorkspace_module_css_default.backButton,
+								title: "返回对话",
+								onClick: close,
+								children: (0, react_jsx_runtime.jsx)(IconChevronLeft, { size: 16 })
 							}),
-							(0, react_jsx_runtime.jsx)("select", {
-								"aria-label": "目标语言",
-								value: targetLanguage,
-								onChange: (event) => {
-									setTargetLanguage(event.target.value);
-								},
-								children: languages.filter((item) => item.id !== "auto").map((item) => (0, react_jsx_runtime.jsx)("option", {
-									value: item.id,
-									children: item.label
-								}, item.id))
+							!settings.bidirectional ? (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [
+								(0, react_jsx_runtime.jsxs)("span", {
+									className: TranslationWorkspace_module_css_default.langSelectWrap,
+									children: [(0, react_jsx_runtime.jsx)("select", {
+										"aria-label": "源语言",
+										className: TranslationWorkspace_module_css_default.langSelect,
+										value: sourceLanguage,
+										onChange: (event) => {
+											setSourceLanguage(event.target.value);
+										},
+										children: languagesAll.map((item) => (0, react_jsx_runtime.jsx)("option", {
+											value: item.id,
+											children: item.id === "auto" ? "自动检测" : item.label
+										}, item.id))
+									}), (0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.IconChevronDownOutline14, {
+										size: 12,
+										className: TranslationWorkspace_module_css_default.langChevron
+									})]
+								}),
+								(0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: TranslationWorkspace_module_css_default.swapBtn,
+									title: "交换源语言与目标语言",
+									disabled: sourceLanguage === "auto",
+									onClick: swapLanguages,
+									children: (0, react_jsx_runtime.jsx)(IconArrowLeftRight, { size: 14 })
+								}),
+								(0, react_jsx_runtime.jsxs)("span", {
+									className: TranslationWorkspace_module_css_default.langSelectWrap,
+									children: [(0, react_jsx_runtime.jsx)("select", {
+										"aria-label": "目标语言",
+										className: TranslationWorkspace_module_css_default.langSelect,
+										value: targetLanguage,
+										onChange: (event) => {
+											setTargetLanguage(event.target.value);
+										},
+										children: languagesAll.filter((item) => item.id !== "auto").map((item) => (0, react_jsx_runtime.jsx)("option", {
+											value: item.id,
+											children: item.label
+										}, item.id))
+									}), (0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.IconChevronDownOutline14, {
+										size: 12,
+										className: TranslationWorkspace_module_css_default.langChevron
+									})]
+								})
+							] }) : (0, react_jsx_runtime.jsxs)("div", {
+								className: TranslationWorkspace_module_css_default.pairChip,
+								title: `${sourceLanguage} ⇆ ${targetLanguage}`,
+								children: [
+									(0, react_jsx_runtime.jsx)("span", { children: languagesAll.find((item) => item.id === settings.pairSource)?.label ?? settings.pairSource }),
+									(0, react_jsx_runtime.jsx)(IconArrowLeftRight, { size: 12 }),
+									(0, react_jsx_runtime.jsx)("span", { children: languagesAll.find((item) => item.id === settings.pairTarget)?.label ?? settings.pairTarget })
+								]
 							}),
-							(0, react_jsx_runtime.jsx)("button", {
+							running ? (0, react_jsx_runtime.jsxs)("button", {
 								type: "button",
-								className: TranslationWorkspace_module_css_default.secondary,
+								className: TranslationWorkspace_module_css_default.stopBtn,
 								onClick: () => {
-									addLanguage();
+									stop();
 								},
-								children: "管理语言"
+								children: [(0, react_jsx_runtime.jsx)(IconCirclePause, { size: 14 }), (0, react_jsx_runtime.jsx)("span", { children: "停止" })]
+							}) : (0, react_jsx_runtime.jsxs)("button", {
+								type: "button",
+								className: TranslationWorkspace_module_css_default.translateBtn,
+								disabled: !couldTranslate,
+								onClick: () => {
+									translate();
+								},
+								children: [(0, react_jsx_runtime.jsx)(IconLanguages, { size: 14 }), (0, react_jsx_runtime.jsx)("span", { children: "翻译" })]
 							}),
-							(0, react_jsx_runtime.jsx)("select", {
-								"aria-label": "翻译模型",
-								value: selection === null ? "" : `${selection.provider}/${selection.model}`,
-								onChange: (event) => {
-									setSelection(options.find((item) => item.value === event.target.value)?.selection ?? null);
-								},
-								children: options.map((item) => (0, react_jsx_runtime.jsx)("option", {
-									value: item.value,
-									children: item.label
-								}, item.value))
+							(0, react_jsx_runtime.jsx)("span", { className: TranslationWorkspace_module_css_default.spacer }),
+							(0, react_jsx_runtime.jsxs)("div", {
+								className: TranslationWorkspace_module_css_default.rightCluster,
+								children: [
+									(0, react_jsx_runtime.jsxs)("span", {
+										className: TranslationWorkspace_module_css_default.modelSelectWrap,
+										children: [(0, react_jsx_runtime.jsx)("select", {
+											"aria-label": "翻译模型",
+											className: TranslationWorkspace_module_css_default.modelSelect,
+											value: selection === null ? "" : `${selection.provider}/${selection.model}`,
+											onChange: (event) => {
+												setSelection(options.find((item) => item.value === event.target.value)?.selection ?? null);
+											},
+											children: options.map((item) => (0, react_jsx_runtime.jsx)("option", {
+												value: item.value,
+												children: item.label
+											}, item.value))
+										}), (0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.IconChevronDownOutline14, {
+											size: 12,
+											className: TranslationWorkspace_module_css_default.langChevron
+										})]
+									}),
+									(0, react_jsx_runtime.jsx)("button", {
+										type: "button",
+										className: `${TranslationWorkspace_module_css_default.iconBtn} ${historyOpen ? TranslationWorkspace_module_css_default.active : ""}`,
+										title: "翻译历史",
+										"aria-pressed": historyOpen,
+										onClick: openHistory,
+										children: (0, react_jsx_runtime.jsx)(IconHistory, { size: 14 })
+									}),
+									(0, react_jsx_runtime.jsx)("button", {
+										type: "button",
+										className: `${TranslationWorkspace_module_css_default.iconBtn} ${settingsOpen ? TranslationWorkspace_module_css_default.active : ""}`,
+										title: "翻译设置",
+										"aria-pressed": settingsOpen,
+										onClick: openSettings,
+										children: (0, react_jsx_runtime.jsx)(IconSlidersHorizontal, { size: 14 })
+									})
+								]
 							})
 						]
+					}),
+					error === null ? null : (0, react_jsx_runtime.jsx)("div", {
+						className: TranslationWorkspace_module_css_default.errorBanner,
+						role: "alert",
+						children: error
 					}),
 					(0, react_jsx_runtime.jsxs)("div", {
 						className: TranslationWorkspace_module_css_default.panes,
 						children: [(0, react_jsx_runtime.jsxs)("section", {
 							className: TranslationWorkspace_module_css_default.pane,
-							children: [(0, react_jsx_runtime.jsx)("textarea", {
-								"aria-label": "待翻译文本",
-								value: input,
-								onChange: (event) => {
-									setInput(event.target.value);
-								},
-								placeholder: "输入要翻译的内容"
-							}), (0, react_jsx_runtime.jsxs)("div", {
-								className: TranslationWorkspace_module_css_default.actions,
-								children: [(0, react_jsx_runtime.jsxs)("span", { children: [input.length, " 字符"] }), (0, react_jsx_runtime.jsx)("button", {
-									type: "button",
-									disabled: selection === null || input.trim() === "" || job?.status === "running",
-									onClick: () => {
-										translate();
-									},
-									children: "翻译"
-								})]
-							})]
-						}), (0, react_jsx_runtime.jsxs)("section", {
-							className: TranslationWorkspace_module_css_default.pane,
 							children: [
-								(0, react_jsx_runtime.jsx)("textarea", {
-									"aria-label": "翻译结果",
-									readOnly: true,
-									value: job?.output ?? "",
-									placeholder: "翻译结果将在这里流式显示"
+								(0, react_jsx_runtime.jsx)("div", {
+									className: TranslationWorkspace_module_css_default.textareaScroll,
+									ref: inputScrollRef,
+									onScroll: () => {
+										onScrollSync("input");
+									},
+									children: (0, react_jsx_runtime.jsx)("textarea", {
+										ref: inputRef,
+										"aria-label": "待翻译文本",
+										className: TranslationWorkspace_module_css_default.inputArea,
+										value: input,
+										onChange: (event) => {
+											setInput(event.target.value);
+										},
+										placeholder: "请输入文本...",
+										spellCheck: false
+									})
 								}),
-								job?.failure === void 0 ? null : (0, react_jsx_runtime.jsx)("p", {
-									role: "alert",
-									className: TranslationWorkspace_module_css_default.error,
-									children: job.failure.message
+								(0, react_jsx_runtime.jsx)("div", {
+									className: TranslationWorkspace_module_css_default.paneCorner,
+									children: (0, react_jsx_runtime.jsx)("button", {
+										type: "button",
+										className: TranslationWorkspace_module_css_default.smallIconBtn,
+										title: "复制",
+										disabled: input.length === 0,
+										onClick: () => {
+											copyInput(input);
+										},
+										children: copiedInput ? (0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.IconCheckOutline16, { size: 14 }) : (0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.IconCopyOutline16, { size: 14 })
+									})
 								}),
 								(0, react_jsx_runtime.jsxs)("div", {
-									className: TranslationWorkspace_module_css_default.actions,
-									children: [
-										(0, react_jsx_runtime.jsx)("span", { children: job?.status === "running" ? "翻译中…" : job?.status === "error" ? "失败" : job?.status === "cancelled" ? "已取消" : "" }),
-										job?.status === "running" ? (0, react_jsx_runtime.jsx)("button", {
-											type: "button",
-											className: TranslationWorkspace_module_css_default.secondary,
-											onClick: () => {
-												translation.cancel(job.jobId).then((result) => {
-													if (result.ok) setJob(result.value);
-												});
-											},
-											children: "取消"
-										}) : null,
-										(0, react_jsx_runtime.jsx)("button", {
-											type: "button",
-											className: TranslationWorkspace_module_css_default.secondary,
-											disabled: !job?.output,
-											onClick: () => {
-												navigator.clipboard.writeText(job?.output ?? "");
-											},
-											children: "复制"
-										}),
-										(0, react_jsx_runtime.jsx)("button", {
-											type: "button",
-											className: TranslationWorkspace_module_css_default.secondary,
-											disabled: !job?.output,
-											onClick: () => {
-												setInput(job?.output ?? "");
-											},
-											children: "替换原文"
-										})
-									]
+									className: TranslationWorkspace_module_css_default.paneFooter,
+									children: [(0, react_jsx_runtime.jsxs)("span", {
+										className: TranslationWorkspace_module_css_default.count,
+										children: [input.length, " 字符"]
+									}), input.length === 0 ? null : (0, react_jsx_runtime.jsxs)("button", {
+										type: "button",
+										className: TranslationWorkspace_module_css_default.clearBtn,
+										onClick: clearInput,
+										children: [(0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.IconCloseOutline16, { size: 12 }), (0, react_jsx_runtime.jsx)("span", { children: "清除" })]
+									})]
+								})
+							]
+						}), (0, react_jsx_runtime.jsxs)("section", {
+							className: `${TranslationWorkspace_module_css_default.pane} ${TranslationWorkspace_module_css_default.outputPane}`,
+							children: [
+								(0, react_jsx_runtime.jsx)("div", {
+									className: TranslationWorkspace_module_css_default.textareaScroll,
+									ref: outputRef,
+									onScroll: () => {
+										onScrollSync("output");
+									},
+									children: job?.status === "running" ? (0, react_jsx_runtime.jsxs)("div", {
+										className: TranslationWorkspace_module_css_default.translating,
+										style: { padding: "16px 48px 16px 16px" },
+										children: [(0, react_jsx_runtime.jsx)("span", { className: TranslationWorkspace_module_css_default.spinner }), (0, react_jsx_runtime.jsx)("span", { children: "翻译中..." })]
+									}) : output.length === 0 ? (0, react_jsx_runtime.jsx)("div", {
+										className: TranslationWorkspace_module_css_default.outputArea,
+										style: { color: "var(--muted-foreground)" },
+										children: "翻译结果将在这里显示"
+									}) : settings.markdown ? (0, react_jsx_runtime.jsx)("div", {
+										className: `${TranslationWorkspace_module_css_default.outputArea} ${TranslationWorkspace_module_css_default.md}`,
+										children: renderMarkdown(output)
+									}) : (0, react_jsx_runtime.jsx)("div", {
+										className: TranslationWorkspace_module_css_default.outputArea,
+										children: output
+									})
+								}),
+								(0, react_jsx_runtime.jsx)("div", {
+									className: TranslationWorkspace_module_css_default.paneCorner,
+									children: (0, react_jsx_runtime.jsx)("button", {
+										type: "button",
+										className: TranslationWorkspace_module_css_default.smallIconBtn,
+										title: "复制",
+										disabled: output.length === 0,
+										onClick: () => {
+											copyOutput(output);
+										},
+										children: copiedOutput ? (0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.IconCheckOutline16, { size: 14 }) : (0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.IconCopyOutline16, { size: 14 })
+									})
+								}),
+								(0, react_jsx_runtime.jsx)("div", {
+									className: TranslationWorkspace_module_css_default.paneFooter,
+									children: (0, react_jsx_runtime.jsx)("span", {
+										className: TranslationWorkspace_module_css_default.count,
+										children: job === null ? "" : job.status === "running" ? "翻译中..." : job.status === "error" ? "翻译失败" : job.status === "cancelled" ? "翻译中止" : `${output.length} 字符`
+									})
 								})
 							]
 						})]
 					}),
-					(0, react_jsx_runtime.jsxs)("aside", {
-						className: TranslationWorkspace_module_css_default.history,
-						children: [
-							(0, react_jsx_runtime.jsx)("h2", { children: "翻译历史" }),
-							history.length === 0 ? (0, react_jsx_runtime.jsx)("p", {
-								className: TranslationWorkspace_module_css_default.empty,
-								children: "暂无历史"
-							}) : history.map((item) => (0, react_jsx_runtime.jsxs)("article", {
-								className: TranslationWorkspace_module_css_default.historyItem,
-								children: [
-									(0, react_jsx_runtime.jsxs)("div", { children: [(0, react_jsx_runtime.jsxs)("strong", { children: [
-										item.sourceLanguage,
-										" → ",
-										item.targetLanguage
-									] }), (0, react_jsx_runtime.jsx)("time", { children: new Date(item.createdAt).toLocaleString() })] }),
-									(0, react_jsx_runtime.jsx)("p", { children: item.sourceText }),
-									(0, react_jsx_runtime.jsx)("p", { children: item.translatedText }),
-									(0, react_jsx_runtime.jsx)("button", {
-										type: "button",
-										className: TranslationWorkspace_module_css_default.link,
-										onClick: () => {
-											setInput(item.sourceText);
-											setSourceLanguage(item.sourceLanguage);
-											setTargetLanguage(item.targetLanguage);
-										},
-										children: "复用"
-									}),
-									(0, react_jsx_runtime.jsx)("button", {
-										type: "button",
-										className: TranslationWorkspace_module_css_default.link,
-										onClick: () => {
-											translation.deleteHistory(item.id).then((result) => {
-												if (result.ok) setHistory((current) => current.filter((row) => row.id !== item.id));
-											});
-										},
-										children: "删除"
-									})
-								]
-							}, item.id)),
-							nextCursor === null ? null : (0, react_jsx_runtime.jsx)("button", {
-								type: "button",
-								className: TranslationWorkspace_module_css_default.secondary,
-								onClick: () => {
-									refreshHistory(nextCursor, true).catch((reason) => {
-										setError(String(reason));
-									});
-								},
-								children: "加载更多"
-							})
-						]
+					historyOpen && (0, react_jsx_runtime.jsx)(TranslationHistoryPanel, {
+						history: starredOnly ? history.filter((item) => item.starred) : history,
+						total: history.length,
+						nextCursor: starredOnly ? null : nextCursor,
+						starredOnly,
+						onStarredOnlyChange: setStarredOnly,
+						onLoadMore: () => {
+							refreshHistory(nextCursor, true).catch((reason) => {
+								setError(String(reason));
+							});
+						},
+						onStar: (id, starred) => {
+							starHistory(id, starred);
+						},
+						onDelete: (id) => {
+							deleteHistoryItem(id);
+						},
+						onClearAll: () => {
+							clearHistory();
+						},
+						onReuse: reuseHistory,
+						onClose: () => {
+							setHistoryOpen(false);
+						}
+					}),
+					settingsOpen && (0, react_jsx_runtime.jsx)(TranslationSettingsPanel, {
+						languages: languagesAll,
+						customLanguages,
+						settings,
+						onChange: updateSettings,
+						prompt,
+						onSavePrompt: async (value) => {
+							if ((await translation.setPrompt(value)).ok) setPrompt(value);
+						},
+						onResetPrompt: async () => {
+							if ((await translation.setPrompt("")).ok) setPrompt("");
+						},
+						onAddLanguage: addLanguage,
+						onEditLanguage: editLanguage,
+						onDeleteLanguage: (id) => {
+							deleteLanguage(id);
+						},
+						onClose: () => {
+							setSettingsOpen(false);
+						}
 					})
 				]
 			});

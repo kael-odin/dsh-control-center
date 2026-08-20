@@ -2,6 +2,8 @@ import { randomUUID } from 'node:crypto'
 import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
 import { createUserMessage, type LlmFailure, type LlmRuntime, ReasoningEffortId } from '@deepseek-ai/dsh-llm'
+import { settingsNamespace, type SettingsScope } from '@deepseek-ai/dsh-settings'
+import Schema from '@deepseek-ai/schemastery'
 import { bindTypertRemote, Remote } from '@deepseek-ai/dsh-typert-protocol'
 import type {
   TranslationHistoryId, TranslationHistoryItem, TranslationHistoryPage, TranslationJobView,
@@ -10,6 +12,7 @@ import type {
 
 const MAX_TEXT_CHARS = 100_000
 const MAX_HISTORY_PAGE = 100
+const TRANSLATION_NAMESPACE = settingsNamespace('control-center-translation')
 const BUILTIN_LANGUAGES: readonly TranslationLanguage[] = Object.freeze([
   { id: 'auto', label: 'Auto detect', builtin: true },
   { id: 'zh-CN', label: '简体中文', builtin: true },
@@ -43,8 +46,19 @@ function language(id: string, allowAuto: boolean): string {
   return id.trim()
 }
 
-function prompt(request: TranslationRequest): string {
+export interface TranslationServiceConfig {
+  logger?: Context['logger']
+}
+
+function prompt(request: TranslationRequest, customPrompt: string): string {
   const source = request.sourceLanguage === 'auto' ? 'detect the source language automatically' : `the source language is ${request.sourceLanguage}`
+  if (customPrompt.trim().length > 0) {
+    return [
+      customPrompt.trim(),
+      `Source language: ${source}.`,
+      `Target language: ${request.targetLanguage}.`,
+    ].join('\n')
+  }
   return [
     'Translate the text faithfully and completely.',
     `${source}; the target language is ${request.targetLanguage}.`,
@@ -62,6 +76,8 @@ function markTranslationRemoteMethods(service: TranslationService): void {
     ['start', 'start'], ['get', 'get'], ['cancel', 'cancel'], ['listHistory', 'history'],
     ['deleteHistory', 'deleteHistory'], ['languages', 'languages'],
     ['putLanguage', 'putLanguage'], ['deleteLanguage', 'deleteLanguage'],
+    ['starHistory', 'starHistory'], ['clearHistory', 'clearHistory'],
+    ['getPrompt', 'getPrompt'], ['setPrompt', 'setPrompt'],
   ] as const) {
     const implementation = Reflect.get(TranslationService.prototype, method) as (this: TranslationService, ...args: never[]) => unknown
     const decorator = Remote(exportName)
@@ -85,18 +101,24 @@ declare module '@deepseek-ai/cordis' {
  * One-shot translation jobs and persistent in-process history over DSH LLM routes.
  */
 export class TranslationService extends Service {
-  static inject = ['llm']
+  static inject = ['llm', 'settings'] as const
   readonly typertRemote = bindTypertRemote(this, 'controlCenterTranslation')
 
   private readonly llm: LlmRuntime
   private readonly jobs = new Map<string, MutableJob>()
   private readonly history = new Map<TranslationHistoryId, TranslationHistoryItem>()
   private readonly customLanguages = new Map<string, TranslationLanguage>()
+  private scope: SettingsScope<{ prompt: string }>
   private accepting = true
 
-  constructor(ctx: Context) {
+  constructor(ctx: Context, _config?: TranslationServiceConfig) {
     super(ctx, 'controlCenterTranslation')
     this.llm = ctx.get('llm') as LlmRuntime
+    this.scope = ctx.settings.register(TRANSLATION_NAMESPACE, Schema.object({
+      prompt: Schema.string().default(''),
+    }), {
+      base: { prompt: '' },
+    })
     markTranslationRemoteMethods(this)
     ctx.effect(() => async () => {
       this.accepting = false
@@ -166,6 +188,28 @@ export class TranslationService extends Service {
     return { absent: true }
   }
 
+  starHistory(id: TranslationHistoryId, starred: boolean): TranslationHistoryItem {
+    const item = this.history.get(id)
+    if (item === undefined) throw new Error(`unknown translation history "${id}"`)
+    item.starred = starred
+    return structuredClone(item)
+  }
+
+  clearHistory(): { cleared: number } {
+    const cleared = this.history.size
+    this.history.clear()
+    return { cleared }
+  }
+
+  getPrompt(): string {
+    return this.scope.get().prompt
+  }
+
+  async setPrompt(prompt: string): Promise<{ saved: true }> {
+    await this.scope.update({ prompt: prompt.slice(0, 4_000) })
+    return { saved: true }
+  }
+
   languages(): TranslationLanguagesView {
     const custom = [...this.customLanguages.values()].sort((left, right) => left.label.localeCompare(right.label))
     return {
@@ -204,7 +248,7 @@ export class TranslationService extends Service {
       for await (const chunk of prepared.stream({
         ...prepared.config,
         messages: [message],
-        system: prompt(request),
+        system: prompt(request, this.scope.get().prompt),
         signal: job.controller.signal,
       })) {
         if (chunk.type === 'text-delta') job.view.output += chunk.text
@@ -227,6 +271,7 @@ export class TranslationService extends Service {
           sourceText: request.text,
           translatedText: job.view.output,
           selection: structuredClone(request.selection),
+          starred: false,
           createdAt: Date.now(),
         }
         this.history.set(id, item)

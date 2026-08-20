@@ -17,6 +17,12 @@
 /* Primitives (tokens/colors/primitive.css)                            */
 /* ------------------------------------------------------------------ */
 .cc-surface {
+  /* Surfaces paint their own layer: the host column behind the workspace is
+     transparent, so the token layer must be opaque (Cherry paints over its
+     own opaque window background; the web surface has none). */
+  background: var(--background);
+  color: var(--foreground);
+
   --cs-neutral-50: oklch(0.98 0 0);
   --cs-neutral-100: oklch(0.97 0 0);
   --cs-neutral-200: oklch(0.92 0 0);
@@ -545,7 +551,7 @@ body[data-ds-dark-theme] .cc-surface {
   --cs-warning: var(--cs-amber-400);
   --cs-info: var(--cs-blue-400);
 
-  --cs-background: oklch(0.209 0 0 / 0.55);
+  --cs-background: oklch(0.209 0 0);
   --cs-background-subtle: oklch(1 0 0 / 0.02);
   --cs-foreground: oklch(0.931 0 0);
   --cs-muted-foreground: oklch(0.708 0 0);
