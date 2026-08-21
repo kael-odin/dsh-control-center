@@ -4,7 +4,7 @@
 const name = "dsh-control-center-bundle";
 /** Mount the static bundle package. */
 async function apply(ctx) {
-	const controlCenter = await import("./lib-DCr5xEzo.js").then((n) => n.t);
+	const controlCenter = await import("./lib-CaCNCvuC.js").then((n) => n.t);
 	ctx.plugin(controlCenter);
 }
 //#endregion

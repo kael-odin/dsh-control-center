@@ -83,7 +83,7 @@ export function TasksSection({ getTasks, useTasksReady }: TasksSectionProps) {
   return (
     <div className={css.root}>
       <div>
-        <h2 className={css.pageTitle}>计划任务</h2>
+        <h2 className={css.pageTitle}>定时任务</h2>
         <p className={css.pageDescription}>按 cron 计划执行通知或命令。任务由宿主每分钟调度一次。</p>
       </div>
 

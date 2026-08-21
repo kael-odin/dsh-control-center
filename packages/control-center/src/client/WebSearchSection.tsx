@@ -8,10 +8,12 @@
 import { useState, useEffect } from 'react'
 import type { WebSearchProvider, WebSearchConfig, WebSearchCapability } from '../websearch/types.ts'
 import type { TypertClientRemote } from '@deepseek-ai/dsh-typert-protocol'
+import type { WebSearchKey } from './websearch-locales.ts'
 import css from './WebSearchSection.module.css'
 
-interface WebSearchSectionProps {
+export interface WebSearchSectionInjected {
   websearch: NonNullable<TypertClientRemote['controlCenterWebSearch']>
+  t: (key: WebSearchKey) => string
 }
 
 interface ProviderEntry {
@@ -30,14 +32,14 @@ function unwrap<T>(result: { ok: true; value: T } | { ok: false; error: { code: 
   return result.value
 }
 
-const CAPABILITY_TITLES: Record<WebSearchCapability, string> = {
-  searchKeywords: 'Search Keywords',
-  fetchUrls: 'Fetch URLs'
+const CAPABILITY_TITLES: Record<WebSearchCapability, WebSearchKey> = {
+  searchKeywords: 'searchKeywords',
+  fetchUrls: 'fetchUrls'
 }
 
-const CAPABILITY_DESCRIPTIONS: Record<WebSearchCapability, string> = {
-  searchKeywords: 'Provider used to search the web for keywords and return ranked results.',
-  fetchUrls: 'Provider used to fetch and convert a URL into readable content.'
+const CAPABILITY_DESCRIPTIONS: Record<WebSearchCapability, WebSearchKey> = {
+  searchKeywords: 'searchKeywordsDescription',
+  fetchUrls: 'fetchUrlsDescription'
 }
 
 function getFeatureSections(providers: WebSearchProvider[]): FeatureSection[] {
@@ -61,7 +63,7 @@ function getFeatureSections(providers: WebSearchProvider[]): FeatureSection[] {
   ].filter(section => section.entries.length > 0)
 }
 
-export function WebSearchSection({ websearch }: WebSearchSectionProps) {
+export function WebSearchSection({ websearch, t }: WebSearchSectionInjected) {
   const [config, setConfig] = useState<WebSearchConfig | null>(null)
   const [providers, setProviders] = useState<WebSearchProvider[]>([])
   const [loading, setLoading] = useState(true)
@@ -89,20 +91,20 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
   }, [websearch])
 
   if (loading) {
-    return <div className={css.loading}>Loading...</div>
+    return <div className={css.loading}>{t('loading')}</div>
   }
 
   if (error !== null) {
     return (
       <div className={css.error} role="alert">
-        <strong>Web Search 暂时不可用</strong>
+        <strong>{t('unavailable')}</strong>
         <span>{error}</span>
       </div>
     )
   }
 
   if (!config) {
-    return <div className={css.error} role="alert">Web Search 未返回有效配置。</div>
+    return <div className={css.error} role="alert">{t('noConfig')}</div>
   }
 
   const featureSections = getFeatureSections(providers)
@@ -145,18 +147,21 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
   return (
     <div className={css.root}>
       <div className={css.pageHeader}>
-        <h2 className={css.pageTitle}>Web Search</h2>
+        <h2 className={css.pageTitle}>{t('title')}</h2>
         <p className={css.pageDescription}>
-          Configure web search providers and capabilities
+          {t('description')}
         </p>
       </div>
 
       {/* General settings card */}
       <div className={css.card}>
-        <div className={css.cardTitle}>General Settings</div>
+        <div className={css.cardTitle}>{t('general')}</div>
 
         <div className={css.fieldRow}>
-          <div className={css.fieldLabel}>Max Results</div>
+          <div className={css.fieldLabel}>
+            {t('maxResults')}
+            <div className={css.fieldHint}>{t('maxResultsHint')}</div>
+          </div>
           <input
             type="number"
             min="1"
@@ -173,8 +178,8 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
 
         <div className={css.fieldRow}>
           <div className={css.fieldLabel}>
-            Client Tools Preferred
-            <div className={css.fieldHint}>Use client-side tools when available</div>
+            {t('clientToolsPreferred')}
+            <div className={css.fieldHint}>{t('clientToolsPreferredHint')}</div>
           </div>
           <input
             type="checkbox"
@@ -191,12 +196,12 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
 
         <div className={css.fieldRow}>
           <div className={css.fieldLabel}>
-            Exclude Domains
-            <div className={css.fieldHint}>Comma-separated domains to exclude from results</div>
+            {t('excludeDomains')}
+            <div className={css.fieldHint}>{t('excludeDomainsHint')}</div>
           </div>
           <input
             type="text"
-            placeholder="example.com, spam.com"
+            placeholder={t('excludeDomainsPlaceholder')}
             value={config.excludeDomains.join(', ')}
             onChange={async (e) => {
               const domains = e.target.value.split(',').map(d => d.trim()).filter(Boolean)
@@ -209,8 +214,8 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
 
         <div className={css.fieldRow}>
           <div className={css.fieldLabel}>
-            Compression Method
-            <div className={css.fieldHint}>How search results are compressed before passing to the model</div>
+            {t('compressionMethod')}
+            <div className={css.fieldHint}>{t('compressionMethodHint')}</div>
           </div>
           <select
             value={config.compression.method}
@@ -225,14 +230,14 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
             }}
             className={css.select}
           >
-            <option value="none">None</option>
-            <option value="cutoff">Cutoff</option>
+            <option value="none">{t('compressionNone')}</option>
+            <option value="cutoff">{t('compressionCutoff')}</option>
           </select>
         </div>
 
         {config.compression.method === 'cutoff' && (
           <div className={css.fieldRow}>
-            <div className={css.fieldLabel}>Cutoff Limit (characters)</div>
+            <div className={css.fieldLabel}>{t('cutoffLimit')}</div>
             <input
               type="number"
               min="500"
@@ -266,12 +271,12 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
         return (
           <div key={section.capability} className={css.card}>
             <div>
-              <div className={css.cardTitle}>{CAPABILITY_TITLES[section.capability]}</div>
-              <div className={css.cardDescription}>{CAPABILITY_DESCRIPTIONS[section.capability]}</div>
+              <div className={css.cardTitle}>{t(CAPABILITY_TITLES[section.capability])}</div>
+              <div className={css.cardDescription}>{t(CAPABILITY_DESCRIPTIONS[section.capability])}</div>
             </div>
 
             <div className={css.fieldRow}>
-              <div className={css.fieldLabel}>Default Provider</div>
+              <div className={css.fieldLabel}>{t('defaultProvider')}</div>
               <select
                 value={selectedProvider?.id ?? ''}
                 onChange={(e) => handleDefaultProviderChange(section.capability, e.target.value)}
@@ -294,7 +299,7 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
 
                 {selectedProvider.requiresApiKey && (
                   <div className={css.fieldRow}>
-                    <div className={css.fieldLabel}>API Keys</div>
+                    <div className={css.fieldLabel}>{t('apiKeys')}</div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-end' }}>
                       {(selectedProvider.apiKeys.length > 0 ? selectedProvider.apiKeys : ['']).map((key, index) => (
                         <div key={index} className={css.apiKeyRow}>
@@ -306,7 +311,7 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
                               newKeys[index] = e.target.value
                               await handleApiKeyChange(selectedProvider.id, newKeys.filter(Boolean))
                             }}
-                            placeholder="Enter API key"
+                            placeholder={t('apiKeyPlaceholder')}
                             className={css.input}
                           />
                           {selectedProvider.apiKeys.length > 1 && (
@@ -318,7 +323,7 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
                                 await handleApiKeyChange(selectedProvider.id, newKeys)
                               }}
                             >
-                              Remove
+                              {t('remove')}
                             </button>
                           )}
                         </div>
@@ -330,7 +335,7 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
                           await handleApiKeyChange(selectedProvider.id, [...selectedProvider.apiKeys, ''])
                         }}
                       >
-                        Add API Key
+                        {t('addApiKey')}
                       </button>
                     </div>
                   </div>
@@ -340,7 +345,7 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
                   c.feature === section.capability && 'apiHost' in c
                 ) && (
                   <div className={css.fieldRow}>
-                    <div className={css.fieldLabel}>API Host</div>
+                    <div className={css.fieldLabel}>{t('apiHost')}</div>
                     <input
                       type="url"
                       value={
@@ -350,7 +355,7 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
                       onChange={async (e) => {
                         await handleApiHostChange(selectedProvider.id, section.capability, e.target.value)
                       }}
-                      placeholder="https://example.com/api"
+                      placeholder={t('apiHostPlaceholder')}
                       className={css.input}
                     />
                   </div>
@@ -361,7 +366,7 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
                 ) && (
                   <>
                     <div className={css.fieldRow}>
-                      <div className={css.fieldLabel}>Basic Auth Username</div>
+                      <div className={css.fieldLabel}>{t('basicAuthUsername')}</div>
                       <input
                         type="text"
                         value={selectedProvider.basicAuthUsername ?? ''}
@@ -375,7 +380,7 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
                       />
                     </div>
                     <div className={css.fieldRow}>
-                      <div className={css.fieldLabel}>Basic Auth Password</div>
+                      <div className={css.fieldLabel}>{t('basicAuthPassword')}</div>
                       <input
                         type="password"
                         value={selectedProvider.basicAuthPassword ?? ''}

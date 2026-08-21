@@ -2,7 +2,9 @@
  * Skills catalog section component.
  *
  * Cherry-style skills management UI over the controlCenterSkills Remote service.
- * Displays installed skills in a card grid with search, enable/disable, and uninstall actions.
+ * Displays installed skills in a card grid with search, enable/disable, and uninstall
+ * actions. Online search installs from the host's skill marketplace (a real host
+ * capability); local import needs a host filesystem path and is honestly gated.
  *
  * AGPL-3.0-only – adapted from Cherry Studio ResourceCatalog pattern for skills.
  */

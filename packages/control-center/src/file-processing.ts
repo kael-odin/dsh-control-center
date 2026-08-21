@@ -32,7 +32,7 @@ const CATALOG: readonly FileProcessorEntry[] = [
   {
     id: 'system',
     name: 'System OCR',
-    description: 'Use the operating system OCR when available (macOS Vision / Windows built-in).',
+    description: '原生操作系统 OCR 引擎。',
     apiKeyWebsite: null,
     features: ['image_to_text'],
     requiresApiKey: false,
@@ -41,7 +41,7 @@ const CATALOG: readonly FileProcessorEntry[] = [
   {
     id: 'tesseract',
     name: 'Tesseract',
-    description: 'Local Tesseract OCR engine (requires a local Tesseract installation).',
+    description: 'Google 开源的光学字符识别引擎，完全本地运行。',
     apiKeyWebsite: null,
     features: ['image_to_text'],
     requiresApiKey: false,
@@ -50,7 +50,7 @@ const CATALOG: readonly FileProcessorEntry[] = [
   {
     id: 'paddleocr',
     name: 'PaddleOCR (Baidu)',
-    description: 'PaddleOCR online service from Baidu AI Studio.',
+    description: '百度飞桨 OCR 识别系统。',
     apiKeyWebsite: 'https://aistudio.baidu.com/paddleocr/',
     features: ['image_to_text'],
     requiresApiKey: true,
@@ -59,7 +59,7 @@ const CATALOG: readonly FileProcessorEntry[] = [
   {
     id: 'local-paddleocr',
     name: 'Local PaddleOCR',
-    description: 'Run PaddleOCR locally through the DSH Python runtime.',
+    description: '在本地运行的 PaddleOCR（PP-OCRv6 中等模型），完全离线、无需 API Key，识别在后台线程进行不阻塞界面。',
     apiKeyWebsite: null,
     features: ['image_to_text'],
     requiresApiKey: false,
@@ -68,7 +68,7 @@ const CATALOG: readonly FileProcessorEntry[] = [
   {
     id: 'ovocr',
     name: 'OpenVINO OCR',
-    description: 'Local OCR acceleration through OpenVINO models.',
+    description: '使用 Intel OpenVINO 在本地运行的 OCR 引擎，支持 NPU 加速。',
     apiKeyWebsite: null,
     features: ['image_to_text'],
     requiresApiKey: false,
@@ -77,7 +77,7 @@ const CATALOG: readonly FileProcessorEntry[] = [
   {
     id: 'mistral',
     name: 'Mistral (Vision)',
-    description: 'OCR through a vision-capable OpenAI-compatible model (works with any configured vision endpoint).',
+    description: '文件解析与理解服务。',
     apiKeyWebsite: 'https://mistral.ai/api-keys',
     features: ['image_to_text', 'document_to_markdown'],
     requiresApiKey: true,
@@ -86,7 +86,7 @@ const CATALOG: readonly FileProcessorEntry[] = [
   {
     id: 'local-document',
     name: 'Local Document',
-    description: 'Extract text from plain-text documents locally (txt, md, json, code).',
+    description: '在本机从纯文本文档提取文字（txt、md、json、代码）。',
     apiKeyWebsite: null,
     features: ['document_to_markdown'],
     requiresApiKey: false,
@@ -95,7 +95,7 @@ const CATALOG: readonly FileProcessorEntry[] = [
   {
     id: 'mineru',
     name: 'MinerU',
-    description: 'MinerU online document-to-markdown conversion (PDF, DOCX, images).',
+    description: 'OpenDataLab 开源的高质量 PDF 提取工具。',
     apiKeyWebsite: 'https://mineru.net/apiManage',
     features: ['document_to_markdown'],
     requiresApiKey: true,
@@ -104,7 +104,7 @@ const CATALOG: readonly FileProcessorEntry[] = [
   {
     id: 'doc2x',
     name: 'Doc2X',
-    description: 'Doc2X document-to-markdown conversion service.',
+    description: '高级文件还原引擎。',
     apiKeyWebsite: 'https://open.noedgeai.com/apiKeys',
     features: ['document_to_markdown'],
     requiresApiKey: true,
@@ -113,7 +113,7 @@ const CATALOG: readonly FileProcessorEntry[] = [
   {
     id: 'open-mineru',
     name: 'Open MinerU',
-    description: 'Self-hosted MinerU (open-source document parsing).',
+    description: '可自部署的 MinerU 服务，适合希望自行控制处理链路的团队。',
     apiKeyWebsite: 'https://github.com/opendatalab/MinerU/',
     features: ['document_to_markdown'],
     requiresApiKey: false,

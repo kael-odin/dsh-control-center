@@ -55,7 +55,7 @@ export function McpSection(props: McpSectionProps) {
 
   const loadServers = useCallback(async () => {
     if (!mcpService) {
-      setError('MCP service not available')
+      setError('MCP 服务不可用')
       setLoading(false)
       return
     }
@@ -70,7 +70,7 @@ export function McpSection(props: McpSectionProps) {
         setSelectedId(list[0].id)
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load MCP servers')
+      setError(err instanceof Error ? err.message : '加载 MCP 服务器失败')
     } finally {
       setLoading(false)
     }

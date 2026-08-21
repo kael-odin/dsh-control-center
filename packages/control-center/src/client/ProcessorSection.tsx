@@ -50,11 +50,11 @@ export function ProcessorSection({ feature, title, description, service }: Proce
     void load()
   }, [load])
 
-  if (loading) return <div className={css.loading}>Loading...</div>
+  if (loading) return <div className={css.loading}>加载中...</div>
   if (error !== null || config === null) {
     return (
       <div className={css.root}>
-        <div className="cc-notice-error">{error ?? 'Failed to load'}</div>
+        <div className="cc-notice-error">{error ?? '加载失败'}</div>
       </div>
     )
   }
@@ -124,9 +124,9 @@ export function ProcessorSection({ feature, title, description, service }: Proce
             {processor.requiresApiKey && (
               <div className={css.fieldRow}>
                 <div className={css.fieldLabel}>
-                  API Key
+                  API 密钥
                   {processor.apiKeyWebsite !== null
-                    ? <div className={css.fieldHint}><a href={processor.apiKeyWebsite} target="_blank" rel="noreferrer" style={{ color: 'var(--link, var(--primary))' }}>获取 API Key</a></div>
+                    ? <div className={css.fieldHint}><a href={processor.apiKeyWebsite} target="_blank" rel="noreferrer" style={{ color: 'var(--link, var(--primary))' }}>获取密钥</a></div>
                     : null}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-end' }}>
@@ -135,7 +135,7 @@ export function ProcessorSection({ feature, title, description, service }: Proce
                       <input
                         type="password"
                         value={key}
-                        placeholder="Enter API key"
+                        placeholder="输入 API 密钥"
                         onChange={async (e) => {
                           const next = [...apiKeys]
                           next[index] = e.target.value
@@ -149,7 +149,7 @@ export function ProcessorSection({ feature, title, description, service }: Proce
                           className={css.iconButton}
                           onClick={() => void setOverride(processor.id, { ...override, apiKeys: apiKeys.filter((_, i) => i !== index) })}
                         >
-                          Remove
+                          删除
                         </button>
                       )}
                     </div>
@@ -159,7 +159,7 @@ export function ProcessorSection({ feature, title, description, service }: Proce
                     className={css.iconButton}
                     onClick={() => void setOverride(processor.id, { ...override, apiKeys: [...apiKeys, ''] })}
                   >
-                    Add API Key
+                    添加
                   </button>
                 </div>
               </div>
@@ -169,7 +169,7 @@ export function ProcessorSection({ feature, title, description, service }: Proce
               <>
                 <div className={css.fieldRow}>
                   <div className={css.fieldLabel}>
-                    API Host
+                    API 地址
                     <div className={css.fieldHint}>OpenAI 兼容的视觉模型端点，例如 https://api.deepseek.com/v1</div>
                   </div>
                   <input

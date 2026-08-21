@@ -197,10 +197,10 @@ description: A skill
   })
 
   describe('searchMarketplace', () => {
-    it('returns empty results (stub)', async () => {
-      const results = await service.searchMarketplace({ query: 'test' })
-      expect(results.skills).toEqual([])
-      expect(results.total).toBe(0)
+    it('reports marketplace search as unimplemented on this host', async () => {
+      await expect(service.searchMarketplace({ query: 'test' })).rejects.toThrow(
+        'Skill marketplace search is not yet implemented on this host'
+      )
     })
   })
 })

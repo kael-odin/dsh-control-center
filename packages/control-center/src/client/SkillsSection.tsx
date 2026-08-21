@@ -2,7 +2,9 @@
  * Skills catalog section component.
  *
  * Cherry-style skills management UI over the controlCenterSkills Remote service.
- * Displays installed skills in a card grid with search, enable/disable, and uninstall actions.
+ * Displays installed skills in a card grid with search, enable/disable, and uninstall
+ * actions. Online search installs from the host's skill marketplace (a real host
+ * capability); local import needs a host filesystem path and is honestly gated.
  *
  * AGPL-3.0-only – adapted from Cherry Studio ResourceCatalog pattern for skills.
  */
@@ -33,7 +35,7 @@ export function SkillsSection(props: SkillsSectionProps) {
 
   const loadSkills = useCallback(async () => {
     if (!skillsService) {
-      setError('Skills service not available')
+      setError('技能服务不可用')
       setLoading(false)
       return
     }
@@ -45,7 +47,7 @@ export function SkillsSection(props: SkillsSectionProps) {
       if (!result.ok) throw new Error(result.error.message)
       setSkills(result.value)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load skills')
+      setError(err instanceof Error ? err.message : '加载技能失败')
     } finally {
       setLoading(false)
     }
@@ -63,7 +65,7 @@ export function SkillsSection(props: SkillsSectionProps) {
         if (!result.ok) throw new Error(result.error.message)
         await loadSkills()
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to update skill')
+        setError(err instanceof Error ? err.message : '更新技能失败')
       }
     },
     [skillsService, loadSkills]
@@ -79,7 +81,7 @@ export function SkillsSection(props: SkillsSectionProps) {
         if (!result.ok) throw new Error(result.error.message)
         await loadSkills()
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to uninstall skill')
+        setError(err instanceof Error ? err.message : '卸载技能失败')
       }
     },
     [skillsService, loadSkills]
@@ -88,18 +90,28 @@ export function SkillsSection(props: SkillsSectionProps) {
   return (
     <div className="cc-settings-column">
       <div>
-        <h1 className="cc-page-title">Skills</h1>
+        <h1 className="cc-page-title">技能</h1>
         <p className="cc-page-description">管理已安装的 Skills，启用或禁用功能</p>
       </div>
 
       <div className="cc-field-row">
-        <span className="cc-field-label">技能市场</span>
+        <span className="cc-field-label">添加技能</span>
         <div style={{ display: 'flex', gap: 8 }}>
-          <button type="button" className="cc-btn cc-btn-secondary" disabled>
-            从市场安装
+          <button
+            type="button"
+            className="cc-btn cc-btn-secondary"
+            disabled
+            title="当前平台不支持：技能市场搜索尚未接入宿主"
+          >
+            在线搜索
           </button>
-          <button type="button" className="cc-btn cc-btn-primary" disabled>
-            从本地安装
+          <button
+            type="button"
+            className="cc-btn cc-btn-primary"
+            disabled
+            title="当前平台不支持：本地导入需要宿主文件系统路径"
+          >
+            本地导入
           </button>
         </div>
       </div>
@@ -108,7 +120,7 @@ export function SkillsSection(props: SkillsSectionProps) {
         <input
           type="text"
           className={css.searchInput}
-          placeholder="搜索 Skills..."
+          placeholder="搜索已安装的 Skills..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -127,7 +139,7 @@ export function SkillsSection(props: SkillsSectionProps) {
         <div className="cc-empty">
           <div className="cc-empty-title">暂无已安装的 Skills</div>
           <div className="cc-empty-description">
-            {search ? '没有找到匹配的 Skills' : '点击上方按钮安装新的 Skill'}
+            {search ? '没有找到匹配的 Skills' : '安装能力在当前平台暂不可用'}
           </div>
         </div>
       ) : (

@@ -36,6 +36,7 @@ import { McpSection } from './McpSection.tsx'
 import type {} from '../websearch-types.ts'
 import websearchRemote from '../websearch-remote-client.ts'
 import { WebSearchSection } from './WebSearchSection.tsx'
+import type { WebSearchSectionInjected } from './WebSearchSection.tsx'
 import type {} from '../file-processing-types.ts'
 import fileProcessingRemote from '../file-processing-remote-client.ts'
 import { ProcessorSection } from './ProcessorSection.tsx'
@@ -92,6 +93,7 @@ import { ModelsSettingsStore } from './store.ts'
 import { ModelSelectionStore } from './ModelSelectionPanel.tsx'
 import { createSettingsSchemaOperations } from './schema-operations.ts'
 import { en as modelsEn, zh as modelsZh, type ModelsKey } from './locales.ts'
+import { en as websearchEn, zh as websearchZh, type WebSearchKey } from './websearch-locales.ts'
 import { WELCOME_NOTICE_SETTINGS_NAMESPACE } from '../onboarding-copy.ts'
 import { ProductWorkspaceNavItem } from './ProductWorkspaceNavItem.tsx'
 import { ProductWorkspaceSurface } from './ProductWorkspaceSurface.tsx'
@@ -103,6 +105,7 @@ export type { ModelSelectionState } from './ModelSelectionPanel.tsx'
 
 const SHELL_NS = 'control-center'
 const MODELS_NS = 'control-center.models'
+const WEBSEARCH_NS = 'control-center.websearch'
 const KNOWN_NATIVE = new Set(['general', 'agent-presets', 'plugins'])
 
 /** Cherry settings group mapping: models are core, capabilities/personal get
@@ -123,6 +126,7 @@ declare module '@deepseek-ai/dsh-client-ui-slots' {
   interface LocaleNamespaceMap {
     'control-center': SettingsKey
     'control-center.models': ModelsKey
+    'control-center.websearch': WebSearchKey
   }
 }
 
@@ -289,8 +293,10 @@ export function apply(ctx: ClientContext): void {
   }, 'control-center: control-center Remote namespaces')
   ctx.effect(() => ctx.locale.register(SHELL_NS, { zh: shellZh, en: shellEn }), 'control-center: shell dictionaries')
   ctx.effect(() => ctx.locale.register(MODELS_NS, { zh: modelsZh, en: modelsEn }), 'control-center: model dictionaries')
+  ctx.effect(() => ctx.locale.register(WEBSEARCH_NS, { zh: websearchZh, en: websearchEn }), 'control-center: web search dictionaries')
   const shellT = ctx.locale.bind(SHELL_NS)
   const modelT = ctx.locale.bind(MODELS_NS) as ModelsSectionInjected['t']
+  const websearchT = ctx.locale.bind(WEBSEARCH_NS) as (key: WebSearchKey) => string
   const connection = ctx.get('connection') as ConnectionHandle
   const settingsScope = ctx.get('settingsScope') as SettingsScopeBinder
   const settingsSchema = ctx.get('settingsSchema') as SettingsSchemaService
@@ -398,8 +404,9 @@ export function apply(ctx: ClientContext): void {
   const mcpInjected = () => ({
     mcp: mcp!,
   })
-  const websearchInjected = () => ({
+  const websearchInjected = (): WebSearchSectionInjected => ({
     websearch: websearch!,
+    t: websearchT,
   })
   const deepSeekOnboardingInjected = (): DeepSeekOnboardingInjected => ({
     controller: modelsController,

@@ -22101,6 +22101,15 @@ const REQUIRED_PACKAGES = [
 		client: false
 	}
 ];
+/**
+* Host-executed framework package. The host registers settings namespaces and
+* runs services against this package, so it must always resolve from the
+* profile's module graph. Every other required package is a client contract
+* package that a bundled deployment inlines into the client bundle, so its
+* absence from the host graph is expected there — it is verified only when
+* present.
+*/
+const HOST_CONTRACT = "@deepseek-ai/dsh-settings";
 function resolveManifest(requireFrom, name) {
 	try {
 		return requireFrom.resolve(`${name}/package.json`);
@@ -22108,39 +22117,63 @@ function resolveManifest(requireFrom, name) {
 		return;
 	}
 }
+/** Candidate roots for the DSH contract, best first. */
+function contractRoots() {
+	const roots = [createRequire(import.meta.url)];
+	try {
+		roots.push(createRequire(join(resolveDshHome(), "profiles", "node_modules", "package.json")));
+	} catch {}
+	return roots;
+}
 /**
 * Resolve DSH contract packages from the profile dependency root.
 *
-* When the bundle is installed into a profile, the plugin resolves DSH
-* packages from its own node_modules. The linked-repo dev layout breaks that:
-* pnpm `link:` resolves from the link target's real path, so the plugin
-* cannot see the profile's node_modules. Fall back to the framework's flat
-* module fallback (`$DSH_HOME/profiles/node_modules`), which symlinks every
-* DSH package and is the shared dependency root for all plugins.
+* Prefers a root that can resolve the host framework contract (dsh-settings).
+* The linked-repo dev layout breaks resolution from the plugin's own
+* node_modules: pnpm `link:` resolves from the link target's real path, so the
+* plugin cannot see the profile's node_modules. The framework's flat module
+* fallback (`$DSH_HOME/profiles/node_modules`) symlinks every DSH package and
+* is the shared dependency root for all plugins.
 */
 function profileRequire() {
-	const own = createRequire(import.meta.url);
-	if (REQUIRED_PACKAGES.every((required) => resolveManifest(own, required.name) !== void 0)) return own;
-	try {
-		const fallback = createRequire(join(resolveDshHome(), "profiles", "node_modules", "package.json"));
-		if (REQUIRED_PACKAGES.every((required) => resolveManifest(fallback, required.name) !== void 0)) return fallback;
-	} catch {}
-	return own;
+	const roots = contractRoots();
+	for (const root of roots) if (resolveManifest(root, HOST_CONTRACT) !== void 0) return root;
+	return roots[0];
 }
-/** Reject a DSH installation whose resolved contract packages differ from 0.1.1-rc.2. */
+/**
+* Reject a DSH installation whose resolved contract packages differ from
+* 0.1.1-rc.2.
+*
+* Each package resolves independently, best root first. The host framework
+* contract must always resolve; client contract packages that a bundled
+* deployment inlines into the client bundle are verified only when they are on
+* the host's module graph.
+*/
 function assertCompatibleDsh(requireFrom = profileRequire()) {
+	const roots = [requireFrom, ...contractRoots()].filter((root, index, all) => all.indexOf(root) === index);
+	const problems = [];
 	for (const required of REQUIRED_PACKAGES) {
 		let manifestPath;
-		try {
-			manifestPath = requireFrom.resolve(`${required.name}/package.json`);
-		} catch (cause) {
-			throw new Error(`DSH Control Center requires ${required.name}@${SUPPORTED_DSH_VERSION}, but its package manifest cannot be resolved. Remove the Control Center bundle or install the supported DSH release.`, { cause });
+		for (const root of roots) {
+			manifestPath = resolveManifest(root, required.name);
+			if (manifestPath !== void 0) break;
+		}
+		if (manifestPath === void 0) {
+			if (required.name === HOST_CONTRACT) throw new Error(`DSH Control Center requires ${HOST_CONTRACT}@${SUPPORTED_DSH_VERSION}, but its package manifest cannot be resolved. Remove the Control Center bundle or install the supported DSH release.`);
+			continue;
 		}
 		const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
-		if (manifest.name !== required.name || manifest.version !== "0.1.1-rc.2") throw new Error(`DSH Control Center is incompatible with ${required.name}: expected ${SUPPORTED_DSH_VERSION}, resolved ${String(manifest.version)}. Supported DSH source baseline: ${DSH_SOURCE_BASELINE}.`);
-		if (typeof manifest.exports !== "object" || manifest.exports["./package.json"] === void 0) throw new Error(`${required.name}@${SUPPORTED_DSH_VERSION} does not expose ./package.json as required`);
-		if (required.client && manifest.exports["./client"] === void 0) throw new Error(`${required.name}@${SUPPORTED_DSH_VERSION} does not expose ./client as required`);
+		if (manifest.name !== required.name || manifest.version !== "0.1.1-rc.2") {
+			problems.push(`DSH Control Center is incompatible with ${required.name}: expected ${SUPPORTED_DSH_VERSION}, resolved ${String(manifest.version)}. Supported DSH source baseline: ${DSH_SOURCE_BASELINE}.`);
+			continue;
+		}
+		if (typeof manifest.exports !== "object" || manifest.exports["./package.json"] === void 0) {
+			problems.push(`${required.name}@${SUPPORTED_DSH_VERSION} does not expose ./package.json as required`);
+			continue;
+		}
+		if (required.client && manifest.exports["./client"] === void 0) problems.push(`${required.name}@${SUPPORTED_DSH_VERSION} does not expose ./client as required`);
 	}
+	if (problems.length > 0) throw new Error(problems.join(" "));
 }
 /**
 * Cherry Studio's built-in translation prompt (settings.translate.prompt
@@ -24117,16 +24150,14 @@ var SkillsService = class extends Service {
 		});
 	}
 	/**
-	* Search marketplace (stub implementation).
+	* Search marketplace.
+	*
+	* Not yet implemented: the claude-plugins.dev search endpoint has not been
+	* wired. Throws loudly rather than silently returning an empty result set,
+	* so callers cannot mistake an unimplemented capability for "no matches".
 	*/
-	async searchMarketplace(query) {
-		this.ctx.logger.warn("Marketplace search not yet implemented");
-		return {
-			skills: [],
-			total: 0,
-			limit: query.limit ?? 50,
-			offset: query.offset ?? 0
-		};
+	async searchMarketplace(_query) {
+		throw new Error("Skill marketplace search is not yet implemented on this host");
 	}
 	[Symbol.dispose]() {
 		this.db.close();
@@ -24406,7 +24437,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-Cq6dxkzq.js");
+				const { SSEClientTransport } = await import("./sse-B8idcC2Q.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -24428,7 +24459,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-BYJsthOE.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-DvhnO2ss.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -25409,7 +25440,7 @@ const CATALOG = [
 	{
 		id: "system",
 		name: "System OCR",
-		description: "Use the operating system OCR when available (macOS Vision / Windows built-in).",
+		description: "原生操作系统 OCR 引擎。",
 		apiKeyWebsite: null,
 		features: ["image_to_text"],
 		requiresApiKey: false,
@@ -25427,7 +25458,7 @@ const CATALOG = [
 	{
 		id: "tesseract",
 		name: "Tesseract",
-		description: "Local Tesseract OCR engine (requires a local Tesseract installation).",
+		description: "Google 开源的光学字符识别引擎，完全本地运行。",
 		apiKeyWebsite: null,
 		features: ["image_to_text"],
 		requiresApiKey: false,
@@ -25445,7 +25476,7 @@ const CATALOG = [
 	{
 		id: "paddleocr",
 		name: "PaddleOCR (Baidu)",
-		description: "PaddleOCR online service from Baidu AI Studio.",
+		description: "百度飞桨 OCR 识别系统。",
 		apiKeyWebsite: "https://aistudio.baidu.com/paddleocr/",
 		features: ["image_to_text"],
 		requiresApiKey: true,
@@ -25463,7 +25494,7 @@ const CATALOG = [
 	{
 		id: "local-paddleocr",
 		name: "Local PaddleOCR",
-		description: "Run PaddleOCR locally through the DSH Python runtime.",
+		description: "在本地运行的 PaddleOCR（PP-OCRv6 中等模型），完全离线、无需 API Key，识别在后台线程进行不阻塞界面。",
 		apiKeyWebsite: null,
 		features: ["image_to_text"],
 		requiresApiKey: false,
@@ -25478,7 +25509,7 @@ const CATALOG = [
 	{
 		id: "ovocr",
 		name: "OpenVINO OCR",
-		description: "Local OCR acceleration through OpenVINO models.",
+		description: "使用 Intel OpenVINO 在本地运行的 OCR 引擎，支持 NPU 加速。",
 		apiKeyWebsite: null,
 		features: ["image_to_text"],
 		requiresApiKey: false,
@@ -25491,7 +25522,7 @@ const CATALOG = [
 	{
 		id: "mistral",
 		name: "Mistral (Vision)",
-		description: "OCR through a vision-capable OpenAI-compatible model (works with any configured vision endpoint).",
+		description: "文件解析与理解服务。",
 		apiKeyWebsite: "https://mistral.ai/api-keys",
 		features: ["image_to_text", "document_to_markdown"],
 		requiresApiKey: true,
@@ -25500,7 +25531,7 @@ const CATALOG = [
 	{
 		id: "local-document",
 		name: "Local Document",
-		description: "Extract text from plain-text documents locally (txt, md, json, code).",
+		description: "在本机从纯文本文档提取文字（txt、md、json、代码）。",
 		apiKeyWebsite: null,
 		features: ["document_to_markdown"],
 		requiresApiKey: false,
@@ -25509,7 +25540,7 @@ const CATALOG = [
 	{
 		id: "mineru",
 		name: "MinerU",
-		description: "MinerU online document-to-markdown conversion (PDF, DOCX, images).",
+		description: "OpenDataLab 开源的高质量 PDF 提取工具。",
 		apiKeyWebsite: "https://mineru.net/apiManage",
 		features: ["document_to_markdown"],
 		requiresApiKey: true,
@@ -25518,7 +25549,7 @@ const CATALOG = [
 	{
 		id: "doc2x",
 		name: "Doc2X",
-		description: "Doc2X document-to-markdown conversion service.",
+		description: "高级文件还原引擎。",
 		apiKeyWebsite: "https://open.noedgeai.com/apiKeys",
 		features: ["document_to_markdown"],
 		requiresApiKey: true,
@@ -25527,7 +25558,7 @@ const CATALOG = [
 	{
 		id: "open-mineru",
 		name: "Open MinerU",
-		description: "Self-hosted MinerU (open-source document parsing).",
+		description: "可自部署的 MinerU 服务，适合希望自行控制处理链路的团队。",
 		apiKeyWebsite: "https://github.com/opendatalab/MinerU/",
 		features: ["document_to_markdown"],
 		requiresApiKey: false,

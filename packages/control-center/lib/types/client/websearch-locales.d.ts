@@ -1,0 +1,40 @@
+/** Copy dictionaries for the Web Search settings section (Cherry 2.0.8 label parity). */
+export declare const en: {
+    title: string;
+    description: string;
+    general: string;
+    maxResults: string;
+    maxResultsHint: string;
+    clientToolsPreferred: string;
+    clientToolsPreferredHint: string;
+    excludeDomains: string;
+    excludeDomainsHint: string;
+    excludeDomainsPlaceholder: string;
+    compressionMethod: string;
+    compressionMethodHint: string;
+    compressionNone: string;
+    compressionCutoff: string;
+    cutoffLimit: string;
+    cutoffLimitHint: string;
+    searchKeywords: string;
+    searchKeywordsDescription: string;
+    fetchUrls: string;
+    fetchUrlsDescription: string;
+    defaultProvider: string;
+    apiKeys: string;
+    apiKeyPlaceholder: string;
+    addApiKey: string;
+    remove: string;
+    apiHost: string;
+    apiHostPlaceholder: string;
+    basicAuthUsername: string;
+    basicAuthPassword: string;
+    loading: string;
+    unavailable: string;
+    noConfig: string;
+};
+export type WebSearchKey = keyof typeof en;
+export declare const zh: {
+    [Key in WebSearchKey]: string;
+};
+//# sourceMappingURL=websearch-locales.d.ts.map

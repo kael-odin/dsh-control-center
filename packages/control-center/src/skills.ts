@@ -420,17 +420,14 @@ export class SkillsService extends Service {
   }
 
   /**
-   * Search marketplace (stub implementation).
+   * Search marketplace.
+   *
+   * Not yet implemented: the claude-plugins.dev search endpoint has not been
+   * wired. Throws loudly rather than silently returning an empty result set,
+   * so callers cannot mistake an unimplemented capability for "no matches".
    */
-  async searchMarketplace(query: MarketplaceSearchQuery): Promise<MarketplaceSearchResponse> {
-    // TODO: Implement real marketplace search
-    this.ctx.logger.warn('Marketplace search not yet implemented')
-    return {
-      skills: [],
-      total: 0,
-      limit: query.limit ?? 50,
-      offset: query.offset ?? 0
-    }
+  async searchMarketplace(_query: MarketplaceSearchQuery): Promise<MarketplaceSearchResponse> {
+    throw new Error('Skill marketplace search is not yet implemented on this host')
   }
 
   [Symbol.dispose]() {

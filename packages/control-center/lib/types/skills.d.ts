@@ -44,9 +44,13 @@ export declare class SkillsService extends Service {
      */
     uninstall(skillId: string): Promise<void>;
     /**
-     * Search marketplace (stub implementation).
+     * Search marketplace.
+     *
+     * Not yet implemented: the claude-plugins.dev search endpoint has not been
+     * wired. Throws loudly rather than silently returning an empty result set,
+     * so callers cannot mistake an unimplemented capability for "no matches".
      */
-    searchMarketplace(query: MarketplaceSearchQuery): Promise<MarketplaceSearchResponse>;
+    searchMarketplace(_query: MarketplaceSearchQuery): Promise<MarketplaceSearchResponse>;
     [Symbol.dispose](): void;
 }
 //# sourceMappingURL=skills.d.ts.map
