@@ -57,6 +57,15 @@ const REQUIRED_PACKAGES = [
 		client: false
 	}
 ];
+/**
+* Host-executed framework package. The host registers settings namespaces and
+* runs services against this package, so it must always resolve from the
+* profile's module graph. Every other required package is a client contract
+* package that a bundled deployment inlines into the client bundle, so its
+* absence from the host graph is expected there — it is verified only when
+* present.
+*/
+const HOST_CONTRACT = "@deepseek-ai/dsh-settings";
 function resolveManifest(requireFrom, name) {
 	try {
 		return requireFrom.resolve(`${name}/package.json`);
@@ -64,39 +73,63 @@ function resolveManifest(requireFrom, name) {
 		return;
 	}
 }
+/** Candidate roots for the DSH contract, best first. */
+function contractRoots() {
+	const roots = [createRequire(import.meta.url)];
+	try {
+		roots.push(createRequire(join(resolveDshHome(), "profiles", "node_modules", "package.json")));
+	} catch {}
+	return roots;
+}
 /**
 * Resolve DSH contract packages from the profile dependency root.
 *
-* When the bundle is installed into a profile, the plugin resolves DSH
-* packages from its own node_modules. The linked-repo dev layout breaks that:
-* pnpm `link:` resolves from the link target's real path, so the plugin
-* cannot see the profile's node_modules. Fall back to the framework's flat
-* module fallback (`$DSH_HOME/profiles/node_modules`), which symlinks every
-* DSH package and is the shared dependency root for all plugins.
+* Prefers a root that can resolve the host framework contract (dsh-settings).
+* The linked-repo dev layout breaks resolution from the plugin's own
+* node_modules: pnpm `link:` resolves from the link target's real path, so the
+* plugin cannot see the profile's node_modules. The framework's flat module
+* fallback (`$DSH_HOME/profiles/node_modules`) symlinks every DSH package and
+* is the shared dependency root for all plugins.
 */
 function profileRequire() {
-	const own = createRequire(import.meta.url);
-	if (REQUIRED_PACKAGES.every((required) => resolveManifest(own, required.name) !== void 0)) return own;
-	try {
-		const fallback = createRequire(join(resolveDshHome(), "profiles", "node_modules", "package.json"));
-		if (REQUIRED_PACKAGES.every((required) => resolveManifest(fallback, required.name) !== void 0)) return fallback;
-	} catch {}
-	return own;
+	const roots = contractRoots();
+	for (const root of roots) if (resolveManifest(root, HOST_CONTRACT) !== void 0) return root;
+	return roots[0];
 }
-/** Reject a DSH installation whose resolved contract packages differ from 0.1.1-rc.2. */
+/**
+* Reject a DSH installation whose resolved contract packages differ from
+* 0.1.1-rc.2.
+*
+* Each package resolves independently, best root first. The host framework
+* contract must always resolve; client contract packages that a bundled
+* deployment inlines into the client bundle are verified only when they are on
+* the host's module graph.
+*/
 function assertCompatibleDsh(requireFrom = profileRequire()) {
+	const roots = [requireFrom, ...contractRoots()].filter((root, index, all) => all.indexOf(root) === index);
+	const problems = [];
 	for (const required of REQUIRED_PACKAGES) {
 		let manifestPath;
-		try {
-			manifestPath = requireFrom.resolve(`${required.name}/package.json`);
-		} catch (cause) {
-			throw new Error(`DSH Control Center requires ${required.name}@${SUPPORTED_DSH_VERSION}, but its package manifest cannot be resolved. Remove the Control Center bundle or install the supported DSH release.`, { cause });
+		for (const root of roots) {
+			manifestPath = resolveManifest(root, required.name);
+			if (manifestPath !== void 0) break;
+		}
+		if (manifestPath === void 0) {
+			if (required.name === HOST_CONTRACT) throw new Error(`DSH Control Center requires ${HOST_CONTRACT}@${SUPPORTED_DSH_VERSION}, but its package manifest cannot be resolved. Remove the Control Center bundle or install the supported DSH release.`);
+			continue;
 		}
 		const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
-		if (manifest.name !== required.name || manifest.version !== "0.1.1-rc.2") throw new Error(`DSH Control Center is incompatible with ${required.name}: expected ${SUPPORTED_DSH_VERSION}, resolved ${String(manifest.version)}. Supported DSH source baseline: ${DSH_SOURCE_BASELINE}.`);
-		if (typeof manifest.exports !== "object" || manifest.exports["./package.json"] === void 0) throw new Error(`${required.name}@${SUPPORTED_DSH_VERSION} does not expose ./package.json as required`);
-		if (required.client && manifest.exports["./client"] === void 0) throw new Error(`${required.name}@${SUPPORTED_DSH_VERSION} does not expose ./client as required`);
+		if (manifest.name !== required.name || manifest.version !== "0.1.1-rc.2") {
+			problems.push(`DSH Control Center is incompatible with ${required.name}: expected ${SUPPORTED_DSH_VERSION}, resolved ${String(manifest.version)}. Supported DSH source baseline: ${DSH_SOURCE_BASELINE}.`);
+			continue;
+		}
+		if (typeof manifest.exports !== "object" || manifest.exports["./package.json"] === void 0) {
+			problems.push(`${required.name}@${SUPPORTED_DSH_VERSION} does not expose ./package.json as required`);
+			continue;
+		}
+		if (required.client && manifest.exports["./client"] === void 0) problems.push(`${required.name}@${SUPPORTED_DSH_VERSION} does not expose ./client as required`);
 	}
+	if (problems.length > 0) throw new Error(problems.join(" "));
 }
 //#endregion
 //#region lib/types/translation-prompt.js

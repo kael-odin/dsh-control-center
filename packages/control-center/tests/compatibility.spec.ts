@@ -16,10 +16,14 @@ const required = [
   ['@deepseek-ai/dsh-settings', false],
 ] as const
 
-function fixture(version = SUPPORTED_DSH_VERSION): NodeJS.Require {
+function fixture(
+  version = SUPPORTED_DSH_VERSION,
+  opts: { onlyHostContract?: boolean } = {},
+): NodeJS.Require {
   const root = mkdtempSync(join(tmpdir(), 'control-center-compat-'))
   writeFileSync(join(root, 'package.json'), '{"type":"module"}')
   for (const [name, client] of required) {
+    if (opts.onlyHostContract && name !== '@deepseek-ai/dsh-settings') continue
     const directory = join(root, 'node_modules', name)
     mkdirSync(directory, { recursive: true })
     writeFileSync(join(directory, 'package.json'), JSON.stringify({
@@ -42,5 +46,13 @@ describe('DSH compatibility preflight', () => {
   it('fails before activation when one resolved package version drifts', () => {
     expect(() => assertCompatibleDsh(fixture('0.1.1-rc.1')))
       .toThrow('expected 0.1.1-rc.2, resolved 0.1.1-rc.1')
+  })
+
+  it('accepts a bundled deployment where only the host contract is on the graph', () => {
+    // Packed profiles inline client contract packages into the client bundle,
+    // so only dsh-settings (a dependency) is present on the host graph. The
+    // gate must not reject the profile for the absent client packages.
+    expect(() => assertCompatibleDsh(fixture(SUPPORTED_DSH_VERSION, { onlyHostContract: true })))
+      .not.toThrow()
   })
 })
