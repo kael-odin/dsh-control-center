@@ -179,6 +179,19 @@ function startNativeService() {
           const fonts = await discoverSystemFonts()
           return send(200, { ok: true, fonts })
         }
+        if (req.method === 'POST' && url.pathname === '/dsh-native/zoom') {
+          const raw = await readBody(req)
+          const delta = typeof raw.delta === 'number' ? raw.delta : 0
+          const reset = raw.reset === true
+          const current = mainWindow.webContents.getZoomFactor()
+          const zoom = reset ? 1 : Math.min(2, Math.max(0.5, Number((current + delta).toFixed(1))))
+          mainWindow.webContents.setZoomFactor(zoom)
+          return send(200, { ok: true, zoom })
+        }
+        if (req.method === 'POST' && url.pathname === '/dsh-native/relaunch') {
+          setTimeout(() => { app.relaunch(); app.exit(0) }, 100)
+          return send(200, { ok: true })
+        }
         if (req.method === 'POST' && url.pathname === '/dsh-native/fileDialog') {
           const raw = await readBody(req)
           const opts = raw && raw.properties ? { properties: raw.properties } : { properties: ['openFile'] }
@@ -358,7 +371,7 @@ function createWindow(url, native) {
           shell: true,
           host: 'dsh-control-center',
           version: ${JSON.stringify(process.env.npm_package_version || '0.1.0')},
-          capabilities: ${JSON.stringify(native ? ['window', 'fileDialog', 'notification'] : ['window'])},
+          capabilities: ${JSON.stringify(native ? ['window', 'fileDialog', 'notification', 'fonts', 'zoom', 'relaunch'] : ['window'])},
           ${native ? `nativeUrl: ${JSON.stringify(native.url)}, nativeToken: ${JSON.stringify(native.token)},` : ''}
         };
         window.__DSH_DESKTOP__ = marker;
@@ -425,6 +438,27 @@ function createWindow(url, native) {
         // Electron main owns the micro-service; the renderer talks to it over HTTP).
         if (bridge !== 'REACHED') {
           console.error(`[desktop] native bridge handshake failed: ${bridge}`)
+          app.exit(1)
+          return
+        }
+        const zoom = await mainWindow.webContents.executeJavaScript(
+          `(async () => {
+            const m = globalThis.__DSH_DESKTOP__;
+            try {
+              const call = (body) => fetch(m.nativeUrl + '/dsh-native/zoom', {
+                method: 'POST', headers: { authorization: 'Bearer ' + m.nativeToken, 'content-type': 'application/json' },
+                body: JSON.stringify(body), signal: AbortSignal.timeout(5000),
+              }).then(r => r.json());
+              const initial = await call({ delta: 0 });
+              const raised = await call({ delta: 0.1 });
+              const restored = await call({ delta: 0, reset: true });
+              return initial.ok && raised.ok && restored.ok && raised.zoom > initial.zoom && restored.zoom === 1 ? 'REACHED' : 'BAD';
+            } catch (e) { return 'ERR:' + String(e && e.message); }
+          })()`,
+        )
+        console.log(`[desktop] NATIVE_ZOOM=${zoom}`)
+        if (zoom !== 'REACHED') {
+          console.error(`[desktop] native zoom check failed: ${zoom}`)
           app.exit(1)
           return
         }

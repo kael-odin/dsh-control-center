@@ -127,10 +127,32 @@
   border-color: var(--ring);
 }
 
+.zoomControls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.zoomControls button {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--background-subtle);
+  color: var(--foreground);
+  cursor: pointer;
+}
+
+.zoomControls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
 .staticValue {
   color: var(--muted-foreground);
   font-size: 13px;
 }
+
 
 .desktopTag {
   flex: none;

@@ -107,6 +107,8 @@ export function AppearanceSection({ api, locale }: AppearanceSectionProps) {
   const [cssDraft, setCssDraft] = useState(overrides.customCss)
   // Real native-bridge status text (Electron version) shown by desktop-only rows
   // once the renderer can actually reach the Electron main service.
+  const [zoom, setZoom] = useState(1)
+  const [zoomBusy, setZoomBusy] = useState(false)
   const [fontOptions, setFontOptions] = useState(FONT_OPTIONS)
   const [fontLoading, setFontLoading] = useState(false)
   const [bridgeText, setBridgeText] = useState('')
@@ -161,8 +163,22 @@ export function AppearanceSection({ api, locale }: AppearanceSectionProps) {
   }, [api])
 
   useEffect(() => {
-    overridesRef.current = overrides
-  }, [overrides])
+    if (!hasNativeBridge()) return
+    let active = true
+    setZoomBusy(true)
+    void desktopNativeApi.adjustZoom(0).then(result => {
+      if (active && result.ok && result.zoom !== undefined) setZoom(result.zoom)
+    }).finally(() => { if (active) setZoomBusy(false) })
+    return () => { active = false }
+  }, [])
+
+  const changeZoom = (delta: number, reset = false): void => {
+    if (zoomBusy) return
+    setZoomBusy(true)
+    void desktopNativeApi.adjustZoom(delta, reset).then(result => {
+      if (result.ok && result.zoom !== undefined) setZoom(result.zoom)
+    }).finally(() => { setZoomBusy(false) })
+  }
 
   // Load the authoritative DSH appearance namespace. Legacy browser values are
   // migrated only when the namespace is still at its schema defaults.
@@ -360,12 +376,12 @@ export function AppearanceSection({ api, locale }: AppearanceSectionProps) {
         <SettingDivider />
         <SettingRow>
           <SettingRowTitle>缩放 <span className={css.desktopTag}>桌面</span></SettingRowTitle>
-          <span className={css.staticValue}>{desktopRowValue(bridgeText)}</span>
-        </SettingRow>
-        <SettingDivider />
-        <SettingRow>
-          <SettingRowTitle>右键菜单样式 <span className={css.desktopTag}>桌面</span></SettingRowTitle>
-          <span className={css.staticValue}>{desktopRowValue(bridgeText)}</span>
+          <div className={css.zoomControls}>
+            <button type="button" disabled={!hasNativeBridge() || zoomBusy || zoom <= 0.5} onClick={() => { changeZoom(-0.1) }} aria-label="缩小">−</button>
+            <span className={css.staticValue}>{Math.round(zoom * 100)}%</span>
+            <button type="button" disabled={!hasNativeBridge() || zoomBusy || zoom >= 2} onClick={() => { changeZoom(0.1) }} aria-label="放大">＋</button>
+            {zoom !== 1 && <button type="button" disabled={!hasNativeBridge() || zoomBusy} onClick={() => { changeZoom(0, true) }} aria-label="重置缩放">↺</button>}
+          </div>
         </SettingRow>
         <SettingDivider />
         <SettingRow>
