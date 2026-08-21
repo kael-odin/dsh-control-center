@@ -1,5 +1,5 @@
-export declare const SUPPORTED_DSH_VERSION = "0.1.0-rc.7";
-export declare const DSH_SOURCE_BASELINE = "99f6f02fecdb7dff40c3fbc9470f5907c29f74ca";
+export declare const SUPPORTED_DSH_VERSION = "0.1.0-rc.8";
+export declare const DSH_SOURCE_BASELINE = "b7135e620674ef022a26a1d2cc87b79668790e7a";
 /**
  * Resolve DSH contract packages from the profile dependency root.
  *

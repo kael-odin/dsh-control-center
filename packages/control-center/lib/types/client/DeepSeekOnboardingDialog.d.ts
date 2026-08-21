@@ -10,6 +10,7 @@ import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client';
 import type { SnapshotStore } from '@deepseek-ai/dsh-client-runtime/client';
 import type { InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots';
 import type { ModelsSettingsState, ModelsSettingsStore } from './store.ts';
+import type { SettingsSchemaOperations } from './schema-operations.ts';
 import type { en } from './locales.ts';
 /** Registration-side dependencies of {@link DeepSeekOnboardingDialog}. */
 export interface DeepSeekOnboardingInjected {
@@ -21,6 +22,8 @@ export interface DeepSeekOnboardingInjected {
     controller: ModelsSettingsStore;
     /** Existing wire face reused by the Models credential editor. */
     api: Pick<IApiClient, 'settings' | 'credentials' | 'llm'>;
+    /** Bound schema callbacks for the credential editor's draft ops. */
+    schema: SettingsSchemaOperations;
     /** Feature copy. */
     t: (key: keyof typeof en) => string;
 }

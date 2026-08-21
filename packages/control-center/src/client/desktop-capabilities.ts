@@ -81,6 +81,9 @@ export const desktopNativeApi = {
   async fonts(): Promise<{ ok: boolean; fonts?: string[]; error?: string }> {
     return postJson('/dsh-native/fonts', {}, 10000)
   },
+  async menu(model: unknown): Promise<{ ok: boolean; action?: { type: 'command'; command: string }; error?: string }> {
+    return postJson('/dsh-native/menu', { model })
+  },
   async adjustZoom(delta: number, reset = false): Promise<{ ok: boolean; zoom?: number; error?: string }> {
     return postJson('/dsh-native/zoom', { delta, reset })
   },

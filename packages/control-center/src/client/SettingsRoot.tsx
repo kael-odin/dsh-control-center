@@ -34,7 +34,7 @@ function navIcon(id: string) {
     case 'mcp': return <IconSettings2 size={size} className={cls} />
     case 'websearch': return <IconSearch size={size} className={cls} />
     case 'agent-presets': return <IconUser size={size} className={cls} />
-    case 'plugins': return <IconPackage size={size} className={cls} />
+    case 'control-center-plugins': return <IconPackage size={size} className={cls} />
     case 'general': return <IconSettings2 size={size} className={cls} />
     case 'usage': return <IconActivity size={size} className={cls} />
     case 'data': return <IconHardDrive size={size} className={cls} />

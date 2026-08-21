@@ -1,7 +1,7 @@
 /** Optional settings-header action for opening a file-backed Host document. */
 import type { ReactNode } from 'react';
 import type { PropsLocale, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots';
-import type { SnapshotSelectorHook } from '@deepseek-ai/dsh-client-web-react';
+import type { SnapshotSelectorHook } from '@deepseek-ai/dsh-client-ui-slots';
 import type { SettingsDocumentState, SettingsDocumentStore } from './settings-document-store.ts';
 /** Registrant-owned dependencies of {@link SettingsDocumentAction}. */
 export interface SettingsDocumentActionInjected {

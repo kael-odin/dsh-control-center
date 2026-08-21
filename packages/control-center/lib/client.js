@@ -4,14 +4,171 @@ window.__ModuleLoader__.load({
 		var module = { exports: {} };
 		var exports = module.exports;
 		Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
-		let _deepseek_ai_dsh_client_web_react = require("@deepseek-ai/dsh-client-web-react");
+		//#region \0rolldown/runtime.js
+		var __commonJSMin = (cb, mod) => () => (mod || (cb((mod = { exports: {} }).exports, mod), cb = null), mod.exports);
+		//#endregion
+		let react = require("react");
 		let _deepseek_ai_dsh_client_ui_slots = require("@deepseek-ai/dsh-client-ui-slots");
 		let react_jsx_runtime = require("react/jsx-runtime");
-		let react = require("react");
 		let react_dom = require("react-dom");
 		let _deepseek_ai_dsh_client_ui_primitives = require("@deepseek-ai/dsh-client-ui-primitives");
 		let _deepseek_ai_dsh_client_runtime_client = require("@deepseek-ai/dsh-client-runtime/client");
-		let _deepseek_ai_dsh_client_schema_form = require("@deepseek-ai/dsh-client-schema-form");
+		//#region ../../node_modules/.pnpm/use-sync-external-store@1.2.0_react@18.3.1/node_modules/use-sync-external-store/cjs/use-sync-external-store-shim.production.min.js
+		/**
+		* @license React
+		* use-sync-external-store-shim.production.min.js
+		*
+		* Copyright (c) Facebook, Inc. and its affiliates.
+		*
+		* This source code is licensed under the MIT license found in the
+		* LICENSE file in the root directory of this source tree.
+		*/
+		var require_use_sync_external_store_shim_production_min = /* @__PURE__ */ __commonJSMin(((exports) => {
+			var e = require("react");
+			function h(a, b) {
+				return a === b && (0 !== a || 1 / a === 1 / b) || a !== a && b !== b;
+			}
+			var k = "function" === typeof Object.is ? Object.is : h;
+			var l = e.useState;
+			var m = e.useEffect;
+			var n = e.useLayoutEffect;
+			var p = e.useDebugValue;
+			function q(a, b) {
+				var d = b(), f = l({ inst: {
+					value: d,
+					getSnapshot: b
+				} }), c = f[0].inst, g = f[1];
+				n(function() {
+					c.value = d;
+					c.getSnapshot = b;
+					r(c) && g({ inst: c });
+				}, [
+					a,
+					d,
+					b
+				]);
+				m(function() {
+					r(c) && g({ inst: c });
+					return a(function() {
+						r(c) && g({ inst: c });
+					});
+				}, [a]);
+				p(d);
+				return d;
+			}
+			function r(a) {
+				var b = a.getSnapshot;
+				a = a.value;
+				try {
+					var d = b();
+					return !k(a, d);
+				} catch (f) {
+					return !0;
+				}
+			}
+			function t(a, b) {
+				return b();
+			}
+			var u = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? t : q;
+			exports.useSyncExternalStore = void 0 !== e.useSyncExternalStore ? e.useSyncExternalStore : u;
+		}));
+		//#endregion
+		//#region ../../node_modules/.pnpm/use-sync-external-store@1.2.0_react@18.3.1/node_modules/use-sync-external-store/shim/index.js
+		var require_shim = /* @__PURE__ */ __commonJSMin(((exports, module) => {
+			module.exports = require_use_sync_external_store_shim_production_min();
+		}));
+		//#endregion
+		//#region ../../node_modules/.pnpm/use-sync-external-store@1.2.0_react@18.3.1/node_modules/use-sync-external-store/cjs/use-sync-external-store-shim/with-selector.production.min.js
+		/**
+		* @license React
+		* use-sync-external-store-shim/with-selector.production.min.js
+		*
+		* Copyright (c) Facebook, Inc. and its affiliates.
+		*
+		* This source code is licensed under the MIT license found in the
+		* LICENSE file in the root directory of this source tree.
+		*/
+		var require_with_selector_production_min = /* @__PURE__ */ __commonJSMin(((exports) => {
+			var h = require("react");
+			var n = require_shim();
+			function p(a, b) {
+				return a === b && (0 !== a || 1 / a === 1 / b) || a !== a && b !== b;
+			}
+			var q = "function" === typeof Object.is ? Object.is : p;
+			var r = n.useSyncExternalStore;
+			var t = h.useRef;
+			var u = h.useEffect;
+			var v = h.useMemo;
+			var w = h.useDebugValue;
+			exports.useSyncExternalStoreWithSelector = function(a, b, e, l, g) {
+				var c = t(null);
+				if (null === c.current) {
+					var f = {
+						hasValue: !1,
+						value: null
+					};
+					c.current = f;
+				} else f = c.current;
+				c = v(function() {
+					function a(a) {
+						if (!c) {
+							c = !0;
+							d = a;
+							a = l(a);
+							if (void 0 !== g && f.hasValue) {
+								var b = f.value;
+								if (g(b, a)) return k = b;
+							}
+							return k = a;
+						}
+						b = k;
+						if (q(d, a)) return b;
+						var e = l(a);
+						if (void 0 !== g && g(b, e)) return b;
+						d = a;
+						return k = e;
+					}
+					var c = !1, d, k, m = void 0 === e ? null : e;
+					return [function() {
+						return a(b());
+					}, null === m ? void 0 : function() {
+						return a(m());
+					}];
+				}, [
+					b,
+					e,
+					l,
+					g
+				]);
+				var d = r(a, c[0], c[1]);
+				u(function() {
+					f.hasValue = !0;
+					f.value = d;
+				}, [d]);
+				w(d);
+				return d;
+			};
+		}));
+		//#endregion
+		//#region lib/types/client/bind-snapshot.js
+		var import_with_selector = (/* @__PURE__ */ __commonJSMin(((exports, module) => {
+			module.exports = require_with_selector_production_min();
+		})))();
+		/**
+		* Bind a bare observable source to a typed uSES selector hook.
+		* subscribe/getSnapshot are captured once per source into stable closures
+		* (also re-binds `this` for method-based sources), so components never
+		* resubscribe across renders. Equality defaults to Object.is.
+		* @param w - snapshot source (engine store, Session object, store instance).
+		* @returns the selector hook.
+		*/
+		function bindSnapshotSelector(w) {
+			const subscribe = (fn) => w.subscribe(fn);
+			const getSnapshot = () => w.getSnapshot();
+			return function useSelector(sel, eq) {
+				return (0, import_with_selector.useSyncExternalStoreWithSelector)(subscribe, getSnapshot, void 0, sel, eq);
+			};
+		}
 		const STRICT_JSON = {
 			mode: "strict",
 			typeSymbol: "@dsh-control-center/json",
@@ -162,112 +319,112 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var PaintingWorkspace_module_css_default = {
-			"carouselCard": "_-UrTq_carouselCard",
-			"stripDelete": "_-UrTq_stripDelete",
-			"active": "_-UrTq_active",
-			"addImageButton": "_-UrTq_addImageButton",
-			"roundButton": "_-UrTq_roundButton",
-			"stripHeader": "_-UrTq_stripHeader",
-			"countInput": "_-UrTq_countInput",
-			"composer": "_-UrTq_composer",
-			"newButton": "_-UrTq_newButton",
+			"promptBar": "_-UrTq_promptBar",
+			"surface": "_-UrTq_surface",
+			"showcaseCaption": "_-UrTq_showcaseCaption",
+			"dragging": "_-UrTq_dragging",
+			"toolbarRail": "_-UrTq_toolbarRail",
 			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
-			"skeletonGrid": "_-UrTq_skeletonGrid",
-			"quickPanel": "_-UrTq_quickPanel",
-			"promptDockInner": "_-UrTq_promptDockInner",
-			"quickItem": "_-UrTq_quickItem",
-			"quickItemLabel": "_-UrTq_quickItemLabel",
-			"attachmentDelete": "_-UrTq_attachmentDelete",
-			"promptLib": "_-UrTq_promptLib",
-			"promptLibTitle": "_-UrTq_promptLibTitle",
-			"addPromptOverlay": "_-UrTq_addPromptOverlay",
-			"quickItemIcon": "_-UrTq_quickItemIcon",
-			"cc-strip-loading": "_-UrTq_cc-strip-loading",
-			"paramsPopover": "_-UrTq_paramsPopover",
-			"skeletonCell": "_-UrTq_skeletonCell",
-			"countRow": "_-UrTq_countRow",
-			"promptLibList": "_-UrTq_promptLibList",
-			"manageRow": "_-UrTq_manageRow",
-			"showcaseInner": "_-UrTq_showcaseInner",
-			"modelPill": "_-UrTq_modelPill",
-			"toolbarButton": "_-UrTq_toolbarButton",
-			"countSlider": "_-UrTq_countSlider",
-			"attachmentTile": "_-UrTq_attachmentTile",
-			"cc-cell-blink": "_-UrTq_cc-cell-blink",
-			"promptLibItem": "_-UrTq_promptLibItem",
-			"composerToolbar": "_-UrTq_composerToolbar",
-			"addPromptInput": "_-UrTq_addPromptInput",
-			"artboard": "_-UrTq_artboard",
-			"backButton": "_-UrTq_backButton",
-			"paramsSelect": "_-UrTq_paramsSelect",
+			"promptLibContent": "_-UrTq_promptLibContent",
+			"attachmentTray": "_-UrTq_attachmentTray",
 			"strip": "_-UrTq_strip",
-			"dialogActions": "_-UrTq_dialogActions",
-			"root": "_-UrTq_root",
-			"stripItem": "_-UrTq_stripItem",
-			"centerPane": "_-UrTq_centerPane",
-			"promptDock": "_-UrTq_promptDock",
-			"sizeChip": "_-UrTq_sizeChip",
-			"counterPill": "_-UrTq_counterPill",
-			"promptBarText": "_-UrTq_promptBarText",
-			"thumbEmpty": "_-UrTq_thumbEmpty",
-			"promptLibFooter": "_-UrTq_promptLibFooter",
-			"hidden": "_-UrTq_hidden",
-			"carouselLabel": "_-UrTq_carouselLabel",
-			"artboardEmpty": "_-UrTq_artboardEmpty",
-			"stripEnd": "_-UrTq_stripEnd",
-			"progressText": "_-UrTq_progressText",
-			"promptLibDelete": "_-UrTq_promptLibDelete",
-			"showcaseTitle": "_-UrTq_showcaseTitle",
-			"artboardStage": "_-UrTq_artboardStage",
+			"addPromptInput": "_-UrTq_addPromptInput",
+			"composer": "_-UrTq_composer",
+			"pillSummary": "_-UrTq_pillSummary",
+			"countInput": "_-UrTq_countInput",
+			"promptLibList": "_-UrTq_promptLibList",
+			"showcaseCarousel": "_-UrTq_showcaseCarousel",
+			"thumb": "_-UrTq_thumb",
+			"pillButton": "_-UrTq_pillButton",
+			"paramsPopover": "_-UrTq_paramsPopover",
+			"cc-cell-blink": "_-UrTq_cc-cell-blink",
 			"toolbarDivider": "_-UrTq_toolbarDivider",
-			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
-			"addPromptCard": "_-UrTq_addPromptCard",
+			"promptLibItemMain": "_-UrTq_promptLibItemMain",
+			"promptLibEmpty": "_-UrTq_promptLibEmpty",
+			"showcase": "_-UrTq_showcase",
+			"progressText": "_-UrTq_progressText",
+			"stripEnd": "_-UrTq_stripEnd",
+			"promptDockInner": "_-UrTq_promptDockInner",
+			"skeletonGrid": "_-UrTq_skeletonGrid",
+			"stripProgress": "_-UrTq_stripProgress",
+			"promptLibTitle": "_-UrTq_promptLibTitle",
+			"toolbarButton": "_-UrTq_toolbarButton",
+			"active": "_-UrTq_active",
+			"artboardStage": "_-UrTq_artboardStage",
+			"paramsSelect": "_-UrTq_paramsSelect",
+			"skeletonCell": "_-UrTq_skeletonCell",
+			"carouselCard": "_-UrTq_carouselCard",
+			"stripHeader": "_-UrTq_stripHeader",
+			"carouselLabel": "_-UrTq_carouselLabel",
+			"chevron": "_-UrTq_chevron",
+			"artboard": "_-UrTq_artboard",
+			"frame": "_-UrTq_frame",
+			"promptBarText": "_-UrTq_promptBarText",
+			"sendButton": "_-UrTq_sendButton",
+			"quickItemLabel": "_-UrTq_quickItemLabel",
+			"centerPane": "_-UrTq_centerPane",
+			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
+			"countRow": "_-UrTq_countRow",
+			"addPromptTextarea": "_-UrTq_addPromptTextarea",
+			"dialogActions": "_-UrTq_dialogActions",
+			"modelPill": "_-UrTq_modelPill",
+			"manageCard": "_-UrTq_manageCard",
+			"manageRow": "_-UrTq_manageRow",
+			"counterPill": "_-UrTq_counterPill",
+			"muted": "_-UrTq_muted",
+			"artboardEmpty": "_-UrTq_artboardEmpty",
+			"addPromptField": "_-UrTq_addPromptField",
+			"root": "_-UrTq_root",
+			"attachmentTile": "_-UrTq_attachmentTile",
 			"paramsField": "_-UrTq_paramsField",
+			"quickItem": "_-UrTq_quickItem",
+			"roundButton": "_-UrTq_roundButton",
+			"promptLibItem": "_-UrTq_promptLibItem",
+			"attachmentDelete": "_-UrTq_attachmentDelete",
+			"composerTextarea": "_-UrTq_composerTextarea",
+			"showcaseInner": "_-UrTq_showcaseInner",
+			"thumbEmpty": "_-UrTq_thumbEmpty",
+			"composerToolbar": "_-UrTq_composerToolbar",
+			"imageBox": "_-UrTq_imageBox",
+			"centerStage": "_-UrTq_centerStage",
+			"pauseButton": "_-UrTq_pauseButton",
+			"sizeLabel": "_-UrTq_sizeLabel",
+			"addPromptOverlay": "_-UrTq_addPromptOverlay",
+			"btn": "_-UrTq_btn",
+			"btnPrimary": "_-UrTq_btnPrimary",
+			"manageRowContent": "_-UrTq_manageRowContent",
+			"quickItemIcon": "_-UrTq_quickItemIcon",
+			"manageRowActions": "_-UrTq_manageRowActions",
+			"manageRowBtnDanger": "_-UrTq_manageRowBtnDanger",
+			"quickPanel": "_-UrTq_quickPanel",
+			"newButton": "_-UrTq_newButton",
+			"showcaseTitle": "_-UrTq_showcaseTitle",
 			"errorBanner": "_-UrTq_errorBanner",
 			"portalPanel": "_-UrTq_portalPanel",
-			"promptLibItemMain": "_-UrTq_promptLibItemMain",
-			"chevron": "_-UrTq_chevron",
-			"frame": "_-UrTq_frame",
-			"imageBox": "_-UrTq_imageBox",
-			"dragging": "_-UrTq_dragging",
-			"manageList": "_-UrTq_manageList",
-			"manageRowContent": "_-UrTq_manageRowContent",
-			"sizeLabel": "_-UrTq_sizeLabel",
-			"addPromptTextarea": "_-UrTq_addPromptTextarea",
-			"btnPrimary": "_-UrTq_btnPrimary",
 			"manageRowMain": "_-UrTq_manageRowMain",
-			"attachmentTray": "_-UrTq_attachmentTray",
-			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
-			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
-			"manageRowActions": "_-UrTq_manageRowActions",
-			"promptBar": "_-UrTq_promptBar",
-			"manageRowBtn": "_-UrTq_manageRowBtn",
-			"manageCard": "_-UrTq_manageCard",
-			"showcaseCaption": "_-UrTq_showcaseCaption",
-			"pauseButton": "_-UrTq_pauseButton",
+			"countSlider": "_-UrTq_countSlider",
+			"addImageButton": "_-UrTq_addImageButton",
+			"stripDelete": "_-UrTq_stripDelete",
+			"promptLib": "_-UrTq_promptLib",
+			"promptLibDelete": "_-UrTq_promptLibDelete",
 			"selected": "_-UrTq_selected",
-			"toolbarRail": "_-UrTq_toolbarRail",
-			"ratioThumb": "_-UrTq_ratioThumb",
-			"muted": "_-UrTq_muted",
-			"composerTextarea": "_-UrTq_composerTextarea",
-			"promptLibContent": "_-UrTq_promptLibContent",
-			"btn": "_-UrTq_btn",
+			"manageRowBtn": "_-UrTq_manageRowBtn",
 			"manageRowTitle": "_-UrTq_manageRowTitle",
-			"showcaseCarousel": "_-UrTq_showcaseCarousel",
-			"centerStage": "_-UrTq_centerStage",
-			"manageRowBtnDanger": "_-UrTq_manageRowBtnDanger",
-			"thumb": "_-UrTq_thumb",
-			"sendButton": "_-UrTq_sendButton",
+			"promptDock": "_-UrTq_promptDock",
+			"promptLibFooter": "_-UrTq_promptLibFooter",
 			"sizeGrid": "_-UrTq_sizeGrid",
-			"stripProgress": "_-UrTq_stripProgress",
-			"promptLibEmpty": "_-UrTq_promptLibEmpty",
-			"addPromptField": "_-UrTq_addPromptField",
+			"ratioThumb": "_-UrTq_ratioThumb",
+			"manageList": "_-UrTq_manageList",
+			"addPromptCard": "_-UrTq_addPromptCard",
+			"composerTextRow": "_-UrTq_composerTextRow",
+			"hidden": "_-UrTq_hidden",
+			"stripItem": "_-UrTq_stripItem",
+			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
 			"carouselCardImage": "_-UrTq_carouselCardImage",
-			"pillButton": "_-UrTq_pillButton",
-			"pillSummary": "_-UrTq_pillSummary",
-			"showcase": "_-UrTq_showcase",
-			"surface": "_-UrTq_surface",
-			"composerTextRow": "_-UrTq_composerTextRow"
+			"sizeChip": "_-UrTq_sizeChip",
+			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
+			"backButton": "_-UrTq_backButton",
+			"cc-strip-loading": "_-UrTq_cc-strip-loading"
 		};
 		//#endregion
 		//#region lib/types/client/painting-icons.js
@@ -968,27 +1125,27 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var Combobox_module_css_default = {
-			"popoverPortal": "PJZ1pG_popoverPortal",
-			"footerButton": "PJZ1pG_footerButton",
-			"trigger": "PJZ1pG_trigger",
-			"optionText": "PJZ1pG_optionText",
-			"empty": "PJZ1pG_empty",
-			"optionSub": "PJZ1pG_optionSub",
-			"optionIcon": "PJZ1pG_optionIcon",
-			"group": "PJZ1pG_group",
-			"groupTitle": "PJZ1pG_groupTitle",
-			"optionActive": "PJZ1pG_optionActive",
-			"root": "PJZ1pG_root",
-			"triggerIcon": "PJZ1pG_triggerIcon",
-			"optionLabel": "PJZ1pG_optionLabel",
-			"option": "PJZ1pG_option",
-			"searchWrap": "PJZ1pG_searchWrap",
-			"searchIcon": "PJZ1pG_searchIcon",
 			"footer": "PJZ1pG_footer",
+			"option": "PJZ1pG_option",
 			"searchInput": "PJZ1pG_searchInput",
-			"triggerChevron": "PJZ1pG_triggerChevron",
+			"optionIcon": "PJZ1pG_optionIcon",
+			"root": "PJZ1pG_root",
+			"searchIcon": "PJZ1pG_searchIcon",
+			"optionActive": "PJZ1pG_optionActive",
+			"popoverPortal": "PJZ1pG_popoverPortal",
 			"triggerLabel": "PJZ1pG_triggerLabel",
-			"list": "PJZ1pG_list"
+			"triggerIcon": "PJZ1pG_triggerIcon",
+			"searchWrap": "PJZ1pG_searchWrap",
+			"empty": "PJZ1pG_empty",
+			"footerButton": "PJZ1pG_footerButton",
+			"group": "PJZ1pG_group",
+			"optionLabel": "PJZ1pG_optionLabel",
+			"optionSub": "PJZ1pG_optionSub",
+			"triggerChevron": "PJZ1pG_triggerChevron",
+			"optionText": "PJZ1pG_optionText",
+			"list": "PJZ1pG_list",
+			"groupTitle": "PJZ1pG_groupTitle",
+			"trigger": "PJZ1pG_trigger"
 		};
 		//#endregion
 		//#region lib/types/client/Combobox.js
@@ -3172,115 +3329,115 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TranslationWorkspace_module_css_default = {
-			"md": "_8lesPa_md",
-			"detailBack": "_8lesPa_detailBack",
-			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
-			"langRow": "_8lesPa_langRow",
-			"outputArea": "_8lesPa_outputArea",
-			"langInput": "_8lesPa_langInput",
-			"detailBlockHeader": "_8lesPa_detailBlockHeader",
-			"settingsSection": "_8lesPa_settingsSection",
-			"stopBtn": "_8lesPa_stopBtn",
-			"count": "_8lesPa_count",
-			"settingsTextarea": "_8lesPa_settingsTextarea",
-			"backButton": "_8lesPa_backButton",
-			"backdrop": "_8lesPa_backdrop",
-			"langName": "_8lesPa_langName",
-			"langFormLabel": "_8lesPa_langFormLabel",
-			"cc-slide-in": "_8lesPa_cc-slide-in",
-			"settingLabel": "_8lesPa_settingLabel",
-			"btnPrimary": "_8lesPa_btnPrimary",
-			"countBadge": "_8lesPa_countBadge",
-			"uploadIcon": "_8lesPa_uploadIcon",
-			"outputPane": "_8lesPa_outputPane",
-			"cc-fade": "_8lesPa_cc-fade",
-			"historyRowMeta": "_8lesPa_historyRowMeta",
-			"langFormRow": "_8lesPa_langFormRow",
-			"settingHint": "_8lesPa_settingHint",
-			"resetLink": "_8lesPa_resetLink",
-			"segmented": "_8lesPa_segmented",
-			"errorBanner": "_8lesPa_errorBanner",
-			"paneCorner": "_8lesPa_paneCorner",
-			"modelSelectWrap": "_8lesPa_modelSelectWrap",
-			"clearBtn": "_8lesPa_clearBtn",
-			"helpWrap": "_8lesPa_helpWrap",
-			"panelTitle": "_8lesPa_panelTitle",
-			"confirmCard": "_8lesPa_confirmCard",
-			"rowTarget": "_8lesPa_rowTarget",
-			"sidePanel": "_8lesPa_sidePanel",
-			"detailActions": "_8lesPa_detailActions",
-			"copy": "_8lesPa_copy",
-			"rightCluster": "_8lesPa_rightCluster",
-			"detailMeta": "_8lesPa_detailMeta",
-			"langForm": "_8lesPa_langForm",
-			"langSelect": "_8lesPa_langSelect",
-			"starFill": "_8lesPa_starFill",
-			"translating": "_8lesPa_translating",
-			"langFormActions": "_8lesPa_langFormActions",
-			"pairRow": "_8lesPa_pairRow",
-			"spacer": "_8lesPa_spacer",
-			"panes": "_8lesPa_panes",
-			"historyList": "_8lesPa_historyList",
-			"pane": "_8lesPa_pane",
-			"chip": "_8lesPa_chip",
-			"translateBtn": "_8lesPa_translateBtn",
-			"cc-spin": "_8lesPa_cc-spin",
 			"panelHeader": "_8lesPa_panelHeader",
-			"iconBtn": "_8lesPa_iconBtn",
-			"detailBlockTarget": "_8lesPa_detailBlockTarget",
-			"settingsEmpty": "_8lesPa_settingsEmpty",
-			"helpBubble": "_8lesPa_helpBubble",
-			"switch": "_8lesPa_switch",
-			"langRowActions": "_8lesPa_langRowActions",
-			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
-			"swapBtn": "_8lesPa_swapBtn",
-			"on": "_8lesPa_on",
-			"uploadIcons": "_8lesPa_uploadIcons",
-			"paneFooter": "_8lesPa_paneFooter",
-			"confirmActions": "_8lesPa_confirmActions",
-			"langSelectWrap": "_8lesPa_langSelectWrap",
-			"historyRow": "_8lesPa_historyRow",
-			"inputArea": "_8lesPa_inputArea",
-			"helpIcon": "_8lesPa_helpIcon",
-			"detailText": "_8lesPa_detailText",
-			"langFormError": "_8lesPa_langFormError",
-			"langChevron": "_8lesPa_langChevron",
-			"panelBodyScroll": "_8lesPa_panelBodyScroll",
-			"starBtn": "_8lesPa_starBtn",
-			"historyEmpty": "_8lesPa_historyEmpty",
-			"switchRow": "_8lesPa_switchRow",
-			"loadMore": "_8lesPa_loadMore",
-			"pairChip": "_8lesPa_pairChip",
-			"langCode": "_8lesPa_langCode",
-			"reuse": "_8lesPa_reuse",
-			"switchTrack": "_8lesPa_switchTrack",
-			"btn": "_8lesPa_btn",
-			"confirmTitle": "_8lesPa_confirmTitle",
-			"rowSource": "_8lesPa_rowSource",
-			"confirmText": "_8lesPa_confirmText",
-			"root": "_8lesPa_root",
-			"success": "_8lesPa_success",
-			"chipTarget": "_8lesPa_chipTarget",
-			"rowTime": "_8lesPa_rowTime",
-			"visible": "_8lesPa_visible",
-			"detailAction": "_8lesPa_detailAction",
-			"destructive": "_8lesPa_destructive",
+			"segmented": "_8lesPa_segmented",
 			"detailBlock": "_8lesPa_detailBlock",
-			"panelBody": "_8lesPa_panelBody",
-			"uploadZone": "_8lesPa_uploadZone",
-			"detailBlockLabel": "_8lesPa_detailBlockLabel",
-			"segItem": "_8lesPa_segItem",
-			"modelSelect": "_8lesPa_modelSelect",
-			"settingRow": "_8lesPa_settingRow",
-			"sectionTitle": "_8lesPa_sectionTitle",
-			"confirmOverlay": "_8lesPa_confirmOverlay",
+			"langAdd": "_8lesPa_langAdd",
+			"chipTarget": "_8lesPa_chipTarget",
+			"topBar": "_8lesPa_topBar",
+			"stopBtn": "_8lesPa_stopBtn",
 			"spinner": "_8lesPa_spinner",
 			"active": "_8lesPa_active",
-			"chipArrow": "_8lesPa_chipArrow",
-			"textareaScroll": "_8lesPa_textareaScroll",
-			"langAdd": "_8lesPa_langAdd",
 			"smallIconBtn": "_8lesPa_smallIconBtn",
-			"topBar": "_8lesPa_topBar"
+			"md": "_8lesPa_md",
+			"historyList": "_8lesPa_historyList",
+			"panelBody": "_8lesPa_panelBody",
+			"starFill": "_8lesPa_starFill",
+			"detailBack": "_8lesPa_detailBack",
+			"settingHint": "_8lesPa_settingHint",
+			"langRowActions": "_8lesPa_langRowActions",
+			"langForm": "_8lesPa_langForm",
+			"success": "_8lesPa_success",
+			"langSelect": "_8lesPa_langSelect",
+			"modelSelect": "_8lesPa_modelSelect",
+			"pane": "_8lesPa_pane",
+			"langFormRow": "_8lesPa_langFormRow",
+			"iconBtn": "_8lesPa_iconBtn",
+			"langInput": "_8lesPa_langInput",
+			"btnPrimary": "_8lesPa_btnPrimary",
+			"cc-fade": "_8lesPa_cc-fade",
+			"historyRow": "_8lesPa_historyRow",
+			"settingLabel": "_8lesPa_settingLabel",
+			"modelSelectWrap": "_8lesPa_modelSelectWrap",
+			"panelTitle": "_8lesPa_panelTitle",
+			"copy": "_8lesPa_copy",
+			"sectionTitle": "_8lesPa_sectionTitle",
+			"pairChip": "_8lesPa_pairChip",
+			"countBadge": "_8lesPa_countBadge",
+			"langSelectWrap": "_8lesPa_langSelectWrap",
+			"panes": "_8lesPa_panes",
+			"detailBlockTarget": "_8lesPa_detailBlockTarget",
+			"paneCorner": "_8lesPa_paneCorner",
+			"chip": "_8lesPa_chip",
+			"detailText": "_8lesPa_detailText",
+			"clearBtn": "_8lesPa_clearBtn",
+			"settingsTextarea": "_8lesPa_settingsTextarea",
+			"resetLink": "_8lesPa_resetLink",
+			"langFormError": "_8lesPa_langFormError",
+			"loadMore": "_8lesPa_loadMore",
+			"settingsEmpty": "_8lesPa_settingsEmpty",
+			"sidePanel": "_8lesPa_sidePanel",
+			"rowTime": "_8lesPa_rowTime",
+			"inputArea": "_8lesPa_inputArea",
+			"count": "_8lesPa_count",
+			"confirmText": "_8lesPa_confirmText",
+			"rowSource": "_8lesPa_rowSource",
+			"errorBanner": "_8lesPa_errorBanner",
+			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
+			"helpWrap": "_8lesPa_helpWrap",
+			"uploadZone": "_8lesPa_uploadZone",
+			"switchRow": "_8lesPa_switchRow",
+			"cc-slide-in": "_8lesPa_cc-slide-in",
+			"starBtn": "_8lesPa_starBtn",
+			"visible": "_8lesPa_visible",
+			"swapBtn": "_8lesPa_swapBtn",
+			"paneFooter": "_8lesPa_paneFooter",
+			"cc-spin": "_8lesPa_cc-spin",
+			"detailBlockLabel": "_8lesPa_detailBlockLabel",
+			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
+			"switch": "_8lesPa_switch",
+			"langCode": "_8lesPa_langCode",
+			"btn": "_8lesPa_btn",
+			"detailMeta": "_8lesPa_detailMeta",
+			"confirmActions": "_8lesPa_confirmActions",
+			"helpIcon": "_8lesPa_helpIcon",
+			"helpBubble": "_8lesPa_helpBubble",
+			"destructive": "_8lesPa_destructive",
+			"root": "_8lesPa_root",
+			"backdrop": "_8lesPa_backdrop",
+			"detailActions": "_8lesPa_detailActions",
+			"reuse": "_8lesPa_reuse",
+			"settingsSection": "_8lesPa_settingsSection",
+			"confirmOverlay": "_8lesPa_confirmOverlay",
+			"backButton": "_8lesPa_backButton",
+			"historyEmpty": "_8lesPa_historyEmpty",
+			"detailBlockHeader": "_8lesPa_detailBlockHeader",
+			"detailAction": "_8lesPa_detailAction",
+			"translating": "_8lesPa_translating",
+			"langRow": "_8lesPa_langRow",
+			"langChevron": "_8lesPa_langChevron",
+			"pairRow": "_8lesPa_pairRow",
+			"chipArrow": "_8lesPa_chipArrow",
+			"uploadIcons": "_8lesPa_uploadIcons",
+			"textareaScroll": "_8lesPa_textareaScroll",
+			"segItem": "_8lesPa_segItem",
+			"confirmCard": "_8lesPa_confirmCard",
+			"confirmTitle": "_8lesPa_confirmTitle",
+			"uploadIcon": "_8lesPa_uploadIcon",
+			"translateBtn": "_8lesPa_translateBtn",
+			"outputArea": "_8lesPa_outputArea",
+			"rowTarget": "_8lesPa_rowTarget",
+			"spacer": "_8lesPa_spacer",
+			"on": "_8lesPa_on",
+			"langFormLabel": "_8lesPa_langFormLabel",
+			"panelBodyScroll": "_8lesPa_panelBodyScroll",
+			"outputPane": "_8lesPa_outputPane",
+			"switchTrack": "_8lesPa_switchTrack",
+			"langName": "_8lesPa_langName",
+			"rightCluster": "_8lesPa_rightCluster",
+			"historyRowMeta": "_8lesPa_historyRowMeta",
+			"settingRow": "_8lesPa_settingRow",
+			"langFormActions": "_8lesPa_langFormActions"
 		};
 		//#endregion
 		//#region lib/types/client/panel-ui.js
@@ -3288,13 +3445,14 @@ window.__ModuleLoader__.load({
 		* Shared Cherry-faithful panel primitives for the translate side panels:
 		* switch, segmented control, icon button, confirm dialog, copy feedback.
 		*/
-		function Switch({ checked, onChange, label }) {
+		function Switch({ checked, onChange, label, disabled = false }) {
 			return (0, react_jsx_runtime.jsxs)("label", {
 				className: TranslationWorkspace_module_css_default.switch,
 				title: label,
 				children: [(0, react_jsx_runtime.jsx)("input", {
 					type: "checkbox",
 					checked,
+					disabled,
 					onChange: (event) => {
 						onChange(event.target.checked);
 					}
@@ -3971,139 +4129,141 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var KnowledgeWorkspace_module_css_default = {
-			"clamped": "uHDY1a_clamped",
-			"split": "uHDY1a_split",
-			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
+			"navRowName": "uHDY1a_navRowName",
+			"advancedToggle": "uHDY1a_advancedToggle",
 			"recallBody": "uHDY1a_recallBody",
-			"navRowMenu": "uHDY1a_navRowMenu",
 			"menuItem": "uHDY1a_menuItem",
-			"detailHeaderActions": "uHDY1a_detailHeaderActions",
-			"ragSection": "uHDY1a_ragSection",
-			"cc-spin": "uHDY1a_cc-spin",
-			"detailEmpty": "uHDY1a_detailEmpty",
-			"gridHeader": "uHDY1a_gridHeader",
-			"recallCopy": "uHDY1a_recallCopy",
-			"sourceUpdated": "uHDY1a_sourceUpdated",
-			"gridScroll": "uHDY1a_gridScroll",
-			"ragFieldRow": "uHDY1a_ragFieldRow",
-			"root": "uHDY1a_root",
-			"recallInputWrap": "uHDY1a_recallInputWrap",
-			"recallCardHeader": "uHDY1a_recallCardHeader",
-			"btn": "uHDY1a_btn",
-			"btnPrimary": "uHDY1a_btnPrimary",
 			"errorBanner": "uHDY1a_errorBanner",
-			"notice": "uHDY1a_notice",
-			"dialogInput": "uHDY1a_dialogInput",
-			"detailEmptyHint": "uHDY1a_detailEmptyHint",
-			"recallSubmit": "uHDY1a_recallSubmit",
-			"navEmpty": "uHDY1a_navEmpty",
-			"statusReady": "uHDY1a_statusReady",
 			"sourceTypeCards": "uHDY1a_sourceTypeCards",
-			"advancedChevronOpen": "uHDY1a_advancedChevronOpen",
-			"dialogFieldRow": "uHDY1a_dialogFieldRow",
-			"advancedBody": "uHDY1a_advancedBody",
-			"recallRank": "uHDY1a_recallRank",
-			"navRow": "uHDY1a_navRow",
-			"navCreate": "uHDY1a_navCreate",
-			"navigator": "uHDY1a_navigator",
-			"gridRow": "uHDY1a_gridRow",
-			"recallSummary": "uHDY1a_recallSummary",
-			"sourcesEmpty": "uHDY1a_sourcesEmpty",
-			"recallSource": "uHDY1a_recallSource",
-			"statusSpinner": "uHDY1a_statusSpinner",
-			"indexButton": "uHDY1a_indexButton",
-			"recallInput": "uHDY1a_recallInput",
-			"dialogActions": "uHDY1a_dialogActions",
-			"ragLabel": "uHDY1a_ragLabel",
-			"ragReadonly": "uHDY1a_ragReadonly",
-			"recallScore": "uHDY1a_recallScore",
-			"ragFooter": "uHDY1a_ragFooter",
-			"success": "uHDY1a_success",
-			"ragSelectWrap": "uHDY1a_ragSelectWrap",
-			"addSourceButton": "uHDY1a_addSourceButton",
-			"dataHeaderActions": "uHDY1a_dataHeaderActions",
-			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
-			"dataHeader": "uHDY1a_dataHeader",
-			"statusFailed": "uHDY1a_statusFailed",
-			"ragSelect": "uHDY1a_ragSelect",
 			"destructive": "uHDY1a_destructive",
-			"dialogTextarea": "uHDY1a_dialogTextarea",
-			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
-			"sourceName": "uHDY1a_sourceName",
-			"dialogCard": "uHDY1a_dialogCard",
-			"dialogOverlay": "uHDY1a_dialogOverlay",
-			"active": "uHDY1a_active",
+			"recallChunkIndex": "uHDY1a_recallChunkIndex",
+			"navigator": "uHDY1a_navigator",
+			"indexButton": "uHDY1a_indexButton",
 			"detailEmptyTitle": "uHDY1a_detailEmptyTitle",
 			"navScroll": "uHDY1a_navScroll",
-			"statusBadge": "uHDY1a_statusBadge",
+			"dataHeader": "uHDY1a_dataHeader",
 			"sourceTypeCard": "uHDY1a_sourceTypeCard",
-			"recallBar": "uHDY1a_recallBar",
-			"sourceIcon": "uHDY1a_sourceIcon",
-			"recallResults": "uHDY1a_recallResults",
-			"statusIndexing": "uHDY1a_statusIndexing",
-			"recallEmpty": "uHDY1a_recallEmpty",
-			"ragField": "uHDY1a_ragField",
-			"ragHint": "uHDY1a_ragHint",
-			"dialogSelect": "uHDY1a_dialogSelect",
-			"ragTitle": "uHDY1a_ragTitle",
-			"dataPanel": "uHDY1a_dataPanel",
-			"ragNumberFull": "uHDY1a_ragNumberFull",
-			"menuPopover": "uHDY1a_menuPopover",
-			"detailHeader": "uHDY1a_detailHeader",
-			"sourceType": "uHDY1a_sourceType",
-			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
-			"dialogField": "uHDY1a_dialogField",
-			"ghostButton": "uHDY1a_ghostButton",
-			"recallChunkIndex": "uHDY1a_recallChunkIndex",
-			"dialogHint": "uHDY1a_dialogHint",
-			"ragBody": "uHDY1a_ragBody",
-			"detail": "uHDY1a_detail",
-			"ragSliderRow": "uHDY1a_ragSliderRow",
-			"ragSlider": "uHDY1a_ragSlider",
-			"navRowName": "uHDY1a_navRowName",
-			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
+			"recallScore": "uHDY1a_recallScore",
+			"clamped": "uHDY1a_clamped",
+			"btn": "uHDY1a_btn",
+			"success": "uHDY1a_success",
+			"dialogActions": "uHDY1a_dialogActions",
 			"rowMenu": "uHDY1a_rowMenu",
-			"recallCard": "uHDY1a_recallCard",
-			"ragNumber": "uHDY1a_ragNumber",
+			"navCreate": "uHDY1a_navCreate",
+			"dialogHint": "uHDY1a_dialogHint",
+			"ragHint": "uHDY1a_ragHint",
+			"detailHeader": "uHDY1a_detailHeader",
+			"recallInputWrap": "uHDY1a_recallInputWrap",
+			"ragFieldRow": "uHDY1a_ragFieldRow",
+			"statusIndexing": "uHDY1a_statusIndexing",
 			"dialogSliderRow": "uHDY1a_dialogSliderRow",
+			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
+			"recallSource": "uHDY1a_recallSource",
+			"dataPanel": "uHDY1a_dataPanel",
+			"navRowMenu": "uHDY1a_navRowMenu",
+			"recallInput": "uHDY1a_recallInput",
+			"ragSliderRow": "uHDY1a_ragSliderRow",
+			"active": "uHDY1a_active",
+			"dialogInput": "uHDY1a_dialogInput",
+			"detailEmptyHint": "uHDY1a_detailEmptyHint",
+			"dialogSelect": "uHDY1a_dialogSelect",
+			"addSourceButton": "uHDY1a_addSourceButton",
+			"dataHeaderActions": "uHDY1a_dataHeaderActions",
+			"statusReady": "uHDY1a_statusReady",
+			"gridScroll": "uHDY1a_gridScroll",
+			"sourceUpdated": "uHDY1a_sourceUpdated",
+			"recallBar": "uHDY1a_recallBar",
+			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
+			"gridRow": "uHDY1a_gridRow",
+			"ragSection": "uHDY1a_ragSection",
+			"ragTitle": "uHDY1a_ragTitle",
+			"menuPopover": "uHDY1a_menuPopover",
+			"split": "uHDY1a_split",
+			"navEmpty": "uHDY1a_navEmpty",
+			"root": "uHDY1a_root",
+			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
+			"recallCopy": "uHDY1a_recallCopy",
+			"recallEmpty": "uHDY1a_recallEmpty",
+			"ragLabel": "uHDY1a_ragLabel",
+			"navRow": "uHDY1a_navRow",
+			"dialogFieldRow": "uHDY1a_dialogFieldRow",
+			"ragSelect": "uHDY1a_ragSelect",
+			"ghostButton": "uHDY1a_ghostButton",
+			"recallResults": "uHDY1a_recallResults",
+			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
+			"statusBadge": "uHDY1a_statusBadge",
+			"ragBody": "uHDY1a_ragBody",
+			"sourcesEmpty": "uHDY1a_sourcesEmpty",
+			"ragNumber": "uHDY1a_ragNumber",
+			"ragNumberFull": "uHDY1a_ragNumberFull",
+			"gridHeader": "uHDY1a_gridHeader",
+			"recallSubmit": "uHDY1a_recallSubmit",
+			"btnPrimary": "uHDY1a_btnPrimary",
+			"dialogTextarea": "uHDY1a_dialogTextarea",
+			"ragField": "uHDY1a_ragField",
+			"recallCard": "uHDY1a_recallCard",
+			"statusSpinner": "uHDY1a_statusSpinner",
+			"recallRank": "uHDY1a_recallRank",
+			"detailEmpty": "uHDY1a_detailEmpty",
+			"sourceType": "uHDY1a_sourceType",
+			"dialogField": "uHDY1a_dialogField",
+			"cc-spin": "uHDY1a_cc-spin",
+			"recallCardHeader": "uHDY1a_recallCardHeader",
+			"ragSelectWrap": "uHDY1a_ragSelectWrap",
+			"ragReadonly": "uHDY1a_ragReadonly",
+			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
+			"advancedBody": "uHDY1a_advancedBody",
 			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
-			"advancedToggle": "uHDY1a_advancedToggle"
+			"dialogCard": "uHDY1a_dialogCard",
+			"detail": "uHDY1a_detail",
+			"dialogOverlay": "uHDY1a_dialogOverlay",
+			"statusFailed": "uHDY1a_statusFailed",
+			"recallSummary": "uHDY1a_recallSummary",
+			"ragSlider": "uHDY1a_ragSlider",
+			"ragFooter": "uHDY1a_ragFooter",
+			"notice": "uHDY1a_notice",
+			"detailHeaderActions": "uHDY1a_detailHeaderActions",
+			"sourceIcon": "uHDY1a_sourceIcon",
+			"advancedChevronOpen": "uHDY1a_advancedChevronOpen",
+			"sourceName": "uHDY1a_sourceName"
 		};
 		//#endregion
 		//#region lib/types/client/desktop-capabilities.js
-		/**
-		* Desktop-environment detection for the Control Center renderer.
-		*
-		* The desktop shell (`apps/desktop`) injects `window.__DSH_DESKTOP__` into the
-		* renderer it owns. A plain browser tab loading the same DSH surface never sees
-		* it, so the web UI can honestly distinguish "wrapped by the desktop shell"
-		* from "open in a browser" and flip its "需要桌面版" rows / capability gates.
-		*
-		* Reading is lazy (the marker may arrive after the first render); components
-		* read it when they mount/render, and can subscribe to the
-		* `dsh-desktop-ready` custom event to re-evaluate.
-		* @module
-		*/
-		/** Read the desktop marker injected by the shell, or `null` in a browser tab. */
 		function getDesktopCapabilities() {
 			const marker = globalThis.__DSH_DESKTOP__;
 			return marker && marker.shell === true ? marker : null;
 		}
-		/** Whether this renderer is owned by the desktop shell. */
 		function isDesktopEnv() {
 			return getDesktopCapabilities() !== null;
 		}
-		/** True when the native bridge is up (renderer can reach Electron via HTTP). */
 		function hasNativeBridge() {
 			const m = getDesktopCapabilities();
 			return Boolean(m?.nativeUrl && m?.nativeToken);
 		}
-		/**
-		* Token-protected client for Electron's native bridge (loopback micro-service
-		* hosted by the shell's Electron main). Uses the marker's nativeUrl/nativeToken.
-		*/
+		async function postJson(path, body, timeoutMs = 1e4) {
+			const m = getDesktopCapabilities();
+			if (!m?.nativeUrl || !m.nativeToken) return {
+				ok: false,
+				error: "native bridge unavailable"
+			};
+			try {
+				return await (await fetch(`${m.nativeUrl}${path}`, {
+					method: "POST",
+					headers: {
+						authorization: `Bearer ${m.nativeToken}`,
+						"content-type": "application/json"
+					},
+					body: JSON.stringify(body),
+					signal: AbortSignal.timeout(timeoutMs)
+				})).json();
+			} catch (e) {
+				return {
+					ok: false,
+					error: String(e?.message ?? e)
+				};
+			}
+		}
 		const desktopNativeApi = {
-			/** Probe the bridge — confirms the Electron main service is reachable. */
 			async status() {
 				const m = getDesktopCapabilities();
 				if (!m?.nativeUrl || !m.nativeToken) return {
@@ -4122,81 +4282,32 @@ window.__ModuleLoader__.load({
 					};
 				}
 			},
-			/** Open the system file dialog (Electron dialog.showOpenDialog via main). */
 			async pickFile(properties = ["openFile"]) {
-				const m = getDesktopCapabilities();
-				if (!m?.nativeUrl || !m.nativeToken) return {
-					ok: false,
-					error: "native bridge unavailable"
-				};
-				try {
-					return await (await fetch(`${m.nativeUrl}/dsh-native/fileDialog`, {
-						method: "POST",
-						headers: {
-							authorization: `Bearer ${m.nativeToken}`,
-							"content-type": "application/json"
-						},
-						body: JSON.stringify({ properties }),
-						signal: AbortSignal.timeout(6e4)
-					})).json();
-				} catch (e) {
-					return {
-						ok: false,
-						error: String(e?.message ?? e)
-					};
-				}
+				return postJson("/dsh-native/fileDialog", { properties }, 6e4);
 			},
-			/** Read a local file the user just picked via the native dialog (confined to
-			* the last-picked paths by the main-process bridge). */
 			async readFile(path) {
-				const m = getDesktopCapabilities();
-				if (!m?.nativeUrl || !m.nativeToken) return {
-					ok: false,
-					error: "native bridge unavailable"
-				};
-				try {
-					return await (await fetch(`${m.nativeUrl}/dsh-native/readFile`, {
-						method: "POST",
-						headers: {
-							authorization: `Bearer ${m.nativeToken}`,
-							"content-type": "application/json"
-						},
-						body: JSON.stringify({ path }),
-						signal: AbortSignal.timeout(6e4)
-					})).json();
-				} catch (e) {
-					return {
-						ok: false,
-						error: String(e?.message ?? e)
-					};
-				}
+				return postJson("/dsh-native/readFile", { path }, 6e4);
 			},
-			/** Send a system notification (Electron Notification via main). */
+			async fonts() {
+				return postJson("/dsh-native/fonts", {}, 1e4);
+			},
+			async menu(model) {
+				return postJson("/dsh-native/menu", { model });
+			},
+			async adjustZoom(delta, reset = false) {
+				return postJson("/dsh-native/zoom", {
+					delta,
+					reset
+				});
+			},
+			async relaunch() {
+				return postJson("/dsh-native/relaunch", {});
+			},
 			async notify(title, body = "") {
-				const m = getDesktopCapabilities();
-				if (!m?.nativeUrl || !m.nativeToken) return {
-					ok: false,
-					error: "native bridge unavailable"
-				};
-				try {
-					return await (await fetch(`${m.nativeUrl}/dsh-native/notify`, {
-						method: "POST",
-						headers: {
-							authorization: `Bearer ${m.nativeToken}`,
-							"content-type": "application/json"
-						},
-						body: JSON.stringify({
-							title,
-							body
-						}),
-						signal: AbortSignal.timeout(1e4)
-					})).json();
-				} catch (e) {
-					return {
-						ok: false,
-						error: String(e?.message ?? e)
-					};
-				}
+				return postJson("/dsh-native/notify", {
+					title,
+					body
+				});
 			}
 		};
 		//#endregion
@@ -4944,22 +5055,29 @@ window.__ModuleLoader__.load({
 							children: [
 								(0, react_jsx_runtime.jsxs)("div", {
 									className: KnowledgeWorkspace_module_css_default.ragSection,
-									children: [(0, react_jsx_runtime.jsx)("div", {
-										className: KnowledgeWorkspace_module_css_default.ragTitle,
-										children: "文档处理"
-									}), (0, react_jsx_runtime.jsx)("div", {
-										className: KnowledgeWorkspace_module_css_default.ragSelectWrap,
-										children: (0, react_jsx_runtime.jsx)("select", {
-											className: KnowledgeWorkspace_module_css_default.ragSelect,
-											value: "dsh-native",
-											onChange: () => {},
-											"aria-label": "文档处理",
-											children: (0, react_jsx_runtime.jsx)("option", {
+									children: [
+										(0, react_jsx_runtime.jsx)("div", {
+											className: KnowledgeWorkspace_module_css_default.ragTitle,
+											children: "文档处理"
+										}),
+										(0, react_jsx_runtime.jsx)("div", {
+											className: KnowledgeWorkspace_module_css_default.ragSelectWrap,
+											children: (0, react_jsx_runtime.jsx)("select", {
+												className: KnowledgeWorkspace_module_css_default.ragSelect,
 												value: "dsh-native",
-												children: "DSH 原生解析"
+												disabled: true,
+												"aria-label": "文档处理",
+												children: (0, react_jsx_runtime.jsx)("option", {
+													value: "dsh-native",
+													children: "DSH 原生解析"
+												})
 											})
+										}),
+										(0, react_jsx_runtime.jsx)("div", {
+											className: KnowledgeWorkspace_module_css_default.ragHint,
+											children: "当前 DSH Host 仅提供原生解析；其他文档处理器暂不支持。"
 										})
-									})]
+									]
 								}),
 								(0, react_jsx_runtime.jsxs)("div", {
 									className: KnowledgeWorkspace_module_css_default.ragSection,
@@ -4991,22 +5109,29 @@ window.__ModuleLoader__.load({
 								}),
 								(0, react_jsx_runtime.jsxs)("div", {
 									className: KnowledgeWorkspace_module_css_default.ragSection,
-									children: [(0, react_jsx_runtime.jsx)("div", {
-										className: KnowledgeWorkspace_module_css_default.ragTitle,
-										children: "重排模型"
-									}), (0, react_jsx_runtime.jsx)("div", {
-										className: KnowledgeWorkspace_module_css_default.ragSelectWrap,
-										children: (0, react_jsx_runtime.jsx)("select", {
-											className: KnowledgeWorkspace_module_css_default.ragSelect,
-											value: "none",
-											onChange: () => {},
-											"aria-label": "重排模型",
-											children: (0, react_jsx_runtime.jsx)("option", {
+									children: [
+										(0, react_jsx_runtime.jsx)("div", {
+											className: KnowledgeWorkspace_module_css_default.ragTitle,
+											children: "重排模型"
+										}),
+										(0, react_jsx_runtime.jsx)("div", {
+											className: KnowledgeWorkspace_module_css_default.ragSelectWrap,
+											children: (0, react_jsx_runtime.jsx)("select", {
+												className: KnowledgeWorkspace_module_css_default.ragSelect,
 												value: "none",
-												children: "不使用"
+												disabled: true,
+												"aria-label": "重排模型",
+												children: (0, react_jsx_runtime.jsx)("option", {
+													value: "none",
+													children: "不使用"
+												})
 											})
+										}),
+										(0, react_jsx_runtime.jsx)("div", {
+											className: KnowledgeWorkspace_module_css_default.ragHint,
+											children: "当前 DSH Host 未提供重排模型能力。"
 										})
-									})]
+									]
 								}),
 								(0, react_jsx_runtime.jsxs)("div", {
 									className: KnowledgeWorkspace_module_css_default.ragSection,
@@ -5641,19 +5766,19 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SkillsSection_module_css_default = {
-			"cardActions": "pyHmqW_cardActions",
-			"cardMetaItem": "pyHmqW_cardMetaItem",
-			"searchRow": "pyHmqW_searchRow",
-			"cardDescription": "pyHmqW_cardDescription",
-			"cardMeta": "pyHmqW_cardMeta",
-			"cardTitle": "pyHmqW_cardTitle",
-			"searchInput": "pyHmqW_searchInput",
-			"grid": "pyHmqW_grid",
-			"cardFooter": "pyHmqW_cardFooter",
-			"cardTags": "pyHmqW_cardTags",
 			"cardHeader": "pyHmqW_cardHeader",
 			"card": "pyHmqW_card",
-			"tag": "pyHmqW_tag"
+			"searchRow": "pyHmqW_searchRow",
+			"cardTitle": "pyHmqW_cardTitle",
+			"cardActions": "pyHmqW_cardActions",
+			"cardMetaItem": "pyHmqW_cardMetaItem",
+			"searchInput": "pyHmqW_searchInput",
+			"cardTags": "pyHmqW_cardTags",
+			"tag": "pyHmqW_tag",
+			"cardDescription": "pyHmqW_cardDescription",
+			"cardFooter": "pyHmqW_cardFooter",
+			"grid": "pyHmqW_grid",
+			"cardMeta": "pyHmqW_cardMeta"
 		};
 		//#endregion
 		//#region lib/types/client/SkillsSection.js
@@ -5996,24 +6121,24 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderAuthentication_module_css_default = {
+			"section": "AU4RWG_section",
+			"inputRow": "AU4RWG_inputRow",
+			"inputGroup": "AU4RWG_inputGroup",
+			"fieldLabel": "AU4RWG_fieldLabel",
+			"inputAddon": "AU4RWG_inputAddon",
+			"field": "AU4RWG_field",
+			"iconButton": "AU4RWG_iconButton",
+			"sectionTitle": "AU4RWG_sectionTitle",
 			"spin": "AU4RWG_spin",
+			"cc-spin": "AU4RWG_cc-spin",
+			"primaryButton": "AU4RWG_primaryButton",
+			"fieldLink": "AU4RWG_fieldLink",
+			"actionRow": "AU4RWG_actionRow",
 			"successMessage": "AU4RWG_successMessage",
 			"secondaryButton": "AU4RWG_secondaryButton",
-			"sectionTitle": "AU4RWG_sectionTitle",
-			"inputAddon": "AU4RWG_inputAddon",
-			"cc-spin": "AU4RWG_cc-spin",
+			"timestamp": "AU4RWG_timestamp",
 			"input": "AU4RWG_input",
-			"actionRow": "AU4RWG_actionRow",
-			"inputGroup": "AU4RWG_inputGroup",
-			"section": "AU4RWG_section",
-			"fieldLabel": "AU4RWG_fieldLabel",
-			"field": "AU4RWG_field",
-			"errorMessage": "AU4RWG_errorMessage",
-			"fieldLink": "AU4RWG_fieldLink",
-			"primaryButton": "AU4RWG_primaryButton",
-			"inputRow": "AU4RWG_inputRow",
-			"iconButton": "AU4RWG_iconButton",
-			"timestamp": "AU4RWG_timestamp"
+			"errorMessage": "AU4RWG_errorMessage"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderAuthentication.js
@@ -6206,34 +6331,34 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderModelList_module_css_default = {
+			"toggleButtonDisabled": "_2yiUCa_toggleButtonDisabled",
+			"modelItem": "_2yiUCa_modelItem",
+			"countBadge": "_2yiUCa_countBadge",
+			"groupTitle": "_2yiUCa_groupTitle",
 			"sectionHeaderRow": "_2yiUCa_sectionHeaderRow",
-			"headerMeta": "_2yiUCa_headerMeta",
+			"metaItem": "_2yiUCa_metaItem",
+			"modelList": "_2yiUCa_modelList",
+			"toggleButton": "_2yiUCa_toggleButton",
 			"sectionHeading": "_2yiUCa_sectionHeading",
-			"emptyIcon": "_2yiUCa_emptyIcon",
 			"emptyText": "_2yiUCa_emptyText",
+			"modelMeta": "_2yiUCa_modelMeta",
+			"modelIcon": "_2yiUCa_modelIcon",
+			"modelInfo": "_2yiUCa_modelInfo",
+			"modelMain": "_2yiUCa_modelMain",
+			"toggleButtonEnabled": "_2yiUCa_toggleButtonEnabled",
+			"discoveryInfo": "_2yiUCa_discoveryInfo",
 			"modelName": "_2yiUCa_modelName",
 			"emptyHint": "_2yiUCa_emptyHint",
-			"discoveryInfo": "_2yiUCa_discoveryInfo",
-			"modelGroup": "_2yiUCa_modelGroup",
-			"modelItemDisabled": "_2yiUCa_modelItemDisabled",
-			"modelIcon": "_2yiUCa_modelIcon",
-			"toggleButton": "_2yiUCa_toggleButton",
-			"enabledCount": "_2yiUCa_enabledCount",
-			"groupTitle": "_2yiUCa_groupTitle",
-			"metaItem": "_2yiUCa_metaItem",
-			"toggleThumb": "_2yiUCa_toggleThumb",
-			"toggleButtonDisabled": "_2yiUCa_toggleButtonDisabled",
-			"section": "_2yiUCa_section",
-			"modelList": "_2yiUCa_modelList",
-			"modelInfo": "_2yiUCa_modelInfo",
-			"toggleButtonEnabled": "_2yiUCa_toggleButtonEnabled",
-			"groupHeader": "_2yiUCa_groupHeader",
 			"groupCount": "_2yiUCa_groupCount",
-			"modelMeta": "_2yiUCa_modelMeta",
+			"toggleThumb": "_2yiUCa_toggleThumb",
+			"emptyIcon": "_2yiUCa_emptyIcon",
+			"enabledCount": "_2yiUCa_enabledCount",
+			"modelGroup": "_2yiUCa_modelGroup",
+			"groupHeader": "_2yiUCa_groupHeader",
 			"emptyState": "_2yiUCa_emptyState",
-			"modelItem": "_2yiUCa_modelItem",
-			"modelMain": "_2yiUCa_modelMain",
-			"countBadge": "_2yiUCa_countBadge"
+			"section": "_2yiUCa_section",
+			"modelItemDisabled": "_2yiUCa_modelItemDisabled",
+			"headerMeta": "_2yiUCa_headerMeta"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderModelList.js
@@ -6968,32 +7093,32 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderDialog_module_css_default = {
+			"checkbox": "Y2Uoaq_checkbox",
+			"submitButton": "Y2Uoaq_submitButton",
+			"presetUrl": "Y2Uoaq_presetUrl",
 			"overlay": "Y2Uoaq_overlay",
 			"title": "Y2Uoaq_title",
-			"footer": "Y2Uoaq_footer",
-			"presetList": "Y2Uoaq_presetList",
-			"presetItem": "Y2Uoaq_presetItem",
-			"textarea": "Y2Uoaq_textarea",
-			"input": "Y2Uoaq_input",
-			"required": "Y2Uoaq_required",
-			"error": "Y2Uoaq_error",
-			"field": "Y2Uoaq_field",
-			"submitButton": "Y2Uoaq_submitButton",
 			"label": "Y2Uoaq_label",
 			"checkboxLabel": "Y2Uoaq_checkboxLabel",
-			"presetEmpty": "Y2Uoaq_presetEmpty",
-			"checkbox": "Y2Uoaq_checkbox",
-			"checkboxField": "Y2Uoaq_checkboxField",
-			"presetUrl": "Y2Uoaq_presetUrl",
-			"cancelButton": "Y2Uoaq_cancelButton",
-			"dialog": "Y2Uoaq_dialog",
-			"content": "Y2Uoaq_content",
-			"header": "Y2Uoaq_header",
-			"hint": "Y2Uoaq_hint",
+			"footer": "Y2Uoaq_footer",
 			"select": "Y2Uoaq_select",
+			"cancelButton": "Y2Uoaq_cancelButton",
+			"textarea": "Y2Uoaq_textarea",
+			"presetList": "Y2Uoaq_presetList",
+			"error": "Y2Uoaq_error",
+			"input": "Y2Uoaq_input",
 			"presetGroup": "Y2Uoaq_presetGroup",
+			"presetName": "Y2Uoaq_presetName",
+			"presetEmpty": "Y2Uoaq_presetEmpty",
+			"dialog": "Y2Uoaq_dialog",
 			"presetGroupTitle": "Y2Uoaq_presetGroupTitle",
-			"presetName": "Y2Uoaq_presetName"
+			"required": "Y2Uoaq_required",
+			"header": "Y2Uoaq_header",
+			"presetItem": "Y2Uoaq_presetItem",
+			"hint": "Y2Uoaq_hint",
+			"checkboxField": "Y2Uoaq_checkboxField",
+			"field": "Y2Uoaq_field",
+			"content": "Y2Uoaq_content"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderDialog.js
@@ -7337,51 +7462,51 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProvidersSection_module_css_default = {
-			"listItemAvatar": "ExuySa_listItemAvatar",
-			"dangerZoneDescription": "ExuySa_dangerZoneDescription",
-			"emptyIcon": "ExuySa_emptyIcon",
 			"listItem": "ExuySa_listItem",
-			"logoWrap": "ExuySa_logoWrap",
-			"detailHeader": "ExuySa_detailHeader",
-			"listItems": "ExuySa_listItems",
-			"detailMetaItem": "ExuySa_detailMetaItem",
-			"enabledDot": "ExuySa_enabledDot",
-			"dangerButton": "ExuySa_dangerButton",
-			"dangerZoneText": "ExuySa_dangerZoneText",
-			"detailTitle": "ExuySa_detailTitle",
-			"section": "ExuySa_section",
-			"searchInput": "ExuySa_searchInput",
-			"searchRow": "ExuySa_searchRow",
-			"dangerZone": "ExuySa_dangerZone",
-			"listScroller": "ExuySa_listScroller",
-			"searchClearButton": "ExuySa_searchClearButton",
-			"emptyTitle": "ExuySa_emptyTitle",
 			"detailHeaderContent": "ExuySa_detailHeaderContent",
-			"logoFallback": "ExuySa_logoFallback",
 			"addButton": "ExuySa_addButton",
-			"emptyDescription": "ExuySa_emptyDescription",
-			"detailContentMaxWidth": "ExuySa_detailContentMaxWidth",
-			"emptyDetailState": "ExuySa_emptyDetailState",
-			"providerList": "ExuySa_providerList",
-			"listItemMain": "ExuySa_listItemMain",
-			"searchIcon": "ExuySa_searchIcon",
-			"splitRoot": "ExuySa_splitRoot",
-			"loading": "ExuySa_loading",
-			"secondaryButton": "ExuySa_secondaryButton",
-			"editButton": "ExuySa_editButton",
-			"error": "ExuySa_error",
-			"addFooter": "ExuySa_addFooter",
 			"searchWrap": "ExuySa_searchWrap",
-			"listItemLabel": "ExuySa_listItemLabel",
-			"providerDetail": "ExuySa_providerDetail",
-			"sectionHeading": "ExuySa_sectionHeading",
-			"listItemSelected": "ExuySa_listItemSelected",
-			"listItemIdle": "ExuySa_listItemIdle",
-			"emptyState": "ExuySa_emptyState",
-			"sectionBody": "ExuySa_sectionBody",
-			"detailMeta": "ExuySa_detailMeta",
+			"listItems": "ExuySa_listItems",
 			"detailScroll": "ExuySa_detailScroll",
-			"dangerZoneTitle": "ExuySa_dangerZoneTitle"
+			"splitRoot": "ExuySa_splitRoot",
+			"listItemIdle": "ExuySa_listItemIdle",
+			"listItemSelected": "ExuySa_listItemSelected",
+			"listScroller": "ExuySa_listScroller",
+			"detailHeader": "ExuySa_detailHeader",
+			"searchClearButton": "ExuySa_searchClearButton",
+			"searchIcon": "ExuySa_searchIcon",
+			"dangerButton": "ExuySa_dangerButton",
+			"loading": "ExuySa_loading",
+			"emptyState": "ExuySa_emptyState",
+			"secondaryButton": "ExuySa_secondaryButton",
+			"detailMetaItem": "ExuySa_detailMetaItem",
+			"addFooter": "ExuySa_addFooter",
+			"dangerZoneDescription": "ExuySa_dangerZoneDescription",
+			"listItemAvatar": "ExuySa_listItemAvatar",
+			"dangerZoneText": "ExuySa_dangerZoneText",
+			"emptyDetailState": "ExuySa_emptyDetailState",
+			"sectionBody": "ExuySa_sectionBody",
+			"dangerZoneTitle": "ExuySa_dangerZoneTitle",
+			"section": "ExuySa_section",
+			"searchRow": "ExuySa_searchRow",
+			"error": "ExuySa_error",
+			"emptyDescription": "ExuySa_emptyDescription",
+			"logoFallback": "ExuySa_logoFallback",
+			"logoWrap": "ExuySa_logoWrap",
+			"editButton": "ExuySa_editButton",
+			"emptyIcon": "ExuySa_emptyIcon",
+			"detailTitle": "ExuySa_detailTitle",
+			"searchInput": "ExuySa_searchInput",
+			"providerList": "ExuySa_providerList",
+			"sectionHeading": "ExuySa_sectionHeading",
+			"listItemMain": "ExuySa_listItemMain",
+			"emptyTitle": "ExuySa_emptyTitle",
+			"providerDetail": "ExuySa_providerDetail",
+			"dangerZone": "ExuySa_dangerZone",
+			"listItemLabel": "ExuySa_listItemLabel",
+			"detailContentMaxWidth": "ExuySa_detailContentMaxWidth",
+			"enabledDot": "ExuySa_enabledDot",
+			"detailMeta": "ExuySa_detailMeta"
 		};
 		//#endregion
 		//#region lib/types/client/ProvidersSection.js
@@ -7928,21 +8053,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var AddMcpServerDialog_module_css_default = {
-			"cancelButton": "uv_otq_cancelButton",
-			"footer": "uv_otq_footer",
-			"label": "uv_otq_label",
-			"overlay": "uv_otq_overlay",
-			"form": "uv_otq_form",
-			"submitButton": "uv_otq_submitButton",
-			"error": "uv_otq_error",
-			"field": "uv_otq_field",
-			"input": "uv_otq_input",
 			"title": "uv_otq_title",
-			"header": "uv_otq_header",
 			"select": "uv_otq_select",
-			"textarea": "uv_otq_textarea",
+			"input": "uv_otq_input",
+			"overlay": "uv_otq_overlay",
 			"closeButton": "uv_otq_closeButton",
-			"dialog": "uv_otq_dialog"
+			"cancelButton": "uv_otq_cancelButton",
+			"field": "uv_otq_field",
+			"footer": "uv_otq_footer",
+			"error": "uv_otq_error",
+			"dialog": "uv_otq_dialog",
+			"header": "uv_otq_header",
+			"submitButton": "uv_otq_submitButton",
+			"form": "uv_otq_form",
+			"textarea": "uv_otq_textarea",
+			"label": "uv_otq_label"
 		};
 		//#endregion
 		//#region lib/types/client/AddMcpServerDialog.js
@@ -8178,76 +8303,76 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var McpSection_module_css_default = {
-			"listItemMain": "_0bBxiW_listItemMain",
-			"errorBox": "_0bBxiW_errorBox",
-			"listScroller": "_0bBxiW_listScroller",
-			"logHeader": "_0bBxiW_logHeader",
-			"toolItem": "_0bBxiW_toolItem",
-			"detailScroll": "_0bBxiW_detailScroll",
+			"serverDetail": "_0bBxiW_serverDetail",
+			"dangerZoneText": "_0bBxiW_dangerZoneText",
+			"searchClearButton": "_0bBxiW_searchClearButton",
+			"listItems": "_0bBxiW_listItems",
+			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
+			"sectionHeading": "_0bBxiW_sectionHeading",
+			"fieldHint": "_0bBxiW_fieldHint",
+			"emptyDescription": "_0bBxiW_emptyDescription",
+			"addButton": "_0bBxiW_addButton",
+			"listItem": "_0bBxiW_listItem",
+			"secondaryButton": "_0bBxiW_secondaryButton",
+			"tabBar": "_0bBxiW_tabBar",
+			"error": "_0bBxiW_error",
+			"listItemLabel": "_0bBxiW_listItemLabel",
+			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
+			"codeBlock": "_0bBxiW_codeBlock",
+			"emptyDetailState": "_0bBxiW_emptyDetailState",
+			"emptyTitle": "_0bBxiW_emptyTitle",
+			"toolDescription": "_0bBxiW_toolDescription",
+			"detailHeader": "_0bBxiW_detailHeader",
+			"detailMeta": "_0bBxiW_detailMeta",
+			"switchInput": "_0bBxiW_switchInput",
+			"sectionHeader": "_0bBxiW_sectionHeader",
+			"splitRoot": "_0bBxiW_splitRoot",
+			"checkbox": "_0bBxiW_checkbox",
+			"listItemIdle": "_0bBxiW_listItemIdle",
+			"listItemSelected": "_0bBxiW_listItemSelected",
+			"detailTitle": "_0bBxiW_detailTitle",
+			"serverList": "_0bBxiW_serverList",
+			"toolHeader": "_0bBxiW_toolHeader",
+			"emptyState": "_0bBxiW_emptyState",
+			"resourceUri": "_0bBxiW_resourceUri",
 			"loading": "_0bBxiW_loading",
 			"dangerButton": "_0bBxiW_dangerButton",
+			"listItemAvatar": "_0bBxiW_listItemAvatar",
+			"fieldGroup": "_0bBxiW_fieldGroup",
+			"formActions": "_0bBxiW_formActions",
+			"switchSlider": "_0bBxiW_switchSlider",
+			"dangerZone": "_0bBxiW_dangerZone",
 			"detailMetaItem": "_0bBxiW_detailMetaItem",
-			"serverList": "_0bBxiW_serverList",
-			"sectionHeading": "_0bBxiW_sectionHeading",
-			"sectionBody": "_0bBxiW_sectionBody",
-			"listItemLabel": "_0bBxiW_listItemLabel",
-			"fieldLabel": "_0bBxiW_fieldLabel",
-			"detailMeta": "_0bBxiW_detailMeta",
-			"textarea": "_0bBxiW_textarea",
-			"emptyTitle": "_0bBxiW_emptyTitle",
-			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
+			"activeDot": "_0bBxiW_activeDot",
+			"addFooter": "_0bBxiW_addFooter",
+			"emptyIcon": "_0bBxiW_emptyIcon",
+			"descriptionText": "_0bBxiW_descriptionText",
+			"tab": "_0bBxiW_tab",
 			"toolsList": "_0bBxiW_toolsList",
+			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
+			"searchIcon": "_0bBxiW_searchIcon",
+			"section": "_0bBxiW_section",
+			"searchRow": "_0bBxiW_searchRow",
+			"searchWrap": "_0bBxiW_searchWrap",
+			"toolItem": "_0bBxiW_toolItem",
+			"errorBox": "_0bBxiW_errorBox",
+			"listScroller": "_0bBxiW_listScroller",
+			"detailScroll": "_0bBxiW_detailScroll",
+			"logHeader": "_0bBxiW_logHeader",
+			"input": "_0bBxiW_input",
+			"fieldRow": "_0bBxiW_fieldRow",
+			"logInfo": "_0bBxiW_logInfo",
+			"fieldLabel": "_0bBxiW_fieldLabel",
+			"codeLine": "_0bBxiW_codeLine",
+			"listItemMain": "_0bBxiW_listItemMain",
+			"toolName": "_0bBxiW_toolName",
 			"primaryButton": "_0bBxiW_primaryButton",
 			"searchInput": "_0bBxiW_searchInput",
-			"sectionHeader": "_0bBxiW_sectionHeader",
-			"emptyDescription": "_0bBxiW_emptyDescription",
-			"searchWrap": "_0bBxiW_searchWrap",
-			"codeBlock": "_0bBxiW_codeBlock",
-			"listItems": "_0bBxiW_listItems",
-			"tab": "_0bBxiW_tab",
-			"listItemIdle": "_0bBxiW_listItemIdle",
-			"emptyState": "_0bBxiW_emptyState",
-			"secondaryButton": "_0bBxiW_secondaryButton",
-			"detailTitle": "_0bBxiW_detailTitle",
-			"splitRoot": "_0bBxiW_splitRoot",
-			"switchWrapper": "_0bBxiW_switchWrapper",
-			"addButton": "_0bBxiW_addButton",
-			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
-			"toolHeader": "_0bBxiW_toolHeader",
-			"addFooter": "_0bBxiW_addFooter",
-			"switchInput": "_0bBxiW_switchInput",
-			"listItemAvatar": "_0bBxiW_listItemAvatar",
-			"activeDot": "_0bBxiW_activeDot",
-			"dangerZoneText": "_0bBxiW_dangerZoneText",
-			"tabBar": "_0bBxiW_tabBar",
-			"checkbox": "_0bBxiW_checkbox",
-			"section": "_0bBxiW_section",
-			"codeLine": "_0bBxiW_codeLine",
-			"emptyDetailState": "_0bBxiW_emptyDetailState",
-			"logInfo": "_0bBxiW_logInfo",
-			"resourceUri": "_0bBxiW_resourceUri",
-			"dangerZone": "_0bBxiW_dangerZone",
-			"searchIcon": "_0bBxiW_searchIcon",
-			"listItem": "_0bBxiW_listItem",
-			"detailHeader": "_0bBxiW_detailHeader",
-			"error": "_0bBxiW_error",
-			"fieldHint": "_0bBxiW_fieldHint",
-			"toolDescription": "_0bBxiW_toolDescription",
-			"switchSlider": "_0bBxiW_switchSlider",
+			"sectionBody": "_0bBxiW_sectionBody",
 			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
-			"input": "_0bBxiW_input",
-			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
-			"searchClearButton": "_0bBxiW_searchClearButton",
-			"descriptionText": "_0bBxiW_descriptionText",
-			"emptyIcon": "_0bBxiW_emptyIcon",
 			"tabActive": "_0bBxiW_tabActive",
-			"serverDetail": "_0bBxiW_serverDetail",
-			"fieldRow": "_0bBxiW_fieldRow",
-			"formActions": "_0bBxiW_formActions",
-			"searchRow": "_0bBxiW_searchRow",
-			"fieldGroup": "_0bBxiW_fieldGroup",
-			"toolName": "_0bBxiW_toolName",
-			"listItemSelected": "_0bBxiW_listItemSelected"
+			"switchWrapper": "_0bBxiW_switchWrapper",
+			"textarea": "_0bBxiW_textarea"
 		};
 		//#endregion
 		//#region lib/types/client/McpSection.js
@@ -9194,25 +9319,25 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WebSearchSection_module_css_default = {
+			"loading": "_0WjBOa_loading",
 			"checkbox": "_0WjBOa_checkbox",
 			"pageHeader": "_0WjBOa_pageHeader",
+			"fieldRow": "_0WjBOa_fieldRow",
+			"cardTitle": "_0WjBOa_cardTitle",
+			"select": "_0WjBOa_select",
+			"fieldHint": "_0WjBOa_fieldHint",
+			"providerName": "_0WjBOa_providerName",
+			"providerDescription": "_0WjBOa_providerDescription",
+			"fieldLabel": "_0WjBOa_fieldLabel",
+			"input": "_0WjBOa_input",
 			"pageDescription": "_0WjBOa_pageDescription",
 			"apiKeyRow": "_0WjBOa_apiKeyRow",
-			"input": "_0WjBOa_input",
-			"cardDescription": "_0WjBOa_cardDescription",
-			"fieldHint": "_0WjBOa_fieldHint",
-			"select": "_0WjBOa_select",
-			"iconButton": "_0WjBOa_iconButton",
-			"pageTitle": "_0WjBOa_pageTitle",
-			"providerDetail": "_0WjBOa_providerDetail",
 			"root": "_0WjBOa_root",
-			"cardTitle": "_0WjBOa_cardTitle",
-			"loading": "_0WjBOa_loading",
-			"fieldLabel": "_0WjBOa_fieldLabel",
-			"providerDescription": "_0WjBOa_providerDescription",
-			"fieldRow": "_0WjBOa_fieldRow",
-			"providerName": "_0WjBOa_providerName",
-			"card": "_0WjBOa_card"
+			"iconButton": "_0WjBOa_iconButton",
+			"card": "_0WjBOa_card",
+			"providerDetail": "_0WjBOa_providerDetail",
+			"cardDescription": "_0WjBOa_cardDescription",
+			"pageTitle": "_0WjBOa_pageTitle"
 		};
 		//#endregion
 		//#region lib/types/client/WebSearchSection.js
@@ -9606,23 +9731,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProcessorSection_module_css_default = {
-			"pageDescription": "CL8zIa_pageDescription",
+			"input": "CL8zIa_input",
+			"select": "CL8zIa_select",
+			"iconButton": "CL8zIa_iconButton",
+			"pageTitle": "CL8zIa_pageTitle",
 			"cardTitle": "CL8zIa_cardTitle",
+			"fieldLabel": "CL8zIa_fieldLabel",
+			"fieldHint": "CL8zIa_fieldHint",
+			"providerDetail": "CL8zIa_providerDetail",
+			"cardDescription": "CL8zIa_cardDescription",
+			"root": "CL8zIa_root",
 			"fieldRow": "CL8zIa_fieldRow",
 			"loading": "CL8zIa_loading",
-			"providerDescription": "CL8zIa_providerDescription",
-			"cardDescription": "CL8zIa_cardDescription",
-			"apiKeyRow": "CL8zIa_apiKeyRow",
-			"select": "CL8zIa_select",
-			"providerDetail": "CL8zIa_providerDetail",
-			"providerName": "CL8zIa_providerName",
-			"iconButton": "CL8zIa_iconButton",
+			"pageDescription": "CL8zIa_pageDescription",
 			"card": "CL8zIa_card",
-			"input": "CL8zIa_input",
-			"root": "CL8zIa_root",
-			"fieldLabel": "CL8zIa_fieldLabel",
-			"pageTitle": "CL8zIa_pageTitle",
-			"fieldHint": "CL8zIa_fieldHint"
+			"providerName": "CL8zIa_providerName",
+			"providerDescription": "CL8zIa_providerDescription",
+			"apiKeyRow": "CL8zIa_apiKeyRow"
 		};
 		//#endregion
 		//#region lib/types/client/ProcessorSection.js
@@ -9907,57 +10032,57 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var UsageSection_module_css_default = {
-			"controlRow": "ej6-VW_controlRow",
-			"exploreHeader": "ej6-VW_exploreHeader",
-			"usageEmpty": "ej6-VW_usageEmpty",
-			"donutLegendKey": "ej6-VW_donutLegendKey",
-			"donutLegendRow": "ej6-VW_donutLegendRow",
-			"barSegment": "ej6-VW_barSegment",
-			"donutSwatch": "ej6-VW_donutSwatch",
-			"pageHeader": "ej6-VW_pageHeader",
-			"insightLabel": "ej6-VW_insightLabel",
-			"insightStrip": "ej6-VW_insightStrip",
 			"metricStrip": "ej6-VW_metricStrip",
-			"barChart": "ej6-VW_barChart",
-			"metricValue": "ej6-VW_metricValue",
-			"donutLegendValue": "ej6-VW_donutLegendValue",
-			"root": "ej6-VW_root",
-			"metricSparkline": "ej6-VW_metricSparkline",
-			"windowTabs": "ej6-VW_windowTabs",
-			"exploreCard": "ej6-VW_exploreCard",
-			"exploreBody": "ej6-VW_exploreBody",
+			"down": "ej6-VW_down",
 			"donutWrap": "ej6-VW_donutWrap",
 			"metricLabel": "ej6-VW_metricLabel",
-			"pageTitle": "ej6-VW_pageTitle",
-			"metricDelta": "ej6-VW_metricDelta",
-			"windowTab": "ej6-VW_windowTab",
-			"exploreTitle": "ej6-VW_exploreTitle",
-			"donutLegend": "ej6-VW_donutLegend",
-			"barColumn": "ej6-VW_barColumn",
-			"tableWrap": "ej6-VW_tableWrap",
-			"entriesTable": "ej6-VW_entriesTable",
-			"controlSelect": "ej6-VW_controlSelect",
-			"active": "ej6-VW_active",
-			"down": "ej6-VW_down",
-			"insightItem": "ej6-VW_insightItem",
-			"heatmapScroll": "ej6-VW_heatmapScroll",
-			"up": "ej6-VW_up",
-			"pageDescription": "ej6-VW_pageDescription",
-			"heatmap": "ej6-VW_heatmap",
-			"controlLabel": "ej6-VW_controlLabel",
-			"barAxis": "ej6-VW_barAxis",
-			"tdRight": "ej6-VW_tdRight",
-			"heatmapCell": "ej6-VW_heatmapCell",
-			"modelName": "ej6-VW_modelName",
-			"summaryLine": "ej6-VW_summaryLine",
-			"heatmapTitle": "ej6-VW_heatmapTitle",
-			"loadMoreBtn": "ej6-VW_loadMoreBtn",
-			"tableEmpty": "ej6-VW_tableEmpty",
-			"modelProvider": "ej6-VW_modelProvider",
-			"heatmapSection": "ej6-VW_heatmapSection",
-			"metricCell": "ej6-VW_metricCell",
 			"insightValue": "ej6-VW_insightValue",
-			"modelCell": "ej6-VW_modelCell"
+			"controlRow": "ej6-VW_controlRow",
+			"controlSelect": "ej6-VW_controlSelect",
+			"summaryLine": "ej6-VW_summaryLine",
+			"barSegment": "ej6-VW_barSegment",
+			"exploreTitle": "ej6-VW_exploreTitle",
+			"root": "ej6-VW_root",
+			"windowTab": "ej6-VW_windowTab",
+			"active": "ej6-VW_active",
+			"heatmap": "ej6-VW_heatmap",
+			"metricSparkline": "ej6-VW_metricSparkline",
+			"donutLegendRow": "ej6-VW_donutLegendRow",
+			"modelCell": "ej6-VW_modelCell",
+			"exploreBody": "ej6-VW_exploreBody",
+			"exploreCard": "ej6-VW_exploreCard",
+			"entriesTable": "ej6-VW_entriesTable",
+			"heatmapTitle": "ej6-VW_heatmapTitle",
+			"heatmapCell": "ej6-VW_heatmapCell",
+			"barAxis": "ej6-VW_barAxis",
+			"pageHeader": "ej6-VW_pageHeader",
+			"insightLabel": "ej6-VW_insightLabel",
+			"barColumn": "ej6-VW_barColumn",
+			"heatmapScroll": "ej6-VW_heatmapScroll",
+			"metricDelta": "ej6-VW_metricDelta",
+			"insightItem": "ej6-VW_insightItem",
+			"donutSwatch": "ej6-VW_donutSwatch",
+			"modelName": "ej6-VW_modelName",
+			"pageTitle": "ej6-VW_pageTitle",
+			"pageDescription": "ej6-VW_pageDescription",
+			"donutLegendValue": "ej6-VW_donutLegendValue",
+			"tableEmpty": "ej6-VW_tableEmpty",
+			"insightStrip": "ej6-VW_insightStrip",
+			"exploreHeader": "ej6-VW_exploreHeader",
+			"barChart": "ej6-VW_barChart",
+			"tableWrap": "ej6-VW_tableWrap",
+			"metricCell": "ej6-VW_metricCell",
+			"controlLabel": "ej6-VW_controlLabel",
+			"donutLegend": "ej6-VW_donutLegend",
+			"heatmapSection": "ej6-VW_heatmapSection",
+			"up": "ej6-VW_up",
+			"windowTabs": "ej6-VW_windowTabs",
+			"donutLegendKey": "ej6-VW_donutLegendKey",
+			"tdRight": "ej6-VW_tdRight",
+			"modelProvider": "ej6-VW_modelProvider",
+			"loadMoreBtn": "ej6-VW_loadMoreBtn",
+			"usageEmpty": "ej6-VW_usageEmpty",
+			"metricValue": "ej6-VW_metricValue"
 		};
 		//#endregion
 		//#region lib/types/client/UsageSection.js
@@ -10921,13 +11046,28 @@ window.__ModuleLoader__.load({
 		/** Client descriptor contribution for the Control Center system service. */
 		const systemRemote = {
 			package: "@dsh-control-center/control-center",
-			descriptors: [{
-				method: "getInfo",
-				parameters: []
-			}, {
-				method: "listDependencies",
-				parameters: []
-			}].map(({ method, parameters }) => ({
+			descriptors: [
+				{
+					method: "getInfo",
+					parameters: []
+				},
+				{
+					method: "listDependencies",
+					parameters: []
+				},
+				{
+					method: "listPlugins",
+					parameters: ["profile"]
+				},
+				{
+					method: "managePlugin",
+					parameters: [
+						"profile",
+						"operation",
+						"spec"
+					]
+				}
+			].map(({ method, parameters }) => ({
 				id: `@dsh-control-center/control-center#controlCenterSystem/${method}`,
 				service: "controlCenterSystem",
 				namespace: "controlCenterSystem",
@@ -10954,16 +11094,16 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SystemSection_module_css_default = {
+			"infoRow": "MzTzwq_infoRow",
+			"pageTitle": "MzTzwq_pageTitle",
+			"loading": "MzTzwq_loading",
 			"card": "MzTzwq_card",
+			"badge": "MzTzwq_badge",
 			"cardTitle": "MzTzwq_cardTitle",
 			"pageDescription": "MzTzwq_pageDescription",
-			"infoValue": "MzTzwq_infoValue",
-			"loading": "MzTzwq_loading",
-			"pageTitle": "MzTzwq_pageTitle",
+			"root": "MzTzwq_root",
 			"infoLabel": "MzTzwq_infoLabel",
-			"infoRow": "MzTzwq_infoRow",
-			"badge": "MzTzwq_badge",
-			"root": "MzTzwq_root"
+			"infoValue": "MzTzwq_infoValue"
 		};
 		//#endregion
 		//#region lib/types/client/SystemSection.js
@@ -11227,23 +11367,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TasksSection_module_css_default = {
-			"root": "_3yT94W_root",
-			"input": "_3yT94W_input",
-			"pageDescription": "_3yT94W_pageDescription",
-			"select": "_3yT94W_select",
-			"taskMeta": "_3yT94W_taskMeta",
-			"taskMain": "_3yT94W_taskMain",
-			"runTime": "_3yT94W_runTime",
-			"runDetail": "_3yT94W_runDetail",
-			"card": "_3yT94W_card",
-			"cardTitle": "_3yT94W_cardTitle",
-			"loading": "_3yT94W_loading",
-			"runFail": "_3yT94W_runFail",
-			"taskRow": "_3yT94W_taskRow",
 			"runRow": "_3yT94W_runRow",
-			"runOk": "_3yT94W_runOk",
+			"runDetail": "_3yT94W_runDetail",
+			"pageTitle": "_3yT94W_pageTitle",
 			"taskName": "_3yT94W_taskName",
-			"pageTitle": "_3yT94W_pageTitle"
+			"runFail": "_3yT94W_runFail",
+			"input": "_3yT94W_input",
+			"select": "_3yT94W_select",
+			"taskMain": "_3yT94W_taskMain",
+			"taskMeta": "_3yT94W_taskMeta",
+			"root": "_3yT94W_root",
+			"pageDescription": "_3yT94W_pageDescription",
+			"taskRow": "_3yT94W_taskRow",
+			"cardTitle": "_3yT94W_cardTitle",
+			"card": "_3yT94W_card",
+			"runTime": "_3yT94W_runTime",
+			"loading": "_3yT94W_loading",
+			"runOk": "_3yT94W_runOk"
 		};
 		//#endregion
 		//#region lib/types/client/TasksSection.js
@@ -11554,17 +11694,17 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsPages_module_css_default = {
-			"shellInner": "_0spVW_shellInner",
 			"group": "_0spVW_group",
-			"row": "_0spVW_row",
+			"shell": "_0spVW_shell",
+			"shellInner": "_0spVW_shellInner",
 			"switchLabel": "_0spVW_switchLabel",
+			"divider": "_0spVW_divider",
+			"row": "_0spVW_row",
+			"rowTitle": "_0spVW_rowTitle",
 			"rowDescription": "_0spVW_rowDescription",
 			"rowControl": "_0spVW_rowControl",
-			"shell": "_0spVW_shell",
-			"groupTitle": "_0spVW_groupTitle",
-			"divider": "_0spVW_divider",
 			"groupDescription": "_0spVW_groupDescription",
-			"rowTitle": "_0spVW_rowTitle"
+			"groupTitle": "_0spVW_groupTitle"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsPages.js
@@ -11605,7 +11745,7 @@ window.__ModuleLoader__.load({
 			});
 		}
 		/** Label-left + switch-right setting row (Cherry DescriptionSwitch). */
-		function SettingSwitch({ label, checked, onChange, description }) {
+		function SettingSwitch({ label, checked, onChange, description, disabled = false }) {
 			return (0, react_jsx_runtime.jsxs)(SettingRow, { children: [(0, react_jsx_runtime.jsxs)("div", {
 				className: SettingsPages_module_css_default.switchLabel,
 				children: [(0, react_jsx_runtime.jsx)("div", {
@@ -11618,7 +11758,8 @@ window.__ModuleLoader__.load({
 			}), (0, react_jsx_runtime.jsx)(Switch, {
 				checked,
 				onChange,
-				label: typeof label === "string" ? label : ""
+				label: typeof label === "string" ? label : "",
+				disabled
 			})] });
 		}
 		//#endregion
@@ -11633,24 +11774,24 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var LocalModelDownloads_module_css_default = {
-			"btn": "_9apQa_btn",
-			"groupHeader": "_9apQa_groupHeader",
-			"statusDownloading": "_9apQa_statusDownloading",
-			"modelCard": "_9apQa_modelCard",
-			"btnDanger": "_9apQa_btnDanger",
-			"modelSubtitle": "_9apQa_modelSubtitle",
-			"modelStatus": "_9apQa_modelStatus",
-			"noticeText": "_9apQa_noticeText",
-			"noticeTag": "_9apQa_noticeTag",
-			"groupDesc": "_9apQa_groupDesc",
-			"modelMain": "_9apQa_modelMain",
-			"modelIcon": "_9apQa_modelIcon",
-			"statusIdle": "_9apQa_statusIdle",
 			"modelName": "_9apQa_modelName",
-			"statusReady": "_9apQa_statusReady",
-			"btnPrimary": "_9apQa_btnPrimary",
 			"noticeRow": "_9apQa_noticeRow",
-			"modelOps": "_9apQa_modelOps"
+			"modelCard": "_9apQa_modelCard",
+			"modelOps": "_9apQa_modelOps",
+			"groupHeader": "_9apQa_groupHeader",
+			"modelStatus": "_9apQa_modelStatus",
+			"modelMain": "_9apQa_modelMain",
+			"groupDesc": "_9apQa_groupDesc",
+			"modelSubtitle": "_9apQa_modelSubtitle",
+			"statusReady": "_9apQa_statusReady",
+			"noticeTag": "_9apQa_noticeTag",
+			"noticeText": "_9apQa_noticeText",
+			"statusIdle": "_9apQa_statusIdle",
+			"btnPrimary": "_9apQa_btnPrimary",
+			"modelIcon": "_9apQa_modelIcon",
+			"btn": "_9apQa_btn",
+			"btnDanger": "_9apQa_btnDanger",
+			"statusDownloading": "_9apQa_statusDownloading"
 		};
 		//#endregion
 		//#region lib/types/client/LocalModelDownloads.js
@@ -11661,7 +11802,7 @@ window.__ModuleLoader__.load({
 		* (noted honestly); state persists locally.
 		*/
 		const LOCAL_MODELS_KEY = "cc.settings.localModels";
-		function loadPrefs$6() {
+		function loadPrefs$5() {
 			try {
 				const raw = localStorage.getItem(LOCAL_MODELS_KEY);
 				if (raw === null) return {
@@ -11743,7 +11884,7 @@ window.__ModuleLoader__.load({
 			});
 		}
 		function LocalModelDownloads() {
-			const [prefs, setPrefs] = (0, react.useState)(loadPrefs$6);
+			const [prefs, setPrefs] = (0, react.useState)(loadPrefs$5);
 			(0, react.useEffect)(() => {
 				try {
 					localStorage.setItem(LOCAL_MODELS_KEY, JSON.stringify(prefs));
@@ -12050,21 +12191,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ApiGatewaySection_module_css_default = {
-			"groupHeaderRow": "S156cG_groupHeaderRow",
-			"inputGroup": "S156cG_inputGroup",
-			"statusDot": "S156cG_statusDot",
-			"docLink": "S156cG_docLink",
-			"statusRow": "S156cG_statusRow",
-			"iconBtn": "S156cG_iconBtn",
-			"notice": "S156cG_notice",
-			"statusText": "S156cG_statusText",
-			"input": "S156cG_input",
-			"ghostBtn": "S156cG_ghostBtn",
 			"outlineBtn": "S156cG_outlineBtn",
+			"statusDot": "S156cG_statusDot",
+			"ghostBtn": "S156cG_ghostBtn",
+			"inputGroup": "S156cG_inputGroup",
+			"notice": "S156cG_notice",
+			"iconBtn": "S156cG_iconBtn",
 			"copied": "S156cG_copied",
-			"statusStopped": "S156cG_statusStopped",
 			"headerBox": "S156cG_headerBox",
-			"inputSmall": "S156cG_inputSmall"
+			"statusStopped": "S156cG_statusStopped",
+			"inputSmall": "S156cG_inputSmall",
+			"statusRow": "S156cG_statusRow",
+			"groupHeaderRow": "S156cG_groupHeaderRow",
+			"input": "S156cG_input",
+			"docLink": "S156cG_docLink",
+			"statusText": "S156cG_statusText"
 		};
 		//#endregion
 		//#region lib/types/client/ApiGatewaySection.js
@@ -12074,7 +12215,7 @@ window.__ModuleLoader__.load({
 		* edition shows the full UI with honest desktop-only notices.
 		*/
 		const GATEWAY_KEY = "cc.settings.apiGateway";
-		function loadPrefs$5() {
+		function loadPrefs$4() {
 			try {
 				const raw = localStorage.getItem(GATEWAY_KEY);
 				if (raw === null) return {
@@ -12094,7 +12235,7 @@ window.__ModuleLoader__.load({
 			}
 		}
 		function ApiGatewaySection() {
-			const [prefs, setPrefs] = (0, react.useState)(loadPrefs$5);
+			const [prefs, setPrefs] = (0, react.useState)(loadPrefs$4);
 			const [copied, setCopied] = (0, react.useState)(null);
 			(0, react.useEffect)(() => {
 				try {
@@ -12440,28 +12581,28 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
-			"mask": "_4STY0G_mask",
-			"navLabel": "_4STY0G_navLabel",
-			"hiddenLabel": "_4STY0G_hiddenLabel",
 			"panel": "_4STY0G_panel",
-			"navIcon": "_4STY0G_navIcon",
-			"rail": "_4STY0G_rail",
-			"navGroup": "_4STY0G_navGroup",
-			"close": "_4STY0G_close",
-			"active": "_4STY0G_active",
-			"nav": "_4STY0G_nav",
+			"mask": "_4STY0G_mask",
 			"trigger": "_4STY0G_trigger",
-			"triggerLabel": "_4STY0G_triggerLabel",
-			"navCell": "_4STY0G_navCell",
-			"actions": "_4STY0G_actions",
-			"navScroll": "_4STY0G_navScroll",
-			"navList": "_4STY0G_navList",
-			"overlay": "_4STY0G_overlay",
-			"navGroupTitle": "_4STY0G_navGroupTitle",
 			"content": "_4STY0G_content",
+			"navLabel": "_4STY0G_navLabel",
+			"rail": "_4STY0G_rail",
+			"navCell": "_4STY0G_navCell",
+			"close": "_4STY0G_close",
+			"nav": "_4STY0G_nav",
 			"options": "_4STY0G_options",
+			"active": "_4STY0G_active",
+			"hiddenLabel": "_4STY0G_hiddenLabel",
+			"navScroll": "_4STY0G_navScroll",
+			"actions": "_4STY0G_actions",
 			"navTitle": "_4STY0G_navTitle",
-			"header": "_4STY0G_header"
+			"navIcon": "_4STY0G_navIcon",
+			"triggerLabel": "_4STY0G_triggerLabel",
+			"header": "_4STY0G_header",
+			"overlay": "_4STY0G_overlay",
+			"navGroup": "_4STY0G_navGroup",
+			"navGroupTitle": "_4STY0G_navGroupTitle",
+			"navList": "_4STY0G_navList"
 		};
 		//#endregion
 		//#region \0dsh-control-center-plain-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\cherry-tokens.css.mjs
@@ -12516,7 +12657,7 @@ window.__ModuleLoader__.load({
 					size,
 					className: cls
 				});
-				case "plugins": return (0, react_jsx_runtime.jsx)(IconPackage, {
+				case "control-center-plugins": return (0, react_jsx_runtime.jsx)(IconPackage, {
 					size,
 					className: cls
 				});
@@ -12743,6 +12884,147 @@ window.__ModuleLoader__.load({
 			] });
 		}
 		//#endregion
+		//#region lib/types/client/PluginsSection.js
+		function PluginsSection({ getSystem, useSystemReady }) {
+			const ready = useSystemReady((value) => value);
+			const system = ready ? getSystem() : void 0;
+			const [profile, setProfile] = (0, react.useState)("web");
+			const [spec, setSpec] = (0, react.useState)("");
+			const [inventory, setInventory] = (0, react.useState)(null);
+			const [notice, setNotice] = (0, react.useState)(null);
+			const [busy, setBusy] = (0, react.useState)(false);
+			const refresh = () => {
+				if (system !== void 0) system.listPlugins(profile).then((result) => {
+					if (result.ok) setInventory(result.value);
+					else setNotice(result.error.message);
+				}).catch((error) => setNotice(String(error)));
+			};
+			(0, react.useEffect)(refresh, [system, profile]);
+			const manage = async (operation) => {
+				if (system === void 0 || spec.trim() === "") return;
+				setBusy(true);
+				setNotice(null);
+				try {
+					const result = await system.managePlugin(profile, operation, spec.trim());
+					if (!result.ok) setNotice(result.error.message);
+					else {
+						setInventory(result.value.inventory);
+						setNotice(result.value.exitCode === 0 ? "操作已完成；重启 DSH 后生效。" : result.value.stderr || "操作失败。");
+					}
+				} catch (error) {
+					setNotice(error instanceof Error ? error.message : String(error));
+				} finally {
+					setBusy(false);
+				}
+			};
+			if (!ready || inventory === null) return (0, react_jsx_runtime.jsx)("div", {
+				className: SystemSection_module_css_default.loading,
+				children: "Loading..."
+			});
+			return (0, react_jsx_runtime.jsxs)("div", {
+				className: SystemSection_module_css_default.root,
+				children: [(0, react_jsx_runtime.jsxs)("div", { children: [(0, react_jsx_runtime.jsx)("h2", {
+					className: SystemSection_module_css_default.pageTitle,
+					children: "插件"
+				}), (0, react_jsx_runtime.jsx)("p", {
+					className: SystemSection_module_css_default.pageDescription,
+					children: "管理 DSH profile 的真实插件依赖；操作由官方 CLI 的 pnpm 契约执行。"
+				})] }), (0, react_jsx_runtime.jsxs)("div", {
+					className: SystemSection_module_css_default.card,
+					children: [
+						(0, react_jsx_runtime.jsxs)("div", {
+							className: SystemSection_module_css_default.infoRow,
+							children: [(0, react_jsx_runtime.jsx)("label", {
+								className: SystemSection_module_css_default.infoLabel,
+								children: "Profile"
+							}), (0, react_jsx_runtime.jsx)("input", {
+								value: profile,
+								onChange: (event) => setProfile(event.target.value),
+								disabled: busy
+							})]
+						}),
+						(0, react_jsx_runtime.jsxs)("div", {
+							className: SystemSection_module_css_default.infoRow,
+							children: [(0, react_jsx_runtime.jsx)("label", {
+								className: SystemSection_module_css_default.infoLabel,
+								children: "插件包或 spec"
+							}), (0, react_jsx_runtime.jsx)("input", {
+								value: spec,
+								onChange: (event) => setSpec(event.target.value),
+								placeholder: "@scope/plugin 或 git spec",
+								disabled: busy
+							})]
+						}),
+						(0, react_jsx_runtime.jsxs)("div", {
+							className: SystemSection_module_css_default.infoRow,
+							children: [(0, react_jsx_runtime.jsx)("span", {
+								className: SystemSection_module_css_default.infoLabel,
+								children: "已安装依赖"
+							}), (0, react_jsx_runtime.jsxs)("span", {
+								className: SystemSection_module_css_default.infoValue,
+								children: [inventory.dependencies.length, " 个"]
+							})]
+						}),
+						inventory.dependencies.map((plugin) => (0, react_jsx_runtime.jsxs)("div", {
+							className: SystemSection_module_css_default.infoRow,
+							children: [(0, react_jsx_runtime.jsx)("span", {
+								className: SystemSection_module_css_default.infoLabel,
+								children: plugin.name
+							}), (0, react_jsx_runtime.jsxs)("span", {
+								className: SystemSection_module_css_default.infoValue,
+								children: [
+									plugin.spec,
+									plugin.bundle ? " · bundle" : "",
+									plugin.active ? " · 已启用" : " · 未解析"
+								]
+							})]
+						}, plugin.name)),
+						(0, react_jsx_runtime.jsxs)("div", { children: [
+							(0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								className: "cc-btn cc-btn-primary",
+								disabled: busy || spec.trim() === "",
+								onClick: () => void manage("add"),
+								children: "安装"
+							}),
+							" ",
+							(0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								className: "cc-btn cc-btn-secondary",
+								disabled: busy || spec.trim() === "",
+								onClick: () => void manage("update"),
+								children: "更新"
+							}),
+							" ",
+							(0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								className: "cc-btn cc-btn-danger",
+								disabled: busy || spec.trim() === "",
+								onClick: () => void manage("remove"),
+								children: "卸载"
+							}),
+							" ",
+							(0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								className: "cc-btn cc-btn-secondary",
+								disabled: busy,
+								onClick: refresh,
+								children: "刷新"
+							})
+						] }),
+						(0, react_jsx_runtime.jsx)("p", {
+							className: SystemSection_module_css_default.pageDescription,
+							children: "热启用、热禁用、回滚和恢复：当前官方 Host 不支持，操作按钮不会伪造这些能力。修改后需要重启 DSH。"
+						}),
+						notice === null ? null : (0, react_jsx_runtime.jsx)("div", {
+							className: "cc-notice-error",
+							children: notice
+						})
+					]
+				})]
+			});
+		}
+		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\chrome.module.css.mjs
 		const css$14 = ".uIwUgq_triggerLabel{white-space:nowrap;overflow:hidden}";
 		const tagId$14 = "@dsh-control-center/bundle/chrome.module.css";
@@ -12817,12 +13099,13 @@ window.__ModuleLoader__.load({
 		//#endregion
 		//#region lib/types/client/theme-overrides.js
 		/**
-		* Client-side theme overrides for the Control Center surfaces: brand color,
-		* fonts, and custom CSS, persisted in localStorage and injected as a style
-		* element (web edition cannot reach the harness theme token pipeline, so the
-		* overrides are scoped to `.cc-surface` like the rest of the token layer).
+		* Client-side theme overrides for Control Center surfaces. The DSH settings
+		* namespace is the authority; localStorage is retained only for one-time
+		* migration from the first web-edition implementation.
 		*/
+		const APPEARANCE_SETTINGS_NAMESPACE = "control-center-appearance";
 		const THEME_OVERRIDES_KEY = "cc.theme.overrides";
+		const MIGRATION_KEY = "cc.theme.overrides.migrated-to-dsh";
 		const STYLE_ID = "cc-theme-overrides";
 		const DEFAULT_THEME_OVERRIDES = {
 			colorPrimary: "#00b96b",
@@ -12852,11 +13135,18 @@ window.__ModuleLoader__.load({
 				return { ...DEFAULT_THEME_OVERRIDES };
 			}
 		}
-		function saveThemeOverrides(overrides) {
+		function hasLegacyThemeOverrides() {
 			try {
-				localStorage.setItem(THEME_OVERRIDES_KEY, JSON.stringify(overrides));
+				return localStorage.getItem(THEME_OVERRIDES_KEY) !== null && localStorage.getItem(MIGRATION_KEY) !== "1";
+			} catch {
+				return false;
+			}
+		}
+		function markThemeOverridesMigrated() {
+			try {
+				localStorage.setItem(MIGRATION_KEY, "1");
+				localStorage.removeItem(THEME_OVERRIDES_KEY);
 			} catch {}
-			applyThemeOverrides(overrides);
 		}
 		/** Inject (or refresh) the override style element. */
 		function applyThemeOverrides(overrides) {
@@ -12875,7 +13165,7 @@ window.__ModuleLoader__.load({
 		}
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\AppearanceSection.module.css.mjs
-		const css$12 = "._-7MpG_groupHeader{color:var(--foreground);font-size:15px;font-weight:600}._-7MpG_themeGrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;display:grid}._-7MpG_themeOption{min-width:0;color:var(--foreground);cursor:pointer;background:0 0;border:none;border-radius:8px;outline:none;padding:0 0 6px;font-family:inherit}._-7MpG_previewFrame{aspect-ratio:16/10;border:1px solid var(--border);background:var(--background-subtle);box-sizing:border-box;border-radius:8px;flex-direction:column;padding:6px;transition:border-color .15s,box-shadow .15s;display:flex}._-7MpG_themeOption:hover ._-7MpG_previewFrame{border-color:var(--border-strong)}._-7MpG_themePreviewActive ._-7MpG_previewFrame{border-color:var(--primary);box-shadow:0 0 0 2px color-mix(in srgb, var(--primary) 20%, transparent)}._-7MpG_themeLabel{justify-content:center;align-items:center;gap:6px;margin-top:8px;font-size:14px;display:flex}._-7MpG_colorRow{flex-wrap:wrap;align-items:center;gap:12px;display:flex}._-7MpG_swatch{cursor:pointer;border:2px solid #0000;border-radius:50%;width:22px;height:22px;padding:0;transition:opacity .15s}._-7MpG_swatch:hover{opacity:.8}._-7MpG_swatchActive{border-color:var(--border-strong);box-shadow:0 0 0 2px var(--background), 0 0 0 3px var(--border-strong)}._-7MpG_nativePicker{border:1px solid var(--border);background:var(--background);cursor:pointer;border-radius:6px;justify-content:center;align-items:center;width:32px;height:32px;display:flex;position:relative}._-7MpG_nativePicker input{opacity:0;cursor:pointer;width:100%;height:100%;position:absolute;inset:0}._-7MpG_nativeSwatch{border:1px solid var(--border);border-radius:4px;width:20px;height:20px}._-7MpG_hexInput{border:1px solid var(--border);background:var(--background);width:96px;height:32px;color:var(--foreground);text-transform:uppercase;box-sizing:border-box;border-radius:6px;outline:none;padding:0 8px;font-family:ui-monospace,Consolas,monospace;font-size:12px}._-7MpG_hexInput:focus{border-color:var(--ring)}._-7MpG_staticValue{color:var(--muted-foreground);font-size:13px}._-7MpG_desktopTag{background:var(--muted);color:var(--foreground-tertiary);vertical-align:1px;border-radius:4px;flex:none;margin-left:6px;padding:1px 5px;font-size:11px;font-weight:400}._-7MpG_fontSelect{border:1px solid var(--border);background:var(--background);min-width:200px;max-width:260px;height:32px;color:var(--foreground);cursor:pointer;border-radius:6px;outline:none;padding:0 8px;font-family:inherit;font-size:13px}._-7MpG_fontSelect:focus{border-color:var(--ring)}._-7MpG_cssEditor{box-sizing:border-box;border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;min-height:180px;color:var(--foreground);resize:vertical;border-radius:8px;outline:none;margin-top:12px;padding:12px;font-family:ui-monospace,Cascadia Code,Consolas,monospace;font-size:12px;line-height:1.6}._-7MpG_cssEditor:focus{border-color:var(--ring)}";
+		const css$12 = "._-7MpG_groupHeader{color:var(--foreground);font-size:15px;font-weight:600}._-7MpG_themeGrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;display:grid}._-7MpG_themeOption{min-width:0;color:var(--foreground);cursor:pointer;background:0 0;border:none;border-radius:8px;outline:none;padding:0 0 6px;font-family:inherit}._-7MpG_previewFrame{aspect-ratio:16/10;border:1px solid var(--border);background:var(--background-subtle);box-sizing:border-box;border-radius:8px;flex-direction:column;padding:6px;transition:border-color .15s,box-shadow .15s;display:flex}._-7MpG_themeOption:hover ._-7MpG_previewFrame{border-color:var(--border-strong)}._-7MpG_themePreviewActive ._-7MpG_previewFrame{border-color:var(--primary);box-shadow:0 0 0 2px color-mix(in srgb, var(--primary) 20%, transparent)}._-7MpG_themeLabel{justify-content:center;align-items:center;gap:6px;margin-top:8px;font-size:14px;display:flex}._-7MpG_colorRow{flex-wrap:wrap;align-items:center;gap:12px;display:flex}._-7MpG_swatch{cursor:pointer;border:2px solid #0000;border-radius:50%;width:22px;height:22px;padding:0;transition:opacity .15s}._-7MpG_swatch:hover{opacity:.8}._-7MpG_swatchActive{border-color:var(--border-strong);box-shadow:0 0 0 2px var(--background), 0 0 0 3px var(--border-strong)}._-7MpG_nativePicker{border:1px solid var(--border);background:var(--background);cursor:pointer;border-radius:6px;justify-content:center;align-items:center;width:32px;height:32px;display:flex;position:relative}._-7MpG_nativePicker input{opacity:0;cursor:pointer;width:100%;height:100%;position:absolute;inset:0}._-7MpG_nativeSwatch{border:1px solid var(--border);border-radius:4px;width:20px;height:20px}._-7MpG_hexInput{border:1px solid var(--border);background:var(--background);width:96px;height:32px;color:var(--foreground);text-transform:uppercase;box-sizing:border-box;border-radius:6px;outline:none;padding:0 8px;font-family:ui-monospace,Consolas,monospace;font-size:12px}._-7MpG_hexInput:focus{border-color:var(--ring)}._-7MpG_zoomControls{align-items:center;gap:6px;display:flex}._-7MpG_zoomControls button{border:1px solid var(--border);background:var(--background-subtle);width:28px;height:28px;color:var(--foreground);cursor:pointer;border-radius:6px}._-7MpG_zoomControls button:disabled{cursor:not-allowed;opacity:.45}._-7MpG_staticValue{color:var(--muted-foreground);font-size:13px}._-7MpG_desktopTag{background:var(--muted);color:var(--foreground-tertiary);vertical-align:1px;border-radius:4px;flex:none;margin-left:6px;padding:1px 5px;font-size:11px;font-weight:400}._-7MpG_fontSelect{border:1px solid var(--border);background:var(--background);min-width:200px;max-width:260px;height:32px;color:var(--foreground);cursor:pointer;border-radius:6px;outline:none;padding:0 8px;font-family:inherit;font-size:13px}._-7MpG_fontSelect:focus{border-color:var(--ring)}._-7MpG_cssEditor{box-sizing:border-box;border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;min-height:180px;color:var(--foreground);resize:vertical;border-radius:8px;outline:none;margin-top:12px;padding:12px;font-family:ui-monospace,Cascadia Code,Consolas,monospace;font-size:12px;line-height:1.6}._-7MpG_cssEditor:focus{border-color:var(--ring)}";
 		const tagId$12 = "@dsh-control-center/bundle/AppearanceSection.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$12) + "]") === null) {
 			const tag = document.createElement("style");
@@ -12885,22 +13175,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var AppearanceSection_module_css_default = {
+			"zoomControls": "_-7MpG_zoomControls",
 			"themeOption": "_-7MpG_themeOption",
-			"cssEditor": "_-7MpG_cssEditor",
-			"colorRow": "_-7MpG_colorRow",
-			"desktopTag": "_-7MpG_desktopTag",
+			"nativeSwatch": "_-7MpG_nativeSwatch",
 			"nativePicker": "_-7MpG_nativePicker",
-			"fontSelect": "_-7MpG_fontSelect",
+			"colorRow": "_-7MpG_colorRow",
+			"cssEditor": "_-7MpG_cssEditor",
 			"swatchActive": "_-7MpG_swatchActive",
 			"themeGrid": "_-7MpG_themeGrid",
+			"themeLabel": "_-7MpG_themeLabel",
+			"staticValue": "_-7MpG_staticValue",
+			"desktopTag": "_-7MpG_desktopTag",
 			"themePreviewActive": "_-7MpG_themePreviewActive",
 			"swatch": "_-7MpG_swatch",
-			"staticValue": "_-7MpG_staticValue",
-			"nativeSwatch": "_-7MpG_nativeSwatch",
-			"themeLabel": "_-7MpG_themeLabel",
-			"groupHeader": "_-7MpG_groupHeader",
+			"hexInput": "_-7MpG_hexInput",
+			"fontSelect": "_-7MpG_fontSelect",
 			"previewFrame": "_-7MpG_previewFrame",
-			"hexInput": "_-7MpG_hexInput"
+			"groupHeader": "_-7MpG_groupHeader"
 		};
 		//#endregion
 		//#region lib/types/client/AppearanceSection.js
@@ -13035,14 +13326,59 @@ window.__ModuleLoader__.load({
 				})
 			});
 		}
-		function AppearanceSection({ api }) {
+		function AppearanceSection({ api, locale }) {
 			const [overrides, setOverrides] = (0, react.useState)(loadThemeOverrides);
+			const fallbackLocale = {
+				active: "zh",
+				locales: [{
+					id: "zh",
+					label: "中文"
+				}],
+				revision: 0
+			};
+			const [localeSnapshot, setLocaleSnapshot] = (0, react.useState)(() => locale?.getSnapshot() ?? fallbackLocale);
 			const [themeMode, setThemeMode] = (0, react.useState)("system");
 			const [hexDraft, setHexDraft] = (0, react.useState)(overrides.colorPrimary);
 			const [fontDraft, setFontDraft] = (0, react.useState)(overrides.fontFamily);
 			const [codeFontDraft, setCodeFontDraft] = (0, react.useState)(overrides.codeFontFamily);
 			const [cssDraft, setCssDraft] = (0, react.useState)(overrides.customCss);
+			const [zoom, setZoom] = (0, react.useState)(1);
+			const [zoomBusy, setZoomBusy] = (0, react.useState)(false);
+			const [fontOptions, setFontOptions] = (0, react.useState)(FONT_OPTIONS);
+			const [fontLoading, setFontLoading] = (0, react.useState)(false);
 			const [bridgeText, setBridgeText] = (0, react.useState)("");
+			const [appearanceReady, setAppearanceReady] = (0, react.useState)(false);
+			const [appearanceSaving, setAppearanceSaving] = (0, react.useState)(false);
+			const [appearanceError, setAppearanceError] = (0, react.useState)("");
+			const overridesRef = (0, react.useRef)(overrides);
+			const revisionRef = (0, react.useRef)(null);
+			const writeQueueRef = (0, react.useRef)(Promise.resolve());
+			(0, react.useEffect)(() => {
+				if (locale === void 0) return;
+				return locale.subscribe(() => {
+					setLocaleSnapshot(locale.getSnapshot());
+				});
+			}, [locale]);
+			(0, react.useEffect)(() => {
+				if (!hasNativeBridge()) return;
+				let active = true;
+				setFontLoading(true);
+				desktopNativeApi.fonts().then((result) => {
+					if (!active) return;
+					if (result.ok && result.fonts !== void 0 && result.fonts.length > 0) setFontOptions([{
+						label: "默认",
+						value: ""
+					}, ...result.fonts.map((font) => ({
+						label: font,
+						value: font
+					}))]);
+				}).finally(() => {
+					if (active) setFontLoading(false);
+				});
+				return () => {
+					active = false;
+				};
+			}, []);
 			(0, react.useEffect)(() => {
 				if (!hasNativeBridge()) return;
 				let active = true;
@@ -13060,23 +13396,152 @@ window.__ModuleLoader__.load({
 				let active = true;
 				api.settings.describe({}).then((response) => {
 					if (!active || !response.result.ok) return;
-					const themeNs = response.result.value.namespaces.find((ns) => ns.ns === THEME_NS);
-					if (themeNs === void 0) return;
-					const preference = themeNs.value?.preference;
+					const preference = response.result.value.namespaces.find((ns) => ns.ns === THEME_NS)?.value?.preference;
 					if (preference === "light" || preference === "dark" || preference === "system") setThemeMode(preference);
 				}).catch(() => {});
 				return () => {
 					active = false;
 				};
 			}, [api]);
-			const updateOverrides = (patch) => {
-				setOverrides((current) => {
-					const next = {
-						...current,
-						...patch
+			const changeZoom = (delta, reset = false) => {
+				if (zoomBusy || revisionRef.current === null) return;
+				const previous = zoom;
+				setZoomBusy(true);
+				desktopNativeApi.adjustZoom(delta, reset).then((result) => {
+					if (!result.ok || result.zoom === void 0) throw new Error(result.error ?? "缩放设置失败");
+					setZoom(result.zoom);
+					return api.settings.mutate({
+						ns: APPEARANCE_SETTINGS_NAMESPACE,
+						ops: [{
+							op: "set",
+							path: ["desktopZoom"],
+							value: result.zoom
+						}],
+						expectedRevision: revisionRef.current
+					}).then((response) => {
+						if (!response.result.ok) throw new Error(response.result.error.message);
+						revisionRef.current = response.result.value.revision;
+					});
+				}).catch((error) => {
+					setZoom(previous);
+					setAppearanceError(String(error.message || "缩放设置保存失败，请重试。"));
+					if (hasNativeBridge()) desktopNativeApi.adjustZoom(0, true).then(() => desktopNativeApi.adjustZoom(previous - 1));
+				}).finally(() => {
+					setZoomBusy(false);
+				});
+			};
+			(0, react.useEffect)(() => {
+				let active = true;
+				api.settings.describe({}).then((response) => {
+					if (!active) return;
+					if (!response.result.ok) {
+						setAppearanceError("外观设置加载失败，请重试。");
+						return;
+					}
+					const namespace = response.result.value.namespaces.find((view) => view.ns === APPEARANCE_SETTINGS_NAMESPACE);
+					if (namespace === void 0) {
+						setAppearanceError("外观设置不可用，请重试。");
+						return;
+					}
+					const stored = namespace.value;
+					const storedZoom = typeof stored.desktopZoom === "number" && stored.desktopZoom >= .5 && stored.desktopZoom <= 2 ? stored.desktopZoom : 1;
+					const hasStoredValues = typeof stored.colorPrimary === "string" && stored.colorPrimary !== "#00b96b" || stored.fontFamily !== "" || stored.codeFontFamily !== "" || stored.customCss !== "";
+					const legacy = loadThemeOverrides();
+					const next = !hasStoredValues && hasLegacyThemeOverrides() ? legacy : {
+						colorPrimary: typeof stored.colorPrimary === "string" ? stored.colorPrimary : "#00b96b",
+						fontFamily: typeof stored.fontFamily === "string" ? stored.fontFamily : "",
+						codeFontFamily: typeof stored.codeFontFamily === "string" ? stored.codeFontFamily : "",
+						customCss: typeof stored.customCss === "string" ? stored.customCss : ""
 					};
-					saveThemeOverrides(next);
-					return next;
+					overridesRef.current = next;
+					revisionRef.current = namespace.revision;
+					setOverrides(next);
+					setHexDraft(next.colorPrimary);
+					setFontDraft(next.fontFamily);
+					setCodeFontDraft(next.codeFontFamily);
+					setCssDraft(next.customCss);
+					setZoom(storedZoom);
+					if (hasNativeBridge()) desktopNativeApi.adjustZoom(0, true).then(() => desktopNativeApi.adjustZoom(storedZoom - 1));
+					applyThemeOverrides(next);
+					setAppearanceReady(true);
+					setAppearanceError("");
+					if (!hasStoredValues && hasLegacyThemeOverrides()) writeQueueRef.current = writeQueueRef.current.then(async () => {
+						const migrated = await api.settings.mutate({
+							ns: APPEARANCE_SETTINGS_NAMESPACE,
+							ops: [
+								{
+									op: "set",
+									path: ["colorPrimary"],
+									value: next.colorPrimary
+								},
+								{
+									op: "set",
+									path: ["fontFamily"],
+									value: next.fontFamily
+								},
+								{
+									op: "set",
+									path: ["codeFontFamily"],
+									value: next.codeFontFamily
+								},
+								{
+									op: "set",
+									path: ["customCss"],
+									value: next.customCss
+								}
+							],
+							expectedRevision: namespace.revision
+						});
+						if (migrated.result.ok) {
+							revisionRef.current = migrated.result.value.revision;
+							markThemeOverridesMigrated();
+						}
+					}).catch(() => {
+						setAppearanceError("旧版外观设置迁移失败，请重试。");
+					});
+				}).catch(() => {
+					if (active) setAppearanceError("外观设置加载失败，请重试。");
+				});
+				return () => {
+					active = false;
+				};
+			}, [api]);
+			const updateOverrides = (patch) => {
+				if (!appearanceReady || appearanceSaving || revisionRef.current === null) return;
+				const previous = overridesRef.current;
+				const next = {
+					...previous,
+					...patch
+				};
+				overridesRef.current = next;
+				setOverrides(next);
+				applyThemeOverrides(next);
+				setAppearanceSaving(true);
+				setAppearanceError("");
+				const ops = Object.entries(patch).map(([key, value]) => ({
+					op: "set",
+					path: [key],
+					value
+				}));
+				writeQueueRef.current = writeQueueRef.current.then(async () => {
+					const response = await api.settings.mutate({
+						ns: APPEARANCE_SETTINGS_NAMESPACE,
+						ops,
+						expectedRevision: revisionRef.current
+					});
+					if (!response.result.ok) throw new Error(response.result.error.message);
+					revisionRef.current = response.result.value.revision;
+				}).catch((error) => {
+					overridesRef.current = previous;
+					setOverrides(previous);
+					setHexDraft(previous.colorPrimary);
+					setFontDraft(previous.fontFamily);
+					setCodeFontDraft(previous.codeFontFamily);
+					setCssDraft(previous.customCss);
+					applyThemeOverrides(previous);
+					setAppearanceError(String(error.message || "外观设置保存失败，请重试。"));
+				}).finally(() => {
+					setAppearanceSaving(false);
 				});
 			};
 			const setMode = (mode) => {
@@ -13089,7 +13554,7 @@ window.__ModuleLoader__.load({
 						value: mode
 					}]
 				}).then(() => {
-					applyThemeOverrides(overrides);
+					applyThemeOverrides(overridesRef.current);
 				}).catch(() => {});
 			};
 			const setColor = (color) => {
@@ -13123,6 +13588,7 @@ window.__ModuleLoader__.load({
 							type: "button",
 							className: AppearanceSection_module_css_default.themeOption,
 							"aria-pressed": themeMode === mode,
+							disabled: !appearanceReady || appearanceSaving,
 							onClick: () => {
 								setMode(mode);
 							},
@@ -13148,6 +13614,7 @@ window.__ModuleLoader__.load({
 								className: `${AppearanceSection_module_css_default.swatch} ${overrides.colorPrimary.toLowerCase() === color.toLowerCase() ? AppearanceSection_module_css_default.swatchActive : ""}`,
 								style: { background: color },
 								"aria-pressed": overrides.colorPrimary.toLowerCase() === color.toLowerCase(),
+								disabled: !appearanceReady || appearanceSaving,
 								onClick: () => {
 									setColor(color);
 								}
@@ -13158,6 +13625,7 @@ window.__ModuleLoader__.load({
 								children: [(0, react_jsx_runtime.jsx)("input", {
 									type: "color",
 									value: overrides.colorPrimary,
+									disabled: !appearanceReady || appearanceSaving,
 									onChange: (event) => {
 										setColor(event.target.value);
 									}
@@ -13169,6 +13637,7 @@ window.__ModuleLoader__.load({
 							(0, react_jsx_runtime.jsx)("input", {
 								className: AppearanceSection_module_css_default.hexInput,
 								value: hexDraft,
+								disabled: !appearanceReady || appearanceSaving,
 								onChange: (event) => {
 									setHexDraft(event.target.value);
 								},
@@ -13187,25 +13656,57 @@ window.__ModuleLoader__.load({
 						children: "显示"
 					}),
 					(0, react_jsx_runtime.jsx)(SettingDivider, {}),
-					(0, react_jsx_runtime.jsxs)(SettingRow, { children: [(0, react_jsx_runtime.jsx)(SettingRowTitle, { children: "语言" }), (0, react_jsx_runtime.jsx)("span", {
-						className: AppearanceSection_module_css_default.staticValue,
-						children: "中文（简体）"
+					(0, react_jsx_runtime.jsxs)(SettingRow, { children: [(0, react_jsx_runtime.jsx)(SettingRowTitle, { children: "语言" }), (0, react_jsx_runtime.jsx)("select", {
+						className: AppearanceSection_module_css_default.fontSelect,
+						value: localeSnapshot.active,
+						onChange: (event) => {
+							locale?.setLocale(event.target.value);
+						},
+						"aria-label": "语言",
+						children: localeSnapshot.locales.map((option) => (0, react_jsx_runtime.jsx)("option", {
+							value: option.id,
+							children: option.label
+						}, option.id))
 					})] }),
 					(0, react_jsx_runtime.jsx)(SettingDivider, {}),
 					(0, react_jsx_runtime.jsxs)(SettingRow, { children: [(0, react_jsx_runtime.jsxs)(SettingRowTitle, { children: ["缩放 ", (0, react_jsx_runtime.jsx)("span", {
 						className: AppearanceSection_module_css_default.desktopTag,
 						children: "桌面"
-					})] }), (0, react_jsx_runtime.jsx)("span", {
-						className: AppearanceSection_module_css_default.staticValue,
-						children: desktopRowValue(bridgeText)
-					})] }),
-					(0, react_jsx_runtime.jsx)(SettingDivider, {}),
-					(0, react_jsx_runtime.jsxs)(SettingRow, { children: [(0, react_jsx_runtime.jsxs)(SettingRowTitle, { children: ["右键菜单样式 ", (0, react_jsx_runtime.jsx)("span", {
-						className: AppearanceSection_module_css_default.desktopTag,
-						children: "桌面"
-					})] }), (0, react_jsx_runtime.jsx)("span", {
-						className: AppearanceSection_module_css_default.staticValue,
-						children: desktopRowValue(bridgeText)
+					})] }), (0, react_jsx_runtime.jsxs)("div", {
+						className: AppearanceSection_module_css_default.zoomControls,
+						children: [
+							(0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								disabled: !hasNativeBridge() || zoomBusy || zoom <= .5,
+								onClick: () => {
+									changeZoom(-.1);
+								},
+								"aria-label": "缩小",
+								children: "−"
+							}),
+							(0, react_jsx_runtime.jsxs)("span", {
+								className: AppearanceSection_module_css_default.staticValue,
+								children: [Math.round(zoom * 100), "%"]
+							}),
+							(0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								disabled: !hasNativeBridge() || zoomBusy || zoom >= 2,
+								onClick: () => {
+									changeZoom(.1);
+								},
+								"aria-label": "放大",
+								children: "＋"
+							}),
+							zoom !== 1 && (0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								disabled: !hasNativeBridge() || zoomBusy,
+								onClick: () => {
+									changeZoom(0, true);
+								},
+								"aria-label": "重置缩放",
+								children: "↺"
+							})
+						]
 					})] }),
 					(0, react_jsx_runtime.jsx)(SettingDivider, {}),
 					(0, react_jsx_runtime.jsxs)(SettingRow, { children: [(0, react_jsx_runtime.jsxs)(SettingRowTitle, { children: ["透明窗口 ", (0, react_jsx_runtime.jsx)("span", {
@@ -13225,11 +13726,12 @@ window.__ModuleLoader__.load({
 					(0, react_jsx_runtime.jsxs)(SettingRow, { children: [(0, react_jsx_runtime.jsx)(SettingRowTitle, { children: "全局字体" }), (0, react_jsx_runtime.jsx)("select", {
 						className: AppearanceSection_module_css_default.fontSelect,
 						value: fontDraft,
+						disabled: !appearanceReady || appearanceSaving || fontLoading,
 						onChange: (event) => {
 							setFontDraft(event.target.value);
 							updateOverrides({ fontFamily: event.target.value });
 						},
-						children: FONT_OPTIONS.map((option) => (0, react_jsx_runtime.jsx)("option", {
+						children: fontOptions.map((option) => (0, react_jsx_runtime.jsx)("option", {
 							value: option.value,
 							children: option.label
 						}, option.value))
@@ -13238,11 +13740,12 @@ window.__ModuleLoader__.load({
 					(0, react_jsx_runtime.jsxs)(SettingRow, { children: [(0, react_jsx_runtime.jsx)(SettingRowTitle, { children: "代码字体" }), (0, react_jsx_runtime.jsx)("select", {
 						className: AppearanceSection_module_css_default.fontSelect,
 						value: codeFontDraft,
+						disabled: !appearanceReady || appearanceSaving || fontLoading,
 						onChange: (event) => {
 							setCodeFontDraft(event.target.value);
 							updateOverrides({ codeFontFamily: event.target.value });
 						},
-						children: FONT_OPTIONS.map((option) => (0, react_jsx_runtime.jsx)("option", {
+						children: fontOptions.map((option) => (0, react_jsx_runtime.jsx)("option", {
 							value: option.value,
 							children: option.label
 						}, option.value))
@@ -13254,78 +13757,191 @@ window.__ModuleLoader__.load({
 				}), (0, react_jsx_runtime.jsx)("textarea", {
 					className: AppearanceSection_module_css_default.cssEditor,
 					value: cssDraft,
+					disabled: !appearanceReady || appearanceSaving,
 					onChange: (event) => {
 						setCssDraft(event.target.value);
 					},
 					onBlur: commitCss,
 					placeholder: "/* 这里写自定义 CSS */",
 					spellCheck: false
-				})] })
+				})] }),
+				appearanceError === "" ? null : (0, react_jsx_runtime.jsx)("p", {
+					role: "alert",
+					className: "cc-error",
+					children: appearanceError
+				})
 			] });
 		}
 		//#endregion
-		//#region lib/types/client/NotificationSection.js
+		//#region lib/types/client/notification-runtime.js
+		const NOTIFICATION_SETTINGS_NAMESPACE = "control-center-notifications";
+		function browserCanNotify() {
+			return typeof Notification !== "undefined" && Notification.permission === "granted";
+		}
+		async function notifyConversationComplete(title) {
+			const body = title.trim() === "" ? "对话已完成" : `${title} 已完成`;
+			if (hasNativeBridge()) {
+				await desktopNativeApi.notify("DSH Control Center", body);
+				return;
+			}
+			if (browserCanNotify()) new Notification("DSH Control Center", { body });
+		}
 		/**
-		* Notification settings — Cherry NotificationSettings parity: four switches
-		* persisted as local preference rows. Web edition has no system notification
-		* pipeline, so the rows are honest preference records for the desktop build.
+		* Watches real host session transitions and emits a system notification only
+		* when a previously-running conversation becomes idle while this window is not
+		* focused. The returned disposer owns the sole list subscription.
 		*/
-		const NOTIFICATION_KEY = "cc.settings.notification";
-		function loadPrefs$4() {
-			try {
-				const raw = localStorage.getItem(NOTIFICATION_KEY);
-				if (raw === null) return {
-					assistant: false,
-					backup: false,
-					knowledge: false,
-					update: false
-				};
-				const parsed = JSON.parse(raw);
-				return {
-					assistant: parsed.assistant ?? false,
-					backup: parsed.backup ?? false,
-					knowledge: parsed.knowledge ?? false,
-					update: parsed.update ?? false
-				};
-			} catch {
-				return {
-					assistant: false,
-					backup: false,
-					knowledge: false,
-					update: false
+		var ConversationNotificationRuntime = class {
+			api;
+			sessions;
+			assistantEnabled = false;
+			running = /* @__PURE__ */ new Map();
+			stop;
+			constructor(api, sessions) {
+				this.api = api;
+				this.sessions = sessions;
+			}
+			async refreshPreferences() {
+				const response = await this.api.settings.describe({});
+				if (!response.result.ok) return;
+				const value = response.result.value.namespaces.find((view) => view.ns === NOTIFICATION_SETTINGS_NAMESPACE)?.value;
+				this.assistantEnabled = typeof value === "object" && value !== null && value.assistant === true;
+			}
+			start() {
+				const initial = this.sessions.getSnapshot();
+				this.running = new Map(initial.ids.map((id) => [String(id), initial.byId[id]?.running === true]));
+				this.stop = this.sessions.subscribe(() => {
+					this.onSnapshot(this.sessions.getSnapshot());
+				});
+				this.refreshPreferences();
+				return () => {
+					this.stop?.();
+					this.stop = void 0;
 				};
 			}
-		}
-		const btnStyle = {
-			padding: "4px 12px",
-			borderRadius: "6px",
-			border: "1px solid var(--border)",
-			background: "var(--background-subtle)",
-			color: "var(--foreground)",
-			fontSize: "13px",
-			cursor: "pointer"
+			onSnapshot(snapshot) {
+				const next = /* @__PURE__ */ new Map();
+				for (const id of snapshot.ids) {
+					const row = snapshot.byId[id];
+					if (row === void 0) continue;
+					const key = String(id);
+					next.set(key, row.running);
+					if (this.running.get(key) === true && !row.running && this.assistantEnabled && !document.hasFocus()) notifyConversationComplete(row.displayTitle);
+				}
+				this.running = next;
+			}
 		};
-		function NotificationSection() {
-			const [prefs, setPrefs] = (0, react.useState)(loadPrefs$4);
-			const [testNotice, setTestNotice] = (0, react.useState)("");
-			const bridgeUp = hasNativeBridge();
-			(0, react.useEffect)(() => {
-				try {
-					localStorage.setItem(NOTIFICATION_KEY, JSON.stringify(prefs));
-				} catch {}
-			}, [prefs]);
-			const set = (key) => (next) => {
-				setPrefs((current) => ({
-					...current,
-					[key]: next
-				}));
+		//#endregion
+		//#region lib/types/client/NotificationSection.js
+		/**
+		* Notification settings adapted from Cherry NotificationSettings. Preferences
+		* are stored in an authoritative DSH settings namespace rather than browser
+		* storage so they follow the installed plugin across clients.
+		*/
+		const NOTIFICATION_NS = NOTIFICATION_SETTINGS_NAMESPACE;
+		const DEFAULT_PREFS = {
+			assistant: false,
+			backup: false,
+			knowledge: false,
+			update: false
+		};
+		function notificationPrefs(value) {
+			const record = typeof value === "object" && value !== null ? value : {};
+			return {
+				assistant: record.assistant === true,
+				backup: record.backup === true,
+				knowledge: record.knowledge === true,
+				update: record.update === true
 			};
-			const sendTestNotice = () => {
-				setTestNotice("发送中…");
-				desktopNativeApi.notify("DSH Control Center", "系统通知测试成功（桌面桥）。").then((result) => {
-					setTestNotice(result.ok ? result.supported === false ? "已发送：但当前系统不支持系统通知" : "已发送 ✅" : `发送失败：${result.error ?? "未知错误"}`);
-				}).catch((err) => {
-					setTestNotice(`发送失败：${String(err?.message ?? err)}`);
+		}
+		function NotificationSection({ api }) {
+			const [prefs, setPrefs] = (0, react.useState)(DEFAULT_PREFS);
+			const [revision, setRevision] = (0, react.useState)(null);
+			const [loading, setLoading] = (0, react.useState)(true);
+			const [error, setError] = (0, react.useState)("");
+			const prefsRef = (0, react.useRef)(prefs);
+			const revisionRef = (0, react.useRef)(revision);
+			const writeQueueRef = (0, react.useRef)(Promise.resolve());
+			const pendingWritesRef = (0, react.useRef)(0);
+			(0, react.useEffect)(() => {
+				prefsRef.current = prefs;
+			}, [prefs]);
+			(0, react.useEffect)(() => {
+				revisionRef.current = revision;
+			}, [revision]);
+			(0, react.useEffect)(() => {
+				let active = true;
+				setLoading(true);
+				api.settings.describe({}).then((response) => {
+					if (!active) return;
+					if (!response.result.ok) {
+						setError("通知偏好加载失败，请重试。");
+						setLoading(false);
+						return;
+					}
+					const namespace = response.result.value.namespaces.find((view) => view.ns === NOTIFICATION_NS);
+					if (namespace === void 0) {
+						setError("通知偏好不可用，请重试。");
+						setLoading(false);
+						return;
+					}
+					const nextPrefs = notificationPrefs(namespace.value);
+					prefsRef.current = nextPrefs;
+					revisionRef.current = namespace.revision;
+					setPrefs(nextPrefs);
+					setRevision(namespace.revision);
+					setError("");
+					setLoading(false);
+				}).catch(() => {
+					if (!active) return;
+					setError("通知偏好加载失败，请重试。");
+					setLoading(false);
+				});
+				return () => {
+					active = false;
+				};
+			}, [api]);
+			const set = (key) => (next) => {
+				const previous = prefsRef.current[key];
+				prefsRef.current = {
+					...prefsRef.current,
+					[key]: next
+				};
+				setPrefs(prefsRef.current);
+				setError("");
+				pendingWritesRef.current += 1;
+				setLoading(true);
+				writeQueueRef.current = writeQueueRef.current.then(async () => {
+					const response = await api.settings.mutate({
+						ns: NOTIFICATION_NS,
+						ops: [{
+							op: "set",
+							path: [key],
+							value: next
+						}],
+						expectedRevision: revisionRef.current
+					});
+					if (!response.result.ok) {
+						prefsRef.current = {
+							...prefsRef.current,
+							[key]: previous
+						};
+						setPrefs(prefsRef.current);
+						setError(response.result.error.message);
+						return;
+					}
+					revisionRef.current = response.result.value.revision;
+					setRevision(response.result.value.revision);
+				}).catch(() => {
+					prefsRef.current = {
+						...prefsRef.current,
+						[key]: previous
+					};
+					setPrefs(prefsRef.current);
+					setError("通知偏好保存失败，请重试。");
+				}).finally(() => {
+					pendingWritesRef.current -= 1;
+					if (pendingWritesRef.current === 0) setLoading(false);
 				});
 			};
 			return (0, react_jsx_runtime.jsxs)(SettingsPageShell, { children: [(0, react_jsx_runtime.jsxs)(SettingGroup, { children: [
@@ -13334,49 +13950,34 @@ window.__ModuleLoader__.load({
 				(0, react_jsx_runtime.jsx)(SettingSwitch, {
 					label: (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsx)("span", { children: "对话完成通知" }), (0, react_jsx_runtime.jsx)(HelpTooltip, { text: "仅控制后台系统通知，应用内通知始终开启。" })] }),
 					checked: prefs.assistant,
-					onChange: set("assistant")
+					onChange: set("assistant"),
+					disabled: loading
 				}),
 				(0, react_jsx_runtime.jsx)(SettingDivider, {}),
 				(0, react_jsx_runtime.jsx)(SettingSwitch, {
 					label: "备份",
 					checked: prefs.backup,
-					onChange: set("backup")
+					onChange: set("backup"),
+					disabled: loading
 				}),
 				(0, react_jsx_runtime.jsx)(SettingDivider, {}),
 				(0, react_jsx_runtime.jsx)(SettingSwitch, {
 					label: "知识库",
 					checked: prefs.knowledge,
-					onChange: set("knowledge")
+					onChange: set("knowledge"),
+					disabled: loading
 				}),
 				(0, react_jsx_runtime.jsx)(SettingDivider, {}),
 				(0, react_jsx_runtime.jsx)(SettingSwitch, {
 					label: "应用更新",
 					checked: prefs.update,
-					onChange: set("update")
-				}),
-				bridgeUp && (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsx)(SettingDivider, {}), (0, react_jsx_runtime.jsxs)(SettingRow, { children: [(0, react_jsx_runtime.jsx)(SettingRowTitle, { children: "桌面通知测试" }), (0, react_jsx_runtime.jsxs)("div", {
-					style: {
-						display: "flex",
-						alignItems: "center",
-						gap: 10
-					},
-					children: [(0, react_jsx_runtime.jsx)("button", {
-						type: "button",
-						style: btnStyle,
-						onClick: sendTestNotice,
-						children: "发送测试通知"
-					}), testNotice !== "" && (0, react_jsx_runtime.jsx)("span", {
-						className: "cc-notice",
-						style: {
-							fontSize: 12,
-							color: "var(--foreground-tertiary)"
-						},
-						children: testNotice
-					})]
-				})] })] })
-			] }), (0, react_jsx_runtime.jsx)("div", {
-				className: SettingsPages_module_css_default.noticeText,
-				children: bridgeUp ? "桌面桥已连接：开启的开关将通过系统通知管道发送。" : "Web 版暂无系统通知管道；以上偏好将随桌面版直接生效。"
+					onChange: set("update"),
+					disabled: loading
+				})
+			] }), error === "" ? null : (0, react_jsx_runtime.jsx)("p", {
+				role: "alert",
+				className: "cc-error",
+				children: error
 			})] });
 		}
 		//#endregion
@@ -13391,36 +13992,36 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ShortcutSection_module_css_default = {
+			"menuItemDanger": "-S_gJa_menuItemDanger",
+			"rowSwitch": "-S_gJa_rowSwitch",
+			"rowDisabled": "-S_gJa_rowDisabled",
 			"moreButton": "-S_gJa_moreButton",
-			"unbound": "-S_gJa_unbound",
-			"kbd": "-S_gJa_kbd",
-			"emptyState": "-S_gJa_emptyState",
+			"groupLabel": "-S_gJa_groupLabel",
+			"menuSep": "-S_gJa_menuSep",
+			"desktopTag": "-S_gJa_desktopTag",
 			"recording": "-S_gJa_recording",
+			"emptyState": "-S_gJa_emptyState",
+			"rowLabel": "-S_gJa_rowLabel",
+			"searchInput": "-S_gJa_searchInput",
+			"kbd": "-S_gJa_kbd",
+			"menuCount": "-S_gJa_menuCount",
+			"header": "-S_gJa_header",
+			"menuItem": "-S_gJa_menuItem",
+			"rowShortcut": "-S_gJa_rowShortcut",
+			"menuItemActive": "-S_gJa_menuItemActive",
+			"row": "-S_gJa_row",
+			"menuPop": "-S_gJa_menuPop",
+			"bound": "-S_gJa_bound",
 			"keys": "-S_gJa_keys",
 			"listGroup": "-S_gJa_listGroup",
-			"groupLabel": "-S_gJa_groupLabel",
-			"menuCount": "-S_gJa_menuCount",
-			"rowLabel": "-S_gJa_rowLabel",
-			"menuItemActive": "-S_gJa_menuItemActive",
-			"filterButton": "-S_gJa_filterButton",
-			"desktopTag": "-S_gJa_desktopTag",
-			"undo": "-S_gJa_undo",
-			"searchInput": "-S_gJa_searchInput",
-			"menuItem": "-S_gJa_menuItem",
-			"menuSep": "-S_gJa_menuSep",
-			"rowSwitch": "-S_gJa_rowSwitch",
-			"headerTitle": "-S_gJa_headerTitle",
-			"row": "-S_gJa_row",
-			"menuItemDanger": "-S_gJa_menuItemDanger",
-			"rowShortcut": "-S_gJa_rowShortcut",
-			"bound": "-S_gJa_bound",
-			"rowDisabled": "-S_gJa_rowDisabled",
-			"headerControls": "-S_gJa_headerControls",
 			"groupBlock": "-S_gJa_groupBlock",
-			"searchWrap": "-S_gJa_searchWrap",
-			"menuPop": "-S_gJa_menuPop",
 			"searchIcon": "-S_gJa_searchIcon",
-			"header": "-S_gJa_header"
+			"undo": "-S_gJa_undo",
+			"headerControls": "-S_gJa_headerControls",
+			"filterButton": "-S_gJa_filterButton",
+			"headerTitle": "-S_gJa_headerTitle",
+			"unbound": "-S_gJa_unbound",
+			"searchWrap": "-S_gJa_searchWrap"
 		};
 		//#endregion
 		//#region lib/types/client/ShortcutSection.js
@@ -14021,43 +14622,43 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SelectionAssistantSection_module_css_default = {
-			"outlineBtn": "_2Suf7W_outlineBtn",
-			"toolbarPreview": "_2Suf7W_toolbarPreview",
-			"modalCard": "_2Suf7W_modalCard",
-			"actionRow": "_2Suf7W_actionRow",
-			"opBtn": "_2Suf7W_opBtn",
-			"formField": "_2Suf7W_formField",
 			"btnPrimary": "_2Suf7W_btnPrimary",
-			"ghostBtn": "_2Suf7W_ghostBtn",
-			"actionsDivider": "_2Suf7W_actionsDivider",
-			"formInput": "_2Suf7W_formInput",
-			"formTextarea": "_2Suf7W_formTextarea",
-			"actionsHeaderBtns": "_2Suf7W_actionsHeaderBtns",
 			"radioRow": "_2Suf7W_radioRow",
+			"groupTitle": "_2Suf7W_groupTitle",
+			"formTextarea": "_2Suf7W_formTextarea",
+			"noticeText": "_2Suf7W_noticeText",
+			"radioItem": "_2Suf7W_radioItem",
+			"formField": "_2Suf7W_formField",
+			"btn": "_2Suf7W_btn",
+			"actionsHeaderBtns": "_2Suf7W_actionsHeaderBtns",
+			"modalOverlay": "_2Suf7W_modalOverlay",
+			"opacitySlider": "_2Suf7W_opacitySlider",
+			"actionRow": "_2Suf7W_actionRow",
+			"modalCard": "_2Suf7W_modalCard",
+			"ghostBtn": "_2Suf7W_ghostBtn",
 			"faqLink": "_2Suf7W_faqLink",
+			"opBtnDanger": "_2Suf7W_opBtnDanger",
+			"actionsDivider": "_2Suf7W_actionsDivider",
+			"actionRowDisabled": "_2Suf7W_actionRowDisabled",
+			"formInput": "_2Suf7W_formInput",
+			"toolbarPreview": "_2Suf7W_toolbarPreview",
+			"toolbarItem": "_2Suf7W_toolbarItem",
+			"dragHandle": "_2Suf7W_dragHandle",
+			"groupHeaderRow": "_2Suf7W_groupHeaderRow",
+			"engineChip": "_2Suf7W_engineChip",
+			"toolbarIcon": "_2Suf7W_toolbarIcon",
+			"actionRowDragging": "_2Suf7W_actionRowDragging",
+			"actionName": "_2Suf7W_actionName",
+			"actionOps": "_2Suf7W_actionOps",
+			"opBtn": "_2Suf7W_opBtn",
 			"enableBtnOn": "_2Suf7W_enableBtnOn",
 			"actionIcon": "_2Suf7W_actionIcon",
-			"enableBtn": "_2Suf7W_enableBtn",
-			"actionName": "_2Suf7W_actionName",
-			"actionRowDragging": "_2Suf7W_actionRowDragging",
-			"groupTitle": "_2Suf7W_groupTitle",
+			"outlineBtn": "_2Suf7W_outlineBtn",
 			"modalFooter": "_2Suf7W_modalFooter",
-			"opBtnDanger": "_2Suf7W_opBtnDanger",
 			"opacityRow": "_2Suf7W_opacityRow",
-			"groupHeaderRow": "_2Suf7W_groupHeaderRow",
-			"btn": "_2Suf7W_btn",
-			"noticeText": "_2Suf7W_noticeText",
-			"actionOps": "_2Suf7W_actionOps",
-			"engineChip": "_2Suf7W_engineChip",
-			"formHint": "_2Suf7W_formHint",
-			"opacitySlider": "_2Suf7W_opacitySlider",
-			"modalOverlay": "_2Suf7W_modalOverlay",
-			"toolbarItem": "_2Suf7W_toolbarItem",
-			"radioItem": "_2Suf7W_radioItem",
+			"enableBtn": "_2Suf7W_enableBtn",
 			"notice": "_2Suf7W_notice",
-			"dragHandle": "_2Suf7W_dragHandle",
-			"actionRowDisabled": "_2Suf7W_actionRowDisabled",
-			"toolbarIcon": "_2Suf7W_toolbarIcon"
+			"formHint": "_2Suf7W_formHint"
 		};
 		//#endregion
 		//#region lib/types/client/SelectionAssistantSection.js
@@ -14751,19 +15352,19 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var QuickAssistantSection_module_css_default = {
-			"modelRow": "AweFxa_modelRow",
+			"modelHint": "AweFxa_modelHint",
+			"previewBar": "AweFxa_previewBar",
 			"previewLogo": "AweFxa_previewLogo",
 			"previewPlaceholder": "AweFxa_previewPlaceholder",
-			"previewBar": "AweFxa_previewBar",
-			"previewFooter": "AweFxa_previewFooter",
-			"groupTitle": "AweFxa_groupTitle",
 			"previewChip": "AweFxa_previewChip",
-			"notice": "AweFxa_notice",
-			"modelHint": "AweFxa_modelHint",
 			"segItemActive": "AweFxa_segItemActive",
-			"previewWindow": "AweFxa_previewWindow",
+			"previewFooter": "AweFxa_previewFooter",
 			"segmented": "AweFxa_segmented",
-			"segItem": "AweFxa_segItem"
+			"groupTitle": "AweFxa_groupTitle",
+			"notice": "AweFxa_notice",
+			"modelRow": "AweFxa_modelRow",
+			"segItem": "AweFxa_segItem",
+			"previewWindow": "AweFxa_previewWindow"
 		};
 		//#endregion
 		//#region lib/types/client/QuickAssistantSection.js
@@ -14922,15 +15523,15 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ScreenshotSection_module_css_default = {
-			"shortcutLabel": "RXXS4a_shortcutLabel",
-			"groupTitle": "RXXS4a_groupTitle",
-			"notice": "RXXS4a_notice",
-			"shortcutTitle": "RXXS4a_shortcutTitle",
-			"linkBtn": "RXXS4a_linkBtn",
-			"shortcutDesc": "RXXS4a_shortcutDesc",
-			"shortcutRight": "RXXS4a_shortcutRight",
 			"ocrStatus": "RXXS4a_ocrStatus",
-			"shortcutBadge": "RXXS4a_shortcutBadge"
+			"notice": "RXXS4a_notice",
+			"shortcutDesc": "RXXS4a_shortcutDesc",
+			"shortcutBadge": "RXXS4a_shortcutBadge",
+			"shortcutTitle": "RXXS4a_shortcutTitle",
+			"shortcutLabel": "RXXS4a_shortcutLabel",
+			"shortcutRight": "RXXS4a_shortcutRight",
+			"groupTitle": "RXXS4a_groupTitle",
+			"linkBtn": "RXXS4a_linkBtn"
 		};
 		//#endregion
 		//#region lib/types/client/ScreenshotSection.js
@@ -15072,46 +15673,46 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ChannelsSection_module_css_default = {
-			"modalCard": "bV1JOa_modalCard",
-			"submenuList": "bV1JOa_submenuList",
-			"formField": "bV1JOa_formField",
-			"emptyState": "bV1JOa_emptyState",
-			"submenu": "bV1JOa_submenu",
-			"logsBody": "bV1JOa_logsBody",
-			"formSelect": "bV1JOa_formSelect",
-			"modalFooter": "bV1JOa_modalFooter",
-			"submenuItemActive": "bV1JOa_submenuItemActive",
 			"connectedBadge": "bV1JOa_connectedBadge",
-			"opBtn": "bV1JOa_opBtn",
-			"formHint": "bV1JOa_formHint",
-			"btn": "bV1JOa_btn",
-			"detailHeader": "bV1JOa_detailHeader",
-			"opBtnDanger": "bV1JOa_opBtnDanger",
-			"split": "bV1JOa_split",
-			"instanceMain": "bV1JOa_instanceMain",
-			"typeIconImg": "bV1JOa_typeIconImg",
-			"detailTitle": "bV1JOa_detailTitle",
-			"instanceOps": "bV1JOa_instanceOps",
-			"typeIconImgLarge": "bV1JOa_typeIconImgLarge",
-			"instanceName": "bV1JOa_instanceName",
-			"formInput": "bV1JOa_formInput",
-			"typeIcon": "bV1JOa_typeIcon",
-			"submenuTitle": "bV1JOa_submenuTitle",
-			"detailTitleBlock": "bV1JOa_detailTitleBlock",
-			"detailDesc": "bV1JOa_detailDesc",
-			"addBtn": "bV1JOa_addBtn",
-			"statusDotActive": "bV1JOa_statusDotActive",
-			"btnPrimary": "bV1JOa_btnPrimary",
-			"typeIconLarge": "bV1JOa_typeIconLarge",
-			"notice": "bV1JOa_notice",
 			"submenuItem": "bV1JOa_submenuItem",
-			"instanceRow": "bV1JOa_instanceRow",
-			"instanceSummary": "bV1JOa_instanceSummary",
-			"modalOverlay": "bV1JOa_modalOverlay",
 			"detail": "bV1JOa_detail",
+			"detailTitleBlock": "bV1JOa_detailTitleBlock",
+			"typeIconImg": "bV1JOa_typeIconImg",
+			"btn": "bV1JOa_btn",
+			"instanceRow": "bV1JOa_instanceRow",
+			"addBtn": "bV1JOa_addBtn",
+			"modalOverlay": "bV1JOa_modalOverlay",
+			"instanceOps": "bV1JOa_instanceOps",
+			"submenuTitle": "bV1JOa_submenuTitle",
 			"detailBody": "bV1JOa_detailBody",
+			"detailTitle": "bV1JOa_detailTitle",
+			"opBtn": "bV1JOa_opBtn",
+			"typeIcon": "bV1JOa_typeIcon",
+			"notice": "bV1JOa_notice",
+			"typeIconLarge": "bV1JOa_typeIconLarge",
+			"submenuList": "bV1JOa_submenuList",
+			"instanceSummary": "bV1JOa_instanceSummary",
+			"formField": "bV1JOa_formField",
+			"submenuItemActive": "bV1JOa_submenuItemActive",
+			"instanceName": "bV1JOa_instanceName",
+			"detailDesc": "bV1JOa_detailDesc",
 			"divider": "bV1JOa_divider",
-			"statusDot": "bV1JOa_statusDot"
+			"modalFooter": "bV1JOa_modalFooter",
+			"detailHeader": "bV1JOa_detailHeader",
+			"statusDot": "bV1JOa_statusDot",
+			"formSelect": "bV1JOa_formSelect",
+			"split": "bV1JOa_split",
+			"btnPrimary": "bV1JOa_btnPrimary",
+			"logsBody": "bV1JOa_logsBody",
+			"formHint": "bV1JOa_formHint",
+			"instanceMain": "bV1JOa_instanceMain",
+			"opBtnDanger": "bV1JOa_opBtnDanger",
+			"typeIconImgLarge": "bV1JOa_typeIconImgLarge",
+			"formInput": "bV1JOa_formInput",
+			"submenu": "bV1JOa_submenu",
+			"emptyState": "bV1JOa_emptyState",
+			"modalCard": "bV1JOa_modalCard",
+			"statusDotActive": "bV1JOa_statusDotActive"
 		};
 		//#endregion
 		//#region lib/types/client/ChannelsSection.js
@@ -15880,35 +16481,35 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelsSection_module_css_default = {
-			"credentialDot": "tKsOKa_credentialDot",
-			"savedNotice": "tKsOKa_savedNotice",
-			"addActions": "tKsOKa_addActions",
-			"addBlock": "tKsOKa_addBlock",
-			"rowCard": "tKsOKa_rowCard",
-			"title": "tKsOKa_title",
-			"error": "tKsOKa_error",
-			"deleteDialog": "tKsOKa_deleteDialog",
-			"deleteConfirm": "tKsOKa_deleteConfirm",
-			"fieldLabel": "tKsOKa_fieldLabel",
-			"addButton": "tKsOKa_addButton",
-			"intro": "tKsOKa_intro",
-			"rowActions": "tKsOKa_rowActions",
 			"input": "tKsOKa_input",
-			"rowTag": "tKsOKa_rowTag",
-			"selectInput": "tKsOKa_selectInput",
-			"section": "tKsOKa_section",
-			"rows": "tKsOKa_rows",
-			"credentialDotMissing": "tKsOKa_credentialDotMissing",
-			"dangerButton": "tKsOKa_dangerButton",
-			"rowHead": "tKsOKa_rowHead",
+			"rowActions": "tKsOKa_rowActions",
 			"rowIdentity": "tKsOKa_rowIdentity",
-			"notice": "tKsOKa_notice",
-			"secondaryButton": "tKsOKa_secondaryButton",
-			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
-			"setupCard": "tKsOKa_setupCard",
+			"addActions": "tKsOKa_addActions",
+			"rows": "tKsOKa_rows",
+			"title": "tKsOKa_title",
+			"credentialDot": "tKsOKa_credentialDot",
 			"field": "tKsOKa_field",
+			"setupCard": "tKsOKa_setupCard",
+			"section": "tKsOKa_section",
+			"selectInput": "tKsOKa_selectInput",
+			"savedNotice": "tKsOKa_savedNotice",
+			"intro": "tKsOKa_intro",
+			"addCard": "tKsOKa_addCard",
+			"deleteDialog": "tKsOKa_deleteDialog",
+			"addButton": "tKsOKa_addButton",
+			"rowCard": "tKsOKa_rowCard",
+			"rowHead": "tKsOKa_rowHead",
+			"dangerButton": "tKsOKa_dangerButton",
+			"secondaryButton": "tKsOKa_secondaryButton",
+			"error": "tKsOKa_error",
 			"rowName": "tKsOKa_rowName",
-			"addCard": "tKsOKa_addCard"
+			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
+			"notice": "tKsOKa_notice",
+			"rowTag": "tKsOKa_rowTag",
+			"fieldLabel": "tKsOKa_fieldLabel",
+			"addBlock": "tKsOKa_addBlock",
+			"deleteConfirm": "tKsOKa_deleteConfirm",
+			"credentialDotMissing": "tKsOKa_credentialDotMissing"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -17144,9 +17745,9 @@ window.__ModuleLoader__.load({
 		* @param namespace - the namespace view whose schema declares the profile shape.
 		* @returns the protocol identifiers, or an empty list when the schema has none.
 		*/
-		function protocolChoices(namespace) {
+		function protocolChoices(namespace, schema) {
 			if (namespace === void 0) return [];
-			const list = (0, _deepseek_ai_dsh_client_schema_form.nodeAtPath)((0, _deepseek_ai_dsh_client_schema_form.rehydrateSchema)(namespace.schema), [
+			const list = schema.nodeAtPath(schema.rehydrate(namespace.schema), [
 				"providers",
 				PROBE_ROUTE,
 				"api"
@@ -17155,9 +17756,9 @@ window.__ModuleLoader__.load({
 			return list.list.map((entry) => entry.value).filter((value) => typeof value === "string");
 		}
 		/** The credential reference a resolved profile names (its `apiKeyEnv` field). */
-		function apiKeyEnvOf(namespace, path) {
+		function apiKeyEnvOf(namespace, path, schema) {
 			if (namespace === void 0) return void 0;
-			const profile = (0, _deepseek_ai_dsh_client_schema_form.getPath)(namespace.value, path);
+			const profile = schema.getPath(namespace.value, path);
 			if (typeof profile !== "object" || profile === null) return void 0;
 			const ref = profile.apiKeyEnv;
 			return typeof ref === "string" && ref.length > 0 ? ref : void 0;
@@ -17165,6 +17766,7 @@ window.__ModuleLoader__.load({
 		/** The models settings page controller (one per settings surface). */
 		var ModelsSettingsStore = class {
 			api;
+			schema;
 			/** The snapshot the section renders from (uSES-safe store). */
 			store = (0, _deepseek_ai_dsh_client_runtime_client.createSnapshotStore)({
 				status: "idle",
@@ -17178,9 +17780,11 @@ window.__ModuleLoader__.load({
 			generation = 0;
 			/**
 			* @param api - the wire face (settings/credentials/llm domains).
+			* @param schema - bound schema callbacks for namespace introspection.
 			*/
-			constructor(api) {
+			constructor(api, schema) {
 				this.api = api;
+				this.schema = schema;
 			}
 			/**
 			* Refresh the whole page snapshot: directory and namespaces in parallel,
@@ -17218,9 +17822,9 @@ window.__ModuleLoader__.load({
 					const namespace = namespaces.get(entry.settingsNs);
 					return {
 						entry,
-						configured: namespace !== void 0 && (entry.settingsPath.length === 0 || (0, _deepseek_ai_dsh_client_schema_form.getPath)(namespace.value, entry.settingsPath) !== void 0),
-						removable: namespace !== void 0 && entry.settingsPath.length > 0 && (0, _deepseek_ai_dsh_client_schema_form.hasPath)(namespace.user, entry.settingsPath) && !(0, _deepseek_ai_dsh_client_schema_form.hasPath)(namespace.base, entry.settingsPath),
-						apiKeyEnv: apiKeyEnvOf(namespace, entry.settingsPath),
+						configured: namespace !== void 0 && (entry.settingsPath.length === 0 || this.schema.getPath(namespace.value, entry.settingsPath) !== void 0),
+						removable: namespace !== void 0 && entry.settingsPath.length > 0 && this.schema.hasPath(namespace.user, entry.settingsPath) && !this.schema.hasPath(namespace.base, entry.settingsPath),
+						apiKeyEnv: apiKeyEnvOf(namespace, entry.settingsPath, this.schema),
 						credential: void 0
 					};
 				});
@@ -17957,10 +18561,12 @@ window.__ModuleLoader__.load({
 		const DEFAULT_NAMESPACE = "agent-default-model";
 		var ModelSelectionStore = class {
 			api;
+			schema;
 			store;
 			generation = 0;
-			constructor(api) {
+			constructor(api, schema) {
 				this.api = api;
+				this.schema = schema;
 				this.store = (0, _deepseek_ai_dsh_client_runtime_client.createSnapshotStore)({
 					status: "idle",
 					error: null,
@@ -17999,7 +18605,7 @@ window.__ModuleLoader__.load({
 					if (generation !== this.generation) return;
 					this.store.update((state) => {
 						state.status = "ready";
-						state.defaultSelection = selectionOf(namespace.value);
+						state.defaultSelection = selectionOf(namespace.value, this.schema);
 						state.defaultRevision = namespace.revision;
 						state.currentSelection = current?.current ?? null;
 						state.currentRoutable = current?.routable ?? null;
@@ -18078,7 +18684,7 @@ window.__ModuleLoader__.load({
 					return false;
 				}
 				const described = await this.api.settings.describe({});
-				const defaultSelection = described.result.ok ? selectionOf(described.result.value.namespaces.find((view) => view.ns === DEFAULT_NAMESPACE)?.value) : null;
+				const defaultSelection = described.result.ok ? selectionOf(described.result.value.namespaces.find((view) => view.ns === DEFAULT_NAMESPACE)?.value, this.schema) : null;
 				const both = sameSelection(defaultSelection, selectedResult.value.selected);
 				this.store.update((state) => {
 					state.status = "ready";
@@ -18094,10 +18700,10 @@ window.__ModuleLoader__.load({
 				return true;
 			}
 		};
-		function selectionOf(value) {
-			const provider = (0, _deepseek_ai_dsh_client_schema_form.getPath)(value, ["provider"]);
-			const model = (0, _deepseek_ai_dsh_client_schema_form.getPath)(value, ["model"]);
-			const reasoningEffort = (0, _deepseek_ai_dsh_client_schema_form.getPath)(value, ["reasoningEffort"]);
+		function selectionOf(value, schema) {
+			const provider = schema.getPath(value, ["provider"]);
+			const model = schema.getPath(value, ["model"]);
+			const reasoningEffort = schema.getPath(value, ["reasoningEffort"]);
 			if (typeof provider !== "string" || typeof model !== "string") return null;
 			return {
 				provider,
@@ -18256,8 +18862,8 @@ window.__ModuleLoader__.load({
 		/** The public DeepSeek endpoint shown as the deepseek base-URL placeholder. */
 		const DEEPSEEK_PUBLIC_BASE_URL = "https://api.deepseek.com";
 		/** A user-section subtree as a plain draft object (absent → empty). */
-		function draftAt(namespace, path) {
-			const subtree = (0, _deepseek_ai_dsh_client_schema_form.getPath)(namespace.user, path);
+		function draftAt(namespace, path, schema) {
+			const subtree = schema.getPath(namespace.user, path);
 			if (typeof subtree !== "object" || subtree === null || Array.isArray(subtree)) return {};
 			return structuredClone(subtree);
 		}
@@ -18295,8 +18901,8 @@ window.__ModuleLoader__.load({
 			return "unknown";
 		}
 		/** The credential reference this profile resolves keys through. */
-		function refFor(namespace, path, provider) {
-			const profile = (0, _deepseek_ai_dsh_client_schema_form.getPath)(namespace.value, path);
+		function refFor(namespace, path, provider, schema) {
+			const profile = schema.getPath(namespace.value, path);
 			const named = typeof profile === "object" && profile !== null ? profile.apiKeyEnv : void 0;
 			return typeof named === "string" && named.length > 0 ? named : deriveKeyRef(provider);
 		}
@@ -18306,21 +18912,26 @@ window.__ModuleLoader__.load({
 		* @returns the editor card.
 		*/
 		function ProviderEditor(props) {
-			const { namespace, settingsPath, api, t } = props;
-			const [draft, setDraft] = (0, react.useState)(() => draftAt(namespace, settingsPath));
+			const { namespace, settingsPath, api, t, schema } = props;
+			const { getPath, hasPath, nodeAtPath, rehydrate, deletePath, setPath, validate } = schema;
+			const [draft, setDraft] = (0, react.useState)(() => draftAt(namespace, settingsPath, schema));
 			const [keyDraft, setKeyDraft] = (0, react.useState)("");
 			const [keyState, setKeyState] = (0, react.useState)(void 0);
 			const [busy, setBusy] = (0, react.useState)(false);
 			const [failure, setFailure] = (0, react.useState)(void 0);
-			const [committedOriginal, setCommittedOriginal] = (0, react.useState)(() => (0, _deepseek_ai_dsh_client_schema_form.getPath)(namespace.user, settingsPath));
+			const [committedOriginal, setCommittedOriginal] = (0, react.useState)(() => getPath(namespace.user, settingsPath));
 			const [expectedRevision, setExpectedRevision] = (0, react.useState)(() => namespace.revision);
-			const root = (0, react.useMemo)(() => (0, _deepseek_ai_dsh_client_schema_form.rehydrateSchema)(namespace.schema), [namespace.schema]);
-			const node = (0, react.useMemo)(() => (0, _deepseek_ai_dsh_client_schema_form.nodeAtPath)(root, settingsPath), [root, settingsPath]);
-			const fallback = (0, _deepseek_ai_dsh_client_schema_form.getPath)(namespace.value, settingsPath);
+			const root = (0, react.useMemo)(() => rehydrate(namespace.schema), [namespace.schema]);
+			const node = (0, react.useMemo)(() => nodeAtPath(root, settingsPath), [root, settingsPath]);
+			const fallback = getPath(namespace.value, settingsPath);
 			const disabled = props.readOnly || busy;
 			const layout = layoutOf(namespace.ns);
-			const keyRef = refFor(namespace, settingsPath, props.provider);
-			const protocols = (0, react.useMemo)(() => layout === "pi-ai" ? protocolChoices(namespace) : [], [layout, namespace]);
+			const keyRef = refFor(namespace, settingsPath, props.provider, schema);
+			const protocols = (0, react.useMemo)(() => layout === "pi-ai" ? protocolChoices(namespace, schema) : [], [
+				layout,
+				namespace,
+				schema
+			]);
 			(0, react.useEffect)(() => {
 				let stale = false;
 				setKeyState(void 0);
@@ -18333,14 +18944,14 @@ window.__ModuleLoader__.load({
 				};
 			}, [api.credentials, keyRef]);
 			const stringAt = (source, key) => {
-				const value = (0, _deepseek_ai_dsh_client_schema_form.getPath)(source, [key]);
+				const value = getPath(source, [key]);
 				return typeof value === "string" && value.trim().length > 0 ? value : void 0;
 			};
 			const setField = (key, next) => {
 				const value = next === void 0 || next.trim().length === 0 ? void 0 : next;
-				setDraft((current) => value === void 0 ? (0, _deepseek_ai_dsh_client_schema_form.deletePath)(current, [key]) : (0, _deepseek_ai_dsh_client_schema_form.setPath)(current, [key], value));
+				setDraft((current) => value === void 0 ? deletePath(current, [key]) : setPath(current, [key], value));
 			};
-			const modelFailure = validateDeepSeekModels((0, _deepseek_ai_dsh_client_schema_form.getPath)(draft, ["models"]));
+			const modelFailure = validateDeepSeekModels(getPath(draft, ["models"]));
 			const keyFailure = apiKeyFailure(keyDraft);
 			const keyValue = keyDraft.trim();
 			const shownKeyFailure = (props.credentialRequired === true && keyDraft.length > 0 && keyValue.length === 0 ? "keyRequired" : void 0) ?? keyFailure;
@@ -18361,15 +18972,15 @@ window.__ModuleLoader__.load({
 			*/
 			const applyOnce = async () => {
 				const ns = namespace.ns;
-				const next = layout === "pi-ai" && stringAt(draft, "apiKeyEnv") === void 0 && stringAt(fallback, "apiKeyEnv") === void 0 && keyValue.length > 0 ? (0, _deepseek_ai_dsh_client_schema_form.setPath)(draft, ["apiKeyEnv"], keyRef) : draft;
+				const next = layout === "pi-ai" && stringAt(draft, "apiKeyEnv") === void 0 && stringAt(fallback, "apiKeyEnv") === void 0 && keyValue.length > 0 ? setPath(draft, ["apiKeyEnv"], keyRef) : draft;
 				if (props.credentialOnly !== true) {
-					const failure = validateDeepSeekModels((0, _deepseek_ai_dsh_client_schema_form.getPath)(next, ["models"]));
+					const failure = validateDeepSeekModels(getPath(next, ["models"]));
 					/* v8 ignore next 3 -- unreachable from the card: the same failure disables submit */
 					if (failure !== void 0) return `${t("model")} ${String(failure.index + 1)}: ${t(failure.key)}`;
 				}
 				/* v8 ignore next -- apply is only reachable from the rendered card, which required a resolved node */
 				if (props.credentialOnly !== true && node !== void 0 && settingsPath.length === 0) {
-					const sectionError = (0, _deepseek_ai_dsh_client_schema_form.validateDraft)(node, next);
+					const sectionError = validate(node, next);
 					if (sectionError !== void 0) return sectionError;
 				}
 				const materializesNativeProfile = layout === "pi-ai" && fallback === void 0 && committedOriginal === void 0 && Object.keys(next).length === 0;
@@ -18385,7 +18996,7 @@ window.__ModuleLoader__.load({
 						expectedRevision
 					});
 					if (!response.result.ok) return response.result.error.code === "settings-conflict" ? t("conflict") : response.result.error.message;
-					setCommittedOriginal((0, _deepseek_ai_dsh_client_schema_form.getPath)(response.result.value.user, settingsPath));
+					setCommittedOriginal(getPath(response.result.value.user, settingsPath));
 					setExpectedRevision(response.result.value.revision);
 					setDraft(next);
 				}
@@ -18427,7 +19038,7 @@ window.__ModuleLoader__.load({
 			* moment reset drops it, leaving the rows unchanged until a reload.
 			*/
 			const inheritedModels = () => {
-				return (0, _deepseek_ai_dsh_client_schema_form.getPath)(namespace.base, [...settingsPath, "models"]) ?? (0, _deepseek_ai_dsh_client_schema_form.nodeAtPath)(root, [...settingsPath, "models"])?.meta.default;
+				return getPath(namespace.base, [...settingsPath, "models"]) ?? nodeAtPath(root, [...settingsPath, "models"])?.meta.default;
 			};
 			/**
 			* The curated fields of one known adapter family. The family arrives
@@ -18436,11 +19047,11 @@ window.__ModuleLoader__.load({
 			*/
 			const curatedFields = (family) => {
 				const ownsIdentity = family === "pi-ai" && props.declared === true;
-				const customModels = (0, _deepseek_ai_dsh_client_schema_form.getPath)(draft, ["models"]);
-				const modelsOverridden = (0, _deepseek_ai_dsh_client_schema_form.hasPath)(draft, ["models"]);
+				const customModels = getPath(draft, ["models"]);
+				const modelsOverridden = hasPath(draft, ["models"]);
 				const models = modelDrafts(modelsOverridden ? customModels : inheritedModels());
-				const defaultContextWindow = (0, _deepseek_ai_dsh_client_schema_form.getPath)(fallback, ["defaultContextWindow"]);
-				const defaultMaxTokens = (0, _deepseek_ai_dsh_client_schema_form.getPath)(fallback, ["maxTokens"]);
+				const defaultContextWindow = getPath(fallback, ["defaultContextWindow"]);
+				const defaultMaxTokens = getPath(fallback, ["maxTokens"]);
 				const keyPlaceholder = keyLocked ? t("keyEnvLocked") : keyState?.configured === true && props.credentialRequired !== true ? t("keyStored") : family === "pi-ai" ? t("keyPlaceholderNative") : t("keyPlaceholder");
 				/** What both family editors take: the rows, whose layer owns them, and the two writes. */
 				const catalogProps = {
@@ -18449,10 +19060,10 @@ window.__ModuleLoader__.load({
 					t,
 					disabled,
 					onChange: (next) => {
-						setDraft((current) => (0, _deepseek_ai_dsh_client_schema_form.setPath)(current, ["models"], next));
+						setDraft((current) => setPath(current, ["models"], next));
 					},
 					onReset: () => {
-						setDraft((current) => (0, _deepseek_ai_dsh_client_schema_form.deletePath)(current, ["models"]));
+						setDraft((current) => deletePath(current, ["models"]));
 					}
 				};
 				return (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsxs)("div", {
@@ -18499,7 +19110,7 @@ window.__ModuleLoader__.load({
 									className: ModelsSection_module_css_default["input"],
 									type: "text",
 									value: stringAt(draft, "displayName") ?? "",
-									placeholder: stringAt((0, _deepseek_ai_dsh_client_schema_form.getPath)(namespace.base, settingsPath), "displayName") ?? props.provider,
+									placeholder: stringAt(getPath(namespace.base, settingsPath), "displayName") ?? props.provider,
 									"aria-label": t("customDisplayName"),
 									disabled,
 									onChange: (event) => {
@@ -18697,18 +19308,19 @@ window.__ModuleLoader__.load({
 		* @returns the section, or null while the shell has not injected yet.
 		*/
 		function ModelsSection(props) {
-			const { controller, useSnapshot, api, t, modelSelection } = props;
-			if (controller === void 0 || useSnapshot === void 0 || api === void 0 || t === void 0 || modelSelection === void 0) return null;
+			const { controller, useSnapshot, api, t, modelSelection, schema } = props;
+			if (controller === void 0 || useSnapshot === void 0 || api === void 0 || t === void 0 || modelSelection === void 0 || schema === void 0) return null;
 			return (0, react_jsx_runtime.jsx)(Loaded, { injected: {
 				controller,
 				useSnapshot,
 				api,
 				t,
-				modelSelection
+				modelSelection,
+				schema
 			} });
 		}
 		function Loaded({ injected }) {
-			const { controller, api, t, modelSelection } = injected;
+			const { controller, api, t, modelSelection, schema } = injected;
 			const state = injected.useSnapshot((snapshot) => snapshot);
 			const [editing, setEditing] = (0, react.useState)(void 0);
 			const [adding, setAdding] = (0, react.useState)(false);
@@ -18789,7 +19401,7 @@ window.__ModuleLoader__.load({
 			const addable = state.rows.filter((row) => !row.configured && row.entry.settingsNs !== "");
 			const addTarget = adding ? editing : void 0;
 			const addNamespace = addTarget === void 0 ? void 0 : state.namespaces.get(addTarget.settingsNs);
-			const protocols = protocolChoices(state.namespaces.get("llm-pi-ai"));
+			const protocols = protocolChoices(state.namespaces.get("llm-pi-ai"), schema);
 			return (0, react_jsx_runtime.jsxs)("div", {
 				className: ModelsSection_module_css_default["section"],
 				children: [
@@ -18825,6 +19437,7 @@ window.__ModuleLoader__.load({
 									namespace,
 									api,
 									t,
+									schema,
 									readOnly: !state.writable,
 									onClose: (changed) => {
 										closeSetup(changed, target);
@@ -18892,6 +19505,7 @@ window.__ModuleLoader__.load({
 									namespace,
 									api,
 									t,
+									schema,
 									readOnly: !state.writable,
 									onClose: (changed) => {
 										closeEditor(changed, target);
@@ -18932,6 +19546,7 @@ window.__ModuleLoader__.load({
 								settingsPath: addTarget.settingsPath,
 								api,
 								t,
+								schema,
 								readOnly: !state.writable,
 								onClose: (changed) => {
 									closeEditor(changed, addTarget);
@@ -19024,9 +19639,9 @@ window.__ModuleLoader__.load({
 		}
 		var OnboardingModal_module_css_default = {
 			"title": "C_CJ_a_title",
+			"content": "C_CJ_a_content",
 			"dialog": "C_CJ_a_dialog",
-			"body": "C_CJ_a_body",
-			"content": "C_CJ_a_content"
+			"body": "C_CJ_a_body"
 		};
 		//#endregion
 		//#region lib/types/client/OnboardingModal.js
@@ -19085,8 +19700,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var DeepSeekOnboardingDialog_module_css_default = {
-			"description": "oxcHWa_description",
-			"editor": "oxcHWa_editor"
+			"editor": "oxcHWa_editor",
+			"description": "oxcHWa_description"
 		};
 		//#endregion
 		//#region lib/types/client/DeepSeekOnboardingDialog.js
@@ -19108,7 +19723,7 @@ window.__ModuleLoader__.load({
 		* @returns the onboarding modal or null when onboarding needs no intervention.
 		*/
 		function DeepSeekOnboardingDialog(props) {
-			const { complete, controller, useModels, api, t } = props;
+			const { complete, controller, useModels, api, t, schema } = props;
 			const state = useModels((snapshot) => snapshot);
 			const readiness = onboardingReadiness(state);
 			(0, react.useEffect)(() => {
@@ -19151,6 +19766,7 @@ window.__ModuleLoader__.load({
 						settingsPath: row.entry.settingsPath,
 						api,
 						t,
+						schema,
 						readOnly: false,
 						hideTitle: true,
 						credentialOnly: true,
@@ -19176,10 +19792,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WelcomeNotice_module_css_default = {
-			"error": "RFswhG_error",
 			"copy": "RFswhG_copy",
 			"actions": "RFswhG_actions",
-			"primary": "RFswhG_primary"
+			"primary": "RFswhG_primary",
+			"error": "RFswhG_error"
 		};
 		//#endregion
 		//#region lib/types/client/WelcomeNotice.js
@@ -19377,6 +19993,24 @@ window.__ModuleLoader__.load({
 		function refreshWelcomeIfLoaded(controller) {
 			if (controller.store.getSnapshot().status === "idle") return;
 			controller.load();
+		}
+		//#endregion
+		//#region lib/types/client/schema-operations.js
+		/**
+		* Bind the settings-owned schema service to plain callbacks.
+		* @param service - settings-owned schema service available in the apply context.
+		* @returns callbacks that cannot expose the service context to React components.
+		*/
+		function createSettingsSchemaOperations(service) {
+			return {
+				rehydrate: (serialized) => service.rehydrate(serialized),
+				validate: (schema, draft) => service.validate(schema, draft),
+				nodeAtPath: (root, path) => service.nodeAtPath(root, path),
+				getPath: (value, path) => service.getPath(value, path),
+				hasPath: (value, path) => service.hasPath(value, path),
+				setPath: (root, path, value) => service.setPath(root, path, value),
+				deletePath: (root, path) => service.deletePath(root, path)
+			};
 		}
 		//#endregion
 		//#region lib/types/client/locales.js
@@ -19642,13 +20276,13 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProductWorkspaceSurface_module_css_default = {
-			"identity": "mzcFbW_identity",
 			"header": "mzcFbW_header",
+			"identity": "mzcFbW_identity",
 			"close": "mzcFbW_close",
 			"icon": "mzcFbW_icon",
-			"root": "mzcFbW_root",
 			"eyebrow": "mzcFbW_eyebrow",
-			"body": "mzcFbW_body"
+			"body": "mzcFbW_body",
+			"root": "mzcFbW_root"
 		};
 		//#endregion
 		//#region lib/types/client/ProductWorkspaceSurface.js
@@ -21243,14 +21877,14 @@ window.__ModuleLoader__.load({
 		const KNOWN_NATIVE = /* @__PURE__ */ new Set([
 			"general",
 			"agent-presets",
-			"plugins"
+			"control-center-plugins"
 		]);
 		/** Cherry settings group mapping: models are core, capabilities/personal get
 		* their own groups, DSH-owned sections stay native. */
 		function groupOf(id) {
 			if (id === "models" || id === "providers" || id === "local-models" || id === "api-gateway") return "core";
 			if (id === "general") return "personal";
-			if (id === "skills" || id === "mcp" || id === "websearch" || id === "file-processing" || id === "ocr") return "capabilities";
+			if (id === "skills" || id === "control-center-plugins" || id === "mcp" || id === "websearch" || id === "file-processing" || id === "ocr") return "capabilities";
 			if (id === "usage" || id === "data" || id === "appearance" || id === "notifications") return "personal";
 			if (id === "about" || id === "dependencies") return "system";
 			if (id === "tasks" || id === "shortcuts" || id === "quick-assistant" || id === "selection-assistant" || id === "screenshot" || id === "channels") return "automation";
@@ -21263,7 +21897,8 @@ window.__ModuleLoader__.load({
 			"locale",
 			"connection",
 			"remote",
-			"sessions"
+			"sessions",
+			"settingsSchema"
 		];
 		/** Register the settings shell, Provider/Model page, and onboarding steps. */
 		function apply(ctx) {
@@ -21451,19 +22086,22 @@ window.__ModuleLoader__.load({
 			const shellT = ctx.locale.bind(SHELL_NS);
 			const modelT = ctx.locale.bind(MODELS_NS);
 			const connection = ctx.get("connection");
+			const schema = createSettingsSchemaOperations(ctx.settingsSchema);
 			const documentController = connection.isLoopback ? new SettingsDocumentStore(connection.api) : void 0;
 			const documentInjected = documentController === void 0 ? void 0 : (() => {
-				const useSnapshot = (0, _deepseek_ai_dsh_client_web_react.bindSnapshotSelector)(documentController.store);
+				const useSnapshot = bindSnapshotSelector(documentController.store);
 				return () => ({
 					controller: documentController,
 					useSnapshot
 				});
 			})();
-			const modelsController = new ModelsSettingsStore(connection.api);
-			const useModels = (0, _deepseek_ai_dsh_client_web_react.bindSnapshotSelector)(modelsController.store);
-			const selectionController = new ModelSelectionStore(connection.api);
-			const useSelection = (0, _deepseek_ai_dsh_client_web_react.bindSnapshotSelector)(selectionController.store);
+			const modelsController = new ModelsSettingsStore(connection.api, schema);
+			const useModels = bindSnapshotSelector(modelsController.store);
+			const selectionController = new ModelSelectionStore(connection.api, schema);
+			const useSelection = bindSnapshotSelector(selectionController.store);
 			const welcomeController = new WelcomeNoticeStore(connection.api, connection.isLoopback ? "host" : "memory");
+			const notificationRuntime = new ConversationNotificationRuntime(connection.api, ctx.sessions.list);
+			ctx.effect(() => notificationRuntime.start(), "control-center: conversation notifications");
 			let rowsVersion = -1;
 			let rowsRevision = -1;
 			let rows = [];
@@ -21524,17 +22162,19 @@ window.__ModuleLoader__.load({
 			const modelSelection = {
 				controller: selectionController,
 				useSnapshot: useSelection,
-				useSessions: (0, _deepseek_ai_dsh_client_web_react.bindSnapshotSelector)(ctx.sessions.list),
+				useSessions: bindSnapshotSelector(ctx.sessions.list),
 				load: (sessionId, addressed) => {
 					selectionController.load(sessionId, addressed);
 				},
-				t: modelT
+				t: modelT,
+				schema
 			};
 			const modelsInjected = () => ({
 				controller: modelsController,
 				useSnapshot: useModels,
 				api: connection.api,
 				modelSelection,
+				schema,
 				t: modelT
 			});
 			const skillsInjected = () => ({ skills });
@@ -21545,6 +22185,7 @@ window.__ModuleLoader__.load({
 				controller: modelsController,
 				hooks: { models: modelsController.store },
 				api: connection.api,
+				schema,
 				t: modelT
 			});
 			const welcomeInjected = () => ({
@@ -21567,6 +22208,7 @@ window.__ModuleLoader__.load({
 					ctx.remote.$on("settings/document-updated", (namespace) => {
 						refreshModels();
 						if (namespace === "ui-onboarding") refreshWelcomeIfLoaded(welcomeController);
+						if (namespace === "control-center-notifications") notificationRuntime.refreshPreferences();
 					}),
 					ctx.remote.$on("credentials/updated", refreshModels),
 					ctx.remote.$on("llm/adapters-updated", refreshModels)
@@ -21728,6 +22370,19 @@ window.__ModuleLoader__.load({
 			}, ModelsSection));
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
+				id: "control-center-plugins",
+				order: 15,
+				label: () => "插件",
+				inject: () => ({
+					getSystem: () => {
+						if (system === void 0) throw new Error("system Remote namespace is not mounted");
+						return system;
+					},
+					hooks: { systemReady: systemReadySource }
+				})
+			}, PluginsSection));
+			ctx.slots.inject("settings.section", () => ctx.slots.register({
+				name: "settings.section",
 				id: "skills",
 				order: 20,
 				label: () => shellT("skillsNav"),
@@ -21809,13 +22464,17 @@ window.__ModuleLoader__.load({
 				id: "appearance",
 				order: 85,
 				label: () => shellT("appearanceNav"),
-				inject: () => ({ api: connection.api })
+				inject: () => ({
+					api: connection.api,
+					locale: ctx.locale
+				})
 			}, AppearanceSection));
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "notifications",
 				order: 86,
-				label: () => shellT("notificationsNav")
+				label: () => shellT("notificationsNav"),
+				inject: () => ({ api: connection.api })
 			}, NotificationSection));
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",

@@ -64,6 +64,7 @@ import type { UpdateSectionInjected } from './UpdateSection.tsx'
 import { CapabilityGateSection } from './CapabilityGateSection.tsx'
 import type { CapabilityGateSectionProps } from './CapabilityGateSection.tsx'
 import { SettingsRoot } from './SettingsRoot.tsx'
+import { PluginsSection } from './PluginsSection.tsx'
 import type { SettingsOnboardingStep, SettingsRootInjected, SettingsSectionRow } from './shell-contract.ts'
 import { CloseLabel, HeaderContent, TriggerContent } from './chrome.tsx'
 import { GeneralSection } from './GeneralSection.tsx'
@@ -102,14 +103,14 @@ export type { ModelSelectionState } from './ModelSelectionPanel.tsx'
 
 const SHELL_NS = 'control-center'
 const MODELS_NS = 'control-center.models'
-const KNOWN_NATIVE = new Set(['general', 'agent-presets', 'plugins'])
+const KNOWN_NATIVE = new Set(['general', 'agent-presets', 'control-center-plugins'])
 
 /** Cherry settings group mapping: models are core, capabilities/personal get
  * their own groups, DSH-owned sections stay native. */
 function groupOf(id: string): SettingsSectionRow['group'] {
   if (id === 'models' || id === 'providers' || id === 'local-models' || id === 'api-gateway') return 'core'
   if (id === 'general') return 'personal'
-  if (id === 'skills' || id === 'mcp' || id === 'websearch' || id === 'file-processing' || id === 'ocr') return 'capabilities'
+  if (id === 'skills' || id === 'control-center-plugins' || id === 'mcp' || id === 'websearch' || id === 'file-processing' || id === 'ocr') return 'capabilities'
   if (id === 'usage' || id === 'data' || id === 'appearance' || id === 'notifications') return 'personal'
   if (id === 'about' || id === 'dependencies') return 'system'
   if (id === 'tasks' || id === 'shortcuts' || id === 'quick-assistant' || id === 'selection-assistant' || id === 'screenshot' || id === 'channels') return 'automation'
@@ -541,6 +542,19 @@ export function apply(ctx: ClientContext): void {
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section', id: 'models', order: 10, label: () => modelT('nav'), inject: modelsInjected,
   }, ModelsSection))
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
+    id: 'control-center-plugins',
+    order: 15,
+    label: () => '插件',
+    inject: (): SystemSectionInjected => ({
+      getSystem: () => {
+        if (system === undefined) throw new Error('system Remote namespace is not mounted')
+        return system
+      },
+      hooks: { systemReady: systemReadySource },
+    }),
+  }, PluginsSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'skills',

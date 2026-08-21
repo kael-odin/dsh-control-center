@@ -7,6 +7,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { DatabaseSync } from "node:sqlite";
 import process$1 from "node:process";
 import { PassThrough } from "node:stream";
+import { spawnSync } from "node:child_process";
 //#region \0rolldown/runtime.js
 var __create = Object.create;
 var __defProp = Object.defineProperty;
@@ -9222,7 +9223,7 @@ function settingsNamespace(value) {
 }
 Service.init;
 //#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-home-paths_769580a48b74bc9cf5adad9d464e25ab/node_modules/@deepseek-ai/dsh-home-paths/lib/index.js
+//#region node_modules/.pnpm/@deepseek-ai+dsh-home-paths_936960f978726c8ffd07a1ce308c5d47/node_modules/@deepseek-ai/dsh-home-paths/lib/index.js
 /**
 * Shared filesystem path helpers for DeepSeek Harness user data.
 *
@@ -9265,11 +9266,11 @@ function resolveDshHome(configured, env = process.env) {
 	return resolve(expandHomePath(configured ?? (fromEnv !== void 0 && fromEnv.trim().length > 0 ? fromEnv : defaultDshHome())));
 }
 //#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-timeout@0._22adfdf3ba29bade6675fa7bb401c215/node_modules/@deepseek-ai/dsh-timeout/lib/index.js
+//#region node_modules/.pnpm/@deepseek-ai+dsh-timeout@0._95b020dd1e69a53c4e35530fca012a2d/node_modules/@deepseek-ai/dsh-timeout/lib/index.js
 /** Largest delay Node schedules without clamping it to one millisecond. */
 const MAX_TIMER_DELAY_MS = 2147483647;
 //#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-llm@0.1.0-_0d6788f2a94d438ba9affaa284e28ab3/node_modules/@deepseek-ai/dsh-llm/lib/index.js
+//#region node_modules/.pnpm/@deepseek-ai+dsh-llm@0.1.0-_61618b2248b445cfdee05dd35956012b/node_modules/@deepseek-ai/dsh-llm/lib/index.js
 /**
 * dsh-llm's owned branded ids: tool-call correlation and provider request
 * diagnostics.
@@ -9421,7 +9422,7 @@ new RegExp(String.raw`\b(?:input|prompt|request|messages?)\b.{0,40}` + String.ra
 *
 * @module @deepseek-ai/dsh-llm/retry-policy
 */
-const DEFAULT_MAX_RETRIES = 2;
+const DEFAULT_MAX_RETRIES = 5;
 const DEFAULT_INITIAL_DELAY_MS = 500;
 const DEFAULT_MAX_DELAY_MS = 1e4;
 const DEFAULT_JITTER_RATIO = .1;
@@ -9476,7 +9477,7 @@ function assertNever(value, context) {
 	throw new Error(`unreachable variant${context ? ` in ${context}` : ""}: ${rendered}`);
 }
 //#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-typert-pro_174f55289b567c5697c3ab08b42c0dfb/node_modules/@deepseek-ai/dsh-typert-protocol/lib/index.js
+//#region node_modules/.pnpm/@deepseek-ai+dsh-typert-pro_b781b718c132d84954771549237ecf94/node_modules/@deepseek-ai/dsh-typert-protocol/lib/index.js
 /**
 * Remote decorators and explicit Gateway bindings backed only by private
 * module state. Strict reflection remains a Typert compiler responsibility.
@@ -9552,27 +9553,7 @@ function validateName(subject, value) {
 	if (!isTypertRemoteSegment(value)) throw new TypeError(`typert-protocol: ${subject} must contain only RPC endpoint segment characters`);
 }
 //#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-client-sch_80406324fe54415377a592ddb61d7520/node_modules/@deepseek-ai/dsh-client-schema-form/lib/index.js
-/**
-* Read a nested value by path.
-* @param value - root value (draft or fallback layer).
-* @param path - key path from the root; array indexes as strings.
-* @returns the value at the path, or `undefined` along a missing branch.
-*/
-function getPath(value, path) {
-	let current = value;
-	for (const key of path) {
-		if (Array.isArray(current)) {
-			current = current[Number(key)];
-			continue;
-		}
-		if (typeof current !== "object" || current === null) return void 0;
-		current = current[key];
-	}
-	return current;
-}
-//#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-scope@0.1._3209d8827439c33684c2bfb6239ba3bb/node_modules/@deepseek-ai/dsh-scope/lib/index.js
+//#region node_modules/.pnpm/@deepseek-ai+dsh-scope@0.1._01b6292f2c8c04aea241eb18bcff3838/node_modules/@deepseek-ai/dsh-scope/lib/index.js
 /**
 * Shared insertion-ordered storage and effect ownership for scope-aware registries.
 *
@@ -9851,7 +9832,7 @@ function scopeTarget(base, key) {
 	return carrier;
 }
 //#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-session@0._8f195c1f10810e09a8d960403fe19eda/node_modules/@deepseek-ai/dsh-session/lib/index.js
+//#region node_modules/.pnpm/@deepseek-ai+dsh-session@0._71e6a74f8dd9d1b24fc26c2585af4bea/node_modules/@deepseek-ai/dsh-session/lib/index.js
 /** Lossless-JSON validation and detached snapshots for durable session data. @module @deepseek-ai/dsh-session/json */
 /** Whether a realm-owned intrinsic prototype is backed by its native constructor. */
 function hasIntrinsicConstructor$1(prototype, name) {
@@ -10020,7 +10001,7 @@ function isJsonValue(value) {
 	return walkJsonValue(value, false) === true;
 }
 //#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-tools@0.1._ff9e97d41f06ac2b2e9e3769ed6440a7/node_modules/@deepseek-ai/dsh-tools/lib/index.js
+//#region node_modules/.pnpm/@deepseek-ai+dsh-tools@0.1._0f0054f9d199ac5ca5cf960384f246af/node_modules/@deepseek-ai/dsh-tools/lib/index.js
 /**
 * Enforced JSON Schema subset shared by tool outputs, generated Code Mode
 * types, subagents, and workflows. The subset accepts any JSON root, an
@@ -22026,7 +22007,7 @@ var StdioClientTransport = class {
 	}
 };
 //#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-credential_6df341f05d8885c9ff6d5b51570dc623/node_modules/@deepseek-ai/dsh-credentials/lib/index.js
+//#region node_modules/.pnpm/@deepseek-ai+dsh-credential_bb77a44248c29070a62850b640961693/node_modules/@deepseek-ai/dsh-credentials/lib/index.js
 /**
 * Service Definition for the credential-reference capability seam (`ctx.credentials`). Settings and composition files carry
 * *references* to secrets — environment-variable names — while providers own
@@ -22072,8 +22053,8 @@ var lib_exports = /* @__PURE__ */ __exportAll({
 	name: () => name
 });
 /** DSH package versions and exports required by the first Control Center release. */
-const SUPPORTED_DSH_VERSION = "0.1.0-rc.7";
-const DSH_SOURCE_BASELINE = "99f6f02fecdb7dff40c3fbc9470f5907c29f74ca";
+const SUPPORTED_DSH_VERSION = "0.1.0-rc.8";
+const DSH_SOURCE_BASELINE = "b7135e620674ef022a26a1d2cc87b79668790e7a";
 const REQUIRED_PACKAGES = [
 	{
 		name: "@deepseek-ai/dsh-api-remotes",
@@ -22144,7 +22125,7 @@ function assertCompatibleDsh(requireFrom = profileRequire()) {
 			throw new Error(`DSH Control Center requires ${required.name}@${SUPPORTED_DSH_VERSION}, but its package manifest cannot be resolved. Remove the Control Center bundle or install the supported DSH release.`, { cause });
 		}
 		const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
-		if (manifest.name !== required.name || manifest.version !== "0.1.0-rc.7") throw new Error(`DSH Control Center is incompatible with ${required.name}: expected ${SUPPORTED_DSH_VERSION}, resolved ${String(manifest.version)}. Supported DSH source baseline: ${DSH_SOURCE_BASELINE}.`);
+		if (manifest.name !== required.name || manifest.version !== "0.1.0-rc.8") throw new Error(`DSH Control Center is incompatible with ${required.name}: expected ${SUPPORTED_DSH_VERSION}, resolved ${String(manifest.version)}. Supported DSH source baseline: ${DSH_SOURCE_BASELINE}.`);
 		if (typeof manifest.exports !== "object" || manifest.exports["./package.json"] === void 0) throw new Error(`${required.name}@${SUPPORTED_DSH_VERSION} does not expose ./package.json as required`);
 		if (required.client && manifest.exports["./client"] === void 0) throw new Error(`${required.name}@${SUPPORTED_DSH_VERSION} does not expose ./client as required`);
 	}
@@ -22539,6 +22520,24 @@ function markRemoteMethods(instance, entries) {
 		});
 	}
 	for (const initialize of initializers) initialize.call(instance);
+}
+/**
+* Local path read for Host-side settings values. The browser half of rc.8
+* provides the same walk through its `ctx.settingsSchema` service; the Host
+* graph has no such service, and this flat traversal is its equivalent (and
+* stays identical to the service's `getPath`).
+*/
+function getPath(value, path) {
+	let current = value;
+	for (const key of path) {
+		if (Array.isArray(current)) {
+			current = current[Number(key)];
+			continue;
+		}
+		if (typeof current !== "object" || current === null) return void 0;
+		current = current[key];
+	}
+	return current;
 }
 function providerProfile(settings, ns, path) {
 	const view = settings.describe().find((candidate) => candidate.ns === ns);
@@ -24395,7 +24394,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-DP2Y2bMP.js");
+				const { SSEClientTransport } = await import("./sse-BnEzIeWg.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -24417,7 +24416,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-tkv2pc0K.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-BYrp7CHa.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -26074,6 +26073,38 @@ const dataRemote = {
 * System & Diagnostics Host service: versions, compatibility, dependencies,
 * and environment info for the About / Dependencies / Diagnostics pages.
 */
+function resolveProfileDir(profile) {
+	if (!/^[A-Za-z0-9._-]+$/.test(profile) || profile === "." || profile === "..") throw new Error("invalid profile name");
+	return join(resolveDshHome(), "profiles", profile);
+}
+function readProfileManifest(profileDir) {
+	return JSON.parse(readFileSync(join(profileDir, "package.json"), "utf8"));
+}
+function isResolvedDependency(profileDir, name) {
+	try {
+		createRequire(join(profileDir, "package.json")).resolve(`${name}/package.json`);
+		return true;
+	} catch {
+		try {
+			createRequire(join(profileDir, "package.json")).resolve(name);
+			return true;
+		} catch {
+			return false;
+		}
+	}
+}
+function ensureProfile(profile, profileDir) {
+	if (existsSync(join(profileDir, "package.json"))) return;
+	mkdirSync(profileDir, { recursive: true });
+	writeFileSync(join(profileDir, "package.json"), JSON.stringify({
+		name: `dsh-profile-${profile}`,
+		private: true,
+		dependencies: {},
+		dsh: { profile: { bundles: ["@deepseek-ai/dsh-base"] } }
+	}, null, 2) + "\n");
+	writeFileSync(join(profileDir, "cordis.patch.yml"), "# DSH profile patch layer\n[]\n");
+	writeFileSync(join(profileDir, "pnpm-workspace.yaml"), "packages:\n  - .\n\nnodeLinker: hoisted\nautoInstallPeers: false\n");
+}
 const CONTRACT_PACKAGES = [
 	{
 		name: "@deepseek-ai/dsh-api-remotes",
@@ -26149,6 +26180,81 @@ var SystemService = class extends Service {
 		}
 		return entries;
 	}
+	async listPlugins(profile) {
+		const profileDir = resolveProfileDir(profile);
+		if (!existsSync(join(profileDir, "package.json"))) return {
+			profile,
+			profileDir,
+			dependencies: [],
+			bundles: [],
+			restartRequired: false,
+			unsupported: ["profile-not-initialized"]
+		};
+		const manifest = readProfileManifest(profileDir);
+		return {
+			profile,
+			profileDir,
+			dependencies: Object.entries(manifest.dependencies ?? {}).map(([name, spec]) => ({
+				name,
+				spec: String(spec),
+				bundle: (manifest.dsh?.profile?.bundles ?? []).includes(name),
+				active: isResolvedDependency(profileDir, name)
+			})),
+			bundles: [...manifest.dsh?.profile?.bundles ?? []],
+			restartRequired: true,
+			unsupported: [
+				"hot-enable",
+				"hot-disable",
+				"rollback",
+				"restore"
+			]
+		};
+	}
+	async managePlugin(profile, operation, spec) {
+		if (![
+			"add",
+			"remove",
+			"update"
+		].includes(operation)) throw new Error(`unsupported plugin operation: ${operation}`);
+		if (spec.trim() === "" || /[\r\n]/.test(spec) || spec.trim().startsWith("-")) throw new Error("plugin spec is invalid");
+		ensureProfile(profile, resolveProfileDir(profile));
+		const harnessDir = this.dshHarnessDir();
+		const cliEntry = join(harnessDir, "apps", "cli", "src", "bin.ts");
+		if (!existsSync(cliEntry)) throw new Error(`DSH harness CLI is unavailable: ${cliEntry}`);
+		const args = [
+			"plugin",
+			"--profile",
+			profile,
+			operation,
+			spec
+		];
+		const result = spawnSync(process.platform === "win32" ? "pnpm.cmd" : "pnpm", [
+			"exec",
+			"tsx",
+			cliEntry,
+			...args
+		], {
+			cwd: harnessDir,
+			encoding: "utf8",
+			shell: false
+		});
+		const exitCode = result.status ?? 1;
+		const inventory = await this.listPlugins(profile);
+		return {
+			profile,
+			operation,
+			spec,
+			exitCode,
+			stdout: result.stdout ?? "",
+			stderr: result.stderr ?? "",
+			inventory
+		};
+	}
+	dshHarnessDir() {
+		const configured = process.env.DSH_HARNESS_DIR;
+		if (configured !== void 0 && configured.trim() !== "") return configured;
+		throw new Error("DSH_HARNESS_DIR is not configured; set it to the official deepseek-harness checkout");
+	}
 	packageRoot() {
 		return new URL("..", import.meta.url).pathname;
 	}
@@ -26157,13 +26263,28 @@ var SystemService = class extends Service {
 /** Client descriptor contribution for the Control Center system service. */
 const systemRemote = {
 	package: "@dsh-control-center/control-center",
-	descriptors: [{
-		method: "getInfo",
-		parameters: []
-	}, {
-		method: "listDependencies",
-		parameters: []
-	}].map(({ method, parameters }) => ({
+	descriptors: [
+		{
+			method: "getInfo",
+			parameters: []
+		},
+		{
+			method: "listDependencies",
+			parameters: []
+		},
+		{
+			method: "listPlugins",
+			parameters: ["profile"]
+		},
+		{
+			method: "managePlugin",
+			parameters: [
+				"profile",
+				"operation",
+				"spec"
+			]
+		}
+	].map(({ method, parameters }) => ({
 		id: `@dsh-control-center/control-center#controlCenterSystem/${method}`,
 		service: "controlCenterSystem",
 		namespace: "controlCenterSystem",
@@ -26703,6 +26824,21 @@ function assertSecretSchemaSafe(namespace, schema) {
 	throw new Error(`Control Center refuses settings namespace ${JSON.stringify(namespace)}: secret descendants pass through unsupported schema wrappers at ${detail}`);
 }
 const ONBOARDING_SETTINGS_NAMESPACE = "ui-onboarding";
+const NOTIFICATION_SETTINGS_NAMESPACE = "control-center-notifications";
+const APPEARANCE_SETTINGS_NAMESPACE = "control-center-appearance";
+const AppearanceSettingsSchema = Schema.object({
+	colorPrimary: Schema.string().default("#00b96b"),
+	fontFamily: Schema.string().default(""),
+	codeFontFamily: Schema.string().default(""),
+	customCss: Schema.string().default(""),
+	desktopZoom: Schema.number().min(.5).max(2).default(1)
+});
+const NotificationSettingsSchema = Schema.object({
+	assistant: Schema.boolean().default(false),
+	backup: Schema.boolean().default(false),
+	knowledge: Schema.boolean().default(false),
+	update: Schema.boolean().default(false)
+});
 const OnboardingSettingsSchema = Schema.object({ welcomeNoticeVersion: Schema.string() });
 /** Cordis plugin name. */
 const name = "dsh-control-center";
@@ -26753,6 +26889,8 @@ function apply(ctx) {
 	for (const contribution of contributions) ctx.typert.register(contribution);
 	ctx.inject(["settings"], (settingsCtx) => {
 		settingsCtx.settings.register(settingsNamespace(ONBOARDING_SETTINGS_NAMESPACE), OnboardingSettingsSchema);
+		settingsCtx.settings.register(settingsNamespace(NOTIFICATION_SETTINGS_NAMESPACE), NotificationSettingsSchema);
+		settingsCtx.settings.register(settingsNamespace(APPEARANCE_SETTINGS_NAMESPACE), AppearanceSettingsSchema);
 	});
 }
 //#endregion

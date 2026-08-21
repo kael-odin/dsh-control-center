@@ -11,7 +11,6 @@ import { createHash, randomUUID } from "node:crypto";
 import { Service } from "@deepseek-ai/cordis";
 import { ReasoningEffortId, createUserMessage } from "@deepseek-ai/dsh-llm";
 import { Remote, bindTypertRemote } from "@deepseek-ai/dsh-typert-protocol";
-import { getPath } from "@deepseek-ai/dsh-client-schema-form";
 import { appendFile, mkdir, rm, writeFile } from "node:fs/promises";
 import { DatabaseSync } from "node:sqlite";
 import { defineTool } from "@deepseek-ai/dsh-tools";
@@ -19,10 +18,11 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { credentialRef } from "@deepseek-ai/dsh-credentials";
 import { arch, homedir, platform, release } from "node:os";
+import { spawnSync } from "node:child_process";
 //#region lib/types/compatibility.js
 /** DSH package versions and exports required by the first Control Center release. */
-const SUPPORTED_DSH_VERSION = "0.1.0-rc.7";
-const DSH_SOURCE_BASELINE = "99f6f02fecdb7dff40c3fbc9470f5907c29f74ca";
+const SUPPORTED_DSH_VERSION = "0.1.0-rc.8";
+const DSH_SOURCE_BASELINE = "b7135e620674ef022a26a1d2cc87b79668790e7a";
 const REQUIRED_PACKAGES = [
 	{
 		name: "@deepseek-ai/dsh-api-remotes",
@@ -93,7 +93,7 @@ function assertCompatibleDsh(requireFrom = profileRequire()) {
 			throw new Error(`DSH Control Center requires ${required.name}@${SUPPORTED_DSH_VERSION}, but its package manifest cannot be resolved. Remove the Control Center bundle or install the supported DSH release.`, { cause });
 		}
 		const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
-		if (manifest.name !== required.name || manifest.version !== "0.1.0-rc.7") throw new Error(`DSH Control Center is incompatible with ${required.name}: expected ${SUPPORTED_DSH_VERSION}, resolved ${String(manifest.version)}. Supported DSH source baseline: ${DSH_SOURCE_BASELINE}.`);
+		if (manifest.name !== required.name || manifest.version !== "0.1.0-rc.8") throw new Error(`DSH Control Center is incompatible with ${required.name}: expected ${SUPPORTED_DSH_VERSION}, resolved ${String(manifest.version)}. Supported DSH source baseline: ${DSH_SOURCE_BASELINE}.`);
 		if (typeof manifest.exports !== "object" || manifest.exports["./package.json"] === void 0) throw new Error(`${required.name}@${SUPPORTED_DSH_VERSION} does not expose ./package.json as required`);
 		if (required.client && manifest.exports["./client"] === void 0) throw new Error(`${required.name}@${SUPPORTED_DSH_VERSION} does not expose ./client as required`);
 	}
@@ -497,6 +497,24 @@ function markRemoteMethods(instance, entries) {
 }
 //#endregion
 //#region lib/types/knowledge/provider-resolve.js
+/**
+* Local path read for Host-side settings values. The browser half of rc.8
+* provides the same walk through its `ctx.settingsSchema` service; the Host
+* graph has no such service, and this flat traversal is its equivalent (and
+* stays identical to the service's `getPath`).
+*/
+function getPath(value, path) {
+	let current = value;
+	for (const key of path) {
+		if (Array.isArray(current)) {
+			current = current[Number(key)];
+			continue;
+		}
+		if (typeof current !== "object" || current === null) return void 0;
+		current = current[key];
+	}
+	return current;
+}
 function providerProfile(settings, ns, path) {
 	const view = settings.describe().find((candidate) => candidate.ns === ns);
 	const raw = view === void 0 ? void 0 : getPath(view.value, path);
@@ -4075,6 +4093,38 @@ const dataRemote = {
 * System & Diagnostics Host service: versions, compatibility, dependencies,
 * and environment info for the About / Dependencies / Diagnostics pages.
 */
+function resolveProfileDir(profile) {
+	if (!/^[A-Za-z0-9._-]+$/.test(profile) || profile === "." || profile === "..") throw new Error("invalid profile name");
+	return join(resolveDshHome(), "profiles", profile);
+}
+function readProfileManifest(profileDir) {
+	return JSON.parse(readFileSync(join(profileDir, "package.json"), "utf8"));
+}
+function isResolvedDependency(profileDir, name) {
+	try {
+		createRequire(join(profileDir, "package.json")).resolve(`${name}/package.json`);
+		return true;
+	} catch {
+		try {
+			createRequire(join(profileDir, "package.json")).resolve(name);
+			return true;
+		} catch {
+			return false;
+		}
+	}
+}
+function ensureProfile(profile, profileDir) {
+	if (existsSync(join(profileDir, "package.json"))) return;
+	mkdirSync(profileDir, { recursive: true });
+	writeFileSync(join(profileDir, "package.json"), JSON.stringify({
+		name: `dsh-profile-${profile}`,
+		private: true,
+		dependencies: {},
+		dsh: { profile: { bundles: ["@deepseek-ai/dsh-base"] } }
+	}, null, 2) + "\n");
+	writeFileSync(join(profileDir, "cordis.patch.yml"), "# DSH profile patch layer\n[]\n");
+	writeFileSync(join(profileDir, "pnpm-workspace.yaml"), "packages:\n  - .\n\nnodeLinker: hoisted\nautoInstallPeers: false\n");
+}
 const CONTRACT_PACKAGES = [
 	{
 		name: "@deepseek-ai/dsh-api-remotes",
@@ -4150,6 +4200,81 @@ var SystemService = class extends Service {
 		}
 		return entries;
 	}
+	async listPlugins(profile) {
+		const profileDir = resolveProfileDir(profile);
+		if (!existsSync(join(profileDir, "package.json"))) return {
+			profile,
+			profileDir,
+			dependencies: [],
+			bundles: [],
+			restartRequired: false,
+			unsupported: ["profile-not-initialized"]
+		};
+		const manifest = readProfileManifest(profileDir);
+		return {
+			profile,
+			profileDir,
+			dependencies: Object.entries(manifest.dependencies ?? {}).map(([name, spec]) => ({
+				name,
+				spec: String(spec),
+				bundle: (manifest.dsh?.profile?.bundles ?? []).includes(name),
+				active: isResolvedDependency(profileDir, name)
+			})),
+			bundles: [...manifest.dsh?.profile?.bundles ?? []],
+			restartRequired: true,
+			unsupported: [
+				"hot-enable",
+				"hot-disable",
+				"rollback",
+				"restore"
+			]
+		};
+	}
+	async managePlugin(profile, operation, spec) {
+		if (![
+			"add",
+			"remove",
+			"update"
+		].includes(operation)) throw new Error(`unsupported plugin operation: ${operation}`);
+		if (spec.trim() === "" || /[\r\n]/.test(spec) || spec.trim().startsWith("-")) throw new Error("plugin spec is invalid");
+		ensureProfile(profile, resolveProfileDir(profile));
+		const harnessDir = this.dshHarnessDir();
+		const cliEntry = join(harnessDir, "apps", "cli", "src", "bin.ts");
+		if (!existsSync(cliEntry)) throw new Error(`DSH harness CLI is unavailable: ${cliEntry}`);
+		const args = [
+			"plugin",
+			"--profile",
+			profile,
+			operation,
+			spec
+		];
+		const result = spawnSync(process.platform === "win32" ? "pnpm.cmd" : "pnpm", [
+			"exec",
+			"tsx",
+			cliEntry,
+			...args
+		], {
+			cwd: harnessDir,
+			encoding: "utf8",
+			shell: false
+		});
+		const exitCode = result.status ?? 1;
+		const inventory = await this.listPlugins(profile);
+		return {
+			profile,
+			operation,
+			spec,
+			exitCode,
+			stdout: result.stdout ?? "",
+			stderr: result.stderr ?? "",
+			inventory
+		};
+	}
+	dshHarnessDir() {
+		const configured = process.env.DSH_HARNESS_DIR;
+		if (configured !== void 0 && configured.trim() !== "") return configured;
+		throw new Error("DSH_HARNESS_DIR is not configured; set it to the official deepseek-harness checkout");
+	}
 	packageRoot() {
 		return new URL("..", import.meta.url).pathname;
 	}
@@ -4160,13 +4285,28 @@ var SystemService = class extends Service {
 /** Client descriptor contribution for the Control Center system service. */
 const systemRemote = {
 	package: "@dsh-control-center/control-center",
-	descriptors: [{
-		method: "getInfo",
-		parameters: []
-	}, {
-		method: "listDependencies",
-		parameters: []
-	}].map(({ method, parameters }) => ({
+	descriptors: [
+		{
+			method: "getInfo",
+			parameters: []
+		},
+		{
+			method: "listDependencies",
+			parameters: []
+		},
+		{
+			method: "listPlugins",
+			parameters: ["profile"]
+		},
+		{
+			method: "managePlugin",
+			parameters: [
+				"profile",
+				"operation",
+				"spec"
+			]
+		}
+	].map(({ method, parameters }) => ({
 		id: `@dsh-control-center/control-center#controlCenterSystem/${method}`,
 		service: "controlCenterSystem",
 		namespace: "controlCenterSystem",
@@ -4720,6 +4860,21 @@ function assertSecretSchemaSafe(namespace, schema) {
 //#endregion
 //#region lib/types/index.js
 const ONBOARDING_SETTINGS_NAMESPACE = "ui-onboarding";
+const NOTIFICATION_SETTINGS_NAMESPACE = "control-center-notifications";
+const APPEARANCE_SETTINGS_NAMESPACE = "control-center-appearance";
+const AppearanceSettingsSchema = Schema.object({
+	colorPrimary: Schema.string().default("#00b96b"),
+	fontFamily: Schema.string().default(""),
+	codeFontFamily: Schema.string().default(""),
+	customCss: Schema.string().default(""),
+	desktopZoom: Schema.number().min(.5).max(2).default(1)
+});
+const NotificationSettingsSchema = Schema.object({
+	assistant: Schema.boolean().default(false),
+	backup: Schema.boolean().default(false),
+	knowledge: Schema.boolean().default(false),
+	update: Schema.boolean().default(false)
+});
 const OnboardingSettingsSchema = Schema.object({ welcomeNoticeVersion: Schema.string() });
 /** Cordis plugin name. */
 const name = "dsh-control-center";
@@ -4770,6 +4925,8 @@ function apply(ctx) {
 	for (const contribution of contributions) ctx.typert.register(contribution);
 	ctx.inject(["settings"], (settingsCtx) => {
 		settingsCtx.settings.register(settingsNamespace(ONBOARDING_SETTINGS_NAMESPACE), OnboardingSettingsSchema);
+		settingsCtx.settings.register(settingsNamespace(NOTIFICATION_SETTINGS_NAMESPACE), NotificationSettingsSchema);
+		settingsCtx.settings.register(settingsNamespace(APPEARANCE_SETTINGS_NAMESPACE), AppearanceSettingsSchema);
 	});
 }
 //#endregion

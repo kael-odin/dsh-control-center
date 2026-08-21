@@ -7,8 +7,9 @@ export interface SwitchProps {
     checked: boolean;
     onChange: (next: boolean) => void;
     label: string;
+    disabled?: boolean;
 }
-export declare function Switch({ checked, onChange, label }: SwitchProps): import("react").JSX.Element;
+export declare function Switch({ checked, onChange, label, disabled }: SwitchProps): import("react").JSX.Element;
 export interface SegmentedProps<T extends string> {
     options: ReadonlyArray<{
         value: T;

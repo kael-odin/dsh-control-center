@@ -13,9 +13,10 @@
  */
 import type { ReactNode } from 'react';
 import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client';
-import type { SnapshotSelectorHook } from '@deepseek-ai/dsh-client-web-react';
+import type { SnapshotSelectorHook } from '@deepseek-ai/dsh-client-ui-slots';
 import { type ModelSelectionPanelProps } from './ModelSelectionPanel.tsx';
 import type { ModelsSettingsState, ModelsSettingsStore, ProviderRow } from './store.ts';
+import type { SettingsSchemaOperations } from './schema-operations.ts';
 import type { en } from './locales.ts';
 /** Injected dependencies of {@link ModelsSection} (slot `inject`). */
 export interface ModelsSectionInjected {
@@ -27,6 +28,8 @@ export interface ModelsSectionInjected {
     api: Pick<IApiClient, 'settings' | 'credentials' | 'llm'>;
     /** Default/current model selection over the same Host authority. */
     modelSelection: ModelSelectionPanelProps;
+    /** Bound schema callbacks for namespace introspection and draft edits. */
+    schema: SettingsSchemaOperations;
     /** Section copy. */
     t: (key: keyof typeof en) => string;
 }

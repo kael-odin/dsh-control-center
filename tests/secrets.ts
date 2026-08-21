@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 const ROOT = new URL('../', import.meta.url)
 const ROOT_PATH = dirname(fileURLToPath(new URL('package.json', ROOT)))
 const IGNORED_DIRECTORIES = new Set([
-  '.git', '.pack-bundle', '.packs', 'lib', 'node_modules', 'playwright-report', 'test-results',
+  '.git', '.materialized', '.pack-bundle', '.packs', 'lib', 'node_modules', 'playwright-report', 'test-results',
 ])
 const TEXT_EXTENSIONS = new Set([
   '', '.cjs', '.css', '.js', '.json', '.jsx', '.md', '.mjs', '.ts', '.tsx', '.txt', '.yaml', '.yml',

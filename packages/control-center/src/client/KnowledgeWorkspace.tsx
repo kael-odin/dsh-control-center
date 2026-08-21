@@ -600,10 +600,11 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
             <div className={css.ragSection}>
               <div className={css.ragTitle}>文档处理</div>
               <div className={css.ragSelectWrap}>
-                <select className={css.ragSelect} value="dsh-native" onChange={() => {}} aria-label="文档处理">
+                <select className={css.ragSelect} value="dsh-native" disabled aria-label="文档处理">
                   <option value="dsh-native">DSH 原生解析</option>
                 </select>
               </div>
+              <div className={css.ragHint}>当前 DSH Host 仅提供原生解析；其他文档处理器暂不支持。</div>
             </div>
             <div className={css.ragSection}>
               <div className={css.ragTitle}>嵌入模型</div>
@@ -624,10 +625,11 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
             <div className={css.ragSection}>
               <div className={css.ragTitle}>重排模型</div>
               <div className={css.ragSelectWrap}>
-                <select className={css.ragSelect} value="none" onChange={() => {}} aria-label="重排模型">
+                <select className={css.ragSelect} value="none" disabled aria-label="重排模型">
                   <option value="none">不使用</option>
                 </select>
               </div>
+              <div className={css.ragHint}>当前 DSH Host 未提供重排模型能力。</div>
             </div>
             <div className={css.ragSection}>
               <div className={css.ragTitle}>Top K</div>

@@ -22,6 +22,7 @@
  */
 import type { ReactNode } from 'react';
 import type { IApiClient, SettingsNamespaceView, SettingsPathOpView } from '@deepseek-ai/dsh-api-remotes/client';
+import type { SettingsSchemaOperations } from './schema-operations.ts';
 import type { en } from './locales.ts';
 /** Props of {@link ProviderEditor}. */
 export interface ProviderEditorProps {
@@ -45,6 +46,8 @@ export interface ProviderEditorProps {
     settingsPath: readonly string[];
     /** Wire faces for writes and for interrogating a provider endpoint. */
     api: Pick<IApiClient, 'settings' | 'credentials' | 'llm'>;
+    /** Bound schema callbacks for namespace introspection and draft edits. */
+    schema: SettingsSchemaOperations;
     /** Section copy. */
     t: (key: keyof typeof en) => string;
     /** Disable writes (read-only settings provider). */

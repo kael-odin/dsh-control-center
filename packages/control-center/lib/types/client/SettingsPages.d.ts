@@ -30,7 +30,8 @@ export interface SettingSwitchProps {
     checked: boolean;
     onChange: (next: boolean) => void;
     description?: ReactNode;
+    disabled?: boolean;
 }
 /** Label-left + switch-right setting row (Cherry DescriptionSwitch). */
-export declare function SettingSwitch({ label, checked, onChange, description }: SettingSwitchProps): import("react").JSX.Element;
+export declare function SettingSwitch({ label, checked, onChange, description, disabled }: SettingSwitchProps): import("react").JSX.Element;
 //# sourceMappingURL=SettingsPages.d.ts.map

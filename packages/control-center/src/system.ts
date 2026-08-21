@@ -6,10 +6,34 @@
 import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
 import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
-import { readFileSync } from 'node:fs'
+import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { homedir, platform, release, arch } from 'node:os'
+import { spawnSync } from 'node:child_process'
+import { createRequire } from 'node:module'
 import { resolveDshHome } from '@deepseek-ai/dsh-home-paths'
+import type { PluginInventory, PluginOperation, PluginOperationResult } from './system-types.ts'
+
+function resolveProfileDir(profile: string): string {
+  if (!/^[A-Za-z0-9._-]+$/.test(profile) || profile === '.' || profile === '..') throw new Error('invalid profile name')
+  return join(resolveDshHome(), 'profiles', profile)
+}
+
+function readProfileManifest(profileDir: string): { dependencies?: Record<string, string>; dsh?: { profile?: { bundles?: string[] } } } {
+  return JSON.parse(readFileSync(join(profileDir, 'package.json'), 'utf8')) as { dependencies?: Record<string, string>; dsh?: { profile?: { bundles?: string[] } } }
+}
+
+function isResolvedDependency(profileDir: string, name: string): boolean {
+  try { const resolver = createRequire(join(profileDir, 'package.json')); resolver.resolve(`${name}/package.json`); return true } catch { try { createRequire(join(profileDir, 'package.json')).resolve(name); return true } catch { return false } }
+}
+
+function ensureProfile(profile: string, profileDir: string): void {
+  if (existsSync(join(profileDir, 'package.json'))) return
+  mkdirSync(profileDir, { recursive: true })
+  writeFileSync(join(profileDir, 'package.json'), JSON.stringify({ name: `dsh-profile-${profile}`, private: true, dependencies: {}, dsh: { profile: { bundles: ['@deepseek-ai/dsh-base'] } } }, null, 2) + '\n')
+  writeFileSync(join(profileDir, 'cordis.patch.yml'), '# DSH profile patch layer\n[]\n')
+  writeFileSync(join(profileDir, 'pnpm-workspace.yaml'), 'packages:\n  - .\n\nnodeLinker: hoisted\nautoInstallPeers: false\n')
+}
 import { SUPPORTED_DSH_VERSION, DSH_SOURCE_BASELINE, profileRequire } from './compatibility.ts'
 
 export interface SystemInfo {
@@ -86,6 +110,44 @@ export class SystemService extends Service {
       entries.push({ name: pkg.name, version, client: pkg.client })
     }
     return entries
+  }
+
+  async listPlugins(profile: string): Promise<PluginInventory> {
+    const profileDir = resolveProfileDir(profile)
+    if (!existsSync(join(profileDir, 'package.json'))) {
+      return { profile, profileDir, dependencies: [], bundles: [], restartRequired: false, unsupported: ['profile-not-initialized'] }
+    }
+    const manifest = readProfileManifest(profileDir)
+    const dependencies = Object.entries(manifest.dependencies ?? {}).map(([name, spec]) => ({
+      name, spec: String(spec), bundle: (manifest.dsh?.profile?.bundles ?? []).includes(name), active: isResolvedDependency(profileDir, name),
+    }))
+    return {
+      profile, profileDir, dependencies,
+      bundles: [...(manifest.dsh?.profile?.bundles ?? [])],
+      restartRequired: true,
+      unsupported: ['hot-enable', 'hot-disable', 'rollback', 'restore'],
+    }
+  }
+
+  async managePlugin(profile: string, operation: PluginOperation, spec: string): Promise<PluginOperationResult> {
+    if (!['add', 'remove', 'update'].includes(operation)) throw new Error(`unsupported plugin operation: ${operation}`)
+    if (spec.trim() === '' || /[\r\n]/.test(spec) || spec.trim().startsWith('-')) throw new Error('plugin spec is invalid')
+    const profileDir = resolveProfileDir(profile)
+    ensureProfile(profile, profileDir)
+    const harnessDir = this.dshHarnessDir()
+    const cliEntry = join(harnessDir, 'apps', 'cli', 'src', 'bin.ts')
+    if (!existsSync(cliEntry)) throw new Error(`DSH harness CLI is unavailable: ${cliEntry}`)
+    const args = ['plugin', '--profile', profile, operation, spec]
+    const result = spawnSync(process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm', ['exec', 'tsx', cliEntry, ...args], { cwd: harnessDir, encoding: 'utf8', shell: false })
+    const exitCode = result.status ?? 1
+    const inventory = await this.listPlugins(profile)
+    return { profile, operation, spec, exitCode, stdout: result.stdout ?? '', stderr: result.stderr ?? '', inventory }
+  }
+
+  private dshHarnessDir(): string {
+    const configured = process.env.DSH_HARNESS_DIR
+    if (configured !== undefined && configured.trim() !== '') return configured
+    throw new Error('DSH_HARNESS_DIR is not configured; set it to the official deepseek-harness checkout')
   }
 
   private packageRoot(): string {

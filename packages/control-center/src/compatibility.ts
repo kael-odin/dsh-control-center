@@ -5,7 +5,7 @@ import { createRequire } from 'node:module'
 import { resolveDshHome } from '@deepseek-ai/dsh-home-paths'
 
 export const SUPPORTED_DSH_VERSION = '0.1.0-rc.8'
-export const DSH_SOURCE_BASELINE = '141eb6fef83422698aef7a981029e843e8161534'
+export const DSH_SOURCE_BASELINE = 'b7135e620674ef022a26a1d2cc87b79668790e7a'
 
 interface RequiredPackage {
   name: string

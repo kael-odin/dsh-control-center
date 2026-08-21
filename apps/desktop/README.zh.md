@@ -26,13 +26,9 @@ apps/desktop/
 
 ## 运行前提
 
-- **连接已有 surface**：一个 DSH Web surface 监听默认 `http://127.0.0.1:3080/`（即 `dsh web`），
-  或用 `DSH_CONTROL_DESKTOP_URL` 指向其它 loopback surface。
-- **自启**：`DSH_HARNESS_DIR` 指向 `deepseek-harness`（默认 `D:\Github_Open\deepseek-harness`）；
-  - 壳用内置 Node.js（`vendor/node/node.exe`，node 24 —— ABI 与 harness 匹配）spawn host；无内置时
-    回退 `DSH_DESKTOP_NODE` 或系统 `node`。桌面壳**复用用户默认 `~/.dsh` home**（与 `dsh web`
-    共享 profile/bundle/会话数据），因此自启 surface 同样挂载 Control Center；`DSH_DESKTOP_HOME`
-    可显式指定变为独立隔离 home。
+- **默认自启**：桌面壳会使用 `DSH_HARNESS_DIR` 指向的官方 `deepseek-harness`，在空闲端口启动独立 surface。默认使用 Windows 原生资源管理器目录选择器；设置 `DSH_DESKTOP_DIRECTORY_PICKER=browse` 才切换到应用内目录浏览。
+- **连接已有 surface**：仅当设置 `DSH_CONTROL_DESKTOP_USE_EXISTING=1` 且未设置 `DSH_CONTROL_DESKTOP_SELF_HOST=1` 时，才连接默认 `http://127.0.0.1:3080/`；显式设置 `DSH_CONTROL_DESKTOP_URL` 也会进入连接模式。`DSH_CONTROL_DESKTOP_SELF_HOST=1` 优先级最高。
+- **自启路径**：壳用内置 Node.js（`vendor/node/node.exe`，node 24 —— ABI 与 harness 匹配）spawn host；无内置时回退 `DSH_DESKTOP_NODE` 或系统 `node`。桌面壳复用用户默认 `~/.dsh` home（与 `dsh web` 共享 profile/bundle/会话数据），`DSH_DESKTOP_HOME` 可显式指定独立 home。
 
 > 已知边界：electron 二进制以 `ELECTRON_RUN_AS_NODE` 当 node 用时，与 harness 的原生目录选择
 > 依赖 ABI 不匹配，故随应用内置匹配版本的 node（node 24，`vendor/node`，extraResources 打包）。
@@ -46,7 +42,11 @@ node node_modules/electron/install.js    # 放行 electron 二进制下载（pnp
 ```
 
 ```bash
-pnpm start        # 连接 127.0.0.1:3080 surface（在线则连，否则自启）
+pnpm start        # 默认使用最新 harness 自启独立 surface
+# 连接已经运行的 127.0.0.1:3080 surface：
+DSH_CONTROL_DESKTOP_USE_EXISTING=1 pnpm start
+# 指定其它已有 loopback surface 时，DSH_CONTROL_DESKTOP_URL 会自动启用连接模式：
+DSH_CONTROL_DESKTOP_URL=http://127.0.0.1:3080/ pnpm start
 ```
 
 ## 冒烟测试

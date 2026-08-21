@@ -17,8 +17,10 @@ import { app, BrowserWindow, dialog, Notification, Tray, Menu, globalShortcut, n
 import { spawn } from 'node:child_process'
 import { createServer } from 'node:http'
 import { randomBytes } from 'node:crypto'
-import { readFileSync, statSync, existsSync } from 'node:fs'
+import { readFileSync, statSync, existsSync, writeFileSync, rmSync } from 'node:fs'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 
 const DEFAULT_LOOPBACK = 'http://127.0.0.1:3080/'
 const DEFAULT_HARNESS_DIR = process.env.DSH_HARNESS_DIR || 'D:\\Github_Open\\deepseek-harness'
@@ -28,7 +30,11 @@ const WEB_URL_LINE = /dsh web:\s+(http:\/\/127\.0\.0\.1:\d+)/
 /** Resolve the loopback base URL for the DSH surface. */
 function resolveUrl() {
   const base = process.env.DSH_CONTROL_DESKTOP_URL || DEFAULT_LOOPBACK
-  return base.endsWith('/') ? base : `${base}/`
+  const parsed = new URL(base)
+  if (parsed.protocol !== 'http:' || !['127.0.0.1', 'localhost', '[::1]'].includes(parsed.hostname)) {
+    throw new Error('DSH_CONTROL_DESKTOP_URL must point to a loopback HTTP surface')
+  }
+  return parsed.href.endsWith('/') ? parsed.href : `${parsed.href}/`
 }
 
 /**
@@ -74,9 +80,11 @@ function startSelfHost() {
     ...process.env,
     ...(resolveSelfHome() !== undefined ? { DSH_HOME: resolveSelfHome() } : {}),
   }
+  const dirPickerPatch = createDirectoryPickerPatch()
+  const args = ['web', ...(dirPickerPatch === undefined ? [] : ['--patch', dirPickerPatch]), '--port', '0']
   const child = spawn(
     nodeBin,
-    ['--import', 'tsx/esm', 'apps/cli/src/bin.ts', 'web', '--port', '0'],
+    ['--import', 'tsx/esm', 'apps/cli/src/bin.ts', ...args],
     { cwd: dir, env, stdio: ['ignore', 'pipe', 'pipe'], shell: false, detached: false },
   )
 
@@ -96,10 +104,11 @@ function startSelfHost() {
       settled = true
       cleanup()
       console.log(`[desktop] self-host ready at ${match[1]}`)
+      try { if (dirPickerPatch !== undefined) rmSync(dirPickerPatch, { force: true }) } catch { /* best effort */ }
       resolveReady(match[1])
     })
-    // Drain stderr so a blocked pipe never stalls the child.
-    child.stderr?.on('data', () => {})
+    // Keep self-host diagnostics visible; a failed overlay or native dependency must not look like a hang.
+    child.stderr?.on('data', (chunk) => { console.error(`[desktop] self-host stderr: ${String(chunk).trimEnd()}`) })
     const onExit = (code) => {
       if (settled) return
       settled = true
@@ -116,11 +125,22 @@ function startSelfHost() {
     child.on('error', onError)
   })
 
+  child.once('exit', () => {
+    try { if (dirPickerPatch !== undefined) rmSync(dirPickerPatch, { force: true }) } catch { /* best effort */ }
+  })
   return { child, urlPromise }
 }
 
 function resolveHarnessDir() {
   return process.env.DSH_HARNESS_DIR || DEFAULT_HARNESS_DIR
+}
+
+/** Build a temporary official DSH overlay selecting the browser fallback picker. */
+function createDirectoryPickerPatch() {
+  if ((process.env.DSH_DESKTOP_DIRECTORY_PICKER || 'native') !== 'browse') return undefined
+  const patchPath = join(tmpdir(), `dsh-control-directory-picker-${process.pid}.yml`)
+  writeFileSync(patchPath, "- id: directory-picker\n  disabled: true\n- insert:\n    - id: directory-picker-browse\n      name: '@deepseek-ai/dsh-host-directory-picker-browse'\n    - id: ui-directory-picker-browse\n      name: '@deepseek-ai/dsh-client-ui-directory-picker-browse'\n")
+  return patchPath
 }
 
 /** Resolve the bundled Node binary (vendor/node), if present. */
@@ -179,6 +199,12 @@ function startNativeService() {
           const fonts = await discoverSystemFonts()
           return send(200, { ok: true, fonts })
         }
+        if (req.method === 'POST' && url.pathname === '/dsh-native/menu') {
+          const raw = await readBody(req)
+          const model = validateNativeMenuModel(raw?.model)
+          const action = await showNativeMenu(model)
+          return send(200, { ok: true, action })
+        }
         if (req.method === 'POST' && url.pathname === '/dsh-native/zoom') {
           const raw = await readBody(req)
           const delta = typeof raw.delta === 'number' ? raw.delta : 0
@@ -234,6 +260,58 @@ function discoverSystemFonts() {
   // from a DSH checkout; otherwise report an honest empty capability result.
   return import('font-list').then(module => module.default.getFonts()).then(fonts => [...new Set(fonts)].sort((a, b) => a.localeCompare(b)))
     .catch(() => [])
+}
+
+const NATIVE_MENU_COMMANDS = new Set(['app.settings.open', 'app.zoom.in', 'app.zoom.out', 'app.zoom.reset'])
+
+function validateNativeMenuModel(model) {
+  if (!model || typeof model !== 'object' || typeof model.id !== 'string' || !Array.isArray(model.items)) {
+    throw new Error('native menu model is invalid')
+  }
+  if (model.id.length < 1 || model.id.length > 128 || model.items.length > 100) throw new Error('native menu model is invalid')
+  for (const item of model.items) validateNativeMenuItem(item)
+  return model
+}
+
+function validateNativeMenuItem(item) {
+  if (!item || typeof item !== 'object') throw new Error('native menu item is invalid')
+  if (item.type === 'separator') return
+  if (item.type === 'command') {
+    if (!NATIVE_MENU_COMMANDS.has(item.command) || typeof item.label !== 'string' || typeof item.enabled !== 'boolean') {
+      throw new Error('native menu command is not allowlisted')
+    }
+    return
+  }
+  if (item.type === 'submenu' && typeof item.label === 'string' && Array.isArray(item.children) && item.children.length <= 100) {
+    item.children.forEach(validateNativeMenuItem)
+    return
+  }
+  throw new Error('native menu item is invalid')
+}
+
+function showNativeMenu(model) {
+  return new Promise((resolveMenu) => {
+    let settled = false
+    const finish = (action) => {
+      if (settled) return
+      settled = true
+      resolveMenu(action)
+    }
+    const toTemplate = (items) => items.map((item) => {
+      if (item.type === 'separator') return { type: 'separator' }
+      if (item.type === 'submenu') return { label: item.label, enabled: item.enabled !== false, submenu: toTemplate(item.children) }
+      return {
+        label: item.label,
+        enabled: item.enabled,
+        accelerator: item.accelerator,
+        type: item.checked === undefined ? 'normal' : 'checkbox',
+        checked: item.checked === true,
+        click: () => { finish({ type: 'command', command: item.command }) },
+      }
+    })
+    const menu = Menu.buildFromTemplate(toTemplate(model.items))
+    menu.popup({ window: mainWindow, callback: () => { if (!settled) finish(undefined) } })
+  })
 }
 
 /** Read and JSON-parse a small request body (best effort). */
@@ -354,12 +432,31 @@ function createWindow(url, native) {
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
-      sandbox: true,
+      sandbox: false,
     },
   })
   mainWindow.setMenuBarVisibility(false)
-  mainWindow.loadURL(url)
-  // Expose an honest desktop-environment marker so the Control Center web UI can
+  let finishCount = 0
+  mainWindow.webContents.on('did-start-loading', () => { console.log(`[desktop] DID_START_LOADING url=${mainWindow.webContents.getURL()}`) })
+  mainWindow.webContents.on('did-finish-load', () => {
+    finishCount += 1
+    console.log(`[desktop] DID_FINISH_LOAD count=${finishCount} url=${mainWindow.webContents.getURL()}`)
+  })
+  mainWindow.webContents.on('will-navigate', (_event, targetUrl) => { console.log(`[desktop] WILL_NAVIGATE url=${targetUrl}`) })
+  mainWindow.webContents.on('did-navigate', (_event, targetUrl) => { console.log(`[desktop] DID_NAVIGATE url=${targetUrl}`) })
+  mainWindow.webContents.on('did-fail-load', (_e, code, description, url2) => {
+    console.error(`[desktop] SURFACE_FAILED code=${code} description=${description} url=${url2}`)
+    if (!smoke) mainWindow.show()
+  })
+  mainWindow.webContents.on('render-process-gone', (_e, details) => {
+    console.error(`[desktop] RENDERER_GONE reason=${details.reason} exitCode=${details.exitCode}`)
+  })
+  mainWindow.webContents.on('console-message', (_e, level, message, line, sourceId) => {
+    if (level >= 2) console.error(`[desktop] RENDERER_CONSOLE level=${level} ${sourceId}:${line} ${message}`)
+  })
+  mainWindow.loadURL(url).catch((error) => {
+    console.error(`[desktop] LOAD_URL_FAILED url=${url} error=${String(error && error.message)}`)
+  })  // Expose an honest desktop-environment marker so the Control Center web UI can
   // flip its "需要桌面版" rows to real/available when running under this shell.
   // Injected into the loaded renderer only (a plain browser tab never sees it).
   // When the native bridge is up, carry its token-protected loopback URL so the
@@ -381,9 +478,7 @@ function createWindow(url, native) {
   })
   if (smoke) {
     // E2E smoke: report surface load, then exit so CI/a driver can assert.
-    // `SMOKE_SURFACE_ONLY=1` asserts the surface came up (self-host on a fresh
-    // home has no Control Center bundle yet); otherwise it also requires the
-    // Control Center trigger to be mounted in the renderer.
+    // `DSH_DESKTOP_SMOKE_SURFACE_ONLY=1` asserts the surface came up (self-host on a fresh home has no Control Center bundle yet); otherwise it also requires the Control Center trigger to be mounted in the renderer.
     const surfaceOnly = process.env.DSH_DESKTOP_SMOKE_SURFACE_ONLY === '1'
     mainWindow.webContents.on('did-finish-load', async () => {
       console.log('[desktop] SURFACE_LOADED')
@@ -522,10 +617,13 @@ async function boot() {
   }
 
   let surfaceUrl = url
-  if (await isListening(url)) {
+  const useExistingSurface = process.env.DSH_CONTROL_DESKTOP_SELF_HOST !== '1'
+    && (process.env.DSH_CONTROL_DESKTOP_USE_EXISTING === '1' || process.env.DSH_CONTROL_DESKTOP_URL !== undefined)
+  if (useExistingSurface) {
+    if (!(await isListening(url))) throw new Error(`configured DSH surface is unavailable: ${url}`)
     console.log(`[desktop] surface already listening at ${url}`)
   } else {
-    // No external surface: self-host a dedicated loopback one (free port via --port 0).
+    // No explicitly trusted external surface or explicit self-host mode: self-host a dedicated loopback one (free port via --port 0).
     console.log(`[desktop] no DSH surface at ${url}; self-hosting…`)
     try {
       const { child, urlPromise } = startSelfHost()
@@ -540,8 +638,7 @@ async function boot() {
       dialog.showErrorBox(
         '无法启动 DSH 服务',
         `桌面壳尝试自启 DSH 服务失败：\n\n${String(err && err.message) || String(err)}\n\n` +
-          '请确认 DSH_HARNESS_DIR 指向 deepseek-harness 目录（或用 DSH_CONTROL_DESKTOP_URL 手动指定一个已运行的 surface），' +
-          '然后重新打开应用。',
+      `请确认 DSH_HARNESS_DIR 指向 deepseek-harness 目录（或用 DSH_CONTROL_DESKTOP_USE_EXISTING=1 连接已运行的 loopback surface），然后重新打开应用。`,
       )
       app.quit()
       return

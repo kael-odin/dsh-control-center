@@ -1,9 +1,12 @@
 import type { TypertRemoteContribution } from '@deepseek-ai/dsh-typert-protocol'
 import { STRICT_JSON } from './translation-codec.ts'
 
-const methods: ReadonlyArray<{ method: string; parameters: string[] }> = [
+type SystemMethod = { method: string; parameters: string[] }
+const methods: ReadonlyArray<SystemMethod> = [
   { method: 'getInfo', parameters: [] },
-  { method: 'listDependencies', parameters: [] }
+  { method: 'listDependencies', parameters: [] },
+  { method: 'listPlugins', parameters: ['profile'] },
+  { method: 'managePlugin', parameters: ['profile', 'operation', 'spec'] },
 ]
 
 /** Client descriptor contribution for the Control Center system service. */

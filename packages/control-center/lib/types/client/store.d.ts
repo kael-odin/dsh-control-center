@@ -7,6 +7,7 @@
  */
 import type { ConfigurableProviderView, CredentialView, IApiClient, SettingsNamespaceView } from '@deepseek-ai/dsh-api-remotes/client';
 import type { SnapshotStore } from '@deepseek-ai/dsh-client-runtime/client';
+import type { SettingsSchemaOperations } from './schema-operations.ts';
 /** One provider row the page renders. */
 export interface ProviderRow {
     /** The directory entry (route id, display name, settings address, live state). */
@@ -58,18 +59,20 @@ export declare function deriveKeyRef(provider: string): string;
  * @param namespace - the namespace view whose schema declares the profile shape.
  * @returns the protocol identifiers, or an empty list when the schema has none.
  */
-export declare function protocolChoices(namespace: SettingsNamespaceView | undefined): string[];
+export declare function protocolChoices(namespace: SettingsNamespaceView | undefined, schema: SettingsSchemaOperations): string[];
 /** The models settings page controller (one per settings surface). */
 export declare class ModelsSettingsStore {
     private readonly api;
+    private readonly schema;
     /** The snapshot the section renders from (uSES-safe store). */
     readonly store: SnapshotStore<ModelsSettingsState>;
     /** Latest load wins; an older response never overwrites a newer one. */
     private generation;
     /**
      * @param api - the wire face (settings/credentials/llm domains).
+     * @param schema - bound schema callbacks for namespace introspection.
      */
-    constructor(api: Pick<IApiClient, 'settings' | 'credentials' | 'llm'>);
+    constructor(api: Pick<IApiClient, 'settings' | 'credentials' | 'llm'>, schema: SettingsSchemaOperations);
     /**
      * Refresh the whole page snapshot: directory and namespaces in parallel,
      * then one batched credential describe over every referenced ref. A

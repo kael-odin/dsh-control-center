@@ -82,9 +82,19 @@ function copyTree(s, d) { copyTreeRec(s, d) }
 function copyTreeRec(s, d) {
   mkdirSync(d, { recursive: true })
   stats.dirs += 1
+  // Record every real directory copied (scoped containers AND their innermost
+  // bodies like .pnpm/<pkg>/node_modules/@scope/pkg) so a dependency symlink
+  // whose target is such a body can re-link to it instead of being copied as an
+  // isolated copy that loses its own deps (e.g. pi-ai -> typebox).
+  realToMat.set(norm(s), d)
   for (const entry of readdirSync(s)) {
     const ss = join(s, entry)
     const sd = join(d, entry)
+    // Skip any node_modules directory: deps resolve via the materialized
+    // top-level node_modules, and following internal node_modules (e.g. a
+    // copied source package like @dsh-control-center/control-center) caused
+    // infinite ENAMETOOLONG nesting.
+    if (entry === 'node_modules') continue
     let st
     try { st = lstatSync(ss) } catch { continue }
     if (st.isSymbolicLink()) {
@@ -96,6 +106,42 @@ function copyTreeRec(s, d) {
     }
     if (st.isFile()) { copyFileSync(ss, sd); stats.files += 1; continue }
     if (st.isDirectory()) copyTreeRec(ss, sd)
+  }
+}
+/**
+ * Copy a top-level real directory of a nested node_modules with dependency
+ * awareness: a symlink whose target is already materialized (top-level .pnpm /
+ * out/packages) is re-linked via a junction instead of being dereference-copied
+ * as an isolated copy (which would break its own deps, e.g. pi-ai -> typebox).
+ * Nested node_modules inside are skipped (they are materialized separately).
+ */
+function copyRelink(s, d, nmBase) {
+  mkdirSync(d, { recursive: true })
+  stats.dirs += 1
+  for (const entry of readdirSync(s)) {
+    const ss = join(s, entry)
+    const sd = join(d, entry)
+    // Skip anything nested under a node_modules path (symlinks included) — those
+    // node_modules are materialized separately; dereferencing/following them is
+    // what caused infinite ENAMETOOLONG nesting.
+    if (relHasNM(ss, nmBase)) continue
+    let st
+    try { st = lstatSync(ss) } catch { continue }
+    if (st.isSymbolicLink()) {
+      let target
+      try { target = realpathSync(ss) } catch { continue }
+      const tKey = norm(target)
+      const mat = realToMat.get(tKey) || materializedFor(tKey)
+      if (mat) { linkTo(sd, mat); continue }
+      if (statSync(target).isFile()) { copyFileSync(target, sd); stats.files += 1 }
+      else { copyTree(target, sd); realToMat.set(tKey, sd) }
+      continue
+    }
+    if (st.isFile()) { copyFileSync(ss, sd); stats.files += 1; continue }
+    if (st.isDirectory()) {
+      if (relHasNM(ss, nmBase)) continue // nested node_modules materialized separately
+      copyRelink(ss, sd, nmBase)
+    }
   }
 }
 
@@ -196,9 +242,10 @@ function materializeNM(srcNM, outNM) {
         continue
       }
       // Other top-level dirs must be copied WITHOUT nested node_modules (those are
-      // themselves materialized recursively), else copyTree follows internal
-      // @deepseek-ai links infinitely (ENAMETOOLONG).
-      cpSync(es, ed, { recursive: true, force: true, dereference: true, filter: (e) => !relHasNM(e, srcNM) })
+      // themselves materialized recursively) and with dependency re-linking
+      // (copyRelink) so symlink deps point to already-materialized top-level
+      // .pnpm copies instead of becoming isolated dereference copies.
+      copyRelink(es, ed, srcNM)
     }
   }
 
@@ -244,17 +291,18 @@ function findNodeModules(nodeModuleList, dir) {
 }
 const nmDirs = []
 findNodeModules(nmDirs, src)
-// top-level first so its .pnpm bodies are in realToMat before nested layers relink.
+// TOP-LEVEL node_modules MUST materialize FIRST so its .pnpm bodies populate
+// realToMat before any nested layer (apps/packages/vendor) tries to re-link its
+// symlink deps (e.g. vendor/hmr chokidar -> top-level .pnpm/chokidar) — otherwise
+// a nested layer would fall back to copying an isolated copy and break the chain.
+materializeNM(join(src, 'node_modules'), join(out, 'node_modules'))
 nmDirs.sort((a, b) => a.length - b.length)
-console.log(`[v6.7] materializing ${nmDirs.length} node_modules layers`)
+console.log(`[v6.9] materializing ${nmDirs.length} nested node_modules layers`)
 for (const nmDir of nmDirs) {
-  if (nmDir === join(src, 'node_modules')) continue // top-level handled below
+  if (nmDir === join(src, 'node_modules')) continue // already done above
   const outNMDir = resolve(out, relative(src, nmDir))
   materializeNM(nmDir, outNMDir)
 }
-// top-level node_modules last so descendants resolved; its @deepseek-ai links point
-// to out/packages which were copied in step 1.
-materializeNM(join(src, 'node_modules'), join(out, 'node_modules'))
 
 console.log(`materialize v6.7 done in ${((Date.now() - t0) / 1000).toFixed(1)}s -> ${out}`)
 console.log(`stats: dirs=${stats.dirs} files=${stats.files} links=${stats.links}`)
