@@ -41,6 +41,7 @@ interface AppearanceSettings {
   fontFamily: string
   codeFontFamily: string
   customCss: string
+  desktopZoom: number
 }
 
 const AppearanceSettingsSchema: z<AppearanceSettings> = z.object({
@@ -48,6 +49,7 @@ const AppearanceSettingsSchema: z<AppearanceSettings> = z.object({
   fontFamily: z.string().default(''),
   codeFontFamily: z.string().default(''),
   customCss: z.string().default(''),
+  desktopZoom: z.number().min(0.5).max(2).default(1),
 })
 
 interface NotificationSettings {

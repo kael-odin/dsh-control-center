@@ -162,21 +162,25 @@ export function AppearanceSection({ api, locale }: AppearanceSectionProps) {
     return () => { active = false }
   }, [api])
 
-  useEffect(() => {
-    if (!hasNativeBridge()) return
-    let active = true
-    setZoomBusy(true)
-    void desktopNativeApi.adjustZoom(0).then(result => {
-      if (active && result.ok && result.zoom !== undefined) setZoom(result.zoom)
-    }).finally(() => { if (active) setZoomBusy(false) })
-    return () => { active = false }
-  }, [])
-
   const changeZoom = (delta: number, reset = false): void => {
-    if (zoomBusy) return
+    if (zoomBusy || revisionRef.current === null) return
+    const previous = zoom
     setZoomBusy(true)
     void desktopNativeApi.adjustZoom(delta, reset).then(result => {
-      if (result.ok && result.zoom !== undefined) setZoom(result.zoom)
+      if (!result.ok || result.zoom === undefined) throw new Error(result.error ?? '缩放设置失败')
+      setZoom(result.zoom)
+      return api.settings.mutate({
+        ns: APPEARANCE_SETTINGS_NAMESPACE,
+        ops: [{ op: 'set', path: ['desktopZoom'], value: result.zoom }],
+        expectedRevision: revisionRef.current!,
+      }).then(response => {
+        if (!response.result.ok) throw new Error(response.result.error.message)
+        revisionRef.current = response.result.value.revision
+      })
+    }).catch(error => {
+      setZoom(previous)
+      setAppearanceError(String((error as Error).message || '缩放设置保存失败，请重试。'))
+      if (hasNativeBridge()) void desktopNativeApi.adjustZoom(0, true).then(() => desktopNativeApi.adjustZoom(previous - 1))
     }).finally(() => { setZoomBusy(false) })
   }
 
@@ -195,7 +199,8 @@ export function AppearanceSection({ api, locale }: AppearanceSectionProps) {
         setAppearanceError('外观设置不可用，请重试。')
         return
       }
-      const stored = namespace.value as Partial<ThemeOverrides>
+      const stored = namespace.value as Partial<ThemeOverrides> & { desktopZoom?: unknown }
+      const storedZoom = typeof stored.desktopZoom === 'number' && stored.desktopZoom >= 0.5 && stored.desktopZoom <= 2 ? stored.desktopZoom : 1
       const hasStoredValues = typeof stored.colorPrimary === 'string' && stored.colorPrimary !== '#00b96b'
         || stored.fontFamily !== '' || stored.codeFontFamily !== '' || stored.customCss !== ''
       const legacy = loadThemeOverrides()
@@ -212,6 +217,10 @@ export function AppearanceSection({ api, locale }: AppearanceSectionProps) {
       setFontDraft(next.fontFamily)
       setCodeFontDraft(next.codeFontFamily)
       setCssDraft(next.customCss)
+      setZoom(storedZoom)
+      if (hasNativeBridge()) {
+        void desktopNativeApi.adjustZoom(0, true).then(() => desktopNativeApi.adjustZoom(storedZoom - 1))
+      }
       applyThemeOverrides(next)
       setAppearanceReady(true)
       setAppearanceError('')
