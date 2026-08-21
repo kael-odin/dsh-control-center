@@ -4,8 +4,9 @@ import clsx from 'clsx'
 import { IconCloseOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
 import {
   IconActivity, IconBell, IconCalendarClock, IconCloud, IconCommand, IconCrop, IconDataDrive,
-  IconFileBox, IconFileCode, IconHardDrive, IconInfo, IconPalette, IconPackage, IconRadio,
-  IconScanText, IconSearch, IconSettings2, IconTerminal, IconToolCase, IconUser,
+  IconFileBox, IconFileCode, IconGateway, IconHardDrive, IconInfo, IconPalette, IconPackage,
+  IconPictureInPicture2, IconRadio, IconScanText, IconSearch, IconSettings2, IconTerminal,
+  IconTextCursorInput, IconToolCase, IconUser,
 } from './cherry-icons.tsx'
 import type { SettingsRootComponentProps, SettingsSectionRow } from './shell-contract.ts'
 import css from './SettingsRoot.module.css'
@@ -34,7 +35,8 @@ function navIcon(id: string) {
     case 'mcp': return <IconSettings2 size={size} className={cls} />
     case 'websearch': return <IconSearch size={size} className={cls} />
     case 'agent-presets': return <IconUser size={size} className={cls} />
-    case 'control-center-plugins': return <IconPackage size={size} className={cls} />
+    case 'super-injector-plugins': return <IconPackage size={size} className={cls} />
+    case 'api-gateway': return <IconGateway size={size} className={cls} />
     case 'general': return <IconSettings2 size={size} className={cls} />
     case 'usage': return <IconActivity size={size} className={cls} />
     case 'data': return <IconHardDrive size={size} className={cls} />
@@ -44,8 +46,8 @@ function navIcon(id: string) {
     case 'tasks': return <IconCalendarClock size={size} className={cls} />
     case 'channels': return <IconRadio size={size} className={cls} />
     case 'shortcuts': return <IconCommand size={size} className={cls} />
-    case 'quick-assistant': return <IconCrop size={size} className={cls} />
-    case 'selection-assistant': return <IconScanText size={size} className={cls} />
+    case 'quick-assistant': return <IconPictureInPicture2 size={size} className={cls} />
+    case 'selection-assistant': return <IconTextCursorInput size={size} className={cls} />
     case 'screenshot': return <IconCrop size={size} className={cls} />
     case 'notifications': return <IconBell size={size} className={cls} />
     case 'appearance': return <IconPalette size={size} className={cls} />

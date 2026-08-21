@@ -65,7 +65,6 @@ import type { UpdateSectionInjected } from './UpdateSection.tsx'
 import { CapabilityGateSection } from './CapabilityGateSection.tsx'
 import type { CapabilityGateSectionProps } from './CapabilityGateSection.tsx'
 import { SettingsRoot } from './SettingsRoot.tsx'
-import { PluginsSection } from './PluginsSection.tsx'
 import type { SettingsOnboardingStep, SettingsRootInjected, SettingsSectionRow } from './shell-contract.ts'
 import { CloseLabel, HeaderContent, TriggerContent } from './chrome.tsx'
 import { GeneralSection } from './GeneralSection.tsx'
@@ -104,14 +103,14 @@ export type { ModelSelectionState } from './ModelSelectionPanel.tsx'
 
 const SHELL_NS = 'control-center'
 const MODELS_NS = 'control-center.models'
-const KNOWN_NATIVE = new Set(['general', 'agent-presets', 'control-center-plugins'])
+const KNOWN_NATIVE = new Set(['general', 'agent-presets', 'plugins'])
 
 /** Cherry settings group mapping: models are core, capabilities/personal get
  * their own groups, DSH-owned sections stay native. */
 function groupOf(id: string): SettingsSectionRow['group'] {
   if (id === 'models' || id === 'providers' || id === 'local-models' || id === 'api-gateway') return 'core'
   if (id === 'general') return 'personal'
-  if (id === 'skills' || id === 'control-center-plugins' || id === 'mcp' || id === 'websearch' || id === 'file-processing' || id === 'ocr') return 'capabilities'
+  if (id === 'skills' || id === 'mcp' || id === 'websearch' || id === 'file-processing' || id === 'ocr') return 'capabilities'
   if (id === 'usage' || id === 'data' || id === 'appearance' || id === 'notifications') return 'personal'
   if (id === 'about' || id === 'dependencies') return 'system'
   if (id === 'tasks' || id === 'shortcuts' || id === 'quick-assistant' || id === 'selection-assistant' || id === 'screenshot' || id === 'channels') return 'automation'
@@ -348,6 +347,7 @@ export function apply(ctx: ClientContext): void {
                 group: groupOf(entry.options.id ?? ''),
               }))
               .sort((left, right) => left.order - right.order)
+              .filter((row, index, all) => all.findIndex(seen => seen.id === row.id) === index)
           }
           return rows
         },
@@ -543,53 +543,40 @@ export function apply(ctx: ClientContext): void {
     children: { 'settings.general.item': { kind: 'list', scope: 'root' } },
   }, GeneralSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
-    name: 'settings.section', id: 'models', order: 10, label: () => modelT('nav'), inject: modelsInjected,
+    name: 'settings.section', id: 'models', order: 2, label: () => modelT('nav'), inject: modelsInjected,
   }, ModelsSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
-    id: 'control-center-plugins',
-    order: 15,
-    label: () => '插件',
-    inject: (): SystemSectionInjected => ({
-      getSystem: () => {
-        if (system === undefined) throw new Error('system Remote namespace is not mounted')
-        return system
-      },
-      hooks: { systemReady: systemReadySource },
-    }),
-  }, PluginsSection))
-  ctx.slots.inject('settings.section', () => ctx.slots.register({
-    name: 'settings.section',
     id: 'skills',
-    order: 20,
+    order: 11,
     label: () => shellT('skillsNav'),
     inject: skillsInjected,
   }, SkillsSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'providers',
-    order: 5,
+    order: 1,
     label: () => shellT('providersNav'),
     inject: providersInjected,
   }, ProvidersSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'mcp',
-    order: 40,
+    order: 10,
     label: () => 'MCP',
     inject: mcpInjected,
   }, McpSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'websearch',
-    order: 50,
+    order: 12,
     label: () => shellT('webSearchNav'),
     inject: websearchInjected,
   }, WebSearchSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'file-processing',
-    order: 55,
+    order: 13,
     label: () => shellT('fileProcessingNav'),
     inject: () => ({
       feature: 'document_to_markdown' as const,
@@ -601,7 +588,7 @@ export function apply(ctx: ClientContext): void {
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'ocr',
-    order: 60,
+    order: 14,
     label: () => shellT('ocrNav'),
     inject: () => ({
       feature: 'image_to_text' as const,
@@ -613,7 +600,7 @@ export function apply(ctx: ClientContext): void {
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'usage',
-    order: 70,
+    order: 24,
     label: () => shellT('usageNav'),
     inject: (): UsageSectionInjected => ({
       getUsage: () => {
@@ -626,7 +613,7 @@ export function apply(ctx: ClientContext): void {
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'data',
-    order: 80,
+    order: 23,
     label: () => shellT('dataNav'),
     inject: (): DataSectionInjected => ({
       getData: () => {
@@ -639,21 +626,21 @@ export function apply(ctx: ClientContext): void {
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'appearance',
-    order: 85,
+    order: 21,
     label: () => shellT('appearanceNav'),
     inject: (): AppearanceSectionInjected => ({ api: connection.api, locale: ctx.locale }),
   }, AppearanceSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'notifications',
-    order: 86,
+    order: 22,
     label: () => shellT('notificationsNav'),
     inject: (): NotificationSectionInjected => ({ api: connection.api }),
   }, NotificationSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'dependencies',
-    order: 90,
+    order: 40,
     label: () => shellT('dependenciesNav'),
     inject: (): SystemSectionInjected => ({
       getSystem: () => {
@@ -666,7 +653,7 @@ export function apply(ctx: ClientContext): void {
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'about',
-    order: 100,
+    order: 41,
     label: () => shellT('aboutNav'),
     inject: (): SystemSectionInjected => ({
       getSystem: () => {
@@ -679,7 +666,7 @@ export function apply(ctx: ClientContext): void {
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'tasks',
-    order: 200,
+    order: 31,
     label: () => shellT('tasksNav'),
     inject: (): TasksSectionInjected => ({
       getTasks: () => {
@@ -692,7 +679,7 @@ export function apply(ctx: ClientContext): void {
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'local-models',
-    order: 105,
+    order: 3,
     label: () => shellT('localModelsNav'),
     inject: (): LocalModelsSectionInjected => ({
       getLocalModels: () => {
@@ -705,13 +692,13 @@ export function apply(ctx: ClientContext): void {
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'api-gateway',
-    order: 12,
+    order: 4,
     label: () => shellT('apiGatewayNav'),
   }, ApiGatewaySection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'update',
-    order: 110,
+    order: 42,
     label: () => shellT('updateNav'),
     inject: (): UpdateSectionInjected => ({
       getUpdate: () => {
@@ -724,31 +711,31 @@ export function apply(ctx: ClientContext): void {
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'shortcuts',
-    order: 220,
+    order: 32,
     label: () => shellT('shortcutsNav'),
   }, ShortcutSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'selection-assistant',
-    order: 240,
+    order: 34,
     label: () => shellT('selectionAssistantNav'),
   }, SelectionAssistantSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'quick-assistant',
-    order: 230,
+    order: 33,
     label: () => shellT('quickAssistantNav'),
   }, QuickAssistantSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'screenshot',
-    order: 250,
+    order: 35,
     label: () => shellT('screenshotNav'),
   }, ScreenshotSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'channels',
-    order: 210,
+    order: 30,
     label: () => shellT('channelsNav'),
   }, ChannelsSection))
   const gated: ReadonlyArray<{ id: string; order: number; label: string; props: Omit<CapabilityGateSectionProps, 'title' | 'description'> }> = [

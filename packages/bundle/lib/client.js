@@ -319,112 +319,112 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var PaintingWorkspace_module_css_default = {
-			"composerTextRow": "_-UrTq_composerTextRow",
-			"manageRowActions": "_-UrTq_manageRowActions",
-			"dragging": "_-UrTq_dragging",
-			"stripProgress": "_-UrTq_stripProgress",
-			"quickItemIcon": "_-UrTq_quickItemIcon",
-			"addPromptField": "_-UrTq_addPromptField",
-			"manageRow": "_-UrTq_manageRow",
-			"thumbEmpty": "_-UrTq_thumbEmpty",
-			"quickItemLabel": "_-UrTq_quickItemLabel",
-			"promptLibTitle": "_-UrTq_promptLibTitle",
-			"carouselCardImage": "_-UrTq_carouselCardImage",
-			"stripHeader": "_-UrTq_stripHeader",
-			"backButton": "_-UrTq_backButton",
-			"hidden": "_-UrTq_hidden",
-			"paramsSelect": "_-UrTq_paramsSelect",
-			"ratioThumb": "_-UrTq_ratioThumb",
-			"carouselCard": "_-UrTq_carouselCard",
-			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
-			"manageRowMain": "_-UrTq_manageRowMain",
-			"addImageButton": "_-UrTq_addImageButton",
-			"promptDockInner": "_-UrTq_promptDockInner",
-			"attachmentTile": "_-UrTq_attachmentTile",
-			"showcaseTitle": "_-UrTq_showcaseTitle",
-			"stripItem": "_-UrTq_stripItem",
-			"sendButton": "_-UrTq_sendButton",
-			"pauseButton": "_-UrTq_pauseButton",
-			"frame": "_-UrTq_frame",
-			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
-			"showcaseCarousel": "_-UrTq_showcaseCarousel",
-			"stripEnd": "_-UrTq_stripEnd",
-			"chevron": "_-UrTq_chevron",
-			"roundButton": "_-UrTq_roundButton",
-			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
-			"cc-strip-loading": "_-UrTq_cc-strip-loading",
-			"countRow": "_-UrTq_countRow",
-			"promptBarText": "_-UrTq_promptBarText",
-			"skeletonGrid": "_-UrTq_skeletonGrid",
-			"addPromptOverlay": "_-UrTq_addPromptOverlay",
-			"addPromptTextarea": "_-UrTq_addPromptTextarea",
-			"attachmentDelete": "_-UrTq_attachmentDelete",
+			"strip": "_-UrTq_strip",
+			"pillButton": "_-UrTq_pillButton",
+			"stripDelete": "_-UrTq_stripDelete",
 			"surface": "_-UrTq_surface",
-			"centerPane": "_-UrTq_centerPane",
-			"attachmentTray": "_-UrTq_attachmentTray",
-			"imageBox": "_-UrTq_imageBox",
-			"artboardEmpty": "_-UrTq_artboardEmpty",
-			"promptLibContent": "_-UrTq_promptLibContent",
-			"btnPrimary": "_-UrTq_btnPrimary",
-			"sizeGrid": "_-UrTq_sizeGrid",
-			"quickItem": "_-UrTq_quickItem",
-			"manageRowTitle": "_-UrTq_manageRowTitle",
-			"centerStage": "_-UrTq_centerStage",
-			"muted": "_-UrTq_muted",
-			"btn": "_-UrTq_btn",
-			"sizeChip": "_-UrTq_sizeChip",
-			"root": "_-UrTq_root",
-			"showcaseCaption": "_-UrTq_showcaseCaption",
-			"countInput": "_-UrTq_countInput",
-			"composer": "_-UrTq_composer",
-			"artboardStage": "_-UrTq_artboardStage",
-			"paramsPopover": "_-UrTq_paramsPopover",
-			"skeletonCell": "_-UrTq_skeletonCell",
-			"promptLibDelete": "_-UrTq_promptLibDelete",
-			"promptLibFooter": "_-UrTq_promptLibFooter",
-			"newButton": "_-UrTq_newButton",
+			"showcaseCarousel": "_-UrTq_showcaseCarousel",
+			"promptBarText": "_-UrTq_promptBarText",
+			"counterPill": "_-UrTq_counterPill",
 			"promptDock": "_-UrTq_promptDock",
 			"composerToolbar": "_-UrTq_composerToolbar",
-			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
-			"toolbarDivider": "_-UrTq_toolbarDivider",
-			"active": "_-UrTq_active",
-			"selected": "_-UrTq_selected",
-			"artboard": "_-UrTq_artboard",
-			"strip": "_-UrTq_strip",
-			"paramsField": "_-UrTq_paramsField",
-			"progressText": "_-UrTq_progressText",
-			"promptLib": "_-UrTq_promptLib",
-			"addPromptCard": "_-UrTq_addPromptCard",
-			"toolbarButton": "_-UrTq_toolbarButton",
-			"addPromptInput": "_-UrTq_addPromptInput",
-			"dialogActions": "_-UrTq_dialogActions",
-			"errorBanner": "_-UrTq_errorBanner",
-			"sizeLabel": "_-UrTq_sizeLabel",
-			"toolbarRail": "_-UrTq_toolbarRail",
-			"portalPanel": "_-UrTq_portalPanel",
-			"pillSummary": "_-UrTq_pillSummary",
-			"manageCard": "_-UrTq_manageCard",
-			"composerTextarea": "_-UrTq_composerTextarea",
-			"pillButton": "_-UrTq_pillButton",
-			"modelPill": "_-UrTq_modelPill",
-			"quickPanel": "_-UrTq_quickPanel",
-			"countSlider": "_-UrTq_countSlider",
 			"promptLibList": "_-UrTq_promptLibList",
-			"manageList": "_-UrTq_manageList",
-			"carouselLabel": "_-UrTq_carouselLabel",
-			"manageRowContent": "_-UrTq_manageRowContent",
-			"thumb": "_-UrTq_thumb",
-			"stripDelete": "_-UrTq_stripDelete",
-			"cc-cell-blink": "_-UrTq_cc-cell-blink",
-			"promptBar": "_-UrTq_promptBar",
-			"manageRowBtnDanger": "_-UrTq_manageRowBtnDanger",
-			"showcase": "_-UrTq_showcase",
-			"promptLibItemMain": "_-UrTq_promptLibItemMain",
+			"promptLibFooter": "_-UrTq_promptLibFooter",
+			"addPromptOverlay": "_-UrTq_addPromptOverlay",
+			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
+			"addPromptCard": "_-UrTq_addPromptCard",
+			"addPromptTextarea": "_-UrTq_addPromptTextarea",
+			"errorBanner": "_-UrTq_errorBanner",
+			"manageCard": "_-UrTq_manageCard",
 			"manageRowBtn": "_-UrTq_manageRowBtn",
-			"showcaseInner": "_-UrTq_showcaseInner",
-			"counterPill": "_-UrTq_counterPill",
+			"attachmentDelete": "_-UrTq_attachmentDelete",
+			"carouselCard": "_-UrTq_carouselCard",
+			"sendButton": "_-UrTq_sendButton",
+			"pauseButton": "_-UrTq_pauseButton",
+			"artboard": "_-UrTq_artboard",
+			"addImageButton": "_-UrTq_addImageButton",
+			"chevron": "_-UrTq_chevron",
+			"paramsPopover": "_-UrTq_paramsPopover",
+			"manageList": "_-UrTq_manageList",
+			"stripHeader": "_-UrTq_stripHeader",
+			"stripItem": "_-UrTq_stripItem",
+			"hidden": "_-UrTq_hidden",
 			"promptLibItem": "_-UrTq_promptLibItem",
-			"promptLibEmpty": "_-UrTq_promptLibEmpty"
+			"root": "_-UrTq_root",
+			"composer": "_-UrTq_composer",
+			"quickItem": "_-UrTq_quickItem",
+			"newButton": "_-UrTq_newButton",
+			"attachmentTile": "_-UrTq_attachmentTile",
+			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
+			"toolbarButton": "_-UrTq_toolbarButton",
+			"dialogActions": "_-UrTq_dialogActions",
+			"toolbarRail": "_-UrTq_toolbarRail",
+			"manageRowActions": "_-UrTq_manageRowActions",
+			"promptLibContent": "_-UrTq_promptLibContent",
+			"btnPrimary": "_-UrTq_btnPrimary",
+			"manageRowTitle": "_-UrTq_manageRowTitle",
+			"skeletonGrid": "_-UrTq_skeletonGrid",
+			"countInput": "_-UrTq_countInput",
+			"ratioThumb": "_-UrTq_ratioThumb",
+			"quickItemLabel": "_-UrTq_quickItemLabel",
+			"sizeGrid": "_-UrTq_sizeGrid",
+			"showcaseCaption": "_-UrTq_showcaseCaption",
+			"sizeChip": "_-UrTq_sizeChip",
+			"centerStage": "_-UrTq_centerStage",
+			"carouselLabel": "_-UrTq_carouselLabel",
+			"promptBar": "_-UrTq_promptBar",
+			"dragging": "_-UrTq_dragging",
+			"toolbarDivider": "_-UrTq_toolbarDivider",
+			"backButton": "_-UrTq_backButton",
+			"thumb": "_-UrTq_thumb",
+			"artboardEmpty": "_-UrTq_artboardEmpty",
+			"quickPanel": "_-UrTq_quickPanel",
+			"carouselCardImage": "_-UrTq_carouselCardImage",
+			"sizeLabel": "_-UrTq_sizeLabel",
+			"muted": "_-UrTq_muted",
+			"pillSummary": "_-UrTq_pillSummary",
+			"skeletonCell": "_-UrTq_skeletonCell",
+			"cc-cell-blink": "_-UrTq_cc-cell-blink",
+			"thumbEmpty": "_-UrTq_thumbEmpty",
+			"promptLibTitle": "_-UrTq_promptLibTitle",
+			"manageRow": "_-UrTq_manageRow",
+			"manageRowMain": "_-UrTq_manageRowMain",
+			"addPromptInput": "_-UrTq_addPromptInput",
+			"progressText": "_-UrTq_progressText",
+			"attachmentTray": "_-UrTq_attachmentTray",
+			"countRow": "_-UrTq_countRow",
+			"countSlider": "_-UrTq_countSlider",
+			"stripProgress": "_-UrTq_stripProgress",
+			"stripEnd": "_-UrTq_stripEnd",
+			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
+			"manageRowContent": "_-UrTq_manageRowContent",
+			"promptLibEmpty": "_-UrTq_promptLibEmpty",
+			"btn": "_-UrTq_btn",
+			"portalPanel": "_-UrTq_portalPanel",
+			"promptLibItemMain": "_-UrTq_promptLibItemMain",
+			"manageRowBtnDanger": "_-UrTq_manageRowBtnDanger",
+			"showcaseInner": "_-UrTq_showcaseInner",
+			"showcaseTitle": "_-UrTq_showcaseTitle",
+			"promptLib": "_-UrTq_promptLib",
+			"paramsField": "_-UrTq_paramsField",
+			"frame": "_-UrTq_frame",
+			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
+			"artboardStage": "_-UrTq_artboardStage",
+			"paramsSelect": "_-UrTq_paramsSelect",
+			"promptLibDelete": "_-UrTq_promptLibDelete",
+			"active": "_-UrTq_active",
+			"cc-strip-loading": "_-UrTq_cc-strip-loading",
+			"selected": "_-UrTq_selected",
+			"composerTextRow": "_-UrTq_composerTextRow",
+			"composerTextarea": "_-UrTq_composerTextarea",
+			"roundButton": "_-UrTq_roundButton",
+			"centerPane": "_-UrTq_centerPane",
+			"promptDockInner": "_-UrTq_promptDockInner",
+			"imageBox": "_-UrTq_imageBox",
+			"modelPill": "_-UrTq_modelPill",
+			"quickItemIcon": "_-UrTq_quickItemIcon",
+			"addPromptField": "_-UrTq_addPromptField",
+			"showcase": "_-UrTq_showcase"
 		};
 		//#endregion
 		//#region lib/types/client/painting-icons.js
@@ -911,6 +911,36 @@ window.__ModuleLoader__.load({
 				r: "3"
 			}), (0, react_jsx_runtime.jsx)("path", { d: "M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" })]
 		});
+		/** Picture-in-picture (quick-assistant window) glyph; lucide picture-in-picture-2. */
+		const IconPictureInPicture2 = (props) => (0, react_jsx_runtime.jsxs)("svg", {
+			...base(props),
+			children: [(0, react_jsx_runtime.jsx)("path", { d: "M21 9V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h4" }), (0, react_jsx_runtime.jsx)("rect", {
+				width: "10",
+				height: "7",
+				x: "12",
+				y: "13",
+				rx: "2"
+			})]
+		});
+		/** Text-cursor-with-input glyph; lucide text-cursor-input. */
+		const IconTextCursorInput = (props) => (0, react_jsx_runtime.jsxs)("svg", {
+			...base(props),
+			children: [
+				(0, react_jsx_runtime.jsx)("path", { d: "M12 20h-1a2 2 0 0 1-2-2 2 2 0 0 1-2 2H6" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M13 8h7a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-7" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M5 16H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h1" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M6 4h1a2 2 0 0 1 2 2 2 2 0 0 1 2-2h1" }),
+				(0, react_jsx_runtime.jsx)("path", { d: "M9 6v12" })
+			]
+		});
+		/** Broadcast-tower glyph for the unified API gateway; Font Awesome solid. */
+		const IconGateway = (props) => (0, react_jsx_runtime.jsx)("svg", {
+			...base(props),
+			fill: "currentColor",
+			stroke: "none",
+			viewBox: "0 0 640 640",
+			children: (0, react_jsx_runtime.jsx)("path", { d: "M119.9 75.5c-11.3-6.9-26.1-3.2-33 8.1c-24.8 41-39 89.1-39 140.4s14.2 99.4 39 140.4c6.9 11.3 21.6 15 33 8.1s15-21.6 8.1-33c-20.3-33.6-32-73.2-32-115.5s11.7-81.9 32.1-115.6c6.9-11.3 3.2-26.1-8.1-33zm400.1 0c-11.3 6.9-15 21.6-8.1 33c20.4 33.7 32.1 73.3 32.1 115.6s-11.7 81.9-32.1 115.6c-6.9 11.3-3.2 26.1 8.1 33s26.1 3.2 33-8.1c24.8-41 39-89.1 39-140.4s-14.2-99.6-39-140.6c-6.9-11.3-21.6-15-33-8.1M352 279.4c19.1-11.1 32-31.7 32-55.4c0-35.3-28.7-64-64-64s-64 28.7-64 64c0 23.7 12.9 44.4 32 55.4V544c0 17.7 14.3 32 32 32s32-14.3 32-32zM212.2 155c7.2-11.2 3.9-26-7.2-33.2s-26-3.9-33.2 7.2c-17.6 27.4-27.8 60-27.8 95s10.2 67.6 27.8 95c7.2 11.2 22 14.4 33.2 7.2s14.4-22 7.2-33.2c-12.8-19.9-20.2-43.6-20.2-69s7.4-49.1 20.2-69m256-26c-7.2-11.2-22-14.4-33.2-7.2s-14.4 22-7.2 33.2c12.8 19.9 20.2 43.6 20.2 69s-7.4 49.1-20.2 69c-7.2 11.2-3.9 26 7.2 33.2s26 3.9 33.2-7.2c17.6-27.4 27.8-60 27.8-95s-10.2-67.6-27.8-95" })
+		});
 		//#endregion
 		//#region lib/types/client/PaintingArtboard.js
 		/**
@@ -1125,27 +1155,27 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var Combobox_module_css_default = {
-			"triggerIcon": "PJZ1pG_triggerIcon",
-			"root": "PJZ1pG_root",
-			"empty": "PJZ1pG_empty",
-			"footer": "PJZ1pG_footer",
-			"option": "PJZ1pG_option",
-			"footerButton": "PJZ1pG_footerButton",
-			"group": "PJZ1pG_group",
 			"searchIcon": "PJZ1pG_searchIcon",
-			"searchWrap": "PJZ1pG_searchWrap",
+			"group": "PJZ1pG_group",
+			"footer": "PJZ1pG_footer",
 			"optionActive": "PJZ1pG_optionActive",
-			"triggerLabel": "PJZ1pG_triggerLabel",
-			"triggerChevron": "PJZ1pG_triggerChevron",
-			"trigger": "PJZ1pG_trigger",
-			"list": "PJZ1pG_list",
-			"optionText": "PJZ1pG_optionText",
-			"optionSub": "PJZ1pG_optionSub",
-			"groupTitle": "PJZ1pG_groupTitle",
 			"popoverPortal": "PJZ1pG_popoverPortal",
-			"searchInput": "PJZ1pG_searchInput",
+			"list": "PJZ1pG_list",
+			"searchWrap": "PJZ1pG_searchWrap",
+			"footerButton": "PJZ1pG_footerButton",
+			"optionLabel": "PJZ1pG_optionLabel",
+			"trigger": "PJZ1pG_trigger",
+			"groupTitle": "PJZ1pG_groupTitle",
+			"option": "PJZ1pG_option",
+			"triggerIcon": "PJZ1pG_triggerIcon",
 			"optionIcon": "PJZ1pG_optionIcon",
-			"optionLabel": "PJZ1pG_optionLabel"
+			"optionText": "PJZ1pG_optionText",
+			"searchInput": "PJZ1pG_searchInput",
+			"optionSub": "PJZ1pG_optionSub",
+			"triggerLabel": "PJZ1pG_triggerLabel",
+			"root": "PJZ1pG_root",
+			"triggerChevron": "PJZ1pG_triggerChevron",
+			"empty": "PJZ1pG_empty"
 		};
 		//#endregion
 		//#region lib/types/client/Combobox.js
@@ -2281,8 +2311,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelSelector_module_css_default = {
-			"avatar": "DFvSka_avatar",
-			"configureButton": "DFvSka_configureButton"
+			"configureButton": "DFvSka_configureButton",
+			"avatar": "DFvSka_avatar"
 		};
 		//#endregion
 		//#region lib/types/client/ModelSelector.js
@@ -3329,115 +3359,115 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TranslationWorkspace_module_css_default = {
-			"chipArrow": "_8lesPa_chipArrow",
-			"detailActions": "_8lesPa_detailActions",
-			"historyRow": "_8lesPa_historyRow",
-			"panes": "_8lesPa_panes",
-			"langFormActions": "_8lesPa_langFormActions",
-			"uploadZone": "_8lesPa_uploadZone",
-			"detailBlockTarget": "_8lesPa_detailBlockTarget",
-			"cc-spin": "_8lesPa_cc-spin",
-			"langCode": "_8lesPa_langCode",
-			"swapBtn": "_8lesPa_swapBtn",
-			"detailText": "_8lesPa_detailText",
-			"detailAction": "_8lesPa_detailAction",
-			"uploadIcons": "_8lesPa_uploadIcons",
-			"copy": "_8lesPa_copy",
-			"segItem": "_8lesPa_segItem",
-			"langInput": "_8lesPa_langInput",
-			"paneFooter": "_8lesPa_paneFooter",
-			"btn": "_8lesPa_btn",
-			"modelSelectWrap": "_8lesPa_modelSelectWrap",
-			"count": "_8lesPa_count",
-			"topBar": "_8lesPa_topBar",
-			"md": "_8lesPa_md",
-			"on": "_8lesPa_on",
-			"detailBack": "_8lesPa_detailBack",
-			"switchRow": "_8lesPa_switchRow",
-			"confirmActions": "_8lesPa_confirmActions",
-			"confirmCard": "_8lesPa_confirmCard",
-			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
-			"iconBtn": "_8lesPa_iconBtn",
-			"textareaScroll": "_8lesPa_textareaScroll",
-			"resetLink": "_8lesPa_resetLink",
-			"langRow": "_8lesPa_langRow",
-			"detailBlock": "_8lesPa_detailBlock",
 			"cc-slide-in": "_8lesPa_cc-slide-in",
-			"errorBanner": "_8lesPa_errorBanner",
-			"switch": "_8lesPa_switch",
-			"sidePanel": "_8lesPa_sidePanel",
-			"panelBody": "_8lesPa_panelBody",
-			"outputPane": "_8lesPa_outputPane",
+			"swapBtn": "_8lesPa_swapBtn",
+			"md": "_8lesPa_md",
+			"cc-spin": "_8lesPa_cc-spin",
+			"chip": "_8lesPa_chip",
+			"detailText": "_8lesPa_detailText",
+			"settingsTextarea": "_8lesPa_settingsTextarea",
+			"clearBtn": "_8lesPa_clearBtn",
+			"settingHint": "_8lesPa_settingHint",
+			"langFormError": "_8lesPa_langFormError",
+			"uploadZone": "_8lesPa_uploadZone",
+			"rightCluster": "_8lesPa_rightCluster",
+			"uploadIcons": "_8lesPa_uploadIcons",
+			"helpWrap": "_8lesPa_helpWrap",
+			"rowSource": "_8lesPa_rowSource",
+			"inputArea": "_8lesPa_inputArea",
 			"rowTime": "_8lesPa_rowTime",
 			"outputArea": "_8lesPa_outputArea",
-			"translateBtn": "_8lesPa_translateBtn",
-			"success": "_8lesPa_success",
-			"backdrop": "_8lesPa_backdrop",
-			"switchTrack": "_8lesPa_switchTrack",
-			"detailBlockHeader": "_8lesPa_detailBlockHeader",
-			"settingHint": "_8lesPa_settingHint",
-			"root": "_8lesPa_root",
-			"langForm": "_8lesPa_langForm",
-			"starBtn": "_8lesPa_starBtn",
-			"paneCorner": "_8lesPa_paneCorner",
-			"langSelect": "_8lesPa_langSelect",
-			"spacer": "_8lesPa_spacer",
-			"langChevron": "_8lesPa_langChevron",
-			"spinner": "_8lesPa_spinner",
-			"panelHeader": "_8lesPa_panelHeader",
-			"detailBlockLabel": "_8lesPa_detailBlockLabel",
-			"loadMore": "_8lesPa_loadMore",
-			"panelBodyScroll": "_8lesPa_panelBodyScroll",
-			"historyEmpty": "_8lesPa_historyEmpty",
-			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
-			"settingsTextarea": "_8lesPa_settingsTextarea",
-			"langName": "_8lesPa_langName",
-			"translating": "_8lesPa_translating",
-			"clearBtn": "_8lesPa_clearBtn",
-			"active": "_8lesPa_active",
-			"panelTitle": "_8lesPa_panelTitle",
-			"backButton": "_8lesPa_backButton",
-			"pairChip": "_8lesPa_pairChip",
-			"smallIconBtn": "_8lesPa_smallIconBtn",
-			"cc-fade": "_8lesPa_cc-fade",
-			"reuse": "_8lesPa_reuse",
-			"settingsSection": "_8lesPa_settingsSection",
-			"settingRow": "_8lesPa_settingRow",
-			"historyList": "_8lesPa_historyList",
-			"rowTarget": "_8lesPa_rowTarget",
-			"pane": "_8lesPa_pane",
-			"starFill": "_8lesPa_starFill",
-			"settingLabel": "_8lesPa_settingLabel",
-			"segmented": "_8lesPa_segmented",
-			"langRowActions": "_8lesPa_langRowActions",
-			"modelSelect": "_8lesPa_modelSelect",
-			"langSelectWrap": "_8lesPa_langSelectWrap",
-			"inputArea": "_8lesPa_inputArea",
 			"historyRowMeta": "_8lesPa_historyRowMeta",
-			"langFormRow": "_8lesPa_langFormRow",
-			"confirmText": "_8lesPa_confirmText",
-			"helpBubble": "_8lesPa_helpBubble",
-			"langFormError": "_8lesPa_langFormError",
-			"chipTarget": "_8lesPa_chipTarget",
-			"confirmOverlay": "_8lesPa_confirmOverlay",
-			"confirmTitle": "_8lesPa_confirmTitle",
-			"rightCluster": "_8lesPa_rightCluster",
-			"settingsEmpty": "_8lesPa_settingsEmpty",
-			"uploadIcon": "_8lesPa_uploadIcon",
-			"langAdd": "_8lesPa_langAdd",
-			"sectionTitle": "_8lesPa_sectionTitle",
-			"rowSource": "_8lesPa_rowSource",
-			"chip": "_8lesPa_chip",
-			"countBadge": "_8lesPa_countBadge",
-			"destructive": "_8lesPa_destructive",
-			"helpWrap": "_8lesPa_helpWrap",
-			"stopBtn": "_8lesPa_stopBtn",
-			"helpIcon": "_8lesPa_helpIcon",
-			"btnPrimary": "_8lesPa_btnPrimary",
-			"visible": "_8lesPa_visible",
-			"detailMeta": "_8lesPa_detailMeta",
+			"detailBlockHeader": "_8lesPa_detailBlockHeader",
 			"langFormLabel": "_8lesPa_langFormLabel",
-			"pairRow": "_8lesPa_pairRow"
+			"confirmTitle": "_8lesPa_confirmTitle",
+			"backdrop": "_8lesPa_backdrop",
+			"settingsEmpty": "_8lesPa_settingsEmpty",
+			"modelSelect": "_8lesPa_modelSelect",
+			"destructive": "_8lesPa_destructive",
+			"root": "_8lesPa_root",
+			"chipArrow": "_8lesPa_chipArrow",
+			"pairChip": "_8lesPa_pairChip",
+			"settingLabel": "_8lesPa_settingLabel",
+			"stopBtn": "_8lesPa_stopBtn",
+			"translating": "_8lesPa_translating",
+			"rowTarget": "_8lesPa_rowTarget",
+			"langSelect": "_8lesPa_langSelect",
+			"langRowActions": "_8lesPa_langRowActions",
+			"switchRow": "_8lesPa_switchRow",
+			"langFormRow": "_8lesPa_langFormRow",
+			"starBtn": "_8lesPa_starBtn",
+			"detailBlock": "_8lesPa_detailBlock",
+			"switchTrack": "_8lesPa_switchTrack",
+			"pairRow": "_8lesPa_pairRow",
+			"paneCorner": "_8lesPa_paneCorner",
+			"backButton": "_8lesPa_backButton",
+			"cc-fade": "_8lesPa_cc-fade",
+			"uploadIcon": "_8lesPa_uploadIcon",
+			"btn": "_8lesPa_btn",
+			"translateBtn": "_8lesPa_translateBtn",
+			"detailMeta": "_8lesPa_detailMeta",
+			"detailBlockTarget": "_8lesPa_detailBlockTarget",
+			"modelSelectWrap": "_8lesPa_modelSelectWrap",
+			"paneFooter": "_8lesPa_paneFooter",
+			"topBar": "_8lesPa_topBar",
+			"starFill": "_8lesPa_starFill",
+			"outputPane": "_8lesPa_outputPane",
+			"segmented": "_8lesPa_segmented",
+			"resetLink": "_8lesPa_resetLink",
+			"langAdd": "_8lesPa_langAdd",
+			"settingsSection": "_8lesPa_settingsSection",
+			"langForm": "_8lesPa_langForm",
+			"sidePanel": "_8lesPa_sidePanel",
+			"spacer": "_8lesPa_spacer",
+			"helpIcon": "_8lesPa_helpIcon",
+			"langName": "_8lesPa_langName",
+			"panelBodyScroll": "_8lesPa_panelBodyScroll",
+			"panelTitle": "_8lesPa_panelTitle",
+			"langSelectWrap": "_8lesPa_langSelectWrap",
+			"helpBubble": "_8lesPa_helpBubble",
+			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
+			"reuse": "_8lesPa_reuse",
+			"detailBlockLabel": "_8lesPa_detailBlockLabel",
+			"on": "_8lesPa_on",
+			"sectionTitle": "_8lesPa_sectionTitle",
+			"langCode": "_8lesPa_langCode",
+			"langChevron": "_8lesPa_langChevron",
+			"btnPrimary": "_8lesPa_btnPrimary",
+			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
+			"switch": "_8lesPa_switch",
+			"langInput": "_8lesPa_langInput",
+			"confirmOverlay": "_8lesPa_confirmOverlay",
+			"confirmCard": "_8lesPa_confirmCard",
+			"pane": "_8lesPa_pane",
+			"visible": "_8lesPa_visible",
+			"historyEmpty": "_8lesPa_historyEmpty",
+			"langRow": "_8lesPa_langRow",
+			"spinner": "_8lesPa_spinner",
+			"detailAction": "_8lesPa_detailAction",
+			"loadMore": "_8lesPa_loadMore",
+			"settingRow": "_8lesPa_settingRow",
+			"active": "_8lesPa_active",
+			"count": "_8lesPa_count",
+			"historyList": "_8lesPa_historyList",
+			"historyRow": "_8lesPa_historyRow",
+			"textareaScroll": "_8lesPa_textareaScroll",
+			"smallIconBtn": "_8lesPa_smallIconBtn",
+			"panelHeader": "_8lesPa_panelHeader",
+			"success": "_8lesPa_success",
+			"copy": "_8lesPa_copy",
+			"confirmText": "_8lesPa_confirmText",
+			"chipTarget": "_8lesPa_chipTarget",
+			"iconBtn": "_8lesPa_iconBtn",
+			"confirmActions": "_8lesPa_confirmActions",
+			"panelBody": "_8lesPa_panelBody",
+			"segItem": "_8lesPa_segItem",
+			"errorBanner": "_8lesPa_errorBanner",
+			"langFormActions": "_8lesPa_langFormActions",
+			"panes": "_8lesPa_panes",
+			"detailActions": "_8lesPa_detailActions",
+			"countBadge": "_8lesPa_countBadge",
+			"detailBack": "_8lesPa_detailBack"
 		};
 		//#endregion
 		//#region lib/types/client/panel-ui.js
@@ -4129,103 +4159,103 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var KnowledgeWorkspace_module_css_default = {
-			"ragFieldRow": "uHDY1a_ragFieldRow",
-			"recallCardHeader": "uHDY1a_recallCardHeader",
-			"dialogHint": "uHDY1a_dialogHint",
-			"dialogInput": "uHDY1a_dialogInput",
-			"active": "uHDY1a_active",
-			"statusReady": "uHDY1a_statusReady",
+			"rowMenu": "uHDY1a_rowMenu",
+			"statusBadge": "uHDY1a_statusBadge",
+			"success": "uHDY1a_success",
 			"sourceName": "uHDY1a_sourceName",
-			"sourceTypeCards": "uHDY1a_sourceTypeCards",
-			"indexButton": "uHDY1a_indexButton",
-			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
-			"dataHeaderActions": "uHDY1a_dataHeaderActions",
-			"navRow": "uHDY1a_navRow",
-			"gridScroll": "uHDY1a_gridScroll",
+			"navRowName": "uHDY1a_navRowName",
 			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
-			"sourceTypeCard": "uHDY1a_sourceTypeCard",
+			"detail": "uHDY1a_detail",
+			"detailEmptyTitle": "uHDY1a_detailEmptyTitle",
+			"ragSlider": "uHDY1a_ragSlider",
+			"navCreate": "uHDY1a_navCreate",
+			"ragLabel": "uHDY1a_ragLabel",
+			"gridRow": "uHDY1a_gridRow",
+			"recallSummary": "uHDY1a_recallSummary",
+			"dialogHint": "uHDY1a_dialogHint",
+			"dialogFieldRow": "uHDY1a_dialogFieldRow",
+			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
+			"split": "uHDY1a_split",
+			"dialogCard": "uHDY1a_dialogCard",
+			"ragTitle": "uHDY1a_ragTitle",
+			"recallCard": "uHDY1a_recallCard",
+			"recallBody": "uHDY1a_recallBody",
 			"ragSliderRow": "uHDY1a_ragSliderRow",
 			"dialogSliderRow": "uHDY1a_dialogSliderRow",
-			"dataPanel": "uHDY1a_dataPanel",
-			"recallInputWrap": "uHDY1a_recallInputWrap",
-			"ragBody": "uHDY1a_ragBody",
-			"menuPopover": "uHDY1a_menuPopover",
-			"recallCard": "uHDY1a_recallCard",
-			"btnPrimary": "uHDY1a_btnPrimary",
-			"split": "uHDY1a_split",
-			"sourcesEmpty": "uHDY1a_sourcesEmpty",
-			"navScroll": "uHDY1a_navScroll",
-			"navRowName": "uHDY1a_navRowName",
-			"recallChunkIndex": "uHDY1a_recallChunkIndex",
-			"ragNumberFull": "uHDY1a_ragNumberFull",
-			"ragLabel": "uHDY1a_ragLabel",
-			"ragSelect": "uHDY1a_ragSelect",
-			"navRowMenu": "uHDY1a_navRowMenu",
-			"statusBadge": "uHDY1a_statusBadge",
-			"addSourceButton": "uHDY1a_addSourceButton",
-			"errorBanner": "uHDY1a_errorBanner",
-			"ragSection": "uHDY1a_ragSection",
-			"detailEmpty": "uHDY1a_detailEmpty",
-			"dialogFieldRow": "uHDY1a_dialogFieldRow",
-			"ragNumber": "uHDY1a_ragNumber",
-			"dialogSelect": "uHDY1a_dialogSelect",
-			"navigator": "uHDY1a_navigator",
-			"dataHeader": "uHDY1a_dataHeader",
-			"menuItem": "uHDY1a_menuItem",
-			"gridRow": "uHDY1a_gridRow",
-			"statusSpinner": "uHDY1a_statusSpinner",
-			"statusIndexing": "uHDY1a_statusIndexing",
-			"root": "uHDY1a_root",
-			"advancedBody": "uHDY1a_advancedBody",
-			"statusFailed": "uHDY1a_statusFailed",
-			"recallBar": "uHDY1a_recallBar",
-			"ghostButton": "uHDY1a_ghostButton",
-			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
-			"recallEmpty": "uHDY1a_recallEmpty",
-			"ragField": "uHDY1a_ragField",
-			"navEmpty": "uHDY1a_navEmpty",
-			"detailHeader": "uHDY1a_detailHeader",
-			"gridHeader": "uHDY1a_gridHeader",
-			"dialogField": "uHDY1a_dialogField",
-			"recallSummary": "uHDY1a_recallSummary",
-			"detail": "uHDY1a_detail",
-			"destructive": "uHDY1a_destructive",
-			"dialogActions": "uHDY1a_dialogActions",
-			"btn": "uHDY1a_btn",
-			"sourceIcon": "uHDY1a_sourceIcon",
-			"notice": "uHDY1a_notice",
-			"ragSlider": "uHDY1a_ragSlider",
-			"dialogOverlay": "uHDY1a_dialogOverlay",
-			"recallScore": "uHDY1a_recallScore",
-			"ragSelectWrap": "uHDY1a_ragSelectWrap",
-			"sourceUpdated": "uHDY1a_sourceUpdated",
-			"recallInput": "uHDY1a_recallInput",
-			"sourceType": "uHDY1a_sourceType",
-			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
-			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
-			"clamped": "uHDY1a_clamped",
-			"ragFooter": "uHDY1a_ragFooter",
-			"ragReadonly": "uHDY1a_ragReadonly",
-			"rowMenu": "uHDY1a_rowMenu",
-			"advancedChevronOpen": "uHDY1a_advancedChevronOpen",
-			"detailHeaderActions": "uHDY1a_detailHeaderActions",
-			"success": "uHDY1a_success",
-			"detailEmptyHint": "uHDY1a_detailEmptyHint",
-			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
-			"recallResults": "uHDY1a_recallResults",
-			"dialogCard": "uHDY1a_dialogCard",
 			"recallCopy": "uHDY1a_recallCopy",
-			"recallSubmit": "uHDY1a_recallSubmit",
-			"detailEmptyTitle": "uHDY1a_detailEmptyTitle",
-			"recallRank": "uHDY1a_recallRank",
+			"ragFooter": "uHDY1a_ragFooter",
+			"gridHeader": "uHDY1a_gridHeader",
 			"recallSource": "uHDY1a_recallSource",
-			"recallBody": "uHDY1a_recallBody",
-			"navCreate": "uHDY1a_navCreate",
-			"dialogTextarea": "uHDY1a_dialogTextarea",
-			"ragTitle": "uHDY1a_ragTitle",
-			"ragHint": "uHDY1a_ragHint",
+			"ragNumber": "uHDY1a_ragNumber",
+			"ragNumberFull": "uHDY1a_ragNumberFull",
+			"detailEmptyHint": "uHDY1a_detailEmptyHint",
+			"dataHeader": "uHDY1a_dataHeader",
+			"sourcesEmpty": "uHDY1a_sourcesEmpty",
+			"ragSelectWrap": "uHDY1a_ragSelectWrap",
+			"recallInput": "uHDY1a_recallInput",
+			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
+			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
+			"errorBanner": "uHDY1a_errorBanner",
+			"statusFailed": "uHDY1a_statusFailed",
+			"ragSection": "uHDY1a_ragSection",
+			"destructive": "uHDY1a_destructive",
+			"ragReadonly": "uHDY1a_ragReadonly",
 			"advancedToggle": "uHDY1a_advancedToggle",
-			"cc-spin": "uHDY1a_cc-spin"
+			"advancedChevronOpen": "uHDY1a_advancedChevronOpen",
+			"statusReady": "uHDY1a_statusReady",
+			"recallScore": "uHDY1a_recallScore",
+			"sourceTypeCards": "uHDY1a_sourceTypeCards",
+			"addSourceButton": "uHDY1a_addSourceButton",
+			"dataHeaderActions": "uHDY1a_dataHeaderActions",
+			"notice": "uHDY1a_notice",
+			"recallEmpty": "uHDY1a_recallEmpty",
+			"ragHint": "uHDY1a_ragHint",
+			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
+			"ragFieldRow": "uHDY1a_ragFieldRow",
+			"dataPanel": "uHDY1a_dataPanel",
+			"menuPopover": "uHDY1a_menuPopover",
+			"sourceTypeCard": "uHDY1a_sourceTypeCard",
+			"ghostButton": "uHDY1a_ghostButton",
+			"recallSubmit": "uHDY1a_recallSubmit",
+			"recallChunkIndex": "uHDY1a_recallChunkIndex",
+			"navigator": "uHDY1a_navigator",
+			"sourceUpdated": "uHDY1a_sourceUpdated",
+			"navScroll": "uHDY1a_navScroll",
+			"sourceType": "uHDY1a_sourceType",
+			"navRowMenu": "uHDY1a_navRowMenu",
+			"detailHeaderActions": "uHDY1a_detailHeaderActions",
+			"navEmpty": "uHDY1a_navEmpty",
+			"recallInputWrap": "uHDY1a_recallInputWrap",
+			"dialogActions": "uHDY1a_dialogActions",
+			"btnPrimary": "uHDY1a_btnPrimary",
+			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
+			"recallRank": "uHDY1a_recallRank",
+			"statusSpinner": "uHDY1a_statusSpinner",
+			"ragField": "uHDY1a_ragField",
+			"active": "uHDY1a_active",
+			"navRow": "uHDY1a_navRow",
+			"detailEmpty": "uHDY1a_detailEmpty",
+			"ragSelect": "uHDY1a_ragSelect",
+			"recallCardHeader": "uHDY1a_recallCardHeader",
+			"dialogSelect": "uHDY1a_dialogSelect",
+			"btn": "uHDY1a_btn",
+			"dialogField": "uHDY1a_dialogField",
+			"dialogInput": "uHDY1a_dialogInput",
+			"cc-spin": "uHDY1a_cc-spin",
+			"clamped": "uHDY1a_clamped",
+			"sourceIcon": "uHDY1a_sourceIcon",
+			"ragBody": "uHDY1a_ragBody",
+			"statusIndexing": "uHDY1a_statusIndexing",
+			"advancedBody": "uHDY1a_advancedBody",
+			"indexButton": "uHDY1a_indexButton",
+			"gridScroll": "uHDY1a_gridScroll",
+			"recallBar": "uHDY1a_recallBar",
+			"recallResults": "uHDY1a_recallResults",
+			"root": "uHDY1a_root",
+			"menuItem": "uHDY1a_menuItem",
+			"dialogOverlay": "uHDY1a_dialogOverlay",
+			"dialogTextarea": "uHDY1a_dialogTextarea",
+			"detailHeader": "uHDY1a_detailHeader"
 		};
 		//#endregion
 		//#region lib/types/client/desktop-capabilities.js
@@ -5766,19 +5796,19 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SkillsSection_module_css_default = {
-			"searchInput": "pyHmqW_searchInput",
-			"cardTitle": "pyHmqW_cardTitle",
-			"card": "pyHmqW_card",
-			"cardActions": "pyHmqW_cardActions",
+			"tag": "pyHmqW_tag",
 			"searchRow": "pyHmqW_searchRow",
+			"grid": "pyHmqW_grid",
+			"cardFooter": "pyHmqW_cardFooter",
+			"cardTitle": "pyHmqW_cardTitle",
+			"cardActions": "pyHmqW_cardActions",
+			"searchInput": "pyHmqW_searchInput",
+			"card": "pyHmqW_card",
+			"cardHeader": "pyHmqW_cardHeader",
 			"cardDescription": "pyHmqW_cardDescription",
 			"cardMeta": "pyHmqW_cardMeta",
-			"cardHeader": "pyHmqW_cardHeader",
 			"cardMetaItem": "pyHmqW_cardMetaItem",
-			"cardFooter": "pyHmqW_cardFooter",
-			"cardTags": "pyHmqW_cardTags",
-			"tag": "pyHmqW_tag",
-			"grid": "pyHmqW_grid"
+			"cardTags": "pyHmqW_cardTags"
 		};
 		//#endregion
 		//#region lib/types/client/SkillsSection.js
@@ -6121,24 +6151,24 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderAuthentication_module_css_default = {
-			"cc-spin": "AU4RWG_cc-spin",
-			"timestamp": "AU4RWG_timestamp",
-			"fieldLabel": "AU4RWG_fieldLabel",
+			"input": "AU4RWG_input",
 			"successMessage": "AU4RWG_successMessage",
-			"inputRow": "AU4RWG_inputRow",
-			"section": "AU4RWG_section",
-			"inputAddon": "AU4RWG_inputAddon",
+			"timestamp": "AU4RWG_timestamp",
 			"actionRow": "AU4RWG_actionRow",
+			"inputRow": "AU4RWG_inputRow",
+			"secondaryButton": "AU4RWG_secondaryButton",
+			"errorMessage": "AU4RWG_errorMessage",
+			"section": "AU4RWG_section",
+			"field": "AU4RWG_field",
+			"inputAddon": "AU4RWG_inputAddon",
+			"fieldLabel": "AU4RWG_fieldLabel",
+			"cc-spin": "AU4RWG_cc-spin",
+			"sectionTitle": "AU4RWG_sectionTitle",
+			"spin": "AU4RWG_spin",
+			"inputGroup": "AU4RWG_inputGroup",
 			"fieldLink": "AU4RWG_fieldLink",
 			"primaryButton": "AU4RWG_primaryButton",
-			"secondaryButton": "AU4RWG_secondaryButton",
-			"inputGroup": "AU4RWG_inputGroup",
-			"sectionTitle": "AU4RWG_sectionTitle",
-			"iconButton": "AU4RWG_iconButton",
-			"field": "AU4RWG_field",
-			"input": "AU4RWG_input",
-			"errorMessage": "AU4RWG_errorMessage",
-			"spin": "AU4RWG_spin"
+			"iconButton": "AU4RWG_iconButton"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderAuthentication.js
@@ -6331,34 +6361,34 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderModelList_module_css_default = {
-			"modelMain": "_2yiUCa_modelMain",
-			"discoveryInfo": "_2yiUCa_discoveryInfo",
-			"section": "_2yiUCa_section",
-			"modelGroup": "_2yiUCa_modelGroup",
-			"groupHeader": "_2yiUCa_groupHeader",
-			"emptyState": "_2yiUCa_emptyState",
-			"toggleButtonDisabled": "_2yiUCa_toggleButtonDisabled",
-			"countBadge": "_2yiUCa_countBadge",
-			"modelIcon": "_2yiUCa_modelIcon",
-			"emptyHint": "_2yiUCa_emptyHint",
-			"toggleThumb": "_2yiUCa_toggleThumb",
-			"headerMeta": "_2yiUCa_headerMeta",
-			"sectionHeaderRow": "_2yiUCa_sectionHeaderRow",
-			"metaItem": "_2yiUCa_metaItem",
-			"groupCount": "_2yiUCa_groupCount",
-			"modelItemDisabled": "_2yiUCa_modelItemDisabled",
-			"sectionHeading": "_2yiUCa_sectionHeading",
-			"modelMeta": "_2yiUCa_modelMeta",
-			"toggleButton": "_2yiUCa_toggleButton",
-			"groupTitle": "_2yiUCa_groupTitle",
-			"toggleButtonEnabled": "_2yiUCa_toggleButtonEnabled",
 			"modelItem": "_2yiUCa_modelItem",
-			"modelName": "_2yiUCa_modelName",
-			"enabledCount": "_2yiUCa_enabledCount",
-			"emptyIcon": "_2yiUCa_emptyIcon",
-			"emptyText": "_2yiUCa_emptyText",
+			"modelIcon": "_2yiUCa_modelIcon",
+			"groupTitle": "_2yiUCa_groupTitle",
+			"emptyState": "_2yiUCa_emptyState",
+			"modelGroup": "_2yiUCa_modelGroup",
 			"modelInfo": "_2yiUCa_modelInfo",
-			"modelList": "_2yiUCa_modelList"
+			"modelMeta": "_2yiUCa_modelMeta",
+			"modelMain": "_2yiUCa_modelMain",
+			"sectionHeaderRow": "_2yiUCa_sectionHeaderRow",
+			"enabledCount": "_2yiUCa_enabledCount",
+			"toggleButtonEnabled": "_2yiUCa_toggleButtonEnabled",
+			"countBadge": "_2yiUCa_countBadge",
+			"emptyIcon": "_2yiUCa_emptyIcon",
+			"metaItem": "_2yiUCa_metaItem",
+			"emptyText": "_2yiUCa_emptyText",
+			"discoveryInfo": "_2yiUCa_discoveryInfo",
+			"headerMeta": "_2yiUCa_headerMeta",
+			"modelList": "_2yiUCa_modelList",
+			"modelName": "_2yiUCa_modelName",
+			"sectionHeading": "_2yiUCa_sectionHeading",
+			"toggleButtonDisabled": "_2yiUCa_toggleButtonDisabled",
+			"toggleButton": "_2yiUCa_toggleButton",
+			"groupCount": "_2yiUCa_groupCount",
+			"groupHeader": "_2yiUCa_groupHeader",
+			"modelItemDisabled": "_2yiUCa_modelItemDisabled",
+			"toggleThumb": "_2yiUCa_toggleThumb",
+			"emptyHint": "_2yiUCa_emptyHint",
+			"section": "_2yiUCa_section"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderModelList.js
@@ -6855,13 +6885,6 @@ window.__ModuleLoader__.load({
 				group: "international"
 			},
 			{
-				id: "github",
-				name: "GitHub Models",
-				type: "openai-compatible",
-				baseURL: "https://models.github.ai/inference",
-				group: "international"
-			},
-			{
 				id: "copilot",
 				name: "GitHub Copilot",
 				type: "openai-compatible",
@@ -7107,32 +7130,32 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderDialog_module_css_default = {
-			"overlay": "Y2Uoaq_overlay",
-			"field": "Y2Uoaq_field",
-			"dialog": "Y2Uoaq_dialog",
-			"header": "Y2Uoaq_header",
+			"presetGroupTitle": "Y2Uoaq_presetGroupTitle",
+			"submitButton": "Y2Uoaq_submitButton",
+			"required": "Y2Uoaq_required",
+			"input": "Y2Uoaq_input",
+			"checkboxField": "Y2Uoaq_checkboxField",
 			"error": "Y2Uoaq_error",
+			"dialog": "Y2Uoaq_dialog",
 			"checkbox": "Y2Uoaq_checkbox",
 			"footer": "Y2Uoaq_footer",
-			"submitButton": "Y2Uoaq_submitButton",
-			"presetList": "Y2Uoaq_presetList",
+			"overlay": "Y2Uoaq_overlay",
+			"checkboxLabel": "Y2Uoaq_checkboxLabel",
+			"header": "Y2Uoaq_header",
 			"presetGroup": "Y2Uoaq_presetGroup",
-			"title": "Y2Uoaq_title",
+			"hint": "Y2Uoaq_hint",
 			"presetEmpty": "Y2Uoaq_presetEmpty",
-			"presetGroupTitle": "Y2Uoaq_presetGroupTitle",
-			"content": "Y2Uoaq_content",
-			"presetName": "Y2Uoaq_presetName",
-			"select": "Y2Uoaq_select",
+			"label": "Y2Uoaq_label",
 			"presetItem": "Y2Uoaq_presetItem",
 			"presetUrl": "Y2Uoaq_presetUrl",
+			"select": "Y2Uoaq_select",
 			"cancelButton": "Y2Uoaq_cancelButton",
-			"input": "Y2Uoaq_input",
-			"checkboxLabel": "Y2Uoaq_checkboxLabel",
-			"label": "Y2Uoaq_label",
-			"checkboxField": "Y2Uoaq_checkboxField",
-			"required": "Y2Uoaq_required",
-			"hint": "Y2Uoaq_hint",
-			"textarea": "Y2Uoaq_textarea"
+			"presetList": "Y2Uoaq_presetList",
+			"field": "Y2Uoaq_field",
+			"textarea": "Y2Uoaq_textarea",
+			"presetName": "Y2Uoaq_presetName",
+			"title": "Y2Uoaq_title",
+			"content": "Y2Uoaq_content"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderDialog.js
@@ -7476,51 +7499,51 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProvidersSection_module_css_default = {
-			"dangerZone": "ExuySa_dangerZone",
-			"detailHeaderContent": "ExuySa_detailHeaderContent",
-			"detailTitle": "ExuySa_detailTitle",
-			"listItem": "ExuySa_listItem",
-			"emptyState": "ExuySa_emptyState",
-			"secondaryButton": "ExuySa_secondaryButton",
-			"providerList": "ExuySa_providerList",
-			"sectionBody": "ExuySa_sectionBody",
-			"emptyIcon": "ExuySa_emptyIcon",
-			"listScroller": "ExuySa_listScroller",
-			"detailMeta": "ExuySa_detailMeta",
-			"dangerZoneTitle": "ExuySa_dangerZoneTitle",
-			"listItemAvatar": "ExuySa_listItemAvatar",
-			"searchInput": "ExuySa_searchInput",
-			"emptyDescription": "ExuySa_emptyDescription",
-			"searchRow": "ExuySa_searchRow",
-			"addFooter": "ExuySa_addFooter",
-			"editButton": "ExuySa_editButton",
-			"providerDetail": "ExuySa_providerDetail",
 			"searchWrap": "ExuySa_searchWrap",
-			"dangerButton": "ExuySa_dangerButton",
-			"logoWrap": "ExuySa_logoWrap",
-			"detailHeader": "ExuySa_detailHeader",
-			"splitRoot": "ExuySa_splitRoot",
-			"listItemSelected": "ExuySa_listItemSelected",
 			"detailContentMaxWidth": "ExuySa_detailContentMaxWidth",
-			"addButton": "ExuySa_addButton",
-			"listItemMain": "ExuySa_listItemMain",
-			"listItemLabel": "ExuySa_listItemLabel",
-			"dangerZoneText": "ExuySa_dangerZoneText",
-			"emptyDetailState": "ExuySa_emptyDetailState",
-			"logoFallback": "ExuySa_logoFallback",
+			"searchRow": "ExuySa_searchRow",
 			"detailScroll": "ExuySa_detailScroll",
-			"searchClearButton": "ExuySa_searchClearButton",
-			"listItemIdle": "ExuySa_listItemIdle",
-			"section": "ExuySa_section",
 			"detailMetaItem": "ExuySa_detailMetaItem",
-			"emptyTitle": "ExuySa_emptyTitle",
+			"sectionBody": "ExuySa_sectionBody",
+			"dangerButton": "ExuySa_dangerButton",
 			"loading": "ExuySa_loading",
-			"searchIcon": "ExuySa_searchIcon",
-			"sectionHeading": "ExuySa_sectionHeading",
+			"emptyDescription": "ExuySa_emptyDescription",
+			"searchInput": "ExuySa_searchInput",
 			"listItems": "ExuySa_listItems",
+			"secondaryButton": "ExuySa_secondaryButton",
+			"addButton": "ExuySa_addButton",
+			"listItemLabel": "ExuySa_listItemLabel",
+			"sectionHeading": "ExuySa_sectionHeading",
+			"addFooter": "ExuySa_addFooter",
+			"listItem": "ExuySa_listItem",
+			"detailMeta": "ExuySa_detailMeta",
+			"detailHeader": "ExuySa_detailHeader",
+			"detailHeaderContent": "ExuySa_detailHeaderContent",
+			"providerDetail": "ExuySa_providerDetail",
 			"enabledDot": "ExuySa_enabledDot",
+			"error": "ExuySa_error",
+			"logoFallback": "ExuySa_logoFallback",
+			"listItemSelected": "ExuySa_listItemSelected",
+			"listItemMain": "ExuySa_listItemMain",
+			"listItemIdle": "ExuySa_listItemIdle",
+			"listItemAvatar": "ExuySa_listItemAvatar",
+			"dangerZoneText": "ExuySa_dangerZoneText",
+			"dangerZoneTitle": "ExuySa_dangerZoneTitle",
+			"editButton": "ExuySa_editButton",
 			"dangerZoneDescription": "ExuySa_dangerZoneDescription",
-			"error": "ExuySa_error"
+			"listScroller": "ExuySa_listScroller",
+			"emptyTitle": "ExuySa_emptyTitle",
+			"emptyIcon": "ExuySa_emptyIcon",
+			"emptyDetailState": "ExuySa_emptyDetailState",
+			"section": "ExuySa_section",
+			"providerList": "ExuySa_providerList",
+			"dangerZone": "ExuySa_dangerZone",
+			"emptyState": "ExuySa_emptyState",
+			"detailTitle": "ExuySa_detailTitle",
+			"searchClearButton": "ExuySa_searchClearButton",
+			"logoWrap": "ExuySa_logoWrap",
+			"splitRoot": "ExuySa_splitRoot",
+			"searchIcon": "ExuySa_searchIcon"
 		};
 		//#endregion
 		//#region lib/types/client/ProvidersSection.js
@@ -8067,21 +8090,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var AddMcpServerDialog_module_css_default = {
-			"error": "uv_otq_error",
-			"submitButton": "uv_otq_submitButton",
-			"overlay": "uv_otq_overlay",
-			"input": "uv_otq_input",
-			"header": "uv_otq_header",
-			"footer": "uv_otq_footer",
-			"title": "uv_otq_title",
-			"dialog": "uv_otq_dialog",
+			"form": "uv_otq_form",
 			"textarea": "uv_otq_textarea",
+			"title": "uv_otq_title",
+			"footer": "uv_otq_footer",
 			"field": "uv_otq_field",
-			"select": "uv_otq_select",
-			"label": "uv_otq_label",
+			"error": "uv_otq_error",
 			"cancelButton": "uv_otq_cancelButton",
+			"input": "uv_otq_input",
+			"overlay": "uv_otq_overlay",
+			"submitButton": "uv_otq_submitButton",
 			"closeButton": "uv_otq_closeButton",
-			"form": "uv_otq_form"
+			"dialog": "uv_otq_dialog",
+			"label": "uv_otq_label",
+			"header": "uv_otq_header",
+			"select": "uv_otq_select"
 		};
 		//#endregion
 		//#region lib/types/client/AddMcpServerDialog.js
@@ -8317,76 +8340,76 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var McpSection_module_css_default = {
-			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
-			"toolDescription": "_0bBxiW_toolDescription",
-			"dangerZone": "_0bBxiW_dangerZone",
-			"primaryButton": "_0bBxiW_primaryButton",
-			"formActions": "_0bBxiW_formActions",
-			"listItemSelected": "_0bBxiW_listItemSelected",
-			"checkbox": "_0bBxiW_checkbox",
-			"searchInput": "_0bBxiW_searchInput",
-			"addFooter": "_0bBxiW_addFooter",
-			"tab": "_0bBxiW_tab",
-			"fieldRow": "_0bBxiW_fieldRow",
-			"activeDot": "_0bBxiW_activeDot",
-			"section": "_0bBxiW_section",
-			"tabBar": "_0bBxiW_tabBar",
-			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
-			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
-			"detailTitle": "_0bBxiW_detailTitle",
-			"toolsList": "_0bBxiW_toolsList",
-			"searchClearButton": "_0bBxiW_searchClearButton",
-			"listItemMain": "_0bBxiW_listItemMain",
-			"serverList": "_0bBxiW_serverList",
-			"switchWrapper": "_0bBxiW_switchWrapper",
-			"listScroller": "_0bBxiW_listScroller",
-			"descriptionText": "_0bBxiW_descriptionText",
-			"listItem": "_0bBxiW_listItem",
-			"sectionBody": "_0bBxiW_sectionBody",
-			"switchInput": "_0bBxiW_switchInput",
-			"logHeader": "_0bBxiW_logHeader",
-			"dangerZoneText": "_0bBxiW_dangerZoneText",
-			"error": "_0bBxiW_error",
-			"searchIcon": "_0bBxiW_searchIcon",
-			"detailMetaItem": "_0bBxiW_detailMetaItem",
-			"codeLine": "_0bBxiW_codeLine",
-			"emptyTitle": "_0bBxiW_emptyTitle",
-			"emptyIcon": "_0bBxiW_emptyIcon",
-			"listItemAvatar": "_0bBxiW_listItemAvatar",
-			"secondaryButton": "_0bBxiW_secondaryButton",
-			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
-			"detailMeta": "_0bBxiW_detailMeta",
-			"fieldHint": "_0bBxiW_fieldHint",
-			"loading": "_0bBxiW_loading",
-			"toolItem": "_0bBxiW_toolItem",
-			"searchWrap": "_0bBxiW_searchWrap",
-			"detailScroll": "_0bBxiW_detailScroll",
-			"errorBox": "_0bBxiW_errorBox",
-			"listItems": "_0bBxiW_listItems",
-			"toolHeader": "_0bBxiW_toolHeader",
-			"listItemIdle": "_0bBxiW_listItemIdle",
-			"resourceUri": "_0bBxiW_resourceUri",
-			"emptyDescription": "_0bBxiW_emptyDescription",
-			"sectionHeader": "_0bBxiW_sectionHeader",
-			"toolName": "_0bBxiW_toolName",
-			"serverDetail": "_0bBxiW_serverDetail",
-			"switchSlider": "_0bBxiW_switchSlider",
-			"fieldGroup": "_0bBxiW_fieldGroup",
-			"textarea": "_0bBxiW_textarea",
-			"listItemLabel": "_0bBxiW_listItemLabel",
-			"searchRow": "_0bBxiW_searchRow",
-			"codeBlock": "_0bBxiW_codeBlock",
-			"addButton": "_0bBxiW_addButton",
-			"emptyDetailState": "_0bBxiW_emptyDetailState",
-			"tabActive": "_0bBxiW_tabActive",
 			"sectionHeading": "_0bBxiW_sectionHeading",
-			"splitRoot": "_0bBxiW_splitRoot",
+			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
+			"emptyIcon": "_0bBxiW_emptyIcon",
+			"searchIcon": "_0bBxiW_searchIcon",
+			"descriptionText": "_0bBxiW_descriptionText",
+			"input": "_0bBxiW_input",
+			"tabBar": "_0bBxiW_tabBar",
+			"error": "_0bBxiW_error",
+			"fieldHint": "_0bBxiW_fieldHint",
+			"detailMeta": "_0bBxiW_detailMeta",
+			"toolsList": "_0bBxiW_toolsList",
 			"fieldLabel": "_0bBxiW_fieldLabel",
-			"logInfo": "_0bBxiW_logInfo",
+			"fieldGroup": "_0bBxiW_fieldGroup",
+			"serverDetail": "_0bBxiW_serverDetail",
+			"searchRow": "_0bBxiW_searchRow",
+			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
+			"textarea": "_0bBxiW_textarea",
+			"emptyDescription": "_0bBxiW_emptyDescription",
+			"listItem": "_0bBxiW_listItem",
+			"toolItem": "_0bBxiW_toolItem",
+			"formActions": "_0bBxiW_formActions",
+			"loading": "_0bBxiW_loading",
+			"activeDot": "_0bBxiW_activeDot",
+			"tabActive": "_0bBxiW_tabActive",
+			"switchSlider": "_0bBxiW_switchSlider",
+			"logHeader": "_0bBxiW_logHeader",
+			"searchClearButton": "_0bBxiW_searchClearButton",
+			"fieldRow": "_0bBxiW_fieldRow",
+			"toolDescription": "_0bBxiW_toolDescription",
+			"addFooter": "_0bBxiW_addFooter",
+			"listItemAvatar": "_0bBxiW_listItemAvatar",
+			"listItems": "_0bBxiW_listItems",
+			"listItemLabel": "_0bBxiW_listItemLabel",
+			"detailScroll": "_0bBxiW_detailScroll",
+			"section": "_0bBxiW_section",
+			"resourceUri": "_0bBxiW_resourceUri",
 			"dangerButton": "_0bBxiW_dangerButton",
-			"detailHeader": "_0bBxiW_detailHeader",
+			"detailTitle": "_0bBxiW_detailTitle",
+			"logInfo": "_0bBxiW_logInfo",
+			"sectionHeader": "_0bBxiW_sectionHeader",
+			"listItemSelected": "_0bBxiW_listItemSelected",
+			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
+			"emptyDetailState": "_0bBxiW_emptyDetailState",
+			"sectionBody": "_0bBxiW_sectionBody",
+			"errorBox": "_0bBxiW_errorBox",
+			"emptyTitle": "_0bBxiW_emptyTitle",
+			"codeBlock": "_0bBxiW_codeBlock",
 			"emptyState": "_0bBxiW_emptyState",
-			"input": "_0bBxiW_input"
+			"listItemMain": "_0bBxiW_listItemMain",
+			"listScroller": "_0bBxiW_listScroller",
+			"searchInput": "_0bBxiW_searchInput",
+			"detailHeader": "_0bBxiW_detailHeader",
+			"searchWrap": "_0bBxiW_searchWrap",
+			"serverList": "_0bBxiW_serverList",
+			"addButton": "_0bBxiW_addButton",
+			"checkbox": "_0bBxiW_checkbox",
+			"splitRoot": "_0bBxiW_splitRoot",
+			"switchWrapper": "_0bBxiW_switchWrapper",
+			"detailMetaItem": "_0bBxiW_detailMetaItem",
+			"primaryButton": "_0bBxiW_primaryButton",
+			"toolHeader": "_0bBxiW_toolHeader",
+			"secondaryButton": "_0bBxiW_secondaryButton",
+			"dangerZoneText": "_0bBxiW_dangerZoneText",
+			"switchInput": "_0bBxiW_switchInput",
+			"tab": "_0bBxiW_tab",
+			"dangerZone": "_0bBxiW_dangerZone",
+			"codeLine": "_0bBxiW_codeLine",
+			"listItemIdle": "_0bBxiW_listItemIdle",
+			"toolName": "_0bBxiW_toolName",
+			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth"
 		};
 		//#endregion
 		//#region lib/types/client/McpSection.js
@@ -9333,26 +9356,26 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WebSearchSection_module_css_default = {
-			"checkbox": "_0WjBOa_checkbox",
-			"root": "_0WjBOa_root",
-			"select": "_0WjBOa_select",
-			"card": "_0WjBOa_card",
-			"fieldRow": "_0WjBOa_fieldRow",
-			"input": "_0WjBOa_input",
-			"pageTitle": "_0WjBOa_pageTitle",
-			"pageHeader": "_0WjBOa_pageHeader",
-			"providerDetail": "_0WjBOa_providerDetail",
-			"providerName": "_0WjBOa_providerName",
-			"providerDescription": "_0WjBOa_providerDescription",
-			"cardDescription": "_0WjBOa_cardDescription",
-			"iconButton": "_0WjBOa_iconButton",
-			"loading": "_0WjBOa_loading",
-			"error": "_0WjBOa_error",
 			"pageDescription": "_0WjBOa_pageDescription",
-			"fieldLabel": "_0WjBOa_fieldLabel",
+			"providerName": "_0WjBOa_providerName",
 			"fieldHint": "_0WjBOa_fieldHint",
+			"apiKeyRow": "_0WjBOa_apiKeyRow",
+			"checkbox": "_0WjBOa_checkbox",
+			"select": "_0WjBOa_select",
+			"iconButton": "_0WjBOa_iconButton",
+			"providerDetail": "_0WjBOa_providerDetail",
+			"pageTitle": "_0WjBOa_pageTitle",
+			"input": "_0WjBOa_input",
+			"providerDescription": "_0WjBOa_providerDescription",
+			"error": "_0WjBOa_error",
+			"pageHeader": "_0WjBOa_pageHeader",
+			"fieldLabel": "_0WjBOa_fieldLabel",
+			"root": "_0WjBOa_root",
+			"fieldRow": "_0WjBOa_fieldRow",
 			"cardTitle": "_0WjBOa_cardTitle",
-			"apiKeyRow": "_0WjBOa_apiKeyRow"
+			"loading": "_0WjBOa_loading",
+			"cardDescription": "_0WjBOa_cardDescription",
+			"card": "_0WjBOa_card"
 		};
 		//#endregion
 		//#region lib/types/client/WebSearchSection.js
@@ -9766,23 +9789,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProcessorSection_module_css_default = {
+			"iconButton": "CL8zIa_iconButton",
+			"input": "CL8zIa_input",
+			"apiKeyRow": "CL8zIa_apiKeyRow",
+			"pageDescription": "CL8zIa_pageDescription",
+			"pageTitle": "CL8zIa_pageTitle",
+			"root": "CL8zIa_root",
+			"cardTitle": "CL8zIa_cardTitle",
+			"loading": "CL8zIa_loading",
+			"cardDescription": "CL8zIa_cardDescription",
+			"fieldRow": "CL8zIa_fieldRow",
 			"fieldLabel": "CL8zIa_fieldLabel",
 			"card": "CL8zIa_card",
-			"iconButton": "CL8zIa_iconButton",
+			"providerDescription": "CL8zIa_providerDescription",
 			"fieldHint": "CL8zIa_fieldHint",
 			"providerDetail": "CL8zIa_providerDetail",
-			"fieldRow": "CL8zIa_fieldRow",
-			"loading": "CL8zIa_loading",
-			"providerDescription": "CL8zIa_providerDescription",
-			"pageTitle": "CL8zIa_pageTitle",
-			"pageDescription": "CL8zIa_pageDescription",
-			"select": "CL8zIa_select",
-			"apiKeyRow": "CL8zIa_apiKeyRow",
-			"input": "CL8zIa_input",
 			"providerName": "CL8zIa_providerName",
-			"root": "CL8zIa_root",
-			"cardDescription": "CL8zIa_cardDescription",
-			"cardTitle": "CL8zIa_cardTitle"
+			"select": "CL8zIa_select"
 		};
 		//#endregion
 		//#region lib/types/client/ProcessorSection.js
@@ -10067,57 +10090,57 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var UsageSection_module_css_default = {
-			"tdRight": "ej6-VW_tdRight",
-			"heatmapSection": "ej6-VW_heatmapSection",
-			"pageTitle": "ej6-VW_pageTitle",
-			"exploreHeader": "ej6-VW_exploreHeader",
-			"insightItem": "ej6-VW_insightItem",
-			"entriesTable": "ej6-VW_entriesTable",
-			"up": "ej6-VW_up",
-			"modelName": "ej6-VW_modelName",
-			"pageHeader": "ej6-VW_pageHeader",
-			"exploreCard": "ej6-VW_exploreCard",
-			"controlLabel": "ej6-VW_controlLabel",
-			"insightLabel": "ej6-VW_insightLabel",
-			"donutWrap": "ej6-VW_donutWrap",
-			"exploreTitle": "ej6-VW_exploreTitle",
-			"donutLegend": "ej6-VW_donutLegend",
-			"metricStrip": "ej6-VW_metricStrip",
-			"exploreBody": "ej6-VW_exploreBody",
-			"controlSelect": "ej6-VW_controlSelect",
-			"summaryLine": "ej6-VW_summaryLine",
-			"metricLabel": "ej6-VW_metricLabel",
-			"metricSparkline": "ej6-VW_metricSparkline",
-			"modelCell": "ej6-VW_modelCell",
-			"metricCell": "ej6-VW_metricCell",
-			"heatmapScroll": "ej6-VW_heatmapScroll",
-			"barColumn": "ej6-VW_barColumn",
-			"metricDelta": "ej6-VW_metricDelta",
-			"barChart": "ej6-VW_barChart",
-			"active": "ej6-VW_active",
-			"heatmap": "ej6-VW_heatmap",
-			"windowTabs": "ej6-VW_windowTabs",
-			"down": "ej6-VW_down",
-			"donutLegendValue": "ej6-VW_donutLegendValue",
-			"tableWrap": "ej6-VW_tableWrap",
-			"insightValue": "ej6-VW_insightValue",
-			"barSegment": "ej6-VW_barSegment",
-			"root": "ej6-VW_root",
 			"heatmapCell": "ej6-VW_heatmapCell",
-			"pageDescription": "ej6-VW_pageDescription",
-			"modelProvider": "ej6-VW_modelProvider",
-			"heatmapTitle": "ej6-VW_heatmapTitle",
-			"controlRow": "ej6-VW_controlRow",
-			"donutLegendRow": "ej6-VW_donutLegendRow",
-			"barAxis": "ej6-VW_barAxis",
-			"usageEmpty": "ej6-VW_usageEmpty",
-			"donutLegendKey": "ej6-VW_donutLegendKey",
-			"tableEmpty": "ej6-VW_tableEmpty",
-			"insightStrip": "ej6-VW_insightStrip",
+			"donutWrap": "ej6-VW_donutWrap",
 			"loadMoreBtn": "ej6-VW_loadMoreBtn",
+			"up": "ej6-VW_up",
+			"insightItem": "ej6-VW_insightItem",
+			"barColumn": "ej6-VW_barColumn",
+			"pageTitle": "ej6-VW_pageTitle",
+			"modelCell": "ej6-VW_modelCell",
+			"down": "ej6-VW_down",
+			"metricCell": "ej6-VW_metricCell",
+			"modelProvider": "ej6-VW_modelProvider",
+			"metricDelta": "ej6-VW_metricDelta",
+			"heatmapTitle": "ej6-VW_heatmapTitle",
+			"exploreCard": "ej6-VW_exploreCard",
+			"insightStrip": "ej6-VW_insightStrip",
+			"donutLegendKey": "ej6-VW_donutLegendKey",
+			"entriesTable": "ej6-VW_entriesTable",
+			"exploreTitle": "ej6-VW_exploreTitle",
+			"metricSparkline": "ej6-VW_metricSparkline",
+			"heatmap": "ej6-VW_heatmap",
 			"metricValue": "ej6-VW_metricValue",
+			"exploreHeader": "ej6-VW_exploreHeader",
+			"heatmapSection": "ej6-VW_heatmapSection",
+			"donutLegend": "ej6-VW_donutLegend",
+			"pageHeader": "ej6-VW_pageHeader",
+			"windowTab": "ej6-VW_windowTab",
+			"active": "ej6-VW_active",
+			"metricStrip": "ej6-VW_metricStrip",
+			"barChart": "ej6-VW_barChart",
+			"donutLegendRow": "ej6-VW_donutLegendRow",
 			"donutSwatch": "ej6-VW_donutSwatch",
-			"windowTab": "ej6-VW_windowTab"
+			"insightLabel": "ej6-VW_insightLabel",
+			"barSegment": "ej6-VW_barSegment",
+			"tdRight": "ej6-VW_tdRight",
+			"usageEmpty": "ej6-VW_usageEmpty",
+			"root": "ej6-VW_root",
+			"barAxis": "ej6-VW_barAxis",
+			"pageDescription": "ej6-VW_pageDescription",
+			"metricLabel": "ej6-VW_metricLabel",
+			"insightValue": "ej6-VW_insightValue",
+			"exploreBody": "ej6-VW_exploreBody",
+			"tableWrap": "ej6-VW_tableWrap",
+			"summaryLine": "ej6-VW_summaryLine",
+			"donutLegendValue": "ej6-VW_donutLegendValue",
+			"modelName": "ej6-VW_modelName",
+			"controlLabel": "ej6-VW_controlLabel",
+			"tableEmpty": "ej6-VW_tableEmpty",
+			"heatmapScroll": "ej6-VW_heatmapScroll",
+			"controlSelect": "ej6-VW_controlSelect",
+			"windowTabs": "ej6-VW_windowTabs",
+			"controlRow": "ej6-VW_controlRow"
 		};
 		//#endregion
 		//#region lib/types/client/UsageSection.js
@@ -11129,16 +11152,16 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SystemSection_module_css_default = {
-			"root": "MzTzwq_root",
-			"pageDescription": "MzTzwq_pageDescription",
-			"card": "MzTzwq_card",
 			"infoRow": "MzTzwq_infoRow",
-			"infoValue": "MzTzwq_infoValue",
-			"loading": "MzTzwq_loading",
 			"cardTitle": "MzTzwq_cardTitle",
-			"badge": "MzTzwq_badge",
+			"infoLabel": "MzTzwq_infoLabel",
+			"pageDescription": "MzTzwq_pageDescription",
+			"loading": "MzTzwq_loading",
+			"card": "MzTzwq_card",
 			"pageTitle": "MzTzwq_pageTitle",
-			"infoLabel": "MzTzwq_infoLabel"
+			"root": "MzTzwq_root",
+			"infoValue": "MzTzwq_infoValue",
+			"badge": "MzTzwq_badge"
 		};
 		//#endregion
 		//#region lib/types/client/SystemSection.js
@@ -11403,22 +11426,22 @@ window.__ModuleLoader__.load({
 		}
 		var TasksSection_module_css_default = {
 			"input": "_3yT94W_input",
+			"root": "_3yT94W_root",
 			"runFail": "_3yT94W_runFail",
+			"pageTitle": "_3yT94W_pageTitle",
+			"card": "_3yT94W_card",
 			"taskMain": "_3yT94W_taskMain",
-			"taskRow": "_3yT94W_taskRow",
-			"runTime": "_3yT94W_runTime",
+			"select": "_3yT94W_select",
 			"loading": "_3yT94W_loading",
+			"runTime": "_3yT94W_runTime",
+			"taskMeta": "_3yT94W_taskMeta",
 			"pageDescription": "_3yT94W_pageDescription",
 			"runDetail": "_3yT94W_runDetail",
-			"taskMeta": "_3yT94W_taskMeta",
-			"cardTitle": "_3yT94W_cardTitle",
-			"select": "_3yT94W_select",
-			"card": "_3yT94W_card",
-			"root": "_3yT94W_root",
-			"pageTitle": "_3yT94W_pageTitle",
+			"taskName": "_3yT94W_taskName",
 			"runRow": "_3yT94W_runRow",
-			"runOk": "_3yT94W_runOk",
-			"taskName": "_3yT94W_taskName"
+			"cardTitle": "_3yT94W_cardTitle",
+			"taskRow": "_3yT94W_taskRow",
+			"runOk": "_3yT94W_runOk"
 		};
 		//#endregion
 		//#region lib/types/client/TasksSection.js
@@ -11729,17 +11752,17 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsPages_module_css_default = {
-			"rowControl": "_0spVW_rowControl",
-			"shellInner": "_0spVW_shellInner",
 			"row": "_0spVW_row",
-			"switchLabel": "_0spVW_switchLabel",
-			"groupTitle": "_0spVW_groupTitle",
-			"shell": "_0spVW_shell",
-			"divider": "_0spVW_divider",
 			"rowDescription": "_0spVW_rowDescription",
-			"rowTitle": "_0spVW_rowTitle",
+			"shell": "_0spVW_shell",
+			"switchLabel": "_0spVW_switchLabel",
+			"shellInner": "_0spVW_shellInner",
 			"groupDescription": "_0spVW_groupDescription",
-			"group": "_0spVW_group"
+			"group": "_0spVW_group",
+			"divider": "_0spVW_divider",
+			"rowControl": "_0spVW_rowControl",
+			"groupTitle": "_0spVW_groupTitle",
+			"rowTitle": "_0spVW_rowTitle"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsPages.js
@@ -11809,24 +11832,24 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var LocalModelDownloads_module_css_default = {
-			"modelIcon": "_9apQa_modelIcon",
-			"modelMain": "_9apQa_modelMain",
-			"modelCard": "_9apQa_modelCard",
-			"statusReady": "_9apQa_statusReady",
-			"noticeText": "_9apQa_noticeText",
-			"statusDownloading": "_9apQa_statusDownloading",
-			"modelOps": "_9apQa_modelOps",
-			"noticeTag": "_9apQa_noticeTag",
-			"statusIdle": "_9apQa_statusIdle",
-			"modelSubtitle": "_9apQa_modelSubtitle",
-			"btnDanger": "_9apQa_btnDanger",
-			"noticeRow": "_9apQa_noticeRow",
-			"groupHeader": "_9apQa_groupHeader",
-			"btn": "_9apQa_btn",
 			"btnPrimary": "_9apQa_btnPrimary",
-			"modelStatus": "_9apQa_modelStatus",
+			"modelIcon": "_9apQa_modelIcon",
+			"noticeText": "_9apQa_noticeText",
 			"modelName": "_9apQa_modelName",
-			"groupDesc": "_9apQa_groupDesc"
+			"noticeRow": "_9apQa_noticeRow",
+			"modelOps": "_9apQa_modelOps",
+			"btnDanger": "_9apQa_btnDanger",
+			"modelSubtitle": "_9apQa_modelSubtitle",
+			"modelCard": "_9apQa_modelCard",
+			"statusIdle": "_9apQa_statusIdle",
+			"statusReady": "_9apQa_statusReady",
+			"btn": "_9apQa_btn",
+			"noticeTag": "_9apQa_noticeTag",
+			"groupHeader": "_9apQa_groupHeader",
+			"modelMain": "_9apQa_modelMain",
+			"modelStatus": "_9apQa_modelStatus",
+			"groupDesc": "_9apQa_groupDesc",
+			"statusDownloading": "_9apQa_statusDownloading"
 		};
 		//#endregion
 		//#region lib/types/client/LocalModelDownloads.js
@@ -12226,21 +12249,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ApiGatewaySection_module_css_default = {
-			"statusText": "S156cG_statusText",
-			"statusRow": "S156cG_statusRow",
-			"statusDot": "S156cG_statusDot",
-			"input": "S156cG_input",
-			"statusStopped": "S156cG_statusStopped",
-			"notice": "S156cG_notice",
-			"groupHeaderRow": "S156cG_groupHeaderRow",
 			"inputSmall": "S156cG_inputSmall",
-			"iconBtn": "S156cG_iconBtn",
-			"docLink": "S156cG_docLink",
-			"headerBox": "S156cG_headerBox",
-			"outlineBtn": "S156cG_outlineBtn",
-			"inputGroup": "S156cG_inputGroup",
 			"copied": "S156cG_copied",
-			"ghostBtn": "S156cG_ghostBtn"
+			"inputGroup": "S156cG_inputGroup",
+			"statusRow": "S156cG_statusRow",
+			"outlineBtn": "S156cG_outlineBtn",
+			"ghostBtn": "S156cG_ghostBtn",
+			"input": "S156cG_input",
+			"headerBox": "S156cG_headerBox",
+			"statusStopped": "S156cG_statusStopped",
+			"groupHeaderRow": "S156cG_groupHeaderRow",
+			"docLink": "S156cG_docLink",
+			"statusText": "S156cG_statusText",
+			"notice": "S156cG_notice",
+			"statusDot": "S156cG_statusDot",
+			"iconBtn": "S156cG_iconBtn"
 		};
 		//#endregion
 		//#region lib/types/client/ApiGatewaySection.js
@@ -12616,28 +12639,28 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
-			"navCell": "_4STY0G_navCell",
-			"overlay": "_4STY0G_overlay",
+			"navLabel": "_4STY0G_navLabel",
+			"actions": "_4STY0G_actions",
+			"navIcon": "_4STY0G_navIcon",
+			"triggerLabel": "_4STY0G_triggerLabel",
 			"trigger": "_4STY0G_trigger",
-			"hiddenLabel": "_4STY0G_hiddenLabel",
+			"header": "_4STY0G_header",
+			"overlay": "_4STY0G_overlay",
 			"mask": "_4STY0G_mask",
+			"navScroll": "_4STY0G_navScroll",
+			"navGroupTitle": "_4STY0G_navGroupTitle",
+			"navCell": "_4STY0G_navCell",
+			"active": "_4STY0G_active",
+			"close": "_4STY0G_close",
+			"content": "_4STY0G_content",
+			"navTitle": "_4STY0G_navTitle",
+			"navGroup": "_4STY0G_navGroup",
+			"options": "_4STY0G_options",
 			"nav": "_4STY0G_nav",
 			"navList": "_4STY0G_navList",
-			"navIcon": "_4STY0G_navIcon",
-			"content": "_4STY0G_content",
-			"header": "_4STY0G_header",
-			"navScroll": "_4STY0G_navScroll",
+			"hiddenLabel": "_4STY0G_hiddenLabel",
 			"panel": "_4STY0G_panel",
-			"options": "_4STY0G_options",
-			"navGroup": "_4STY0G_navGroup",
-			"actions": "_4STY0G_actions",
-			"triggerLabel": "_4STY0G_triggerLabel",
-			"rail": "_4STY0G_rail",
-			"navLabel": "_4STY0G_navLabel",
-			"active": "_4STY0G_active",
-			"navTitle": "_4STY0G_navTitle",
-			"navGroupTitle": "_4STY0G_navGroupTitle",
-			"close": "_4STY0G_close"
+			"rail": "_4STY0G_rail"
 		};
 		//#endregion
 		//#region \0dsh-control-center-plain-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\cherry-tokens.css.mjs
@@ -12692,7 +12715,11 @@ window.__ModuleLoader__.load({
 					size,
 					className: cls
 				});
-				case "control-center-plugins": return (0, react_jsx_runtime.jsx)(IconPackage, {
+				case "super-injector-plugins": return (0, react_jsx_runtime.jsx)(IconPackage, {
+					size,
+					className: cls
+				});
+				case "api-gateway": return (0, react_jsx_runtime.jsx)(IconGateway, {
 					size,
 					className: cls
 				});
@@ -12732,11 +12759,11 @@ window.__ModuleLoader__.load({
 					size,
 					className: cls
 				});
-				case "quick-assistant": return (0, react_jsx_runtime.jsx)(IconCrop, {
+				case "quick-assistant": return (0, react_jsx_runtime.jsx)(IconPictureInPicture2, {
 					size,
 					className: cls
 				});
-				case "selection-assistant": return (0, react_jsx_runtime.jsx)(IconScanText, {
+				case "selection-assistant": return (0, react_jsx_runtime.jsx)(IconTextCursorInput, {
 					size,
 					className: cls
 				});
@@ -12919,147 +12946,6 @@ window.__ModuleLoader__.load({
 			] });
 		}
 		//#endregion
-		//#region lib/types/client/PluginsSection.js
-		function PluginsSection({ getSystem, useSystemReady }) {
-			const ready = useSystemReady((value) => value);
-			const system = ready ? getSystem() : void 0;
-			const [profile, setProfile] = (0, react.useState)("web");
-			const [spec, setSpec] = (0, react.useState)("");
-			const [inventory, setInventory] = (0, react.useState)(null);
-			const [notice, setNotice] = (0, react.useState)(null);
-			const [busy, setBusy] = (0, react.useState)(false);
-			const refresh = () => {
-				if (system !== void 0) system.listPlugins(profile).then((result) => {
-					if (result.ok) setInventory(result.value);
-					else setNotice(result.error.message);
-				}).catch((error) => setNotice(String(error)));
-			};
-			(0, react.useEffect)(refresh, [system, profile]);
-			const manage = async (operation) => {
-				if (system === void 0 || spec.trim() === "") return;
-				setBusy(true);
-				setNotice(null);
-				try {
-					const result = await system.managePlugin(profile, operation, spec.trim());
-					if (!result.ok) setNotice(result.error.message);
-					else {
-						setInventory(result.value.inventory);
-						setNotice(result.value.exitCode === 0 ? "操作已完成；重启 DSH 后生效。" : result.value.stderr || "操作失败。");
-					}
-				} catch (error) {
-					setNotice(error instanceof Error ? error.message : String(error));
-				} finally {
-					setBusy(false);
-				}
-			};
-			if (!ready || inventory === null) return (0, react_jsx_runtime.jsx)("div", {
-				className: SystemSection_module_css_default.loading,
-				children: "Loading..."
-			});
-			return (0, react_jsx_runtime.jsxs)("div", {
-				className: SystemSection_module_css_default.root,
-				children: [(0, react_jsx_runtime.jsxs)("div", { children: [(0, react_jsx_runtime.jsx)("h2", {
-					className: SystemSection_module_css_default.pageTitle,
-					children: "插件"
-				}), (0, react_jsx_runtime.jsx)("p", {
-					className: SystemSection_module_css_default.pageDescription,
-					children: "管理 DSH profile 的真实插件依赖；操作由官方 CLI 的 pnpm 契约执行。"
-				})] }), (0, react_jsx_runtime.jsxs)("div", {
-					className: SystemSection_module_css_default.card,
-					children: [
-						(0, react_jsx_runtime.jsxs)("div", {
-							className: SystemSection_module_css_default.infoRow,
-							children: [(0, react_jsx_runtime.jsx)("label", {
-								className: SystemSection_module_css_default.infoLabel,
-								children: "Profile"
-							}), (0, react_jsx_runtime.jsx)("input", {
-								value: profile,
-								onChange: (event) => setProfile(event.target.value),
-								disabled: busy
-							})]
-						}),
-						(0, react_jsx_runtime.jsxs)("div", {
-							className: SystemSection_module_css_default.infoRow,
-							children: [(0, react_jsx_runtime.jsx)("label", {
-								className: SystemSection_module_css_default.infoLabel,
-								children: "插件包或 spec"
-							}), (0, react_jsx_runtime.jsx)("input", {
-								value: spec,
-								onChange: (event) => setSpec(event.target.value),
-								placeholder: "@scope/plugin 或 git spec",
-								disabled: busy
-							})]
-						}),
-						(0, react_jsx_runtime.jsxs)("div", {
-							className: SystemSection_module_css_default.infoRow,
-							children: [(0, react_jsx_runtime.jsx)("span", {
-								className: SystemSection_module_css_default.infoLabel,
-								children: "已安装依赖"
-							}), (0, react_jsx_runtime.jsxs)("span", {
-								className: SystemSection_module_css_default.infoValue,
-								children: [inventory.dependencies.length, " 个"]
-							})]
-						}),
-						inventory.dependencies.map((plugin) => (0, react_jsx_runtime.jsxs)("div", {
-							className: SystemSection_module_css_default.infoRow,
-							children: [(0, react_jsx_runtime.jsx)("span", {
-								className: SystemSection_module_css_default.infoLabel,
-								children: plugin.name
-							}), (0, react_jsx_runtime.jsxs)("span", {
-								className: SystemSection_module_css_default.infoValue,
-								children: [
-									plugin.spec,
-									plugin.bundle ? " · bundle" : "",
-									plugin.active ? " · 已启用" : " · 未解析"
-								]
-							})]
-						}, plugin.name)),
-						(0, react_jsx_runtime.jsxs)("div", { children: [
-							(0, react_jsx_runtime.jsx)("button", {
-								type: "button",
-								className: "cc-btn cc-btn-primary",
-								disabled: busy || spec.trim() === "",
-								onClick: () => void manage("add"),
-								children: "安装"
-							}),
-							" ",
-							(0, react_jsx_runtime.jsx)("button", {
-								type: "button",
-								className: "cc-btn cc-btn-secondary",
-								disabled: busy || spec.trim() === "",
-								onClick: () => void manage("update"),
-								children: "更新"
-							}),
-							" ",
-							(0, react_jsx_runtime.jsx)("button", {
-								type: "button",
-								className: "cc-btn cc-btn-danger",
-								disabled: busy || spec.trim() === "",
-								onClick: () => void manage("remove"),
-								children: "卸载"
-							}),
-							" ",
-							(0, react_jsx_runtime.jsx)("button", {
-								type: "button",
-								className: "cc-btn cc-btn-secondary",
-								disabled: busy,
-								onClick: refresh,
-								children: "刷新"
-							})
-						] }),
-						(0, react_jsx_runtime.jsx)("p", {
-							className: SystemSection_module_css_default.pageDescription,
-							children: "热启用、热禁用、回滚和恢复：当前官方 Host 不支持，操作按钮不会伪造这些能力。修改后需要重启 DSH。"
-						}),
-						notice === null ? null : (0, react_jsx_runtime.jsx)("div", {
-							className: "cc-notice-error",
-							children: notice
-						})
-					]
-				})]
-			});
-		}
-		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\chrome.module.css.mjs
 		const css$14 = ".uIwUgq_triggerLabel{white-space:nowrap;overflow:hidden}";
 		const tagId$14 = "@dsh-control-center/bundle/chrome.module.css";
@@ -13119,8 +13005,8 @@ window.__ModuleLoader__.load({
 		}
 		var GeneralSection_module_css_default = {
 			"errorDescription": "DFoDHW_errorDescription",
-			"errorTitle": "DFoDHW_errorTitle",
-			"section": "DFoDHW_section"
+			"section": "DFoDHW_section",
+			"errorTitle": "DFoDHW_errorTitle"
 		};
 		//#endregion
 		//#region lib/types/client/GeneralSection.js
@@ -13235,22 +13121,22 @@ window.__ModuleLoader__.load({
 		}
 		var AppearanceSection_module_css_default = {
 			"previewFrame": "_-7MpG_previewFrame",
-			"desktopTag": "_-7MpG_desktopTag",
-			"groupHeader": "_-7MpG_groupHeader",
-			"hexInput": "_-7MpG_hexInput",
-			"swatchActive": "_-7MpG_swatchActive",
+			"fontSelect": "_-7MpG_fontSelect",
 			"staticValue": "_-7MpG_staticValue",
-			"themeOption": "_-7MpG_themeOption",
 			"cssEditor": "_-7MpG_cssEditor",
+			"desktopTag": "_-7MpG_desktopTag",
+			"swatchActive": "_-7MpG_swatchActive",
 			"swatch": "_-7MpG_swatch",
-			"themeGrid": "_-7MpG_themeGrid",
+			"zoomControls": "_-7MpG_zoomControls",
 			"themePreviewActive": "_-7MpG_themePreviewActive",
+			"themeOption": "_-7MpG_themeOption",
+			"hexInput": "_-7MpG_hexInput",
+			"themeGrid": "_-7MpG_themeGrid",
+			"nativeSwatch": "_-7MpG_nativeSwatch",
 			"themeLabel": "_-7MpG_themeLabel",
 			"colorRow": "_-7MpG_colorRow",
-			"nativePicker": "_-7MpG_nativePicker",
-			"nativeSwatch": "_-7MpG_nativeSwatch",
-			"zoomControls": "_-7MpG_zoomControls",
-			"fontSelect": "_-7MpG_fontSelect"
+			"groupHeader": "_-7MpG_groupHeader",
+			"nativePicker": "_-7MpG_nativePicker"
 		};
 		//#endregion
 		//#region lib/types/client/AppearanceSection.js
@@ -14051,36 +13937,36 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ShortcutSection_module_css_default = {
-			"menuPop": "-S_gJa_menuPop",
-			"desktopTag": "-S_gJa_desktopTag",
-			"menuSep": "-S_gJa_menuSep",
-			"listGroup": "-S_gJa_listGroup",
-			"groupLabel": "-S_gJa_groupLabel",
-			"menuItem": "-S_gJa_menuItem",
-			"headerControls": "-S_gJa_headerControls",
-			"searchInput": "-S_gJa_searchInput",
-			"rowSwitch": "-S_gJa_rowSwitch",
 			"menuCount": "-S_gJa_menuCount",
-			"rowShortcut": "-S_gJa_rowShortcut",
-			"groupBlock": "-S_gJa_groupBlock",
-			"unbound": "-S_gJa_unbound",
-			"row": "-S_gJa_row",
-			"kbd": "-S_gJa_kbd",
-			"undo": "-S_gJa_undo",
-			"rowLabel": "-S_gJa_rowLabel",
-			"searchWrap": "-S_gJa_searchWrap",
-			"recording": "-S_gJa_recording",
-			"menuItemDanger": "-S_gJa_menuItemDanger",
-			"filterButton": "-S_gJa_filterButton",
-			"headerTitle": "-S_gJa_headerTitle",
+			"moreButton": "-S_gJa_moreButton",
 			"rowDisabled": "-S_gJa_rowDisabled",
 			"keys": "-S_gJa_keys",
-			"header": "-S_gJa_header",
+			"rowSwitch": "-S_gJa_rowSwitch",
+			"rowLabel": "-S_gJa_rowLabel",
+			"menuPop": "-S_gJa_menuPop",
+			"menuItemDanger": "-S_gJa_menuItemDanger",
+			"menuItem": "-S_gJa_menuItem",
+			"menuSep": "-S_gJa_menuSep",
+			"recording": "-S_gJa_recording",
+			"listGroup": "-S_gJa_listGroup",
+			"filterButton": "-S_gJa_filterButton",
 			"emptyState": "-S_gJa_emptyState",
-			"moreButton": "-S_gJa_moreButton",
-			"bound": "-S_gJa_bound",
+			"rowShortcut": "-S_gJa_rowShortcut",
+			"headerTitle": "-S_gJa_headerTitle",
+			"undo": "-S_gJa_undo",
+			"groupLabel": "-S_gJa_groupLabel",
 			"menuItemActive": "-S_gJa_menuItemActive",
-			"searchIcon": "-S_gJa_searchIcon"
+			"row": "-S_gJa_row",
+			"groupBlock": "-S_gJa_groupBlock",
+			"searchWrap": "-S_gJa_searchWrap",
+			"searchIcon": "-S_gJa_searchIcon",
+			"searchInput": "-S_gJa_searchInput",
+			"header": "-S_gJa_header",
+			"kbd": "-S_gJa_kbd",
+			"bound": "-S_gJa_bound",
+			"unbound": "-S_gJa_unbound",
+			"desktopTag": "-S_gJa_desktopTag",
+			"headerControls": "-S_gJa_headerControls"
 		};
 		//#endregion
 		//#region lib/types/client/ShortcutSection.js
@@ -14681,43 +14567,43 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SelectionAssistantSection_module_css_default = {
-			"outlineBtn": "_2Suf7W_outlineBtn",
-			"formTextarea": "_2Suf7W_formTextarea",
-			"opBtnDanger": "_2Suf7W_opBtnDanger",
-			"toolbarItem": "_2Suf7W_toolbarItem",
-			"modalFooter": "_2Suf7W_modalFooter",
-			"notice": "_2Suf7W_notice",
-			"radioRow": "_2Suf7W_radioRow",
-			"actionRowDragging": "_2Suf7W_actionRowDragging",
-			"actionRow": "_2Suf7W_actionRow",
-			"ghostBtn": "_2Suf7W_ghostBtn",
-			"engineChip": "_2Suf7W_engineChip",
-			"modalOverlay": "_2Suf7W_modalOverlay",
-			"formField": "_2Suf7W_formField",
-			"enableBtnOn": "_2Suf7W_enableBtnOn",
-			"actionOps": "_2Suf7W_actionOps",
-			"actionsHeaderBtns": "_2Suf7W_actionsHeaderBtns",
 			"toolbarPreview": "_2Suf7W_toolbarPreview",
-			"opBtn": "_2Suf7W_opBtn",
+			"opBtnDanger": "_2Suf7W_opBtnDanger",
+			"modalCard": "_2Suf7W_modalCard",
+			"ghostBtn": "_2Suf7W_ghostBtn",
+			"actionRow": "_2Suf7W_actionRow",
+			"btn": "_2Suf7W_btn",
+			"actionIcon": "_2Suf7W_actionIcon",
 			"actionsDivider": "_2Suf7W_actionsDivider",
+			"engineChip": "_2Suf7W_engineChip",
+			"formInput": "_2Suf7W_formInput",
+			"modalFooter": "_2Suf7W_modalFooter",
 			"groupTitle": "_2Suf7W_groupTitle",
 			"opacityRow": "_2Suf7W_opacityRow",
-			"dragHandle": "_2Suf7W_dragHandle",
-			"enableBtn": "_2Suf7W_enableBtn",
-			"radioItem": "_2Suf7W_radioItem",
-			"actionName": "_2Suf7W_actionName",
-			"formInput": "_2Suf7W_formInput",
-			"opacitySlider": "_2Suf7W_opacitySlider",
-			"faqLink": "_2Suf7W_faqLink",
-			"btn": "_2Suf7W_btn",
-			"actionRowDisabled": "_2Suf7W_actionRowDisabled",
-			"modalCard": "_2Suf7W_modalCard",
-			"formHint": "_2Suf7W_formHint",
 			"toolbarIcon": "_2Suf7W_toolbarIcon",
+			"opBtn": "_2Suf7W_opBtn",
+			"actionRowDisabled": "_2Suf7W_actionRowDisabled",
+			"actionRowDragging": "_2Suf7W_actionRowDragging",
+			"outlineBtn": "_2Suf7W_outlineBtn",
+			"notice": "_2Suf7W_notice",
+			"modalOverlay": "_2Suf7W_modalOverlay",
+			"dragHandle": "_2Suf7W_dragHandle",
+			"toolbarItem": "_2Suf7W_toolbarItem",
+			"actionOps": "_2Suf7W_actionOps",
+			"radioItem": "_2Suf7W_radioItem",
+			"enableBtn": "_2Suf7W_enableBtn",
+			"radioRow": "_2Suf7W_radioRow",
+			"formTextarea": "_2Suf7W_formTextarea",
 			"btnPrimary": "_2Suf7W_btnPrimary",
-			"actionIcon": "_2Suf7W_actionIcon",
+			"opacitySlider": "_2Suf7W_opacitySlider",
+			"noticeText": "_2Suf7W_noticeText",
+			"actionsHeaderBtns": "_2Suf7W_actionsHeaderBtns",
+			"enableBtnOn": "_2Suf7W_enableBtnOn",
 			"groupHeaderRow": "_2Suf7W_groupHeaderRow",
-			"noticeText": "_2Suf7W_noticeText"
+			"actionName": "_2Suf7W_actionName",
+			"formHint": "_2Suf7W_formHint",
+			"formField": "_2Suf7W_formField",
+			"faqLink": "_2Suf7W_faqLink"
 		};
 		//#endregion
 		//#region lib/types/client/SelectionAssistantSection.js
@@ -15411,19 +15297,19 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var QuickAssistantSection_module_css_default = {
+			"modelHint": "AweFxa_modelHint",
 			"notice": "AweFxa_notice",
 			"segItem": "AweFxa_segItem",
-			"modelHint": "AweFxa_modelHint",
-			"segItemActive": "AweFxa_segItemActive",
-			"modelRow": "AweFxa_modelRow",
-			"previewPlaceholder": "AweFxa_previewPlaceholder",
-			"previewWindow": "AweFxa_previewWindow",
-			"previewChip": "AweFxa_previewChip",
-			"groupTitle": "AweFxa_groupTitle",
-			"previewLogo": "AweFxa_previewLogo",
-			"previewFooter": "AweFxa_previewFooter",
+			"previewBar": "AweFxa_previewBar",
 			"segmented": "AweFxa_segmented",
-			"previewBar": "AweFxa_previewBar"
+			"groupTitle": "AweFxa_groupTitle",
+			"segItemActive": "AweFxa_segItemActive",
+			"previewWindow": "AweFxa_previewWindow",
+			"modelRow": "AweFxa_modelRow",
+			"previewLogo": "AweFxa_previewLogo",
+			"previewPlaceholder": "AweFxa_previewPlaceholder",
+			"previewFooter": "AweFxa_previewFooter",
+			"previewChip": "AweFxa_previewChip"
 		};
 		//#endregion
 		//#region lib/types/client/QuickAssistantSection.js
@@ -15582,15 +15468,15 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ScreenshotSection_module_css_default = {
-			"notice": "RXXS4a_notice",
-			"shortcutDesc": "RXXS4a_shortcutDesc",
+			"ocrStatus": "RXXS4a_ocrStatus",
+			"shortcutRight": "RXXS4a_shortcutRight",
+			"linkBtn": "RXXS4a_linkBtn",
+			"groupTitle": "RXXS4a_groupTitle",
 			"shortcutBadge": "RXXS4a_shortcutBadge",
 			"shortcutTitle": "RXXS4a_shortcutTitle",
-			"shortcutRight": "RXXS4a_shortcutRight",
-			"groupTitle": "RXXS4a_groupTitle",
 			"shortcutLabel": "RXXS4a_shortcutLabel",
-			"ocrStatus": "RXXS4a_ocrStatus",
-			"linkBtn": "RXXS4a_linkBtn"
+			"shortcutDesc": "RXXS4a_shortcutDesc",
+			"notice": "RXXS4a_notice"
 		};
 		//#endregion
 		//#region lib/types/client/ScreenshotSection.js
@@ -15732,46 +15618,46 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ChannelsSection_module_css_default = {
-			"detailBody": "bV1JOa_detailBody",
+			"instanceMain": "bV1JOa_instanceMain",
 			"formHint": "bV1JOa_formHint",
 			"submenu": "bV1JOa_submenu",
-			"detailTitleBlock": "bV1JOa_detailTitleBlock",
-			"typeIcon": "bV1JOa_typeIcon",
 			"typeIconImg": "bV1JOa_typeIconImg",
-			"divider": "bV1JOa_divider",
-			"instanceRow": "bV1JOa_instanceRow",
-			"statusDot": "bV1JOa_statusDot",
-			"instanceOps": "bV1JOa_instanceOps",
 			"detailDesc": "bV1JOa_detailDesc",
-			"opBtn": "bV1JOa_opBtn",
-			"formInput": "bV1JOa_formInput",
-			"formSelect": "bV1JOa_formSelect",
-			"modalFooter": "bV1JOa_modalFooter",
-			"logsBody": "bV1JOa_logsBody",
-			"btnPrimary": "bV1JOa_btnPrimary",
-			"instanceName": "bV1JOa_instanceName",
-			"emptyState": "bV1JOa_emptyState",
-			"notice": "bV1JOa_notice",
-			"instanceMain": "bV1JOa_instanceMain",
-			"addBtn": "bV1JOa_addBtn",
-			"submenuList": "bV1JOa_submenuList",
-			"detail": "bV1JOa_detail",
-			"split": "bV1JOa_split",
-			"typeIconImgLarge": "bV1JOa_typeIconImgLarge",
-			"modalOverlay": "bV1JOa_modalOverlay",
-			"submenuItemActive": "bV1JOa_submenuItemActive",
-			"instanceSummary": "bV1JOa_instanceSummary",
-			"opBtnDanger": "bV1JOa_opBtnDanger",
-			"detailHeader": "bV1JOa_detailHeader",
-			"connectedBadge": "bV1JOa_connectedBadge",
-			"typeIconLarge": "bV1JOa_typeIconLarge",
-			"submenuItem": "bV1JOa_submenuItem",
 			"detailTitle": "bV1JOa_detailTitle",
-			"modalCard": "bV1JOa_modalCard",
-			"formField": "bV1JOa_formField",
+			"instanceRow": "bV1JOa_instanceRow",
+			"opBtnDanger": "bV1JOa_opBtnDanger",
+			"addBtn": "bV1JOa_addBtn",
+			"statusDot": "bV1JOa_statusDot",
+			"instanceSummary": "bV1JOa_instanceSummary",
+			"typeIconImgLarge": "bV1JOa_typeIconImgLarge",
+			"btnPrimary": "bV1JOa_btnPrimary",
+			"submenuItem": "bV1JOa_submenuItem",
+			"statusDotActive": "bV1JOa_statusDotActive",
+			"opBtn": "bV1JOa_opBtn",
+			"modalOverlay": "bV1JOa_modalOverlay",
+			"instanceOps": "bV1JOa_instanceOps",
+			"formInput": "bV1JOa_formInput",
+			"split": "bV1JOa_split",
+			"divider": "bV1JOa_divider",
+			"formSelect": "bV1JOa_formSelect",
+			"submenuList": "bV1JOa_submenuList",
+			"typeIcon": "bV1JOa_typeIcon",
+			"submenuItemActive": "bV1JOa_submenuItemActive",
+			"emptyState": "bV1JOa_emptyState",
 			"btn": "bV1JOa_btn",
-			"submenuTitle": "bV1JOa_submenuTitle",
-			"statusDotActive": "bV1JOa_statusDotActive"
+			"modalCard": "bV1JOa_modalCard",
+			"detailTitleBlock": "bV1JOa_detailTitleBlock",
+			"detailHeader": "bV1JOa_detailHeader",
+			"typeIconLarge": "bV1JOa_typeIconLarge",
+			"instanceName": "bV1JOa_instanceName",
+			"detailBody": "bV1JOa_detailBody",
+			"notice": "bV1JOa_notice",
+			"formField": "bV1JOa_formField",
+			"modalFooter": "bV1JOa_modalFooter",
+			"detail": "bV1JOa_detail",
+			"logsBody": "bV1JOa_logsBody",
+			"connectedBadge": "bV1JOa_connectedBadge",
+			"submenuTitle": "bV1JOa_submenuTitle"
 		};
 		//#endregion
 		//#region lib/types/client/ChannelsSection.js
@@ -16266,8 +16152,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsDocumentAction_module_css_default = {
-			"error": "SgSrUG_error",
-			"action": "SgSrUG_action"
+			"action": "SgSrUG_action",
+			"error": "SgSrUG_error"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsDocumentAction.js
@@ -16400,7 +16286,7 @@ window.__ModuleLoader__.load({
 			capabilitiesGroup: "Tools",
 			personalGroup: "Preferences",
 			nativeGroup: "DSH native",
-			otherGroup: "DSH native / Other",
+			otherGroup: "Other",
 			openDocument: "Open configuration file",
 			openDocumentError: "The configuration file could not be opened.",
 			workspaceTranslation: "Translation",
@@ -16428,13 +16314,13 @@ window.__ModuleLoader__.load({
 			localModelsNav: "Local Models",
 			apiGatewayNav: "API Gateway",
 			updateNav: "Update",
-			channelsNav: "频道",
+			channelsNav: "Channels",
 			appearanceNav: "Appearance",
 			notificationsNav: "Notifications",
 			shortcutsNav: "Shortcuts",
-			quickAssistantNav: "快捷助手",
-			selectionAssistantNav: "划词助手",
-			screenshotNav: "截图"
+			quickAssistantNav: "Quick Assistant",
+			selectionAssistantNav: "Selection Assistant",
+			screenshotNav: "Screenshot"
 		};
 		const zh$1 = {
 			trigger: "设置",
@@ -16446,7 +16332,7 @@ window.__ModuleLoader__.load({
 			capabilitiesGroup: "工具",
 			personalGroup: "偏好",
 			nativeGroup: "DSH 原生",
-			otherGroup: "DSH 原生／其他",
+			otherGroup: "其他",
 			openDocument: "打开配置文件",
 			openDocumentError: "暂时无法打开配置文件。",
 			workspaceTranslation: "翻译",
@@ -16470,7 +16356,7 @@ window.__ModuleLoader__.load({
 			dependenciesNav: "环境依赖",
 			aboutNav: "关于我们",
 			automationGroup: "效率",
-			tasksNav: "计划任务",
+			tasksNav: "定时任务",
 			localModelsNav: "本地模型",
 			apiGatewayNav: "API 网关",
 			updateNav: "更新",
@@ -16540,35 +16426,35 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelsSection_module_css_default = {
+			"rowName": "tKsOKa_rowName",
+			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
+			"notice": "tKsOKa_notice",
 			"section": "tKsOKa_section",
-			"error": "tKsOKa_error",
-			"rowCard": "tKsOKa_rowCard",
 			"field": "tKsOKa_field",
-			"rowIdentity": "tKsOKa_rowIdentity",
 			"rowHead": "tKsOKa_rowHead",
-			"setupCard": "tKsOKa_setupCard",
+			"addActions": "tKsOKa_addActions",
+			"selectInput": "tKsOKa_selectInput",
+			"secondaryButton": "tKsOKa_secondaryButton",
+			"title": "tKsOKa_title",
+			"rowTag": "tKsOKa_rowTag",
+			"rowActions": "tKsOKa_rowActions",
+			"fieldLabel": "tKsOKa_fieldLabel",
+			"credentialDot": "tKsOKa_credentialDot",
+			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"deleteConfirm": "tKsOKa_deleteConfirm",
+			"savedNotice": "tKsOKa_savedNotice",
+			"dangerButton": "tKsOKa_dangerButton",
+			"intro": "tKsOKa_intro",
 			"addBlock": "tKsOKa_addBlock",
 			"deleteDialog": "tKsOKa_deleteDialog",
-			"addActions": "tKsOKa_addActions",
 			"addCard": "tKsOKa_addCard",
-			"rowActions": "tKsOKa_rowActions",
-			"rowName": "tKsOKa_rowName",
-			"selectInput": "tKsOKa_selectInput",
-			"rowTag": "tKsOKa_rowTag",
-			"intro": "tKsOKa_intro",
-			"notice": "tKsOKa_notice",
-			"savedNotice": "tKsOKa_savedNotice",
-			"fieldLabel": "tKsOKa_fieldLabel",
-			"secondaryButton": "tKsOKa_secondaryButton",
-			"deleteConfirm": "tKsOKa_deleteConfirm",
-			"credentialDot": "tKsOKa_credentialDot",
-			"rows": "tKsOKa_rows",
-			"dangerButton": "tKsOKa_dangerButton",
-			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
-			"credentialDotMissing": "tKsOKa_credentialDotMissing",
-			"title": "tKsOKa_title",
+			"addButton": "tKsOKa_addButton",
+			"setupCard": "tKsOKa_setupCard",
 			"input": "tKsOKa_input",
-			"addButton": "tKsOKa_addButton"
+			"rows": "tKsOKa_rows",
+			"rowIdentity": "tKsOKa_rowIdentity",
+			"rowCard": "tKsOKa_rowCard",
+			"error": "tKsOKa_error"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -19711,9 +19597,9 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var OnboardingModal_module_css_default = {
+			"body": "C_CJ_a_body",
 			"dialog": "C_CJ_a_dialog",
 			"title": "C_CJ_a_title",
-			"body": "C_CJ_a_body",
 			"content": "C_CJ_a_content"
 		};
 		//#endregion
@@ -19773,8 +19659,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var DeepSeekOnboardingDialog_module_css_default = {
-			"editor": "oxcHWa_editor",
-			"description": "oxcHWa_description"
+			"description": "oxcHWa_description",
+			"editor": "oxcHWa_editor"
 		};
 		//#endregion
 		//#region lib/types/client/DeepSeekOnboardingDialog.js
@@ -19865,9 +19751,9 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WelcomeNotice_module_css_default = {
+			"actions": "RFswhG_actions",
 			"copy": "RFswhG_copy",
 			"error": "RFswhG_error",
-			"actions": "RFswhG_actions",
 			"primary": "RFswhG_primary"
 		};
 		//#endregion
@@ -20372,13 +20258,13 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProductWorkspaceSurface_module_css_default = {
-			"icon": "mzcFbW_icon",
-			"header": "mzcFbW_header",
 			"eyebrow": "mzcFbW_eyebrow",
-			"body": "mzcFbW_body",
-			"close": "mzcFbW_close",
+			"icon": "mzcFbW_icon",
 			"root": "mzcFbW_root",
-			"identity": "mzcFbW_identity"
+			"identity": "mzcFbW_identity",
+			"close": "mzcFbW_close",
+			"body": "mzcFbW_body",
+			"header": "mzcFbW_header"
 		};
 		//#endregion
 		//#region lib/types/client/ProductWorkspaceSurface.js
@@ -21973,14 +21859,14 @@ window.__ModuleLoader__.load({
 		const KNOWN_NATIVE = /* @__PURE__ */ new Set([
 			"general",
 			"agent-presets",
-			"control-center-plugins"
+			"plugins"
 		]);
 		/** Cherry settings group mapping: models are core, capabilities/personal get
 		* their own groups, DSH-owned sections stay native. */
 		function groupOf(id) {
 			if (id === "models" || id === "providers" || id === "local-models" || id === "api-gateway") return "core";
 			if (id === "general") return "personal";
-			if (id === "skills" || id === "control-center-plugins" || id === "mcp" || id === "websearch" || id === "file-processing" || id === "ocr") return "capabilities";
+			if (id === "skills" || id === "mcp" || id === "websearch" || id === "file-processing" || id === "ocr") return "capabilities";
 			if (id === "usage" || id === "data" || id === "appearance" || id === "notifications") return "personal";
 			if (id === "about" || id === "dependencies") return "system";
 			if (id === "tasks" || id === "shortcuts" || id === "quick-assistant" || id === "selection-assistant" || id === "screenshot" || id === "channels") return "automation";
@@ -22229,7 +22115,7 @@ window.__ModuleLoader__.load({
 									order: entry.options.order ?? 0,
 									label: (0, _deepseek_ai_dsh_client_ui_slots.resolveSlotLabel)(entry.options.label) ?? "",
 									group: groupOf(entry.options.id ?? "")
-								})).sort((left, right) => left.order - right.order);
+								})).sort((left, right) => left.order - right.order).filter((row, index, all) => all.findIndex((seen) => seen.id === row.id) === index);
 							}
 							return rows;
 						},
@@ -22463,55 +22349,42 @@ window.__ModuleLoader__.load({
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "models",
-				order: 10,
+				order: 2,
 				label: () => modelT("nav"),
 				inject: modelsInjected
 			}, ModelsSection));
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
-				id: "control-center-plugins",
-				order: 15,
-				label: () => "插件",
-				inject: () => ({
-					getSystem: () => {
-						if (system === void 0) throw new Error("system Remote namespace is not mounted");
-						return system;
-					},
-					hooks: { systemReady: systemReadySource }
-				})
-			}, PluginsSection));
-			ctx.slots.inject("settings.section", () => ctx.slots.register({
-				name: "settings.section",
 				id: "skills",
-				order: 20,
+				order: 11,
 				label: () => shellT("skillsNav"),
 				inject: skillsInjected
 			}, SkillsSection));
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "providers",
-				order: 5,
+				order: 1,
 				label: () => shellT("providersNav"),
 				inject: providersInjected
 			}, ProvidersSection));
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "mcp",
-				order: 40,
+				order: 10,
 				label: () => "MCP",
 				inject: mcpInjected
 			}, McpSection));
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "websearch",
-				order: 50,
+				order: 12,
 				label: () => shellT("webSearchNav"),
 				inject: websearchInjected
 			}, WebSearchSection));
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "file-processing",
-				order: 55,
+				order: 13,
 				label: () => shellT("fileProcessingNav"),
 				inject: () => ({
 					feature: "document_to_markdown",
@@ -22523,7 +22396,7 @@ window.__ModuleLoader__.load({
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "ocr",
-				order: 60,
+				order: 14,
 				label: () => shellT("ocrNav"),
 				inject: () => ({
 					feature: "image_to_text",
@@ -22535,7 +22408,7 @@ window.__ModuleLoader__.load({
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "usage",
-				order: 70,
+				order: 24,
 				label: () => shellT("usageNav"),
 				inject: () => ({
 					getUsage: () => {
@@ -22548,7 +22421,7 @@ window.__ModuleLoader__.load({
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "data",
-				order: 80,
+				order: 23,
 				label: () => shellT("dataNav"),
 				inject: () => ({
 					getData: () => {
@@ -22561,7 +22434,7 @@ window.__ModuleLoader__.load({
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "appearance",
-				order: 85,
+				order: 21,
 				label: () => shellT("appearanceNav"),
 				inject: () => ({
 					api: connection.api,
@@ -22571,14 +22444,14 @@ window.__ModuleLoader__.load({
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "notifications",
-				order: 86,
+				order: 22,
 				label: () => shellT("notificationsNav"),
 				inject: () => ({ api: connection.api })
 			}, NotificationSection));
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "dependencies",
-				order: 90,
+				order: 40,
 				label: () => shellT("dependenciesNav"),
 				inject: () => ({
 					getSystem: () => {
@@ -22591,7 +22464,7 @@ window.__ModuleLoader__.load({
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "about",
-				order: 100,
+				order: 41,
 				label: () => shellT("aboutNav"),
 				inject: () => ({
 					getSystem: () => {
@@ -22604,7 +22477,7 @@ window.__ModuleLoader__.load({
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "tasks",
-				order: 200,
+				order: 31,
 				label: () => shellT("tasksNav"),
 				inject: () => ({
 					getTasks: () => {
@@ -22617,7 +22490,7 @@ window.__ModuleLoader__.load({
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "local-models",
-				order: 105,
+				order: 3,
 				label: () => shellT("localModelsNav"),
 				inject: () => ({
 					getLocalModels: () => {
@@ -22630,13 +22503,13 @@ window.__ModuleLoader__.load({
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "api-gateway",
-				order: 12,
+				order: 4,
 				label: () => shellT("apiGatewayNav")
 			}, ApiGatewaySection));
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "update",
-				order: 110,
+				order: 42,
 				label: () => shellT("updateNav"),
 				inject: () => ({
 					getUpdate: () => {
@@ -22649,31 +22522,31 @@ window.__ModuleLoader__.load({
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "shortcuts",
-				order: 220,
+				order: 32,
 				label: () => shellT("shortcutsNav")
 			}, ShortcutSection));
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "selection-assistant",
-				order: 240,
+				order: 34,
 				label: () => shellT("selectionAssistantNav")
 			}, SelectionAssistantSection));
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "quick-assistant",
-				order: 230,
+				order: 33,
 				label: () => shellT("quickAssistantNav")
 			}, QuickAssistantSection));
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "screenshot",
-				order: 250,
+				order: 35,
 				label: () => shellT("screenshotNav")
 			}, ScreenshotSection));
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "channels",
-				order: 210,
+				order: 30,
 				label: () => shellT("channelsNav")
 			}, ChannelsSection));
 			for (const entry of []) {

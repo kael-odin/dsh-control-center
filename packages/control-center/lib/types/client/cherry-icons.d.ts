@@ -82,4 +82,10 @@ export declare const IconInfo: (props: CherryIconProps) => import("react").JSX.E
 export declare const IconDataDrive: (props: CherryIconProps) => import("react").JSX.Element;
 /** Gear (settings) glyph. */
 export declare const IconSettings2: (props: CherryIconProps) => import("react").JSX.Element;
+/** Picture-in-picture (quick-assistant window) glyph; lucide picture-in-picture-2. */
+export declare const IconPictureInPicture2: (props: CherryIconProps) => import("react").JSX.Element;
+/** Text-cursor-with-input glyph; lucide text-cursor-input. */
+export declare const IconTextCursorInput: (props: CherryIconProps) => import("react").JSX.Element;
+/** Broadcast-tower glyph for the unified API gateway; Font Awesome solid. */
+export declare const IconGateway: (props: CherryIconProps) => import("react").JSX.Element;
 //# sourceMappingURL=cherry-icons.d.ts.map
