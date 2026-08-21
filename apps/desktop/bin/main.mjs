@@ -175,6 +175,10 @@ function startNativeService() {
             hotkeyRegistered,
           })
         }
+        if (req.method === 'POST' && url.pathname === '/dsh-native/fonts') {
+          const fonts = await discoverSystemFonts()
+          return send(200, { ok: true, fonts })
+        }
         if (req.method === 'POST' && url.pathname === '/dsh-native/fileDialog') {
           const raw = await readBody(req)
           const opts = raw && raw.properties ? { properties: raw.properties } : { properties: ['openFile'] }
@@ -209,6 +213,14 @@ function startNativeService() {
       resolveReady({ url: `http://127.0.0.1:${port}`, token })
     })
   })
+}
+
+function discoverSystemFonts() {
+  // Electron's renderer has no privileged font enumeration API. Use the host
+  // process' optional `font-list` dependency when the desktop package is run
+  // from a DSH checkout; otherwise report an honest empty capability result.
+  return import('font-list').then(module => module.default.getFonts()).then(fonts => [...new Set(fonts)].sort((a, b) => a.localeCompare(b)))
+    .catch(() => [])
 }
 
 /** Read and JSON-parse a small request body (best effort). */

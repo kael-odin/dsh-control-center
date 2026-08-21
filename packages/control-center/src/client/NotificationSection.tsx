@@ -1,15 +1,20 @@
 /**
- * Notification settings — Cherry NotificationSettings parity: four switches
- * persisted as local preference rows. Web edition has no system notification
- * pipeline, so the rows are honest preference records for the desktop build.
+ * Notification settings adapted from Cherry NotificationSettings. Preferences
+ * are stored in an authoritative DSH settings namespace rather than browser
+ * storage so they follow the installed plugin across clients.
  */
-import { useEffect, useState, type CSSProperties } from 'react'
-import css from './SettingsPages.module.css'
+import { useEffect, useRef, useState } from 'react'
+import type { IApiClient } from '@deepseek-ai/dsh-client-connection/client'
+import type { InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import { HelpTooltip } from './panel-ui.tsx'
-import { SettingDivider, SettingGroup, SettingsPageShell, SettingSwitch, SettingTitle, SettingRow, SettingRowTitle } from './SettingsPages.tsx'
-import { hasNativeBridge, desktopNativeApi } from './desktop-capabilities.ts'
+import { NOTIFICATION_SETTINGS_NAMESPACE } from './notification-runtime.ts'
+import {
+  SettingDivider, SettingGroup, SettingsPageShell, SettingSwitch, SettingTitle,
+} from './SettingsPages.tsx'
 
-const NOTIFICATION_KEY = 'cc.settings.notification'
+const NOTIFICATION_NS = NOTIFICATION_SETTINGS_NAMESPACE
+
+type NotificationKey = 'assistant' | 'backup' | 'knowledge' | 'update'
 
 interface NotificationPrefs {
   assistant: boolean
@@ -18,52 +23,107 @@ interface NotificationPrefs {
   update: boolean
 }
 
-function loadPrefs(): NotificationPrefs {
-  try {
-    const raw = localStorage.getItem(NOTIFICATION_KEY)
-    if (raw === null) return { assistant: false, backup: false, knowledge: false, update: false }
-    const parsed = JSON.parse(raw) as Partial<NotificationPrefs>
-    return {
-      assistant: parsed.assistant ?? false,
-      backup: parsed.backup ?? false,
-      knowledge: parsed.knowledge ?? false,
-      update: parsed.update ?? false,
-    }
-  } catch {
-    return { assistant: false, backup: false, knowledge: false, update: false }
+const DEFAULT_PREFS: NotificationPrefs = {
+  assistant: false,
+  backup: false,
+  knowledge: false,
+  update: false,
+}
+
+export interface NotificationSectionInjected {
+  api: IApiClient
+}
+
+export type NotificationSectionProps = PropsRuntime<'settings.section'> & InjectFace<NotificationSectionInjected>
+
+function notificationPrefs(value: unknown): NotificationPrefs {
+  const record = typeof value === 'object' && value !== null ? value as Partial<NotificationPrefs> : {}
+  return {
+    assistant: record.assistant === true,
+    backup: record.backup === true,
+    knowledge: record.knowledge === true,
+    update: record.update === true,
   }
 }
 
-const btnStyle: CSSProperties = {
-  padding: '4px 12px', borderRadius: '6px', border: '1px solid var(--border)',
-  background: 'var(--background-subtle)', color: 'var(--foreground)',
-  fontSize: '13px', cursor: 'pointer',
-}
-
-export function NotificationSection() {
-  const [prefs, setPrefs] = useState<NotificationPrefs>(loadPrefs)
-  const [testNotice, setTestNotice] = useState<string>('')
-  const bridgeUp = hasNativeBridge()
+export function NotificationSection({ api }: NotificationSectionProps) {
+  const [prefs, setPrefs] = useState<NotificationPrefs>(DEFAULT_PREFS)
+  const [revision, setRevision] = useState<number | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const prefsRef = useRef(prefs)
+  const revisionRef = useRef(revision)
+  const writeQueueRef = useRef(Promise.resolve())
+  const pendingWritesRef = useRef(0)
 
   useEffect(() => {
-    try { localStorage.setItem(NOTIFICATION_KEY, JSON.stringify(prefs)) } catch { /* best effort */ }
+    prefsRef.current = prefs
   }, [prefs])
 
-  const set = (key: keyof NotificationPrefs) => (next: boolean): void => {
-    setPrefs(current => ({ ...current, [key]: next }))
-  }
+  useEffect(() => {
+    revisionRef.current = revision
+  }, [revision])
 
-  const sendTestNotice = (): void => {
-    setTestNotice('发送中…')
-    void desktopNativeApi.notify('DSH Control Center', '系统通知测试成功（桌面桥）。')
-      .then(result => {
-        setTestNotice(result.ok
-          ? (result.supported === false
-            ? '已发送：但当前系统不支持系统通知'
-            : '已发送 ✅')
-          : `发送失败：${result.error ?? '未知错误'}`)
+  useEffect(() => {
+    let active = true
+    setLoading(true)
+    void api.settings.describe({}).then(response => {
+      if (!active) return
+      if (!response.result.ok) {
+        setError('通知偏好加载失败，请重试。')
+        setLoading(false)
+        return
+      }
+      const namespace = response.result.value.namespaces.find(view => view.ns === NOTIFICATION_NS)
+      if (namespace === undefined) {
+        setError('通知偏好不可用，请重试。')
+        setLoading(false)
+        return
+      }
+      const nextPrefs = notificationPrefs(namespace.value)
+      prefsRef.current = nextPrefs
+      revisionRef.current = namespace.revision
+      setPrefs(nextPrefs)
+      setRevision(namespace.revision)
+      setError('')
+      setLoading(false)
+    }).catch(() => {
+      if (!active) return
+      setError('通知偏好加载失败，请重试。')
+      setLoading(false)
+    })
+    return () => { active = false }
+  }, [api])
+
+  const set = (key: NotificationKey) => (next: boolean): void => {
+    const previous = prefsRef.current[key]
+    prefsRef.current = { ...prefsRef.current, [key]: next }
+    setPrefs(prefsRef.current)
+    setError('')
+    pendingWritesRef.current += 1
+    setLoading(true)
+    writeQueueRef.current = writeQueueRef.current.then(async () => {
+      const response = await api.settings.mutate({
+        ns: NOTIFICATION_NS,
+        ops: [{ op: 'set', path: [key], value: next }],
+        expectedRevision: revisionRef.current!,
       })
-      .catch(err => { setTestNotice(`发送失败：${String((err as Error)?.message ?? err)}`) })
+      if (!response.result.ok) {
+        prefsRef.current = { ...prefsRef.current, [key]: previous }
+        setPrefs(prefsRef.current)
+        setError(response.result.error.message)
+        return
+      }
+      revisionRef.current = response.result.value.revision
+      setRevision(response.result.value.revision)
+    }).catch(() => {
+      prefsRef.current = { ...prefsRef.current, [key]: previous }
+      setPrefs(prefsRef.current)
+      setError('通知偏好保存失败，请重试。')
+    }).finally(() => {
+      pendingWritesRef.current -= 1
+      if (pendingWritesRef.current === 0) setLoading(false)
+    })
   }
 
   return (
@@ -75,31 +135,16 @@ export function NotificationSection() {
           label={<><span>对话完成通知</span><HelpTooltip text="仅控制后台系统通知，应用内通知始终开启。" /></>}
           checked={prefs.assistant}
           onChange={set('assistant')}
+          disabled={loading}
         />
         <SettingDivider />
-        <SettingSwitch label="备份" checked={prefs.backup} onChange={set('backup')} />
+        <SettingSwitch label="备份" checked={prefs.backup} onChange={set('backup')} disabled={loading} />
         <SettingDivider />
-        <SettingSwitch label="知识库" checked={prefs.knowledge} onChange={set('knowledge')} />
+        <SettingSwitch label="知识库" checked={prefs.knowledge} onChange={set('knowledge')} disabled={loading} />
         <SettingDivider />
-        <SettingSwitch label="应用更新" checked={prefs.update} onChange={set('update')} />
-        {bridgeUp && (
-          <>
-            <SettingDivider />
-            <SettingRow>
-              <SettingRowTitle>桌面通知测试</SettingRowTitle>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <button type="button" style={btnStyle} onClick={sendTestNotice}>
-                  发送测试通知
-                </button>
-                {testNotice !== '' && <span className="cc-notice" style={{ fontSize: 12, color: 'var(--foreground-tertiary)' }}>{testNotice}</span>}
-              </div>
-            </SettingRow>
-          </>
-        )}
+        <SettingSwitch label="应用更新" checked={prefs.update} onChange={set('update')} disabled={loading} />
       </SettingGroup>
-      <div className={css.noticeText}>
-        {bridgeUp ? '桌面桥已连接：开启的开关将通过系统通知管道发送。' : 'Web 版暂无系统通知管道；以上偏好将随桌面版直接生效。'}
-      </div>
+      {error === '' ? null : <p role="alert" className="cc-error">{error}</p>}
     </SettingsPageShell>
   )
 }

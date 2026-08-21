@@ -4,11 +4,12 @@
  * custom CSS. Desktop-only rows (zoom/context menu/transparent window) are
  * noted honestly.
  */
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import type { IApiClient } from '@deepseek-ai/dsh-client-connection/client'
+import type { LocaleRuntime, LocaleSnapshot } from '@deepseek-ai/dsh-client-locale/client'
 import {
-  applyThemeOverrides, loadThemeOverrides, saveThemeOverrides, THEME_COLOR_PRESETS, type ThemeOverrides,
+  applyThemeOverrides, hasLegacyThemeOverrides, loadThemeOverrides, markThemeOverridesMigrated, THEME_COLOR_PRESETS, APPEARANCE_SETTINGS_NAMESPACE, type ThemeOverrides,
 } from './theme-overrides.ts'
 import { isDesktopEnv, hasNativeBridge, desktopNativeApi } from './desktop-capabilities.ts'
 import { HelpTooltip } from './panel-ui.tsx'
@@ -19,6 +20,7 @@ import css from './AppearanceSection.module.css'
 
 export interface AppearanceSectionInjected {
   api: IApiClient
+  locale?: LocaleRuntime
 }
 
 export type AppearanceSectionProps = PropsRuntime<'settings.section'> & InjectFace<AppearanceSectionInjected>
@@ -94,8 +96,10 @@ function ThemePreview({ mode, active }: { mode: ThemeMode; active: boolean }) {
   )
 }
 
-export function AppearanceSection({ api }: AppearanceSectionProps) {
+export function AppearanceSection({ api, locale }: AppearanceSectionProps) {
   const [overrides, setOverrides] = useState<ThemeOverrides>(loadThemeOverrides)
+  const fallbackLocale: LocaleSnapshot = { active: 'zh', locales: [{ id: 'zh', label: '中文' }], revision: 0 }
+  const [localeSnapshot, setLocaleSnapshot] = useState<LocaleSnapshot>(() => locale?.getSnapshot() ?? fallbackLocale)
   const [themeMode, setThemeMode] = useState<ThemeMode>('system')
   const [hexDraft, setHexDraft] = useState(overrides.colorPrimary)
   const [fontDraft, setFontDraft] = useState(overrides.fontFamily)
@@ -103,10 +107,37 @@ export function AppearanceSection({ api }: AppearanceSectionProps) {
   const [cssDraft, setCssDraft] = useState(overrides.customCss)
   // Real native-bridge status text (Electron version) shown by desktop-only rows
   // once the renderer can actually reach the Electron main service.
+  const [fontOptions, setFontOptions] = useState(FONT_OPTIONS)
+  const [fontLoading, setFontLoading] = useState(false)
   const [bridgeText, setBridgeText] = useState('')
+  const [appearanceReady, setAppearanceReady] = useState(false)
+  const [appearanceSaving, setAppearanceSaving] = useState(false)
+  const [appearanceError, setAppearanceError] = useState('')
+  const overridesRef = useRef(overrides)
+  const revisionRef = useRef<number | null>(null)
+  const writeQueueRef = useRef(Promise.resolve())
+
+  useEffect(() => {
+    if (locale === undefined) return
+    const unsubscribe = locale.subscribe(() => { setLocaleSnapshot(locale.getSnapshot()) })
+    return unsubscribe
+  }, [locale])
 
   // Probe the native bridge when it's up; this also keeps desktopNativeApi wired
   // into the bundle so the capability is genuinely exercised (not dead code).
+  useEffect(() => {
+    if (!hasNativeBridge()) return
+    let active = true
+    setFontLoading(true)
+    void desktopNativeApi.fonts().then(result => {
+      if (!active) return
+      if (result.ok && result.fonts !== undefined && result.fonts.length > 0) {
+        setFontOptions([{ label: '默认', value: '' }, ...result.fonts.map(font => ({ label: font, value: font }))])
+      }
+    }).finally(() => { if (active) setFontLoading(false) })
+    return () => { active = false }
+  }, [])
+
   useEffect(() => {
     if (!hasNativeBridge()) return
     let active = true
@@ -117,28 +148,111 @@ export function AppearanceSection({ api }: AppearanceSectionProps) {
     return () => { active = false }
   }, [])
 
-  // Read the current theme preference once (best effort; revision-gated).
+  // Read the current theme mode from the DSH theme namespace.
   useEffect(() => {
     let active = true
     void api.settings.describe({}).then(response => {
       if (!active || !response.result.ok) return
-      const namespaces = response.result.value.namespaces
-      const themeNs = namespaces.find(ns => ns.ns === THEME_NS)
-      if (themeNs === undefined) return
-      const preference = (themeNs.value as { preference?: string } | undefined)?.preference
-      if (preference === 'light' || preference === 'dark' || preference === 'system') {
-        setThemeMode(preference)
-      }
+      const themeNs = response.result.value.namespaces.find(ns => ns.ns === THEME_NS)
+      const preference = (themeNs?.value as { preference?: string } | undefined)?.preference
+      if (preference === 'light' || preference === 'dark' || preference === 'system') setThemeMode(preference)
     }).catch(() => {})
     return () => { active = false }
   }, [api])
 
+  useEffect(() => {
+    overridesRef.current = overrides
+  }, [overrides])
+
+  // Load the authoritative DSH appearance namespace. Legacy browser values are
+  // migrated only when the namespace is still at its schema defaults.
+  useEffect(() => {
+    let active = true
+    void api.settings.describe({}).then(response => {
+      if (!active) return
+      if (!response.result.ok) {
+        setAppearanceError('外观设置加载失败，请重试。')
+        return
+      }
+      const namespace = response.result.value.namespaces.find(view => view.ns === APPEARANCE_SETTINGS_NAMESPACE)
+      if (namespace === undefined) {
+        setAppearanceError('外观设置不可用，请重试。')
+        return
+      }
+      const stored = namespace.value as Partial<ThemeOverrides>
+      const hasStoredValues = typeof stored.colorPrimary === 'string' && stored.colorPrimary !== '#00b96b'
+        || stored.fontFamily !== '' || stored.codeFontFamily !== '' || stored.customCss !== ''
+      const legacy = loadThemeOverrides()
+      const next = !hasStoredValues && hasLegacyThemeOverrides() ? legacy : {
+        colorPrimary: typeof stored.colorPrimary === 'string' ? stored.colorPrimary : '#00b96b',
+        fontFamily: typeof stored.fontFamily === 'string' ? stored.fontFamily : '',
+        codeFontFamily: typeof stored.codeFontFamily === 'string' ? stored.codeFontFamily : '',
+        customCss: typeof stored.customCss === 'string' ? stored.customCss : '',
+      }
+      overridesRef.current = next
+      revisionRef.current = namespace.revision
+      setOverrides(next)
+      setHexDraft(next.colorPrimary)
+      setFontDraft(next.fontFamily)
+      setCodeFontDraft(next.codeFontFamily)
+      setCssDraft(next.customCss)
+      applyThemeOverrides(next)
+      setAppearanceReady(true)
+      setAppearanceError('')
+      if (!hasStoredValues && hasLegacyThemeOverrides()) {
+        writeQueueRef.current = writeQueueRef.current.then(async () => {
+          const migrated = await api.settings.mutate({
+            ns: APPEARANCE_SETTINGS_NAMESPACE,
+            ops: [
+              { op: 'set', path: ['colorPrimary'], value: next.colorPrimary },
+              { op: 'set', path: ['fontFamily'], value: next.fontFamily },
+              { op: 'set', path: ['codeFontFamily'], value: next.codeFontFamily },
+              { op: 'set', path: ['customCss'], value: next.customCss },
+            ],
+            expectedRevision: namespace.revision,
+          })
+          if (migrated.result.ok) {
+            revisionRef.current = migrated.result.value.revision
+            markThemeOverridesMigrated()
+          }
+        }).catch(() => { setAppearanceError('旧版外观设置迁移失败，请重试。') })
+      }
+    }).catch(() => { if (active) setAppearanceError('外观设置加载失败，请重试。') })
+    return () => { active = false }
+  }, [api])
+
   const updateOverrides = (patch: Partial<ThemeOverrides>): void => {
-    setOverrides(current => {
-      const next = { ...current, ...patch }
-      saveThemeOverrides(next)
-      return next
-    })
+    if (!appearanceReady || appearanceSaving || revisionRef.current === null) return
+    const previous = overridesRef.current
+    const next = { ...previous, ...patch }
+    overridesRef.current = next
+    setOverrides(next)
+    applyThemeOverrides(next)
+    setAppearanceSaving(true)
+    setAppearanceError('')
+    const ops = Object.entries(patch).map(([key, value]) => ({
+      op: 'set' as const,
+      path: [key],
+      value,
+    }))
+    writeQueueRef.current = writeQueueRef.current.then(async () => {
+      const response = await api.settings.mutate({
+        ns: APPEARANCE_SETTINGS_NAMESPACE,
+        ops,
+        expectedRevision: revisionRef.current!,
+      })
+      if (!response.result.ok) throw new Error(response.result.error.message)
+      revisionRef.current = response.result.value.revision
+    }).catch(error => {
+      overridesRef.current = previous
+      setOverrides(previous)
+      setHexDraft(previous.colorPrimary)
+      setFontDraft(previous.fontFamily)
+      setCodeFontDraft(previous.codeFontFamily)
+      setCssDraft(previous.customCss)
+      applyThemeOverrides(previous)
+      setAppearanceError(String((error as Error).message || '外观设置保存失败，请重试。'))
+    }).finally(() => { setAppearanceSaving(false) })
   }
 
   const setMode = (mode: ThemeMode): void => {
@@ -146,7 +260,7 @@ export function AppearanceSection({ api }: AppearanceSectionProps) {
     void api.settings.mutate({
       ns: THEME_NS,
       ops: [{ op: 'set', path: ['preference'], value: mode }],
-    }).then(() => { applyThemeOverrides(overrides) }).catch(() => {})
+    }).then(() => { applyThemeOverrides(overridesRef.current) }).catch(() => {})
   }
 
   const setColor = (color: string): void => {
@@ -180,6 +294,7 @@ export function AppearanceSection({ api }: AppearanceSectionProps) {
               type="button"
               className={css.themeOption}
               aria-pressed={themeMode === mode}
+              disabled={!appearanceReady || appearanceSaving}
               onClick={() => { setMode(mode) }}
             >
               <ThemePreview mode={mode} active={themeMode === mode} />
@@ -200,6 +315,7 @@ export function AppearanceSection({ api }: AppearanceSectionProps) {
                 className={`${css.swatch} ${overrides.colorPrimary.toLowerCase() === color.toLowerCase() ? css.swatchActive : ''}`}
                 style={{ background: color }}
                 aria-pressed={overrides.colorPrimary.toLowerCase() === color.toLowerCase()}
+                disabled={!appearanceReady || appearanceSaving}
                 onClick={() => { setColor(color) }}
               />
             ))}
@@ -207,6 +323,7 @@ export function AppearanceSection({ api }: AppearanceSectionProps) {
               <input
                 type="color"
                 value={overrides.colorPrimary}
+                disabled={!appearanceReady || appearanceSaving}
                 onChange={event => { setColor(event.target.value) }}
               />
               <span className={css.nativeSwatch} style={{ background: overrides.colorPrimary }} />
@@ -214,6 +331,7 @@ export function AppearanceSection({ api }: AppearanceSectionProps) {
             <input
               className={css.hexInput}
               value={hexDraft}
+              disabled={!appearanceReady || appearanceSaving}
               onChange={event => { setHexDraft(event.target.value) }}
               onBlur={commitHex}
               onKeyDown={event => { if (event.key === 'Enter') commitHex() }}
@@ -228,7 +346,16 @@ export function AppearanceSection({ api }: AppearanceSectionProps) {
         <SettingDivider />
         <SettingRow>
           <SettingRowTitle>语言</SettingRowTitle>
-          <span className={css.staticValue}>中文（简体）</span>
+          <select
+            className={css.fontSelect}
+            value={localeSnapshot.active}
+            onChange={event => { locale?.setLocale(event.target.value) }}
+            aria-label="语言"
+          >
+            {localeSnapshot.locales.map(option => (
+              <option key={option.id} value={option.id}>{option.label}</option>
+            ))}
+          </select>
         </SettingRow>
         <SettingDivider />
         <SettingRow>
@@ -255,9 +382,10 @@ export function AppearanceSection({ api }: AppearanceSectionProps) {
           <select
             className={css.fontSelect}
             value={fontDraft}
+            disabled={!appearanceReady || appearanceSaving || fontLoading}
             onChange={event => { setFontDraft(event.target.value); updateOverrides({ fontFamily: event.target.value }) }}
           >
-            {FONT_OPTIONS.map(option => (
+            {fontOptions.map(option => (
               <option key={option.value} value={option.value}>{option.label}</option>
             ))}
           </select>
@@ -268,9 +396,10 @@ export function AppearanceSection({ api }: AppearanceSectionProps) {
           <select
             className={css.fontSelect}
             value={codeFontDraft}
+            disabled={!appearanceReady || appearanceSaving || fontLoading}
             onChange={event => { setCodeFontDraft(event.target.value); updateOverrides({ codeFontFamily: event.target.value }) }}
           >
-            {FONT_OPTIONS.map(option => (
+            {fontOptions.map(option => (
               <option key={option.value} value={option.value}>{option.label}</option>
             ))}
           </select>
@@ -282,12 +411,14 @@ export function AppearanceSection({ api }: AppearanceSectionProps) {
         <textarea
           className={css.cssEditor}
           value={cssDraft}
+          disabled={!appearanceReady || appearanceSaving}
           onChange={event => { setCssDraft(event.target.value) }}
           onBlur={commitCss}
           placeholder={'/* 这里写自定义 CSS */'}
           spellCheck={false}
         />
       </SettingGroup>
+      {appearanceError === '' ? null : <p role="alert" className="cc-error">{appearanceError}</p>}
     </SettingsPageShell>
   )
 }

@@ -4,8 +4,8 @@ import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolveDshHome } from '@deepseek-ai/dsh-home-paths'
 
-export const SUPPORTED_DSH_VERSION = '0.1.0-rc.7'
-export const DSH_SOURCE_BASELINE = '99f6f02fecdb7dff40c3fbc9470f5907c29f74ca'
+export const SUPPORTED_DSH_VERSION = '0.1.0-rc.8'
+export const DSH_SOURCE_BASELINE = '141eb6fef83422698aef7a981029e843e8161534'
 
 interface RequiredPackage {
   name: string

@@ -2,12 +2,12 @@ import { useEffect } from 'react'
 import type { ReactNode } from 'react'
 import type { IApiClient, ModelProviderGroup, ModelSelection } from '@deepseek-ai/dsh-api-remotes/client'
 import type { SessionId } from '@deepseek-ai/dsh-api-remotes/client'
-import type { SnapshotSelectorHook } from '@deepseek-ai/dsh-client-web-react'
+import type { SnapshotSelectorHook } from '@deepseek-ai/dsh-client-ui-slots'
 import type { SessionListState, SnapshotStore } from '@deepseek-ai/dsh-client-runtime/client'
 import { createSnapshotStore } from '@deepseek-ai/dsh-client-runtime/client'
-import { getPath } from '@deepseek-ai/dsh-client-schema-form'
 import type { ModelsKey } from './locales.ts'
 import { assertProviderSchemasSafe } from './schema-safety.ts'
+import type { SettingsSchemaOperations } from './schema-operations.ts'
 import css from './ModelsSection.module.css'
 
 const DEFAULT_NAMESPACE = 'agent-default-model'
@@ -29,7 +29,10 @@ export class ModelSelectionStore {
   readonly store: SnapshotStore<ModelSelectionState>
   private generation = 0
 
-  constructor(private readonly api: Pick<IApiClient, 'settings' | 'sessions' | 'llm'>) {
+  constructor(
+    private readonly api: Pick<IApiClient, 'settings' | 'sessions' | 'llm'>,
+    private readonly schema: SettingsSchemaOperations,
+  ) {
     this.store = createSnapshotStore({
       status: 'idle', error: null, defaultSelection: null, defaultRevision: null,
       currentSessionId: undefined, currentAddressed: false, currentSelection: null, currentRoutable: null,
@@ -62,7 +65,7 @@ export class ModelSelectionStore {
       if (generation !== this.generation) return
       this.store.update((state) => {
         state.status = 'ready'
-        state.defaultSelection = selectionOf(namespace.value)
+        state.defaultSelection = selectionOf(namespace.value, this.schema)
         state.defaultRevision = namespace.revision
         state.currentSelection = current?.current ?? null
         state.currentRoutable = current?.routable ?? null
@@ -120,7 +123,7 @@ export class ModelSelectionStore {
     }
     const described = await this.api.settings.describe({})
     const defaultSelection = described.result.ok
-      ? selectionOf(described.result.value.namespaces.find(view => view.ns === DEFAULT_NAMESPACE)?.value)
+      ? selectionOf(described.result.value.namespaces.find(view => view.ns === DEFAULT_NAMESPACE)?.value, this.schema)
       : null
     const both = sameSelection(defaultSelection, selectedResult.value.selected)
     this.store.update((state) => {
@@ -138,10 +141,10 @@ export class ModelSelectionStore {
   }
 }
 
-function selectionOf(value: unknown): ModelSelection | null {
-  const provider = getPath(value, ['provider'])
-  const model = getPath(value, ['model'])
-  const reasoningEffort = getPath(value, ['reasoningEffort'])
+function selectionOf(value: unknown, schema: SettingsSchemaOperations): ModelSelection | null {
+  const provider = schema.getPath(value, ['provider'])
+  const model = schema.getPath(value, ['model'])
+  const reasoningEffort = schema.getPath(value, ['reasoningEffort'])
   if (typeof provider !== 'string' || typeof model !== 'string') return null
   return {
     provider,
@@ -173,6 +176,7 @@ export interface ModelSelectionPanelProps {
   useSessions: SnapshotSelectorHook<SessionListState>
   load: (sessionId: SessionId | undefined, addressed: boolean) => void
   t: (key: ModelsKey) => string
+  schema: SettingsSchemaOperations
 }
 
 /** Render distinct future-session default and current-session model controls. */

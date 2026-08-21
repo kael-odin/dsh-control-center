@@ -43,17 +43,18 @@ export interface SettingSwitchProps {
   checked: boolean
   onChange: (next: boolean) => void
   description?: ReactNode
+  disabled?: boolean
 }
 
 /** Label-left + switch-right setting row (Cherry DescriptionSwitch). */
-export function SettingSwitch({ label, checked, onChange, description }: SettingSwitchProps) {
+export function SettingSwitch({ label, checked, onChange, description, disabled = false }: SettingSwitchProps) {
   return (
     <SettingRow>
       <div className={css.switchLabel}>
         <div className={css.rowTitle}>{label}</div>
         {description === undefined ? null : <div className={css.rowDescription}>{description}</div>}
       </div>
-      <Switch checked={checked} onChange={onChange} label={typeof label === 'string' ? label : ''} />
+      <Switch checked={checked} onChange={onChange} label={typeof label === 'string' ? label : ''} disabled={disabled} />
     </SettingRow>
   )
 }

@@ -2,9 +2,28 @@
 import { describe, expect, it, vi } from 'vitest'
 import type { IApiClient, ModelSelection } from '@deepseek-ai/dsh-api-remotes/client'
 import { ModelSelectionStore } from '../src/client/ModelSelectionPanel.tsx'
+import type { SettingsSchemaOperations } from '../src/client/schema-operations.ts'
 
 function ok<T>(value: T) {
   return { rpcId: 'test' as never, result: { ok: true as const, value } }
+}
+
+/** Minimal bound schema callbacks: the store only reads plain paths. */
+const schema: SettingsSchemaOperations = {
+  rehydrate: serialized => serialized as never,
+  validate: () => undefined,
+  nodeAtPath: () => undefined,
+  getPath: (value, path) => {
+    let current: unknown = value
+    for (const key of path) {
+      if (typeof current !== 'object' || current === null) return undefined
+      current = (current as Record<string, unknown>)[key]
+    }
+    return current
+  },
+  hasPath: () => false,
+  setPath: () => ({}),
+  deletePath: () => ({}),
 }
 
 const groups = [{ id: 'acme', name: 'Acme', models: [{ id: 'm1', name: 'M1' }] }]
@@ -21,7 +40,7 @@ describe('model selection controller', () => {
       sessions: { models: vi.fn(), selectModel },
       llm: { models: vi.fn(async () => ok({ groups, failures: [] })) },
     } as unknown as Pick<IApiClient, 'settings' | 'sessions' | 'llm'>
-    const store = new ModelSelectionStore(api)
+    const store = new ModelSelectionStore(api, schema)
     await store.load(undefined)
     await expect(store.saveDefault({ provider: 'acme', model: 'm1' })).resolves.toBe(true)
     expect(mutate).toHaveBeenCalledWith(expect.objectContaining({ ns: 'agent-default-model', expectedRevision: 1 }))
@@ -44,7 +63,7 @@ describe('model selection controller', () => {
       },
       llm: { models: vi.fn(async () => ok({ groups, failures: [] })) },
     } as unknown as Pick<IApiClient, 'settings' | 'sessions' | 'llm'>
-    const store = new ModelSelectionStore(api)
+    const store = new ModelSelectionStore(api, schema)
     await store.load('session-1' as never, false)
     await expect(store.selectCurrent(selection)).resolves.toBe(true)
     expect(describes).toBe(2)

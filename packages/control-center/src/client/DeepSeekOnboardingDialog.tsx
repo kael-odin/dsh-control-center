@@ -14,6 +14,7 @@ import type { InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import type { ModelsSettingsState, ModelsSettingsStore } from './store.ts'
 import { onboardingReadiness } from './store.ts'
 import { ProviderEditor } from './ProviderEditor.tsx'
+import type { SettingsSchemaOperations } from './schema-operations.ts'
 import type { en } from './locales.ts'
 import { OnboardingModal } from './OnboardingModal.tsx'
 import styles from './DeepSeekOnboardingDialog.module.css'
@@ -28,6 +29,8 @@ export interface DeepSeekOnboardingInjected {
   controller: ModelsSettingsStore
   /** Existing wire face reused by the Models credential editor. */
   api: Pick<IApiClient, 'settings' | 'credentials' | 'llm'>
+  /** Bound schema callbacks for the credential editor's draft ops. */
+  schema: SettingsSchemaOperations
   /** Feature copy. */
   t: (key: keyof typeof en) => string
 }
@@ -48,7 +51,7 @@ function assertNever(_value: never): never {
  * @returns the onboarding modal or null when onboarding needs no intervention.
  */
 export function DeepSeekOnboardingDialog(props: DeepSeekOnboardingDialogProps): ReactNode {
-  const { complete, controller, useModels, api, t } = props
+  const { complete, controller, useModels, api, t, schema } = props
   const state = useModels(snapshot => snapshot)
   const readiness = onboardingReadiness(state)
 
@@ -104,6 +107,7 @@ export function DeepSeekOnboardingDialog(props: DeepSeekOnboardingDialogProps): 
           settingsPath={row.entry.settingsPath}
           api={api}
           t={t}
+          schema={schema}
           readOnly={false}
           hideTitle
           credentialOnly

@@ -132,6 +132,28 @@
    "modifications": "Copied the six upload-format icons verbatim and embedded them as a TS data module for the translate input empty state.",
    "notice": "NOTICE",
    "verified": true
+  },
+  {
+   "source": "src/renderer/pages/settings/AppearanceSettings/AppearanceSettings.tsx",
+   "destinations": [
+    "packages/control-center/src/client/AppearanceSection.tsx",
+    "packages/control-center/src/client/theme-overrides.ts",
+    "packages/control-center/src/index.ts"
+   ],
+   "modifications": "Adapted Cherry appearance color/font/code-font/custom-CSS controls to DSH SettingsPage primitives and the authoritative revision-fenced control-center-appearance namespace; added one-time migration from the earlier browser localStorage implementation while preserving immediate scoped CSS application.",
+   "notice": "NOTICE",
+   "verified": true
+  },
+  {
+   "source": "src/renderer/pages/settings/NotificationSettings/NotificationSettings.tsx",
+   "destinations": [
+    "packages/control-center/src/client/NotificationSection.tsx",
+    "packages/control-center/src/client/notification-runtime.ts",
+    "packages/control-center/src/index.ts"
+   ],
+   "modifications": "Adapted Cherry's single-card four-switch notification page to DSH settings primitives and an authoritative revision-fenced control-center-notifications namespace; connected the assistant preference to real host session idle transitions and the desktop/browser notification providers.",
+   "notice": "NOTICE",
+   "verified": true
   }
  ]
 }

@@ -1,7 +1,7 @@
 /** Browser half of DSH Control Center. */
 import type { ClientContext, SessionListState } from '@deepseek-ai/dsh-client-runtime/client'
 import type { ConnectionHandle, SessionId } from '@deepseek-ai/dsh-api-remotes/client'
-import { bindSnapshotSelector } from '@deepseek-ai/dsh-client-web-react'
+import { bindSnapshotSelector } from './bind-snapshot.ts'
 import { resolveSlotLabel, type HostObservable } from '@deepseek-ai/dsh-client-ui-slots'
 import type {} from '@deepseek-ai/dsh-client-ui-settings/client'
 import type {} from '@deepseek-ai/dsh-client-ui-sidebar/client'
@@ -69,7 +69,8 @@ import { CloseLabel, HeaderContent, TriggerContent } from './chrome.tsx'
 import { GeneralSection } from './GeneralSection.tsx'
 import { AppearanceSection } from './AppearanceSection.tsx'
 import type { AppearanceSectionInjected } from './AppearanceSection.tsx'
-import { NotificationSection } from './NotificationSection.tsx'
+import { NotificationSection, type NotificationSectionInjected } from './NotificationSection.tsx'
+import { ConversationNotificationRuntime, NOTIFICATION_SETTINGS_NAMESPACE } from './notification-runtime.ts'
 import { ShortcutSection } from './ShortcutSection.tsx'
 import { SelectionAssistantSection } from './SelectionAssistantSection.tsx'
 import { QuickAssistantSection } from './QuickAssistantSection.tsx'
@@ -88,6 +89,7 @@ import type { WelcomeNoticeInjected } from './WelcomeNotice.tsx'
 import { refreshWelcomeIfLoaded, WelcomeNoticeStore } from './welcome-store.ts'
 import { ModelsSettingsStore } from './store.ts'
 import { ModelSelectionStore } from './ModelSelectionPanel.tsx'
+import { createSettingsSchemaOperations } from './schema-operations.ts'
 import { en as modelsEn, zh as modelsZh, type ModelsKey } from './locales.ts'
 import { WELCOME_NOTICE_SETTINGS_NAMESPACE } from '../onboarding-copy.ts'
 import { ProductWorkspaceNavItem } from './ProductWorkspaceNavItem.tsx'
@@ -123,7 +125,7 @@ declare module '@deepseek-ai/dsh-client-ui-slots' {
   }
 }
 
-export const inject = ['slots', 'locale', 'connection', 'remote', 'sessions']
+export const inject = ['slots', 'locale', 'connection', 'remote', 'sessions', 'settingsSchema']
 
 /** Register the settings shell, Provider/Model page, and onboarding steps. */
 export function apply(ctx: ClientContext): void {
@@ -289,6 +291,9 @@ export function apply(ctx: ClientContext): void {
   const shellT = ctx.locale.bind(SHELL_NS)
   const modelT = ctx.locale.bind(MODELS_NS) as ModelsSectionInjected['t']
   const connection = ctx.get('connection') as ConnectionHandle
+  // Bound schema callbacks from the ui-settings `settingsSchema` service, the
+  // rc.8 replacement for the removed `dsh-client-schema-form` helpers.
+  const schema = createSettingsSchemaOperations(ctx.settingsSchema)
   const documentController = connection.isLoopback ? new SettingsDocumentStore(connection.api) : undefined
   const documentInjected = documentController === undefined
     ? undefined
@@ -297,11 +302,16 @@ export function apply(ctx: ClientContext): void {
         return (): SettingsDocumentActionInjected => ({ controller: documentController, useSnapshot })
       })()
 
-  const modelsController = new ModelsSettingsStore(connection.api)
+  const modelsController = new ModelsSettingsStore(connection.api, schema)
   const useModels = bindSnapshotSelector(modelsController.store)
-  const selectionController = new ModelSelectionStore(connection.api)
+  const selectionController = new ModelSelectionStore(connection.api, schema)
   const useSelection = bindSnapshotSelector(selectionController.store)
   const welcomeController = new WelcomeNoticeStore(connection.api, connection.isLoopback ? 'host' : 'memory')
+  const notificationRuntime = new ConversationNotificationRuntime(
+    connection.api,
+    ctx.sessions.list as unknown as HostObservable<SessionListState>,
+  )
+  ctx.effect(() => notificationRuntime.start(), 'control-center: conversation notifications')
 
   let rowsVersion = -1
   let rowsRevision = -1
@@ -365,12 +375,14 @@ export function apply(ctx: ClientContext): void {
     useSessions: bindSnapshotSelector(ctx.sessions.list as unknown as HostObservable<SessionListState>) as unknown as (<T>(selector: (state: SessionListState) => T) => T),
     load: (sessionId: SessionId | undefined, addressed: boolean) => { void selectionController.load(sessionId, addressed) },
     t: modelT,
+    schema,
   }
   const modelsInjected = (): ModelsSectionInjected => ({
     controller: modelsController,
     useSnapshot: useModels,
     api: connection.api,
     modelSelection,
+    schema,
     t: modelT,
   })
   const skillsInjected = () => ({
@@ -389,6 +401,7 @@ export function apply(ctx: ClientContext): void {
     controller: modelsController,
     hooks: { models: modelsController.store },
     api: connection.api,
+    schema,
     t: modelT,
   })
   const welcomeInjected = (): WelcomeNoticeInjected => ({
@@ -411,6 +424,7 @@ export function apply(ctx: ClientContext): void {
       ctx.remote.$on('settings/document-updated', (namespace) => {
         refreshModels()
         if (namespace === WELCOME_NOTICE_SETTINGS_NAMESPACE) refreshWelcomeIfLoaded(welcomeController)
+        if (namespace === NOTIFICATION_SETTINGS_NAMESPACE) void notificationRuntime.refreshPreferences()
       }),
       ctx.remote.$on('credentials/updated', refreshModels),
       ctx.remote.$on('llm/adapters-updated', refreshModels),
@@ -610,13 +624,14 @@ export function apply(ctx: ClientContext): void {
     id: 'appearance',
     order: 85,
     label: () => shellT('appearanceNav'),
-    inject: (): AppearanceSectionInjected => ({ api: connection.api }),
+    inject: (): AppearanceSectionInjected => ({ api: connection.api, locale: ctx.locale }),
   }, AppearanceSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'notifications',
     order: 86,
     label: () => shellT('notificationsNav'),
+    inject: (): NotificationSectionInjected => ({ api: connection.api }),
   }, NotificationSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',

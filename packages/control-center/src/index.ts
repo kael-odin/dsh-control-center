@@ -33,6 +33,36 @@ import { UpdateService } from './update.ts'
 import { localModelsRemote, updateRemote } from './local-models-remote-client.ts'
 
 const ONBOARDING_SETTINGS_NAMESPACE = 'ui-onboarding'
+const NOTIFICATION_SETTINGS_NAMESPACE = 'control-center-notifications'
+const APPEARANCE_SETTINGS_NAMESPACE = 'control-center-appearance'
+
+interface AppearanceSettings {
+  colorPrimary: string
+  fontFamily: string
+  codeFontFamily: string
+  customCss: string
+}
+
+const AppearanceSettingsSchema: z<AppearanceSettings> = z.object({
+  colorPrimary: z.string().default('#00b96b'),
+  fontFamily: z.string().default(''),
+  codeFontFamily: z.string().default(''),
+  customCss: z.string().default(''),
+})
+
+interface NotificationSettings {
+  assistant: boolean
+  backup: boolean
+  knowledge: boolean
+  update: boolean
+}
+
+const NotificationSettingsSchema: z<NotificationSettings> = z.object({
+  assistant: z.boolean().default(false),
+  backup: z.boolean().default(false),
+  knowledge: z.boolean().default(false),
+  update: z.boolean().default(false),
+})
 
 interface OnboardingSettings {
   welcomeNoticeVersion?: string
@@ -93,6 +123,14 @@ export function apply(ctx: Context): void {
     settingsCtx.settings.register(
       settingsNamespace(ONBOARDING_SETTINGS_NAMESPACE),
       OnboardingSettingsSchema,
+    )
+    settingsCtx.settings.register(
+      settingsNamespace(NOTIFICATION_SETTINGS_NAMESPACE),
+      NotificationSettingsSchema,
+    )
+    settingsCtx.settings.register(
+      settingsNamespace(APPEARANCE_SETTINGS_NAMESPACE),
+      AppearanceSettingsSchema,
     )
   })
 }

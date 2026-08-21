@@ -24,9 +24,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { CredentialView, IApiClient, SettingsNamespaceView, SettingsPathOpView } from '@deepseek-ai/dsh-api-remotes/client'
-import {
-  deletePath, getPath, hasPath, nodeAtPath, rehydrateSchema, setPath, validateDraft,
-} from '@deepseek-ai/dsh-client-schema-form'
+import type { SettingsSchemaOperations } from './schema-operations.ts'
 import {
   DeepSeekModelsEditor, modelDrafts, validateDeepSeekModels,
 } from './DeepSeekModelsEditor.tsx'
@@ -65,6 +63,8 @@ export interface ProviderEditorProps {
   settingsPath: readonly string[]
   /** Wire faces for writes and for interrogating a provider endpoint. */
   api: Pick<IApiClient, 'settings' | 'credentials' | 'llm'>
+  /** Bound schema callbacks for namespace introspection and draft edits. */
+  schema: SettingsSchemaOperations
   /** Section copy. */
   t: (key: keyof typeof en) => string
   /** Disable writes (read-only settings provider). */
@@ -86,8 +86,12 @@ export interface ProviderEditorProps {
 }
 
 /** A user-section subtree as a plain draft object (absent → empty). */
-function draftAt(namespace: SettingsNamespaceView, path: readonly string[]): Record<string, unknown> {
-  const subtree = getPath(namespace.user, path)
+function draftAt(
+  namespace: SettingsNamespaceView,
+  path: readonly string[],
+  schema: SettingsSchemaOperations,
+): Record<string, unknown> {
+  const subtree = schema.getPath(namespace.user, path)
   if (typeof subtree !== 'object' || subtree === null || Array.isArray(subtree)) return {}
   return structuredClone(subtree) as Record<string, unknown>
 }
@@ -129,8 +133,13 @@ function layoutOf(ns: string): EditorLayout {
 }
 
 /** The credential reference this profile resolves keys through. */
-function refFor(namespace: SettingsNamespaceView, path: readonly string[], provider: string): string {
-  const profile = getPath(namespace.value, path)
+function refFor(
+  namespace: SettingsNamespaceView,
+  path: readonly string[],
+  provider: string,
+  schema: SettingsSchemaOperations,
+): string {
+  const profile = schema.getPath(namespace.value, path)
   const named = typeof profile === 'object' && profile !== null
     ? (profile as { apiKeyEnv?: unknown }).apiKeyEnv
     : undefined
@@ -143,8 +152,11 @@ function refFor(namespace: SettingsNamespaceView, path: readonly string[], provi
  * @returns the editor card.
  */
 export function ProviderEditor(props: ProviderEditorProps): ReactNode {
-  const { namespace, settingsPath, api, t } = props
-  const [draft, setDraft] = useState<Record<string, unknown>>(() => draftAt(namespace, settingsPath))
+  const { namespace, settingsPath, api, t, schema } = props
+  // Local aliases keep the rc.7 helper signatures intact inside the card; they
+  // all delegate to the bound `ctx.settingsSchema` service callbacks.
+  const { getPath, hasPath, nodeAtPath, rehydrate, deletePath, setPath, validate } = schema
+  const [draft, setDraft] = useState<Record<string, unknown>>(() => draftAt(namespace, settingsPath, schema))
   const [keyDraft, setKeyDraft] = useState('')
   const [keyState, setKeyState] = useState<CredentialView | undefined>(undefined)
   const [busy, setBusy] = useState(false)
@@ -156,19 +168,19 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
     () => getPath(namespace.user, settingsPath),
   )
   const [expectedRevision, setExpectedRevision] = useState(() => namespace.revision)
-  const root = useMemo(() => rehydrateSchema(namespace.schema), [namespace.schema])
+  const root = useMemo(() => rehydrate(namespace.schema), [namespace.schema])
   const node = useMemo(() => nodeAtPath(root, settingsPath), [root, settingsPath])
   const fallback = getPath(namespace.value, settingsPath)
   const disabled = props.readOnly || busy
   const layout = layoutOf(namespace.ns)
-  const keyRef = refFor(namespace, settingsPath, props.provider)
+  const keyRef = refFor(namespace, settingsPath, props.provider, schema)
   // The same schema read the create card makes, so the choices offered here
   // and there cannot drift apart: both come from the adapter's own `Config`.
   // Only the pi-ai layout has a per-route protocol for the read to find, and
   // it rehydrates the whole section schema, so the other layouts skip it.
   const protocols = useMemo(
-    () => layout === 'pi-ai' ? protocolChoices(namespace) : [],
-    [layout, namespace],
+    () => layout === 'pi-ai' ? protocolChoices(namespace, schema) : [],
+    [layout, namespace, schema],
   )
 
   useEffect(() => {
@@ -255,7 +267,7 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
     }
     /* v8 ignore next -- apply is only reachable from the rendered card, which required a resolved node */
     if (props.credentialOnly !== true && node !== undefined && settingsPath.length === 0) {
-      const sectionError = validateDraft(node, next)
+      const sectionError = validate(node, next)
       if (sectionError !== undefined) return sectionError
     }
     const materializesNativeProfile = layout === 'pi-ai'

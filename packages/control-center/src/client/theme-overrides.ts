@@ -1,21 +1,18 @@
 /**
- * Client-side theme overrides for the Control Center surfaces: brand color,
- * fonts, and custom CSS, persisted in localStorage and injected as a style
- * element (web edition cannot reach the harness theme token pipeline, so the
- * overrides are scoped to `.cc-surface` like the rest of the token layer).
+ * Client-side theme overrides for Control Center surfaces. The DSH settings
+ * namespace is the authority; localStorage is retained only for one-time
+ * migration from the first web-edition implementation.
  */
 
+export const APPEARANCE_SETTINGS_NAMESPACE = 'control-center-appearance'
 const THEME_OVERRIDES_KEY = 'cc.theme.overrides'
+const MIGRATION_KEY = 'cc.theme.overrides.migrated-to-dsh'
 const STYLE_ID = 'cc-theme-overrides'
 
 export interface ThemeOverrides {
-  /** Brand/primary color (hex, e.g. #00b96b). */
   colorPrimary: string
-  /** Global UI font family; '' = default. */
   fontFamily: string
-  /** Code font family; '' = default. */
   codeFontFamily: string
-  /** Custom CSS injected verbatim into the style element. */
   customCss: string
 }
 
@@ -44,8 +41,18 @@ export function loadThemeOverrides(): ThemeOverrides {
   }
 }
 
+export function hasLegacyThemeOverrides(): boolean {
+  try { return localStorage.getItem(THEME_OVERRIDES_KEY) !== null && localStorage.getItem(MIGRATION_KEY) !== '1' } catch { return false }
+}
+
+export function markThemeOverridesMigrated(): void {
+  try {
+    localStorage.setItem(MIGRATION_KEY, '1')
+    localStorage.removeItem(THEME_OVERRIDES_KEY)
+  } catch { /* best effort */ }
+}
+
 export function saveThemeOverrides(overrides: ThemeOverrides): void {
-  try { localStorage.setItem(THEME_OVERRIDES_KEY, JSON.stringify(overrides)) } catch { /* best effort */ }
   applyThemeOverrides(overrides)
 }
 
@@ -59,9 +66,7 @@ export function applyThemeOverrides(overrides: ThemeOverrides): void {
   if (overrides.codeFontFamily !== '') {
     css.push(`.cc-surface code, .cc-surface pre, .cc-surface .langCode { font-family: ${overrides.codeFontFamily}, ui-monospace, Consolas, monospace; }`)
   }
-  if (overrides.customCss.trim() !== '') {
-    css.push(overrides.customCss)
-  }
+  if (overrides.customCss.trim() !== '') css.push(overrides.customCss)
   let style = document.getElementById(STYLE_ID) as HTMLStyleElement | null
   if (style === null) {
     style = document.createElement('style')

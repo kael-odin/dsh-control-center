@@ -2,7 +2,25 @@
 import type { SettingsProvider } from '@deepseek-ai/dsh-settings'
 import type { CredentialProvider } from '@deepseek-ai/dsh-credentials'
 import type { LlmRuntime } from '@deepseek-ai/dsh-llm'
-import { getPath } from '@deepseek-ai/dsh-client-schema-form'
+
+/**
+ * Local path read for Host-side settings values. The browser half of rc.8
+ * provides the same walk through its `ctx.settingsSchema` service; the Host
+ * graph has no such service, and this flat traversal is its equivalent (and
+ * stays identical to the service's `getPath`).
+ */
+function getPath(value: unknown, path: readonly string[]): unknown {
+  let current: unknown = value
+  for (const key of path) {
+    if (Array.isArray(current)) {
+      current = current[Number(key)]
+      continue
+    }
+    if (typeof current !== 'object' || current === null) return undefined
+    current = (current as Record<string, unknown>)[key]
+  }
+  return current
+}
 
 /** Provider profile value: a plain object with optional endpoint and key-ref. */
 interface ProviderProfile {

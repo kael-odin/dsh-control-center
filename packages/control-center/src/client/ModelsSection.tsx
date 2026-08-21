@@ -16,12 +16,13 @@ import { useState } from 'react'
 import type { ReactNode } from 'react'
 import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client'
 import { Button, IconPlusOutline16, Modal } from '@deepseek-ai/dsh-client-ui-primitives'
-import type { SnapshotSelectorHook } from '@deepseek-ai/dsh-client-web-react'
+import type { SnapshotSelectorHook } from '@deepseek-ai/dsh-client-ui-slots'
 import { CustomProviderCard } from './CustomProviderCard.tsx'
 import { ModelSelectionPanel, type ModelSelectionPanelProps } from './ModelSelectionPanel.tsx'
 import { deriveKeyRef, messageOf, protocolChoices, providerUsable } from './store.ts'
 import type { ModelsSettingsState, ModelsSettingsStore, ProviderRow } from './store.ts'
 import { ProviderEditor, type ProviderEditorProps } from './ProviderEditor.tsx'
+import type { SettingsSchemaOperations } from './schema-operations.ts'
 import type { en } from './locales.ts'
 import styles from './ModelsSection.module.css'
 
@@ -35,6 +36,8 @@ export interface ModelsSectionInjected {
   api: Pick<IApiClient, 'settings' | 'credentials' | 'llm'>
   /** Default/current model selection over the same Host authority. */
   modelSelection: ModelSelectionPanelProps
+  /** Bound schema callbacks for namespace introspection and draft edits. */
+  schema: SettingsSchemaOperations
   /** Section copy. */
   t: (key: keyof typeof en) => string
 }
@@ -66,7 +69,7 @@ interface EditorTarget extends ProviderIdentity {
 /** Values that vary around the shared provider-editor rendering. */
 interface ProviderEditorRenderProps extends Pick<
   ProviderEditorProps,
-  'namespace' | 'api' | 't' | 'readOnly' | 'onClose'
+  'namespace' | 'api' | 't' | 'readOnly' | 'onClose' | 'schema'
 > {
   target: EditorTarget
 }
@@ -172,13 +175,13 @@ export function providerCopy(template: string, target: ProviderIdentity): string
  * @returns the section, or null while the shell has not injected yet.
  */
 export function ModelsSection(props: ModelsSectionProps): ReactNode {
-  const { controller, useSnapshot, api, t, modelSelection } = props
-  if (controller === undefined || useSnapshot === undefined || api === undefined || t === undefined || modelSelection === undefined) return null
-  return <Loaded injected={{ controller, useSnapshot, api, t, modelSelection }} />
+  const { controller, useSnapshot, api, t, modelSelection, schema } = props
+  if (controller === undefined || useSnapshot === undefined || api === undefined || t === undefined || modelSelection === undefined || schema === undefined) return null
+  return <Loaded injected={{ controller, useSnapshot, api, t, modelSelection, schema }} />
 }
 
 function Loaded({ injected }: { injected: ModelsSectionInjected }): ReactNode {
-  const { controller, api, t, modelSelection } = injected
+  const { controller, api, t, modelSelection, schema } = injected
   const state = injected.useSnapshot(snapshot => snapshot)
   const [editing, setEditing] = useState<EditorTarget | undefined>(undefined)
   const [adding, setAdding] = useState(false)
@@ -272,7 +275,7 @@ function Loaded({ injected }: { injected: ModelsSectionInjected }): ReactNode {
   // Hand-declared routes live in the pi-ai namespace, which is also the only
   // one whose schema names the protocols one may speak; without it mounted
   // there is nothing to declare and the entry point stays disabled.
-  const protocols = protocolChoices(state.namespaces.get('llm-pi-ai'))
+  const protocols = protocolChoices(state.namespaces.get('llm-pi-ai'), schema)
 
   return (
     <div className={styles['section']}>
@@ -302,6 +305,7 @@ function Loaded({ injected }: { injected: ModelsSectionInjected }): ReactNode {
                   namespace,
                   api,
                   t,
+                  schema,
                   readOnly: !state.writable,
                   onClose: (changed) => { closeSetup(changed, target) },
                 })}
@@ -386,6 +390,7 @@ function Loaded({ injected }: { injected: ModelsSectionInjected }): ReactNode {
                   namespace,
                   api,
                   t,
+                  schema,
                   readOnly: !state.writable,
                   onClose: (changed) => { closeEditor(changed, target) },
                 })
@@ -425,6 +430,7 @@ function Loaded({ injected }: { injected: ModelsSectionInjected }): ReactNode {
                 settingsPath={addTarget.settingsPath}
                 api={api}
                 t={t}
+                schema={schema}
                 readOnly={!state.writable}
                 onClose={(changed) => { closeEditor(changed, addTarget) }}
               />
