@@ -3,9 +3,9 @@
  * `ui-layout` client source (application.navigation / application.surface).
  *
  * The RUNTIME slots come from the running harness; this augmentation only
- * makes the build self-contained against the published rc.7 contract
+ * makes the build self-contained against the published rc.2 contract
  * packages, whose ui-layout lacks the seam (it ships in the harness source
- * baseline `99f6f02` recorded in compatibility.ts).
+ * baseline `b150a551b8` recorded in compatibility.ts).
  */
 declare module '@deepseek-ai/dsh-client-ui-slots' {
     interface SlotMap {

@@ -12,8 +12,8 @@ provider/model workflows are adapted from Cherry Studio:
 
   Project: Cherry Studio
   Upstream: https://github.com/CherryHQ/cherry-studio
-  Baseline: 13687df354e9845c7e2b6d155eac6a9171f6a533
-  Application version: 2.0.7
+  Baseline: 0bb1725c638bf12d505e9baadaa69f8da47dd05e
+  Application version: 2.0.8
   License: GNU Affero General Public License, version 3
 
 The adapted code replaces Cherry Studio's Electron IPC, Preference, DataApi,
@@ -28,8 +28,8 @@ DeepSeek Harness dependency and adapted-source notice
 DeepSeek Harness packages consumed by this project are distributed under the
 MIT License. Copyright (c) 2026 DeepSeek. Portions of the settings shell,
 onboarding, provider/model controllers, packaging conventions, and related
-tests are adapted from the DeepSeek Harness `0.1.0-rc.7` source baseline at
-commit 99f6f02fecdb7dff40c3fbc9470f5907c29f74ca. Those adaptations remain
+tests are adapted from the DeepSeek Harness `0.1.1-rc.2` source baseline at
+commit b150a551b8. Those adaptations remain
 identified in the source tree and provenance records. This project's AGPL
 license does not change the license of independent DSH dependencies.
 

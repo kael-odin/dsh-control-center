@@ -27,7 +27,7 @@ Cherry Studio 已经提供所需的设置信息架构、视觉设计、组件和
 ### 源码复用与许可证姿态
 
 - 当复制和改造能够缩短建设时间或保持对等时，可以复用 Cherry Studio 的组件、样式、路由、hook、schema、服务及配套源码。
-- 初始对等基线为本地 `D:\Github_Open\cherry-studio` 在提交 `13687df` 的检出状态，其应用版本为 `2.0.7`。后续上游同步是明确安排的工作，而不是隐式移动目标。
+- 初始对等基线为本地 `D:\Github_Open\cherry-studio` 在提交 `0bb1725c63` 的检出状态，其应用版本为 `2.0.8`。后续上游同步是明确安排的工作，而不是隐式移动目标。
 - 发布的 Control Center 项目采用与 AGPL-3.0 兼容的许可证姿态。复制和修改的 Cherry 源码保留适用的版权、许可证、归属及修改通知。
 - 对发布或通过网络访问的版本，依照适用 AGPL 条款公布对应源码和必要通知。不得利用包边界隐藏或规避源码复用产生的义务。
 - 源码来源清单记录复制文件、Cherry 基线、本地目标、实质修改和许可证通知覆盖情况，使上游刷新与合规审查保持可审计。
@@ -86,7 +86,7 @@ Control Center 复制并改造 Cherry 设置外壳及其功能页面，而不是
 
 对等范围涵盖导航层级、标签、在许可证允许时使用的图标、页面布局、表单、列表、筛选、对话框、加载与错误状态、空状态、验证、键盘行为、响应式行为以及亮／暗主题。Web 适配可以替换 Electron 传输或 OS 原语，但必须保留用户可见结果和失败语义。
 
-该组合包在自身组合中替换原生 `ui-settings-general` 展示，并继续消费功能注册。它构建于[插件自有设置界面](https://github.com/deepseek-ai/deepseek-harness/blob/99f6f02fecdb7dff40c3fbc9470f5907c29f74ca/.agents/notes/implemented/architecture/2026-08-12-plugin-owned-settings-surface.md)之上，而不是撤销 namespace 自注册；同时保留[客户端设置分层提案](https://github.com/deepseek-ai/deepseek-harness/blob/99f6f02fecdb7dff40c3fbc9470f5907c29f74ca/.agents/notes/proposed/architecture/2026-07-25-client-settings-locale-theme.md)中的功能所有权。复制页面会成为由 DSH 服务支撑的 DSH Client 贡献；不得保留对 Cherry Electron `ipcApi`、Preference、DataApi、WindowManager 或应用生命周期容器的隐藏依赖。
+该组合包在自身组合中替换原生 `ui-settings-general` 展示，并继续消费功能注册。它构建于[插件自有设置界面](https://github.com/deepseek-ai/deepseek-harness/blob/b150a551b8/.agents/notes/implemented/architecture/2026-08-12-plugin-owned-settings-surface.md)之上，而不是撤销 namespace 自注册；同时保留[客户端设置分层提案](https://github.com/deepseek-ai/deepseek-harness/blob/b150a551b8/.agents/notes/proposed/architecture/2026-07-25-client-settings-locale-theme.md)中的功能所有权。复制页面会成为由 DSH 服务支撑的 DSH Client 贡献；不得保留对 Cherry Electron `ipcApi`、Preference、DataApi、WindowManager 或应用生命周期容器的隐藏依赖。
 
 ### 能力所有权与集成矩阵
 

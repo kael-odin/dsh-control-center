@@ -9223,7 +9223,7 @@ function settingsNamespace(value) {
 }
 Service.init;
 //#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-home-paths_936960f978726c8ffd07a1ce308c5d47/node_modules/@deepseek-ai/dsh-home-paths/lib/index.js
+//#region node_modules/.pnpm/@deepseek-ai+dsh-home-paths_260f8dde1d5adbe84fd51b779f4f83da/node_modules/@deepseek-ai/dsh-home-paths/lib/index.js
 /**
 * Shared filesystem path helpers for DeepSeek Harness user data.
 *
@@ -9266,11 +9266,11 @@ function resolveDshHome(configured, env = process.env) {
 	return resolve(expandHomePath(configured ?? (fromEnv !== void 0 && fromEnv.trim().length > 0 ? fromEnv : defaultDshHome())));
 }
 //#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-timeout@0._95b020dd1e69a53c4e35530fca012a2d/node_modules/@deepseek-ai/dsh-timeout/lib/index.js
+//#region node_modules/.pnpm/@deepseek-ai+dsh-timeout@0._13401da53fdd229a45877adbff64345d/node_modules/@deepseek-ai/dsh-timeout/lib/index.js
 /** Largest delay Node schedules without clamping it to one millisecond. */
 const MAX_TIMER_DELAY_MS = 2147483647;
 //#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-llm@0.1.0-_61618b2248b445cfdee05dd35956012b/node_modules/@deepseek-ai/dsh-llm/lib/index.js
+//#region node_modules/.pnpm/@deepseek-ai+dsh-llm@0.1.1-_de8559ed89b7370843bac1bad71a6196/node_modules/@deepseek-ai/dsh-llm/lib/index.js
 /**
 * dsh-llm's owned branded ids: tool-call correlation and provider request
 * diagnostics.
@@ -9477,7 +9477,7 @@ function assertNever(value, context) {
 	throw new Error(`unreachable variant${context ? ` in ${context}` : ""}: ${rendered}`);
 }
 //#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-typert-pro_b781b718c132d84954771549237ecf94/node_modules/@deepseek-ai/dsh-typert-protocol/lib/index.js
+//#region node_modules/.pnpm/@deepseek-ai+dsh-typert-pro_d8a93c1e0226dfbdafa801afa2319239/node_modules/@deepseek-ai/dsh-typert-protocol/lib/index.js
 /**
 * Remote decorators and explicit Gateway bindings backed only by private
 * module state. Strict reflection remains a Typert compiler responsibility.
@@ -9553,7 +9553,7 @@ function validateName(subject, value) {
 	if (!isTypertRemoteSegment(value)) throw new TypeError(`typert-protocol: ${subject} must contain only RPC endpoint segment characters`);
 }
 //#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-scope@0.1._01b6292f2c8c04aea241eb18bcff3838/node_modules/@deepseek-ai/dsh-scope/lib/index.js
+//#region node_modules/.pnpm/@deepseek-ai+dsh-scope@0.1._7f15c7653b2619acc206cea5c06e49b3/node_modules/@deepseek-ai/dsh-scope/lib/index.js
 /**
 * Shared insertion-ordered storage and effect ownership for scope-aware registries.
 *
@@ -9832,7 +9832,7 @@ function scopeTarget(base, key) {
 	return carrier;
 }
 //#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-session@0._71e6a74f8dd9d1b24fc26c2585af4bea/node_modules/@deepseek-ai/dsh-session/lib/index.js
+//#region node_modules/.pnpm/@deepseek-ai+dsh-session@0._f3475d2e0abd209e639ed06267209bdd/node_modules/@deepseek-ai/dsh-session/lib/index.js
 /** Lossless-JSON validation and detached snapshots for durable session data. @module @deepseek-ai/dsh-session/json */
 /** Whether a realm-owned intrinsic prototype is backed by its native constructor. */
 function hasIntrinsicConstructor$1(prototype, name) {
@@ -10001,7 +10001,7 @@ function isJsonValue(value) {
 	return walkJsonValue(value, false) === true;
 }
 //#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-tools@0.1._0f0054f9d199ac5ca5cf960384f246af/node_modules/@deepseek-ai/dsh-tools/lib/index.js
+//#region node_modules/.pnpm/@deepseek-ai+dsh-tools@0.1._7117760508de0db46d4e3da5e4a645e6/node_modules/@deepseek-ai/dsh-tools/lib/index.js
 /**
 * Enforced JSON Schema subset shared by tool outputs, generated Code Mode
 * types, subagents, and workflows. The subset accepts any JSON root, an
@@ -22007,7 +22007,7 @@ var StdioClientTransport = class {
 	}
 };
 //#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-credential_bb77a44248c29070a62850b640961693/node_modules/@deepseek-ai/dsh-credentials/lib/index.js
+//#region node_modules/.pnpm/@deepseek-ai+dsh-credential_07859f6f9ce036fd17600077e6a695b1/node_modules/@deepseek-ai/dsh-credentials/lib/index.js
 /**
 * Service Definition for the credential-reference capability seam (`ctx.credentials`). Settings and composition files carry
 * *references* to secrets — environment-variable names — while providers own
@@ -22024,8 +22024,20 @@ const REF_PATTERN = /^[A-Za-z_][A-Za-z0-9_]*$/;
 * @returns the branded reference.
 */
 function credentialRef(value) {
-	if (!REF_PATTERN.test(value)) throw new TypeError(`credential ref "${value}" must match ${String(REF_PATTERN)}`);
+	if (!isCredentialRefName(value)) throw new TypeError(`credential ref "${value}" must match ${String(REF_PATTERN)}`);
 	return value;
+}
+/**
+* Whether a raw string could name a reference at all. Consumers that receive
+* environment-variable names from somewhere else — a provider library's own
+* ambient discovery, a hook payload — ask this before resolving, because a name
+* outside the grammar has no reference to miss and should read as "not set"
+* rather than as a thrown error.
+* @param value - candidate reference.
+* @returns true when {@link credentialRef} would accept it.
+*/
+function isCredentialRefName(value) {
+	return REF_PATTERN.test(value);
 }
 //#endregion
 //#region packages/control-center/lib/index.js
@@ -22053,8 +22065,8 @@ var lib_exports = /* @__PURE__ */ __exportAll({
 	name: () => name
 });
 /** DSH package versions and exports required by the first Control Center release. */
-const SUPPORTED_DSH_VERSION = "0.1.0-rc.8";
-const DSH_SOURCE_BASELINE = "b7135e620674ef022a26a1d2cc87b79668790e7a";
+const SUPPORTED_DSH_VERSION = "0.1.1-rc.2";
+const DSH_SOURCE_BASELINE = "b150a551b8";
 const REQUIRED_PACKAGES = [
 	{
 		name: "@deepseek-ai/dsh-api-remotes",
@@ -22115,7 +22127,7 @@ function profileRequire() {
 	} catch {}
 	return own;
 }
-/** Reject a DSH installation whose resolved contract packages differ from rc.7. */
+/** Reject a DSH installation whose resolved contract packages differ from 0.1.1-rc.2. */
 function assertCompatibleDsh(requireFrom = profileRequire()) {
 	for (const required of REQUIRED_PACKAGES) {
 		let manifestPath;
@@ -22125,7 +22137,7 @@ function assertCompatibleDsh(requireFrom = profileRequire()) {
 			throw new Error(`DSH Control Center requires ${required.name}@${SUPPORTED_DSH_VERSION}, but its package manifest cannot be resolved. Remove the Control Center bundle or install the supported DSH release.`, { cause });
 		}
 		const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
-		if (manifest.name !== required.name || manifest.version !== "0.1.0-rc.8") throw new Error(`DSH Control Center is incompatible with ${required.name}: expected ${SUPPORTED_DSH_VERSION}, resolved ${String(manifest.version)}. Supported DSH source baseline: ${DSH_SOURCE_BASELINE}.`);
+		if (manifest.name !== required.name || manifest.version !== "0.1.1-rc.2") throw new Error(`DSH Control Center is incompatible with ${required.name}: expected ${SUPPORTED_DSH_VERSION}, resolved ${String(manifest.version)}. Supported DSH source baseline: ${DSH_SOURCE_BASELINE}.`);
 		if (typeof manifest.exports !== "object" || manifest.exports["./package.json"] === void 0) throw new Error(`${required.name}@${SUPPORTED_DSH_VERSION} does not expose ./package.json as required`);
 		if (required.client && manifest.exports["./client"] === void 0) throw new Error(`${required.name}@${SUPPORTED_DSH_VERSION} does not expose ./client as required`);
 	}
@@ -22861,7 +22873,7 @@ function estimateTokenCount(text) {
 *
 * Adapted from Cherry Studio's knowledge splitter
 * (src/main/features/knowledge/pipeline/indexing/splitter.ts) at baseline
-* 13687df354e9845c7e2b6d155eac6a9171f6a533 (AGPL-3.0-only). The algorithm,
+* 0bb1725c638bf12d505e9baadaa69f8da47dd05e (AGPL-3.0-only). The algorithm,
 * break scoring, and the verbatim-slice invariant are preserved; the
 * `tokenx` token estimator is replaced by the local `estimateTokenCount`,
 * and `KnowledgeChunkStrategy` is inlined as the local `ChunkStrategy`.
@@ -24394,7 +24406,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-BnEzIeWg.js");
+				const { SSEClientTransport } = await import("./sse-Cq6dxkzq.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -24416,7 +24428,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-BYrp7CHa.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-BYJsthOE.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -26887,11 +26899,9 @@ function apply(ctx) {
 		]
 	}];
 	for (const contribution of contributions) ctx.typert.register(contribution);
-	ctx.inject(["settings"], (settingsCtx) => {
-		settingsCtx.settings.register(settingsNamespace(ONBOARDING_SETTINGS_NAMESPACE), OnboardingSettingsSchema);
-		settingsCtx.settings.register(settingsNamespace(NOTIFICATION_SETTINGS_NAMESPACE), NotificationSettingsSchema);
-		settingsCtx.settings.register(settingsNamespace(APPEARANCE_SETTINGS_NAMESPACE), AppearanceSettingsSchema);
-	});
+	ctx.settings.register(settingsNamespace(ONBOARDING_SETTINGS_NAMESPACE), OnboardingSettingsSchema);
+	ctx.settings.register(settingsNamespace(NOTIFICATION_SETTINGS_NAMESPACE), NotificationSettingsSchema);
+	ctx.settings.register(settingsNamespace(APPEARANCE_SETTINGS_NAMESPACE), AppearanceSettingsSchema);
 }
 //#endregion
 export { DataService, FileProcessingService, KnowledgeService, LocalModelsService, McpService, PaintingService, ProvidersService, SkillsService, SystemService, TasksService, TranslationService, UpdateService, UsageService, WebSearchService, _coercedNumber as _, isJSONRPCRequest as a, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, __toESM as b, any as c, cronMatches, literal as d, looseObject as f, url as g, string as h, isInitializedNotification as i, inject, array as l, object as m, JSONRPCMessageSchema as n, name, isJSONRPCResultResponse as o, number as p, LATEST_PROTOCOL_VERSION as r, ZodNumber as s, lib_exports as t, boolean as u, NEVER as v, __commonJSMin as y };

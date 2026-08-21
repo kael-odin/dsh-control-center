@@ -4,8 +4,8 @@
 
 ## 支持基线
 
-- DeepSeek Harness `0.1.0-rc.7`（`99f6f02fecdb7dff40c3fbc9470f5907c29f74ca`）
-- Cherry Studio 源码／视觉基线 `13687df354e9845c7e2b6d155eac6a9171f6a533`（应用版本 `2.0.7`）
+- DeepSeek Harness `0.1.1-rc.2`（`b150a551b8`）
+- Cherry Studio 源码／视觉基线 `0bb1725c638bf12d505e9baadaa69f8da47dd05e`（应用版本 `2.0.8`）
 
 若运行时实际解析到的 DSH 契约包不匹配支持基线，本包会在浏览器端激活前使启动失败。
 

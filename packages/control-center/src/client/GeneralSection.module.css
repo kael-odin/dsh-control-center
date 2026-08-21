@@ -10,3 +10,16 @@
 .section > :global([data-slot='settings.general.item']) > :last-child {
   border-bottom: none;
 }
+
+.errorTitle {
+  color: var(--cc-text-primary);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.errorDescription {
+  color: var(--cc-text-secondary);
+  font-size: 12px;
+  margin-top: 6px;
+  white-space: pre-wrap;
+}

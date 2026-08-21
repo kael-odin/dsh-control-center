@@ -21,7 +21,7 @@
   沿用现有 loopback Web carrier（无 preload bridge，不暴露 Electron API 给 renderer）。
   `cordis.patch.yml` 在 `dsh-web-app` 后插入 desktop-shell / desktop-profiles / desktop-terminal /
   desktop-pnpm / desktop-updates 等 layer；**保留被选 profile 的第三方 bundle 相对顺序**。
-- 兼容性：依赖 DSH `0.1.0-rc.7`（与我们 boxed 的基线一致），经 Yarn patch 钉死相关 @deepseek-ai 包。
+- 兼容性：依赖 DSH `0.1.1-rc.2`（与我们 boxed 的基线一致），经 Yarn patch 钉死相关 @deepseek-ai 包。
 - 接入路径：创建/选用 `desktop` profile → `dsh plugin --profile desktop add @dsh-control-center/bundle`，
   我们的插件即自动进入 Loader 组合，UI 与服务**零重写**；profile 切换有 last-known-good 回滚。
 - 契合点：正是 DESKTOP_PLAN 想要的"桌面本身也是插件"的薄宿主形态。

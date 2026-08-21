@@ -7,6 +7,7 @@
  */
 import type { ConfigurableProviderView, CredentialView, IApiClient, SettingsNamespaceView } from '@deepseek-ai/dsh-api-remotes/client';
 import type { SnapshotStore } from '@deepseek-ai/dsh-client-runtime/client';
+import type { SettingsDescribeFace } from '@deepseek-ai/dsh-client-ui-settings/client';
 import type { SettingsSchemaOperations } from './schema-operations.ts';
 /** One provider row the page renders. */
 export interface ProviderRow {
@@ -64,6 +65,7 @@ export declare function protocolChoices(namespace: SettingsNamespaceView | undef
 export declare class ModelsSettingsStore {
     private readonly api;
     private readonly schema;
+    private readonly settingsMirror?;
     /** The snapshot the section renders from (uSES-safe store). */
     readonly store: SnapshotStore<ModelsSettingsState>;
     /** Latest load wins; an older response never overwrites a newer one. */
@@ -72,7 +74,7 @@ export declare class ModelsSettingsStore {
      * @param api - the wire face (settings/credentials/llm domains).
      * @param schema - bound schema callbacks for namespace introspection.
      */
-    constructor(api: Pick<IApiClient, 'settings' | 'credentials' | 'llm'>, schema: SettingsSchemaOperations);
+    constructor(api: Pick<IApiClient, 'settings' | 'credentials' | 'llm'>, schema: SettingsSchemaOperations, settingsMirror?: SettingsDescribeFace | undefined);
     /**
      * Refresh the whole page snapshot: directory and namespaces in parallel,
      * then one batched credential describe over every referenced ref. A

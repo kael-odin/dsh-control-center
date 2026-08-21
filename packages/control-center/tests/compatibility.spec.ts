@@ -35,12 +35,12 @@ function fixture(version = SUPPORTED_DSH_VERSION): NodeJS.Require {
 }
 
 describe('DSH compatibility preflight', () => {
-  it('accepts the exact rc.8 contract package set', () => {
+  it('accepts the exact 0.1.1-rc.2 contract package set', () => {
     expect(() => assertCompatibleDsh(fixture())).not.toThrow()
   })
 
   it('fails before activation when one resolved package version drifts', () => {
-    expect(() => assertCompatibleDsh(fixture('0.1.0-rc.7')))
-      .toThrow('expected 0.1.0-rc.8, resolved 0.1.0-rc.7')
+    expect(() => assertCompatibleDsh(fixture('0.1.1-rc.1')))
+      .toThrow('expected 0.1.1-rc.2, resolved 0.1.1-rc.1')
   })
 })

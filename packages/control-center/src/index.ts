@@ -121,20 +121,18 @@ export function apply(ctx: Context): void {
     }
   ]
   for (const contribution of contributions) ctx.typert.register(contribution)
-  ctx.inject(['settings'], (settingsCtx) => {
-    settingsCtx.settings.register(
-      settingsNamespace(ONBOARDING_SETTINGS_NAMESPACE),
-      OnboardingSettingsSchema,
-    )
-    settingsCtx.settings.register(
-      settingsNamespace(NOTIFICATION_SETTINGS_NAMESPACE),
-      NotificationSettingsSchema,
-    )
-    settingsCtx.settings.register(
-      settingsNamespace(APPEARANCE_SETTINGS_NAMESPACE),
-      AppearanceSettingsSchema,
-    )
-  })
+  ctx.settings.register(
+    settingsNamespace(ONBOARDING_SETTINGS_NAMESPACE),
+    OnboardingSettingsSchema,
+  )
+  ctx.settings.register(
+    settingsNamespace(NOTIFICATION_SETTINGS_NAMESPACE),
+    NotificationSettingsSchema,
+  )
+  ctx.settings.register(
+    settingsNamespace(APPEARANCE_SETTINGS_NAMESPACE),
+    AppearanceSettingsSchema,
+  )
 }
 
 export { assertCompatibleDsh } from './compatibility.ts'

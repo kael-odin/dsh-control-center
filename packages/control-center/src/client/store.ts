@@ -11,6 +11,7 @@ import type {
 } from '@deepseek-ai/dsh-api-remotes/client'
 import type { SnapshotStore } from '@deepseek-ai/dsh-client-runtime/client'
 import { createSnapshotStore } from '@deepseek-ai/dsh-client-runtime/client'
+import type { SettingsDescribeFace } from '@deepseek-ai/dsh-client-ui-settings/client'
 import type { SettingsSchemaOperations } from './schema-operations.ts'
 import { assertProviderSchemasSafe } from './schema-safety.ts'
 
@@ -120,6 +121,7 @@ export class ModelsSettingsStore {
   constructor(
     private readonly api: Pick<IApiClient, 'settings' | 'credentials' | 'llm'>,
     private readonly schema: SettingsSchemaOperations,
+    private readonly settingsMirror?: SettingsDescribeFace,
   ) {}
 
   /**
@@ -135,15 +137,23 @@ export class ModelsSettingsStore {
     let writable: boolean
     let views: SettingsNamespaceView[]
     try {
-      const [providersResponse, settingsResponse] = await Promise.all([
-        this.api.llm.providers({}),
-        this.api.settings.describe({}),
-      ])
+      const providersResponse = await this.api.llm.providers({})
       if (!providersResponse.result.ok) throw new Error(providersResponse.result.error.message)
-      if (!settingsResponse.result.ok) throw new Error(settingsResponse.result.error.message)
+      if (this.settingsMirror !== undefined) {
+        await this.settingsMirror.ensure()
+        const settingsView = this.settingsMirror.getSnapshot().view
+        if (settingsView === undefined) throw new Error(
+          this.settingsMirror.getSnapshot().error ?? 'settings are unavailable',
+        )
+        writable = settingsView.writable
+        views = [...settingsView.namespaces]
+      } else {
+        const settingsResponse = await this.api.settings.describe({})
+        if (!settingsResponse.result.ok) throw new Error(settingsResponse.result.error.message)
+        writable = settingsResponse.result.value.writable
+        views = [...settingsResponse.result.value.namespaces]
+      }
       providers = providersResponse.result.value.providers
-      writable = settingsResponse.result.value.writable
-      views = settingsResponse.result.value.namespaces
       assertProviderSchemasSafe(views)
     } catch (error) {
       if (generation !== this.generation) return

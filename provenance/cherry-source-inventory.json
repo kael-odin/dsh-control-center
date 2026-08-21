@@ -3,8 +3,8 @@
  "upstream": {
   "project": "Cherry Studio",
   "repository": "https://github.com/CherryHQ/cherry-studio",
-  "commit": "13687df354e9845c7e2b6d155eac6a9171f6a533",
-  "applicationVersion": "2.0.7",
+  "commit": "0bb1725c638bf12d505e9baadaa69f8da47dd05e",
+  "applicationVersion": "2.0.8",
   "license": "AGPL-3.0-only"
  },
  "adaptedAt": "2026-08-18",

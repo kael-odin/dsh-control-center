@@ -21,8 +21,8 @@ import { arch, homedir, platform, release } from "node:os";
 import { spawnSync } from "node:child_process";
 //#region lib/types/compatibility.js
 /** DSH package versions and exports required by the first Control Center release. */
-const SUPPORTED_DSH_VERSION = "0.1.0-rc.8";
-const DSH_SOURCE_BASELINE = "b7135e620674ef022a26a1d2cc87b79668790e7a";
+const SUPPORTED_DSH_VERSION = "0.1.1-rc.2";
+const DSH_SOURCE_BASELINE = "b150a551b8";
 const REQUIRED_PACKAGES = [
 	{
 		name: "@deepseek-ai/dsh-api-remotes",
@@ -83,7 +83,7 @@ function profileRequire() {
 	} catch {}
 	return own;
 }
-/** Reject a DSH installation whose resolved contract packages differ from rc.7. */
+/** Reject a DSH installation whose resolved contract packages differ from 0.1.1-rc.2. */
 function assertCompatibleDsh(requireFrom = profileRequire()) {
 	for (const required of REQUIRED_PACKAGES) {
 		let manifestPath;
@@ -93,7 +93,7 @@ function assertCompatibleDsh(requireFrom = profileRequire()) {
 			throw new Error(`DSH Control Center requires ${required.name}@${SUPPORTED_DSH_VERSION}, but its package manifest cannot be resolved. Remove the Control Center bundle or install the supported DSH release.`, { cause });
 		}
 		const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
-		if (manifest.name !== required.name || manifest.version !== "0.1.0-rc.8") throw new Error(`DSH Control Center is incompatible with ${required.name}: expected ${SUPPORTED_DSH_VERSION}, resolved ${String(manifest.version)}. Supported DSH source baseline: ${DSH_SOURCE_BASELINE}.`);
+		if (manifest.name !== required.name || manifest.version !== "0.1.1-rc.2") throw new Error(`DSH Control Center is incompatible with ${required.name}: expected ${SUPPORTED_DSH_VERSION}, resolved ${String(manifest.version)}. Supported DSH source baseline: ${DSH_SOURCE_BASELINE}.`);
 		if (typeof manifest.exports !== "object" || manifest.exports["./package.json"] === void 0) throw new Error(`${required.name}@${SUPPORTED_DSH_VERSION} does not expose ./package.json as required`);
 		if (required.client && manifest.exports["./client"] === void 0) throw new Error(`${required.name}@${SUPPORTED_DSH_VERSION} does not expose ./client as required`);
 	}
@@ -843,7 +843,7 @@ function estimateTokenCount(text) {
 *
 * Adapted from Cherry Studio's knowledge splitter
 * (src/main/features/knowledge/pipeline/indexing/splitter.ts) at baseline
-* 13687df354e9845c7e2b6d155eac6a9171f6a533 (AGPL-3.0-only). The algorithm,
+* 0bb1725c638bf12d505e9baadaa69f8da47dd05e (AGPL-3.0-only). The algorithm,
 * break scoring, and the verbatim-slice invariant are preserved; the
 * `tokenx` token estimator is replaced by the local `estimateTokenCount`,
 * and `KnowledgeChunkStrategy` is inlined as the local `ChunkStrategy`.
@@ -4923,11 +4923,9 @@ function apply(ctx) {
 		]
 	}];
 	for (const contribution of contributions) ctx.typert.register(contribution);
-	ctx.inject(["settings"], (settingsCtx) => {
-		settingsCtx.settings.register(settingsNamespace(ONBOARDING_SETTINGS_NAMESPACE), OnboardingSettingsSchema);
-		settingsCtx.settings.register(settingsNamespace(NOTIFICATION_SETTINGS_NAMESPACE), NotificationSettingsSchema);
-		settingsCtx.settings.register(settingsNamespace(APPEARANCE_SETTINGS_NAMESPACE), AppearanceSettingsSchema);
-	});
+	ctx.settings.register(settingsNamespace(ONBOARDING_SETTINGS_NAMESPACE), OnboardingSettingsSchema);
+	ctx.settings.register(settingsNamespace(NOTIFICATION_SETTINGS_NAMESPACE), NotificationSettingsSchema);
+	ctx.settings.register(settingsNamespace(APPEARANCE_SETTINGS_NAMESPACE), AppearanceSettingsSchema);
 }
 //#endregion
 export { DataService, FileProcessingService, KnowledgeService, LocalModelsService, McpService, PaintingService, ProvidersService, SkillsService, SystemService, TasksService, TranslationService, UpdateService, UsageService, WebSearchService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, cronMatches, inject, name };

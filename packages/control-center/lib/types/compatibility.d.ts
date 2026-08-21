@@ -1,5 +1,5 @@
-export declare const SUPPORTED_DSH_VERSION = "0.1.0-rc.8";
-export declare const DSH_SOURCE_BASELINE = "b7135e620674ef022a26a1d2cc87b79668790e7a";
+export declare const SUPPORTED_DSH_VERSION = "0.1.1-rc.2";
+export declare const DSH_SOURCE_BASELINE = "b150a551b8";
 /**
  * Resolve DSH contract packages from the profile dependency root.
  *
@@ -11,6 +11,6 @@ export declare const DSH_SOURCE_BASELINE = "b7135e620674ef022a26a1d2cc87b7966879
  * DSH package and is the shared dependency root for all plugins.
  */
 export declare function profileRequire(): NodeJS.Require;
-/** Reject a DSH installation whose resolved contract packages differ from rc.7. */
+/** Reject a DSH installation whose resolved contract packages differ from 0.1.1-rc.2. */
 export declare function assertCompatibleDsh(requireFrom?: NodeJS.Require): void;
 //# sourceMappingURL=compatibility.d.ts.map

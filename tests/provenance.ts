@@ -11,7 +11,7 @@ const dsh = JSON.parse(readFileSync(resolve(root, 'provenance/dsh-source-invento
   sourceGroups?: Array<{ sources?: string[]; destinations?: string[]; notice?: string; verified?: boolean }>
 }
 const notice = readFileSync(resolve(root, 'NOTICE'), 'utf8')
-if (cherry.upstream?.commit !== '13687df354e9845c7e2b6d155eac6a9171f6a533') {
+if (cherry.upstream?.commit !== '0bb1725c638bf12d505e9baadaa69f8da47dd05e') {
   throw new Error('provenance: Cherry baseline commit drifted')
 }
 if (cherry.upstream.license !== 'AGPL-3.0-only') throw new Error('provenance: Cherry license is missing')
@@ -24,7 +24,7 @@ for (const entry of cherry.files ?? []) {
     if (!existsSync(resolve(root, destination))) throw new Error(`provenance: missing adapted destination ${destination}`)
   }
 }
-if (dsh.upstream?.commit !== '99f6f02fecdb7dff40c3fbc9470f5907c29f74ca') {
+if (dsh.upstream?.commit !== 'b150a551b8') {
   throw new Error('provenance: DSH baseline commit drifted')
 }
 if (dsh.upstream.license !== 'MIT') throw new Error('provenance: DSH license is missing')

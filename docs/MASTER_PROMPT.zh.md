@@ -24,7 +24,7 @@
 - 结构：`packages/control-center/src/`（host 服务）与 `.../client/`（UI）；`packages/bundle/`（安装包）；wire 三层：`*-types.ts`（类型图）+ `*-remote-client.ts`（**客户端描述符才是代理方法面的真相**）+ host 服务 `markRemoteMethods`
 - 真实模型测试 key：DeepSeek `https://api.deepseek.com/v1`（OpenAI 兼容）/ `https://api.deepseek.com/anthropic`，模型 `deepseek-v4-flash`
 
-## 四、已完成（当前基线 HEAD 59f9d89）
+## 四、已完成（当前基线 HEAD 7512fcd；DSH 契约基线 0.1.1-rc.2 / b150a551b8，Cherry 源码基线 0bb1725c63 / 2.0.8）
 
 - **翻译工作区**：Cherry 全页布局（语言 Combobox 带搜索/emoji、交换钮、emerald 翻译按钮、ModelSelector 带服务商头像分组+配置自定义模型跳转、历史/设置浮动面板、拖入或点击上传 6 格式图标、Cherry 内置提示词模板 {{text}}/{{target_language}}、自动检测 自动/算法/LLM 三模式真实生效、HelpTooltip 问号）
 - **绘画工作区**：68px 会话轨道、25 个 Cherry 模板轮盘（固定尺寸确定性布局+像素间距层叠）、参数弹层（背景/生成数量/质量/尺寸 chips，portal 视口自适应）、+号快捷面板（上传附件/提示词管理/管理对话框）、Artboard 工具栏、生成骨架屏

@@ -3,7 +3,7 @@
  *
  * Adapted from Cherry Studio's knowledge splitter
  * (src/main/features/knowledge/pipeline/indexing/splitter.ts) at baseline
- * 13687df354e9845c7e2b6d155eac6a9171f6a533 (AGPL-3.0-only). The algorithm,
+ * 0bb1725c638bf12d505e9baadaa69f8da47dd05e (AGPL-3.0-only). The algorithm,
  * break scoring, and the verbatim-slice invariant are preserved; the
  * `tokenx` token estimator is replaced by the local `estimateTokenCount`,
  * and `KnowledgeChunkStrategy` is inlined as the local `ChunkStrategy`.

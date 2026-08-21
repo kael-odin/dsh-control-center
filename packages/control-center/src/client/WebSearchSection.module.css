@@ -28,6 +28,26 @@
   color: var(--muted-foreground);
 }
 
+.error {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 16px;
+  border: 1px solid color-mix(in srgb, #ef4444 28%, var(--border-subtle));
+  border-radius: 10px;
+  background: color-mix(in srgb, #ef4444 8%, var(--card));
+  color: var(--foreground);
+  font-size: 13px;
+}
+
+.error span {
+  color: var(--muted-foreground);
+  white-space: pre-wrap;
+}
+
 /* One capability card (mt-4 first:mt-0 section + provider setting card). */
 .card {
   display: flex;

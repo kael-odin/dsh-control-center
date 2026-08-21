@@ -65,23 +65,44 @@ export function WebSearchSection({ websearch }: WebSearchSectionProps) {
   const [config, setConfig] = useState<WebSearchConfig | null>(null)
   const [providers, setProviders] = useState<WebSearchProvider[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    let active = true
+    setLoading(true)
+    setError(null)
     Promise.all([
       websearch.getConfig(),
       websearch.listProviders()
     ]).then(([cfg, pvs]) => {
+      if (!active) return
       setConfig(unwrap(cfg))
       setProviders(unwrap(pvs))
       setLoading(false)
     }).catch((err) => {
+      if (!active) return
       setLoading(false)
+      setError(err instanceof Error ? err.message : String(err))
       console.error('Failed to load web search config:', err)
     })
+    return () => { active = false }
   }, [websearch])
 
-  if (loading || !config) {
+  if (loading) {
     return <div className={css.loading}>Loading...</div>
+  }
+
+  if (error !== null) {
+    return (
+      <div className={css.error} role="alert">
+        <strong>Web Search 暂时不可用</strong>
+        <span>{error}</span>
+      </div>
+    )
+  }
+
+  if (!config) {
+    return <div className={css.error} role="alert">Web Search 未返回有效配置。</div>
   }
 
   const featureSections = getFeatureSections(providers)

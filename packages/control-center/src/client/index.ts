@@ -4,6 +4,7 @@ import type { ConnectionHandle, SessionId } from '@deepseek-ai/dsh-api-remotes/c
 import { bindSnapshotSelector } from './bind-snapshot.ts'
 import { resolveSlotLabel, type HostObservable } from '@deepseek-ai/dsh-client-ui-slots'
 import type {} from '@deepseek-ai/dsh-client-ui-settings/client'
+import type { SettingsScopeBinder, SettingsSchemaService } from '@deepseek-ai/dsh-client-ui-settings/client'
 import type {} from '@deepseek-ai/dsh-client-ui-sidebar/client'
 import type {} from '@deepseek-ai/dsh-client-ui-layout/client'
 // The application workspace seam types ship in the harness source baseline,
@@ -126,7 +127,7 @@ declare module '@deepseek-ai/dsh-client-ui-slots' {
   }
 }
 
-export const inject = ['slots', 'locale', 'connection', 'remote', 'sessions', 'settingsSchema']
+export const inject = ['slots', 'locale', 'connection', 'remote', 'sessions', 'settingsScope', 'settingsSchema']
 
 /** Register the settings shell, Provider/Model page, and onboarding steps. */
 export function apply(ctx: ClientContext): void {
@@ -292,9 +293,11 @@ export function apply(ctx: ClientContext): void {
   const shellT = ctx.locale.bind(SHELL_NS)
   const modelT = ctx.locale.bind(MODELS_NS) as ModelsSectionInjected['t']
   const connection = ctx.get('connection') as ConnectionHandle
-  // Bound schema callbacks from the ui-settings `settingsSchema` service, the
-  // rc.8 replacement for the removed `dsh-client-schema-form` helpers.
-  const schema = createSettingsSchemaOperations(ctx.settingsSchema)
+  const settingsScope = ctx.get('settingsScope') as SettingsScopeBinder
+  const settingsSchema = ctx.get('settingsSchema') as SettingsSchemaService
+  const schema = createSettingsSchemaOperations(settingsSchema)
+  const settingsMirror = settingsScope.describe()
+
   const documentController = connection.isLoopback ? new SettingsDocumentStore(connection.api) : undefined
   const documentInjected = documentController === undefined
     ? undefined
@@ -303,7 +306,7 @@ export function apply(ctx: ClientContext): void {
         return (): SettingsDocumentActionInjected => ({ controller: documentController, useSnapshot })
       })()
 
-  const modelsController = new ModelsSettingsStore(connection.api, schema)
+  const modelsController = new ModelsSettingsStore(connection.api, schema, settingsMirror)
   const useModels = bindSnapshotSelector(modelsController.store)
   const selectionController = new ModelSelectionStore(connection.api, schema)
   const useSelection = bindSnapshotSelector(selectionController.store)
@@ -427,7 +430,7 @@ export function apply(ctx: ClientContext): void {
         if (namespace === WELCOME_NOTICE_SETTINGS_NAMESPACE) refreshWelcomeIfLoaded(welcomeController)
         if (namespace === NOTIFICATION_SETTINGS_NAMESPACE) void notificationRuntime.refreshPreferences()
       }),
-      ctx.remote.$on('credentials/updated', refreshModels),
+      ctx.remote.$on('credentials/reference-updated', refreshModels),
       ctx.remote.$on('llm/adapters-updated', refreshModels),
     ]
     return () => { for (const dispose of disposers) dispose() }

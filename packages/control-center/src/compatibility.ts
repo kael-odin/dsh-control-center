@@ -4,8 +4,8 @@ import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolveDshHome } from '@deepseek-ai/dsh-home-paths'
 
-export const SUPPORTED_DSH_VERSION = '0.1.0-rc.8'
-export const DSH_SOURCE_BASELINE = 'b7135e620674ef022a26a1d2cc87b79668790e7a'
+export const SUPPORTED_DSH_VERSION = '0.1.1-rc.2'
+export const DSH_SOURCE_BASELINE = 'b150a551b8'
 
 interface RequiredPackage {
   name: string
@@ -59,7 +59,7 @@ export function profileRequire(): NodeJS.Require {
   return own
 }
 
-/** Reject a DSH installation whose resolved contract packages differ from rc.7. */
+/** Reject a DSH installation whose resolved contract packages differ from 0.1.1-rc.2. */
 export function assertCompatibleDsh(requireFrom: NodeJS.Require = profileRequire()): void {
   for (const required of REQUIRED_PACKAGES) {
     let manifestPath: string

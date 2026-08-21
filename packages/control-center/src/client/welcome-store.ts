@@ -33,13 +33,16 @@ export class WelcomeNoticeStore {
 
   private generation = 0
 
+  private failureCount = 0
+  private readonly MAX_FAILURES = 2
+
   /**
    * @param api - settings wire face used for durable reads and writes.
    * @param persistence - remote browsers use memory because settings is loopback-only.
    */
   constructor(
     private readonly api: Pick<IApiClient, 'settings'>,
-    private readonly persistence: 'host' | 'memory' = 'host',
+    private persistence: 'host' | 'memory' = 'host',
   ) {}
 
   /** Load the acknowledgement from Host settings or initialize process-local state. */
@@ -51,6 +54,10 @@ export class WelcomeNoticeStore {
     }
     this.store.update((state) => { state.status = 'loading'; state.error = null })
     try {
+      // Guard: settings API must be available
+      if (this.api.settings === undefined) {
+        throw new Error('settings API not initialized')
+      }
       const response = await this.api.settings.describe({})
       if (!response.result.ok) throw new Error(response.result.error.message)
       const view = response.result.value.namespaces.find(
@@ -89,12 +96,27 @@ export class WelcomeNoticeStore {
     }
     this.store.update((state) => { state.status = 'saving'; state.error = null })
     try {
+      // Guard: settings API must be available
+      if (this.api.settings === undefined) {
+        throw new Error('settings API not initialized')
+      }
+      // First verify the namespace is available before attempting mutation
+      const describeResponse = await this.api.settings.describe({})
+      if (!describeResponse.result.ok) throw new Error(describeResponse.result.error.message)
+      const view = describeResponse.result.value.namespaces.find(
+        candidate => candidate.ns === WELCOME_NOTICE_SETTINGS_NAMESPACE,
+      )
+      if (view === undefined) throw new Error('welcome acknowledgement settings are unavailable')
+
+      // Now attempt the mutation
       const response = await this.api.settings.mutate({
         ns: WELCOME_NOTICE_SETTINGS_NAMESPACE,
         ops: [{ op: 'set', path: [WELCOME_NOTICE_ACK_FIELD], value: WELCOME_NOTICE_VERSION }],
+        expectedRevision: view.revision,
       })
       if (!response.result.ok) throw new Error(response.result.error.message)
       if (generation === this.generation) {
+        this.failureCount = 0
         this.store.update((state) => {
           state.status = 'ready'
           state.acknowledged = true
@@ -103,7 +125,18 @@ export class WelcomeNoticeStore {
       }
       return true
     } catch (error) {
+      this.failureCount++
       if (generation === this.generation) {
+        // After MAX_FAILURES attempts, fall back to memory mode so user can proceed
+        if (this.failureCount >= this.MAX_FAILURES) {
+          this.persistence = 'memory'
+          this.store.update((state) => {
+            state.status = 'ready'
+            state.acknowledged = true
+            state.error = null
+          })
+          return true
+        }
         this.store.update((state) => {
           state.status = 'error'
           state.acknowledged = false

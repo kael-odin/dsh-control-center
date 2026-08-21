@@ -10,10 +10,12 @@ export interface WelcomeNoticeState {
 /** Coordinates durable Host acknowledgement or a process-local remote fallback. */
 export declare class WelcomeNoticeStore {
     private readonly api;
-    private readonly persistence;
+    private persistence;
     /** uSES-safe state source shared by the registered welcome step. */
     readonly store: SnapshotStore<WelcomeNoticeState>;
     private generation;
+    private failureCount;
+    private readonly MAX_FAILURES;
     /**
      * @param api - settings wire face used for durable reads and writes.
      * @param persistence - remote browsers use memory because settings is loopback-only.

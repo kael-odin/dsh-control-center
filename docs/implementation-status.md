@@ -6,8 +6,8 @@ This ledger distinguishes verified capability from committed scope. A capability
 
 ## Baselines
 
-- DSH: `0.1.0-rc.7` / `99f6f02fecdb7dff40c3fbc9470f5907c29f74ca`
-- Cherry Studio source and visual reference: application `2.0.7` / `13687df354e9845c7e2b6d155eac6a9171f6a533`
+- DSH: `0.1.1-rc.2` / `b150a551b8`
+- Cherry Studio source and visual reference: application `2.0.8` / `0bb1725c638bf12d505e9baadaa69f8da47dd05e`
 - Runtime dependency on Cherry Studio: none
 
 ## Capability ledger

@@ -85,13 +85,12 @@ export interface ProviderEditorProps {
   onClose: (changed: boolean) => void
 }
 
-/** A user-section subtree as a plain draft object (absent → empty). */
 function draftAt(
   namespace: SettingsNamespaceView,
   path: readonly string[],
   schema: SettingsSchemaOperations,
 ): Record<string, unknown> {
-  const subtree = schema.getPath(namespace.user, path)
+  const subtree = schema.getPath(namespace.user, [...path])
   if (typeof subtree !== 'object' || subtree === null || Array.isArray(subtree)) return {}
   return structuredClone(subtree) as Record<string, unknown>
 }
@@ -139,7 +138,7 @@ function refFor(
   provider: string,
   schema: SettingsSchemaOperations,
 ): string {
-  const profile = schema.getPath(namespace.value, path)
+  const profile = schema.getPath(namespace.value, [...path])
   const named = typeof profile === 'object' && profile !== null
     ? (profile as { apiKeyEnv?: unknown }).apiKeyEnv
     : undefined
@@ -165,12 +164,12 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
   // derived fields in the draft prevents a pushed namespace refresh from
   // turning them into deletions when the following credential write is retried.
   const [committedOriginal, setCommittedOriginal] = useState<unknown>(
-    () => getPath(namespace.user, settingsPath),
+    () => getPath(namespace.user, [...settingsPath]),
   )
   const [expectedRevision, setExpectedRevision] = useState(() => namespace.revision)
   const root = useMemo(() => rehydrate(namespace.schema), [namespace.schema])
-  const node = useMemo(() => nodeAtPath(root, settingsPath), [root, settingsPath])
-  const fallback = getPath(namespace.value, settingsPath)
+  const node = useMemo(() => nodeAtPath(root, [...settingsPath]), [root, settingsPath])
+  const fallback = getPath(namespace.value, [...settingsPath])
   const disabled = props.readOnly || busy
   const layout = layoutOf(namespace.ns)
   const keyRef = refFor(namespace, settingsPath, props.provider, schema)
@@ -210,7 +209,10 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
     // while the draft still carried the spaces into `settings.yaml`, where
     // both adapters would accept that non-empty string as a real value.
     const value = next === undefined || next.trim().length === 0 ? undefined : next
-    setDraft(current => value === undefined ? deletePath(current, [key]) : setPath(current, [key], value))
+    setDraft(current => {
+      const result = value === undefined ? deletePath(current, [key]) : setPath(current, [key], value)
+      return result as Record<string, unknown>
+    })
   }
 
   // The model list is validated by the same per-row checker for both families,
@@ -252,7 +254,7 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
     // about to store a key. Otherwise the provider keeps its native auth path.
     const next = layout === 'pi-ai' && stringAt(draft, 'apiKeyEnv') === undefined
       && stringAt(fallback, 'apiKeyEnv') === undefined && keyValue.length > 0
-      ? setPath(draft, ['apiKeyEnv'], keyRef)
+      ? setPath(draft, ['apiKeyEnv'], keyRef) as Record<string, unknown>
       : draft
     if (props.credentialOnly !== true) {
       // The same checker gates the submit button, so a card cannot reach this
@@ -273,12 +275,12 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
     const materializesNativeProfile = layout === 'pi-ai'
       && fallback === undefined
       && committedOriginal === undefined
-      && Object.keys(next).length === 0
+      && Object.keys(next as Record<string, unknown>).length === 0
     const ops: SettingsPathOpView[] = props.credentialOnly === true
       ? []
       : materializesNativeProfile
         ? [{ op: 'set', path: [...settingsPath], value: {} }]
-        : pathOps(settingsPath, committedOriginal, next)
+        : pathOps([...settingsPath], committedOriginal, next)
     if (ops.length > 0) {
       const response = await api.settings.mutate({ ns, ops, expectedRevision })
       if (!response.result.ok) {
@@ -286,9 +288,9 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
           ? t('conflict')
           : response.result.error.message
       }
-      setCommittedOriginal(getPath(response.result.value.user, settingsPath))
+      setCommittedOriginal(getPath(response.result.value.user, [...settingsPath]))
       setExpectedRevision(response.result.value.revision)
-      setDraft(next)
+      setDraft(next as Record<string, unknown>)
     }
     if (keyValue.length > 0) {
       const stored = await api.credentials.set({ ref: keyRef, value: keyValue })
@@ -335,7 +337,8 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
    */
   const inheritedModels = (): unknown => {
     const pinned = getPath(namespace.base, [...settingsPath, 'models'])
-    return pinned ?? nodeAtPath(root, [...settingsPath, 'models'])?.meta.default
+    const node = nodeAtPath(root, [...settingsPath, 'models']) as { meta?: { default?: unknown } } | undefined
+    return pinned ?? node?.meta?.default
   }
 
   /**
@@ -365,9 +368,9 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
       t,
       disabled,
       onChange: (next: Record<string, unknown>[]) => {
-        setDraft(current => setPath(current, ['models'], next))
+        setDraft(current => setPath(current, ['models'], next) as Record<string, unknown>)
       },
-      onReset: () => { setDraft(current => deletePath(current, ['models'])) },
+      onReset: () => { setDraft(current => deletePath(current, ['models']) as Record<string, unknown>) },
     }
     return (
       <>
@@ -409,7 +412,7 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
                     // the answer the route id. Reading the effective value
                     // instead would echo the stored override back as the
                     // thing clearing restores.
-                    placeholder={stringAt(getPath(namespace.base, settingsPath), 'displayName')
+                    placeholder={stringAt(getPath(namespace.base, [...settingsPath]), 'displayName')
                       ?? props.provider}
                     aria-label={t('customDisplayName')}
                     disabled={disabled}

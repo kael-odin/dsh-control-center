@@ -4,8 +4,8 @@ An installable, AGPL-3.0-licensed control center for the DSH Web profile. The fi
 
 ## Supported baseline
 
-- DeepSeek Harness `0.1.0-rc.7` (`99f6f02fecdb7dff40c3fbc9470f5907c29f74ca`)
-- Cherry Studio source/visual baseline `13687df354e9845c7e2b6d155eac6a9171f6a533` (application `2.0.7`)
+- DeepSeek Harness `0.1.1-rc.2` (`b150a551b8`)
+- Cherry Studio source/visual baseline `0bb1725c638bf12d505e9baadaa69f8da47dd05e` (application `2.0.8`)
 
 The package fails startup before its browser half activates when the resolved DSH contract packages do not match the supported baseline.
 
