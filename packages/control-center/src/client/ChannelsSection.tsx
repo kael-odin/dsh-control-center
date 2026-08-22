@@ -249,10 +249,6 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
     setDeleteTarget(null)
   }
 
-  const storageHint = available
-    ? '配置保存在 DSH settings（settings.yaml 的 control-center-channels 段），桌面版将直接读取。'
-    : '当前部署未启用频道存储，更改仅保存在本浏览器；更新 Control Center 后可迁移。'
-
   return (
     <div className={css.split}>
       <aside className={css.submenu}>
@@ -289,8 +285,10 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
             <div className={css.divider} />
 
             <div className={css.notice}>
-              Web 版不附带独立伴生程序；频道绑定与消息推送需要桌面环境支持——此处配置随桌面版直接生效。
-              {storageHint}
+              此处配置会真实写入 DSH settings 并长期保留；频道实例的增删改均已生效。
+              消息收发（机器人上线/推送）由伴生程序驱动——该桥接层尚未实现，届时桌面版与
+              Web 版都将读取这里的同一份配置自动连接。
+              {!available && ' 当前部署未启用频道存储，更改仅保存在本浏览器；更新 Control Center 后可迁移。'}
             </div>
 
             {instances.length === 0 ? (

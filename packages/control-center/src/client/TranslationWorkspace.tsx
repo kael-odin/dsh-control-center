@@ -130,6 +130,9 @@ export function TranslationWorkspace({ getTranslation, listModels, useTranslatio
   const [targetLanguage, setTargetLanguage] = useState('zh-CN')
   const [models, setModels] = useState<readonly ModelProviderGroup[]>([])
   const [selection, setSelection] = useState<TranslationModelSelection | null>(null)
+  // Snapshot hooks must run during render — calling useModelPref inside an
+  // async callback is an invalid hook call (React #321).
+  const modelPref = useModelPref?.()
   const [input, setInput] = useState('')
   const [job, setJob] = useState<TranslationJobView | null>(null)
   const [history, setHistory] = useState<TranslationHistoryItem[]>([])
@@ -195,7 +198,7 @@ export function TranslationWorkspace({ getTranslation, listModels, useTranslatio
     void listModels().then((groups) => {
       if (!active) return
       setModels(groups)
-      const pref = useModelPref?.()
+      const pref = modelPref
       const preferred = pref?.status === 'ready' ? pref.translation : undefined
       setSelection(current => current
         ?? modelOptions(groups).find(option =>
@@ -216,7 +219,7 @@ export function TranslationWorkspace({ getTranslation, listModels, useTranslatio
       })
       .catch(reason => { if (active) setError(reason instanceof Error ? reason.message : String(reason)) })
     return () => { active = false }
-  }, [listModels, translation, translationReady])
+  }, [listModels, translation, translationReady, modelPref])
 
   useEffect(() => {
     if (job?.status !== 'running') return
@@ -438,25 +441,6 @@ export function TranslationWorkspace({ getTranslation, listModels, useTranslatio
       <div className={css.panes}>
         <section className={css.pane}>
           <div className={css.textareaScroll} ref={inputScrollRef} onScroll={() => { onScrollSync('input') }}>
-            {input.length === 0 && (
-              <div className={css.uploadZone} role="button" tabIndex={0}
-                onClick={() => { fileRef.current?.click() }}
-                onKeyDown={(event) => { if (event.key === 'Enter') fileRef.current?.click() }}
-                onDragOver={(event) => { event.preventDefault() }}
-                onDrop={(event) => {
-                  event.preventDefault()
-                  const file = event.dataTransfer.files?.[0]
-                  if (file !== undefined) void handleUpload(file)
-                }}
-              >
-                <div className={css.uploadIcons}>
-                  {TRANSLATE_UPLOAD_ICONS.map(([name, svg]) => (
-                    <span key={name} className={css.uploadIcon} title={TRANSLATE_UPLOAD_LABELS[name]} dangerouslySetInnerHTML={{ __html: svg }} />
-                  ))}
-                </div>
-                <span>拖入或点击上传图片/文档</span>
-              </div>
-            )}
             <textarea
               ref={inputRef}
               aria-label="待翻译文本"
@@ -467,6 +451,28 @@ export function TranslationWorkspace({ getTranslation, listModels, useTranslatio
               spellCheck={false}
             />
           </div>
+          {input.length === 0 && (
+            <div
+              className={css.uploadZone}
+              role="button"
+              tabIndex={0}
+              onClick={() => { fileRef.current?.click() }}
+              onKeyDown={(event) => { if (event.key === 'Enter') fileRef.current?.click() }}
+              onDragOver={(event) => { event.preventDefault() }}
+              onDrop={(event) => {
+                event.preventDefault()
+                const file = event.dataTransfer.files?.[0]
+                if (file !== undefined) void handleUpload(file)
+              }}
+            >
+              <div className={css.uploadIcons}>
+                {TRANSLATE_UPLOAD_ICONS.map(([name, svg]) => (
+                  <span key={name} className={css.uploadIcon} title={TRANSLATE_UPLOAD_LABELS[name]} dangerouslySetInnerHTML={{ __html: svg }} />
+                ))}
+              </div>
+              <span>拖入或点击上传图片/文档</span>
+            </div>
+          )}
           <div className={css.paneCorner}>
             <button type="button" className={`${css.smallIconBtn} ${input.length === 0 ? css.smallIconBtnEmpty : ''}`} title="复制" onClick={() => { if (input.length > 0) copyInput(input) }}>
               {copiedInput ? <IconCheckOutline16 size={14} /> : <IconCopyOutline16 size={14} />}

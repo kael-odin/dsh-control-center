@@ -42,6 +42,9 @@ export function PaintingWorkspace({ getPainting, usePaintingReady, useModelPref,
   const painting = paintingReady ? getPainting() : undefined
   const [catalog, setCatalog] = useState<readonly PaintingCatalogModel[]>([])
   const [selectedModel, setSelectedModel] = useState('')
+  // Snapshot hooks must run during render — calling useModelPref inside an
+  // async callback is an invalid hook call (React #321).
+  const modelPref = useModelPref?.()
   const [current, setCurrent] = useState<CurrentSession>(createDraft)
   const [history, setHistory] = useState<PaintingHistoryItem[]>([])
   const [nextCursor, setNextCursor] = useState<string | null>(null)
@@ -84,8 +87,7 @@ export function PaintingWorkspace({ getPainting, usePaintingReady, useModelPref,
         if (!catalogResult.ok) throw new Error(catalogResult.error.message)
         setCatalog(catalogResult.value.models)
         if (catalogResult.value.models.length > 0 && selectedModel === '') {
-          const pref = useModelPref?.()
-          const stored = pref?.status === 'ready' ? pref.painting : undefined
+          const stored = modelPref?.status === 'ready' ? modelPref.painting : undefined
           const preferred = stored ?? undefined
           const match = preferred === undefined
             ? undefined
@@ -98,7 +100,7 @@ export function PaintingWorkspace({ getPainting, usePaintingReady, useModelPref,
       .catch(reason => { if (active) setError(reason instanceof Error ? reason.message : String(reason)) })
     void refreshHistory(null)
     return () => { active = false }
-  }, [paintingReady, painting, selectedModel, refreshHistory])
+  }, [paintingReady, painting, selectedModel, refreshHistory, modelPref])
 
   // Poll the running job.
   useEffect(() => {

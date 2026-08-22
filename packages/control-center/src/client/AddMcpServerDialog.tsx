@@ -1,6 +1,6 @@
 /**
  * 添加 MCP 服务器 dialog — Cherry AddMcpServerModal + QuickCreate + Npx
- * 市场, mapped to our host: two tabs (手动创建 / Npx 市场), a 快速导入 box
+ * 市场 + 内置服务器 + 更多市场, mapped to our host: a 快速导入 box
  * that parses an npx line / JSON definition / URL into the form, and the
  * market search running host-side against the public npm registry
  * (controlCenterMcp.searchNpxRegistry).
@@ -8,6 +8,7 @@
 import { useState } from 'react'
 import type { CreateMcpServerDto, McpNpxPackage } from '../mcp-types'
 import { parseServerSpec, type ParsedServerSpec } from './mcp-import'
+import { BUILTIN_MCP_PRESETS, MCP_MARKET_SITES } from './mcp-builtin'
 import css from './AddMcpServerDialog.module.css'
 
 interface AddMcpServerDialogProps {
@@ -19,7 +20,7 @@ interface AddMcpServerDialogProps {
 }
 
 export function AddMcpServerDialog({ visible, onClose, onSubmit, searchNpx }: AddMcpServerDialogProps) {
-  const [tab, setTab] = useState<'manual' | 'market'>('manual')
+  const [tab, setTab] = useState<'manual' | 'market' | 'builtin' | 'sites'>('manual')
   const [name, setName] = useState('')
   const [command, setCommand] = useState('')
   const [args, setArgs] = useState('')
@@ -216,6 +217,24 @@ export function AddMcpServerDialog({ visible, onClose, onSubmit, searchNpx }: Ad
           >
             Npx 市场
           </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={tab === 'builtin'}
+            className={`${css.tabButton} ${tab === 'builtin' ? css.tabActive : ''}`}
+            onClick={() => { setTab('builtin') }}
+          >
+            内置服务器
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={tab === 'sites'}
+            className={`${css.tabButton} ${tab === 'sites' ? css.tabActive : ''}`}
+            onClick={() => { setTab('sites') }}
+          >
+            更多市场
+          </button>
         </div>
 
         {tab === 'manual' && (
@@ -314,6 +333,77 @@ export function AddMcpServerDialog({ visible, onClose, onSubmit, searchNpx }: Ad
               </button>
             </div>
           </form>
+        )}
+
+        {tab === 'builtin' && (
+          <div className={css.form}>
+            <p className={css.marketEmpty}>
+              以下预设可通过外部协议直接安装。Cherry 另有 9 个内置服务器运行在其自有运行时内（memory、fetch、filesystem 等），本宿主暂无对应实现，故未列出。
+            </p>
+            <ul className={css.marketList}>
+              {BUILTIN_MCP_PRESETS.map(preset => (
+                <li key={preset.name} className={css.marketItem}>
+                  <div className={css.marketMain}>
+                    <span className={css.marketName}>{preset.name}</span>
+                    <span className={css.marketDesc}>
+                      {preset.description}
+                      {preset.shouldConfig === true ? ' · 需配置凭据' : ''}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    className={css.submitButton}
+                    disabled={loading}
+                    onClick={() => {
+                      void onSubmit({
+                        name: preset.name,
+                        type: preset.type,
+                        description: preset.description,
+                        ...(preset.baseUrl !== undefined ? { baseUrl: preset.baseUrl } : {}),
+                        ...(preset.command !== undefined ? { command: preset.command } : {}),
+                        ...(preset.args !== undefined ? { args: [...preset.args] } : {}),
+                        ...(preset.env !== undefined ? { env: { ...preset.env } } : {}),
+                        ...(preset.headers !== undefined ? { headers: { ...preset.headers } } : {}),
+                        ...(preset.provider !== undefined ? { provider: preset.provider } : {}),
+                        installSource: 'builtin',
+                        timeout: 30000,
+                        longRunning: false,
+                      })
+                    }}
+                  >
+                    添加
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <div className={css.footer}>
+              <button type="button" className={css.cancelButton} onClick={onClose}>关闭</button>
+            </div>
+          </div>
+        )}
+
+        {tab === 'sites' && (
+          <div className={css.form}>
+            <p className={css.marketEmpty}>以下外部市场网站提供海量 MCP 服务器目录；在对方站点找到目标服务器后，可回到「手动创建」用快速导入粘贴其配置。</p>
+            <ul className={css.marketList}>
+              {MCP_MARKET_SITES.map(site => (
+                <li key={site.url} className={css.marketItem}>
+                  <div className={css.marketMain}>
+                    <a href={site.url} target="_blank" rel="noreferrer" className={css.marketName} style={{ color: 'var(--primary)', textDecoration: 'none' }}>
+                      {site.name}
+                    </a>
+                    <span className={css.marketDesc}>{site.description}</span>
+                  </div>
+                  <a href={site.url} target="_blank" rel="noreferrer" className={css.submitButton} style={{ textAlign: 'center', textDecoration: 'none' }}>
+                    打开
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div className={css.footer}>
+              <button type="button" className={css.cancelButton} onClick={onClose}>关闭</button>
+            </div>
+          </div>
         )}
 
         {tab === 'market' && (
