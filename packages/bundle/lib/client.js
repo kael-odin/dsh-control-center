@@ -319,112 +319,112 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var PaintingWorkspace_module_css_default = {
-			"promptLibDelete": "_-UrTq_promptLibDelete",
-			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
-			"manageRow": "_-UrTq_manageRow",
-			"pillButton": "_-UrTq_pillButton",
-			"portalPanel": "_-UrTq_portalPanel",
-			"frame": "_-UrTq_frame",
-			"skeletonCell": "_-UrTq_skeletonCell",
-			"manageRowContent": "_-UrTq_manageRowContent",
-			"quickPanel": "_-UrTq_quickPanel",
-			"centerStage": "_-UrTq_centerStage",
-			"carouselLabel": "_-UrTq_carouselLabel",
-			"selected": "_-UrTq_selected",
-			"addImageButton": "_-UrTq_addImageButton",
-			"promptBar": "_-UrTq_promptBar",
-			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
-			"skeletonGrid": "_-UrTq_skeletonGrid",
-			"quickItemLabel": "_-UrTq_quickItemLabel",
-			"addPromptCard": "_-UrTq_addPromptCard",
-			"centerPane": "_-UrTq_centerPane",
-			"roundButton": "_-UrTq_roundButton",
-			"paramsSelect": "_-UrTq_paramsSelect",
-			"root": "_-UrTq_root",
-			"promptLibContent": "_-UrTq_promptLibContent",
-			"addPromptOverlay": "_-UrTq_addPromptOverlay",
-			"stripDelete": "_-UrTq_stripDelete",
-			"newButton": "_-UrTq_newButton",
-			"cc-cell-blink": "_-UrTq_cc-cell-blink",
-			"counterPill": "_-UrTq_counterPill",
-			"btnPrimary": "_-UrTq_btnPrimary",
-			"manageRowActions": "_-UrTq_manageRowActions",
-			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
-			"promptLibItem": "_-UrTq_promptLibItem",
-			"manageRowBtnDanger": "_-UrTq_manageRowBtnDanger",
-			"addPromptTextarea": "_-UrTq_addPromptTextarea",
-			"stripEnd": "_-UrTq_stripEnd",
-			"promptLibFooter": "_-UrTq_promptLibFooter",
-			"promptDockInner": "_-UrTq_promptDockInner",
-			"stripItem": "_-UrTq_stripItem",
-			"promptLibEmpty": "_-UrTq_promptLibEmpty",
-			"surface": "_-UrTq_surface",
-			"artboardStage": "_-UrTq_artboardStage",
-			"promptBarText": "_-UrTq_promptBarText",
-			"countRow": "_-UrTq_countRow",
-			"composerToolbar": "_-UrTq_composerToolbar",
-			"toolbarRail": "_-UrTq_toolbarRail",
-			"cc-strip-loading": "_-UrTq_cc-strip-loading",
-			"toolbarButton": "_-UrTq_toolbarButton",
-			"showcaseCarousel": "_-UrTq_showcaseCarousel",
-			"pillSummary": "_-UrTq_pillSummary",
-			"artboardEmpty": "_-UrTq_artboardEmpty",
-			"progressText": "_-UrTq_progressText",
-			"promptLib": "_-UrTq_promptLib",
-			"modelPill": "_-UrTq_modelPill",
-			"strip": "_-UrTq_strip",
-			"carouselCardImage": "_-UrTq_carouselCardImage",
-			"showcase": "_-UrTq_showcase",
-			"chevron": "_-UrTq_chevron",
-			"stripHeader": "_-UrTq_stripHeader",
-			"active": "_-UrTq_active",
-			"muted": "_-UrTq_muted",
-			"dragging": "_-UrTq_dragging",
-			"toolbarDivider": "_-UrTq_toolbarDivider",
-			"showcaseTitle": "_-UrTq_showcaseTitle",
-			"carouselCard": "_-UrTq_carouselCard",
-			"stripProgress": "_-UrTq_stripProgress",
-			"countSlider": "_-UrTq_countSlider",
-			"imageBox": "_-UrTq_imageBox",
-			"quickItem": "_-UrTq_quickItem",
-			"quickItemIcon": "_-UrTq_quickItemIcon",
-			"promptLibList": "_-UrTq_promptLibList",
-			"addPromptField": "_-UrTq_addPromptField",
-			"addPromptInput": "_-UrTq_addPromptInput",
-			"sizeChip": "_-UrTq_sizeChip",
-			"attachmentDelete": "_-UrTq_attachmentDelete",
-			"errorBanner": "_-UrTq_errorBanner",
-			"attachmentTile": "_-UrTq_attachmentTile",
-			"promptDock": "_-UrTq_promptDock",
-			"manageCard": "_-UrTq_manageCard",
-			"sizeLabel": "_-UrTq_sizeLabel",
-			"manageRowTitle": "_-UrTq_manageRowTitle",
-			"paramsPopover": "_-UrTq_paramsPopover",
-			"sendButton": "_-UrTq_sendButton",
-			"paramsField": "_-UrTq_paramsField",
-			"manageList": "_-UrTq_manageList",
-			"manageRowBtn": "_-UrTq_manageRowBtn",
-			"artboard": "_-UrTq_artboard",
-			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
-			"ratioThumb": "_-UrTq_ratioThumb",
-			"thumbEmpty": "_-UrTq_thumbEmpty",
 			"showcaseInner": "_-UrTq_showcaseInner",
-			"thumb": "_-UrTq_thumb",
-			"pauseButton": "_-UrTq_pauseButton",
-			"btn": "_-UrTq_btn",
-			"countInput": "_-UrTq_countInput",
-			"showcaseCaption": "_-UrTq_showcaseCaption",
-			"composerTextarea": "_-UrTq_composerTextarea",
-			"backButton": "_-UrTq_backButton",
-			"composer": "_-UrTq_composer",
+			"ratioThumb": "_-UrTq_ratioThumb",
+			"promptLibItem": "_-UrTq_promptLibItem",
+			"centerStage": "_-UrTq_centerStage",
+			"imageBox": "_-UrTq_imageBox",
+			"addPromptOverlay": "_-UrTq_addPromptOverlay",
 			"promptLibTitle": "_-UrTq_promptLibTitle",
+			"addPromptCard": "_-UrTq_addPromptCard",
+			"cc-strip-loading": "_-UrTq_cc-strip-loading",
+			"quickItem": "_-UrTq_quickItem",
+			"skeletonCell": "_-UrTq_skeletonCell",
+			"showcaseTitle": "_-UrTq_showcaseTitle",
+			"carouselCardImage": "_-UrTq_carouselCardImage",
+			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
+			"paramsPopover": "_-UrTq_paramsPopover",
 			"sizeGrid": "_-UrTq_sizeGrid",
-			"hidden": "_-UrTq_hidden",
+			"promptBar": "_-UrTq_promptBar",
+			"dragging": "_-UrTq_dragging",
+			"progressText": "_-UrTq_progressText",
+			"stripItem": "_-UrTq_stripItem",
+			"thumb": "_-UrTq_thumb",
+			"chevron": "_-UrTq_chevron",
+			"promptLibDelete": "_-UrTq_promptLibDelete",
+			"countRow": "_-UrTq_countRow",
+			"promptLibFooter": "_-UrTq_promptLibFooter",
+			"addPromptTextarea": "_-UrTq_addPromptTextarea",
+			"artboard": "_-UrTq_artboard",
+			"btnPrimary": "_-UrTq_btnPrimary",
+			"showcase": "_-UrTq_showcase",
+			"counterPill": "_-UrTq_counterPill",
+			"carouselLabel": "_-UrTq_carouselLabel",
+			"promptDock": "_-UrTq_promptDock",
+			"promptDockInner": "_-UrTq_promptDockInner",
+			"frame": "_-UrTq_frame",
+			"carouselCard": "_-UrTq_carouselCard",
+			"muted": "_-UrTq_muted",
+			"newButton": "_-UrTq_newButton",
+			"composer": "_-UrTq_composer",
+			"attachmentDelete": "_-UrTq_attachmentDelete",
+			"paramsField": "_-UrTq_paramsField",
+			"artboardStage": "_-UrTq_artboardStage",
+			"showcaseCarousel": "_-UrTq_showcaseCarousel",
+			"sizeLabel": "_-UrTq_sizeLabel",
+			"selected": "_-UrTq_selected",
+			"toolbarRail": "_-UrTq_toolbarRail",
+			"toolbarButton": "_-UrTq_toolbarButton",
+			"toolbarDivider": "_-UrTq_toolbarDivider",
+			"sendButton": "_-UrTq_sendButton",
+			"skeletonGrid": "_-UrTq_skeletonGrid",
+			"errorBanner": "_-UrTq_errorBanner",
+			"manageList": "_-UrTq_manageList",
+			"composerTextarea": "_-UrTq_composerTextarea",
+			"artboardEmpty": "_-UrTq_artboardEmpty",
+			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
 			"manageRowMain": "_-UrTq_manageRowMain",
+			"manageRowTitle": "_-UrTq_manageRowTitle",
+			"manageRowContent": "_-UrTq_manageRowContent",
+			"manageRowActions": "_-UrTq_manageRowActions",
+			"manageRowBtn": "_-UrTq_manageRowBtn",
+			"pillSummary": "_-UrTq_pillSummary",
+			"surface": "_-UrTq_surface",
+			"addPromptField": "_-UrTq_addPromptField",
+			"portalPanel": "_-UrTq_portalPanel",
+			"stripDelete": "_-UrTq_stripDelete",
+			"pauseButton": "_-UrTq_pauseButton",
+			"quickPanel": "_-UrTq_quickPanel",
+			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
+			"manageCard": "_-UrTq_manageCard",
+			"quickItemIcon": "_-UrTq_quickItemIcon",
+			"manageRowBtnDanger": "_-UrTq_manageRowBtnDanger",
+			"manageRow": "_-UrTq_manageRow",
+			"root": "_-UrTq_root",
+			"promptLibItemMain": "_-UrTq_promptLibItemMain",
+			"promptBarText": "_-UrTq_promptBarText",
+			"stripHeader": "_-UrTq_stripHeader",
+			"thumbEmpty": "_-UrTq_thumbEmpty",
+			"promptLib": "_-UrTq_promptLib",
+			"sizeChip": "_-UrTq_sizeChip",
+			"addImageButton": "_-UrTq_addImageButton",
+			"paramsSelect": "_-UrTq_paramsSelect",
+			"promptLibEmpty": "_-UrTq_promptLibEmpty",
+			"hidden": "_-UrTq_hidden",
+			"roundButton": "_-UrTq_roundButton",
 			"dialogActions": "_-UrTq_dialogActions",
-			"attachmentTray": "_-UrTq_attachmentTray",
+			"showcaseCaption": "_-UrTq_showcaseCaption",
 			"composerTextRow": "_-UrTq_composerTextRow",
-			"promptLibItemMain": "_-UrTq_promptLibItemMain"
+			"modelPill": "_-UrTq_modelPill",
+			"composerToolbar": "_-UrTq_composerToolbar",
+			"centerPane": "_-UrTq_centerPane",
+			"countSlider": "_-UrTq_countSlider",
+			"countInput": "_-UrTq_countInput",
+			"btn": "_-UrTq_btn",
+			"stripProgress": "_-UrTq_stripProgress",
+			"promptLibContent": "_-UrTq_promptLibContent",
+			"active": "_-UrTq_active",
+			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
+			"backButton": "_-UrTq_backButton",
+			"promptLibList": "_-UrTq_promptLibList",
+			"attachmentTray": "_-UrTq_attachmentTray",
+			"strip": "_-UrTq_strip",
+			"quickItemLabel": "_-UrTq_quickItemLabel",
+			"stripEnd": "_-UrTq_stripEnd",
+			"attachmentTile": "_-UrTq_attachmentTile",
+			"pillButton": "_-UrTq_pillButton",
+			"cc-cell-blink": "_-UrTq_cc-cell-blink",
+			"addPromptInput": "_-UrTq_addPromptInput"
 		};
 		//#endregion
 		//#region lib/types/client/painting-icons.js
@@ -1155,27 +1155,27 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var Combobox_module_css_default = {
-			"root": "PJZ1pG_root",
-			"triggerLabel": "PJZ1pG_triggerLabel",
-			"optionLabel": "PJZ1pG_optionLabel",
 			"searchInput": "PJZ1pG_searchInput",
-			"triggerIcon": "PJZ1pG_triggerIcon",
-			"optionActive": "PJZ1pG_optionActive",
-			"optionSub": "PJZ1pG_optionSub",
+			"list": "PJZ1pG_list",
+			"optionText": "PJZ1pG_optionText",
+			"trigger": "PJZ1pG_trigger",
 			"groupTitle": "PJZ1pG_groupTitle",
 			"footer": "PJZ1pG_footer",
-			"trigger": "PJZ1pG_trigger",
-			"list": "PJZ1pG_list",
+			"triggerIcon": "PJZ1pG_triggerIcon",
+			"optionIcon": "PJZ1pG_optionIcon",
+			"optionSub": "PJZ1pG_optionSub",
+			"footerButton": "PJZ1pG_footerButton",
+			"searchWrap": "PJZ1pG_searchWrap",
+			"root": "PJZ1pG_root",
+			"group": "PJZ1pG_group",
+			"triggerChevron": "PJZ1pG_triggerChevron",
 			"popoverPortal": "PJZ1pG_popoverPortal",
 			"searchIcon": "PJZ1pG_searchIcon",
-			"triggerChevron": "PJZ1pG_triggerChevron",
 			"option": "PJZ1pG_option",
 			"empty": "PJZ1pG_empty",
-			"group": "PJZ1pG_group",
-			"searchWrap": "PJZ1pG_searchWrap",
-			"optionText": "PJZ1pG_optionText",
-			"footerButton": "PJZ1pG_footerButton",
-			"optionIcon": "PJZ1pG_optionIcon"
+			"triggerLabel": "PJZ1pG_triggerLabel",
+			"optionActive": "PJZ1pG_optionActive",
+			"optionLabel": "PJZ1pG_optionLabel"
 		};
 		//#endregion
 		//#region lib/types/client/Combobox.js
@@ -3359,115 +3359,115 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TranslationWorkspace_module_css_default = {
-			"iconBtn": "_8lesPa_iconBtn",
-			"chipArrow": "_8lesPa_chipArrow",
-			"detailBack": "_8lesPa_detailBack",
-			"rowSource": "_8lesPa_rowSource",
-			"segItem": "_8lesPa_segItem",
-			"spinner": "_8lesPa_spinner",
-			"inputArea": "_8lesPa_inputArea",
-			"chip": "_8lesPa_chip",
-			"root": "_8lesPa_root",
-			"switchTrack": "_8lesPa_switchTrack",
-			"active": "_8lesPa_active",
-			"panelTitle": "_8lesPa_panelTitle",
-			"rowTarget": "_8lesPa_rowTarget",
-			"textareaScroll": "_8lesPa_textareaScroll",
-			"modelSelectWrap": "_8lesPa_modelSelectWrap",
-			"pane": "_8lesPa_pane",
-			"langName": "_8lesPa_langName",
-			"modelSelect": "_8lesPa_modelSelect",
-			"detailBlock": "_8lesPa_detailBlock",
-			"langChevron": "_8lesPa_langChevron",
-			"langFormLabel": "_8lesPa_langFormLabel",
-			"btn": "_8lesPa_btn",
-			"confirmOverlay": "_8lesPa_confirmOverlay",
-			"confirmCard": "_8lesPa_confirmCard",
-			"stopBtn": "_8lesPa_stopBtn",
-			"panelBody": "_8lesPa_panelBody",
-			"on": "_8lesPa_on",
-			"count": "_8lesPa_count",
-			"destructive": "_8lesPa_destructive",
 			"errorBanner": "_8lesPa_errorBanner",
-			"uploadIcon": "_8lesPa_uploadIcon",
-			"settingHint": "_8lesPa_settingHint",
-			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
-			"topBar": "_8lesPa_topBar",
-			"reuse": "_8lesPa_reuse",
-			"detailText": "_8lesPa_detailText",
-			"btnPrimary": "_8lesPa_btnPrimary",
-			"langFormActions": "_8lesPa_langFormActions",
-			"outputPane": "_8lesPa_outputPane",
-			"langSelect": "_8lesPa_langSelect",
+			"helpIcon": "_8lesPa_helpIcon",
+			"swapBtn": "_8lesPa_swapBtn",
+			"translating": "_8lesPa_translating",
+			"clearBtn": "_8lesPa_clearBtn",
+			"langInput": "_8lesPa_langInput",
+			"pairChip": "_8lesPa_pairChip",
+			"sectionTitle": "_8lesPa_sectionTitle",
 			"visible": "_8lesPa_visible",
+			"smallIconBtn": "_8lesPa_smallIconBtn",
+			"paneCorner": "_8lesPa_paneCorner",
+			"settingsSection": "_8lesPa_settingsSection",
+			"rightCluster": "_8lesPa_rightCluster",
+			"pane": "_8lesPa_pane",
+			"rowSource": "_8lesPa_rowSource",
+			"uploadIcons": "_8lesPa_uploadIcons",
+			"detailText": "_8lesPa_detailText",
+			"root": "_8lesPa_root",
+			"confirmTitle": "_8lesPa_confirmTitle",
+			"langChevron": "_8lesPa_langChevron",
+			"segItem": "_8lesPa_segItem",
+			"langCode": "_8lesPa_langCode",
+			"textareaScroll": "_8lesPa_textareaScroll",
+			"md": "_8lesPa_md",
+			"detailBlockTarget": "_8lesPa_detailBlockTarget",
+			"success": "_8lesPa_success",
+			"chipArrow": "_8lesPa_chipArrow",
+			"starBtn": "_8lesPa_starBtn",
+			"copy": "_8lesPa_copy",
+			"loadMore": "_8lesPa_loadMore",
 			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
 			"langRow": "_8lesPa_langRow",
-			"resetLink": "_8lesPa_resetLink",
-			"langFormError": "_8lesPa_langFormError",
-			"confirmTitle": "_8lesPa_confirmTitle",
-			"detailBlockLabel": "_8lesPa_detailBlockLabel",
-			"detailActions": "_8lesPa_detailActions",
-			"confirmActions": "_8lesPa_confirmActions",
-			"detailAction": "_8lesPa_detailAction",
-			"cc-spin": "_8lesPa_cc-spin",
-			"settingRow": "_8lesPa_settingRow",
-			"success": "_8lesPa_success",
-			"sectionTitle": "_8lesPa_sectionTitle",
-			"uploadIcons": "_8lesPa_uploadIcons",
-			"helpIcon": "_8lesPa_helpIcon",
-			"cc-fade": "_8lesPa_cc-fade",
-			"confirmText": "_8lesPa_confirmText",
 			"segmented": "_8lesPa_segmented",
-			"paneFooter": "_8lesPa_paneFooter",
-			"translateBtn": "_8lesPa_translateBtn",
-			"smallIconBtn": "_8lesPa_smallIconBtn",
-			"swapBtn": "_8lesPa_swapBtn",
-			"clearBtn": "_8lesPa_clearBtn",
-			"paneCorner": "_8lesPa_paneCorner",
-			"historyList": "_8lesPa_historyList",
-			"settingsTextarea": "_8lesPa_settingsTextarea",
-			"countBadge": "_8lesPa_countBadge",
-			"translating": "_8lesPa_translating",
-			"copy": "_8lesPa_copy",
-			"langRowActions": "_8lesPa_langRowActions",
-			"historyRowMeta": "_8lesPa_historyRowMeta",
-			"cc-slide-in": "_8lesPa_cc-slide-in",
-			"starBtn": "_8lesPa_starBtn",
-			"settingsSection": "_8lesPa_settingsSection",
-			"langFormRow": "_8lesPa_langFormRow",
-			"sidePanel": "_8lesPa_sidePanel",
+			"rowTarget": "_8lesPa_rowTarget",
+			"detailAction": "_8lesPa_detailAction",
+			"langFormActions": "_8lesPa_langFormActions",
 			"pairRow": "_8lesPa_pairRow",
-			"panelHeader": "_8lesPa_panelHeader",
-			"langCode": "_8lesPa_langCode",
-			"helpWrap": "_8lesPa_helpWrap",
-			"detailMeta": "_8lesPa_detailMeta",
-			"rowTime": "_8lesPa_rowTime",
-			"backButton": "_8lesPa_backButton",
-			"outputArea": "_8lesPa_outputArea",
-			"pairChip": "_8lesPa_pairChip",
-			"panelBodyScroll": "_8lesPa_panelBodyScroll",
-			"langSelectWrap": "_8lesPa_langSelectWrap",
-			"loadMore": "_8lesPa_loadMore",
-			"rightCluster": "_8lesPa_rightCluster",
-			"langInput": "_8lesPa_langInput",
-			"settingsEmpty": "_8lesPa_settingsEmpty",
-			"historyRow": "_8lesPa_historyRow",
-			"starFill": "_8lesPa_starFill",
-			"spacer": "_8lesPa_spacer",
-			"langForm": "_8lesPa_langForm",
-			"panes": "_8lesPa_panes",
-			"settingLabel": "_8lesPa_settingLabel",
+			"confirmOverlay": "_8lesPa_confirmOverlay",
+			"confirmText": "_8lesPa_confirmText",
+			"destructive": "_8lesPa_destructive",
 			"backdrop": "_8lesPa_backdrop",
-			"uploadZone": "_8lesPa_uploadZone",
-			"md": "_8lesPa_md",
-			"detailBlockHeader": "_8lesPa_detailBlockHeader",
-			"historyEmpty": "_8lesPa_historyEmpty",
+			"panelBodyScroll": "_8lesPa_panelBodyScroll",
+			"spacer": "_8lesPa_spacer",
 			"switch": "_8lesPa_switch",
+			"langFormError": "_8lesPa_langFormError",
+			"uploadZone": "_8lesPa_uploadZone",
+			"chipTarget": "_8lesPa_chipTarget",
+			"langSelect": "_8lesPa_langSelect",
+			"cc-fade": "_8lesPa_cc-fade",
+			"panelHeader": "_8lesPa_panelHeader",
+			"sidePanel": "_8lesPa_sidePanel",
+			"helpWrap": "_8lesPa_helpWrap",
+			"settingHint": "_8lesPa_settingHint",
+			"chip": "_8lesPa_chip",
 			"langAdd": "_8lesPa_langAdd",
-			"detailBlockTarget": "_8lesPa_detailBlockTarget",
-			"helpBubble": "_8lesPa_helpBubble",
+			"langFormLabel": "_8lesPa_langFormLabel",
+			"btn": "_8lesPa_btn",
+			"confirmCard": "_8lesPa_confirmCard",
+			"topBar": "_8lesPa_topBar",
+			"resetLink": "_8lesPa_resetLink",
+			"detailBlockHeader": "_8lesPa_detailBlockHeader",
+			"settingRow": "_8lesPa_settingRow",
+			"outputArea": "_8lesPa_outputArea",
+			"settingLabel": "_8lesPa_settingLabel",
 			"switchRow": "_8lesPa_switchRow",
-			"chipTarget": "_8lesPa_chipTarget"
+			"settingsEmpty": "_8lesPa_settingsEmpty",
+			"historyEmpty": "_8lesPa_historyEmpty",
+			"countBadge": "_8lesPa_countBadge",
+			"btnPrimary": "_8lesPa_btnPrimary",
+			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
+			"langSelectWrap": "_8lesPa_langSelectWrap",
+			"modelSelectWrap": "_8lesPa_modelSelectWrap",
+			"inputArea": "_8lesPa_inputArea",
+			"on": "_8lesPa_on",
+			"detailBlock": "_8lesPa_detailBlock",
+			"translateBtn": "_8lesPa_translateBtn",
+			"paneFooter": "_8lesPa_paneFooter",
+			"historyRow": "_8lesPa_historyRow",
+			"langFormRow": "_8lesPa_langFormRow",
+			"uploadIcon": "_8lesPa_uploadIcon",
+			"confirmActions": "_8lesPa_confirmActions",
+			"langName": "_8lesPa_langName",
+			"helpBubble": "_8lesPa_helpBubble",
+			"detailBlockLabel": "_8lesPa_detailBlockLabel",
+			"count": "_8lesPa_count",
+			"active": "_8lesPa_active",
+			"cc-slide-in": "_8lesPa_cc-slide-in",
+			"panelTitle": "_8lesPa_panelTitle",
+			"detailBack": "_8lesPa_detailBack",
+			"iconBtn": "_8lesPa_iconBtn",
+			"settingsTextarea": "_8lesPa_settingsTextarea",
+			"modelSelect": "_8lesPa_modelSelect",
+			"historyRowMeta": "_8lesPa_historyRowMeta",
+			"panes": "_8lesPa_panes",
+			"spinner": "_8lesPa_spinner",
+			"stopBtn": "_8lesPa_stopBtn",
+			"outputPane": "_8lesPa_outputPane",
+			"cc-spin": "_8lesPa_cc-spin",
+			"panelBody": "_8lesPa_panelBody",
+			"switchTrack": "_8lesPa_switchTrack",
+			"detailActions": "_8lesPa_detailActions",
+			"starFill": "_8lesPa_starFill",
+			"backButton": "_8lesPa_backButton",
+			"detailMeta": "_8lesPa_detailMeta",
+			"langRowActions": "_8lesPa_langRowActions",
+			"historyList": "_8lesPa_historyList",
+			"reuse": "_8lesPa_reuse",
+			"langForm": "_8lesPa_langForm",
+			"rowTime": "_8lesPa_rowTime"
 		};
 		//#endregion
 		//#region lib/types/client/panel-ui.js
@@ -3750,7 +3750,7 @@ window.__ModuleLoader__.load({
 			};
 		}
 		/** Full Painting workspace over the real Control Center painting service. */
-		function PaintingWorkspace({ getPainting, usePaintingReady, close }) {
+		function PaintingWorkspace({ getPainting, usePaintingReady, useModelPref, close }) {
 			const paintingReady = usePaintingReady((value) => value);
 			const painting = paintingReady ? getPainting() : void 0;
 			const [catalog, setCatalog] = (0, react.useState)([]);
@@ -3795,7 +3795,9 @@ window.__ModuleLoader__.load({
 					if (!catalogResult.ok) throw new Error(catalogResult.error.message);
 					setCatalog(catalogResult.value.models);
 					if (catalogResult.value.models.length > 0 && selectedModel === "") {
-						const first = catalogResult.value.models[0];
+						const pref = useModelPref?.();
+						const preferred = (pref?.status === "ready" ? pref.painting : void 0) ?? void 0;
+						const first = (preferred === void 0 ? void 0 : catalogResult.value.models.find((model) => model.providerId === preferred.provider && model.id === preferred.model)) ?? catalogResult.value.models[0];
 						setSelectedModel(`${first.providerId}/${first.id}`);
 					}
 				}).catch((reason) => {
@@ -4159,103 +4161,103 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var KnowledgeWorkspace_module_css_default = {
-			"detailEmptyTitle": "uHDY1a_detailEmptyTitle",
-			"ragFieldRow": "uHDY1a_ragFieldRow",
-			"dialogSelect": "uHDY1a_dialogSelect",
-			"notice": "uHDY1a_notice",
-			"detail": "uHDY1a_detail",
-			"ragSelectWrap": "uHDY1a_ragSelectWrap",
-			"advancedChevronOpen": "uHDY1a_advancedChevronOpen",
-			"addSourceButton": "uHDY1a_addSourceButton",
-			"dialogHint": "uHDY1a_dialogHint",
-			"recallResults": "uHDY1a_recallResults",
-			"advancedToggle": "uHDY1a_advancedToggle",
-			"ragFooter": "uHDY1a_ragFooter",
-			"ragReadonly": "uHDY1a_ragReadonly",
-			"navigator": "uHDY1a_navigator",
-			"detailEmpty": "uHDY1a_detailEmpty",
-			"detailHeaderActions": "uHDY1a_detailHeaderActions",
-			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
-			"recallEmpty": "uHDY1a_recallEmpty",
-			"navRowMenu": "uHDY1a_navRowMenu",
-			"recallCard": "uHDY1a_recallCard",
-			"ragSection": "uHDY1a_ragSection",
-			"recallCardHeader": "uHDY1a_recallCardHeader",
-			"dialogCard": "uHDY1a_dialogCard",
-			"navCreate": "uHDY1a_navCreate",
-			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
-			"recallBar": "uHDY1a_recallBar",
-			"navScroll": "uHDY1a_navScroll",
-			"recallSubmit": "uHDY1a_recallSubmit",
-			"ragField": "uHDY1a_ragField",
-			"split": "uHDY1a_split",
-			"recallSource": "uHDY1a_recallSource",
-			"dialogFieldRow": "uHDY1a_dialogFieldRow",
-			"cc-spin": "uHDY1a_cc-spin",
-			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
-			"clamped": "uHDY1a_clamped",
-			"recallSummary": "uHDY1a_recallSummary",
-			"detailEmptyHint": "uHDY1a_detailEmptyHint",
-			"sourceName": "uHDY1a_sourceName",
-			"active": "uHDY1a_active",
-			"indexButton": "uHDY1a_indexButton",
-			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
-			"gridRow": "uHDY1a_gridRow",
-			"navRowName": "uHDY1a_navRowName",
-			"menuItem": "uHDY1a_menuItem",
-			"errorBanner": "uHDY1a_errorBanner",
-			"dataPanel": "uHDY1a_dataPanel",
-			"destructive": "uHDY1a_destructive",
-			"gridScroll": "uHDY1a_gridScroll",
-			"navRow": "uHDY1a_navRow",
-			"ghostButton": "uHDY1a_ghostButton",
-			"sourceUpdated": "uHDY1a_sourceUpdated",
-			"gridHeader": "uHDY1a_gridHeader",
-			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
-			"sourceTypeCard": "uHDY1a_sourceTypeCard",
-			"recallChunkIndex": "uHDY1a_recallChunkIndex",
-			"recallCopy": "uHDY1a_recallCopy",
-			"ragTitle": "uHDY1a_ragTitle",
-			"root": "uHDY1a_root",
-			"detailHeader": "uHDY1a_detailHeader",
-			"statusFailed": "uHDY1a_statusFailed",
-			"success": "uHDY1a_success",
-			"dialogActions": "uHDY1a_dialogActions",
-			"ragSelect": "uHDY1a_ragSelect",
-			"sourceType": "uHDY1a_sourceType",
-			"dialogOverlay": "uHDY1a_dialogOverlay",
-			"advancedBody": "uHDY1a_advancedBody",
-			"btn": "uHDY1a_btn",
-			"ragHint": "uHDY1a_ragHint",
-			"dataHeaderActions": "uHDY1a_dataHeaderActions",
-			"dialogSliderRow": "uHDY1a_dialogSliderRow",
-			"statusSpinner": "uHDY1a_statusSpinner",
-			"ragNumberFull": "uHDY1a_ragNumberFull",
 			"dialogField": "uHDY1a_dialogField",
-			"recallRank": "uHDY1a_recallRank",
+			"sourceIcon": "uHDY1a_sourceIcon",
+			"recallSource": "uHDY1a_recallSource",
+			"dialogSliderRow": "uHDY1a_dialogSliderRow",
+			"recallCardHeader": "uHDY1a_recallCardHeader",
+			"cc-spin": "uHDY1a_cc-spin",
+			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
+			"recallSummary": "uHDY1a_recallSummary",
+			"clamped": "uHDY1a_clamped",
+			"navRow": "uHDY1a_navRow",
+			"sourceName": "uHDY1a_sourceName",
+			"ragNumber": "uHDY1a_ragNumber",
+			"ghostButton": "uHDY1a_ghostButton",
+			"ragTitle": "uHDY1a_ragTitle",
+			"detailEmpty": "uHDY1a_detailEmpty",
+			"navRowMenu": "uHDY1a_navRowMenu",
+			"ragFooter": "uHDY1a_ragFooter",
+			"recallResults": "uHDY1a_recallResults",
+			"btn": "uHDY1a_btn",
+			"recallSubmit": "uHDY1a_recallSubmit",
+			"btnPrimary": "uHDY1a_btnPrimary",
+			"notice": "uHDY1a_notice",
 			"navEmpty": "uHDY1a_navEmpty",
-			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
-			"statusReady": "uHDY1a_statusReady",
-			"sourcesEmpty": "uHDY1a_sourcesEmpty",
-			"recallInput": "uHDY1a_recallInput",
-			"sourceTypeCards": "uHDY1a_sourceTypeCards",
-			"dataHeader": "uHDY1a_dataHeader",
-			"menuPopover": "uHDY1a_menuPopover",
-			"rowMenu": "uHDY1a_rowMenu",
-			"recallScore": "uHDY1a_recallScore",
+			"navigator": "uHDY1a_navigator",
+			"detailHeader": "uHDY1a_detailHeader",
+			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
+			"detail": "uHDY1a_detail",
+			"indexButton": "uHDY1a_indexButton",
+			"addSourceButton": "uHDY1a_addSourceButton",
+			"gridScroll": "uHDY1a_gridScroll",
+			"gridHeader": "uHDY1a_gridHeader",
+			"split": "uHDY1a_split",
+			"recallInputWrap": "uHDY1a_recallInputWrap",
 			"recallBody": "uHDY1a_recallBody",
 			"dialogInput": "uHDY1a_dialogInput",
-			"sourceIcon": "uHDY1a_sourceIcon",
-			"recallInputWrap": "uHDY1a_recallInputWrap",
-			"dialogTextarea": "uHDY1a_dialogTextarea",
-			"btnPrimary": "uHDY1a_btnPrimary",
-			"ragBody": "uHDY1a_ragBody",
-			"statusBadge": "uHDY1a_statusBadge",
+			"ragSection": "uHDY1a_ragSection",
 			"ragSlider": "uHDY1a_ragSlider",
-			"statusIndexing": "uHDY1a_statusIndexing",
+			"recallScore": "uHDY1a_recallScore",
+			"ragNumberFull": "uHDY1a_ragNumberFull",
+			"gridRow": "uHDY1a_gridRow",
+			"menuPopover": "uHDY1a_menuPopover",
+			"sourceTypeCards": "uHDY1a_sourceTypeCards",
+			"recallCopy": "uHDY1a_recallCopy",
+			"sourceUpdated": "uHDY1a_sourceUpdated",
+			"ragSelect": "uHDY1a_ragSelect",
+			"rowMenu": "uHDY1a_rowMenu",
+			"recallInput": "uHDY1a_recallInput",
+			"dialogFieldRow": "uHDY1a_dialogFieldRow",
+			"ragField": "uHDY1a_ragField",
+			"navCreate": "uHDY1a_navCreate",
 			"ragSliderRow": "uHDY1a_ragSliderRow",
-			"ragNumber": "uHDY1a_ragNumber",
-			"ragLabel": "uHDY1a_ragLabel"
+			"dialogTextarea": "uHDY1a_dialogTextarea",
+			"detailHeaderActions": "uHDY1a_detailHeaderActions",
+			"menuItem": "uHDY1a_menuItem",
+			"dialogHint": "uHDY1a_dialogHint",
+			"dataPanel": "uHDY1a_dataPanel",
+			"dataHeaderActions": "uHDY1a_dataHeaderActions",
+			"statusSpinner": "uHDY1a_statusSpinner",
+			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
+			"dataHeader": "uHDY1a_dataHeader",
+			"statusFailed": "uHDY1a_statusFailed",
+			"recallCard": "uHDY1a_recallCard",
+			"advancedChevronOpen": "uHDY1a_advancedChevronOpen",
+			"ragBody": "uHDY1a_ragBody",
+			"destructive": "uHDY1a_destructive",
+			"recallRank": "uHDY1a_recallRank",
+			"detailEmptyTitle": "uHDY1a_detailEmptyTitle",
+			"active": "uHDY1a_active",
+			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
+			"recallChunkIndex": "uHDY1a_recallChunkIndex",
+			"statusReady": "uHDY1a_statusReady",
+			"errorBanner": "uHDY1a_errorBanner",
+			"sourcesEmpty": "uHDY1a_sourcesEmpty",
+			"statusBadge": "uHDY1a_statusBadge",
+			"recallBar": "uHDY1a_recallBar",
+			"ragLabel": "uHDY1a_ragLabel",
+			"dialogCard": "uHDY1a_dialogCard",
+			"root": "uHDY1a_root",
+			"ragHint": "uHDY1a_ragHint",
+			"ragFieldRow": "uHDY1a_ragFieldRow",
+			"ragSelectWrap": "uHDY1a_ragSelectWrap",
+			"advancedToggle": "uHDY1a_advancedToggle",
+			"sourceTypeCard": "uHDY1a_sourceTypeCard",
+			"success": "uHDY1a_success",
+			"statusIndexing": "uHDY1a_statusIndexing",
+			"detailEmptyHint": "uHDY1a_detailEmptyHint",
+			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
+			"recallEmpty": "uHDY1a_recallEmpty",
+			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
+			"dialogOverlay": "uHDY1a_dialogOverlay",
+			"advancedBody": "uHDY1a_advancedBody",
+			"navRowName": "uHDY1a_navRowName",
+			"dialogSelect": "uHDY1a_dialogSelect",
+			"navScroll": "uHDY1a_navScroll",
+			"dialogActions": "uHDY1a_dialogActions",
+			"ragReadonly": "uHDY1a_ragReadonly",
+			"sourceType": "uHDY1a_sourceType"
 		};
 		//#endregion
 		//#region lib/types/client/KnowledgeWorkspace.js
@@ -5718,19 +5720,19 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SkillsSection_module_css_default = {
-			"cardMetaItem": "pyHmqW_cardMetaItem",
-			"cardTags": "pyHmqW_cardTags",
-			"tag": "pyHmqW_tag",
-			"cardMeta": "pyHmqW_cardMeta",
-			"cardHeader": "pyHmqW_cardHeader",
-			"searchRow": "pyHmqW_searchRow",
 			"grid": "pyHmqW_grid",
 			"cardTitle": "pyHmqW_cardTitle",
-			"cardActions": "pyHmqW_cardActions",
 			"card": "pyHmqW_card",
+			"cardTags": "pyHmqW_cardTags",
+			"cardMetaItem": "pyHmqW_cardMetaItem",
 			"cardFooter": "pyHmqW_cardFooter",
+			"searchRow": "pyHmqW_searchRow",
+			"searchInput": "pyHmqW_searchInput",
+			"cardHeader": "pyHmqW_cardHeader",
 			"cardDescription": "pyHmqW_cardDescription",
-			"searchInput": "pyHmqW_searchInput"
+			"cardActions": "pyHmqW_cardActions",
+			"cardMeta": "pyHmqW_cardMeta",
+			"tag": "pyHmqW_tag"
 		};
 		//#endregion
 		//#region lib/types/client/SkillsSection.js
@@ -6136,7 +6138,7 @@ window.__ModuleLoader__.load({
 		}
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\ModelsSection.module.css.mjs
-		const css$27 = ".tKsOKa_section{flex-direction:column;gap:16px;width:100%;max-width:768px;margin:0 auto;display:flex}.tKsOKa_title{color:var(--foreground);font-size:15px;font-weight:600}.tKsOKa_intro{color:var(--muted-foreground);margin-top:4px;font-size:14px}.tKsOKa_notice{border:1px solid var(--info-border);background:var(--info-subtle);color:var(--info-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.tKsOKa_savedNotice{border:1px solid var(--success-border);background:var(--success-subtle);color:var(--success-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.tKsOKa_error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;align-items:center;gap:8px;padding:8px 12px;font-size:13px;display:flex}.tKsOKa_rows{flex-direction:column;gap:8px;margin:0;padding:0;list-style:none;display:flex}.tKsOKa_rowCard{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;display:flex}.tKsOKa_rowHead{align-items:center;gap:10px;min-width:0;display:flex}.tKsOKa_rowIdentity{align-items:center;gap:8px;min-width:0;display:flex}.tKsOKa_rowName{color:var(--foreground);white-space:nowrap;text-overflow:ellipsis;font-size:14px;font-weight:500;overflow:hidden}.tKsOKa_rowTag{background:var(--muted);height:20px;color:var(--muted-foreground);border-radius:9999px;flex:none;align-items:center;padding:0 8px;font-size:12px;display:inline-flex}.tKsOKa_rowActions{flex:none;align-items:center;gap:8px;display:flex}.tKsOKa_credentialDot{border-radius:50%;flex:none;width:8px;height:8px}.tKsOKa_credentialDotConfigured{background:var(--success)}.tKsOKa_credentialDotMissing{background:var(--warning)}.tKsOKa_setupCard{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_addCard{border:1px dashed var(--border-strong);background:0 0;border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_addBlock{flex-direction:column;gap:12px;display:flex}.tKsOKa_addActions{align-items:center;gap:8px;display:flex}.tKsOKa_field{flex-direction:column;gap:6px;display:flex}.tKsOKa_fieldLabel{color:var(--foreground);font-size:13px;font-weight:500}.tKsOKa_fieldLabelRow{align-items:baseline;gap:8px;display:flex}.tKsOKa_helpLink{color:var(--primary);font-size:12px;text-decoration:none}.tKsOKa_helpLink:hover{text-decoration:underline}.tKsOKa_headerRow{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) auto;align-items:center;gap:8px;display:grid}.tKsOKa_healthDot{background:var(--border-subtle);border-radius:50%;flex:none;width:8px;height:8px}.tKsOKa_healthOk{background:var(--success)}.tKsOKa_healthFail{background:var(--destructive)}.tKsOKa_healthChecking{background:var(--warning);animation:1s ease-in-out infinite tKsOKa_healthPulse}@keyframes tKsOKa_healthPulse{50%{opacity:.35}}.tKsOKa_healthMeta{min-width:0;color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;flex:1;font-size:12px;overflow:hidden}.tKsOKa_healthFailText{color:var(--destructive)}.tKsOKa_input{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px}.tKsOKa_input:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.tKsOKa_selectInput{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 28px 0 10px;font-family:inherit;font-size:14px}.tKsOKa_selectInput:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.tKsOKa_addButton{background:var(--primary);height:32px;color:var(--primary-foreground);cursor:pointer;border:1px solid #0000;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_addButton:hover:not(:disabled){background:var(--cs-brand-600)}.tKsOKa_addButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_secondaryButton{border:1px solid var(--border-subtle);background:var(--secondary);height:32px;color:var(--secondary-foreground);cursor:pointer;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_secondaryButton:hover:not(:disabled){background:var(--secondary-hover)}.tKsOKa_secondaryButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_dangerButton{border:1px solid var(--error-border);height:32px;color:var(--destructive);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_dangerButton:hover{background:var(--error-subtle)}.tKsOKa_deleteDialog{background:var(--popover);border-radius:14px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_deleteConfirm{justify-content:flex-end;align-items:center;gap:8px;display:flex}.tKsOKa_inputRow{align-items:center;gap:8px;display:flex}.tKsOKa_inputGroup{flex:1;min-width:0;display:flex;position:relative}.tKsOKa_inputGroup .tKsOKa_input{font-variant-numeric:tabular-nums;padding-right:30px}.tKsOKa_monoInput{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.tKsOKa_eyeButton{width:22px;height:22px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;display:inline-flex;position:absolute;top:50%;right:6px;transform:translateY(-50%)}.tKsOKa_eyeButton:hover:not(:disabled){color:var(--foreground);background:color-mix(in srgb, var(--muted) 45%, transparent)}.tKsOKa_checkButton{border:1px solid var(--border-subtle);background:var(--card);height:32px;color:var(--foreground);cursor:pointer;border-radius:8px;flex:none;justify-content:center;align-items:center;padding:0 12px;font-family:inherit;font-size:13px;display:inline-flex}.tKsOKa_checkButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent)}.tKsOKa_checkButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_checkResult{overflow-wrap:anywhere;margin-top:2px;font-size:12px;line-height:1.4}.tKsOKa_checkResultOk{color:var(--success)}.tKsOKa_checkResultFail{color:var(--destructive)}.tKsOKa_endpointPreview{color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;margin-top:2px;font-size:12px;overflow:hidden}.tKsOKa_panelBody{flex-direction:column;gap:14px;display:flex}.tKsOKa_modelCatalog{flex-direction:column;gap:8px;display:flex}.tKsOKa_modelListHead{flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;min-height:28px;display:flex}.tKsOKa_modelCatalogHeading{align-items:center;gap:8px;min-width:0;display:flex}.tKsOKa_modelCatalogTitle{color:var(--foreground);font-size:14px;font-weight:600}.tKsOKa_modelCountBadge{background:color-mix(in srgb, var(--primary) 14%, transparent);height:16px;color:var(--primary);border-radius:9999px;align-items:center;padding:0 6px;font-size:11px;font-weight:600;line-height:1;display:inline-flex}.tKsOKa_modelCatalogMeta{color:var(--muted-foreground);font-size:12px}.tKsOKa_modelToolbarActions{flex-wrap:wrap;align-items:center;gap:6px;display:flex}.tKsOKa_linkButton{height:26px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;padding:0 4px;font-family:inherit;font-size:12px}.tKsOKa_linkButton:hover:not(:disabled){color:var(--foreground)}.tKsOKa_linkButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_iconButton{width:26px;height:26px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:7px;justify-content:center;align-items:center;display:inline-flex}.tKsOKa_iconButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent);color:var(--foreground)}.tKsOKa_iconButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_iconButtonDanger:hover:not(:disabled){color:var(--destructive)}.tKsOKa_defaultMarker,.tKsOKa_defaultMarker:hover:not(:disabled){color:var(--primary)}.tKsOKa_fetchButton{border:1px solid var(--border-subtle);background:var(--card);height:28px;color:var(--foreground);cursor:pointer;border-radius:8px;align-items:center;gap:6px;padding:0 10px;font-family:inherit;font-size:12px;display:inline-flex}.tKsOKa_fetchButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent)}.tKsOKa_fetchButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_modelSearchInput{height:28px;font-size:13px}.tKsOKa_modelEmpty{border:1px dashed var(--border-subtle);color:var(--muted-foreground);border-radius:8px;padding:10px 12px;font-size:12px}.tKsOKa_modelList{flex-direction:column;gap:2px;display:flex}.tKsOKa_modelEntry{border-radius:8px;flex-direction:column;display:flex}.tKsOKa_modelEntry:hover{background:color-mix(in srgb, var(--muted) 25%, transparent)}.tKsOKa_modelRow{align-items:center;gap:6px;min-height:34px;padding:0 4px;display:flex}.tKsOKa_modelAvatar{background:color-mix(in srgb, var(--primary) 14%, transparent);width:22px;height:22px;color:var(--primary);border-radius:50%;flex:none;justify-content:center;align-items:center;font-size:11px;font-weight:600;display:inline-flex}.tKsOKa_modelIdInput{min-width:0;height:28px;color:var(--foreground);background:0 0;border:1px solid #0000;border-radius:6px;outline:none;flex:1;padding:0 6px;font-family:inherit;font-size:13px}.tKsOKa_modelIdInput:hover:not(:disabled){border-color:var(--border-subtle)}.tKsOKa_modelIdInput:focus-visible{border-color:var(--ring);background:var(--background)}.tKsOKa_modelIdInput::placeholder{color:var(--muted-foreground)}.tKsOKa_modelAdvanced{grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;padding:4px 4px 8px 36px;display:grid}.tKsOKa_modelField{flex-direction:column;gap:4px;display:flex}.tKsOKa_modelFieldLabel{color:var(--muted-foreground);font-size:11px}.tKsOKa_addModelButton{border:1px dashed var(--border-subtle);width:100%;height:30px;color:var(--muted-foreground);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;gap:6px;margin-top:4px;font-family:inherit;font-size:12px;display:inline-flex}.tKsOKa_addModelButton:hover:not(:disabled){color:var(--foreground);border-color:var(--border-strong)}.tKsOKa_candidateList{flex-direction:column;gap:2px;max-height:320px;margin:0;padding:0;list-style:none;display:flex;overflow-y:auto}.tKsOKa_candidateLabel{cursor:pointer;border-radius:6px;align-items:center;gap:8px;height:30px;padding:0 8px;font-size:13px;display:flex}.tKsOKa_candidateLabel:hover{background:var(--muted)}.tKsOKa_candidateId{white-space:nowrap;text-overflow:ellipsis;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;overflow:hidden}.tKsOKa_modelGroup{flex-direction:column;display:flex}.tKsOKa_modelGroupHeader{background:color-mix(in srgb, var(--muted) 45%, transparent);height:32px;color:var(--foreground);text-align:left;cursor:pointer;border:none;border-radius:8px;align-items:center;gap:6px;padding:0 6px;font-family:inherit;display:flex}.tKsOKa_modelGroupHeader:hover{background:var(--muted)}.tKsOKa_modelGroupTitle{font-size:13px;font-weight:600}.tKsOKa_modelGroupCount{color:var(--muted-foreground);font-size:11px}.tKsOKa_modelGroupBody{flex-direction:column;gap:2px;padding-left:10px;display:flex}.tKsOKa_modelRowDisabled{opacity:.55}.tKsOKa_modelRowDisabled .tKsOKa_modelAvatar{filter:grayscale()}.tKsOKa_modelDisabledId{min-width:0;color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;flex:1;font-size:13px;overflow:hidden}";
+		const css$27 = ".tKsOKa_section{flex-direction:column;gap:16px;width:100%;max-width:768px;margin:0 auto;display:flex}.tKsOKa_title{color:var(--foreground);font-size:15px;font-weight:600}.tKsOKa_intro{color:var(--muted-foreground);margin-top:4px;font-size:14px}.tKsOKa_notice{border:1px solid var(--info-border);background:var(--info-subtle);color:var(--info-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.tKsOKa_savedNotice{border:1px solid var(--success-border);background:var(--success-subtle);color:var(--success-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.tKsOKa_error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;align-items:center;gap:8px;padding:8px 12px;font-size:13px;display:flex}.tKsOKa_rows{flex-direction:column;gap:8px;margin:0;padding:0;list-style:none;display:flex}.tKsOKa_rowCard{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;display:flex}.tKsOKa_rowHead{align-items:center;gap:10px;min-width:0;display:flex}.tKsOKa_rowIdentity{align-items:center;gap:8px;min-width:0;display:flex}.tKsOKa_rowName{color:var(--foreground);white-space:nowrap;text-overflow:ellipsis;font-size:14px;font-weight:500;overflow:hidden}.tKsOKa_rowTag{background:var(--muted);height:20px;color:var(--muted-foreground);border-radius:9999px;flex:none;align-items:center;padding:0 8px;font-size:12px;display:inline-flex}.tKsOKa_rowActions{flex:none;align-items:center;gap:8px;display:flex}.tKsOKa_credentialDot{border-radius:50%;flex:none;width:8px;height:8px}.tKsOKa_credentialDotConfigured{background:var(--success)}.tKsOKa_credentialDotMissing{background:var(--warning)}.tKsOKa_setupCard{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_addCard{border:1px dashed var(--border-strong);background:0 0;border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_addBlock{flex-direction:column;gap:12px;display:flex}.tKsOKa_addActions{align-items:center;gap:8px;display:flex}.tKsOKa_field{flex-direction:column;gap:6px;display:flex}.tKsOKa_fieldLabel{color:var(--foreground);font-size:13px;font-weight:500}.tKsOKa_fieldLabelRow{align-items:baseline;gap:8px;display:flex}.tKsOKa_helpLink{color:var(--primary);font-size:12px;text-decoration:none}.tKsOKa_helpLink:hover{text-decoration:underline}.tKsOKa_headerRow{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) auto;align-items:center;gap:8px;display:grid}.tKsOKa_healthDot{background:var(--border-subtle);border-radius:50%;flex:none;width:8px;height:8px}.tKsOKa_healthOk{background:var(--success)}.tKsOKa_healthFail{background:var(--destructive)}.tKsOKa_healthChecking{background:var(--warning);animation:1s ease-in-out infinite tKsOKa_healthPulse}@keyframes tKsOKa_healthPulse{50%{opacity:.35}}.tKsOKa_healthMeta{min-width:0;color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;flex:1;font-size:12px;overflow:hidden}.tKsOKa_healthFailText{color:var(--destructive)}.tKsOKa_input{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px}.tKsOKa_input:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.tKsOKa_selectInput{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 28px 0 10px;font-family:inherit;font-size:14px}.tKsOKa_selectInput:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.tKsOKa_selectInput option,.tKsOKa_selectInput optgroup{background:var(--card);color:var(--foreground)}.tKsOKa_addButton{background:var(--primary);height:32px;color:var(--primary-foreground);cursor:pointer;border:1px solid #0000;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_addButton:hover:not(:disabled){background:var(--cs-brand-600)}.tKsOKa_addButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_secondaryButton{border:1px solid var(--border-subtle);background:var(--secondary);height:32px;color:var(--secondary-foreground);cursor:pointer;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_secondaryButton:hover:not(:disabled){background:var(--secondary-hover)}.tKsOKa_secondaryButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_dangerButton{border:1px solid var(--error-border);height:32px;color:var(--destructive);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_dangerButton:hover{background:var(--error-subtle)}.tKsOKa_deleteDialog{background:var(--popover);border-radius:14px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_deleteConfirm{justify-content:flex-end;align-items:center;gap:8px;display:flex}.tKsOKa_inputRow{align-items:center;gap:8px;display:flex}.tKsOKa_inputGroup{flex:1;min-width:0;display:flex;position:relative}.tKsOKa_inputGroup .tKsOKa_input{font-variant-numeric:tabular-nums;padding-right:30px}.tKsOKa_monoInput{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.tKsOKa_eyeButton{width:22px;height:22px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;display:inline-flex;position:absolute;top:50%;right:6px;transform:translateY(-50%)}.tKsOKa_eyeButton:hover:not(:disabled){color:var(--foreground);background:color-mix(in srgb, var(--muted) 45%, transparent)}.tKsOKa_checkButton{border:1px solid var(--border-subtle);background:var(--card);height:32px;color:var(--foreground);cursor:pointer;border-radius:8px;flex:none;justify-content:center;align-items:center;padding:0 12px;font-family:inherit;font-size:13px;display:inline-flex}.tKsOKa_checkButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent)}.tKsOKa_checkButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_checkResult{overflow-wrap:anywhere;margin-top:2px;font-size:12px;line-height:1.4}.tKsOKa_checkResultOk{color:var(--success)}.tKsOKa_checkResultFail{color:var(--destructive)}.tKsOKa_endpointPreview{color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;margin-top:2px;font-size:12px;overflow:hidden}.tKsOKa_panelBody{flex-direction:column;gap:14px;display:flex}.tKsOKa_modelCatalog{flex-direction:column;gap:8px;display:flex}.tKsOKa_modelListHead{flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;min-height:28px;display:flex}.tKsOKa_modelCatalogHeading{align-items:center;gap:8px;min-width:0;display:flex}.tKsOKa_modelCatalogTitle{color:var(--foreground);font-size:14px;font-weight:600}.tKsOKa_modelCountBadge{background:color-mix(in srgb, var(--primary) 14%, transparent);height:16px;color:var(--primary);border-radius:9999px;align-items:center;padding:0 6px;font-size:11px;font-weight:600;line-height:1;display:inline-flex}.tKsOKa_modelCatalogMeta{color:var(--muted-foreground);font-size:12px}.tKsOKa_modelToolbarActions{flex-wrap:wrap;align-items:center;gap:6px;display:flex}.tKsOKa_linkButton{height:26px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;padding:0 4px;font-family:inherit;font-size:12px}.tKsOKa_linkButton:hover:not(:disabled){color:var(--foreground)}.tKsOKa_linkButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_iconButton{width:26px;height:26px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:7px;justify-content:center;align-items:center;display:inline-flex}.tKsOKa_iconButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent);color:var(--foreground)}.tKsOKa_iconButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_iconButtonDanger:hover:not(:disabled){color:var(--destructive)}.tKsOKa_defaultMarker,.tKsOKa_defaultMarker:hover:not(:disabled){color:var(--primary)}.tKsOKa_fetchButton{border:1px solid var(--border-subtle);background:var(--card);height:28px;color:var(--foreground);cursor:pointer;border-radius:8px;align-items:center;gap:6px;padding:0 10px;font-family:inherit;font-size:12px;display:inline-flex}.tKsOKa_fetchButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent)}.tKsOKa_fetchButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_modelSearchInput{height:28px;font-size:13px}.tKsOKa_modelEmpty{border:1px dashed var(--border-subtle);color:var(--muted-foreground);border-radius:8px;padding:10px 12px;font-size:12px}.tKsOKa_modelList{flex-direction:column;gap:2px;display:flex}.tKsOKa_modelEntry{border-radius:8px;flex-direction:column;display:flex}.tKsOKa_modelEntry:hover{background:color-mix(in srgb, var(--muted) 25%, transparent)}.tKsOKa_modelRow{align-items:center;gap:6px;min-height:34px;padding:0 4px;display:flex}.tKsOKa_modelAvatar{background:color-mix(in srgb, var(--primary) 14%, transparent);width:22px;height:22px;color:var(--primary);border-radius:50%;flex:none;justify-content:center;align-items:center;font-size:11px;font-weight:600;display:inline-flex}.tKsOKa_modelIdInput{min-width:0;height:28px;color:var(--foreground);background:0 0;border:1px solid #0000;border-radius:6px;outline:none;flex:1;padding:0 6px;font-family:inherit;font-size:13px}.tKsOKa_modelIdInput:hover:not(:disabled){border-color:var(--border-subtle)}.tKsOKa_modelIdInput:focus-visible{border-color:var(--ring);background:var(--background)}.tKsOKa_modelIdInput::placeholder{color:var(--muted-foreground)}.tKsOKa_modelAdvanced{grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;padding:4px 4px 8px 36px;display:grid}.tKsOKa_modelField{flex-direction:column;gap:4px;display:flex}.tKsOKa_modelFieldLabel{color:var(--muted-foreground);font-size:11px}.tKsOKa_addModelButton{border:1px dashed var(--border-subtle);width:100%;height:30px;color:var(--muted-foreground);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;gap:6px;margin-top:4px;font-family:inherit;font-size:12px;display:inline-flex}.tKsOKa_addModelButton:hover:not(:disabled){color:var(--foreground);border-color:var(--border-strong)}.tKsOKa_candidateList{flex-direction:column;gap:2px;max-height:320px;margin:0;padding:0;list-style:none;display:flex;overflow-y:auto}.tKsOKa_candidateLabel{cursor:pointer;border-radius:6px;align-items:center;gap:8px;height:30px;padding:0 8px;font-size:13px;display:flex}.tKsOKa_candidateLabel:hover{background:var(--muted)}.tKsOKa_candidateId{white-space:nowrap;text-overflow:ellipsis;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;overflow:hidden}.tKsOKa_modelGroup{flex-direction:column;display:flex}.tKsOKa_modelGroupHeader{background:color-mix(in srgb, var(--muted) 45%, transparent);height:32px;color:var(--foreground);text-align:left;cursor:pointer;border:none;border-radius:8px;align-items:center;gap:6px;padding:0 6px;font-family:inherit;display:flex}.tKsOKa_modelGroupHeader:hover{background:var(--muted)}.tKsOKa_modelGroupTitle{font-size:13px;font-weight:600}.tKsOKa_modelGroupCount{color:var(--muted-foreground);font-size:11px}.tKsOKa_modelGroupBody{flex-direction:column;gap:2px;padding-left:10px;display:flex}.tKsOKa_modelRowDisabled{opacity:.55}.tKsOKa_modelRowDisabled .tKsOKa_modelAvatar{filter:grayscale()}.tKsOKa_modelDisabledId{min-width:0;color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;flex:1;font-size:13px;overflow:hidden}";
 		const tagId$27 = "@dsh-control-center/bundle/ModelsSection.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$27) + "]") === null) {
 			const tag = document.createElement("style");
@@ -6146,88 +6148,88 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelsSection_module_css_default = {
-			"addButton": "tKsOKa_addButton",
-			"addModelButton": "tKsOKa_addModelButton",
-			"healthChecking": "tKsOKa_healthChecking",
-			"title": "tKsOKa_title",
-			"modelToolbarActions": "tKsOKa_modelToolbarActions",
-			"selectInput": "tKsOKa_selectInput",
-			"dangerButton": "tKsOKa_dangerButton",
-			"modelField": "tKsOKa_modelField",
-			"modelEmpty": "tKsOKa_modelEmpty",
-			"healthDot": "tKsOKa_healthDot",
-			"endpointPreview": "tKsOKa_endpointPreview",
-			"secondaryButton": "tKsOKa_secondaryButton",
-			"rowCard": "tKsOKa_rowCard",
-			"candidateLabel": "tKsOKa_candidateLabel",
-			"rowName": "tKsOKa_rowName",
-			"modelListHead": "tKsOKa_modelListHead",
-			"modelAvatar": "tKsOKa_modelAvatar",
-			"savedNotice": "tKsOKa_savedNotice",
-			"setupCard": "tKsOKa_setupCard",
-			"notice": "tKsOKa_notice",
-			"monoInput": "tKsOKa_monoInput",
-			"checkResultOk": "tKsOKa_checkResultOk",
-			"modelRowDisabled": "tKsOKa_modelRowDisabled",
-			"fieldLabelRow": "tKsOKa_fieldLabelRow",
-			"eyeButton": "tKsOKa_eyeButton",
-			"panelBody": "tKsOKa_panelBody",
-			"fetchButton": "tKsOKa_fetchButton",
-			"section": "tKsOKa_section",
-			"modelGroup": "tKsOKa_modelGroup",
-			"addActions": "tKsOKa_addActions",
-			"inputRow": "tKsOKa_inputRow",
-			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
-			"defaultMarker": "tKsOKa_defaultMarker",
-			"candidateList": "tKsOKa_candidateList",
-			"modelGroupTitle": "tKsOKa_modelGroupTitle",
-			"checkResultFail": "tKsOKa_checkResultFail",
-			"rowActions": "tKsOKa_rowActions",
-			"rowIdentity": "tKsOKa_rowIdentity",
 			"inputGroup": "tKsOKa_inputGroup",
-			"modelGroupCount": "tKsOKa_modelGroupCount",
-			"modelGroupBody": "tKsOKa_modelGroupBody",
-			"intro": "tKsOKa_intro",
-			"checkResult": "tKsOKa_checkResult",
-			"modelCatalog": "tKsOKa_modelCatalog",
-			"helpLink": "tKsOKa_helpLink",
-			"credentialDot": "tKsOKa_credentialDot",
-			"field": "tKsOKa_field",
-			"healthFailText": "tKsOKa_healthFailText",
-			"modelGroupHeader": "tKsOKa_modelGroupHeader",
-			"deleteDialog": "tKsOKa_deleteDialog",
-			"fieldLabel": "tKsOKa_fieldLabel",
-			"modelCountBadge": "tKsOKa_modelCountBadge",
-			"linkButton": "tKsOKa_linkButton",
-			"rowHead": "tKsOKa_rowHead",
-			"healthPulse": "tKsOKa_healthPulse",
-			"modelFieldLabel": "tKsOKa_modelFieldLabel",
-			"input": "tKsOKa_input",
-			"healthOk": "tKsOKa_healthOk",
-			"healthFail": "tKsOKa_healthFail",
-			"error": "tKsOKa_error",
-			"credentialDotMissing": "tKsOKa_credentialDotMissing",
-			"rows": "tKsOKa_rows",
-			"headerRow": "tKsOKa_headerRow",
-			"iconButtonDanger": "tKsOKa_iconButtonDanger",
-			"modelSearchInput": "tKsOKa_modelSearchInput",
-			"addBlock": "tKsOKa_addBlock",
-			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
-			"deleteConfirm": "tKsOKa_deleteConfirm",
-			"checkButton": "tKsOKa_checkButton",
 			"rowTag": "tKsOKa_rowTag",
-			"iconButton": "tKsOKa_iconButton",
-			"modelEntry": "tKsOKa_modelEntry",
-			"modelRow": "tKsOKa_modelRow",
+			"healthFail": "tKsOKa_healthFail",
+			"helpLink": "tKsOKa_helpLink",
+			"healthPulse": "tKsOKa_healthPulse",
+			"endpointPreview": "tKsOKa_endpointPreview",
+			"candidateList": "tKsOKa_candidateList",
+			"field": "tKsOKa_field",
+			"rows": "tKsOKa_rows",
+			"fieldLabel": "tKsOKa_fieldLabel",
+			"modelGroup": "tKsOKa_modelGroup",
+			"modelGroupTitle": "tKsOKa_modelGroupTitle",
+			"modelGroupCount": "tKsOKa_modelGroupCount",
+			"checkButton": "tKsOKa_checkButton",
+			"iconButtonDanger": "tKsOKa_iconButtonDanger",
+			"headerRow": "tKsOKa_headerRow",
+			"addButton": "tKsOKa_addButton",
+			"defaultMarker": "tKsOKa_defaultMarker",
+			"modelCountBadge": "tKsOKa_modelCountBadge",
+			"selectInput": "tKsOKa_selectInput",
+			"rowActions": "tKsOKa_rowActions",
+			"input": "tKsOKa_input",
+			"title": "tKsOKa_title",
+			"modelSearchInput": "tKsOKa_modelSearchInput",
 			"modelIdInput": "tKsOKa_modelIdInput",
 			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
-			"modelAdvanced": "tKsOKa_modelAdvanced",
-			"candidateId": "tKsOKa_candidateId",
-			"addCard": "tKsOKa_addCard",
-			"modelList": "tKsOKa_modelList",
+			"modelEntry": "tKsOKa_modelEntry",
+			"healthFailText": "tKsOKa_healthFailText",
+			"setupCard": "tKsOKa_setupCard",
+			"inputRow": "tKsOKa_inputRow",
 			"healthMeta": "tKsOKa_healthMeta",
+			"panelBody": "tKsOKa_panelBody",
+			"modelAdvanced": "tKsOKa_modelAdvanced",
+			"rowName": "tKsOKa_rowName",
+			"addBlock": "tKsOKa_addBlock",
+			"healthDot": "tKsOKa_healthDot",
+			"candidateLabel": "tKsOKa_candidateLabel",
+			"rowCard": "tKsOKa_rowCard",
+			"credentialDot": "tKsOKa_credentialDot",
+			"savedNotice": "tKsOKa_savedNotice",
+			"healthChecking": "tKsOKa_healthChecking",
+			"deleteDialog": "tKsOKa_deleteDialog",
+			"addActions": "tKsOKa_addActions",
+			"error": "tKsOKa_error",
+			"fieldLabelRow": "tKsOKa_fieldLabelRow",
+			"modelEmpty": "tKsOKa_modelEmpty",
+			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
+			"linkButton": "tKsOKa_linkButton",
+			"modelRow": "tKsOKa_modelRow",
+			"checkResultOk": "tKsOKa_checkResultOk",
+			"addModelButton": "tKsOKa_addModelButton",
+			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
+			"modelField": "tKsOKa_modelField",
+			"candidateId": "tKsOKa_candidateId",
+			"modelList": "tKsOKa_modelList",
 			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
-			"modelDisabledId": "tKsOKa_modelDisabledId"
+			"modelFieldLabel": "tKsOKa_modelFieldLabel",
+			"modelRowDisabled": "tKsOKa_modelRowDisabled",
+			"modelGroupBody": "tKsOKa_modelGroupBody",
+			"addCard": "tKsOKa_addCard",
+			"modelCatalog": "tKsOKa_modelCatalog",
+			"rowHead": "tKsOKa_rowHead",
+			"modelDisabledId": "tKsOKa_modelDisabledId",
+			"intro": "tKsOKa_intro",
+			"rowIdentity": "tKsOKa_rowIdentity",
+			"modelListHead": "tKsOKa_modelListHead",
+			"section": "tKsOKa_section",
+			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"secondaryButton": "tKsOKa_secondaryButton",
+			"dangerButton": "tKsOKa_dangerButton",
+			"eyeButton": "tKsOKa_eyeButton",
+			"checkResultFail": "tKsOKa_checkResultFail",
+			"fetchButton": "tKsOKa_fetchButton",
+			"modelGroupHeader": "tKsOKa_modelGroupHeader",
+			"monoInput": "tKsOKa_monoInput",
+			"healthOk": "tKsOKa_healthOk",
+			"modelAvatar": "tKsOKa_modelAvatar",
+			"checkResult": "tKsOKa_checkResult",
+			"modelToolbarActions": "tKsOKa_modelToolbarActions",
+			"iconButton": "tKsOKa_iconButton",
+			"notice": "tKsOKa_notice",
+			"deleteConfirm": "tKsOKa_deleteConfirm"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -9428,38 +9430,30 @@ window.__ModuleLoader__.load({
 		//#endregion
 		//#region lib/types/client/ModelsSection.js
 		/**
-		* Models settings section: the provider rows joined from the configurable
-		* directory, settings namespaces, and credential states, with one editor
-		* card at a time. Rows expose only confirmed API-key state through accessible
-		* solid configured or missing dots. A whole-section provider without a
-		* configured key renders as its open setup card instead of a row, but only in
-		* the first-run posture — no provider on the page can serve requests yet — and
-		* only until the user closes that card; the add flow is a card carrying the
-		* dormant-provider select. Each card kind owns its own open state, so closing
-		* one never discards a draft in another. Every mutation writes through the
-		* wire, while a provider removal first requires confirmation; the page
-		* re-renders from pushed invalidations or the post-apply reload.
+		* 模型 (Default Models) section — Cherry ModelSettings parity.
+		*
+		* Provider editing lives in 模型服务, exactly as Cherry splits
+		* ProviderSettings and ModelSettings into two pages. This page owns
+		* per-purpose model selection over the host authority:
+		* - 默认模型 / 当前会话模型 via the shared ModelSelectionPanel;
+		* - 翻译模型 / 绘画模型 preferences persisted to `control-center-model-prefs`
+		*   and honored by the workspaces as their initial selection instead of
+		*   "whatever the catalog listed first".
 		*/
-		/** Render an editor for either the setup posture or an expanded provider row. */
-		function renderProviderEditor({ target, ...props }) {
-			return (0, react_jsx_runtime.jsx)(ProviderEditor, {
-				provider: target.provider,
-				displayName: target.displayName,
-				settingsPath: target.settingsPath,
-				...target.declared === true ? { declared: true } : {},
-				...props
-			});
+		/** Stable visible and accessible identity for one provider target. */
+		function providerTargetLabel(target) {
+			return target.provider === target.displayName ? target.provider : `${target.displayName} (${target.provider})`;
+		}
+		/** Replace the one provider placeholder in localized destructive-action copy. */
+		function providerCopy(template, target) {
+			return template.replace("{provider}", () => providerTargetLabel(target));
 		}
 		/**
 		* Remove one user-added provider and its page-managed credential. Credential
 		* removal comes first so a second-step failure leaves the provider row visible
-		* and the whole operation safely retryable; both unsets are idempotent.
-		* The settings removal names the profile rather than rebuilding its whole
-		* namespace from a partial view.
-		* @param api - settings and credential wire faces.
-		* @param controller - the page store to refresh.
-		* @param target - the provider's settings address and optional managed credential.
-		* @returns the failure message, or undefined once the write and reload landed.
+		* and the whole operation safely retryable; both unsets are idempotent. The
+		* settings removal names the profile rather than rebuilding its whole
+		* namespace from a partial view. (Shared with the 模型服务 page.)
 		*/
 		async function removeProviderProfile(api, controller, target) {
 			try {
@@ -9476,364 +9470,153 @@ window.__ModuleLoader__.load({
 				});
 				if (!response.result.ok) return response.result.error.message;
 			} catch (error) {
-				return messageOf$2(error);
+				return error instanceof Error ? error.message : String(error);
 			}
 			await controller.load();
 		}
+		function optionsOf(groups) {
+			return groups.flatMap((group) => group.models.map((model) => ({
+				value: `${group.id}/${model.id}`,
+				label: `${group.name} · ${model.name}`,
+				selection: {
+					provider: group.id,
+					model: model.id
+				}
+			})));
+		}
+		/** One per-purpose selector block. */
+		function PrefField({ label, hint, selection, groups, disabled, onSave, t }) {
+			const rows = optionsOf(groups);
+			const current = selection === null ? "" : `${selection.provider}/${selection.model}`;
+			return (0, react_jsx_runtime.jsxs)("label", {
+				className: ModelsSection_module_css_default["field"],
+				children: [
+					(0, react_jsx_runtime.jsx)("span", {
+						className: ModelsSection_module_css_default["fieldLabel"],
+						children: label
+					}),
+					(0, react_jsx_runtime.jsxs)("select", {
+						className: `${ModelsSection_module_css_default["input"]} ${ModelsSection_module_css_default["selectInput"]}`,
+						value: current,
+						disabled: disabled || rows.length === 0,
+						onChange: (event) => {
+							const match = rows.find((row) => row.value === event.target.value);
+							if (match !== void 0) onSave(match.selection);
+						},
+						children: [(0, react_jsx_runtime.jsx)("option", {
+							value: "",
+							children: selection === null ? t("prefUnset") : t("prefFollow")
+						}), rows.map((row) => (0, react_jsx_runtime.jsx)("option", {
+							value: row.value,
+							children: row.label
+						}, row.value))]
+					}),
+					(0, react_jsx_runtime.jsx)("span", {
+						className: ModelsSection_module_css_default["advancedHint"],
+						children: hint
+					})
+				]
+			});
+		}
 		/**
-		* Whether a whole-section provider still needs its first key: an unconfigured
-		* credential opens the setup card instead of showing a row. This is the
-		* first-run posture alone — a user who can already reach some provider gets an
-		* ordinary row with the missing-key dot, since nothing here is blocking them.
-		* @param row - the joined provider row.
-		* @param anyUsable - whether any joined row can already serve requests.
-		* @returns whether to render the setup card.
-		*/
-		function needsSetup(row, anyUsable) {
-			if (anyUsable) return false;
-			if (row.entry.settingsPath.length > 0) return false;
-			return row.credential?.configured !== true;
-		}
-		function targetOf(row) {
-			const managedRef = deriveKeyRef(row.entry.provider);
-			const credentialRef = row.apiKeyEnv === managedRef && row.credential?.configured === true && row.credential.writable ? managedRef : void 0;
-			return {
-				provider: row.entry.provider,
-				displayName: row.entry.displayName,
-				settingsNs: row.entry.settingsNs,
-				settingsPath: row.entry.settingsPath,
-				...credentialRef === void 0 ? {} : { credentialRef },
-				...row.entry.declared === true ? { declared: true } : {}
-			};
-		}
-		/** Stable visible and accessible identity for one provider target. */
-		function providerTargetLabel(target) {
-			return target.provider === target.displayName ? target.provider : `${target.displayName} (${target.provider})`;
-		}
-		/** Replace the one provider placeholder in localized destructive-action copy. */
-		function providerCopy(template, target) {
-			return template.replace("{provider}", () => providerTargetLabel(target));
-		}
-		/**
-		* Render the Models section content column.
+		* Render the 模型 section.
 		* @param props - slot-delivered injected dependencies.
 		* @returns the section, or null while the shell has not injected yet.
 		*/
 		function ModelsSection(props) {
-			const { controller, useSnapshot, api, t, modelSelection, schema } = props;
-			if (controller === void 0 || useSnapshot === void 0 || api === void 0 || t === void 0 || modelSelection === void 0 || schema === void 0) return null;
+			const { controller, useSnapshot, prefsController, usePrefsSnapshot, api, t, schema, modelSelection } = props;
+			if (controller === void 0 || useSnapshot === void 0 || prefsController === void 0 || usePrefsSnapshot === void 0 || api === void 0 || t === void 0 || schema === void 0 || modelSelection === void 0) return null;
 			return (0, react_jsx_runtime.jsx)(Loaded$1, { injected: {
 				controller,
 				useSnapshot,
+				prefsController,
+				usePrefsSnapshot,
 				api,
 				t,
-				modelSelection,
-				schema
+				schema,
+				modelSelection
 			} });
 		}
 		function Loaded$1({ injected }) {
-			const { controller, api, t, modelSelection, schema } = injected;
+			const { controller, t, prefsController } = injected;
 			const state = injected.useSnapshot((snapshot) => snapshot);
-			const [editing, setEditing] = (0, react.useState)(void 0);
-			const [adding, setAdding] = (0, react.useState)(false);
-			const [deleteTarget, setDeleteTarget] = (0, react.useState)(void 0);
-			const [deleting, setDeleting] = (0, react.useState)(false);
-			const [deleteFailure, setDeleteFailure] = (0, react.useState)(void 0);
-			const [savedTarget, setSavedTarget] = (0, react.useState)(void 0);
-			const [declaring, setDeclaring] = (0, react.useState)(false);
-			const [dismissedSetup, setDismissedSetup] = (0, react.useState)(() => /* @__PURE__ */ new Set());
-			const announceSaved = (target) => {
-				controller.load().then(() => {
-					setSavedTarget(target);
-				});
-			};
-			const closeEditor = (changed, target) => {
-				setEditing(void 0);
-				setAdding(false);
-				setDeclaring(false);
-				if (changed) announceSaved(target);
-			};
-			/**
-			* Close a setup card, which owns none of the state above: the row-editor,
-			* add, and declare cards each own one of those, so clearing them here would
-			* discard a draft the user opened beside this card. Dismissal is this card's
-			* own — the provider falls back to an ordinary row for the rest of the
-			* session, and reopens through Edit.
-			*/
-			const closeSetup = (changed, target) => {
-				setDismissedSetup((previous) => /* @__PURE__ */ new Set([...previous, target.provider]));
-				if (changed) announceSaved(target);
-			};
-			const closeDelete = () => {
-				if (deleting) return;
-				setDeleteTarget(void 0);
-				setDeleteFailure(void 0);
-			};
-			const confirmDelete = () => {
-				/* v8 ignore next -- the action only renders with a target and is disabled while a deletion is pending */
-				if (deleteTarget === void 0 || deleting) return;
-				setDeleting(true);
-				setDeleteFailure(void 0);
-				removeProviderProfile(api, controller, deleteTarget).then((failure) => {
-					if (failure !== void 0) {
-						setDeleteFailure(failure);
-						return;
-					}
-					setDeleteTarget(void 0);
-				}).finally(() => {
-					setDeleting(false);
-				});
-			};
-			if (state.status === "idle") controller.load();
-			if (state.status === "error") {
-				/* v8 ignore next -- an error status always carries text; the fallback satisfies the nullable type */
-				const errorText = state.error ?? "";
-				return (0, react_jsx_runtime.jsxs)("div", {
-					className: ModelsSection_module_css_default["section"],
-					children: [(0, react_jsx_runtime.jsx)("p", {
-						className: ModelsSection_module_css_default["error"],
-						children: `${t("loadFailed")}: ${errorText}`
-					}), (0, react_jsx_runtime.jsx)("button", {
-						type: "button",
-						className: ModelsSection_module_css_default["secondaryButton"],
-						onClick: () => {
-							controller.load();
-						},
-						children: t("retry")
-					})]
-				});
-			}
-			const savedRow = savedTarget === void 0 ? void 0 : state.rows.find((row) => row.entry.provider === savedTarget.provider);
-			const savedIdentity = savedRow === void 0 ? savedTarget : {
-				provider: savedRow.entry.provider,
-				displayName: savedRow.entry.displayName
-			};
-			const anyUsable = state.rows.some(providerUsable);
-			const configured = state.rows.filter((row) => row.configured);
-			const addable = state.rows.filter((row) => !row.configured && row.entry.settingsNs !== "");
-			const addTarget = adding ? editing : void 0;
-			const addNamespace = addTarget === void 0 ? void 0 : state.namespaces.get(addTarget.settingsNs);
-			const protocols = protocolChoices(state.namespaces.get("llm-pi-ai"), schema);
+			const prefs = injected.usePrefsSnapshot((snapshot) => snapshot);
+			const [savedKind, setSavedKind] = (0, react.useState)(void 0);
+			(0, react.useEffect)(() => {
+				if (prefs.status === "idle") prefsController.load();
+				if (state.status === "idle") controller.load();
+			}, [
+				prefs.status,
+				prefsController,
+				state.status,
+				controller
+			]);
+			if (prefs.status === "error")
+ /* v8 ignore next -- an error status always carries text */
+			return (0, react_jsx_runtime.jsxs)("div", {
+				className: ModelsSection_module_css_default["section"],
+				children: [(0, react_jsx_runtime.jsx)("p", {
+					className: ModelsSection_module_css_default["error"],
+					children: `${t("loadFailed")}: ${prefs.error ?? ""}`
+				}), (0, react_jsx_runtime.jsx)("button", {
+					type: "button",
+					className: ModelsSection_module_css_default["secondaryButton"],
+					onClick: () => {
+						prefsController.load();
+					},
+					children: t("retry")
+				})]
+			});
 			return (0, react_jsx_runtime.jsxs)("div", {
 				className: ModelsSection_module_css_default["section"],
 				children: [
-					(0, react_jsx_runtime.jsx)("h2", {
-						className: ModelsSection_module_css_default["title"],
-						children: t("title")
-					}),
-					(0, react_jsx_runtime.jsx)("p", {
-						className: ModelsSection_module_css_default["intro"],
-						children: t("intro")
-					}),
-					!state.writable && state.status === "ready" ? (0, react_jsx_runtime.jsx)("p", {
+					!prefs.writable && prefs.status === "ready" ? (0, react_jsx_runtime.jsx)("p", {
 						className: ModelsSection_module_css_default["notice"],
 						children: t("readOnly")
 					}) : null,
-					savedIdentity === void 0 ? null : (0, react_jsx_runtime.jsx)("p", {
-						className: ModelsSection_module_css_default["savedNotice"],
-						role: "status",
-						"aria-live": "polite",
-						children: providerCopy(t("savedProvider"), savedIdentity)
-					}),
-					(0, react_jsx_runtime.jsx)("ul", {
-						className: ModelsSection_module_css_default["rows"],
-						children: configured.map((row) => {
-							const target = targetOf(row);
-							const namespace = state.namespaces.get(target.settingsNs);
-							/* v8 ignore next -- the join marks a row configured only when its namespace resolved */
-							if (namespace === void 0) return null;
-							if (needsSetup(row, anyUsable) && !dismissedSetup.has(row.entry.provider)) return (0, react_jsx_runtime.jsx)("li", {
-								className: ModelsSection_module_css_default["setupCard"],
-								children: renderProviderEditor({
-									target,
-									namespace,
-									api,
-									t,
-									schema,
-									readOnly: !state.writable,
-									onClose: (changed) => {
-										closeSetup(changed, target);
-									}
-								})
-							}, row.entry.provider);
-							const open = !adding && editing?.provider === row.entry.provider;
-							const credentialConfigured = row.credential?.configured === true;
-							const credentialMissing = !credentialConfigured && row.apiKeyEnv !== void 0 && row.credential?.configured === false;
-							return (0, react_jsx_runtime.jsxs)("li", {
-								className: ModelsSection_module_css_default["rowCard"],
-								children: [(0, react_jsx_runtime.jsxs)("div", {
-									className: ModelsSection_module_css_default["rowHead"],
-									children: [(0, react_jsx_runtime.jsxs)("span", {
-										className: ModelsSection_module_css_default["rowIdentity"],
-										children: [
-											(0, react_jsx_runtime.jsx)("span", {
-												className: ModelsSection_module_css_default["rowName"],
-												children: row.entry.displayName
-											}),
-											row.entry.declared === true ? (0, react_jsx_runtime.jsx)("span", {
-												className: ModelsSection_module_css_default["rowTag"],
-												children: t("customTag")
-											}) : null,
-											credentialConfigured ? (0, react_jsx_runtime.jsx)("span", {
-												className: `${ModelsSection_module_css_default["credentialDot"]} ${ModelsSection_module_css_default["credentialDotConfigured"]}`,
-												role: "img",
-												"aria-label": t("credentialConfigured"),
-												title: t("credentialConfigured")
-											}) : credentialMissing ? (0, react_jsx_runtime.jsx)("span", {
-												className: `${ModelsSection_module_css_default["credentialDot"]} ${ModelsSection_module_css_default["credentialDotMissing"]}`,
-												role: "img",
-												"aria-label": t("credentialMissing"),
-												title: t("credentialMissing")
-											}) : null
-										]
-									}), (0, react_jsx_runtime.jsxs)("span", {
-										className: ModelsSection_module_css_default["rowActions"],
-										children: [(0, react_jsx_runtime.jsx)("button", {
-											type: "button",
-											className: ModelsSection_module_css_default["secondaryButton"],
-											"aria-label": providerCopy(t("editProvider"), target),
-											onClick: () => {
-												setSavedTarget(void 0);
-												setDeclaring(false);
-												setAdding(false);
-												setEditing(open ? void 0 : target);
-											},
-											children: t("edit")
-										}), row.removable ? (0, react_jsx_runtime.jsx)("button", {
-											type: "button",
-											className: ModelsSection_module_css_default["dangerButton"],
-											"aria-label": providerCopy(t("removeProvider"), target),
-											disabled: !state.writable,
-											onClick: () => {
-												setSavedTarget(void 0);
-												setDeleteFailure(void 0);
-												setDeleteTarget(target);
-											},
-											children: t("remove")
-										}) : null]
-									})]
-								}), open ? renderProviderEditor({
-									target,
-									namespace,
-									api,
-									t,
-									schema,
-									readOnly: !state.writable,
-									onClose: (changed) => {
-										closeEditor(changed, target);
-									}
-								}) : null]
-							}, row.entry.provider);
-						})
-					}),
-					(0, react_jsx_runtime.jsx)("div", {
-						className: ModelsSection_module_css_default["addBlock"],
-						children: addTarget !== void 0 && addNamespace !== void 0 ? (0, react_jsx_runtime.jsxs)("div", {
-							className: ModelsSection_module_css_default["addCard"],
-							children: [(0, react_jsx_runtime.jsxs)("div", {
-								className: ModelsSection_module_css_default["field"],
-								children: [(0, react_jsx_runtime.jsx)("span", {
-									className: ModelsSection_module_css_default["fieldLabel"],
-									children: t("provider")
-								}), (0, react_jsx_runtime.jsx)("select", {
-									className: `${ModelsSection_module_css_default["input"]} ${ModelsSection_module_css_default["selectInput"]}`,
-									value: addTarget.provider,
-									"aria-label": t("provider"),
-									onChange: (event) => {
-										const row = addable.find((candidate) => candidate.entry.provider === event.target.value);
-										/* v8 ignore next -- the select only lists addable rows */
-										if (row === void 0) return;
-										setEditing(targetOf(row));
-									},
-									children: addable.map((row) => (0, react_jsx_runtime.jsx)("option", {
-										value: row.entry.provider,
-										children: row.entry.displayName
-									}, row.entry.provider))
-								})]
-							}), (0, react_jsx_runtime.jsx)(ProviderEditor, {
-								provider: addTarget.provider,
-								displayName: addTarget.displayName,
-								hideTitle: true,
-								namespace: addNamespace,
-								settingsPath: addTarget.settingsPath,
-								api,
+					(0, react_jsx_runtime.jsx)(ModelSelectionPanel, { ...injected.modelSelection }),
+					(0, react_jsx_runtime.jsxs)("section", {
+						"aria-label": t("prefTitle"),
+						className: ModelsSection_module_css_default["prefsPanel"],
+						children: [
+							(0, react_jsx_runtime.jsx)("h3", {
+								className: ModelsSection_module_css_default["modelSelectionTitle"],
+								children: t("prefTitle")
+							}),
+							savedKind !== void 0 ? (0, react_jsx_runtime.jsx)("p", {
+								className: ModelsSection_module_css_default["savedNotice"],
+								role: "status",
+								children: t(savedKind === "translation" ? "prefSavedTranslation" : "prefSavedPainting")
+							}) : null,
+							(0, react_jsx_runtime.jsx)(PrefField, {
+								label: t("prefTranslation"),
+								hint: t("prefHint"),
+								selection: prefs.translation,
+								groups: prefs.groups,
+								disabled: prefs.status !== "ready",
 								t,
-								schema,
-								readOnly: !state.writable,
-								onClose: (changed) => {
-									closeEditor(changed, addTarget);
+								onSave: (selection) => {
+									setSavedKind(void 0);
+									prefsController.save("translation", selection).then((ok) => {
+										setSavedKind(ok ? "translation" : void 0);
+									});
 								}
-							}, addTarget.provider)]
-						}) : declaring ? (0, react_jsx_runtime.jsx)("div", {
-							className: ModelsSection_module_css_default["addCard"],
-							children: (0, react_jsx_runtime.jsx)(CustomProviderCard, {
-								taken: state.rows.map((row) => row.entry.provider),
-								protocols,
-								/* v8 ignore next -- the card only opens from a button disabled without this namespace */
-								revision: state.namespaces.get("llm-pi-ai")?.revision ?? 0,
-								api,
+							}),
+							(0, react_jsx_runtime.jsx)(PrefField, {
+								label: t("prefPainting"),
+								hint: t("prefHint"),
+								selection: prefs.painting,
+								groups: prefs.groups,
+								disabled: prefs.status !== "ready",
 								t,
-								readOnly: !state.writable,
-								onClose: (changed) => {
-									setDeclaring(false);
-									if (changed) controller.load();
+								onSave: (selection) => {
+									setSavedKind(void 0);
+									prefsController.save("painting", selection).then((ok) => {
+										setSavedKind(ok ? "painting" : void 0);
+									});
 								}
 							})
-						}) : (0, react_jsx_runtime.jsxs)("div", {
-							className: ModelsSection_module_css_default["addActions"],
-							children: [(0, react_jsx_runtime.jsxs)("button", {
-								type: "button",
-								className: ModelsSection_module_css_default["addButton"],
-								disabled: addable.length === 0 || !state.writable,
-								onClick: () => {
-									const first = addable[0];
-									/* v8 ignore next -- the button is disabled while nothing is addable */
-									if (first === void 0) return;
-									setSavedTarget(void 0);
-									setDeclaring(false);
-									setAdding(true);
-									setEditing(targetOf(first));
-								},
-								children: [(0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.IconPlusOutline16, { size: 14 }), t("add")]
-							}), (0, react_jsx_runtime.jsxs)("button", {
-								type: "button",
-								className: ModelsSection_module_css_default["addButton"],
-								disabled: protocols.length === 0 || !state.writable,
-								onClick: () => {
-									setSavedTarget(void 0);
-									setAdding(false);
-									setEditing(void 0);
-									setDeclaring(true);
-								},
-								children: [(0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.IconPlusOutline16, { size: 14 }), t("customAdd")]
-							})]
-						})
-					}),
-					(0, react_jsx_runtime.jsx)(ModelSelectionPanel, { ...modelSelection }),
-					(0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.Modal, {
-						open: deleteTarget !== void 0,
-						onClose: closeDelete,
-						title: deleteTarget === void 0 ? "" : providerCopy(t("deleteTitle"), deleteTarget),
-						closeLabel: t("close"),
-						description: deleteTarget === void 0 ? "" : providerCopy(deleteTarget.credentialRef === void 0 ? t("deleteDescription") : t("deleteDescriptionWithCredential"), deleteTarget),
-						className: ModelsSection_module_css_default["deleteDialog"],
-						footer: (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.Button, {
-							variant: "outline",
-							autoFocus: true,
-							disabled: deleting,
-							onClick: closeDelete,
-							children: t("cancel")
-						}), (0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.Button, {
-							variant: "outline",
-							className: ModelsSection_module_css_default["deleteConfirm"],
-							disabled: deleting,
-							onClick: confirmDelete,
-							children: deleteTarget === void 0 ? "" : providerCopy(deleting ? t("deleting") : t("deleteConfirm"), deleteTarget)
-						})] }),
-						children: deleteFailure === void 0 ? null : (0, react_jsx_runtime.jsx)("p", {
-							className: ModelsSection_module_css_default["error"],
-							children: deleteFailure
-						})
+						]
 					})
 				]
 			});
@@ -10760,52 +10543,52 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderDirectorySection_module_css_default = {
-			"listItemSelected": "l38w4q_listItemSelected",
-			"boltButton": "l38w4q_boltButton",
-			"searchInput": "l38w4q_searchInput",
-			"disabledTag": "l38w4q_disabledTag",
-			"deleteConfirm": "l38w4q_deleteConfirm",
-			"enabledDot": "l38w4q_enabledDot",
-			"detailRoute": "l38w4q_detailRoute",
-			"switchThumb": "l38w4q_switchThumb",
-			"error": "l38w4q_error",
-			"emptyDetail": "l38w4q_emptyDetail",
-			"customTag": "l38w4q_customTag",
-			"emptyTitle": "l38w4q_emptyTitle",
-			"secondaryButton": "l38w4q_secondaryButton",
-			"list": "l38w4q_list",
-			"listScroll": "l38w4q_listScroll",
-			"listItemMain": "l38w4q_listItemMain",
-			"emptyList": "l38w4q_emptyList",
-			"detailTitle": "l38w4q_detailTitle",
-			"notice": "l38w4q_notice",
-			"deleteDialog": "l38w4q_deleteDialog",
-			"section": "l38w4q_section",
-			"intro": "l38w4q_intro",
-			"kebabButton": "l38w4q_kebabButton",
-			"listHeader": "l38w4q_listHeader",
-			"freeBadge": "l38w4q_freeBadge",
-			"listItem": "l38w4q_listItem",
-			"listItemName": "l38w4q_listItemName",
-			"addCustomButton": "l38w4q_addCustomButton",
 			"listFooter": "l38w4q_listFooter",
-			"detailHeaderMain": "l38w4q_detailHeaderMain",
+			"section": "l38w4q_section",
+			"listHeader": "l38w4q_listHeader",
+			"listItem": "l38w4q_listItem",
 			"listItemDisabled": "l38w4q_listItemDisabled",
-			"listItemDragging": "l38w4q_listItemDragging",
-			"detail": "l38w4q_detail",
-			"groupRows": "l38w4q_groupRows",
-			"detailBody": "l38w4q_detailBody",
-			"switch": "l38w4q_switch",
-			"detailScroll": "l38w4q_detailScroll",
-			"switchOn": "l38w4q_switchOn",
-			"searchClear": "l38w4q_searchClear",
-			"detailHeader": "l38w4q_detailHeader",
+			"listItemName": "l38w4q_listItemName",
+			"detailHeaderMain": "l38w4q_detailHeaderMain",
+			"intro": "l38w4q_intro",
+			"emptyList": "l38w4q_emptyList",
+			"customTag": "l38w4q_customTag",
+			"switchThumb": "l38w4q_switchThumb",
+			"kebabButton": "l38w4q_kebabButton",
+			"emptyTitle": "l38w4q_emptyTitle",
+			"detailRoute": "l38w4q_detailRoute",
+			"notice": "l38w4q_notice",
+			"emptyHint": "l38w4q_emptyHint",
+			"secondaryButton": "l38w4q_secondaryButton",
+			"deleteConfirm": "l38w4q_deleteConfirm",
 			"savedNotice": "l38w4q_savedNotice",
-			"avatar": "l38w4q_avatar",
-			"split": "l38w4q_split",
+			"listItemSelected": "l38w4q_listItemSelected",
+			"groupRows": "l38w4q_groupRows",
+			"detailScroll": "l38w4q_detailScroll",
+			"listScroll": "l38w4q_listScroll",
 			"listItemDropTarget": "l38w4q_listItemDropTarget",
-			"kebabSlot": "l38w4q_kebabSlot",
-			"emptyHint": "l38w4q_emptyHint"
+			"detailBody": "l38w4q_detailBody",
+			"listItemDragging": "l38w4q_listItemDragging",
+			"error": "l38w4q_error",
+			"deleteDialog": "l38w4q_deleteDialog",
+			"split": "l38w4q_split",
+			"searchInput": "l38w4q_searchInput",
+			"detailHeader": "l38w4q_detailHeader",
+			"detailTitle": "l38w4q_detailTitle",
+			"detail": "l38w4q_detail",
+			"freeBadge": "l38w4q_freeBadge",
+			"enabledDot": "l38w4q_enabledDot",
+			"list": "l38w4q_list",
+			"boltButton": "l38w4q_boltButton",
+			"switch": "l38w4q_switch",
+			"disabledTag": "l38w4q_disabledTag",
+			"searchClear": "l38w4q_searchClear",
+			"avatar": "l38w4q_avatar",
+			"emptyDetail": "l38w4q_emptyDetail",
+			"switchOn": "l38w4q_switchOn",
+			"addCustomButton": "l38w4q_addCustomButton",
+			"listItemMain": "l38w4q_listItemMain",
+			"kebabSlot": "l38w4q_kebabSlot"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderDirectorySection.js
@@ -11809,21 +11592,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var AddMcpServerDialog_module_css_default = {
+			"submitButton": "uv_otq_submitButton",
+			"field": "uv_otq_field",
+			"cancelButton": "uv_otq_cancelButton",
+			"form": "uv_otq_form",
+			"footer": "uv_otq_footer",
 			"select": "uv_otq_select",
 			"header": "uv_otq_header",
 			"textarea": "uv_otq_textarea",
-			"cancelButton": "uv_otq_cancelButton",
-			"footer": "uv_otq_footer",
-			"title": "uv_otq_title",
-			"closeButton": "uv_otq_closeButton",
-			"label": "uv_otq_label",
-			"overlay": "uv_otq_overlay",
 			"input": "uv_otq_input",
-			"form": "uv_otq_form",
-			"error": "uv_otq_error",
-			"submitButton": "uv_otq_submitButton",
+			"closeButton": "uv_otq_closeButton",
+			"title": "uv_otq_title",
+			"label": "uv_otq_label",
 			"dialog": "uv_otq_dialog",
-			"field": "uv_otq_field"
+			"error": "uv_otq_error",
+			"overlay": "uv_otq_overlay"
 		};
 		//#endregion
 		//#region lib/types/client/AddMcpServerDialog.js
@@ -12059,76 +11842,76 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var McpSection_module_css_default = {
+			"codeLine": "_0bBxiW_codeLine",
+			"tab": "_0bBxiW_tab",
+			"toolItem": "_0bBxiW_toolItem",
+			"listScroller": "_0bBxiW_listScroller",
+			"detailScroll": "_0bBxiW_detailScroll",
+			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
+			"primaryButton": "_0bBxiW_primaryButton",
+			"codeBlock": "_0bBxiW_codeBlock",
+			"splitRoot": "_0bBxiW_splitRoot",
+			"checkbox": "_0bBxiW_checkbox",
+			"input": "_0bBxiW_input",
+			"emptyTitle": "_0bBxiW_emptyTitle",
+			"dangerZone": "_0bBxiW_dangerZone",
+			"toolHeader": "_0bBxiW_toolHeader",
+			"fieldLabel": "_0bBxiW_fieldLabel",
+			"descriptionText": "_0bBxiW_descriptionText",
+			"tabBar": "_0bBxiW_tabBar",
+			"searchRow": "_0bBxiW_searchRow",
+			"listItemMain": "_0bBxiW_listItemMain",
+			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
+			"emptyState": "_0bBxiW_emptyState",
+			"switchInput": "_0bBxiW_switchInput",
+			"resourceUri": "_0bBxiW_resourceUri",
+			"addFooter": "_0bBxiW_addFooter",
+			"emptyDescription": "_0bBxiW_emptyDescription",
+			"textarea": "_0bBxiW_textarea",
+			"secondaryButton": "_0bBxiW_secondaryButton",
+			"fieldRow": "_0bBxiW_fieldRow",
+			"activeDot": "_0bBxiW_activeDot",
+			"toolDescription": "_0bBxiW_toolDescription",
+			"serverDetail": "_0bBxiW_serverDetail",
+			"toolsList": "_0bBxiW_toolsList",
 			"searchWrap": "_0bBxiW_searchWrap",
 			"searchInput": "_0bBxiW_searchInput",
-			"listItem": "_0bBxiW_listItem",
-			"toolsList": "_0bBxiW_toolsList",
-			"emptyDescription": "_0bBxiW_emptyDescription",
-			"switchSlider": "_0bBxiW_switchSlider",
-			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
-			"codeLine": "_0bBxiW_codeLine",
-			"detailScroll": "_0bBxiW_detailScroll",
-			"formActions": "_0bBxiW_formActions",
-			"fieldLabel": "_0bBxiW_fieldLabel",
-			"listItems": "_0bBxiW_listItems",
-			"tab": "_0bBxiW_tab",
-			"codeBlock": "_0bBxiW_codeBlock",
-			"loading": "_0bBxiW_loading",
-			"searchIcon": "_0bBxiW_searchIcon",
-			"addFooter": "_0bBxiW_addFooter",
-			"error": "_0bBxiW_error",
-			"listItemSelected": "_0bBxiW_listItemSelected",
-			"dangerZone": "_0bBxiW_dangerZone",
-			"logInfo": "_0bBxiW_logInfo",
-			"emptyState": "_0bBxiW_emptyState",
-			"splitRoot": "_0bBxiW_splitRoot",
-			"detailMetaItem": "_0bBxiW_detailMetaItem",
-			"input": "_0bBxiW_input",
-			"sectionBody": "_0bBxiW_sectionBody",
-			"fieldGroup": "_0bBxiW_fieldGroup",
-			"textarea": "_0bBxiW_textarea",
-			"dangerZoneText": "_0bBxiW_dangerZoneText",
-			"searchClearButton": "_0bBxiW_searchClearButton",
-			"listItemMain": "_0bBxiW_listItemMain",
-			"detailTitle": "_0bBxiW_detailTitle",
-			"primaryButton": "_0bBxiW_primaryButton",
-			"sectionHeading": "_0bBxiW_sectionHeading",
-			"toolItem": "_0bBxiW_toolItem",
-			"errorBox": "_0bBxiW_errorBox",
-			"listScroller": "_0bBxiW_listScroller",
-			"switchWrapper": "_0bBxiW_switchWrapper",
-			"listItemIdle": "_0bBxiW_listItemIdle",
-			"logHeader": "_0bBxiW_logHeader",
 			"addButton": "_0bBxiW_addButton",
-			"toolHeader": "_0bBxiW_toolHeader",
-			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
-			"emptyIcon": "_0bBxiW_emptyIcon",
-			"detailHeader": "_0bBxiW_detailHeader",
-			"emptyDetailState": "_0bBxiW_emptyDetailState",
-			"serverDetail": "_0bBxiW_serverDetail",
-			"toolDescription": "_0bBxiW_toolDescription",
-			"toolName": "_0bBxiW_toolName",
 			"listItemAvatar": "_0bBxiW_listItemAvatar",
-			"emptyTitle": "_0bBxiW_emptyTitle",
-			"fieldHint": "_0bBxiW_fieldHint",
-			"checkbox": "_0bBxiW_checkbox",
-			"listItemLabel": "_0bBxiW_listItemLabel",
-			"resourceUri": "_0bBxiW_resourceUri",
-			"searchRow": "_0bBxiW_searchRow",
-			"tabActive": "_0bBxiW_tabActive",
-			"switchInput": "_0bBxiW_switchInput",
-			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
-			"serverList": "_0bBxiW_serverList",
-			"fieldRow": "_0bBxiW_fieldRow",
-			"secondaryButton": "_0bBxiW_secondaryButton",
-			"activeDot": "_0bBxiW_activeDot",
-			"descriptionText": "_0bBxiW_descriptionText",
-			"detailMeta": "_0bBxiW_detailMeta",
-			"tabBar": "_0bBxiW_tabBar",
-			"section": "_0bBxiW_section",
-			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
+			"detailTitle": "_0bBxiW_detailTitle",
+			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
+			"logInfo": "_0bBxiW_logInfo",
+			"error": "_0bBxiW_error",
+			"formActions": "_0bBxiW_formActions",
+			"emptyIcon": "_0bBxiW_emptyIcon",
 			"sectionHeader": "_0bBxiW_sectionHeader",
-			"dangerButton": "_0bBxiW_dangerButton"
+			"errorBox": "_0bBxiW_errorBox",
+			"logHeader": "_0bBxiW_logHeader",
+			"listItems": "_0bBxiW_listItems",
+			"listItemLabel": "_0bBxiW_listItemLabel",
+			"section": "_0bBxiW_section",
+			"fieldGroup": "_0bBxiW_fieldGroup",
+			"sectionHeading": "_0bBxiW_sectionHeading",
+			"serverList": "_0bBxiW_serverList",
+			"searchClearButton": "_0bBxiW_searchClearButton",
+			"tabActive": "_0bBxiW_tabActive",
+			"fieldHint": "_0bBxiW_fieldHint",
+			"switchWrapper": "_0bBxiW_switchWrapper",
+			"listItem": "_0bBxiW_listItem",
+			"listItemSelected": "_0bBxiW_listItemSelected",
+			"listItemIdle": "_0bBxiW_listItemIdle",
+			"detailMeta": "_0bBxiW_detailMeta",
+			"dangerButton": "_0bBxiW_dangerButton",
+			"sectionBody": "_0bBxiW_sectionBody",
+			"detailHeader": "_0bBxiW_detailHeader",
+			"searchIcon": "_0bBxiW_searchIcon",
+			"switchSlider": "_0bBxiW_switchSlider",
+			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
+			"toolName": "_0bBxiW_toolName",
+			"loading": "_0bBxiW_loading",
+			"detailMetaItem": "_0bBxiW_detailMetaItem",
+			"dangerZoneText": "_0bBxiW_dangerZoneText",
+			"emptyDetailState": "_0bBxiW_emptyDetailState"
 		};
 		//#endregion
 		//#region lib/types/client/McpSection.js
@@ -13075,26 +12858,26 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WebSearchSection_module_css_default = {
-			"pageTitle": "_0WjBOa_pageTitle",
-			"error": "_0WjBOa_error",
-			"cardTitle": "_0WjBOa_cardTitle",
 			"fieldRow": "_0WjBOa_fieldRow",
-			"select": "_0WjBOa_select",
-			"apiKeyRow": "_0WjBOa_apiKeyRow",
-			"card": "_0WjBOa_card",
-			"pageDescription": "_0WjBOa_pageDescription",
-			"cardDescription": "_0WjBOa_cardDescription",
-			"providerDetail": "_0WjBOa_providerDetail",
-			"providerDescription": "_0WjBOa_providerDescription",
-			"pageHeader": "_0WjBOa_pageHeader",
-			"iconButton": "_0WjBOa_iconButton",
-			"providerName": "_0WjBOa_providerName",
-			"checkbox": "_0WjBOa_checkbox",
-			"fieldHint": "_0WjBOa_fieldHint",
-			"fieldLabel": "_0WjBOa_fieldLabel",
-			"loading": "_0WjBOa_loading",
 			"root": "_0WjBOa_root",
-			"input": "_0WjBOa_input"
+			"providerDetail": "_0WjBOa_providerDetail",
+			"pageDescription": "_0WjBOa_pageDescription",
+			"card": "_0WjBOa_card",
+			"iconButton": "_0WjBOa_iconButton",
+			"input": "_0WjBOa_input",
+			"fieldLabel": "_0WjBOa_fieldLabel",
+			"cardDescription": "_0WjBOa_cardDescription",
+			"apiKeyRow": "_0WjBOa_apiKeyRow",
+			"fieldHint": "_0WjBOa_fieldHint",
+			"cardTitle": "_0WjBOa_cardTitle",
+			"providerDescription": "_0WjBOa_providerDescription",
+			"select": "_0WjBOa_select",
+			"loading": "_0WjBOa_loading",
+			"pageTitle": "_0WjBOa_pageTitle",
+			"pageHeader": "_0WjBOa_pageHeader",
+			"error": "_0WjBOa_error",
+			"providerName": "_0WjBOa_providerName",
+			"checkbox": "_0WjBOa_checkbox"
 		};
 		//#endregion
 		//#region lib/types/client/WebSearchSection.js
@@ -13511,23 +13294,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProcessorSection_module_css_default = {
-			"pageDescription": "CL8zIa_pageDescription",
-			"card": "CL8zIa_card",
-			"cardTitle": "CL8zIa_cardTitle",
-			"fieldRow": "CL8zIa_fieldRow",
-			"pageTitle": "CL8zIa_pageTitle",
-			"apiKeyRow": "CL8zIa_apiKeyRow",
-			"fieldLabel": "CL8zIa_fieldLabel",
-			"providerDetail": "CL8zIa_providerDetail",
-			"providerName": "CL8zIa_providerName",
-			"iconButton": "CL8zIa_iconButton",
-			"select": "CL8zIa_select",
-			"input": "CL8zIa_input",
-			"cardDescription": "CL8zIa_cardDescription",
-			"fieldHint": "CL8zIa_fieldHint",
-			"loading": "CL8zIa_loading",
+			"providerDescription": "CL8zIa_providerDescription",
 			"root": "CL8zIa_root",
-			"providerDescription": "CL8zIa_providerDescription"
+			"card": "CL8zIa_card",
+			"select": "CL8zIa_select",
+			"providerDetail": "CL8zIa_providerDetail",
+			"fieldHint": "CL8zIa_fieldHint",
+			"pageTitle": "CL8zIa_pageTitle",
+			"cardDescription": "CL8zIa_cardDescription",
+			"apiKeyRow": "CL8zIa_apiKeyRow",
+			"providerName": "CL8zIa_providerName",
+			"pageDescription": "CL8zIa_pageDescription",
+			"fieldLabel": "CL8zIa_fieldLabel",
+			"input": "CL8zIa_input",
+			"cardTitle": "CL8zIa_cardTitle",
+			"loading": "CL8zIa_loading",
+			"iconButton": "CL8zIa_iconButton",
+			"fieldRow": "CL8zIa_fieldRow"
 		};
 		//#endregion
 		//#region lib/types/client/ProcessorSection.js
@@ -13802,7 +13585,7 @@ window.__ModuleLoader__.load({
 		};
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\UsageSection.module.css.mjs
-		const css$21 = ".ej6-VW_root{flex-direction:column;gap:20px;display:flex}.ej6-VW_pageTitle{margin:0;font-size:16px;font-weight:600}.ej6-VW_pageDescription{color:var(--muted-foreground);margin:4px 0 0;font-size:13px}.ej6-VW_pageHeader{justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:4px;display:flex}.ej6-VW_windowTabs{background:var(--muted);border-radius:8px;flex:none;gap:2px;padding:2px;display:inline-flex}.ej6-VW_windowTab{height:26px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;padding:0 10px;font-family:inherit;font-size:13px}.ej6-VW_windowTab:hover{color:var(--foreground)}.ej6-VW_windowTab.ej6-VW_active{background:var(--background);color:var(--foreground);font-weight:500;box-shadow:0 1px 2px #00000014}.ej6-VW_metricStrip{border:1px solid var(--border);background:var(--border);border-radius:10px;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;display:grid;overflow:hidden}.ej6-VW_metricCell{background:var(--card);min-width:0;padding:14px 16px}.ej6-VW_metricLabel{color:var(--muted-foreground);font-size:12px;line-height:16px}.ej6-VW_metricValue{font-variant-numeric:tabular-nums;white-space:nowrap;text-overflow:ellipsis;margin-top:4px;font-size:20px;font-weight:600;line-height:28px;overflow:hidden}.ej6-VW_metricDelta{color:var(--foreground-tertiary);align-items:center;gap:4px;margin-top:2px;font-size:12px;display:flex}.ej6-VW_metricDelta.ej6-VW_up{color:var(--success)}.ej6-VW_metricDelta.ej6-VW_down{color:var(--error)}.ej6-VW_metricSparkline{margin-top:6px;display:block}.ej6-VW_insightStrip{border:1px solid var(--border);background:var(--card);border-radius:10px;flex-wrap:wrap;gap:18px;padding:10px 16px;display:flex}.ej6-VW_insightItem{min-width:0}.ej6-VW_insightLabel{color:var(--foreground-tertiary);align-items:center;gap:5px;font-size:12px;display:flex}.ej6-VW_insightValue{white-space:nowrap;text-overflow:ellipsis;margin-top:3px;font-size:14px;font-weight:500;overflow:hidden}.ej6-VW_heatmapSection{flex-direction:column;gap:8px;display:flex}.ej6-VW_heatmapTitle{color:var(--foreground);justify-content:space-between;align-items:center;gap:8px;font-size:14px;font-weight:500;display:flex}.ej6-VW_heatmapScroll{padding-bottom:4px;overflow-x:auto}.ej6-VW_heatmap{grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:3px;width:max-content;display:grid}.ej6-VW_heatmapCell{background:var(--muted);cursor:pointer;border:none;border-radius:3px;width:12px;height:12px;padding:0}.ej6-VW_heatmapCell:hover{outline:1px solid var(--foreground-tertiary);outline-offset:1px}.ej6-VW_exploreCard{border:1px solid var(--border);background:var(--card);border-radius:10px;overflow:hidden}.ej6-VW_exploreHeader{border-bottom:1px solid var(--border-subtle);flex-wrap:wrap;align-items:center;gap:8px;padding:12px 16px;display:flex}.ej6-VW_exploreTitle{margin-right:auto;font-size:14px;font-weight:500}.ej6-VW_controlRow{align-items:center;gap:6px;display:inline-flex}.ej6-VW_controlLabel{color:var(--foreground-tertiary);font-size:12px}.ej6-VW_controlSelect{border:1px solid var(--border-subtle);background:var(--background);height:26px;color:var(--foreground);cursor:pointer;border-radius:6px;outline:none;padding:0 8px;font-family:inherit;font-size:12px}.ej6-VW_controlSelect:focus{border-color:var(--ring)}.ej6-VW_exploreBody{padding:16px}.ej6-VW_summaryLine{color:var(--muted-foreground);margin:0 0 10px;font-size:13px;line-height:1.6}.ej6-VW_barChart{align-items:flex-end;gap:2px;height:160px;padding:4px 0 0;display:flex}.ej6-VW_barColumn{cursor:pointer;flex-direction:column;flex:1;justify-content:flex-end;gap:1px;min-width:2px;height:100%;display:flex}.ej6-VW_barSegment{border-radius:1px;min-height:1px}.ej6-VW_barAxis{color:var(--foreground-tertiary);justify-content:space-between;margin-top:6px;font-size:11px;display:flex}.ej6-VW_donutWrap{flex-wrap:wrap;align-items:center;gap:24px;display:flex}.ej6-VW_donutLegend{flex-direction:column;flex:1;gap:6px;min-width:180px;display:flex}.ej6-VW_donutLegendRow{align-items:center;gap:8px;min-width:0;font-size:13px;display:flex}.ej6-VW_donutSwatch{border-radius:3px;flex:none;width:10px;height:10px}.ej6-VW_donutLegendKey{white-space:nowrap;text-overflow:ellipsis;min-width:0;color:var(--foreground);flex:1;overflow:hidden}.ej6-VW_donutLegendValue{color:var(--muted-foreground);font-variant-numeric:tabular-nums;flex:none;font-size:12px}.ej6-VW_tableWrap{overflow-x:auto}.ej6-VW_entriesTable{border-collapse:collapse;width:100%;font-size:13px}.ej6-VW_entriesTable th{text-align:left;color:var(--foreground-tertiary);border-bottom:1px solid var(--border);white-space:nowrap;padding:8px 12px;font-size:12px;font-weight:500}.ej6-VW_entriesTable td{border-bottom:1px solid var(--border-subtle);white-space:nowrap;text-overflow:ellipsis;max-width:220px;padding:8px 12px;overflow:hidden}.ej6-VW_entriesTable tr:hover td{background:color-mix(in srgb, var(--muted) 40%, transparent)}.ej6-VW_tdRight{text-align:right;font-variant-numeric:tabular-nums}.ej6-VW_modelCell{flex-direction:column;min-width:0;display:flex}.ej6-VW_modelName{color:var(--foreground);white-space:nowrap;text-overflow:ellipsis;font-weight:500;overflow:hidden}.ej6-VW_modelProvider{color:var(--foreground-tertiary);white-space:nowrap;text-overflow:ellipsis;font-size:11px;overflow:hidden}.ej6-VW_loadMoreBtn{width:100%;height:34px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;font-family:inherit;font-size:13px;display:block}.ej6-VW_loadMoreBtn:hover{background:var(--muted);color:var(--foreground)}.ej6-VW_tableEmpty{text-align:center;color:var(--foreground-tertiary);padding:24px;font-size:13px}.ej6-VW_usageEmpty{text-align:center;color:var(--foreground-tertiary);flex-direction:column;align-items:center;gap:8px;padding:40px 16px;font-size:14px;display:flex}@media (width<=900px){.ej6-VW_metricStrip{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (width<=640px){.ej6-VW_metricStrip{grid-template-columns:1fr}}.ej6-VW_heatmapCell{border:1px solid color-mix(in srgb, var(--border-subtle) 60%, transparent)}";
+		const css$21 = ".ej6-VW_root{flex-direction:column;gap:20px;display:flex}.ej6-VW_pageTitle{margin:0;font-size:16px;font-weight:600}.ej6-VW_pageDescription{color:var(--muted-foreground);margin:4px 0 0;font-size:13px}.ej6-VW_pageHeader{justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:4px;display:flex}.ej6-VW_windowTabs{background:var(--muted);border-radius:8px;flex:none;gap:2px;padding:2px;display:inline-flex}.ej6-VW_windowTab{height:26px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;padding:0 10px;font-family:inherit;font-size:13px}.ej6-VW_windowTab:hover{color:var(--foreground)}.ej6-VW_windowTab.ej6-VW_active{background:var(--background);color:var(--foreground);font-weight:500;box-shadow:0 1px 2px #00000014}.ej6-VW_metricStrip{border:1px solid var(--border);background:var(--border);border-radius:10px;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;display:grid;overflow:hidden}.ej6-VW_metricCell{background:var(--card);min-width:0;padding:14px 16px}.ej6-VW_metricLabel{color:var(--muted-foreground);font-size:12px;line-height:16px}.ej6-VW_metricValue{font-variant-numeric:tabular-nums;white-space:nowrap;text-overflow:ellipsis;margin-top:4px;font-size:20px;font-weight:600;line-height:28px;overflow:hidden}.ej6-VW_metricDelta{color:var(--foreground-tertiary);align-items:center;gap:4px;margin-top:2px;font-size:12px;display:flex}.ej6-VW_metricDelta.ej6-VW_up{color:var(--success)}.ej6-VW_metricDelta.ej6-VW_down{color:var(--error)}.ej6-VW_metricSparkline{margin-top:6px;display:block}.ej6-VW_insightStrip{border:1px solid var(--border);background:var(--card);border-radius:10px;flex-wrap:wrap;gap:18px;padding:10px 16px;display:flex}.ej6-VW_insightItem{min-width:0}.ej6-VW_insightLabel{color:var(--foreground-tertiary);align-items:center;gap:5px;font-size:12px;display:flex}.ej6-VW_insightValue{white-space:nowrap;text-overflow:ellipsis;margin-top:3px;font-size:14px;font-weight:500;overflow:hidden}.ej6-VW_heatmapSection{flex-direction:column;gap:8px;display:flex}.ej6-VW_heatmapTitle{color:var(--foreground);justify-content:space-between;align-items:center;gap:8px;font-size:14px;font-weight:500;display:flex}.ej6-VW_heatmapScroll{padding-bottom:4px;overflow-x:auto}.ej6-VW_heatmap{grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:3px;width:max-content;display:grid}.ej6-VW_heatmapCell{background:var(--muted);cursor:pointer;border:none;border-radius:3px;width:12px;height:12px;padding:0}.ej6-VW_heatmapCell:hover{outline:1px solid var(--foreground-tertiary);outline-offset:1px}.ej6-VW_exploreCard{border:1px solid var(--border);background:var(--card);border-radius:10px;overflow:hidden}.ej6-VW_exploreHeader{border-bottom:1px solid var(--border-subtle);flex-wrap:wrap;align-items:center;gap:8px;padding:12px 16px;display:flex}.ej6-VW_exploreTitle{margin-right:auto;font-size:14px;font-weight:500}.ej6-VW_controlRow{align-items:center;gap:6px;display:inline-flex}.ej6-VW_controlLabel{color:var(--foreground-tertiary);font-size:12px}.ej6-VW_controlSelect{border:1px solid var(--border-subtle);background:var(--background);height:26px;color:var(--foreground);cursor:pointer;border-radius:6px;outline:none;padding:0 8px;font-family:inherit;font-size:12px}.ej6-VW_controlSelect:focus{border-color:var(--ring)}.ej6-VW_exploreBody{padding:16px}.ej6-VW_summaryLine{color:var(--muted-foreground);margin:0 0 10px;font-size:13px;line-height:1.6}.ej6-VW_barChart{align-items:flex-end;gap:2px;height:160px;padding:4px 0 0;display:flex}.ej6-VW_barColumn{cursor:pointer;flex-direction:column;flex:1;justify-content:flex-end;gap:1px;min-width:2px;height:100%;display:flex}.ej6-VW_barSegment{border-radius:1px;min-height:1px}.ej6-VW_barAxis{color:var(--foreground-tertiary);justify-content:space-between;margin-top:6px;font-size:11px;display:flex}.ej6-VW_donutWrap{flex-wrap:wrap;align-items:center;gap:24px;display:flex}.ej6-VW_donutLegend{flex-direction:column;flex:1;gap:6px;min-width:180px;display:flex}.ej6-VW_donutLegendRow{align-items:center;gap:8px;min-width:0;font-size:13px;display:flex}.ej6-VW_donutSwatch{border-radius:3px;flex:none;width:10px;height:10px}.ej6-VW_donutLegendKey{white-space:nowrap;text-overflow:ellipsis;min-width:0;color:var(--foreground);flex:1;overflow:hidden}.ej6-VW_donutLegendValue{color:var(--muted-foreground);font-variant-numeric:tabular-nums;flex:none;font-size:12px}.ej6-VW_tableWrap{overflow-x:auto}.ej6-VW_entriesTable{border-collapse:collapse;width:100%;font-size:13px}.ej6-VW_entriesTable th{text-align:left;color:var(--foreground-tertiary);border-bottom:1px solid var(--border);white-space:nowrap;padding:8px 12px;font-size:12px;font-weight:500}.ej6-VW_entriesTable td{border-bottom:1px solid var(--border-subtle);white-space:nowrap;text-overflow:ellipsis;max-width:220px;padding:8px 12px;overflow:hidden}.ej6-VW_entriesTable tr:hover td{background:color-mix(in srgb, var(--muted) 40%, transparent)}.ej6-VW_tdRight{text-align:right;font-variant-numeric:tabular-nums}.ej6-VW_modelCell{flex-direction:column;min-width:0;display:flex}.ej6-VW_modelName{color:var(--foreground);white-space:nowrap;text-overflow:ellipsis;font-weight:500;overflow:hidden}.ej6-VW_modelProvider{color:var(--foreground-tertiary);white-space:nowrap;text-overflow:ellipsis;font-size:11px;overflow:hidden}.ej6-VW_loadMoreBtn{width:100%;height:34px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;font-family:inherit;font-size:13px;display:block}.ej6-VW_loadMoreBtn:hover{background:var(--muted);color:var(--foreground)}.ej6-VW_tableEmpty{text-align:center;color:var(--foreground-tertiary);padding:24px;font-size:13px}.ej6-VW_usageEmpty{text-align:center;color:var(--foreground-tertiary);flex-direction:column;align-items:center;gap:8px;padding:40px 16px;font-size:14px;display:flex}@media (width<=900px){.ej6-VW_metricStrip{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (width<=640px){.ej6-VW_metricStrip{grid-template-columns:1fr}}.ej6-VW_heatmapCell{border:1px solid color-mix(in srgb, var(--border-subtle) 80%, transparent)}";
 		const tagId$21 = "@dsh-control-center/bundle/UsageSection.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$21) + "]") === null) {
 			const tag = document.createElement("style");
@@ -13812,57 +13595,57 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var UsageSection_module_css_default = {
-			"heatmapTitle": "ej6-VW_heatmapTitle",
-			"metricValue": "ej6-VW_metricValue",
-			"barColumn": "ej6-VW_barColumn",
-			"up": "ej6-VW_up",
 			"barAxis": "ej6-VW_barAxis",
-			"root": "ej6-VW_root",
-			"modelProvider": "ej6-VW_modelProvider",
-			"metricLabel": "ej6-VW_metricLabel",
-			"loadMoreBtn": "ej6-VW_loadMoreBtn",
-			"heatmapCell": "ej6-VW_heatmapCell",
-			"donutLegendRow": "ej6-VW_donutLegendRow",
-			"metricDelta": "ej6-VW_metricDelta",
-			"metricCell": "ej6-VW_metricCell",
-			"modelName": "ej6-VW_modelName",
-			"usageEmpty": "ej6-VW_usageEmpty",
-			"exploreTitle": "ej6-VW_exploreTitle",
-			"heatmapSection": "ej6-VW_heatmapSection",
-			"pageTitle": "ej6-VW_pageTitle",
-			"donutLegend": "ej6-VW_donutLegend",
-			"donutLegendValue": "ej6-VW_donutLegendValue",
-			"windowTab": "ej6-VW_windowTab",
-			"down": "ej6-VW_down",
-			"insightItem": "ej6-VW_insightItem",
-			"controlSelect": "ej6-VW_controlSelect",
-			"active": "ej6-VW_active",
-			"barChart": "ej6-VW_barChart",
-			"controlRow": "ej6-VW_controlRow",
-			"modelCell": "ej6-VW_modelCell",
-			"tableEmpty": "ej6-VW_tableEmpty",
-			"insightValue": "ej6-VW_insightValue",
-			"summaryLine": "ej6-VW_summaryLine",
-			"windowTabs": "ej6-VW_windowTabs",
-			"donutSwatch": "ej6-VW_donutSwatch",
-			"insightLabel": "ej6-VW_insightLabel",
-			"tableWrap": "ej6-VW_tableWrap",
-			"exploreHeader": "ej6-VW_exploreHeader",
-			"pageDescription": "ej6-VW_pageDescription",
-			"metricSparkline": "ej6-VW_metricSparkline",
-			"controlLabel": "ej6-VW_controlLabel",
-			"pageHeader": "ej6-VW_pageHeader",
-			"exploreBody": "ej6-VW_exploreBody",
-			"insightStrip": "ej6-VW_insightStrip",
-			"barSegment": "ej6-VW_barSegment",
+			"barColumn": "ej6-VW_barColumn",
 			"donutLegendKey": "ej6-VW_donutLegendKey",
-			"entriesTable": "ej6-VW_entriesTable",
-			"metricStrip": "ej6-VW_metricStrip",
+			"donutLegendRow": "ej6-VW_donutLegendRow",
+			"donutLegend": "ej6-VW_donutLegend",
+			"up": "ej6-VW_up",
+			"metricCell": "ej6-VW_metricCell",
+			"exploreTitle": "ej6-VW_exploreTitle",
+			"modelName": "ej6-VW_modelName",
+			"insightItem": "ej6-VW_insightItem",
+			"controlRow": "ej6-VW_controlRow",
+			"tableEmpty": "ej6-VW_tableEmpty",
+			"usageEmpty": "ej6-VW_usageEmpty",
+			"metricSparkline": "ej6-VW_metricSparkline",
+			"summaryLine": "ej6-VW_summaryLine",
+			"tableWrap": "ej6-VW_tableWrap",
+			"modelCell": "ej6-VW_modelCell",
+			"root": "ej6-VW_root",
 			"donutWrap": "ej6-VW_donutWrap",
-			"heatmapScroll": "ej6-VW_heatmapScroll",
-			"exploreCard": "ej6-VW_exploreCard",
+			"metricStrip": "ej6-VW_metricStrip",
 			"tdRight": "ej6-VW_tdRight",
-			"heatmap": "ej6-VW_heatmap"
+			"pageTitle": "ej6-VW_pageTitle",
+			"heatmap": "ej6-VW_heatmap",
+			"donutLegendValue": "ej6-VW_donutLegendValue",
+			"barSegment": "ej6-VW_barSegment",
+			"windowTabs": "ej6-VW_windowTabs",
+			"heatmapScroll": "ej6-VW_heatmapScroll",
+			"loadMoreBtn": "ej6-VW_loadMoreBtn",
+			"insightStrip": "ej6-VW_insightStrip",
+			"down": "ej6-VW_down",
+			"heatmapTitle": "ej6-VW_heatmapTitle",
+			"controlLabel": "ej6-VW_controlLabel",
+			"pageDescription": "ej6-VW_pageDescription",
+			"barChart": "ej6-VW_barChart",
+			"heatmapCell": "ej6-VW_heatmapCell",
+			"modelProvider": "ej6-VW_modelProvider",
+			"heatmapSection": "ej6-VW_heatmapSection",
+			"pageHeader": "ej6-VW_pageHeader",
+			"exploreCard": "ej6-VW_exploreCard",
+			"metricLabel": "ej6-VW_metricLabel",
+			"exploreBody": "ej6-VW_exploreBody",
+			"active": "ej6-VW_active",
+			"windowTab": "ej6-VW_windowTab",
+			"insightLabel": "ej6-VW_insightLabel",
+			"metricDelta": "ej6-VW_metricDelta",
+			"metricValue": "ej6-VW_metricValue",
+			"insightValue": "ej6-VW_insightValue",
+			"controlSelect": "ej6-VW_controlSelect",
+			"donutSwatch": "ej6-VW_donutSwatch",
+			"entriesTable": "ej6-VW_entriesTable",
+			"exploreHeader": "ej6-VW_exploreHeader"
 		};
 		//#endregion
 		//#region lib/types/client/UsageSection.js
@@ -14161,11 +13944,11 @@ window.__ModuleLoader__.load({
 				return 1;
 			};
 			const HEAT_COLORS = [
-				"transparent",
-				"rgba(16,185,129,0.35)",
-				"rgba(16,185,129,0.55)",
-				"rgba(16,185,129,0.8)",
-				"rgba(5,150,105,1)"
+				"var(--muted)",
+				"color-mix(in srgb, var(--success) 40%, transparent)",
+				"color-mix(in srgb, var(--success) 62%, transparent)",
+				"color-mix(in srgb, var(--success) 85%, transparent)",
+				"var(--success)"
 			];
 			const chartGroups = stats?.groups ?? [];
 			const chartTotal = stats?.totalTokens ?? 0;
@@ -14874,16 +14657,16 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SystemSection_module_css_default = {
-			"cardTitle": "MzTzwq_cardTitle",
-			"infoValue": "MzTzwq_infoValue",
 			"card": "MzTzwq_card",
-			"root": "MzTzwq_root",
-			"infoLabel": "MzTzwq_infoLabel",
+			"badge": "MzTzwq_badge",
 			"pageTitle": "MzTzwq_pageTitle",
 			"loading": "MzTzwq_loading",
-			"badge": "MzTzwq_badge",
+			"cardTitle": "MzTzwq_cardTitle",
 			"pageDescription": "MzTzwq_pageDescription",
-			"infoRow": "MzTzwq_infoRow"
+			"infoRow": "MzTzwq_infoRow",
+			"infoLabel": "MzTzwq_infoLabel",
+			"root": "MzTzwq_root",
+			"infoValue": "MzTzwq_infoValue"
 		};
 		//#endregion
 		//#region lib/types/client/SystemSection.js
@@ -15147,23 +14930,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TasksSection_module_css_default = {
-			"pageTitle": "_3yT94W_pageTitle",
-			"taskName": "_3yT94W_taskName",
-			"runRow": "_3yT94W_runRow",
-			"runTime": "_3yT94W_runTime",
-			"taskRow": "_3yT94W_taskRow",
-			"taskMain": "_3yT94W_taskMain",
-			"runDetail": "_3yT94W_runDetail",
-			"card": "_3yT94W_card",
-			"root": "_3yT94W_root",
-			"taskMeta": "_3yT94W_taskMeta",
-			"loading": "_3yT94W_loading",
-			"pageDescription": "_3yT94W_pageDescription",
 			"select": "_3yT94W_select",
+			"taskRow": "_3yT94W_taskRow",
+			"taskMeta": "_3yT94W_taskMeta",
+			"pageTitle": "_3yT94W_pageTitle",
+			"loading": "_3yT94W_loading",
+			"runTime": "_3yT94W_runTime",
+			"card": "_3yT94W_card",
 			"runFail": "_3yT94W_runFail",
 			"runOk": "_3yT94W_runOk",
-			"input": "_3yT94W_input",
-			"cardTitle": "_3yT94W_cardTitle"
+			"taskName": "_3yT94W_taskName",
+			"runRow": "_3yT94W_runRow",
+			"taskMain": "_3yT94W_taskMain",
+			"root": "_3yT94W_root",
+			"cardTitle": "_3yT94W_cardTitle",
+			"pageDescription": "_3yT94W_pageDescription",
+			"runDetail": "_3yT94W_runDetail",
+			"input": "_3yT94W_input"
 		};
 		//#endregion
 		//#region lib/types/client/TasksSection.js
@@ -15527,17 +15310,17 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsPages_module_css_default = {
-			"shell": "_0spVW_shell",
 			"shellInner": "_0spVW_shellInner",
-			"divider": "_0spVW_divider",
-			"row": "_0spVW_row",
-			"rowDescription": "_0spVW_rowDescription",
-			"rowControl": "_0spVW_rowControl",
 			"groupTitle": "_0spVW_groupTitle",
-			"groupDescription": "_0spVW_groupDescription",
+			"row": "_0spVW_row",
 			"group": "_0spVW_group",
-			"rowTitle": "_0spVW_rowTitle",
-			"switchLabel": "_0spVW_switchLabel"
+			"divider": "_0spVW_divider",
+			"switchLabel": "_0spVW_switchLabel",
+			"rowDescription": "_0spVW_rowDescription",
+			"shell": "_0spVW_shell",
+			"rowControl": "_0spVW_rowControl",
+			"groupDescription": "_0spVW_groupDescription",
+			"rowTitle": "_0spVW_rowTitle"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsPages.js
@@ -15607,24 +15390,24 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var LocalModelDownloads_module_css_default = {
-			"modelCard": "_9apQa_modelCard",
-			"noticeText": "_9apQa_noticeText",
-			"modelIcon": "_9apQa_modelIcon",
-			"modelStatus": "_9apQa_modelStatus",
-			"groupHeader": "_9apQa_groupHeader",
-			"statusDownloading": "_9apQa_statusDownloading",
-			"noticeTag": "_9apQa_noticeTag",
-			"modelSubtitle": "_9apQa_modelSubtitle",
 			"modelOps": "_9apQa_modelOps",
-			"modelMain": "_9apQa_modelMain",
-			"btn": "_9apQa_btn",
+			"noticeText": "_9apQa_noticeText",
 			"btnPrimary": "_9apQa_btnPrimary",
-			"modelName": "_9apQa_modelName",
+			"modelMain": "_9apQa_modelMain",
+			"modelCard": "_9apQa_modelCard",
+			"statusDownloading": "_9apQa_statusDownloading",
+			"modelSubtitle": "_9apQa_modelSubtitle",
+			"btn": "_9apQa_btn",
+			"statusIdle": "_9apQa_statusIdle",
 			"btnDanger": "_9apQa_btnDanger",
-			"noticeRow": "_9apQa_noticeRow",
-			"groupDesc": "_9apQa_groupDesc",
+			"modelStatus": "_9apQa_modelStatus",
+			"noticeTag": "_9apQa_noticeTag",
+			"groupHeader": "_9apQa_groupHeader",
 			"statusReady": "_9apQa_statusReady",
-			"statusIdle": "_9apQa_statusIdle"
+			"noticeRow": "_9apQa_noticeRow",
+			"modelName": "_9apQa_modelName",
+			"modelIcon": "_9apQa_modelIcon",
+			"groupDesc": "_9apQa_groupDesc"
 		};
 		//#endregion
 		//#region lib/types/client/LocalModelDownloads.js
@@ -16024,21 +15807,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ApiGatewaySection_module_css_default = {
-			"statusRow": "S156cG_statusRow",
-			"outlineBtn": "S156cG_outlineBtn",
 			"input": "S156cG_input",
-			"inputGroup": "S156cG_inputGroup",
-			"notice": "S156cG_notice",
-			"inputSmall": "S156cG_inputSmall",
 			"groupHeaderRow": "S156cG_groupHeaderRow",
-			"statusDot": "S156cG_statusDot",
-			"headerBox": "S156cG_headerBox",
+			"statusRow": "S156cG_statusRow",
 			"copied": "S156cG_copied",
-			"docLink": "S156cG_docLink",
-			"ghostBtn": "S156cG_ghostBtn",
-			"statusText": "S156cG_statusText",
 			"iconBtn": "S156cG_iconBtn",
-			"statusStopped": "S156cG_statusStopped"
+			"statusText": "S156cG_statusText",
+			"ghostBtn": "S156cG_ghostBtn",
+			"statusDot": "S156cG_statusDot",
+			"docLink": "S156cG_docLink",
+			"statusStopped": "S156cG_statusStopped",
+			"outlineBtn": "S156cG_outlineBtn",
+			"inputGroup": "S156cG_inputGroup",
+			"headerBox": "S156cG_headerBox",
+			"inputSmall": "S156cG_inputSmall",
+			"notice": "S156cG_notice"
 		};
 		//#endregion
 		//#region lib/types/client/ApiGatewaySection.js
@@ -16414,32 +16197,32 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
-			"navGroupTitle": "_4STY0G_navGroupTitle",
-			"mask": "_4STY0G_mask",
-			"content": "_4STY0G_content",
-			"navLabel": "_4STY0G_navLabel",
-			"hiddenLabel": "_4STY0G_hiddenLabel",
-			"active": "_4STY0G_active",
-			"header": "_4STY0G_header",
-			"navGroup": "_4STY0G_navGroup",
-			"rail": "_4STY0G_rail",
-			"triggerLabel": "_4STY0G_triggerLabel",
-			"overlay": "_4STY0G_overlay",
-			"navList": "_4STY0G_navList",
-			"options": "_4STY0G_options",
-			"close": "_4STY0G_close",
-			"navIcon": "_4STY0G_navIcon",
-			"navTitle": "_4STY0G_navTitle",
 			"trigger": "_4STY0G_trigger",
+			"navGroupTitle": "_4STY0G_navGroupTitle",
+			"hiddenLabel": "_4STY0G_hiddenLabel",
 			"navScroll": "_4STY0G_navScroll",
+			"header": "_4STY0G_header",
 			"navCell": "_4STY0G_navCell",
+			"overlay": "_4STY0G_overlay",
+			"close": "_4STY0G_close",
+			"triggerLabel": "_4STY0G_triggerLabel",
+			"actions": "_4STY0G_actions",
+			"navList": "_4STY0G_navList",
+			"active": "_4STY0G_active",
+			"content": "_4STY0G_content",
+			"navGroup": "_4STY0G_navGroup",
+			"options": "_4STY0G_options",
 			"panel": "_4STY0G_panel",
+			"rail": "_4STY0G_rail",
+			"navIcon": "_4STY0G_navIcon",
+			"navLabel": "_4STY0G_navLabel",
 			"nav": "_4STY0G_nav",
-			"actions": "_4STY0G_actions"
+			"navTitle": "_4STY0G_navTitle",
+			"mask": "_4STY0G_mask"
 		};
 		//#endregion
 		//#region \0dsh-control-center-plain-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\cherry-tokens.css.mjs
-		const css$14 = ".cc-surface{background:var(--background);color:var(--foreground);--cs-neutral-50:oklch(98% 0 0);--cs-neutral-100:oklch(97% 0 0);--cs-neutral-200:oklch(92% 0 0);--cs-neutral-300:oklch(87% 0 0);--cs-neutral-400:oklch(72% 0 0);--cs-neutral-500:oklch(55% 0 0);--cs-neutral-600:oklch(44% .027 257);--cs-neutral-700:oklch(37% 0 0);--cs-neutral-800:oklch(27% 0 0);--cs-neutral-900:oklch(20% 0 0);--cs-neutral-950:oklch(15% 0 0);--cs-brand-50:oklch(98% .015 152);--cs-brand-100:oklch(96% .034 151);--cs-brand-200:oklch(91% .073 151);--cs-brand-300:oklch(85% .13 149);--cs-brand-400:oklch(81% .173 148);--cs-brand-500:oklch(77% .208 146);--cs-brand-600:oklch(67% .192 146);--cs-brand-700:oklch(56% .156 146);--cs-brand-800:oklch(43% .117 146);--cs-brand-900:oklch(32% .086 146);--cs-red-50:oklch(97% .014 17);--cs-red-100:oklch(93% .031 18);--cs-red-200:oklch(88% .062 18);--cs-red-300:oklch(81% .103 20);--cs-red-400:oklch(71% .166 22);--cs-red-500:oklch(64% .208 25);--cs-red-600:oklch(58% .214 27);--cs-red-700:oklch(51% .192 28);--cs-red-800:oklch(44% .16 27);--cs-red-900:oklch(40% .135 26);--cs-red-950:oklch(25% .087 26);--cs-amber-50:oklch(99% .022 95);--cs-amber-100:oklch(96% .057 96);--cs-amber-200:oklch(93% .114 96);--cs-amber-300:oklch(88% .153 92);--cs-amber-400:oklch(83% .164 84);--cs-amber-500:oklch(77% .165 71);--cs-amber-600:oklch(67% .159 58);--cs-amber-700:oklch(55% .145 49);--cs-amber-800:oklch(47% .124 47);--cs-amber-900:oklch(41% .104 46);--cs-amber-950:oklch(28% .074 46);--cs-green-50:oklch(98% .016 156);--cs-green-100:oklch(96% .041 157);--cs-green-200:oklch(92% .081 156);--cs-green-300:oklch(87% .137 155);--cs-green-400:oklch(80% .182 152);--cs-green-500:oklch(72% .192 149);--cs-green-600:oklch(62% .169 149);--cs-green-700:oklch(52% .137 150);--cs-green-800:oklch(42% .108 151);--cs-green-900:oklch(35% .084 152);--cs-green-950:oklch(24% .059 152);--cs-blue-50:oklch(97% .017 261);--cs-blue-100:oklch(94% .033 261);--cs-blue-200:oklch(88% .067 261);--cs-blue-300:oklch(80% .113 261);--cs-blue-400:oklch(71% .152 261);--cs-blue-500:oklch(62% .17 260);--cs-blue-600:oklch(54% .157 259);--cs-blue-700:oklch(46% .13 258);--cs-blue-800:oklch(38% .104 256);--cs-blue-900:oklch(33% .086 255);--cs-blue-950:oklch(22% .056 254);--cs-white:oklch(100% 0 0);--cs-black:oklch(0% 0 0);--cs-font-family-heading:Inter;--cs-font-family-body:Inter;--cs-font-weight-regular:400;--cs-font-weight-medium:500;--cs-font-weight-bold:700;--cs-font-size-body-xs:.75rem;--cs-font-size-body-sm:.875rem;--cs-font-size-body-md:1rem;--cs-font-size-body-lg:1.125rem;--cs-font-size-heading-xs:1.25rem;--cs-font-size-heading-sm:1.5rem;--cs-line-height-body-xs:1.25rem;--cs-line-height-body-sm:1.5rem;--cs-line-height-body-md:1.5rem;--cs-line-height-body-lg:1.75rem;--cs-line-height-heading-xs:2rem;--cs-line-height-heading-sm:2.5rem;--cs-radius-xs:.125rem;--cs-radius-sm:.375rem;--cs-radius-md:.5rem;--cs-radius-lg:.625rem;--cs-radius-xl:.875rem;--cs-radius-2xl:1.125rem;--cs-radius-3xl:1.375rem;--cs-radius-round:9999px;--cs-primary:var(--cs-brand-500);--cs-destructive:var(--cs-red-500);--cs-destructive-hover:var(--cs-red-400);--cs-success:var(--cs-green-500);--cs-warning:var(--cs-amber-500);--cs-info:var(--cs-blue-500);--cs-background:var(--cs-white);--cs-background-subtle:oklch(0% 0 0/.02);--cs-foreground:oklch(21.3% 0 0);--cs-muted-foreground:oklch(55.6% 0 0);--cs-foreground-tertiary:oklch(66.9% 0 0);--cs-foreground-disabled:var(--cs-foreground-tertiary);--cs-card:var(--cs-white);--cs-popover:var(--cs-white);--cs-border:oklch(0% 0 0/.1);--cs-border-subtle:oklch(0% 0 0/.04);--cs-border-strong:oklch(0% 0 0/.2);--cs-border-selected:oklch(0% 0 0/.3);--cs-ring:color-mix(in srgb, var(--cs-primary) 40%, transparent);--cs-secondary:oklch(0% 0 0/.05);--cs-secondary-hover:oklch(0% 0 0/.1);--cs-secondary-active:oklch(0% 0 0/.15);--cs-muted:oklch(0% 0 0/.05);--cs-accent:oklch(0% 0 0/.05);--cs-ghost-active:oklch(0% 0 0/.1);--cs-sidebar:oklch(96.72% 0 0);--cs-sidebar-accent:oklch(97% 0 0);--cs-card-foreground:oklch(14.5% 0 0);--cs-popover-foreground:oklch(14.5% 0 0);--cs-secondary-foreground:oklch(20.5% 0 0);--cs-accent-foreground:oklch(20.5% 0 0);--cs-primary-foreground:oklch(98.5% 0 0);--cs-destructive-foreground:var(--cs-white);--cs-input:oklch(92.2% 0 0);--cs-sidebar-foreground:oklch(14.5% 0 0);--cs-sidebar-primary:oklch(20.5% 0 0);--cs-sidebar-primary-foreground:oklch(98.5% 0 0);--cs-sidebar-accent-foreground:oklch(20.5% 0 0);--cs-sidebar-border:oklch(92.2% 0 0);--cs-sidebar-ring:oklch(70.8% 0 0);--cs-error:var(--cs-red-500);--cs-error-subtle:var(--cs-red-50);--cs-error-subtle-foreground:var(--cs-red-700);--cs-error-border:var(--cs-red-200);--cs-success-subtle:var(--cs-green-50);--cs-success-subtle-foreground:var(--cs-green-800);--cs-success-border:var(--cs-green-200);--cs-warning-subtle:var(--cs-amber-50);--cs-warning-subtle-foreground:var(--cs-amber-800);--cs-warning-border:var(--cs-amber-200);--cs-info-subtle:var(--cs-blue-50);--cs-info-subtle-foreground:var(--cs-blue-800);--cs-info-border:var(--cs-blue-200);--background:var(--cs-background);--foreground:var(--cs-foreground);--card:var(--cs-card);--card-foreground:var(--cs-card-foreground);--popover:var(--cs-popover);--popover-foreground:var(--cs-popover-foreground);--primary:var(--cs-primary);--primary-foreground:var(--cs-primary-foreground);--secondary:var(--cs-secondary);--secondary-foreground:var(--cs-secondary-foreground);--muted:var(--cs-muted);--muted-foreground:var(--cs-muted-foreground);--accent:var(--cs-accent);--accent-foreground:var(--cs-accent-foreground);--destructive:var(--cs-destructive);--destructive-foreground:var(--cs-destructive-foreground);--border:var(--cs-border);--border-subtle:var(--cs-border-subtle);--border-strong:var(--cs-border-strong);--border-selected:var(--cs-border-selected);--input:var(--cs-input);--ring:var(--cs-ring);--background-subtle:var(--cs-background-subtle);--foreground-tertiary:var(--cs-foreground-tertiary);--foreground-disabled:var(--cs-foreground-disabled);--ghost-active:var(--cs-ghost-active);--secondary-hover:var(--cs-secondary-hover);--secondary-active:var(--cs-secondary-active);--sidebar:var(--cs-sidebar);--sidebar-foreground:var(--cs-sidebar-foreground);--sidebar-primary:var(--cs-sidebar-primary);--sidebar-primary-foreground:var(--cs-sidebar-primary-foreground);--sidebar-accent:var(--cs-sidebar-accent);--sidebar-accent-foreground:var(--cs-sidebar-accent-foreground);--sidebar-border:var(--cs-sidebar-border);--sidebar-ring:var(--cs-sidebar-ring);--error:var(--cs-error);--error-subtle:var(--cs-error-subtle);--error-subtle-foreground:var(--cs-error-subtle-foreground);--error-border:var(--cs-error-border);--success:var(--cs-success);--success-subtle:var(--cs-success-subtle);--success-subtle-foreground:var(--cs-success-subtle-foreground);--success-border:var(--cs-success-border);--warning:var(--cs-warning);--warning-subtle:var(--cs-warning-subtle);--warning-subtle-foreground:var(--cs-warning-subtle-foreground);--warning-border:var(--cs-warning-border);--info:var(--cs-info);--info-subtle:var(--cs-info-subtle);--info-subtle-foreground:var(--cs-info-subtle-foreground);--info-border:var(--cs-info-border)}.cc-settings-column{box-sizing:border-box;flex-direction:column;gap:16px;width:100%;max-width:768px;margin:0 auto;display:flex}.cc-page-title{color:var(--foreground);font-size:15px;font-weight:600}.cc-page-description{color:var(--muted-foreground);margin-top:4px;font-size:14px}.cc-card{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.cc-card-title{color:var(--foreground);font-size:15px;font-weight:600}.cc-card-description{color:var(--muted-foreground);margin-top:2px;font-size:12px}.cc-field-row{flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 16px;min-height:24px;display:flex}.cc-field-label{color:var(--foreground);font-size:14px}.cc-field-hint{color:var(--muted-foreground);margin-top:2px;font-size:12px}.cc-input{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);height:32px;color:var(--foreground);box-shadow:none;box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px;line-height:32px}.cc-input:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent);outline:none}.cc-input::placeholder{color:var(--foreground-tertiary)}.cc-select{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 28px 0 10px;font-family:inherit;font-size:14px}.cc-select:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.cc-textarea{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);color:var(--foreground);font-family:var(--ds-font-family-code), monospace;box-shadow:none;box-sizing:border-box;resize:vertical;border-radius:8px;outline:none;padding:8px 10px;font-size:13px;line-height:20px}.cc-textarea:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent);outline:none}.cc-checkbox{width:16px;height:16px;accent-color:var(--primary);cursor:pointer}.cc-btn{cursor:pointer;white-space:nowrap;box-sizing:border-box;border:1px solid #0000;border-radius:8px;justify-content:center;align-items:center;gap:6px;height:32px;padding:0 14px;font-family:inherit;font-size:14px;font-weight:400;line-height:20px;display:inline-flex}.cc-btn:disabled{opacity:.5;cursor:not-allowed}.cc-btn-primary{background:var(--primary);color:var(--primary-foreground)}.cc-btn-primary:hover:not(:disabled){background:var(--cs-brand-600)}.cc-btn-secondary{background:var(--secondary);color:var(--secondary-foreground)}.cc-btn-secondary:hover:not(:disabled){background:var(--secondary-hover)}.cc-btn-ghost{color:var(--foreground);background:0 0}.cc-btn-ghost:hover:not(:disabled){background:var(--muted)}.cc-btn-danger{color:var(--destructive);border-color:var(--border-subtle);background:0 0}.cc-btn-danger:hover:not(:disabled){background:var(--error-subtle)}.cc-icon-btn{width:32px;height:32px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:8px;justify-content:center;align-items:center;padding:0;display:inline-flex}.cc-icon-btn:hover{background:var(--muted);color:var(--foreground)}.cc-empty{color:var(--muted-foreground);text-align:center;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:48px 16px;font-size:14px;display:flex}.cc-empty-title{color:var(--foreground);font-size:15px;font-weight:600}.cc-empty-description{color:var(--muted-foreground);font-size:13px}.cc-loading{min-height:200px;color:var(--muted-foreground);justify-content:center;align-items:center;font-size:14px;display:flex}.cc-notice-error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.cc-badge-enabled{background:var(--success-subtle);height:20px;color:var(--success-subtle-foreground);border-radius:9999px;align-items:center;padding:0 8px;font-size:12px;display:inline-flex}.cc-badge-disabled{background:var(--muted);height:20px;color:var(--muted-foreground);border-radius:9999px;align-items:center;padding:0 8px;font-size:12px;display:inline-flex}body[data-ds-dark-theme] .cc-surface{--cs-success:var(--cs-green-400);--cs-warning:var(--cs-amber-400);--cs-info:var(--cs-blue-400);--cs-background:oklch(20.9% 0 0);--cs-background-subtle:oklch(100% 0 0/.02);--cs-foreground:oklch(93.1% 0 0);--cs-muted-foreground:oklch(70.8% 0 0);--cs-foreground-tertiary:oklch(55.9% 0 0);--cs-card:var(--cs-neutral-900);--cs-popover:var(--cs-neutral-800);--cs-border:oklch(100% 0 0/.1);--cs-border-subtle:oklch(100% 0 0/.05);--cs-border-strong:oklch(100% 0 0/.2);--cs-border-selected:oklch(100% 0 0/.3);--cs-ring:oklch(76% .204 131/.4);--cs-secondary:oklch(100% 0 0/.1);--cs-secondary-hover:oklch(100% 0 0/.2);--cs-secondary-active:oklch(100% 0 0/.25);--cs-muted:oklch(100% 0 0/.1);--cs-accent:oklch(100% 0 0/.1);--cs-ghost-active:oklch(100% 0 0/.15);--cs-sidebar:oklch(23.93% 0 0);--cs-sidebar-accent:oklch(26.9% 0 0);--cs-card-foreground:oklch(98.5% 0 0);--cs-popover-foreground:oklch(98.5% 0 0);--cs-secondary-foreground:oklch(98.5% 0 0);--cs-accent-foreground:oklch(98.5% 0 0);--cs-primary-foreground:oklch(20.5% 0 0);--cs-destructive-foreground:var(--cs-white);--cs-input:oklch(26.9% 0 0);--cs-sidebar-foreground:oklch(98.5% 0 0);--cs-sidebar-primary:oklch(48.8% .243 264.376);--cs-sidebar-primary-foreground:oklch(98.5% 0 0);--cs-sidebar-accent-foreground:oklch(98.5% 0 0);--cs-sidebar-border:oklch(26.9% 0 0);--cs-sidebar-ring:oklch(43.9% 0 0);--cs-success-subtle-foreground:var(--cs-green-100);--cs-success-border:var(--cs-green-700);--cs-warning-subtle-foreground:var(--cs-amber-100);--cs-warning-border:var(--cs-amber-700);--cs-info-subtle-foreground:var(--cs-blue-100);--cs-info-border:var(--cs-blue-700)}";
+		const css$14 = ".cc-surface{background:var(--background);color:var(--foreground);color-scheme:light;--cs-neutral-50:oklch(98% 0 0);--cs-neutral-100:oklch(97% 0 0);--cs-neutral-200:oklch(92% 0 0);--cs-neutral-300:oklch(87% 0 0);--cs-neutral-400:oklch(72% 0 0);--cs-neutral-500:oklch(55% 0 0);--cs-neutral-600:oklch(44% .027 257);--cs-neutral-700:oklch(37% 0 0);--cs-neutral-800:oklch(27% 0 0);--cs-neutral-900:oklch(20% 0 0);--cs-neutral-950:oklch(15% 0 0);--cs-brand-50:oklch(98% .015 152);--cs-brand-100:oklch(96% .034 151);--cs-brand-200:oklch(91% .073 151);--cs-brand-300:oklch(85% .13 149);--cs-brand-400:oklch(81% .173 148);--cs-brand-500:oklch(77% .208 146);--cs-brand-600:oklch(67% .192 146);--cs-brand-700:oklch(56% .156 146);--cs-brand-800:oklch(43% .117 146);--cs-brand-900:oklch(32% .086 146);--cs-red-50:oklch(97% .014 17);--cs-red-100:oklch(93% .031 18);--cs-red-200:oklch(88% .062 18);--cs-red-300:oklch(81% .103 20);--cs-red-400:oklch(71% .166 22);--cs-red-500:oklch(64% .208 25);--cs-red-600:oklch(58% .214 27);--cs-red-700:oklch(51% .192 28);--cs-red-800:oklch(44% .16 27);--cs-red-900:oklch(40% .135 26);--cs-red-950:oklch(25% .087 26);--cs-amber-50:oklch(99% .022 95);--cs-amber-100:oklch(96% .057 96);--cs-amber-200:oklch(93% .114 96);--cs-amber-300:oklch(88% .153 92);--cs-amber-400:oklch(83% .164 84);--cs-amber-500:oklch(77% .165 71);--cs-amber-600:oklch(67% .159 58);--cs-amber-700:oklch(55% .145 49);--cs-amber-800:oklch(47% .124 47);--cs-amber-900:oklch(41% .104 46);--cs-amber-950:oklch(28% .074 46);--cs-green-50:oklch(98% .016 156);--cs-green-100:oklch(96% .041 157);--cs-green-200:oklch(92% .081 156);--cs-green-300:oklch(87% .137 155);--cs-green-400:oklch(80% .182 152);--cs-green-500:oklch(72% .192 149);--cs-green-600:oklch(62% .169 149);--cs-green-700:oklch(52% .137 150);--cs-green-800:oklch(42% .108 151);--cs-green-900:oklch(35% .084 152);--cs-green-950:oklch(24% .059 152);--cs-blue-50:oklch(97% .017 261);--cs-blue-100:oklch(94% .033 261);--cs-blue-200:oklch(88% .067 261);--cs-blue-300:oklch(80% .113 261);--cs-blue-400:oklch(71% .152 261);--cs-blue-500:oklch(62% .17 260);--cs-blue-600:oklch(54% .157 259);--cs-blue-700:oklch(46% .13 258);--cs-blue-800:oklch(38% .104 256);--cs-blue-900:oklch(33% .086 255);--cs-blue-950:oklch(22% .056 254);--cs-white:oklch(100% 0 0);--cs-black:oklch(0% 0 0);--cs-font-family-heading:Inter;--cs-font-family-body:Inter;--cs-font-weight-regular:400;--cs-font-weight-medium:500;--cs-font-weight-bold:700;--cs-font-size-body-xs:.75rem;--cs-font-size-body-sm:.875rem;--cs-font-size-body-md:1rem;--cs-font-size-body-lg:1.125rem;--cs-font-size-heading-xs:1.25rem;--cs-font-size-heading-sm:1.5rem;--cs-line-height-body-xs:1.25rem;--cs-line-height-body-sm:1.5rem;--cs-line-height-body-md:1.5rem;--cs-line-height-body-lg:1.75rem;--cs-line-height-heading-xs:2rem;--cs-line-height-heading-sm:2.5rem;--cs-radius-xs:.125rem;--cs-radius-sm:.375rem;--cs-radius-md:.5rem;--cs-radius-lg:.625rem;--cs-radius-xl:.875rem;--cs-radius-2xl:1.125rem;--cs-radius-3xl:1.375rem;--cs-radius-round:9999px;--cs-primary:var(--cs-brand-500);--cs-destructive:var(--cs-red-500);--cs-destructive-hover:var(--cs-red-400);--cs-success:var(--cs-green-500);--cs-warning:var(--cs-amber-500);--cs-info:var(--cs-blue-500);--cs-background:var(--cs-white);--cs-background-subtle:oklch(0% 0 0/.02);--cs-foreground:oklch(21.3% 0 0);--cs-muted-foreground:oklch(55.6% 0 0);--cs-foreground-tertiary:oklch(66.9% 0 0);--cs-foreground-disabled:var(--cs-foreground-tertiary);--cs-card:var(--cs-white);--cs-popover:var(--cs-white);--cs-border:oklch(0% 0 0/.1);--cs-border-subtle:oklch(0% 0 0/.04);--cs-border-strong:oklch(0% 0 0/.2);--cs-border-selected:oklch(0% 0 0/.3);--cs-ring:color-mix(in srgb, var(--cs-primary) 40%, transparent);--cs-secondary:oklch(0% 0 0/.05);--cs-secondary-hover:oklch(0% 0 0/.1);--cs-secondary-active:oklch(0% 0 0/.15);--cs-muted:oklch(0% 0 0/.05);--cs-accent:oklch(0% 0 0/.05);--cs-ghost-active:oklch(0% 0 0/.1);--cs-sidebar:oklch(96.72% 0 0);--cs-sidebar-accent:oklch(97% 0 0);--cs-card-foreground:oklch(14.5% 0 0);--cs-popover-foreground:oklch(14.5% 0 0);--cs-secondary-foreground:oklch(20.5% 0 0);--cs-accent-foreground:oklch(20.5% 0 0);--cs-primary-foreground:oklch(98.5% 0 0);--cs-destructive-foreground:var(--cs-white);--cs-input:oklch(92.2% 0 0);--cs-sidebar-foreground:oklch(14.5% 0 0);--cs-sidebar-primary:oklch(20.5% 0 0);--cs-sidebar-primary-foreground:oklch(98.5% 0 0);--cs-sidebar-accent-foreground:oklch(20.5% 0 0);--cs-sidebar-border:oklch(92.2% 0 0);--cs-sidebar-ring:oklch(70.8% 0 0);--cs-error:var(--cs-red-500);--cs-error-subtle:var(--cs-red-50);--cs-error-subtle-foreground:var(--cs-red-700);--cs-error-border:var(--cs-red-200);--cs-success-subtle:var(--cs-green-50);--cs-success-subtle-foreground:var(--cs-green-800);--cs-success-border:var(--cs-green-200);--cs-warning-subtle:var(--cs-amber-50);--cs-warning-subtle-foreground:var(--cs-amber-800);--cs-warning-border:var(--cs-amber-200);--cs-info-subtle:var(--cs-blue-50);--cs-info-subtle-foreground:var(--cs-blue-800);--cs-info-border:var(--cs-blue-200);--background:var(--cs-background);--foreground:var(--cs-foreground);--card:var(--cs-card);--card-foreground:var(--cs-card-foreground);--popover:var(--cs-popover);--popover-foreground:var(--cs-popover-foreground);--primary:var(--cs-primary);--primary-foreground:var(--cs-primary-foreground);--secondary:var(--cs-secondary);--secondary-foreground:var(--cs-secondary-foreground);--muted:var(--cs-muted);--muted-foreground:var(--cs-muted-foreground);--accent:var(--cs-accent);--accent-foreground:var(--cs-accent-foreground);--destructive:var(--cs-destructive);--destructive-foreground:var(--cs-destructive-foreground);--border:var(--cs-border);--border-subtle:var(--cs-border-subtle);--border-strong:var(--cs-border-strong);--border-selected:var(--cs-border-selected);--input:var(--cs-input);--ring:var(--cs-ring);--background-subtle:var(--cs-background-subtle);--foreground-tertiary:var(--cs-foreground-tertiary);--foreground-disabled:var(--cs-foreground-disabled);--ghost-active:var(--cs-ghost-active);--secondary-hover:var(--cs-secondary-hover);--secondary-active:var(--cs-secondary-active);--sidebar:var(--cs-sidebar);--sidebar-foreground:var(--cs-sidebar-foreground);--sidebar-primary:var(--cs-sidebar-primary);--sidebar-primary-foreground:var(--cs-sidebar-primary-foreground);--sidebar-accent:var(--cs-sidebar-accent);--sidebar-accent-foreground:var(--cs-sidebar-accent-foreground);--sidebar-border:var(--cs-sidebar-border);--sidebar-ring:var(--cs-sidebar-ring);--error:var(--cs-error);--error-subtle:var(--cs-error-subtle);--error-subtle-foreground:var(--cs-error-subtle-foreground);--error-border:var(--cs-error-border);--success:var(--cs-success);--success-subtle:var(--cs-success-subtle);--success-subtle-foreground:var(--cs-success-subtle-foreground);--success-border:var(--cs-success-border);--warning:var(--cs-warning);--warning-subtle:var(--cs-warning-subtle);--warning-subtle-foreground:var(--cs-warning-subtle-foreground);--warning-border:var(--cs-warning-border);--info:var(--cs-info);--info-subtle:var(--cs-info-subtle);--info-subtle-foreground:var(--cs-info-subtle-foreground);--info-border:var(--cs-info-border)}.cc-settings-column{box-sizing:border-box;flex-direction:column;gap:16px;width:100%;max-width:768px;margin:0 auto;display:flex}.cc-page-title{color:var(--foreground);font-size:15px;font-weight:600}.cc-page-description{color:var(--muted-foreground);margin-top:4px;font-size:14px}.cc-card{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.cc-card-title{color:var(--foreground);font-size:15px;font-weight:600}.cc-card-description{color:var(--muted-foreground);margin-top:2px;font-size:12px}.cc-field-row{flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 16px;min-height:24px;display:flex}.cc-field-label{color:var(--foreground);font-size:14px}.cc-field-hint{color:var(--muted-foreground);margin-top:2px;font-size:12px}.cc-input{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);height:32px;color:var(--foreground);box-shadow:none;box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px;line-height:32px}.cc-input:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent);outline:none}.cc-input::placeholder{color:var(--foreground-tertiary)}.cc-select{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 28px 0 10px;font-family:inherit;font-size:14px}.cc-select:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.cc-textarea{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);color:var(--foreground);font-family:var(--ds-font-family-code), monospace;box-shadow:none;box-sizing:border-box;resize:vertical;border-radius:8px;outline:none;padding:8px 10px;font-size:13px;line-height:20px}.cc-textarea:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent);outline:none}.cc-checkbox{width:16px;height:16px;accent-color:var(--primary);cursor:pointer}.cc-btn{cursor:pointer;white-space:nowrap;box-sizing:border-box;border:1px solid #0000;border-radius:8px;justify-content:center;align-items:center;gap:6px;height:32px;padding:0 14px;font-family:inherit;font-size:14px;font-weight:400;line-height:20px;display:inline-flex}.cc-btn:disabled{opacity:.5;cursor:not-allowed}.cc-btn-primary{background:var(--primary);color:var(--primary-foreground)}.cc-btn-primary:hover:not(:disabled){background:var(--cs-brand-600)}.cc-btn-secondary{background:var(--secondary);color:var(--secondary-foreground)}.cc-btn-secondary:hover:not(:disabled){background:var(--secondary-hover)}.cc-btn-ghost{color:var(--foreground);background:0 0}.cc-btn-ghost:hover:not(:disabled){background:var(--muted)}.cc-btn-danger{color:var(--destructive);border-color:var(--border-subtle);background:0 0}.cc-btn-danger:hover:not(:disabled){background:var(--error-subtle)}.cc-icon-btn{width:32px;height:32px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:8px;justify-content:center;align-items:center;padding:0;display:inline-flex}.cc-icon-btn:hover{background:var(--muted);color:var(--foreground)}.cc-empty{color:var(--muted-foreground);text-align:center;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:48px 16px;font-size:14px;display:flex}.cc-empty-title{color:var(--foreground);font-size:15px;font-weight:600}.cc-empty-description{color:var(--muted-foreground);font-size:13px}.cc-loading{min-height:200px;color:var(--muted-foreground);justify-content:center;align-items:center;font-size:14px;display:flex}.cc-notice-error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.cc-badge-enabled{background:var(--success-subtle);height:20px;color:var(--success-subtle-foreground);border-radius:9999px;align-items:center;padding:0 8px;font-size:12px;display:inline-flex}.cc-badge-disabled{background:var(--muted);height:20px;color:var(--muted-foreground);border-radius:9999px;align-items:center;padding:0 8px;font-size:12px;display:inline-flex}body[data-ds-dark-theme] .cc-surface{color-scheme:dark;--cs-success:var(--cs-green-400);--cs-warning:var(--cs-amber-400);--cs-info:var(--cs-blue-400);--cs-background:oklch(20.9% 0 0);--cs-background-subtle:oklch(100% 0 0/.02);--cs-foreground:oklch(93.1% 0 0);--cs-muted-foreground:oklch(70.8% 0 0);--cs-foreground-tertiary:oklch(55.9% 0 0);--cs-card:var(--cs-neutral-900);--cs-popover:var(--cs-neutral-800);--cs-border:oklch(100% 0 0/.1);--cs-border-subtle:oklch(100% 0 0/.05);--cs-border-strong:oklch(100% 0 0/.2);--cs-border-selected:oklch(100% 0 0/.3);--cs-ring:oklch(76% .204 131/.4);--cs-secondary:oklch(100% 0 0/.1);--cs-secondary-hover:oklch(100% 0 0/.2);--cs-secondary-active:oklch(100% 0 0/.25);--cs-muted:oklch(100% 0 0/.1);--cs-accent:oklch(100% 0 0/.1);--cs-ghost-active:oklch(100% 0 0/.15);--cs-sidebar:oklch(23.93% 0 0);--cs-sidebar-accent:oklch(26.9% 0 0);--cs-card-foreground:oklch(98.5% 0 0);--cs-popover-foreground:oklch(98.5% 0 0);--cs-secondary-foreground:oklch(98.5% 0 0);--cs-accent-foreground:oklch(98.5% 0 0);--cs-primary-foreground:oklch(20.5% 0 0);--cs-destructive-foreground:var(--cs-white);--cs-input:oklch(26.9% 0 0);--cs-sidebar-foreground:oklch(98.5% 0 0);--cs-sidebar-primary:oklch(48.8% .243 264.376);--cs-sidebar-primary-foreground:oklch(98.5% 0 0);--cs-sidebar-accent-foreground:oklch(98.5% 0 0);--cs-sidebar-border:oklch(26.9% 0 0);--cs-sidebar-ring:oklch(43.9% 0 0);--cs-success-subtle-foreground:var(--cs-green-100);--cs-success-border:var(--cs-green-700);--cs-warning-subtle-foreground:var(--cs-amber-100);--cs-warning-border:var(--cs-amber-700);--cs-info-subtle-foreground:var(--cs-blue-100);--cs-info-border:var(--cs-blue-700)}";
 		const tagId$14 = "@dsh-control-center/bundle/cherry-tokens.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$14) + "]") === null) {
 			const tag = document.createElement("style");
@@ -16904,22 +16687,22 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var AppearanceSection_module_css_default = {
-			"themePreviewActive": "_-7MpG_themePreviewActive",
-			"themeLabel": "_-7MpG_themeLabel",
-			"zoomControls": "_-7MpG_zoomControls",
-			"staticValue": "_-7MpG_staticValue",
-			"previewFrame": "_-7MpG_previewFrame",
 			"fontSelect": "_-7MpG_fontSelect",
-			"swatch": "_-7MpG_swatch",
-			"nativeSwatch": "_-7MpG_nativeSwatch",
-			"themeOption": "_-7MpG_themeOption",
-			"hexInput": "_-7MpG_hexInput",
-			"swatchActive": "_-7MpG_swatchActive",
-			"colorRow": "_-7MpG_colorRow",
-			"cssEditor": "_-7MpG_cssEditor",
-			"nativePicker": "_-7MpG_nativePicker",
 			"themeGrid": "_-7MpG_themeGrid",
+			"themeOption": "_-7MpG_themeOption",
+			"staticValue": "_-7MpG_staticValue",
+			"swatchActive": "_-7MpG_swatchActive",
+			"swatch": "_-7MpG_swatch",
+			"colorRow": "_-7MpG_colorRow",
+			"hexInput": "_-7MpG_hexInput",
+			"themeLabel": "_-7MpG_themeLabel",
+			"nativeSwatch": "_-7MpG_nativeSwatch",
+			"previewFrame": "_-7MpG_previewFrame",
+			"zoomControls": "_-7MpG_zoomControls",
 			"groupHeader": "_-7MpG_groupHeader",
+			"cssEditor": "_-7MpG_cssEditor",
+			"themePreviewActive": "_-7MpG_themePreviewActive",
+			"nativePicker": "_-7MpG_nativePicker",
 			"desktopTag": "_-7MpG_desktopTag"
 		};
 		//#endregion
@@ -17742,36 +17525,36 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ShortcutSection_module_css_default = {
-			"searchInput": "-S_gJa_searchInput",
-			"moreButton": "-S_gJa_moreButton",
-			"desktopTag": "-S_gJa_desktopTag",
-			"menuCount": "-S_gJa_menuCount",
 			"recording": "-S_gJa_recording",
-			"headerControls": "-S_gJa_headerControls",
-			"menuItemActive": "-S_gJa_menuItemActive",
-			"menuItem": "-S_gJa_menuItem",
-			"headerTitle": "-S_gJa_headerTitle",
+			"moreButton": "-S_gJa_moreButton",
+			"rowSwitch": "-S_gJa_rowSwitch",
 			"groupLabel": "-S_gJa_groupLabel",
-			"rowLabel": "-S_gJa_rowLabel",
-			"listGroup": "-S_gJa_listGroup",
+			"headerControls": "-S_gJa_headerControls",
+			"menuItem": "-S_gJa_menuItem",
+			"kbd": "-S_gJa_kbd",
+			"menuSep": "-S_gJa_menuSep",
+			"desktopTag": "-S_gJa_desktopTag",
+			"bound": "-S_gJa_bound",
+			"menuPop": "-S_gJa_menuPop",
+			"menuItemActive": "-S_gJa_menuItemActive",
 			"menuItemDanger": "-S_gJa_menuItemDanger",
-			"keys": "-S_gJa_keys",
+			"rowShortcut": "-S_gJa_rowShortcut",
+			"row": "-S_gJa_row",
+			"searchWrap": "-S_gJa_searchWrap",
+			"headerTitle": "-S_gJa_headerTitle",
+			"listGroup": "-S_gJa_listGroup",
+			"groupBlock": "-S_gJa_groupBlock",
 			"header": "-S_gJa_header",
+			"unbound": "-S_gJa_unbound",
+			"menuCount": "-S_gJa_menuCount",
+			"emptyState": "-S_gJa_emptyState",
 			"searchIcon": "-S_gJa_searchIcon",
 			"filterButton": "-S_gJa_filterButton",
-			"row": "-S_gJa_row",
-			"rowShortcut": "-S_gJa_rowShortcut",
-			"rowSwitch": "-S_gJa_rowSwitch",
-			"kbd": "-S_gJa_kbd",
-			"unbound": "-S_gJa_unbound",
-			"menuSep": "-S_gJa_menuSep",
-			"undo": "-S_gJa_undo",
-			"groupBlock": "-S_gJa_groupBlock",
-			"menuPop": "-S_gJa_menuPop",
-			"searchWrap": "-S_gJa_searchWrap",
+			"searchInput": "-S_gJa_searchInput",
 			"rowDisabled": "-S_gJa_rowDisabled",
-			"bound": "-S_gJa_bound",
-			"emptyState": "-S_gJa_emptyState"
+			"rowLabel": "-S_gJa_rowLabel",
+			"undo": "-S_gJa_undo",
+			"keys": "-S_gJa_keys"
 		};
 		//#endregion
 		//#region lib/types/client/ShortcutSection.js
@@ -18372,43 +18155,43 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SelectionAssistantSection_module_css_default = {
-			"modalCard": "_2Suf7W_modalCard",
-			"radioItem": "_2Suf7W_radioItem",
-			"actionRow": "_2Suf7W_actionRow",
-			"modalOverlay": "_2Suf7W_modalOverlay",
-			"formHint": "_2Suf7W_formHint",
+			"ghostBtn": "_2Suf7W_ghostBtn",
+			"notice": "_2Suf7W_notice",
+			"actionName": "_2Suf7W_actionName",
+			"formField": "_2Suf7W_formField",
+			"outlineBtn": "_2Suf7W_outlineBtn",
 			"groupHeaderRow": "_2Suf7W_groupHeaderRow",
-			"modalFooter": "_2Suf7W_modalFooter",
+			"opacityRow": "_2Suf7W_opacityRow",
+			"toolbarItem": "_2Suf7W_toolbarItem",
+			"actionRow": "_2Suf7W_actionRow",
+			"modalCard": "_2Suf7W_modalCard",
+			"btnPrimary": "_2Suf7W_btnPrimary",
+			"radioItem": "_2Suf7W_radioItem",
+			"opBtn": "_2Suf7W_opBtn",
+			"actionRowDisabled": "_2Suf7W_actionRowDisabled",
+			"opacitySlider": "_2Suf7W_opacitySlider",
+			"engineChip": "_2Suf7W_engineChip",
+			"opBtnDanger": "_2Suf7W_opBtnDanger",
+			"modalOverlay": "_2Suf7W_modalOverlay",
+			"formInput": "_2Suf7W_formInput",
+			"dragHandle": "_2Suf7W_dragHandle",
 			"groupTitle": "_2Suf7W_groupTitle",
 			"toolbarPreview": "_2Suf7W_toolbarPreview",
+			"modalFooter": "_2Suf7W_modalFooter",
 			"btn": "_2Suf7W_btn",
-			"actionRowDisabled": "_2Suf7W_actionRowDisabled",
-			"noticeText": "_2Suf7W_noticeText",
-			"actionRowDragging": "_2Suf7W_actionRowDragging",
-			"faqLink": "_2Suf7W_faqLink",
-			"enableBtn": "_2Suf7W_enableBtn",
-			"outlineBtn": "_2Suf7W_outlineBtn",
-			"opacitySlider": "_2Suf7W_opacitySlider",
-			"dragHandle": "_2Suf7W_dragHandle",
-			"actionOps": "_2Suf7W_actionOps",
-			"opBtnDanger": "_2Suf7W_opBtnDanger",
-			"formTextarea": "_2Suf7W_formTextarea",
-			"opBtn": "_2Suf7W_opBtn",
-			"toolbarItem": "_2Suf7W_toolbarItem",
-			"opacityRow": "_2Suf7W_opacityRow",
-			"notice": "_2Suf7W_notice",
-			"formField": "_2Suf7W_formField",
-			"toolbarIcon": "_2Suf7W_toolbarIcon",
 			"actionsHeaderBtns": "_2Suf7W_actionsHeaderBtns",
-			"actionsDivider": "_2Suf7W_actionsDivider",
-			"engineChip": "_2Suf7W_engineChip",
-			"ghostBtn": "_2Suf7W_ghostBtn",
-			"enableBtnOn": "_2Suf7W_enableBtnOn",
+			"noticeText": "_2Suf7W_noticeText",
+			"faqLink": "_2Suf7W_faqLink",
 			"actionIcon": "_2Suf7W_actionIcon",
-			"actionName": "_2Suf7W_actionName",
+			"formHint": "_2Suf7W_formHint",
 			"radioRow": "_2Suf7W_radioRow",
-			"formInput": "_2Suf7W_formInput",
-			"btnPrimary": "_2Suf7W_btnPrimary"
+			"formTextarea": "_2Suf7W_formTextarea",
+			"actionRowDragging": "_2Suf7W_actionRowDragging",
+			"enableBtnOn": "_2Suf7W_enableBtnOn",
+			"actionsDivider": "_2Suf7W_actionsDivider",
+			"enableBtn": "_2Suf7W_enableBtn",
+			"actionOps": "_2Suf7W_actionOps",
+			"toolbarIcon": "_2Suf7W_toolbarIcon"
 		};
 		//#endregion
 		//#region lib/types/client/SelectionAssistantSection.js
@@ -19102,19 +18885,19 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var QuickAssistantSection_module_css_default = {
-			"previewChip": "AweFxa_previewChip",
+			"previewPlaceholder": "AweFxa_previewPlaceholder",
+			"previewFooter": "AweFxa_previewFooter",
 			"previewWindow": "AweFxa_previewWindow",
-			"segItemActive": "AweFxa_segItemActive",
-			"modelHint": "AweFxa_modelHint",
-			"segItem": "AweFxa_segItem",
-			"notice": "AweFxa_notice",
-			"modelRow": "AweFxa_modelRow",
-			"groupTitle": "AweFxa_groupTitle",
+			"previewChip": "AweFxa_previewChip",
 			"segmented": "AweFxa_segmented",
 			"previewBar": "AweFxa_previewBar",
-			"previewLogo": "AweFxa_previewLogo",
-			"previewPlaceholder": "AweFxa_previewPlaceholder",
-			"previewFooter": "AweFxa_previewFooter"
+			"groupTitle": "AweFxa_groupTitle",
+			"modelRow": "AweFxa_modelRow",
+			"segItem": "AweFxa_segItem",
+			"segItemActive": "AweFxa_segItemActive",
+			"notice": "AweFxa_notice",
+			"modelHint": "AweFxa_modelHint",
+			"previewLogo": "AweFxa_previewLogo"
 		};
 		//#endregion
 		//#region lib/types/client/QuickAssistantSection.js
@@ -19274,14 +19057,14 @@ window.__ModuleLoader__.load({
 		}
 		var ScreenshotSection_module_css_default = {
 			"shortcutBadge": "RXXS4a_shortcutBadge",
-			"shortcutTitle": "RXXS4a_shortcutTitle",
-			"shortcutLabel": "RXXS4a_shortcutLabel",
 			"linkBtn": "RXXS4a_linkBtn",
 			"notice": "RXXS4a_notice",
-			"shortcutDesc": "RXXS4a_shortcutDesc",
-			"groupTitle": "RXXS4a_groupTitle",
+			"shortcutTitle": "RXXS4a_shortcutTitle",
 			"shortcutRight": "RXXS4a_shortcutRight",
-			"ocrStatus": "RXXS4a_ocrStatus"
+			"ocrStatus": "RXXS4a_ocrStatus",
+			"groupTitle": "RXXS4a_groupTitle",
+			"shortcutDesc": "RXXS4a_shortcutDesc",
+			"shortcutLabel": "RXXS4a_shortcutLabel"
 		};
 		//#endregion
 		//#region lib/types/client/ScreenshotSection.js
@@ -19423,46 +19206,46 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ChannelsSection_module_css_default = {
-			"opBtn": "bV1JOa_opBtn",
-			"detailTitle": "bV1JOa_detailTitle",
-			"detail": "bV1JOa_detail",
-			"detailTitleBlock": "bV1JOa_detailTitleBlock",
-			"emptyState": "bV1JOa_emptyState",
-			"detailDesc": "bV1JOa_detailDesc",
-			"formHint": "bV1JOa_formHint",
-			"btnPrimary": "bV1JOa_btnPrimary",
-			"notice": "bV1JOa_notice",
-			"connectedBadge": "bV1JOa_connectedBadge",
-			"typeIconImg": "bV1JOa_typeIconImg",
-			"submenuTitle": "bV1JOa_submenuTitle",
-			"instanceRow": "bV1JOa_instanceRow",
-			"formField": "bV1JOa_formField",
-			"detailBody": "bV1JOa_detailBody",
-			"modalOverlay": "bV1JOa_modalOverlay",
 			"modalFooter": "bV1JOa_modalFooter",
 			"submenuItem": "bV1JOa_submenuItem",
 			"submenu": "bV1JOa_submenu",
-			"modalCard": "bV1JOa_modalCard",
-			"logsBody": "bV1JOa_logsBody",
-			"typeIconLarge": "bV1JOa_typeIconLarge",
 			"instanceSummary": "bV1JOa_instanceSummary",
-			"submenuItemActive": "bV1JOa_submenuItemActive",
-			"submenuList": "bV1JOa_submenuList",
-			"instanceMain": "bV1JOa_instanceMain",
-			"detailHeader": "bV1JOa_detailHeader",
-			"btn": "bV1JOa_btn",
-			"typeIconImgLarge": "bV1JOa_typeIconImgLarge",
-			"formSelect": "bV1JOa_formSelect",
-			"statusDot": "bV1JOa_statusDot",
-			"instanceName": "bV1JOa_instanceName",
-			"instanceOps": "bV1JOa_instanceOps",
-			"typeIcon": "bV1JOa_typeIcon",
-			"formInput": "bV1JOa_formInput",
-			"split": "bV1JOa_split",
-			"addBtn": "bV1JOa_addBtn",
+			"detailBody": "bV1JOa_detailBody",
+			"detailDesc": "bV1JOa_detailDesc",
 			"divider": "bV1JOa_divider",
+			"instanceOps": "bV1JOa_instanceOps",
+			"detailTitleBlock": "bV1JOa_detailTitleBlock",
+			"emptyState": "bV1JOa_emptyState",
+			"statusDot": "bV1JOa_statusDot",
+			"typeIconImgLarge": "bV1JOa_typeIconImgLarge",
+			"instanceName": "bV1JOa_instanceName",
+			"btn": "bV1JOa_btn",
+			"split": "bV1JOa_split",
+			"submenuTitle": "bV1JOa_submenuTitle",
+			"detail": "bV1JOa_detail",
+			"formField": "bV1JOa_formField",
+			"logsBody": "bV1JOa_logsBody",
 			"statusDotActive": "bV1JOa_statusDotActive",
-			"opBtnDanger": "bV1JOa_opBtnDanger"
+			"opBtnDanger": "bV1JOa_opBtnDanger",
+			"modalCard": "bV1JOa_modalCard",
+			"connectedBadge": "bV1JOa_connectedBadge",
+			"submenuItemActive": "bV1JOa_submenuItemActive",
+			"detailTitle": "bV1JOa_detailTitle",
+			"opBtn": "bV1JOa_opBtn",
+			"detailHeader": "bV1JOa_detailHeader",
+			"typeIconLarge": "bV1JOa_typeIconLarge",
+			"modalOverlay": "bV1JOa_modalOverlay",
+			"typeIconImg": "bV1JOa_typeIconImg",
+			"formInput": "bV1JOa_formInput",
+			"instanceRow": "bV1JOa_instanceRow",
+			"addBtn": "bV1JOa_addBtn",
+			"btnPrimary": "bV1JOa_btnPrimary",
+			"submenuList": "bV1JOa_submenuList",
+			"typeIcon": "bV1JOa_typeIcon",
+			"notice": "bV1JOa_notice",
+			"formSelect": "bV1JOa_formSelect",
+			"instanceMain": "bV1JOa_instanceMain",
+			"formHint": "bV1JOa_formHint"
 		};
 		//#endregion
 		//#region lib/types/client/ChannelsSection.js
@@ -19957,8 +19740,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsDocumentAction_module_css_default = {
-			"error": "SgSrUG_error",
-			"action": "SgSrUG_action"
+			"action": "SgSrUG_action",
+			"error": "SgSrUG_error"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsDocumentAction.js
@@ -20185,10 +19968,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var OnboardingModal_module_css_default = {
-			"body": "C_CJ_a_body",
+			"content": "C_CJ_a_content",
 			"title": "C_CJ_a_title",
 			"dialog": "C_CJ_a_dialog",
-			"content": "C_CJ_a_content"
+			"body": "C_CJ_a_body"
 		};
 		//#endregion
 		//#region lib/types/client/OnboardingModal.js
@@ -20339,10 +20122,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WelcomeNotice_module_css_default = {
-			"primary": "RFswhG_primary",
-			"actions": "RFswhG_actions",
+			"copy": "RFswhG_copy",
 			"error": "RFswhG_error",
-			"copy": "RFswhG_copy"
+			"primary": "RFswhG_primary",
+			"actions": "RFswhG_actions"
 		};
 		//#endregion
 		//#region lib/types/client/WelcomeNotice.js
@@ -20566,6 +20349,112 @@ window.__ModuleLoader__.load({
 			controller.load();
 		}
 		//#endregion
+		//#region lib/types/client/model-prefs-store.js
+		/**
+		* Per-purpose model preferences (翻译模型 / 绘画模型): the shared store behind
+		* the 默认模型 page and the workspaces that honor them.
+		*
+		* The prefs live in the `control-center-model-prefs` settings namespace — the
+		* same DSH authority every other surface reads — so a choice made here is what
+		* a freshly opened translation or painting workspace preselects, instead of
+		* "whatever the catalog listed first". The catalog itself comes from
+		* `llm.models`, the same groups the selectors already offer.
+		*/
+		const MODEL_PREFS_NAMESPACE = "control-center-model-prefs";
+		function readSelection(value, schema, kind) {
+			const provider = schema.getPath(value, [`${kind}Provider`]);
+			const model = schema.getPath(value, [`${kind}Model`]);
+			if (typeof provider !== "string" || provider.length === 0) return null;
+			if (typeof model !== "string" || model.length === 0) return null;
+			return {
+				provider,
+				model
+			};
+		}
+		/** The shared controller (one per client surface). */
+		var ModelPrefsStore = class {
+			api;
+			schema;
+			store = (0, _deepseek_ai_dsh_client_runtime_client.createSnapshotStore)({
+				status: "idle",
+				error: null,
+				writable: false,
+				revision: null,
+				translation: null,
+				painting: null,
+				groups: []
+			});
+			generation = 0;
+			constructor(api, schema) {
+				this.api = api;
+				this.schema = schema;
+			}
+			async load() {
+				const generation = ++this.generation;
+				this.store.update((state) => {
+					state.status = "loading";
+					state.error = null;
+				});
+				try {
+					const [settingsResponse, modelsResponse] = await Promise.all([this.api.settings.describe({}), this.api.llm.models({})]);
+					const settings = settingsResponse.result;
+					const catalog = modelsResponse.result;
+					if (!settings.ok) throw new Error(settings.error.message);
+					if (!catalog.ok) throw new Error(catalog.error.message);
+					if (generation !== this.generation) return;
+					const namespace = settings.value.namespaces.find((view) => view.ns === MODEL_PREFS_NAMESPACE);
+					if (namespace === void 0) throw new Error("model preference settings are unavailable");
+					const value = namespace.value;
+					this.store.update((state) => {
+						state.status = "ready";
+						state.writable = settings.value.writable;
+						state.revision = namespace.revision;
+						state.translation = readSelection(value, this.schema, "translation");
+						state.painting = readSelection(value, this.schema, "painting");
+						state.groups = catalog.value.groups;
+					});
+				} catch (error) {
+					if (generation !== this.generation) return;
+					this.store.update((state) => {
+						state.status = "error";
+						state.error = messageOf$2(error);
+					});
+				}
+			}
+			/** Persist one purpose's selection; keeps the other untouched. */
+			async save(kind, selection) {
+				const snapshot = this.store.getSnapshot();
+				if (snapshot.revision === null) return false;
+				this.store.update((state) => {
+					state.status = "loading";
+					state.error = null;
+				});
+				const response = await this.api.settings.mutate({
+					ns: MODEL_PREFS_NAMESPACE,
+					expectedRevision: snapshot.revision,
+					ops: [{
+						op: "set",
+						path: [`${kind}Provider`],
+						value: selection.provider
+					}, {
+						op: "set",
+						path: [`${kind}Model`],
+						value: selection.model
+					}]
+				});
+				if (!response.result.ok) {
+					const failure = response.result;
+					this.store.update((state) => {
+						state.status = "error";
+						state.error = failure.error.message;
+					});
+					return false;
+				}
+				await this.load();
+				return true;
+			}
+		};
+		//#endregion
 		//#region lib/types/client/schema-operations.js
 		/**
 		* Hide the Cordis service identity behind bound schema callbacks.
@@ -20720,6 +20609,14 @@ window.__ModuleLoader__.load({
 			providerDisabled: "Disabled",
 			freeBadge: "Free",
 			getApiKey: "Get API key",
+			prefTitle: "Workspace model preferences",
+			prefTranslation: "Translation model",
+			prefPainting: "Painting model",
+			prefHint: "A freshly opened workspace preselects this model.",
+			prefSavedTranslation: "Translation model saved.",
+			prefSavedPainting: "Painting model saved.",
+			prefUnset: "Not set",
+			prefFollow: "Follow the workspace",
 			checkModels: "Check models",
 			checkModelsHint: "Sends one tiny real completion per model through the live adapter — the same path a production request takes.",
 			checkAll: "Check all",
@@ -20876,6 +20773,14 @@ window.__ModuleLoader__.load({
 			providerDisabled: "已禁用",
 			freeBadge: "免费",
 			getApiKey: "获取 API Key",
+			prefTitle: "工作区模型偏好",
+			prefTranslation: "翻译模型",
+			prefPainting: "绘画模型",
+			prefHint: "新打开的工作区将默认选中该模型。",
+			prefSavedTranslation: "翻译模型已保存。",
+			prefSavedPainting: "绘画模型已保存。",
+			prefUnset: "未设置",
+			prefFollow: "跟随工作区",
 			checkModels: "检测模型",
 			checkModelsHint: "对每个模型发送一次最小真实补全，走与正式请求完全相同的适配器与凭据链路。",
 			checkAll: "全部检测",
@@ -21015,13 +20920,13 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProductWorkspaceSurface_module_css_default = {
-			"eyebrow": "mzcFbW_eyebrow",
-			"close": "mzcFbW_close",
-			"header": "mzcFbW_header",
 			"body": "mzcFbW_body",
-			"root": "mzcFbW_root",
+			"close": "mzcFbW_close",
 			"identity": "mzcFbW_identity",
-			"icon": "mzcFbW_icon"
+			"icon": "mzcFbW_icon",
+			"root": "mzcFbW_root",
+			"header": "mzcFbW_header",
+			"eyebrow": "mzcFbW_eyebrow"
 		};
 		//#endregion
 		//#region lib/types/client/ProductWorkspaceSurface.js
@@ -22033,7 +21938,7 @@ window.__ModuleLoader__.load({
 			}
 		}
 		/** Full Translation product workspace over the Control Center Host service. */
-		function TranslationWorkspace({ getTranslation, listModels, useTranslationReady, close }) {
+		function TranslationWorkspace({ getTranslation, listModels, useTranslationReady, useModelPref, close }) {
 			const translationReady = useTranslationReady((value) => value);
 			const translation = translationReady ? getTranslation() : void 0;
 			const [languages, setLanguages] = (0, react.useState)([]);
@@ -22110,7 +22015,9 @@ window.__ModuleLoader__.load({
 				listModels().then((groups) => {
 					if (!active) return;
 					setModels(groups);
-					setSelection((current) => current ?? modelOptions(groups)[0]?.selection ?? null);
+					const pref = useModelPref?.();
+					const preferred = pref?.status === "ready" ? pref.translation : void 0;
+					setSelection((current) => current ?? modelOptions(groups).find((option) => option.selection.provider === preferred?.provider && option.selection.model === preferred?.model)?.selection ?? modelOptions(groups)[0]?.selection ?? null);
 				}).catch((reason) => {
 					if (active) setError(reason instanceof Error ? reason.message : String(reason));
 				});
@@ -22866,9 +22773,15 @@ window.__ModuleLoader__.load({
 			const useProviderDirectory = bindSnapshotSelector(providerDirectoryController.store);
 			const selectionController = new ModelSelectionStore(connection.api, schema);
 			const useSelection = bindSnapshotSelector(selectionController.store);
+			const prefsController = new ModelPrefsStore(connection.api, schema);
+			const usePrefs = bindSnapshotSelector(prefsController.store);
 			const welcomeController = new WelcomeNoticeStore(connection.api, connection.isLoopback ? "host" : "memory");
 			const notificationRuntime = new ConversationNotificationRuntime(connection.api, ctx.sessions.list, () => desktop);
 			ctx.effect(() => notificationRuntime.start(), "control-center: conversation notifications");
+			ctx.effect(() => {
+				prefsController.load();
+				return () => void 0;
+			}, "control-center: model prefs load");
 			let rowsVersion = -1;
 			let rowsRevision = -1;
 			let rows = [];
@@ -22939,6 +22852,8 @@ window.__ModuleLoader__.load({
 			const modelsInjected = () => ({
 				controller: modelsController,
 				useSnapshot: useModels,
+				prefsController,
+				usePrefsSnapshot: usePrefs,
 				api: connection.api,
 				modelSelection,
 				schema,
@@ -22985,6 +22900,7 @@ window.__ModuleLoader__.load({
 				const disposers = [
 					ctx.remote.$on("settings/document-updated", (namespace) => {
 						refreshModels();
+						if (prefsController.store.getSnapshot().status !== "idle") prefsController.load();
 						if (namespace === "ui-onboarding") refreshWelcomeIfLoaded(welcomeController);
 						if (namespace === "control-center-notifications") notificationRuntime.refreshPreferences();
 					}),
@@ -23034,6 +22950,7 @@ window.__ModuleLoader__.load({
 							return translation;
 						},
 						hooks: { translationReady: translationReadySource },
+						useModelPref: () => usePrefs((state) => state),
 						listModels: async () => {
 							const result = await connection.api.llm.models({});
 							if (!result.result.ok) throw new Error(result.result.error.message);
@@ -23049,7 +22966,8 @@ window.__ModuleLoader__.load({
 							if (painting === void 0) throw new Error("painting Remote namespace is not mounted");
 							return painting;
 						},
-						hooks: { paintingReady: paintingReadySource }
+						hooks: { paintingReady: paintingReadySource },
+						useModelPref: () => usePrefs((state) => state)
 					})
 				}, PaintingWorkspace));
 				else if (workspace.id === "knowledge") ctx.slots.inject("application.surface", () => ctx.slots.register({

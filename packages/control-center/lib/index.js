@@ -5240,6 +5240,14 @@ const APPEARANCE_SETTINGS_NAMESPACE = "control-center-appearance";
 */
 const PROVIDER_STASH_NAMESPACE = settingsNamespace("control-center-provider-stash");
 const PROVIDER_STASH_SCHEMA = Schema.object({ providers: Schema.dict(Schema.any()).default({}) });
+/** Per-purpose model preferences (translation/painting) for the 默认模型 page. */
+const MODEL_PREFS_NAMESPACE_SETTINGS = settingsNamespace("control-center-model-prefs");
+const MODEL_PREFS_SCHEMA = Schema.object({
+	translationProvider: Schema.string().default(""),
+	translationModel: Schema.string().default(""),
+	paintingProvider: Schema.string().default(""),
+	paintingModel: Schema.string().default("")
+});
 const AppearanceSettingsSchema = Schema.object({
 	colorPrimary: Schema.string().default("#00b96b"),
 	fontFamily: Schema.string().default(""),
@@ -5309,6 +5317,7 @@ function apply(ctx) {
 	ctx.settings.register(settingsNamespace(NOTIFICATION_SETTINGS_NAMESPACE), NotificationSettingsSchema);
 	ctx.settings.register(settingsNamespace(APPEARANCE_SETTINGS_NAMESPACE), AppearanceSettingsSchema);
 	ctx.settings.register(PROVIDER_STASH_NAMESPACE, PROVIDER_STASH_SCHEMA);
+	ctx.settings.register(MODEL_PREFS_NAMESPACE_SETTINGS, MODEL_PREFS_SCHEMA);
 }
 //#endregion
-export { DataService, DesktopService, FileProcessingService, KnowledgeService, LocalModelsService, McpService, ModelCheckService, PaintingService, ProvidersService, SkillsService, SystemService, TasksService, TranslationService, UpdateService, UsageService, WebSearchService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, cronMatches, inject, name };
+export { DataService, DesktopService, FileProcessingService, KnowledgeService, LocalModelsService, MODEL_PREFS_NAMESPACE_SETTINGS, McpService, ModelCheckService, PaintingService, ProvidersService, SkillsService, SystemService, TasksService, TranslationService, UpdateService, UsageService, WebSearchService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, cronMatches, inject, name };

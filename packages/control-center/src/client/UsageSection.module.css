@@ -442,5 +442,5 @@
 }
 
 .heatmapCell {
-  border: 1px solid color-mix(in srgb, var(--border-subtle) 60%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border-subtle) 80%, transparent);
 }

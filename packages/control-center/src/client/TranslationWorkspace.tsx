@@ -28,6 +28,8 @@ export interface TranslationWorkspaceInjected {
   getTranslation: () => NonNullable<ClientRemote['controlCenterTranslation']>
   listModels: () => Promise<readonly ModelProviderGroup[]>
   hooks: { translationReady: HostObservable<boolean> }
+  /** Per-purpose preference snapshot; a matching entry preselects. */
+  useModelPref?: () => import('./model-prefs-store.ts').ModelPrefsState
 }
 
 export type TranslationWorkspaceProps = PropsRuntime<'application.surface', 'translation'> & InjectFace<TranslationWorkspaceInjected>
@@ -120,7 +122,7 @@ function loadSettings(): TranslationSettingsState {
 }
 
 /** Full Translation product workspace over the Control Center Host service. */
-export function TranslationWorkspace({ getTranslation, listModels, useTranslationReady, close }: TranslationWorkspaceProps) {
+export function TranslationWorkspace({ getTranslation, listModels, useTranslationReady, useModelPref, close }: TranslationWorkspaceProps) {
   const translationReady = useTranslationReady(value => value)
   const translation = translationReady ? getTranslation() : undefined
   const [languages, setLanguages] = useState<TranslationLanguage[]>([])
@@ -193,7 +195,13 @@ export function TranslationWorkspace({ getTranslation, listModels, useTranslatio
     void listModels().then((groups) => {
       if (!active) return
       setModels(groups)
-      setSelection(current => current ?? modelOptions(groups)[0]?.selection ?? null)
+      const pref = useModelPref?.()
+      const preferred = pref?.status === 'ready' ? pref.translation : undefined
+      setSelection(current => current
+        ?? modelOptions(groups).find(option =>
+          option.selection.provider === preferred?.provider && option.selection.model === preferred?.model)?.selection
+        ?? modelOptions(groups)[0]?.selection
+        ?? null)
     }).catch(reason => { if (active) setError(reason instanceof Error ? reason.message : String(reason)) })
     void Promise.all([translation!.languages(), translation!.history(null, 20), translation!.getPrompt()])
       .then(([languageResult, historyResult, promptResult]) => {

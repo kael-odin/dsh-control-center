@@ -23,6 +23,10 @@
   background: var(--background);
   color: var(--foreground);
 
+  /* Native controls (select popups, scrollbars, form widgets) follow this —
+     without it Chromium paints their light variants over our themed surface. */
+  color-scheme: light;
+
   --cs-neutral-50: oklch(0.98 0 0);
   --cs-neutral-100: oklch(0.97 0 0);
   --cs-neutral-200: oklch(0.92 0 0);
@@ -547,6 +551,8 @@
 /* Dark mode (providers.css `.dark` block, keyed to DSH's host theme)  */
 /* ------------------------------------------------------------------ */
 body[data-ds-dark-theme] .cc-surface {
+  color-scheme: dark;
+
   --cs-success: var(--cs-green-400);
   --cs-warning: var(--cs-amber-400);
   --cs-info: var(--cs-blue-400);

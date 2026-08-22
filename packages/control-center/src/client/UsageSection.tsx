@@ -209,7 +209,16 @@ export function UsageSection({ getUsage, useUsageReady }: UsageSectionProps) {
     if (ratio > 0.12) return 2
     return 1
   }
-  const HEAT_COLORS = ['transparent', 'rgba(16,185,129,0.35)', 'rgba(16,185,129,0.55)', 'rgba(16,185,129,0.8)', 'rgba(5,150,105,1)']
+  // Theme-token ramp: an empty day reads as a muted cell (never transparent —
+  // it vanished against dark cards), and intensity rides --success so both
+  // themes stay readable.
+  const HEAT_COLORS = [
+    'var(--muted)',
+    'color-mix(in srgb, var(--success) 40%, transparent)',
+    'color-mix(in srgb, var(--success) 62%, transparent)',
+    'color-mix(in srgb, var(--success) 85%, transparent)',
+    'var(--success)',
+  ]
 
   // Distribution chart.
   const chartGroups = stats?.groups ?? []

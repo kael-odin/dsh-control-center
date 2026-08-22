@@ -134,6 +134,14 @@ export declare const en: {
     providerDisabled: string;
     freeBadge: string;
     getApiKey: string;
+    prefTitle: string;
+    prefTranslation: string;
+    prefPainting: string;
+    prefHint: string;
+    prefSavedTranslation: string;
+    prefSavedPainting: string;
+    prefUnset: string;
+    prefFollow: string;
     checkModels: string;
     checkModelsHint: string;
     checkAll: string;

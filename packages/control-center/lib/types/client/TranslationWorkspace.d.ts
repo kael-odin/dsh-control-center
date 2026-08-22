@@ -6,8 +6,10 @@ export interface TranslationWorkspaceInjected {
     hooks: {
         translationReady: HostObservable<boolean>;
     };
+    /** Per-purpose preference snapshot; a matching entry preselects. */
+    useModelPref?: () => import('./model-prefs-store.ts').ModelPrefsState;
 }
 export type TranslationWorkspaceProps = PropsRuntime<'application.surface', 'translation'> & InjectFace<TranslationWorkspaceInjected>;
 /** Full Translation product workspace over the Control Center Host service. */
-export declare function TranslationWorkspace({ getTranslation, listModels, useTranslationReady, close }: TranslationWorkspaceProps): import("react").JSX.Element;
+export declare function TranslationWorkspace({ getTranslation, listModels, useTranslationReady, useModelPref, close }: TranslationWorkspaceProps): import("react").JSX.Element;
 //# sourceMappingURL=TranslationWorkspace.d.ts.map

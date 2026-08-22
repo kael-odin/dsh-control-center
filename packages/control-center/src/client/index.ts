@@ -96,6 +96,7 @@ import type { WelcomeNoticeInjected } from './WelcomeNotice.tsx'
 import { refreshWelcomeIfLoaded, WelcomeNoticeStore } from './welcome-store.ts'
 import { ModelsSettingsStore } from './store.ts'
 import { ModelSelectionStore } from './ModelSelectionPanel.tsx'
+import { ModelPrefsStore } from './model-prefs-store.ts'
 import { createSettingsSchemaOperations } from './schema-operations.ts'
 import { en as modelsEn, zh as modelsZh, type ModelsKey } from './locales.ts'
 import { en as websearchEn, zh as websearchZh, type WebSearchKey } from './websearch-locales.ts'
@@ -340,6 +341,8 @@ export function apply(ctx: ClientContext): void {
   const useProviderDirectory = bindSnapshotSelector(providerDirectoryController.store)
   const selectionController = new ModelSelectionStore(connection.api, schema)
   const useSelection = bindSnapshotSelector(selectionController.store)
+  const prefsController = new ModelPrefsStore(connection.api, schema)
+  const usePrefs = bindSnapshotSelector(prefsController.store)
   const welcomeController = new WelcomeNoticeStore(connection.api, connection.isLoopback ? 'host' : 'memory')
   const notificationRuntime = new ConversationNotificationRuntime(
     connection.api,
@@ -347,6 +350,7 @@ export function apply(ctx: ClientContext): void {
     () => desktop,
   )
   ctx.effect(() => notificationRuntime.start(), 'control-center: conversation notifications')
+  ctx.effect(() => { void prefsController.load(); return () => undefined }, 'control-center: model prefs load')
 
   let rowsVersion = -1
   let rowsRevision = -1
@@ -416,6 +420,8 @@ export function apply(ctx: ClientContext): void {
   const modelsInjected = (): ModelsSectionInjected => ({
     controller: modelsController,
     useSnapshot: useModels,
+    prefsController,
+    usePrefsSnapshot: usePrefs,
     api: connection.api,
     modelSelection,
     schema,
@@ -473,6 +479,7 @@ export function apply(ctx: ClientContext): void {
     const disposers = [
       ctx.remote.$on('settings/document-updated', (namespace) => {
         refreshModels()
+        if (prefsController.store.getSnapshot().status !== 'idle') void prefsController.load()
         if (namespace === WELCOME_NOTICE_SETTINGS_NAMESPACE) refreshWelcomeIfLoaded(welcomeController)
         if (namespace === NOTIFICATION_SETTINGS_NAMESPACE) void notificationRuntime.refreshPreferences()
       }),
@@ -510,6 +517,7 @@ export function apply(ctx: ClientContext): void {
             return translation
           },
           hooks: { translationReady: translationReadySource },
+          useModelPref: () => usePrefs(state => state),
           listModels: async () => {
             const result = await connection.api.llm.models({})
             if (!result.result.ok) throw new Error(result.result.error.message)
@@ -527,6 +535,7 @@ export function apply(ctx: ClientContext): void {
             return painting
           },
           hooks: { paintingReady: paintingReadySource },
+          useModelPref: () => usePrefs(state => state),
         }),
       }, PaintingWorkspace))
     } else if (workspace.id === 'knowledge') {

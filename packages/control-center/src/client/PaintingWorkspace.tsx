@@ -17,6 +17,8 @@ import { PaintingStrip } from './PaintingStrip.tsx'
 
 export interface PaintWorkspaceInjected {
   getPainting: () => NonNullable<ClientRemote['controlCenterPainting']>
+  /** Per-purpose preference snapshot; a matching entry preselects. */
+  useModelPref?: () => import('./model-prefs-store.ts').ModelPrefsState
   hooks: { paintingReady: HostObservable<boolean> }
 }
 
@@ -35,7 +37,7 @@ function createDraft(): CurrentSession {
 }
 
 /** Full Painting workspace over the real Control Center painting service. */
-export function PaintingWorkspace({ getPainting, usePaintingReady, close }: PaintingWorkspaceProps) {
+export function PaintingWorkspace({ getPainting, usePaintingReady, useModelPref, close }: PaintingWorkspaceProps) {
   const paintingReady = usePaintingReady(value => value)
   const painting = paintingReady ? getPainting() : undefined
   const [catalog, setCatalog] = useState<readonly PaintingCatalogModel[]>([])
@@ -82,7 +84,14 @@ export function PaintingWorkspace({ getPainting, usePaintingReady, close }: Pain
         if (!catalogResult.ok) throw new Error(catalogResult.error.message)
         setCatalog(catalogResult.value.models)
         if (catalogResult.value.models.length > 0 && selectedModel === '') {
-          const first = catalogResult.value.models[0]!
+          const pref = useModelPref?.()
+          const stored = pref?.status === 'ready' ? pref.painting : undefined
+          const preferred = stored ?? undefined
+          const match = preferred === undefined
+            ? undefined
+            : catalogResult.value.models.find(model =>
+              model.providerId === preferred.provider && model.id === preferred.model)
+          const first = match ?? catalogResult.value.models[0]!
           setSelectedModel(`${first.providerId}/${first.id}`)
         }
       })

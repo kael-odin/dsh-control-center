@@ -48,6 +48,15 @@ const PROVIDER_STASH_SCHEMA = z.object({
   providers: z.dict(z.any()).default({}),
 })
 
+/** Per-purpose model preferences (translation/painting) for the 默认模型 page. */
+export const MODEL_PREFS_NAMESPACE_SETTINGS = settingsNamespace('control-center-model-prefs')
+const MODEL_PREFS_SCHEMA = z.object({
+  translationProvider: z.string().default(''),
+  translationModel: z.string().default(''),
+  paintingProvider: z.string().default(''),
+  paintingModel: z.string().default(''),
+})
+
 interface AppearanceSettings {
   colorPrimary: string
   fontFamily: string
@@ -152,6 +161,10 @@ export function apply(ctx: Context): void {
   ctx.settings.register(
     PROVIDER_STASH_NAMESPACE,
     PROVIDER_STASH_SCHEMA,
+  )
+  ctx.settings.register(
+    MODEL_PREFS_NAMESPACE_SETTINGS,
+    MODEL_PREFS_SCHEMA,
   )
 }
 

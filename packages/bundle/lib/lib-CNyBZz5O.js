@@ -22047,6 +22047,7 @@ var lib_exports = /* @__PURE__ */ __exportAll({
 	FileProcessingService: () => FileProcessingService,
 	KnowledgeService: () => KnowledgeService,
 	LocalModelsService: () => LocalModelsService,
+	MODEL_PREFS_NAMESPACE_SETTINGS: () => MODEL_PREFS_NAMESPACE_SETTINGS,
 	McpService: () => McpService,
 	ModelCheckService: () => ModelCheckService,
 	PaintingService: () => PaintingService,
@@ -24439,7 +24440,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-DqkzXDF0.js");
+				const { SSEClientTransport } = await import("./sse-CGvBjnrU.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -24461,7 +24462,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-CnZfuV8A.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-BRGNtj4r.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -27210,6 +27211,14 @@ const APPEARANCE_SETTINGS_NAMESPACE = "control-center-appearance";
 */
 const PROVIDER_STASH_NAMESPACE = settingsNamespace("control-center-provider-stash");
 const PROVIDER_STASH_SCHEMA = Schema.object({ providers: Schema.dict(Schema.any()).default({}) });
+/** Per-purpose model preferences (translation/painting) for the 默认模型 page. */
+const MODEL_PREFS_NAMESPACE_SETTINGS = settingsNamespace("control-center-model-prefs");
+const MODEL_PREFS_SCHEMA = Schema.object({
+	translationProvider: Schema.string().default(""),
+	translationModel: Schema.string().default(""),
+	paintingProvider: Schema.string().default(""),
+	paintingModel: Schema.string().default("")
+});
 const AppearanceSettingsSchema = Schema.object({
 	colorPrimary: Schema.string().default("#00b96b"),
 	fontFamily: Schema.string().default(""),
@@ -27279,6 +27288,7 @@ function apply(ctx) {
 	ctx.settings.register(settingsNamespace(NOTIFICATION_SETTINGS_NAMESPACE), NotificationSettingsSchema);
 	ctx.settings.register(settingsNamespace(APPEARANCE_SETTINGS_NAMESPACE), AppearanceSettingsSchema);
 	ctx.settings.register(PROVIDER_STASH_NAMESPACE, PROVIDER_STASH_SCHEMA);
+	ctx.settings.register(MODEL_PREFS_NAMESPACE_SETTINGS, MODEL_PREFS_SCHEMA);
 }
 //#endregion
-export { DataService, DesktopService, FileProcessingService, KnowledgeService, LocalModelsService, McpService, ModelCheckService, PaintingService, ProvidersService, SkillsService, SystemService, TasksService, TranslationService, UpdateService, UsageService, WebSearchService, _coercedNumber as _, isJSONRPCRequest as a, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, __toESM as b, any as c, cronMatches, literal as d, looseObject as f, url as g, string as h, isInitializedNotification as i, inject, array as l, object as m, JSONRPCMessageSchema as n, name, isJSONRPCResultResponse as o, number as p, LATEST_PROTOCOL_VERSION as r, ZodNumber as s, lib_exports as t, boolean as u, NEVER as v, __commonJSMin as y };
+export { DataService, DesktopService, FileProcessingService, KnowledgeService, LocalModelsService, MODEL_PREFS_NAMESPACE_SETTINGS, McpService, ModelCheckService, PaintingService, ProvidersService, SkillsService, SystemService, TasksService, TranslationService, UpdateService, UsageService, WebSearchService, _coercedNumber as _, isJSONRPCRequest as a, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, __toESM as b, any as c, cronMatches, literal as d, looseObject as f, url as g, string as h, isInitializedNotification as i, inject, array as l, object as m, JSONRPCMessageSchema as n, name, isJSONRPCResultResponse as o, number as p, LATEST_PROTOCOL_VERSION as r, ZodNumber as s, lib_exports as t, boolean as u, NEVER as v, __commonJSMin as y };

@@ -1,5 +1,7 @@
 /** Host half of DSH Control Center: compatibility gate and onboarding settings. */
 import type { Context } from '@deepseek-ai/cordis';
+/** Per-purpose model preferences (translation/painting) for the 默认模型 page. */
+export declare const MODEL_PREFS_NAMESPACE_SETTINGS: import("@deepseek-ai/dsh-settings").SettingsNamespace;
 /** Cordis plugin name. */
 export declare const name = "dsh-control-center";
 export declare const inject: string[];
