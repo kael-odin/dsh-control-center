@@ -26,6 +26,20 @@ export interface DesktopDialogResult {
   error?: string
 }
 
+/** Native save dialog result (mirrors Electron `dialog.showSaveDialog`). */
+export interface DesktopSaveDialogResult {
+  ok: boolean
+  canceled?: boolean
+  filePath?: string
+  error?: string
+}
+
+/** Native file write result: confined to save-dialog picks. */
+export interface DesktopFileWriteResult {
+  ok: boolean
+  error?: string
+}
+
 /** Native file read result: content as base64, confined to native-dialog picks. */
 export interface DesktopFileReadResult {
   ok: boolean
@@ -76,7 +90,9 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
       adjustZoom(delta: number, reset: boolean): Promise<TypertEnvelope<DesktopZoomResult>>
       relaunch(): Promise<TypertEnvelope<{ ok: boolean; error?: string }>>
       pickFile(properties: readonly string[]): Promise<TypertEnvelope<DesktopDialogResult>>
+      pickSaveFile(defaultPath: string): Promise<TypertEnvelope<DesktopSaveDialogResult>>
       readFile(path: string): Promise<TypertEnvelope<DesktopFileReadResult>>
+      writeFile(path: string, contentBase64: string): Promise<TypertEnvelope<DesktopFileWriteResult>>
       notify(title: string, body: string): Promise<TypertEnvelope<DesktopNotifyResult>>
     }
   }

@@ -4933,14 +4933,27 @@ const usageRemote = {
 * settings namespaces as one JSON snapshot (credentials stay in the DSH
 * credentials store and are never part of the export).
 */
+/**
+* Every settings namespace the Control Center plugin owns — the full backup
+* surface. Credentials stay in the DSH credentials store and are never part of
+* an export.
+*/
 const DATA_NAMESPACES = [
-	settingsNamespace("control-center-providers"),
-	settingsNamespace("control-center-repos"),
-	settingsNamespace("control-center-skills"),
-	settingsNamespace("control-center-mcp"),
-	settingsNamespace("control-center-websearch"),
-	settingsNamespace("control-center-file-processing")
-];
+	"control-center-providers",
+	"control-center-provider-stash",
+	"control-center-repos",
+	"control-center-skills",
+	"control-center-mcp",
+	"control-center-websearch",
+	"control-center-file-processing",
+	"control-center-model-prefs",
+	"control-center-translation",
+	"control-center-channels",
+	"control-center-tasks",
+	"control-center-local-models",
+	"control-center-appearance",
+	"control-center-notifications"
+].map((name) => settingsNamespace(name));
 var DataService = class extends Service {
 	static inject = ["settings"];
 	typertRemote = bindTypertRemote(this, "controlCenterData");
@@ -5850,10 +5863,33 @@ var DesktopService = class extends Service {
 			error: BRIDGE_UNAVAILABLE
 		} : result;
 	}
+	async pickSaveFile(defaultPath) {
+		const result = await this.bridgeFetch("/dsh-native/saveFileDialog", {
+			method: "POST",
+			body: { defaultPath }
+		}, 6e4);
+		return result === void 0 ? {
+			ok: false,
+			error: BRIDGE_UNAVAILABLE
+		} : result;
+	}
 	async readFile(path) {
 		const result = await this.bridgeFetch("/dsh-native/readFile", {
 			method: "POST",
 			body: { path }
+		}, 6e4);
+		return result === void 0 ? {
+			ok: false,
+			error: BRIDGE_UNAVAILABLE
+		} : result;
+	}
+	async writeFile(path, contentBase64) {
+		const result = await this.bridgeFetch("/dsh-native/writeFile", {
+			method: "POST",
+			body: {
+				path,
+				contentBase64
+			}
 		}, 6e4);
 		return result === void 0 ? {
 			ok: false,
@@ -5906,8 +5942,16 @@ const desktopRemote = {
 			parameters: ["properties"]
 		},
 		{
+			method: "pickSaveFile",
+			parameters: ["defaultPath"]
+		},
+		{
 			method: "readFile",
 			parameters: ["path"]
+		},
+		{
+			method: "writeFile",
+			parameters: ["path", "contentBase64"]
 		},
 		{
 			method: "notify",

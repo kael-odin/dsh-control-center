@@ -17,7 +17,7 @@
  */
 import { Service } from '@deepseek-ai/cordis';
 import type { Context } from '@deepseek-ai/cordis';
-import type { DesktopDialogResult, DesktopFileReadResult, DesktopFontsResult, DesktopMenuResult, DesktopNotifyResult, DesktopStatus, DesktopZoomResult } from './desktop-types.ts';
+import type { DesktopDialogResult, DesktopFileReadResult, DesktopFileWriteResult, DesktopFontsResult, DesktopMenuResult, DesktopNotifyResult, DesktopSaveDialogResult, DesktopStatus, DesktopZoomResult } from './desktop-types.ts';
 export declare class DesktopService extends Service {
     static inject: readonly [];
     readonly typertRemote: import("@deepseek-ai/dsh-typert-protocol").TypertGatewayBinding<this>;
@@ -43,7 +43,9 @@ export declare class DesktopService extends Service {
         error?: string;
     }>;
     pickFile(properties: readonly string[]): Promise<DesktopDialogResult>;
+    pickSaveFile(defaultPath: string): Promise<DesktopSaveDialogResult>;
     readFile(path: string): Promise<DesktopFileReadResult>;
+    writeFile(path: string, contentBase64: string): Promise<DesktopFileWriteResult>;
     notify(title: string, body: string): Promise<DesktopNotifyResult>;
     [Symbol.dispose](): void;
 }

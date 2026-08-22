@@ -52,7 +52,7 @@
 | 个人 | 通用 | `/settings/general` | `general`（GeneralSection） | T1 | 🚧 原生（DSH 拥有） |
 | 个人 | 外观 | `/settings/appearance` | `appearance`（AppearanceSection） | T1 | ✅ 权威设置已对齐 |
 | 个人 | 通知 | `/settings/notifications` | `notifications`（NotificationSection） | T1 | ✅ 真实 |
-| 个人 | 数据管理 | `/settings/data` | `data`（DataSection） | T1 | 🔶 真实，覆盖面窄（无 WebDAV/第三方） |
+| 个人 | 数据管理 | `/settings/data` | `data`（DataSection） | T1 | ✅ 全命名空间快照导出/导入/清空 + **桌面本地备份/恢复**（保存对话框→受限写入；桥只能碰用户刚选的文件）；WebDAV/S3/第三方笔记诚实标注"当前平台不支持" |
 | 个人 | 用量 | `/settings/usage` | `usage`（UsageSection） | T1 | ✅ 真实（真实记录 tokens） |
 | 自动化 | 频道 | `/settings/channels` | `channels`（ChannelsSection） | T2 | 🔶 Telegram 端到端真实可用：长轮询接收 + **允许会话校验 + 默认模型自动回复（sendMessage 回传）** + 实时状态/日志；其余五平台协议待接（QQ/微信/Discord/Slack/飞书各自协议栈不同，逐个接入）|
 | 自动化 | 定时任务 | `/settings/scheduled-tasks` | `tasks`（TasksSection） | T2 | ✅ controlCenterTasks + host scheduler |
@@ -195,8 +195,11 @@ control-center 现状：✅ NotificationSection.tsx + notification-runtime.ts（
 ### 3.8 数据管理 Data
 
 Cherry 参照：`.../DataSettings/`（BackupPopup / RestorePopup / ImportPopup / ClearCachePopup / WebDavSettings / S3Settings / NutstoreSettings / LocalBackupSettings / MarkdownExportSettings / NotionSettings / ObsidianSettings / JoplinSettings / SiyuanSettings / YuqueSettings / ExportMenuSettings / ImportMenuSettings / legacyV1BrowserData）
-control-center 现状：🔶 DataSection.tsx（导出/导入/清除 control-center 数据；凭据留在 DSH credentials）。
-待办：先补齐"本地备份/恢复、Markdown 导出"；WebDAV/S3/第三方笔记（Notion/Obsidian/Joplin/Siyuan/Yuque）**诚实标注"当前平台不支持"**（或按需做成 DSH 服务）。
+control-center 现状：✅ DataSection.tsx——
+- **快照覆盖全部 14 个 Control Center 命名空间**（providers/stash/repos/skills/mcp/websearch/file-processing/model-prefs/translation/channels/tasks/local-models/appearance/notifications；凭据始终留在 DSH credentials）
+- **本地备份（桌面桥）**：`pickSaveFile` 保存对话框 → `writeFile` 写入快照；恢复走 `pickFile`+`readFile`。桥端写入与读取同样受"仅限刚在对话框选择的路径"约束，无法触碰任意文件
+- 浏览器快照导出/导入照旧（web 无桌面桥时的同格式回退）
+- WebDAV / S3 / 坚果云 / Notion / Obsidian / Joplin / 思源 / 语雀：诚实标注"当前平台不支持"（无对应 DSH 服务，不渲染假开关）
 
 ### 3.9 用量 Usage
 

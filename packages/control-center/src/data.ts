@@ -10,14 +10,27 @@ import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
 import { settingsNamespace } from '@deepseek-ai/dsh-settings'
 import { readFileSync, writeFileSync } from 'node:fs'
 
+/**
+ * Every settings namespace the Control Center plugin owns — the full backup
+ * surface. Credentials stay in the DSH credentials store and are never part of
+ * an export.
+ */
 export const DATA_NAMESPACES = [
-  settingsNamespace('control-center-providers'),
-  settingsNamespace('control-center-repos'),
-  settingsNamespace('control-center-skills'),
-  settingsNamespace('control-center-mcp'),
-  settingsNamespace('control-center-websearch'),
-  settingsNamespace('control-center-file-processing'),
-] as const
+  'control-center-providers',
+  'control-center-provider-stash',
+  'control-center-repos',
+  'control-center-skills',
+  'control-center-mcp',
+  'control-center-websearch',
+  'control-center-file-processing',
+  'control-center-model-prefs',
+  'control-center-translation',
+  'control-center-channels',
+  'control-center-tasks',
+  'control-center-local-models',
+  'control-center-appearance',
+  'control-center-notifications',
+].map(name => settingsNamespace(name))
 
 export interface DataExport {
   version: 1

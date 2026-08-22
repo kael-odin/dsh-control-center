@@ -5,7 +5,12 @@
  */
 import { Service } from '@deepseek-ai/cordis';
 import type { Context } from '@deepseek-ai/cordis';
-export declare const DATA_NAMESPACES: readonly [import("@deepseek-ai/dsh-settings").SettingsNamespace, import("@deepseek-ai/dsh-settings").SettingsNamespace, import("@deepseek-ai/dsh-settings").SettingsNamespace, import("@deepseek-ai/dsh-settings").SettingsNamespace, import("@deepseek-ai/dsh-settings").SettingsNamespace, import("@deepseek-ai/dsh-settings").SettingsNamespace];
+/**
+ * Every settings namespace the Control Center plugin owns — the full backup
+ * surface. Credentials stay in the DSH credentials store and are never part of
+ * an export.
+ */
+export declare const DATA_NAMESPACES: import("@deepseek-ai/dsh-settings").SettingsNamespace[];
 export interface DataExport {
     version: 1;
     exportedAt: string;

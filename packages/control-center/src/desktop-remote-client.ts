@@ -8,7 +8,9 @@ const methods: ReadonlyArray<{ method: string; parameters: string[] }> = [
   { method: 'adjustZoom', parameters: ['delta', 'reset'] },
   { method: 'relaunch', parameters: [] },
   { method: 'pickFile', parameters: ['properties'] },
+  { method: 'pickSaveFile', parameters: ['defaultPath'] },
   { method: 'readFile', parameters: ['path'] },
+  { method: 'writeFile', parameters: ['path', 'contentBase64'] },
   { method: 'notify', parameters: ['title', 'body'] },
 ]
 

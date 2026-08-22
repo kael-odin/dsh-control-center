@@ -22,9 +22,11 @@ import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
 import type {
   DesktopDialogResult,
   DesktopFileReadResult,
+  DesktopFileWriteResult,
   DesktopFontsResult,
   DesktopMenuResult,
   DesktopNotifyResult,
+  DesktopSaveDialogResult,
   DesktopStatus,
   DesktopZoomResult,
 } from './desktop-types.ts'
@@ -134,8 +136,26 @@ export class DesktopService extends Service {
     return result === undefined ? { ok: false, error: BRIDGE_UNAVAILABLE } : result
   }
 
+  async pickSaveFile(defaultPath: string): Promise<DesktopSaveDialogResult> {
+    const result = await this.bridgeFetch<DesktopSaveDialogResult>(
+      '/dsh-native/saveFileDialog',
+      { method: 'POST', body: { defaultPath } },
+      60000,
+    )
+    return result === undefined ? { ok: false, error: BRIDGE_UNAVAILABLE } : result
+  }
+
   async readFile(path: string): Promise<DesktopFileReadResult> {
     const result = await this.bridgeFetch<DesktopFileReadResult>('/dsh-native/readFile', { method: 'POST', body: { path } }, 60000)
+    return result === undefined ? { ok: false, error: BRIDGE_UNAVAILABLE } : result
+  }
+
+  async writeFile(path: string, contentBase64: string): Promise<DesktopFileWriteResult> {
+    const result = await this.bridgeFetch<DesktopFileWriteResult>(
+      '/dsh-native/writeFile',
+      { method: 'POST', body: { path, contentBase64 } },
+      60000,
+    )
     return result === undefined ? { ok: false, error: BRIDGE_UNAVAILABLE } : result
   }
 

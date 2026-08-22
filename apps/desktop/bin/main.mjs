@@ -234,9 +234,23 @@ function startNativeService() {
           lastPickedPaths = result.filePaths || []
           return send(200, { ok: true, canceled: result.canceled, filePaths: result.filePaths })
         }
+        if (req.method === 'POST' && url.pathname === '/dsh-native/saveFileDialog') {
+          const raw = await readBody(req)
+          const opts = typeof raw?.defaultPath === 'string' ? { defaultPath: raw.defaultPath } : {}
+          const result = await dialog.showSaveDialog(mainWindow, opts)
+          // Record what the user just chose; writeFile will be confined to this.
+          lastPickedPaths = result.canceled || !result.filePath ? [] : [result.filePath]
+          return send(200, { ok: true, canceled: result.canceled, filePath: result.filePath || undefined })
+        }
         if (req.method === 'POST' && url.pathname === '/dsh-native/readFile') {
           const raw = await readBody(req)
           return readPickedFile(raw && raw.path)
+            .then((r) => send(200, r))
+            .catch((err) => send(500, { ok: false, error: String((err && err.message) || err) }))
+        }
+        if (req.method === 'POST' && url.pathname === '/dsh-native/writeFile') {
+          const raw = await readBody(req)
+          return writeGrantedFile(raw && raw.path, raw && typeof raw.contentBase64 === 'string' ? raw.contentBase64 : '')
             .then((r) => send(200, r))
             .catch((err) => send(500, { ok: false, error: String((err && err.message) || err) }))
         }
@@ -367,6 +381,28 @@ function readPickedFile(path) {
       }
       const buf = readFileSync(path)
       resolveBody({ ok: true, name, contentBase64: buf.toString('base64'), mediaType: guessMediaType(name) })
+    } catch (err) {
+      resolveBody({ ok: false, error: String((err && err.message) || err) })
+    }
+  })
+}
+
+/**
+ * Write base64 content to a path the user just chose in the native SAVE dialog.
+ * Confined to `lastPickedPaths` exactly like {@link readPickedFile}, so the
+ * token-protected bridge cannot write arbitrary local files.
+ * @param path - the absolute path to write (must be a recent save-dialog pick).
+ * @param contentBase64 - UTF-8 bytes of the file, base64-encoded.
+ * @returns `{ ok: true }` or an error result.
+ */
+function writeGrantedFile(path, contentBase64) {
+  if (typeof path !== 'string' || !lastPickedPaths.includes(path)) {
+    return Promise.resolve({ ok: false, error: 'path not granted by the native dialog' })
+  }
+  return new Promise((resolveBody) => {
+    try {
+      writeFileSync(path, Buffer.from(contentBase64, 'base64'))
+      resolveBody({ ok: true })
     } catch (err) {
       resolveBody({ ok: false, error: String((err && err.message) || err) })
     }
