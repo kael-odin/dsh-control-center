@@ -5104,6 +5104,12 @@ function assertSecretSchemaSafe(namespace, schema) {
 const ONBOARDING_SETTINGS_NAMESPACE = "ui-onboarding";
 const NOTIFICATION_SETTINGS_NAMESPACE = "control-center-notifications";
 const APPEARANCE_SETTINGS_NAMESPACE = "control-center-appearance";
+/**
+* Profiles of providers disabled from the Model Services page live here while
+* their `llm-pi-ai` route is unset, so a re-enable restores them verbatim.
+*/
+const PROVIDER_STASH_NAMESPACE = settingsNamespace("control-center-provider-stash");
+const PROVIDER_STASH_SCHEMA = Schema.object({ providers: Schema.dict(Schema.any()).default({}) });
 const AppearanceSettingsSchema = Schema.object({
 	colorPrimary: Schema.string().default("#00b96b"),
 	fontFamily: Schema.string().default(""),
@@ -5170,6 +5176,7 @@ function apply(ctx) {
 	ctx.settings.register(settingsNamespace(ONBOARDING_SETTINGS_NAMESPACE), OnboardingSettingsSchema);
 	ctx.settings.register(settingsNamespace(NOTIFICATION_SETTINGS_NAMESPACE), NotificationSettingsSchema);
 	ctx.settings.register(settingsNamespace(APPEARANCE_SETTINGS_NAMESPACE), AppearanceSettingsSchema);
+	ctx.settings.register(PROVIDER_STASH_NAMESPACE, PROVIDER_STASH_SCHEMA);
 }
 //#endregion
 export { DataService, DesktopService, FileProcessingService, KnowledgeService, LocalModelsService, McpService, PaintingService, ProvidersService, SkillsService, SystemService, TasksService, TranslationService, UpdateService, UsageService, WebSearchService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, cronMatches, inject, name };

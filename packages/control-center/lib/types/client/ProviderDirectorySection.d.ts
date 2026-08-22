@@ -1,11 +1,13 @@
 /**
  * Model Services section — the Cherry-parity two-pane provider directory.
  *
- * Left pane: the static 61-preset Cherry catalog (grouped 国内/国际/本地) plus
- * every provider the host `llm` directory already knows (pi-ai catalog routes
- * and user-declared ones, grouped 自定义), with search and a persisted
- * selection. Right pane: the selected provider's editor, seeded from the
- * preset so a fresh pick is one key away from a complete profile.
+ * Left pane: the static 61-preset Cherry catalog plus every provider the host
+ * `llm` directory already knows (pi-ai catalog routes and user-declared ones),
+ * rendered flat exactly like Cherry's list — brand avatar, name, enabled dot —
+ * with search and a persisted selection. Right pane: the selected provider's
+ * header (avatar, name, real enable Switch) above an always-expanded editor
+ * seeded from the preset, so a fresh pick is one key away from a complete
+ * profile.
  *
  * The catalog is deliberately client-side, not registered into the host
  * directory: the harness's `llm-pi-ai` adapter already owns ~37 routes and
@@ -15,6 +17,12 @@
  * `settings.yaml` `llm-pi-ai:` section writes — the DSH preset method and this
  * surface are the same storage, so they cannot conflict. Configured state is
  * joined from `llm.providers()` and is always real.
+ *
+ * The enable Switch is honest by construction: disabling moves the live
+ * profile into the `control-center-provider-stash` namespace before unsetting
+ * it (the adapter genuinely stops serving the route), and enabling writes the
+ * stashed profile back. Nothing pretends to disable while the route still
+ * serves.
  */
 import type { ReactNode } from 'react';
 import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client';
@@ -24,17 +32,17 @@ import { type ProviderIdentity } from './ModelsSection.tsx';
 import type { ModelsSettingsState, ModelsSettingsStore, ProviderRow } from './store.ts';
 import type { SettingsSchemaOperations } from './schema-operations.ts';
 import type { en } from './locales.ts';
+/** Where a disabled provider's full profile waits for its re-enable. */
+export declare const STASH_NS = "control-center-provider-stash";
 /** One left-pane entry: a Cherry preset or a host-known provider. */
 interface DirectoryEntry {
     /** Provider route id. */
     provider: string;
     /** Human-facing name (Cherry name for presets, the directory's otherwise). */
     displayName: string;
-    /** Left-pane grouping. */
-    group: 'domestic' | 'international' | 'local' | 'custom';
     /** The preset behind this entry, when it is a Cherry preset. */
     preset?: ProviderPreset;
-    /** The host directory row for this route, when it is configured. */
+    /** The host directory row for this route, when it is currently live. */
     row?: ProviderRow;
 }
 /** Injected dependencies of {@link ProviderDirectorySection}. */

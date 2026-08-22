@@ -43,6 +43,17 @@ export interface ProviderEditorProps {
         api?: string;
     };
     /**
+     * Render as an always-expanded Cherry-style panel: the base URL, protocol,
+     * and model list stand visible instead of folded behind 自定义设置. The
+     * Model Services page sets this; the compact Models page keeps the fold.
+     */
+    panelStyle?: boolean;
+    /**
+     * Offer the 检测 action beside the key field: a real endpoint interrogation
+     * through `llm.discoverModels`, reporting model count and latency.
+     */
+    showCheck?: boolean;
+    /**
      * Whether the adapter reports this route as hand-declared — absent from its
      * installed catalog. Such a route carries its own wire protocol, chosen when
      * it was created and editable here for the same reason; a catalog route's

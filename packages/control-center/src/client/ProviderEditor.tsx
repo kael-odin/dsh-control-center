@@ -57,6 +57,17 @@ export interface ProviderEditorProps {
    */
   defaults?: { baseURL?: string; api?: string }
   /**
+   * Render as an always-expanded Cherry-style panel: the base URL, protocol,
+   * and model list stand visible instead of folded behind 自定义设置. The
+   * Model Services page sets this; the compact Models page keeps the fold.
+   */
+  panelStyle?: boolean
+  /**
+   * Offer the 检测 action beside the key field: a real endpoint interrogation
+   * through `llm.discoverModels`, reporting model count and latency.
+   */
+  showCheck?: boolean
+  /**
    * Whether the adapter reports this route as hand-declared — absent from its
    * installed catalog. Such a route carries its own wire protocol, chosen when
    * it was created and editable here for the same reason; a catalog route's
@@ -178,6 +189,9 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
   const [keyState, setKeyState] = useState<CredentialView | undefined>(undefined)
   const [busy, setBusy] = useState(false)
   const [failure, setFailure] = useState<string | undefined>(undefined)
+  const [showKey, setShowKey] = useState(false)
+  const [checking, setChecking] = useState(false)
+  const [checkResult, setCheckResult] = useState<{ ok: boolean; text: string } | undefined>(undefined)
   // A settings success advances both retry baselines immediately. Keeping the
   // derived fields in the draft prevents a pushed namespace refresh from
   // turning them into deletions when the following credential write is retried.
@@ -260,6 +274,40 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
     ...probeApi === undefined ? {} : { api: probeApi },
     ...keyValue.length === 0 ? {} : { apiKey: keyValue },
   }
+  /**
+   * The 检测 action: interrogate the endpoint the form currently shows, exactly
+   * as a fetch would, and report what came back without adopting anything. A
+   * shipped catalog route answers from the adapter's registry; every other
+   * route is a real wire probe carrying the typed key (or the stored one the
+   * adapter resolves for its own route). Either way the reply is evidence.
+   */
+  const runCheck = async (): Promise<void> => {
+    setChecking(true)
+    setCheckResult(undefined)
+    const startedAt = Date.now()
+    try {
+      const response = await api.llm.discoverModels(probe)
+      if (!response.result.ok) {
+        setCheckResult({ ok: false, text: response.result.error.message })
+        return
+      }
+      const ms = Math.max(1, Date.now() - startedAt)
+      const count = String(response.result.value.models.length)
+      setCheckResult({ ok: true, text: t('checkSuccess').replace('{count}', count).replace('{ms}', String(ms)) })
+    } catch (error) {
+      setCheckResult({ ok: false, text: messageOf(error) })
+    } finally {
+      setChecking(false)
+    }
+  }
+  /** The request URL the current protocol would hit, shown under the base-URL
+   * field the way Cherry previews its Anthropic endpoint. */
+  const endpointPreview = (() => {
+    const base = probeBaseURL ?? props.defaults?.baseURL
+    if (base === undefined || base.length === 0) return undefined
+    const trimmed = base.replace(/\/+$/, '')
+    return probeApi === 'anthropic-messages' ? `${trimmed}/v1/messages` : `${trimmed}/chat/completions`
+  })()
   /**
    * The write for this card, or a failure message. Every edit travels as
    * path ops against the STORED section: the draft comes from the redacted
@@ -390,112 +438,181 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
       },
       onReset: () => { setDraft(current => deletePath(current, ['models']) as Record<string, unknown>) },
     }
-    return (
-      <>
-        <div className={styles['field']}>
-          <span className={styles['fieldLabel']}>{t('keyInput')}</span>
-          <input
-            className={styles['input']}
-            type="password"
-            autoComplete="off"
-            value={keyDraft}
-            placeholder={keyPlaceholder}
-            aria-label={t('keyInput')}
-            aria-invalid={shownKeyFailure !== undefined}
-            required={props.credentialRequired === true}
-            autoFocus={props.autoFocusCredential === true}
-            disabled={disabled || keyLocked}
-            onChange={(event) => { setKeyDraft(event.target.value) }}
-          />
-          {shownKeyFailure === undefined ? null : <p className={styles['error']}>{t(shownKeyFailure)}</p>}
+    const keyField = (
+      <div className={styles['field']}>
+        <span className={styles['fieldLabel']}>{t('keyInput')}</span>
+        <div className={styles['inputRow']}>
+          <div className={styles['inputGroup']}>
+            <input
+              className={styles['input']}
+              type={showKey ? 'text' : 'password'}
+              autoComplete="off"
+              value={keyDraft}
+              placeholder={keyPlaceholder}
+              aria-label={t('keyInput')}
+              aria-invalid={shownKeyFailure !== undefined}
+              required={props.credentialRequired === true}
+              autoFocus={props.autoFocusCredential === true}
+              disabled={disabled || keyLocked}
+              onChange={(event) => { setKeyDraft(event.target.value) }}
+            />
+            <button
+              type="button"
+              className={styles['eyeButton']}
+              aria-label={showKey ? t('hideKey') : t('showKey')}
+              title={showKey ? t('hideKey') : t('showKey')}
+              disabled={disabled || keyLocked}
+              onClick={() => { setShowKey(value => !value) }}
+            >
+              {showKey
+                ? (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+                    <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+                    <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+                    <line x1="2" x2="22" y1="2" y2="22" />
+                  </svg>
+                )
+                : (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                )}
+            </button>
+          </div>
+          {props.showCheck === true
+            ? (
+              <button
+                type="button"
+                className={styles['checkButton']}
+                disabled={disabled || checking || probeBaseURL === undefined && props.defaults?.baseURL === undefined}
+                onClick={() => { void runCheck() }}
+              >
+                {checking ? t('checking') : t('checkConnection')}
+              </button>
+            )
+            : null}
         </div>
-        {props.credentialOnly === true ? null : <details className={styles['customized']}>
-          <summary className={styles['customizedSummary']}>{t('customized')}</summary>
-          <div className={styles['customizedBody']}>
-            {/* The name and the protocol are the create card's two remaining
-                profile fields; a route the adapter ships defaults both from
-                its catalog entry and neither belongs on its card. */}
-            {ownsIdentity
-              ? (
-                <div className={styles['field']}>
-                  <span className={styles['fieldLabel']}>{t('customDisplayName')}</span>
-                  <input
-                    className={styles['input']}
-                    type="text"
-                    value={stringAt(draft, 'displayName') ?? ''}
-                    // What this route is called the moment the field is
-                    // cleared, which is the layer beneath the one this field
-                    // edits: a `cordis.yml` may pin a name for a route the
-                    // catalog does not ship, and only when nothing does is
-                    // the answer the route id. Reading the effective value
-                    // instead would echo the stored override back as the
-                    // thing clearing restores.
-                    placeholder={stringAt(getPath(namespace.base, [...settingsPath]), 'displayName')
-                      ?? props.provider}
-                    aria-label={t('customDisplayName')}
-                    disabled={disabled}
-                    onChange={(event) => { setField('displayName', event.target.value) }}
-                  />
-                </div>
-              )
-              : null}
+        {shownKeyFailure === undefined ? null : <p className={styles['error']}>{t(shownKeyFailure)}</p>}
+        {checkResult === undefined
+          ? null
+          : (
+            <p
+              className={`${styles['checkResult']} ${checkResult.ok ? styles['checkResultOk'] : styles['checkResultFail']}`}
+              role="status"
+            >
+              {checkResult.ok ? checkResult.text : `${t('checkFailed')}: ${checkResult.text}`}
+            </p>
+          )}
+      </div>
+    )
+    /** The profile fields past the credential: identity, endpoint, catalog. */
+    const panelBody = (
+      <>
+        {/* The name and the protocol are the create card's two remaining
+            profile fields; a route the adapter ships defaults both from
+            its catalog entry and neither belongs on its card. */}
+        {ownsIdentity
+          ? (
             <div className={styles['field']}>
-              <span className={styles['fieldLabel']}>{t('baseUrl')}</span>
+              <span className={styles['fieldLabel']}>{t('customDisplayName')}</span>
               <input
                 className={styles['input']}
                 type="text"
-                value={stringAt(draft, 'baseURL') ?? ''}
-                placeholder={family === 'deepseek'
-                  ? DEEPSEEK_PUBLIC_BASE_URL
-                  : stringAt(fallback, 'baseURL') ?? t('baseUrlDefault')}
-                aria-label={t('baseUrl')}
+                value={stringAt(draft, 'displayName') ?? ''}
+                // What this route is called the moment the field is
+                // cleared, which is the layer beneath the one this field
+                // edits: a `cordis.yml` may pin a name for a route the
+                // catalog does not ship, and only when nothing does is
+                // the answer the route id. Reading the effective value
+                // instead would echo the stored override back as the
+                // thing clearing restores.
+                placeholder={stringAt(getPath(namespace.base, [...settingsPath]), 'displayName')
+                  ?? props.provider}
+                aria-label={t('customDisplayName')}
                 disabled={disabled}
-                onChange={(event) => {
-                  setField('baseURL', event.target.value === '' ? undefined : event.target.value)
-                }}
+                onChange={(event) => { setField('displayName', event.target.value) }}
               />
             </div>
-            {/* The protocol sits beside the endpoint it describes, as it does
-                on the create card. */}
-            {ownsIdentity
-              ? (
-                <div className={styles['field']}>
-                  <span className={styles['fieldLabel']}>{t('customApi')}</span>
-                  <select
-                    className={`${styles['input']} ${styles['selectInput']}`}
-                    value={probeApi ?? ''}
-                    aria-label={t('customApi')}
-                    disabled={disabled}
-                    onChange={(event) => { setField('api', event.target.value) }}
-                  >
-                    {/* A profile naming no protocol — hand-written into
-                        settings.yaml with no model to need one — selects
-                        nothing rather than reading as if it had picked the
-                        first choice. The option is named because a screen
-                        reader announces it either way, and an empty one is
-                        announced as a choice with no identity. */}
-                    {probeApi === undefined ? <option value="">{t('customApiUnset')}</option> : null}
-                    {protocols.map(choice => <option key={choice} value={choice}>{choice}</option>)}
-                  </select>
-                </div>
-              )
-              : null}
-            {/* Both families edit the same rows through the same contract; only
-                the extras differ — DeepSeek's inherited capacities, pi-ai's
-                endpoint interrogation. */}
-            {family === 'deepseek'
-              ? (
-                <DeepSeekModelsEditor
-                  {...catalogProps}
-                  defaultContextWindow={typeof defaultContextWindow === 'number'
-                    ? defaultContextWindow
-                    : undefined}
-                  defaultMaxTokens={typeof defaultMaxTokens === 'number' ? defaultMaxTokens : undefined}
-                />
-              )
-              : <ModelListEditor {...catalogProps} probe={probe} probeBlocked={keyFailure} api={api} />}
-          </div>
-        </details>}
+          )
+          : null}
+        <div className={styles['field']}>
+          <span className={styles['fieldLabel']}>{t('baseUrl')}</span>
+          <input
+            className={`${styles['input']} ${styles['monoInput']}`}
+            type="text"
+            value={stringAt(draft, 'baseURL') ?? ''}
+            placeholder={family === 'deepseek'
+              ? DEEPSEEK_PUBLIC_BASE_URL
+              : stringAt(fallback, 'baseURL') ?? props.defaults?.baseURL ?? t('baseUrlDefault')}
+            aria-label={t('baseUrl')}
+            disabled={disabled}
+            onChange={(event) => {
+              setField('baseURL', event.target.value === '' ? undefined : event.target.value)
+            }}
+          />
+          {endpointPreview === undefined
+            ? null
+            : (
+              <p className={styles['endpointPreview']} title={endpointPreview}>
+                {t('endpointPreview').replace('{url}', endpointPreview)}
+              </p>
+            )}
+        </div>
+        {/* The protocol sits beside the endpoint it describes, as it does
+            on the create card. */}
+        {ownsIdentity
+          ? (
+            <div className={styles['field']}>
+              <span className={styles['fieldLabel']}>{t('customApi')}</span>
+              <select
+                className={`${styles['input']} ${styles['selectInput']}`}
+                value={probeApi ?? ''}
+                aria-label={t('customApi')}
+                disabled={disabled}
+                onChange={(event) => { setField('api', event.target.value) }}
+              >
+                {/* A profile naming no protocol — hand-written into
+                    settings.yaml with no model to need one — selects
+                    nothing rather than reading as if it had picked the
+                    first choice. The option is named because a screen
+                    reader announces it either way, and an empty one is
+                    announced as a choice with no identity. */}
+                {probeApi === undefined ? <option value="">{t('customApiUnset')}</option> : null}
+                {protocols.map(choice => <option key={choice} value={choice}>{choice}</option>)}
+              </select>
+            </div>
+          )
+          : null}
+        {/* Both families edit the same rows through the same contract; only
+            the extras differ — DeepSeek's inherited capacities, pi-ai's
+            endpoint interrogation. */}
+        {family === 'deepseek'
+          ? (
+            <DeepSeekModelsEditor
+              {...catalogProps}
+              defaultContextWindow={typeof defaultContextWindow === 'number'
+                ? defaultContextWindow
+                : undefined}
+              defaultMaxTokens={typeof defaultMaxTokens === 'number' ? defaultMaxTokens : undefined}
+            />
+          )
+          : <ModelListEditor {...catalogProps} probe={probe} probeBlocked={keyFailure} api={api} />}
+      </>
+    )
+    if (props.panelStyle === true || props.credentialOnly === true) {
+      return props.credentialOnly === true
+        ? keyField
+        : <div className={styles['panelBody']}>{keyField}{panelBody}</div>
+    }
+    return (
+      <>
+        {keyField}
+        <details className={styles['customized']}>
+          <summary className={styles['customizedSummary']}>{t('customized')}</summary>
+          <div className={styles['customizedBody']}>{panelBody}</div>
+        </details>
       </>
     )
   }

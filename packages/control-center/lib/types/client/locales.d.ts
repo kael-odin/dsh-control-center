@@ -119,6 +119,19 @@ export declare const en: {
     inactiveProvider: string;
     presetIamNote: string;
     presetProtocolNote: string;
+    showKey: string;
+    hideKey: string;
+    checkConnection: string;
+    checking: string;
+    checkSuccess: string;
+    checkFailed: string;
+    endpointPreview: string;
+    searchModels: string;
+    enableProvider: string;
+    disableProvider: string;
+    enableNeedsProfile: string;
+    toggleFailed: string;
+    providerDisabled: string;
 };
 /** The settings.models namespace key union. */
 export type ModelsKey = keyof typeof en;

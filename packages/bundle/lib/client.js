@@ -319,112 +319,112 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var PaintingWorkspace_module_css_default = {
-			"stripHeader": "_-UrTq_stripHeader",
-			"centerStage": "_-UrTq_centerStage",
-			"pillSummary": "_-UrTq_pillSummary",
-			"sendButton": "_-UrTq_sendButton",
-			"dialogActions": "_-UrTq_dialogActions",
-			"portalPanel": "_-UrTq_portalPanel",
-			"promptLibEmpty": "_-UrTq_promptLibEmpty",
-			"btn": "_-UrTq_btn",
-			"manageRowBtn": "_-UrTq_manageRowBtn",
-			"countInput": "_-UrTq_countInput",
-			"toolbarButton": "_-UrTq_toolbarButton",
-			"frame": "_-UrTq_frame",
-			"strip": "_-UrTq_strip",
-			"attachmentTray": "_-UrTq_attachmentTray",
-			"muted": "_-UrTq_muted",
-			"showcaseCarousel": "_-UrTq_showcaseCarousel",
-			"thumb": "_-UrTq_thumb",
-			"modelPill": "_-UrTq_modelPill",
-			"paramsPopover": "_-UrTq_paramsPopover",
-			"skeletonCell": "_-UrTq_skeletonCell",
-			"promptLibList": "_-UrTq_promptLibList",
-			"promptLibFooter": "_-UrTq_promptLibFooter",
-			"toolbarDivider": "_-UrTq_toolbarDivider",
-			"manageRowTitle": "_-UrTq_manageRowTitle",
-			"carouselCard": "_-UrTq_carouselCard",
-			"addPromptCard": "_-UrTq_addPromptCard",
-			"pillButton": "_-UrTq_pillButton",
-			"promptDockInner": "_-UrTq_promptDockInner",
-			"promptDock": "_-UrTq_promptDock",
-			"paramsField": "_-UrTq_paramsField",
-			"backButton": "_-UrTq_backButton",
-			"stripDelete": "_-UrTq_stripDelete",
-			"promptLibTitle": "_-UrTq_promptLibTitle",
-			"active": "_-UrTq_active",
-			"addPromptInput": "_-UrTq_addPromptInput",
-			"stripProgress": "_-UrTq_stripProgress",
-			"showcaseTitle": "_-UrTq_showcaseTitle",
-			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
-			"promptBarText": "_-UrTq_promptBarText",
-			"artboard": "_-UrTq_artboard",
-			"errorBanner": "_-UrTq_errorBanner",
-			"manageRow": "_-UrTq_manageRow",
-			"sizeLabel": "_-UrTq_sizeLabel",
-			"manageRowActions": "_-UrTq_manageRowActions",
-			"stripItem": "_-UrTq_stripItem",
-			"newButton": "_-UrTq_newButton",
-			"sizeGrid": "_-UrTq_sizeGrid",
-			"countRow": "_-UrTq_countRow",
-			"promptBar": "_-UrTq_promptBar",
-			"counterPill": "_-UrTq_counterPill",
-			"quickItemIcon": "_-UrTq_quickItemIcon",
-			"composerTextarea": "_-UrTq_composerTextarea",
-			"ratioThumb": "_-UrTq_ratioThumb",
-			"cc-strip-loading": "_-UrTq_cc-strip-loading",
-			"showcase": "_-UrTq_showcase",
-			"hidden": "_-UrTq_hidden",
-			"selected": "_-UrTq_selected",
-			"root": "_-UrTq_root",
-			"stripEnd": "_-UrTq_stripEnd",
-			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
-			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
-			"sizeChip": "_-UrTq_sizeChip",
-			"artboardEmpty": "_-UrTq_artboardEmpty",
-			"promptLib": "_-UrTq_promptLib",
-			"promptLibItemMain": "_-UrTq_promptLibItemMain",
-			"showcaseInner": "_-UrTq_showcaseInner",
-			"thumbEmpty": "_-UrTq_thumbEmpty",
-			"roundButton": "_-UrTq_roundButton",
-			"countSlider": "_-UrTq_countSlider",
-			"centerPane": "_-UrTq_centerPane",
 			"chevron": "_-UrTq_chevron",
-			"promptLibContent": "_-UrTq_promptLibContent",
-			"skeletonGrid": "_-UrTq_skeletonGrid",
-			"artboardStage": "_-UrTq_artboardStage",
-			"cc-cell-blink": "_-UrTq_cc-cell-blink",
-			"quickItem": "_-UrTq_quickItem",
-			"addPromptOverlay": "_-UrTq_addPromptOverlay",
-			"addPromptTextarea": "_-UrTq_addPromptTextarea",
-			"btnPrimary": "_-UrTq_btnPrimary",
-			"composer": "_-UrTq_composer",
-			"manageCard": "_-UrTq_manageCard",
-			"imageBox": "_-UrTq_imageBox",
 			"attachmentTile": "_-UrTq_attachmentTile",
-			"pauseButton": "_-UrTq_pauseButton",
-			"composerTextRow": "_-UrTq_composerTextRow",
-			"addImageButton": "_-UrTq_addImageButton",
-			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
-			"carouselCardImage": "_-UrTq_carouselCardImage",
-			"addPromptField": "_-UrTq_addPromptField",
-			"surface": "_-UrTq_surface",
-			"manageList": "_-UrTq_manageList",
-			"dragging": "_-UrTq_dragging",
+			"countInput": "_-UrTq_countInput",
+			"showcase": "_-UrTq_showcase",
 			"progressText": "_-UrTq_progressText",
-			"promptLibItem": "_-UrTq_promptLibItem",
-			"carouselLabel": "_-UrTq_carouselLabel",
-			"manageRowMain": "_-UrTq_manageRowMain",
-			"manageRowBtnDanger": "_-UrTq_manageRowBtnDanger",
-			"attachmentDelete": "_-UrTq_attachmentDelete",
-			"promptLibDelete": "_-UrTq_promptLibDelete",
-			"composerToolbar": "_-UrTq_composerToolbar",
-			"showcaseCaption": "_-UrTq_showcaseCaption",
-			"toolbarRail": "_-UrTq_toolbarRail",
 			"quickPanel": "_-UrTq_quickPanel",
 			"quickItemLabel": "_-UrTq_quickItemLabel",
+			"promptLibContent": "_-UrTq_promptLibContent",
+			"manageRowMain": "_-UrTq_manageRowMain",
+			"dragging": "_-UrTq_dragging",
+			"composerTextRow": "_-UrTq_composerTextRow",
+			"promptLibFooter": "_-UrTq_promptLibFooter",
+			"manageRowBtn": "_-UrTq_manageRowBtn",
+			"addPromptField": "_-UrTq_addPromptField",
+			"errorBanner": "_-UrTq_errorBanner",
+			"imageBox": "_-UrTq_imageBox",
+			"modelPill": "_-UrTq_modelPill",
+			"stripProgress": "_-UrTq_stripProgress",
+			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
+			"cc-cell-blink": "_-UrTq_cc-cell-blink",
+			"pillButton": "_-UrTq_pillButton",
+			"pillSummary": "_-UrTq_pillSummary",
+			"showcaseCaption": "_-UrTq_showcaseCaption",
+			"promptLibDelete": "_-UrTq_promptLibDelete",
+			"sizeLabel": "_-UrTq_sizeLabel",
+			"artboardEmpty": "_-UrTq_artboardEmpty",
+			"manageList": "_-UrTq_manageList",
+			"carouselCardImage": "_-UrTq_carouselCardImage",
+			"stripHeader": "_-UrTq_stripHeader",
+			"composer": "_-UrTq_composer",
+			"countRow": "_-UrTq_countRow",
+			"stripEnd": "_-UrTq_stripEnd",
+			"active": "_-UrTq_active",
+			"attachmentDelete": "_-UrTq_attachmentDelete",
+			"toolbarRail": "_-UrTq_toolbarRail",
+			"manageRowTitle": "_-UrTq_manageRowTitle",
+			"pauseButton": "_-UrTq_pauseButton",
+			"promptBar": "_-UrTq_promptBar",
+			"promptLibEmpty": "_-UrTq_promptLibEmpty",
+			"promptDock": "_-UrTq_promptDock",
+			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
+			"manageRowActions": "_-UrTq_manageRowActions",
+			"paramsField": "_-UrTq_paramsField",
+			"showcaseCarousel": "_-UrTq_showcaseCarousel",
+			"promptLibItemMain": "_-UrTq_promptLibItemMain",
+			"newButton": "_-UrTq_newButton",
+			"carouselCard": "_-UrTq_carouselCard",
+			"frame": "_-UrTq_frame",
+			"stripDelete": "_-UrTq_stripDelete",
+			"dialogActions": "_-UrTq_dialogActions",
+			"promptLibTitle": "_-UrTq_promptLibTitle",
+			"artboardStage": "_-UrTq_artboardStage",
+			"toolbarDivider": "_-UrTq_toolbarDivider",
+			"addPromptInput": "_-UrTq_addPromptInput",
+			"btnPrimary": "_-UrTq_btnPrimary",
+			"ratioThumb": "_-UrTq_ratioThumb",
+			"portalPanel": "_-UrTq_portalPanel",
+			"stripItem": "_-UrTq_stripItem",
+			"muted": "_-UrTq_muted",
+			"manageCard": "_-UrTq_manageCard",
+			"carouselLabel": "_-UrTq_carouselLabel",
+			"paramsPopover": "_-UrTq_paramsPopover",
+			"quickItemIcon": "_-UrTq_quickItemIcon",
+			"surface": "_-UrTq_surface",
+			"roundButton": "_-UrTq_roundButton",
+			"thumbEmpty": "_-UrTq_thumbEmpty",
+			"promptLibItem": "_-UrTq_promptLibItem",
+			"manageRowBtnDanger": "_-UrTq_manageRowBtnDanger",
+			"showcaseInner": "_-UrTq_showcaseInner",
+			"skeletonCell": "_-UrTq_skeletonCell",
+			"showcaseTitle": "_-UrTq_showcaseTitle",
+			"root": "_-UrTq_root",
+			"promptBarText": "_-UrTq_promptBarText",
+			"counterPill": "_-UrTq_counterPill",
+			"centerPane": "_-UrTq_centerPane",
+			"sizeChip": "_-UrTq_sizeChip",
+			"centerStage": "_-UrTq_centerStage",
+			"quickItem": "_-UrTq_quickItem",
+			"composerTextarea": "_-UrTq_composerTextarea",
+			"composerToolbar": "_-UrTq_composerToolbar",
+			"promptLib": "_-UrTq_promptLib",
+			"promptLibList": "_-UrTq_promptLibList",
+			"sendButton": "_-UrTq_sendButton",
+			"sizeGrid": "_-UrTq_sizeGrid",
+			"skeletonGrid": "_-UrTq_skeletonGrid",
+			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
+			"addPromptTextarea": "_-UrTq_addPromptTextarea",
+			"btn": "_-UrTq_btn",
+			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
+			"backButton": "_-UrTq_backButton",
+			"paramsSelect": "_-UrTq_paramsSelect",
+			"hidden": "_-UrTq_hidden",
+			"toolbarButton": "_-UrTq_toolbarButton",
 			"manageRowContent": "_-UrTq_manageRowContent",
-			"paramsSelect": "_-UrTq_paramsSelect"
+			"selected": "_-UrTq_selected",
+			"countSlider": "_-UrTq_countSlider",
+			"strip": "_-UrTq_strip",
+			"thumb": "_-UrTq_thumb",
+			"promptDockInner": "_-UrTq_promptDockInner",
+			"cc-strip-loading": "_-UrTq_cc-strip-loading",
+			"attachmentTray": "_-UrTq_attachmentTray",
+			"artboard": "_-UrTq_artboard",
+			"addImageButton": "_-UrTq_addImageButton",
+			"addPromptOverlay": "_-UrTq_addPromptOverlay",
+			"addPromptCard": "_-UrTq_addPromptCard",
+			"manageRow": "_-UrTq_manageRow"
 		};
 		//#endregion
 		//#region lib/types/client/painting-icons.js
@@ -706,7 +706,7 @@ window.__ModuleLoader__.load({
 			children: (0, react_jsx_runtime.jsx)("path", { d: "M9 18l6-6-6-6" })
 		});
 		/** Plus glyph. */
-		const IconPlus = (props) => (0, react_jsx_runtime.jsxs)("svg", {
+		const IconPlus$1 = (props) => (0, react_jsx_runtime.jsxs)("svg", {
 			...base(props),
 			children: [(0, react_jsx_runtime.jsx)("path", { d: "M12 5v14" }), (0, react_jsx_runtime.jsx)("path", { d: "M5 12h14" })]
 		});
@@ -731,7 +731,7 @@ window.__ModuleLoader__.load({
 			...base(props),
 			children: (0, react_jsx_runtime.jsx)("path", { d: "M17.5 19H9a7 7 0 1 1 6.7-9h1.8a4.5 4.5 0 1 1 0 9z" })
 		});
-		const IconSearch = (props) => (0, react_jsx_runtime.jsxs)("svg", {
+		const IconSearch$1 = (props) => (0, react_jsx_runtime.jsxs)("svg", {
 			...base(props),
 			children: [(0, react_jsx_runtime.jsx)("circle", {
 				cx: "11",
@@ -1155,27 +1155,27 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var Combobox_module_css_default = {
-			"empty": "PJZ1pG_empty",
-			"footerButton": "PJZ1pG_footerButton",
-			"trigger": "PJZ1pG_trigger",
-			"optionLabel": "PJZ1pG_optionLabel",
-			"groupTitle": "PJZ1pG_groupTitle",
-			"option": "PJZ1pG_option",
-			"optionSub": "PJZ1pG_optionSub",
-			"optionText": "PJZ1pG_optionText",
-			"searchInput": "PJZ1pG_searchInput",
-			"triggerLabel": "PJZ1pG_triggerLabel",
-			"optionActive": "PJZ1pG_optionActive",
-			"footer": "PJZ1pG_footer",
-			"optionIcon": "PJZ1pG_optionIcon",
-			"group": "PJZ1pG_group",
-			"triggerIcon": "PJZ1pG_triggerIcon",
-			"searchWrap": "PJZ1pG_searchWrap",
-			"popoverPortal": "PJZ1pG_popoverPortal",
-			"triggerChevron": "PJZ1pG_triggerChevron",
-			"searchIcon": "PJZ1pG_searchIcon",
 			"list": "PJZ1pG_list",
-			"root": "PJZ1pG_root"
+			"optionText": "PJZ1pG_optionText",
+			"footerButton": "PJZ1pG_footerButton",
+			"optionActive": "PJZ1pG_optionActive",
+			"triggerLabel": "PJZ1pG_triggerLabel",
+			"optionLabel": "PJZ1pG_optionLabel",
+			"group": "PJZ1pG_group",
+			"optionIcon": "PJZ1pG_optionIcon",
+			"searchWrap": "PJZ1pG_searchWrap",
+			"footer": "PJZ1pG_footer",
+			"searchIcon": "PJZ1pG_searchIcon",
+			"trigger": "PJZ1pG_trigger",
+			"groupTitle": "PJZ1pG_groupTitle",
+			"popoverPortal": "PJZ1pG_popoverPortal",
+			"empty": "PJZ1pG_empty",
+			"searchInput": "PJZ1pG_searchInput",
+			"triggerChevron": "PJZ1pG_triggerChevron",
+			"option": "PJZ1pG_option",
+			"root": "PJZ1pG_root",
+			"triggerIcon": "PJZ1pG_triggerIcon",
+			"optionSub": "PJZ1pG_optionSub"
 		};
 		//#endregion
 		//#region lib/types/client/Combobox.js
@@ -2357,7 +2357,7 @@ window.__ModuleLoader__.load({
 				label: model.label,
 				sublabel: model.providerName,
 				group: model.providerId,
-				icon: (0, react_jsx_runtime.jsx)(ProviderAvatar, {
+				icon: (0, react_jsx_runtime.jsx)(ProviderAvatar$1, {
 					id: model.providerId,
 					name: model.providerName
 				})
@@ -2388,7 +2388,7 @@ window.__ModuleLoader__.load({
 				};
 			});
 		}
-		function ProviderAvatar({ id, name, size = 22 }) {
+		function ProviderAvatar$1({ id, name, size = 22 }) {
 			const glyph = providerIconSvg(id, size);
 			if (glyph !== "") return (0, react_jsx_runtime.jsx)("span", {
 				className: ModelSelector_module_css_default.avatar,
@@ -2564,7 +2564,7 @@ window.__ModuleLoader__.load({
 								onClick: () => {
 									fileRef.current?.click();
 								},
-								children: (0, react_jsx_runtime.jsx)(IconPlus, { size: 18 })
+								children: (0, react_jsx_runtime.jsx)(IconPlus$1, { size: 18 })
 							}),
 							(0, react_jsx_runtime.jsx)("input", {
 								ref: fileRef,
@@ -3359,115 +3359,115 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TranslationWorkspace_module_css_default = {
-			"panelBody": "_8lesPa_panelBody",
-			"rowTarget": "_8lesPa_rowTarget",
-			"on": "_8lesPa_on",
-			"chipTarget": "_8lesPa_chipTarget",
-			"starFill": "_8lesPa_starFill",
-			"chipArrow": "_8lesPa_chipArrow",
-			"cc-spin": "_8lesPa_cc-spin",
 			"reuse": "_8lesPa_reuse",
-			"settingHint": "_8lesPa_settingHint",
-			"langSelectWrap": "_8lesPa_langSelectWrap",
-			"outputArea": "_8lesPa_outputArea",
-			"settingsSection": "_8lesPa_settingsSection",
-			"switchRow": "_8lesPa_switchRow",
-			"langName": "_8lesPa_langName",
-			"smallIconBtn": "_8lesPa_smallIconBtn",
-			"langForm": "_8lesPa_langForm",
-			"pane": "_8lesPa_pane",
-			"langFormLabel": "_8lesPa_langFormLabel",
-			"settingsTextarea": "_8lesPa_settingsTextarea",
-			"detailBlock": "_8lesPa_detailBlock",
-			"panelHeader": "_8lesPa_panelHeader",
-			"historyEmpty": "_8lesPa_historyEmpty",
-			"langSelect": "_8lesPa_langSelect",
-			"langInput": "_8lesPa_langInput",
-			"confirmText": "_8lesPa_confirmText",
-			"panelTitle": "_8lesPa_panelTitle",
-			"detailActions": "_8lesPa_detailActions",
-			"confirmTitle": "_8lesPa_confirmTitle",
-			"pairRow": "_8lesPa_pairRow",
-			"segmented": "_8lesPa_segmented",
-			"confirmActions": "_8lesPa_confirmActions",
-			"inputArea": "_8lesPa_inputArea",
-			"root": "_8lesPa_root",
-			"uploadZone": "_8lesPa_uploadZone",
-			"helpIcon": "_8lesPa_helpIcon",
-			"helpBubble": "_8lesPa_helpBubble",
 			"destructive": "_8lesPa_destructive",
-			"count": "_8lesPa_count",
-			"uploadIcon": "_8lesPa_uploadIcon",
-			"settingsEmpty": "_8lesPa_settingsEmpty",
-			"panelBodyScroll": "_8lesPa_panelBodyScroll",
-			"langChevron": "_8lesPa_langChevron",
-			"settingRow": "_8lesPa_settingRow",
-			"modelSelectWrap": "_8lesPa_modelSelectWrap",
-			"textareaScroll": "_8lesPa_textareaScroll",
-			"langFormActions": "_8lesPa_langFormActions",
-			"md": "_8lesPa_md",
-			"detailBlockLabel": "_8lesPa_detailBlockLabel",
-			"langRow": "_8lesPa_langRow",
-			"confirmOverlay": "_8lesPa_confirmOverlay",
-			"resetLink": "_8lesPa_resetLink",
-			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
-			"cc-fade": "_8lesPa_cc-fade",
-			"copy": "_8lesPa_copy",
-			"pairChip": "_8lesPa_pairChip",
-			"loadMore": "_8lesPa_loadMore",
-			"langFormRow": "_8lesPa_langFormRow",
-			"panes": "_8lesPa_panes",
-			"clearBtn": "_8lesPa_clearBtn",
-			"detailBlockHeader": "_8lesPa_detailBlockHeader",
-			"detailText": "_8lesPa_detailText",
-			"chip": "_8lesPa_chip",
-			"backButton": "_8lesPa_backButton",
+			"modelSelect": "_8lesPa_modelSelect",
+			"iconBtn": "_8lesPa_iconBtn",
+			"on": "_8lesPa_on",
+			"helpIcon": "_8lesPa_helpIcon",
+			"panelTitle": "_8lesPa_panelTitle",
 			"detailMeta": "_8lesPa_detailMeta",
-			"settingLabel": "_8lesPa_settingLabel",
-			"langCode": "_8lesPa_langCode",
-			"switchTrack": "_8lesPa_switchTrack",
-			"btn": "_8lesPa_btn",
-			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
-			"segItem": "_8lesPa_segItem",
+			"confirmCard": "_8lesPa_confirmCard",
+			"backdrop": "_8lesPa_backdrop",
+			"langChevron": "_8lesPa_langChevron",
+			"sidePanel": "_8lesPa_sidePanel",
+			"visible": "_8lesPa_visible",
+			"settingRow": "_8lesPa_settingRow",
+			"langFormRow": "_8lesPa_langFormRow",
+			"confirmTitle": "_8lesPa_confirmTitle",
+			"langSelectWrap": "_8lesPa_langSelectWrap",
 			"btnPrimary": "_8lesPa_btnPrimary",
+			"uploadIcons": "_8lesPa_uploadIcons",
+			"langAdd": "_8lesPa_langAdd",
+			"paneCorner": "_8lesPa_paneCorner",
+			"langForm": "_8lesPa_langForm",
+			"segItem": "_8lesPa_segItem",
+			"btn": "_8lesPa_btn",
 			"langFormError": "_8lesPa_langFormError",
-			"topBar": "_8lesPa_topBar",
-			"swapBtn": "_8lesPa_swapBtn",
-			"outputPane": "_8lesPa_outputPane",
-			"paneFooter": "_8lesPa_paneFooter",
-			"historyRow": "_8lesPa_historyRow",
+			"errorBanner": "_8lesPa_errorBanner",
+			"detailActions": "_8lesPa_detailActions",
 			"rowSource": "_8lesPa_rowSource",
+			"switch": "_8lesPa_switch",
+			"langName": "_8lesPa_langName",
+			"starFill": "_8lesPa_starFill",
+			"helpBubble": "_8lesPa_helpBubble",
+			"swapBtn": "_8lesPa_swapBtn",
+			"langInput": "_8lesPa_langInput",
+			"settingsSection": "_8lesPa_settingsSection",
+			"detailText": "_8lesPa_detailText",
+			"sectionTitle": "_8lesPa_sectionTitle",
+			"confirmOverlay": "_8lesPa_confirmOverlay",
+			"langCode": "_8lesPa_langCode",
+			"stopBtn": "_8lesPa_stopBtn",
+			"settingHint": "_8lesPa_settingHint",
+			"segmented": "_8lesPa_segmented",
+			"settingsTextarea": "_8lesPa_settingsTextarea",
+			"historyRowMeta": "_8lesPa_historyRowMeta",
+			"textareaScroll": "_8lesPa_textareaScroll",
+			"detailBlockHeader": "_8lesPa_detailBlockHeader",
+			"panelHeader": "_8lesPa_panelHeader",
+			"historyRow": "_8lesPa_historyRow",
+			"outputArea": "_8lesPa_outputArea",
+			"success": "_8lesPa_success",
+			"backButton": "_8lesPa_backButton",
+			"detailBlockLabel": "_8lesPa_detailBlockLabel",
+			"rightCluster": "_8lesPa_rightCluster",
+			"chipArrow": "_8lesPa_chipArrow",
+			"loadMore": "_8lesPa_loadMore",
+			"historyEmpty": "_8lesPa_historyEmpty",
+			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
+			"chip": "_8lesPa_chip",
+			"rowTarget": "_8lesPa_rowTarget",
+			"switchRow": "_8lesPa_switchRow",
+			"starBtn": "_8lesPa_starBtn",
+			"switchTrack": "_8lesPa_switchTrack",
+			"resetLink": "_8lesPa_resetLink",
+			"panelBodyScroll": "_8lesPa_panelBodyScroll",
+			"countBadge": "_8lesPa_countBadge",
+			"confirmActions": "_8lesPa_confirmActions",
 			"translating": "_8lesPa_translating",
+			"uploadZone": "_8lesPa_uploadZone",
+			"smallIconBtn": "_8lesPa_smallIconBtn",
+			"helpWrap": "_8lesPa_helpWrap",
+			"langFormLabel": "_8lesPa_langFormLabel",
+			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
+			"count": "_8lesPa_count",
+			"detailBlockTarget": "_8lesPa_detailBlockTarget",
+			"inputArea": "_8lesPa_inputArea",
+			"spacer": "_8lesPa_spacer",
+			"panelBody": "_8lesPa_panelBody",
+			"historyList": "_8lesPa_historyList",
 			"rowTime": "_8lesPa_rowTime",
 			"detailAction": "_8lesPa_detailAction",
-			"switch": "_8lesPa_switch",
-			"paneCorner": "_8lesPa_paneCorner",
+			"copy": "_8lesPa_copy",
 			"spinner": "_8lesPa_spinner",
-			"langAdd": "_8lesPa_langAdd",
-			"countBadge": "_8lesPa_countBadge",
-			"historyList": "_8lesPa_historyList",
-			"confirmCard": "_8lesPa_confirmCard",
-			"helpWrap": "_8lesPa_helpWrap",
-			"historyRowMeta": "_8lesPa_historyRowMeta",
-			"langRowActions": "_8lesPa_langRowActions",
-			"success": "_8lesPa_success",
-			"cc-slide-in": "_8lesPa_cc-slide-in",
-			"iconBtn": "_8lesPa_iconBtn",
-			"modelSelect": "_8lesPa_modelSelect",
-			"detailBack": "_8lesPa_detailBack",
-			"sidePanel": "_8lesPa_sidePanel",
-			"errorBanner": "_8lesPa_errorBanner",
-			"detailBlockTarget": "_8lesPa_detailBlockTarget",
-			"uploadIcons": "_8lesPa_uploadIcons",
+			"detailBlock": "_8lesPa_detailBlock",
+			"langRow": "_8lesPa_langRow",
 			"active": "_8lesPa_active",
-			"backdrop": "_8lesPa_backdrop",
+			"cc-spin": "_8lesPa_cc-spin",
+			"root": "_8lesPa_root",
+			"clearBtn": "_8lesPa_clearBtn",
+			"langSelect": "_8lesPa_langSelect",
+			"topBar": "_8lesPa_topBar",
+			"pane": "_8lesPa_pane",
+			"md": "_8lesPa_md",
+			"langRowActions": "_8lesPa_langRowActions",
+			"cc-fade": "_8lesPa_cc-fade",
+			"chipTarget": "_8lesPa_chipTarget",
+			"langFormActions": "_8lesPa_langFormActions",
+			"settingLabel": "_8lesPa_settingLabel",
+			"pairRow": "_8lesPa_pairRow",
+			"confirmText": "_8lesPa_confirmText",
+			"modelSelectWrap": "_8lesPa_modelSelectWrap",
+			"panes": "_8lesPa_panes",
+			"uploadIcon": "_8lesPa_uploadIcon",
+			"settingsEmpty": "_8lesPa_settingsEmpty",
+			"pairChip": "_8lesPa_pairChip",
+			"paneFooter": "_8lesPa_paneFooter",
+			"cc-slide-in": "_8lesPa_cc-slide-in",
 			"translateBtn": "_8lesPa_translateBtn",
-			"starBtn": "_8lesPa_starBtn",
-			"sectionTitle": "_8lesPa_sectionTitle",
-			"visible": "_8lesPa_visible",
-			"spacer": "_8lesPa_spacer",
-			"stopBtn": "_8lesPa_stopBtn",
-			"rightCluster": "_8lesPa_rightCluster"
+			"outputPane": "_8lesPa_outputPane",
+			"detailBack": "_8lesPa_detailBack"
 		};
 		//#endregion
 		//#region lib/types/client/panel-ui.js
@@ -4159,103 +4159,103 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var KnowledgeWorkspace_module_css_default = {
-			"statusSpinner": "uHDY1a_statusSpinner",
-			"dialogActions": "uHDY1a_dialogActions",
-			"statusIndexing": "uHDY1a_statusIndexing",
-			"statusFailed": "uHDY1a_statusFailed",
-			"btnPrimary": "uHDY1a_btnPrimary",
-			"ragSelect": "uHDY1a_ragSelect",
-			"recallChunkIndex": "uHDY1a_recallChunkIndex",
-			"recallRank": "uHDY1a_recallRank",
-			"ragNumber": "uHDY1a_ragNumber",
-			"cc-spin": "uHDY1a_cc-spin",
-			"detailHeaderActions": "uHDY1a_detailHeaderActions",
-			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
-			"recallScore": "uHDY1a_recallScore",
-			"ragSliderRow": "uHDY1a_ragSliderRow",
-			"navRow": "uHDY1a_navRow",
-			"detailEmpty": "uHDY1a_detailEmpty",
-			"statusReady": "uHDY1a_statusReady",
-			"recallInputWrap": "uHDY1a_recallInputWrap",
-			"dataHeader": "uHDY1a_dataHeader",
-			"navigator": "uHDY1a_navigator",
-			"dataPanel": "uHDY1a_dataPanel",
-			"navEmpty": "uHDY1a_navEmpty",
-			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
-			"recallSource": "uHDY1a_recallSource",
-			"recallCard": "uHDY1a_recallCard",
-			"dialogOverlay": "uHDY1a_dialogOverlay",
-			"ragFieldRow": "uHDY1a_ragFieldRow",
-			"dialogSelect": "uHDY1a_dialogSelect",
-			"recallSummary": "uHDY1a_recallSummary",
-			"ragFooter": "uHDY1a_ragFooter",
-			"menuPopover": "uHDY1a_menuPopover",
-			"dialogCard": "uHDY1a_dialogCard",
-			"recallCopy": "uHDY1a_recallCopy",
-			"sourceType": "uHDY1a_sourceType",
-			"ragBody": "uHDY1a_ragBody",
-			"ragSelectWrap": "uHDY1a_ragSelectWrap",
-			"statusBadge": "uHDY1a_statusBadge",
-			"sourceTypeCards": "uHDY1a_sourceTypeCards",
-			"advancedToggle": "uHDY1a_advancedToggle",
-			"detailHeader": "uHDY1a_detailHeader",
-			"advancedChevronOpen": "uHDY1a_advancedChevronOpen",
-			"detailEmptyTitle": "uHDY1a_detailEmptyTitle",
-			"recallSubmit": "uHDY1a_recallSubmit",
-			"dialogSliderRow": "uHDY1a_dialogSliderRow",
-			"dataHeaderActions": "uHDY1a_dataHeaderActions",
-			"advancedBody": "uHDY1a_advancedBody",
-			"notice": "uHDY1a_notice",
-			"recallResults": "uHDY1a_recallResults",
-			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
-			"ragSection": "uHDY1a_ragSection",
-			"ragTitle": "uHDY1a_ragTitle",
-			"dialogInput": "uHDY1a_dialogInput",
-			"gridRow": "uHDY1a_gridRow",
-			"dialogFieldRow": "uHDY1a_dialogFieldRow",
-			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
-			"navScroll": "uHDY1a_navScroll",
-			"ghostButton": "uHDY1a_ghostButton",
-			"navRowMenu": "uHDY1a_navRowMenu",
-			"gridHeader": "uHDY1a_gridHeader",
-			"recallCardHeader": "uHDY1a_recallCardHeader",
-			"detailEmptyHint": "uHDY1a_detailEmptyHint",
-			"gridScroll": "uHDY1a_gridScroll",
-			"sourceUpdated": "uHDY1a_sourceUpdated",
-			"success": "uHDY1a_success",
-			"indexButton": "uHDY1a_indexButton",
-			"dialogTextarea": "uHDY1a_dialogTextarea",
-			"sourceIcon": "uHDY1a_sourceIcon",
-			"destructive": "uHDY1a_destructive",
 			"addSourceButton": "uHDY1a_addSourceButton",
-			"sourceName": "uHDY1a_sourceName",
-			"sourceTypeCard": "uHDY1a_sourceTypeCard",
-			"menuItem": "uHDY1a_menuItem",
 			"recallBar": "uHDY1a_recallBar",
-			"btn": "uHDY1a_btn",
-			"ragHint": "uHDY1a_ragHint",
-			"split": "uHDY1a_split",
-			"dialogField": "uHDY1a_dialogField",
-			"ragField": "uHDY1a_ragField",
-			"navCreate": "uHDY1a_navCreate",
-			"sourcesEmpty": "uHDY1a_sourcesEmpty",
 			"clamped": "uHDY1a_clamped",
-			"navRowName": "uHDY1a_navRowName",
-			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
-			"recallInput": "uHDY1a_recallInput",
-			"active": "uHDY1a_active",
-			"ragReadonly": "uHDY1a_ragReadonly",
-			"detail": "uHDY1a_detail",
-			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
-			"root": "uHDY1a_root",
+			"dialogOverlay": "uHDY1a_dialogOverlay",
 			"recallEmpty": "uHDY1a_recallEmpty",
-			"dialogHint": "uHDY1a_dialogHint",
+			"ragBody": "uHDY1a_ragBody",
+			"advancedToggle": "uHDY1a_advancedToggle",
+			"statusFailed": "uHDY1a_statusFailed",
+			"active": "uHDY1a_active",
+			"statusBadge": "uHDY1a_statusBadge",
+			"recallSummary": "uHDY1a_recallSummary",
+			"rowMenu": "uHDY1a_rowMenu",
+			"sourceUpdated": "uHDY1a_sourceUpdated",
+			"ragReadonly": "uHDY1a_ragReadonly",
+			"recallCopy": "uHDY1a_recallCopy",
+			"navRowName": "uHDY1a_navRowName",
+			"sourceTypeCard": "uHDY1a_sourceTypeCard",
+			"dataHeader": "uHDY1a_dataHeader",
+			"navCreate": "uHDY1a_navCreate",
+			"dialogActions": "uHDY1a_dialogActions",
+			"detailEmptyTitle": "uHDY1a_detailEmptyTitle",
+			"notice": "uHDY1a_notice",
+			"ragNumber": "uHDY1a_ragNumber",
+			"ragField": "uHDY1a_ragField",
+			"sourceType": "uHDY1a_sourceType",
+			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
+			"ragFieldRow": "uHDY1a_ragFieldRow",
+			"recallBody": "uHDY1a_recallBody",
+			"dialogFieldRow": "uHDY1a_dialogFieldRow",
+			"statusSpinner": "uHDY1a_statusSpinner",
+			"dataPanel": "uHDY1a_dataPanel",
 			"errorBanner": "uHDY1a_errorBanner",
 			"ragSlider": "uHDY1a_ragSlider",
+			"ragSelect": "uHDY1a_ragSelect",
+			"dialogTextarea": "uHDY1a_dialogTextarea",
+			"detailHeader": "uHDY1a_detailHeader",
+			"navEmpty": "uHDY1a_navEmpty",
+			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
+			"dialogInput": "uHDY1a_dialogInput",
+			"recallScore": "uHDY1a_recallScore",
+			"ragTitle": "uHDY1a_ragTitle",
+			"navScroll": "uHDY1a_navScroll",
 			"ragNumberFull": "uHDY1a_ragNumberFull",
+			"menuItem": "uHDY1a_menuItem",
+			"recallSubmit": "uHDY1a_recallSubmit",
+			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
+			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
+			"recallSource": "uHDY1a_recallSource",
+			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
+			"ghostButton": "uHDY1a_ghostButton",
+			"ragHint": "uHDY1a_ragHint",
+			"recallRank": "uHDY1a_recallRank",
+			"recallCard": "uHDY1a_recallCard",
+			"navRow": "uHDY1a_navRow",
+			"gridHeader": "uHDY1a_gridHeader",
+			"sourceIcon": "uHDY1a_sourceIcon",
+			"detailHeaderActions": "uHDY1a_detailHeaderActions",
+			"ragSelectWrap": "uHDY1a_ragSelectWrap",
+			"sourceTypeCards": "uHDY1a_sourceTypeCards",
+			"dialogField": "uHDY1a_dialogField",
+			"dialogHint": "uHDY1a_dialogHint",
+			"detail": "uHDY1a_detail",
+			"advancedBody": "uHDY1a_advancedBody",
+			"btnPrimary": "uHDY1a_btnPrimary",
+			"root": "uHDY1a_root",
+			"navRowMenu": "uHDY1a_navRowMenu",
+			"sourcesEmpty": "uHDY1a_sourcesEmpty",
+			"recallInputWrap": "uHDY1a_recallInputWrap",
+			"statusReady": "uHDY1a_statusReady",
+			"detailEmptyHint": "uHDY1a_detailEmptyHint",
+			"dialogCard": "uHDY1a_dialogCard",
+			"success": "uHDY1a_success",
+			"recallInput": "uHDY1a_recallInput",
+			"ragSection": "uHDY1a_ragSection",
+			"gridRow": "uHDY1a_gridRow",
+			"gridScroll": "uHDY1a_gridScroll",
+			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
+			"ragSliderRow": "uHDY1a_ragSliderRow",
+			"btn": "uHDY1a_btn",
+			"ragFooter": "uHDY1a_ragFooter",
+			"dataHeaderActions": "uHDY1a_dataHeaderActions",
+			"cc-spin": "uHDY1a_cc-spin",
+			"menuPopover": "uHDY1a_menuPopover",
+			"recallResults": "uHDY1a_recallResults",
+			"navigator": "uHDY1a_navigator",
+			"detailEmpty": "uHDY1a_detailEmpty",
 			"ragLabel": "uHDY1a_ragLabel",
-			"rowMenu": "uHDY1a_rowMenu",
-			"recallBody": "uHDY1a_recallBody"
+			"split": "uHDY1a_split",
+			"statusIndexing": "uHDY1a_statusIndexing",
+			"recallChunkIndex": "uHDY1a_recallChunkIndex",
+			"dialogSelect": "uHDY1a_dialogSelect",
+			"destructive": "uHDY1a_destructive",
+			"dialogSliderRow": "uHDY1a_dialogSliderRow",
+			"advancedChevronOpen": "uHDY1a_advancedChevronOpen",
+			"recallCardHeader": "uHDY1a_recallCardHeader",
+			"indexButton": "uHDY1a_indexButton",
+			"sourceName": "uHDY1a_sourceName"
 		};
 		//#endregion
 		//#region lib/types/client/KnowledgeWorkspace.js
@@ -4828,7 +4828,7 @@ window.__ModuleLoader__.load({
 													onClick: () => {
 														setAddMenuOpen((open) => !open);
 													},
-													children: [(0, react_jsx_runtime.jsx)(IconPlus, { size: 12 }), (0, react_jsx_runtime.jsx)("span", { children: "添加数据源" })]
+													children: [(0, react_jsx_runtime.jsx)(IconPlus$1, { size: 12 }), (0, react_jsx_runtime.jsx)("span", { children: "添加数据源" })]
 												}), addMenuOpen && (0, react_jsx_runtime.jsx)("div", {
 													className: KnowledgeWorkspace_module_css_default.menuPopover,
 													style: {
@@ -5718,19 +5718,19 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SkillsSection_module_css_default = {
-			"cardHeader": "pyHmqW_cardHeader",
-			"cardMetaItem": "pyHmqW_cardMetaItem",
-			"cardFooter": "pyHmqW_cardFooter",
 			"cardActions": "pyHmqW_cardActions",
 			"cardDescription": "pyHmqW_cardDescription",
-			"cardTitle": "pyHmqW_cardTitle",
-			"searchRow": "pyHmqW_searchRow",
-			"tag": "pyHmqW_tag",
-			"searchInput": "pyHmqW_searchInput",
 			"card": "pyHmqW_card",
+			"cardTitle": "pyHmqW_cardTitle",
+			"cardMetaItem": "pyHmqW_cardMetaItem",
+			"cardTags": "pyHmqW_cardTags",
+			"searchRow": "pyHmqW_searchRow",
+			"searchInput": "pyHmqW_searchInput",
+			"cardHeader": "pyHmqW_cardHeader",
 			"cardMeta": "pyHmqW_cardMeta",
 			"grid": "pyHmqW_grid",
-			"cardTags": "pyHmqW_cardTags"
+			"tag": "pyHmqW_tag",
+			"cardFooter": "pyHmqW_cardFooter"
 		};
 		//#endregion
 		//#region lib/types/client/SkillsSection.js
@@ -6113,7 +6113,7 @@ window.__ModuleLoader__.load({
 		}
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\ModelsSection.module.css.mjs
-		const css$27 = ".tKsOKa_section{flex-direction:column;gap:16px;width:100%;max-width:768px;margin:0 auto;display:flex}.tKsOKa_title{color:var(--foreground);font-size:15px;font-weight:600}.tKsOKa_intro{color:var(--muted-foreground);margin-top:4px;font-size:14px}.tKsOKa_notice{border:1px solid var(--info-border);background:var(--info-subtle);color:var(--info-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.tKsOKa_savedNotice{border:1px solid var(--success-border);background:var(--success-subtle);color:var(--success-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.tKsOKa_error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;align-items:center;gap:8px;padding:8px 12px;font-size:13px;display:flex}.tKsOKa_rows{flex-direction:column;gap:8px;margin:0;padding:0;list-style:none;display:flex}.tKsOKa_rowCard{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;display:flex}.tKsOKa_rowHead{align-items:center;gap:10px;min-width:0;display:flex}.tKsOKa_rowIdentity{align-items:center;gap:8px;min-width:0;display:flex}.tKsOKa_rowName{color:var(--foreground);white-space:nowrap;text-overflow:ellipsis;font-size:14px;font-weight:500;overflow:hidden}.tKsOKa_rowTag{background:var(--muted);height:20px;color:var(--muted-foreground);border-radius:9999px;flex:none;align-items:center;padding:0 8px;font-size:12px;display:inline-flex}.tKsOKa_rowActions{flex:none;align-items:center;gap:8px;display:flex}.tKsOKa_credentialDot{border-radius:50%;flex:none;width:8px;height:8px}.tKsOKa_credentialDotConfigured{background:var(--success)}.tKsOKa_credentialDotMissing{background:var(--warning)}.tKsOKa_setupCard{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_addCard{border:1px dashed var(--border-strong);background:0 0;border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_addBlock{flex-direction:column;gap:12px;display:flex}.tKsOKa_addActions{align-items:center;gap:8px;display:flex}.tKsOKa_field{flex-direction:column;gap:6px;display:flex}.tKsOKa_fieldLabel{color:var(--foreground);font-size:13px;font-weight:500}.tKsOKa_input{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px}.tKsOKa_input:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.tKsOKa_selectInput{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 28px 0 10px;font-family:inherit;font-size:14px}.tKsOKa_selectInput:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.tKsOKa_addButton{background:var(--primary);height:32px;color:var(--primary-foreground);cursor:pointer;border:1px solid #0000;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_addButton:hover:not(:disabled){background:var(--cs-brand-600)}.tKsOKa_addButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_secondaryButton{border:1px solid var(--border-subtle);background:var(--secondary);height:32px;color:var(--secondary-foreground);cursor:pointer;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_secondaryButton:hover:not(:disabled){background:var(--secondary-hover)}.tKsOKa_secondaryButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_dangerButton{border:1px solid var(--error-border);height:32px;color:var(--destructive);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_dangerButton:hover{background:var(--error-subtle)}.tKsOKa_deleteDialog{background:var(--popover);border-radius:14px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_deleteConfirm{justify-content:flex-end;align-items:center;gap:8px;display:flex}";
+		const css$27 = ".tKsOKa_section{flex-direction:column;gap:16px;width:100%;max-width:768px;margin:0 auto;display:flex}.tKsOKa_title{color:var(--foreground);font-size:15px;font-weight:600}.tKsOKa_intro{color:var(--muted-foreground);margin-top:4px;font-size:14px}.tKsOKa_notice{border:1px solid var(--info-border);background:var(--info-subtle);color:var(--info-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.tKsOKa_savedNotice{border:1px solid var(--success-border);background:var(--success-subtle);color:var(--success-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.tKsOKa_error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;align-items:center;gap:8px;padding:8px 12px;font-size:13px;display:flex}.tKsOKa_rows{flex-direction:column;gap:8px;margin:0;padding:0;list-style:none;display:flex}.tKsOKa_rowCard{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;display:flex}.tKsOKa_rowHead{align-items:center;gap:10px;min-width:0;display:flex}.tKsOKa_rowIdentity{align-items:center;gap:8px;min-width:0;display:flex}.tKsOKa_rowName{color:var(--foreground);white-space:nowrap;text-overflow:ellipsis;font-size:14px;font-weight:500;overflow:hidden}.tKsOKa_rowTag{background:var(--muted);height:20px;color:var(--muted-foreground);border-radius:9999px;flex:none;align-items:center;padding:0 8px;font-size:12px;display:inline-flex}.tKsOKa_rowActions{flex:none;align-items:center;gap:8px;display:flex}.tKsOKa_credentialDot{border-radius:50%;flex:none;width:8px;height:8px}.tKsOKa_credentialDotConfigured{background:var(--success)}.tKsOKa_credentialDotMissing{background:var(--warning)}.tKsOKa_setupCard{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_addCard{border:1px dashed var(--border-strong);background:0 0;border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_addBlock{flex-direction:column;gap:12px;display:flex}.tKsOKa_addActions{align-items:center;gap:8px;display:flex}.tKsOKa_field{flex-direction:column;gap:6px;display:flex}.tKsOKa_fieldLabel{color:var(--foreground);font-size:13px;font-weight:500}.tKsOKa_input{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px}.tKsOKa_input:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.tKsOKa_selectInput{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 28px 0 10px;font-family:inherit;font-size:14px}.tKsOKa_selectInput:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.tKsOKa_addButton{background:var(--primary);height:32px;color:var(--primary-foreground);cursor:pointer;border:1px solid #0000;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_addButton:hover:not(:disabled){background:var(--cs-brand-600)}.tKsOKa_addButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_secondaryButton{border:1px solid var(--border-subtle);background:var(--secondary);height:32px;color:var(--secondary-foreground);cursor:pointer;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_secondaryButton:hover:not(:disabled){background:var(--secondary-hover)}.tKsOKa_secondaryButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_dangerButton{border:1px solid var(--error-border);height:32px;color:var(--destructive);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_dangerButton:hover{background:var(--error-subtle)}.tKsOKa_deleteDialog{background:var(--popover);border-radius:14px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_deleteConfirm{justify-content:flex-end;align-items:center;gap:8px;display:flex}.tKsOKa_inputRow{align-items:center;gap:8px;display:flex}.tKsOKa_inputGroup{flex:1;min-width:0;display:flex;position:relative}.tKsOKa_inputGroup .tKsOKa_input{font-variant-numeric:tabular-nums;padding-right:30px}.tKsOKa_monoInput{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.tKsOKa_eyeButton{width:22px;height:22px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;display:inline-flex;position:absolute;top:50%;right:6px;transform:translateY(-50%)}.tKsOKa_eyeButton:hover:not(:disabled){color:var(--foreground);background:color-mix(in srgb, var(--muted) 45%, transparent)}.tKsOKa_checkButton{border:1px solid var(--border-subtle);background:var(--card);height:32px;color:var(--foreground);cursor:pointer;border-radius:8px;flex:none;justify-content:center;align-items:center;padding:0 12px;font-family:inherit;font-size:13px;display:inline-flex}.tKsOKa_checkButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent)}.tKsOKa_checkButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_checkResult{overflow-wrap:anywhere;margin-top:2px;font-size:12px;line-height:1.4}.tKsOKa_checkResultOk{color:var(--success)}.tKsOKa_checkResultFail{color:var(--destructive)}.tKsOKa_endpointPreview{color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;margin-top:2px;font-size:12px;overflow:hidden}.tKsOKa_panelBody{flex-direction:column;gap:14px;display:flex}.tKsOKa_modelCatalog{flex-direction:column;gap:8px;display:flex}.tKsOKa_modelListHead{flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;min-height:28px;display:flex}.tKsOKa_modelCatalogHeading{align-items:center;gap:8px;min-width:0;display:flex}.tKsOKa_modelCatalogTitle{color:var(--foreground);font-size:14px;font-weight:600}.tKsOKa_modelCountBadge{background:color-mix(in srgb, var(--primary) 14%, transparent);height:16px;color:var(--primary);border-radius:9999px;align-items:center;padding:0 6px;font-size:11px;font-weight:600;line-height:1;display:inline-flex}.tKsOKa_modelCatalogMeta{color:var(--muted-foreground);font-size:12px}.tKsOKa_modelToolbarActions{flex-wrap:wrap;align-items:center;gap:6px;display:flex}.tKsOKa_linkButton{height:26px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;padding:0 4px;font-family:inherit;font-size:12px}.tKsOKa_linkButton:hover:not(:disabled){color:var(--foreground)}.tKsOKa_linkButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_iconButton{width:26px;height:26px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:7px;justify-content:center;align-items:center;display:inline-flex}.tKsOKa_iconButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent);color:var(--foreground)}.tKsOKa_iconButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_iconButtonDanger:hover:not(:disabled){color:var(--destructive)}.tKsOKa_fetchButton{border:1px solid var(--border-subtle);background:var(--card);height:28px;color:var(--foreground);cursor:pointer;border-radius:8px;align-items:center;gap:6px;padding:0 10px;font-family:inherit;font-size:12px;display:inline-flex}.tKsOKa_fetchButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent)}.tKsOKa_fetchButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_modelSearchInput{height:28px;font-size:13px}.tKsOKa_modelEmpty{border:1px dashed var(--border-subtle);color:var(--muted-foreground);border-radius:8px;padding:10px 12px;font-size:12px}.tKsOKa_modelList{flex-direction:column;gap:2px;display:flex}.tKsOKa_modelEntry{border-radius:8px;flex-direction:column;display:flex}.tKsOKa_modelEntry:hover{background:color-mix(in srgb, var(--muted) 25%, transparent)}.tKsOKa_modelRow{align-items:center;gap:6px;min-height:34px;padding:0 4px;display:flex}.tKsOKa_modelAvatar{background:color-mix(in srgb, var(--primary) 14%, transparent);width:22px;height:22px;color:var(--primary);border-radius:50%;flex:none;justify-content:center;align-items:center;font-size:11px;font-weight:600;display:inline-flex}.tKsOKa_modelIdInput{min-width:0;height:28px;color:var(--foreground);background:0 0;border:1px solid #0000;border-radius:6px;outline:none;flex:1;padding:0 6px;font-family:inherit;font-size:13px}.tKsOKa_modelIdInput:hover:not(:disabled){border-color:var(--border-subtle)}.tKsOKa_modelIdInput:focus-visible{border-color:var(--ring);background:var(--background)}.tKsOKa_modelIdInput::placeholder{color:var(--muted-foreground)}.tKsOKa_modelAdvanced{grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;padding:4px 4px 8px 36px;display:grid}.tKsOKa_modelField{flex-direction:column;gap:4px;display:flex}.tKsOKa_modelFieldLabel{color:var(--muted-foreground);font-size:11px}.tKsOKa_addModelButton{border:1px dashed var(--border-subtle);width:100%;height:30px;color:var(--muted-foreground);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;gap:6px;margin-top:4px;font-family:inherit;font-size:12px;display:inline-flex}.tKsOKa_addModelButton:hover:not(:disabled){color:var(--foreground);border-color:var(--border-strong)}.tKsOKa_candidateList{flex-direction:column;gap:2px;max-height:320px;margin:0;padding:0;list-style:none;display:flex;overflow-y:auto}.tKsOKa_candidateLabel{cursor:pointer;border-radius:6px;align-items:center;gap:8px;height:30px;padding:0 8px;font-size:13px;display:flex}.tKsOKa_candidateLabel:hover{background:var(--muted)}.tKsOKa_candidateId{white-space:nowrap;text-overflow:ellipsis;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;overflow:hidden}";
 		const tagId$27 = "@dsh-control-center/bundle/ModelsSection.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$27) + "]") === null) {
 			const tag = document.createElement("style");
@@ -6123,35 +6123,70 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelsSection_module_css_default = {
-			"addActions": "tKsOKa_addActions",
-			"title": "tKsOKa_title",
-			"addButton": "tKsOKa_addButton",
-			"field": "tKsOKa_field",
-			"dangerButton": "tKsOKa_dangerButton",
-			"rowTag": "tKsOKa_rowTag",
-			"addBlock": "tKsOKa_addBlock",
-			"selectInput": "tKsOKa_selectInput",
-			"rowIdentity": "tKsOKa_rowIdentity",
-			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
 			"intro": "tKsOKa_intro",
-			"section": "tKsOKa_section",
-			"rows": "tKsOKa_rows",
-			"rowName": "tKsOKa_rowName",
-			"rowActions": "tKsOKa_rowActions",
-			"fieldLabel": "tKsOKa_fieldLabel",
-			"secondaryButton": "tKsOKa_secondaryButton",
-			"rowCard": "tKsOKa_rowCard",
-			"deleteConfirm": "tKsOKa_deleteConfirm",
-			"credentialDot": "tKsOKa_credentialDot",
-			"addCard": "tKsOKa_addCard",
-			"notice": "tKsOKa_notice",
-			"error": "tKsOKa_error",
-			"input": "tKsOKa_input",
-			"savedNotice": "tKsOKa_savedNotice",
-			"rowHead": "tKsOKa_rowHead",
-			"credentialDotMissing": "tKsOKa_credentialDotMissing",
 			"setupCard": "tKsOKa_setupCard",
-			"deleteDialog": "tKsOKa_deleteDialog"
+			"modelRow": "tKsOKa_modelRow",
+			"modelAdvanced": "tKsOKa_modelAdvanced",
+			"candidateId": "tKsOKa_candidateId",
+			"modelListHead": "tKsOKa_modelListHead",
+			"modelAvatar": "tKsOKa_modelAvatar",
+			"secondaryButton": "tKsOKa_secondaryButton",
+			"rowName": "tKsOKa_rowName",
+			"addButton": "tKsOKa_addButton",
+			"inputRow": "tKsOKa_inputRow",
+			"rowActions": "tKsOKa_rowActions",
+			"dangerButton": "tKsOKa_dangerButton",
+			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"error": "tKsOKa_error",
+			"eyeButton": "tKsOKa_eyeButton",
+			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
+			"checkResultFail": "tKsOKa_checkResultFail",
+			"modelEmpty": "tKsOKa_modelEmpty",
+			"addBlock": "tKsOKa_addBlock",
+			"addModelButton": "tKsOKa_addModelButton",
+			"fieldLabel": "tKsOKa_fieldLabel",
+			"input": "tKsOKa_input",
+			"fetchButton": "tKsOKa_fetchButton",
+			"modelField": "tKsOKa_modelField",
+			"notice": "tKsOKa_notice",
+			"checkResultOk": "tKsOKa_checkResultOk",
+			"rowCard": "tKsOKa_rowCard",
+			"modelCountBadge": "tKsOKa_modelCountBadge",
+			"modelEntry": "tKsOKa_modelEntry",
+			"rowIdentity": "tKsOKa_rowIdentity",
+			"addActions": "tKsOKa_addActions",
+			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
+			"modelList": "tKsOKa_modelList",
+			"credentialDot": "tKsOKa_credentialDot",
+			"section": "tKsOKa_section",
+			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
+			"modelCatalog": "tKsOKa_modelCatalog",
+			"selectInput": "tKsOKa_selectInput",
+			"iconButtonDanger": "tKsOKa_iconButtonDanger",
+			"checkResult": "tKsOKa_checkResult",
+			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
+			"monoInput": "tKsOKa_monoInput",
+			"modelFieldLabel": "tKsOKa_modelFieldLabel",
+			"candidateList": "tKsOKa_candidateList",
+			"rowTag": "tKsOKa_rowTag",
+			"addCard": "tKsOKa_addCard",
+			"panelBody": "tKsOKa_panelBody",
+			"deleteConfirm": "tKsOKa_deleteConfirm",
+			"linkButton": "tKsOKa_linkButton",
+			"modelIdInput": "tKsOKa_modelIdInput",
+			"rows": "tKsOKa_rows",
+			"candidateLabel": "tKsOKa_candidateLabel",
+			"endpointPreview": "tKsOKa_endpointPreview",
+			"modelSearchInput": "tKsOKa_modelSearchInput",
+			"field": "tKsOKa_field",
+			"savedNotice": "tKsOKa_savedNotice",
+			"deleteDialog": "tKsOKa_deleteDialog",
+			"inputGroup": "tKsOKa_inputGroup",
+			"checkButton": "tKsOKa_checkButton",
+			"modelToolbarActions": "tKsOKa_modelToolbarActions",
+			"title": "tKsOKa_title",
+			"iconButton": "tKsOKa_iconButton",
+			"rowHead": "tKsOKa_rowHead"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -7605,21 +7640,68 @@ window.__ModuleLoader__.load({
 				})
 			});
 		}
-		/** Removal glyph for one model row. */
-		function IconTrash() {
+		/** Removal glyph for one model row (Cherry's minus affordance). */
+		function IconMinus() {
 			return (0, react_jsx_runtime.jsx)("svg", {
 				width: "14",
 				height: "14",
-				viewBox: "0 0 16 16",
+				viewBox: "0 0 24 24",
 				fill: "none",
+				stroke: "currentColor",
+				strokeWidth: "2",
+				strokeLinecap: "round",
 				"aria-hidden": true,
-				children: (0, react_jsx_runtime.jsx)("path", {
-					d: "M2.5 4h11M6.5 4V2.5h3V4M4 4l.7 9a1 1 0 001 .9h4.6a1 1 0 001-.9L12 4M6.5 6.8v4.4M9.5 6.8v4.4",
-					stroke: "currentColor",
-					strokeWidth: "1.3",
-					strokeLinecap: "round",
-					strokeLinejoin: "round"
-				})
+				children: (0, react_jsx_runtime.jsx)("path", { d: "M5 12h14" })
+			});
+		}
+		/** Toolbar glyphs. */
+		function IconSearch() {
+			return (0, react_jsx_runtime.jsxs)("svg", {
+				width: "14",
+				height: "14",
+				viewBox: "0 0 24 24",
+				fill: "none",
+				stroke: "currentColor",
+				strokeWidth: "2",
+				strokeLinecap: "round",
+				"aria-hidden": true,
+				children: [(0, react_jsx_runtime.jsx)("circle", {
+					cx: "11",
+					cy: "11",
+					r: "8"
+				}), (0, react_jsx_runtime.jsx)("path", { d: "m21 21-4.3-4.3" })]
+			});
+		}
+		function IconRefresh() {
+			return (0, react_jsx_runtime.jsxs)("svg", {
+				width: "13",
+				height: "13",
+				viewBox: "0 0 24 24",
+				fill: "none",
+				stroke: "currentColor",
+				strokeWidth: "2",
+				strokeLinecap: "round",
+				strokeLinejoin: "round",
+				"aria-hidden": true,
+				children: [
+					(0, react_jsx_runtime.jsx)("path", { d: "M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" }),
+					(0, react_jsx_runtime.jsx)("path", { d: "M21 3v5h-5" }),
+					(0, react_jsx_runtime.jsx)("path", { d: "M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" }),
+					(0, react_jsx_runtime.jsx)("path", { d: "M8 16H3v5" })
+				]
+			});
+		}
+		function IconPlus() {
+			return (0, react_jsx_runtime.jsxs)("svg", {
+				width: "14",
+				height: "14",
+				viewBox: "0 0 24 24",
+				fill: "none",
+				stroke: "currentColor",
+				strokeWidth: "2",
+				strokeLinecap: "round",
+				"aria-hidden": true,
+				children: [(0, react_jsx_runtime.jsx)("path", { d: "M5 12h14" }), (0, react_jsx_runtime.jsx)("path", { d: "M12 5v14" })]
 			});
 		}
 		/**
@@ -7669,6 +7751,8 @@ window.__ModuleLoader__.load({
 			const [picked, setPicked] = (0, react.useState)(/* @__PURE__ */ new Set());
 			const [expanded, setExpanded] = (0, react.useState)(/* @__PURE__ */ new Set());
 			const [editing, setEditing] = (0, react.useState)(/* @__PURE__ */ new Map());
+			const [searchOpen, setSearchOpen] = (0, react.useState)(false);
+			const [searchText, setSearchText] = (0, react.useState)("");
 			/** Buffer key for one capacity field; the row half moves when rows do. */
 			const bufferKey = (index, field) => `${String(index)}:${field}`;
 			const editCapacity = (index, field, text) => {
@@ -7748,6 +7832,16 @@ window.__ModuleLoader__.load({
 				onChange([...byId.values()]);
 				closePicker();
 			};
+			const removeAt = (index) => {
+				onChange(models.filter((_model, at) => at !== index));
+				setExpanded((current) => {
+					const next = /* @__PURE__ */ new Set();
+					for (const at of current) if (at < index) next.add(at);
+					else if (at > index) next.add(at - 1);
+					return next;
+				});
+				setEditing((current) => reindexOnRemove(current, index));
+			};
 			const toggle = (id) => {
 				setPicked((current) => {
 					const next = new Set(current);
@@ -7756,53 +7850,106 @@ window.__ModuleLoader__.load({
 				});
 			};
 			const askable = probe.provider !== void 0 || probe.baseURL !== void 0 && probe.baseURL.length > 0;
+			const keyword = searchText.trim().toLowerCase();
+			const visibleRows = models.map((model, index) => ({
+				model,
+				index
+			})).filter(({ model }) => keyword.length === 0 || textOf(model, "id").toLowerCase().includes(keyword) || textOf(model, "name").toLowerCase().includes(keyword));
 			return (0, react_jsx_runtime.jsxs)("section", {
 				className: ModelsSection_module_css_default["modelCatalog"],
 				"aria-label": t("models"),
 				children: [
 					(0, react_jsx_runtime.jsxs)("div", {
 						className: ModelsSection_module_css_default["modelListHead"],
-						children: [
-							(0, react_jsx_runtime.jsxs)("div", {
-								className: ModelsSection_module_css_default["modelCatalogHeading"],
-								children: [(0, react_jsx_runtime.jsx)("span", {
+						children: [(0, react_jsx_runtime.jsxs)("div", {
+							className: ModelsSection_module_css_default["modelCatalogHeading"],
+							children: [
+								(0, react_jsx_runtime.jsx)("span", {
 									className: ModelsSection_module_css_default["modelCatalogTitle"],
 									children: t("models")
-								}), props.overridden === void 0 ? null : (0, react_jsx_runtime.jsx)("span", {
+								}),
+								models.length > 0 ? (0, react_jsx_runtime.jsx)("span", {
+									className: ModelsSection_module_css_default["modelCountBadge"],
+									children: models.length
+								}) : null,
+								props.overridden === void 0 ? null : (0, react_jsx_runtime.jsx)("span", {
 									className: ModelsSection_module_css_default["modelCatalogMeta"],
 									children: props.overridden ? t("modelsCustomized") : t("modelsInherited")
-								})]
-							}),
-							props.overridden === true && props.onReset !== void 0 ? (0, react_jsx_runtime.jsx)("button", {
-								type: "button",
-								className: ModelsSection_module_css_default["linkButton"],
-								disabled,
-								onClick: props.onReset,
-								children: t("resetModels")
-							}) : null,
-							(0, react_jsx_runtime.jsx)("button", {
-								type: "button",
-								className: ModelsSection_module_css_default["linkButton"],
-								disabled: disabled || busy || !askable || props.probeBlocked !== void 0,
-								title: props.probeBlocked !== void 0 ? t(props.probeBlocked) : askable ? void 0 : t("fetchNeedsBaseUrl"),
-								onClick: () => {
-									fetchModels();
-								},
-								children: busy ? t("fetching") : t("fetchModels")
-							})
-						]
+								})
+							]
+						}), (0, react_jsx_runtime.jsxs)("div", {
+							className: ModelsSection_module_css_default["modelToolbarActions"],
+							children: [
+								props.overridden === true && props.onReset !== void 0 ? (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: ModelsSection_module_css_default["linkButton"],
+									disabled,
+									onClick: props.onReset,
+									children: t("resetModels")
+								}) : null,
+								models.length > 4 ? (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: ModelsSection_module_css_default["iconButton"],
+									"aria-label": t("searchModels"),
+									"aria-expanded": searchOpen,
+									title: t("searchModels"),
+									onClick: () => {
+										setSearchOpen((open) => !open);
+										if (searchOpen) setSearchText("");
+									},
+									children: (0, react_jsx_runtime.jsx)(IconSearch, {})
+								}) : null,
+								(0, react_jsx_runtime.jsxs)("button", {
+									type: "button",
+									className: ModelsSection_module_css_default["fetchButton"],
+									disabled: disabled || busy || !askable || props.probeBlocked !== void 0,
+									title: props.probeBlocked !== void 0 ? t(props.probeBlocked) : askable ? void 0 : t("fetchNeedsBaseUrl"),
+									onClick: () => {
+										fetchModels();
+									},
+									children: [(0, react_jsx_runtime.jsx)(IconRefresh, {}), busy ? t("fetching") : t("fetchModels")]
+								}),
+								(0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: ModelsSection_module_css_default["iconButton"],
+									"aria-label": t("addModel"),
+									title: t("addModel"),
+									disabled,
+									onClick: () => {
+										onChange([...models, { id: "" }]);
+										setExpanded((current) => /* @__PURE__ */ new Set([...current, models.length]));
+									},
+									children: (0, react_jsx_runtime.jsx)(IconPlus, {})
+								})
+							]
+						})]
 					}),
+					searchOpen && models.length > 4 ? (0, react_jsx_runtime.jsx)("input", {
+						className: `${ModelsSection_module_css_default["input"]} ${ModelsSection_module_css_default["modelSearchInput"]}`,
+						type: "text",
+						value: searchText,
+						placeholder: t("searchModels"),
+						"aria-label": t("searchModels"),
+						onChange: (event) => {
+							setSearchText(event.target.value);
+						}
+					}) : null,
 					models.length === 0 ? (0, react_jsx_runtime.jsx)("p", {
 						className: ModelsSection_module_css_default["modelEmpty"],
 						children: t("modelsEmpty")
 					}) : null,
-					models.map((model, index) => (0, react_jsx_runtime.jsxs)("div", {
+					visibleRows.map(({ model, index }) => (0, react_jsx_runtime.jsxs)("div", {
 						className: ModelsSection_module_css_default["modelEntry"],
 						children: [(0, react_jsx_runtime.jsxs)("div", {
 							className: ModelsSection_module_css_default["modelRow"],
 							children: [
+								(0, react_jsx_runtime.jsx)("span", {
+									className: ModelsSection_module_css_default["modelAvatar"],
+									"aria-hidden": true,
+									children: (textOf(model, "name") || textOf(model, "id")).charAt(0).toUpperCase() || "?"
+								}),
 								(0, react_jsx_runtime.jsx)("input", {
-									className: ModelsSection_module_css_default["input"],
+									className: ModelsSection_module_css_default["modelIdInput"],
 									type: "text",
 									value: textOf(model, "id"),
 									placeholder: t("modelId"),
@@ -7810,17 +7957,6 @@ window.__ModuleLoader__.load({
 									disabled,
 									onChange: (event) => {
 										patch(index, { id: event.target.value });
-									}
-								}),
-								(0, react_jsx_runtime.jsx)("input", {
-									className: ModelsSection_module_css_default["input"],
-									type: "text",
-									value: textOf(model, "name"),
-									placeholder: t("modelName"),
-									"aria-label": `${t("modelName")} ${index + 1}`,
-									disabled,
-									onChange: (event) => {
-										patch(index, { name: event.target.value === "" ? void 0 : event.target.value });
 									}
 								}),
 								(0, react_jsx_runtime.jsx)("button", {
@@ -7841,66 +7977,70 @@ window.__ModuleLoader__.load({
 									title: t("removeModel"),
 									disabled,
 									onClick: () => {
-										onChange(models.filter((_model, at) => at !== index));
-										setExpanded((current) => {
-											const next = /* @__PURE__ */ new Set();
-											for (const at of current) if (at < index) next.add(at);
-											else if (at > index) next.add(at - 1);
-											return next;
-										});
-										setEditing((current) => reindexOnRemove(current, index));
+										removeAt(index);
 									},
-									children: (0, react_jsx_runtime.jsx)(IconTrash, {})
+									children: (0, react_jsx_runtime.jsx)(IconMinus, {})
 								})
 							]
 						}), expanded.has(index) ? (0, react_jsx_runtime.jsxs)("div", {
 							className: ModelsSection_module_css_default["modelAdvanced"],
-							children: [(0, react_jsx_runtime.jsxs)("label", {
-								className: ModelsSection_module_css_default["modelField"],
-								children: [(0, react_jsx_runtime.jsx)("span", {
-									className: ModelsSection_module_css_default["modelFieldLabel"],
-									children: t("modelContextWindow")
-								}), (0, react_jsx_runtime.jsx)("input", {
-									className: ModelsSection_module_css_default["input"],
-									type: "text",
-									inputMode: "numeric",
-									value: capacityText(model, index, "contextWindow"),
-									placeholder: CAPACITY_HINT.contextWindow,
-									"aria-label": `${t("modelContextWindow")} ${index + 1}`,
-									disabled,
-									onChange: (event) => {
-										editCapacity(index, "contextWindow", event.target.value);
-									}
-								})]
-							}), (0, react_jsx_runtime.jsxs)("label", {
-								className: ModelsSection_module_css_default["modelField"],
-								children: [(0, react_jsx_runtime.jsx)("span", {
-									className: ModelsSection_module_css_default["modelFieldLabel"],
-									children: t("modelMaxTokens")
-								}), (0, react_jsx_runtime.jsx)("input", {
-									className: ModelsSection_module_css_default["input"],
-									type: "text",
-									inputMode: "numeric",
-									value: capacityText(model, index, "maxTokens"),
-									placeholder: CAPACITY_HINT.maxTokens,
-									"aria-label": `${t("modelMaxTokens")} ${index + 1}`,
-									disabled,
-									onChange: (event) => {
-										editCapacity(index, "maxTokens", event.target.value);
-									}
-								})]
-							})]
+							children: [
+								(0, react_jsx_runtime.jsxs)("label", {
+									className: ModelsSection_module_css_default["modelField"],
+									children: [(0, react_jsx_runtime.jsx)("span", {
+										className: ModelsSection_module_css_default["modelFieldLabel"],
+										children: t("modelName")
+									}), (0, react_jsx_runtime.jsx)("input", {
+										className: ModelsSection_module_css_default["input"],
+										type: "text",
+										value: textOf(model, "name"),
+										placeholder: t("modelNamePlaceholder"),
+										"aria-label": `${t("modelName")} ${index + 1}`,
+										disabled,
+										onChange: (event) => {
+											patch(index, { name: event.target.value === "" ? void 0 : event.target.value });
+										}
+									})]
+								}),
+								(0, react_jsx_runtime.jsxs)("label", {
+									className: ModelsSection_module_css_default["modelField"],
+									children: [(0, react_jsx_runtime.jsx)("span", {
+										className: ModelsSection_module_css_default["modelFieldLabel"],
+										children: t("modelContextWindow")
+									}), (0, react_jsx_runtime.jsx)("input", {
+										className: ModelsSection_module_css_default["input"],
+										type: "text",
+										inputMode: "numeric",
+										value: capacityText(model, index, "contextWindow"),
+										placeholder: CAPACITY_HINT.contextWindow,
+										"aria-label": `${t("modelContextWindow")} ${index + 1}`,
+										disabled,
+										onChange: (event) => {
+											editCapacity(index, "contextWindow", event.target.value);
+										}
+									})]
+								}),
+								(0, react_jsx_runtime.jsxs)("label", {
+									className: ModelsSection_module_css_default["modelField"],
+									children: [(0, react_jsx_runtime.jsx)("span", {
+										className: ModelsSection_module_css_default["modelFieldLabel"],
+										children: t("modelMaxTokens")
+									}), (0, react_jsx_runtime.jsx)("input", {
+										className: ModelsSection_module_css_default["input"],
+										type: "text",
+										inputMode: "numeric",
+										value: capacityText(model, index, "maxTokens"),
+										placeholder: CAPACITY_HINT.maxTokens,
+										"aria-label": `${t("modelMaxTokens")} ${index + 1}`,
+										disabled,
+										onChange: (event) => {
+											editCapacity(index, "maxTokens", event.target.value);
+										}
+									})]
+								})
+							]
 						}) : null]
 					}, index)),
-					(0, react_jsx_runtime.jsx)("button", {
-						type: "button",
-						className: ModelsSection_module_css_default["addModelButton"],
-						disabled,
-						onClick: () => {
-							onChange([...models, { id: "" }]);
-						},
-						children: t("addModel")
-					}),
 					failure !== void 0 ? (0, react_jsx_runtime.jsx)("p", {
 						className: ModelsSection_module_css_default["error"],
 						children: failure
@@ -8295,6 +8435,9 @@ window.__ModuleLoader__.load({
 			const [keyState, setKeyState] = (0, react.useState)(void 0);
 			const [busy, setBusy] = (0, react.useState)(false);
 			const [failure, setFailure] = (0, react.useState)(void 0);
+			const [showKey, setShowKey] = (0, react.useState)(false);
+			const [checking, setChecking] = (0, react.useState)(false);
+			const [checkResult, setCheckResult] = (0, react.useState)(void 0);
 			const [committedOriginal, setCommittedOriginal] = (0, react.useState)(() => getPath(namespace.user, [...settingsPath]));
 			const [expectedRevision, setExpectedRevision] = (0, react.useState)(() => namespace.revision);
 			const root = (0, react.useMemo)(() => rehydrate(namespace.schema), [namespace.schema]);
@@ -8342,6 +8485,49 @@ window.__ModuleLoader__.load({
 				...probeApi === void 0 ? {} : { api: probeApi },
 				...keyValue.length === 0 ? {} : { apiKey: keyValue }
 			};
+			/**
+			* The 检测 action: interrogate the endpoint the form currently shows, exactly
+			* as a fetch would, and report what came back without adopting anything. A
+			* shipped catalog route answers from the adapter's registry; every other
+			* route is a real wire probe carrying the typed key (or the stored one the
+			* adapter resolves for its own route). Either way the reply is evidence.
+			*/
+			const runCheck = async () => {
+				setChecking(true);
+				setCheckResult(void 0);
+				const startedAt = Date.now();
+				try {
+					const response = await api.llm.discoverModels(probe);
+					if (!response.result.ok) {
+						setCheckResult({
+							ok: false,
+							text: response.result.error.message
+						});
+						return;
+					}
+					const ms = Math.max(1, Date.now() - startedAt);
+					const count = String(response.result.value.models.length);
+					setCheckResult({
+						ok: true,
+						text: t("checkSuccess").replace("{count}", count).replace("{ms}", String(ms))
+					});
+				} catch (error) {
+					setCheckResult({
+						ok: false,
+						text: messageOf$2(error)
+					});
+				} finally {
+					setChecking(false);
+				}
+			};
+			/** The request URL the current protocol would hit, shown under the base-URL
+			* field the way Cherry previews its Anthropic endpoint. */
+			const endpointPreview = (() => {
+				const base = probeBaseURL ?? props.defaults?.baseURL;
+				if (base === void 0 || base.length === 0) return void 0;
+				const trimmed = base.replace(/\/+$/, "");
+				return probeApi === "anthropic-messages" ? `${trimmed}/v1/messages` : `${trimmed}/chat/completions`;
+			})();
 			/**
 			* The write for this card, or a failure message. Every edit travels as
 			* path ops against the STORED section: the draft comes from the redacted
@@ -8446,108 +8632,188 @@ window.__ModuleLoader__.load({
 						setDraft((current) => deletePath(current, ["models"]));
 					}
 				};
-				return (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsxs)("div", {
+				const keyField = (0, react_jsx_runtime.jsxs)("div", {
 					className: ModelsSection_module_css_default["field"],
 					children: [
 						(0, react_jsx_runtime.jsx)("span", {
 							className: ModelsSection_module_css_default["fieldLabel"],
 							children: t("keyInput")
 						}),
-						(0, react_jsx_runtime.jsx)("input", {
-							className: ModelsSection_module_css_default["input"],
-							type: "password",
-							autoComplete: "off",
-							value: keyDraft,
-							placeholder: keyPlaceholder,
-							"aria-label": t("keyInput"),
-							"aria-invalid": shownKeyFailure !== void 0,
-							required: props.credentialRequired === true,
-							autoFocus: props.autoFocusCredential === true,
-							disabled: disabled || keyLocked,
-							onChange: (event) => {
-								setKeyDraft(event.target.value);
-							}
+						(0, react_jsx_runtime.jsxs)("div", {
+							className: ModelsSection_module_css_default["inputRow"],
+							children: [(0, react_jsx_runtime.jsxs)("div", {
+								className: ModelsSection_module_css_default["inputGroup"],
+								children: [(0, react_jsx_runtime.jsx)("input", {
+									className: ModelsSection_module_css_default["input"],
+									type: showKey ? "text" : "password",
+									autoComplete: "off",
+									value: keyDraft,
+									placeholder: keyPlaceholder,
+									"aria-label": t("keyInput"),
+									"aria-invalid": shownKeyFailure !== void 0,
+									required: props.credentialRequired === true,
+									autoFocus: props.autoFocusCredential === true,
+									disabled: disabled || keyLocked,
+									onChange: (event) => {
+										setKeyDraft(event.target.value);
+									}
+								}), (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: ModelsSection_module_css_default["eyeButton"],
+									"aria-label": showKey ? t("hideKey") : t("showKey"),
+									title: showKey ? t("hideKey") : t("showKey"),
+									disabled: disabled || keyLocked,
+									onClick: () => {
+										setShowKey((value) => !value);
+									},
+									children: showKey ? (0, react_jsx_runtime.jsxs)("svg", {
+										width: "14",
+										height: "14",
+										viewBox: "0 0 24 24",
+										fill: "none",
+										stroke: "currentColor",
+										strokeWidth: "2",
+										strokeLinecap: "round",
+										strokeLinejoin: "round",
+										"aria-hidden": true,
+										children: [
+											(0, react_jsx_runtime.jsx)("path", { d: "M9.88 9.88a3 3 0 1 0 4.24 4.24" }),
+											(0, react_jsx_runtime.jsx)("path", { d: "M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" }),
+											(0, react_jsx_runtime.jsx)("path", { d: "M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" }),
+											(0, react_jsx_runtime.jsx)("line", {
+												x1: "2",
+												x2: "22",
+												y1: "2",
+												y2: "22"
+											})
+										]
+									}) : (0, react_jsx_runtime.jsxs)("svg", {
+										width: "14",
+										height: "14",
+										viewBox: "0 0 24 24",
+										fill: "none",
+										stroke: "currentColor",
+										strokeWidth: "2",
+										strokeLinecap: "round",
+										strokeLinejoin: "round",
+										"aria-hidden": true,
+										children: [(0, react_jsx_runtime.jsx)("path", { d: "M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" }), (0, react_jsx_runtime.jsx)("circle", {
+											cx: "12",
+											cy: "12",
+											r: "3"
+										})]
+									})
+								})]
+							}), props.showCheck === true ? (0, react_jsx_runtime.jsx)("button", {
+								type: "button",
+								className: ModelsSection_module_css_default["checkButton"],
+								disabled: disabled || checking || probeBaseURL === void 0 && props.defaults?.baseURL === void 0,
+								onClick: () => {
+									runCheck();
+								},
+								children: checking ? t("checking") : t("checkConnection")
+							}) : null]
 						}),
 						shownKeyFailure === void 0 ? null : (0, react_jsx_runtime.jsx)("p", {
 							className: ModelsSection_module_css_default["error"],
 							children: t(shownKeyFailure)
+						}),
+						checkResult === void 0 ? null : (0, react_jsx_runtime.jsx)("p", {
+							className: `${ModelsSection_module_css_default["checkResult"]} ${checkResult.ok ? ModelsSection_module_css_default["checkResultOk"] : ModelsSection_module_css_default["checkResultFail"]}`,
+							role: "status",
+							children: checkResult.ok ? checkResult.text : `${t("checkFailed")}: ${checkResult.text}`
 						})
 					]
-				}), props.credentialOnly === true ? null : (0, react_jsx_runtime.jsxs)("details", {
+				});
+				/** The profile fields past the credential: identity, endpoint, catalog. */
+				const panelBody = (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [
+					ownsIdentity ? (0, react_jsx_runtime.jsxs)("div", {
+						className: ModelsSection_module_css_default["field"],
+						children: [(0, react_jsx_runtime.jsx)("span", {
+							className: ModelsSection_module_css_default["fieldLabel"],
+							children: t("customDisplayName")
+						}), (0, react_jsx_runtime.jsx)("input", {
+							className: ModelsSection_module_css_default["input"],
+							type: "text",
+							value: stringAt(draft, "displayName") ?? "",
+							placeholder: stringAt(getPath(namespace.base, [...settingsPath]), "displayName") ?? props.provider,
+							"aria-label": t("customDisplayName"),
+							disabled,
+							onChange: (event) => {
+								setField("displayName", event.target.value);
+							}
+						})]
+					}) : null,
+					(0, react_jsx_runtime.jsxs)("div", {
+						className: ModelsSection_module_css_default["field"],
+						children: [
+							(0, react_jsx_runtime.jsx)("span", {
+								className: ModelsSection_module_css_default["fieldLabel"],
+								children: t("baseUrl")
+							}),
+							(0, react_jsx_runtime.jsx)("input", {
+								className: `${ModelsSection_module_css_default["input"]} ${ModelsSection_module_css_default["monoInput"]}`,
+								type: "text",
+								value: stringAt(draft, "baseURL") ?? "",
+								placeholder: family === "deepseek" ? DEEPSEEK_PUBLIC_BASE_URL : stringAt(fallback, "baseURL") ?? props.defaults?.baseURL ?? t("baseUrlDefault"),
+								"aria-label": t("baseUrl"),
+								disabled,
+								onChange: (event) => {
+									setField("baseURL", event.target.value === "" ? void 0 : event.target.value);
+								}
+							}),
+							endpointPreview === void 0 ? null : (0, react_jsx_runtime.jsx)("p", {
+								className: ModelsSection_module_css_default["endpointPreview"],
+								title: endpointPreview,
+								children: t("endpointPreview").replace("{url}", endpointPreview)
+							})
+						]
+					}),
+					ownsIdentity ? (0, react_jsx_runtime.jsxs)("div", {
+						className: ModelsSection_module_css_default["field"],
+						children: [(0, react_jsx_runtime.jsx)("span", {
+							className: ModelsSection_module_css_default["fieldLabel"],
+							children: t("customApi")
+						}), (0, react_jsx_runtime.jsxs)("select", {
+							className: `${ModelsSection_module_css_default["input"]} ${ModelsSection_module_css_default["selectInput"]}`,
+							value: probeApi ?? "",
+							"aria-label": t("customApi"),
+							disabled,
+							onChange: (event) => {
+								setField("api", event.target.value);
+							},
+							children: [probeApi === void 0 ? (0, react_jsx_runtime.jsx)("option", {
+								value: "",
+								children: t("customApiUnset")
+							}) : null, protocols.map((choice) => (0, react_jsx_runtime.jsx)("option", {
+								value: choice,
+								children: choice
+							}, choice))]
+						})]
+					}) : null,
+					family === "deepseek" ? (0, react_jsx_runtime.jsx)(DeepSeekModelsEditor, {
+						...catalogProps,
+						defaultContextWindow: typeof defaultContextWindow === "number" ? defaultContextWindow : void 0,
+						defaultMaxTokens: typeof defaultMaxTokens === "number" ? defaultMaxTokens : void 0
+					}) : (0, react_jsx_runtime.jsx)(ModelListEditor, {
+						...catalogProps,
+						probe,
+						probeBlocked: keyFailure,
+						api
+					})
+				] });
+				if (props.panelStyle === true || props.credentialOnly === true) return props.credentialOnly === true ? keyField : (0, react_jsx_runtime.jsxs)("div", {
+					className: ModelsSection_module_css_default["panelBody"],
+					children: [keyField, panelBody]
+				});
+				return (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [keyField, (0, react_jsx_runtime.jsxs)("details", {
 					className: ModelsSection_module_css_default["customized"],
 					children: [(0, react_jsx_runtime.jsx)("summary", {
 						className: ModelsSection_module_css_default["customizedSummary"],
 						children: t("customized")
-					}), (0, react_jsx_runtime.jsxs)("div", {
+					}), (0, react_jsx_runtime.jsx)("div", {
 						className: ModelsSection_module_css_default["customizedBody"],
-						children: [
-							ownsIdentity ? (0, react_jsx_runtime.jsxs)("div", {
-								className: ModelsSection_module_css_default["field"],
-								children: [(0, react_jsx_runtime.jsx)("span", {
-									className: ModelsSection_module_css_default["fieldLabel"],
-									children: t("customDisplayName")
-								}), (0, react_jsx_runtime.jsx)("input", {
-									className: ModelsSection_module_css_default["input"],
-									type: "text",
-									value: stringAt(draft, "displayName") ?? "",
-									placeholder: stringAt(getPath(namespace.base, [...settingsPath]), "displayName") ?? props.provider,
-									"aria-label": t("customDisplayName"),
-									disabled,
-									onChange: (event) => {
-										setField("displayName", event.target.value);
-									}
-								})]
-							}) : null,
-							(0, react_jsx_runtime.jsxs)("div", {
-								className: ModelsSection_module_css_default["field"],
-								children: [(0, react_jsx_runtime.jsx)("span", {
-									className: ModelsSection_module_css_default["fieldLabel"],
-									children: t("baseUrl")
-								}), (0, react_jsx_runtime.jsx)("input", {
-									className: ModelsSection_module_css_default["input"],
-									type: "text",
-									value: stringAt(draft, "baseURL") ?? "",
-									placeholder: family === "deepseek" ? DEEPSEEK_PUBLIC_BASE_URL : stringAt(fallback, "baseURL") ?? t("baseUrlDefault"),
-									"aria-label": t("baseUrl"),
-									disabled,
-									onChange: (event) => {
-										setField("baseURL", event.target.value === "" ? void 0 : event.target.value);
-									}
-								})]
-							}),
-							ownsIdentity ? (0, react_jsx_runtime.jsxs)("div", {
-								className: ModelsSection_module_css_default["field"],
-								children: [(0, react_jsx_runtime.jsx)("span", {
-									className: ModelsSection_module_css_default["fieldLabel"],
-									children: t("customApi")
-								}), (0, react_jsx_runtime.jsxs)("select", {
-									className: `${ModelsSection_module_css_default["input"]} ${ModelsSection_module_css_default["selectInput"]}`,
-									value: probeApi ?? "",
-									"aria-label": t("customApi"),
-									disabled,
-									onChange: (event) => {
-										setField("api", event.target.value);
-									},
-									children: [probeApi === void 0 ? (0, react_jsx_runtime.jsx)("option", {
-										value: "",
-										children: t("customApiUnset")
-									}) : null, protocols.map((choice) => (0, react_jsx_runtime.jsx)("option", {
-										value: choice,
-										children: choice
-									}, choice))]
-								})]
-							}) : null,
-							family === "deepseek" ? (0, react_jsx_runtime.jsx)(DeepSeekModelsEditor, {
-								...catalogProps,
-								defaultContextWindow: typeof defaultContextWindow === "number" ? defaultContextWindow : void 0,
-								defaultMaxTokens: typeof defaultMaxTokens === "number" ? defaultMaxTokens : void 0
-							}) : (0, react_jsx_runtime.jsx)(ModelListEditor, {
-								...catalogProps,
-								probe,
-								probeBlocked: keyFailure,
-								api
-							})
-						]
+						children: panelBody
 					})]
 				})] });
 			};
@@ -9770,7 +10036,7 @@ window.__ModuleLoader__.load({
 		}
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\ProviderDirectorySection.module.css.mjs
-		const css$26 = ".l38w4q_section{flex-direction:column;gap:12px;width:100%;max-width:1080px;margin:0 auto;display:flex}.l38w4q_intro{color:var(--muted-foreground);font-size:13px}.l38w4q_split{border:1px solid var(--border-subtle);background:var(--card);border-radius:12px;gap:0;width:100%;max-width:1080px;height:min(640px,100vh - 220px);min-height:420px;margin:0 auto;display:flex;overflow:hidden}.l38w4q_list{border-right:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 18%, transparent);flex-direction:column;flex:none;width:264px;display:flex}.l38w4q_listHeader{border-bottom:1px solid var(--border-subtle);padding:10px 12px}.l38w4q_searchInput{border:1px solid var(--border-subtle);background:var(--card);width:100%;height:30px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:13px}.l38w4q_searchInput:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.l38w4q_listScroll{flex:1;min-height:0;padding:8px 0;overflow-y:auto}.l38w4q_emptyList{color:var(--muted-foreground);text-align:center;padding:16px;font-size:13px}.l38w4q_group{margin-bottom:4px}.l38w4q_groupTitle{color:var(--muted-foreground);text-transform:uppercase;letter-spacing:.04em;padding:6px 12px 4px;font-size:12px;font-weight:600}.l38w4q_groupRows{margin:0;padding:0;list-style:none}.l38w4q_listItem{width:100%;height:34px;color:var(--foreground);text-align:left;cursor:pointer;box-sizing:border-box;background:0 0;border:none;justify-content:space-between;align-items:center;gap:8px;padding:0 12px;font-family:inherit;font-size:13px;display:flex}.l38w4q_listItem:hover{background:color-mix(in srgb, var(--muted) 40%, transparent)}.l38w4q_listItemSelected{background:color-mix(in srgb, var(--primary) 14%, transparent);color:var(--foreground);box-shadow:inset 2px 0 0 var(--primary)}.l38w4q_listItemName{white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.l38w4q_dot{border-radius:50%;flex:none;width:7px;height:7px}.l38w4q_dotConfigured{background:var(--success)}.l38w4q_dotMissing{background:var(--warning)}.l38w4q_dotActive{background:var(--success);opacity:.55;border-radius:50%;flex:none;width:7px;height:7px}.l38w4q_listFooter{border-top:1px solid var(--border-subtle);padding:10px 12px}.l38w4q_addCustomButton{border:1px dashed var(--border-strong);width:100%;height:30px;color:var(--foreground);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;font-family:inherit;font-size:13px;display:inline-flex}.l38w4q_addCustomButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 30%, transparent)}.l38w4q_addCustomButton:disabled{opacity:.5;cursor:not-allowed}.l38w4q_detail{background:var(--card);flex-direction:column;flex:1;min-width:0;display:flex}.l38w4q_detailScroll{flex:1;min-height:0;overflow-y:auto}.l38w4q_detailContent{flex-direction:column;gap:12px;padding:16px 20px;display:flex}.l38w4q_detailHeader{justify-content:space-between;align-items:center;gap:12px;display:flex}.l38w4q_detailHeaderMain{flex-wrap:wrap;align-items:center;gap:8px;min-width:0;display:flex}.l38w4q_detailTitle{color:var(--foreground);font-size:16px;font-weight:600}.l38w4q_detailRoute{color:var(--muted-foreground);font-size:13px}.l38w4q_customTag,.l38w4q_activeTag{background:var(--muted);height:20px;color:var(--muted-foreground);border-radius:9999px;flex:none;align-items:center;padding:0 8px;font-size:12px;display:inline-flex}.l38w4q_activeTag{background:color-mix(in srgb, var(--success) 15%, transparent);color:var(--success)}.l38w4q_editorWrap{flex-direction:column;gap:12px;display:flex}.l38w4q_notice{border:1px solid var(--info-border);background:var(--info-subtle);color:var(--info-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.l38w4q_savedNotice{border:1px solid var(--success-border);background:var(--success-subtle);color:var(--success-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.l38w4q_error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.l38w4q_emptyDetail{text-align:center;flex-direction:column;flex:1;justify-content:center;align-items:center;gap:8px;padding:24px;display:flex}.l38w4q_emptyTitle{color:var(--foreground);font-size:15px;font-weight:600}.l38w4q_emptyHint{color:var(--muted-foreground);font-size:13px}.l38w4q_secondaryButton{border:1px solid var(--border-subtle);background:var(--secondary);height:32px;color:var(--secondary-foreground);cursor:pointer;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}";
+		const css$26 = ".l38w4q_section{flex-direction:column;gap:10px;width:100%;max-width:1080px;margin:0 auto;display:flex}.l38w4q_intro{color:var(--muted-foreground);font-size:13px}.l38w4q_split{border:.5px solid var(--border-subtle);background:var(--card);border-radius:12px;width:100%;max-width:1080px;height:min(640px,100vh - 230px);min-height:420px;display:flex;overflow:hidden}.l38w4q_list{flex-direction:column;flex:none;width:248px;display:flex}.l38w4q_listHeader{align-items:center;padding:10px 10px 6px;display:flex;position:relative}.l38w4q_searchInput{border:1px solid var(--border-subtle);background:var(--background);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:10px;outline:none;padding:0 28px 0 30px;font-family:inherit;font-size:13px}.l38w4q_searchInput::placeholder{color:var(--muted-foreground)}.l38w4q_searchInput:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.l38w4q_searchInput:before{content:\"\"}.l38w4q_listHeader:before{content:\"\";background:var(--muted-foreground);pointer-events:none;width:14px;height:14px;position:absolute;top:50%;left:20px;transform:translateY(-42%);mask:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E\") 50%/contain no-repeat}.l38w4q_searchClear{width:22px;height:22px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;display:inline-flex;position:absolute;top:50%;right:16px;transform:translateY(-50%)}.l38w4q_searchClear:hover{color:var(--foreground);background:color-mix(in srgb, var(--muted) 40%, transparent)}.l38w4q_listScroll{flex:1;min-height:0;padding:4px 10px 8px;overflow-y:auto}.l38w4q_emptyList{color:var(--muted-foreground);text-align:center;padding:16px 8px;font-size:13px}.l38w4q_groupRows{flex-direction:column;gap:4px;margin:0;padding:0;list-style:none;display:flex}.l38w4q_listItem{width:100%;height:34px;color:var(--foreground);text-align:left;cursor:pointer;box-sizing:border-box;background:0 0;border:none;border-radius:10px;justify-content:space-between;align-items:center;gap:8px;padding:0 8px 0 4px;font-family:inherit;display:flex;position:relative}.l38w4q_listItem:hover,.l38w4q_listItemSelected{background:var(--muted)}.l38w4q_listItemSelected .l38w4q_listItemName{font-weight:500}.l38w4q_listItemDisabled .l38w4q_listItemName,.l38w4q_listItemDisabled .l38w4q_avatar{opacity:.55}.l38w4q_listItemMain{align-items:center;gap:10px;min-width:0;display:flex}.l38w4q_avatar{border:.5px solid var(--border-subtle);background:var(--background);box-sizing:border-box;border-radius:7px;flex:none;justify-content:center;align-items:center;width:26px;height:26px;display:inline-flex;overflow:hidden}.l38w4q_avatar svg{width:100%;height:100%}.l38w4q_avatar[data-letter]{color:var(--muted-foreground);font-size:13px;font-weight:600}.l38w4q_listItemName{white-space:nowrap;text-overflow:ellipsis;font-size:13px;line-height:1.35;overflow:hidden}.l38w4q_enabledDot{background:var(--success);border-radius:50%;flex:none;width:6px;height:6px}.l38w4q_listFooter{padding:8px 10px 10px}.l38w4q_addCustomButton{border:1px solid var(--border-subtle);width:100%;height:32px;color:var(--foreground);cursor:pointer;background:0 0;border-radius:10px;justify-content:center;align-items:center;gap:6px;font-family:inherit;font-size:12px;display:inline-flex}.l38w4q_addCustomButton:hover:not(:disabled){border-color:var(--border-strong);background:color-mix(in srgb, var(--muted) 50%, transparent)}.l38w4q_addCustomButton:disabled{opacity:.5;cursor:not-allowed}.l38w4q_detail{background:var(--card);flex-direction:column;flex:1;min-width:0;display:flex}.l38w4q_detailScroll{flex:1;min-height:0;overflow-y:auto}.l38w4q_detailHeader{justify-content:space-between;align-items:center;gap:12px;padding:12px 24px 8px;display:flex}.l38w4q_detailHeaderMain{flex-wrap:wrap;align-items:center;gap:8px;min-width:0;display:flex}.l38w4q_detailTitle{color:var(--foreground);white-space:nowrap;font-size:15px;font-weight:600}.l38w4q_detailRoute{color:var(--muted-foreground);font-size:12px}.l38w4q_customTag,.l38w4q_disabledTag{background:var(--muted);height:18px;color:var(--muted-foreground);border-radius:9999px;flex:none;align-items:center;padding:0 7px;font-size:11px;display:inline-flex}.l38w4q_disabledTag{background:color-mix(in srgb, var(--warning) 15%, transparent);color:var(--warning)}.l38w4q_detailBody{flex-direction:column;gap:12px;max-width:860px;padding:4px 24px 24px;display:flex}.l38w4q_switch{background:var(--muted);cursor:pointer;border:none;border-radius:9999px;flex:none;width:36px;height:20px;padding:0;transition:background .14s;position:relative}.l38w4q_switch:hover:not(:disabled){filter:brightness(.96)}.l38w4q_switchOn{background:var(--success)}.l38w4q_switchThumb{background:#fff;border-radius:50%;width:16px;height:16px;transition:transform .14s;position:absolute;top:2px;left:2px;box-shadow:0 1px 2px #00000040}.l38w4q_switchOn .l38w4q_switchThumb{transform:translate(16px)}.l38w4q_switch:disabled{opacity:.45;cursor:not-allowed}.l38w4q_notice{border:1px solid var(--info-border);background:var(--info-subtle);color:var(--info-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.l38w4q_savedNotice{border:1px solid var(--success-border);background:var(--success-subtle);color:var(--success-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.l38w4q_error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.l38w4q_emptyDetail{text-align:center;flex-direction:column;flex:1;justify-content:center;align-items:center;gap:8px;padding:24px;display:flex}.l38w4q_emptyTitle{color:var(--foreground);font-size:15px;font-weight:600}.l38w4q_emptyHint{color:var(--muted-foreground);font-size:13px}.l38w4q_secondaryButton{border:1px solid var(--border-subtle);background:var(--secondary);height:32px;color:var(--secondary-foreground);cursor:pointer;border-radius:8px;justify-content:center;align-items:center;gap:6px;margin-top:8px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}";
 		const tagId$26 = "@dsh-control-center/bundle/ProviderDirectorySection.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$26) + "]") === null) {
 			const tag = document.createElement("style");
@@ -9780,54 +10046,57 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderDirectorySection_module_css_default = {
-			"emptyList": "l38w4q_emptyList",
-			"listFooter": "l38w4q_listFooter",
-			"dot": "l38w4q_dot",
-			"detailContent": "l38w4q_detailContent",
 			"groupRows": "l38w4q_groupRows",
-			"detailHeaderMain": "l38w4q_detailHeaderMain",
-			"intro": "l38w4q_intro",
-			"searchInput": "l38w4q_searchInput",
-			"savedNotice": "l38w4q_savedNotice",
-			"emptyTitle": "l38w4q_emptyTitle",
-			"detail": "l38w4q_detail",
-			"detailHeader": "l38w4q_detailHeader",
-			"error": "l38w4q_error",
-			"group": "l38w4q_group",
-			"emptyDetail": "l38w4q_emptyDetail",
-			"listItemSelected": "l38w4q_listItemSelected",
-			"groupTitle": "l38w4q_groupTitle",
-			"listScroll": "l38w4q_listScroll",
+			"detailBody": "l38w4q_detailBody",
 			"section": "l38w4q_section",
-			"detailTitle": "l38w4q_detailTitle",
+			"listItemMain": "l38w4q_listItemMain",
 			"split": "l38w4q_split",
-			"dotConfigured": "l38w4q_dotConfigured",
-			"listItem": "l38w4q_listItem",
-			"listItemName": "l38w4q_listItemName",
-			"dotMissing": "l38w4q_dotMissing",
-			"listHeader": "l38w4q_listHeader",
-			"dotActive": "l38w4q_dotActive",
-			"detailRoute": "l38w4q_detailRoute",
-			"activeTag": "l38w4q_activeTag",
-			"notice": "l38w4q_notice",
-			"detailScroll": "l38w4q_detailScroll",
-			"addCustomButton": "l38w4q_addCustomButton",
-			"list": "l38w4q_list",
-			"secondaryButton": "l38w4q_secondaryButton",
 			"customTag": "l38w4q_customTag",
-			"editorWrap": "l38w4q_editorWrap",
-			"emptyHint": "l38w4q_emptyHint"
+			"emptyHint": "l38w4q_emptyHint",
+			"secondaryButton": "l38w4q_secondaryButton",
+			"listItemName": "l38w4q_listItemName",
+			"detailHeaderMain": "l38w4q_detailHeaderMain",
+			"listItemSelected": "l38w4q_listItemSelected",
+			"searchClear": "l38w4q_searchClear",
+			"enabledDot": "l38w4q_enabledDot",
+			"detailRoute": "l38w4q_detailRoute",
+			"detailTitle": "l38w4q_detailTitle",
+			"detailScroll": "l38w4q_detailScroll",
+			"emptyList": "l38w4q_emptyList",
+			"intro": "l38w4q_intro",
+			"listItem": "l38w4q_listItem",
+			"list": "l38w4q_list",
+			"searchInput": "l38w4q_searchInput",
+			"addCustomButton": "l38w4q_addCustomButton",
+			"detailHeader": "l38w4q_detailHeader",
+			"detail": "l38w4q_detail",
+			"disabledTag": "l38w4q_disabledTag",
+			"error": "l38w4q_error",
+			"switchOn": "l38w4q_switchOn",
+			"switch": "l38w4q_switch",
+			"avatar": "l38w4q_avatar",
+			"emptyTitle": "l38w4q_emptyTitle",
+			"listScroll": "l38w4q_listScroll",
+			"switchThumb": "l38w4q_switchThumb",
+			"listFooter": "l38w4q_listFooter",
+			"notice": "l38w4q_notice",
+			"savedNotice": "l38w4q_savedNotice",
+			"listItemDisabled": "l38w4q_listItemDisabled",
+			"listHeader": "l38w4q_listHeader",
+			"emptyDetail": "l38w4q_emptyDetail"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderDirectorySection.js
 		/**
 		* Model Services section — the Cherry-parity two-pane provider directory.
 		*
-		* Left pane: the static 61-preset Cherry catalog (grouped 国内/国际/本地) plus
-		* every provider the host `llm` directory already knows (pi-ai catalog routes
-		* and user-declared ones, grouped 自定义), with search and a persisted
-		* selection. Right pane: the selected provider's editor, seeded from the
-		* preset so a fresh pick is one key away from a complete profile.
+		* Left pane: the static 61-preset Cherry catalog plus every provider the host
+		* `llm` directory already knows (pi-ai catalog routes and user-declared ones),
+		* rendered flat exactly like Cherry's list — brand avatar, name, enabled dot —
+		* with search and a persisted selection. Right pane: the selected provider's
+		* header (avatar, name, real enable Switch) above an always-expanded editor
+		* seeded from the preset, so a fresh pick is one key away from a complete
+		* profile.
 		*
 		* The catalog is deliberately client-side, not registered into the host
 		* directory: the harness's `llm-pi-ai` adapter already owns ~37 routes and
@@ -9837,9 +10106,17 @@ window.__ModuleLoader__.load({
 		* `settings.yaml` `llm-pi-ai:` section writes — the DSH preset method and this
 		* surface are the same storage, so they cannot conflict. Configured state is
 		* joined from `llm.providers()` and is always real.
+		*
+		* The enable Switch is honest by construction: disabling moves the live
+		* profile into the `control-center-provider-stash` namespace before unsetting
+		* it (the adapter genuinely stops serving the route), and enabling writes the
+		* stashed profile back. Nothing pretends to disable while the route still
+		* serves.
 		*/
 		/** The settings namespace every Cherry preset writes its profile into. */
 		const NS = "llm-pi-ai";
+		/** Where a disabled provider's full profile waits for its re-enable. */
+		const STASH_NS = "control-center-provider-stash";
 		/** localStorage key for the persisted selection (Cherry's key name). */
 		const LAST_SELECTED_KEY = "settings.provider.last_selected_provider_id";
 		function identityOf(entry) {
@@ -9867,7 +10144,6 @@ window.__ModuleLoader__.load({
 				entries.push({
 					provider: preset.id,
 					displayName: preset.name,
-					group: preset.group,
 					preset,
 					...row === void 0 ? {} : { row }
 				});
@@ -9877,11 +10153,42 @@ window.__ModuleLoader__.load({
 				entries.push({
 					provider: row.entry.provider,
 					displayName: row.entry.displayName,
-					group: "custom",
 					row
 				});
 			}
 			return entries;
+		}
+		/** Cherry-style brand avatar; falls back to the leading letter when the icon
+		* registry has no glyph for the id. */
+		function ProviderAvatar({ providerId, name }) {
+			const glyph = providerIconSvg(providerId, 26);
+			if (glyph !== "") return (0, react_jsx_runtime.jsx)("span", {
+				className: ProviderDirectorySection_module_css_default["avatar"],
+				dangerouslySetInnerHTML: { __html: glyph }
+			});
+			return (0, react_jsx_runtime.jsx)("span", {
+				className: ProviderDirectorySection_module_css_default["avatar"],
+				"data-letter": true,
+				children: name.charAt(0).toUpperCase() || "?"
+			});
+		}
+		/**
+		* An accessible pill switch (the primitives package ships none). Real state
+		* lives with the caller; this renders and clicks.
+		*/
+		function EnableSwitch({ checked, disabled, title, onChange }) {
+			return (0, react_jsx_runtime.jsx)("button", {
+				type: "button",
+				role: "switch",
+				"aria-checked": checked,
+				title,
+				className: `${ProviderDirectorySection_module_css_default["switch"]} ${checked ? ProviderDirectorySection_module_css_default["switchOn"] : ""}`,
+				disabled,
+				onClick: () => {
+					onChange(!checked);
+				},
+				children: (0, react_jsx_runtime.jsx)("span", { className: ProviderDirectorySection_module_css_default["switchThumb"] })
+			});
 		}
 		/**
 		* Render the Model Services section.
@@ -9912,6 +10219,8 @@ window.__ModuleLoader__.load({
 			});
 			const [declaring, setDeclaring] = (0, react.useState)(false);
 			const [savedTarget, setSavedTarget] = (0, react.useState)(void 0);
+			const [toggleFailure, setToggleFailure] = (0, react.useState)(void 0);
+			const [toggling, setToggling] = (0, react.useState)(false);
 			if (state.status === "idle") controller.load();
 			if (state.status === "error") {
 				/* v8 ignore next -- an error status always carries text */
@@ -9942,35 +10251,129 @@ window.__ModuleLoader__.load({
 					window.localStorage.setItem(LAST_SELECTED_KEY, provider);
 				} catch {}
 			};
-			const groups = [
-				{
-					id: "domestic",
-					label: t("groupDomestic"),
-					entries: filtered.filter((e) => e.group === "domestic")
-				},
-				{
-					id: "international",
-					label: t("groupInternational"),
-					entries: filtered.filter((e) => e.group === "international")
-				},
-				{
-					id: "local",
-					label: t("groupLocal"),
-					entries: filtered.filter((e) => e.group === "local")
-				},
-				{
-					id: "custom",
-					label: t("groupCustom"),
-					entries: filtered.filter((e) => e.group === "custom")
-				}
-			].filter((group) => group.entries.length > 0);
 			const namespace = state.namespaces.get(NS);
-			const protocols = protocolChoices(state.namespaces.get(NS), schema);
+			const stashView = state.namespaces.get(STASH_NS);
+			const protocols = protocolChoices(namespace, schema);
 			const editTarget = effective === void 0 ? void 0 : identityOf(effective);
 			const announceSaved = (target) => {
 				controller.load().then(() => {
 					setSavedTarget(target);
 				});
+			};
+			/**
+			* Whether this route CAN be toggled at all. A live or stashed profile is
+			* always toggleable; a never-configured route only when the adapter ships
+			* its catalog (an empty profile is serviceable there). A whole-section
+			* route (`llm-deepseek`, no sub-path) is composition-owned and stays out of
+			* reach — unsetting it here would tear down the deployment's own section.
+			*/
+			const toggleStateOf = (entry) => {
+				const live = entry.row?.configured === true && entry.row.entry.settingsPath.length > 0;
+				const stashed = stashView !== void 0 && schema.getPath(stashView.value, ["providers", entry.provider]) !== void 0;
+				if (live) return {
+					enabled: true,
+					canToggle: true
+				};
+				if (stashed) return {
+					enabled: false,
+					canToggle: true
+				};
+				return {
+					enabled: false,
+					canToggle: entry.row?.entry.settingsPath.length !== 0 && entry.preset !== void 0 && PI_AI_SHIPPED_PRESET_IDS.has(entry.provider)
+				};
+			};
+			/**
+			* Flip the Switch. Disable stashes the full profile FIRST (a crash between
+			* the two writes leaves both copies — harmless), then unsets the live route;
+			* enable restores the stashed profile FIRST, then clears the stash. Each
+			* write carries the revision its namespace answered with, so the pair is
+			* conflict-safe without locking.
+			*/
+			const toggleEnabled = async (entry, next) => {
+				if (namespace === void 0 || stashView === void 0) return;
+				const target = identityOf(entry);
+				if (target.settingsNs !== NS) return;
+				setToggling(true);
+				setToggleFailure(void 0);
+				try {
+					const path = [...target.settingsPath];
+					const liveValue = schema.getPath(namespace.value, path);
+					const stashedValue = schema.getPath(stashView.value, path);
+					if (!next) {
+						if (liveValue === void 0) return;
+						const stashed = await api.settings.mutate({
+							ns: STASH_NS,
+							expectedRevision: stashView.revision,
+							ops: [{
+								op: "set",
+								path,
+								value: structuredClone(liveValue)
+							}]
+						});
+						if (!stashed.result.ok) {
+							setToggleFailure(stashed.result.error.message);
+							return;
+						}
+						const unset = await api.settings.mutate({
+							ns: NS,
+							expectedRevision: stashed.result.value.revision,
+							ops: [{
+								op: "unset",
+								path
+							}]
+						});
+						if (!unset.result.ok) {
+							setToggleFailure(unset.result.error.message);
+							return;
+						}
+					} else if (stashedValue === void 0) {
+						const created = await api.settings.mutate({
+							ns: NS,
+							expectedRevision: namespace.revision,
+							ops: [{
+								op: "set",
+								path,
+								value: {}
+							}]
+						});
+						if (!created.result.ok) {
+							setToggleFailure(created.result.error.message);
+							return;
+						}
+					} else {
+						const restored = await api.settings.mutate({
+							ns: NS,
+							expectedRevision: namespace.revision,
+							ops: [{
+								op: "set",
+								path,
+								value: structuredClone(stashedValue)
+							}]
+						});
+						if (!restored.result.ok) {
+							setToggleFailure(restored.result.error.message);
+							return;
+						}
+						const cleared = await api.settings.mutate({
+							ns: STASH_NS,
+							expectedRevision: restored.result.value.revision,
+							ops: [{
+								op: "unset",
+								path
+							}]
+						});
+						if (!cleared.result.ok) {
+							setToggleFailure(cleared.result.error.message);
+							return;
+						}
+					}
+					await controller.load();
+				} catch (error) {
+					setToggleFailure(messageOf$2(error));
+				} finally {
+					setToggling(false);
+				}
 			};
 			/** Preset types whose native endpoint cannot speak an OpenAI protocol. */
 			const protocolLimitedType = (preset) => {
@@ -9988,9 +10391,9 @@ window.__ModuleLoader__.load({
 					children: [(0, react_jsx_runtime.jsxs)("aside", {
 						className: ProviderDirectorySection_module_css_default["list"],
 						children: [
-							(0, react_jsx_runtime.jsx)("div", {
+							(0, react_jsx_runtime.jsxs)("div", {
 								className: ProviderDirectorySection_module_css_default["listHeader"],
-								children: (0, react_jsx_runtime.jsx)("input", {
+								children: [(0, react_jsx_runtime.jsx)("input", {
 									className: ProviderDirectorySection_module_css_default["searchInput"],
 									type: "text",
 									value: search,
@@ -9999,53 +10402,67 @@ window.__ModuleLoader__.load({
 									onChange: (event) => {
 										setSearch(event.target.value);
 									}
-								})
+								}), search.length === 0 ? null : (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: ProviderDirectorySection_module_css_default["searchClear"],
+									"aria-label": t("cancel"),
+									onClick: () => {
+										setSearch("");
+									},
+									children: (0, react_jsx_runtime.jsx)("svg", {
+										width: "10",
+										height: "10",
+										viewBox: "0 0 12 12",
+										fill: "none",
+										"aria-hidden": true,
+										children: (0, react_jsx_runtime.jsx)("path", {
+											d: "M9 3L3 9M3 3L9 9",
+											stroke: "currentColor",
+											strokeWidth: "1.5",
+											strokeLinecap: "round"
+										})
+									})
+								})]
 							}),
 							(0, react_jsx_runtime.jsx)("div", {
 								className: ProviderDirectorySection_module_css_default["listScroll"],
 								children: filtered.length === 0 ? (0, react_jsx_runtime.jsx)("p", {
 									className: ProviderDirectorySection_module_css_default["emptyList"],
 									children: t("noMatchingProviders")
-								}) : groups.map((group) => (0, react_jsx_runtime.jsxs)("section", {
-									className: ProviderDirectorySection_module_css_default["group"],
-									children: [(0, react_jsx_runtime.jsx)("h3", {
-										className: ProviderDirectorySection_module_css_default["groupTitle"],
-										children: group.label
-									}), (0, react_jsx_runtime.jsx)("ul", {
-										className: ProviderDirectorySection_module_css_default["groupRows"],
-										children: group.entries.map((entry) => {
-											const configured = entry.row?.configured === true;
-											const active = entry.row?.entry.active === true;
-											const credentialConfigured = entry.row?.credential?.configured === true;
-											return (0, react_jsx_runtime.jsx)("li", { children: (0, react_jsx_runtime.jsxs)("button", {
-												type: "button",
-												className: `${ProviderDirectorySection_module_css_default["listItem"]} ${entry.provider === effective?.provider ? ProviderDirectorySection_module_css_default["listItemSelected"] : ""}`,
-												"aria-pressed": entry.provider === effective?.provider,
-												onClick: () => {
-													select(entry.provider);
-												},
-												children: [(0, react_jsx_runtime.jsx)("span", {
+								}) : (0, react_jsx_runtime.jsx)("ul", {
+									className: ProviderDirectorySection_module_css_default["groupRows"],
+									children: filtered.map((entry) => {
+										const { enabled } = toggleStateOf(entry);
+										const isSelected = entry.provider === effective?.provider;
+										return (0, react_jsx_runtime.jsx)("li", { children: (0, react_jsx_runtime.jsxs)("button", {
+											type: "button",
+											className: `${ProviderDirectorySection_module_css_default["listItem"]} ${isSelected ? ProviderDirectorySection_module_css_default["listItemSelected"] : ""} ${enabled ? "" : ProviderDirectorySection_module_css_default["listItemDisabled"]}`,
+											"aria-pressed": isSelected,
+											onClick: () => {
+												select(entry.provider);
+											},
+											children: [(0, react_jsx_runtime.jsxs)("span", {
+												className: ProviderDirectorySection_module_css_default["listItemMain"],
+												children: [(0, react_jsx_runtime.jsx)(ProviderAvatar, {
+													providerId: entry.provider,
+													name: entry.displayName
+												}), (0, react_jsx_runtime.jsx)("span", {
 													className: ProviderDirectorySection_module_css_default["listItemName"],
 													children: entry.displayName
-												}), configured ? (0, react_jsx_runtime.jsx)("span", {
-													className: `${ProviderDirectorySection_module_css_default["dot"]} ${credentialConfigured ? ProviderDirectorySection_module_css_default["dotConfigured"] : ProviderDirectorySection_module_css_default["dotMissing"]}`,
-													role: "img",
-													"aria-label": credentialConfigured ? t("credentialConfigured") : t("credentialMissing"),
-													title: credentialConfigured ? t("credentialConfigured") : t("credentialMissing")
-												}) : active ? (0, react_jsx_runtime.jsx)("span", {
-													className: ProviderDirectorySection_module_css_default["dotActive"],
-													role: "img",
-													"aria-label": t("activeProvider"),
-													title: t("activeProvider")
-												}) : null]
-											}) }, entry.provider);
-										})
-									})]
-								}, group.id))
+												})]
+											}), enabled ? (0, react_jsx_runtime.jsx)("span", {
+												className: ProviderDirectorySection_module_css_default["enabledDot"],
+												role: "img",
+												"aria-label": t("activeProvider"),
+												title: t("activeProvider")
+											}) : null]
+										}) }, entry.provider);
+									})
+								})
 							}),
 							(0, react_jsx_runtime.jsx)("div", {
 								className: ProviderDirectorySection_module_css_default["listFooter"],
-								children: (0, react_jsx_runtime.jsx)("button", {
+								children: (0, react_jsx_runtime.jsxs)("button", {
 									type: "button",
 									className: ProviderDirectorySection_module_css_default["addCustomButton"],
 									disabled: !state.writable,
@@ -10053,26 +10470,39 @@ window.__ModuleLoader__.load({
 										setDeclaring(true);
 										setSavedTarget(void 0);
 									},
-									children: t("customAdd")
+									children: [(0, react_jsx_runtime.jsxs)("svg", {
+										width: "14",
+										height: "14",
+										viewBox: "0 0 24 24",
+										fill: "none",
+										stroke: "currentColor",
+										strokeWidth: "2",
+										strokeLinecap: "round",
+										"aria-hidden": true,
+										children: [(0, react_jsx_runtime.jsx)("path", { d: "M5 12h14" }), (0, react_jsx_runtime.jsx)("path", { d: "M12 5v14" })]
+									}), t("customAdd")]
 								})
 							})
 						]
 					}), (0, react_jsx_runtime.jsx)("main", {
 						className: ProviderDirectorySection_module_css_default["detail"],
 						children: declaring ? (0, react_jsx_runtime.jsx)("div", {
-							className: ProviderDirectorySection_module_css_default["editorWrap"],
-							children: (0, react_jsx_runtime.jsx)(CustomProviderCard, {
-								taken: state.rows.map((row) => row.entry.provider),
-								protocols,
-								/* v8 ignore next -- the card only opens from a button that requires the namespace */
-								revision: state.namespaces.get(NS)?.revision ?? 0,
-								api,
-								t,
-								readOnly: !state.writable,
-								onClose: (changed) => {
-									setDeclaring(false);
-									if (changed) controller.load();
-								}
+							className: ProviderDirectorySection_module_css_default["detailScroll"],
+							children: (0, react_jsx_runtime.jsx)("div", {
+								className: ProviderDirectorySection_module_css_default["detailContent"],
+								children: (0, react_jsx_runtime.jsx)(CustomProviderCard, {
+									taken: state.rows.map((row) => row.entry.provider),
+									protocols,
+									/* v8 ignore next -- the card only opens from a button that requires the namespace */
+									revision: state.namespaces.get(NS)?.revision ?? 0,
+									api,
+									t,
+									readOnly: !state.writable,
+									onClose: (changed) => {
+										setDeclaring(false);
+										if (changed) controller.load();
+									}
+								})
 							})
 						}) : effective === void 0 || editTarget === void 0 ? (0, react_jsx_runtime.jsxs)("div", {
 							className: ProviderDirectorySection_module_css_default["emptyDetail"],
@@ -10083,57 +10513,77 @@ window.__ModuleLoader__.load({
 								className: ProviderDirectorySection_module_css_default["emptyHint"],
 								children: t("selectProviderHint")
 							})]
-						}) : (0, react_jsx_runtime.jsx)("div", {
-							className: ProviderDirectorySection_module_css_default["detailScroll"],
-							children: (0, react_jsx_runtime.jsxs)("div", {
-								className: ProviderDirectorySection_module_css_default["detailContent"],
-								children: [
-									savedTarget === void 0 ? null : (0, react_jsx_runtime.jsx)("p", {
-										className: ProviderDirectorySection_module_css_default["savedNotice"],
-										role: "status",
-										"aria-live": "polite",
-										children: providerCopy(t("savedProvider"), savedTarget)
-									}),
-									(0, react_jsx_runtime.jsx)("header", {
-										className: ProviderDirectorySection_module_css_default["detailHeader"],
-										children: (0, react_jsx_runtime.jsxs)("div", {
-											className: ProviderDirectorySection_module_css_default["detailHeaderMain"],
-											children: [
-												(0, react_jsx_runtime.jsx)("span", {
-													className: ProviderDirectorySection_module_css_default["detailTitle"],
-													children: effective.displayName
-												}),
-												effective.provider !== effective.displayName ? (0, react_jsx_runtime.jsx)("span", {
-													className: ProviderDirectorySection_module_css_default["detailRoute"],
-													children: effective.provider
-												}) : null,
-												editTarget.declared === true ? (0, react_jsx_runtime.jsx)("span", {
-													className: ProviderDirectorySection_module_css_default["customTag"],
-													children: t("customTag")
-												}) : null,
-												effective.row?.entry.active === true ? (0, react_jsx_runtime.jsx)("span", {
-													className: ProviderDirectorySection_module_css_default["activeTag"],
-													children: t("activeProvider")
-												}) : null
-											]
-										})
-									}),
-									protocolLimitedType(effective.preset) === "iam" ? (0, react_jsx_runtime.jsx)("p", {
-										className: ProviderDirectorySection_module_css_default["notice"],
-										children: t("presetIamNote")
-									}) : protocolLimitedType(effective.preset) === "protocol" ? (0, react_jsx_runtime.jsx)("p", {
-										className: ProviderDirectorySection_module_css_default["notice"],
-										children: t("presetProtocolNote")
-									}) : null,
-									namespace === void 0 ? (0, react_jsx_runtime.jsx)("p", {
-										className: ProviderDirectorySection_module_css_default["error"],
-										children: `${effective.displayName}: ${NS} settings are unavailable`
-									}) : (0, react_jsx_runtime.jsx)("div", {
-										className: ProviderDirectorySection_module_css_default["editorWrap"],
-										children: (0, react_jsx_runtime.jsx)(ProviderEditor, {
+						}) : (() => {
+							const toggleState = toggleStateOf(effective);
+							const identityLabel = {
+								provider: effective.provider,
+								displayName: effective.displayName
+							};
+							return (0, react_jsx_runtime.jsxs)("div", {
+								className: ProviderDirectorySection_module_css_default["detailScroll"],
+								children: [(0, react_jsx_runtime.jsxs)("header", {
+									className: ProviderDirectorySection_module_css_default["detailHeader"],
+									children: [(0, react_jsx_runtime.jsxs)("div", {
+										className: ProviderDirectorySection_module_css_default["detailHeaderMain"],
+										children: [
+											(0, react_jsx_runtime.jsx)(ProviderAvatar, {
+												providerId: effective.provider,
+												name: effective.displayName
+											}),
+											(0, react_jsx_runtime.jsx)("span", {
+												className: ProviderDirectorySection_module_css_default["detailTitle"],
+												children: effective.displayName
+											}),
+											effective.provider !== effective.displayName ? (0, react_jsx_runtime.jsx)("span", {
+												className: ProviderDirectorySection_module_css_default["detailRoute"],
+												children: effective.provider
+											}) : null,
+											editTarget.declared === true ? (0, react_jsx_runtime.jsx)("span", {
+												className: ProviderDirectorySection_module_css_default["customTag"],
+												children: t("customTag")
+											}) : null,
+											!toggleState.enabled && toggleState.canToggle ? (0, react_jsx_runtime.jsx)("span", {
+												className: ProviderDirectorySection_module_css_default["disabledTag"],
+												children: t("providerDisabled")
+											}) : null
+										]
+									}), (0, react_jsx_runtime.jsx)(EnableSwitch, {
+										checked: toggleState.enabled,
+										disabled: !state.writable || toggling || !toggleState.canToggle,
+										title: editTarget.settingsNs !== NS ? t("advancedHint") : toggleState.canToggle ? void 0 : t("enableNeedsProfile"),
+										onChange: (next) => {
+											toggleEnabled(effective, next);
+										}
+									})]
+								}), (0, react_jsx_runtime.jsxs)("div", {
+									className: ProviderDirectorySection_module_css_default["detailBody"],
+									children: [
+										savedTarget === void 0 ? null : (0, react_jsx_runtime.jsx)("p", {
+											className: ProviderDirectorySection_module_css_default["savedNotice"],
+											role: "status",
+											"aria-live": "polite",
+											children: providerCopy(t("savedProvider"), savedTarget)
+										}),
+										toggleFailure === void 0 ? null : (0, react_jsx_runtime.jsx)("p", {
+											className: ProviderDirectorySection_module_css_default["error"],
+											children: t("toggleFailed").replace("{error}", toggleFailure)
+										}),
+										protocolLimitedType(effective.preset) === "iam" ? (0, react_jsx_runtime.jsx)("p", {
+											className: ProviderDirectorySection_module_css_default["notice"],
+											children: t("presetIamNote")
+										}) : protocolLimitedType(effective.preset) === "protocol" ? (0, react_jsx_runtime.jsx)("p", {
+											className: ProviderDirectorySection_module_css_default["notice"],
+											children: t("presetProtocolNote")
+										}) : null,
+										namespace === void 0 ? (0, react_jsx_runtime.jsx)("p", {
+											className: ProviderDirectorySection_module_css_default["error"],
+											children: `${effective.displayName}: ${NS} settings are unavailable`
+										}) : (0, react_jsx_runtime.jsx)(ProviderEditor, {
 											provider: editTarget.provider,
 											displayName: editTarget.displayName,
 											hideTitle: true,
+											panelStyle: true,
+											showCheck: true,
 											...editTarget.declared === true ? { declared: true } : {},
 											...editTarget.defaults === void 0 ? {} : { defaults: editTarget.defaults },
 											namespace,
@@ -10143,13 +10593,13 @@ window.__ModuleLoader__.load({
 											schema,
 											readOnly: !state.writable,
 											onClose: (changed) => {
-												if (changed) announceSaved(editTarget);
+												if (changed) announceSaved(identityLabel);
 											}
 										}, editTarget.provider)
-									})
-								]
-							})
-						})
+									]
+								})]
+							});
+						})()
 					})]
 				})]
 			});
@@ -10228,21 +10678,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var AddMcpServerDialog_module_css_default = {
-			"closeButton": "uv_otq_closeButton",
-			"dialog": "uv_otq_dialog",
 			"overlay": "uv_otq_overlay",
-			"submitButton": "uv_otq_submitButton",
-			"textarea": "uv_otq_textarea",
-			"footer": "uv_otq_footer",
-			"cancelButton": "uv_otq_cancelButton",
 			"form": "uv_otq_form",
-			"input": "uv_otq_input",
-			"header": "uv_otq_header",
-			"error": "uv_otq_error",
-			"field": "uv_otq_field",
 			"select": "uv_otq_select",
+			"input": "uv_otq_input",
+			"dialog": "uv_otq_dialog",
+			"error": "uv_otq_error",
+			"submitButton": "uv_otq_submitButton",
+			"field": "uv_otq_field",
+			"footer": "uv_otq_footer",
 			"label": "uv_otq_label",
-			"title": "uv_otq_title"
+			"cancelButton": "uv_otq_cancelButton",
+			"textarea": "uv_otq_textarea",
+			"title": "uv_otq_title",
+			"closeButton": "uv_otq_closeButton",
+			"header": "uv_otq_header"
 		};
 		//#endregion
 		//#region lib/types/client/AddMcpServerDialog.js
@@ -10478,76 +10928,76 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var McpSection_module_css_default = {
-			"sectionHeading": "_0bBxiW_sectionHeading",
-			"searchWrap": "_0bBxiW_searchWrap",
-			"searchIcon": "_0bBxiW_searchIcon",
-			"activeDot": "_0bBxiW_activeDot",
-			"addButton": "_0bBxiW_addButton",
-			"tabActive": "_0bBxiW_tabActive",
-			"fieldHint": "_0bBxiW_fieldHint",
-			"addFooter": "_0bBxiW_addFooter",
-			"emptyDescription": "_0bBxiW_emptyDescription",
-			"searchInput": "_0bBxiW_searchInput",
-			"searchRow": "_0bBxiW_searchRow",
-			"tab": "_0bBxiW_tab",
-			"splitRoot": "_0bBxiW_splitRoot",
-			"listItemMain": "_0bBxiW_listItemMain",
-			"fieldGroup": "_0bBxiW_fieldGroup",
-			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
-			"listItemAvatar": "_0bBxiW_listItemAvatar",
-			"serverDetail": "_0bBxiW_serverDetail",
-			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
-			"errorBox": "_0bBxiW_errorBox",
-			"resourceUri": "_0bBxiW_resourceUri",
-			"switchInput": "_0bBxiW_switchInput",
-			"checkbox": "_0bBxiW_checkbox",
-			"switchWrapper": "_0bBxiW_switchWrapper",
-			"toolsList": "_0bBxiW_toolsList",
-			"error": "_0bBxiW_error",
-			"toolItem": "_0bBxiW_toolItem",
-			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
-			"sectionHeader": "_0bBxiW_sectionHeader",
-			"listScroller": "_0bBxiW_listScroller",
-			"fieldLabel": "_0bBxiW_fieldLabel",
-			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
-			"emptyDetailState": "_0bBxiW_emptyDetailState",
-			"listItems": "_0bBxiW_listItems",
-			"detailHeader": "_0bBxiW_detailHeader",
-			"dangerZoneText": "_0bBxiW_dangerZoneText",
-			"listItemSelected": "_0bBxiW_listItemSelected",
-			"serverList": "_0bBxiW_serverList",
-			"emptyState": "_0bBxiW_emptyState",
-			"codeLine": "_0bBxiW_codeLine",
-			"searchClearButton": "_0bBxiW_searchClearButton",
-			"detailTitle": "_0bBxiW_detailTitle",
-			"tabBar": "_0bBxiW_tabBar",
-			"detailMeta": "_0bBxiW_detailMeta",
-			"listItemLabel": "_0bBxiW_listItemLabel",
-			"logInfo": "_0bBxiW_logInfo",
-			"formActions": "_0bBxiW_formActions",
-			"section": "_0bBxiW_section",
-			"fieldRow": "_0bBxiW_fieldRow",
-			"toolName": "_0bBxiW_toolName",
-			"textarea": "_0bBxiW_textarea",
-			"dangerButton": "_0bBxiW_dangerButton",
-			"primaryButton": "_0bBxiW_primaryButton",
-			"loading": "_0bBxiW_loading",
-			"detailScroll": "_0bBxiW_detailScroll",
 			"emptyTitle": "_0bBxiW_emptyTitle",
-			"logHeader": "_0bBxiW_logHeader",
-			"descriptionText": "_0bBxiW_descriptionText",
+			"detailMetaItem": "_0bBxiW_detailMetaItem",
+			"fieldLabel": "_0bBxiW_fieldLabel",
+			"switchWrapper": "_0bBxiW_switchWrapper",
+			"listItems": "_0bBxiW_listItems",
+			"sectionBody": "_0bBxiW_sectionBody",
+			"codeLine": "_0bBxiW_codeLine",
+			"searchIcon": "_0bBxiW_searchIcon",
+			"listItemAvatar": "_0bBxiW_listItemAvatar",
+			"searchClearButton": "_0bBxiW_searchClearButton",
+			"switchInput": "_0bBxiW_switchInput",
+			"fieldGroup": "_0bBxiW_fieldGroup",
+			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
+			"logInfo": "_0bBxiW_logInfo",
+			"listItemIdle": "_0bBxiW_listItemIdle",
+			"tabActive": "_0bBxiW_tabActive",
+			"addButton": "_0bBxiW_addButton",
+			"fieldRow": "_0bBxiW_fieldRow",
 			"toolHeader": "_0bBxiW_toolHeader",
-			"switchSlider": "_0bBxiW_switchSlider",
+			"serverDetail": "_0bBxiW_serverDetail",
+			"listItemSelected": "_0bBxiW_listItemSelected",
+			"searchWrap": "_0bBxiW_searchWrap",
+			"resourceUri": "_0bBxiW_resourceUri",
+			"dangerButton": "_0bBxiW_dangerButton",
+			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
+			"dangerZoneText": "_0bBxiW_dangerZoneText",
+			"sectionHeading": "_0bBxiW_sectionHeading",
+			"searchInput": "_0bBxiW_searchInput",
+			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
+			"detailHeader": "_0bBxiW_detailHeader",
+			"primaryButton": "_0bBxiW_primaryButton",
+			"formActions": "_0bBxiW_formActions",
+			"sectionHeader": "_0bBxiW_sectionHeader",
+			"emptyIcon": "_0bBxiW_emptyIcon",
+			"listScroller": "_0bBxiW_listScroller",
+			"toolItem": "_0bBxiW_toolItem",
+			"detailScroll": "_0bBxiW_detailScroll",
+			"errorBox": "_0bBxiW_errorBox",
+			"emptyDescription": "_0bBxiW_emptyDescription",
+			"listItem": "_0bBxiW_listItem",
+			"tabBar": "_0bBxiW_tabBar",
+			"descriptionText": "_0bBxiW_descriptionText",
 			"codeBlock": "_0bBxiW_codeBlock",
 			"toolDescription": "_0bBxiW_toolDescription",
-			"emptyIcon": "_0bBxiW_emptyIcon",
+			"toolName": "_0bBxiW_toolName",
+			"toolsList": "_0bBxiW_toolsList",
+			"searchRow": "_0bBxiW_searchRow",
+			"addFooter": "_0bBxiW_addFooter",
+			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
+			"listItemMain": "_0bBxiW_listItemMain",
+			"emptyDetailState": "_0bBxiW_emptyDetailState",
+			"switchSlider": "_0bBxiW_switchSlider",
+			"textarea": "_0bBxiW_textarea",
+			"detailTitle": "_0bBxiW_detailTitle",
+			"fieldHint": "_0bBxiW_fieldHint",
+			"listItemLabel": "_0bBxiW_listItemLabel",
+			"serverList": "_0bBxiW_serverList",
+			"logHeader": "_0bBxiW_logHeader",
+			"tab": "_0bBxiW_tab",
+			"error": "_0bBxiW_error",
+			"detailMeta": "_0bBxiW_detailMeta",
 			"dangerZone": "_0bBxiW_dangerZone",
+			"section": "_0bBxiW_section",
+			"loading": "_0bBxiW_loading",
+			"splitRoot": "_0bBxiW_splitRoot",
 			"input": "_0bBxiW_input",
-			"detailMetaItem": "_0bBxiW_detailMetaItem",
-			"listItemIdle": "_0bBxiW_listItemIdle",
-			"sectionBody": "_0bBxiW_sectionBody",
+			"activeDot": "_0bBxiW_activeDot",
+			"checkbox": "_0bBxiW_checkbox",
 			"secondaryButton": "_0bBxiW_secondaryButton",
-			"listItem": "_0bBxiW_listItem"
+			"emptyState": "_0bBxiW_emptyState"
 		};
 		//#endregion
 		//#region lib/types/client/McpSection.js
@@ -11494,26 +11944,26 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WebSearchSection_module_css_default = {
-			"cardDescription": "_0WjBOa_cardDescription",
-			"checkbox": "_0WjBOa_checkbox",
-			"providerDetail": "_0WjBOa_providerDetail",
-			"error": "_0WjBOa_error",
-			"apiKeyRow": "_0WjBOa_apiKeyRow",
-			"pageTitle": "_0WjBOa_pageTitle",
-			"fieldHint": "_0WjBOa_fieldHint",
-			"fieldRow": "_0WjBOa_fieldRow",
-			"pageDescription": "_0WjBOa_pageDescription",
-			"cardTitle": "_0WjBOa_cardTitle",
-			"root": "_0WjBOa_root",
-			"pageHeader": "_0WjBOa_pageHeader",
-			"iconButton": "_0WjBOa_iconButton",
 			"loading": "_0WjBOa_loading",
 			"providerName": "_0WjBOa_providerName",
+			"fieldHint": "_0WjBOa_fieldHint",
+			"cardTitle": "_0WjBOa_cardTitle",
+			"fieldRow": "_0WjBOa_fieldRow",
 			"card": "_0WjBOa_card",
-			"fieldLabel": "_0WjBOa_fieldLabel",
 			"input": "_0WjBOa_input",
+			"apiKeyRow": "_0WjBOa_apiKeyRow",
+			"cardDescription": "_0WjBOa_cardDescription",
+			"checkbox": "_0WjBOa_checkbox",
 			"providerDescription": "_0WjBOa_providerDescription",
-			"select": "_0WjBOa_select"
+			"pageDescription": "_0WjBOa_pageDescription",
+			"pageHeader": "_0WjBOa_pageHeader",
+			"pageTitle": "_0WjBOa_pageTitle",
+			"providerDetail": "_0WjBOa_providerDetail",
+			"fieldLabel": "_0WjBOa_fieldLabel",
+			"iconButton": "_0WjBOa_iconButton",
+			"select": "_0WjBOa_select",
+			"root": "_0WjBOa_root",
+			"error": "_0WjBOa_error"
 		};
 		//#endregion
 		//#region lib/types/client/WebSearchSection.js
@@ -11930,23 +12380,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProcessorSection_module_css_default = {
-			"providerDescription": "CL8zIa_providerDescription",
-			"pageTitle": "CL8zIa_pageTitle",
-			"apiKeyRow": "CL8zIa_apiKeyRow",
-			"fieldLabel": "CL8zIa_fieldLabel",
-			"providerDetail": "CL8zIa_providerDetail",
-			"cardDescription": "CL8zIa_cardDescription",
 			"loading": "CL8zIa_loading",
-			"fieldRow": "CL8zIa_fieldRow",
+			"pageDescription": "CL8zIa_pageDescription",
+			"pageTitle": "CL8zIa_pageTitle",
 			"select": "CL8zIa_select",
-			"root": "CL8zIa_root",
+			"providerDetail": "CL8zIa_providerDetail",
+			"providerName": "CL8zIa_providerName",
+			"providerDescription": "CL8zIa_providerDescription",
+			"cardDescription": "CL8zIa_cardDescription",
+			"input": "CL8zIa_input",
+			"cardTitle": "CL8zIa_cardTitle",
 			"card": "CL8zIa_card",
 			"fieldHint": "CL8zIa_fieldHint",
+			"apiKeyRow": "CL8zIa_apiKeyRow",
+			"root": "CL8zIa_root",
 			"iconButton": "CL8zIa_iconButton",
-			"pageDescription": "CL8zIa_pageDescription",
-			"providerName": "CL8zIa_providerName",
-			"input": "CL8zIa_input",
-			"cardTitle": "CL8zIa_cardTitle"
+			"fieldRow": "CL8zIa_fieldRow",
+			"fieldLabel": "CL8zIa_fieldLabel"
 		};
 		//#endregion
 		//#region lib/types/client/ProcessorSection.js
@@ -12231,57 +12681,57 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var UsageSection_module_css_default = {
-			"tableWrap": "ej6-VW_tableWrap",
-			"active": "ej6-VW_active",
-			"metricStrip": "ej6-VW_metricStrip",
-			"insightItem": "ej6-VW_insightItem",
-			"donutLegendRow": "ej6-VW_donutLegendRow",
-			"heatmapCell": "ej6-VW_heatmapCell",
-			"usageEmpty": "ej6-VW_usageEmpty",
-			"donutWrap": "ej6-VW_donutWrap",
-			"up": "ej6-VW_up",
-			"pageTitle": "ej6-VW_pageTitle",
+			"donutLegendValue": "ej6-VW_donutLegendValue",
 			"tdRight": "ej6-VW_tdRight",
 			"metricCell": "ej6-VW_metricCell",
-			"heatmapTitle": "ej6-VW_heatmapTitle",
-			"down": "ej6-VW_down",
-			"windowTabs": "ej6-VW_windowTabs",
-			"root": "ej6-VW_root",
-			"barChart": "ej6-VW_barChart",
-			"insightStrip": "ej6-VW_insightStrip",
-			"heatmapScroll": "ej6-VW_heatmapScroll",
-			"exploreBody": "ej6-VW_exploreBody",
-			"donutSwatch": "ej6-VW_donutSwatch",
-			"metricDelta": "ej6-VW_metricDelta",
-			"entriesTable": "ej6-VW_entriesTable",
-			"controlLabel": "ej6-VW_controlLabel",
-			"loadMoreBtn": "ej6-VW_loadMoreBtn",
-			"exploreCard": "ej6-VW_exploreCard",
-			"windowTab": "ej6-VW_windowTab",
 			"modelName": "ej6-VW_modelName",
-			"barSegment": "ej6-VW_barSegment",
-			"exploreTitle": "ej6-VW_exploreTitle",
-			"insightLabel": "ej6-VW_insightLabel",
 			"barColumn": "ej6-VW_barColumn",
-			"donutLegend": "ej6-VW_donutLegend",
-			"metricLabel": "ej6-VW_metricLabel",
-			"pageDescription": "ej6-VW_pageDescription",
-			"exploreHeader": "ej6-VW_exploreHeader",
-			"controlRow": "ej6-VW_controlRow",
-			"barAxis": "ej6-VW_barAxis",
-			"pageHeader": "ej6-VW_pageHeader",
-			"metricValue": "ej6-VW_metricValue",
-			"heatmap": "ej6-VW_heatmap",
-			"donutLegendKey": "ej6-VW_donutLegendKey",
-			"donutLegendValue": "ej6-VW_donutLegendValue",
-			"modelCell": "ej6-VW_modelCell",
-			"modelProvider": "ej6-VW_modelProvider",
 			"metricSparkline": "ej6-VW_metricSparkline",
+			"tableWrap": "ej6-VW_tableWrap",
+			"heatmapCell": "ej6-VW_heatmapCell",
+			"barAxis": "ej6-VW_barAxis",
+			"up": "ej6-VW_up",
+			"barSegment": "ej6-VW_barSegment",
+			"controlRow": "ej6-VW_controlRow",
+			"donutLegendKey": "ej6-VW_donutLegendKey",
+			"barChart": "ej6-VW_barChart",
+			"insightLabel": "ej6-VW_insightLabel",
+			"insightStrip": "ej6-VW_insightStrip",
+			"metricLabel": "ej6-VW_metricLabel",
+			"insightValue": "ej6-VW_insightValue",
+			"summaryLine": "ej6-VW_summaryLine",
+			"exploreTitle": "ej6-VW_exploreTitle",
+			"metricStrip": "ej6-VW_metricStrip",
+			"metricDelta": "ej6-VW_metricDelta",
+			"exploreHeader": "ej6-VW_exploreHeader",
+			"donutWrap": "ej6-VW_donutWrap",
+			"modelProvider": "ej6-VW_modelProvider",
+			"heatmapScroll": "ej6-VW_heatmapScroll",
+			"donutLegend": "ej6-VW_donutLegend",
 			"tableEmpty": "ej6-VW_tableEmpty",
 			"heatmapSection": "ej6-VW_heatmapSection",
-			"summaryLine": "ej6-VW_summaryLine",
+			"controlLabel": "ej6-VW_controlLabel",
+			"root": "ej6-VW_root",
+			"down": "ej6-VW_down",
+			"exploreCard": "ej6-VW_exploreCard",
+			"donutSwatch": "ej6-VW_donutSwatch",
+			"entriesTable": "ej6-VW_entriesTable",
+			"loadMoreBtn": "ej6-VW_loadMoreBtn",
+			"metricValue": "ej6-VW_metricValue",
+			"windowTab": "ej6-VW_windowTab",
 			"controlSelect": "ej6-VW_controlSelect",
-			"insightValue": "ej6-VW_insightValue"
+			"pageDescription": "ej6-VW_pageDescription",
+			"pageHeader": "ej6-VW_pageHeader",
+			"active": "ej6-VW_active",
+			"donutLegendRow": "ej6-VW_donutLegendRow",
+			"pageTitle": "ej6-VW_pageTitle",
+			"heatmap": "ej6-VW_heatmap",
+			"heatmapTitle": "ej6-VW_heatmapTitle",
+			"exploreBody": "ej6-VW_exploreBody",
+			"modelCell": "ej6-VW_modelCell",
+			"usageEmpty": "ej6-VW_usageEmpty",
+			"insightItem": "ej6-VW_insightItem",
+			"windowTabs": "ej6-VW_windowTabs"
 		};
 		//#endregion
 		//#region lib/types/client/UsageSection.js
@@ -13293,16 +13743,16 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SystemSection_module_css_default = {
-			"card": "MzTzwq_card",
-			"pageDescription": "MzTzwq_pageDescription",
-			"infoValue": "MzTzwq_infoValue",
 			"infoLabel": "MzTzwq_infoLabel",
+			"card": "MzTzwq_card",
+			"infoValue": "MzTzwq_infoValue",
+			"badge": "MzTzwq_badge",
+			"infoRow": "MzTzwq_infoRow",
 			"loading": "MzTzwq_loading",
 			"root": "MzTzwq_root",
 			"pageTitle": "MzTzwq_pageTitle",
-			"infoRow": "MzTzwq_infoRow",
-			"cardTitle": "MzTzwq_cardTitle",
-			"badge": "MzTzwq_badge"
+			"pageDescription": "MzTzwq_pageDescription",
+			"cardTitle": "MzTzwq_cardTitle"
 		};
 		//#endregion
 		//#region lib/types/client/SystemSection.js
@@ -13566,23 +14016,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TasksSection_module_css_default = {
-			"input": "_3yT94W_input",
-			"pageTitle": "_3yT94W_pageTitle",
-			"taskRow": "_3yT94W_taskRow",
-			"root": "_3yT94W_root",
-			"taskMeta": "_3yT94W_taskMeta",
-			"runOk": "_3yT94W_runOk",
-			"runRow": "_3yT94W_runRow",
-			"runTime": "_3yT94W_runTime",
-			"card": "_3yT94W_card",
-			"select": "_3yT94W_select",
 			"taskName": "_3yT94W_taskName",
+			"taskRow": "_3yT94W_taskRow",
+			"card": "_3yT94W_card",
+			"pageTitle": "_3yT94W_pageTitle",
+			"select": "_3yT94W_select",
+			"input": "_3yT94W_input",
+			"taskMeta": "_3yT94W_taskMeta",
+			"runTime": "_3yT94W_runTime",
+			"runDetail": "_3yT94W_runDetail",
+			"runRow": "_3yT94W_runRow",
+			"runOk": "_3yT94W_runOk",
 			"runFail": "_3yT94W_runFail",
 			"pageDescription": "_3yT94W_pageDescription",
-			"taskMain": "_3yT94W_taskMain",
-			"loading": "_3yT94W_loading",
 			"cardTitle": "_3yT94W_cardTitle",
-			"runDetail": "_3yT94W_runDetail"
+			"root": "_3yT94W_root",
+			"taskMain": "_3yT94W_taskMain",
+			"loading": "_3yT94W_loading"
 		};
 		//#endregion
 		//#region lib/types/client/TasksSection.js
@@ -13946,17 +14396,17 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsPages_module_css_default = {
-			"groupTitle": "_0spVW_groupTitle",
-			"rowTitle": "_0spVW_rowTitle",
-			"group": "_0spVW_group",
 			"shellInner": "_0spVW_shellInner",
-			"switchLabel": "_0spVW_switchLabel",
-			"groupDescription": "_0spVW_groupDescription",
-			"shell": "_0spVW_shell",
-			"divider": "_0spVW_divider",
-			"rowDescription": "_0spVW_rowDescription",
 			"row": "_0spVW_row",
-			"rowControl": "_0spVW_rowControl"
+			"rowTitle": "_0spVW_rowTitle",
+			"rowDescription": "_0spVW_rowDescription",
+			"groupDescription": "_0spVW_groupDescription",
+			"groupTitle": "_0spVW_groupTitle",
+			"shell": "_0spVW_shell",
+			"group": "_0spVW_group",
+			"switchLabel": "_0spVW_switchLabel",
+			"rowControl": "_0spVW_rowControl",
+			"divider": "_0spVW_divider"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsPages.js
@@ -14026,24 +14476,24 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var LocalModelDownloads_module_css_default = {
-			"modelSubtitle": "_9apQa_modelSubtitle",
-			"statusReady": "_9apQa_statusReady",
-			"btnPrimary": "_9apQa_btnPrimary",
-			"noticeText": "_9apQa_noticeText",
-			"modelIcon": "_9apQa_modelIcon",
-			"modelCard": "_9apQa_modelCard",
-			"modelMain": "_9apQa_modelMain",
-			"statusIdle": "_9apQa_statusIdle",
-			"btnDanger": "_9apQa_btnDanger",
-			"modelStatus": "_9apQa_modelStatus",
-			"modelName": "_9apQa_modelName",
-			"noticeTag": "_9apQa_noticeTag",
-			"groupHeader": "_9apQa_groupHeader",
 			"btn": "_9apQa_btn",
-			"noticeRow": "_9apQa_noticeRow",
+			"groupHeader": "_9apQa_groupHeader",
+			"noticeText": "_9apQa_noticeText",
+			"btnPrimary": "_9apQa_btnPrimary",
+			"statusReady": "_9apQa_statusReady",
+			"modelCard": "_9apQa_modelCard",
+			"modelIcon": "_9apQa_modelIcon",
+			"statusIdle": "_9apQa_statusIdle",
 			"groupDesc": "_9apQa_groupDesc",
 			"statusDownloading": "_9apQa_statusDownloading",
-			"modelOps": "_9apQa_modelOps"
+			"modelOps": "_9apQa_modelOps",
+			"modelName": "_9apQa_modelName",
+			"modelStatus": "_9apQa_modelStatus",
+			"modelSubtitle": "_9apQa_modelSubtitle",
+			"btnDanger": "_9apQa_btnDanger",
+			"modelMain": "_9apQa_modelMain",
+			"noticeRow": "_9apQa_noticeRow",
+			"noticeTag": "_9apQa_noticeTag"
 		};
 		//#endregion
 		//#region lib/types/client/LocalModelDownloads.js
@@ -14443,21 +14893,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ApiGatewaySection_module_css_default = {
-			"outlineBtn": "S156cG_outlineBtn",
-			"docLink": "S156cG_docLink",
-			"inputSmall": "S156cG_inputSmall",
-			"ghostBtn": "S156cG_ghostBtn",
+			"inputGroup": "S156cG_inputGroup",
 			"iconBtn": "S156cG_iconBtn",
+			"outlineBtn": "S156cG_outlineBtn",
+			"statusStopped": "S156cG_statusStopped",
 			"input": "S156cG_input",
-			"copied": "S156cG_copied",
+			"statusText": "S156cG_statusText",
+			"ghostBtn": "S156cG_ghostBtn",
+			"inputSmall": "S156cG_inputSmall",
+			"groupHeaderRow": "S156cG_groupHeaderRow",
 			"statusRow": "S156cG_statusRow",
 			"notice": "S156cG_notice",
-			"statusText": "S156cG_statusText",
-			"statusStopped": "S156cG_statusStopped",
-			"inputGroup": "S156cG_inputGroup",
-			"groupHeaderRow": "S156cG_groupHeaderRow",
 			"statusDot": "S156cG_statusDot",
-			"headerBox": "S156cG_headerBox"
+			"headerBox": "S156cG_headerBox",
+			"copied": "S156cG_copied",
+			"docLink": "S156cG_docLink"
 		};
 		//#endregion
 		//#region lib/types/client/ApiGatewaySection.js
@@ -14833,28 +15283,28 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
+			"navLabel": "_4STY0G_navLabel",
+			"close": "_4STY0G_close",
+			"trigger": "_4STY0G_trigger",
+			"panel": "_4STY0G_panel",
+			"navCell": "_4STY0G_navCell",
+			"overlay": "_4STY0G_overlay",
+			"mask": "_4STY0G_mask",
+			"triggerLabel": "_4STY0G_triggerLabel",
+			"navGroup": "_4STY0G_navGroup",
+			"navList": "_4STY0G_navList",
+			"active": "_4STY0G_active",
+			"navIcon": "_4STY0G_navIcon",
+			"header": "_4STY0G_header",
+			"options": "_4STY0G_options",
+			"actions": "_4STY0G_actions",
 			"content": "_4STY0G_content",
 			"nav": "_4STY0G_nav",
 			"navGroupTitle": "_4STY0G_navGroupTitle",
-			"navCell": "_4STY0G_navCell",
-			"navLabel": "_4STY0G_navLabel",
-			"active": "_4STY0G_active",
-			"navGroup": "_4STY0G_navGroup",
-			"navList": "_4STY0G_navList",
-			"navTitle": "_4STY0G_navTitle",
-			"actions": "_4STY0G_actions",
-			"panel": "_4STY0G_panel",
-			"options": "_4STY0G_options",
+			"navScroll": "_4STY0G_navScroll",
 			"hiddenLabel": "_4STY0G_hiddenLabel",
 			"rail": "_4STY0G_rail",
-			"navIcon": "_4STY0G_navIcon",
-			"triggerLabel": "_4STY0G_triggerLabel",
-			"mask": "_4STY0G_mask",
-			"header": "_4STY0G_header",
-			"close": "_4STY0G_close",
-			"trigger": "_4STY0G_trigger",
-			"overlay": "_4STY0G_overlay",
-			"navScroll": "_4STY0G_navScroll"
+			"navTitle": "_4STY0G_navTitle"
 		};
 		//#endregion
 		//#region \0dsh-control-center-plain-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\cherry-tokens.css.mjs
@@ -14901,7 +15351,7 @@ window.__ModuleLoader__.load({
 					size,
 					className: cls
 				});
-				case "websearch": return (0, react_jsx_runtime.jsx)(IconSearch, {
+				case "websearch": return (0, react_jsx_runtime.jsx)(IconSearch$1, {
 					size,
 					className: cls
 				});
@@ -15323,23 +15773,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var AppearanceSection_module_css_default = {
+			"hexInput": "_-7MpG_hexInput",
+			"colorRow": "_-7MpG_colorRow",
+			"fontSelect": "_-7MpG_fontSelect",
+			"swatchActive": "_-7MpG_swatchActive",
+			"nativePicker": "_-7MpG_nativePicker",
 			"themeOption": "_-7MpG_themeOption",
-			"themePreviewActive": "_-7MpG_themePreviewActive",
-			"zoomControls": "_-7MpG_zoomControls",
-			"groupHeader": "_-7MpG_groupHeader",
 			"previewFrame": "_-7MpG_previewFrame",
 			"desktopTag": "_-7MpG_desktopTag",
-			"nativeSwatch": "_-7MpG_nativeSwatch",
-			"swatchActive": "_-7MpG_swatchActive",
-			"hexInput": "_-7MpG_hexInput",
-			"cssEditor": "_-7MpG_cssEditor",
+			"groupHeader": "_-7MpG_groupHeader",
+			"zoomControls": "_-7MpG_zoomControls",
+			"themeLabel": "_-7MpG_themeLabel",
 			"staticValue": "_-7MpG_staticValue",
 			"swatch": "_-7MpG_swatch",
-			"fontSelect": "_-7MpG_fontSelect",
+			"cssEditor": "_-7MpG_cssEditor",
 			"themeGrid": "_-7MpG_themeGrid",
-			"themeLabel": "_-7MpG_themeLabel",
-			"colorRow": "_-7MpG_colorRow",
-			"nativePicker": "_-7MpG_nativePicker"
+			"nativeSwatch": "_-7MpG_nativeSwatch",
+			"themePreviewActive": "_-7MpG_themePreviewActive"
 		};
 		//#endregion
 		//#region lib/types/client/AppearanceSection.js
@@ -16161,36 +16611,36 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ShortcutSection_module_css_default = {
-			"kbd": "-S_gJa_kbd",
-			"rowLabel": "-S_gJa_rowLabel",
-			"emptyState": "-S_gJa_emptyState",
-			"menuCount": "-S_gJa_menuCount",
-			"header": "-S_gJa_header",
-			"menuPop": "-S_gJa_menuPop",
-			"groupLabel": "-S_gJa_groupLabel",
-			"keys": "-S_gJa_keys",
-			"bound": "-S_gJa_bound",
-			"rowDisabled": "-S_gJa_rowDisabled",
-			"desktopTag": "-S_gJa_desktopTag",
-			"headerControls": "-S_gJa_headerControls",
-			"filterButton": "-S_gJa_filterButton",
-			"menuSep": "-S_gJa_menuSep",
-			"row": "-S_gJa_row",
-			"recording": "-S_gJa_recording",
-			"rowShortcut": "-S_gJa_rowShortcut",
-			"undo": "-S_gJa_undo",
-			"menuItemActive": "-S_gJa_menuItemActive",
 			"headerTitle": "-S_gJa_headerTitle",
 			"searchInput": "-S_gJa_searchInput",
-			"menuItem": "-S_gJa_menuItem",
-			"unbound": "-S_gJa_unbound",
-			"listGroup": "-S_gJa_listGroup",
-			"rowSwitch": "-S_gJa_rowSwitch",
-			"moreButton": "-S_gJa_moreButton",
-			"searchIcon": "-S_gJa_searchIcon",
 			"menuItemDanger": "-S_gJa_menuItemDanger",
+			"undo": "-S_gJa_undo",
+			"headerControls": "-S_gJa_headerControls",
+			"keys": "-S_gJa_keys",
+			"menuItemActive": "-S_gJa_menuItemActive",
+			"header": "-S_gJa_header",
+			"unbound": "-S_gJa_unbound",
+			"rowLabel": "-S_gJa_rowLabel",
+			"recording": "-S_gJa_recording",
+			"filterButton": "-S_gJa_filterButton",
+			"bound": "-S_gJa_bound",
+			"moreButton": "-S_gJa_moreButton",
+			"menuItem": "-S_gJa_menuItem",
+			"menuSep": "-S_gJa_menuSep",
+			"groupLabel": "-S_gJa_groupLabel",
+			"menuCount": "-S_gJa_menuCount",
+			"searchWrap": "-S_gJa_searchWrap",
+			"rowSwitch": "-S_gJa_rowSwitch",
+			"rowShortcut": "-S_gJa_rowShortcut",
+			"emptyState": "-S_gJa_emptyState",
+			"searchIcon": "-S_gJa_searchIcon",
+			"row": "-S_gJa_row",
 			"groupBlock": "-S_gJa_groupBlock",
-			"searchWrap": "-S_gJa_searchWrap"
+			"desktopTag": "-S_gJa_desktopTag",
+			"listGroup": "-S_gJa_listGroup",
+			"rowDisabled": "-S_gJa_rowDisabled",
+			"kbd": "-S_gJa_kbd",
+			"menuPop": "-S_gJa_menuPop"
 		};
 		//#endregion
 		//#region lib/types/client/ShortcutSection.js
@@ -16791,43 +17241,43 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SelectionAssistantSection_module_css_default = {
-			"modalCard": "_2Suf7W_modalCard",
-			"groupTitle": "_2Suf7W_groupTitle",
-			"outlineBtn": "_2Suf7W_outlineBtn",
-			"toolbarItem": "_2Suf7W_toolbarItem",
-			"opBtn": "_2Suf7W_opBtn",
-			"formHint": "_2Suf7W_formHint",
-			"modalFooter": "_2Suf7W_modalFooter",
-			"actionOps": "_2Suf7W_actionOps",
-			"btnPrimary": "_2Suf7W_btnPrimary",
-			"dragHandle": "_2Suf7W_dragHandle",
-			"actionRowDisabled": "_2Suf7W_actionRowDisabled",
-			"faqLink": "_2Suf7W_faqLink",
-			"ghostBtn": "_2Suf7W_ghostBtn",
-			"toolbarPreview": "_2Suf7W_toolbarPreview",
-			"modalOverlay": "_2Suf7W_modalOverlay",
 			"toolbarIcon": "_2Suf7W_toolbarIcon",
-			"actionsDivider": "_2Suf7W_actionsDivider",
-			"formInput": "_2Suf7W_formInput",
-			"noticeText": "_2Suf7W_noticeText",
-			"opBtnDanger": "_2Suf7W_opBtnDanger",
-			"notice": "_2Suf7W_notice",
-			"btn": "_2Suf7W_btn",
-			"radioItem": "_2Suf7W_radioItem",
 			"opacityRow": "_2Suf7W_opacityRow",
-			"actionRow": "_2Suf7W_actionRow",
-			"groupHeaderRow": "_2Suf7W_groupHeaderRow",
-			"actionsHeaderBtns": "_2Suf7W_actionsHeaderBtns",
-			"actionRowDragging": "_2Suf7W_actionRowDragging",
+			"notice": "_2Suf7W_notice",
 			"opacitySlider": "_2Suf7W_opacitySlider",
+			"radioRow": "_2Suf7W_radioRow",
+			"actionRowDisabled": "_2Suf7W_actionRowDisabled",
+			"radioItem": "_2Suf7W_radioItem",
+			"actionRowDragging": "_2Suf7W_actionRowDragging",
+			"dragHandle": "_2Suf7W_dragHandle",
+			"actionName": "_2Suf7W_actionName",
+			"actionOps": "_2Suf7W_actionOps",
+			"modalOverlay": "_2Suf7W_modalOverlay",
+			"actionsDivider": "_2Suf7W_actionsDivider",
+			"outlineBtn": "_2Suf7W_outlineBtn",
 			"engineChip": "_2Suf7W_engineChip",
+			"btnPrimary": "_2Suf7W_btnPrimary",
+			"actionRow": "_2Suf7W_actionRow",
+			"enableBtn": "_2Suf7W_enableBtn",
+			"ghostBtn": "_2Suf7W_ghostBtn",
+			"actionsHeaderBtns": "_2Suf7W_actionsHeaderBtns",
+			"opBtn": "_2Suf7W_opBtn",
 			"enableBtnOn": "_2Suf7W_enableBtnOn",
+			"toolbarItem": "_2Suf7W_toolbarItem",
+			"groupHeaderRow": "_2Suf7W_groupHeaderRow",
+			"modalFooter": "_2Suf7W_modalFooter",
+			"btn": "_2Suf7W_btn",
+			"formInput": "_2Suf7W_formInput",
+			"modalCard": "_2Suf7W_modalCard",
 			"formField": "_2Suf7W_formField",
 			"formTextarea": "_2Suf7W_formTextarea",
-			"radioRow": "_2Suf7W_radioRow",
-			"actionName": "_2Suf7W_actionName",
+			"faqLink": "_2Suf7W_faqLink",
+			"groupTitle": "_2Suf7W_groupTitle",
+			"toolbarPreview": "_2Suf7W_toolbarPreview",
+			"formHint": "_2Suf7W_formHint",
+			"opBtnDanger": "_2Suf7W_opBtnDanger",
 			"actionIcon": "_2Suf7W_actionIcon",
-			"enableBtn": "_2Suf7W_enableBtn"
+			"noticeText": "_2Suf7W_noticeText"
 		};
 		//#endregion
 		//#region lib/types/client/SelectionAssistantSection.js
@@ -17225,7 +17675,7 @@ window.__ModuleLoader__.load({
 								className: SelectionAssistantSection_module_css_default.outlineBtn,
 								disabled: prefs.actions.filter((a) => !a.builtin).length >= MAX_CUSTOM,
 								onClick: openAdd,
-								children: [(0, react_jsx_runtime.jsx)(IconPlus, { size: 14 }), "自定义功能"]
+								children: [(0, react_jsx_runtime.jsx)(IconPlus$1, { size: 14 }), "自定义功能"]
 							})]
 						})]
 					}),
@@ -17521,19 +17971,19 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var QuickAssistantSection_module_css_default = {
-			"groupTitle": "AweFxa_groupTitle",
-			"segItem": "AweFxa_segItem",
-			"notice": "AweFxa_notice",
-			"segItemActive": "AweFxa_segItemActive",
-			"previewLogo": "AweFxa_previewLogo",
 			"modelRow": "AweFxa_modelRow",
-			"previewPlaceholder": "AweFxa_previewPlaceholder",
-			"previewChip": "AweFxa_previewChip",
-			"previewBar": "AweFxa_previewBar",
+			"segItemActive": "AweFxa_segItemActive",
 			"previewWindow": "AweFxa_previewWindow",
+			"groupTitle": "AweFxa_groupTitle",
+			"previewLogo": "AweFxa_previewLogo",
+			"previewChip": "AweFxa_previewChip",
 			"modelHint": "AweFxa_modelHint",
-			"previewFooter": "AweFxa_previewFooter",
-			"segmented": "AweFxa_segmented"
+			"previewBar": "AweFxa_previewBar",
+			"notice": "AweFxa_notice",
+			"segItem": "AweFxa_segItem",
+			"previewPlaceholder": "AweFxa_previewPlaceholder",
+			"segmented": "AweFxa_segmented",
+			"previewFooter": "AweFxa_previewFooter"
 		};
 		//#endregion
 		//#region lib/types/client/QuickAssistantSection.js
@@ -17692,15 +18142,15 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ScreenshotSection_module_css_default = {
+			"notice": "RXXS4a_notice",
 			"linkBtn": "RXXS4a_linkBtn",
-			"groupTitle": "RXXS4a_groupTitle",
 			"shortcutBadge": "RXXS4a_shortcutBadge",
 			"shortcutTitle": "RXXS4a_shortcutTitle",
-			"shortcutRight": "RXXS4a_shortcutRight",
-			"notice": "RXXS4a_notice",
-			"ocrStatus": "RXXS4a_ocrStatus",
+			"shortcutDesc": "RXXS4a_shortcutDesc",
 			"shortcutLabel": "RXXS4a_shortcutLabel",
-			"shortcutDesc": "RXXS4a_shortcutDesc"
+			"shortcutRight": "RXXS4a_shortcutRight",
+			"groupTitle": "RXXS4a_groupTitle",
+			"ocrStatus": "RXXS4a_ocrStatus"
 		};
 		//#endregion
 		//#region lib/types/client/ScreenshotSection.js
@@ -17842,46 +18292,46 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ChannelsSection_module_css_default = {
-			"modalFooter": "bV1JOa_modalFooter",
-			"typeIconLarge": "bV1JOa_typeIconLarge",
-			"submenuList": "bV1JOa_submenuList",
-			"detailDesc": "bV1JOa_detailDesc",
-			"opBtn": "bV1JOa_opBtn",
-			"opBtnDanger": "bV1JOa_opBtnDanger",
-			"emptyState": "bV1JOa_emptyState",
-			"submenu": "bV1JOa_submenu",
-			"submenuItem": "bV1JOa_submenuItem",
-			"modalOverlay": "bV1JOa_modalOverlay",
-			"divider": "bV1JOa_divider",
-			"typeIcon": "bV1JOa_typeIcon",
-			"instanceOps": "bV1JOa_instanceOps",
+			"split": "bV1JOa_split",
+			"statusDot": "bV1JOa_statusDot",
 			"btnPrimary": "bV1JOa_btnPrimary",
-			"detailTitle": "bV1JOa_detailTitle",
+			"submenuItemActive": "bV1JOa_submenuItemActive",
+			"typeIconLarge": "bV1JOa_typeIconLarge",
 			"connectedBadge": "bV1JOa_connectedBadge",
-			"instanceName": "bV1JOa_instanceName",
+			"notice": "bV1JOa_notice",
+			"formInput": "bV1JOa_formInput",
+			"instanceOps": "bV1JOa_instanceOps",
+			"detailTitleBlock": "bV1JOa_detailTitleBlock",
+			"instanceSummary": "bV1JOa_instanceSummary",
+			"detailDesc": "bV1JOa_detailDesc",
+			"modalCard": "bV1JOa_modalCard",
+			"formField": "bV1JOa_formField",
+			"modalFooter": "bV1JOa_modalFooter",
+			"submenu": "bV1JOa_submenu",
+			"typeIcon": "bV1JOa_typeIcon",
+			"submenuList": "bV1JOa_submenuList",
+			"addBtn": "bV1JOa_addBtn",
+			"detailHeader": "bV1JOa_detailHeader",
+			"instanceRow": "bV1JOa_instanceRow",
+			"opBtnDanger": "bV1JOa_opBtnDanger",
 			"statusDotActive": "bV1JOa_statusDotActive",
 			"detailBody": "bV1JOa_detailBody",
-			"statusDot": "bV1JOa_statusDot",
-			"detail": "bV1JOa_detail",
-			"instanceMain": "bV1JOa_instanceMain",
-			"submenuTitle": "bV1JOa_submenuTitle",
-			"modalCard": "bV1JOa_modalCard",
-			"formInput": "bV1JOa_formInput",
-			"typeIconImgLarge": "bV1JOa_typeIconImgLarge",
-			"detailHeader": "bV1JOa_detailHeader",
-			"detailTitleBlock": "bV1JOa_detailTitleBlock",
-			"formField": "bV1JOa_formField",
-			"instanceSummary": "bV1JOa_instanceSummary",
-			"notice": "bV1JOa_notice",
-			"formSelect": "bV1JOa_formSelect",
-			"btn": "bV1JOa_btn",
-			"typeIconImg": "bV1JOa_typeIconImg",
-			"instanceRow": "bV1JOa_instanceRow",
-			"submenuItemActive": "bV1JOa_submenuItemActive",
-			"formHint": "bV1JOa_formHint",
-			"addBtn": "bV1JOa_addBtn",
+			"instanceName": "bV1JOa_instanceName",
+			"modalOverlay": "bV1JOa_modalOverlay",
 			"logsBody": "bV1JOa_logsBody",
-			"split": "bV1JOa_split"
+			"divider": "bV1JOa_divider",
+			"detail": "bV1JOa_detail",
+			"btn": "bV1JOa_btn",
+			"opBtn": "bV1JOa_opBtn",
+			"typeIconImgLarge": "bV1JOa_typeIconImgLarge",
+			"emptyState": "bV1JOa_emptyState",
+			"submenuTitle": "bV1JOa_submenuTitle",
+			"instanceMain": "bV1JOa_instanceMain",
+			"formSelect": "bV1JOa_formSelect",
+			"formHint": "bV1JOa_formHint",
+			"submenuItem": "bV1JOa_submenuItem",
+			"typeIconImg": "bV1JOa_typeIconImg",
+			"detailTitle": "bV1JOa_detailTitle"
 		};
 		//#endregion
 		//#region lib/types/client/ChannelsSection.js
@@ -18376,8 +18826,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsDocumentAction_module_css_default = {
-			"action": "SgSrUG_action",
-			"error": "SgSrUG_error"
+			"error": "SgSrUG_error",
+			"action": "SgSrUG_action"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsDocumentAction.js
@@ -18604,10 +19054,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var OnboardingModal_module_css_default = {
+			"content": "C_CJ_a_content",
 			"dialog": "C_CJ_a_dialog",
 			"title": "C_CJ_a_title",
-			"body": "C_CJ_a_body",
-			"content": "C_CJ_a_content"
+			"body": "C_CJ_a_body"
 		};
 		//#endregion
 		//#region lib/types/client/OnboardingModal.js
@@ -18758,10 +19208,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WelcomeNotice_module_css_default = {
+			"primary": "RFswhG_primary",
 			"error": "RFswhG_error",
-			"actions": "RFswhG_actions",
 			"copy": "RFswhG_copy",
-			"primary": "RFswhG_primary"
+			"actions": "RFswhG_actions"
 		};
 		//#endregion
 		//#region lib/types/client/WelcomeNotice.js
@@ -19068,7 +19518,7 @@ window.__ModuleLoader__.load({
 			modelDuplicate: "Each model ID may appear once.",
 			modelContextWindow: "Context window",
 			modelMaxTokens: "Max output tokens",
-			fetchModels: "Fetch available models",
+			fetchModels: "Fetch model list",
 			fetching: "Asking the provider…",
 			fetchNeedsBaseUrl: "Enter the base URL first, then fetch.",
 			fetchEmpty: "The provider listed no models. Add them by hand.",
@@ -19123,7 +19573,20 @@ window.__ModuleLoader__.load({
 			activeProvider: "Active",
 			inactiveProvider: "Not configured",
 			presetIamNote: "This provider normally authenticates through IAM/SSO. DSH Control Center presents it with an API key and base URL, which its endpoint may not accept without extra setup.",
-			presetProtocolNote: "This provider’s native API is not OpenAI-compatible. The profile defaults to OpenAI chat completions; change the base URL to the provider’s OpenAI-compatible endpoint, or use the adapter’s built-in route for this provider."
+			presetProtocolNote: "This provider’s native API is not OpenAI-compatible. The profile defaults to OpenAI chat completions; change the base URL to the provider’s OpenAI-compatible endpoint, or use the adapter’s built-in route for this provider.",
+			showKey: "Show API key",
+			hideKey: "Hide API key",
+			checkConnection: "Check",
+			checking: "Checking…",
+			checkSuccess: "OK · {count} models · {ms} ms",
+			checkFailed: "Check failed",
+			endpointPreview: "Endpoint preview: {url}",
+			searchModels: "Search models",
+			enableProvider: "Enable {provider}",
+			disableProvider: "Disable {provider}",
+			enableNeedsProfile: "Configure this provider first — an unconfigured provider cannot be enabled.",
+			toggleFailed: "The toggle failed: {error}",
+			providerDisabled: "Disabled"
 		};
 		/** Chinese strings (same keys as {@link en}). */
 		const zh$1 = {
@@ -19189,7 +19652,7 @@ window.__ModuleLoader__.load({
 			modelDuplicate: "每个模型 ID 只能出现一次。",
 			modelContextWindow: "上下文窗口",
 			modelMaxTokens: "最大输出 token",
-			fetchModels: "获取可用模型",
+			fetchModels: "获取模型列表",
 			fetching: "正在询问提供方…",
 			fetchNeedsBaseUrl: "请先填写 API 地址，再获取。",
 			fetchEmpty: "该提供方没有列出任何模型，请手动添加。",
@@ -19244,7 +19707,20 @@ window.__ModuleLoader__.load({
 			activeProvider: "已启用",
 			inactiveProvider: "未配置",
 			presetIamNote: "该提供方通常通过 IAM/SSO 认证。DSH Control Center 以 API 密钥和地址形式呈现，其端点可能需要额外配置才能接受。",
-			presetProtocolNote: "该提供方的原生 API 不兼容 OpenAI 协议。配置文件默认使用 OpenAI Chat Completions；请将 API 地址改为该提供方的 OpenAI 兼容端点，或使用适配器内置的对应路由。"
+			presetProtocolNote: "该提供方的原生 API 不兼容 OpenAI 协议。配置文件默认使用 OpenAI Chat Completions；请将 API 地址改为该提供方的 OpenAI 兼容端点，或使用适配器内置的对应路由。",
+			showKey: "显示密钥",
+			hideKey: "隐藏密钥",
+			checkConnection: "检测",
+			checking: "检测中…",
+			checkSuccess: "成功 · {count} 个模型 · {ms} ms",
+			checkFailed: "检测失败",
+			endpointPreview: "端点预览: {url}",
+			searchModels: "搜索模型",
+			enableProvider: "启用 {provider}",
+			disableProvider: "禁用 {provider}",
+			enableNeedsProfile: "请先完成配置——未配置的提供方无法启用。",
+			toggleFailed: "切换失败: {error}",
+			providerDisabled: "已禁用"
 		};
 		//#endregion
 		//#region lib/types/client/websearch-locales.js
@@ -19364,13 +19840,13 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProductWorkspaceSurface_module_css_default = {
-			"close": "mzcFbW_close",
-			"eyebrow": "mzcFbW_eyebrow",
 			"root": "mzcFbW_root",
-			"header": "mzcFbW_header",
+			"close": "mzcFbW_close",
+			"identity": "mzcFbW_identity",
 			"body": "mzcFbW_body",
+			"header": "mzcFbW_header",
 			"icon": "mzcFbW_icon",
-			"identity": "mzcFbW_identity"
+			"eyebrow": "mzcFbW_eyebrow"
 		};
 		//#endregion
 		//#region lib/types/client/ProductWorkspaceSurface.js
@@ -20158,7 +20634,7 @@ window.__ModuleLoader__.load({
 								type: "button",
 								className: TranslationWorkspace_module_css_default.langAdd,
 								onClick: startAdd,
-								children: [(0, react_jsx_runtime.jsx)(IconPlus, { size: 13 }), (0, react_jsx_runtime.jsx)("span", { children: "添加语言" })]
+								children: [(0, react_jsx_runtime.jsx)(IconPlus$1, { size: 13 }), (0, react_jsx_runtime.jsx)("span", { children: "添加语言" })]
 							}),
 							adding && (0, react_jsx_runtime.jsxs)("div", {
 								className: TranslationWorkspace_module_css_default.langForm,

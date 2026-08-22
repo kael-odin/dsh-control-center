@@ -101,14 +101,41 @@ function IconChevron({ open }: { open: boolean }): ReactNode {
   )
 }
 
-/** Removal glyph for one model row. */
-function IconTrash(): ReactNode {
+/** Removal glyph for one model row (Cherry's minus affordance). */
+function IconMinus(): ReactNode {
   return (
-    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
-      <path
-        d="M2.5 4h11M6.5 4V2.5h3V4M4 4l.7 9a1 1 0 001 .9h4.6a1 1 0 001-.9L12 4M6.5 6.8v4.4M9.5 6.8v4.4"
-        stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"
-      />
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+      <path d="M5 12h14" />
+    </svg>
+  )
+}
+
+/** Toolbar glyphs. */
+function IconSearch(): ReactNode {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+  )
+}
+
+function IconRefresh(): ReactNode {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+      <path d="M21 3v5h-5" />
+      <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+      <path d="M8 16H3v5" />
+    </svg>
+  )
+}
+
+function IconPlus(): ReactNode {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+      <path d="M5 12h14" />
+      <path d="M12 5v14" />
     </svg>
   )
 }
@@ -174,6 +201,11 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
   // FIELD: a single buffer would be displaced by editing any other field, and
   // the abandoned one would render its stored NaN as the literal `NaN`.
   const [editing, setEditing] = useState<ReadonlyMap<string, string>>(new Map())
+  // The model filter stays open while text is in it, exactly like Cherry's
+  // expanding search; rows render filtered but every edit names its ORIGINAL
+  // index, so a narrowed view never rewrites the wrong row.
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [searchText, setSearchText] = useState('')
 
   /** Buffer key for one capacity field; the row half moves when rows do. */
   const bufferKey = (index: number, field: CapacityField): string => `${String(index)}:${field}`
@@ -282,6 +314,23 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
     closePicker()
   }
 
+  const removeAt = (index: number): void => {
+    onChange(models.filter((_model, at) => at !== index))
+    // Both stores are keyed by position, so every row after this one shifts
+    // down and would otherwise inherit its neighbour's state — a different
+    // row's capacities popping open, or its half-typed text appearing in
+    // another row's field.
+    setExpanded((current) => {
+      const next = new Set<number>()
+      for (const at of current) {
+        if (at < index) next.add(at)
+        else if (at > index) next.add(at - 1)
+      }
+      return next
+    })
+    setEditing(current => reindexOnRemove(current, index))
+  }
+
   const toggle = (id: string): void => {
     setPicked((current) => {
       const next = new Set(current)
@@ -293,11 +342,20 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
   // A route the adapter already describes answers without an endpoint; only a
   // draft with neither has nothing to ask about.
   const askable = probe.provider !== undefined || (probe.baseURL !== undefined && probe.baseURL.length > 0)
+  const keyword = searchText.trim().toLowerCase()
+  const visibleRows = models
+    .map((model, index) => ({ model, index }))
+    .filter(({ model }) => keyword.length === 0
+      || textOf(model, 'id').toLowerCase().includes(keyword)
+      || textOf(model, 'name').toLowerCase().includes(keyword))
+
   return (
     <section className={styles['modelCatalog']} aria-label={t('models')}>
       <div className={styles['modelListHead']}>
         <div className={styles['modelCatalogHeading']}>
           <span className={styles['modelCatalogTitle']}>{t('models')}</span>
+          {/* Cherry shows the count beside the section title once rows exist. */}
+          {models.length > 0 ? <span className={styles['modelCountBadge']}>{models.length}</span> : null}
           {props.overridden === undefined
             ? null
             : (
@@ -306,51 +364,90 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
               </span>
             )}
         </div>
-        {props.overridden === true && props.onReset !== undefined
-          ? (
-            <button
-              type="button"
-              className={styles['linkButton']}
-              disabled={disabled}
-              onClick={props.onReset}
-            >
-              {t('resetModels')}
-            </button>
-          )
-          : null}
-        <button
-          type="button"
-          className={styles['linkButton']}
-          disabled={disabled || busy || !askable || props.probeBlocked !== undefined}
-          title={props.probeBlocked !== undefined
-            ? t(props.probeBlocked)
-            : askable ? undefined : t('fetchNeedsBaseUrl')}
-          onClick={() => { void fetchModels() }}
-        >
-          {busy ? t('fetching') : t('fetchModels')}
-        </button>
+        <div className={styles['modelToolbarActions']}>
+          {props.overridden === true && props.onReset !== undefined
+            ? (
+              <button
+                type="button"
+                className={styles['linkButton']}
+                disabled={disabled}
+                onClick={props.onReset}
+              >
+                {t('resetModels')}
+              </button>
+            )
+            : null}
+          {models.length > 4
+            ? (
+              <button
+                type="button"
+                className={styles['iconButton']}
+                aria-label={t('searchModels')}
+                aria-expanded={searchOpen}
+                title={t('searchModels')}
+                onClick={() => {
+                  setSearchOpen(open => !open)
+                  if (searchOpen) setSearchText('')
+                }}
+              >
+                <IconSearch />
+              </button>
+            )
+            : null}
+          <button
+            type="button"
+            className={styles['fetchButton']}
+            disabled={disabled || busy || !askable || props.probeBlocked !== undefined}
+            title={props.probeBlocked !== undefined
+              ? t(props.probeBlocked)
+              : askable ? undefined : t('fetchNeedsBaseUrl')}
+            onClick={() => { void fetchModels() }}
+          >
+            <IconRefresh />
+            {busy ? t('fetching') : t('fetchModels')}
+          </button>
+          <button
+            type="button"
+            className={styles['iconButton']}
+            aria-label={t('addModel')}
+            title={t('addModel')}
+            disabled={disabled}
+            onClick={() => {
+              onChange([...models, { id: '' }])
+              setExpanded(current => new Set([...current, models.length]))
+            }}
+          >
+            <IconPlus />
+          </button>
+        </div>
       </div>
+      {searchOpen && models.length > 4
+        ? (
+          <input
+            className={`${styles['input']} ${styles['modelSearchInput']}`}
+            type="text"
+            value={searchText}
+            placeholder={t('searchModels')}
+            aria-label={t('searchModels')}
+            onChange={(event) => { setSearchText(event.target.value) }}
+          />
+        )
+        : null}
       {models.length === 0 ? <p className={styles['modelEmpty']}>{t('modelsEmpty')}</p> : null}
-      {models.map((model, index) => (
+      {visibleRows.map(({ model, index }) => (
         <div key={index} className={styles['modelEntry']}>
           <div className={styles['modelRow']}>
+            <span className={styles['modelAvatar']} aria-hidden>
+              {(textOf(model, 'name') || textOf(model, 'id')).charAt(0).toUpperCase() || '?'}
+            </span>
             <input
-              className={styles['input']}
+              className={styles['modelIdInput']}
               type="text"
               value={textOf(model, 'id')}
               placeholder={t('modelId')}
               aria-label={`${t('modelId')} ${index + 1}`}
               disabled={disabled}
               onChange={(event) => { patch(index, { id: event.target.value }) }}
-            />
-            <input
-              className={styles['input']}
-              type="text"
-              value={textOf(model, 'name')}
-              placeholder={t('modelName')}
-              aria-label={`${t('modelName')} ${index + 1}`}
-              disabled={disabled}
-              onChange={(event) => { patch(index, { name: event.target.value === '' ? undefined : event.target.value }) }}
             />
             <button
               type="button"
@@ -368,29 +465,26 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
               aria-label={`${t('removeModel')} ${index + 1}`}
               title={t('removeModel')}
               disabled={disabled}
-              onClick={() => {
-                onChange(models.filter((_model, at) => at !== index))
-                // Both stores are keyed by position, so every row after this
-                // one shifts down and would otherwise inherit its neighbour's
-                // state — a different row's capacities popping open, or its
-                // half-typed text appearing in another row's field.
-                setExpanded((current) => {
-                  const next = new Set<number>()
-                  for (const at of current) {
-                    if (at < index) next.add(at)
-                    else if (at > index) next.add(at - 1)
-                  }
-                  return next
-                })
-                setEditing(current => reindexOnRemove(current, index))
-              }}
+              onClick={() => { removeAt(index) }}
             >
-              <IconTrash />
+              <IconMinus />
             </button>
           </div>
           {expanded.has(index)
             ? (
               <div className={styles['modelAdvanced']}>
+                <label className={styles['modelField']}>
+                  <span className={styles['modelFieldLabel']}>{t('modelName')}</span>
+                  <input
+                    className={styles['input']}
+                    type="text"
+                    value={textOf(model, 'name')}
+                    placeholder={t('modelNamePlaceholder')}
+                    aria-label={`${t('modelName')} ${index + 1}`}
+                    disabled={disabled}
+                    onChange={(event) => { patch(index, { name: event.target.value === '' ? undefined : event.target.value }) }}
+                  />
+                </label>
                 <label className={styles['modelField']}>
                   <span className={styles['modelFieldLabel']}>{t('modelContextWindow')}</span>
                   <input
@@ -422,14 +516,6 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
             : null}
         </div>
       ))}
-      <button
-        type="button"
-        className={styles['addModelButton']}
-        disabled={disabled}
-        onClick={() => { onChange([...models, { id: '' }]) }}
-      >
-        {t('addModel')}
-      </button>
       {failure !== undefined ? <p className={styles['error']}>{failure}</p> : null}
       <Modal
         open={candidates !== undefined}

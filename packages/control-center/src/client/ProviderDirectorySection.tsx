@@ -1,11 +1,13 @@
 /**
  * Model Services section — the Cherry-parity two-pane provider directory.
  *
- * Left pane: the static 61-preset Cherry catalog (grouped 国内/国际/本地) plus
- * every provider the host `llm` directory already knows (pi-ai catalog routes
- * and user-declared ones, grouped 自定义), with search and a persisted
- * selection. Right pane: the selected provider's editor, seeded from the
- * preset so a fresh pick is one key away from a complete profile.
+ * Left pane: the static 61-preset Cherry catalog plus every provider the host
+ * `llm` directory already knows (pi-ai catalog routes and user-declared ones),
+ * rendered flat exactly like Cherry's list — brand avatar, name, enabled dot —
+ * with search and a persisted selection. Right pane: the selected provider's
+ * header (avatar, name, real enable Switch) above an always-expanded editor
+ * seeded from the preset, so a fresh pick is one key away from a complete
+ * profile.
  *
  * The catalog is deliberately client-side, not registered into the host
  * directory: the harness's `llm-pi-ai` adapter already owns ~37 routes and
@@ -15,6 +17,12 @@
  * `settings.yaml` `llm-pi-ai:` section writes — the DSH preset method and this
  * surface are the same storage, so they cannot conflict. Configured state is
  * joined from `llm.providers()` and is always real.
+ *
+ * The enable Switch is honest by construction: disabling moves the live
+ * profile into the `control-center-provider-stash` namespace before unsetting
+ * it (the adapter genuinely stops serving the route), and enabling writes the
+ * stashed profile back. Nothing pretends to disable while the route still
+ * serves.
  */
 
 import { useMemo, useState } from 'react'
@@ -26,15 +34,18 @@ import { ProviderEditor } from './ProviderEditor.tsx'
 import {
   PI_AI_SHIPPED_PRESET_IDS, PROVIDER_PRESETS, presetApiOf, type ProviderPreset,
 } from './provider-presets.ts'
+import { providerIconSvg } from './provider-icons-data.ts'
 import { providerCopy, type ProviderIdentity } from './ModelsSection.tsx'
 import type { ModelsSettingsState, ModelsSettingsStore, ProviderRow } from './store.ts'
-import { protocolChoices } from './store.ts'
+import { messageOf, protocolChoices } from './store.ts'
 import type { SettingsSchemaOperations } from './schema-operations.ts'
 import type { en } from './locales.ts'
 import styles from './ProviderDirectorySection.module.css'
 
 /** The settings namespace every Cherry preset writes its profile into. */
 const NS = 'llm-pi-ai'
+/** Where a disabled provider's full profile waits for its re-enable. */
+export const STASH_NS = 'control-center-provider-stash'
 
 /** localStorage key for the persisted selection (Cherry's key name). */
 const LAST_SELECTED_KEY = 'settings.provider.last_selected_provider_id'
@@ -45,11 +56,9 @@ interface DirectoryEntry {
   provider: string
   /** Human-facing name (Cherry name for presets, the directory's otherwise). */
   displayName: string
-  /** Left-pane grouping. */
-  group: 'domestic' | 'international' | 'local' | 'custom'
   /** The preset behind this entry, when it is a Cherry preset. */
   preset?: ProviderPreset
-  /** The host directory row for this route, when it is configured. */
+  /** The host directory row for this route, when it is currently live. */
   row?: ProviderRow
 }
 
@@ -109,7 +118,6 @@ export function buildDirectory(rows: readonly ProviderRow[]): readonly Directory
     entries.push({
       provider: preset.id,
       displayName: preset.name,
-      group: preset.group,
       preset,
       ...(row === undefined ? {} : { row }),
     })
@@ -119,11 +127,50 @@ export function buildDirectory(rows: readonly ProviderRow[]): readonly Directory
     entries.push({
       provider: row.entry.provider,
       displayName: row.entry.displayName,
-      group: 'custom',
       row,
     })
   }
   return entries
+}
+
+/** Cherry-style brand avatar; falls back to the leading letter when the icon
+ * registry has no glyph for the id. */
+function ProviderAvatar({ providerId, name }: { providerId: string; name: string }): ReactNode {
+  const glyph = providerIconSvg(providerId, 26)
+  if (glyph !== '') {
+    return (
+      <span
+        className={styles['avatar']}
+        dangerouslySetInnerHTML={{ __html: glyph }}
+      />
+    )
+  }
+  return <span className={styles['avatar']} data-letter>{name.charAt(0).toUpperCase() || '?'}</span>
+}
+
+/**
+ * An accessible pill switch (the primitives package ships none). Real state
+ * lives with the caller; this renders and clicks.
+ */
+function EnableSwitch({ checked, disabled, title, onChange }: {
+  checked: boolean
+  disabled?: boolean
+  title?: string | undefined
+  onChange: (next: boolean) => void
+}): ReactNode {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      title={title}
+      className={`${styles['switch']} ${checked ? styles['switchOn'] : ''}`}
+      disabled={disabled}
+      onClick={() => { onChange(!checked) }}
+    >
+      <span className={styles['switchThumb']} />
+    </button>
+  )
 }
 
 /**
@@ -150,6 +197,8 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
   })
   const [declaring, setDeclaring] = useState(false)
   const [savedTarget, setSavedTarget] = useState<ProviderIdentity | undefined>(undefined)
+  const [toggleFailure, setToggleFailure] = useState<string | undefined>(undefined)
+  const [toggling, setToggling] = useState(false)
 
   if (state.status === 'idle') void controller.load()
   if (state.status === 'error') {
@@ -188,23 +237,115 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
     }
   }
 
-  const groups: ReadonlyArray<{ id: DirectoryEntry['group']; label: string; entries: readonly DirectoryEntry[] }> = [
-    { id: 'domestic' as const, label: t('groupDomestic'), entries: filtered.filter(e => e.group === 'domestic') },
-    { id: 'international' as const, label: t('groupInternational'), entries: filtered.filter(e => e.group === 'international') },
-    { id: 'local' as const, label: t('groupLocal'), entries: filtered.filter(e => e.group === 'local') },
-    { id: 'custom' as const, label: t('groupCustom'), entries: filtered.filter(e => e.group === 'custom') },
-  ].filter(group => group.entries.length > 0)
-
   const namespace = state.namespaces.get(NS)
-  const protocols = protocolChoices(state.namespaces.get(NS), schema)
+  const stashView = state.namespaces.get(STASH_NS)
+  const protocols = protocolChoices(namespace, schema)
   const editTarget = effective === undefined ? undefined : identityOf(effective)
 
   const announceSaved = (target: ProviderIdentity): void => {
     void controller.load().then(() => { setSavedTarget(target) })
   }
 
+  /**
+   * Whether this route CAN be toggled at all. A live or stashed profile is
+   * always toggleable; a never-configured route only when the adapter ships
+   * its catalog (an empty profile is serviceable there). A whole-section
+   * route (`llm-deepseek`, no sub-path) is composition-owned and stays out of
+   * reach — unsetting it here would tear down the deployment's own section.
+   */
+  const toggleStateOf = (entry: DirectoryEntry): { enabled: boolean; canToggle: boolean } => {
+    const live = entry.row?.configured === true
+      && entry.row.entry.settingsPath.length > 0
+    const stashed = stashView !== undefined
+      && schema.getPath(stashView.value, ['providers', entry.provider]) !== undefined
+    if (live) return { enabled: true, canToggle: true }
+    if (stashed) return { enabled: false, canToggle: true }
+    const shippable = entry.row?.entry.settingsPath.length !== 0
+      && (entry.preset !== undefined && PI_AI_SHIPPED_PRESET_IDS.has(entry.provider))
+    return { enabled: false, canToggle: shippable }
+  }
+
+  /**
+   * Flip the Switch. Disable stashes the full profile FIRST (a crash between
+   * the two writes leaves both copies — harmless), then unsets the live route;
+   * enable restores the stashed profile FIRST, then clears the stash. Each
+   * write carries the revision its namespace answered with, so the pair is
+   * conflict-safe without locking.
+   */
+  const toggleEnabled = async (entry: DirectoryEntry, next: boolean): Promise<void> => {
+    if (namespace === undefined || stashView === undefined) return
+    const target = identityOf(entry)
+    if (target.settingsNs !== NS) return
+    setToggling(true)
+    setToggleFailure(undefined)
+    try {
+      const path = [...target.settingsPath]
+      const liveValue = schema.getPath(namespace.value, path)
+      const stashedValue = schema.getPath(stashView.value, path)
+      if (!next) {
+        if (liveValue === undefined) return
+        const stashed = await api.settings.mutate({
+          ns: STASH_NS,
+          expectedRevision: stashView.revision,
+          ops: [{ op: 'set', path, value: structuredClone(liveValue) }],
+        })
+        if (!stashed.result.ok) {
+          setToggleFailure(stashed.result.error.message)
+          return
+        }
+        const unset = await api.settings.mutate({
+          ns: NS,
+          expectedRevision: stashed.result.value.revision,
+          ops: [{ op: 'unset', path }],
+        })
+        if (!unset.result.ok) {
+          setToggleFailure(unset.result.error.message)
+          return
+        }
+      } else {
+        if (stashedValue === undefined) {
+          // A shipped catalog route enables bare: pi-ai serves its own
+          // installed catalog for an empty profile.
+          const created = await api.settings.mutate({
+            ns: NS,
+            expectedRevision: namespace.revision,
+            ops: [{ op: 'set', path, value: {} }],
+          })
+          if (!created.result.ok) {
+            setToggleFailure(created.result.error.message)
+            return
+          }
+        } else {
+          const restored = await api.settings.mutate({
+            ns: NS,
+            expectedRevision: namespace.revision,
+            ops: [{ op: 'set', path, value: structuredClone(stashedValue) }],
+          })
+          if (!restored.result.ok) {
+            setToggleFailure(restored.result.error.message)
+            return
+          }
+          const cleared = await api.settings.mutate({
+            ns: STASH_NS,
+            expectedRevision: restored.result.value.revision,
+            ops: [{ op: 'unset', path }],
+          })
+          if (!cleared.result.ok) {
+            setToggleFailure(cleared.result.error.message)
+            return
+          }
+        }
+      }
+      await controller.load()
+    } catch (error) {
+      setToggleFailure(messageOf(error))
+    } finally {
+      setToggling(false)
+    }
+  }
+
   /** Preset types whose native endpoint cannot speak an OpenAI protocol. */
-  const protocolLimitedType = (preset?: { type: string }): 'iam' | 'protocol' | undefined => {
+  const protocolLimitedType = (preset?: ProviderPreset): 'iam' | 'protocol' | undefined => {
     if (preset === undefined) return undefined
     if (preset.type === 'google' || preset.type === 'azure') return 'iam'
     if (preset.type === 'ollama') return 'protocol'
@@ -226,46 +367,52 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
               aria-label={t('searchProviders')}
               onChange={(event) => { setSearch(event.target.value) }}
             />
+            {search.length === 0
+              ? null
+              : (
+                <button
+                  type="button"
+                  className={styles['searchClear']}
+                  aria-label={t('cancel')}
+                  onClick={() => { setSearch('') }}
+                >
+                  <svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden>
+                    <path d="M9 3L3 9M3 3L9 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
+                </button>
+              )}
           </div>
           <div className={styles['listScroll']}>
             {filtered.length === 0
               ? <p className={styles['emptyList']}>{t('noMatchingProviders')}</p>
-              : groups.map(group => (
-                <section key={group.id} className={styles['group']}>
-                  <h3 className={styles['groupTitle']}>{group.label}</h3>
-                  <ul className={styles['groupRows']}>
-                    {group.entries.map(entry => {
-                      const configured = entry.row?.configured === true
-                      const active = entry.row?.entry.active === true
-                      const credentialConfigured = entry.row?.credential?.configured === true
-                      return (
-                        <li key={entry.provider}>
-                          <button
-                            type="button"
-                            className={`${styles['listItem']} ${entry.provider === effective?.provider ? styles['listItemSelected'] : ''}`}
-                            aria-pressed={entry.provider === effective?.provider}
-                            onClick={() => { select(entry.provider) }}
-                          >
+              : (
+                <ul className={styles['groupRows']}>
+                  {filtered.map(entry => {
+                    const { enabled } = toggleStateOf(entry)
+                    const isSelected = entry.provider === effective?.provider
+                    return (
+                      <li key={entry.provider}>
+                        <button
+                          type="button"
+                          className={`${styles['listItem']} ${isSelected ? styles['listItemSelected'] : ''} ${enabled ? '' : styles['listItemDisabled']}`}
+                          aria-pressed={isSelected}
+                          onClick={() => { select(entry.provider) }}
+                        >
+                          <span className={styles['listItemMain']}>
+                            <ProviderAvatar providerId={entry.provider} name={entry.displayName} />
                             <span className={styles['listItemName']}>{entry.displayName}</span>
-                            {configured
-                              ? (
-                                <span
-                                  className={`${styles['dot']} ${credentialConfigured ? styles['dotConfigured'] : styles['dotMissing']}`}
-                                  role="img"
-                                  aria-label={credentialConfigured ? t('credentialConfigured') : t('credentialMissing')}
-                                  title={credentialConfigured ? t('credentialConfigured') : t('credentialMissing')}
-                                />
-                              )
-                              : active
-                                ? <span className={styles['dotActive']} role="img" aria-label={t('activeProvider')} title={t('activeProvider')} />
-                                : null}
-                          </button>
-                        </li>
-                      )
-                    })}
-                  </ul>
-                </section>
-              ))}
+                          </span>
+                          {/* Cherry's enabled dot yields its slot on hover; our
+                              rows carry nothing else there, so it just shows. */}
+                          {enabled
+                            ? <span className={styles['enabledDot']} role="img" aria-label={t('activeProvider')} title={t('activeProvider')} />
+                            : null}
+                        </button>
+                      </li>
+                    )
+                  })}
+                </ul>
+              )}
           </div>
           <div className={styles['listFooter']}>
             <button
@@ -277,6 +424,10 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                 setSavedTarget(undefined)
               }}
             >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+                <path d="M5 12h14" />
+                <path d="M12 5v14" />
+              </svg>
               {t('customAdd')}
             </button>
           </div>
@@ -286,20 +437,22 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
         <main className={styles['detail']}>
           {declaring
             ? (
-              <div className={styles['editorWrap']}>
-                <CustomProviderCard
-                  taken={state.rows.map(row => row.entry.provider)}
-                  protocols={protocols}
-                  /* v8 ignore next -- the card only opens from a button that requires the namespace */
-                  revision={state.namespaces.get(NS)?.revision ?? 0}
-                  api={api}
-                  t={t}
-                  readOnly={!state.writable}
-                  onClose={(changed) => {
-                    setDeclaring(false)
-                    if (changed) void controller.load()
-                  }}
-                />
+              <div className={styles['detailScroll']}>
+                <div className={styles['detailContent']}>
+                  <CustomProviderCard
+                    taken={state.rows.map(row => row.entry.provider)}
+                    protocols={protocols}
+                    /* v8 ignore next -- the card only opens from a button that requires the namespace */
+                    revision={state.namespaces.get(NS)?.revision ?? 0}
+                    api={api}
+                    t={t}
+                    readOnly={!state.writable}
+                    onClose={(changed) => {
+                      setDeclaring(false)
+                      if (changed) void controller.load()
+                    }}
+                  />
+                </div>
               </div>
             )
             : effective === undefined || editTarget === undefined
@@ -309,42 +462,58 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                   <p className={styles['emptyHint']}>{t('selectProviderHint')}</p>
                 </div>
               )
-              : (
-                <div className={styles['detailScroll']}>
-                  <div className={styles['detailContent']}>
-                    {savedTarget === undefined
-                      ? null
-                      : (
-                        <p className={styles['savedNotice']} role="status" aria-live="polite">
-                          {providerCopy(t('savedProvider'), savedTarget)}
-                        </p>
-                      )}
+              : (() => {
+                const toggleState = toggleStateOf(effective)
+                const identityLabel = { provider: effective.provider, displayName: effective.displayName }
+                return (
+                  <div className={styles['detailScroll']}>
                     <header className={styles['detailHeader']}>
                       <div className={styles['detailHeaderMain']}>
+                        <ProviderAvatar providerId={effective.provider} name={effective.displayName} />
                         <span className={styles['detailTitle']}>{effective.displayName}</span>
                         {effective.provider !== effective.displayName
                           ? <span className={styles['detailRoute']}>{effective.provider}</span>
                           : null}
                         {editTarget.declared === true ? <span className={styles['customTag']}>{t('customTag')}</span> : null}
-                        {effective.row?.entry.active === true
-                          ? <span className={styles['activeTag']}>{t('activeProvider')}</span>
+                        {!toggleState.enabled && toggleState.canToggle
+                          ? <span className={styles['disabledTag']}>{t('providerDisabled')}</span>
                           : null}
                       </div>
+                      <EnableSwitch
+                        checked={toggleState.enabled}
+                        disabled={!state.writable || toggling || !toggleState.canToggle}
+                        title={editTarget.settingsNs !== NS
+                          ? t('advancedHint')
+                          : toggleState.canToggle ? undefined : t('enableNeedsProfile')}
+                        onChange={(next) => { void toggleEnabled(effective, next) }}
+                      />
                     </header>
-                    {protocolLimitedType(effective.preset) === 'iam'
-                      ? <p className={styles['notice']}>{t('presetIamNote')}</p>
-                      : protocolLimitedType(effective.preset) === 'protocol'
-                        ? <p className={styles['notice']}>{t('presetProtocolNote')}</p>
-                        : null}
-                    {namespace === undefined
-                      ? <p className={styles['error']}>{`${effective.displayName}: ${NS} settings are unavailable`}</p>
-                      : (
-                        <div className={styles['editorWrap']}>
+                    <div className={styles['detailBody']}>
+                      {savedTarget === undefined
+                        ? null
+                        : (
+                          <p className={styles['savedNotice']} role="status" aria-live="polite">
+                            {providerCopy(t('savedProvider'), savedTarget)}
+                          </p>
+                        )}
+                      {toggleFailure === undefined
+                        ? null
+                        : <p className={styles['error']}>{t('toggleFailed').replace('{error}', toggleFailure)}</p>}
+                      {protocolLimitedType(effective.preset) === 'iam'
+                        ? <p className={styles['notice']}>{t('presetIamNote')}</p>
+                        : protocolLimitedType(effective.preset) === 'protocol'
+                          ? <p className={styles['notice']}>{t('presetProtocolNote')}</p>
+                          : null}
+                      {namespace === undefined
+                        ? <p className={styles['error']}>{`${effective.displayName}: ${NS} settings are unavailable`}</p>
+                        : (
                           <ProviderEditor
                             key={editTarget.provider}
                             provider={editTarget.provider}
                             displayName={editTarget.displayName}
                             hideTitle
+                            panelStyle
+                            showCheck
                             {...editTarget.declared === true ? { declared: true } : {}}
                             {...editTarget.defaults === undefined ? {} : { defaults: editTarget.defaults }}
                             namespace={namespace}
@@ -353,13 +522,13 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                             t={t}
                             schema={schema}
                             readOnly={!state.writable}
-                            onClose={(changed) => { if (changed) announceSaved(editTarget) }}
+                            onClose={(changed) => { if (changed) announceSaved(identityLabel) }}
                           />
-                        </div>
-                      )}
+                        )}
+                    </div>
                   </div>
-                </div>
-              )}
+                )
+              })()}
         </main>
       </div>
     </div>

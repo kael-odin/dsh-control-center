@@ -37,6 +37,14 @@ import desktopRemote from './desktop-remote-client.ts'
 const ONBOARDING_SETTINGS_NAMESPACE = 'ui-onboarding'
 const NOTIFICATION_SETTINGS_NAMESPACE = 'control-center-notifications'
 const APPEARANCE_SETTINGS_NAMESPACE = 'control-center-appearance'
+/**
+ * Profiles of providers disabled from the Model Services page live here while
+ * their `llm-pi-ai` route is unset, so a re-enable restores them verbatim.
+ */
+const PROVIDER_STASH_NAMESPACE = settingsNamespace('control-center-provider-stash')
+const PROVIDER_STASH_SCHEMA = z.object({
+  providers: z.dict(z.any()).default({}),
+})
 
 interface AppearanceSettings {
   colorPrimary: string
@@ -136,6 +144,10 @@ export function apply(ctx: Context): void {
   ctx.settings.register(
     settingsNamespace(APPEARANCE_SETTINGS_NAMESPACE),
     AppearanceSettingsSchema,
+  )
+  ctx.settings.register(
+    PROVIDER_STASH_NAMESPACE,
+    PROVIDER_STASH_SCHEMA,
   )
 }
 
