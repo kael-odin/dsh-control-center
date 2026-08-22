@@ -107,6 +107,10 @@ async function main(): Promise<void> {
     const errors: string[] = []
     page.on('pageerror', error => errors.push(error.message))
     page.on('console', message => { if (message.type() === 'error') errors.push(message.text()) })
+    // Name failing requests: a bare "404" console line names no culprit.
+    page.on('response', response => {
+      if (response.status() >= 400) errors.push(`HTTP ${String(response.status())} ${response.url()}`)
+    })
     await page.goto(started.url, { waitUntil: 'load' })
     await page.waitForSelector('[class*="frame"]', { timeout: 30_000 })
     const openSidebar = page.getByRole('button', { name: '打开侧边栏' })
@@ -128,7 +132,7 @@ async function main(): Promise<void> {
     await expectPoll(async () => await settingsButton.getAttribute('aria-expanded'), 'true', 15_000)
     const dialog = page.getByRole('dialog', { name: '设置' })
     await dialog.waitFor({ timeout: 15_000 })
-    await dialog.getByRole('button', { name: '默认模型', exact: true }).evaluate((button: HTMLButtonElement) => { button.click() })
+    await dialog.getByRole('button', { name: '模型服务', exact: true }).evaluate((button: HTMLButtonElement) => { button.click() })
     await dialog.getByText('Control Center E2E', { exact: true }).waitFor({ timeout: 15_000 })
     const betaNotice = page.getByRole('dialog', { name: '内测声明' })
     if (await betaNotice.count() > 0) {
@@ -137,8 +141,10 @@ async function main(): Promise<void> {
       if (await betaNotice.isVisible().catch(() => false)) await page.keyboard.press('Escape')
       await betaNotice.waitFor({ state: 'hidden', timeout: 15_000 })
     }
-    await dialog.getByRole('button', { name: '编辑 Control Center E2E (control-center-e2e)' }).evaluate((button: HTMLButtonElement) => { button.click() })
-    await dialog.getByText('自定义设置').click()
+    // Select the provider's row; the right pane is an always-expanded editor.
+    const e2eRow = dialog.getByText('Control Center E2E', { exact: true }).locator('xpath=ancestor-or-self::*[@role="button"][1]')
+    await e2eRow.evaluate((row: HTMLElement) => { row.click() })
+    await dialog.getByText('API 密钥').waitFor({ timeout: 15_000 })
     await dialog.getByRole('button', { name: /获取模型列表/ }).click()
     const chooser = page.getByRole('dialog', { name: '选择要添加的模型' })
     await chooser.getByText('cc-e2e-beta', { exact: true }).waitFor({ timeout: 15_000 })

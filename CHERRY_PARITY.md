@@ -41,7 +41,7 @@
 | 分组 | Cherry 入口 | Cherry 路由 | control-center section（id） | 优先级 | 现状 |
 |------|------------|------------|-------------------------------|--------|------|
 | （核心） | 模型服务 | `/settings/provider` | `providers`（ProviderDirectorySection） | **P0** | ✅ 两栏目录 + 细节控件全量对齐（启用开关/检测/请求选项/拖拽排序） |
-| （核心） | 模型 | `/settings/model` | `models`（ModelsSection）+ ModelSelectionPanel | **P0** | 🔶 行来自目录，目录空（Bug A） |
+| （核心） | 模型 | `/settings/model` | `models`（ModelsSection：模型选择 + 工作区偏好） | **P0** | ✅ Cherry ModelSettings 对齐（默认/当前/翻译/绘画；快捷与重试后续） |
 | （核心） | 本地模型 | `/settings/local-models` | `local-models`（LocalModelsSection） | P0 | ✅ controlCenterLocalModels |
 | （核心） | 网关 | `/settings/api-gateway` | `api-gateway`（ApiGatewaySection） | P0 | ✅ 真实（web 诚实标注） |
 | 能力 | MCP | `/settings/mcp` | `mcp`（McpSection） | T1 | ✅ 真实（split-pane） |
@@ -123,10 +123,10 @@ Cherry 参照：`.../ModelSettings/ModelSettings.tsx`、`.../ModelSettings/Topic
 
 | # | Cherry 能力 | Cherry 行为要点 | control-center 现状 | 待办 | 完成标准 |
 |---|-------------|-----------------|---------------------|------|----------|
-| 2.4.1 | 默认助手模型 | DefaultModelSelector，仅列 chat 模型，空态占位 | ✅ `ModelSelectionPanel`（模型页底部）：默认/当前会话模型选择器，读 `llm.models()` 真实目录，选择持久化到 `agent-default-model`；单测 + 浏览器 E2E 覆盖 | — | 可选到真实模型，选择持久化并影响对话 ✅ |
+| 2.4.1 | 默认助手模型 | DefaultModelSelector，仅列 chat 模型，空态占位 | ✅ `ModelSelectionPanel`：默认/当前会话模型选择器，读 `llm.models()` 真实目录，持久化到 `agent-default-model`。**页面已重构**：供应商编辑移除（归属模型服务页），对齐 Cherry 两页分工 | — | 可选到真实模型，选择持久化并影响对话 ✅ |
 | 2.4.2 | 快捷模型 | 快捷模型 + 设置抽屉（TopicNamingSettings 话题命名） | 🔶 未实现 | 后续 | 快捷模型生效；抽屉可改话题命名 |
-| 2.4.3 | 翻译模型 | 翻译模型 + 翻译设置抽屉（prompt 可重置回默认） | ✅ `TranslationWorkspace` 翻译模型选择器 + prompt 可重置 | — | 翻译模型生效 ✅ |
-| 2.4.4 | 绘画模型 | 绘画模型选择（isGenerateImageModel 过滤） | ✅ `PaintingWorkspace` 图像模型选择器（读 `llm.models()` 过滤生成类） | — | 绘画模型生效 ✅ |
+| 2.4.3 | 翻译模型 | 翻译模型 + 翻译设置抽屉（prompt 可重置回默认） | ✅ 设置页新增持久偏好（`control-center-model-prefs`），翻译工作区打开时**优先预选**该模型；工作区内选择器与 prompt 重置照旧 | — | 翻译模型生效 ✅ |
+| 2.4.4 | 绘画模型 | 绘画模型选择（isGenerateImageModel 过滤） | ✅ 设置页持久偏好同上，绘画工作区打开时优先预选；目录仍按生成类过滤 | — | 绘画模型生效 ✅ |
 | 2.4.5 | 重试设置 | 开关 + 次数(1-10) + 退避开关 + 兜底模型多选 | 🔶 未做 | 后续 | 重试策略真实影响请求 |
 
 ### 2.5 本地模型
