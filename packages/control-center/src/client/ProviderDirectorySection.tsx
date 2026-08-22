@@ -401,6 +401,10 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                           <span className={styles['listItemMain']}>
                             <ProviderAvatar providerId={entry.provider} name={entry.displayName} />
                             <span className={styles['listItemName']}>{entry.displayName}</span>
+                            {/* Cherry tags exactly one catalog entry this way. */}
+                            {entry.provider === 'radeon-cloud'
+                              ? <span className={styles['freeBadge']}>{t('freeBadge')}</span>
+                              : null}
                           </span>
                           {/* Cherry's enabled dot yields its slot on hover; our
                               rows carry nothing else there, so it just shows. */}

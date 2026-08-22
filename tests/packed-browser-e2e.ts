@@ -139,7 +139,7 @@ async function main(): Promise<void> {
     }
     await dialog.getByRole('button', { name: '编辑 Control Center E2E (control-center-e2e)' }).evaluate((button: HTMLButtonElement) => { button.click() })
     await dialog.getByText('自定义设置').click()
-    await dialog.getByRole('button', { name: '获取可用模型' }).click()
+    await dialog.getByRole('button', { name: /获取模型列表/ }).click()
     const chooser = page.getByRole('dialog', { name: '选择要添加的模型' })
     await chooser.getByText('cc-e2e-beta', { exact: true }).waitFor({ timeout: 15_000 })
     await chooser.getByRole('button', { name: '取消' }).click()

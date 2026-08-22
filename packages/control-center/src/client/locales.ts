@@ -135,6 +135,7 @@ export const en = {
   enableNeedsProfile: 'Configure this provider first — an unconfigured provider cannot be enabled.',
   toggleFailed: 'The toggle failed: {error}',
   providerDisabled: 'Disabled',
+  freeBadge: 'Free',
 }
 
 /** The settings.models namespace key union. */
@@ -273,4 +274,5 @@ export const zh: { [Key in keyof typeof en]: string } = {
   enableNeedsProfile: '请先完成配置——未配置的提供方无法启用。',
   toggleFailed: '切换失败: {error}',
   providerDisabled: '已禁用',
+  freeBadge: '免费',
 }

@@ -213,6 +213,20 @@
   background: var(--success);
 }
 
+.freeBadge {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--success) 10%, transparent);
+  color: var(--success);
+  font-size: 9px;
+  font-weight: 500;
+  line-height: 1;
+}
+
 .listFooter {
   padding: 8px 10px 10px;
 }

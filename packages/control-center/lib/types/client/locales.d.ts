@@ -132,6 +132,7 @@ export declare const en: {
     enableNeedsProfile: string;
     toggleFailed: string;
     providerDisabled: string;
+    freeBadge: string;
 };
 /** The settings.models namespace key union. */
 export type ModelsKey = keyof typeof en;
