@@ -133,6 +133,9 @@ export declare const en: {
     toggleFailed: string;
     providerDisabled: string;
     freeBadge: string;
+    modelGroupUngrouped: string;
+    expandAll: string;
+    collapseAll: string;
 };
 /** The settings.models namespace key union. */
 export type ModelsKey = keyof typeof en;

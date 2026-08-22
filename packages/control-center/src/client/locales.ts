@@ -136,6 +136,9 @@ export const en = {
   toggleFailed: 'The toggle failed: {error}',
   providerDisabled: 'Disabled',
   freeBadge: 'Free',
+  modelGroupUngrouped: 'Ungrouped',
+  expandAll: 'Expand all groups',
+  collapseAll: 'Collapse all groups',
 }
 
 /** The settings.models namespace key union. */
@@ -275,4 +278,7 @@ export const zh: { [Key in keyof typeof en]: string } = {
   toggleFailed: '切换失败: {error}',
   providerDisabled: '已禁用',
   freeBadge: '免费',
+  modelGroupUngrouped: '未分组',
+  expandAll: '全部展开',
+  collapseAll: '全部折叠',
 }

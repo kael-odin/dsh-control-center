@@ -180,6 +180,25 @@ function adopt(candidate: DiscoveredModelView): ModelDraft {
   }
 }
 
+/** The bucket an id with no derivable family lands in (sorts last). */
+export const UNGROUPED_MODEL_GROUP_KEY = '__ungrouped__'
+
+/**
+ * Cherry's group derivation: a slash-prefixed id uses its provider segment
+ * (`openai/gpt-4o` → `openai`); a flat id uses the family before the first
+ * dash (`deepseek-v4-pro` → `deepseek`). An id that yields no family (a bare
+ * `glm`) lands in the trailing ungrouped bucket.
+ * @param id - the model id as configured.
+ * @returns the group name, or `undefined` for the ungrouped bucket.
+ */
+export function modelGroupName(id: string): string | undefined {
+  const trimmed = id.trim()
+  const parts = trimmed.split('/')
+  if (parts.length > 1) return parts[0]?.trim() || undefined
+  const family = trimmed.split('-')[0]?.trim()
+  return family !== undefined && family !== '' && family !== trimmed ? family : undefined
+}
+
 /**
  * Render the model list with its fetch action.
  * @param props - the drafted rows, probe target, wire face, and copy.
@@ -206,6 +225,10 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
   // index, so a narrowed view never rewrites the wrong row.
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchText, setSearchText] = useState('')
+  // Per-group collapse; a group not in the set is expanded. While the search
+  // is active every group force-expands so matches stay visible.
+  const [collapsedGroups, setCollapsedGroups] = useState<ReadonlySet<string>>(new Set())
+  const [allCollapsed, setAllCollapsed] = useState(false)
 
   /** Buffer key for one capacity field; the row half moves when rows do. */
   const bufferKey = (index: number, field: CapacityField): string => `${String(index)}:${field}`
@@ -349,6 +372,24 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
       || textOf(model, 'id').toLowerCase().includes(keyword)
       || textOf(model, 'name').toLowerCase().includes(keyword))
 
+  /**
+   * Group rows via {@link modelGroupName}, alphabetically, ungrouped last.
+   */
+  const grouped = (() => {
+    const buckets = new Map<string, Array<{ model: ModelDraft; index: number }>>()
+    for (const row of visibleRows) {
+      const key = modelGroupName(textOf(row.model, 'id')) ?? UNGROUPED_MODEL_GROUP_KEY
+      if (!buckets.has(key)) buckets.set(key, [])
+      buckets.get(key)!.push(row)
+    }
+    return [...buckets.entries()].sort((left, right) =>
+      left[0] === UNGROUPED_MODEL_GROUP_KEY
+        ? 1
+        : right[0] === UNGROUPED_MODEL_GROUP_KEY
+          ? -1
+          : left[0].localeCompare(right[0]))
+  })()
+
   return (
     <section className={styles['modelCatalog']} aria-label={t('models')}>
       <div className={styles['modelListHead']}>
@@ -394,6 +435,27 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
               </button>
             )
             : null}
+          {grouped.length > 1
+            ? (
+              <button
+                type="button"
+                className={styles['iconButton']}
+                aria-label={t(allCollapsed ? 'expandAll' : 'collapseAll')}
+                aria-expanded={!allCollapsed}
+                title={t(allCollapsed ? 'expandAll' : 'collapseAll')}
+                onClick={() => {
+                  setAllCollapsed(collapsed => !collapsed)
+                  setCollapsedGroups(new Set())
+                }}
+              >
+                {/* Cherry's chevrons-up-down glyph. */}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="m7 15 5 5 5-5" />
+                  <path d="m7 9 5-5 5 5" />
+                </svg>
+              </button>
+            )
+            : null}
           <button
             type="button"
             className={styles['fetchButton']}
@@ -434,88 +496,123 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
         )
         : null}
       {models.length === 0 ? <p className={styles['modelEmpty']}>{t('modelsEmpty')}</p> : null}
-      {visibleRows.map(({ model, index }) => (
-        <div key={index} className={styles['modelEntry']}>
-          <div className={styles['modelRow']}>
-            <span className={styles['modelAvatar']} aria-hidden>
-              {(textOf(model, 'name') || textOf(model, 'id')).charAt(0).toUpperCase() || '?'}
-            </span>
-            <input
-              className={styles['modelIdInput']}
-              type="text"
-              value={textOf(model, 'id')}
-              placeholder={t('modelId')}
-              aria-label={`${t('modelId')} ${index + 1}`}
-              disabled={disabled}
-              onChange={(event) => { patch(index, { id: event.target.value }) }}
-            />
-            <button
-              type="button"
-              className={styles['iconButton']}
-              aria-label={`${t('modelAdvanced')} ${index + 1}`}
-              aria-expanded={expanded.has(index)}
-              title={t('modelAdvanced')}
-              onClick={() => { toggleExpanded(index) }}
-            >
-              <IconChevron open={expanded.has(index)} />
-            </button>
-            <button
-              type="button"
-              className={`${styles['iconButton']} ${styles['iconButtonDanger']}`}
-              aria-label={`${t('removeModel')} ${index + 1}`}
-              title={t('removeModel')}
-              disabled={disabled}
-              onClick={() => { removeAt(index) }}
-            >
-              <IconMinus />
-            </button>
+      {(() => {
+        const renderRow = ({ model, index }: { model: ModelDraft; index: number }): ReactNode => (
+          <div key={index} className={styles['modelEntry']}>
+            <div className={styles['modelRow']}>
+              <span className={styles['modelAvatar']} aria-hidden>
+                {(textOf(model, 'name') || textOf(model, 'id')).charAt(0).toUpperCase() || '?'}
+              </span>
+              <input
+                className={styles['modelIdInput']}
+                type="text"
+                value={textOf(model, 'id')}
+                placeholder={t('modelId')}
+                aria-label={`${t('modelId')} ${index + 1}`}
+                disabled={disabled}
+                onChange={(event) => { patch(index, { id: event.target.value }) }}
+              />
+              <button
+                type="button"
+                className={styles['iconButton']}
+                aria-label={`${t('modelAdvanced')} ${index + 1}`}
+                aria-expanded={expanded.has(index)}
+                title={t('modelAdvanced')}
+                onClick={() => { toggleExpanded(index) }}
+              >
+                <IconChevron open={expanded.has(index)} />
+              </button>
+              <button
+                type="button"
+                className={`${styles['iconButton']} ${styles['iconButtonDanger']}`}
+                aria-label={`${t('removeModel')} ${index + 1}`}
+                title={t('removeModel')}
+                disabled={disabled}
+                onClick={() => { removeAt(index) }}
+              >
+                <IconMinus />
+              </button>
+            </div>
+            {expanded.has(index)
+              ? (
+                <div className={styles['modelAdvanced']}>
+                  <label className={styles['modelField']}>
+                    <span className={styles['modelFieldLabel']}>{t('modelName')}</span>
+                    <input
+                      className={styles['input']}
+                      type="text"
+                      value={textOf(model, 'name')}
+                      placeholder={t('modelNamePlaceholder')}
+                      aria-label={`${t('modelName')} ${index + 1}`}
+                      disabled={disabled}
+                      onChange={(event) => { patch(index, { name: event.target.value === '' ? undefined : event.target.value }) }}
+                    />
+                  </label>
+                  <label className={styles['modelField']}>
+                    <span className={styles['modelFieldLabel']}>{t('modelContextWindow')}</span>
+                    <input
+                      className={styles['input']}
+                      type="text"
+                      inputMode="numeric"
+                      value={capacityText(model, index, 'contextWindow')}
+                      placeholder={CAPACITY_HINT.contextWindow}
+                      aria-label={`${t('modelContextWindow')} ${index + 1}`}
+                      disabled={disabled}
+                      onChange={(event) => { editCapacity(index, 'contextWindow', event.target.value) }}
+                    />
+                  </label>
+                  <label className={styles['modelField']}>
+                    <span className={styles['modelFieldLabel']}>{t('modelMaxTokens')}</span>
+                    <input
+                      className={styles['input']}
+                      type="text"
+                      inputMode="numeric"
+                      value={capacityText(model, index, 'maxTokens')}
+                      placeholder={CAPACITY_HINT.maxTokens}
+                      aria-label={`${t('modelMaxTokens')} ${index + 1}`}
+                      disabled={disabled}
+                      onChange={(event) => { editCapacity(index, 'maxTokens', event.target.value) }}
+                    />
+                  </label>
+                </div>
+              )
+              : null}
           </div>
-          {expanded.has(index)
-            ? (
-              <div className={styles['modelAdvanced']}>
-                <label className={styles['modelField']}>
-                  <span className={styles['modelFieldLabel']}>{t('modelName')}</span>
-                  <input
-                    className={styles['input']}
-                    type="text"
-                    value={textOf(model, 'name')}
-                    placeholder={t('modelNamePlaceholder')}
-                    aria-label={`${t('modelName')} ${index + 1}`}
-                    disabled={disabled}
-                    onChange={(event) => { patch(index, { name: event.target.value === '' ? undefined : event.target.value }) }}
-                  />
-                </label>
-                <label className={styles['modelField']}>
-                  <span className={styles['modelFieldLabel']}>{t('modelContextWindow')}</span>
-                  <input
-                    className={styles['input']}
-                    type="text"
-                    inputMode="numeric"
-                    value={capacityText(model, index, 'contextWindow')}
-                    placeholder={CAPACITY_HINT.contextWindow}
-                    aria-label={`${t('modelContextWindow')} ${index + 1}`}
-                    disabled={disabled}
-                    onChange={(event) => { editCapacity(index, 'contextWindow', event.target.value) }}
-                  />
-                </label>
-                <label className={styles['modelField']}>
-                  <span className={styles['modelFieldLabel']}>{t('modelMaxTokens')}</span>
-                  <input
-                    className={styles['input']}
-                    type="text"
-                    inputMode="numeric"
-                    value={capacityText(model, index, 'maxTokens')}
-                    placeholder={CAPACITY_HINT.maxTokens}
-                    aria-label={`${t('modelMaxTokens')} ${index + 1}`}
-                    disabled={disabled}
-                    onChange={(event) => { editCapacity(index, 'maxTokens', event.target.value) }}
-                  />
-                </label>
-              </div>
-            )
-            : null}
-        </div>
-      ))}
+        )
+        const searching = keyword.length > 0
+        // A lone unnamed bucket stays flat — a three-model catalog needs no
+        // collapsible chrome. Named groups always get their header.
+        const showHeaders = !(grouped.length === 1 && grouped[0]![0] === UNGROUPED_MODEL_GROUP_KEY)
+        return grouped.map(([key, rows]) => {
+          const collapsed = !searching && (allCollapsed || collapsedGroups.has(key))
+          const label = key === UNGROUPED_MODEL_GROUP_KEY ? t('modelGroupUngrouped') : key
+          if (!showHeaders) return <div key={key} className={styles['modelGroupBody']}>{rows.map(renderRow)}</div>
+          return (
+            <div key={key} className={styles['modelGroup']}>
+              <button
+                type="button"
+                className={styles['modelGroupHeader']}
+                aria-expanded={!collapsed}
+                onClick={() => {
+                  setAllCollapsed(false)
+                  setCollapsedGroups((current) => {
+                    const next = new Set(current)
+                    if (!next.delete(key)) next.add(key)
+                    return next
+                  })
+                }}
+              >
+                <IconChevron open={!collapsed} />
+                <span className={styles['modelGroupTitle']}>{label}</span>
+                <span className={styles['modelGroupCount']}>{rows.length}</span>
+              </button>
+              {collapsed
+                ? null
+                : <div className={styles['modelGroupBody']}>{rows.map(renderRow)}</div>}
+            </div>
+          )
+        })
+      })()}
       {failure !== undefined ? <p className={styles['error']}>{failure}</p> : null}
       <Modal
         open={candidates !== undefined}

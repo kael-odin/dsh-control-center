@@ -8,6 +8,7 @@ import {
   identityOf,
   ProviderDirectorySection,
 } from '../src/client/ProviderDirectorySection.tsx'
+import { modelGroupName } from '../src/client/ModelListEditor.tsx'
 import type { ConfigurableProviderView, CredentialView, SettingsNamespaceView } from '@deepseek-ai/dsh-api-remotes/client'
 import type { ProviderRow, ModelsSettingsState } from '../src/client/store.ts'
 import { en } from '../src/client/locales.ts'
@@ -167,7 +168,9 @@ describe('ProviderDirectorySection list', () => {
 
   it('marks configured providers with an enabled dot and selected state', () => {
     renderSection([row('deepseek', '深度求索 (DeepSeek)', true, true)])
-    const deepseekRow = screen.getByRole('button', { name: /深度求索/ })
+    const deepseekRow = screen
+      .getAllByRole('button', { name: /深度求索/ })
+      .find(element => element.getAttribute('aria-pressed') !== null)!
     fireEvent.click(deepseekRow)
     expect(deepseekRow.getAttribute('aria-pressed')).toBe('true')
     expect(within(deepseekRow).getByLabelText('Active')).toBeTruthy()
@@ -179,7 +182,10 @@ describe('ProviderDirectorySection enable switch', () => {
   it('disables a live provider through stash-then-unset', async () => {
     const api = apiMock()
     renderSection([row('deepseek', '深度求索 (DeepSeek)', true)], { api })
-    fireEvent.click(screen.getByRole('button', { name: /深度求索/ }))
+    const deepseekRow = screen
+      .getAllByRole('button', { name: /深度求索/ })
+      .find(element => element.getAttribute('aria-pressed') !== null)!
+    fireEvent.click(deepseekRow)
     const switchControl = screen.getByRole('switch')
     expect(switchControl.getAttribute('aria-checked')).toBe('true')
     fireEvent.click(switchControl)
@@ -228,6 +234,48 @@ describe('ProviderDirectorySection enable switch', () => {
     expect(switchControl.getAttribute('aria-checked')).toBe('false')
     expect((switchControl as HTMLButtonElement).disabled).toBe(true)
     expect(switchControl.getAttribute('title')).toBe(en.enableNeedsProfile)
+  })
+})
+
+describe('modelGroupName', () => {
+  it('follows Cherry’s derivation rule', () => {
+    expect(modelGroupName('openai/gpt-4o')).toBe('openai')
+    expect(modelGroupName('deepseek-v4-pro')).toBe('deepseek')
+    expect(modelGroupName('glm-5.5')).toBe('glm')
+    expect(modelGroupName('glm')).toBeUndefined()
+    expect(modelGroupName('accounts/fireworks/models/k2')).toBe('accounts')
+  })
+})
+
+describe('ProviderDirectorySection kebab menu', () => {
+  it('deletes a configured provider: credential, profile, then stash', async () => {
+    const api = apiMock()
+    renderSection([row('deepseek', '深度求索 (DeepSeek)', true)], { api, stash: { deepseek: { baseURL: 'x' } } })
+    // Open the row's kebab menu (the button whose label names the edit action).
+    const kebab = screen.getAllByRole('button', { name: /Edit 深度求索|编辑 深度求索/ })[0]!
+    fireEvent.click(kebab)
+    fireEvent.click(screen.getByRole('menuitem', { name: 'Delete' }))
+    // Confirm in the dialog.
+    const dialog = within(screen.getByRole('dialog'))
+    fireEvent.click(dialog.getAllByRole('button', { name: /Delete 深度求索/ })[0])
+    await waitFor(() => {
+      expect(api.credentials.unset).toHaveBeenCalledWith({ ref: 'DEEPSEEK_API_KEY' })
+      expect(api.settings.mutate).toHaveBeenCalledWith(
+        expect.objectContaining({ ns: 'llm-pi-ai', ops: [{ op: 'unset', path: ['providers', 'deepseek'] }] }),
+      )
+      expect(api.settings.mutate).toHaveBeenCalledWith(
+        expect.objectContaining({ ns: STASH_NS, ops: [{ op: 'unset', path: ['providers', 'deepseek'] }] }),
+      )
+    })
+  })
+
+  it('offers no delete for a never-configured preset', () => {
+    renderSection([])
+    const siliconRow = screen.getAllByText('硅基流动 (Silicon)')[0]!.closest('[aria-pressed]')!
+    const kebab = within(siliconRow as HTMLElement).getByRole('button')
+    fireEvent.click(kebab)
+    const deleteItem = screen.getByRole('menuitem', { name: 'Delete' }) as HTMLButtonElement
+    expect(deleteItem.disabled).toBe(true)
   })
 })
 

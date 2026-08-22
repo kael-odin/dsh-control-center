@@ -67,6 +67,17 @@ export interface ModelListEditorProps {
     /** Disable every control (read-only deployment or a pending write). */
     disabled: boolean;
 }
+/** The bucket an id with no derivable family lands in (sorts last). */
+export declare const UNGROUPED_MODEL_GROUP_KEY = "__ungrouped__";
+/**
+ * Cherry's group derivation: a slash-prefixed id uses its provider segment
+ * (`openai/gpt-4o` → `openai`); a flat id uses the family before the first
+ * dash (`deepseek-v4-pro` → `deepseek`). An id that yields no family (a bare
+ * `glm`) lands in the trailing ungrouped bucket.
+ * @param id - the model id as configured.
+ * @returns the group name, or `undefined` for the ungrouped bucket.
+ */
+export declare function modelGroupName(id: string): string | undefined;
 /**
  * Render the model list with its fetch action.
  * @param props - the drafted rows, probe target, wire face, and copy.

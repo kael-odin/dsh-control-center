@@ -677,3 +677,45 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+/* Model family groups (Cherry's collapsible "glm"-style sections). */
+.modelGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.modelGroupHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 6px;
+  border: none;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--muted) 45%, transparent);
+  color: var(--foreground);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.modelGroupHeader:hover {
+  background: var(--muted);
+}
+
+.modelGroupTitle {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.modelGroupCount {
+  font-size: 11px;
+  color: var(--muted-foreground);
+}
+
+.modelGroupBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: 10px;
+}

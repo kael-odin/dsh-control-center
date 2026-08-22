@@ -29,8 +29,10 @@ import { useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client'
 import type { SnapshotSelectorHook } from '@deepseek-ai/dsh-client-ui-slots'
+import { Button, Menu, Modal } from '@deepseek-ai/dsh-client-ui-primitives'
 import { CustomProviderCard } from './CustomProviderCard.tsx'
 import { ProviderEditor } from './ProviderEditor.tsx'
+import { removeProviderProfile } from './ModelsSection.tsx'
 import {
   PI_AI_SHIPPED_PRESET_IDS, PROVIDER_PRESETS, presetApiOf, type ProviderPreset,
 } from './provider-presets.ts'
@@ -199,6 +201,9 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
   const [savedTarget, setSavedTarget] = useState<ProviderIdentity | undefined>(undefined)
   const [toggleFailure, setToggleFailure] = useState<string | undefined>(undefined)
   const [toggling, setToggling] = useState(false)
+  const [menuFor, setMenuFor] = useState<string | undefined>(undefined)
+  const [deleteTarget, setDeleteTarget] = useState<DirectoryEntry | undefined>(undefined)
+  const [deleting, setDeleting] = useState(false)
 
   if (state.status === 'idle') void controller.load()
   if (state.status === 'error') {
@@ -344,6 +349,50 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
     }
   }
 
+  /**
+   * Remove a provider's stored presence: managed credential first (so a
+   * second-step failure leaves the row retryable), then the live profile,
+   * then any stashed copy. A catalog preset stays listed afterwards — it is a
+   * directory entry, not user data — but it is unconfigured again.
+   */
+  const deleteProvider = async (entry: DirectoryEntry): Promise<void> => {
+    const target = identityOf(entry)
+    const liveRow = entry.row
+    const managedRef = target.settingsNs === NS && liveRow?.apiKeyEnv !== undefined
+      && liveRow.credential?.configured === true && liveRow.credential.writable === true
+      ? liveRow.apiKeyEnv
+      : undefined
+    setDeleting(true)
+    try {
+      const failure = await removeProviderProfile(api, controller, {
+        settingsNs: target.settingsNs,
+        settingsPath: target.settingsPath,
+        ...(managedRef === undefined ? {} : { credentialRef: managedRef }),
+      })
+      if (failure !== undefined) {
+        setToggleFailure(failure)
+        return
+      }
+      if (stashView !== undefined) {
+        const cleared = await api.settings.mutate({
+          ns: STASH_NS,
+          expectedRevision: stashView.revision,
+          ops: [{ op: 'unset', path: ['providers', entry.provider] }],
+        })
+        if (!cleared.result.ok) {
+          setToggleFailure(cleared.result.error.message)
+          return
+        }
+      }
+      await controller.load()
+      setDeleteTarget(undefined)
+    } catch (error) {
+      setToggleFailure(messageOf(error))
+    } finally {
+      setDeleting(false)
+    }
+  }
+
   /** Preset types whose native endpoint cannot speak an OpenAI protocol. */
   const protocolLimitedType = (preset?: ProviderPreset): 'iam' | 'protocol' | undefined => {
     if (preset === undefined) return undefined
@@ -390,13 +439,28 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                   {filtered.map(entry => {
                     const { enabled } = toggleStateOf(entry)
                     const isSelected = entry.provider === effective?.provider
+                    const canDelete = entry.row?.configured === true && entry.row.entry.settingsPath.length > 0
+                      || (stashView !== undefined
+                        && schema.getPath(stashView.value, ['providers', entry.provider]) !== undefined)
                     return (
                       <li key={entry.provider}>
-                        <button
-                          type="button"
+                        {/* A div row, not a button: the kebab inside must be a
+                            real button, and nested buttons are invalid HTML —
+                            the same trade Cherry makes, with the same keyboard
+                            guard. */}
+                        <div
+                          role="button"
+                          tabIndex={0}
                           className={`${styles['listItem']} ${isSelected ? styles['listItemSelected'] : ''} ${enabled ? '' : styles['listItemDisabled']}`}
                           aria-pressed={isSelected}
                           onClick={() => { select(entry.provider) }}
+                          onKeyDown={(event) => {
+                            if (event.currentTarget !== event.target) return
+                            if (event.key === 'Enter' || event.key === ' ') {
+                              event.preventDefault()
+                              select(entry.provider)
+                            }
+                          }}
                         >
                           <span className={styles['listItemMain']}>
                             <ProviderAvatar providerId={entry.provider} name={entry.displayName} />
@@ -411,7 +475,46 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                           {enabled
                             ? <span className={styles['enabledDot']} role="img" aria-label={t('activeProvider')} title={t('activeProvider')} />
                             : null}
-                        </button>
+                          <span className={styles['kebabSlot']} onClick={(event) => { event.stopPropagation() }}>
+                            <Menu
+                              open={menuFor === entry.provider}
+                              anchor={(
+                                <button
+                                  type="button"
+                                  className={styles['kebabButton']}
+                                  aria-label={providerCopy(t('editProvider'), { provider: entry.provider, displayName: entry.displayName })}
+                                  title={t('edit')}
+                                  onClick={(event) => {
+                                    event.stopPropagation()
+                                    setMenuFor(open => open === entry.provider ? undefined : entry.provider)
+                                  }}
+                                >
+                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                                    <circle cx="12" cy="5" r="1.6" />
+                                    <circle cx="12" cy="12" r="1.6" />
+                                    <circle cx="12" cy="19" r="1.6" />
+                                  </svg>
+                                </button>
+                              )}
+                              portal
+                              align="end"
+                              items={[
+                                { id: 'edit', label: t('edit') },
+                                { id: 'delete', label: t('remove'), danger: true, disabled: !canDelete },
+                              ]}
+                              onSelect={(id) => {
+                                setMenuFor(undefined)
+                                if (id === 'edit') select(entry.provider)
+                                if (id === 'delete') {
+                                  setSavedTarget(undefined)
+                                  setToggleFailure(undefined)
+                                  setDeleteTarget(entry)
+                                }
+                              }}
+                              onClose={() => { setMenuFor(undefined) }}
+                            />
+                          </span>
+                        </div>
                       </li>
                     )
                   })}
@@ -535,6 +638,41 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
               })()}
         </main>
       </div>
+      <Modal
+        open={deleteTarget !== undefined}
+        onClose={() => { if (!deleting) setDeleteTarget(undefined) }}
+        title={deleteTarget === undefined ? '' : providerCopy(t('deleteTitle'), { provider: deleteTarget.provider, displayName: deleteTarget.displayName })}
+        closeLabel={t('close')}
+        description={deleteTarget === undefined
+          ? ''
+          : providerCopy(
+            deleteTarget.row?.apiKeyEnv !== undefined && deleteTarget.row.credential?.configured === true
+              ? t('deleteDescriptionWithCredential')
+              : t('deleteDescription'),
+            { provider: deleteTarget.provider, displayName: deleteTarget.displayName },
+          )}
+        className={styles['deleteDialog'] as string}
+        footer={(
+          <>
+            <Button variant="outline" autoFocus disabled={deleting} onClick={() => { setDeleteTarget(undefined) }}>
+              {t('cancel')}
+            </Button>
+            <Button
+              variant="outline"
+              className={styles['deleteConfirm'] as string}
+              disabled={deleting}
+              onClick={() => {
+                /* v8 ignore next -- the footer only renders with a target */
+                if (deleteTarget !== undefined) void deleteProvider(deleteTarget)
+              }}
+            >
+              {deleteTarget === undefined
+                ? ''
+                : providerCopy(deleting ? t('deleting') : t('deleteConfirm'), { provider: deleteTarget.provider, displayName: deleteTarget.displayName })}
+            </Button>
+          </>
+        )}
+      />
     </div>
   )
 }

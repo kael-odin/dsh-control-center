@@ -211,6 +211,47 @@
   height: 6px;
   border-radius: 50%;
   background: var(--success);
+  transition: opacity 150ms ease;
+}
+
+/* The hover-revealed kebab takes the dot's slot, exactly as in Cherry. */
+.listItem:hover .enabledDot,
+.listItem:focus-within .enabledDot {
+  opacity: 0;
+}
+
+.kebabSlot {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+}
+
+.kebabButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  opacity: 0;
+  transition: color 120ms ease, background-color 120ms ease, opacity 150ms ease;
+}
+
+.listItem:hover .kebabButton,
+.listItem:focus-within .kebabButton,
+.kebabButton[aria-expanded='true'] {
+  opacity: 1;
+}
+
+.kebabButton:hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--muted) 55%, transparent);
 }
 
 .freeBadge {
@@ -437,4 +478,18 @@
   font-family: inherit;
   font-size: 14px;
   cursor: pointer;
+}
+
+/* Delete confirmation dialog. */
+.deleteDialog {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 14px;
+  background: var(--popover);
+}
+
+.deleteConfirm {
+  color: var(--destructive);
 }
