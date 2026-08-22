@@ -3,11 +3,14 @@
  *
  * Provider editing lives in 模型服务, exactly as Cherry splits
  * ProviderSettings and ModelSettings into two pages. This page owns
- * per-purpose model selection over the host authority:
+ * per-purpose model selection over the host authority, in Cherry's row order:
  * - 默认模型 / 当前会话模型 via the shared ModelSelectionPanel;
+ * - 快捷模型 preference plus its settings drawer (话题命名);
  * - 翻译模型 / 绘画模型 preferences persisted to `control-center-model-prefs`
  *   and honored by the workspaces as their initial selection instead of
- *   "whatever the catalog listed first".
+ *   "whatever the catalog listed first";
+ * - 重试设置 projected onto every live provider profile as a real DSH
+ *   `retryPolicy`, so the harness retry plugin enforces it on actual requests.
  */
 import type { ReactNode } from 'react';
 import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client';

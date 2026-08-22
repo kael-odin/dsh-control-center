@@ -50,13 +50,29 @@ const PROVIDER_STASH_SCHEMA = z.object({
   providers: z.dict(z.any()).default({}),
 })
 
-/** Per-purpose model preferences (translation/painting) for the 默认模型 page. */
+/** One fallback route (Cherry `chat.retry.fallback_model_ids`, provider/model split). */
+const RETRY_FALLBACK_SCHEMA = z.object({
+  provider: z.string().default(''),
+  model: z.string().default(''),
+})
+
+/**
+ * Per-purpose model preferences (快捷/翻译/绘画) plus the Cherry 重试设置 for
+ * the 默认模型 page. Retry fields mirror Cherry's chat.retry.* defaults
+ * (enabled false, max attempts 3, backoff on, no fallbacks).
+ */
 export const MODEL_PREFS_NAMESPACE_SETTINGS = settingsNamespace('control-center-model-prefs')
 const MODEL_PREFS_SCHEMA = z.object({
   translationProvider: z.string().default(''),
   translationModel: z.string().default(''),
   paintingProvider: z.string().default(''),
   paintingModel: z.string().default(''),
+  quickProvider: z.string().default(''),
+  quickModel: z.string().default(''),
+  retryEnabled: z.boolean().default(false),
+  retryMaxAttempts: z.number().step(1).min(1).max(10).default(3),
+  retryBackoff: z.boolean().default(true),
+  retryFallbacks: z.array(RETRY_FALLBACK_SCHEMA).default([]),
 })
 
 interface AppearanceSettings {

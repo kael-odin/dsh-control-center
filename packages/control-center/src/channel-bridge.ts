@@ -22,6 +22,7 @@ import { settingsNamespace } from '@deepseek-ai/dsh-settings'
 import { installSettingsSection } from '@deepseek-ai/dsh-settings'
 import { bindTypertRemote, Remote } from '@deepseek-ai/dsh-typert-protocol'
 import { createUserMessage, type LlmRuntime } from '@deepseek-ai/dsh-llm'
+import { readHostRetryPolicy } from './retry-config.ts'
 
 export const CHANNELS_BRIDGE_NAMESPACE = settingsNamespace('control-center-channels')
 
@@ -61,6 +62,22 @@ interface Runtime {
 const LOG_LIMIT = 200
 const POLL_TIMEOUT_S = 25
 const RETRY_MS = 5_000
+
+/** Resolve after `ms`, settling early when the signal aborts. */
+function abortableSleep(ms: number, signal?: AbortSignal): Promise<void> {
+  if (ms <= 0 || signal?.aborted === true) return Promise.resolve()
+  return new Promise((resolve) => {
+    const timer = setTimeout(() => {
+      signal?.removeEventListener('abort', onAbort)
+      resolve()
+    }, ms)
+    const onAbort = (): void => {
+      clearTimeout(timer)
+      resolve()
+    }
+    signal?.addEventListener('abort', onAbort, { once: true })
+  })
+}
 /** Idle between polls when the server answers instantly with no updates —
  * without it a fast endpoint spins the loop as pure microtasks and starves
  * every timer on the process. */
@@ -266,28 +283,67 @@ export class ChannelBridgeService extends Service {
     }
 
     try {
-      this.appendLog(id, `生成回复（${route.provider}/${route.model}）…`)
-      const prepared = await this.llm.prepareCall({ provider: route.provider, model: route.model })
-      const message = createUserMessage({ source: { kind: 'user' }, content: [{ type: 'text', text }] })
-      let reply = ''
-      for await (const chunk of prepared.stream({
-        ...prepared.config,
-        messages: [message],
-        system: 'You are a helpful assistant replying inside a messaging channel. Be concise.',
-        signal: this.signalFor(id),
-      })) {
-        if (chunk.type === 'text-delta') reply += chunk.text
-        if (chunk.type === 'finish' && chunk.reason.kind === 'error') {
-          throw new Error(chunk.reason.failure.message)
+      // Cherry 重试设置 honored here too: retries after the first request,
+      // then fallback routes — so a flaky provider does not drop messages.
+      const policy = readHostRetryPolicy(this.ctx.settings)
+      const routes = [
+        route,
+        ...policy.fallbacks.filter(candidate => candidate.provider !== route.provider || candidate.model !== route.model),
+      ]
+      const totalAttempts = policy.enabled ? policy.maxAttempts + 1 : 1
+      let reply: string | null = null
+      let failureText = '回复失败'
+      search: for (const candidate of routes) {
+        for (let attempt = 0; attempt < totalAttempts; attempt++) {
+          if (this.signalFor(id).aborted) return
+          if (attempt > 0) {
+            const delayMs = policy.backoff ? Math.min(500 * 2 ** (attempt - 1), 10_000) : 0
+            await abortableSleep(delayMs)
+          }
+          try {
+            this.appendLog(
+              id,
+              attempt === 0
+                ? `生成回复（${candidate.provider}/${candidate.model}）…`
+                : `重试（第 ${String(attempt + 1)} 次尝试，${candidate.provider}/${candidate.model}）…`,
+            )
+            reply = await this.generateReply(id, text, candidate)
+            break search
+          } catch (error) {
+            reply = null
+            failureText = error instanceof Error ? error.message : String(error)
+          }
         }
       }
-      const trimmedReply = reply.trim().length > 0 ? reply.trim() : '(空回复)'
-      await this.sendTelegramMessage(token, chatId, trimmedReply)
-      this.appendLog(id, `已回复：${trimmedReply.slice(0, 80)}`)
+      if (reply === null) {
+        this.appendLog(id, `回复失败：${failureText}`)
+        return
+      }
+      await this.sendTelegramMessage(token, chatId, reply)
+      this.appendLog(id, `已回复：${reply.slice(0, 80)}`)
     } catch (error) {
       const messageText = error instanceof Error ? error.message : String(error)
       this.appendLog(id, `回复失败：${messageText}`)
     }
+  }
+
+  /** One generation attempt over one route; throws on terminal error finish. */
+  private async generateReply(id: string, text: string, route: { provider: string; model: string }): Promise<string> {
+    const prepared = await this.llm!.prepareCall({ provider: route.provider, model: route.model })
+    const message = createUserMessage({ source: { kind: 'user' }, content: [{ type: 'text', text }] })
+    let reply = ''
+    for await (const chunk of prepared.stream({
+      ...prepared.config,
+      messages: [message],
+      system: 'You are a helpful assistant replying inside a messaging channel. Be concise.',
+      signal: this.signalFor(id),
+    })) {
+      if (chunk.type === 'text-delta') reply += chunk.text
+      if (chunk.type === 'finish' && chunk.reason.kind === 'error') {
+        throw new Error(chunk.reason.failure.message)
+      }
+    }
+    return reply.trim().length > 0 ? reply.trim() : '(空回复)'
   }
 
   /** Abort signal of the channel's active loop, so replies die with it. */

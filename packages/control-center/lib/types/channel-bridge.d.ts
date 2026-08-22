@@ -62,6 +62,8 @@ export declare class ChannelBridgeService extends Service {
      * log line — the poll loop must survive a bad model or a refused send.
      */
     private handleIncoming;
+    /** One generation attempt over one route; throws on terminal error finish. */
+    private generateReply;
     /** Abort signal of the channel's active loop, so replies die with it. */
     private signalFor;
     /**

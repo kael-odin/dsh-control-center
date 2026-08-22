@@ -6,6 +6,7 @@ import { settingsNamespace, type SettingsScope } from '@deepseek-ai/dsh-settings
 import Schema from '@deepseek-ai/schemastery'
 import { bindTypertRemote, Remote } from '@deepseek-ai/dsh-typert-protocol'
 import { TRANSLATION_PROMPT_TEMPLATE } from './translation-prompt.ts'
+import { readHostRetryPolicy } from './retry-config.ts'
 import type {
   TranslationHistoryId, TranslationHistoryItem, TranslationHistoryPage, TranslationJobView,
   TranslationLanguage, TranslationLanguagesView, TranslationModelSelection, TranslationRequest, TranslationStartResult,
@@ -90,6 +91,29 @@ function prompt(request: TranslationRequest, customPrompt: string): string {
 
 function failureOf(error: unknown): LlmFailure {
   return { message: error instanceof Error ? error.message : String(error), code: 'TRANSLATION_ERROR' }
+}
+
+/** Cherry 重试设置 facts one job honors (the 默认模型 page persists them). */
+export type TranslationRetryPolicy = import('./retry-config.ts').HostRetryPolicy
+
+/** Bounded exponential backoff, matching the harness retry plugin defaults. */
+const RETRY_INITIAL_DELAY_MS = 500
+const RETRY_MAX_DELAY_MS = 10_000
+
+/** Resolve after `ms`, settling early when the signal aborts. */
+function abortableDelay(signal: AbortSignal, ms: number): Promise<void> {
+  if (ms <= 0 || signal.aborted) return Promise.resolve()
+  return new Promise((resolve) => {
+    const timer = setTimeout(() => {
+      signal.removeEventListener('abort', onAbort)
+      resolve()
+    }, ms)
+    const onAbort = (): void => {
+      clearTimeout(timer)
+      resolve()
+    }
+    signal.addEventListener('abort', onAbort, { once: true })
+  })
 }
 
 function markTranslationRemoteMethods(service: TranslationService): void {
@@ -297,71 +321,141 @@ ${sample}` }],
     return { absent: true }
   }
 
+  /**
+   * The Cherry 重试设置 from the shared model-prefs namespace, read live so a
+   * settings edit reaches the next job without a restart.
+   */
+  private retryPolicy(): TranslationRetryPolicy {
+    return readHostRetryPolicy(this.ctx.settings)
+  }
+
   private async run(job: MutableJob, request: TranslationRequest): Promise<void> {
     try {
-      const llm = this.llm
-      const callConfig = {
-        provider: request.selection.provider,
-        model: request.selection.model,
-        ...(request.selection.reasoningEffort === undefined
-          ? {}
-          : { reasoningEffort: ReasoningEffortId(request.selection.reasoningEffort) }),
+      const policy = this.retryPolicy()
+      const routes: TranslationModelSelection[] = [
+        request.selection,
+        ...policy.fallbacks.filter(route =>
+          route.provider !== request.selection.provider || route.model !== request.selection.model
+        ).map(route => ({ provider: route.provider, model: route.model })),
+      ]
+      // Cherry feeds max_attempts to the AI SDK as maxRetries — retries AFTER
+      // the first request — so one route costs at most maxAttempts + 1 tries.
+      const totalAttempts = policy.enabled ? policy.maxAttempts + 1 : 1
+      for (const route of routes) {
+        const outcome = await this.runRoute(job, request, route, totalAttempts, policy.backoff)
+        if (outcome === 'completed') this.recordHistory(job, request)
+        if (outcome !== 'failed') return
+        if (job.controller.signal.aborted) return
       }
-      const prepared = await llm.prepareCall(callConfig, job.controller.signal)
-      const message = createUserMessage({ source: { kind: 'user' }, content: [{ type: 'text', text: request.text }] })
-      const startedAt = Date.now()
-      let recorded = false
-      for await (const chunk of prepared.stream({
-        ...prepared.config,
-        messages: [message],
-        system: prompt(request, this.scope === null ? (this.promptOverride ?? '') : this.scope.get().prompt),
-        signal: job.controller.signal,
-      })) {
-        if (chunk.type === 'usage' && !recorded) {
-          recorded = true
-          recordUsage(this.ctx, {
-            provider: request.selection.provider,
-            model: request.selection.model,
-            kind: 'translation',
-            inputTokens: chunk.usage.inputTokens,
-            outputTokens: chunk.usage.outputTokens,
-            cacheReadTokens: chunk.usage.cacheReadTokens ?? 0,
-            cacheWriteTokens: chunk.usage.cacheWriteTokens ?? 0,
-            latencyMs: Date.now() - startedAt,
-          })
-        }
-        if (chunk.type === 'text-delta') job.view.output += chunk.text
-        if (chunk.type === 'finish') {
-          if (chunk.reason.kind === 'aborted') job.view.status = 'cancelled'
-          else if (chunk.reason.kind === 'error') {
-            job.view.status = 'error'
-            job.view.failure = chunk.reason.failure
-          } else job.view.status = 'completed'
-        }
-        job.view.updatedAt = Date.now()
-      }
-      if (job.view.status === 'running') job.view.status = job.controller.signal.aborted ? 'cancelled' : 'completed'
-      if (job.view.status === 'completed') {
-        const id = `history-${randomUUID()}`
-        const item: TranslationHistoryItem = {
-          id,
-          sourceLanguage: request.sourceLanguage,
-          targetLanguage: request.targetLanguage,
-          sourceText: request.text,
-          translatedText: job.view.output,
-          selection: structuredClone(request.selection),
-          starred: false,
-          createdAt: Date.now(),
-        }
-        this.history.set(id, item)
-        job.view.historyId = id
-      }
+      // Every route exhausted its budget; runRoute left the last failure on
+      // the job view.
+      job.view.status = 'error'
+      if (job.view.failure === undefined) job.view.failure = failureOf(new Error('translation failed'))
+      job.view.updatedAt = Date.now()
     } catch (error) {
       job.view.status = job.controller.signal.aborted ? 'cancelled' : 'error'
       if (job.view.status === 'error') job.view.failure = failureOf(error)
-    } finally {
       job.view.updatedAt = Date.now()
     }
+  }
+
+  /**
+   * Run one route through its full attempt budget. `'failed'` means every
+   * attempt failed and the caller may continue with its next fallback; any
+   * other outcome is final for the job.
+   */
+  private async runRoute(
+    job: MutableJob,
+    request: TranslationRequest,
+    route: TranslationModelSelection,
+    totalAttempts: number,
+    backoff: boolean,
+  ): Promise<'completed' | 'cancelled' | 'failed'> {
+    const llm = this.llm
+    const callConfig = {
+      provider: route.provider,
+      model: route.model,
+      ...(route.reasoningEffort === undefined ? {} : { reasoningEffort: ReasoningEffortId(route.reasoningEffort) }),
+    }
+    const message = createUserMessage({ source: { kind: 'user' }, content: [{ type: 'text', text: request.text }] })
+    const systemPrompt = prompt(request, this.scope === null ? (this.promptOverride ?? '') : this.scope.get().prompt)
+    let lastFailure: LlmFailure | undefined
+    for (let attempt = 0; attempt < totalAttempts; attempt++) {
+      if (attempt > 0) {
+        const delayMs = backoff ? Math.min(RETRY_INITIAL_DELAY_MS * 2 ** (attempt - 1), RETRY_MAX_DELAY_MS) : 0
+        await abortableDelay(job.controller.signal, delayMs)
+        if (job.controller.signal.aborted) break
+        // A retried attempt starts clean, so half-streamed output from a
+        // failed attempt never survives into the replacement text.
+        job.view.output = ''
+      }
+      let attemptFailed: LlmFailure | undefined
+      try {
+        const prepared = await llm.prepareCall(callConfig, job.controller.signal)
+        const startedAt = Date.now()
+        let recorded = false
+        for await (const chunk of prepared.stream({
+          ...prepared.config,
+          messages: [message],
+          system: systemPrompt,
+          signal: job.controller.signal,
+        })) {
+          if (chunk.type === 'usage' && !recorded) {
+            recorded = true
+            recordUsage(this.ctx, {
+              provider: route.provider,
+              model: route.model,
+              kind: 'translation',
+              inputTokens: chunk.usage.inputTokens,
+              outputTokens: chunk.usage.outputTokens,
+              cacheReadTokens: chunk.usage.cacheReadTokens ?? 0,
+              cacheWriteTokens: chunk.usage.cacheWriteTokens ?? 0,
+              latencyMs: Date.now() - startedAt,
+            })
+          }
+          if (chunk.type === 'text-delta') job.view.output += chunk.text
+          if (chunk.type === 'finish') {
+            if (chunk.reason.kind === 'aborted') job.view.status = 'cancelled'
+            else if (chunk.reason.kind === 'error') attemptFailed = chunk.reason.failure
+          }
+          job.view.updatedAt = Date.now()
+        }
+      } catch (error) {
+        attemptFailed = failureOf(error)
+      }
+      if (attemptFailed === undefined && job.view.status !== 'cancelled') {
+        job.view.status = 'completed'
+        return 'completed'
+      }
+      if (attemptFailed === undefined || job.controller.signal.aborted) {
+        job.view.status = 'cancelled'
+        job.view.updatedAt = Date.now()
+        return 'cancelled'
+      }
+      job.view.status = 'running'
+      lastFailure = attemptFailed
+    }
+    job.view.status = 'error'
+    job.view.failure = lastFailure ?? { message: 'translation failed', code: 'TRANSLATION_ERROR' }
+    job.view.updatedAt = Date.now()
+    return 'failed'
+  }
+
+  /** Persist one completed job into the in-process history. */
+  private recordHistory(job: MutableJob, request: TranslationRequest): void {
+    const id = `history-${randomUUID()}`
+    const item: TranslationHistoryItem = {
+      id,
+      sourceLanguage: request.sourceLanguage,
+      targetLanguage: request.targetLanguage,
+      sourceText: request.text,
+      translatedText: job.view.output,
+      selection: structuredClone(request.selection),
+      starred: false,
+      createdAt: Date.now(),
+    }
+    this.history.set(id, item)
+    job.view.historyId = id
   }
 }
 

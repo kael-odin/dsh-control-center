@@ -149,6 +149,18 @@ async function main(): Promise<void> {
     const chooser = page.getByRole('dialog', { name: '选择要添加的模型' })
     await chooser.getByText('cc-e2e-beta', { exact: true }).waitFor({ timeout: 15_000 })
     await chooser.getByRole('button', { name: '取消' }).click()
+    // 默认模型 page: Cherry ModelSettings parity — quick model row, topic
+    // naming drawer, and the retry group whose save projects real policies.
+    await dialog.getByRole('button', { name: '默认模型', exact: true }).evaluate((button: HTMLButtonElement) => { button.click() })
+    await dialog.getByText('快捷模型', { exact: true }).waitFor({ timeout: 15_000 })
+    await dialog.getByRole('button', { name: '快捷模型设置' }).click()
+    const namingDialog = page.getByRole('dialog').filter({ hasText: '会话自动命名已内建' })
+    await namingDialog.waitFor({ timeout: 15_000 })
+    await namingDialog.getByRole('button', { name: '关闭' }).click()
+    await dialog.getByText('失败后自动重试', { exact: true }).waitFor({ timeout: 15_000 })
+    // The styled switch hides the native input; click the label instead.
+    await dialog.locator('label[title="失败后自动重试"]').click()
+    await expectPoll(async () => (await dialog.getByText(/重试设置已保存并应用到/).count()) > 0, true, 15_000)
     await dialog.getByRole('button', { name: '关闭设置' }).click()
 
     const translationNav = page.getByRole('button', { name: '翻译' })

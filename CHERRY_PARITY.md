@@ -41,7 +41,7 @@
 | 分组 | Cherry 入口 | Cherry 路由 | control-center section（id） | 优先级 | 现状 |
 |------|------------|------------|-------------------------------|--------|------|
 | （核心） | 模型服务 | `/settings/provider` | `providers`（ProviderDirectorySection） | **P0** | ✅ 两栏目录 + 细节控件全量对齐（启用开关/检测/请求选项/拖拽排序） |
-| （核心） | 模型 | `/settings/model` | `models`（ModelsSection：模型选择 + 工作区偏好） | **P0** | ✅ Cherry ModelSettings 对齐（默认/当前/翻译/绘画；快捷与重试后续） |
+| （核心） | 模型 | `/settings/model` | `models`（ModelsSection：模型选择 + 工作区偏好） | **P0** | ✅ Cherry ModelSettings 对齐（默认/当前/快捷/翻译/绘画/重试全量） |
 | （核心） | 本地模型 | `/settings/local-models` | `local-models`（LocalModelsSection） | P0 | ✅ controlCenterLocalModels |
 | （核心） | 网关 | `/settings/api-gateway` | `api-gateway`（ApiGatewaySection） | P0 | ✅ 真实（web 诚实标注） |
 | 能力 | MCP | `/settings/mcp` | `mcp`（McpSection） | T1 | ✅ split-pane + 快速导入 + Npx 市场 + **内置服务器目录**（4 个外部可达预设；Cherry 的 9 个 inMemory 内置运行于其自有运行时，诚实未列）+ **更多市场**（7 站外链，同 Cherry 更多市场列表）|
@@ -124,10 +124,10 @@ Cherry 参照：`.../ModelSettings/ModelSettings.tsx`、`.../ModelSettings/Topic
 | # | Cherry 能力 | Cherry 行为要点 | control-center 现状 | 待办 | 完成标准 |
 |---|-------------|-----------------|---------------------|------|----------|
 | 2.4.1 | 默认助手模型 | DefaultModelSelector，仅列 chat 模型，空态占位 | ✅ `ModelSelectionPanel`：默认/当前会话模型选择器，读 `llm.models()` 真实目录，持久化到 `agent-default-model`。**页面已重构**：供应商编辑移除（归属模型服务页），对齐 Cherry 两页分工 | — | 可选到真实模型，选择持久化并影响对话 ✅ |
-| 2.4.2 | 快捷模型 | 快捷模型 + 设置抽屉（TopicNamingSettings 话题命名） | 🔶 未实现 | 后续 | 快捷模型生效；抽屉可改话题命名 |
+| 2.4.2 | 快捷模型 | 快捷模型 + 设置抽屉（TopicNamingSettings 话题命名） | ✅ 快捷模型选择器持久化到 `control-center-model-prefs`（`quickProvider/quickModel`），设置按钮打开话题命名对话框：如实说明 DSH 内建会话标题服务（首条消息后自动命名、用会话自身模型）；自定义提示词与开关属 harness 部署级配置（bundle `session-title-llm` 行），应用内暂不可改（诚实标注）。桌面快捷助手悬浮窗落地后直接读取该偏好 | 悬浮窗（桌面） | 选择器持久化 ✅；抽屉诚实呈现 ✅ |
 | 2.4.3 | 翻译模型 | 翻译模型 + 翻译设置抽屉（prompt 可重置回默认） | ✅ 设置页新增持久偏好（`control-center-model-prefs`），翻译工作区打开时**优先预选**该模型；工作区内选择器与 prompt 重置照旧 | — | 翻译模型生效 ✅ |
 | 2.4.4 | 绘画模型 | 绘画模型选择（isGenerateImageModel 过滤） | ✅ 设置页持久偏好同上，绘画工作区打开时优先预选；目录仍按生成类过滤 | — | 绘画模型生效 ✅ |
-| 2.4.5 | 重试设置 | 开关 + 次数(1-10) + 退避开关 + 兜底模型多选 | 🔶 未做 | 后续 | 重试策略真实影响请求 |
+| 2.4.5 | 重试设置 | 开关 + 次数(1-10) + 退避开关 + 兜底模型多选 | ✅ 开关（默认关）/次数 1-10（Cherry 同款 clamp）/退避/兜底多选，持久化到 `control-center-model-prefs`。**真实生效双通道**：① 保存时把 DSH 原生 `retryPolicy` 投影进每个在役供应商 profile（llm-pi-ai 各路由 + llm-deepseek 根 + provider-stash 拷贝），由官方 dsh-llm-retry 插件在代理会话真实执行（关闭=显式 maxRetries:0 覆盖默认 5 次）；② 控制中心自有调用面（翻译任务、频道回复）按同一配置执行重试预算与兜底路由顺序（DSH 的 retry 插件只挂 agent loop，直连调用面需自带循环——已在代码注释注明）。代理会话失败只重试不切模型（诚实标注） | — | 重试策略真实影响请求 ✅ |
 
 ### 2.5 本地模型
 

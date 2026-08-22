@@ -319,112 +319,112 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var PaintingWorkspace_module_css_default = {
-			"quickItemIcon": "_-UrTq_quickItemIcon",
-			"promptLibList": "_-UrTq_promptLibList",
-			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
-			"promptLibItemMain": "_-UrTq_promptLibItemMain",
-			"attachmentTile": "_-UrTq_attachmentTile",
-			"promptLibDelete": "_-UrTq_promptLibDelete",
-			"manageRowMain": "_-UrTq_manageRowMain",
-			"addPromptTextarea": "_-UrTq_addPromptTextarea",
-			"manageRowContent": "_-UrTq_manageRowContent",
-			"dialogActions": "_-UrTq_dialogActions",
-			"active": "_-UrTq_active",
-			"quickPanel": "_-UrTq_quickPanel",
-			"manageRowTitle": "_-UrTq_manageRowTitle",
-			"strip": "_-UrTq_strip",
-			"promptDockInner": "_-UrTq_promptDockInner",
-			"sendButton": "_-UrTq_sendButton",
-			"stripHeader": "_-UrTq_stripHeader",
-			"promptLibEmpty": "_-UrTq_promptLibEmpty",
-			"paramsField": "_-UrTq_paramsField",
-			"manageCard": "_-UrTq_manageCard",
-			"addPromptCard": "_-UrTq_addPromptCard",
-			"stripProgress": "_-UrTq_stripProgress",
-			"carouselCardImage": "_-UrTq_carouselCardImage",
-			"imageBox": "_-UrTq_imageBox",
 			"roundButton": "_-UrTq_roundButton",
-			"quickItemLabel": "_-UrTq_quickItemLabel",
-			"root": "_-UrTq_root",
-			"manageRowBtnDanger": "_-UrTq_manageRowBtnDanger",
-			"artboardEmpty": "_-UrTq_artboardEmpty",
-			"btnPrimary": "_-UrTq_btnPrimary",
-			"centerPane": "_-UrTq_centerPane",
-			"pillButton": "_-UrTq_pillButton",
-			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
-			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
-			"hidden": "_-UrTq_hidden",
-			"composer": "_-UrTq_composer",
-			"modelPill": "_-UrTq_modelPill",
-			"promptLib": "_-UrTq_promptLib",
-			"skeletonCell": "_-UrTq_skeletonCell",
-			"sizeGrid": "_-UrTq_sizeGrid",
-			"thumb": "_-UrTq_thumb",
-			"dragging": "_-UrTq_dragging",
-			"promptLibContent": "_-UrTq_promptLibContent",
-			"carouselLabel": "_-UrTq_carouselLabel",
-			"composerToolbar": "_-UrTq_composerToolbar",
-			"sizeLabel": "_-UrTq_sizeLabel",
-			"stripItem": "_-UrTq_stripItem",
-			"cc-strip-loading": "_-UrTq_cc-strip-loading",
-			"toolbarDivider": "_-UrTq_toolbarDivider",
-			"attachmentTray": "_-UrTq_attachmentTray",
+			"dialogActions": "_-UrTq_dialogActions",
 			"addPromptOverlay": "_-UrTq_addPromptOverlay",
-			"addPromptInput": "_-UrTq_addPromptInput",
-			"artboardStage": "_-UrTq_artboardStage",
-			"paramsPopover": "_-UrTq_paramsPopover",
-			"newButton": "_-UrTq_newButton",
+			"carouselCardImage": "_-UrTq_carouselCardImage",
+			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
 			"showcaseCaption": "_-UrTq_showcaseCaption",
-			"carouselCard": "_-UrTq_carouselCard",
+			"sizeLabel": "_-UrTq_sizeLabel",
+			"promptLibContent": "_-UrTq_promptLibContent",
+			"promptLibDelete": "_-UrTq_promptLibDelete",
+			"imageBox": "_-UrTq_imageBox",
+			"stripProgress": "_-UrTq_stripProgress",
+			"sizeGrid": "_-UrTq_sizeGrid",
+			"addPromptCard": "_-UrTq_addPromptCard",
+			"pillButton": "_-UrTq_pillButton",
 			"muted": "_-UrTq_muted",
-			"ratioThumb": "_-UrTq_ratioThumb",
-			"promptBar": "_-UrTq_promptBar",
-			"artboard": "_-UrTq_artboard",
-			"selected": "_-UrTq_selected",
-			"quickItem": "_-UrTq_quickItem",
-			"promptLibTitle": "_-UrTq_promptLibTitle",
-			"addPromptField": "_-UrTq_addPromptField",
-			"promptLibItem": "_-UrTq_promptLibItem",
-			"portalPanel": "_-UrTq_portalPanel",
+			"active": "_-UrTq_active",
 			"pillSummary": "_-UrTq_pillSummary",
+			"paramsField": "_-UrTq_paramsField",
+			"promptBarText": "_-UrTq_promptBarText",
+			"backButton": "_-UrTq_backButton",
+			"showcaseInner": "_-UrTq_showcaseInner",
+			"counterPill": "_-UrTq_counterPill",
+			"stripHeader": "_-UrTq_stripHeader",
+			"progressText": "_-UrTq_progressText",
+			"countSlider": "_-UrTq_countSlider",
+			"attachmentDelete": "_-UrTq_attachmentDelete",
+			"promptLibFooter": "_-UrTq_promptLibFooter",
+			"attachmentTray": "_-UrTq_attachmentTray",
+			"hidden": "_-UrTq_hidden",
+			"composerTextRow": "_-UrTq_composerTextRow",
+			"countInput": "_-UrTq_countInput",
+			"selected": "_-UrTq_selected",
 			"manageList": "_-UrTq_manageList",
-			"pauseButton": "_-UrTq_pauseButton",
-			"countRow": "_-UrTq_countRow",
-			"errorBanner": "_-UrTq_errorBanner",
+			"sizeChip": "_-UrTq_sizeChip",
 			"thumbEmpty": "_-UrTq_thumbEmpty",
 			"cc-cell-blink": "_-UrTq_cc-cell-blink",
-			"promptDock": "_-UrTq_promptDock",
-			"progressText": "_-UrTq_progressText",
-			"counterPill": "_-UrTq_counterPill",
-			"toolbarRail": "_-UrTq_toolbarRail",
-			"attachmentDelete": "_-UrTq_attachmentDelete",
-			"manageRow": "_-UrTq_manageRow",
-			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
-			"manageRowBtn": "_-UrTq_manageRowBtn",
-			"showcaseInner": "_-UrTq_showcaseInner",
-			"backButton": "_-UrTq_backButton",
-			"surface": "_-UrTq_surface",
-			"centerStage": "_-UrTq_centerStage",
-			"countSlider": "_-UrTq_countSlider",
-			"btn": "_-UrTq_btn",
-			"promptLibFooter": "_-UrTq_promptLibFooter",
-			"manageRowActions": "_-UrTq_manageRowActions",
-			"stripDelete": "_-UrTq_stripDelete",
-			"composerTextRow": "_-UrTq_composerTextRow",
-			"promptBarText": "_-UrTq_promptBarText",
-			"stripEnd": "_-UrTq_stripEnd",
-			"frame": "_-UrTq_frame",
-			"showcaseCarousel": "_-UrTq_showcaseCarousel",
-			"skeletonGrid": "_-UrTq_skeletonGrid",
-			"sizeChip": "_-UrTq_sizeChip",
+			"manageRowMain": "_-UrTq_manageRowMain",
+			"newButton": "_-UrTq_newButton",
 			"chevron": "_-UrTq_chevron",
+			"carouselCard": "_-UrTq_carouselCard",
+			"ratioThumb": "_-UrTq_ratioThumb",
+			"addPromptField": "_-UrTq_addPromptField",
+			"quickItemIcon": "_-UrTq_quickItemIcon",
+			"pauseButton": "_-UrTq_pauseButton",
+			"manageRowTitle": "_-UrTq_manageRowTitle",
+			"skeletonCell": "_-UrTq_skeletonCell",
+			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
 			"paramsSelect": "_-UrTq_paramsSelect",
-			"showcase": "_-UrTq_showcase",
-			"addImageButton": "_-UrTq_addImageButton",
-			"showcaseTitle": "_-UrTq_showcaseTitle",
-			"countInput": "_-UrTq_countInput",
+			"manageRow": "_-UrTq_manageRow",
+			"manageRowContent": "_-UrTq_manageRowContent",
+			"manageRowActions": "_-UrTq_manageRowActions",
+			"manageCard": "_-UrTq_manageCard",
 			"composerTextarea": "_-UrTq_composerTextarea",
-			"toolbarButton": "_-UrTq_toolbarButton"
+			"skeletonGrid": "_-UrTq_skeletonGrid",
+			"sendButton": "_-UrTq_sendButton",
+			"showcaseTitle": "_-UrTq_showcaseTitle",
+			"stripItem": "_-UrTq_stripItem",
+			"addImageButton": "_-UrTq_addImageButton",
+			"countRow": "_-UrTq_countRow",
+			"artboardEmpty": "_-UrTq_artboardEmpty",
+			"addPromptTextarea": "_-UrTq_addPromptTextarea",
+			"manageRowBtn": "_-UrTq_manageRowBtn",
+			"toolbarButton": "_-UrTq_toolbarButton",
+			"showcase": "_-UrTq_showcase",
+			"quickItemLabel": "_-UrTq_quickItemLabel",
+			"surface": "_-UrTq_surface",
+			"toolbarDivider": "_-UrTq_toolbarDivider",
+			"promptLib": "_-UrTq_promptLib",
+			"manageRowBtnDanger": "_-UrTq_manageRowBtnDanger",
+			"centerStage": "_-UrTq_centerStage",
+			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
+			"quickPanel": "_-UrTq_quickPanel",
+			"showcaseCarousel": "_-UrTq_showcaseCarousel",
+			"root": "_-UrTq_root",
+			"promptDock": "_-UrTq_promptDock",
+			"toolbarRail": "_-UrTq_toolbarRail",
+			"promptLibList": "_-UrTq_promptLibList",
+			"promptLibItemMain": "_-UrTq_promptLibItemMain",
+			"promptLibTitle": "_-UrTq_promptLibTitle",
+			"carouselLabel": "_-UrTq_carouselLabel",
+			"centerPane": "_-UrTq_centerPane",
+			"stripDelete": "_-UrTq_stripDelete",
+			"btn": "_-UrTq_btn",
+			"frame": "_-UrTq_frame",
+			"addPromptInput": "_-UrTq_addPromptInput",
+			"promptDockInner": "_-UrTq_promptDockInner",
+			"cc-strip-loading": "_-UrTq_cc-strip-loading",
+			"errorBanner": "_-UrTq_errorBanner",
+			"paramsPopover": "_-UrTq_paramsPopover",
+			"promptBar": "_-UrTq_promptBar",
+			"dragging": "_-UrTq_dragging",
+			"artboard": "_-UrTq_artboard",
+			"modelPill": "_-UrTq_modelPill",
+			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
+			"portalPanel": "_-UrTq_portalPanel",
+			"promptLibItem": "_-UrTq_promptLibItem",
+			"stripEnd": "_-UrTq_stripEnd",
+			"composer": "_-UrTq_composer",
+			"attachmentTile": "_-UrTq_attachmentTile",
+			"thumb": "_-UrTq_thumb",
+			"composerToolbar": "_-UrTq_composerToolbar",
+			"promptLibEmpty": "_-UrTq_promptLibEmpty",
+			"btnPrimary": "_-UrTq_btnPrimary",
+			"quickItem": "_-UrTq_quickItem",
+			"strip": "_-UrTq_strip",
+			"artboardStage": "_-UrTq_artboardStage"
 		};
 		//#endregion
 		//#region lib/types/client/painting-icons.js
@@ -1155,27 +1155,27 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var Combobox_module_css_default = {
+			"optionActive": "PJZ1pG_optionActive",
+			"empty": "PJZ1pG_empty",
+			"footerButton": "PJZ1pG_footerButton",
+			"optionText": "PJZ1pG_optionText",
+			"optionIcon": "PJZ1pG_optionIcon",
+			"optionSub": "PJZ1pG_optionSub",
+			"root": "PJZ1pG_root",
+			"triggerIcon": "PJZ1pG_triggerIcon",
+			"searchIcon": "PJZ1pG_searchIcon",
+			"footer": "PJZ1pG_footer",
+			"group": "PJZ1pG_group",
+			"searchInput": "PJZ1pG_searchInput",
+			"triggerLabel": "PJZ1pG_triggerLabel",
 			"trigger": "PJZ1pG_trigger",
-			"popoverPortal": "PJZ1pG_popoverPortal",
+			"option": "PJZ1pG_option",
 			"groupTitle": "PJZ1pG_groupTitle",
 			"searchWrap": "PJZ1pG_searchWrap",
-			"option": "PJZ1pG_option",
-			"empty": "PJZ1pG_empty",
-			"triggerIcon": "PJZ1pG_triggerIcon",
-			"list": "PJZ1pG_list",
-			"optionSub": "PJZ1pG_optionSub",
-			"triggerChevron": "PJZ1pG_triggerChevron",
-			"optionText": "PJZ1pG_optionText",
-			"triggerLabel": "PJZ1pG_triggerLabel",
-			"optionActive": "PJZ1pG_optionActive",
 			"optionLabel": "PJZ1pG_optionLabel",
-			"group": "PJZ1pG_group",
-			"footer": "PJZ1pG_footer",
-			"footerButton": "PJZ1pG_footerButton",
-			"optionIcon": "PJZ1pG_optionIcon",
-			"searchInput": "PJZ1pG_searchInput",
-			"searchIcon": "PJZ1pG_searchIcon",
-			"root": "PJZ1pG_root"
+			"list": "PJZ1pG_list",
+			"triggerChevron": "PJZ1pG_triggerChevron",
+			"popoverPortal": "PJZ1pG_popoverPortal"
 		};
 		//#endregion
 		//#region lib/types/client/Combobox.js
@@ -3359,115 +3359,115 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TranslationWorkspace_module_css_default = {
-			"panelTitle": "_8lesPa_panelTitle",
-			"detailBlockTarget": "_8lesPa_detailBlockTarget",
-			"reuse": "_8lesPa_reuse",
-			"historyRowMeta": "_8lesPa_historyRowMeta",
-			"rowTarget": "_8lesPa_rowTarget",
-			"outputArea": "_8lesPa_outputArea",
-			"switchRow": "_8lesPa_switchRow",
-			"segItem": "_8lesPa_segItem",
-			"backButton": "_8lesPa_backButton",
-			"pane": "_8lesPa_pane",
-			"panes": "_8lesPa_panes",
-			"detailBlock": "_8lesPa_detailBlock",
-			"segmented": "_8lesPa_segmented",
-			"langFormError": "_8lesPa_langFormError",
-			"destructive": "_8lesPa_destructive",
-			"panelBody": "_8lesPa_panelBody",
-			"confirmActions": "_8lesPa_confirmActions",
-			"langFormLabel": "_8lesPa_langFormLabel",
-			"root": "_8lesPa_root",
-			"langCode": "_8lesPa_langCode",
+			"topBar": "_8lesPa_topBar",
+			"langForm": "_8lesPa_langForm",
 			"uploadZone": "_8lesPa_uploadZone",
 			"cc-fade": "_8lesPa_cc-fade",
-			"uploadIcons": "_8lesPa_uploadIcons",
-			"settingLabel": "_8lesPa_settingLabel",
-			"success": "_8lesPa_success",
-			"uploadIcon": "_8lesPa_uploadIcon",
-			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
-			"visible": "_8lesPa_visible",
-			"inputArea": "_8lesPa_inputArea",
-			"detailAction": "_8lesPa_detailAction",
-			"switchTrack": "_8lesPa_switchTrack",
-			"btnPrimary": "_8lesPa_btnPrimary",
-			"paneFooter": "_8lesPa_paneFooter",
-			"detailMeta": "_8lesPa_detailMeta",
-			"helpWrap": "_8lesPa_helpWrap",
-			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
-			"topBar": "_8lesPa_topBar",
-			"pairRow": "_8lesPa_pairRow",
-			"translating": "_8lesPa_translating",
-			"settingsEmpty": "_8lesPa_settingsEmpty",
-			"panelHeader": "_8lesPa_panelHeader",
-			"textareaScroll": "_8lesPa_textareaScroll",
-			"active": "_8lesPa_active",
-			"rowTime": "_8lesPa_rowTime",
-			"langRow": "_8lesPa_langRow",
-			"countBadge": "_8lesPa_countBadge",
-			"spacer": "_8lesPa_spacer",
-			"starFill": "_8lesPa_starFill",
-			"settingsSection": "_8lesPa_settingsSection",
-			"confirmCard": "_8lesPa_confirmCard",
-			"langName": "_8lesPa_langName",
-			"detailText": "_8lesPa_detailText",
-			"btn": "_8lesPa_btn",
-			"starBtn": "_8lesPa_starBtn",
-			"outputPane": "_8lesPa_outputPane",
-			"cc-slide-in": "_8lesPa_cc-slide-in",
-			"historyRow": "_8lesPa_historyRow",
-			"modelSelectWrap": "_8lesPa_modelSelectWrap",
-			"chipTarget": "_8lesPa_chipTarget",
-			"rightCluster": "_8lesPa_rightCluster",
-			"smallIconBtn": "_8lesPa_smallIconBtn",
-			"stopBtn": "_8lesPa_stopBtn",
-			"langAdd": "_8lesPa_langAdd",
-			"langFormActions": "_8lesPa_langFormActions",
-			"cc-spin": "_8lesPa_cc-spin",
-			"historyEmpty": "_8lesPa_historyEmpty",
-			"backdrop": "_8lesPa_backdrop",
-			"copy": "_8lesPa_copy",
-			"helpIcon": "_8lesPa_helpIcon",
-			"langChevron": "_8lesPa_langChevron",
-			"settingsTextarea": "_8lesPa_settingsTextarea",
-			"confirmOverlay": "_8lesPa_confirmOverlay",
-			"pairChip": "_8lesPa_pairChip",
-			"sidePanel": "_8lesPa_sidePanel",
-			"langFormRow": "_8lesPa_langFormRow",
-			"langSelect": "_8lesPa_langSelect",
-			"paneCorner": "_8lesPa_paneCorner",
-			"detailActions": "_8lesPa_detailActions",
-			"langSelectWrap": "_8lesPa_langSelectWrap",
-			"errorBanner": "_8lesPa_errorBanner",
-			"sectionTitle": "_8lesPa_sectionTitle",
-			"translateBtn": "_8lesPa_translateBtn",
-			"chipArrow": "_8lesPa_chipArrow",
-			"detailBlockLabel": "_8lesPa_detailBlockLabel",
-			"langRowActions": "_8lesPa_langRowActions",
-			"spinner": "_8lesPa_spinner",
-			"md": "_8lesPa_md",
-			"modelSelect": "_8lesPa_modelSelect",
-			"chip": "_8lesPa_chip",
-			"detailBlockHeader": "_8lesPa_detailBlockHeader",
-			"loadMore": "_8lesPa_loadMore",
-			"detailBack": "_8lesPa_detailBack",
-			"swapBtn": "_8lesPa_swapBtn",
-			"settingHint": "_8lesPa_settingHint",
-			"clearBtn": "_8lesPa_clearBtn",
-			"resetLink": "_8lesPa_resetLink",
 			"rowSource": "_8lesPa_rowSource",
-			"settingRow": "_8lesPa_settingRow",
-			"iconBtn": "_8lesPa_iconBtn",
-			"langInput": "_8lesPa_langInput",
-			"helpBubble": "_8lesPa_helpBubble",
-			"langForm": "_8lesPa_langForm",
-			"confirmTitle": "_8lesPa_confirmTitle",
-			"historyList": "_8lesPa_historyList",
-			"on": "_8lesPa_on",
+			"detailText": "_8lesPa_detailText",
 			"switch": "_8lesPa_switch",
+			"outputPane": "_8lesPa_outputPane",
+			"clearBtn": "_8lesPa_clearBtn",
+			"paneCorner": "_8lesPa_paneCorner",
+			"panelTitle": "_8lesPa_panelTitle",
+			"modelSelect": "_8lesPa_modelSelect",
+			"chipTarget": "_8lesPa_chipTarget",
+			"panelBody": "_8lesPa_panelBody",
 			"count": "_8lesPa_count",
+			"loadMore": "_8lesPa_loadMore",
+			"historyEmpty": "_8lesPa_historyEmpty",
+			"historyRow": "_8lesPa_historyRow",
+			"backdrop": "_8lesPa_backdrop",
+			"switchRow": "_8lesPa_switchRow",
+			"segmented": "_8lesPa_segmented",
+			"starBtn": "_8lesPa_starBtn",
+			"settingLabel": "_8lesPa_settingLabel",
+			"detailBlockHeader": "_8lesPa_detailBlockHeader",
+			"langSelectWrap": "_8lesPa_langSelectWrap",
+			"sectionTitle": "_8lesPa_sectionTitle",
+			"detailBlock": "_8lesPa_detailBlock",
+			"inputArea": "_8lesPa_inputArea",
+			"resetLink": "_8lesPa_resetLink",
+			"langInput": "_8lesPa_langInput",
+			"langFormActions": "_8lesPa_langFormActions",
+			"detailActions": "_8lesPa_detailActions",
+			"langCode": "_8lesPa_langCode",
+			"btnPrimary": "_8lesPa_btnPrimary",
+			"destructive": "_8lesPa_destructive",
+			"active": "_8lesPa_active",
+			"uploadIcons": "_8lesPa_uploadIcons",
+			"helpWrap": "_8lesPa_helpWrap",
+			"helpBubble": "_8lesPa_helpBubble",
+			"sidePanel": "_8lesPa_sidePanel",
+			"stopBtn": "_8lesPa_stopBtn",
+			"root": "_8lesPa_root",
+			"spacer": "_8lesPa_spacer",
+			"chip": "_8lesPa_chip",
+			"rowTime": "_8lesPa_rowTime",
+			"langFormLabel": "_8lesPa_langFormLabel",
+			"detailBlockTarget": "_8lesPa_detailBlockTarget",
+			"uploadIcon": "_8lesPa_uploadIcon",
+			"langChevron": "_8lesPa_langChevron",
+			"pairChip": "_8lesPa_pairChip",
+			"detailAction": "_8lesPa_detailAction",
+			"smallIconBtn": "_8lesPa_smallIconBtn",
+			"md": "_8lesPa_md",
+			"chipArrow": "_8lesPa_chipArrow",
+			"detailBack": "_8lesPa_detailBack",
+			"reuse": "_8lesPa_reuse",
+			"pairRow": "_8lesPa_pairRow",
+			"langName": "_8lesPa_langName",
+			"iconBtn": "_8lesPa_iconBtn",
+			"confirmOverlay": "_8lesPa_confirmOverlay",
+			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
+			"starFill": "_8lesPa_starFill",
+			"pane": "_8lesPa_pane",
+			"btn": "_8lesPa_btn",
+			"langFormError": "_8lesPa_langFormError",
+			"swapBtn": "_8lesPa_swapBtn",
+			"historyList": "_8lesPa_historyList",
+			"historyRowMeta": "_8lesPa_historyRowMeta",
+			"errorBanner": "_8lesPa_errorBanner",
+			"confirmText": "_8lesPa_confirmText",
+			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
+			"langRow": "_8lesPa_langRow",
+			"langRowActions": "_8lesPa_langRowActions",
+			"panes": "_8lesPa_panes",
+			"outputArea": "_8lesPa_outputArea",
+			"translating": "_8lesPa_translating",
+			"langSelect": "_8lesPa_langSelect",
+			"textareaScroll": "_8lesPa_textareaScroll",
+			"success": "_8lesPa_success",
+			"settingRow": "_8lesPa_settingRow",
+			"langAdd": "_8lesPa_langAdd",
+			"segItem": "_8lesPa_segItem",
+			"detailMeta": "_8lesPa_detailMeta",
+			"settingsEmpty": "_8lesPa_settingsEmpty",
+			"confirmTitle": "_8lesPa_confirmTitle",
+			"panelHeader": "_8lesPa_panelHeader",
+			"on": "_8lesPa_on",
+			"spinner": "_8lesPa_spinner",
+			"backButton": "_8lesPa_backButton",
+			"cc-spin": "_8lesPa_cc-spin",
+			"translateBtn": "_8lesPa_translateBtn",
+			"modelSelectWrap": "_8lesPa_modelSelectWrap",
+			"paneFooter": "_8lesPa_paneFooter",
+			"detailBlockLabel": "_8lesPa_detailBlockLabel",
+			"switchTrack": "_8lesPa_switchTrack",
+			"settingsTextarea": "_8lesPa_settingsTextarea",
+			"rowTarget": "_8lesPa_rowTarget",
+			"langFormRow": "_8lesPa_langFormRow",
+			"confirmCard": "_8lesPa_confirmCard",
+			"confirmActions": "_8lesPa_confirmActions",
+			"visible": "_8lesPa_visible",
+			"countBadge": "_8lesPa_countBadge",
+			"cc-slide-in": "_8lesPa_cc-slide-in",
+			"settingHint": "_8lesPa_settingHint",
+			"helpIcon": "_8lesPa_helpIcon",
+			"rightCluster": "_8lesPa_rightCluster",
 			"panelBodyScroll": "_8lesPa_panelBodyScroll",
-			"confirmText": "_8lesPa_confirmText"
+			"copy": "_8lesPa_copy",
+			"settingsSection": "_8lesPa_settingsSection"
 		};
 		//#endregion
 		//#region lib/types/client/panel-ui.js
@@ -4162,103 +4162,103 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var KnowledgeWorkspace_module_css_default = {
-			"navRowName": "uHDY1a_navRowName",
-			"navScroll": "uHDY1a_navScroll",
-			"recallInput": "uHDY1a_recallInput",
-			"dialogOverlay": "uHDY1a_dialogOverlay",
-			"recallChunkIndex": "uHDY1a_recallChunkIndex",
-			"btn": "uHDY1a_btn",
-			"ragSelectWrap": "uHDY1a_ragSelectWrap",
-			"recallSource": "uHDY1a_recallSource",
-			"navigator": "uHDY1a_navigator",
-			"detailEmpty": "uHDY1a_detailEmpty",
+			"btnPrimary": "uHDY1a_btnPrimary",
+			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
+			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
+			"dataHeaderActions": "uHDY1a_dataHeaderActions",
+			"statusSpinner": "uHDY1a_statusSpinner",
+			"ragBody": "uHDY1a_ragBody",
 			"sourceType": "uHDY1a_sourceType",
-			"gridRow": "uHDY1a_gridRow",
-			"clamped": "uHDY1a_clamped",
-			"advancedBody": "uHDY1a_advancedBody",
+			"sourceUpdated": "uHDY1a_sourceUpdated",
+			"gridScroll": "uHDY1a_gridScroll",
+			"dialogSelect": "uHDY1a_dialogSelect",
+			"recallCard": "uHDY1a_recallCard",
+			"recallChunkIndex": "uHDY1a_recallChunkIndex",
+			"detail": "uHDY1a_detail",
+			"recallScore": "uHDY1a_recallScore",
 			"ragNumber": "uHDY1a_ragNumber",
-			"ghostButton": "uHDY1a_ghostButton",
-			"dialogCard": "uHDY1a_dialogCard",
+			"split": "uHDY1a_split",
+			"ragLabel": "uHDY1a_ragLabel",
+			"ragNumberFull": "uHDY1a_ragNumberFull",
+			"dialogHint": "uHDY1a_dialogHint",
+			"ragFieldRow": "uHDY1a_ragFieldRow",
+			"navRow": "uHDY1a_navRow",
+			"root": "uHDY1a_root",
 			"detailHeaderActions": "uHDY1a_detailHeaderActions",
 			"recallSummary": "uHDY1a_recallSummary",
-			"ragField": "uHDY1a_ragField",
-			"advancedChevronOpen": "uHDY1a_advancedChevronOpen",
-			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
-			"dialogSelect": "uHDY1a_dialogSelect",
-			"success": "uHDY1a_success",
-			"ragSelect": "uHDY1a_ragSelect",
-			"ragSection": "uHDY1a_ragSection",
-			"navRow": "uHDY1a_navRow",
-			"menuItem": "uHDY1a_menuItem",
-			"navEmpty": "uHDY1a_navEmpty",
-			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
-			"statusReady": "uHDY1a_statusReady",
-			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
-			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
-			"gridHeader": "uHDY1a_gridHeader",
-			"dataPanel": "uHDY1a_dataPanel",
-			"sourceName": "uHDY1a_sourceName",
-			"sourceUpdated": "uHDY1a_sourceUpdated",
-			"ragTitle": "uHDY1a_ragTitle",
-			"recallCardHeader": "uHDY1a_recallCardHeader",
-			"statusSpinner": "uHDY1a_statusSpinner",
-			"dialogTextarea": "uHDY1a_dialogTextarea",
-			"errorBanner": "uHDY1a_errorBanner",
-			"recallResults": "uHDY1a_recallResults",
-			"ragSlider": "uHDY1a_ragSlider",
-			"dialogHint": "uHDY1a_dialogHint",
-			"ragBody": "uHDY1a_ragBody",
-			"detailEmptyTitle": "uHDY1a_detailEmptyTitle",
-			"recallBody": "uHDY1a_recallBody",
-			"addSourceButton": "uHDY1a_addSourceButton",
-			"split": "uHDY1a_split",
-			"ragNumberFull": "uHDY1a_ragNumberFull",
-			"menuPopover": "uHDY1a_menuPopover",
-			"detail": "uHDY1a_detail",
-			"dataHeader": "uHDY1a_dataHeader",
-			"indexButton": "uHDY1a_indexButton",
-			"sourceIcon": "uHDY1a_sourceIcon",
-			"detailHeader": "uHDY1a_detailHeader",
-			"cc-spin": "uHDY1a_cc-spin",
-			"active": "uHDY1a_active",
-			"sourceTypeCards": "uHDY1a_sourceTypeCards",
-			"btnPrimary": "uHDY1a_btnPrimary",
-			"recallBar": "uHDY1a_recallBar",
-			"ragLabel": "uHDY1a_ragLabel",
-			"gridScroll": "uHDY1a_gridScroll",
-			"navCreate": "uHDY1a_navCreate",
-			"sourcesEmpty": "uHDY1a_sourcesEmpty",
-			"recallEmpty": "uHDY1a_recallEmpty",
-			"detailEmptyHint": "uHDY1a_detailEmptyHint",
-			"dialogFieldRow": "uHDY1a_dialogFieldRow",
-			"statusFailed": "uHDY1a_statusFailed",
-			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
-			"root": "uHDY1a_root",
-			"recallScore": "uHDY1a_recallScore",
-			"dialogField": "uHDY1a_dialogField",
-			"recallCard": "uHDY1a_recallCard",
-			"ragFooter": "uHDY1a_ragFooter",
-			"recallCopy": "uHDY1a_recallCopy",
-			"ragHint": "uHDY1a_ragHint",
-			"advancedToggle": "uHDY1a_advancedToggle",
-			"statusBadge": "uHDY1a_statusBadge",
-			"sourceTypeCard": "uHDY1a_sourceTypeCard",
-			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
-			"ragReadonly": "uHDY1a_ragReadonly",
+			"dialogOverlay": "uHDY1a_dialogOverlay",
 			"recallInputWrap": "uHDY1a_recallInputWrap",
 			"recallSubmit": "uHDY1a_recallSubmit",
-			"ragSliderRow": "uHDY1a_ragSliderRow",
-			"navRowMenu": "uHDY1a_navRowMenu",
-			"destructive": "uHDY1a_destructive",
-			"recallRank": "uHDY1a_recallRank",
-			"dataHeaderActions": "uHDY1a_dataHeaderActions",
-			"rowMenu": "uHDY1a_rowMenu",
-			"statusIndexing": "uHDY1a_statusIndexing",
 			"dialogInput": "uHDY1a_dialogInput",
-			"dialogSliderRow": "uHDY1a_dialogSliderRow",
-			"dialogActions": "uHDY1a_dialogActions",
+			"ragSection": "uHDY1a_ragSection",
+			"detailEmptyHint": "uHDY1a_detailEmptyHint",
+			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
+			"recallInput": "uHDY1a_recallInput",
+			"indexButton": "uHDY1a_indexButton",
+			"statusBadge": "uHDY1a_statusBadge",
+			"errorBanner": "uHDY1a_errorBanner",
 			"notice": "uHDY1a_notice",
-			"ragFieldRow": "uHDY1a_ragFieldRow"
+			"recallCardHeader": "uHDY1a_recallCardHeader",
+			"ragSlider": "uHDY1a_ragSlider",
+			"advancedChevronOpen": "uHDY1a_advancedChevronOpen",
+			"recallCopy": "uHDY1a_recallCopy",
+			"destructive": "uHDY1a_destructive",
+			"statusIndexing": "uHDY1a_statusIndexing",
+			"detailEmptyTitle": "uHDY1a_detailEmptyTitle",
+			"ragHint": "uHDY1a_ragHint",
+			"sourceTypeCard": "uHDY1a_sourceTypeCard",
+			"ragFooter": "uHDY1a_ragFooter",
+			"ghostButton": "uHDY1a_ghostButton",
+			"ragSliderRow": "uHDY1a_ragSliderRow",
+			"dialogActions": "uHDY1a_dialogActions",
+			"ragSelectWrap": "uHDY1a_ragSelectWrap",
+			"dialogSliderRow": "uHDY1a_dialogSliderRow",
+			"navEmpty": "uHDY1a_navEmpty",
+			"ragSelect": "uHDY1a_ragSelect",
+			"gridHeader": "uHDY1a_gridHeader",
+			"dialogField": "uHDY1a_dialogField",
+			"gridRow": "uHDY1a_gridRow",
+			"advancedBody": "uHDY1a_advancedBody",
+			"dialogCard": "uHDY1a_dialogCard",
+			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
+			"detailHeader": "uHDY1a_detailHeader",
+			"active": "uHDY1a_active",
+			"sourceIcon": "uHDY1a_sourceIcon",
+			"navScroll": "uHDY1a_navScroll",
+			"statusFailed": "uHDY1a_statusFailed",
+			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
+			"ragField": "uHDY1a_ragField",
+			"advancedToggle": "uHDY1a_advancedToggle",
+			"navCreate": "uHDY1a_navCreate",
+			"detailEmpty": "uHDY1a_detailEmpty",
+			"success": "uHDY1a_success",
+			"ragTitle": "uHDY1a_ragTitle",
+			"navRowName": "uHDY1a_navRowName",
+			"navRowMenu": "uHDY1a_navRowMenu",
+			"sourceName": "uHDY1a_sourceName",
+			"statusReady": "uHDY1a_statusReady",
+			"recallEmpty": "uHDY1a_recallEmpty",
+			"clamped": "uHDY1a_clamped",
+			"cc-spin": "uHDY1a_cc-spin",
+			"rowMenu": "uHDY1a_rowMenu",
+			"menuPopover": "uHDY1a_menuPopover",
+			"dialogTextarea": "uHDY1a_dialogTextarea",
+			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
+			"menuItem": "uHDY1a_menuItem",
+			"recallResults": "uHDY1a_recallResults",
+			"recallSource": "uHDY1a_recallSource",
+			"sourcesEmpty": "uHDY1a_sourcesEmpty",
+			"recallRank": "uHDY1a_recallRank",
+			"dataHeader": "uHDY1a_dataHeader",
+			"ragReadonly": "uHDY1a_ragReadonly",
+			"btn": "uHDY1a_btn",
+			"recallBody": "uHDY1a_recallBody",
+			"sourceTypeCards": "uHDY1a_sourceTypeCards",
+			"navigator": "uHDY1a_navigator",
+			"addSourceButton": "uHDY1a_addSourceButton",
+			"recallBar": "uHDY1a_recallBar",
+			"dataPanel": "uHDY1a_dataPanel",
+			"dialogFieldRow": "uHDY1a_dialogFieldRow"
 		};
 		//#endregion
 		//#region lib/types/client/KnowledgeWorkspace.js
@@ -5721,19 +5721,19 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SkillsSection_module_css_default = {
-			"cardDescription": "pyHmqW_cardDescription",
-			"cardMeta": "pyHmqW_cardMeta",
-			"cardMetaItem": "pyHmqW_cardMetaItem",
-			"card": "pyHmqW_card",
-			"cardActions": "pyHmqW_cardActions",
-			"searchInput": "pyHmqW_searchInput",
-			"searchRow": "pyHmqW_searchRow",
 			"cardTitle": "pyHmqW_cardTitle",
+			"searchRow": "pyHmqW_searchRow",
+			"grid": "pyHmqW_grid",
+			"cardMeta": "pyHmqW_cardMeta",
 			"cardHeader": "pyHmqW_cardHeader",
+			"cardMetaItem": "pyHmqW_cardMetaItem",
 			"cardFooter": "pyHmqW_cardFooter",
-			"cardTags": "pyHmqW_cardTags",
+			"card": "pyHmqW_card",
 			"tag": "pyHmqW_tag",
-			"grid": "pyHmqW_grid"
+			"cardTags": "pyHmqW_cardTags",
+			"cardDescription": "pyHmqW_cardDescription",
+			"cardActions": "pyHmqW_cardActions",
+			"searchInput": "pyHmqW_searchInput"
 		};
 		//#endregion
 		//#region lib/types/client/SkillsSection.js
@@ -6379,7 +6379,7 @@ window.__ModuleLoader__.load({
 		}
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\ModelsSection.module.css.mjs
-		const css$27 = ".tKsOKa_section{flex-direction:column;gap:16px;width:100%;max-width:768px;margin:0 auto;display:flex}.tKsOKa_title{color:var(--foreground);font-size:15px;font-weight:600}.tKsOKa_intro{color:var(--muted-foreground);margin-top:4px;font-size:14px}.tKsOKa_notice{border:1px solid var(--info-border);background:var(--info-subtle);color:var(--info-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.tKsOKa_savedNotice{border:1px solid var(--success-border);background:var(--success-subtle);color:var(--success-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.tKsOKa_error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;align-items:center;gap:8px;padding:8px 12px;font-size:13px;display:flex}.tKsOKa_rows{flex-direction:column;gap:8px;margin:0;padding:0;list-style:none;display:flex}.tKsOKa_rowCard{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;display:flex}.tKsOKa_rowHead{align-items:center;gap:10px;min-width:0;display:flex}.tKsOKa_rowIdentity{align-items:center;gap:8px;min-width:0;display:flex}.tKsOKa_rowName{color:var(--foreground);white-space:nowrap;text-overflow:ellipsis;font-size:14px;font-weight:500;overflow:hidden}.tKsOKa_rowTag{background:var(--muted);height:20px;color:var(--muted-foreground);border-radius:9999px;flex:none;align-items:center;padding:0 8px;font-size:12px;display:inline-flex}.tKsOKa_rowActions{flex:none;align-items:center;gap:8px;display:flex}.tKsOKa_credentialDot{border-radius:50%;flex:none;width:8px;height:8px}.tKsOKa_credentialDotConfigured{background:var(--success)}.tKsOKa_credentialDotMissing{background:var(--warning)}.tKsOKa_setupCard{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_addCard{border:1px dashed var(--border-strong);background:0 0;border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_addBlock{flex-direction:column;gap:12px;display:flex}.tKsOKa_addActions{align-items:center;gap:8px;display:flex}.tKsOKa_field{flex-direction:column;gap:6px;display:flex}.tKsOKa_fieldLabel{color:var(--foreground);font-size:13px;font-weight:500}.tKsOKa_fieldLabelRow{align-items:baseline;gap:8px;display:flex}.tKsOKa_helpLink{color:var(--primary);font-size:12px;text-decoration:none}.tKsOKa_helpLink:hover{text-decoration:underline}.tKsOKa_headerRow{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) auto;align-items:center;gap:8px;display:grid}.tKsOKa_healthDot{background:var(--border-subtle);border-radius:50%;flex:none;width:8px;height:8px}.tKsOKa_healthOk{background:var(--success)}.tKsOKa_healthFail{background:var(--destructive)}.tKsOKa_healthChecking{background:var(--warning);animation:1s ease-in-out infinite tKsOKa_healthPulse}@keyframes tKsOKa_healthPulse{50%{opacity:.35}}.tKsOKa_healthMeta{min-width:0;color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;flex:1;font-size:12px;overflow:hidden}.tKsOKa_healthFailText{color:var(--destructive)}.tKsOKa_input{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px}.tKsOKa_input:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.tKsOKa_selectInput{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 28px 0 10px;font-family:inherit;font-size:14px}.tKsOKa_selectInput:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.tKsOKa_selectInput option,.tKsOKa_selectInput optgroup{background:var(--card);color:var(--foreground)}.tKsOKa_addButton{background:var(--primary);height:32px;color:var(--primary-foreground);cursor:pointer;border:1px solid #0000;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_addButton:hover:not(:disabled){background:var(--cs-brand-600)}.tKsOKa_addButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_secondaryButton{border:1px solid var(--border-subtle);background:var(--secondary);height:32px;color:var(--secondary-foreground);cursor:pointer;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_secondaryButton:hover:not(:disabled){background:var(--secondary-hover)}.tKsOKa_secondaryButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_dangerButton{border:1px solid var(--error-border);height:32px;color:var(--destructive);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_dangerButton:hover{background:var(--error-subtle)}.tKsOKa_deleteDialog{background:var(--popover);border-radius:14px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_deleteConfirm{justify-content:flex-end;align-items:center;gap:8px;display:flex}.tKsOKa_inputRow{align-items:center;gap:8px;display:flex}.tKsOKa_inputGroup{flex:1;min-width:0;display:flex;position:relative}.tKsOKa_inputGroup .tKsOKa_input{font-variant-numeric:tabular-nums;padding-right:30px}.tKsOKa_monoInput{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.tKsOKa_eyeButton{width:22px;height:22px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;display:inline-flex;position:absolute;top:50%;right:6px;transform:translateY(-50%)}.tKsOKa_eyeButton:hover:not(:disabled){color:var(--foreground);background:color-mix(in srgb, var(--muted) 45%, transparent)}.tKsOKa_checkButton{border:1px solid var(--border-subtle);background:var(--card);height:32px;color:var(--foreground);cursor:pointer;border-radius:8px;flex:none;justify-content:center;align-items:center;padding:0 12px;font-family:inherit;font-size:13px;display:inline-flex}.tKsOKa_checkButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent)}.tKsOKa_checkButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_checkResult{overflow-wrap:anywhere;margin-top:2px;font-size:12px;line-height:1.4}.tKsOKa_checkResultOk{color:var(--success)}.tKsOKa_checkResultFail{color:var(--destructive)}.tKsOKa_endpointPreview{color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;margin-top:2px;font-size:12px;overflow:hidden}.tKsOKa_panelBody{flex-direction:column;gap:14px;display:flex}.tKsOKa_modelCatalog{flex-direction:column;gap:8px;display:flex}.tKsOKa_modelListHead{flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;min-height:28px;display:flex}.tKsOKa_modelCatalogHeading{align-items:center;gap:8px;min-width:0;display:flex}.tKsOKa_modelCatalogTitle{color:var(--foreground);font-size:14px;font-weight:600}.tKsOKa_modelCountBadge{background:color-mix(in srgb, var(--primary) 14%, transparent);height:16px;color:var(--primary);border-radius:9999px;align-items:center;padding:0 6px;font-size:11px;font-weight:600;line-height:1;display:inline-flex}.tKsOKa_modelCatalogMeta{color:var(--muted-foreground);font-size:12px}.tKsOKa_modelToolbarActions{flex-wrap:wrap;align-items:center;gap:6px;display:flex}.tKsOKa_linkButton{height:26px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;padding:0 4px;font-family:inherit;font-size:12px}.tKsOKa_linkButton:hover:not(:disabled){color:var(--foreground)}.tKsOKa_linkButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_iconButton{width:26px;height:26px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:7px;justify-content:center;align-items:center;display:inline-flex}.tKsOKa_iconButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent);color:var(--foreground)}.tKsOKa_iconButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_iconButtonDanger:hover:not(:disabled){color:var(--destructive)}.tKsOKa_defaultMarker,.tKsOKa_defaultMarker:hover:not(:disabled){color:var(--primary)}.tKsOKa_fetchButton{border:1px solid var(--border-subtle);background:var(--card);height:28px;color:var(--foreground);cursor:pointer;border-radius:8px;align-items:center;gap:6px;padding:0 10px;font-family:inherit;font-size:12px;display:inline-flex}.tKsOKa_fetchButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent)}.tKsOKa_fetchButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_modelSearchInput{height:28px;font-size:13px}.tKsOKa_modelEmpty{border:1px dashed var(--border-subtle);color:var(--muted-foreground);border-radius:8px;padding:10px 12px;font-size:12px}.tKsOKa_modelList{flex-direction:column;gap:2px;display:flex}.tKsOKa_modelEntry{border-radius:8px;flex-direction:column;display:flex}.tKsOKa_modelEntry:hover{background:color-mix(in srgb, var(--muted) 25%, transparent)}.tKsOKa_modelRow{align-items:center;gap:6px;min-height:34px;padding:0 4px;display:flex}.tKsOKa_modelAvatar{background:color-mix(in srgb, var(--primary) 14%, transparent);width:22px;height:22px;color:var(--primary);border-radius:50%;flex:none;justify-content:center;align-items:center;font-size:11px;font-weight:600;display:inline-flex}.tKsOKa_modelIdInput{min-width:0;height:28px;color:var(--foreground);background:0 0;border:1px solid #0000;border-radius:6px;outline:none;flex:1;padding:0 6px;font-family:inherit;font-size:13px}.tKsOKa_modelIdInput:hover:not(:disabled){border-color:var(--border-subtle)}.tKsOKa_modelIdInput:focus-visible{border-color:var(--ring);background:var(--background)}.tKsOKa_modelIdInput::placeholder{color:var(--muted-foreground)}.tKsOKa_modelAdvanced{grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;padding:4px 4px 8px 36px;display:grid}.tKsOKa_modelField{flex-direction:column;gap:4px;display:flex}.tKsOKa_modelFieldLabel{color:var(--muted-foreground);font-size:11px}.tKsOKa_addModelButton{border:1px dashed var(--border-subtle);width:100%;height:30px;color:var(--muted-foreground);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;gap:6px;margin-top:4px;font-family:inherit;font-size:12px;display:inline-flex}.tKsOKa_addModelButton:hover:not(:disabled){color:var(--foreground);border-color:var(--border-strong)}.tKsOKa_candidateList{flex-direction:column;gap:2px;max-height:320px;margin:0;padding:0;list-style:none;display:flex;overflow-y:auto}.tKsOKa_candidateLabel{cursor:pointer;border-radius:6px;align-items:center;gap:8px;height:30px;padding:0 8px;font-size:13px;display:flex}.tKsOKa_candidateLabel:hover{background:var(--muted)}.tKsOKa_candidateId{white-space:nowrap;text-overflow:ellipsis;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;overflow:hidden}.tKsOKa_modelGroup{flex-direction:column;display:flex}.tKsOKa_modelGroupHeader{background:color-mix(in srgb, var(--muted) 45%, transparent);height:32px;color:var(--foreground);text-align:left;cursor:pointer;border:none;border-radius:8px;align-items:center;gap:6px;padding:0 6px;font-family:inherit;display:flex}.tKsOKa_modelGroupHeader:hover{background:var(--muted)}.tKsOKa_modelGroupTitle{font-size:13px;font-weight:600}.tKsOKa_modelGroupCount{color:var(--muted-foreground);font-size:11px}.tKsOKa_modelGroupBody{flex-direction:column;gap:2px;padding-left:10px;display:flex}.tKsOKa_modelRowDisabled{opacity:.55}.tKsOKa_modelRowDisabled .tKsOKa_modelAvatar{filter:grayscale()}.tKsOKa_modelDisabledId{min-width:0;color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;flex:1;font-size:13px;overflow:hidden}";
+		const css$27 = ".tKsOKa_section{flex-direction:column;gap:16px;width:100%;max-width:768px;margin:0 auto;display:flex}.tKsOKa_title{color:var(--foreground);font-size:15px;font-weight:600}.tKsOKa_intro{color:var(--muted-foreground);margin-top:4px;font-size:14px}.tKsOKa_notice{border:1px solid var(--info-border);background:var(--info-subtle);color:var(--info-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.tKsOKa_savedNotice{border:1px solid var(--success-border);background:var(--success-subtle);color:var(--success-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.tKsOKa_error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;align-items:center;gap:8px;padding:8px 12px;font-size:13px;display:flex}.tKsOKa_rows{flex-direction:column;gap:8px;margin:0;padding:0;list-style:none;display:flex}.tKsOKa_rowCard{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;display:flex}.tKsOKa_rowHead{align-items:center;gap:10px;min-width:0;display:flex}.tKsOKa_rowIdentity{align-items:center;gap:8px;min-width:0;display:flex}.tKsOKa_rowName{color:var(--foreground);white-space:nowrap;text-overflow:ellipsis;font-size:14px;font-weight:500;overflow:hidden}.tKsOKa_rowTag{background:var(--muted);height:20px;color:var(--muted-foreground);border-radius:9999px;flex:none;align-items:center;padding:0 8px;font-size:12px;display:inline-flex}.tKsOKa_rowActions{flex:none;align-items:center;gap:8px;display:flex}.tKsOKa_credentialDot{border-radius:50%;flex:none;width:8px;height:8px}.tKsOKa_credentialDotConfigured{background:var(--success)}.tKsOKa_credentialDotMissing{background:var(--warning)}.tKsOKa_setupCard{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_addCard{border:1px dashed var(--border-strong);background:0 0;border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_addBlock{flex-direction:column;gap:12px;display:flex}.tKsOKa_addActions{align-items:center;gap:8px;display:flex}.tKsOKa_field{flex-direction:column;gap:6px;display:flex}.tKsOKa_fieldLabel{color:var(--foreground);font-size:13px;font-weight:500}.tKsOKa_fieldLabelRow{align-items:baseline;gap:8px;display:flex}.tKsOKa_helpLink{color:var(--primary);font-size:12px;text-decoration:none}.tKsOKa_helpLink:hover{text-decoration:underline}.tKsOKa_headerRow{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) auto;align-items:center;gap:8px;display:grid}.tKsOKa_healthDot{background:var(--border-subtle);border-radius:50%;flex:none;width:8px;height:8px}.tKsOKa_healthOk{background:var(--success)}.tKsOKa_healthFail{background:var(--destructive)}.tKsOKa_healthChecking{background:var(--warning);animation:1s ease-in-out infinite tKsOKa_healthPulse}@keyframes tKsOKa_healthPulse{50%{opacity:.35}}.tKsOKa_healthMeta{min-width:0;color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;flex:1;font-size:12px;overflow:hidden}.tKsOKa_healthFailText{color:var(--destructive)}.tKsOKa_input{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px}.tKsOKa_input:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.tKsOKa_selectInput{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 28px 0 10px;font-family:inherit;font-size:14px}.tKsOKa_selectInput:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.tKsOKa_selectInput option,.tKsOKa_selectInput optgroup{background:var(--card);color:var(--foreground)}.tKsOKa_addButton{background:var(--primary);height:32px;color:var(--primary-foreground);cursor:pointer;border:1px solid #0000;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_addButton:hover:not(:disabled){background:var(--cs-brand-600)}.tKsOKa_addButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_secondaryButton{border:1px solid var(--border-subtle);background:var(--secondary);height:32px;color:var(--secondary-foreground);cursor:pointer;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_secondaryButton:hover:not(:disabled){background:var(--secondary-hover)}.tKsOKa_secondaryButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_dangerButton{border:1px solid var(--error-border);height:32px;color:var(--destructive);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_dangerButton:hover{background:var(--error-subtle)}.tKsOKa_deleteDialog{background:var(--popover);border-radius:14px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_deleteConfirm{justify-content:flex-end;align-items:center;gap:8px;display:flex}.tKsOKa_inputRow{align-items:center;gap:8px;display:flex}.tKsOKa_inputGroup{flex:1;min-width:0;display:flex;position:relative}.tKsOKa_inputGroup .tKsOKa_input{font-variant-numeric:tabular-nums;padding-right:30px}.tKsOKa_monoInput{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.tKsOKa_eyeButton{width:22px;height:22px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;display:inline-flex;position:absolute;top:50%;right:6px;transform:translateY(-50%)}.tKsOKa_eyeButton:hover:not(:disabled){color:var(--foreground);background:color-mix(in srgb, var(--muted) 45%, transparent)}.tKsOKa_checkButton{border:1px solid var(--border-subtle);background:var(--card);height:32px;color:var(--foreground);cursor:pointer;border-radius:8px;flex:none;justify-content:center;align-items:center;padding:0 12px;font-family:inherit;font-size:13px;display:inline-flex}.tKsOKa_checkButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent)}.tKsOKa_checkButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_checkResult{overflow-wrap:anywhere;margin-top:2px;font-size:12px;line-height:1.4}.tKsOKa_checkResultOk{color:var(--success)}.tKsOKa_checkResultFail{color:var(--destructive)}.tKsOKa_endpointPreview{color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;margin-top:2px;font-size:12px;overflow:hidden}.tKsOKa_panelBody{flex-direction:column;gap:14px;display:flex}.tKsOKa_modelCatalog{flex-direction:column;gap:8px;display:flex}.tKsOKa_modelListHead{flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;min-height:28px;display:flex}.tKsOKa_modelCatalogHeading{align-items:center;gap:8px;min-width:0;display:flex}.tKsOKa_modelCatalogTitle{color:var(--foreground);font-size:14px;font-weight:600}.tKsOKa_modelCountBadge{background:color-mix(in srgb, var(--primary) 14%, transparent);height:16px;color:var(--primary);border-radius:9999px;align-items:center;padding:0 6px;font-size:11px;font-weight:600;line-height:1;display:inline-flex}.tKsOKa_modelCatalogMeta{color:var(--muted-foreground);font-size:12px}.tKsOKa_modelToolbarActions{flex-wrap:wrap;align-items:center;gap:6px;display:flex}.tKsOKa_linkButton{height:26px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;padding:0 4px;font-family:inherit;font-size:12px}.tKsOKa_linkButton:hover:not(:disabled){color:var(--foreground)}.tKsOKa_linkButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_iconButton{width:26px;height:26px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:7px;justify-content:center;align-items:center;display:inline-flex}.tKsOKa_iconButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent);color:var(--foreground)}.tKsOKa_iconButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_iconButtonDanger:hover:not(:disabled){color:var(--destructive)}.tKsOKa_defaultMarker,.tKsOKa_defaultMarker:hover:not(:disabled){color:var(--primary)}.tKsOKa_fetchButton{border:1px solid var(--border-subtle);background:var(--card);height:28px;color:var(--foreground);cursor:pointer;border-radius:8px;align-items:center;gap:6px;padding:0 10px;font-family:inherit;font-size:12px;display:inline-flex}.tKsOKa_fetchButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent)}.tKsOKa_fetchButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_modelSearchInput{height:28px;font-size:13px}.tKsOKa_modelEmpty{border:1px dashed var(--border-subtle);color:var(--muted-foreground);border-radius:8px;padding:10px 12px;font-size:12px}.tKsOKa_modelList{flex-direction:column;gap:2px;display:flex}.tKsOKa_modelEntry{border-radius:8px;flex-direction:column;display:flex}.tKsOKa_modelEntry:hover{background:color-mix(in srgb, var(--muted) 25%, transparent)}.tKsOKa_modelRow{align-items:center;gap:6px;min-height:34px;padding:0 4px;display:flex}.tKsOKa_modelAvatar{background:color-mix(in srgb, var(--primary) 14%, transparent);width:22px;height:22px;color:var(--primary);border-radius:50%;flex:none;justify-content:center;align-items:center;font-size:11px;font-weight:600;display:inline-flex}.tKsOKa_modelIdInput{min-width:0;height:28px;color:var(--foreground);background:0 0;border:1px solid #0000;border-radius:6px;outline:none;flex:1;padding:0 6px;font-family:inherit;font-size:13px}.tKsOKa_modelIdInput:hover:not(:disabled){border-color:var(--border-subtle)}.tKsOKa_modelIdInput:focus-visible{border-color:var(--ring);background:var(--background)}.tKsOKa_modelIdInput::placeholder{color:var(--muted-foreground)}.tKsOKa_modelAdvanced{grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;padding:4px 4px 8px 36px;display:grid}.tKsOKa_modelField{flex-direction:column;gap:4px;display:flex}.tKsOKa_modelFieldLabel{color:var(--muted-foreground);font-size:11px}.tKsOKa_addModelButton{border:1px dashed var(--border-subtle);width:100%;height:30px;color:var(--muted-foreground);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;gap:6px;margin-top:4px;font-family:inherit;font-size:12px;display:inline-flex}.tKsOKa_addModelButton:hover:not(:disabled){color:var(--foreground);border-color:var(--border-strong)}.tKsOKa_candidateList{flex-direction:column;gap:2px;max-height:320px;margin:0;padding:0;list-style:none;display:flex;overflow-y:auto}.tKsOKa_candidateLabel{cursor:pointer;border-radius:6px;align-items:center;gap:8px;height:30px;padding:0 8px;font-size:13px;display:flex}.tKsOKa_candidateLabel:hover{background:var(--muted)}.tKsOKa_candidateId{white-space:nowrap;text-overflow:ellipsis;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;overflow:hidden}.tKsOKa_modelGroup{flex-direction:column;display:flex}.tKsOKa_modelGroupHeader{background:color-mix(in srgb, var(--muted) 45%, transparent);height:32px;color:var(--foreground);text-align:left;cursor:pointer;border:none;border-radius:8px;align-items:center;gap:6px;padding:0 6px;font-family:inherit;display:flex}.tKsOKa_modelGroupHeader:hover{background:var(--muted)}.tKsOKa_modelGroupTitle{font-size:13px;font-weight:600}.tKsOKa_modelGroupCount{color:var(--muted-foreground);font-size:11px}.tKsOKa_modelGroupBody{flex-direction:column;gap:2px;padding-left:10px;display:flex}.tKsOKa_modelRowDisabled{opacity:.55}.tKsOKa_modelRowDisabled .tKsOKa_modelAvatar{filter:grayscale()}.tKsOKa_modelDisabledId{min-width:0;color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;flex:1;font-size:13px;overflow:hidden}.tKsOKa_prefsPanel{flex-direction:column;gap:14px;margin-top:18px;display:flex}.tKsOKa_modelSelectionPanel{flex-direction:column;gap:14px;display:flex}.tKsOKa_modelSelectionTitle{color:var(--foreground);margin:0;font-size:15px;font-weight:600}.tKsOKa_advancedHint{color:var(--muted-foreground);font-size:12px}.tKsOKa_fieldRow{align-items:center;gap:8px;display:flex}.tKsOKa_fieldRow select.tKsOKa_selectInput{flex:1;min-width:0}.tKsOKa_fieldRowWithAction select.tKsOKa_selectInput{flex:1}.tKsOKa_gearButton{border:1px solid var(--border-subtle);width:32px;height:32px;color:var(--muted-foreground);cursor:pointer;background:0 0;border-radius:8px;flex-shrink:0;justify-content:center;align-items:center;font-size:15px;line-height:1;display:inline-flex}.tKsOKa_gearButton:hover:not(:disabled){color:var(--foreground);border-color:var(--ring)}.tKsOKa_topicNamingCard{flex-direction:column;gap:10px;display:flex}.tKsOKa_topicNamingHeading{color:var(--foreground);margin:0;font-size:14px;font-weight:600}.tKsOKa_topicNamingBody,.tKsOKa_topicNamingNote{color:var(--muted-foreground);margin:0;font-size:13px;line-height:1.6}.tKsOKa_retryGroup{border-top:1px solid var(--border-subtle);flex-direction:column;gap:8px;padding-top:12px;display:flex}.tKsOKa_retryRow{justify-content:space-between;align-items:center;gap:12px;display:flex}.tKsOKa_attemptsInput{text-align:left;flex:none!important;width:96px!important}.tKsOKa_fallbackDetails{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);border-radius:8px}.tKsOKa_fallbackSummary{color:var(--foreground);cursor:pointer;list-style:revert;justify-content:space-between;align-items:center;gap:8px;padding:9px 12px;font-size:13px;font-weight:500;display:flex}.tKsOKa_fallbackCount{color:var(--muted-foreground);font-size:12px;font-weight:400}.tKsOKa_fallbackList{grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:4px 16px;max-height:260px;padding:4px 12px 10px;display:grid;overflow-y:auto}.tKsOKa_fallbackItem{min-width:0;color:var(--foreground);cursor:pointer;align-items:center;gap:8px;font-size:13px;display:flex}.tKsOKa_fallbackItem input[type=checkbox]{accent-color:var(--primary)}";
 		const tagId$27 = "@dsh-control-center/bundle/ModelsSection.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$27) + "]") === null) {
 			const tag = document.createElement("style");
@@ -6389,88 +6389,107 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelsSection_module_css_default = {
-			"eyeButton": "tKsOKa_eyeButton",
-			"healthFailText": "tKsOKa_healthFailText",
-			"checkResult": "tKsOKa_checkResult",
-			"candidateLabel": "tKsOKa_candidateLabel",
-			"deleteConfirm": "tKsOKa_deleteConfirm",
-			"modelGroupHeader": "tKsOKa_modelGroupHeader",
-			"modelIdInput": "tKsOKa_modelIdInput",
+			"panelBody": "tKsOKa_panelBody",
+			"addBlock": "tKsOKa_addBlock",
+			"modelToolbarActions": "tKsOKa_modelToolbarActions",
+			"linkButton": "tKsOKa_linkButton",
+			"defaultMarker": "tKsOKa_defaultMarker",
+			"modelGroupBody": "tKsOKa_modelGroupBody",
+			"modelSelectionTitle": "tKsOKa_modelSelectionTitle",
+			"topicNamingBody": "tKsOKa_topicNamingBody",
 			"checkResultFail": "tKsOKa_checkResultFail",
 			"rowCard": "tKsOKa_rowCard",
-			"modelGroupCount": "tKsOKa_modelGroupCount",
-			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
-			"modelRowDisabled": "tKsOKa_modelRowDisabled",
-			"field": "tKsOKa_field",
-			"selectInput": "tKsOKa_selectInput",
-			"monoInput": "tKsOKa_monoInput",
-			"candidateId": "tKsOKa_candidateId",
-			"defaultMarker": "tKsOKa_defaultMarker",
-			"helpLink": "tKsOKa_helpLink",
-			"rowActions": "tKsOKa_rowActions",
-			"inputGroup": "tKsOKa_inputGroup",
-			"modelToolbarActions": "tKsOKa_modelToolbarActions",
-			"healthDot": "tKsOKa_healthDot",
-			"candidateList": "tKsOKa_candidateList",
-			"modelGroup": "tKsOKa_modelGroup",
-			"headerRow": "tKsOKa_headerRow",
-			"error": "tKsOKa_error",
-			"healthOk": "tKsOKa_healthOk",
 			"checkButton": "tKsOKa_checkButton",
-			"modelCatalog": "tKsOKa_modelCatalog",
-			"fieldLabelRow": "tKsOKa_fieldLabelRow",
-			"modelCountBadge": "tKsOKa_modelCountBadge",
-			"healthChecking": "tKsOKa_healthChecking",
-			"iconButtonDanger": "tKsOKa_iconButtonDanger",
-			"addModelButton": "tKsOKa_addModelButton",
-			"rowHead": "tKsOKa_rowHead",
-			"addBlock": "tKsOKa_addBlock",
-			"modelField": "tKsOKa_modelField",
-			"modelGroupBody": "tKsOKa_modelGroupBody",
-			"rowTag": "tKsOKa_rowTag",
-			"healthMeta": "tKsOKa_healthMeta",
-			"addButton": "tKsOKa_addButton",
-			"modelListHead": "tKsOKa_modelListHead",
-			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
+			"selectInput": "tKsOKa_selectInput",
 			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
+			"candidateId": "tKsOKa_candidateId",
+			"gearButton": "tKsOKa_gearButton",
+			"fallbackDetails": "tKsOKa_fallbackDetails",
+			"fallbackSummary": "tKsOKa_fallbackSummary",
 			"modelRow": "tKsOKa_modelRow",
-			"addCard": "tKsOKa_addCard",
-			"rows": "tKsOKa_rows",
-			"linkButton": "tKsOKa_linkButton",
-			"secondaryButton": "tKsOKa_secondaryButton",
-			"savedNotice": "tKsOKa_savedNotice",
-			"dangerButton": "tKsOKa_dangerButton",
+			"fallbackList": "tKsOKa_fallbackList",
 			"fieldLabel": "tKsOKa_fieldLabel",
-			"input": "tKsOKa_input",
-			"modelGroupTitle": "tKsOKa_modelGroupTitle",
-			"modelEntry": "tKsOKa_modelEntry",
-			"rowIdentity": "tKsOKa_rowIdentity",
-			"deleteDialog": "tKsOKa_deleteDialog",
-			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
+			"error": "tKsOKa_error",
+			"modelDisabledId": "tKsOKa_modelDisabledId",
 			"modelFieldLabel": "tKsOKa_modelFieldLabel",
-			"credentialDot": "tKsOKa_credentialDot",
-			"healthPulse": "tKsOKa_healthPulse",
+			"notice": "tKsOKa_notice",
+			"modelEntry": "tKsOKa_modelEntry",
+			"topicNamingNote": "tKsOKa_topicNamingNote",
+			"modelGroup": "tKsOKa_modelGroup",
+			"topicNamingCard": "tKsOKa_topicNamingCard",
+			"title": "tKsOKa_title",
 			"iconButton": "tKsOKa_iconButton",
-			"rowName": "tKsOKa_rowName",
-			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"advancedHint": "tKsOKa_advancedHint",
+			"deleteDialog": "tKsOKa_deleteDialog",
+			"topicNamingHeading": "tKsOKa_topicNamingHeading",
+			"rowHead": "tKsOKa_rowHead",
+			"rowActions": "tKsOKa_rowActions",
+			"fieldLabelRow": "tKsOKa_fieldLabelRow",
+			"modelCatalog": "tKsOKa_modelCatalog",
+			"dangerButton": "tKsOKa_dangerButton",
+			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
+			"endpointPreview": "tKsOKa_endpointPreview",
+			"field": "tKsOKa_field",
+			"helpLink": "tKsOKa_helpLink",
+			"healthMeta": "tKsOKa_healthMeta",
+			"prefsPanel": "tKsOKa_prefsPanel",
+			"retryRow": "tKsOKa_retryRow",
+			"checkResult": "tKsOKa_checkResult",
+			"modelList": "tKsOKa_modelList",
+			"credentialDot": "tKsOKa_credentialDot",
 			"modelAvatar": "tKsOKa_modelAvatar",
 			"modelEmpty": "tKsOKa_modelEmpty",
-			"healthFail": "tKsOKa_healthFail",
-			"addActions": "tKsOKa_addActions",
-			"endpointPreview": "tKsOKa_endpointPreview",
+			"modelGroupCount": "tKsOKa_modelGroupCount",
 			"section": "tKsOKa_section",
-			"intro": "tKsOKa_intro",
-			"checkResultOk": "tKsOKa_checkResultOk",
-			"notice": "tKsOKa_notice",
-			"panelBody": "tKsOKa_panelBody",
-			"title": "tKsOKa_title",
-			"modelAdvanced": "tKsOKa_modelAdvanced",
-			"inputRow": "tKsOKa_inputRow",
-			"modelList": "tKsOKa_modelList",
-			"modelSearchInput": "tKsOKa_modelSearchInput",
 			"setupCard": "tKsOKa_setupCard",
-			"modelDisabledId": "tKsOKa_modelDisabledId",
-			"fetchButton": "tKsOKa_fetchButton"
+			"addActions": "tKsOKa_addActions",
+			"rowTag": "tKsOKa_rowTag",
+			"modelGroupHeader": "tKsOKa_modelGroupHeader",
+			"savedNotice": "tKsOKa_savedNotice",
+			"iconButtonDanger": "tKsOKa_iconButtonDanger",
+			"checkResultOk": "tKsOKa_checkResultOk",
+			"fetchButton": "tKsOKa_fetchButton",
+			"healthDot": "tKsOKa_healthDot",
+			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
+			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"modelGroupTitle": "tKsOKa_modelGroupTitle",
+			"modelSelectionPanel": "tKsOKa_modelSelectionPanel",
+			"fallbackItem": "tKsOKa_fallbackItem",
+			"modelListHead": "tKsOKa_modelListHead",
+			"modelField": "tKsOKa_modelField",
+			"attemptsInput": "tKsOKa_attemptsInput",
+			"addModelButton": "tKsOKa_addModelButton",
+			"candidateList": "tKsOKa_candidateList",
+			"input": "tKsOKa_input",
+			"modelCountBadge": "tKsOKa_modelCountBadge",
+			"rowName": "tKsOKa_rowName",
+			"healthFailText": "tKsOKa_healthFailText",
+			"modelAdvanced": "tKsOKa_modelAdvanced",
+			"headerRow": "tKsOKa_headerRow",
+			"modelIdInput": "tKsOKa_modelIdInput",
+			"eyeButton": "tKsOKa_eyeButton",
+			"candidateLabel": "tKsOKa_candidateLabel",
+			"healthOk": "tKsOKa_healthOk",
+			"healthPulse": "tKsOKa_healthPulse",
+			"fallbackCount": "tKsOKa_fallbackCount",
+			"secondaryButton": "tKsOKa_secondaryButton",
+			"healthChecking": "tKsOKa_healthChecking",
+			"addCard": "tKsOKa_addCard",
+			"inputRow": "tKsOKa_inputRow",
+			"modelRowDisabled": "tKsOKa_modelRowDisabled",
+			"rows": "tKsOKa_rows",
+			"modelSearchInput": "tKsOKa_modelSearchInput",
+			"deleteConfirm": "tKsOKa_deleteConfirm",
+			"healthFail": "tKsOKa_healthFail",
+			"addButton": "tKsOKa_addButton",
+			"fieldRow": "tKsOKa_fieldRow",
+			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
+			"intro": "tKsOKa_intro",
+			"fieldRowWithAction": "tKsOKa_fieldRowWithAction",
+			"retryGroup": "tKsOKa_retryGroup",
+			"rowIdentity": "tKsOKa_rowIdentity",
+			"monoInput": "tKsOKa_monoInput",
+			"inputGroup": "tKsOKa_inputGroup"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -9700,17 +9719,106 @@ window.__ModuleLoader__.load({
 			});
 		}
 		//#endregion
+		//#region lib/types/client/retry-policy.js
+		/**
+		* Projection of the Cherry 重试设置 onto DSH provider-owned retry policies.
+		*
+		* The harness executes retries through its own `llm-retry` plugin, which reads
+		* each provider route's immutable `retryPolicy` (resolved at registration from
+		* the provider profile). There is no global user-level policy object to flip:
+		* a global setting is real only if it is written into every live profile. This
+		* module builds exactly those settings ops.
+		*
+		* Semantics follow Cherry (`chat.retry.*`, passed through to the AI SDK):
+		* - disabled → an explicit `{ mode: 'normal', maxRetries: 0 }` policy, i.e.
+		*   genuinely no automatic retry (the harness default would be five).
+		* - enabled with backoff on → omit the `backoff` key so the adapter defaults
+		*   apply (bounded exponential backoff with jitter).
+		* - enabled with backoff off → a minimal positive delay with no jitter,
+		*   because the policy schema rejects zero.
+		*/
+		/** Minimal immediate-retry backoff: schema requires positive finite delays. */
+		const NO_BACKOFF_MS = 1;
+		/** The DSH retry-policy value one Cherry retry config projects to. */
+		function dshRetryPolicyOf(config) {
+			if (!config.enabled) return {
+				mode: "normal",
+				maxRetries: 0
+			};
+			const base = {
+				mode: "normal",
+				maxRetries: config.maxAttempts
+			};
+			if (!config.backoff) base.backoff = {
+				initialDelayMs: NO_BACKOFF_MS,
+				jitterRatio: 0
+			};
+			return base;
+		}
+		/**
+		* Path-addressed ops writing the projected policy into every target profile
+		* plus the provider-stash copies, so a later re-enable restores a current
+		* policy too. One op per profile keeps the caller free to batch them into its
+		* per-namespace mutates.
+		*/
+		function retryPolicyOps(config, targets, stashProviderIds = []) {
+			const policy = dshRetryPolicyOf(config);
+			const writes = [];
+			for (const target of targets) writes.push({
+				ns: target.ns,
+				op: {
+					op: "set",
+					path: [...target.path, "retryPolicy"],
+					value: structuredClone(policy)
+				}
+			});
+			for (const id of stashProviderIds) writes.push({
+				ns: "control-center-provider-stash",
+				op: {
+					op: "set",
+					path: [
+						"providers",
+						id,
+						"retryPolicy"
+					],
+					value: structuredClone(policy)
+				}
+			});
+			return writes;
+		}
+		/** Group flat writes into one mutate payload per namespace. */
+		function groupByNamespace(writes) {
+			const order = [];
+			const byNs = /* @__PURE__ */ new Map();
+			for (const write of writes) {
+				let ops = byNs.get(write.ns);
+				if (ops === void 0) {
+					ops = [];
+					byNs.set(write.ns, ops);
+					order.push(write.ns);
+				}
+				ops.push(write.op);
+			}
+			return order.map((ns) => ({
+				ns,
+				ops: byNs.get(ns)
+			}));
+		}
+		//#endregion
 		//#region lib/types/client/ModelsSection.js
 		/**
 		* 模型 (Default Models) section — Cherry ModelSettings parity.
 		*
 		* Provider editing lives in 模型服务, exactly as Cherry splits
 		* ProviderSettings and ModelSettings into two pages. This page owns
-		* per-purpose model selection over the host authority:
+		* per-purpose model selection over the host authority, in Cherry's row order:
 		* - 默认模型 / 当前会话模型 via the shared ModelSelectionPanel;
+		* - 快捷模型 preference plus its settings drawer (话题命名);
 		* - 翻译模型 / 绘画模型 preferences persisted to `control-center-model-prefs`
 		*   and honored by the workspaces as their initial selection instead of
-		*   "whatever the catalog listed first".
+		*   "whatever the catalog listed first";
+		* - 重试设置 projected onto every live provider profile as a real DSH
+		*   `retryPolicy`, so the harness retry plugin enforces it on actual requests.
 		*/
 		/** Stable visible and accessible identity for one provider target. */
 		function providerTargetLabel(target) {
@@ -9757,36 +9865,194 @@ window.__ModuleLoader__.load({
 			})));
 		}
 		/** One per-purpose selector block. */
-		function PrefField({ label, hint, selection, groups, disabled, onSave, t }) {
+		function PrefField({ label, hint, selection, groups, disabled, onSave, action, t }) {
 			const rows = optionsOf(groups);
 			const current = selection === null ? "" : `${selection.provider}/${selection.model}`;
-			return (0, react_jsx_runtime.jsxs)("label", {
+			return (0, react_jsx_runtime.jsxs)("div", {
 				className: ModelsSection_module_css_default["field"],
 				children: [
 					(0, react_jsx_runtime.jsx)("span", {
 						className: ModelsSection_module_css_default["fieldLabel"],
 						children: label
 					}),
-					(0, react_jsx_runtime.jsxs)("select", {
-						className: `${ModelsSection_module_css_default["input"]} ${ModelsSection_module_css_default["selectInput"]}`,
-						value: current,
-						disabled: disabled || rows.length === 0,
-						onChange: (event) => {
-							const match = rows.find((row) => row.value === event.target.value);
-							if (match !== void 0) onSave(match.selection);
-						},
-						children: [(0, react_jsx_runtime.jsx)("option", {
-							value: "",
-							children: selection === null ? t("prefUnset") : t("prefFollow")
-						}), rows.map((row) => (0, react_jsx_runtime.jsx)("option", {
-							value: row.value,
-							children: row.label
-						}, row.value))]
+					(0, react_jsx_runtime.jsxs)("span", {
+						className: `${ModelsSection_module_css_default["fieldRow"]} ${action === void 0 ? "" : ModelsSection_module_css_default["fieldRowWithAction"]}`,
+						children: [(0, react_jsx_runtime.jsxs)("select", {
+							className: `${ModelsSection_module_css_default["input"]} ${ModelsSection_module_css_default["selectInput"]}`,
+							value: current,
+							disabled: disabled || rows.length === 0,
+							onChange: (event) => {
+								const match = rows.find((row) => row.value === event.target.value);
+								if (match !== void 0) onSave(match.selection);
+							},
+							children: [(0, react_jsx_runtime.jsx)("option", {
+								value: "",
+								children: selection === null ? t("prefUnset") : t("prefFollow")
+							}), rows.map((row) => (0, react_jsx_runtime.jsx)("option", {
+								value: row.value,
+								children: row.label
+							}, row.value))]
+						}), action]
 					}),
 					(0, react_jsx_runtime.jsx)("span", {
 						className: ModelsSection_module_css_default["advancedHint"],
 						children: hint
 					})
+				]
+			});
+		}
+		/** The 话题命名 drawer behind the quick-model settings button. DSH names
+		* sessions natively; this states exactly what is built in and what stays a
+		* deployment-level choice, rather than offering switches that would do
+		* nothing. */
+		function TopicNamingDialog({ open, onClose, t }) {
+			return (0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.Modal, {
+				open,
+				onClose,
+				title: t("quickSettings"),
+				closeLabel: t("close"),
+				children: (0, react_jsx_runtime.jsxs)("div", {
+					className: ModelsSection_module_css_default["topicNamingCard"],
+					children: [
+						(0, react_jsx_runtime.jsx)("h4", {
+							className: ModelsSection_module_css_default["topicNamingHeading"],
+							children: t("topicNamingNativeTitle")
+						}),
+						(0, react_jsx_runtime.jsx)("p", {
+							className: ModelsSection_module_css_default["topicNamingBody"],
+							children: t("topicNamingNativeBody")
+						}),
+						(0, react_jsx_runtime.jsx)("p", {
+							className: ModelsSection_module_css_default["topicNamingNote"],
+							children: t("topicNamingCustomNote")
+						})
+					]
+				})
+			});
+		}
+		/** Clamp one typed attempt count into Cherry's 1–10 range (an empty field
+		* yields Number('') === 0, so clamp instead of reject). */
+		function clampAttempts(value) {
+			return Math.min(10, Math.max(1, Math.trunc(Number(value)) || 1));
+		}
+		function fallbackOptions(groups) {
+			return groups.flatMap((group) => group.models.map((model) => ({
+				selection: {
+					provider: group.id,
+					model: model.id
+				},
+				label: `${group.name} · ${model.name}`
+			})));
+		}
+		function sameRoute(left, right) {
+			return left.provider === right.provider && left.model === right.model;
+		}
+		/** The Cherry 重试设置 group: switch, attempts, backoff, fallback routes. */
+		function RetryGroup({ config, disabled, groups, onChange, t }) {
+			const options = (0, react.useMemo)(() => fallbackOptions(groups), [groups]);
+			const selectedCount = config.fallbacks.length;
+			const toggleFallback = (option, checked) => {
+				const next = checked ? [...config.fallbacks.filter((route) => !sameRoute(route, option.selection)), option.selection] : config.fallbacks.filter((route) => !sameRoute(route, option.selection));
+				onChange({
+					...config,
+					fallbacks: next
+				});
+			};
+			return (0, react_jsx_runtime.jsxs)("div", {
+				className: ModelsSection_module_css_default["retryGroup"],
+				children: [
+					(0, react_jsx_runtime.jsxs)("label", {
+						className: ModelsSection_module_css_default["retryRow"],
+						children: [(0, react_jsx_runtime.jsx)("span", {
+							className: ModelsSection_module_css_default["fieldLabel"],
+							children: t("retryEnable")
+						}), (0, react_jsx_runtime.jsx)(Switch, {
+							checked: config.enabled,
+							disabled,
+							label: t("retryEnable"),
+							onChange: (enabled) => onChange({
+								...config,
+								enabled
+							})
+						})]
+					}),
+					(0, react_jsx_runtime.jsx)("p", {
+						className: ModelsSection_module_css_default["advancedHint"],
+						children: t("retryHint")
+					}),
+					config.enabled && (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [
+						(0, react_jsx_runtime.jsxs)("label", {
+							className: ModelsSection_module_css_default["field"],
+							children: [(0, react_jsx_runtime.jsx)("span", {
+								className: ModelsSection_module_css_default["fieldLabel"],
+								children: t("retryMaxAttempts")
+							}), (0, react_jsx_runtime.jsx)("input", {
+								type: "number",
+								min: 1,
+								max: 10,
+								step: 1,
+								className: `${ModelsSection_module_css_default["input"]} ${ModelsSection_module_css_default["attemptsInput"]}`,
+								"aria-label": t("retryMaxAttempts"),
+								value: config.maxAttempts,
+								disabled,
+								onChange: (event) => onChange({
+									...config,
+									maxAttempts: clampAttempts(event.target.value)
+								})
+							})]
+						}),
+						(0, react_jsx_runtime.jsxs)("label", {
+							className: ModelsSection_module_css_default["retryRow"],
+							children: [(0, react_jsx_runtime.jsx)("span", {
+								className: ModelsSection_module_css_default["fieldLabel"],
+								children: t("retryBackoff")
+							}), (0, react_jsx_runtime.jsx)(Switch, {
+								checked: config.backoff,
+								disabled,
+								label: t("retryBackoff"),
+								onChange: (backoff) => onChange({
+									...config,
+									backoff
+								})
+							})]
+						}),
+						(0, react_jsx_runtime.jsx)("p", {
+							className: ModelsSection_module_css_default["advancedHint"],
+							children: t("retryBackoffHint")
+						}),
+						(0, react_jsx_runtime.jsxs)("details", {
+							className: ModelsSection_module_css_default["fallbackDetails"],
+							children: [
+								(0, react_jsx_runtime.jsxs)("summary", {
+									className: ModelsSection_module_css_default["fallbackSummary"],
+									children: [(0, react_jsx_runtime.jsx)("span", { children: t("retryFallbacks") }), (0, react_jsx_runtime.jsx)("span", {
+										className: ModelsSection_module_css_default["fallbackCount"],
+										children: selectedCount === 0 ? t("retryFallbacksEmpty") : t("retryFallbacksCount").replace("{count}", String(selectedCount))
+									})]
+								}),
+								(0, react_jsx_runtime.jsx)("div", {
+									className: ModelsSection_module_css_default["fallbackList"],
+									children: options.map((option) => (0, react_jsx_runtime.jsxs)("label", {
+										className: ModelsSection_module_css_default["fallbackItem"],
+										children: [(0, react_jsx_runtime.jsx)("input", {
+											type: "checkbox",
+											checked: config.fallbacks.some((route) => sameRoute(route, option.selection)),
+											disabled,
+											onChange: (event) => toggleFallback(option, event.target.checked)
+										}), (0, react_jsx_runtime.jsx)("span", { children: option.label })]
+									}, `${option.selection.provider}/${option.selection.model}`))
+								}),
+								(0, react_jsx_runtime.jsxs)("p", {
+									className: ModelsSection_module_css_default["advancedHint"],
+									children: [
+										t("retryFallbacksHint"),
+										" ",
+										t("retryFallbacksSessionNote")
+									]
+								})
+							]
+						})
+					] })
 				]
 			});
 		}
@@ -9809,11 +10075,28 @@ window.__ModuleLoader__.load({
 				modelSelection
 			} });
 		}
+		/** Live provider profiles a retry policy can be written into. */
+		function retryTargets(rows) {
+			return rows.filter((row) => row.entry.settingsNs === "llm-pi-ai" || row.entry.settingsNs === "llm-deepseek").map((row) => ({
+				ns: row.entry.settingsNs,
+				path: row.entry.settingsPath
+			}));
+		}
+		/** Ids of stashed (disabled) provider profiles, so re-enables restore a current policy. */
+		function stashIds(namespaces) {
+			const view = namespaces.get("control-center-provider-stash");
+			if (view === void 0 || typeof view.value !== "object" || view.value === null) return [];
+			const providers = view.value.providers;
+			if (typeof providers !== "object" || providers === null) return [];
+			return Object.keys(providers);
+		}
 		function Loaded$2({ injected }) {
-			const { controller, t, prefsController } = injected;
+			const { controller, t, prefsController, api } = injected;
 			const state = injected.useSnapshot((snapshot) => snapshot);
 			const prefs = injected.usePrefsSnapshot((snapshot) => snapshot);
 			const [savedKind, setSavedKind] = (0, react.useState)(void 0);
+			const [quickDialogOpen, setQuickDialogOpen] = (0, react.useState)(false);
+			const [retryOutcome, setRetryOutcome] = (0, react.useState)(void 0);
 			(0, react.useEffect)(() => {
 				if (prefs.status === "idle") prefsController.load();
 				if (state.status === "idle") controller.load();
@@ -9823,6 +10106,41 @@ window.__ModuleLoader__.load({
 				state.status,
 				controller
 			]);
+			const persistRetry = (next) => {
+				setRetryOutcome(void 0);
+				prefsController.saveRetry(next).then(async (ok) => {
+					if (!ok) {
+						setRetryOutcome({
+							ok: false,
+							error: prefs.writeError ?? ""
+						});
+						return;
+					}
+					const targets = retryTargets(state.rows);
+					const ids = stashIds(state.namespaces);
+					const payloads = groupByNamespace(retryPolicyOps(next, targets, ids));
+					let applied = 0;
+					try {
+						for (const payload of payloads) {
+							const response = await api.settings.mutate({
+								ns: payload.ns,
+								ops: payload.ops
+							});
+							if (!response.result.ok) throw new Error(response.result.error.message);
+							applied += payload.ops.length;
+						}
+						setRetryOutcome({
+							ok: true,
+							count: targets.length + ids.length
+						});
+					} catch (error) {
+						setRetryOutcome({
+							ok: false,
+							error: `${applied > 0 ? `${applied} ` : ""}${error instanceof Error ? error.message : String(error)}`
+						});
+					}
+				});
+			};
 			if (prefs.status === "error")
  /* v8 ignore next -- an error status always carries text */
 			return (0, react_jsx_runtime.jsxs)("div", {
@@ -9839,6 +10157,7 @@ window.__ModuleLoader__.load({
 					children: t("retry")
 				})]
 			});
+			const prefsDisabled = prefs.status !== "ready" || !prefs.available;
 			return (0, react_jsx_runtime.jsxs)("div", {
 				className: ModelsSection_module_css_default["section"],
 				children: [
@@ -9862,14 +10181,42 @@ window.__ModuleLoader__.load({
 							savedKind !== void 0 ? (0, react_jsx_runtime.jsx)("p", {
 								className: ModelsSection_module_css_default["savedNotice"],
 								role: "status",
-								children: t(savedKind === "translation" ? "prefSavedTranslation" : "prefSavedPainting")
+								children: savedKind === "quick" ? t("prefQuickModel") : t(savedKind === "translation" ? "prefSavedTranslation" : "prefSavedPainting")
 							}) : null,
+							prefs.writeError !== null ? (0, react_jsx_runtime.jsx)("p", {
+								className: ModelsSection_module_css_default["error"],
+								role: "alert",
+								children: prefs.writeError
+							}) : null,
+							(0, react_jsx_runtime.jsx)(PrefField, {
+								label: t("prefQuickModel"),
+								hint: t("prefQuickHint"),
+								selection: prefs.quick,
+								groups: prefs.groups,
+								disabled: prefsDisabled,
+								t,
+								action: (0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: ModelsSection_module_css_default["gearButton"],
+									"aria-label": t("quickSettings"),
+									onClick: () => {
+										setQuickDialogOpen(true);
+									},
+									children: "⚙"
+								}),
+								onSave: (selection) => {
+									setSavedKind(void 0);
+									prefsController.save("quick", selection).then((ok) => {
+										setSavedKind(ok ? "quick" : void 0);
+									});
+								}
+							}),
 							(0, react_jsx_runtime.jsx)(PrefField, {
 								label: t("prefTranslation"),
 								hint: t("prefHint"),
 								selection: prefs.translation,
 								groups: prefs.groups,
-								disabled: prefs.status !== "ready" || !prefs.available,
+								disabled: prefsDisabled,
 								t,
 								onSave: (selection) => {
 									setSavedKind(void 0);
@@ -9883,7 +10230,7 @@ window.__ModuleLoader__.load({
 								hint: t("prefHint"),
 								selection: prefs.painting,
 								groups: prefs.groups,
-								disabled: prefs.status !== "ready" || !prefs.available,
+								disabled: prefsDisabled,
 								t,
 								onSave: (selection) => {
 									setSavedKind(void 0);
@@ -9891,8 +10238,36 @@ window.__ModuleLoader__.load({
 										setSavedKind(ok ? "painting" : void 0);
 									});
 								}
-							})
+							}),
+							(0, react_jsx_runtime.jsx)(RetryGroup, {
+								config: prefs.retry,
+								disabled: prefsDisabled,
+								groups: prefs.groups,
+								onChange: persistRetry,
+								t
+							}),
+							retryOutcome?.ok === true ? (0, react_jsx_runtime.jsx)("p", {
+								className: ModelsSection_module_css_default["savedNotice"],
+								role: "status",
+								children: t("retrySaved").replace("{count}", String(retryOutcome.count))
+							}) : null,
+							retryOutcome !== void 0 && retryOutcome.ok === false ? (0, react_jsx_runtime.jsx)("p", {
+								className: ModelsSection_module_css_default["error"],
+								role: "alert",
+								children: `${t("retrySaveFailed")}: ${retryOutcome.error}`
+							}) : null,
+							prefs.retry.enabled && !retryOutcome?.ok && prefs.status === "ready" ? (0, react_jsx_runtime.jsx)("p", {
+								className: ModelsSection_module_css_default["advancedHint"],
+								children: t("retryNewProvidersHint")
+							}) : null
 						]
+					}),
+					(0, react_jsx_runtime.jsx)(TopicNamingDialog, {
+						open: quickDialogOpen,
+						onClose: () => {
+							setQuickDialogOpen(false);
+						},
+						t
 					})
 				]
 			});
@@ -10819,53 +11194,53 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderDirectorySection_module_css_default = {
-			"list": "l38w4q_list",
-			"deleteDialog": "l38w4q_deleteDialog",
-			"groupRows": "l38w4q_groupRows",
-			"detail": "l38w4q_detail",
-			"savedNotice": "l38w4q_savedNotice",
-			"emptyTitle": "l38w4q_emptyTitle",
-			"section": "l38w4q_section",
-			"detailBody": "l38w4q_detailBody",
+			"detailRoute": "l38w4q_detailRoute",
+			"switchOn": "l38w4q_switchOn",
+			"kebabSlot": "l38w4q_kebabSlot",
 			"listScroll": "l38w4q_listScroll",
-			"avatar": "l38w4q_avatar",
-			"listItemSelected": "l38w4q_listItemSelected",
-			"detailScroll": "l38w4q_detailScroll",
-			"listItemDropTarget": "l38w4q_listItemDropTarget",
+			"detailTitle": "l38w4q_detailTitle",
+			"detailBody": "l38w4q_detailBody",
+			"savedNotice": "l38w4q_savedNotice",
+			"listItemName": "l38w4q_listItemName",
 			"listItemDisabled": "l38w4q_listItemDisabled",
-			"intro": "l38w4q_intro",
-			"enabledDot": "l38w4q_enabledDot",
-			"detailHeader": "l38w4q_detailHeader",
-			"infoDot": "l38w4q_infoDot",
+			"emptyTitle": "l38w4q_emptyTitle",
+			"emptyList": "l38w4q_emptyList",
+			"emptyHint": "l38w4q_emptyHint",
 			"boltButton": "l38w4q_boltButton",
 			"split": "l38w4q_split",
-			"listItem": "l38w4q_listItem",
-			"kebabButton": "l38w4q_kebabButton",
-			"detailRoute": "l38w4q_detailRoute",
-			"customTag": "l38w4q_customTag",
-			"detailHeaderMain": "l38w4q_detailHeaderMain",
-			"switchOn": "l38w4q_switchOn",
-			"freeBadge": "l38w4q_freeBadge",
-			"addCustomButton": "l38w4q_addCustomButton",
-			"emptyHint": "l38w4q_emptyHint",
-			"searchClear": "l38w4q_searchClear",
-			"listHeader": "l38w4q_listHeader",
-			"kebabSlot": "l38w4q_kebabSlot",
+			"section": "l38w4q_section",
+			"list": "l38w4q_list",
 			"searchInput": "l38w4q_searchInput",
-			"listItemDragging": "l38w4q_listItemDragging",
-			"listFooter": "l38w4q_listFooter",
 			"listItemMain": "l38w4q_listItemMain",
+			"detailHeaderMain": "l38w4q_detailHeaderMain",
+			"infoDot": "l38w4q_infoDot",
 			"switch": "l38w4q_switch",
-			"notice": "l38w4q_notice",
-			"secondaryButton": "l38w4q_secondaryButton",
 			"switchThumb": "l38w4q_switchThumb",
+			"secondaryButton": "l38w4q_secondaryButton",
+			"listItemDragging": "l38w4q_listItemDragging",
+			"kebabButton": "l38w4q_kebabButton",
+			"listFooter": "l38w4q_listFooter",
+			"customTag": "l38w4q_customTag",
 			"disabledTag": "l38w4q_disabledTag",
+			"listItem": "l38w4q_listItem",
+			"notice": "l38w4q_notice",
 			"error": "l38w4q_error",
-			"emptyList": "l38w4q_emptyList",
-			"listItemName": "l38w4q_listItemName",
+			"intro": "l38w4q_intro",
 			"emptyDetail": "l38w4q_emptyDetail",
+			"deleteDialog": "l38w4q_deleteDialog",
+			"avatar": "l38w4q_avatar",
+			"detailScroll": "l38w4q_detailScroll",
+			"listItemSelected": "l38w4q_listItemSelected",
 			"deleteConfirm": "l38w4q_deleteConfirm",
-			"detailTitle": "l38w4q_detailTitle"
+			"freeBadge": "l38w4q_freeBadge",
+			"detail": "l38w4q_detail",
+			"detailHeader": "l38w4q_detailHeader",
+			"searchClear": "l38w4q_searchClear",
+			"groupRows": "l38w4q_groupRows",
+			"listItemDropTarget": "l38w4q_listItemDropTarget",
+			"listHeader": "l38w4q_listHeader",
+			"addCustomButton": "l38w4q_addCustomButton",
+			"enabledDot": "l38w4q_enabledDot"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderDirectorySection.js
@@ -12118,35 +12493,35 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var AddMcpServerDialog_module_css_default = {
-			"tabButton": "uv_otq_tabButton",
-			"submitButton": "uv_otq_submitButton",
-			"select": "uv_otq_select",
-			"label": "uv_otq_label",
-			"marketName": "uv_otq_marketName",
-			"marketEmpty": "uv_otq_marketEmpty",
-			"title": "uv_otq_title",
-			"error": "uv_otq_error",
-			"textarea": "uv_otq_textarea",
-			"field": "uv_otq_field",
-			"marketMain": "uv_otq_marketMain",
 			"overlay": "uv_otq_overlay",
-			"marketRow": "uv_otq_marketRow",
-			"quickImportActions": "uv_otq_quickImportActions",
+			"title": "uv_otq_title",
+			"marketVersion": "uv_otq_marketVersion",
+			"marketEmpty": "uv_otq_marketEmpty",
+			"marketItem": "uv_otq_marketItem",
 			"closeButton": "uv_otq_closeButton",
-			"form": "uv_otq_form",
-			"tabActive": "uv_otq_tabActive",
-			"footer": "uv_otq_footer",
-			"cancelButton": "uv_otq_cancelButton",
+			"label": "uv_otq_label",
+			"select": "uv_otq_select",
+			"quickImportSummary": "uv_otq_quickImportSummary",
+			"marketList": "uv_otq_marketList",
 			"header": "uv_otq_header",
 			"input": "uv_otq_input",
-			"marketItem": "uv_otq_marketItem",
+			"tabButton": "uv_otq_tabButton",
+			"marketDesc": "uv_otq_marketDesc",
+			"footer": "uv_otq_footer",
+			"quickImportActions": "uv_otq_quickImportActions",
+			"form": "uv_otq_form",
+			"textarea": "uv_otq_textarea",
 			"dialog": "uv_otq_dialog",
-			"marketVersion": "uv_otq_marketVersion",
 			"quickImport": "uv_otq_quickImport",
 			"tabRow": "uv_otq_tabRow",
-			"marketList": "uv_otq_marketList",
-			"marketDesc": "uv_otq_marketDesc",
-			"quickImportSummary": "uv_otq_quickImportSummary"
+			"marketMain": "uv_otq_marketMain",
+			"tabActive": "uv_otq_tabActive",
+			"marketName": "uv_otq_marketName",
+			"cancelButton": "uv_otq_cancelButton",
+			"error": "uv_otq_error",
+			"submitButton": "uv_otq_submitButton",
+			"marketRow": "uv_otq_marketRow",
+			"field": "uv_otq_field"
 		};
 		//#endregion
 		//#region lib/types/client/AddMcpServerDialog.js
@@ -12735,75 +13110,75 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var McpSection_module_css_default = {
-			"listItemLabel": "_0bBxiW_listItemLabel",
-			"fieldLabel": "_0bBxiW_fieldLabel",
 			"fieldGroup": "_0bBxiW_fieldGroup",
-			"detailHeader": "_0bBxiW_detailHeader",
-			"searchClearButton": "_0bBxiW_searchClearButton",
 			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
-			"logInfo": "_0bBxiW_logInfo",
-			"resourceUri": "_0bBxiW_resourceUri",
-			"emptyIcon": "_0bBxiW_emptyIcon",
-			"sectionHeading": "_0bBxiW_sectionHeading",
-			"switchSlider": "_0bBxiW_switchSlider",
-			"searchInput": "_0bBxiW_searchInput",
 			"activeDot": "_0bBxiW_activeDot",
-			"detailMetaItem": "_0bBxiW_detailMetaItem",
-			"checkbox": "_0bBxiW_checkbox",
-			"searchRow": "_0bBxiW_searchRow",
-			"logHeader": "_0bBxiW_logHeader",
-			"toolItem": "_0bBxiW_toolItem",
-			"switchWrapper": "_0bBxiW_switchWrapper",
-			"loading": "_0bBxiW_loading",
-			"splitRoot": "_0bBxiW_splitRoot",
-			"errorBox": "_0bBxiW_errorBox",
-			"listItemIdle": "_0bBxiW_listItemIdle",
-			"dangerZoneText": "_0bBxiW_dangerZoneText",
-			"emptyDetailState": "_0bBxiW_emptyDetailState",
-			"toolName": "_0bBxiW_toolName",
-			"detailScroll": "_0bBxiW_detailScroll",
-			"sectionBody": "_0bBxiW_sectionBody",
-			"listScroller": "_0bBxiW_listScroller",
+			"sectionHeading": "_0bBxiW_sectionHeading",
 			"detailTitle": "_0bBxiW_detailTitle",
-			"formActions": "_0bBxiW_formActions",
-			"section": "_0bBxiW_section",
-			"listItemMain": "_0bBxiW_listItemMain",
-			"tab": "_0bBxiW_tab",
-			"fieldRow": "_0bBxiW_fieldRow",
-			"searchIcon": "_0bBxiW_searchIcon",
-			"toolsList": "_0bBxiW_toolsList",
-			"emptyState": "_0bBxiW_emptyState",
-			"textarea": "_0bBxiW_textarea",
-			"codeLine": "_0bBxiW_codeLine",
-			"addFooter": "_0bBxiW_addFooter",
-			"codeBlock": "_0bBxiW_codeBlock",
-			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
-			"addButton": "_0bBxiW_addButton",
-			"tabActive": "_0bBxiW_tabActive",
-			"primaryButton": "_0bBxiW_primaryButton",
-			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
-			"switchInput": "_0bBxiW_switchInput",
-			"listItem": "_0bBxiW_listItem",
-			"searchWrap": "_0bBxiW_searchWrap",
-			"descriptionText": "_0bBxiW_descriptionText",
-			"dangerZone": "_0bBxiW_dangerZone",
-			"emptyTitle": "_0bBxiW_emptyTitle",
+			"errorBox": "_0bBxiW_errorBox",
+			"detailMetaItem": "_0bBxiW_detailMetaItem",
+			"listItemAvatar": "_0bBxiW_listItemAvatar",
 			"tabBar": "_0bBxiW_tabBar",
-			"secondaryButton": "_0bBxiW_secondaryButton",
-			"listItems": "_0bBxiW_listItems",
-			"dangerButton": "_0bBxiW_dangerButton",
+			"searchClearButton": "_0bBxiW_searchClearButton",
+			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
+			"listItemIdle": "_0bBxiW_listItemIdle",
+			"searchIcon": "_0bBxiW_searchIcon",
+			"searchInput": "_0bBxiW_searchInput",
+			"section": "_0bBxiW_section",
+			"toolItem": "_0bBxiW_toolItem",
 			"listItemSelected": "_0bBxiW_listItemSelected",
-			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
-			"emptyDescription": "_0bBxiW_emptyDescription",
+			"toolName": "_0bBxiW_toolName",
+			"switchWrapper": "_0bBxiW_switchWrapper",
+			"emptyDetailState": "_0bBxiW_emptyDetailState",
+			"descriptionText": "_0bBxiW_descriptionText",
 			"fieldHint": "_0bBxiW_fieldHint",
+			"switchInput": "_0bBxiW_switchInput",
+			"emptyDescription": "_0bBxiW_emptyDescription",
+			"listItem": "_0bBxiW_listItem",
+			"listItems": "_0bBxiW_listItems",
+			"formActions": "_0bBxiW_formActions",
+			"serverList": "_0bBxiW_serverList",
+			"textarea": "_0bBxiW_textarea",
+			"sectionBody": "_0bBxiW_sectionBody",
+			"checkbox": "_0bBxiW_checkbox",
+			"dangerZoneText": "_0bBxiW_dangerZoneText",
+			"tab": "_0bBxiW_tab",
+			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
+			"fieldLabel": "_0bBxiW_fieldLabel",
+			"addButton": "_0bBxiW_addButton",
+			"listItemMain": "_0bBxiW_listItemMain",
+			"detailHeader": "_0bBxiW_detailHeader",
+			"logInfo": "_0bBxiW_logInfo",
+			"fieldRow": "_0bBxiW_fieldRow",
+			"secondaryButton": "_0bBxiW_secondaryButton",
+			"loading": "_0bBxiW_loading",
+			"toolDescription": "_0bBxiW_toolDescription",
+			"listItemLabel": "_0bBxiW_listItemLabel",
+			"emptyIcon": "_0bBxiW_emptyIcon",
+			"toolHeader": "_0bBxiW_toolHeader",
+			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
 			"serverDetail": "_0bBxiW_serverDetail",
 			"detailMeta": "_0bBxiW_detailMeta",
-			"toolHeader": "_0bBxiW_toolHeader",
+			"dangerZone": "_0bBxiW_dangerZone",
+			"emptyState": "_0bBxiW_emptyState",
+			"toolsList": "_0bBxiW_toolsList",
+			"resourceUri": "_0bBxiW_resourceUri",
+			"detailScroll": "_0bBxiW_detailScroll",
+			"listScroller": "_0bBxiW_listScroller",
+			"emptyTitle": "_0bBxiW_emptyTitle",
+			"dangerButton": "_0bBxiW_dangerButton",
+			"primaryButton": "_0bBxiW_primaryButton",
+			"searchWrap": "_0bBxiW_searchWrap",
+			"logHeader": "_0bBxiW_logHeader",
+			"addFooter": "_0bBxiW_addFooter",
+			"splitRoot": "_0bBxiW_splitRoot",
+			"codeLine": "_0bBxiW_codeLine",
+			"searchRow": "_0bBxiW_searchRow",
+			"switchSlider": "_0bBxiW_switchSlider",
 			"error": "_0bBxiW_error",
-			"listItemAvatar": "_0bBxiW_listItemAvatar",
-			"toolDescription": "_0bBxiW_toolDescription",
+			"codeBlock": "_0bBxiW_codeBlock",
 			"sectionHeader": "_0bBxiW_sectionHeader",
-			"serverList": "_0bBxiW_serverList",
+			"tabActive": "_0bBxiW_tabActive",
 			"input": "_0bBxiW_input"
 		};
 		//#endregion
@@ -13756,26 +14131,26 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var WebSearchSection_module_css_default = {
-			"loading": "_0WjBOa_loading",
-			"root": "_0WjBOa_root",
-			"fieldLabel": "_0WjBOa_fieldLabel",
-			"cardTitle": "_0WjBOa_cardTitle",
-			"checkbox": "_0WjBOa_checkbox",
-			"pageHeader": "_0WjBOa_pageHeader",
-			"providerName": "_0WjBOa_providerName",
-			"providerDescription": "_0WjBOa_providerDescription",
-			"error": "_0WjBOa_error",
-			"apiKeyRow": "_0WjBOa_apiKeyRow",
-			"fieldRow": "_0WjBOa_fieldRow",
-			"iconButton": "_0WjBOa_iconButton",
-			"cardDescription": "_0WjBOa_cardDescription",
-			"pageTitle": "_0WjBOa_pageTitle",
 			"pageDescription": "_0WjBOa_pageDescription",
-			"card": "_0WjBOa_card",
-			"fieldHint": "_0WjBOa_fieldHint",
+			"pageTitle": "_0WjBOa_pageTitle",
+			"providerName": "_0WjBOa_providerName",
+			"checkbox": "_0WjBOa_checkbox",
+			"cardTitle": "_0WjBOa_cardTitle",
+			"root": "_0WjBOa_root",
+			"pageHeader": "_0WjBOa_pageHeader",
 			"input": "_0WjBOa_input",
+			"providerDescription": "_0WjBOa_providerDescription",
+			"iconButton": "_0WjBOa_iconButton",
 			"select": "_0WjBOa_select",
-			"providerDetail": "_0WjBOa_providerDetail"
+			"loading": "_0WjBOa_loading",
+			"cardDescription": "_0WjBOa_cardDescription",
+			"error": "_0WjBOa_error",
+			"card": "_0WjBOa_card",
+			"fieldRow": "_0WjBOa_fieldRow",
+			"fieldHint": "_0WjBOa_fieldHint",
+			"providerDetail": "_0WjBOa_providerDetail",
+			"fieldLabel": "_0WjBOa_fieldLabel",
+			"apiKeyRow": "_0WjBOa_apiKeyRow"
 		};
 		//#endregion
 		//#region lib/types/client/WebSearchSection.js
@@ -14192,23 +14567,23 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ProcessorSection_module_css_default = {
-			"root": "CL8zIa_root",
-			"card": "CL8zIa_card",
-			"providerDetail": "CL8zIa_providerDetail",
-			"fieldLabel": "CL8zIa_fieldLabel",
-			"fieldRow": "CL8zIa_fieldRow",
-			"iconButton": "CL8zIa_iconButton",
-			"fieldHint": "CL8zIa_fieldHint",
-			"select": "CL8zIa_select",
-			"cardTitle": "CL8zIa_cardTitle",
-			"pageTitle": "CL8zIa_pageTitle",
-			"apiKeyRow": "CL8zIa_apiKeyRow",
-			"cardDescription": "CL8zIa_cardDescription",
-			"input": "CL8zIa_input",
 			"providerName": "CL8zIa_providerName",
-			"pageDescription": "CL8zIa_pageDescription",
 			"providerDescription": "CL8zIa_providerDescription",
-			"loading": "CL8zIa_loading"
+			"apiKeyRow": "CL8zIa_apiKeyRow",
+			"pageTitle": "CL8zIa_pageTitle",
+			"fieldHint": "CL8zIa_fieldHint",
+			"cardDescription": "CL8zIa_cardDescription",
+			"providerDetail": "CL8zIa_providerDetail",
+			"loading": "CL8zIa_loading",
+			"pageDescription": "CL8zIa_pageDescription",
+			"root": "CL8zIa_root",
+			"select": "CL8zIa_select",
+			"card": "CL8zIa_card",
+			"fieldLabel": "CL8zIa_fieldLabel",
+			"iconButton": "CL8zIa_iconButton",
+			"input": "CL8zIa_input",
+			"fieldRow": "CL8zIa_fieldRow",
+			"cardTitle": "CL8zIa_cardTitle"
 		};
 		//#endregion
 		//#region lib/types/client/ProcessorSection.js
@@ -14493,61 +14868,61 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var UsageSection_module_css_default = {
-			"windowTab": "ej6-VW_windowTab",
-			"heatmapSection": "ej6-VW_heatmapSection",
-			"donutSwatch": "ej6-VW_donutSwatch",
-			"exploreCard": "ej6-VW_exploreCard",
-			"down": "ej6-VW_down",
-			"up": "ej6-VW_up",
-			"exploreTitle": "ej6-VW_exploreTitle",
-			"metricStrip": "ej6-VW_metricStrip",
-			"barChart": "ej6-VW_barChart",
 			"barSegment": "ej6-VW_barSegment",
-			"root": "ej6-VW_root",
-			"barAxis": "ej6-VW_barAxis",
-			"summaryLine": "ej6-VW_summaryLine",
-			"pageTitle": "ej6-VW_pageTitle",
-			"metricCell": "ej6-VW_metricCell",
-			"pageHeader": "ej6-VW_pageHeader",
-			"exploreBody": "ej6-VW_exploreBody",
-			"metricValue": "ej6-VW_metricValue",
-			"donutWrap": "ej6-VW_donutWrap",
-			"controlRow": "ej6-VW_controlRow",
-			"controlSelect": "ej6-VW_controlSelect",
-			"pageDescription": "ej6-VW_pageDescription",
-			"heatmapTitle": "ej6-VW_heatmapTitle",
+			"insightItem": "ej6-VW_insightItem",
+			"insightLabel": "ej6-VW_insightLabel",
 			"donutLegendRow": "ej6-VW_donutLegendRow",
-			"tdRight": "ej6-VW_tdRight",
-			"modelCell": "ej6-VW_modelCell",
-			"metricSparkline": "ej6-VW_metricSparkline",
-			"loadMoreBtn": "ej6-VW_loadMoreBtn",
-			"donutLegendKey": "ej6-VW_donutLegendKey",
-			"insightStrip": "ej6-VW_insightStrip",
-			"barColumn": "ej6-VW_barColumn",
-			"windowTabs": "ej6-VW_windowTabs",
+			"exploreBody": "ej6-VW_exploreBody",
+			"donutSwatch": "ej6-VW_donutSwatch",
+			"metricDelta": "ej6-VW_metricDelta",
+			"exploreTitle": "ej6-VW_exploreTitle",
+			"summaryLine": "ej6-VW_summaryLine",
 			"metricLabel": "ej6-VW_metricLabel",
-			"donutLegendValue": "ej6-VW_donutLegendValue",
+			"down": "ej6-VW_down",
+			"exploreCard": "ej6-VW_exploreCard",
+			"metricSparkline": "ej6-VW_metricSparkline",
+			"heatmapSection": "ej6-VW_heatmapSection",
+			"donutWrap": "ej6-VW_donutWrap",
+			"donutLegendKey": "ej6-VW_donutLegendKey",
+			"tableEmpty": "ej6-VW_tableEmpty",
+			"usageEmpty": "ej6-VW_usageEmpty",
+			"barAxis": "ej6-VW_barAxis",
+			"root": "ej6-VW_root",
+			"pageHeader": "ej6-VW_pageHeader",
+			"insightStrip": "ej6-VW_insightStrip",
+			"heatmapMonth": "ej6-VW_heatmapMonth",
+			"heatmapCellOutside": "ej6-VW_heatmapCellOutside",
+			"heatmapTitle": "ej6-VW_heatmapTitle",
+			"heatmapCol": "ej6-VW_heatmapCol",
+			"metricCell": "ej6-VW_metricCell",
+			"controlRow": "ej6-VW_controlRow",
+			"heatmapScroll": "ej6-VW_heatmapScroll",
 			"controlLabel": "ej6-VW_controlLabel",
+			"controlSelect": "ej6-VW_controlSelect",
+			"donutLegendValue": "ej6-VW_donutLegendValue",
 			"insightValue": "ej6-VW_insightValue",
 			"tableWrap": "ej6-VW_tableWrap",
-			"modelName": "ej6-VW_modelName",
-			"insightLabel": "ej6-VW_insightLabel",
-			"heatmapScroll": "ej6-VW_heatmapScroll",
+			"windowTab": "ej6-VW_windowTab",
+			"metricValue": "ej6-VW_metricValue",
+			"barChart": "ej6-VW_barChart",
+			"tdRight": "ej6-VW_tdRight",
 			"heatmapCell": "ej6-VW_heatmapCell",
-			"metricDelta": "ej6-VW_metricDelta",
-			"modelProvider": "ej6-VW_modelProvider",
-			"insightItem": "ej6-VW_insightItem",
-			"heatmap": "ej6-VW_heatmap",
-			"heatmapCol": "ej6-VW_heatmapCol",
-			"exploreHeader": "ej6-VW_exploreHeader",
-			"entriesTable": "ej6-VW_entriesTable",
+			"pageDescription": "ej6-VW_pageDescription",
+			"pageTitle": "ej6-VW_pageTitle",
+			"modelCell": "ej6-VW_modelCell",
 			"active": "ej6-VW_active",
-			"heatmapCellOutside": "ej6-VW_heatmapCellOutside",
-			"tableEmpty": "ej6-VW_tableEmpty",
-			"heatmapMonth": "ej6-VW_heatmapMonth",
+			"donutLegend": "ej6-VW_donutLegend",
+			"metricStrip": "ej6-VW_metricStrip",
+			"modelName": "ej6-VW_modelName",
+			"up": "ej6-VW_up",
 			"heatmapColCells": "ej6-VW_heatmapColCells",
-			"usageEmpty": "ej6-VW_usageEmpty",
-			"donutLegend": "ej6-VW_donutLegend"
+			"loadMoreBtn": "ej6-VW_loadMoreBtn",
+			"windowTabs": "ej6-VW_windowTabs",
+			"modelProvider": "ej6-VW_modelProvider",
+			"exploreHeader": "ej6-VW_exploreHeader",
+			"heatmap": "ej6-VW_heatmap",
+			"barColumn": "ej6-VW_barColumn",
+			"entriesTable": "ej6-VW_entriesTable"
 		};
 		//#endregion
 		//#region lib/types/client/UsageSection.js
@@ -15637,15 +16012,15 @@ ${editTarget.defaults.baseURL}`}`,
 		}
 		var SystemSection_module_css_default = {
 			"card": "MzTzwq_card",
-			"loading": "MzTzwq_loading",
-			"badge": "MzTzwq_badge",
-			"pageDescription": "MzTzwq_pageDescription",
-			"infoLabel": "MzTzwq_infoLabel",
 			"infoRow": "MzTzwq_infoRow",
+			"loading": "MzTzwq_loading",
 			"infoValue": "MzTzwq_infoValue",
-			"root": "MzTzwq_root",
+			"badge": "MzTzwq_badge",
 			"pageTitle": "MzTzwq_pageTitle",
-			"cardTitle": "MzTzwq_cardTitle"
+			"cardTitle": "MzTzwq_cardTitle",
+			"infoLabel": "MzTzwq_infoLabel",
+			"root": "MzTzwq_root",
+			"pageDescription": "MzTzwq_pageDescription"
 		};
 		//#endregion
 		//#region lib/types/client/SystemSection.js
@@ -15909,23 +16284,23 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var TasksSection_module_css_default = {
-			"taskMeta": "_3yT94W_taskMeta",
-			"root": "_3yT94W_root",
-			"runTime": "_3yT94W_runTime",
-			"input": "_3yT94W_input",
-			"taskName": "_3yT94W_taskName",
 			"runDetail": "_3yT94W_runDetail",
-			"pageDescription": "_3yT94W_pageDescription",
-			"cardTitle": "_3yT94W_cardTitle",
-			"loading": "_3yT94W_loading",
-			"card": "_3yT94W_card",
-			"taskRow": "_3yT94W_taskRow",
-			"runRow": "_3yT94W_runRow",
-			"runOk": "_3yT94W_runOk",
+			"pageTitle": "_3yT94W_pageTitle",
 			"select": "_3yT94W_select",
-			"taskMain": "_3yT94W_taskMain",
 			"runFail": "_3yT94W_runFail",
-			"pageTitle": "_3yT94W_pageTitle"
+			"pageDescription": "_3yT94W_pageDescription",
+			"taskName": "_3yT94W_taskName",
+			"runRow": "_3yT94W_runRow",
+			"taskMain": "_3yT94W_taskMain",
+			"root": "_3yT94W_root",
+			"runOk": "_3yT94W_runOk",
+			"runTime": "_3yT94W_runTime",
+			"loading": "_3yT94W_loading",
+			"cardTitle": "_3yT94W_cardTitle",
+			"input": "_3yT94W_input",
+			"taskMeta": "_3yT94W_taskMeta",
+			"taskRow": "_3yT94W_taskRow",
+			"card": "_3yT94W_card"
 		};
 		//#endregion
 		//#region lib/types/client/TasksSection.js
@@ -16289,17 +16664,17 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var SettingsPages_module_css_default = {
-			"switchLabel": "_0spVW_switchLabel",
-			"group": "_0spVW_group",
-			"groupTitle": "_0spVW_groupTitle",
-			"rowTitle": "_0spVW_rowTitle",
-			"groupDescription": "_0spVW_groupDescription",
-			"rowDescription": "_0spVW_rowDescription",
-			"row": "_0spVW_row",
-			"shellInner": "_0spVW_shellInner",
 			"divider": "_0spVW_divider",
+			"shellInner": "_0spVW_shellInner",
 			"shell": "_0spVW_shell",
-			"rowControl": "_0spVW_rowControl"
+			"row": "_0spVW_row",
+			"group": "_0spVW_group",
+			"rowTitle": "_0spVW_rowTitle",
+			"rowDescription": "_0spVW_rowDescription",
+			"groupDescription": "_0spVW_groupDescription",
+			"rowControl": "_0spVW_rowControl",
+			"switchLabel": "_0spVW_switchLabel",
+			"groupTitle": "_0spVW_groupTitle"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsPages.js
@@ -16369,24 +16744,24 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var LocalModelDownloads_module_css_default = {
+			"btnDanger": "_9apQa_btnDanger",
+			"noticeRow": "_9apQa_noticeRow",
+			"btn": "_9apQa_btn",
+			"modelStatus": "_9apQa_modelStatus",
+			"statusReady": "_9apQa_statusReady",
+			"modelCard": "_9apQa_modelCard",
+			"modelSubtitle": "_9apQa_modelSubtitle",
 			"groupDesc": "_9apQa_groupDesc",
 			"statusDownloading": "_9apQa_statusDownloading",
-			"modelMain": "_9apQa_modelMain",
-			"modelSubtitle": "_9apQa_modelSubtitle",
-			"statusReady": "_9apQa_statusReady",
-			"noticeRow": "_9apQa_noticeRow",
-			"modelCard": "_9apQa_modelCard",
-			"noticeTag": "_9apQa_noticeTag",
 			"btnPrimary": "_9apQa_btnPrimary",
+			"groupHeader": "_9apQa_groupHeader",
+			"modelMain": "_9apQa_modelMain",
 			"modelIcon": "_9apQa_modelIcon",
 			"modelName": "_9apQa_modelName",
-			"btnDanger": "_9apQa_btnDanger",
-			"modelStatus": "_9apQa_modelStatus",
-			"statusIdle": "_9apQa_statusIdle",
-			"btn": "_9apQa_btn",
-			"groupHeader": "_9apQa_groupHeader",
+			"noticeTag": "_9apQa_noticeTag",
 			"modelOps": "_9apQa_modelOps",
-			"noticeText": "_9apQa_noticeText"
+			"noticeText": "_9apQa_noticeText",
+			"statusIdle": "_9apQa_statusIdle"
 		};
 		//#endregion
 		//#region lib/types/client/LocalModelDownloads.js
@@ -16786,21 +17161,21 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ApiGatewaySection_module_css_default = {
-			"groupHeaderRow": "S156cG_groupHeaderRow",
-			"iconBtn": "S156cG_iconBtn",
-			"statusText": "S156cG_statusText",
-			"inputGroup": "S156cG_inputGroup",
-			"statusDot": "S156cG_statusDot",
-			"notice": "S156cG_notice",
-			"ghostBtn": "S156cG_ghostBtn",
-			"statusRow": "S156cG_statusRow",
-			"input": "S156cG_input",
-			"statusStopped": "S156cG_statusStopped",
-			"headerBox": "S156cG_headerBox",
-			"copied": "S156cG_copied",
-			"docLink": "S156cG_docLink",
 			"outlineBtn": "S156cG_outlineBtn",
-			"inputSmall": "S156cG_inputSmall"
+			"docLink": "S156cG_docLink",
+			"inputGroup": "S156cG_inputGroup",
+			"inputSmall": "S156cG_inputSmall",
+			"copied": "S156cG_copied",
+			"statusDot": "S156cG_statusDot",
+			"headerBox": "S156cG_headerBox",
+			"groupHeaderRow": "S156cG_groupHeaderRow",
+			"notice": "S156cG_notice",
+			"statusRow": "S156cG_statusRow",
+			"ghostBtn": "S156cG_ghostBtn",
+			"statusText": "S156cG_statusText",
+			"statusStopped": "S156cG_statusStopped",
+			"iconBtn": "S156cG_iconBtn",
+			"input": "S156cG_input"
 		};
 		//#endregion
 		//#region lib/types/client/ApiGatewaySection.js
@@ -17176,28 +17551,28 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
+			"trigger": "_4STY0G_trigger",
+			"overlay": "_4STY0G_overlay",
 			"navGroupTitle": "_4STY0G_navGroupTitle",
-			"rail": "_4STY0G_rail",
-			"navGroup": "_4STY0G_navGroup",
-			"navLabel": "_4STY0G_navLabel",
-			"actions": "_4STY0G_actions",
-			"close": "_4STY0G_close",
-			"options": "_4STY0G_options",
 			"hiddenLabel": "_4STY0G_hiddenLabel",
+			"navGroup": "_4STY0G_navGroup",
+			"content": "_4STY0G_content",
 			"nav": "_4STY0G_nav",
-			"navScroll": "_4STY0G_navScroll",
 			"navCell": "_4STY0G_navCell",
-			"mask": "_4STY0G_mask",
+			"active": "_4STY0G_active",
+			"header": "_4STY0G_header",
+			"rail": "_4STY0G_rail",
+			"panel": "_4STY0G_panel",
+			"navScroll": "_4STY0G_navScroll",
 			"navList": "_4STY0G_navList",
 			"navIcon": "_4STY0G_navIcon",
-			"panel": "_4STY0G_panel",
-			"header": "_4STY0G_header",
+			"navLabel": "_4STY0G_navLabel",
+			"mask": "_4STY0G_mask",
+			"close": "_4STY0G_close",
+			"options": "_4STY0G_options",
 			"triggerLabel": "_4STY0G_triggerLabel",
-			"navTitle": "_4STY0G_navTitle",
-			"active": "_4STY0G_active",
-			"trigger": "_4STY0G_trigger",
-			"content": "_4STY0G_content",
-			"overlay": "_4STY0G_overlay"
+			"actions": "_4STY0G_actions",
+			"navTitle": "_4STY0G_navTitle"
 		};
 		//#endregion
 		//#region \0dsh-control-center-plain-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\cherry-tokens.css.mjs
@@ -17666,23 +18041,23 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var AppearanceSection_module_css_default = {
+			"themeOption": "_-7MpG_themeOption",
+			"swatchActive": "_-7MpG_swatchActive",
+			"themeGrid": "_-7MpG_themeGrid",
+			"nativeSwatch": "_-7MpG_nativeSwatch",
+			"desktopTag": "_-7MpG_desktopTag",
 			"themeLabel": "_-7MpG_themeLabel",
 			"zoomControls": "_-7MpG_zoomControls",
-			"previewFrame": "_-7MpG_previewFrame",
-			"themeOption": "_-7MpG_themeOption",
 			"nativePicker": "_-7MpG_nativePicker",
-			"staticValue": "_-7MpG_staticValue",
-			"colorRow": "_-7MpG_colorRow",
-			"groupHeader": "_-7MpG_groupHeader",
-			"themePreviewActive": "_-7MpG_themePreviewActive",
 			"cssEditor": "_-7MpG_cssEditor",
+			"swatch": "_-7MpG_swatch",
+			"themePreviewActive": "_-7MpG_themePreviewActive",
+			"colorRow": "_-7MpG_colorRow",
+			"previewFrame": "_-7MpG_previewFrame",
 			"hexInput": "_-7MpG_hexInput",
-			"swatchActive": "_-7MpG_swatchActive",
-			"desktopTag": "_-7MpG_desktopTag",
-			"nativeSwatch": "_-7MpG_nativeSwatch",
 			"fontSelect": "_-7MpG_fontSelect",
-			"themeGrid": "_-7MpG_themeGrid",
-			"swatch": "_-7MpG_swatch"
+			"groupHeader": "_-7MpG_groupHeader",
+			"staticValue": "_-7MpG_staticValue"
 		};
 		//#endregion
 		//#region lib/types/client/AppearanceSection.js
@@ -18504,36 +18879,36 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ShortcutSection_module_css_default = {
-			"rowSwitch": "-S_gJa_rowSwitch",
-			"listGroup": "-S_gJa_listGroup",
-			"emptyState": "-S_gJa_emptyState",
-			"undo": "-S_gJa_undo",
-			"searchIcon": "-S_gJa_searchIcon",
-			"menuItemDanger": "-S_gJa_menuItemDanger",
-			"rowLabel": "-S_gJa_rowLabel",
-			"searchInput": "-S_gJa_searchInput",
-			"header": "-S_gJa_header",
-			"kbd": "-S_gJa_kbd",
-			"menuItem": "-S_gJa_menuItem",
-			"moreButton": "-S_gJa_moreButton",
-			"bound": "-S_gJa_bound",
-			"keys": "-S_gJa_keys",
+			"menuCount": "-S_gJa_menuCount",
 			"menuPop": "-S_gJa_menuPop",
 			"rowDisabled": "-S_gJa_rowDisabled",
-			"groupBlock": "-S_gJa_groupBlock",
-			"desktopTag": "-S_gJa_desktopTag",
-			"filterButton": "-S_gJa_filterButton",
-			"headerTitle": "-S_gJa_headerTitle",
-			"unbound": "-S_gJa_unbound",
-			"groupLabel": "-S_gJa_groupLabel",
+			"menuSep": "-S_gJa_menuSep",
 			"rowShortcut": "-S_gJa_rowShortcut",
+			"kbd": "-S_gJa_kbd",
+			"header": "-S_gJa_header",
+			"desktopTag": "-S_gJa_desktopTag",
 			"searchWrap": "-S_gJa_searchWrap",
-			"recording": "-S_gJa_recording",
-			"row": "-S_gJa_row",
+			"undo": "-S_gJa_undo",
+			"emptyState": "-S_gJa_emptyState",
 			"menuItemActive": "-S_gJa_menuItemActive",
-			"menuCount": "-S_gJa_menuCount",
+			"bound": "-S_gJa_bound",
+			"groupLabel": "-S_gJa_groupLabel",
 			"headerControls": "-S_gJa_headerControls",
-			"menuSep": "-S_gJa_menuSep"
+			"keys": "-S_gJa_keys",
+			"searchInput": "-S_gJa_searchInput",
+			"moreButton": "-S_gJa_moreButton",
+			"headerTitle": "-S_gJa_headerTitle",
+			"filterButton": "-S_gJa_filterButton",
+			"menuItem": "-S_gJa_menuItem",
+			"recording": "-S_gJa_recording",
+			"menuItemDanger": "-S_gJa_menuItemDanger",
+			"listGroup": "-S_gJa_listGroup",
+			"groupBlock": "-S_gJa_groupBlock",
+			"row": "-S_gJa_row",
+			"searchIcon": "-S_gJa_searchIcon",
+			"rowSwitch": "-S_gJa_rowSwitch",
+			"rowLabel": "-S_gJa_rowLabel",
+			"unbound": "-S_gJa_unbound"
 		};
 		//#endregion
 		//#region lib/types/client/ShortcutSection.js
@@ -19134,43 +19509,43 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var SelectionAssistantSection_module_css_default = {
-			"actionsHeaderBtns": "_2Suf7W_actionsHeaderBtns",
+			"outlineBtn": "_2Suf7W_outlineBtn",
+			"groupHeaderRow": "_2Suf7W_groupHeaderRow",
+			"toolbarPreview": "_2Suf7W_toolbarPreview",
+			"modalOverlay": "_2Suf7W_modalOverlay",
+			"formField": "_2Suf7W_formField",
+			"engineChip": "_2Suf7W_engineChip",
+			"formInput": "_2Suf7W_formInput",
+			"actionIcon": "_2Suf7W_actionIcon",
+			"modalFooter": "_2Suf7W_modalFooter",
+			"btn": "_2Suf7W_btn",
+			"actionRowDragging": "_2Suf7W_actionRowDragging",
+			"notice": "_2Suf7W_notice",
+			"groupTitle": "_2Suf7W_groupTitle",
+			"opacityRow": "_2Suf7W_opacityRow",
+			"opacitySlider": "_2Suf7W_opacitySlider",
+			"actionName": "_2Suf7W_actionName",
+			"formHint": "_2Suf7W_formHint",
+			"faqLink": "_2Suf7W_faqLink",
+			"actionRow": "_2Suf7W_actionRow",
 			"btnPrimary": "_2Suf7W_btnPrimary",
 			"formTextarea": "_2Suf7W_formTextarea",
-			"engineChip": "_2Suf7W_engineChip",
-			"opBtnDanger": "_2Suf7W_opBtnDanger",
-			"toolbarIcon": "_2Suf7W_toolbarIcon",
-			"opBtn": "_2Suf7W_opBtn",
-			"actionName": "_2Suf7W_actionName",
-			"modalOverlay": "_2Suf7W_modalOverlay",
-			"groupTitle": "_2Suf7W_groupTitle",
-			"groupHeaderRow": "_2Suf7W_groupHeaderRow",
-			"noticeText": "_2Suf7W_noticeText",
-			"actionRow": "_2Suf7W_actionRow",
-			"enableBtn": "_2Suf7W_enableBtn",
-			"formField": "_2Suf7W_formField",
-			"radioItem": "_2Suf7W_radioItem",
-			"ghostBtn": "_2Suf7W_ghostBtn",
-			"notice": "_2Suf7W_notice",
-			"formInput": "_2Suf7W_formInput",
-			"outlineBtn": "_2Suf7W_outlineBtn",
-			"dragHandle": "_2Suf7W_dragHandle",
-			"toolbarItem": "_2Suf7W_toolbarItem",
-			"modalFooter": "_2Suf7W_modalFooter",
-			"actionOps": "_2Suf7W_actionOps",
-			"toolbarPreview": "_2Suf7W_toolbarPreview",
 			"actionRowDisabled": "_2Suf7W_actionRowDisabled",
-			"actionRowDragging": "_2Suf7W_actionRowDragging",
-			"actionIcon": "_2Suf7W_actionIcon",
-			"opacityRow": "_2Suf7W_opacityRow",
-			"faqLink": "_2Suf7W_faqLink",
+			"opBtnDanger": "_2Suf7W_opBtnDanger",
+			"actionsDivider": "_2Suf7W_actionsDivider",
+			"opBtn": "_2Suf7W_opBtn",
+			"radioItem": "_2Suf7W_radioItem",
+			"actionOps": "_2Suf7W_actionOps",
 			"radioRow": "_2Suf7W_radioRow",
 			"enableBtnOn": "_2Suf7W_enableBtnOn",
+			"actionsHeaderBtns": "_2Suf7W_actionsHeaderBtns",
+			"noticeText": "_2Suf7W_noticeText",
+			"enableBtn": "_2Suf7W_enableBtn",
+			"ghostBtn": "_2Suf7W_ghostBtn",
+			"dragHandle": "_2Suf7W_dragHandle",
 			"modalCard": "_2Suf7W_modalCard",
-			"actionsDivider": "_2Suf7W_actionsDivider",
-			"formHint": "_2Suf7W_formHint",
-			"opacitySlider": "_2Suf7W_opacitySlider",
-			"btn": "_2Suf7W_btn"
+			"toolbarItem": "_2Suf7W_toolbarItem",
+			"toolbarIcon": "_2Suf7W_toolbarIcon"
 		};
 		//#endregion
 		//#region lib/types/client/SelectionAssistantSection.js
@@ -19865,18 +20240,18 @@ ${editTarget.defaults.baseURL}`}`,
 		}
 		var QuickAssistantSection_module_css_default = {
 			"previewChip": "AweFxa_previewChip",
-			"notice": "AweFxa_notice",
-			"segItemActive": "AweFxa_segItemActive",
-			"modelHint": "AweFxa_modelHint",
+			"previewFooter": "AweFxa_previewFooter",
 			"segmented": "AweFxa_segmented",
+			"segItemActive": "AweFxa_segItemActive",
+			"notice": "AweFxa_notice",
+			"groupTitle": "AweFxa_groupTitle",
+			"modelHint": "AweFxa_modelHint",
+			"previewBar": "AweFxa_previewBar",
 			"modelRow": "AweFxa_modelRow",
 			"previewWindow": "AweFxa_previewWindow",
-			"previewBar": "AweFxa_previewBar",
-			"segItem": "AweFxa_segItem",
 			"previewLogo": "AweFxa_previewLogo",
-			"groupTitle": "AweFxa_groupTitle",
 			"previewPlaceholder": "AweFxa_previewPlaceholder",
-			"previewFooter": "AweFxa_previewFooter"
+			"segItem": "AweFxa_segItem"
 		};
 		//#endregion
 		//#region lib/types/client/QuickAssistantSection.js
@@ -20035,15 +20410,15 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ScreenshotSection_module_css_default = {
+			"linkBtn": "RXXS4a_linkBtn",
+			"shortcutTitle": "RXXS4a_shortcutTitle",
 			"shortcutLabel": "RXXS4a_shortcutLabel",
 			"groupTitle": "RXXS4a_groupTitle",
-			"linkBtn": "RXXS4a_linkBtn",
-			"ocrStatus": "RXXS4a_ocrStatus",
-			"shortcutRight": "RXXS4a_shortcutRight",
-			"shortcutTitle": "RXXS4a_shortcutTitle",
-			"shortcutBadge": "RXXS4a_shortcutBadge",
 			"shortcutDesc": "RXXS4a_shortcutDesc",
-			"notice": "RXXS4a_notice"
+			"ocrStatus": "RXXS4a_ocrStatus",
+			"notice": "RXXS4a_notice",
+			"shortcutRight": "RXXS4a_shortcutRight",
+			"shortcutBadge": "RXXS4a_shortcutBadge"
 		};
 		//#endregion
 		//#region lib/types/client/ScreenshotSection.js
@@ -20316,51 +20691,51 @@ ${editTarget.defaults.baseURL}`}`,
 		}
 		var ChannelsSection_module_css_default = {
 			"formHint": "bV1JOa_formHint",
-			"btn": "bV1JOa_btn",
-			"typeIcon": "bV1JOa_typeIcon",
-			"divider": "bV1JOa_divider",
-			"modalOverlay": "bV1JOa_modalOverlay",
-			"formFieldSpan2": "bV1JOa_formFieldSpan2",
-			"statusDotActive": "bV1JOa_statusDotActive",
-			"formSwitchRow": "bV1JOa_formSwitchRow",
-			"detailBody": "bV1JOa_detailBody",
-			"emptyState": "bV1JOa_emptyState",
-			"modalCard": "bV1JOa_modalCard",
-			"detailTitle": "bV1JOa_detailTitle",
-			"typeIconLarge": "bV1JOa_typeIconLarge",
-			"addBtn": "bV1JOa_addBtn",
-			"detailDesc": "bV1JOa_detailDesc",
-			"notice": "bV1JOa_notice",
-			"split": "bV1JOa_split",
-			"statusDot": "bV1JOa_statusDot",
-			"formField": "bV1JOa_formField",
-			"btnPrimary": "bV1JOa_btnPrimary",
-			"statusDotError": "bV1JOa_statusDotError",
-			"logLine": "bV1JOa_logLine",
-			"typeIconImg": "bV1JOa_typeIconImg",
-			"submenuItemActive": "bV1JOa_submenuItemActive",
-			"opBtnDanger": "bV1JOa_opBtnDanger",
-			"submenu": "bV1JOa_submenu",
-			"detailHeader": "bV1JOa_detailHeader",
-			"detail": "bV1JOa_detail",
-			"modalFooter": "bV1JOa_modalFooter",
-			"formSelect": "bV1JOa_formSelect",
-			"instanceMain": "bV1JOa_instanceMain",
-			"instanceName": "bV1JOa_instanceName",
-			"instanceSummary": "bV1JOa_instanceSummary",
-			"detailTitleBlock": "bV1JOa_detailTitleBlock",
-			"opBtn": "bV1JOa_opBtn",
-			"submenuList": "bV1JOa_submenuList",
-			"statusDotConnected": "bV1JOa_statusDotConnected",
-			"typeIconImgLarge": "bV1JOa_typeIconImgLarge",
-			"submenuItem": "bV1JOa_submenuItem",
-			"logsBody": "bV1JOa_logsBody",
-			"instanceOps": "bV1JOa_instanceOps",
 			"connectedBadge": "bV1JOa_connectedBadge",
-			"instanceRow": "bV1JOa_instanceRow",
-			"submenuTitle": "bV1JOa_submenuTitle",
+			"modalFooter": "bV1JOa_modalFooter",
 			"formGrid": "bV1JOa_formGrid",
-			"formInput": "bV1JOa_formInput"
+			"opBtnDanger": "bV1JOa_opBtnDanger",
+			"statusDotConnected": "bV1JOa_statusDotConnected",
+			"instanceOps": "bV1JOa_instanceOps",
+			"typeIconLarge": "bV1JOa_typeIconLarge",
+			"opBtn": "bV1JOa_opBtn",
+			"formSwitchRow": "bV1JOa_formSwitchRow",
+			"submenuItemActive": "bV1JOa_submenuItemActive",
+			"formField": "bV1JOa_formField",
+			"detailTitleBlock": "bV1JOa_detailTitleBlock",
+			"detailDesc": "bV1JOa_detailDesc",
+			"instanceName": "bV1JOa_instanceName",
+			"logsBody": "bV1JOa_logsBody",
+			"typeIconImgLarge": "bV1JOa_typeIconImgLarge",
+			"detailTitle": "bV1JOa_detailTitle",
+			"divider": "bV1JOa_divider",
+			"statusDot": "bV1JOa_statusDot",
+			"notice": "bV1JOa_notice",
+			"typeIcon": "bV1JOa_typeIcon",
+			"statusDotActive": "bV1JOa_statusDotActive",
+			"submenuTitle": "bV1JOa_submenuTitle",
+			"instanceRow": "bV1JOa_instanceRow",
+			"instanceMain": "bV1JOa_instanceMain",
+			"instanceSummary": "bV1JOa_instanceSummary",
+			"formFieldSpan2": "bV1JOa_formFieldSpan2",
+			"submenuList": "bV1JOa_submenuList",
+			"btn": "bV1JOa_btn",
+			"btnPrimary": "bV1JOa_btnPrimary",
+			"addBtn": "bV1JOa_addBtn",
+			"split": "bV1JOa_split",
+			"logLine": "bV1JOa_logLine",
+			"submenuItem": "bV1JOa_submenuItem",
+			"emptyState": "bV1JOa_emptyState",
+			"submenu": "bV1JOa_submenu",
+			"statusDotError": "bV1JOa_statusDotError",
+			"modalOverlay": "bV1JOa_modalOverlay",
+			"formInput": "bV1JOa_formInput",
+			"formSelect": "bV1JOa_formSelect",
+			"detail": "bV1JOa_detail",
+			"detailBody": "bV1JOa_detailBody",
+			"detailHeader": "bV1JOa_detailHeader",
+			"typeIconImg": "bV1JOa_typeIconImg",
+			"modalCard": "bV1JOa_modalCard"
 		};
 		//#endregion
 		//#region lib/types/client/ChannelsSection.js
@@ -21057,8 +21432,8 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var SettingsDocumentAction_module_css_default = {
-			"action": "SgSrUG_action",
-			"error": "SgSrUG_error"
+			"error": "SgSrUG_error",
+			"action": "SgSrUG_action"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsDocumentAction.js
@@ -21286,9 +21661,9 @@ ${editTarget.defaults.baseURL}`}`,
 		}
 		var OnboardingModal_module_css_default = {
 			"body": "C_CJ_a_body",
+			"dialog": "C_CJ_a_dialog",
 			"content": "C_CJ_a_content",
-			"title": "C_CJ_a_title",
-			"dialog": "C_CJ_a_dialog"
+			"title": "C_CJ_a_title"
 		};
 		//#endregion
 		//#region lib/types/client/OnboardingModal.js
@@ -21668,14 +22043,20 @@ ${editTarget.defaults.baseURL}`}`,
 		//#endregion
 		//#region lib/types/client/model-prefs-store.js
 		/**
-		* Per-purpose model preferences (翻译模型 / 绘画模型): the shared store behind
-		* the 默认模型 page and the workspaces that honor them.
+		* Per-purpose model preferences (快捷模型 / 翻译模型 / 绘画模型) plus the
+		* Cherry 重试设置: the shared store behind the 默认模型 page.
 		*
 		* The prefs live in the `control-center-model-prefs` settings namespace — the
 		* same DSH authority every other surface reads — so a choice made here is what
 		* a freshly opened translation or painting workspace preselects, instead of
 		* "whatever the catalog listed first". The catalog itself comes from
 		* `llm.models`, the same groups the selectors already offer.
+		*
+		* The retry group is Cherry `chat.retry.*`: an enable switch, max attempts,
+		* backoff, and fallback routes. Saving it projects a DSH provider-owned
+		* `retryPolicy` into every live provider profile (see retry-policy.ts), so the
+		* official harness retry plugin enforces it on real requests — including agent
+		* sessions, which control-center does not own.
 		*/
 		const MODEL_PREFS_NAMESPACE = "control-center-model-prefs";
 		function readSelection(value, schema, kind) {
@@ -21688,6 +22069,36 @@ ${editTarget.defaults.baseURL}`}`,
 				model
 			};
 		}
+		/** Read the persisted retry config, tolerating partial or older sections. */
+		function readRetryConfig(value, schema) {
+			const enabled = schema.getPath(value, ["retryEnabled"]);
+			const maxAttempts = schema.getPath(value, ["retryMaxAttempts"]);
+			const backoff = schema.getPath(value, ["retryBackoff"]);
+			const rawFallbacks = schema.getPath(value, ["retryFallbacks"]);
+			const fallbacks = Array.isArray(rawFallbacks) ? rawFallbacks.flatMap((entry) => {
+				if (typeof entry !== "object" || entry === null) return [];
+				const provider = schema.getPath(entry, ["provider"]);
+				const model = schema.getPath(entry, ["model"]);
+				if (typeof provider !== "string" || provider.length === 0) return [];
+				if (typeof model !== "string" || model.length === 0) return [];
+				return [{
+					provider,
+					model
+				}];
+			}) : [];
+			return {
+				enabled: enabled === true,
+				maxAttempts: typeof maxAttempts === "number" && Number.isSafeInteger(maxAttempts) && maxAttempts >= 1 && maxAttempts <= 10 ? maxAttempts : 3,
+				backoff: backoff !== false,
+				fallbacks
+			};
+		}
+		const DEFAULT_RETRY_CONFIG = {
+			enabled: false,
+			maxAttempts: 3,
+			backoff: true,
+			fallbacks: []
+		};
 		/** The shared controller (one per client surface). */
 		var ModelPrefsStore = class {
 			api;
@@ -21695,11 +22106,14 @@ ${editTarget.defaults.baseURL}`}`,
 			store = (0, _deepseek_ai_dsh_client_runtime_client.createSnapshotStore)({
 				status: "idle",
 				error: null,
+				writeError: null,
 				available: true,
 				writable: false,
 				revision: null,
 				translation: null,
 				painting: null,
+				quick: null,
+				retry: DEFAULT_RETRY_CONFIG,
 				groups: []
 			});
 			generation = 0;
@@ -21739,6 +22153,8 @@ ${editTarget.defaults.baseURL}`}`,
 						state.revision = namespace.revision;
 						state.translation = readSelection(value, this.schema, "translation");
 						state.painting = readSelection(value, this.schema, "painting");
+						state.quick = readSelection(value, this.schema, "quick");
+						state.retry = readRetryConfig(value, this.schema);
 						state.groups = catalog.value.groups;
 					});
 				} catch (error) {
@@ -21749,32 +22165,62 @@ ${editTarget.defaults.baseURL}`}`,
 					});
 				}
 			}
-			/** Persist one purpose's selection; keeps the other untouched. */
+			/** Persist one purpose's selection; keeps the others untouched. */
 			async save(kind, selection) {
+				return this.mutate([{
+					op: "set",
+					path: [`${kind}Provider`],
+					value: selection.provider
+				}, {
+					op: "set",
+					path: [`${kind}Model`],
+					value: selection.model
+				}]);
+			}
+			/** Persist the retry configuration as one atomic section write. */
+			async saveRetry(config) {
+				return this.mutate([
+					{
+						op: "set",
+						path: ["retryEnabled"],
+						value: config.enabled
+					},
+					{
+						op: "set",
+						path: ["retryMaxAttempts"],
+						value: config.maxAttempts
+					},
+					{
+						op: "set",
+						path: ["retryBackoff"],
+						value: config.backoff
+					},
+					{
+						op: "set",
+						path: ["retryFallbacks"],
+						value: config.fallbacks.map((fallback) => ({
+							provider: fallback.provider,
+							model: fallback.model
+						}))
+					}
+				]);
+			}
+			/** Shared mutate-then-reload tail behind every preference write. */
+			async mutate(ops) {
 				const snapshot = this.store.getSnapshot();
 				if (snapshot.revision === null || !snapshot.available) return false;
 				this.store.update((state) => {
-					state.status = "loading";
-					state.error = null;
+					state.writeError = null;
 				});
 				const response = await this.api.settings.mutate({
 					ns: MODEL_PREFS_NAMESPACE,
 					expectedRevision: snapshot.revision,
-					ops: [{
-						op: "set",
-						path: [`${kind}Provider`],
-						value: selection.provider
-					}, {
-						op: "set",
-						path: [`${kind}Model`],
-						value: selection.model
-					}]
+					ops: [...ops]
 				});
 				if (!response.result.ok) {
 					const failure = response.result;
 					this.store.update((state) => {
-						state.status = "error";
-						state.error = failure.error.message;
+						state.writeError = failure.error.message;
 					});
 					return false;
 				}
@@ -21939,6 +22385,8 @@ ${editTarget.defaults.baseURL}`}`,
 			getApiKey: "Get API key",
 			routeInfo: "Route info",
 			prefTitle: "Workspace model preferences",
+			prefQuickModel: "Quick model",
+			prefQuickHint: "The fast route auxiliary features use — topic-style helpers and the desktop quick assistant.",
 			prefTranslation: "Translation model",
 			prefPainting: "Painting model",
 			prefHint: "A freshly opened workspace preselects this model.",
@@ -21946,6 +22394,25 @@ ${editTarget.defaults.baseURL}`}`,
 			prefSavedPainting: "Painting model saved.",
 			prefUnset: "Not set",
 			prefFollow: "Follow the workspace",
+			quickSettings: "Quick model settings",
+			topicNamingTitle: "Topic naming",
+			topicNamingNativeTitle: "Automatic session titles are built in",
+			topicNamingNativeBody: "DSH names every session after its first prompt through the built-in session-title service, using that session’s own model — no separate switch or model needed here.",
+			topicNamingCustomNote: "Cherry’s custom naming prompt and enable switch need harness-level deployment configuration (the session-title-llm bundle row) and cannot be changed from this page yet.",
+			retryTitle: "Retry",
+			retryHint: "Applies to every enabled provider by writing a real retryPolicy into each profile — chat sessions included (enforced by the DSH retry plugin).",
+			retryEnable: "Retry failed requests automatically",
+			retryMaxAttempts: "Max retries",
+			retryBackoff: "Exponential backoff",
+			retryBackoffHint: "Wait longer between attempts (0.5s doubling up to 10s, with jitter). Off retries almost immediately.",
+			retryFallbacks: "Fallback models",
+			retryFallbacksHint: "After the primary model keeps failing, control-center surfaces (translation, channel replies) try these routes in order.",
+			retryFallbacksSessionNote: "Agent sessions do not switch models on failure; they only retry.",
+			retryFallbacksCount: "{count} selected",
+			retryFallbacksEmpty: "No fallback models yet",
+			retrySaved: "Retry settings saved and applied to {count} provider(s).",
+			retrySaveFailed: "Saving retry settings failed",
+			retryNewProvidersHint: "Providers configured later pick this policy the next time you save it here.",
 			checkModels: "Check models",
 			checkModelsHint: "Sends one tiny real completion per model through the live adapter — the same path a production request takes.",
 			checkAll: "Check all",
@@ -22104,6 +22571,8 @@ ${editTarget.defaults.baseURL}`}`,
 			getApiKey: "获取 API Key",
 			routeInfo: "路由信息",
 			prefTitle: "工作区模型偏好",
+			prefQuickModel: "快捷模型",
+			prefQuickHint: "辅助能力使用的快速路由——话题类辅助与桌面快捷助手。",
 			prefTranslation: "翻译模型",
 			prefPainting: "绘画模型",
 			prefHint: "新打开的工作区将默认选中该模型。",
@@ -22111,6 +22580,25 @@ ${editTarget.defaults.baseURL}`}`,
 			prefSavedPainting: "绘画模型已保存。",
 			prefUnset: "未设置",
 			prefFollow: "跟随工作区",
+			quickSettings: "快捷模型设置",
+			topicNamingTitle: "话题命名",
+			topicNamingNativeTitle: "会话自动命名已内建",
+			topicNamingNativeBody: "DSH 会在每个会话的首条用户消息后，由内建会话标题服务自动命名，并使用该会话自己的模型——无需在此单独开关或选择。",
+			topicNamingCustomNote: "Cherry 的自定义命名提示词与开关需要 harness 部署级配置（bundle 中的 session-title-llm 行），本页暂不能修改。",
+			retryTitle: "重试设置",
+			retryHint: "保存时会向每个已启用供应商的配置写入真实 retryPolicy，聊天会话同样生效（由 DSH 重试插件执行）。",
+			retryEnable: "失败后自动重试",
+			retryMaxAttempts: "最大重试次数",
+			retryBackoff: "指数退避",
+			retryBackoffHint: "每次重试间隔逐渐加长（0.5s 翻倍至 10s，带抖动）。关闭后几乎立即重试。",
+			retryFallbacks: "兜底模型",
+			retryFallbacksHint: "主模型连续失败后，控制中心的调用面（翻译、频道回复）会按顺序尝试这些路由。",
+			retryFallbacksSessionNote: "代理会话失败时只重试、不切换模型。",
+			retryFallbacksCount: "已选 {count} 个",
+			retryFallbacksEmpty: "还没有兜底模型",
+			retrySaved: "重试设置已保存并应用到 {count} 个供应商。",
+			retrySaveFailed: "重试设置保存失败",
+			retryNewProvidersHint: "之后新配置的供应商，需要在这里重新保存一次才会应用该策略。",
 			checkModels: "检测模型",
 			checkModelsHint: "对每个模型发送一次最小真实补全，走与正式请求完全相同的适配器与凭据链路。",
 			checkAll: "全部检测",
@@ -22250,12 +22738,12 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ProductWorkspaceSurface_module_css_default = {
-			"header": "mzcFbW_header",
 			"identity": "mzcFbW_identity",
 			"root": "mzcFbW_root",
-			"icon": "mzcFbW_icon",
 			"eyebrow": "mzcFbW_eyebrow",
+			"icon": "mzcFbW_icon",
 			"close": "mzcFbW_close",
+			"header": "mzcFbW_header",
 			"body": "mzcFbW_body"
 		};
 		//#endregion

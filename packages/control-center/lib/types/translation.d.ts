@@ -4,6 +4,8 @@ import type { TranslationHistoryId, TranslationHistoryItem, TranslationHistoryPa
 export interface TranslationServiceConfig {
     logger?: Context['logger'];
 }
+/** Cherry 重试设置 facts one job honors (the 默认模型 page persists them). */
+export type TranslationRetryPolicy = import('./retry-config.ts').HostRetryPolicy;
 declare module '@deepseek-ai/cordis' {
     interface Context {
         controlCenterTranslation: TranslationService;
@@ -49,7 +51,20 @@ export declare class TranslationService extends Service {
     deleteLanguage(id: string): {
         absent: true;
     };
+    /**
+     * The Cherry 重试设置 from the shared model-prefs namespace, read live so a
+     * settings edit reaches the next job without a restart.
+     */
+    private retryPolicy;
     private run;
+    /**
+     * Run one route through its full attempt budget. `'failed'` means every
+     * attempt failed and the caller may continue with its next fallback; any
+     * other outcome is final for the job.
+     */
+    private runRoute;
+    /** Persist one completed job into the in-process history. */
+    private recordHistory;
 }
 export default TranslationService;
 //# sourceMappingURL=translation.d.ts.map

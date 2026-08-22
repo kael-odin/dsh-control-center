@@ -1,6 +1,10 @@
 /** Host half of DSH Control Center: compatibility gate and onboarding settings. */
 import type { Context } from '@deepseek-ai/cordis';
-/** Per-purpose model preferences (translation/painting) for the 默认模型 page. */
+/**
+ * Per-purpose model preferences (快捷/翻译/绘画) plus the Cherry 重试设置 for
+ * the 默认模型 page. Retry fields mirror Cherry's chat.retry.* defaults
+ * (enabled false, max attempts 3, backoff on, no fallbacks).
+ */
 export declare const MODEL_PREFS_NAMESPACE_SETTINGS: import("@deepseek-ai/dsh-settings").SettingsNamespace;
 /** Cordis plugin name. */
 export declare const name = "dsh-control-center";
