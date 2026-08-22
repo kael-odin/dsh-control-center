@@ -54,7 +54,7 @@
 | 个人 | 通知 | `/settings/notifications` | `notifications`（NotificationSection） | T1 | ✅ 真实 |
 | 个人 | 数据管理 | `/settings/data` | `data`（DataSection） | T1 | 🔶 真实，覆盖面窄（无 WebDAV/第三方） |
 | 个人 | 用量 | `/settings/usage` | `usage`（UsageSection） | T1 | ✅ 真实（真实记录 tokens） |
-| 自动化 | 频道 | `/settings/channels` | `channels`（ChannelsSection） | T2 | ✅ 配置迁入 DSH settings（control-center-channels），字段全量对齐（允许会话/频道 ID、飞书 domain、QQ mention_only）；真实消息桥仍需桌面 |
+| 自动化 | 频道 | `/settings/channels` | `channels`（ChannelsSection） | T2 | 🔶 配置迁入 DSH settings + **Telegram 长轮询已在宿主进程真实运行**（状态机/日志/错误详情实时回传 UI）；其余五平台协议与回复管道待接 |
 | 自动化 | 定时任务 | `/settings/scheduled-tasks` | `tasks`（TasksSection） | T2 | ✅ controlCenterTasks + host scheduler |
 | 自动化 | 快捷键 | `/settings/shortcut` | `shortcuts`（ShortcutSection） | T2 | 🔶 localStorage；应用内绑定真，全局标桌面 |
 | 自动化 | 快捷助手 | `/settings/quick-assistant` | `quick-assistant`（QuickAssistantSection） | T2 | 🔶 本地持久化，悬浮窗需桌面 |
