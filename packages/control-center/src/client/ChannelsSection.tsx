@@ -11,7 +11,14 @@ import { IconPlusOutline16, IconTrashOutline16 } from '@deepseek-ai/dsh-client-u
 import type { SnapshotSelectorHook } from '@deepseek-ai/dsh-client-ui-slots'
 import { ConfirmDialog, Switch } from './panel-ui.tsx'
 import type { ChannelsState } from './channels-store.ts'
+import type { ChannelBridgeStatus } from '../channel-bridge.ts'
 import { importLegacyChannels, ChannelsStore, type ChannelInstance } from './channels-store.ts'
+
+/** Bridge status slice injected alongside the settings store. */
+export interface ChannelBridgeHandle {
+  status(): Promise<{ ok: true; value: ChannelBridgeStatus[] } | { ok: false; error: { code: string; message: string; details: object } }>
+  getLog(channelId: string, lines?: number): Promise<{ ok: true; value: string[] } | { ok: false; error: { code: string; message: string; details: object } }>
+}
 import { CHANNEL_ICONS } from './channel-icons.ts'
 import css from './ChannelsSection.module.css'
 
@@ -20,6 +27,8 @@ export interface ChannelsSectionInjected {
   api: Pick<IApiClient, 'settings'>
   useChannels: SnapshotSelectorHook<ChannelsState>
   controller: ChannelsStore
+  /** Lazy handle to the host channel bridge (undefined until mounted). */
+  getBridge?: (() => ChannelBridgeHandle) | undefined
 }
 
 /** Props delivered by the slot outlet (partial until injected). */
@@ -158,7 +167,7 @@ export function ChannelsSection(props: ChannelsSectionProps): ReactNode {
 }
 
 function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode {
-  const { controller } = injected
+  const { controller, getBridge } = injected
   const state = injected.useChannels(snapshot => snapshot)
   // Browser-local mirror for hosts without the namespace.
   const [local, setLocal] = useState<readonly ChannelInstance[]>(loadLegacy)
@@ -173,6 +182,8 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
   const [formMentionOnly, setFormMentionOnly] = useState(true)
   const [formPermission, setFormPermission] = useState('__inherit')
   const [logsFor, setLogsFor] = useState<ChannelInstance | null>(null)
+  const [bridgeStatuses, setBridgeStatuses] = useState<readonly ChannelBridgeStatus[]>([])
+  const [logLines, setLogLines] = useState<string[]>([])
   const migratedRef = useRef(false)
 
   const available = state.available
@@ -189,6 +200,34 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
       if (imported) void controller.load()
     })
   }, [state.status, available, controller])
+
+  // Bridge status polling: the dots are real runtime states from the host.
+  useEffect(() => {
+    if (!available || getBridge === undefined) return undefined
+    let stopped = false
+    const tick = (): void => {
+      void getBridge().status().then((result) => {
+        if (!stopped && result.ok) setBridgeStatuses(result.value)
+      }, () => undefined)
+    }
+    tick()
+    const timer = window.setInterval(tick, 5000)
+    return () => { stopped = true; window.clearInterval(timer) }
+  }, [available, getBridge])
+
+  // Live log tail while the dialog is open.
+  useEffect(() => {
+    if (logsFor === null || getBridge === undefined) return undefined
+    let stopped = false
+    const fetchLog = (): void => {
+      void getBridge().getLog(logsFor.id, 50).then((result) => {
+        if (!stopped && result.ok) setLogLines(result.value)
+      }, () => undefined)
+    }
+    fetchLog()
+    const timer = window.setInterval(fetchLog, 2000)
+    return () => { stopped = true; window.clearInterval(timer) }
+  }, [logsFor, getBridge])
 
   /** Write through the authority, or the browser mirror when unavailable. */
   const persist = (next: readonly ChannelInstance[]): void => {
@@ -295,7 +334,15 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
               <div className={css.emptyState}>暂无 {typeDef.name} 频道，点击「+ 添加」创建。</div>
             ) : instances.map(channel => (
               <div key={channel.id} className={css.instanceRow}>
-                <span className={`${css.statusDot} ${channel.isActive ? css.statusDotActive : ''}`} />
+                <span
+                  className={`${css.statusDot} ${(() => {
+                    const bridgeState = bridgeStatuses.find(entry => entry.channelId === channel.id)?.state
+                    if (bridgeState === 'connected') return css.statusDotConnected ?? ''
+                    if (bridgeState === 'error') return css.statusDotError ?? ''
+                    return channel.isActive ? css.statusDotActive : ''
+                  })()}`}
+                  title={bridgeStatuses.find(entry => entry.channelId === channel.id)?.detail ?? undefined}
+                />
                 <div className={css.instanceMain}>
                   <div className={css.instanceName}>
                     {channel.name}
@@ -406,7 +453,9 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
           <div className={css.modalCard} role="dialog" aria-modal="true" aria-label={`${logsFor.name} — 日志`}>
             <h3>{logsFor.name} — 日志</h3>
             <div className={css.logsBody}>
-              日志由桌面版伴生程序在频道连接后写入；Web 版暂无本地日志。
+              {logLines.length === 0
+                ? '暂无运行时日志。启用频道后，宿主桥接进程会在这里写入连接与消息事件。'
+                : logLines.map((line, index) => <div key={index} className={css.logLine}>{line}</div>)}
             </div>
             <div className={css.modalFooter}>
               <button type="button" className={css.btn} onClick={() => { setLogsFor(null) }}>关闭</button>

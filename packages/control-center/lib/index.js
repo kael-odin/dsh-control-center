@@ -3,7 +3,7 @@ import { t as paintingRemote } from "./painting-remote-client-X1tWq7oF.js";
 import { t as knowledgeRemote } from "./knowledge-remote-client-z0vloa3L.js";
 import { createRequire } from "node:module";
 import Schema from "@deepseek-ai/schemastery";
-import { settingsNamespace } from "@deepseek-ai/dsh-settings";
+import { installSettingsSection, settingsNamespace } from "@deepseek-ai/dsh-settings";
 import { basename, join, relative, resolve } from "node:path";
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { resolveDshHome } from "@deepseek-ai/dsh-home-paths";
@@ -3071,6 +3071,222 @@ const webSearchRemote = {
 	}))
 };
 //#endregion
+//#region lib/types/channel-bridge.js
+/**
+* Channel bridge — the first REAL piece of the 频道 story: a host-process
+* service that watches `control-center-channels` and drives live connections
+* for active instances.
+*
+* Telegram long-polling is implemented end-to-end with nothing but fetch:
+* getUpdates against api.telegram.org with the instance's bot token. A
+* connected channel proves the token works, the bridge reports per-channel
+* status (connected / error / stopped), and every received update lands in a
+* per-channel log ring — the 日志 dialog shows real runtime lines instead of
+* "暂无日志".
+*
+* What this deliberately is NOT yet: the reply pipe into DSH sessions
+* (received messages are logged, not answered), and the other five platform
+* protocols. Those land on top of the lifecycle this file establishes.
+*/
+const CHANNELS_BRIDGE_NAMESPACE = settingsNamespace("control-center-channels");
+const ChannelsSchema = Schema.object({ instances: Schema.array(Schema.any()).default([]) });
+const LOG_LIMIT = 200;
+const POLL_TIMEOUT_S = 25;
+const RETRY_MS = 5e3;
+/** Idle between polls when the server answers instantly with no updates —
+* without it a fast endpoint spins the loop as pure microtasks and starves
+* every timer on the process. */
+const POLL_IDLE_MS = 1e3;
+function markChannelBridgeRemoteMethods(service) {
+	const initializers = [];
+	for (const [method, exportName] of [["status", "status"], ["getLog", "getLog"]]) {
+		const implementation = Reflect.get(ChannelBridgeService.prototype, method);
+		Remote(exportName)(implementation, {
+			kind: "method",
+			name: method,
+			static: false,
+			private: false,
+			access: {
+				has: (value) => method in value,
+				get: (value) => Reflect.get(value, method)
+			},
+			addInitializer: (initializer) => {
+				initializers.push(initializer);
+			},
+			metadata: void 0
+		});
+	}
+	for (const initialize of initializers) initialize.call(service);
+}
+/**
+* Drives one long-lived connection per active channel instance.
+*/
+var ChannelBridgeService = class extends Service {
+	static inject = ["settings"];
+	typertRemote = bindTypertRemote(this, "controlCenterChannelBridge");
+	statuses = /* @__PURE__ */ new Map();
+	runtimes = /* @__PURE__ */ new Map();
+	names = /* @__PURE__ */ new Map();
+	source;
+	constructor(ctx) {
+		super(ctx, "controlCenterChannelBridge");
+		markChannelBridgeRemoteMethods(this);
+		ctx.effect(() => () => {
+			for (const runtime of this.runtimes.values()) runtime.controller.abort();
+			this.runtimes.clear();
+		}, "control-center.channel-bridge: abort loops");
+		installSettingsSection(ctx, CHANNELS_BRIDGE_NAMESPACE, ChannelsSchema, { instances: [] }, {
+			setSource: (current) => {
+				this.source = current;
+			},
+			onChange: () => {
+				try {
+					this.reconcile();
+				} catch (error) {
+					this.ctx.logger.warn(error);
+				}
+			}
+		});
+	}
+	/** The instances array from the current settings source. */
+	readInstances() {
+		if (this.source === void 0) return [];
+		const value = this.source().instances;
+		if (!Array.isArray(value)) return [];
+		return value.filter((entry) => typeof entry === "object" && entry !== null && typeof entry.id === "string" && typeof entry.type === "string");
+	}
+	reconcile() {
+		const records = this.readInstances();
+		const wanted = /* @__PURE__ */ new Set();
+		for (const record of records) {
+			this.names.set(record.id, record.name);
+			if (record.isActive !== true) continue;
+			wanted.add(record.id);
+			if (record.type === "telegram" && !this.runtimes.has(record.id)) this.startTelegram(record);
+		}
+		for (const [id, runtime] of [...this.runtimes]) if (!wanted.has(id)) {
+			runtime.controller.abort();
+			this.runtimes.delete(id);
+			this.setStatus(id, "disconnected");
+		}
+	}
+	setStatus(id, state, detail) {
+		const known = this.statuses.get(id);
+		this.statuses.set(id, {
+			channelId: id,
+			name: this.names.get(id) ?? known?.name ?? id,
+			type: known?.type ?? "",
+			state,
+			...detail === void 0 ? {} : { detail },
+			updatedAt: Date.now()
+		});
+	}
+	appendLog(id, line) {
+		const runtime = this.runtimes.get(id);
+		if (runtime === void 0) return;
+		const stamp = (/* @__PURE__ */ new Date()).toISOString();
+		runtime.log.push(`[${stamp}] ${line}`);
+		if (runtime.log.length > LOG_LIMIT) runtime.log.splice(0, runtime.log.length - LOG_LIMIT);
+	}
+	/**
+	* Telegram long-polling loop: getUpdates with a 25s server hold, restart
+	* with backoff on failure, stop only through the AbortController.
+	*/
+	startTelegram(record) {
+		const token = typeof record.config?.bot_token === "string" ? record.config.bot_token : "";
+		if (token.length === 0) {
+			this.names.set(record.id, record.name);
+			this.setStatus(record.id, "error", "缺少 Bot Token");
+			return;
+		}
+		const controller = new AbortController();
+		const runtime = {
+			controller,
+			log: []
+		};
+		this.runtimes.set(record.id, runtime);
+		this.setStatus(record.id, "starting");
+		this.pollTelegram(record.id, record.name, token, controller.signal);
+	}
+	async pollTelegram(id, name, token, signal) {
+		let offset = 0;
+		const sleep = (ms) => new Promise((resolve) => {
+			const timer = setTimeout(resolve, ms);
+			signal.addEventListener("abort", () => {
+				clearTimeout(timer);
+				resolve();
+			}, { once: true });
+		});
+		this.appendLog(id, `频道「${name}」开始长轮询（Telegram getUpdates）`);
+		while (!signal.aborted) try {
+			this.setStatus(id, this.statuses.get(id)?.state === "connected" ? "connected" : "starting");
+			const response = await fetch(`https://api.telegram.org/bot${token}/getUpdates?timeout=${POLL_TIMEOUT_S}&offset=${offset}`, {
+				headers: { accept: "application/json" },
+				signal
+			});
+			const body = await response.json();
+			if (body.ok !== true) {
+				this.setStatus(id, "error", body.description ?? `HTTP ${String(response.status)}`);
+				this.appendLog(id, `错误：${body.description ?? String(response.status)}`);
+				await sleep(RETRY_MS);
+				continue;
+			}
+			this.setStatus(id, "connected", void 0);
+			const updates = body.result ?? [];
+			for (const update of updates) {
+				if (typeof update.update_id === "number") offset = update.update_id + 1;
+				const text = typeof update.message?.text === "string" ? update.message.text : "";
+				this.appendLog(id, text.length > 0 ? `收到消息：${text.slice(0, 80)}` : "收到更新");
+			}
+			await sleep(POLL_IDLE_MS);
+		} catch (error) {
+			if (signal.aborted) break;
+			const message = error instanceof Error ? error.message : String(error);
+			this.setStatus(id, "error", message);
+			this.appendLog(id, `轮询失败：${message}`);
+			await sleep(RETRY_MS);
+		}
+		this.appendLog(id, "轮询已停止");
+		this.setStatus(id, "disconnected");
+	}
+	/** All per-channel statuses (the 状态点 data source). */
+	status() {
+		return [...this.statuses.values()].map((entry) => ({ ...entry }));
+	}
+	/** One channel's recent runtime log lines. */
+	getLog(channelId, lines = 50) {
+		const runtime = this.runtimes.get(channelId);
+		if (runtime === void 0) return [];
+		return runtime.log.slice(-Math.max(1, Math.trunc(lines)));
+	}
+};
+//#endregion
+//#region lib/types/channel-bridge-remote-client.js
+/** Client descriptor contribution for the Control Center channel bridge. */
+const channelBridgeRemote = {
+	package: "@dsh-control-center/control-center",
+	descriptors: [{
+		method: "status",
+		parameters: []
+	}, {
+		method: "getLog",
+		parameters: ["channelId", "lines"]
+	}].map(({ method, parameters }) => ({
+		id: `@dsh-control-center/control-center#controlCenterChannelBridge/${method}`,
+		service: "controlCenterChannelBridge",
+		namespace: "controlCenterChannelBridge",
+		method,
+		invocation: { kind: "direct" },
+		parameters: parameters.map((name) => ({
+			name,
+			wire: name,
+			source: "json",
+			codec: STRICT_JSON
+		})),
+		result: STRICT_JSON
+	}))
+};
+//#endregion
 //#region lib/types/model-check.js
 /**
 * Per-model health checks for configuration surfaces: one tiny real
@@ -5264,12 +5480,6 @@ const APPEARANCE_SETTINGS_NAMESPACE = "control-center-appearance";
 */
 const PROVIDER_STASH_NAMESPACE = settingsNamespace("control-center-provider-stash");
 const PROVIDER_STASH_SCHEMA = Schema.object({ providers: Schema.dict(Schema.any()).default({}) });
-/**
-* Channel instances configured on the 频道 page. The desktop bridge reads this
-* section to bind bots; on web it is the durable copy of what was configured.
-*/
-const CHANNELS_NAMESPACE_SETTINGS = settingsNamespace("control-center-channels");
-const CHANNELS_SCHEMA = Schema.object({ instances: Schema.array(Schema.any()).default([]) });
 /** Per-purpose model preferences (translation/painting) for the 默认模型 page. */
 const MODEL_PREFS_NAMESPACE_SETTINGS = settingsNamespace("control-center-model-prefs");
 const MODEL_PREFS_SCHEMA = Schema.object({
@@ -5306,6 +5516,7 @@ function apply(ctx) {
 	new WebSearchService(ctx);
 	new ProvidersService(ctx);
 	new ModelCheckService(ctx);
+	new ChannelBridgeService(ctx);
 	new FileProcessingService(ctx);
 	new UsageService(ctx);
 	new DataService(ctx);
@@ -5332,6 +5543,7 @@ function apply(ctx) {
 			...webSearchRemote.descriptors,
 			...providersRemote.descriptors,
 			...modelCheckRemote.descriptors,
+			...channelBridgeRemote.descriptors,
 			...fileProcessingRemote.descriptors,
 			...usageRemote.descriptors,
 			...dataRemote.descriptors,
@@ -5348,7 +5560,6 @@ function apply(ctx) {
 	ctx.settings.register(settingsNamespace(APPEARANCE_SETTINGS_NAMESPACE), AppearanceSettingsSchema);
 	ctx.settings.register(PROVIDER_STASH_NAMESPACE, PROVIDER_STASH_SCHEMA);
 	ctx.settings.register(MODEL_PREFS_NAMESPACE_SETTINGS, MODEL_PREFS_SCHEMA);
-	ctx.settings.register(CHANNELS_NAMESPACE_SETTINGS, CHANNELS_SCHEMA);
 }
 //#endregion
-export { CHANNELS_NAMESPACE_SETTINGS, DataService, DesktopService, FileProcessingService, KnowledgeService, LocalModelsService, MODEL_PREFS_NAMESPACE_SETTINGS, McpService, ModelCheckService, PaintingService, ProvidersService, SkillsService, SystemService, TasksService, TranslationService, UpdateService, UsageService, WebSearchService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, cronMatches, inject, name };
+export { ChannelBridgeService, DataService, DesktopService, FileProcessingService, KnowledgeService, LocalModelsService, MODEL_PREFS_NAMESPACE_SETTINGS, McpService, ModelCheckService, PaintingService, ProvidersService, SkillsService, SystemService, TasksService, TranslationService, UpdateService, UsageService, WebSearchService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, cronMatches, inject, name };

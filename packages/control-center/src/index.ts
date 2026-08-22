@@ -16,6 +16,8 @@ import { McpService } from './mcp.ts'
 import mcpRemote from './mcp-remote-client.ts'
 import { WebSearchService } from './websearch.ts'
 import websearchRemote from './websearch-remote-client.ts'
+import { ChannelBridgeService } from './channel-bridge.ts'
+import channelBridgeRemote from './channel-bridge-remote-client.ts'
 import { ModelCheckService } from './model-check.ts'
 import { ProvidersService } from './providers.ts'
 import providersRemote from './provider-remote-client.ts'
@@ -46,15 +48,6 @@ const APPEARANCE_SETTINGS_NAMESPACE = 'control-center-appearance'
 const PROVIDER_STASH_NAMESPACE = settingsNamespace('control-center-provider-stash')
 const PROVIDER_STASH_SCHEMA = z.object({
   providers: z.dict(z.any()).default({}),
-})
-
-/**
- * Channel instances configured on the 频道 page. The desktop bridge reads this
- * section to bind bots; on web it is the durable copy of what was configured.
- */
-export const CHANNELS_NAMESPACE_SETTINGS = settingsNamespace('control-center-channels')
-const CHANNELS_SCHEMA = z.object({
-  instances: z.array(z.any()).default([]),
 })
 
 /** Per-purpose model preferences (translation/painting) for the 默认模型 page. */
@@ -120,6 +113,7 @@ export function apply(ctx: Context): void {
   new WebSearchService(ctx)
   new ProvidersService(ctx)
   new ModelCheckService(ctx)
+  new ChannelBridgeService(ctx)
   new FileProcessingService(ctx)
   new UsageService(ctx)
   new DataService(ctx)
@@ -143,6 +137,7 @@ export function apply(ctx: Context): void {
         ...websearchRemote.descriptors,
         ...providersRemote.descriptors,
         ...modelCheckRemote.descriptors,
+        ...channelBridgeRemote.descriptors,
         ...fileProcessingRemote.descriptors,
         ...usageRemote.descriptors,
         ...dataRemote.descriptors,
@@ -175,10 +170,6 @@ export function apply(ctx: Context): void {
     MODEL_PREFS_NAMESPACE_SETTINGS,
     MODEL_PREFS_SCHEMA,
   )
-  ctx.settings.register(
-    CHANNELS_NAMESPACE_SETTINGS,
-    CHANNELS_SCHEMA,
-  )
 }
 
 export { assertCompatibleDsh } from './compatibility.ts'
@@ -196,6 +187,8 @@ export { WebSearchService } from './websearch.ts'
 export type * from './websearch/types.ts'
 export { ProvidersService } from './providers.ts'
 export { ModelCheckService } from './model-check.ts'
+export { ChannelBridgeService } from './channel-bridge.ts'
+export type { ChannelBridgeStatus } from './channel-bridge.ts'
 export type { ModelCheckResult } from './model-check.ts'
 export type * from './provider-types.ts'
 export { FileProcessingService } from './file-processing.ts'

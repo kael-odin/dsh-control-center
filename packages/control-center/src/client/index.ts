@@ -85,6 +85,7 @@ import { ScreenshotSection } from './ScreenshotSection.tsx'
 import { ChannelsSection } from './ChannelsSection.tsx'
 import type { ChannelsSectionInjected } from './ChannelsSection.tsx'
 import { ChannelsStore } from './channels-store.ts'
+import type { ChannelBridgeHandle } from './ChannelsSection.tsx'
 import { SettingsDocumentAction } from './SettingsDocumentAction.tsx'
 import type { SettingsDocumentActionInjected } from './SettingsDocumentAction.tsx'
 import { refreshDocumentIfLoaded, SettingsDocumentStore } from './settings-document-store.ts'
@@ -312,6 +313,7 @@ export function apply(ctx: ClientContext): void {
     localModels = ctx.get('remote.controlCenterLocalModels') as NonNullable<typeof remote.controlCenterLocalModels>
     update = ctx.get('remote.controlCenterUpdate') as NonNullable<typeof remote.controlCenterUpdate>
     desktop = ctx.get('remote.controlCenterDesktop') as NonNullable<typeof remote.controlCenterDesktop>
+    channelBridge = ctx.get('remote.controlCenterChannelBridge') as NonNullable<typeof remote.controlCenterChannelBridge>
     return dispose
   }, 'control-center: control-center Remote namespaces')
   ctx.effect(() => ctx.locale.register(SHELL_NS, { zh: shellZh, en: shellEn }), 'control-center: shell dictionaries')
@@ -347,6 +349,7 @@ export function apply(ctx: ClientContext): void {
   const usePrefs = bindSnapshotSelector(prefsController.store)
   const channelsController = new ChannelsStore(connection.api)
   const useChannels = bindSnapshotSelector(channelsController.store)
+  let channelBridge: NonNullable<typeof remote.controlCenterChannelBridge> | undefined
   const welcomeController = new WelcomeNoticeStore(connection.api, connection.isLoopback ? 'host' : 'memory')
   const notificationRuntime = new ConversationNotificationRuntime(
     connection.api,
@@ -810,6 +813,9 @@ export function apply(ctx: ClientContext): void {
     api: connection.api,
     useChannels,
     controller: channelsController,
+    getBridge: channelBridge === undefined
+      ? undefined
+      : () => channelBridge as unknown as ChannelBridgeHandle,
   })
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',

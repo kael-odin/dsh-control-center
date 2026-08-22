@@ -1,10 +1,5 @@
 /** Host half of DSH Control Center: compatibility gate and onboarding settings. */
 import type { Context } from '@deepseek-ai/cordis';
-/**
- * Channel instances configured on the 频道 page. The desktop bridge reads this
- * section to bind bots; on web it is the durable copy of what was configured.
- */
-export declare const CHANNELS_NAMESPACE_SETTINGS: import("@deepseek-ai/dsh-settings").SettingsNamespace;
 /** Per-purpose model preferences (translation/painting) for the 默认模型 page. */
 export declare const MODEL_PREFS_NAMESPACE_SETTINGS: import("@deepseek-ai/dsh-settings").SettingsNamespace;
 /** Cordis plugin name. */
@@ -27,6 +22,8 @@ export { WebSearchService } from './websearch.ts';
 export type * from './websearch/types.ts';
 export { ProvidersService } from './providers.ts';
 export { ModelCheckService } from './model-check.ts';
+export { ChannelBridgeService } from './channel-bridge.ts';
+export type { ChannelBridgeStatus } from './channel-bridge.ts';
 export type { ModelCheckResult } from './model-check.ts';
 export type * from './provider-types.ts';
 export { FileProcessingService } from './file-processing.ts';
