@@ -20,14 +20,23 @@ interface SkillsService {
   list(params: { search?: string }): Promise<RemoteResult<InstalledSkill[]>>
   update(skillId: string, dto: { isGlobalEnabled: boolean }): Promise<RemoteResult<InstalledSkill>>
   uninstall(skillId: string): Promise<RemoteResult<{ absent: true }>>
+  installSkill(options:
+    | { source: 'directory'; path: string }
+    | { source: 'zip'; path: string }): Promise<RemoteResult<InstalledSkill>>
+}
+
+/** Native directory/zip picker slice of the desktop bridge. */
+interface DesktopPicker {
+  pickFile(properties: readonly string[]): Promise<{ ok: boolean; canceled?: boolean; filePaths?: string[] }>
 }
 
 export interface SkillsSectionProps {
   skills?: SkillsService
+  desktop?: DesktopPicker | undefined
 }
 
 export function SkillsSection(props: SkillsSectionProps) {
-  const { skills: skillsService } = props
+  const { skills: skillsService, desktop } = props
   const [skills, setSkills] = useState<InstalledSkill[]>([])
   const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(true)
@@ -87,12 +96,55 @@ export function SkillsSection(props: SkillsSectionProps) {
     [skillsService, loadSkills]
   )
 
+  const [importing, setImporting] = useState(false)
+  const [importError, setImportError] = useState<string | null>(null)
+
+  /**
+   * Local import through the desktop bridge's native dialog: pick a skill
+   * directory or ZIP, then hand the PATH to the host installer — the file
+   * itself is read by the host process, never by the browser.
+   */
+  const handleLocalImport = useCallback(async (kind: 'directory' | 'zip') => {
+    if (!skillsService || !desktop) return
+    setImportError(null)
+    const properties = kind === 'directory'
+      ? ['openDirectory']
+      : ['openFile']
+    const picked = await desktop.pickFile(properties)
+    if (!picked.ok || picked.canceled === true) return
+    const path = picked.filePaths?.[0]
+    if (path === undefined) {
+      setImportError('未选择路径')
+      return
+    }
+    try {
+      setImporting(true)
+      const result = kind === 'directory'
+        ? await skillsService.installSkill({ source: 'directory', path })
+        : await skillsService.installSkill({ source: 'zip', path })
+      if (!result.ok) throw new Error(result.error.message)
+      await loadSkills()
+    } catch (err) {
+      setImportError(err instanceof Error ? err.message : '导入技能失败')
+    } finally {
+      setImporting(false)
+    }
+  }, [skillsService, desktop, loadSkills])
+
   return (
     <div className="cc-settings-column">
       <div>
         <h1 className="cc-page-title">技能</h1>
         <p className="cc-page-description">管理已安装的 Skills，启用或禁用功能</p>
       </div>
+
+      {importError !== null && (
+        <p role="alert" style={{
+          margin: 0, padding: '8px 12px', borderRadius: 8, fontSize: 13,
+          border: '1px solid var(--error-border)', background: 'var(--error-subtle)',
+          color: 'var(--error-subtle-foreground)',
+        }}>{importError}</p>
+      )}
 
       <div className="cc-field-row">
         <span className="cc-field-label">添加技能</span>
@@ -107,11 +159,25 @@ export function SkillsSection(props: SkillsSectionProps) {
           </button>
           <button
             type="button"
-            className="cc-btn cc-btn-primary"
-            disabled
-            title="当前平台不支持：本地导入需要宿主文件系统路径"
+            className="cc-btn cc-btn-secondary"
+            disabled={desktop === undefined || importing}
+            title={desktop === undefined
+              ? '当前平台不支持：本地目录导入需要桌面版的文件对话框（Web 版无法读取本机路径）'
+              : '选择包含 SKILL.md 的技能目录'}
+            onClick={() => { void handleLocalImport('directory') }}
           >
-            本地导入
+            {importing ? '导入中…' : '导入目录'}
+          </button>
+          <button
+            type="button"
+            className="cc-btn cc-btn-primary"
+            disabled={desktop === undefined || importing}
+            title={desktop === undefined
+              ? '当前平台不支持：ZIP 导入需要桌面版的文件对话框'
+              : '选择技能 ZIP 包'}
+            onClick={() => { void handleLocalImport('zip') }}
+          >
+            导入 ZIP
           </button>
         </div>
       </div>

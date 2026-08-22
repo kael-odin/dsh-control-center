@@ -434,6 +434,7 @@ export function apply(ctx: ClientContext): void {
   })
   const skillsInjected = () => ({
     skills: skills!,
+    desktop: desktop === undefined ? undefined : { pickFile: (properties: readonly string[]) => desktop!.pickFile(properties) },
   })
   const modelCheckInjected = (): { getCheck: () => {
     check(provider: string, model: string): Promise<

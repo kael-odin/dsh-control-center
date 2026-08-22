@@ -31,9 +31,25 @@ interface SkillsService {
     uninstall(skillId: string): Promise<RemoteResult<{
         absent: true;
     }>>;
+    installSkill(options: {
+        source: 'directory';
+        path: string;
+    } | {
+        source: 'zip';
+        path: string;
+    }): Promise<RemoteResult<InstalledSkill>>;
+}
+/** Native directory/zip picker slice of the desktop bridge. */
+interface DesktopPicker {
+    pickFile(properties: readonly string[]): Promise<{
+        ok: boolean;
+        canceled?: boolean;
+        filePaths?: string[];
+    }>;
 }
 export interface SkillsSectionProps {
     skills?: SkillsService;
+    desktop?: DesktopPicker | undefined;
 }
 export declare function SkillsSection(props: SkillsSectionProps): import("react").JSX.Element;
 export {};
