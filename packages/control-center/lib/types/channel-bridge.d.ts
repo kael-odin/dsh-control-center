@@ -36,8 +36,9 @@ declare module '@deepseek-ai/cordis' {
  * Drives one long-lived connection per active channel instance.
  */
 export declare class ChannelBridgeService extends Service {
-    static inject: readonly ["settings"];
+    static inject: readonly ["settings", "llm"];
     readonly typertRemote: import("@deepseek-ai/dsh-typert-protocol").TypertGatewayBinding<this>;
+    private readonly llm;
     private readonly statuses;
     private readonly runtimes;
     private readonly names;
@@ -54,6 +55,21 @@ export declare class ChannelBridgeService extends Service {
      */
     private startTelegram;
     private pollTelegram;
+    /**
+     * One received message: enforce the instance's allowlist, resolve the
+     * host's default model, stream a reply through the same LlmRuntime every
+     * other consumer uses, and send it back via the bot API. Any failure is a
+     * log line — the poll loop must survive a bad model or a refused send.
+     */
+    private handleIncoming;
+    /** Abort signal of the channel's active loop, so replies die with it. */
+    private signalFor;
+    /**
+     * The host default-model route from agent-default-model; null when unset
+     * or when the settings service is unavailable.
+     */
+    private defaultModelRoute;
+    private sendTelegramMessage;
     /** All per-channel statuses (the 状态点 data source). */
     status(): ChannelBridgeStatus[];
     /** One channel's recent runtime log lines. */

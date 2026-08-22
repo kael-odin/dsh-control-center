@@ -3362,14 +3362,20 @@ function markChannelBridgeRemoteMethods(service) {
 * Drives one long-lived connection per active channel instance.
 */
 var ChannelBridgeService = class extends Service {
-	static inject = ["settings"];
+	static inject = ["settings", "llm"];
 	typertRemote = bindTypertRemote(this, "controlCenterChannelBridge");
+	llm;
 	statuses = /* @__PURE__ */ new Map();
 	runtimes = /* @__PURE__ */ new Map();
 	names = /* @__PURE__ */ new Map();
 	source;
 	constructor(ctx) {
 		super(ctx, "controlCenterChannelBridge");
+		try {
+			this.llm = ctx.get("llm");
+		} catch {
+			this.llm = void 0;
+		}
 		markChannelBridgeRemoteMethods(this);
 		ctx.effect(() => () => {
 			for (const runtime of this.runtimes.values()) runtime.controller.abort();
@@ -3446,9 +3452,9 @@ var ChannelBridgeService = class extends Service {
 		};
 		this.runtimes.set(record.id, runtime);
 		this.setStatus(record.id, "starting");
-		this.pollTelegram(record.id, record.name, token, controller.signal);
+		this.pollTelegram(record.id, record.name, token, record.config ?? {}, controller.signal);
 	}
-	async pollTelegram(id, name, token, signal) {
+	async pollTelegram(id, name, token, config, signal) {
 		let offset = 0;
 		const sleep = (ms) => new Promise((resolve) => {
 			const timer = setTimeout(resolve, ms);
@@ -3475,8 +3481,10 @@ var ChannelBridgeService = class extends Service {
 			const updates = body.result ?? [];
 			for (const update of updates) {
 				if (typeof update.update_id === "number") offset = update.update_id + 1;
+				const chatId = typeof update.message?.chat?.id === "number" ? update.message.chat.id : null;
 				const text = typeof update.message?.text === "string" ? update.message.text : "";
 				this.appendLog(id, text.length > 0 ? `收到消息：${text.slice(0, 80)}` : "收到更新");
+				if (text.length > 0 && chatId !== null) await this.handleIncoming(id, token, chatId, config, text);
 			}
 			await sleep(POLL_IDLE_MS);
 		} catch (error) {
@@ -3488,6 +3496,94 @@ var ChannelBridgeService = class extends Service {
 		}
 		this.appendLog(id, "轮询已停止");
 		this.setStatus(id, "disconnected");
+	}
+	/**
+	* One received message: enforce the instance's allowlist, resolve the
+	* host's default model, stream a reply through the same LlmRuntime every
+	* other consumer uses, and send it back via the bot API. Any failure is a
+	* log line — the poll loop must survive a bad model or a refused send.
+	*/
+	async handleIncoming(id, token, chatId, config, text) {
+		const allowed = Array.isArray(config.allowed_chat_ids) ? config.allowed_chat_ids.map((entry) => String(entry)) : [];
+		if (allowed.length > 0 && !allowed.includes(String(chatId))) {
+			this.appendLog(id, `忽略非允许会话 ${String(chatId)} 的消息`);
+			return;
+		}
+		const route = this.defaultModelRoute();
+		if (route === null || this.llm === void 0) {
+			this.appendLog(id, "未解析默认模型（agent-default-model），跳过回复");
+			return;
+		}
+		try {
+			this.appendLog(id, `生成回复（${route.provider}/${route.model}）…`);
+			const prepared = await this.llm.prepareCall({
+				provider: route.provider,
+				model: route.model
+			});
+			const message = createUserMessage({
+				source: { kind: "user" },
+				content: [{
+					type: "text",
+					text
+				}]
+			});
+			let reply = "";
+			for await (const chunk of prepared.stream({
+				...prepared.config,
+				messages: [message],
+				system: "You are a helpful assistant replying inside a messaging channel. Be concise.",
+				signal: this.signalFor(id)
+			})) {
+				if (chunk.type === "text-delta") reply += chunk.text;
+				if (chunk.type === "finish" && chunk.reason.kind === "error") throw new Error(chunk.reason.failure.message);
+			}
+			const trimmedReply = reply.trim().length > 0 ? reply.trim() : "(空回复)";
+			await this.sendTelegramMessage(token, chatId, trimmedReply);
+			this.appendLog(id, `已回复：${trimmedReply.slice(0, 80)}`);
+		} catch (error) {
+			const messageText = error instanceof Error ? error.message : String(error);
+			this.appendLog(id, `回复失败：${messageText}`);
+		}
+	}
+	/** Abort signal of the channel's active loop, so replies die with it. */
+	signalFor(id) {
+		return this.runtimes.get(id)?.controller.signal ?? new AbortController().signal;
+	}
+	/**
+	* The host default-model route from agent-default-model; null when unset
+	* or when the settings service is unavailable.
+	*/
+	defaultModelRoute() {
+		try {
+			const value = this.ctx.settings.describe().find((entry) => String(entry.ns) === "agent-default-model")?.value;
+			if (typeof value !== "object" || value === null) return null;
+			const record = value;
+			const provider = typeof record.provider === "string" ? record.provider : "";
+			const model = typeof record.model === "string" ? record.model : "";
+			if (provider.length === 0 || model.length === 0) return null;
+			return {
+				provider,
+				model
+			};
+		} catch {
+			return null;
+		}
+	}
+	async sendTelegramMessage(token, chatId, text) {
+		for (let start = 0; start <= text.length; start += 4e3) {
+			const chunk = text.slice(start, start + 4e3);
+			if (chunk.length === 0 && start > 0) break;
+			const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+				method: "POST",
+				headers: { "content-type": "application/json" },
+				body: JSON.stringify({
+					chat_id: chatId,
+					text: chunk
+				})
+			});
+			const body = await response.json();
+			if (body.ok !== true) throw new Error(body.description ?? `sendMessage 失败（HTTP ${String(response.status)}）`);
+		}
 	}
 	/** All per-channel statuses (the 状态点 data source). */
 	status() {
