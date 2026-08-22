@@ -277,6 +277,22 @@
   font-weight: 600;
 }
 
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.formFieldSpan2 {
+  grid-column: span 2;
+}
+
+.formSwitchRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .formField {
   display: flex;
   flex-direction: column;

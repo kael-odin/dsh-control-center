@@ -4,11 +4,26 @@
  * add/edit/delete modals, permission mode. Instances persist locally; real
  * platform connectivity needs the desktop build (noted honestly).
  */
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import type { ReactNode } from 'react'
+import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client'
 import { IconPlusOutline16, IconTrashOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
+import type { SnapshotSelectorHook } from '@deepseek-ai/dsh-client-ui-slots'
 import { ConfirmDialog, Switch } from './panel-ui.tsx'
+import type { ChannelsState } from './channels-store.ts'
+import { importLegacyChannels, ChannelsStore, type ChannelInstance } from './channels-store.ts'
 import { CHANNEL_ICONS } from './channel-icons.ts'
 import css from './ChannelsSection.module.css'
+
+/** Injected dependencies delivered by the settings shell. */
+export interface ChannelsSectionInjected {
+  api: Pick<IApiClient, 'settings'>
+  useChannels: SnapshotSelectorHook<ChannelsState>
+  controller: ChannelsStore
+}
+
+/** Props delivered by the slot outlet (partial until injected). */
+export type ChannelsSectionProps = Partial<ChannelsSectionInjected>
 
 interface ChannelTypeDef {
   type: string
@@ -17,6 +32,12 @@ interface ChannelTypeDef {
   icon: string
   iconKey: string
   fields: ReadonlyArray<{ key: string; label: string; secret?: boolean; fullWidth?: boolean; placeholder?: string }>
+  /** Feishu only: feishu.com vs larksuite.com tenant domain. */
+  domain?: boolean
+  /** QQ only: reply only when mentioned. */
+  mentionOnly?: boolean
+  /** The allowlist config key + copy (Cherry's chat/channel ids editor). */
+  ids?: { key: string; label: string; placeholder: string }
 }
 
 const CHANNEL_TYPES: readonly ChannelTypeDef[] = [
@@ -29,6 +50,8 @@ const CHANNEL_TYPES: readonly ChannelTypeDef[] = [
       { key: 'encrypt_key', label: '加密密钥', secret: true, placeholder: '请输入来自你飞书应用的加密密钥' },
       { key: 'verification_token', label: '验证令牌', secret: true, placeholder: '输入您飞书应用中的验证令牌' },
     ],
+    domain: true,
+    ids: { key: 'allowed_chat_ids', label: '允许的会话 ID', placeholder: '多个 ID 用英文逗号分隔，留空允许全部' },
   },
   {
     type: 'telegram', name: 'Telegram', icon: '✈️', iconKey: 'telegram',
@@ -36,6 +59,7 @@ const CHANNEL_TYPES: readonly ChannelTypeDef[] = [
     fields: [
       { key: 'bot_token', label: 'Bot Token', secret: true, fullWidth: true, placeholder: '输入您的 Telegram 机器人 Token' },
     ],
+    ids: { key: 'allowed_chat_ids', label: '允许的会话 ID', placeholder: '多个 ID 用英文逗号分隔，留空允许全部' },
   },
   {
     type: 'qq', name: 'QQ', icon: '🐧', iconKey: 'qq',
@@ -44,6 +68,8 @@ const CHANNEL_TYPES: readonly ChannelTypeDef[] = [
       { key: 'app_id', label: 'App ID', placeholder: '输入您的 QQ 机器人 App ID' },
       { key: 'client_secret', label: 'Client Secret', secret: true, placeholder: '输入您的 QQ 机器人 Client Secret' },
     ],
+    mentionOnly: true,
+    ids: { key: 'allowed_chat_ids', label: '允许的会话 ID', placeholder: '多个 ID 用英文逗号分隔，留空允许全部' },
   },
   {
     type: 'wechat', name: '微信', icon: '💬', iconKey: 'wechat',
@@ -51,6 +77,7 @@ const CHANNEL_TYPES: readonly ChannelTypeDef[] = [
     fields: [
       { key: 'token_path', label: 'Token 路径', fullWidth: true, placeholder: '输入微信 iLink Bot 的 Token 路径' },
     ],
+    ids: { key: 'allowed_chat_ids', label: '允许的会话 ID', placeholder: '多个 ID 用英文逗号分隔，留空允许全部' },
   },
   {
     type: 'discord', name: 'Discord', icon: '🎮', iconKey: 'discord',
@@ -58,6 +85,7 @@ const CHANNEL_TYPES: readonly ChannelTypeDef[] = [
     fields: [
       { key: 'bot_token', label: 'Bot Token', secret: true, fullWidth: true, placeholder: '输入您的 Discord 机器人 Token' },
     ],
+    ids: { key: 'allowed_channel_ids', label: '允许的频道 ID', placeholder: '多个 ID 用英文逗号分隔，留空允许全部' },
   },
   {
     type: 'slack', name: 'Slack', icon: '🧵', iconKey: 'slack',
@@ -66,6 +94,7 @@ const CHANNEL_TYPES: readonly ChannelTypeDef[] = [
       { key: 'bot_token', label: 'Bot Token', secret: true, fullWidth: true, placeholder: 'xoxb-...' },
       { key: 'app_token', label: '应用级别 Token', secret: true, fullWidth: true, placeholder: 'xapp-...' },
     ],
+    ids: { key: 'allowed_channel_ids', label: '允许的频道 ID', placeholder: '多个 ID 用英文逗号分隔，留空允许全部' },
   },
 ]
 
@@ -78,74 +107,110 @@ const PERMISSION_MODES: ReadonlyArray<{ value: string; label: string; descriptio
   { value: 'bypassPermissions', label: '完全访问', description: '跳过权限检查，可删除文件、访问网络。' },
 ]
 
-export interface ChannelInstance {
-  id: string
-  type: string
-  name: string
-  config: Record<string, string>
-  permissionMode: string
-  isActive: boolean
-  createdAt: number
+/** Comma text -> trimmed, non-empty id list (Cherry's parse rule). */
+export function parseAllowedIds(text: string): string[] {
+  return text.split(',').map(part => part.trim()).filter(Boolean)
 }
 
-const CHANNELS_KEY = 'cc.settings.channels'
+const LEGACY_KEY = 'cc.settings.channels'
 
-function loadChannels(): ChannelInstance[] {
+function loadLegacy(): ChannelInstance[] {
   try {
-    const raw = localStorage.getItem(CHANNELS_KEY)
+    const raw = window.localStorage.getItem(LEGACY_KEY)
     return raw === null ? [] : JSON.parse(raw) as ChannelInstance[]
   } catch {
     return []
   }
 }
 
-function saveChannels(channels: ChannelInstance[]): void {
-  try { localStorage.setItem(CHANNELS_KEY, JSON.stringify(channels)) } catch { /* best effort */ }
+function saveLegacy(channels: readonly ChannelInstance[]): void {
+  try { window.localStorage.setItem(LEGACY_KEY, JSON.stringify(channels)) } catch { /* best effort */ }
 }
 
 function summaryOf(channel: ChannelInstance): string {
   const def = CHANNEL_TYPES.find(t => t.type === channel.type)
   const tokenKeys = def?.fields.filter(f => f.secret).map(f => f.key) ?? []
-  const token = tokenKeys.map(key => channel.config[key] ?? '').find(Boolean)
+  const token = tokenKeys.map(key => typeof channel.config[key] === 'string' ? channel.config[key] as string : '').find(Boolean)
+  const parts: string[] = []
   if (token !== undefined && token.length > 0) {
-    const prefix = token.slice(0, 7)
-    const suffix = token.slice(-3)
-    return `Token: ${prefix}...${suffix}`
+    parts.push(`Token: ${token.slice(0, 7)}...${token.slice(-3)}`)
   }
-  return '未配置凭证'
+  if (def?.ids !== undefined) {
+    const ids = channel.config[def.ids.key]
+    if (Array.isArray(ids) && ids.length > 0) parts.push(`${ids.length} 个允许${def.ids.label.includes('频道') ? '频道' : '会话'}`)
+  }
+  if (typeof channel.config.domain === 'string' && channel.config.domain.length > 0) {
+    parts.push(String(channel.config.domain))
+  }
+  return parts.length === 0 ? '未配置凭证' : parts.join(' · ')
 }
 
-export function ChannelsSection() {
-  const [channels, setChannels] = useState<ChannelInstance[]>(loadChannels)
+/**
+ * Render the 频道 section. Instances live in the control-center-channels
+ * settings namespace — the same section a desktop bridge reads from
+ * settings.yaml — and fall back to browser-local persistence (with an honest
+ * notice) when the running host predates the namespace.
+ */
+export function ChannelsSection(props: ChannelsSectionProps): ReactNode {
+  const { api, useChannels, controller } = props
+  if (api === undefined || useChannels === undefined || controller === undefined) return null
+  return <Loaded injected={{ api, useChannels, controller }} />
+}
+
+function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode {
+  const { controller } = injected
+  const state = injected.useChannels(snapshot => snapshot)
+  // Browser-local mirror for hosts without the namespace.
+  const [local, setLocal] = useState<readonly ChannelInstance[]>(loadLegacy)
   const [selectedType, setSelectedType] = useState<string>('feishu')
   const [editChannel, setEditChannel] = useState<ChannelInstance | null>(null)
   const [isNew, setIsNew] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState<ChannelInstance | null>(null)
   const [formName, setFormName] = useState('')
-  const [formConfig, setFormConfig] = useState<Record<string, string>>({})
+  const [formConfig, setFormConfig] = useState<Record<string, unknown>>({})
+  const [formIds, setFormIds] = useState('')
+  const [formDomain, setFormDomain] = useState<'feishu' | 'lark'>('feishu')
+  const [formMentionOnly, setFormMentionOnly] = useState(true)
   const [formPermission, setFormPermission] = useState('__inherit')
   const [logsFor, setLogsFor] = useState<ChannelInstance | null>(null)
+  const migratedRef = useRef(false)
 
+  const available = state.available
+  const instances = useMemo(
+    () => (available ? state.instances : local).filter(channel => channel.type === selectedType),
+    [available, state.instances, local, selectedType],
+  )
+
+  // One-time import of pre-settings browser data into the authority.
   useEffect(() => {
-    saveChannels(channels)
-  }, [channels])
+    if (state.status !== 'ready' || !available || migratedRef.current) return
+    migratedRef.current = true
+    void importLegacyChannels(controller).then((imported) => {
+      if (imported) void controller.load()
+    })
+  }, [state.status, available, controller])
+
+  /** Write through the authority, or the browser mirror when unavailable. */
+  const persist = (next: readonly ChannelInstance[]): void => {
+    if (controller.store.getSnapshot().available) {
+      void controller.save(next)
+    } else {
+      setLocal(next)
+      saveLegacy(next)
+    }
+  }
 
   const typeDef = useMemo(() => CHANNEL_TYPES.find(t => t.type === selectedType) ?? CHANNEL_TYPES[0]!, [selectedType])
-  const instances = useMemo(() => channels.filter(c => c.type === selectedType), [channels, selectedType])
 
   const handleAdd = (): void => {
-    const count = channels.filter(c => c.type === typeDef.type).length
-    setEditChannel({
-      id: `channel-${Date.now()}`,
-      type: typeDef.type,
-      name: count > 0 ? `${typeDef.name} ${count + 1}` : typeDef.name,
-      config: {},
-      permissionMode: '__inherit',
-      isActive: false,
-      createdAt: Date.now(),
-    })
-    setFormName(count > 0 ? `${typeDef.name} ${count + 1}` : typeDef.name)
+    const count = (available ? state.instances : local).filter(c => c.type === typeDef.type).length
+    const name = count > 0 ? `${typeDef.name} ${count + 1}` : typeDef.name
+    setEditChannel({ id: `channel-${Date.now()}`, type: typeDef.type, name, config: {}, permissionMode: '__inherit', isActive: false, createdAt: Date.now() })
+    setFormName(name)
     setFormConfig({})
+    setFormIds('')
+    setFormDomain('feishu')
+    setFormMentionOnly(true)
     setFormPermission('__inherit')
     setIsNew(true)
   }
@@ -154,26 +219,39 @@ export function ChannelsSection() {
     setEditChannel(channel)
     setFormName(channel.name)
     setFormConfig({ ...channel.config })
+    const def = CHANNEL_TYPES.find(t => t.type === channel.type)
+    const idsKey = def?.ids?.key
+    setFormIds(idsKey === undefined ? '' : (Array.isArray(channel.config[idsKey]) ? (channel.config[idsKey] as string[]) : []).join(', '))
+    setFormDomain(typeof channel.config.domain === 'string' && channel.config.domain === 'lark' ? 'lark' : 'feishu')
+    setFormMentionOnly(channel.config.mention_only !== false)
     setFormPermission(channel.permissionMode)
     setIsNew(false)
   }
 
   const saveChannel = (): void => {
     if (editChannel === null) return
-    const next = { ...editChannel, name: formName.trim() || editChannel.name, config: formConfig, permissionMode: formPermission }
-    setChannels(current => isNew ? [...current, next] : current.map(c => c.id === next.id ? next : c))
+    const config: Record<string, unknown> = { ...formConfig }
+    if (typeDef.ids !== undefined) config[typeDef.ids.key] = parseAllowedIds(formIds)
+    if (typeDef.domain === true) config.domain = formDomain
+    if (typeDef.mentionOnly === true) config.mention_only = formMentionOnly
+    const next = { ...editChannel, name: formName.trim() || editChannel.name, config, permissionMode: formPermission }
+    persist(isNew ? [...(available ? state.instances : local), next] : (available ? state.instances : local).map(c => c.id === next.id ? next : c))
     setEditChannel(null)
   }
 
   const toggleActive = (channel: ChannelInstance): void => {
-    setChannels(current => current.map(c => c.id === channel.id ? { ...c, isActive: !c.isActive } : c))
+    persist((available ? state.instances : local).map(c => c.id === channel.id ? { ...c, isActive: !c.isActive } : c))
   }
 
   const confirmDelete = (): void => {
     if (deleteTarget === null) return
-    setChannels(current => current.filter(c => c.id !== deleteTarget.id))
+    persist((available ? state.instances : local).filter(c => c.id !== deleteTarget.id))
     setDeleteTarget(null)
   }
+
+  const storageHint = available
+    ? '配置保存在 DSH settings（settings.yaml 的 control-center-channels 段），桌面版将直接读取。'
+    : '当前部署未启用频道存储，更改仅保存在本浏览器；更新 Control Center 后可迁移。'
 
   return (
     <div className={css.split}>
@@ -202,7 +280,7 @@ export function ChannelsSection() {
                 <img className={css.typeIconImgLarge} src={CHANNEL_ICONS[typeDef.iconKey]} alt={typeDef.name} />
                 <span className={css.detailTitle}>{typeDef.name}</span>
               </div>
-              <button type="button" className={css.addBtn} onClick={handleAdd}>
+              <button type="button" className={css.addBtn} disabled={!state.writable && available} onClick={handleAdd}>
                 <IconPlusOutline16 size={16} />
                 添加
               </button>
@@ -211,7 +289,8 @@ export function ChannelsSection() {
             <div className={css.divider} />
 
             <div className={css.notice}>
-              Web 版不附带独立伴生程序；频道绑定与消息推送需要桌面环境支持。此处配置将随桌面版直接生效。
+              Web 版不附带独立伴生程序；频道绑定与消息推送需要桌面环境支持——此处配置随桌面版直接生效。
+              {storageHint}
             </div>
 
             {instances.length === 0 ? (
@@ -222,7 +301,7 @@ export function ChannelsSection() {
                 <div className={css.instanceMain}>
                   <div className={css.instanceName}>
                     {channel.name}
-                    {channel.isActive && <span className={css.connectedBadge}>已连接</span>}
+                    {channel.isActive && <span className={css.connectedBadge}>已启用</span>}
                   </div>
                   <div className={css.instanceSummary}>{summaryOf(channel)}</div>
                 </div>
@@ -240,36 +319,81 @@ export function ChannelsSection() {
         </div>
       </div>
 
-      {editChannel !== null && (
+      {editChannel !== null && typeDef !== undefined && (
         <div className={css.modalOverlay} onMouseDown={(event) => { if (event.target === event.currentTarget) setEditChannel(null) }}>
           <div className={css.modalCard} role="dialog" aria-modal="true" aria-label={editChannel.name}>
             <h3>{editChannel.name}</h3>
-            <div className={css.formField}>
-              <label>名称</label>
-              <input className={css.formInput} value={formName} onChange={event => { setFormName(event.target.value) }} autoFocus />
-            </div>
-            {typeDef.fields.map(field => (
-              <div key={field.key} className={css.formField}>
-                <label>{field.label}</label>
-                <input
-                  className={css.formInput}
-                  type={field.secret ? 'password' : 'text'}
-                  value={formConfig[field.key] ?? ''}
-                  onChange={event => { setFormConfig(current => ({ ...current, [field.key]: event.target.value })) }}
-                  placeholder={field.placeholder}
-                />
+            <div className={css.formGrid}>
+              <div className={`${css.formField} ${css.formFieldSpan2}`}>
+                <label>名称</label>
+                <input className={css.formInput} value={formName} onChange={event => { setFormName(event.target.value) }} autoFocus />
               </div>
-            ))}
-            <div className={css.formField}>
-              <label>频道权限模式</label>
-              <select className={css.formSelect} value={formPermission} onChange={event => { setFormPermission(event.target.value) }}>
-                {PERMISSION_MODES.map(mode => (
-                  <option key={mode.value} value={mode.value}>{mode.label}</option>
-                ))}
-              </select>
-              {formPermission !== '__inherit' && (
-                <div className={css.formHint}>{PERMISSION_MODES.find(m => m.value === formPermission)?.description}</div>
-              )}
+              {typeDef.fields.map(field => (
+                <div key={field.key} className={`${css.formField} ${field.fullWidth === true ? css.formFieldSpan2 : ''}`}>
+                  <label>{field.label}</label>
+                  <input
+                    className={css.formInput}
+                    type={field.secret ? 'password' : 'text'}
+                    value={typeof formConfig[field.key] === 'string' ? formConfig[field.key] as string : ''}
+                    onChange={event => { setFormConfig(current => ({ ...current, [field.key]: event.target.value })) }}
+                    placeholder={field.placeholder}
+                  />
+                </div>
+              ))}
+              {typeDef.domain === true
+                ? (
+                  <div className={css.formField}>
+                    <label>域名</label>
+                    <select
+                      className={css.formSelect}
+                      value={formDomain}
+                      onChange={event => { setFormDomain(event.target.value as 'feishu' | 'lark') }}
+                    >
+                      <option value="feishu">feishu（国内）</option>
+                      <option value="lark">Lark（国际）</option>
+                    </select>
+                  </div>
+                )
+                : null}
+              {typeDef.mentionOnly === true
+                ? (
+                  <div className={`${css.formField} ${css.formFieldSpan2}`}>
+                    <label>仅被 @ 时回复</label>
+                    <div className={css.formSwitchRow}>
+                      <Switch checked={formMentionOnly} onChange={setFormMentionOnly} label="mention_only" />
+                      <span className={css.formHint}>开启后，群聊中只有 @ 机器人的消息会触发回复。</span>
+                    </div>
+                  </div>
+                )
+                : null}
+              {typeDef.ids !== undefined
+                ? (
+                  <div className={css.formFieldSpan2}>
+                    <div className={css.formField}>
+                      <label>{typeDef.ids.label}</label>
+                      <input
+                        className={css.formInput}
+                        value={formIds}
+                        onChange={event => { setFormIds(event.target.value) }}
+                        onBlur={() => { setFormIds(parseAllowedIds(formIds).join(', ')) }}
+                        placeholder={typeDef.ids.placeholder}
+                      />
+                      <div className={css.formHint}>逗号分隔；留空表示允许全部会话/频道。</div>
+                    </div>
+                  </div>
+                )
+                : null}
+              <div className={`${css.formField} ${css.formFieldSpan2}`}>
+                <label>频道权限模式</label>
+                <select className={css.formSelect} value={formPermission} onChange={event => { setFormPermission(event.target.value) }}>
+                  {PERMISSION_MODES.map(mode => (
+                    <option key={mode.value} value={mode.value}>{mode.label}</option>
+                  ))}
+                </select>
+                {formPermission !== '__inherit' && (
+                  <div className={css.formHint}>{PERMISSION_MODES.find(m => m.value === formPermission)?.description}</div>
+                )}
+              </div>
             </div>
             <div className={css.modalFooter}>
               <button type="button" className={css.btn} onClick={() => { setEditChannel(null) }}>取消</button>
@@ -283,7 +407,9 @@ export function ChannelsSection() {
         <div className={css.modalOverlay} onMouseDown={(event) => { if (event.target === event.currentTarget) setLogsFor(null) }}>
           <div className={css.modalCard} role="dialog" aria-modal="true" aria-label={`${logsFor.name} — 日志`}>
             <h3>{logsFor.name} — 日志</h3>
-            <div className={css.logsBody}>暂无日志</div>
+            <div className={css.logsBody}>
+              日志由桌面版伴生程序在频道连接后写入；Web 版暂无本地日志。
+            </div>
             <div className={css.modalFooter}>
               <button type="button" className={css.btn} onClick={() => { setLogsFor(null) }}>关闭</button>
             </div>

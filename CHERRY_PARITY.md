@@ -54,7 +54,7 @@
 | 个人 | 通知 | `/settings/notifications` | `notifications`（NotificationSection） | T1 | ✅ 真实 |
 | 个人 | 数据管理 | `/settings/data` | `data`（DataSection） | T1 | 🔶 真实，覆盖面窄（无 WebDAV/第三方） |
 | 个人 | 用量 | `/settings/usage` | `usage`（UsageSection） | T1 | ✅ 真实（真实记录 tokens） |
-| 自动化 | 频道 | `/settings/channels` | `channels`（ChannelsSection） | T2 | 🔶 本地持久化，真实连接需桌面 |
+| 自动化 | 频道 | `/settings/channels` | `channels`（ChannelsSection） | T2 | ✅ 配置迁入 DSH settings（control-center-channels），字段全量对齐（允许会话/频道 ID、飞书 domain、QQ mention_only）；真实消息桥仍需桌面 |
 | 自动化 | 定时任务 | `/settings/scheduled-tasks` | `tasks`（TasksSection） | T2 | ✅ controlCenterTasks + host scheduler |
 | 自动化 | 快捷键 | `/settings/shortcut` | `shortcuts`（ShortcutSection） | T2 | 🔶 localStorage；应用内绑定真，全局标桌面 |
 | 自动化 | 快捷助手 | `/settings/quick-assistant` | `quick-assistant`（QuickAssistantSection） | T2 | 🔶 本地持久化，悬浮窗需桌面 |
@@ -211,7 +211,10 @@ control-center 现状：✅ UsageSection.tsx（窗口 tabs、指标条、洞察�
 ### 4.1 频道 Channels
 
 Cherry 参照：`.../ChannelsSettings/`（ChannelsSettings.tsx / ChannelDetail.tsx / ChannelForms.tsx / channelTypes.ts）
-control-center 现状：🔶 ChannelsSection.tsx（六类型 Feishu/Telegram/QQ/WeChat/Discord/Slack 实例列表 + 增删改 + 权限模式；本地持久化；真实连接需桌面，诚实标注）。
+control-center 现状：✅ ChannelsSection.tsx 深度对标——
+- **存储升级**：实例从 localStorage 迁入 DSH settings `control-center-channels` 命名空间（settings.yaml 可见，桌面桥直接读取）；旧数据一次性自动导入，host 缺命名空间时降级回浏览器存储并诚实提示
+- **字段全量对齐** Cherry ChannelForms：各类型「允许的会话/频道 ID」逗号编辑器（失焦解析）、飞书 domain（feishu/lark）选择、QQ 仅被 @ 时回复开关
+- 双列表单栅格、权限模式六档、日志对话框诚实标注来源；真实消息桥仍需桌面伴生程序
 
 ### 4.2 定时任务 Scheduled Tasks
 

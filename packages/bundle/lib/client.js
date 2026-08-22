@@ -319,112 +319,112 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var PaintingWorkspace_module_css_default = {
-			"toolbarRail": "_-UrTq_toolbarRail",
-			"cc-strip-loading": "_-UrTq_cc-strip-loading",
-			"strip": "_-UrTq_strip",
-			"centerPane": "_-UrTq_centerPane",
-			"stripItem": "_-UrTq_stripItem",
-			"root": "_-UrTq_root",
+			"attachmentTray": "_-UrTq_attachmentTray",
 			"composerTextarea": "_-UrTq_composerTextarea",
-			"countSlider": "_-UrTq_countSlider",
-			"imageBox": "_-UrTq_imageBox",
-			"toolbarDivider": "_-UrTq_toolbarDivider",
-			"cc-cell-blink": "_-UrTq_cc-cell-blink",
-			"promptLib": "_-UrTq_promptLib",
+			"promptBar": "_-UrTq_promptBar",
+			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
+			"addPromptField": "_-UrTq_addPromptField",
+			"btnPrimary": "_-UrTq_btnPrimary",
+			"centerPane": "_-UrTq_centerPane",
+			"chevron": "_-UrTq_chevron",
+			"paramsPopover": "_-UrTq_paramsPopover",
+			"surface": "_-UrTq_surface",
 			"stripProgress": "_-UrTq_stripProgress",
 			"showcaseInner": "_-UrTq_showcaseInner",
-			"sizeChip": "_-UrTq_sizeChip",
-			"counterPill": "_-UrTq_counterPill",
-			"modelPill": "_-UrTq_modelPill",
-			"addPromptOverlay": "_-UrTq_addPromptOverlay",
-			"btn": "_-UrTq_btn",
-			"errorBanner": "_-UrTq_errorBanner",
-			"showcaseCarousel": "_-UrTq_showcaseCarousel",
-			"stripEnd": "_-UrTq_stripEnd",
-			"selected": "_-UrTq_selected",
-			"newButton": "_-UrTq_newButton",
-			"active": "_-UrTq_active",
-			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
-			"sizeLabel": "_-UrTq_sizeLabel",
-			"quickPanel": "_-UrTq_quickPanel",
-			"addPromptCard": "_-UrTq_addPromptCard",
-			"dragging": "_-UrTq_dragging",
-			"showcase": "_-UrTq_showcase",
-			"manageRow": "_-UrTq_manageRow",
-			"surface": "_-UrTq_surface",
-			"countRow": "_-UrTq_countRow",
-			"promptLibTitle": "_-UrTq_promptLibTitle",
-			"promptLibFooter": "_-UrTq_promptLibFooter",
-			"showcaseCaption": "_-UrTq_showcaseCaption",
-			"attachmentTile": "_-UrTq_attachmentTile",
-			"artboardStage": "_-UrTq_artboardStage",
-			"quickItemLabel": "_-UrTq_quickItemLabel",
-			"carouselCard": "_-UrTq_carouselCard",
-			"manageRowActions": "_-UrTq_manageRowActions",
-			"stripHeader": "_-UrTq_stripHeader",
-			"backButton": "_-UrTq_backButton",
-			"carouselCardImage": "_-UrTq_carouselCardImage",
-			"composer": "_-UrTq_composer",
-			"stripDelete": "_-UrTq_stripDelete",
-			"composerToolbar": "_-UrTq_composerToolbar",
-			"pauseButton": "_-UrTq_pauseButton",
-			"attachmentDelete": "_-UrTq_attachmentDelete",
-			"chevron": "_-UrTq_chevron",
-			"paramsSelect": "_-UrTq_paramsSelect",
-			"ratioThumb": "_-UrTq_ratioThumb",
-			"skeletonGrid": "_-UrTq_skeletonGrid",
-			"addPromptField": "_-UrTq_addPromptField",
-			"addPromptTextarea": "_-UrTq_addPromptTextarea",
-			"dialogActions": "_-UrTq_dialogActions",
-			"manageList": "_-UrTq_manageList",
-			"manageRowBtnDanger": "_-UrTq_manageRowBtnDanger",
-			"paramsPopover": "_-UrTq_paramsPopover",
-			"addImageButton": "_-UrTq_addImageButton",
-			"muted": "_-UrTq_muted",
-			"paramsField": "_-UrTq_paramsField",
-			"artboardEmpty": "_-UrTq_artboardEmpty",
-			"attachmentTray": "_-UrTq_attachmentTray",
-			"quickItem": "_-UrTq_quickItem",
-			"skeletonCell": "_-UrTq_skeletonCell",
-			"promptLibList": "_-UrTq_promptLibList",
-			"thumbEmpty": "_-UrTq_thumbEmpty",
-			"sizeGrid": "_-UrTq_sizeGrid",
-			"btnPrimary": "_-UrTq_btnPrimary",
-			"composerTextRow": "_-UrTq_composerTextRow",
-			"portalPanel": "_-UrTq_portalPanel",
-			"promptLibItem": "_-UrTq_promptLibItem",
-			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
-			"manageRowMain": "_-UrTq_manageRowMain",
-			"manageRowBtn": "_-UrTq_manageRowBtn",
-			"countInput": "_-UrTq_countInput",
-			"manageRowTitle": "_-UrTq_manageRowTitle",
-			"roundButton": "_-UrTq_roundButton",
 			"pillButton": "_-UrTq_pillButton",
-			"hidden": "_-UrTq_hidden",
-			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
-			"quickItemIcon": "_-UrTq_quickItemIcon",
-			"carouselLabel": "_-UrTq_carouselLabel",
-			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
-			"promptLibEmpty": "_-UrTq_promptLibEmpty",
-			"addPromptInput": "_-UrTq_addPromptInput",
-			"sendButton": "_-UrTq_sendButton",
-			"promptLibContent": "_-UrTq_promptLibContent",
-			"showcaseTitle": "_-UrTq_showcaseTitle",
-			"thumb": "_-UrTq_thumb",
-			"centerStage": "_-UrTq_centerStage",
-			"frame": "_-UrTq_frame",
-			"artboard": "_-UrTq_artboard",
-			"promptLibDelete": "_-UrTq_promptLibDelete",
-			"manageCard": "_-UrTq_manageCard",
-			"manageRowContent": "_-UrTq_manageRowContent",
-			"progressText": "_-UrTq_progressText",
-			"promptDock": "_-UrTq_promptDock",
-			"promptBar": "_-UrTq_promptBar",
-			"toolbarButton": "_-UrTq_toolbarButton",
+			"paramsSelect": "_-UrTq_paramsSelect",
+			"stripHeader": "_-UrTq_stripHeader",
+			"composerTextRow": "_-UrTq_composerTextRow",
+			"promptBarText": "_-UrTq_promptBarText",
+			"addPromptTextarea": "_-UrTq_addPromptTextarea",
+			"modelPill": "_-UrTq_modelPill",
+			"btn": "_-UrTq_btn",
+			"imageBox": "_-UrTq_imageBox",
+			"carouselCard": "_-UrTq_carouselCard",
 			"promptDockInner": "_-UrTq_promptDockInner",
-			"promptLibItemMain": "_-UrTq_promptLibItemMain",
+			"quickPanel": "_-UrTq_quickPanel",
+			"manageList": "_-UrTq_manageList",
+			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
+			"promptLibTitle": "_-UrTq_promptLibTitle",
+			"composerToolbar": "_-UrTq_composerToolbar",
+			"frame": "_-UrTq_frame",
+			"attachmentTile": "_-UrTq_attachmentTile",
+			"hidden": "_-UrTq_hidden",
+			"artboardEmpty": "_-UrTq_artboardEmpty",
+			"sendButton": "_-UrTq_sendButton",
+			"carouselCardImage": "_-UrTq_carouselCardImage",
+			"countRow": "_-UrTq_countRow",
+			"promptLibContent": "_-UrTq_promptLibContent",
+			"promptLibDelete": "_-UrTq_promptLibDelete",
+			"skeletonGrid": "_-UrTq_skeletonGrid",
+			"sizeChip": "_-UrTq_sizeChip",
+			"showcaseCarousel": "_-UrTq_showcaseCarousel",
 			"pillSummary": "_-UrTq_pillSummary",
-			"promptBarText": "_-UrTq_promptBarText"
+			"thumb": "_-UrTq_thumb",
+			"counterPill": "_-UrTq_counterPill",
+			"skeletonCell": "_-UrTq_skeletonCell",
+			"muted": "_-UrTq_muted",
+			"addPromptOverlay": "_-UrTq_addPromptOverlay",
+			"backButton": "_-UrTq_backButton",
+			"portalPanel": "_-UrTq_portalPanel",
+			"manageRowContent": "_-UrTq_manageRowContent",
+			"manageRowActions": "_-UrTq_manageRowActions",
+			"stripItem": "_-UrTq_stripItem",
+			"toolbarDivider": "_-UrTq_toolbarDivider",
+			"newButton": "_-UrTq_newButton",
+			"selected": "_-UrTq_selected",
+			"roundButton": "_-UrTq_roundButton",
+			"cc-cell-blink": "_-UrTq_cc-cell-blink",
+			"errorBanner": "_-UrTq_errorBanner",
+			"stripEnd": "_-UrTq_stripEnd",
+			"stripDelete": "_-UrTq_stripDelete",
+			"paramsField": "_-UrTq_paramsField",
+			"promptLibItem": "_-UrTq_promptLibItem",
+			"composer": "_-UrTq_composer",
+			"attachmentDelete": "_-UrTq_attachmentDelete",
+			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
+			"showcaseCaption": "_-UrTq_showcaseCaption",
+			"active": "_-UrTq_active",
+			"cc-strip-loading": "_-UrTq_cc-strip-loading",
+			"toolbarRail": "_-UrTq_toolbarRail",
+			"carouselLabel": "_-UrTq_carouselLabel",
+			"toolbarButton": "_-UrTq_toolbarButton",
+			"quickItemIcon": "_-UrTq_quickItemIcon",
+			"countInput": "_-UrTq_countInput",
+			"countSlider": "_-UrTq_countSlider",
+			"artboard": "_-UrTq_artboard",
+			"promptLib": "_-UrTq_promptLib",
+			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
+			"thumbEmpty": "_-UrTq_thumbEmpty",
+			"showcaseTitle": "_-UrTq_showcaseTitle",
+			"artboardStage": "_-UrTq_artboardStage",
+			"root": "_-UrTq_root",
+			"progressText": "_-UrTq_progressText",
+			"promptLibList": "_-UrTq_promptLibList",
+			"addPromptCard": "_-UrTq_addPromptCard",
+			"quickItemLabel": "_-UrTq_quickItemLabel",
+			"showcase": "_-UrTq_showcase",
+			"addPromptInput": "_-UrTq_addPromptInput",
+			"ratioThumb": "_-UrTq_ratioThumb",
+			"dialogActions": "_-UrTq_dialogActions",
+			"manageRowMain": "_-UrTq_manageRowMain",
+			"promptDock": "_-UrTq_promptDock",
+			"manageRowTitle": "_-UrTq_manageRowTitle",
+			"quickItem": "_-UrTq_quickItem",
+			"manageCard": "_-UrTq_manageCard",
+			"manageRowBtn": "_-UrTq_manageRowBtn",
+			"sizeLabel": "_-UrTq_sizeLabel",
+			"manageRowBtnDanger": "_-UrTq_manageRowBtnDanger",
+			"centerStage": "_-UrTq_centerStage",
+			"promptLibItemMain": "_-UrTq_promptLibItemMain",
+			"strip": "_-UrTq_strip",
+			"manageRow": "_-UrTq_manageRow",
+			"promptLibEmpty": "_-UrTq_promptLibEmpty",
+			"sizeGrid": "_-UrTq_sizeGrid",
+			"dragging": "_-UrTq_dragging",
+			"addImageButton": "_-UrTq_addImageButton",
+			"promptLibFooter": "_-UrTq_promptLibFooter",
+			"pauseButton": "_-UrTq_pauseButton"
 		};
 		//#endregion
 		//#region lib/types/client/painting-icons.js
@@ -1155,27 +1155,27 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var Combobox_module_css_default = {
-			"searchWrap": "PJZ1pG_searchWrap",
-			"optionText": "PJZ1pG_optionText",
-			"option": "PJZ1pG_option",
-			"group": "PJZ1pG_group",
-			"searchInput": "PJZ1pG_searchInput",
-			"trigger": "PJZ1pG_trigger",
-			"triggerLabel": "PJZ1pG_triggerLabel",
-			"triggerIcon": "PJZ1pG_triggerIcon",
-			"root": "PJZ1pG_root",
-			"triggerChevron": "PJZ1pG_triggerChevron",
-			"optionSub": "PJZ1pG_optionSub",
-			"list": "PJZ1pG_list",
 			"footer": "PJZ1pG_footer",
+			"footerButton": "PJZ1pG_footerButton",
+			"root": "PJZ1pG_root",
+			"optionLabel": "PJZ1pG_optionLabel",
+			"empty": "PJZ1pG_empty",
+			"triggerLabel": "PJZ1pG_triggerLabel",
+			"optionSub": "PJZ1pG_optionSub",
+			"optionIcon": "PJZ1pG_optionIcon",
+			"group": "PJZ1pG_group",
+			"popoverPortal": "PJZ1pG_popoverPortal",
+			"trigger": "PJZ1pG_trigger",
+			"triggerChevron": "PJZ1pG_triggerChevron",
+			"triggerIcon": "PJZ1pG_triggerIcon",
+			"searchInput": "PJZ1pG_searchInput",
 			"groupTitle": "PJZ1pG_groupTitle",
 			"optionActive": "PJZ1pG_optionActive",
-			"optionIcon": "PJZ1pG_optionIcon",
-			"empty": "PJZ1pG_empty",
-			"optionLabel": "PJZ1pG_optionLabel",
-			"footerButton": "PJZ1pG_footerButton",
-			"popoverPortal": "PJZ1pG_popoverPortal",
-			"searchIcon": "PJZ1pG_searchIcon"
+			"searchIcon": "PJZ1pG_searchIcon",
+			"optionText": "PJZ1pG_optionText",
+			"option": "PJZ1pG_option",
+			"searchWrap": "PJZ1pG_searchWrap",
+			"list": "PJZ1pG_list"
 		};
 		//#endregion
 		//#region lib/types/client/Combobox.js
@@ -2311,8 +2311,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelSelector_module_css_default = {
-			"avatar": "DFvSka_avatar",
-			"configureButton": "DFvSka_configureButton"
+			"configureButton": "DFvSka_configureButton",
+			"avatar": "DFvSka_avatar"
 		};
 		//#endregion
 		//#region lib/types/client/ModelSelector.js
@@ -3359,115 +3359,115 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TranslationWorkspace_module_css_default = {
-			"modelSelect": "_8lesPa_modelSelect",
-			"detailBlockHeader": "_8lesPa_detailBlockHeader",
-			"langFormRow": "_8lesPa_langFormRow",
-			"langCode": "_8lesPa_langCode",
-			"langFormError": "_8lesPa_langFormError",
-			"inputArea": "_8lesPa_inputArea",
-			"historyList": "_8lesPa_historyList",
-			"backdrop": "_8lesPa_backdrop",
-			"panelBody": "_8lesPa_panelBody",
-			"chip": "_8lesPa_chip",
-			"spacer": "_8lesPa_spacer",
-			"cc-spin": "_8lesPa_cc-spin",
-			"settingsEmpty": "_8lesPa_settingsEmpty",
-			"topBar": "_8lesPa_topBar",
-			"settingsSection": "_8lesPa_settingsSection",
-			"langName": "_8lesPa_langName",
-			"langForm": "_8lesPa_langForm",
-			"historyEmpty": "_8lesPa_historyEmpty",
-			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
-			"translateBtn": "_8lesPa_translateBtn",
-			"langFormActions": "_8lesPa_langFormActions",
-			"paneCorner": "_8lesPa_paneCorner",
-			"starFill": "_8lesPa_starFill",
+			"segItem": "_8lesPa_segItem",
+			"chipTarget": "_8lesPa_chipTarget",
+			"pane": "_8lesPa_pane",
+			"copy": "_8lesPa_copy",
+			"cc-fade": "_8lesPa_cc-fade",
+			"panelHeader": "_8lesPa_panelHeader",
 			"btnPrimary": "_8lesPa_btnPrimary",
-			"loadMore": "_8lesPa_loadMore",
-			"confirmTitle": "_8lesPa_confirmTitle",
-			"errorBanner": "_8lesPa_errorBanner",
+			"confirmText": "_8lesPa_confirmText",
+			"rowSource": "_8lesPa_rowSource",
+			"starFill": "_8lesPa_starFill",
+			"settingRow": "_8lesPa_settingRow",
+			"langFormError": "_8lesPa_langFormError",
+			"confirmActions": "_8lesPa_confirmActions",
+			"langFormActions": "_8lesPa_langFormActions",
+			"modelSelect": "_8lesPa_modelSelect",
+			"langRowActions": "_8lesPa_langRowActions",
+			"switchTrack": "_8lesPa_switchTrack",
+			"settingsEmpty": "_8lesPa_settingsEmpty",
+			"confirmOverlay": "_8lesPa_confirmOverlay",
 			"destructive": "_8lesPa_destructive",
 			"helpBubble": "_8lesPa_helpBubble",
-			"rowSource": "_8lesPa_rowSource",
-			"outputArea": "_8lesPa_outputArea",
-			"pane": "_8lesPa_pane",
-			"count": "_8lesPa_count",
-			"pairRow": "_8lesPa_pairRow",
-			"confirmOverlay": "_8lesPa_confirmOverlay",
-			"langFormLabel": "_8lesPa_langFormLabel",
-			"confirmActions": "_8lesPa_confirmActions",
-			"paneFooter": "_8lesPa_paneFooter",
-			"detailBack": "_8lesPa_detailBack",
-			"langSelectWrap": "_8lesPa_langSelectWrap",
-			"btn": "_8lesPa_btn",
-			"detailBlock": "_8lesPa_detailBlock",
-			"uploadIcon": "_8lesPa_uploadIcon",
-			"visible": "_8lesPa_visible",
-			"sectionTitle": "_8lesPa_sectionTitle",
-			"translating": "_8lesPa_translating",
-			"spinner": "_8lesPa_spinner",
-			"md": "_8lesPa_md",
-			"countBadge": "_8lesPa_countBadge",
-			"historyRowMeta": "_8lesPa_historyRowMeta",
-			"detailAction": "_8lesPa_detailAction",
-			"detailMeta": "_8lesPa_detailMeta",
-			"confirmCard": "_8lesPa_confirmCard",
-			"detailBlockLabel": "_8lesPa_detailBlockLabel",
-			"panelHeader": "_8lesPa_panelHeader",
-			"outputPane": "_8lesPa_outputPane",
-			"clearBtn": "_8lesPa_clearBtn",
-			"copy": "_8lesPa_copy",
-			"settingLabel": "_8lesPa_settingLabel",
-			"chipTarget": "_8lesPa_chipTarget",
+			"spacer": "_8lesPa_spacer",
 			"langSelect": "_8lesPa_langSelect",
-			"modelSelectWrap": "_8lesPa_modelSelectWrap",
-			"chipArrow": "_8lesPa_chipArrow",
-			"settingsTextarea": "_8lesPa_settingsTextarea",
-			"switch": "_8lesPa_switch",
-			"historyRow": "_8lesPa_historyRow",
-			"on": "_8lesPa_on",
-			"segItem": "_8lesPa_segItem",
-			"langRowActions": "_8lesPa_langRowActions",
-			"resetLink": "_8lesPa_resetLink",
-			"switchRow": "_8lesPa_switchRow",
-			"detailActions": "_8lesPa_detailActions",
-			"helpWrap": "_8lesPa_helpWrap",
-			"success": "_8lesPa_success",
-			"cc-fade": "_8lesPa_cc-fade",
-			"swapBtn": "_8lesPa_swapBtn",
-			"textareaScroll": "_8lesPa_textareaScroll",
-			"sidePanel": "_8lesPa_sidePanel",
-			"panelTitle": "_8lesPa_panelTitle",
-			"reuse": "_8lesPa_reuse",
-			"langInput": "_8lesPa_langInput",
-			"smallIconBtn": "_8lesPa_smallIconBtn",
-			"detailText": "_8lesPa_detailText",
-			"active": "_8lesPa_active",
-			"rightCluster": "_8lesPa_rightCluster",
-			"confirmText": "_8lesPa_confirmText",
-			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
-			"stopBtn": "_8lesPa_stopBtn",
-			"root": "_8lesPa_root",
-			"starBtn": "_8lesPa_starBtn",
-			"uploadIcons": "_8lesPa_uploadIcons",
-			"langAdd": "_8lesPa_langAdd",
-			"helpIcon": "_8lesPa_helpIcon",
-			"uploadZone": "_8lesPa_uploadZone",
-			"backButton": "_8lesPa_backButton",
-			"cc-slide-in": "_8lesPa_cc-slide-in",
 			"pairChip": "_8lesPa_pairChip",
-			"settingHint": "_8lesPa_settingHint",
+			"chip": "_8lesPa_chip",
+			"loadMore": "_8lesPa_loadMore",
+			"swapBtn": "_8lesPa_swapBtn",
+			"settingsSection": "_8lesPa_settingsSection",
+			"detailBlockLabel": "_8lesPa_detailBlockLabel",
+			"backButton": "_8lesPa_backButton",
+			"count": "_8lesPa_count",
+			"detailText": "_8lesPa_detailText",
 			"segmented": "_8lesPa_segmented",
-			"rowTime": "_8lesPa_rowTime",
-			"detailBlockTarget": "_8lesPa_detailBlockTarget",
 			"panes": "_8lesPa_panes",
+			"starBtn": "_8lesPa_starBtn",
+			"modelSelectWrap": "_8lesPa_modelSelectWrap",
+			"resetLink": "_8lesPa_resetLink",
+			"historyRowMeta": "_8lesPa_historyRowMeta",
+			"langAdd": "_8lesPa_langAdd",
+			"langCode": "_8lesPa_langCode",
+			"btn": "_8lesPa_btn",
+			"pairRow": "_8lesPa_pairRow",
+			"langForm": "_8lesPa_langForm",
+			"langName": "_8lesPa_langName",
 			"rowTarget": "_8lesPa_rowTarget",
+			"stopBtn": "_8lesPa_stopBtn",
+			"detailBlock": "_8lesPa_detailBlock",
+			"outputArea": "_8lesPa_outputArea",
+			"on": "_8lesPa_on",
+			"langInput": "_8lesPa_langInput",
+			"helpWrap": "_8lesPa_helpWrap",
+			"visible": "_8lesPa_visible",
+			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
+			"topBar": "_8lesPa_topBar",
+			"langSelectWrap": "_8lesPa_langSelectWrap",
+			"translateBtn": "_8lesPa_translateBtn",
+			"outputPane": "_8lesPa_outputPane",
+			"backdrop": "_8lesPa_backdrop",
+			"detailBlockHeader": "_8lesPa_detailBlockHeader",
+			"smallIconBtn": "_8lesPa_smallIconBtn",
+			"clearBtn": "_8lesPa_clearBtn",
+			"switchRow": "_8lesPa_switchRow",
+			"historyList": "_8lesPa_historyList",
+			"langRow": "_8lesPa_langRow",
+			"paneCorner": "_8lesPa_paneCorner",
+			"detailActions": "_8lesPa_detailActions",
+			"sectionTitle": "_8lesPa_sectionTitle",
+			"errorBanner": "_8lesPa_errorBanner",
+			"uploadIcon": "_8lesPa_uploadIcon",
+			"root": "_8lesPa_root",
+			"rightCluster": "_8lesPa_rightCluster",
+			"sidePanel": "_8lesPa_sidePanel",
+			"langFormRow": "_8lesPa_langFormRow",
+			"helpIcon": "_8lesPa_helpIcon",
+			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
+			"detailBlockTarget": "_8lesPa_detailBlockTarget",
+			"historyRow": "_8lesPa_historyRow",
+			"switch": "_8lesPa_switch",
+			"success": "_8lesPa_success",
+			"paneFooter": "_8lesPa_paneFooter",
+			"spinner": "_8lesPa_spinner",
+			"panelTitle": "_8lesPa_panelTitle",
+			"panelBody": "_8lesPa_panelBody",
+			"cc-slide-in": "_8lesPa_cc-slide-in",
 			"panelBodyScroll": "_8lesPa_panelBodyScroll",
-			"iconBtn": "_8lesPa_iconBtn",
+			"rowTime": "_8lesPa_rowTime",
+			"reuse": "_8lesPa_reuse",
+			"inputArea": "_8lesPa_inputArea",
+			"settingsTextarea": "_8lesPa_settingsTextarea",
+			"historyEmpty": "_8lesPa_historyEmpty",
+			"countBadge": "_8lesPa_countBadge",
+			"active": "_8lesPa_active",
+			"translating": "_8lesPa_translating",
+			"confirmTitle": "_8lesPa_confirmTitle",
+			"detailMeta": "_8lesPa_detailMeta",
+			"uploadZone": "_8lesPa_uploadZone",
+			"settingHint": "_8lesPa_settingHint",
+			"uploadIcons": "_8lesPa_uploadIcons",
+			"detailAction": "_8lesPa_detailAction",
+			"langFormLabel": "_8lesPa_langFormLabel",
+			"detailBack": "_8lesPa_detailBack",
 			"langChevron": "_8lesPa_langChevron",
-			"settingRow": "_8lesPa_settingRow",
-			"switchTrack": "_8lesPa_switchTrack",
-			"langRow": "_8lesPa_langRow"
+			"iconBtn": "_8lesPa_iconBtn",
+			"textareaScroll": "_8lesPa_textareaScroll",
+			"cc-spin": "_8lesPa_cc-spin",
+			"chipArrow": "_8lesPa_chipArrow",
+			"settingLabel": "_8lesPa_settingLabel",
+			"md": "_8lesPa_md",
+			"confirmCard": "_8lesPa_confirmCard"
 		};
 		//#endregion
 		//#region lib/types/client/panel-ui.js
@@ -4161,103 +4161,103 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var KnowledgeWorkspace_module_css_default = {
-			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
-			"dialogOverlay": "uHDY1a_dialogOverlay",
-			"btn": "uHDY1a_btn",
-			"dialogSelect": "uHDY1a_dialogSelect",
 			"navRow": "uHDY1a_navRow",
-			"dataPanel": "uHDY1a_dataPanel",
-			"recallEmpty": "uHDY1a_recallEmpty",
-			"ragSelectWrap": "uHDY1a_ragSelectWrap",
-			"advancedChevronOpen": "uHDY1a_advancedChevronOpen",
-			"gridScroll": "uHDY1a_gridScroll",
-			"destructive": "uHDY1a_destructive",
+			"menuPopover": "uHDY1a_menuPopover",
 			"recallCardHeader": "uHDY1a_recallCardHeader",
-			"dialogCard": "uHDY1a_dialogCard",
-			"navRowName": "uHDY1a_navRowName",
-			"gridRow": "uHDY1a_gridRow",
-			"sourceIcon": "uHDY1a_sourceIcon",
-			"sourceTypeCard": "uHDY1a_sourceTypeCard",
-			"recallResults": "uHDY1a_recallResults",
-			"ragTitle": "uHDY1a_ragTitle",
-			"sourceUpdated": "uHDY1a_sourceUpdated",
-			"ragFooter": "uHDY1a_ragFooter",
-			"dialogField": "uHDY1a_dialogField",
-			"split": "uHDY1a_split",
-			"dialogTextarea": "uHDY1a_dialogTextarea",
-			"ragLabel": "uHDY1a_ragLabel",
-			"detailHeader": "uHDY1a_detailHeader",
-			"navRowMenu": "uHDY1a_navRowMenu",
-			"detailEmpty": "uHDY1a_detailEmpty",
-			"sourceTypeCards": "uHDY1a_sourceTypeCards",
-			"notice": "uHDY1a_notice",
-			"ragFieldRow": "uHDY1a_ragFieldRow",
-			"ragBody": "uHDY1a_ragBody",
-			"ghostButton": "uHDY1a_ghostButton",
-			"dialogActions": "uHDY1a_dialogActions",
-			"btnPrimary": "uHDY1a_btnPrimary",
-			"recallChunkIndex": "uHDY1a_recallChunkIndex",
-			"ragSection": "uHDY1a_ragSection",
-			"ragReadonly": "uHDY1a_ragReadonly",
-			"root": "uHDY1a_root",
-			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
-			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
-			"dialogSliderRow": "uHDY1a_dialogSliderRow",
-			"sourceName": "uHDY1a_sourceName",
-			"ragSliderRow": "uHDY1a_ragSliderRow",
-			"ragSelect": "uHDY1a_ragSelect",
-			"recallInputWrap": "uHDY1a_recallInputWrap",
-			"navEmpty": "uHDY1a_navEmpty",
-			"statusBadge": "uHDY1a_statusBadge",
-			"detailEmptyTitle": "uHDY1a_detailEmptyTitle",
-			"advancedToggle": "uHDY1a_advancedToggle",
-			"active": "uHDY1a_active",
-			"sourceType": "uHDY1a_sourceType",
-			"recallCopy": "uHDY1a_recallCopy",
+			"recallEmpty": "uHDY1a_recallEmpty",
 			"detail": "uHDY1a_detail",
-			"errorBanner": "uHDY1a_errorBanner",
-			"ragNumberFull": "uHDY1a_ragNumberFull",
-			"clamped": "uHDY1a_clamped",
-			"menuItem": "uHDY1a_menuItem",
-			"navScroll": "uHDY1a_navScroll",
-			"ragField": "uHDY1a_ragField",
-			"recallBody": "uHDY1a_recallBody",
-			"advancedBody": "uHDY1a_advancedBody",
-			"statusIndexing": "uHDY1a_statusIndexing",
-			"recallRank": "uHDY1a_recallRank",
-			"recallBar": "uHDY1a_recallBar",
-			"sourcesEmpty": "uHDY1a_sourcesEmpty",
-			"addSourceButton": "uHDY1a_addSourceButton",
-			"rowMenu": "uHDY1a_rowMenu",
-			"recallSubmit": "uHDY1a_recallSubmit",
-			"statusReady": "uHDY1a_statusReady",
-			"dialogInput": "uHDY1a_dialogInput",
-			"detailHeaderActions": "uHDY1a_detailHeaderActions",
+			"recallSource": "uHDY1a_recallSource",
+			"recallChunkIndex": "uHDY1a_recallChunkIndex",
+			"btnPrimary": "uHDY1a_btnPrimary",
+			"sourceUpdated": "uHDY1a_sourceUpdated",
+			"recallScore": "uHDY1a_recallScore",
+			"ragBody": "uHDY1a_ragBody",
+			"dataHeader": "uHDY1a_dataHeader",
+			"navRowName": "uHDY1a_navRowName",
 			"ragHint": "uHDY1a_ragHint",
+			"navEmpty": "uHDY1a_navEmpty",
+			"detailHeaderActions": "uHDY1a_detailHeaderActions",
+			"recallInputWrap": "uHDY1a_recallInputWrap",
+			"detailEmptyHint": "uHDY1a_detailEmptyHint",
+			"ragSelect": "uHDY1a_ragSelect",
+			"statusReady": "uHDY1a_statusReady",
+			"dialogOverlay": "uHDY1a_dialogOverlay",
+			"errorBanner": "uHDY1a_errorBanner",
+			"menuItem": "uHDY1a_menuItem",
+			"dialogHint": "uHDY1a_dialogHint",
+			"active": "uHDY1a_active",
+			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
+			"ragTitle": "uHDY1a_ragTitle",
+			"recallSummary": "uHDY1a_recallSummary",
 			"ragNumber": "uHDY1a_ragNumber",
 			"statusFailed": "uHDY1a_statusFailed",
-			"navigator": "uHDY1a_navigator",
-			"dialogHint": "uHDY1a_dialogHint",
-			"recallScore": "uHDY1a_recallScore",
-			"dataHeader": "uHDY1a_dataHeader",
-			"gridHeader": "uHDY1a_gridHeader",
-			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
-			"cc-spin": "uHDY1a_cc-spin",
-			"recallSummary": "uHDY1a_recallSummary",
-			"success": "uHDY1a_success",
-			"menuPopover": "uHDY1a_menuPopover",
-			"recallSource": "uHDY1a_recallSource",
-			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
-			"ragSlider": "uHDY1a_ragSlider",
-			"indexButton": "uHDY1a_indexButton",
-			"recallCard": "uHDY1a_recallCard",
-			"detailEmptyHint": "uHDY1a_detailEmptyHint",
-			"statusSpinner": "uHDY1a_statusSpinner",
-			"dataHeaderActions": "uHDY1a_dataHeaderActions",
-			"dialogFieldRow": "uHDY1a_dialogFieldRow",
-			"navCreate": "uHDY1a_navCreate",
 			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
-			"recallInput": "uHDY1a_recallInput"
+			"sourceTypeCards": "uHDY1a_sourceTypeCards",
+			"recallResults": "uHDY1a_recallResults",
+			"statusSpinner": "uHDY1a_statusSpinner",
+			"sourceTypeCard": "uHDY1a_sourceTypeCard",
+			"recallRank": "uHDY1a_recallRank",
+			"sourceIcon": "uHDY1a_sourceIcon",
+			"ghostButton": "uHDY1a_ghostButton",
+			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
+			"recallSubmit": "uHDY1a_recallSubmit",
+			"dialogInput": "uHDY1a_dialogInput",
+			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
+			"indexButton": "uHDY1a_indexButton",
+			"navRowMenu": "uHDY1a_navRowMenu",
+			"root": "uHDY1a_root",
+			"gridRow": "uHDY1a_gridRow",
+			"statusBadge": "uHDY1a_statusBadge",
+			"destructive": "uHDY1a_destructive",
+			"notice": "uHDY1a_notice",
+			"ragSection": "uHDY1a_ragSection",
+			"dataPanel": "uHDY1a_dataPanel",
+			"sourceName": "uHDY1a_sourceName",
+			"ragSliderRow": "uHDY1a_ragSliderRow",
+			"detailHeader": "uHDY1a_detailHeader",
+			"gridScroll": "uHDY1a_gridScroll",
+			"sourcesEmpty": "uHDY1a_sourcesEmpty",
+			"split": "uHDY1a_split",
+			"statusIndexing": "uHDY1a_statusIndexing",
+			"recallBar": "uHDY1a_recallBar",
+			"dialogCard": "uHDY1a_dialogCard",
+			"navCreate": "uHDY1a_navCreate",
+			"sourceType": "uHDY1a_sourceType",
+			"ragSlider": "uHDY1a_ragSlider",
+			"ragLabel": "uHDY1a_ragLabel",
+			"ragFooter": "uHDY1a_ragFooter",
+			"navScroll": "uHDY1a_navScroll",
+			"recallCard": "uHDY1a_recallCard",
+			"ragSelectWrap": "uHDY1a_ragSelectWrap",
+			"advancedBody": "uHDY1a_advancedBody",
+			"dataHeaderActions": "uHDY1a_dataHeaderActions",
+			"detailEmptyTitle": "uHDY1a_detailEmptyTitle",
+			"dialogActions": "uHDY1a_dialogActions",
+			"clamped": "uHDY1a_clamped",
+			"ragFieldRow": "uHDY1a_ragFieldRow",
+			"dialogSliderRow": "uHDY1a_dialogSliderRow",
+			"navigator": "uHDY1a_navigator",
+			"rowMenu": "uHDY1a_rowMenu",
+			"dialogField": "uHDY1a_dialogField",
+			"ragField": "uHDY1a_ragField",
+			"success": "uHDY1a_success",
+			"advancedChevronOpen": "uHDY1a_advancedChevronOpen",
+			"gridHeader": "uHDY1a_gridHeader",
+			"dialogTextarea": "uHDY1a_dialogTextarea",
+			"ragNumberFull": "uHDY1a_ragNumberFull",
+			"cc-spin": "uHDY1a_cc-spin",
+			"ragReadonly": "uHDY1a_ragReadonly",
+			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
+			"dialogSelect": "uHDY1a_dialogSelect",
+			"advancedToggle": "uHDY1a_advancedToggle",
+			"recallCopy": "uHDY1a_recallCopy",
+			"btn": "uHDY1a_btn",
+			"addSourceButton": "uHDY1a_addSourceButton",
+			"dialogFieldRow": "uHDY1a_dialogFieldRow",
+			"recallBody": "uHDY1a_recallBody",
+			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
+			"recallInput": "uHDY1a_recallInput",
+			"detailEmpty": "uHDY1a_detailEmpty"
 		};
 		//#endregion
 		//#region lib/types/client/KnowledgeWorkspace.js
@@ -5720,19 +5720,19 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SkillsSection_module_css_default = {
-			"cardTags": "pyHmqW_cardTags",
-			"cardTitle": "pyHmqW_cardTitle",
+			"cardActions": "pyHmqW_cardActions",
+			"cardMeta": "pyHmqW_cardMeta",
+			"searchRow": "pyHmqW_searchRow",
+			"searchInput": "pyHmqW_searchInput",
 			"cardDescription": "pyHmqW_cardDescription",
 			"tag": "pyHmqW_tag",
-			"cardHeader": "pyHmqW_cardHeader",
-			"searchRow": "pyHmqW_searchRow",
 			"grid": "pyHmqW_grid",
-			"searchInput": "pyHmqW_searchInput",
-			"cardFooter": "pyHmqW_cardFooter",
+			"cardTitle": "pyHmqW_cardTitle",
+			"cardHeader": "pyHmqW_cardHeader",
 			"card": "pyHmqW_card",
-			"cardActions": "pyHmqW_cardActions",
 			"cardMetaItem": "pyHmqW_cardMetaItem",
-			"cardMeta": "pyHmqW_cardMeta"
+			"cardFooter": "pyHmqW_cardFooter",
+			"cardTags": "pyHmqW_cardTags"
 		};
 		//#endregion
 		//#region lib/types/client/SkillsSection.js
@@ -6148,88 +6148,88 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelsSection_module_css_default = {
-			"modelAdvanced": "tKsOKa_modelAdvanced",
-			"modelGroupCount": "tKsOKa_modelGroupCount",
-			"healthPulse": "tKsOKa_healthPulse",
-			"checkResultOk": "tKsOKa_checkResultOk",
-			"healthMeta": "tKsOKa_healthMeta",
-			"intro": "tKsOKa_intro",
-			"rowCard": "tKsOKa_rowCard",
-			"modelGroupTitle": "tKsOKa_modelGroupTitle",
-			"healthOk": "tKsOKa_healthOk",
-			"modelGroup": "tKsOKa_modelGroup",
-			"modelIdInput": "tKsOKa_modelIdInput",
-			"monoInput": "tKsOKa_monoInput",
-			"addCard": "tKsOKa_addCard",
-			"modelEmpty": "tKsOKa_modelEmpty",
-			"modelGroupBody": "tKsOKa_modelGroupBody",
-			"healthChecking": "tKsOKa_healthChecking",
-			"panelBody": "tKsOKa_panelBody",
-			"modelList": "tKsOKa_modelList",
-			"deleteDialog": "tKsOKa_deleteDialog",
-			"modelSearchInput": "tKsOKa_modelSearchInput",
-			"rowHead": "tKsOKa_rowHead",
-			"section": "tKsOKa_section",
-			"rowTag": "tKsOKa_rowTag",
-			"modelFieldLabel": "tKsOKa_modelFieldLabel",
-			"addButton": "tKsOKa_addButton",
-			"helpLink": "tKsOKa_helpLink",
-			"modelField": "tKsOKa_modelField",
-			"modelGroupHeader": "tKsOKa_modelGroupHeader",
-			"fieldLabel": "tKsOKa_fieldLabel",
-			"setupCard": "tKsOKa_setupCard",
-			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
-			"candidateId": "tKsOKa_candidateId",
-			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
-			"headerRow": "tKsOKa_headerRow",
-			"field": "tKsOKa_field",
-			"secondaryButton": "tKsOKa_secondaryButton",
-			"rowName": "tKsOKa_rowName",
-			"credentialDotMissing": "tKsOKa_credentialDotMissing",
-			"healthFailText": "tKsOKa_healthFailText",
-			"eyeButton": "tKsOKa_eyeButton",
-			"iconButtonDanger": "tKsOKa_iconButtonDanger",
-			"checkResultFail": "tKsOKa_checkResultFail",
-			"endpointPreview": "tKsOKa_endpointPreview",
-			"modelAvatar": "tKsOKa_modelAvatar",
-			"addBlock": "tKsOKa_addBlock",
-			"candidateList": "tKsOKa_candidateList",
-			"fetchButton": "tKsOKa_fetchButton",
-			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
-			"deleteConfirm": "tKsOKa_deleteConfirm",
-			"fieldLabelRow": "tKsOKa_fieldLabelRow",
-			"dangerButton": "tKsOKa_dangerButton",
-			"notice": "tKsOKa_notice",
-			"modelListHead": "tKsOKa_modelListHead",
-			"addActions": "tKsOKa_addActions",
-			"healthFail": "tKsOKa_healthFail",
-			"iconButton": "tKsOKa_iconButton",
-			"inputGroup": "tKsOKa_inputGroup",
-			"modelRowDisabled": "tKsOKa_modelRowDisabled",
-			"title": "tKsOKa_title",
-			"credentialDot": "tKsOKa_credentialDot",
 			"selectInput": "tKsOKa_selectInput",
-			"modelEntry": "tKsOKa_modelEntry",
-			"addModelButton": "tKsOKa_addModelButton",
-			"error": "tKsOKa_error",
-			"rows": "tKsOKa_rows",
 			"modelDisabledId": "tKsOKa_modelDisabledId",
-			"candidateLabel": "tKsOKa_candidateLabel",
-			"modelRow": "tKsOKa_modelRow",
-			"rowActions": "tKsOKa_rowActions",
-			"modelCountBadge": "tKsOKa_modelCountBadge",
-			"checkResult": "tKsOKa_checkResult",
-			"savedNotice": "tKsOKa_savedNotice",
-			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
-			"modelCatalog": "tKsOKa_modelCatalog",
+			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
+			"dangerButton": "tKsOKa_dangerButton",
+			"modelEmpty": "tKsOKa_modelEmpty",
+			"defaultMarker": "tKsOKa_defaultMarker",
+			"modelRowDisabled": "tKsOKa_modelRowDisabled",
+			"secondaryButton": "tKsOKa_secondaryButton",
+			"title": "tKsOKa_title",
 			"linkButton": "tKsOKa_linkButton",
-			"healthDot": "tKsOKa_healthDot",
-			"rowIdentity": "tKsOKa_rowIdentity",
-			"checkButton": "tKsOKa_checkButton",
+			"healthFailText": "tKsOKa_healthFailText",
+			"notice": "tKsOKa_notice",
+			"credentialDot": "tKsOKa_credentialDot",
+			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"healthPulse": "tKsOKa_healthPulse",
+			"modelCatalog": "tKsOKa_modelCatalog",
+			"modelCountBadge": "tKsOKa_modelCountBadge",
+			"setupCard": "tKsOKa_setupCard",
+			"addActions": "tKsOKa_addActions",
 			"input": "tKsOKa_input",
+			"helpLink": "tKsOKa_helpLink",
+			"fetchButton": "tKsOKa_fetchButton",
+			"panelBody": "tKsOKa_panelBody",
+			"rowCard": "tKsOKa_rowCard",
+			"field": "tKsOKa_field",
+			"modelListHead": "tKsOKa_modelListHead",
+			"candidateList": "tKsOKa_candidateList",
+			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
+			"modelEntry": "tKsOKa_modelEntry",
+			"modelSearchInput": "tKsOKa_modelSearchInput",
+			"rowTag": "tKsOKa_rowTag",
+			"modelRow": "tKsOKa_modelRow",
+			"headerRow": "tKsOKa_headerRow",
+			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
+			"rows": "tKsOKa_rows",
+			"rowIdentity": "tKsOKa_rowIdentity",
+			"healthFail": "tKsOKa_healthFail",
+			"addButton": "tKsOKa_addButton",
+			"modelField": "tKsOKa_modelField",
+			"modelGroup": "tKsOKa_modelGroup",
+			"modelList": "tKsOKa_modelList",
+			"intro": "tKsOKa_intro",
+			"rowActions": "tKsOKa_rowActions",
+			"checkResult": "tKsOKa_checkResult",
+			"addModelButton": "tKsOKa_addModelButton",
+			"candidateLabel": "tKsOKa_candidateLabel",
+			"error": "tKsOKa_error",
+			"fieldLabel": "tKsOKa_fieldLabel",
+			"section": "tKsOKa_section",
 			"modelToolbarActions": "tKsOKa_modelToolbarActions",
+			"iconButton": "tKsOKa_iconButton",
+			"healthChecking": "tKsOKa_healthChecking",
+			"checkResultOk": "tKsOKa_checkResultOk",
+			"addBlock": "tKsOKa_addBlock",
+			"iconButtonDanger": "tKsOKa_iconButtonDanger",
+			"monoInput": "tKsOKa_monoInput",
+			"checkButton": "tKsOKa_checkButton",
+			"eyeButton": "tKsOKa_eyeButton",
+			"modelGroupCount": "tKsOKa_modelGroupCount",
+			"healthOk": "tKsOKa_healthOk",
+			"fieldLabelRow": "tKsOKa_fieldLabelRow",
+			"inputGroup": "tKsOKa_inputGroup",
+			"modelAvatar": "tKsOKa_modelAvatar",
+			"modelIdInput": "tKsOKa_modelIdInput",
+			"savedNotice": "tKsOKa_savedNotice",
+			"rowHead": "tKsOKa_rowHead",
+			"healthDot": "tKsOKa_healthDot",
+			"healthMeta": "tKsOKa_healthMeta",
+			"rowName": "tKsOKa_rowName",
+			"deleteConfirm": "tKsOKa_deleteConfirm",
+			"checkResultFail": "tKsOKa_checkResultFail",
+			"modelGroupHeader": "tKsOKa_modelGroupHeader",
+			"modelGroupTitle": "tKsOKa_modelGroupTitle",
+			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
+			"deleteDialog": "tKsOKa_deleteDialog",
+			"modelFieldLabel": "tKsOKa_modelFieldLabel",
 			"inputRow": "tKsOKa_inputRow",
-			"defaultMarker": "tKsOKa_defaultMarker"
+			"modelAdvanced": "tKsOKa_modelAdvanced",
+			"candidateId": "tKsOKa_candidateId",
+			"endpointPreview": "tKsOKa_endpointPreview",
+			"modelGroupBody": "tKsOKa_modelGroupBody",
+			"addCard": "tKsOKa_addCard"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -9557,7 +9557,7 @@ window.__ModuleLoader__.load({
 		function ModelsSection(props) {
 			const { controller, useSnapshot, prefsController, usePrefsSnapshot, api, t, schema, modelSelection } = props;
 			if (controller === void 0 || useSnapshot === void 0 || prefsController === void 0 || usePrefsSnapshot === void 0 || api === void 0 || t === void 0 || schema === void 0 || modelSelection === void 0) return null;
-			return (0, react_jsx_runtime.jsx)(Loaded$1, { injected: {
+			return (0, react_jsx_runtime.jsx)(Loaded$2, { injected: {
 				controller,
 				useSnapshot,
 				prefsController,
@@ -9568,7 +9568,7 @@ window.__ModuleLoader__.load({
 				modelSelection
 			} });
 		}
-		function Loaded$1({ injected }) {
+		function Loaded$2({ injected }) {
 			const { controller, t, prefsController } = injected;
 			const state = injected.useSnapshot((snapshot) => snapshot);
 			const prefs = injected.usePrefsSnapshot((snapshot) => snapshot);
@@ -10578,53 +10578,53 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderDirectorySection_module_css_default = {
-			"disabledTag": "l38w4q_disabledTag",
-			"detailBody": "l38w4q_detailBody",
-			"customTag": "l38w4q_customTag",
-			"emptyHint": "l38w4q_emptyHint",
-			"listItemName": "l38w4q_listItemName",
-			"error": "l38w4q_error",
-			"intro": "l38w4q_intro",
-			"detailHeaderMain": "l38w4q_detailHeaderMain",
-			"addCustomButton": "l38w4q_addCustomButton",
-			"detailHeader": "l38w4q_detailHeader",
-			"enabledDot": "l38w4q_enabledDot",
+			"emptyTitle": "l38w4q_emptyTitle",
 			"list": "l38w4q_list",
-			"listHeader": "l38w4q_listHeader",
 			"emptyList": "l38w4q_emptyList",
+			"listItemSelected": "l38w4q_listItemSelected",
 			"detailScroll": "l38w4q_detailScroll",
-			"switch": "l38w4q_switch",
-			"switchOn": "l38w4q_switchOn",
-			"savedNotice": "l38w4q_savedNotice",
-			"groupRows": "l38w4q_groupRows",
 			"detailTitle": "l38w4q_detailTitle",
-			"avatar": "l38w4q_avatar",
-			"detailRoute": "l38w4q_detailRoute",
-			"emptyDetail": "l38w4q_emptyDetail",
-			"listItemDisabled": "l38w4q_listItemDisabled",
-			"section": "l38w4q_section",
-			"infoDot": "l38w4q_infoDot",
-			"searchInput": "l38w4q_searchInput",
+			"detailBody": "l38w4q_detailBody",
 			"secondaryButton": "l38w4q_secondaryButton",
-			"detail": "l38w4q_detail",
-			"switchThumb": "l38w4q_switchThumb",
-			"listFooter": "l38w4q_listFooter",
-			"listItem": "l38w4q_listItem",
+			"deleteConfirm": "l38w4q_deleteConfirm",
+			"section": "l38w4q_section",
+			"listItemName": "l38w4q_listItemName",
+			"savedNotice": "l38w4q_savedNotice",
+			"searchInput": "l38w4q_searchInput",
+			"infoDot": "l38w4q_infoDot",
 			"listItemMain": "l38w4q_listItemMain",
-			"freeBadge": "l38w4q_freeBadge",
+			"detailHeader": "l38w4q_detailHeader",
+			"listItemDisabled": "l38w4q_listItemDisabled",
+			"detailRoute": "l38w4q_detailRoute",
+			"addCustomButton": "l38w4q_addCustomButton",
+			"notice": "l38w4q_notice",
+			"switchOn": "l38w4q_switchOn",
+			"listItem": "l38w4q_listItem",
+			"kebabButton": "l38w4q_kebabButton",
+			"listFooter": "l38w4q_listFooter",
+			"listHeader": "l38w4q_listHeader",
+			"listItemDropTarget": "l38w4q_listItemDropTarget",
+			"avatar": "l38w4q_avatar",
+			"customTag": "l38w4q_customTag",
+			"switch": "l38w4q_switch",
+			"deleteDialog": "l38w4q_deleteDialog",
+			"detail": "l38w4q_detail",
+			"emptyDetail": "l38w4q_emptyDetail",
+			"groupRows": "l38w4q_groupRows",
 			"searchClear": "l38w4q_searchClear",
 			"listScroll": "l38w4q_listScroll",
-			"listItemSelected": "l38w4q_listItemSelected",
-			"listItemDragging": "l38w4q_listItemDragging",
+			"intro": "l38w4q_intro",
 			"kebabSlot": "l38w4q_kebabSlot",
-			"deleteDialog": "l38w4q_deleteDialog",
-			"deleteConfirm": "l38w4q_deleteConfirm",
+			"detailHeaderMain": "l38w4q_detailHeaderMain",
+			"boltButton": "l38w4q_boltButton",
+			"emptyHint": "l38w4q_emptyHint",
+			"enabledDot": "l38w4q_enabledDot",
+			"disabledTag": "l38w4q_disabledTag",
+			"switchThumb": "l38w4q_switchThumb",
+			"error": "l38w4q_error",
+			"freeBadge": "l38w4q_freeBadge",
 			"split": "l38w4q_split",
-			"notice": "l38w4q_notice",
-			"listItemDropTarget": "l38w4q_listItemDropTarget",
-			"emptyTitle": "l38w4q_emptyTitle",
-			"kebabButton": "l38w4q_kebabButton",
-			"boltButton": "l38w4q_boltButton"
+			"listItemDragging": "l38w4q_listItemDragging"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderDirectorySection.js
@@ -10756,7 +10756,7 @@ window.__ModuleLoader__.load({
 		function ProviderDirectorySection(props) {
 			const { controller, useSnapshot, api, schema, t, getCheck } = props;
 			if (controller === void 0 || useSnapshot === void 0 || api === void 0 || t === void 0 || schema === void 0 || getCheck === void 0) return null;
-			return (0, react_jsx_runtime.jsx)(Loaded, { injected: {
+			return (0, react_jsx_runtime.jsx)(Loaded$1, { injected: {
 				controller,
 				useSnapshot,
 				api,
@@ -10765,7 +10765,7 @@ window.__ModuleLoader__.load({
 				getCheck
 			} });
 		}
-		function Loaded({ injected }) {
+		function Loaded$1({ injected }) {
 			const { controller, api, t, schema, getCheck } = injected;
 			const state = injected.useSnapshot((snapshot) => snapshot);
 			const [search, setSearch] = (0, react.useState)("");
@@ -11640,20 +11640,20 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var AddMcpServerDialog_module_css_default = {
-			"overlay": "uv_otq_overlay",
 			"input": "uv_otq_input",
-			"cancelButton": "uv_otq_cancelButton",
-			"textarea": "uv_otq_textarea",
-			"select": "uv_otq_select",
-			"header": "uv_otq_header",
-			"title": "uv_otq_title",
-			"error": "uv_otq_error",
-			"field": "uv_otq_field",
-			"submitButton": "uv_otq_submitButton",
-			"closeButton": "uv_otq_closeButton",
-			"form": "uv_otq_form",
-			"label": "uv_otq_label",
 			"footer": "uv_otq_footer",
+			"field": "uv_otq_field",
+			"closeButton": "uv_otq_closeButton",
+			"label": "uv_otq_label",
+			"error": "uv_otq_error",
+			"header": "uv_otq_header",
+			"overlay": "uv_otq_overlay",
+			"textarea": "uv_otq_textarea",
+			"cancelButton": "uv_otq_cancelButton",
+			"form": "uv_otq_form",
+			"select": "uv_otq_select",
+			"submitButton": "uv_otq_submitButton",
+			"title": "uv_otq_title",
 			"dialog": "uv_otq_dialog"
 		};
 		//#endregion
@@ -11890,76 +11890,76 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var McpSection_module_css_default = {
-			"logInfo": "_0bBxiW_logInfo",
-			"switchInput": "_0bBxiW_switchInput",
-			"listItemMain": "_0bBxiW_listItemMain",
-			"listItemAvatar": "_0bBxiW_listItemAvatar",
-			"sectionBody": "_0bBxiW_sectionBody",
-			"fieldLabel": "_0bBxiW_fieldLabel",
-			"switchSlider": "_0bBxiW_switchSlider",
-			"listItemLabel": "_0bBxiW_listItemLabel",
-			"fieldHint": "_0bBxiW_fieldHint",
-			"formActions": "_0bBxiW_formActions",
-			"serverDetail": "_0bBxiW_serverDetail",
-			"textarea": "_0bBxiW_textarea",
-			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
-			"descriptionText": "_0bBxiW_descriptionText",
-			"searchIcon": "_0bBxiW_searchIcon",
-			"tabBar": "_0bBxiW_tabBar",
-			"detailTitle": "_0bBxiW_detailTitle",
-			"input": "_0bBxiW_input",
-			"detailHeader": "_0bBxiW_detailHeader",
-			"resourceUri": "_0bBxiW_resourceUri",
-			"searchRow": "_0bBxiW_searchRow",
-			"primaryButton": "_0bBxiW_primaryButton",
-			"section": "_0bBxiW_section",
-			"dangerZoneText": "_0bBxiW_dangerZoneText",
 			"listItem": "_0bBxiW_listItem",
-			"dangerButton": "_0bBxiW_dangerButton",
-			"toolHeader": "_0bBxiW_toolHeader",
-			"loading": "_0bBxiW_loading",
-			"switchWrapper": "_0bBxiW_switchWrapper",
-			"activeDot": "_0bBxiW_activeDot",
+			"listItemLabel": "_0bBxiW_listItemLabel",
 			"detailScroll": "_0bBxiW_detailScroll",
-			"splitRoot": "_0bBxiW_splitRoot",
-			"detailMeta": "_0bBxiW_detailMeta",
-			"sectionHeader": "_0bBxiW_sectionHeader",
-			"codeLine": "_0bBxiW_codeLine",
-			"toolsList": "_0bBxiW_toolsList",
-			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
-			"searchClearButton": "_0bBxiW_searchClearButton",
-			"detailMetaItem": "_0bBxiW_detailMetaItem",
-			"listItems": "_0bBxiW_listItems",
-			"toolItem": "_0bBxiW_toolItem",
-			"searchWrap": "_0bBxiW_searchWrap",
-			"codeBlock": "_0bBxiW_codeBlock",
-			"fieldGroup": "_0bBxiW_fieldGroup",
 			"emptyDescription": "_0bBxiW_emptyDescription",
-			"toolDescription": "_0bBxiW_toolDescription",
-			"secondaryButton": "_0bBxiW_secondaryButton",
-			"searchInput": "_0bBxiW_searchInput",
-			"listItemSelected": "_0bBxiW_listItemSelected",
-			"listScroller": "_0bBxiW_listScroller",
-			"tabActive": "_0bBxiW_tabActive",
-			"emptyDetailState": "_0bBxiW_emptyDetailState",
-			"tab": "_0bBxiW_tab",
-			"toolName": "_0bBxiW_toolName",
-			"emptyTitle": "_0bBxiW_emptyTitle",
-			"addButton": "_0bBxiW_addButton",
-			"emptyIcon": "_0bBxiW_emptyIcon",
-			"error": "_0bBxiW_error",
-			"listItemIdle": "_0bBxiW_listItemIdle",
-			"checkbox": "_0bBxiW_checkbox",
-			"addFooter": "_0bBxiW_addFooter",
-			"errorBox": "_0bBxiW_errorBox",
-			"emptyState": "_0bBxiW_emptyState",
-			"logHeader": "_0bBxiW_logHeader",
-			"serverList": "_0bBxiW_serverList",
-			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
-			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
 			"fieldRow": "_0bBxiW_fieldRow",
+			"logInfo": "_0bBxiW_logInfo",
+			"descriptionText": "_0bBxiW_descriptionText",
+			"sectionBody": "_0bBxiW_sectionBody",
+			"emptyDetailState": "_0bBxiW_emptyDetailState",
+			"emptyIcon": "_0bBxiW_emptyIcon",
+			"tabBar": "_0bBxiW_tabBar",
+			"detailHeader": "_0bBxiW_detailHeader",
+			"sectionHeader": "_0bBxiW_sectionHeader",
+			"toolDescription": "_0bBxiW_toolDescription",
+			"searchClearButton": "_0bBxiW_searchClearButton",
+			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
+			"listScroller": "_0bBxiW_listScroller",
+			"searchInput": "_0bBxiW_searchInput",
+			"switchInput": "_0bBxiW_switchInput",
+			"sectionHeading": "_0bBxiW_sectionHeading",
+			"codeBlock": "_0bBxiW_codeBlock",
+			"searchRow": "_0bBxiW_searchRow",
+			"textarea": "_0bBxiW_textarea",
 			"dangerZone": "_0bBxiW_dangerZone",
-			"sectionHeading": "_0bBxiW_sectionHeading"
+			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
+			"codeLine": "_0bBxiW_codeLine",
+			"error": "_0bBxiW_error",
+			"secondaryButton": "_0bBxiW_secondaryButton",
+			"dangerZoneText": "_0bBxiW_dangerZoneText",
+			"searchIcon": "_0bBxiW_searchIcon",
+			"serverDetail": "_0bBxiW_serverDetail",
+			"loading": "_0bBxiW_loading",
+			"primaryButton": "_0bBxiW_primaryButton",
+			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
+			"splitRoot": "_0bBxiW_splitRoot",
+			"listItemMain": "_0bBxiW_listItemMain",
+			"searchWrap": "_0bBxiW_searchWrap",
+			"serverList": "_0bBxiW_serverList",
+			"listItemAvatar": "_0bBxiW_listItemAvatar",
+			"checkbox": "_0bBxiW_checkbox",
+			"switchWrapper": "_0bBxiW_switchWrapper",
+			"tabActive": "_0bBxiW_tabActive",
+			"input": "_0bBxiW_input",
+			"switchSlider": "_0bBxiW_switchSlider",
+			"fieldHint": "_0bBxiW_fieldHint",
+			"toolsList": "_0bBxiW_toolsList",
+			"toolHeader": "_0bBxiW_toolHeader",
+			"tab": "_0bBxiW_tab",
+			"errorBox": "_0bBxiW_errorBox",
+			"listItems": "_0bBxiW_listItems",
+			"toolName": "_0bBxiW_toolName",
+			"toolItem": "_0bBxiW_toolItem",
+			"listItemIdle": "_0bBxiW_listItemIdle",
+			"addButton": "_0bBxiW_addButton",
+			"emptyTitle": "_0bBxiW_emptyTitle",
+			"fieldLabel": "_0bBxiW_fieldLabel",
+			"emptyState": "_0bBxiW_emptyState",
+			"detailMeta": "_0bBxiW_detailMeta",
+			"detailTitle": "_0bBxiW_detailTitle",
+			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
+			"resourceUri": "_0bBxiW_resourceUri",
+			"addFooter": "_0bBxiW_addFooter",
+			"section": "_0bBxiW_section",
+			"fieldGroup": "_0bBxiW_fieldGroup",
+			"listItemSelected": "_0bBxiW_listItemSelected",
+			"activeDot": "_0bBxiW_activeDot",
+			"logHeader": "_0bBxiW_logHeader",
+			"dangerButton": "_0bBxiW_dangerButton",
+			"detailMetaItem": "_0bBxiW_detailMetaItem",
+			"formActions": "_0bBxiW_formActions"
 		};
 		//#endregion
 		//#region lib/types/client/McpSection.js
@@ -12906,26 +12906,26 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var WebSearchSection_module_css_default = {
-			"loading": "_0WjBOa_loading",
-			"providerName": "_0WjBOa_providerName",
-			"pageTitle": "_0WjBOa_pageTitle",
-			"pageHeader": "_0WjBOa_pageHeader",
-			"pageDescription": "_0WjBOa_pageDescription",
 			"fieldHint": "_0WjBOa_fieldHint",
-			"error": "_0WjBOa_error",
-			"select": "_0WjBOa_select",
-			"input": "_0WjBOa_input",
-			"apiKeyRow": "_0WjBOa_apiKeyRow",
-			"root": "_0WjBOa_root",
-			"cardTitle": "_0WjBOa_cardTitle",
-			"checkbox": "_0WjBOa_checkbox",
-			"cardDescription": "_0WjBOa_cardDescription",
-			"providerDetail": "_0WjBOa_providerDetail",
-			"iconButton": "_0WjBOa_iconButton",
 			"fieldRow": "_0WjBOa_fieldRow",
-			"card": "_0WjBOa_card",
+			"loading": "_0WjBOa_loading",
+			"error": "_0WjBOa_error",
+			"cardDescription": "_0WjBOa_cardDescription",
+			"pageTitle": "_0WjBOa_pageTitle",
+			"input": "_0WjBOa_input",
+			"pageDescription": "_0WjBOa_pageDescription",
+			"root": "_0WjBOa_root",
 			"providerDescription": "_0WjBOa_providerDescription",
-			"fieldLabel": "_0WjBOa_fieldLabel"
+			"providerName": "_0WjBOa_providerName",
+			"apiKeyRow": "_0WjBOa_apiKeyRow",
+			"fieldLabel": "_0WjBOa_fieldLabel",
+			"card": "_0WjBOa_card",
+			"pageHeader": "_0WjBOa_pageHeader",
+			"cardTitle": "_0WjBOa_cardTitle",
+			"select": "_0WjBOa_select",
+			"iconButton": "_0WjBOa_iconButton",
+			"providerDetail": "_0WjBOa_providerDetail",
+			"checkbox": "_0WjBOa_checkbox"
 		};
 		//#endregion
 		//#region lib/types/client/WebSearchSection.js
@@ -13342,23 +13342,23 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ProcessorSection_module_css_default = {
+			"iconButton": "CL8zIa_iconButton",
+			"providerDescription": "CL8zIa_providerDescription",
+			"apiKeyRow": "CL8zIa_apiKeyRow",
+			"loading": "CL8zIa_loading",
+			"fieldRow": "CL8zIa_fieldRow",
+			"input": "CL8zIa_input",
+			"card": "CL8zIa_card",
+			"cardTitle": "CL8zIa_cardTitle",
+			"select": "CL8zIa_select",
+			"providerName": "CL8zIa_providerName",
 			"cardDescription": "CL8zIa_cardDescription",
-			"root": "CL8zIa_root",
 			"pageTitle": "CL8zIa_pageTitle",
 			"fieldLabel": "CL8zIa_fieldLabel",
 			"fieldHint": "CL8zIa_fieldHint",
 			"providerDetail": "CL8zIa_providerDetail",
-			"providerDescription": "CL8zIa_providerDescription",
-			"iconButton": "CL8zIa_iconButton",
-			"loading": "CL8zIa_loading",
-			"apiKeyRow": "CL8zIa_apiKeyRow",
-			"select": "CL8zIa_select",
-			"pageDescription": "CL8zIa_pageDescription",
-			"fieldRow": "CL8zIa_fieldRow",
-			"cardTitle": "CL8zIa_cardTitle",
-			"card": "CL8zIa_card",
-			"providerName": "CL8zIa_providerName",
-			"input": "CL8zIa_input"
+			"root": "CL8zIa_root",
+			"pageDescription": "CL8zIa_pageDescription"
 		};
 		//#endregion
 		//#region lib/types/client/ProcessorSection.js
@@ -13643,61 +13643,61 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var UsageSection_module_css_default = {
+			"heatmapCol": "ej6-VW_heatmapCol",
+			"heatmapMonth": "ej6-VW_heatmapMonth",
+			"loadMoreBtn": "ej6-VW_loadMoreBtn",
+			"windowTabs": "ej6-VW_windowTabs",
+			"tdRight": "ej6-VW_tdRight",
+			"insightItem": "ej6-VW_insightItem",
+			"down": "ej6-VW_down",
+			"entriesTable": "ej6-VW_entriesTable",
+			"insightLabel": "ej6-VW_insightLabel",
+			"insightValue": "ej6-VW_insightValue",
+			"heatmapCell": "ej6-VW_heatmapCell",
+			"modelProvider": "ej6-VW_modelProvider",
+			"metricLabel": "ej6-VW_metricLabel",
+			"metricStrip": "ej6-VW_metricStrip",
+			"controlLabel": "ej6-VW_controlLabel",
+			"exploreBody": "ej6-VW_exploreBody",
+			"donutLegendRow": "ej6-VW_donutLegendRow",
+			"metricValue": "ej6-VW_metricValue",
+			"root": "ej6-VW_root",
+			"pageHeader": "ej6-VW_pageHeader",
+			"heatmap": "ej6-VW_heatmap",
+			"active": "ej6-VW_active",
+			"heatmapCellOutside": "ej6-VW_heatmapCellOutside",
+			"barChart": "ej6-VW_barChart",
+			"donutWrap": "ej6-VW_donutWrap",
+			"donutLegendKey": "ej6-VW_donutLegendKey",
+			"windowTab": "ej6-VW_windowTab",
 			"tableWrap": "ej6-VW_tableWrap",
 			"usageEmpty": "ej6-VW_usageEmpty",
-			"heatmapSection": "ej6-VW_heatmapSection",
-			"metricStrip": "ej6-VW_metricStrip",
-			"heatmapCell": "ej6-VW_heatmapCell",
-			"exploreHeader": "ej6-VW_exploreHeader",
-			"donutSwatch": "ej6-VW_donutSwatch",
-			"controlRow": "ej6-VW_controlRow",
-			"entriesTable": "ej6-VW_entriesTable",
-			"tdRight": "ej6-VW_tdRight",
-			"donutLegendRow": "ej6-VW_donutLegendRow",
-			"insightItem": "ej6-VW_insightItem",
-			"tableEmpty": "ej6-VW_tableEmpty",
-			"windowTabs": "ej6-VW_windowTabs",
-			"metricCell": "ej6-VW_metricCell",
-			"windowTab": "ej6-VW_windowTab",
-			"heatmap": "ej6-VW_heatmap",
-			"root": "ej6-VW_root",
-			"insightLabel": "ej6-VW_insightLabel",
 			"heatmapTitle": "ej6-VW_heatmapTitle",
-			"heatmapScroll": "ej6-VW_heatmapScroll",
-			"barChart": "ej6-VW_barChart",
-			"barAxis": "ej6-VW_barAxis",
-			"pageTitle": "ej6-VW_pageTitle",
-			"pageHeader": "ej6-VW_pageHeader",
-			"modelName": "ej6-VW_modelName",
-			"loadMoreBtn": "ej6-VW_loadMoreBtn",
-			"exploreCard": "ej6-VW_exploreCard",
-			"donutLegend": "ej6-VW_donutLegend",
-			"donutLegendValue": "ej6-VW_donutLegendValue",
-			"down": "ej6-VW_down",
-			"metricValue": "ej6-VW_metricValue",
-			"metricDelta": "ej6-VW_metricDelta",
-			"insightValue": "ej6-VW_insightValue",
-			"modelCell": "ej6-VW_modelCell",
-			"controlLabel": "ej6-VW_controlLabel",
-			"barColumn": "ej6-VW_barColumn",
-			"donutLegendKey": "ej6-VW_donutLegendKey",
-			"heatmapColCells": "ej6-VW_heatmapColCells",
-			"metricSparkline": "ej6-VW_metricSparkline",
-			"heatmapCellOutside": "ej6-VW_heatmapCellOutside",
-			"controlSelect": "ej6-VW_controlSelect",
-			"exploreBody": "ej6-VW_exploreBody",
-			"barSegment": "ej6-VW_barSegment",
-			"pageDescription": "ej6-VW_pageDescription",
-			"modelProvider": "ej6-VW_modelProvider",
+			"controlRow": "ej6-VW_controlRow",
 			"up": "ej6-VW_up",
-			"heatmapMonth": "ej6-VW_heatmapMonth",
-			"summaryLine": "ej6-VW_summaryLine",
-			"metricLabel": "ej6-VW_metricLabel",
-			"heatmapCol": "ej6-VW_heatmapCol",
+			"donutLegendValue": "ej6-VW_donutLegendValue",
+			"heatmapSection": "ej6-VW_heatmapSection",
+			"metricSparkline": "ej6-VW_metricSparkline",
+			"heatmapScroll": "ej6-VW_heatmapScroll",
+			"metricDelta": "ej6-VW_metricDelta",
+			"exploreCard": "ej6-VW_exploreCard",
 			"exploreTitle": "ej6-VW_exploreTitle",
-			"active": "ej6-VW_active",
-			"donutWrap": "ej6-VW_donutWrap",
-			"insightStrip": "ej6-VW_insightStrip"
+			"controlSelect": "ej6-VW_controlSelect",
+			"insightStrip": "ej6-VW_insightStrip",
+			"barColumn": "ej6-VW_barColumn",
+			"donutLegend": "ej6-VW_donutLegend",
+			"exploreHeader": "ej6-VW_exploreHeader",
+			"modelCell": "ej6-VW_modelCell",
+			"metricCell": "ej6-VW_metricCell",
+			"pageDescription": "ej6-VW_pageDescription",
+			"barSegment": "ej6-VW_barSegment",
+			"donutSwatch": "ej6-VW_donutSwatch",
+			"pageTitle": "ej6-VW_pageTitle",
+			"modelName": "ej6-VW_modelName",
+			"tableEmpty": "ej6-VW_tableEmpty",
+			"summaryLine": "ej6-VW_summaryLine",
+			"barAxis": "ej6-VW_barAxis",
+			"heatmapColCells": "ej6-VW_heatmapColCells"
 		};
 		//#endregion
 		//#region lib/types/client/UsageSection.js
@@ -14786,16 +14786,16 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var SystemSection_module_css_default = {
-			"pageDescription": "MzTzwq_pageDescription",
-			"infoValue": "MzTzwq_infoValue",
-			"infoLabel": "MzTzwq_infoLabel",
 			"badge": "MzTzwq_badge",
-			"cardTitle": "MzTzwq_cardTitle",
-			"root": "MzTzwq_root",
 			"card": "MzTzwq_card",
+			"loading": "MzTzwq_loading",
+			"cardTitle": "MzTzwq_cardTitle",
 			"pageTitle": "MzTzwq_pageTitle",
+			"pageDescription": "MzTzwq_pageDescription",
 			"infoRow": "MzTzwq_infoRow",
-			"loading": "MzTzwq_loading"
+			"infoLabel": "MzTzwq_infoLabel",
+			"root": "MzTzwq_root",
+			"infoValue": "MzTzwq_infoValue"
 		};
 		//#endregion
 		//#region lib/types/client/SystemSection.js
@@ -15059,23 +15059,23 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var TasksSection_module_css_default = {
+			"taskMeta": "_3yT94W_taskMeta",
+			"taskRow": "_3yT94W_taskRow",
+			"taskMain": "_3yT94W_taskMain",
+			"root": "_3yT94W_root",
 			"cardTitle": "_3yT94W_cardTitle",
+			"runOk": "_3yT94W_runOk",
+			"runRow": "_3yT94W_runRow",
+			"taskName": "_3yT94W_taskName",
+			"pageDescription": "_3yT94W_pageDescription",
+			"pageTitle": "_3yT94W_pageTitle",
 			"runFail": "_3yT94W_runFail",
 			"card": "_3yT94W_card",
-			"taskName": "_3yT94W_taskName",
-			"input": "_3yT94W_input",
-			"select": "_3yT94W_select",
-			"pageDescription": "_3yT94W_pageDescription",
-			"loading": "_3yT94W_loading",
-			"taskRow": "_3yT94W_taskRow",
 			"runTime": "_3yT94W_runTime",
-			"root": "_3yT94W_root",
-			"taskMain": "_3yT94W_taskMain",
-			"taskMeta": "_3yT94W_taskMeta",
-			"runOk": "_3yT94W_runOk",
 			"runDetail": "_3yT94W_runDetail",
-			"pageTitle": "_3yT94W_pageTitle",
-			"runRow": "_3yT94W_runRow"
+			"input": "_3yT94W_input",
+			"loading": "_3yT94W_loading",
+			"select": "_3yT94W_select"
 		};
 		//#endregion
 		//#region lib/types/client/TasksSection.js
@@ -15439,16 +15439,16 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var SettingsPages_module_css_default = {
+			"group": "_0spVW_group",
 			"switchLabel": "_0spVW_switchLabel",
-			"rowControl": "_0spVW_rowControl",
+			"groupDescription": "_0spVW_groupDescription",
 			"shellInner": "_0spVW_shellInner",
-			"row": "_0spVW_row",
 			"groupTitle": "_0spVW_groupTitle",
 			"shell": "_0spVW_shell",
-			"group": "_0spVW_group",
-			"rowDescription": "_0spVW_rowDescription",
+			"rowControl": "_0spVW_rowControl",
 			"divider": "_0spVW_divider",
-			"groupDescription": "_0spVW_groupDescription",
+			"row": "_0spVW_row",
+			"rowDescription": "_0spVW_rowDescription",
 			"rowTitle": "_0spVW_rowTitle"
 		};
 		//#endregion
@@ -15519,24 +15519,24 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var LocalModelDownloads_module_css_default = {
-			"btnPrimary": "_9apQa_btnPrimary",
-			"groupHeader": "_9apQa_groupHeader",
-			"btn": "_9apQa_btn",
-			"modelSubtitle": "_9apQa_modelSubtitle",
-			"modelOps": "_9apQa_modelOps",
-			"modelMain": "_9apQa_modelMain",
-			"btnDanger": "_9apQa_btnDanger",
-			"groupDesc": "_9apQa_groupDesc",
 			"statusDownloading": "_9apQa_statusDownloading",
-			"noticeTag": "_9apQa_noticeTag",
-			"noticeText": "_9apQa_noticeText",
-			"statusReady": "_9apQa_statusReady",
-			"noticeRow": "_9apQa_noticeRow",
-			"modelCard": "_9apQa_modelCard",
-			"modelIcon": "_9apQa_modelIcon",
+			"modelSubtitle": "_9apQa_modelSubtitle",
 			"modelName": "_9apQa_modelName",
+			"groupDesc": "_9apQa_groupDesc",
+			"btnPrimary": "_9apQa_btnPrimary",
+			"btnDanger": "_9apQa_btnDanger",
+			"btn": "_9apQa_btn",
+			"groupHeader": "_9apQa_groupHeader",
+			"modelIcon": "_9apQa_modelIcon",
+			"modelOps": "_9apQa_modelOps",
+			"modelCard": "_9apQa_modelCard",
+			"noticeTag": "_9apQa_noticeTag",
+			"modelMain": "_9apQa_modelMain",
 			"modelStatus": "_9apQa_modelStatus",
-			"statusIdle": "_9apQa_statusIdle"
+			"statusReady": "_9apQa_statusReady",
+			"statusIdle": "_9apQa_statusIdle",
+			"noticeRow": "_9apQa_noticeRow",
+			"noticeText": "_9apQa_noticeText"
 		};
 		//#endregion
 		//#region lib/types/client/LocalModelDownloads.js
@@ -15936,21 +15936,21 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ApiGatewaySection_module_css_default = {
-			"copied": "S156cG_copied",
-			"ghostBtn": "S156cG_ghostBtn",
-			"inputSmall": "S156cG_inputSmall",
+			"notice": "S156cG_notice",
+			"statusDot": "S156cG_statusDot",
+			"statusRow": "S156cG_statusRow",
 			"groupHeaderRow": "S156cG_groupHeaderRow",
+			"inputSmall": "S156cG_inputSmall",
+			"headerBox": "S156cG_headerBox",
+			"ghostBtn": "S156cG_ghostBtn",
+			"copied": "S156cG_copied",
+			"docLink": "S156cG_docLink",
+			"statusText": "S156cG_statusText",
+			"outlineBtn": "S156cG_outlineBtn",
 			"inputGroup": "S156cG_inputGroup",
 			"iconBtn": "S156cG_iconBtn",
-			"statusText": "S156cG_statusText",
-			"statusRow": "S156cG_statusRow",
-			"notice": "S156cG_notice",
 			"statusStopped": "S156cG_statusStopped",
-			"statusDot": "S156cG_statusDot",
-			"input": "S156cG_input",
-			"docLink": "S156cG_docLink",
-			"headerBox": "S156cG_headerBox",
-			"outlineBtn": "S156cG_outlineBtn"
+			"input": "S156cG_input"
 		};
 		//#endregion
 		//#region lib/types/client/ApiGatewaySection.js
@@ -16326,28 +16326,28 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
-			"navScroll": "_4STY0G_navScroll",
-			"mask": "_4STY0G_mask",
-			"navIcon": "_4STY0G_navIcon",
-			"triggerLabel": "_4STY0G_triggerLabel",
-			"navLabel": "_4STY0G_navLabel",
-			"trigger": "_4STY0G_trigger",
-			"actions": "_4STY0G_actions",
-			"header": "_4STY0G_header",
-			"panel": "_4STY0G_panel",
-			"navGroupTitle": "_4STY0G_navGroupTitle",
 			"close": "_4STY0G_close",
-			"content": "_4STY0G_content",
-			"hiddenLabel": "_4STY0G_hiddenLabel",
-			"active": "_4STY0G_active",
-			"overlay": "_4STY0G_overlay",
+			"panel": "_4STY0G_panel",
 			"nav": "_4STY0G_nav",
 			"navCell": "_4STY0G_navCell",
-			"navGroup": "_4STY0G_navGroup",
-			"navList": "_4STY0G_navList",
-			"rail": "_4STY0G_rail",
+			"navLabel": "_4STY0G_navLabel",
+			"triggerLabel": "_4STY0G_triggerLabel",
+			"navTitle": "_4STY0G_navTitle",
+			"content": "_4STY0G_content",
 			"options": "_4STY0G_options",
-			"navTitle": "_4STY0G_navTitle"
+			"trigger": "_4STY0G_trigger",
+			"header": "_4STY0G_header",
+			"navScroll": "_4STY0G_navScroll",
+			"navIcon": "_4STY0G_navIcon",
+			"rail": "_4STY0G_rail",
+			"overlay": "_4STY0G_overlay",
+			"hiddenLabel": "_4STY0G_hiddenLabel",
+			"navGroup": "_4STY0G_navGroup",
+			"navGroupTitle": "_4STY0G_navGroupTitle",
+			"navList": "_4STY0G_navList",
+			"active": "_4STY0G_active",
+			"mask": "_4STY0G_mask",
+			"actions": "_4STY0G_actions"
 		};
 		//#endregion
 		//#region \0dsh-control-center-plain-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\cherry-tokens.css.mjs
@@ -16691,9 +16691,9 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var GeneralSection_module_css_default = {
-			"errorDescription": "DFoDHW_errorDescription",
+			"section": "DFoDHW_section",
 			"errorTitle": "DFoDHW_errorTitle",
-			"section": "DFoDHW_section"
+			"errorDescription": "DFoDHW_errorDescription"
 		};
 		//#endregion
 		//#region lib/types/client/GeneralSection.js
@@ -16816,23 +16816,23 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var AppearanceSection_module_css_default = {
-			"desktopTag": "_-7MpG_desktopTag",
 			"themePreviewActive": "_-7MpG_themePreviewActive",
-			"groupHeader": "_-7MpG_groupHeader",
-			"themeOption": "_-7MpG_themeOption",
-			"swatch": "_-7MpG_swatch",
-			"themeGrid": "_-7MpG_themeGrid",
-			"themeLabel": "_-7MpG_themeLabel",
-			"colorRow": "_-7MpG_colorRow",
-			"nativePicker": "_-7MpG_nativePicker",
 			"nativeSwatch": "_-7MpG_nativeSwatch",
-			"cssEditor": "_-7MpG_cssEditor",
+			"desktopTag": "_-7MpG_desktopTag",
+			"nativePicker": "_-7MpG_nativePicker",
+			"fontSelect": "_-7MpG_fontSelect",
+			"colorRow": "_-7MpG_colorRow",
 			"staticValue": "_-7MpG_staticValue",
-			"swatchActive": "_-7MpG_swatchActive",
-			"zoomControls": "_-7MpG_zoomControls",
-			"previewFrame": "_-7MpG_previewFrame",
+			"themeLabel": "_-7MpG_themeLabel",
+			"cssEditor": "_-7MpG_cssEditor",
+			"swatch": "_-7MpG_swatch",
+			"themeOption": "_-7MpG_themeOption",
 			"hexInput": "_-7MpG_hexInput",
-			"fontSelect": "_-7MpG_fontSelect"
+			"groupHeader": "_-7MpG_groupHeader",
+			"themeGrid": "_-7MpG_themeGrid",
+			"previewFrame": "_-7MpG_previewFrame",
+			"swatchActive": "_-7MpG_swatchActive",
+			"zoomControls": "_-7MpG_zoomControls"
 		};
 		//#endregion
 		//#region lib/types/client/AppearanceSection.js
@@ -17654,35 +17654,35 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ShortcutSection_module_css_default = {
-			"groupBlock": "-S_gJa_groupBlock",
+			"menuItem": "-S_gJa_menuItem",
+			"listGroup": "-S_gJa_listGroup",
+			"rowShortcut": "-S_gJa_rowShortcut",
+			"rowDisabled": "-S_gJa_rowDisabled",
 			"recording": "-S_gJa_recording",
-			"searchWrap": "-S_gJa_searchWrap",
-			"searchInput": "-S_gJa_searchInput",
-			"menuCount": "-S_gJa_menuCount",
-			"bound": "-S_gJa_bound",
-			"emptyState": "-S_gJa_emptyState",
+			"undo": "-S_gJa_undo",
+			"groupLabel": "-S_gJa_groupLabel",
+			"row": "-S_gJa_row",
 			"kbd": "-S_gJa_kbd",
+			"desktopTag": "-S_gJa_desktopTag",
+			"unbound": "-S_gJa_unbound",
+			"groupBlock": "-S_gJa_groupBlock",
 			"rowLabel": "-S_gJa_rowLabel",
+			"menuSep": "-S_gJa_menuSep",
+			"searchInput": "-S_gJa_searchInput",
 			"header": "-S_gJa_header",
 			"moreButton": "-S_gJa_moreButton",
+			"emptyState": "-S_gJa_emptyState",
+			"headerControls": "-S_gJa_headerControls",
+			"headerTitle": "-S_gJa_headerTitle",
+			"menuCount": "-S_gJa_menuCount",
+			"menuPop": "-S_gJa_menuPop",
+			"searchIcon": "-S_gJa_searchIcon",
+			"menuItemActive": "-S_gJa_menuItemActive",
 			"filterButton": "-S_gJa_filterButton",
 			"keys": "-S_gJa_keys",
-			"menuSep": "-S_gJa_menuSep",
-			"menuItemActive": "-S_gJa_menuItemActive",
-			"menuItem": "-S_gJa_menuItem",
-			"groupLabel": "-S_gJa_groupLabel",
-			"rowDisabled": "-S_gJa_rowDisabled",
-			"rowShortcut": "-S_gJa_rowShortcut",
-			"menuPop": "-S_gJa_menuPop",
-			"listGroup": "-S_gJa_listGroup",
+			"bound": "-S_gJa_bound",
+			"searchWrap": "-S_gJa_searchWrap",
 			"menuItemDanger": "-S_gJa_menuItemDanger",
-			"headerControls": "-S_gJa_headerControls",
-			"desktopTag": "-S_gJa_desktopTag",
-			"headerTitle": "-S_gJa_headerTitle",
-			"searchIcon": "-S_gJa_searchIcon",
-			"row": "-S_gJa_row",
-			"undo": "-S_gJa_undo",
-			"unbound": "-S_gJa_unbound",
 			"rowSwitch": "-S_gJa_rowSwitch"
 		};
 		//#endregion
@@ -18284,43 +18284,43 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var SelectionAssistantSection_module_css_default = {
-			"groupHeaderRow": "_2Suf7W_groupHeaderRow",
-			"opBtnDanger": "_2Suf7W_opBtnDanger",
-			"notice": "_2Suf7W_notice",
-			"enableBtnOn": "_2Suf7W_enableBtnOn",
-			"radioRow": "_2Suf7W_radioRow",
-			"enableBtn": "_2Suf7W_enableBtn",
-			"faqLink": "_2Suf7W_faqLink",
-			"formField": "_2Suf7W_formField",
-			"ghostBtn": "_2Suf7W_ghostBtn",
-			"opacityRow": "_2Suf7W_opacityRow",
-			"formHint": "_2Suf7W_formHint",
-			"modalFooter": "_2Suf7W_modalFooter",
-			"dragHandle": "_2Suf7W_dragHandle",
-			"btnPrimary": "_2Suf7W_btnPrimary",
-			"noticeText": "_2Suf7W_noticeText",
-			"actionsHeaderBtns": "_2Suf7W_actionsHeaderBtns",
-			"actionName": "_2Suf7W_actionName",
-			"opBtn": "_2Suf7W_opBtn",
-			"actionOps": "_2Suf7W_actionOps",
-			"actionRowDragging": "_2Suf7W_actionRowDragging",
-			"modalOverlay": "_2Suf7W_modalOverlay",
-			"formTextarea": "_2Suf7W_formTextarea",
-			"actionsDivider": "_2Suf7W_actionsDivider",
-			"outlineBtn": "_2Suf7W_outlineBtn",
-			"modalCard": "_2Suf7W_modalCard",
 			"opacitySlider": "_2Suf7W_opacitySlider",
+			"dragHandle": "_2Suf7W_dragHandle",
+			"groupHeaderRow": "_2Suf7W_groupHeaderRow",
+			"formTextarea": "_2Suf7W_formTextarea",
+			"engineChip": "_2Suf7W_engineChip",
+			"opBtn": "_2Suf7W_opBtn",
+			"enableBtn": "_2Suf7W_enableBtn",
+			"actionOps": "_2Suf7W_actionOps",
+			"formHint": "_2Suf7W_formHint",
+			"actionRowDisabled": "_2Suf7W_actionRowDisabled",
+			"opBtnDanger": "_2Suf7W_opBtnDanger",
+			"radioItem": "_2Suf7W_radioItem",
+			"enableBtnOn": "_2Suf7W_enableBtnOn",
+			"toolbarItem": "_2Suf7W_toolbarItem",
+			"noticeText": "_2Suf7W_noticeText",
+			"radioRow": "_2Suf7W_radioRow",
+			"outlineBtn": "_2Suf7W_outlineBtn",
+			"actionRow": "_2Suf7W_actionRow",
+			"btn": "_2Suf7W_btn",
+			"modalCard": "_2Suf7W_modalCard",
+			"formField": "_2Suf7W_formField",
+			"actionIcon": "_2Suf7W_actionIcon",
+			"actionsHeaderBtns": "_2Suf7W_actionsHeaderBtns",
+			"groupTitle": "_2Suf7W_groupTitle",
+			"faqLink": "_2Suf7W_faqLink",
+			"modalOverlay": "_2Suf7W_modalOverlay",
 			"formInput": "_2Suf7W_formInput",
 			"toolbarIcon": "_2Suf7W_toolbarIcon",
-			"engineChip": "_2Suf7W_engineChip",
-			"radioItem": "_2Suf7W_radioItem",
-			"toolbarItem": "_2Suf7W_toolbarItem",
-			"actionIcon": "_2Suf7W_actionIcon",
-			"actionRowDisabled": "_2Suf7W_actionRowDisabled",
-			"groupTitle": "_2Suf7W_groupTitle",
-			"actionRow": "_2Suf7W_actionRow",
 			"toolbarPreview": "_2Suf7W_toolbarPreview",
-			"btn": "_2Suf7W_btn"
+			"ghostBtn": "_2Suf7W_ghostBtn",
+			"actionsDivider": "_2Suf7W_actionsDivider",
+			"actionName": "_2Suf7W_actionName",
+			"opacityRow": "_2Suf7W_opacityRow",
+			"notice": "_2Suf7W_notice",
+			"modalFooter": "_2Suf7W_modalFooter",
+			"actionRowDragging": "_2Suf7W_actionRowDragging",
+			"btnPrimary": "_2Suf7W_btnPrimary"
 		};
 		//#endregion
 		//#region lib/types/client/SelectionAssistantSection.js
@@ -19014,19 +19014,19 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var QuickAssistantSection_module_css_default = {
-			"modelRow": "AweFxa_modelRow",
-			"notice": "AweFxa_notice",
 			"previewBar": "AweFxa_previewBar",
-			"modelHint": "AweFxa_modelHint",
 			"groupTitle": "AweFxa_groupTitle",
-			"segItem": "AweFxa_segItem",
-			"segmented": "AweFxa_segmented",
 			"segItemActive": "AweFxa_segItemActive",
 			"previewWindow": "AweFxa_previewWindow",
-			"previewLogo": "AweFxa_previewLogo",
-			"previewPlaceholder": "AweFxa_previewPlaceholder",
 			"previewFooter": "AweFxa_previewFooter",
-			"previewChip": "AweFxa_previewChip"
+			"segItem": "AweFxa_segItem",
+			"previewPlaceholder": "AweFxa_previewPlaceholder",
+			"modelHint": "AweFxa_modelHint",
+			"modelRow": "AweFxa_modelRow",
+			"previewChip": "AweFxa_previewChip",
+			"segmented": "AweFxa_segmented",
+			"notice": "AweFxa_notice",
+			"previewLogo": "AweFxa_previewLogo"
 		};
 		//#endregion
 		//#region lib/types/client/QuickAssistantSection.js
@@ -19185,15 +19185,15 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ScreenshotSection_module_css_default = {
-			"notice": "RXXS4a_notice",
-			"shortcutLabel": "RXXS4a_shortcutLabel",
-			"shortcutRight": "RXXS4a_shortcutRight",
-			"shortcutBadge": "RXXS4a_shortcutBadge",
-			"groupTitle": "RXXS4a_groupTitle",
-			"shortcutTitle": "RXXS4a_shortcutTitle",
-			"ocrStatus": "RXXS4a_ocrStatus",
 			"shortcutDesc": "RXXS4a_shortcutDesc",
-			"linkBtn": "RXXS4a_linkBtn"
+			"shortcutBadge": "RXXS4a_shortcutBadge",
+			"linkBtn": "RXXS4a_linkBtn",
+			"ocrStatus": "RXXS4a_ocrStatus",
+			"shortcutTitle": "RXXS4a_shortcutTitle",
+			"shortcutRight": "RXXS4a_shortcutRight",
+			"notice": "RXXS4a_notice",
+			"groupTitle": "RXXS4a_groupTitle",
+			"shortcutLabel": "RXXS4a_shortcutLabel"
 		};
 		//#endregion
 		//#region lib/types/client/ScreenshotSection.js
@@ -19310,6 +19310,136 @@ ${editTarget.defaults.baseURL}`}`,
 			] });
 		}
 		//#endregion
+		//#region lib/types/client/channels-store.js
+		/**
+		* Channel instances (频道) authority: the `control-center-channels` settings
+		* namespace. The desktop bridge reads the same section from settings.yaml to
+		* bind bots, so a channel configured here is exactly what a desktop deploy
+		* picks up — no second store, no sync.
+		*
+		* When the running host predates the namespace the store degrades to
+		* ready/unavailable, and the section falls back to browser-local persistence
+		* with an honest notice (same contract as the model-preferences store).
+		*/
+		const CHANNELS_NAMESPACE = "control-center-channels";
+		/** The shared controller (one per client surface). */
+		var ChannelsStore = class {
+			api;
+			store = (0, _deepseek_ai_dsh_client_runtime_client.createSnapshotStore)({
+				status: "idle",
+				error: null,
+				available: true,
+				writable: false,
+				revision: null,
+				instances: []
+			});
+			generation = 0;
+			constructor(api) {
+				this.api = api;
+			}
+			async load() {
+				const generation = ++this.generation;
+				this.store.update((state) => {
+					state.status = "loading";
+					state.error = null;
+				});
+				try {
+					const settings = (await this.api.settings.describe({})).result;
+					if (!settings.ok) throw new Error(settings.error.message);
+					if (generation !== this.generation) return;
+					const namespace = settings.value.namespaces.find((view) => view.ns === CHANNELS_NAMESPACE);
+					if (namespace === void 0) {
+						this.store.update((state) => {
+							state.status = "ready";
+							state.available = false;
+							state.writable = settings.value.writable;
+							state.revision = null;
+						});
+						return;
+					}
+					const raw = this.readInstances(namespace.value);
+					this.store.update((state) => {
+						state.status = "ready";
+						state.available = true;
+						state.writable = settings.value.writable;
+						state.revision = namespace.revision;
+						state.instances = raw;
+					});
+				} catch (error) {
+					if (generation !== this.generation) return;
+					this.store.update((state) => {
+						state.status = "error";
+						state.error = messageOf$2(error);
+					});
+				}
+			}
+			/** The instances array, tolerant of a host that stored anything unexpected. */
+			readInstances(value) {
+				const raw = typeof value === "object" && value !== null ? value.instances : void 0;
+				if (!Array.isArray(raw)) return [];
+				return raw.filter((entry) => typeof entry === "object" && entry !== null && typeof entry.id === "string" && typeof entry.type === "string");
+			}
+			/** Persist the whole instance list (small by construction). */
+			async save(instances) {
+				const snapshot = this.store.getSnapshot();
+				if (!snapshot.available || snapshot.revision === null) return false;
+				this.store.update((state) => {
+					state.status = "loading";
+					state.error = null;
+				});
+				const response = await this.api.settings.mutate({
+					ns: CHANNELS_NAMESPACE,
+					expectedRevision: snapshot.revision,
+					ops: [{
+						op: "set",
+						path: ["instances"],
+						value: structuredClone(instances.map((instance) => ({ ...instance })))
+					}]
+				});
+				if (!response.result.ok) {
+					const failure = response.result;
+					this.store.update((state) => {
+						state.status = "error";
+						state.error = failure.error.message;
+					});
+					return false;
+				}
+				this.store.update((state) => {
+					state.status = "ready";
+					state.revision = response.result.ok ? response.result.value.revision : state.revision;
+					state.instances = [...instances];
+				});
+				return true;
+			}
+		};
+		/**
+		* One-time import of the pre-settings localStorage list. Runs at most once
+		* per browser (flagged), and only merges when the authority is empty — a
+		* configured settings.yaml always wins over browser leftovers.
+		*/
+		async function importLegacyChannels(store) {
+			const MIGRATED_KEY = "cc.settings.channels.imported";
+			try {
+				if (window.localStorage.getItem(MIGRATED_KEY) !== null) return false;
+				const snapshot = store.store.getSnapshot();
+				if (!snapshot.available || snapshot.instances.length > 0) {
+					window.localStorage.setItem(MIGRATED_KEY, "1");
+					return false;
+				}
+				const raw = window.localStorage.getItem("cc.settings.channels");
+				const legacy = raw === null ? [] : JSON.parse(raw);
+				if (!Array.isArray(legacy) || legacy.length === 0) {
+					window.localStorage.setItem(MIGRATED_KEY, "1");
+					return false;
+				}
+				const saved = await store.save(legacy);
+				window.localStorage.setItem(MIGRATED_KEY, "1");
+				return saved;
+			} catch {
+				return false;
+			}
+		}
+		//#endregion
 		//#region lib/types/client/channel-icons.js
 		/**
 		* Cherry channel type logos — vendored from cherry-studio
@@ -19325,7 +19455,7 @@ ${editTarget.defaults.baseURL}`}`,
 		};
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\ChannelsSection.module.css.mjs
-		const css$6 = ".bV1JOa_split{flex:1;min-width:0;min-height:0;display:flex}.bV1JOa_submenu{box-sizing:border-box;border-right:.5px solid var(--border);flex-direction:column;flex:none;width:250px;display:flex}.bV1JOa_submenuTitle{color:var(--foreground);padding:14px 20px 10px;font-size:16px;font-weight:500}.bV1JOa_submenuList{box-sizing:border-box;flex-direction:column;flex:1;gap:2px;min-height:0;padding:0 10px 10px;display:flex;overflow-y:auto}.bV1JOa_submenuItem{height:32px;color:var(--foreground);text-align:left;cursor:pointer;background:0 0;border:none;border-radius:10px;align-items:center;gap:8px;padding:0 10px;font-family:inherit;font-size:14px;display:flex}.bV1JOa_submenuItem:hover{background:var(--muted)}.bV1JOa_submenuItemActive{background:var(--muted);font-weight:500}.bV1JOa_typeIcon{flex:none;font-size:16px}.bV1JOa_detail{flex:1;min-width:0;min-height:0;display:flex;overflow-y:auto}.bV1JOa_detailBody{flex:1;width:100%;max-width:768px;margin:0 auto;padding:24px}.bV1JOa_detailHeader{justify-content:space-between;align-items:center;gap:12px;display:flex}.bV1JOa_detailTitleBlock{align-items:center;gap:8px;min-width:0;display:flex}.bV1JOa_typeIconLarge{border-radius:4px;justify-content:center;align-items:center;width:20px;height:20px;font-size:16px;display:inline-flex}.bV1JOa_detailTitle{color:var(--foreground);white-space:nowrap;text-overflow:ellipsis;font-size:15px;font-weight:600;overflow:hidden}.bV1JOa_addBtn{border:1px solid var(--border);height:32px;color:var(--foreground);cursor:pointer;background:0 0;border-radius:8px;flex:none;align-items:center;gap:6px;padding:0 12px;font-family:inherit;font-size:13px;display:inline-flex}.bV1JOa_addBtn:hover{background:var(--accent)}.bV1JOa_detailDesc{color:var(--muted-foreground);margin:6px 0 0;font-size:12px;line-height:1.6}.bV1JOa_divider{background:var(--border-subtle);height:1px;margin:16px 0}.bV1JOa_notice{border:1px solid var(--info-border,var(--border));background:var(--info-subtle,color-mix(in srgb, var(--muted) 30%, transparent));color:var(--info-subtle-foreground,var(--foreground));border-radius:10px;margin-bottom:16px;padding:10px 12px;font-size:13px;line-height:1.6}.bV1JOa_emptyState{text-align:center;color:var(--foreground-tertiary);padding:32px 16px;font-size:13px}.bV1JOa_instanceRow{border-bottom:.5px solid var(--border-subtle);align-items:center;gap:12px;padding:10px 4px;display:flex}.bV1JOa_instanceRow:last-child{border-bottom:none}.bV1JOa_statusDot{background:var(--muted-foreground);border-radius:50%;flex:none;width:8px;height:8px}.bV1JOa_statusDotActive{background:var(--success)}.bV1JOa_instanceMain{flex:1;min-width:0}.bV1JOa_instanceName{color:var(--foreground);align-items:center;gap:8px;font-size:14px;display:flex}.bV1JOa_connectedBadge{border:1px solid var(--success-border,var(--border));background:var(--success-subtle,transparent);color:var(--success);border-radius:4px;padding:1px 6px;font-size:10px;line-height:14px}.bV1JOa_instanceSummary{color:var(--foreground-tertiary);white-space:nowrap;text-overflow:ellipsis;margin-top:2px;font-size:12px;overflow:hidden}.bV1JOa_instanceOps{flex:none;align-items:center;gap:2px;display:flex}.bV1JOa_opBtn{width:28px;height:28px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;font-size:13px;display:inline-flex}.bV1JOa_opBtn:hover{background:var(--accent);color:var(--foreground)}.bV1JOa_opBtnDanger:hover{color:var(--destructive)}.bV1JOa_modalOverlay{z-index:400;background:#00000080;justify-content:center;align-items:center;display:flex;position:fixed;inset:0}.bV1JOa_modalCard{box-sizing:border-box;background:var(--card);width:min(500px,100vw - 48px);max-height:82vh;color:var(--card-foreground);border-radius:16px;padding:20px;overflow-y:auto;box-shadow:0 24px 48px #0000004d}.bV1JOa_modalCard h3{margin:0 0 14px;font-size:16px;font-weight:600}.bV1JOa_formField{flex-direction:column;gap:6px;margin-bottom:12px;display:flex}.bV1JOa_formField label{color:var(--foreground-tertiary);font-size:13px}.bV1JOa_formInput,.bV1JOa_formSelect{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 40%, transparent);height:36px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px}.bV1JOa_formSelect{cursor:pointer;background:var(--background);border-color:var(--border)}.bV1JOa_formInput:focus,.bV1JOa_formSelect:focus{border-color:var(--ring)}.bV1JOa_formHint{color:var(--foreground-tertiary);font-size:12px;line-height:1.6}.bV1JOa_modalFooter{justify-content:flex-end;gap:8px;margin-top:16px;display:flex}.bV1JOa_btn{border:1px solid var(--border);height:32px;color:var(--foreground);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.bV1JOa_btn:hover{background:var(--muted)}.bV1JOa_btnPrimary{background:var(--primary);color:var(--primary-foreground);border-color:#0000}.bV1JOa_btnPrimary:hover{background:var(--primary);opacity:.9}.bV1JOa_logsBody{background:var(--background-subtle);min-height:120px;color:var(--muted-foreground);text-align:center;border-radius:8px;justify-content:center;align-items:center;padding:10px;font-family:ui-monospace,Consolas,monospace;font-size:11px;line-height:1.6;display:flex}.bV1JOa_typeIconImg{object-fit:contain;border-radius:4px;flex:none;width:18px;height:18px}.bV1JOa_typeIconImgLarge{object-fit:contain;border-radius:4px;width:20px;height:20px}";
+		const css$6 = ".bV1JOa_split{flex:1;min-width:0;min-height:0;display:flex}.bV1JOa_submenu{box-sizing:border-box;border-right:.5px solid var(--border);flex-direction:column;flex:none;width:250px;display:flex}.bV1JOa_submenuTitle{color:var(--foreground);padding:14px 20px 10px;font-size:16px;font-weight:500}.bV1JOa_submenuList{box-sizing:border-box;flex-direction:column;flex:1;gap:2px;min-height:0;padding:0 10px 10px;display:flex;overflow-y:auto}.bV1JOa_submenuItem{height:32px;color:var(--foreground);text-align:left;cursor:pointer;background:0 0;border:none;border-radius:10px;align-items:center;gap:8px;padding:0 10px;font-family:inherit;font-size:14px;display:flex}.bV1JOa_submenuItem:hover{background:var(--muted)}.bV1JOa_submenuItemActive{background:var(--muted);font-weight:500}.bV1JOa_typeIcon{flex:none;font-size:16px}.bV1JOa_detail{flex:1;min-width:0;min-height:0;display:flex;overflow-y:auto}.bV1JOa_detailBody{flex:1;width:100%;max-width:768px;margin:0 auto;padding:24px}.bV1JOa_detailHeader{justify-content:space-between;align-items:center;gap:12px;display:flex}.bV1JOa_detailTitleBlock{align-items:center;gap:8px;min-width:0;display:flex}.bV1JOa_typeIconLarge{border-radius:4px;justify-content:center;align-items:center;width:20px;height:20px;font-size:16px;display:inline-flex}.bV1JOa_detailTitle{color:var(--foreground);white-space:nowrap;text-overflow:ellipsis;font-size:15px;font-weight:600;overflow:hidden}.bV1JOa_addBtn{border:1px solid var(--border);height:32px;color:var(--foreground);cursor:pointer;background:0 0;border-radius:8px;flex:none;align-items:center;gap:6px;padding:0 12px;font-family:inherit;font-size:13px;display:inline-flex}.bV1JOa_addBtn:hover{background:var(--accent)}.bV1JOa_detailDesc{color:var(--muted-foreground);margin:6px 0 0;font-size:12px;line-height:1.6}.bV1JOa_divider{background:var(--border-subtle);height:1px;margin:16px 0}.bV1JOa_notice{border:1px solid var(--info-border,var(--border));background:var(--info-subtle,color-mix(in srgb, var(--muted) 30%, transparent));color:var(--info-subtle-foreground,var(--foreground));border-radius:10px;margin-bottom:16px;padding:10px 12px;font-size:13px;line-height:1.6}.bV1JOa_emptyState{text-align:center;color:var(--foreground-tertiary);padding:32px 16px;font-size:13px}.bV1JOa_instanceRow{border-bottom:.5px solid var(--border-subtle);align-items:center;gap:12px;padding:10px 4px;display:flex}.bV1JOa_instanceRow:last-child{border-bottom:none}.bV1JOa_statusDot{background:var(--muted-foreground);border-radius:50%;flex:none;width:8px;height:8px}.bV1JOa_statusDotActive{background:var(--success)}.bV1JOa_instanceMain{flex:1;min-width:0}.bV1JOa_instanceName{color:var(--foreground);align-items:center;gap:8px;font-size:14px;display:flex}.bV1JOa_connectedBadge{border:1px solid var(--success-border,var(--border));background:var(--success-subtle,transparent);color:var(--success);border-radius:4px;padding:1px 6px;font-size:10px;line-height:14px}.bV1JOa_instanceSummary{color:var(--foreground-tertiary);white-space:nowrap;text-overflow:ellipsis;margin-top:2px;font-size:12px;overflow:hidden}.bV1JOa_instanceOps{flex:none;align-items:center;gap:2px;display:flex}.bV1JOa_opBtn{width:28px;height:28px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;font-size:13px;display:inline-flex}.bV1JOa_opBtn:hover{background:var(--accent);color:var(--foreground)}.bV1JOa_opBtnDanger:hover{color:var(--destructive)}.bV1JOa_modalOverlay{z-index:400;background:#00000080;justify-content:center;align-items:center;display:flex;position:fixed;inset:0}.bV1JOa_modalCard{box-sizing:border-box;background:var(--card);width:min(500px,100vw - 48px);max-height:82vh;color:var(--card-foreground);border-radius:16px;padding:20px;overflow-y:auto;box-shadow:0 24px 48px #0000004d}.bV1JOa_modalCard h3{margin:0 0 14px;font-size:16px;font-weight:600}.bV1JOa_formGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;display:grid}.bV1JOa_formFieldSpan2{grid-column:span 2}.bV1JOa_formSwitchRow{align-items:center;gap:10px;display:flex}.bV1JOa_formField{flex-direction:column;gap:6px;margin-bottom:12px;display:flex}.bV1JOa_formField label{color:var(--foreground-tertiary);font-size:13px}.bV1JOa_formInput,.bV1JOa_formSelect{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 40%, transparent);height:36px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px}.bV1JOa_formSelect{cursor:pointer;background:var(--background);border-color:var(--border)}.bV1JOa_formInput:focus,.bV1JOa_formSelect:focus{border-color:var(--ring)}.bV1JOa_formHint{color:var(--foreground-tertiary);font-size:12px;line-height:1.6}.bV1JOa_modalFooter{justify-content:flex-end;gap:8px;margin-top:16px;display:flex}.bV1JOa_btn{border:1px solid var(--border);height:32px;color:var(--foreground);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.bV1JOa_btn:hover{background:var(--muted)}.bV1JOa_btnPrimary{background:var(--primary);color:var(--primary-foreground);border-color:#0000}.bV1JOa_btnPrimary:hover{background:var(--primary);opacity:.9}.bV1JOa_logsBody{background:var(--background-subtle);min-height:120px;color:var(--muted-foreground);text-align:center;border-radius:8px;justify-content:center;align-items:center;padding:10px;font-family:ui-monospace,Consolas,monospace;font-size:11px;line-height:1.6;display:flex}.bV1JOa_typeIconImg{object-fit:contain;border-radius:4px;flex:none;width:18px;height:18px}.bV1JOa_typeIconImgLarge{object-fit:contain;border-radius:4px;width:20px;height:20px}";
 		const tagId$6 = "@dsh-control-center/bundle/ChannelsSection.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$6) + "]") === null) {
 			const tag = document.createElement("style");
@@ -19335,46 +19465,49 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ChannelsSection_module_css_default = {
-			"formInput": "bV1JOa_formInput",
-			"opBtn": "bV1JOa_opBtn",
-			"typeIcon": "bV1JOa_typeIcon",
-			"typeIconImg": "bV1JOa_typeIconImg",
 			"formHint": "bV1JOa_formHint",
-			"modalCard": "bV1JOa_modalCard",
 			"notice": "bV1JOa_notice",
-			"modalFooter": "bV1JOa_modalFooter",
-			"formField": "bV1JOa_formField",
-			"split": "bV1JOa_split",
-			"statusDotActive": "bV1JOa_statusDotActive",
-			"submenuTitle": "bV1JOa_submenuTitle",
-			"detailHeader": "bV1JOa_detailHeader",
-			"detailDesc": "bV1JOa_detailDesc",
-			"detailBody": "bV1JOa_detailBody",
+			"modalOverlay": "bV1JOa_modalOverlay",
+			"logsBody": "bV1JOa_logsBody",
 			"opBtnDanger": "bV1JOa_opBtnDanger",
 			"instanceSummary": "bV1JOa_instanceSummary",
-			"submenuItem": "bV1JOa_submenuItem",
-			"typeIconLarge": "bV1JOa_typeIconLarge",
-			"instanceMain": "bV1JOa_instanceMain",
-			"formSelect": "bV1JOa_formSelect",
-			"connectedBadge": "bV1JOa_connectedBadge",
-			"emptyState": "bV1JOa_emptyState",
-			"typeIconImgLarge": "bV1JOa_typeIconImgLarge",
-			"modalOverlay": "bV1JOa_modalOverlay",
-			"submenuList": "bV1JOa_submenuList",
-			"instanceRow": "bV1JOa_instanceRow",
-			"submenu": "bV1JOa_submenu",
-			"submenuItemActive": "bV1JOa_submenuItemActive",
-			"btnPrimary": "bV1JOa_btnPrimary",
-			"btn": "bV1JOa_btn",
-			"instanceOps": "bV1JOa_instanceOps",
-			"detailTitleBlock": "bV1JOa_detailTitleBlock",
 			"detail": "bV1JOa_detail",
-			"instanceName": "bV1JOa_instanceName",
+			"formInput": "bV1JOa_formInput",
+			"typeIconLarge": "bV1JOa_typeIconLarge",
 			"divider": "bV1JOa_divider",
-			"statusDot": "bV1JOa_statusDot",
+			"instanceRow": "bV1JOa_instanceRow",
+			"modalFooter": "bV1JOa_modalFooter",
+			"instanceName": "bV1JOa_instanceName",
+			"opBtn": "bV1JOa_opBtn",
 			"detailTitle": "bV1JOa_detailTitle",
-			"logsBody": "bV1JOa_logsBody",
-			"addBtn": "bV1JOa_addBtn"
+			"connectedBadge": "bV1JOa_connectedBadge",
+			"formFieldSpan2": "bV1JOa_formFieldSpan2",
+			"detailHeader": "bV1JOa_detailHeader",
+			"detailDesc": "bV1JOa_detailDesc",
+			"detailTitleBlock": "bV1JOa_detailTitleBlock",
+			"split": "bV1JOa_split",
+			"formSwitchRow": "bV1JOa_formSwitchRow",
+			"addBtn": "bV1JOa_addBtn",
+			"instanceMain": "bV1JOa_instanceMain",
+			"emptyState": "bV1JOa_emptyState",
+			"detailBody": "bV1JOa_detailBody",
+			"typeIconImgLarge": "bV1JOa_typeIconImgLarge",
+			"typeIcon": "bV1JOa_typeIcon",
+			"instanceOps": "bV1JOa_instanceOps",
+			"typeIconImg": "bV1JOa_typeIconImg",
+			"submenu": "bV1JOa_submenu",
+			"statusDotActive": "bV1JOa_statusDotActive",
+			"modalCard": "bV1JOa_modalCard",
+			"submenuItem": "bV1JOa_submenuItem",
+			"formField": "bV1JOa_formField",
+			"formSelect": "bV1JOa_formSelect",
+			"btn": "bV1JOa_btn",
+			"submenuItemActive": "bV1JOa_submenuItemActive",
+			"statusDot": "bV1JOa_statusDot",
+			"submenuTitle": "bV1JOa_submenuTitle",
+			"submenuList": "bV1JOa_submenuList",
+			"formGrid": "bV1JOa_formGrid",
+			"btnPrimary": "bV1JOa_btnPrimary"
 		};
 		//#endregion
 		//#region lib/types/client/ChannelsSection.js
@@ -19415,7 +19548,13 @@ ${editTarget.defaults.baseURL}`}`,
 						secret: true,
 						placeholder: "输入您飞书应用中的验证令牌"
 					}
-				]
+				],
+				domain: true,
+				ids: {
+					key: "allowed_chat_ids",
+					label: "允许的会话 ID",
+					placeholder: "多个 ID 用英文逗号分隔，留空允许全部"
+				}
 			},
 			{
 				type: "telegram",
@@ -19429,7 +19568,12 @@ ${editTarget.defaults.baseURL}`}`,
 					secret: true,
 					fullWidth: true,
 					placeholder: "输入您的 Telegram 机器人 Token"
-				}]
+				}],
+				ids: {
+					key: "allowed_chat_ids",
+					label: "允许的会话 ID",
+					placeholder: "多个 ID 用英文逗号分隔，留空允许全部"
+				}
 			},
 			{
 				type: "qq",
@@ -19446,7 +19590,13 @@ ${editTarget.defaults.baseURL}`}`,
 					label: "Client Secret",
 					secret: true,
 					placeholder: "输入您的 QQ 机器人 Client Secret"
-				}]
+				}],
+				mentionOnly: true,
+				ids: {
+					key: "allowed_chat_ids",
+					label: "允许的会话 ID",
+					placeholder: "多个 ID 用英文逗号分隔，留空允许全部"
+				}
 			},
 			{
 				type: "wechat",
@@ -19459,7 +19609,12 @@ ${editTarget.defaults.baseURL}`}`,
 					label: "Token 路径",
 					fullWidth: true,
 					placeholder: "输入微信 iLink Bot 的 Token 路径"
-				}]
+				}],
+				ids: {
+					key: "allowed_chat_ids",
+					label: "允许的会话 ID",
+					placeholder: "多个 ID 用英文逗号分隔，留空允许全部"
+				}
 			},
 			{
 				type: "discord",
@@ -19473,7 +19628,12 @@ ${editTarget.defaults.baseURL}`}`,
 					secret: true,
 					fullWidth: true,
 					placeholder: "输入您的 Discord 机器人 Token"
-				}]
+				}],
+				ids: {
+					key: "allowed_channel_ids",
+					label: "允许的频道 ID",
+					placeholder: "多个 ID 用英文逗号分隔，留空允许全部"
+				}
 			},
 			{
 				type: "slack",
@@ -19493,7 +19653,12 @@ ${editTarget.defaults.baseURL}`}`,
 					secret: true,
 					fullWidth: true,
 					placeholder: "xapp-..."
-				}]
+				}],
+				ids: {
+					key: "allowed_channel_ids",
+					label: "允许的频道 ID",
+					placeholder: "多个 ID 用英文逗号分隔，留空允许全部"
+				}
 			}
 		];
 		const PERMISSION_MODES = [
@@ -19528,53 +19693,111 @@ ${editTarget.defaults.baseURL}`}`,
 				description: "跳过权限检查，可删除文件、访问网络。"
 			}
 		];
-		const CHANNELS_KEY = "cc.settings.channels";
-		function loadChannels() {
+		/** Comma text -> trimmed, non-empty id list (Cherry's parse rule). */
+		function parseAllowedIds(text) {
+			return text.split(",").map((part) => part.trim()).filter(Boolean);
+		}
+		const LEGACY_KEY = "cc.settings.channels";
+		function loadLegacy() {
 			try {
-				const raw = localStorage.getItem(CHANNELS_KEY);
+				const raw = window.localStorage.getItem(LEGACY_KEY);
 				return raw === null ? [] : JSON.parse(raw);
 			} catch {
 				return [];
 			}
 		}
-		function saveChannels(channels) {
+		function saveLegacy(channels) {
 			try {
-				localStorage.setItem(CHANNELS_KEY, JSON.stringify(channels));
+				window.localStorage.setItem(LEGACY_KEY, JSON.stringify(channels));
 			} catch {}
 		}
 		function summaryOf(channel) {
-			const token = (CHANNEL_TYPES.find((t) => t.type === channel.type)?.fields.filter((f) => f.secret).map((f) => f.key) ?? []).map((key) => channel.config[key] ?? "").find(Boolean);
-			if (token !== void 0 && token.length > 0) return `Token: ${token.slice(0, 7)}...${token.slice(-3)}`;
-			return "未配置凭证";
+			const def = CHANNEL_TYPES.find((t) => t.type === channel.type);
+			const token = (def?.fields.filter((f) => f.secret).map((f) => f.key) ?? []).map((key) => typeof channel.config[key] === "string" ? channel.config[key] : "").find(Boolean);
+			const parts = [];
+			if (token !== void 0 && token.length > 0) parts.push(`Token: ${token.slice(0, 7)}...${token.slice(-3)}`);
+			if (def?.ids !== void 0) {
+				const ids = channel.config[def.ids.key];
+				if (Array.isArray(ids) && ids.length > 0) parts.push(`${ids.length} 个允许${def.ids.label.includes("频道") ? "频道" : "会话"}`);
+			}
+			if (typeof channel.config.domain === "string" && channel.config.domain.length > 0) parts.push(String(channel.config.domain));
+			return parts.length === 0 ? "未配置凭证" : parts.join(" · ");
 		}
-		function ChannelsSection() {
-			const [channels, setChannels] = (0, react.useState)(loadChannels);
+		/**
+		* Render the 频道 section. Instances live in the control-center-channels
+		* settings namespace — the same section a desktop bridge reads from
+		* settings.yaml — and fall back to browser-local persistence (with an honest
+		* notice) when the running host predates the namespace.
+		*/
+		function ChannelsSection(props) {
+			const { api, useChannels, controller } = props;
+			if (api === void 0 || useChannels === void 0 || controller === void 0) return null;
+			return (0, react_jsx_runtime.jsx)(Loaded, { injected: {
+				api,
+				useChannels,
+				controller
+			} });
+		}
+		function Loaded({ injected }) {
+			const { controller } = injected;
+			const state = injected.useChannels((snapshot) => snapshot);
+			const [local, setLocal] = (0, react.useState)(loadLegacy);
 			const [selectedType, setSelectedType] = (0, react.useState)("feishu");
 			const [editChannel, setEditChannel] = (0, react.useState)(null);
 			const [isNew, setIsNew] = (0, react.useState)(false);
 			const [deleteTarget, setDeleteTarget] = (0, react.useState)(null);
 			const [formName, setFormName] = (0, react.useState)("");
 			const [formConfig, setFormConfig] = (0, react.useState)({});
+			const [formIds, setFormIds] = (0, react.useState)("");
+			const [formDomain, setFormDomain] = (0, react.useState)("feishu");
+			const [formMentionOnly, setFormMentionOnly] = (0, react.useState)(true);
 			const [formPermission, setFormPermission] = (0, react.useState)("__inherit");
 			const [logsFor, setLogsFor] = (0, react.useState)(null);
+			const migratedRef = (0, react.useRef)(false);
+			const available = state.available;
+			const instances = (0, react.useMemo)(() => (available ? state.instances : local).filter((channel) => channel.type === selectedType), [
+				available,
+				state.instances,
+				local,
+				selectedType
+			]);
 			(0, react.useEffect)(() => {
-				saveChannels(channels);
-			}, [channels]);
+				if (state.status !== "ready" || !available || migratedRef.current) return;
+				migratedRef.current = true;
+				importLegacyChannels(controller).then((imported) => {
+					if (imported) controller.load();
+				});
+			}, [
+				state.status,
+				available,
+				controller
+			]);
+			/** Write through the authority, or the browser mirror when unavailable. */
+			const persist = (next) => {
+				if (controller.store.getSnapshot().available) controller.save(next);
+				else {
+					setLocal(next);
+					saveLegacy(next);
+				}
+			};
 			const typeDef = (0, react.useMemo)(() => CHANNEL_TYPES.find((t) => t.type === selectedType) ?? CHANNEL_TYPES[0], [selectedType]);
-			const instances = (0, react.useMemo)(() => channels.filter((c) => c.type === selectedType), [channels, selectedType]);
 			const handleAdd = () => {
-				const count = channels.filter((c) => c.type === typeDef.type).length;
+				const count = (available ? state.instances : local).filter((c) => c.type === typeDef.type).length;
+				const name = count > 0 ? `${typeDef.name} ${count + 1}` : typeDef.name;
 				setEditChannel({
 					id: `channel-${Date.now()}`,
 					type: typeDef.type,
-					name: count > 0 ? `${typeDef.name} ${count + 1}` : typeDef.name,
+					name,
 					config: {},
 					permissionMode: "__inherit",
 					isActive: false,
 					createdAt: Date.now()
 				});
-				setFormName(count > 0 ? `${typeDef.name} ${count + 1}` : typeDef.name);
+				setFormName(name);
 				setFormConfig({});
+				setFormIds("");
+				setFormDomain("feishu");
+				setFormMentionOnly(true);
 				setFormPermission("__inherit");
 				setIsNew(true);
 			};
@@ -19582,31 +19805,40 @@ ${editTarget.defaults.baseURL}`}`,
 				setEditChannel(channel);
 				setFormName(channel.name);
 				setFormConfig({ ...channel.config });
+				const idsKey = CHANNEL_TYPES.find((t) => t.type === channel.type)?.ids?.key;
+				setFormIds(idsKey === void 0 ? "" : (Array.isArray(channel.config[idsKey]) ? channel.config[idsKey] : []).join(", "));
+				setFormDomain(typeof channel.config.domain === "string" && channel.config.domain === "lark" ? "lark" : "feishu");
+				setFormMentionOnly(channel.config.mention_only !== false);
 				setFormPermission(channel.permissionMode);
 				setIsNew(false);
 			};
 			const saveChannel = () => {
 				if (editChannel === null) return;
+				const config = { ...formConfig };
+				if (typeDef.ids !== void 0) config[typeDef.ids.key] = parseAllowedIds(formIds);
+				if (typeDef.domain === true) config.domain = formDomain;
+				if (typeDef.mentionOnly === true) config.mention_only = formMentionOnly;
 				const next = {
 					...editChannel,
 					name: formName.trim() || editChannel.name,
-					config: formConfig,
+					config,
 					permissionMode: formPermission
 				};
-				setChannels((current) => isNew ? [...current, next] : current.map((c) => c.id === next.id ? next : c));
+				persist(isNew ? [...available ? state.instances : local, next] : (available ? state.instances : local).map((c) => c.id === next.id ? next : c));
 				setEditChannel(null);
 			};
 			const toggleActive = (channel) => {
-				setChannels((current) => current.map((c) => c.id === channel.id ? {
+				persist((available ? state.instances : local).map((c) => c.id === channel.id ? {
 					...c,
 					isActive: !c.isActive
 				} : c));
 			};
 			const confirmDelete = () => {
 				if (deleteTarget === null) return;
-				setChannels((current) => current.filter((c) => c.id !== deleteTarget.id));
+				persist((available ? state.instances : local).filter((c) => c.id !== deleteTarget.id));
 				setDeleteTarget(null);
 			};
+			const storageHint = available ? "配置保存在 DSH settings（settings.yaml 的 control-center-channels 段），桌面版将直接读取。" : "当前部署未启用频道存储，更改仅保存在本浏览器；更新 Control Center 后可迁移。";
 			return (0, react_jsx_runtime.jsxs)("div", {
 				className: ChannelsSection_module_css_default.split,
 				children: [
@@ -19653,6 +19885,7 @@ ${editTarget.defaults.baseURL}`}`,
 										}), (0, react_jsx_runtime.jsxs)("button", {
 											type: "button",
 											className: ChannelsSection_module_css_default.addBtn,
+											disabled: !state.writable && available,
 											onClick: handleAdd,
 											children: [(0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.IconPlusOutline16, { size: 16 }), "添加"]
 										})]
@@ -19662,9 +19895,9 @@ ${editTarget.defaults.baseURL}`}`,
 										children: typeDef.description
 									}),
 									(0, react_jsx_runtime.jsx)("div", { className: ChannelsSection_module_css_default.divider }),
-									(0, react_jsx_runtime.jsx)("div", {
+									(0, react_jsx_runtime.jsxs)("div", {
 										className: ChannelsSection_module_css_default.notice,
-										children: "Web 版不附带独立伴生程序；频道绑定与消息推送需要桌面环境支持。此处配置将随桌面版直接生效。"
+										children: ["Web 版不附带独立伴生程序；频道绑定与消息推送需要桌面环境支持——此处配置随桌面版直接生效。", storageHint]
 									}),
 									instances.length === 0 ? (0, react_jsx_runtime.jsxs)("div", {
 										className: ChannelsSection_module_css_default.emptyState,
@@ -19683,7 +19916,7 @@ ${editTarget.defaults.baseURL}`}`,
 													className: ChannelsSection_module_css_default.instanceName,
 													children: [channel.name, channel.isActive && (0, react_jsx_runtime.jsx)("span", {
 														className: ChannelsSection_module_css_default.connectedBadge,
-														children: "已连接"
+														children: "已启用"
 													})]
 												}), (0, react_jsx_runtime.jsx)("div", {
 													className: ChannelsSection_module_css_default.instanceSummary,
@@ -19735,7 +19968,7 @@ ${editTarget.defaults.baseURL}`}`,
 							})
 						})
 					}),
-					editChannel !== null && (0, react_jsx_runtime.jsx)("div", {
+					editChannel !== null && typeDef !== void 0 && (0, react_jsx_runtime.jsx)("div", {
 						className: ChannelsSection_module_css_default.modalOverlay,
 						onMouseDown: (event) => {
 							if (event.target === event.currentTarget) setEditChannel(null);
@@ -19748,49 +19981,109 @@ ${editTarget.defaults.baseURL}`}`,
 							children: [
 								(0, react_jsx_runtime.jsx)("h3", { children: editChannel.name }),
 								(0, react_jsx_runtime.jsxs)("div", {
-									className: ChannelsSection_module_css_default.formField,
-									children: [(0, react_jsx_runtime.jsx)("label", { children: "名称" }), (0, react_jsx_runtime.jsx)("input", {
-										className: ChannelsSection_module_css_default.formInput,
-										value: formName,
-										onChange: (event) => {
-											setFormName(event.target.value);
-										},
-										autoFocus: true
-									})]
-								}),
-								typeDef.fields.map((field) => (0, react_jsx_runtime.jsxs)("div", {
-									className: ChannelsSection_module_css_default.formField,
-									children: [(0, react_jsx_runtime.jsx)("label", { children: field.label }), (0, react_jsx_runtime.jsx)("input", {
-										className: ChannelsSection_module_css_default.formInput,
-										type: field.secret ? "password" : "text",
-										value: formConfig[field.key] ?? "",
-										onChange: (event) => {
-											setFormConfig((current) => ({
-												...current,
-												[field.key]: event.target.value
-											}));
-										},
-										placeholder: field.placeholder
-									})]
-								}, field.key)),
-								(0, react_jsx_runtime.jsxs)("div", {
-									className: ChannelsSection_module_css_default.formField,
+									className: ChannelsSection_module_css_default.formGrid,
 									children: [
-										(0, react_jsx_runtime.jsx)("label", { children: "频道权限模式" }),
-										(0, react_jsx_runtime.jsx)("select", {
-											className: ChannelsSection_module_css_default.formSelect,
-											value: formPermission,
-											onChange: (event) => {
-												setFormPermission(event.target.value);
-											},
-											children: PERMISSION_MODES.map((mode) => (0, react_jsx_runtime.jsx)("option", {
-												value: mode.value,
-												children: mode.label
-											}, mode.value))
+										(0, react_jsx_runtime.jsxs)("div", {
+											className: `${ChannelsSection_module_css_default.formField} ${ChannelsSection_module_css_default.formFieldSpan2}`,
+											children: [(0, react_jsx_runtime.jsx)("label", { children: "名称" }), (0, react_jsx_runtime.jsx)("input", {
+												className: ChannelsSection_module_css_default.formInput,
+												value: formName,
+												onChange: (event) => {
+													setFormName(event.target.value);
+												},
+												autoFocus: true
+											})]
 										}),
-										formPermission !== "__inherit" && (0, react_jsx_runtime.jsx)("div", {
-											className: ChannelsSection_module_css_default.formHint,
-											children: PERMISSION_MODES.find((m) => m.value === formPermission)?.description
+										typeDef.fields.map((field) => (0, react_jsx_runtime.jsxs)("div", {
+											className: `${ChannelsSection_module_css_default.formField} ${field.fullWidth === true ? ChannelsSection_module_css_default.formFieldSpan2 : ""}`,
+											children: [(0, react_jsx_runtime.jsx)("label", { children: field.label }), (0, react_jsx_runtime.jsx)("input", {
+												className: ChannelsSection_module_css_default.formInput,
+												type: field.secret ? "password" : "text",
+												value: typeof formConfig[field.key] === "string" ? formConfig[field.key] : "",
+												onChange: (event) => {
+													setFormConfig((current) => ({
+														...current,
+														[field.key]: event.target.value
+													}));
+												},
+												placeholder: field.placeholder
+											})]
+										}, field.key)),
+										typeDef.domain === true ? (0, react_jsx_runtime.jsxs)("div", {
+											className: ChannelsSection_module_css_default.formField,
+											children: [(0, react_jsx_runtime.jsx)("label", { children: "域名" }), (0, react_jsx_runtime.jsxs)("select", {
+												className: ChannelsSection_module_css_default.formSelect,
+												value: formDomain,
+												onChange: (event) => {
+													setFormDomain(event.target.value);
+												},
+												children: [(0, react_jsx_runtime.jsx)("option", {
+													value: "feishu",
+													children: "feishu（国内）"
+												}), (0, react_jsx_runtime.jsx)("option", {
+													value: "lark",
+													children: "Lark（国际）"
+												})]
+											})]
+										}) : null,
+										typeDef.mentionOnly === true ? (0, react_jsx_runtime.jsxs)("div", {
+											className: `${ChannelsSection_module_css_default.formField} ${ChannelsSection_module_css_default.formFieldSpan2}`,
+											children: [(0, react_jsx_runtime.jsx)("label", { children: "仅被 @ 时回复" }), (0, react_jsx_runtime.jsxs)("div", {
+												className: ChannelsSection_module_css_default.formSwitchRow,
+												children: [(0, react_jsx_runtime.jsx)(Switch, {
+													checked: formMentionOnly,
+													onChange: setFormMentionOnly,
+													label: "mention_only"
+												}), (0, react_jsx_runtime.jsx)("span", {
+													className: ChannelsSection_module_css_default.formHint,
+													children: "开启后，群聊中只有 @ 机器人的消息会触发回复。"
+												})]
+											})]
+										}) : null,
+										typeDef.ids !== void 0 ? (0, react_jsx_runtime.jsx)("div", {
+											className: ChannelsSection_module_css_default.formFieldSpan2,
+											children: (0, react_jsx_runtime.jsxs)("div", {
+												className: ChannelsSection_module_css_default.formField,
+												children: [
+													(0, react_jsx_runtime.jsx)("label", { children: typeDef.ids.label }),
+													(0, react_jsx_runtime.jsx)("input", {
+														className: ChannelsSection_module_css_default.formInput,
+														value: formIds,
+														onChange: (event) => {
+															setFormIds(event.target.value);
+														},
+														onBlur: () => {
+															setFormIds(parseAllowedIds(formIds).join(", "));
+														},
+														placeholder: typeDef.ids.placeholder
+													}),
+													(0, react_jsx_runtime.jsx)("div", {
+														className: ChannelsSection_module_css_default.formHint,
+														children: "逗号分隔；留空表示允许全部会话/频道。"
+													})
+												]
+											})
+										}) : null,
+										(0, react_jsx_runtime.jsxs)("div", {
+											className: `${ChannelsSection_module_css_default.formField} ${ChannelsSection_module_css_default.formFieldSpan2}`,
+											children: [
+												(0, react_jsx_runtime.jsx)("label", { children: "频道权限模式" }),
+												(0, react_jsx_runtime.jsx)("select", {
+													className: ChannelsSection_module_css_default.formSelect,
+													value: formPermission,
+													onChange: (event) => {
+														setFormPermission(event.target.value);
+													},
+													children: PERMISSION_MODES.map((mode) => (0, react_jsx_runtime.jsx)("option", {
+														value: mode.value,
+														children: mode.label
+													}, mode.value))
+												}),
+												formPermission !== "__inherit" && (0, react_jsx_runtime.jsx)("div", {
+													className: ChannelsSection_module_css_default.formHint,
+													children: PERMISSION_MODES.find((m) => m.value === formPermission)?.description
+												})
+											]
 										})
 									]
 								}),
@@ -19827,7 +20120,7 @@ ${editTarget.defaults.baseURL}`}`,
 								(0, react_jsx_runtime.jsxs)("h3", { children: [logsFor.name, " — 日志"] }),
 								(0, react_jsx_runtime.jsx)("div", {
 									className: ChannelsSection_module_css_default.logsBody,
-									children: "暂无日志"
+									children: "日志由桌面版伴生程序在频道连接后写入；Web 版暂无本地日志。"
 								}),
 								(0, react_jsx_runtime.jsx)("div", {
 									className: ChannelsSection_module_css_default.modalFooter,
@@ -20097,10 +20390,10 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var OnboardingModal_module_css_default = {
+			"body": "C_CJ_a_body",
 			"dialog": "C_CJ_a_dialog",
-			"content": "C_CJ_a_content",
 			"title": "C_CJ_a_title",
-			"body": "C_CJ_a_body"
+			"content": "C_CJ_a_content"
 		};
 		//#endregion
 		//#region lib/types/client/OnboardingModal.js
@@ -20159,8 +20452,8 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var DeepSeekOnboardingDialog_module_css_default = {
-			"description": "oxcHWa_description",
-			"editor": "oxcHWa_editor"
+			"editor": "oxcHWa_editor",
+			"description": "oxcHWa_description"
 		};
 		//#endregion
 		//#region lib/types/client/DeepSeekOnboardingDialog.js
@@ -20251,10 +20544,10 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var WelcomeNotice_module_css_default = {
-			"copy": "RFswhG_copy",
+			"error": "RFswhG_error",
 			"actions": "RFswhG_actions",
-			"primary": "RFswhG_primary",
-			"error": "RFswhG_error"
+			"copy": "RFswhG_copy",
+			"primary": "RFswhG_primary"
 		};
 		//#endregion
 		//#region lib/types/client/WelcomeNotice.js
@@ -21062,13 +21355,13 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ProductWorkspaceSurface_module_css_default = {
-			"root": "mzcFbW_root",
+			"icon": "mzcFbW_icon",
 			"header": "mzcFbW_header",
 			"close": "mzcFbW_close",
-			"identity": "mzcFbW_identity",
+			"body": "mzcFbW_body",
 			"eyebrow": "mzcFbW_eyebrow",
-			"icon": "mzcFbW_icon",
-			"body": "mzcFbW_body"
+			"root": "mzcFbW_root",
+			"identity": "mzcFbW_identity"
 		};
 		//#endregion
 		//#region lib/types/client/ProductWorkspaceSurface.js
@@ -22917,6 +23210,8 @@ ${editTarget.defaults.baseURL}`}`,
 			const useSelection = bindSnapshotSelector(selectionController.store);
 			const prefsController = new ModelPrefsStore(connection.api, schema);
 			const usePrefs = bindSnapshotSelector(prefsController.store);
+			const channelsController = new ChannelsStore(connection.api);
+			const useChannels = bindSnapshotSelector(channelsController.store);
 			const welcomeController = new WelcomeNoticeStore(connection.api, connection.isLoopback ? "host" : "memory");
 			const notificationRuntime = new ConversationNotificationRuntime(connection.api, ctx.sessions.list, () => desktop);
 			ctx.effect(() => notificationRuntime.start(), "control-center: conversation notifications");
@@ -22924,6 +23219,10 @@ ${editTarget.defaults.baseURL}`}`,
 				prefsController.load();
 				return () => void 0;
 			}, "control-center: model prefs load");
+			ctx.effect(() => {
+				channelsController.load();
+				return () => void 0;
+			}, "control-center: channels load");
 			let rowsVersion = -1;
 			let rowsRevision = -1;
 			let rows = [];
@@ -23043,6 +23342,7 @@ ${editTarget.defaults.baseURL}`}`,
 					ctx.remote.$on("settings/document-updated", (namespace) => {
 						refreshModels();
 						if (prefsController.store.getSnapshot().status !== "idle") prefsController.load();
+						if (channelsController.store.getSnapshot().status !== "idle") channelsController.load();
 						if (namespace === "ui-onboarding") refreshWelcomeIfLoaded(welcomeController);
 						if (namespace === "control-center-notifications") notificationRuntime.refreshPreferences();
 					}),
@@ -23405,11 +23705,17 @@ ${editTarget.defaults.baseURL}`}`,
 				order: 35,
 				label: () => shellT("screenshotNav")
 			}, ScreenshotSection));
+			const channelsInjected = () => ({
+				api: connection.api,
+				useChannels,
+				controller: channelsController
+			});
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "channels",
 				order: 30,
-				label: () => shellT("channelsNav")
+				label: () => shellT("channelsNav"),
+				inject: channelsInjected
 			}, ChannelsSection));
 			for (const entry of []) {
 				const props = entry.props;

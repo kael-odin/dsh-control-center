@@ -83,6 +83,8 @@ import { SelectionAssistantSection } from './SelectionAssistantSection.tsx'
 import { QuickAssistantSection } from './QuickAssistantSection.tsx'
 import { ScreenshotSection } from './ScreenshotSection.tsx'
 import { ChannelsSection } from './ChannelsSection.tsx'
+import type { ChannelsSectionInjected } from './ChannelsSection.tsx'
+import { ChannelsStore } from './channels-store.ts'
 import { SettingsDocumentAction } from './SettingsDocumentAction.tsx'
 import type { SettingsDocumentActionInjected } from './SettingsDocumentAction.tsx'
 import { refreshDocumentIfLoaded, SettingsDocumentStore } from './settings-document-store.ts'
@@ -343,6 +345,8 @@ export function apply(ctx: ClientContext): void {
   const useSelection = bindSnapshotSelector(selectionController.store)
   const prefsController = new ModelPrefsStore(connection.api, schema)
   const usePrefs = bindSnapshotSelector(prefsController.store)
+  const channelsController = new ChannelsStore(connection.api)
+  const useChannels = bindSnapshotSelector(channelsController.store)
   const welcomeController = new WelcomeNoticeStore(connection.api, connection.isLoopback ? 'host' : 'memory')
   const notificationRuntime = new ConversationNotificationRuntime(
     connection.api,
@@ -351,6 +355,7 @@ export function apply(ctx: ClientContext): void {
   )
   ctx.effect(() => notificationRuntime.start(), 'control-center: conversation notifications')
   ctx.effect(() => { void prefsController.load(); return () => undefined }, 'control-center: model prefs load')
+  ctx.effect(() => { void channelsController.load(); return () => undefined }, 'control-center: channels load')
 
   let rowsVersion = -1
   let rowsRevision = -1
@@ -480,6 +485,7 @@ export function apply(ctx: ClientContext): void {
       ctx.remote.$on('settings/document-updated', (namespace) => {
         refreshModels()
         if (prefsController.store.getSnapshot().status !== 'idle') void prefsController.load()
+        if (channelsController.store.getSnapshot().status !== 'idle') void channelsController.load()
         if (namespace === WELCOME_NOTICE_SETTINGS_NAMESPACE) refreshWelcomeIfLoaded(welcomeController)
         if (namespace === NOTIFICATION_SETTINGS_NAMESPACE) void notificationRuntime.refreshPreferences()
       }),
@@ -799,11 +805,17 @@ export function apply(ctx: ClientContext): void {
     order: 35,
     label: () => shellT('screenshotNav'),
   }, ScreenshotSection))
+  const channelsInjected = (): ChannelsSectionInjected => ({
+    api: connection.api,
+    useChannels,
+    controller: channelsController,
+  })
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'channels',
     order: 30,
     label: () => shellT('channelsNav'),
+    inject: channelsInjected,
   }, ChannelsSection))
   const gated: ReadonlyArray<{ id: string; order: number; label: string; props: Omit<CapabilityGateSectionProps, 'title' | 'description'> }> = [
 

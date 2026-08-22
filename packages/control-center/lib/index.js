@@ -5240,6 +5240,12 @@ const APPEARANCE_SETTINGS_NAMESPACE = "control-center-appearance";
 */
 const PROVIDER_STASH_NAMESPACE = settingsNamespace("control-center-provider-stash");
 const PROVIDER_STASH_SCHEMA = Schema.object({ providers: Schema.dict(Schema.any()).default({}) });
+/**
+* Channel instances configured on the 频道 page. The desktop bridge reads this
+* section to bind bots; on web it is the durable copy of what was configured.
+*/
+const CHANNELS_NAMESPACE_SETTINGS = settingsNamespace("control-center-channels");
+const CHANNELS_SCHEMA = Schema.object({ instances: Schema.array(Schema.any()).default([]) });
 /** Per-purpose model preferences (translation/painting) for the 默认模型 page. */
 const MODEL_PREFS_NAMESPACE_SETTINGS = settingsNamespace("control-center-model-prefs");
 const MODEL_PREFS_SCHEMA = Schema.object({
@@ -5318,6 +5324,7 @@ function apply(ctx) {
 	ctx.settings.register(settingsNamespace(APPEARANCE_SETTINGS_NAMESPACE), AppearanceSettingsSchema);
 	ctx.settings.register(PROVIDER_STASH_NAMESPACE, PROVIDER_STASH_SCHEMA);
 	ctx.settings.register(MODEL_PREFS_NAMESPACE_SETTINGS, MODEL_PREFS_SCHEMA);
+	ctx.settings.register(CHANNELS_NAMESPACE_SETTINGS, CHANNELS_SCHEMA);
 }
 //#endregion
-export { DataService, DesktopService, FileProcessingService, KnowledgeService, LocalModelsService, MODEL_PREFS_NAMESPACE_SETTINGS, McpService, ModelCheckService, PaintingService, ProvidersService, SkillsService, SystemService, TasksService, TranslationService, UpdateService, UsageService, WebSearchService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, cronMatches, inject, name };
+export { CHANNELS_NAMESPACE_SETTINGS, DataService, DesktopService, FileProcessingService, KnowledgeService, LocalModelsService, MODEL_PREFS_NAMESPACE_SETTINGS, McpService, ModelCheckService, PaintingService, ProvidersService, SkillsService, SystemService, TasksService, TranslationService, UpdateService, UsageService, WebSearchService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, cronMatches, inject, name };

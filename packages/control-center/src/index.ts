@@ -48,6 +48,15 @@ const PROVIDER_STASH_SCHEMA = z.object({
   providers: z.dict(z.any()).default({}),
 })
 
+/**
+ * Channel instances configured on the 频道 page. The desktop bridge reads this
+ * section to bind bots; on web it is the durable copy of what was configured.
+ */
+export const CHANNELS_NAMESPACE_SETTINGS = settingsNamespace('control-center-channels')
+const CHANNELS_SCHEMA = z.object({
+  instances: z.array(z.any()).default([]),
+})
+
 /** Per-purpose model preferences (translation/painting) for the 默认模型 page. */
 export const MODEL_PREFS_NAMESPACE_SETTINGS = settingsNamespace('control-center-model-prefs')
 const MODEL_PREFS_SCHEMA = z.object({
@@ -165,6 +174,10 @@ export function apply(ctx: Context): void {
   ctx.settings.register(
     MODEL_PREFS_NAMESPACE_SETTINGS,
     MODEL_PREFS_SCHEMA,
+  )
+  ctx.settings.register(
+    CHANNELS_NAMESPACE_SETTINGS,
+    CHANNELS_SCHEMA,
   )
 }
 
