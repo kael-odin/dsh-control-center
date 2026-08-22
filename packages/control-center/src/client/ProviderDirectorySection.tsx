@@ -52,6 +52,20 @@ export const STASH_NS = 'control-center-provider-stash'
 
 /** localStorage key for the persisted selection (Cherry's key name). */
 const LAST_SELECTED_KEY = 'settings.provider.last_selected_provider_id'
+/** localStorage key for the user's provider ordering (drag to reorder). */
+const ORDER_KEY = 'settings.provider.order'
+
+/** Read the persisted ordering, tolerating absent or corrupt storage. */
+function loadOrder(): readonly string[] {
+  try {
+    const raw = window.localStorage.getItem(ORDER_KEY)
+    if (raw === null) return []
+    const parsed: unknown = JSON.parse(raw)
+    return Array.isArray(parsed) ? parsed.filter((id): id is string => typeof id === 'string') : []
+  } catch {
+    return []
+  }
+}
 
 /** One left-pane entry: a Cherry preset or a host-known provider. */
 interface DirectoryEntry {
@@ -209,6 +223,11 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
   const [menuFor, setMenuFor] = useState<string | undefined>(undefined)
   const [defaultSaved, setDefaultSaved] = useState<{ provider: string; model: string } | undefined>(undefined)
   const [optionsOpen, setOptionsOpen] = useState(false)
+  // The user's drag ordering; known ids sort first in their saved order,
+  // everything else keeps catalog order after them.
+  const [order, setOrder] = useState<readonly string[]>(loadOrder)
+  const [draggingId, setDraggingId] = useState<string | undefined>(undefined)
+  const [dropTargetId, setDropTargetId] = useState<string | undefined>(undefined)
   // The selected route's full served catalog (`llm.models`): the eye-toggle
   // merge renders catalog entries missing from the profile array as disabled.
   const [providerCatalog, setProviderCatalog] = useState<readonly { id: string; name?: string }[]>([])
@@ -229,7 +248,13 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
     )
   }
 
-  const directory = useMemo(() => buildDirectory(state.rows), [state.rows])
+  const directory = useMemo(() => {
+    const entries = buildDirectory(state.rows)
+    if (order.length === 0) return entries
+    const rank = new Map(order.map((id, index) => [id, index]))
+    return [...entries].sort((left, right) =>
+      (rank.get(left.provider) ?? Number.MAX_SAFE_INTEGER) - (rank.get(right.provider) ?? Number.MAX_SAFE_INTEGER))
+  }, [state.rows, order])
   const filtered = useMemo(() => {
     if (search.trim().length === 0) return directory
     const keywords = search.toLowerCase().split(/\s+/).filter(Boolean)
@@ -241,6 +266,29 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
   // A selection that no longer exists (renamed or removed) falls back to the
   // first entry rather than leaving the right pane empty.
   const effective = selected ?? filtered[0]
+
+  /**
+   * Move one provider before another in the persisted ordering. The move
+   * happens on the FULL directory ids (a filtered view only picks the
+   * target), and searching suspends dragging entirely — reordering a subset
+   * has no honest meaning for a whole-list order.
+   */
+  const reorder = (dragId: string, targetId: string): void => {
+    if (dragId === targetId) return
+    const ids = directory.map(entry => entry.provider)
+    const from = ids.indexOf(dragId)
+    const to = ids.indexOf(targetId)
+    if (from === -1 || to === -1) return
+    ids.splice(to, 0, ...ids.splice(from, 1))
+    const next = ids
+    setOrder(next)
+    try {
+      window.localStorage.setItem(ORDER_KEY, JSON.stringify(next))
+    } catch {
+      // Persisting the order is a preference; a storage failure keeps this
+      // session's order without breaking anything.
+    }
+  }
 
   const select = (provider: string): void => {
     setSelectedId(provider)
@@ -506,8 +554,30 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                         <div
                           role="button"
                           tabIndex={0}
-                          className={`${styles['listItem']} ${isSelected ? styles['listItemSelected'] : ''} ${enabled ? '' : styles['listItemDisabled']}`}
+                          className={`${styles['listItem']} ${isSelected ? styles['listItemSelected'] : ''} ${enabled ? '' : styles['listItemDisabled']} ${draggingId === entry.provider ? styles['listItemDragging'] : ''} ${dropTargetId === entry.provider && draggingId !== entry.provider ? styles['listItemDropTarget'] : ''}`}
                           aria-pressed={isSelected}
+                          draggable={search.trim().length === 0}
+                          onDragStart={(event) => {
+                            setDraggingId(entry.provider)
+                            event.dataTransfer.effectAllowed = 'move'
+                          }}
+                          onDragEnd={() => {
+                            setDraggingId(undefined)
+                            setDropTargetId(undefined)
+                          }}
+                          onDragOver={(event) => {
+                            if (draggingId === undefined || draggingId === entry.provider) return
+                            event.preventDefault()
+                            event.dataTransfer.dropEffect = 'move'
+                            setDropTargetId(entry.provider)
+                          }}
+                          onDragLeave={() => { setDropTargetId(current => current === entry.provider ? undefined : current) }}
+                          onDrop={(event) => {
+                            event.preventDefault()
+                            if (draggingId !== undefined && draggingId !== entry.provider) reorder(draggingId, entry.provider)
+                            setDraggingId(undefined)
+                            setDropTargetId(undefined)
+                          }}
                           onClick={() => { select(entry.provider) }}
                           onKeyDown={(event) => {
                             if (event.currentTarget !== event.target) return

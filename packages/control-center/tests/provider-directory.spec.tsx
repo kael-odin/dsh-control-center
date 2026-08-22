@@ -304,6 +304,32 @@ describe('ProviderDirectorySection kebab menu', () => {
   })
 })
 
+describe('provider drag ordering', () => {
+  it('persists a drag reorder and sorts the list by it', () => {
+    localStorage.setItem('settings.provider.order', JSON.stringify(['silicon']))
+    renderSection([])
+    // silicon currently first via saved order; drag zhipu (catalog-first) onto it.
+    const zhipuRow = screen
+      .getAllByRole('button', { name: /智谱开放平台/ })
+      .find(element => element.getAttribute('aria-pressed') !== null)!
+    const siliconRow = screen
+      .getAllByRole('button', { name: /硅基流动/ })
+      .find(element => element.getAttribute('aria-pressed') !== null)!
+    fireEvent.dragStart(zhipuRow)
+    fireEvent.dragOver(siliconRow)
+    fireEvent.drop(siliconRow)
+    fireEvent.dragEnd(siliconRow)
+    const order = JSON.parse(localStorage.getItem('settings.provider.order') ?? '[]') as string[]
+    expect(order[0]).toBe('zhipu')
+    expect(order[1]).toBe('silicon')
+    // The saved order now leads the rendered list.
+    const names = screen.getAllByRole('button', { name: /智谱开放平台|硅基流动/ })
+      .filter(element => element.getAttribute('aria-pressed') !== null)
+    expect(names[0]?.textContent).toContain('智谱开放平台')
+    localStorage.removeItem('settings.provider.order')
+  })
+})
+
 describe('RequestOptionsPanel', () => {
   it('saves custom headers as a profile headers dict', async () => {
     const api = apiMock()

@@ -160,6 +160,14 @@
   font-weight: 500;
 }
 
+.listItemDragging {
+  opacity: 0.45;
+}
+
+.listItemDropTarget {
+  box-shadow: inset 0 2px 0 var(--primary);
+}
+
 .listItemDisabled .listItemName,
 .listItemDisabled .avatar {
   opacity: 0.55;
