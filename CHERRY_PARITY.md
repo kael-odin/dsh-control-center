@@ -40,7 +40,7 @@
 
 | 分组 | Cherry 入口 | Cherry 路由 | control-center section（id） | 优先级 | 现状 |
 |------|------------|------------|-------------------------------|--------|------|
-| （核心） | 模型服务 | `/settings/provider` | `providers`（ProviderDirectorySection） | **P0** | ✅ 两栏目录真实接线（Cherry ProviderSettings 对齐） |
+| （核心） | 模型服务 | `/settings/provider` | `providers`（ProviderDirectorySection） | **P0** | ✅ 两栏目录 + 细节控件全量对齐（启用开关/检测/请求选项/拖拽排序） |
 | （核心） | 模型 | `/settings/model` | `models`（ModelsSection）+ ModelSelectionPanel | **P0** | 🔶 行来自目录，目录空（Bug A） |
 | （核心） | 本地模型 | `/settings/local-models` | `local-models`（LocalModelsSection） | P0 | ✅ controlCenterLocalModels |
 | （核心） | 网关 | `/settings/api-gateway` | `api-gateway`（ApiGatewaySection） | P0 | ✅ 真实（web 诚实标注） |
@@ -113,9 +113,9 @@ Cherry 参照：`.../ProviderSettings/ProviderSetting.tsx`、`.../components/Pro
 
 | # | Cherry 能力 | Cherry 行为要点 | control-center 现状 | 待办 | 完成标准 |
 |---|-------------|-----------------|---------------------|------|----------|
-| 2.3.1 | ProviderHeader | 名称（可链官网）+ 启用 Switch + 闪电图标打开 API 选项抽屉 | ✅ 右栏 Header：品牌头像 + 名称（61 预设全量携带 registry 官网地址，名称即外链）+ route + 自定义/已禁用标签 + 启用 Switch；API 选项抽屉未做 | 后续：抽屉化 | 右栏顶部显示名称(可链官网)/启用开关 ✅ |
-| 2.3.2 | 认证区 | API key 输入/保存、连接测试、"获取模型"引导动画 | ✅ 密钥行：眼睛显隐切换 + 「检测」按钮（真实 `llm.discoverModels` 探测，回显模型数+延迟）；baseURL 等宽输入 + 端点预览行；registry 有取键地址时密钥标签旁显示「获取 API Key」帮助链接；引导动画未做 | 后续：引导动画 / 密钥列表抽屉 | 填 key → 测试 → 真实 HTTP 探测并反馈 ✅ |
-| 2.3.3 | 模型列表 | 该供应商模型列表：启用/禁用、搜索、添加、从供应商拉取、默认标记、健康状态 | ✅ Cherry 式工具栏（标题+计数徽章+搜索切换+获取模型列表+加号）+ **家族分组折叠**（`openai/gpt-4o`→openai、`deepseek-v4-pro`→deepseek，未分组殿后，全局展开/折叠切换）；行 = 字母头像 + 无边框 ID 输入 + 折叠（显示名/容量在内）+ 减号删除；拉取候选多选采纳。健康检测对话框/默认标记/每行启停眼动未做 | 后续：健康检测 / 默认标记 / 行级启停 | 模型列表真实增删、可拉取、分组折叠 ✅ |
+| 2.3.1 | ProviderHeader | 名称（可链官网）+ 启用 Switch + 闪电图标打开 API 选项抽屉 | ✅ 右栏 Header：品牌头像 + 名称（外链 registry 官网）+ **闪电按钮 → 请求选项对话框**（编辑 pi-ai 真实 `headers` 字典，空即 unset）+ 自定义/已禁用标签 + 启用 Switch | — | 名称可链官网 / 启用开关 / 抽屉均 ✅ |
+| 2.3.2 | 认证区 | API key 输入/保存、连接测试、"获取模型"引导动画 | ✅ 密钥行：眼睛显隐切换 + 「检测」按钮（真实 `llm.discoverModels` 探测，回显模型数+延迟）；baseURL 等宽输入 + 端点预览行；Header 齿轮「检测模型」→ 健康检测对话框（host 新服务 `controlCenterModelCheck`：每模型一发最小真实补全，走正式适配器与凭据链路，逐行状态/延迟/错误 + 全部检测 + 单行重检）；registry 有取键地址时显示「获取 API Key」链接；引导动画未做 | 后续：引导动画 / 密钥列表抽屉 | 填 key → 检测 → 真实探测反馈；模型级健康检测 ✅ |
+| 2.3.3 | 模型列表 | 该供应商模型列表：启用/禁用、搜索、添加、从供应商拉取、默认标记、健康状态 | ✅ Cherry 式工具栏（标题+计数徽章+搜索切换+获取模型列表+加号）+ **家族分组折叠**（`openai/gpt-4o`→openai、`deepseek-v4-pro`→deepseek，未分组殿后，全局展开/折叠切换）；行 = 字母头像 + 无边框 ID 输入 + 折叠（显示名/容量在内）+ 减号删除；拉取候选多选采纳 + **默认标记刷子**（写真实 `agent-default-model`）+ **每行启停眼动**（profile 数组即在役集合：眼动移出；目录缺失项灰色「已停用」组内一键恢复——pi-ai 无独立 disabled 字段，存在性即状态，无伪造）。模型级类型筛选 tab 未做 | 后续：类型筛选 tabs | 模型列表真实增删、可拉取、分组、启停、默认标记、健康检测入口 ✅ |
 
 ### 2.4 模型选择页 ModelSettings
 

@@ -319,112 +319,112 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var PaintingWorkspace_module_css_default = {
-			"stripItem": "_-UrTq_stripItem",
-			"toolbarRail": "_-UrTq_toolbarRail",
-			"promptLibFooter": "_-UrTq_promptLibFooter",
-			"manageRowContent": "_-UrTq_manageRowContent",
-			"manageRowActions": "_-UrTq_manageRowActions",
-			"frame": "_-UrTq_frame",
-			"counterPill": "_-UrTq_counterPill",
-			"pauseButton": "_-UrTq_pauseButton",
-			"cc-cell-blink": "_-UrTq_cc-cell-blink",
-			"addPromptField": "_-UrTq_addPromptField",
-			"toolbarButton": "_-UrTq_toolbarButton",
-			"errorBanner": "_-UrTq_errorBanner",
+			"promptLibDelete": "_-UrTq_promptLibDelete",
+			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
 			"manageRow": "_-UrTq_manageRow",
 			"pillButton": "_-UrTq_pillButton",
-			"btn": "_-UrTq_btn",
-			"btnPrimary": "_-UrTq_btnPrimary",
-			"thumb": "_-UrTq_thumb",
-			"dragging": "_-UrTq_dragging",
-			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
-			"sizeGrid": "_-UrTq_sizeGrid",
+			"portalPanel": "_-UrTq_portalPanel",
+			"frame": "_-UrTq_frame",
 			"skeletonCell": "_-UrTq_skeletonCell",
-			"hidden": "_-UrTq_hidden",
-			"thumbEmpty": "_-UrTq_thumbEmpty",
-			"centerPane": "_-UrTq_centerPane",
-			"countRow": "_-UrTq_countRow",
+			"manageRowContent": "_-UrTq_manageRowContent",
+			"quickPanel": "_-UrTq_quickPanel",
+			"centerStage": "_-UrTq_centerStage",
+			"carouselLabel": "_-UrTq_carouselLabel",
 			"selected": "_-UrTq_selected",
-			"sizeLabel": "_-UrTq_sizeLabel",
-			"countInput": "_-UrTq_countInput",
-			"promptLib": "_-UrTq_promptLib",
-			"composerToolbar": "_-UrTq_composerToolbar",
-			"stripDelete": "_-UrTq_stripDelete",
-			"paramsSelect": "_-UrTq_paramsSelect",
-			"newButton": "_-UrTq_newButton",
-			"artboardStage": "_-UrTq_artboardStage",
-			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
-			"modelPill": "_-UrTq_modelPill",
-			"promptLibTitle": "_-UrTq_promptLibTitle",
-			"addPromptInput": "_-UrTq_addPromptInput",
-			"addPromptTextarea": "_-UrTq_addPromptTextarea",
-			"manageCard": "_-UrTq_manageCard",
-			"showcaseInner": "_-UrTq_showcaseInner",
-			"composerTextarea": "_-UrTq_composerTextarea",
-			"manageList": "_-UrTq_manageList",
-			"showcaseCaption": "_-UrTq_showcaseCaption",
 			"addImageButton": "_-UrTq_addImageButton",
-			"promptBarText": "_-UrTq_promptBarText",
-			"cc-strip-loading": "_-UrTq_cc-strip-loading",
-			"quickItemLabel": "_-UrTq_quickItemLabel",
-			"quickItemIcon": "_-UrTq_quickItemIcon",
-			"composer": "_-UrTq_composer",
-			"sendButton": "_-UrTq_sendButton",
-			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
-			"attachmentTile": "_-UrTq_attachmentTile",
-			"skeletonGrid": "_-UrTq_skeletonGrid",
-			"attachmentTray": "_-UrTq_attachmentTray",
-			"imageBox": "_-UrTq_imageBox",
-			"stripHeader": "_-UrTq_stripHeader",
-			"addPromptCard": "_-UrTq_addPromptCard",
-			"manageRowBtn": "_-UrTq_manageRowBtn",
-			"sizeChip": "_-UrTq_sizeChip",
-			"paramsField": "_-UrTq_paramsField",
-			"roundButton": "_-UrTq_roundButton",
-			"manageRowTitle": "_-UrTq_manageRowTitle",
+			"promptBar": "_-UrTq_promptBar",
 			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
-			"attachmentDelete": "_-UrTq_attachmentDelete",
+			"skeletonGrid": "_-UrTq_skeletonGrid",
+			"quickItemLabel": "_-UrTq_quickItemLabel",
+			"addPromptCard": "_-UrTq_addPromptCard",
+			"centerPane": "_-UrTq_centerPane",
+			"roundButton": "_-UrTq_roundButton",
+			"paramsSelect": "_-UrTq_paramsSelect",
+			"root": "_-UrTq_root",
+			"promptLibContent": "_-UrTq_promptLibContent",
+			"addPromptOverlay": "_-UrTq_addPromptOverlay",
+			"stripDelete": "_-UrTq_stripDelete",
+			"newButton": "_-UrTq_newButton",
+			"cc-cell-blink": "_-UrTq_cc-cell-blink",
+			"counterPill": "_-UrTq_counterPill",
+			"btnPrimary": "_-UrTq_btnPrimary",
+			"manageRowActions": "_-UrTq_manageRowActions",
+			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
+			"promptLibItem": "_-UrTq_promptLibItem",
+			"manageRowBtnDanger": "_-UrTq_manageRowBtnDanger",
+			"addPromptTextarea": "_-UrTq_addPromptTextarea",
+			"stripEnd": "_-UrTq_stripEnd",
+			"promptLibFooter": "_-UrTq_promptLibFooter",
+			"promptDockInner": "_-UrTq_promptDockInner",
+			"stripItem": "_-UrTq_stripItem",
+			"promptLibEmpty": "_-UrTq_promptLibEmpty",
+			"surface": "_-UrTq_surface",
+			"artboardStage": "_-UrTq_artboardStage",
+			"promptBarText": "_-UrTq_promptBarText",
+			"countRow": "_-UrTq_countRow",
+			"composerToolbar": "_-UrTq_composerToolbar",
+			"toolbarRail": "_-UrTq_toolbarRail",
+			"cc-strip-loading": "_-UrTq_cc-strip-loading",
+			"toolbarButton": "_-UrTq_toolbarButton",
+			"showcaseCarousel": "_-UrTq_showcaseCarousel",
+			"pillSummary": "_-UrTq_pillSummary",
+			"artboardEmpty": "_-UrTq_artboardEmpty",
+			"progressText": "_-UrTq_progressText",
+			"promptLib": "_-UrTq_promptLib",
+			"modelPill": "_-UrTq_modelPill",
 			"strip": "_-UrTq_strip",
+			"carouselCardImage": "_-UrTq_carouselCardImage",
 			"showcase": "_-UrTq_showcase",
 			"chevron": "_-UrTq_chevron",
-			"composerTextRow": "_-UrTq_composerTextRow",
-			"promptLibDelete": "_-UrTq_promptLibDelete",
-			"stripEnd": "_-UrTq_stripEnd",
-			"muted": "_-UrTq_muted",
+			"stripHeader": "_-UrTq_stripHeader",
 			"active": "_-UrTq_active",
-			"manageRowBtnDanger": "_-UrTq_manageRowBtnDanger",
-			"portalPanel": "_-UrTq_portalPanel",
-			"surface": "_-UrTq_surface",
-			"centerStage": "_-UrTq_centerStage",
-			"artboardEmpty": "_-UrTq_artboardEmpty",
-			"promptLibList": "_-UrTq_promptLibList",
+			"muted": "_-UrTq_muted",
+			"dragging": "_-UrTq_dragging",
 			"toolbarDivider": "_-UrTq_toolbarDivider",
-			"addPromptOverlay": "_-UrTq_addPromptOverlay",
-			"paramsPopover": "_-UrTq_paramsPopover",
-			"manageRowMain": "_-UrTq_manageRowMain",
 			"showcaseTitle": "_-UrTq_showcaseTitle",
-			"promptBar": "_-UrTq_promptBar",
-			"dialogActions": "_-UrTq_dialogActions",
-			"promptLibEmpty": "_-UrTq_promptLibEmpty",
-			"quickPanel": "_-UrTq_quickPanel",
-			"stripProgress": "_-UrTq_stripProgress",
-			"ratioThumb": "_-UrTq_ratioThumb",
-			"carouselCardImage": "_-UrTq_carouselCardImage",
-			"progressText": "_-UrTq_progressText",
-			"promptDockInner": "_-UrTq_promptDockInner",
-			"showcaseCarousel": "_-UrTq_showcaseCarousel",
-			"artboard": "_-UrTq_artboard",
-			"promptLibContent": "_-UrTq_promptLibContent",
-			"carouselLabel": "_-UrTq_carouselLabel",
-			"promptLibItemMain": "_-UrTq_promptLibItemMain",
-			"quickItem": "_-UrTq_quickItem",
-			"root": "_-UrTq_root",
-			"pillSummary": "_-UrTq_pillSummary",
-			"countSlider": "_-UrTq_countSlider",
-			"backButton": "_-UrTq_backButton",
-			"promptDock": "_-UrTq_promptDock",
 			"carouselCard": "_-UrTq_carouselCard",
-			"promptLibItem": "_-UrTq_promptLibItem"
+			"stripProgress": "_-UrTq_stripProgress",
+			"countSlider": "_-UrTq_countSlider",
+			"imageBox": "_-UrTq_imageBox",
+			"quickItem": "_-UrTq_quickItem",
+			"quickItemIcon": "_-UrTq_quickItemIcon",
+			"promptLibList": "_-UrTq_promptLibList",
+			"addPromptField": "_-UrTq_addPromptField",
+			"addPromptInput": "_-UrTq_addPromptInput",
+			"sizeChip": "_-UrTq_sizeChip",
+			"attachmentDelete": "_-UrTq_attachmentDelete",
+			"errorBanner": "_-UrTq_errorBanner",
+			"attachmentTile": "_-UrTq_attachmentTile",
+			"promptDock": "_-UrTq_promptDock",
+			"manageCard": "_-UrTq_manageCard",
+			"sizeLabel": "_-UrTq_sizeLabel",
+			"manageRowTitle": "_-UrTq_manageRowTitle",
+			"paramsPopover": "_-UrTq_paramsPopover",
+			"sendButton": "_-UrTq_sendButton",
+			"paramsField": "_-UrTq_paramsField",
+			"manageList": "_-UrTq_manageList",
+			"manageRowBtn": "_-UrTq_manageRowBtn",
+			"artboard": "_-UrTq_artboard",
+			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
+			"ratioThumb": "_-UrTq_ratioThumb",
+			"thumbEmpty": "_-UrTq_thumbEmpty",
+			"showcaseInner": "_-UrTq_showcaseInner",
+			"thumb": "_-UrTq_thumb",
+			"pauseButton": "_-UrTq_pauseButton",
+			"btn": "_-UrTq_btn",
+			"countInput": "_-UrTq_countInput",
+			"showcaseCaption": "_-UrTq_showcaseCaption",
+			"composerTextarea": "_-UrTq_composerTextarea",
+			"backButton": "_-UrTq_backButton",
+			"composer": "_-UrTq_composer",
+			"promptLibTitle": "_-UrTq_promptLibTitle",
+			"sizeGrid": "_-UrTq_sizeGrid",
+			"hidden": "_-UrTq_hidden",
+			"manageRowMain": "_-UrTq_manageRowMain",
+			"dialogActions": "_-UrTq_dialogActions",
+			"attachmentTray": "_-UrTq_attachmentTray",
+			"composerTextRow": "_-UrTq_composerTextRow",
+			"promptLibItemMain": "_-UrTq_promptLibItemMain"
 		};
 		//#endregion
 		//#region lib/types/client/painting-icons.js
@@ -1155,27 +1155,27 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var Combobox_module_css_default = {
-			"searchWrap": "PJZ1pG_searchWrap",
-			"group": "PJZ1pG_group",
-			"optionActive": "PJZ1pG_optionActive",
-			"triggerIcon": "PJZ1pG_triggerIcon",
 			"root": "PJZ1pG_root",
-			"optionIcon": "PJZ1pG_optionIcon",
+			"triggerLabel": "PJZ1pG_triggerLabel",
 			"optionLabel": "PJZ1pG_optionLabel",
-			"optionText": "PJZ1pG_optionText",
-			"list": "PJZ1pG_list",
 			"searchInput": "PJZ1pG_searchInput",
+			"triggerIcon": "PJZ1pG_triggerIcon",
+			"optionActive": "PJZ1pG_optionActive",
 			"optionSub": "PJZ1pG_optionSub",
-			"popoverPortal": "PJZ1pG_popoverPortal",
-			"option": "PJZ1pG_option",
-			"empty": "PJZ1pG_empty",
+			"groupTitle": "PJZ1pG_groupTitle",
 			"footer": "PJZ1pG_footer",
 			"trigger": "PJZ1pG_trigger",
-			"groupTitle": "PJZ1pG_groupTitle",
-			"footerButton": "PJZ1pG_footerButton",
-			"triggerLabel": "PJZ1pG_triggerLabel",
+			"list": "PJZ1pG_list",
+			"popoverPortal": "PJZ1pG_popoverPortal",
+			"searchIcon": "PJZ1pG_searchIcon",
 			"triggerChevron": "PJZ1pG_triggerChevron",
-			"searchIcon": "PJZ1pG_searchIcon"
+			"option": "PJZ1pG_option",
+			"empty": "PJZ1pG_empty",
+			"group": "PJZ1pG_group",
+			"searchWrap": "PJZ1pG_searchWrap",
+			"optionText": "PJZ1pG_optionText",
+			"footerButton": "PJZ1pG_footerButton",
+			"optionIcon": "PJZ1pG_optionIcon"
 		};
 		//#endregion
 		//#region lib/types/client/Combobox.js
@@ -2311,8 +2311,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelSelector_module_css_default = {
-			"configureButton": "DFvSka_configureButton",
-			"avatar": "DFvSka_avatar"
+			"avatar": "DFvSka_avatar",
+			"configureButton": "DFvSka_configureButton"
 		};
 		//#endregion
 		//#region lib/types/client/ModelSelector.js
@@ -3359,115 +3359,115 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TranslationWorkspace_module_css_default = {
-			"confirmCard": "_8lesPa_confirmCard",
-			"destructive": "_8lesPa_destructive",
-			"detailBlockTarget": "_8lesPa_detailBlockTarget",
-			"detailBlockLabel": "_8lesPa_detailBlockLabel",
-			"success": "_8lesPa_success",
-			"langChevron": "_8lesPa_langChevron",
 			"iconBtn": "_8lesPa_iconBtn",
-			"confirmOverlay": "_8lesPa_confirmOverlay",
-			"helpWrap": "_8lesPa_helpWrap",
-			"helpBubble": "_8lesPa_helpBubble",
-			"settingLabel": "_8lesPa_settingLabel",
-			"outputArea": "_8lesPa_outputArea",
-			"loadMore": "_8lesPa_loadMore",
-			"pairChip": "_8lesPa_pairChip",
-			"on": "_8lesPa_on",
-			"helpIcon": "_8lesPa_helpIcon",
-			"switchRow": "_8lesPa_switchRow",
-			"paneCorner": "_8lesPa_paneCorner",
-			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
-			"switch": "_8lesPa_switch",
-			"inputArea": "_8lesPa_inputArea",
-			"smallIconBtn": "_8lesPa_smallIconBtn",
-			"panelTitle": "_8lesPa_panelTitle",
-			"switchTrack": "_8lesPa_switchTrack",
-			"resetLink": "_8lesPa_resetLink",
-			"langForm": "_8lesPa_langForm",
-			"langSelectWrap": "_8lesPa_langSelectWrap",
-			"detailMeta": "_8lesPa_detailMeta",
+			"chipArrow": "_8lesPa_chipArrow",
+			"detailBack": "_8lesPa_detailBack",
+			"rowSource": "_8lesPa_rowSource",
+			"segItem": "_8lesPa_segItem",
 			"spinner": "_8lesPa_spinner",
-			"detailBlock": "_8lesPa_detailBlock",
-			"detailBlockHeader": "_8lesPa_detailBlockHeader",
-			"historyEmpty": "_8lesPa_historyEmpty",
-			"langRowActions": "_8lesPa_langRowActions",
+			"inputArea": "_8lesPa_inputArea",
+			"chip": "_8lesPa_chip",
 			"root": "_8lesPa_root",
-			"pairRow": "_8lesPa_pairRow",
-			"errorBanner": "_8lesPa_errorBanner",
-			"uploadZone": "_8lesPa_uploadZone",
-			"starFill": "_8lesPa_starFill",
-			"copy": "_8lesPa_copy",
-			"langFormLabel": "_8lesPa_langFormLabel",
-			"btnPrimary": "_8lesPa_btnPrimary",
-			"spacer": "_8lesPa_spacer",
+			"switchTrack": "_8lesPa_switchTrack",
+			"active": "_8lesPa_active",
+			"panelTitle": "_8lesPa_panelTitle",
+			"rowTarget": "_8lesPa_rowTarget",
+			"textareaScroll": "_8lesPa_textareaScroll",
+			"modelSelectWrap": "_8lesPa_modelSelectWrap",
 			"pane": "_8lesPa_pane",
-			"rowTime": "_8lesPa_rowTime",
-			"detailAction": "_8lesPa_detailAction",
+			"langName": "_8lesPa_langName",
+			"modelSelect": "_8lesPa_modelSelect",
+			"detailBlock": "_8lesPa_detailBlock",
+			"langChevron": "_8lesPa_langChevron",
+			"langFormLabel": "_8lesPa_langFormLabel",
+			"btn": "_8lesPa_btn",
+			"confirmOverlay": "_8lesPa_confirmOverlay",
+			"confirmCard": "_8lesPa_confirmCard",
+			"stopBtn": "_8lesPa_stopBtn",
+			"panelBody": "_8lesPa_panelBody",
+			"on": "_8lesPa_on",
+			"count": "_8lesPa_count",
+			"destructive": "_8lesPa_destructive",
+			"errorBanner": "_8lesPa_errorBanner",
+			"uploadIcon": "_8lesPa_uploadIcon",
+			"settingHint": "_8lesPa_settingHint",
+			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
+			"topBar": "_8lesPa_topBar",
+			"reuse": "_8lesPa_reuse",
+			"detailText": "_8lesPa_detailText",
+			"btnPrimary": "_8lesPa_btnPrimary",
+			"langFormActions": "_8lesPa_langFormActions",
+			"outputPane": "_8lesPa_outputPane",
+			"langSelect": "_8lesPa_langSelect",
+			"visible": "_8lesPa_visible",
+			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
+			"langRow": "_8lesPa_langRow",
+			"resetLink": "_8lesPa_resetLink",
 			"langFormError": "_8lesPa_langFormError",
 			"confirmTitle": "_8lesPa_confirmTitle",
-			"confirmText": "_8lesPa_confirmText",
-			"uploadIcons": "_8lesPa_uploadIcons",
-			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
-			"paneFooter": "_8lesPa_paneFooter",
-			"settingRow": "_8lesPa_settingRow",
-			"historyRowMeta": "_8lesPa_historyRowMeta",
-			"historyRow": "_8lesPa_historyRow",
-			"sidePanel": "_8lesPa_sidePanel",
-			"langFormRow": "_8lesPa_langFormRow",
-			"uploadIcon": "_8lesPa_uploadIcon",
-			"topBar": "_8lesPa_topBar",
-			"segmented": "_8lesPa_segmented",
-			"rightCluster": "_8lesPa_rightCluster",
-			"modelSelectWrap": "_8lesPa_modelSelectWrap",
-			"rowTarget": "_8lesPa_rowTarget",
-			"langInput": "_8lesPa_langInput",
-			"confirmActions": "_8lesPa_confirmActions",
-			"backdrop": "_8lesPa_backdrop",
-			"clearBtn": "_8lesPa_clearBtn",
-			"historyList": "_8lesPa_historyList",
-			"count": "_8lesPa_count",
-			"segItem": "_8lesPa_segItem",
-			"panelBodyScroll": "_8lesPa_panelBodyScroll",
-			"detailText": "_8lesPa_detailText",
-			"settingHint": "_8lesPa_settingHint",
-			"settingsEmpty": "_8lesPa_settingsEmpty",
+			"detailBlockLabel": "_8lesPa_detailBlockLabel",
 			"detailActions": "_8lesPa_detailActions",
-			"active": "_8lesPa_active",
-			"langFormActions": "_8lesPa_langFormActions",
-			"langName": "_8lesPa_langName",
-			"langSelect": "_8lesPa_langSelect",
-			"swapBtn": "_8lesPa_swapBtn",
-			"langAdd": "_8lesPa_langAdd",
-			"stopBtn": "_8lesPa_stopBtn",
-			"langCode": "_8lesPa_langCode",
-			"starBtn": "_8lesPa_starBtn",
-			"sectionTitle": "_8lesPa_sectionTitle",
-			"md": "_8lesPa_md",
-			"detailBack": "_8lesPa_detailBack",
-			"panes": "_8lesPa_panes",
-			"visible": "_8lesPa_visible",
-			"translateBtn": "_8lesPa_translateBtn",
-			"translating": "_8lesPa_translating",
-			"textareaScroll": "_8lesPa_textareaScroll",
-			"backButton": "_8lesPa_backButton",
-			"cc-slide-in": "_8lesPa_cc-slide-in",
-			"panelHeader": "_8lesPa_panelHeader",
-			"panelBody": "_8lesPa_panelBody",
-			"chipArrow": "_8lesPa_chipArrow",
-			"reuse": "_8lesPa_reuse",
-			"rowSource": "_8lesPa_rowSource",
-			"chip": "_8lesPa_chip",
-			"settingsSection": "_8lesPa_settingsSection",
-			"settingsTextarea": "_8lesPa_settingsTextarea",
-			"langRow": "_8lesPa_langRow",
+			"confirmActions": "_8lesPa_confirmActions",
+			"detailAction": "_8lesPa_detailAction",
 			"cc-spin": "_8lesPa_cc-spin",
-			"modelSelect": "_8lesPa_modelSelect",
-			"outputPane": "_8lesPa_outputPane",
+			"settingRow": "_8lesPa_settingRow",
+			"success": "_8lesPa_success",
+			"sectionTitle": "_8lesPa_sectionTitle",
+			"uploadIcons": "_8lesPa_uploadIcons",
+			"helpIcon": "_8lesPa_helpIcon",
 			"cc-fade": "_8lesPa_cc-fade",
-			"btn": "_8lesPa_btn",
-			"chipTarget": "_8lesPa_chipTarget",
-			"countBadge": "_8lesPa_countBadge"
+			"confirmText": "_8lesPa_confirmText",
+			"segmented": "_8lesPa_segmented",
+			"paneFooter": "_8lesPa_paneFooter",
+			"translateBtn": "_8lesPa_translateBtn",
+			"smallIconBtn": "_8lesPa_smallIconBtn",
+			"swapBtn": "_8lesPa_swapBtn",
+			"clearBtn": "_8lesPa_clearBtn",
+			"paneCorner": "_8lesPa_paneCorner",
+			"historyList": "_8lesPa_historyList",
+			"settingsTextarea": "_8lesPa_settingsTextarea",
+			"countBadge": "_8lesPa_countBadge",
+			"translating": "_8lesPa_translating",
+			"copy": "_8lesPa_copy",
+			"langRowActions": "_8lesPa_langRowActions",
+			"historyRowMeta": "_8lesPa_historyRowMeta",
+			"cc-slide-in": "_8lesPa_cc-slide-in",
+			"starBtn": "_8lesPa_starBtn",
+			"settingsSection": "_8lesPa_settingsSection",
+			"langFormRow": "_8lesPa_langFormRow",
+			"sidePanel": "_8lesPa_sidePanel",
+			"pairRow": "_8lesPa_pairRow",
+			"panelHeader": "_8lesPa_panelHeader",
+			"langCode": "_8lesPa_langCode",
+			"helpWrap": "_8lesPa_helpWrap",
+			"detailMeta": "_8lesPa_detailMeta",
+			"rowTime": "_8lesPa_rowTime",
+			"backButton": "_8lesPa_backButton",
+			"outputArea": "_8lesPa_outputArea",
+			"pairChip": "_8lesPa_pairChip",
+			"panelBodyScroll": "_8lesPa_panelBodyScroll",
+			"langSelectWrap": "_8lesPa_langSelectWrap",
+			"loadMore": "_8lesPa_loadMore",
+			"rightCluster": "_8lesPa_rightCluster",
+			"langInput": "_8lesPa_langInput",
+			"settingsEmpty": "_8lesPa_settingsEmpty",
+			"historyRow": "_8lesPa_historyRow",
+			"starFill": "_8lesPa_starFill",
+			"spacer": "_8lesPa_spacer",
+			"langForm": "_8lesPa_langForm",
+			"panes": "_8lesPa_panes",
+			"settingLabel": "_8lesPa_settingLabel",
+			"backdrop": "_8lesPa_backdrop",
+			"uploadZone": "_8lesPa_uploadZone",
+			"md": "_8lesPa_md",
+			"detailBlockHeader": "_8lesPa_detailBlockHeader",
+			"historyEmpty": "_8lesPa_historyEmpty",
+			"switch": "_8lesPa_switch",
+			"langAdd": "_8lesPa_langAdd",
+			"detailBlockTarget": "_8lesPa_detailBlockTarget",
+			"helpBubble": "_8lesPa_helpBubble",
+			"switchRow": "_8lesPa_switchRow",
+			"chipTarget": "_8lesPa_chipTarget"
 		};
 		//#endregion
 		//#region lib/types/client/panel-ui.js
@@ -4159,103 +4159,103 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var KnowledgeWorkspace_module_css_default = {
-			"detailEmpty": "uHDY1a_detailEmpty",
-			"statusReady": "uHDY1a_statusReady",
-			"ragHint": "uHDY1a_ragHint",
-			"ragFieldRow": "uHDY1a_ragFieldRow",
-			"indexButton": "uHDY1a_indexButton",
-			"statusSpinner": "uHDY1a_statusSpinner",
-			"detailHeader": "uHDY1a_detailHeader",
-			"recallInputWrap": "uHDY1a_recallInputWrap",
-			"addSourceButton": "uHDY1a_addSourceButton",
-			"menuItem": "uHDY1a_menuItem",
-			"recallInput": "uHDY1a_recallInput",
-			"recallSubmit": "uHDY1a_recallSubmit",
-			"statusFailed": "uHDY1a_statusFailed",
-			"recallCopy": "uHDY1a_recallCopy",
-			"recallEmpty": "uHDY1a_recallEmpty",
-			"recallSummary": "uHDY1a_recallSummary",
-			"menuPopover": "uHDY1a_menuPopover",
-			"navEmpty": "uHDY1a_navEmpty",
-			"recallBar": "uHDY1a_recallBar",
-			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
-			"recallResults": "uHDY1a_recallResults",
-			"recallSource": "uHDY1a_recallSource",
-			"recallScore": "uHDY1a_recallScore",
-			"btn": "uHDY1a_btn",
-			"dialogField": "uHDY1a_dialogField",
-			"detail": "uHDY1a_detail",
-			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
-			"sourceIcon": "uHDY1a_sourceIcon",
-			"recallBody": "uHDY1a_recallBody",
-			"ragSliderRow": "uHDY1a_ragSliderRow",
-			"ragField": "uHDY1a_ragField",
-			"sourceType": "uHDY1a_sourceType",
-			"errorBanner": "uHDY1a_errorBanner",
-			"sourceName": "uHDY1a_sourceName",
-			"ghostButton": "uHDY1a_ghostButton",
-			"dialogSelect": "uHDY1a_dialogSelect",
-			"dialogFieldRow": "uHDY1a_dialogFieldRow",
-			"advancedToggle": "uHDY1a_advancedToggle",
-			"dataHeaderActions": "uHDY1a_dataHeaderActions",
-			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
-			"sourceTypeCards": "uHDY1a_sourceTypeCards",
-			"recallCardHeader": "uHDY1a_recallCardHeader",
-			"dialogActions": "uHDY1a_dialogActions",
-			"navCreate": "uHDY1a_navCreate",
-			"dataPanel": "uHDY1a_dataPanel",
-			"gridScroll": "uHDY1a_gridScroll",
-			"statusIndexing": "uHDY1a_statusIndexing",
-			"active": "uHDY1a_active",
-			"gridRow": "uHDY1a_gridRow",
-			"sourceUpdated": "uHDY1a_sourceUpdated",
-			"recallChunkIndex": "uHDY1a_recallChunkIndex",
-			"dialogHint": "uHDY1a_dialogHint",
-			"btnPrimary": "uHDY1a_btnPrimary",
-			"ragReadonly": "uHDY1a_ragReadonly",
-			"ragSection": "uHDY1a_ragSection",
-			"ragFooter": "uHDY1a_ragFooter",
-			"dialogSliderRow": "uHDY1a_dialogSliderRow",
-			"advancedChevronOpen": "uHDY1a_advancedChevronOpen",
-			"dialogTextarea": "uHDY1a_dialogTextarea",
-			"ragTitle": "uHDY1a_ragTitle",
-			"ragNumberFull": "uHDY1a_ragNumberFull",
-			"detailEmptyHint": "uHDY1a_detailEmptyHint",
-			"navigator": "uHDY1a_navigator",
-			"destructive": "uHDY1a_destructive",
-			"ragNumber": "uHDY1a_ragNumber",
-			"navScroll": "uHDY1a_navScroll",
-			"navRow": "uHDY1a_navRow",
-			"navRowName": "uHDY1a_navRowName",
-			"sourcesEmpty": "uHDY1a_sourcesEmpty",
-			"dialogCard": "uHDY1a_dialogCard",
-			"dialogOverlay": "uHDY1a_dialogOverlay",
-			"notice": "uHDY1a_notice",
-			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
-			"success": "uHDY1a_success",
-			"root": "uHDY1a_root",
-			"sourceTypeCard": "uHDY1a_sourceTypeCard",
-			"recallCard": "uHDY1a_recallCard",
-			"recallRank": "uHDY1a_recallRank",
-			"clamped": "uHDY1a_clamped",
-			"split": "uHDY1a_split",
 			"detailEmptyTitle": "uHDY1a_detailEmptyTitle",
-			"gridHeader": "uHDY1a_gridHeader",
-			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
+			"ragFieldRow": "uHDY1a_ragFieldRow",
+			"dialogSelect": "uHDY1a_dialogSelect",
+			"notice": "uHDY1a_notice",
+			"detail": "uHDY1a_detail",
+			"ragSelectWrap": "uHDY1a_ragSelectWrap",
+			"advancedChevronOpen": "uHDY1a_advancedChevronOpen",
+			"addSourceButton": "uHDY1a_addSourceButton",
+			"dialogHint": "uHDY1a_dialogHint",
+			"recallResults": "uHDY1a_recallResults",
+			"advancedToggle": "uHDY1a_advancedToggle",
+			"ragFooter": "uHDY1a_ragFooter",
+			"ragReadonly": "uHDY1a_ragReadonly",
+			"navigator": "uHDY1a_navigator",
+			"detailEmpty": "uHDY1a_detailEmpty",
 			"detailHeaderActions": "uHDY1a_detailHeaderActions",
-			"dialogInput": "uHDY1a_dialogInput",
-			"ragBody": "uHDY1a_ragBody",
-			"ragSlider": "uHDY1a_ragSlider",
-			"dataHeader": "uHDY1a_dataHeader",
-			"ragLabel": "uHDY1a_ragLabel",
-			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
-			"ragSelect": "uHDY1a_ragSelect",
-			"advancedBody": "uHDY1a_advancedBody",
-			"cc-spin": "uHDY1a_cc-spin",
+			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
+			"recallEmpty": "uHDY1a_recallEmpty",
 			"navRowMenu": "uHDY1a_navRowMenu",
-			"statusBadge": "uHDY1a_statusBadge",
+			"recallCard": "uHDY1a_recallCard",
+			"ragSection": "uHDY1a_ragSection",
+			"recallCardHeader": "uHDY1a_recallCardHeader",
+			"dialogCard": "uHDY1a_dialogCard",
+			"navCreate": "uHDY1a_navCreate",
+			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
+			"recallBar": "uHDY1a_recallBar",
+			"navScroll": "uHDY1a_navScroll",
+			"recallSubmit": "uHDY1a_recallSubmit",
+			"ragField": "uHDY1a_ragField",
+			"split": "uHDY1a_split",
+			"recallSource": "uHDY1a_recallSource",
+			"dialogFieldRow": "uHDY1a_dialogFieldRow",
+			"cc-spin": "uHDY1a_cc-spin",
+			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
+			"clamped": "uHDY1a_clamped",
+			"recallSummary": "uHDY1a_recallSummary",
+			"detailEmptyHint": "uHDY1a_detailEmptyHint",
+			"sourceName": "uHDY1a_sourceName",
+			"active": "uHDY1a_active",
+			"indexButton": "uHDY1a_indexButton",
+			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
+			"gridRow": "uHDY1a_gridRow",
+			"navRowName": "uHDY1a_navRowName",
+			"menuItem": "uHDY1a_menuItem",
+			"errorBanner": "uHDY1a_errorBanner",
+			"dataPanel": "uHDY1a_dataPanel",
+			"destructive": "uHDY1a_destructive",
+			"gridScroll": "uHDY1a_gridScroll",
+			"navRow": "uHDY1a_navRow",
+			"ghostButton": "uHDY1a_ghostButton",
+			"sourceUpdated": "uHDY1a_sourceUpdated",
+			"gridHeader": "uHDY1a_gridHeader",
+			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
+			"sourceTypeCard": "uHDY1a_sourceTypeCard",
+			"recallChunkIndex": "uHDY1a_recallChunkIndex",
+			"recallCopy": "uHDY1a_recallCopy",
+			"ragTitle": "uHDY1a_ragTitle",
+			"root": "uHDY1a_root",
+			"detailHeader": "uHDY1a_detailHeader",
+			"statusFailed": "uHDY1a_statusFailed",
+			"success": "uHDY1a_success",
+			"dialogActions": "uHDY1a_dialogActions",
+			"ragSelect": "uHDY1a_ragSelect",
+			"sourceType": "uHDY1a_sourceType",
+			"dialogOverlay": "uHDY1a_dialogOverlay",
+			"advancedBody": "uHDY1a_advancedBody",
+			"btn": "uHDY1a_btn",
+			"ragHint": "uHDY1a_ragHint",
+			"dataHeaderActions": "uHDY1a_dataHeaderActions",
+			"dialogSliderRow": "uHDY1a_dialogSliderRow",
+			"statusSpinner": "uHDY1a_statusSpinner",
+			"ragNumberFull": "uHDY1a_ragNumberFull",
+			"dialogField": "uHDY1a_dialogField",
+			"recallRank": "uHDY1a_recallRank",
+			"navEmpty": "uHDY1a_navEmpty",
+			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
+			"statusReady": "uHDY1a_statusReady",
+			"sourcesEmpty": "uHDY1a_sourcesEmpty",
+			"recallInput": "uHDY1a_recallInput",
+			"sourceTypeCards": "uHDY1a_sourceTypeCards",
+			"dataHeader": "uHDY1a_dataHeader",
+			"menuPopover": "uHDY1a_menuPopover",
 			"rowMenu": "uHDY1a_rowMenu",
-			"ragSelectWrap": "uHDY1a_ragSelectWrap"
+			"recallScore": "uHDY1a_recallScore",
+			"recallBody": "uHDY1a_recallBody",
+			"dialogInput": "uHDY1a_dialogInput",
+			"sourceIcon": "uHDY1a_sourceIcon",
+			"recallInputWrap": "uHDY1a_recallInputWrap",
+			"dialogTextarea": "uHDY1a_dialogTextarea",
+			"btnPrimary": "uHDY1a_btnPrimary",
+			"ragBody": "uHDY1a_ragBody",
+			"statusBadge": "uHDY1a_statusBadge",
+			"ragSlider": "uHDY1a_ragSlider",
+			"statusIndexing": "uHDY1a_statusIndexing",
+			"ragSliderRow": "uHDY1a_ragSliderRow",
+			"ragNumber": "uHDY1a_ragNumber",
+			"ragLabel": "uHDY1a_ragLabel"
 		};
 		//#endregion
 		//#region lib/types/client/KnowledgeWorkspace.js
@@ -5718,19 +5718,19 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SkillsSection_module_css_default = {
-			"cardFooter": "pyHmqW_cardFooter",
-			"searchInput": "pyHmqW_searchInput",
-			"cardHeader": "pyHmqW_cardHeader",
-			"card": "pyHmqW_card",
-			"cardDescription": "pyHmqW_cardDescription",
-			"searchRow": "pyHmqW_searchRow",
-			"cardTitle": "pyHmqW_cardTitle",
+			"cardMetaItem": "pyHmqW_cardMetaItem",
 			"cardTags": "pyHmqW_cardTags",
 			"tag": "pyHmqW_tag",
-			"cardActions": "pyHmqW_cardActions",
-			"cardMetaItem": "pyHmqW_cardMetaItem",
 			"cardMeta": "pyHmqW_cardMeta",
-			"grid": "pyHmqW_grid"
+			"cardHeader": "pyHmqW_cardHeader",
+			"searchRow": "pyHmqW_searchRow",
+			"grid": "pyHmqW_grid",
+			"cardTitle": "pyHmqW_cardTitle",
+			"cardActions": "pyHmqW_cardActions",
+			"card": "pyHmqW_card",
+			"cardFooter": "pyHmqW_cardFooter",
+			"cardDescription": "pyHmqW_cardDescription",
+			"searchInput": "pyHmqW_searchInput"
 		};
 		//#endregion
 		//#region lib/types/client/SkillsSection.js
@@ -6066,6 +6066,29 @@ window.__ModuleLoader__.load({
 			}))
 		};
 		//#endregion
+		//#region lib/types/model-check-remote-client.js
+		/** Client descriptor contribution for the Control Center model-check service. */
+		const modelCheckRemote = {
+			package: "@dsh-control-center/control-center",
+			descriptors: [{
+				method: "check",
+				parameters: ["provider", "model"]
+			}].map(({ method, parameters }) => ({
+				id: `@dsh-control-center/control-center#controlCenterModelCheck/${method}`,
+				service: "controlCenterModelCheck",
+				namespace: "controlCenterModelCheck",
+				method,
+				invocation: { kind: "direct" },
+				parameters: parameters.map((name) => ({
+					name,
+					wire: name,
+					source: "json",
+					codec: STRICT_JSON
+				})),
+				result: STRICT_JSON
+			}))
+		};
+		//#endregion
 		//#region lib/types/client/apiKey.js
 		/**
 		* Browser-side judgement of a typed API key.
@@ -6113,7 +6136,7 @@ window.__ModuleLoader__.load({
 		}
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\ModelsSection.module.css.mjs
-		const css$27 = ".tKsOKa_section{flex-direction:column;gap:16px;width:100%;max-width:768px;margin:0 auto;display:flex}.tKsOKa_title{color:var(--foreground);font-size:15px;font-weight:600}.tKsOKa_intro{color:var(--muted-foreground);margin-top:4px;font-size:14px}.tKsOKa_notice{border:1px solid var(--info-border);background:var(--info-subtle);color:var(--info-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.tKsOKa_savedNotice{border:1px solid var(--success-border);background:var(--success-subtle);color:var(--success-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.tKsOKa_error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;align-items:center;gap:8px;padding:8px 12px;font-size:13px;display:flex}.tKsOKa_rows{flex-direction:column;gap:8px;margin:0;padding:0;list-style:none;display:flex}.tKsOKa_rowCard{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;display:flex}.tKsOKa_rowHead{align-items:center;gap:10px;min-width:0;display:flex}.tKsOKa_rowIdentity{align-items:center;gap:8px;min-width:0;display:flex}.tKsOKa_rowName{color:var(--foreground);white-space:nowrap;text-overflow:ellipsis;font-size:14px;font-weight:500;overflow:hidden}.tKsOKa_rowTag{background:var(--muted);height:20px;color:var(--muted-foreground);border-radius:9999px;flex:none;align-items:center;padding:0 8px;font-size:12px;display:inline-flex}.tKsOKa_rowActions{flex:none;align-items:center;gap:8px;display:flex}.tKsOKa_credentialDot{border-radius:50%;flex:none;width:8px;height:8px}.tKsOKa_credentialDotConfigured{background:var(--success)}.tKsOKa_credentialDotMissing{background:var(--warning)}.tKsOKa_setupCard{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_addCard{border:1px dashed var(--border-strong);background:0 0;border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_addBlock{flex-direction:column;gap:12px;display:flex}.tKsOKa_addActions{align-items:center;gap:8px;display:flex}.tKsOKa_field{flex-direction:column;gap:6px;display:flex}.tKsOKa_fieldLabel{color:var(--foreground);font-size:13px;font-weight:500}.tKsOKa_fieldLabelRow{align-items:baseline;gap:8px;display:flex}.tKsOKa_helpLink{color:var(--primary);font-size:12px;text-decoration:none}.tKsOKa_helpLink:hover{text-decoration:underline}.tKsOKa_input{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px}.tKsOKa_input:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.tKsOKa_selectInput{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 28px 0 10px;font-family:inherit;font-size:14px}.tKsOKa_selectInput:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.tKsOKa_addButton{background:var(--primary);height:32px;color:var(--primary-foreground);cursor:pointer;border:1px solid #0000;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_addButton:hover:not(:disabled){background:var(--cs-brand-600)}.tKsOKa_addButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_secondaryButton{border:1px solid var(--border-subtle);background:var(--secondary);height:32px;color:var(--secondary-foreground);cursor:pointer;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_secondaryButton:hover:not(:disabled){background:var(--secondary-hover)}.tKsOKa_secondaryButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_dangerButton{border:1px solid var(--error-border);height:32px;color:var(--destructive);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_dangerButton:hover{background:var(--error-subtle)}.tKsOKa_deleteDialog{background:var(--popover);border-radius:14px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_deleteConfirm{justify-content:flex-end;align-items:center;gap:8px;display:flex}.tKsOKa_inputRow{align-items:center;gap:8px;display:flex}.tKsOKa_inputGroup{flex:1;min-width:0;display:flex;position:relative}.tKsOKa_inputGroup .tKsOKa_input{font-variant-numeric:tabular-nums;padding-right:30px}.tKsOKa_monoInput{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.tKsOKa_eyeButton{width:22px;height:22px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;display:inline-flex;position:absolute;top:50%;right:6px;transform:translateY(-50%)}.tKsOKa_eyeButton:hover:not(:disabled){color:var(--foreground);background:color-mix(in srgb, var(--muted) 45%, transparent)}.tKsOKa_checkButton{border:1px solid var(--border-subtle);background:var(--card);height:32px;color:var(--foreground);cursor:pointer;border-radius:8px;flex:none;justify-content:center;align-items:center;padding:0 12px;font-family:inherit;font-size:13px;display:inline-flex}.tKsOKa_checkButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent)}.tKsOKa_checkButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_checkResult{overflow-wrap:anywhere;margin-top:2px;font-size:12px;line-height:1.4}.tKsOKa_checkResultOk{color:var(--success)}.tKsOKa_checkResultFail{color:var(--destructive)}.tKsOKa_endpointPreview{color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;margin-top:2px;font-size:12px;overflow:hidden}.tKsOKa_panelBody{flex-direction:column;gap:14px;display:flex}.tKsOKa_modelCatalog{flex-direction:column;gap:8px;display:flex}.tKsOKa_modelListHead{flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;min-height:28px;display:flex}.tKsOKa_modelCatalogHeading{align-items:center;gap:8px;min-width:0;display:flex}.tKsOKa_modelCatalogTitle{color:var(--foreground);font-size:14px;font-weight:600}.tKsOKa_modelCountBadge{background:color-mix(in srgb, var(--primary) 14%, transparent);height:16px;color:var(--primary);border-radius:9999px;align-items:center;padding:0 6px;font-size:11px;font-weight:600;line-height:1;display:inline-flex}.tKsOKa_modelCatalogMeta{color:var(--muted-foreground);font-size:12px}.tKsOKa_modelToolbarActions{flex-wrap:wrap;align-items:center;gap:6px;display:flex}.tKsOKa_linkButton{height:26px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;padding:0 4px;font-family:inherit;font-size:12px}.tKsOKa_linkButton:hover:not(:disabled){color:var(--foreground)}.tKsOKa_linkButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_iconButton{width:26px;height:26px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:7px;justify-content:center;align-items:center;display:inline-flex}.tKsOKa_iconButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent);color:var(--foreground)}.tKsOKa_iconButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_iconButtonDanger:hover:not(:disabled){color:var(--destructive)}.tKsOKa_fetchButton{border:1px solid var(--border-subtle);background:var(--card);height:28px;color:var(--foreground);cursor:pointer;border-radius:8px;align-items:center;gap:6px;padding:0 10px;font-family:inherit;font-size:12px;display:inline-flex}.tKsOKa_fetchButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent)}.tKsOKa_fetchButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_modelSearchInput{height:28px;font-size:13px}.tKsOKa_modelEmpty{border:1px dashed var(--border-subtle);color:var(--muted-foreground);border-radius:8px;padding:10px 12px;font-size:12px}.tKsOKa_modelList{flex-direction:column;gap:2px;display:flex}.tKsOKa_modelEntry{border-radius:8px;flex-direction:column;display:flex}.tKsOKa_modelEntry:hover{background:color-mix(in srgb, var(--muted) 25%, transparent)}.tKsOKa_modelRow{align-items:center;gap:6px;min-height:34px;padding:0 4px;display:flex}.tKsOKa_modelAvatar{background:color-mix(in srgb, var(--primary) 14%, transparent);width:22px;height:22px;color:var(--primary);border-radius:50%;flex:none;justify-content:center;align-items:center;font-size:11px;font-weight:600;display:inline-flex}.tKsOKa_modelIdInput{min-width:0;height:28px;color:var(--foreground);background:0 0;border:1px solid #0000;border-radius:6px;outline:none;flex:1;padding:0 6px;font-family:inherit;font-size:13px}.tKsOKa_modelIdInput:hover:not(:disabled){border-color:var(--border-subtle)}.tKsOKa_modelIdInput:focus-visible{border-color:var(--ring);background:var(--background)}.tKsOKa_modelIdInput::placeholder{color:var(--muted-foreground)}.tKsOKa_modelAdvanced{grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;padding:4px 4px 8px 36px;display:grid}.tKsOKa_modelField{flex-direction:column;gap:4px;display:flex}.tKsOKa_modelFieldLabel{color:var(--muted-foreground);font-size:11px}.tKsOKa_addModelButton{border:1px dashed var(--border-subtle);width:100%;height:30px;color:var(--muted-foreground);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;gap:6px;margin-top:4px;font-family:inherit;font-size:12px;display:inline-flex}.tKsOKa_addModelButton:hover:not(:disabled){color:var(--foreground);border-color:var(--border-strong)}.tKsOKa_candidateList{flex-direction:column;gap:2px;max-height:320px;margin:0;padding:0;list-style:none;display:flex;overflow-y:auto}.tKsOKa_candidateLabel{cursor:pointer;border-radius:6px;align-items:center;gap:8px;height:30px;padding:0 8px;font-size:13px;display:flex}.tKsOKa_candidateLabel:hover{background:var(--muted)}.tKsOKa_candidateId{white-space:nowrap;text-overflow:ellipsis;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;overflow:hidden}.tKsOKa_modelGroup{flex-direction:column;display:flex}.tKsOKa_modelGroupHeader{background:color-mix(in srgb, var(--muted) 45%, transparent);height:32px;color:var(--foreground);text-align:left;cursor:pointer;border:none;border-radius:8px;align-items:center;gap:6px;padding:0 6px;font-family:inherit;display:flex}.tKsOKa_modelGroupHeader:hover{background:var(--muted)}.tKsOKa_modelGroupTitle{font-size:13px;font-weight:600}.tKsOKa_modelGroupCount{color:var(--muted-foreground);font-size:11px}.tKsOKa_modelGroupBody{flex-direction:column;gap:2px;padding-left:10px;display:flex}";
+		const css$27 = ".tKsOKa_section{flex-direction:column;gap:16px;width:100%;max-width:768px;margin:0 auto;display:flex}.tKsOKa_title{color:var(--foreground);font-size:15px;font-weight:600}.tKsOKa_intro{color:var(--muted-foreground);margin-top:4px;font-size:14px}.tKsOKa_notice{border:1px solid var(--info-border);background:var(--info-subtle);color:var(--info-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.tKsOKa_savedNotice{border:1px solid var(--success-border);background:var(--success-subtle);color:var(--success-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.tKsOKa_error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;align-items:center;gap:8px;padding:8px 12px;font-size:13px;display:flex}.tKsOKa_rows{flex-direction:column;gap:8px;margin:0;padding:0;list-style:none;display:flex}.tKsOKa_rowCard{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;display:flex}.tKsOKa_rowHead{align-items:center;gap:10px;min-width:0;display:flex}.tKsOKa_rowIdentity{align-items:center;gap:8px;min-width:0;display:flex}.tKsOKa_rowName{color:var(--foreground);white-space:nowrap;text-overflow:ellipsis;font-size:14px;font-weight:500;overflow:hidden}.tKsOKa_rowTag{background:var(--muted);height:20px;color:var(--muted-foreground);border-radius:9999px;flex:none;align-items:center;padding:0 8px;font-size:12px;display:inline-flex}.tKsOKa_rowActions{flex:none;align-items:center;gap:8px;display:flex}.tKsOKa_credentialDot{border-radius:50%;flex:none;width:8px;height:8px}.tKsOKa_credentialDotConfigured{background:var(--success)}.tKsOKa_credentialDotMissing{background:var(--warning)}.tKsOKa_setupCard{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_addCard{border:1px dashed var(--border-strong);background:0 0;border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_addBlock{flex-direction:column;gap:12px;display:flex}.tKsOKa_addActions{align-items:center;gap:8px;display:flex}.tKsOKa_field{flex-direction:column;gap:6px;display:flex}.tKsOKa_fieldLabel{color:var(--foreground);font-size:13px;font-weight:500}.tKsOKa_fieldLabelRow{align-items:baseline;gap:8px;display:flex}.tKsOKa_helpLink{color:var(--primary);font-size:12px;text-decoration:none}.tKsOKa_helpLink:hover{text-decoration:underline}.tKsOKa_headerRow{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) auto;align-items:center;gap:8px;display:grid}.tKsOKa_healthDot{background:var(--border-subtle);border-radius:50%;flex:none;width:8px;height:8px}.tKsOKa_healthOk{background:var(--success)}.tKsOKa_healthFail{background:var(--destructive)}.tKsOKa_healthChecking{background:var(--warning);animation:1s ease-in-out infinite tKsOKa_healthPulse}@keyframes tKsOKa_healthPulse{50%{opacity:.35}}.tKsOKa_healthMeta{min-width:0;color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;flex:1;font-size:12px;overflow:hidden}.tKsOKa_healthFailText{color:var(--destructive)}.tKsOKa_input{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px}.tKsOKa_input:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.tKsOKa_selectInput{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 28px 0 10px;font-family:inherit;font-size:14px}.tKsOKa_selectInput:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.tKsOKa_addButton{background:var(--primary);height:32px;color:var(--primary-foreground);cursor:pointer;border:1px solid #0000;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_addButton:hover:not(:disabled){background:var(--cs-brand-600)}.tKsOKa_addButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_secondaryButton{border:1px solid var(--border-subtle);background:var(--secondary);height:32px;color:var(--secondary-foreground);cursor:pointer;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_secondaryButton:hover:not(:disabled){background:var(--secondary-hover)}.tKsOKa_secondaryButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_dangerButton{border:1px solid var(--error-border);height:32px;color:var(--destructive);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_dangerButton:hover{background:var(--error-subtle)}.tKsOKa_deleteDialog{background:var(--popover);border-radius:14px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_deleteConfirm{justify-content:flex-end;align-items:center;gap:8px;display:flex}.tKsOKa_inputRow{align-items:center;gap:8px;display:flex}.tKsOKa_inputGroup{flex:1;min-width:0;display:flex;position:relative}.tKsOKa_inputGroup .tKsOKa_input{font-variant-numeric:tabular-nums;padding-right:30px}.tKsOKa_monoInput{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.tKsOKa_eyeButton{width:22px;height:22px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;display:inline-flex;position:absolute;top:50%;right:6px;transform:translateY(-50%)}.tKsOKa_eyeButton:hover:not(:disabled){color:var(--foreground);background:color-mix(in srgb, var(--muted) 45%, transparent)}.tKsOKa_checkButton{border:1px solid var(--border-subtle);background:var(--card);height:32px;color:var(--foreground);cursor:pointer;border-radius:8px;flex:none;justify-content:center;align-items:center;padding:0 12px;font-family:inherit;font-size:13px;display:inline-flex}.tKsOKa_checkButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent)}.tKsOKa_checkButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_checkResult{overflow-wrap:anywhere;margin-top:2px;font-size:12px;line-height:1.4}.tKsOKa_checkResultOk{color:var(--success)}.tKsOKa_checkResultFail{color:var(--destructive)}.tKsOKa_endpointPreview{color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;margin-top:2px;font-size:12px;overflow:hidden}.tKsOKa_panelBody{flex-direction:column;gap:14px;display:flex}.tKsOKa_modelCatalog{flex-direction:column;gap:8px;display:flex}.tKsOKa_modelListHead{flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;min-height:28px;display:flex}.tKsOKa_modelCatalogHeading{align-items:center;gap:8px;min-width:0;display:flex}.tKsOKa_modelCatalogTitle{color:var(--foreground);font-size:14px;font-weight:600}.tKsOKa_modelCountBadge{background:color-mix(in srgb, var(--primary) 14%, transparent);height:16px;color:var(--primary);border-radius:9999px;align-items:center;padding:0 6px;font-size:11px;font-weight:600;line-height:1;display:inline-flex}.tKsOKa_modelCatalogMeta{color:var(--muted-foreground);font-size:12px}.tKsOKa_modelToolbarActions{flex-wrap:wrap;align-items:center;gap:6px;display:flex}.tKsOKa_linkButton{height:26px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;padding:0 4px;font-family:inherit;font-size:12px}.tKsOKa_linkButton:hover:not(:disabled){color:var(--foreground)}.tKsOKa_linkButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_iconButton{width:26px;height:26px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:7px;justify-content:center;align-items:center;display:inline-flex}.tKsOKa_iconButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent);color:var(--foreground)}.tKsOKa_iconButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_iconButtonDanger:hover:not(:disabled){color:var(--destructive)}.tKsOKa_defaultMarker,.tKsOKa_defaultMarker:hover:not(:disabled){color:var(--primary)}.tKsOKa_fetchButton{border:1px solid var(--border-subtle);background:var(--card);height:28px;color:var(--foreground);cursor:pointer;border-radius:8px;align-items:center;gap:6px;padding:0 10px;font-family:inherit;font-size:12px;display:inline-flex}.tKsOKa_fetchButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent)}.tKsOKa_fetchButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_modelSearchInput{height:28px;font-size:13px}.tKsOKa_modelEmpty{border:1px dashed var(--border-subtle);color:var(--muted-foreground);border-radius:8px;padding:10px 12px;font-size:12px}.tKsOKa_modelList{flex-direction:column;gap:2px;display:flex}.tKsOKa_modelEntry{border-radius:8px;flex-direction:column;display:flex}.tKsOKa_modelEntry:hover{background:color-mix(in srgb, var(--muted) 25%, transparent)}.tKsOKa_modelRow{align-items:center;gap:6px;min-height:34px;padding:0 4px;display:flex}.tKsOKa_modelAvatar{background:color-mix(in srgb, var(--primary) 14%, transparent);width:22px;height:22px;color:var(--primary);border-radius:50%;flex:none;justify-content:center;align-items:center;font-size:11px;font-weight:600;display:inline-flex}.tKsOKa_modelIdInput{min-width:0;height:28px;color:var(--foreground);background:0 0;border:1px solid #0000;border-radius:6px;outline:none;flex:1;padding:0 6px;font-family:inherit;font-size:13px}.tKsOKa_modelIdInput:hover:not(:disabled){border-color:var(--border-subtle)}.tKsOKa_modelIdInput:focus-visible{border-color:var(--ring);background:var(--background)}.tKsOKa_modelIdInput::placeholder{color:var(--muted-foreground)}.tKsOKa_modelAdvanced{grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;padding:4px 4px 8px 36px;display:grid}.tKsOKa_modelField{flex-direction:column;gap:4px;display:flex}.tKsOKa_modelFieldLabel{color:var(--muted-foreground);font-size:11px}.tKsOKa_addModelButton{border:1px dashed var(--border-subtle);width:100%;height:30px;color:var(--muted-foreground);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;gap:6px;margin-top:4px;font-family:inherit;font-size:12px;display:inline-flex}.tKsOKa_addModelButton:hover:not(:disabled){color:var(--foreground);border-color:var(--border-strong)}.tKsOKa_candidateList{flex-direction:column;gap:2px;max-height:320px;margin:0;padding:0;list-style:none;display:flex;overflow-y:auto}.tKsOKa_candidateLabel{cursor:pointer;border-radius:6px;align-items:center;gap:8px;height:30px;padding:0 8px;font-size:13px;display:flex}.tKsOKa_candidateLabel:hover{background:var(--muted)}.tKsOKa_candidateId{white-space:nowrap;text-overflow:ellipsis;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;overflow:hidden}.tKsOKa_modelGroup{flex-direction:column;display:flex}.tKsOKa_modelGroupHeader{background:color-mix(in srgb, var(--muted) 45%, transparent);height:32px;color:var(--foreground);text-align:left;cursor:pointer;border:none;border-radius:8px;align-items:center;gap:6px;padding:0 6px;font-family:inherit;display:flex}.tKsOKa_modelGroupHeader:hover{background:var(--muted)}.tKsOKa_modelGroupTitle{font-size:13px;font-weight:600}.tKsOKa_modelGroupCount{color:var(--muted-foreground);font-size:11px}.tKsOKa_modelGroupBody{flex-direction:column;gap:2px;padding-left:10px;display:flex}.tKsOKa_modelRowDisabled{opacity:.55}.tKsOKa_modelRowDisabled .tKsOKa_modelAvatar{filter:grayscale()}.tKsOKa_modelDisabledId{min-width:0;color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;flex:1;font-size:13px;overflow:hidden}";
 		const tagId$27 = "@dsh-control-center/bundle/ModelsSection.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$27) + "]") === null) {
 			const tag = document.createElement("style");
@@ -6123,77 +6146,88 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelsSection_module_css_default = {
-			"modelGroupBody": "tKsOKa_modelGroupBody",
-			"field": "tKsOKa_field",
-			"section": "tKsOKa_section",
-			"modelEntry": "tKsOKa_modelEntry",
-			"fieldLabelRow": "tKsOKa_fieldLabelRow",
-			"addCard": "tKsOKa_addCard",
-			"addBlock": "tKsOKa_addBlock",
-			"deleteConfirm": "tKsOKa_deleteConfirm",
-			"setupCard": "tKsOKa_setupCard",
-			"modelList": "tKsOKa_modelList",
-			"iconButton": "tKsOKa_iconButton",
-			"modelAdvanced": "tKsOKa_modelAdvanced",
-			"linkButton": "tKsOKa_linkButton",
-			"addActions": "tKsOKa_addActions",
-			"selectInput": "tKsOKa_selectInput",
-			"deleteDialog": "tKsOKa_deleteDialog",
-			"checkResultFail": "tKsOKa_checkResultFail",
-			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
-			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
+			"addButton": "tKsOKa_addButton",
+			"addModelButton": "tKsOKa_addModelButton",
+			"healthChecking": "tKsOKa_healthChecking",
 			"title": "tKsOKa_title",
-			"secondaryButton": "tKsOKa_secondaryButton",
 			"modelToolbarActions": "tKsOKa_modelToolbarActions",
+			"selectInput": "tKsOKa_selectInput",
+			"dangerButton": "tKsOKa_dangerButton",
+			"modelField": "tKsOKa_modelField",
+			"modelEmpty": "tKsOKa_modelEmpty",
+			"healthDot": "tKsOKa_healthDot",
 			"endpointPreview": "tKsOKa_endpointPreview",
-			"intro": "tKsOKa_intro",
-			"modelCountBadge": "tKsOKa_modelCountBadge",
-			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
-			"modelSearchInput": "tKsOKa_modelSearchInput",
-			"modelAvatar": "tKsOKa_modelAvatar",
-			"rowHead": "tKsOKa_rowHead",
-			"iconButtonDanger": "tKsOKa_iconButtonDanger",
-			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
+			"secondaryButton": "tKsOKa_secondaryButton",
+			"rowCard": "tKsOKa_rowCard",
+			"candidateLabel": "tKsOKa_candidateLabel",
 			"rowName": "tKsOKa_rowName",
 			"modelListHead": "tKsOKa_modelListHead",
-			"dangerButton": "tKsOKa_dangerButton",
-			"credentialDot": "tKsOKa_credentialDot",
-			"modelCatalog": "tKsOKa_modelCatalog",
-			"rowTag": "tKsOKa_rowTag",
-			"rowCard": "tKsOKa_rowCard",
-			"fieldLabel": "tKsOKa_fieldLabel",
-			"rows": "tKsOKa_rows",
-			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"modelAvatar": "tKsOKa_modelAvatar",
+			"savedNotice": "tKsOKa_savedNotice",
+			"setupCard": "tKsOKa_setupCard",
+			"notice": "tKsOKa_notice",
+			"monoInput": "tKsOKa_monoInput",
+			"checkResultOk": "tKsOKa_checkResultOk",
+			"modelRowDisabled": "tKsOKa_modelRowDisabled",
+			"fieldLabelRow": "tKsOKa_fieldLabelRow",
+			"eyeButton": "tKsOKa_eyeButton",
+			"panelBody": "tKsOKa_panelBody",
+			"fetchButton": "tKsOKa_fetchButton",
+			"section": "tKsOKa_section",
+			"modelGroup": "tKsOKa_modelGroup",
+			"addActions": "tKsOKa_addActions",
+			"inputRow": "tKsOKa_inputRow",
+			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
+			"defaultMarker": "tKsOKa_defaultMarker",
+			"candidateList": "tKsOKa_candidateList",
+			"modelGroupTitle": "tKsOKa_modelGroupTitle",
+			"checkResultFail": "tKsOKa_checkResultFail",
+			"rowActions": "tKsOKa_rowActions",
+			"rowIdentity": "tKsOKa_rowIdentity",
 			"inputGroup": "tKsOKa_inputGroup",
+			"modelGroupCount": "tKsOKa_modelGroupCount",
+			"modelGroupBody": "tKsOKa_modelGroupBody",
+			"intro": "tKsOKa_intro",
+			"checkResult": "tKsOKa_checkResult",
+			"modelCatalog": "tKsOKa_modelCatalog",
+			"helpLink": "tKsOKa_helpLink",
+			"credentialDot": "tKsOKa_credentialDot",
+			"field": "tKsOKa_field",
+			"healthFailText": "tKsOKa_healthFailText",
+			"modelGroupHeader": "tKsOKa_modelGroupHeader",
+			"deleteDialog": "tKsOKa_deleteDialog",
+			"fieldLabel": "tKsOKa_fieldLabel",
+			"modelCountBadge": "tKsOKa_modelCountBadge",
+			"linkButton": "tKsOKa_linkButton",
+			"rowHead": "tKsOKa_rowHead",
+			"healthPulse": "tKsOKa_healthPulse",
+			"modelFieldLabel": "tKsOKa_modelFieldLabel",
+			"input": "tKsOKa_input",
+			"healthOk": "tKsOKa_healthOk",
+			"healthFail": "tKsOKa_healthFail",
+			"error": "tKsOKa_error",
+			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"rows": "tKsOKa_rows",
+			"headerRow": "tKsOKa_headerRow",
+			"iconButtonDanger": "tKsOKa_iconButtonDanger",
+			"modelSearchInput": "tKsOKa_modelSearchInput",
+			"addBlock": "tKsOKa_addBlock",
+			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
+			"deleteConfirm": "tKsOKa_deleteConfirm",
+			"checkButton": "tKsOKa_checkButton",
+			"rowTag": "tKsOKa_rowTag",
+			"iconButton": "tKsOKa_iconButton",
+			"modelEntry": "tKsOKa_modelEntry",
 			"modelRow": "tKsOKa_modelRow",
 			"modelIdInput": "tKsOKa_modelIdInput",
-			"fetchButton": "tKsOKa_fetchButton",
-			"addModelButton": "tKsOKa_addModelButton",
-			"candidateLabel": "tKsOKa_candidateLabel",
-			"error": "tKsOKa_error",
+			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
+			"modelAdvanced": "tKsOKa_modelAdvanced",
 			"candidateId": "tKsOKa_candidateId",
-			"notice": "tKsOKa_notice",
-			"savedNotice": "tKsOKa_savedNotice",
-			"checkResult": "tKsOKa_checkResult",
-			"panelBody": "tKsOKa_panelBody",
-			"modelFieldLabel": "tKsOKa_modelFieldLabel",
-			"helpLink": "tKsOKa_helpLink",
-			"checkResultOk": "tKsOKa_checkResultOk",
-			"inputRow": "tKsOKa_inputRow",
-			"modelField": "tKsOKa_modelField",
-			"modelGroupHeader": "tKsOKa_modelGroupHeader",
-			"eyeButton": "tKsOKa_eyeButton",
-			"addButton": "tKsOKa_addButton",
-			"modelGroup": "tKsOKa_modelGroup",
-			"rowActions": "tKsOKa_rowActions",
-			"monoInput": "tKsOKa_monoInput",
-			"modelEmpty": "tKsOKa_modelEmpty",
-			"rowIdentity": "tKsOKa_rowIdentity",
-			"candidateList": "tKsOKa_candidateList",
-			"input": "tKsOKa_input",
-			"modelGroupTitle": "tKsOKa_modelGroupTitle",
-			"checkButton": "tKsOKa_checkButton",
-			"modelGroupCount": "tKsOKa_modelGroupCount"
+			"addCard": "tKsOKa_addCard",
+			"modelList": "tKsOKa_modelList",
+			"healthMeta": "tKsOKa_healthMeta",
+			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
+			"modelDisabledId": "tKsOKa_modelDisabledId"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -7711,6 +7745,64 @@ window.__ModuleLoader__.load({
 				children: [(0, react_jsx_runtime.jsx)("path", { d: "M5 12h14" }), (0, react_jsx_runtime.jsx)("path", { d: "M12 5v14" })]
 			});
 		}
+		/** Per-model serving toggle (Cherry's eye affordance). */
+		function IconEyeOpen() {
+			return (0, react_jsx_runtime.jsxs)("svg", {
+				width: "14",
+				height: "14",
+				viewBox: "0 0 24 24",
+				fill: "none",
+				stroke: "currentColor",
+				strokeWidth: "2",
+				strokeLinecap: "round",
+				strokeLinejoin: "round",
+				"aria-hidden": true,
+				children: [(0, react_jsx_runtime.jsx)("path", { d: "M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" }), (0, react_jsx_runtime.jsx)("circle", {
+					cx: "12",
+					cy: "12",
+					r: "3"
+				})]
+			});
+		}
+		function IconEyeClosed() {
+			return (0, react_jsx_runtime.jsxs)("svg", {
+				width: "14",
+				height: "14",
+				viewBox: "0 0 24 24",
+				fill: "none",
+				stroke: "currentColor",
+				"stroke-width": "2",
+				strokeLinecap: "round",
+				strokeLinejoin: "round",
+				"aria-hidden": true,
+				children: [
+					(0, react_jsx_runtime.jsx)("path", { d: "M9.88 9.88a3 3 0 1 0 4.24 4.24" }),
+					(0, react_jsx_runtime.jsx)("path", { d: "M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" }),
+					(0, react_jsx_runtime.jsx)("path", { d: "M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" }),
+					(0, react_jsx_runtime.jsx)("line", {
+						x1: "2",
+						x2: "22",
+						y1: "2",
+						y2: "22"
+					})
+				]
+			});
+		}
+		/** Default-model marker (Cherry's paintbrush affordance). */
+		function IconBrush() {
+			return (0, react_jsx_runtime.jsxs)("svg", {
+				width: "14",
+				height: "14",
+				viewBox: "0 0 24 24",
+				fill: "none",
+				stroke: "currentColor",
+				strokeWidth: "2",
+				strokeLinecap: "round",
+				strokeLinejoin: "round",
+				"aria-hidden": true,
+				children: [(0, react_jsx_runtime.jsx)("path", { d: "m14.622 17.897-10.68-2.913" }), (0, react_jsx_runtime.jsx)("path", { d: "M18.376 2.622a1 1 0 1 1 3.002 3.002L17.36 9.643a.5.5 0 0 0 0 .354l.949 2.587a2 2 0 0 1-.094 1.791l-1.514 2.623a.5.5 0 0 1-.282.243l-10.68 2.913a.5.5 0 0 1-.62-.62l2.913-10.68a.5.5 0 0 1 .243-.282l2.623-1.514a2 2 0 0 1 1.791-.094l2.587.949a.5.5 0 0 0 .354 0z" })]
+			});
+		}
 		/**
 		* What an empty capacity field is worth, shown as its placeholder so a row left
 		* blank does not read as a model with no capacity at all.
@@ -7998,109 +8090,135 @@ window.__ModuleLoader__.load({
 						children: t("modelsEmpty")
 					}) : null,
 					(() => {
-						const renderRow = ({ model, index }) => (0, react_jsx_runtime.jsxs)("div", {
-							className: ModelsSection_module_css_default["modelEntry"],
-							children: [(0, react_jsx_runtime.jsxs)("div", {
-								className: ModelsSection_module_css_default["modelRow"],
-								children: [
-									(0, react_jsx_runtime.jsx)("span", {
-										className: ModelsSection_module_css_default["modelAvatar"],
-										"aria-hidden": true,
-										children: (textOf(model, "name") || textOf(model, "id")).charAt(0).toUpperCase() || "?"
-									}),
-									(0, react_jsx_runtime.jsx)("input", {
-										className: ModelsSection_module_css_default["modelIdInput"],
-										type: "text",
-										value: textOf(model, "id"),
-										placeholder: t("modelId"),
-										"aria-label": `${t("modelId")} ${index + 1}`,
-										disabled,
-										onChange: (event) => {
-											patch(index, { id: event.target.value });
-										}
-									}),
-									(0, react_jsx_runtime.jsx)("button", {
-										type: "button",
-										className: ModelsSection_module_css_default["iconButton"],
-										"aria-label": `${t("modelAdvanced")} ${index + 1}`,
-										"aria-expanded": expanded.has(index),
-										title: t("modelAdvanced"),
-										onClick: () => {
-											toggleExpanded(index);
-										},
-										children: (0, react_jsx_runtime.jsx)(IconChevron, { open: expanded.has(index) })
-									}),
-									(0, react_jsx_runtime.jsx)("button", {
-										type: "button",
-										className: `${ModelsSection_module_css_default["iconButton"]} ${ModelsSection_module_css_default["iconButtonDanger"]}`,
-										"aria-label": `${t("removeModel")} ${index + 1}`,
-										title: t("removeModel"),
-										disabled,
-										onClick: () => {
-											removeAt(index);
-										},
-										children: (0, react_jsx_runtime.jsx)(IconMinus, {})
-									})
-								]
-							}), expanded.has(index) ? (0, react_jsx_runtime.jsxs)("div", {
-								className: ModelsSection_module_css_default["modelAdvanced"],
-								children: [
-									(0, react_jsx_runtime.jsxs)("label", {
-										className: ModelsSection_module_css_default["modelField"],
-										children: [(0, react_jsx_runtime.jsx)("span", {
-											className: ModelsSection_module_css_default["modelFieldLabel"],
-											children: t("modelName")
-										}), (0, react_jsx_runtime.jsx)("input", {
-											className: ModelsSection_module_css_default["input"],
+						const renderRow = ({ model, index }) => {
+							const rowId = textOf(model, "id");
+							const isDefaultRow = props.defaultModel?.provider === probe.provider && props.defaultModel?.model === rowId;
+							return (0, react_jsx_runtime.jsxs)("div", {
+								className: ModelsSection_module_css_default["modelEntry"],
+								children: [(0, react_jsx_runtime.jsxs)("div", {
+									className: ModelsSection_module_css_default["modelRow"],
+									children: [
+										(0, react_jsx_runtime.jsx)("span", {
+											className: ModelsSection_module_css_default["modelAvatar"],
+											"aria-hidden": true,
+											children: (textOf(model, "name") || textOf(model, "id")).charAt(0).toUpperCase() || "?"
+										}),
+										(0, react_jsx_runtime.jsx)("input", {
+											className: ModelsSection_module_css_default["modelIdInput"],
 											type: "text",
-											value: textOf(model, "name"),
-											placeholder: t("modelNamePlaceholder"),
-											"aria-label": `${t("modelName")} ${index + 1}`,
+											value: textOf(model, "id"),
+											placeholder: t("modelId"),
+											"aria-label": `${t("modelId")} ${index + 1}`,
 											disabled,
 											onChange: (event) => {
-												patch(index, { name: event.target.value === "" ? void 0 : event.target.value });
+												patch(index, { id: event.target.value });
 											}
-										})]
-									}),
-									(0, react_jsx_runtime.jsxs)("label", {
-										className: ModelsSection_module_css_default["modelField"],
-										children: [(0, react_jsx_runtime.jsx)("span", {
-											className: ModelsSection_module_css_default["modelFieldLabel"],
-											children: t("modelContextWindow")
-										}), (0, react_jsx_runtime.jsx)("input", {
-											className: ModelsSection_module_css_default["input"],
-											type: "text",
-											inputMode: "numeric",
-											value: capacityText(model, index, "contextWindow"),
-											placeholder: CAPACITY_HINT.contextWindow,
-											"aria-label": `${t("modelContextWindow")} ${index + 1}`,
+										}),
+										(0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: ModelsSection_module_css_default["iconButton"],
+											"aria-label": `${t("disableModel")} ${index + 1}`,
+											title: t("disableModel"),
 											disabled,
-											onChange: (event) => {
-												editCapacity(index, "contextWindow", event.target.value);
-											}
-										})]
-									}),
-									(0, react_jsx_runtime.jsxs)("label", {
-										className: ModelsSection_module_css_default["modelField"],
-										children: [(0, react_jsx_runtime.jsx)("span", {
-											className: ModelsSection_module_css_default["modelFieldLabel"],
-											children: t("modelMaxTokens")
-										}), (0, react_jsx_runtime.jsx)("input", {
-											className: ModelsSection_module_css_default["input"],
-											type: "text",
-											inputMode: "numeric",
-											value: capacityText(model, index, "maxTokens"),
-											placeholder: CAPACITY_HINT.maxTokens,
-											"aria-label": `${t("modelMaxTokens")} ${index + 1}`,
+											onClick: () => {
+												removeAt(index);
+											},
+											children: (0, react_jsx_runtime.jsx)(IconEyeOpen, {})
+										}),
+										props.onSetDefault !== void 0 && textOf(model, "id").length > 0 ? (0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: `${ModelsSection_module_css_default["iconButton"]} ${isDefaultRow ? ModelsSection_module_css_default["defaultMarker"] : ""}`,
+											"aria-label": `${t("setAsDefault")} ${index + 1}`,
+											"aria-pressed": isDefaultRow,
+											title: t("setAsDefault"),
+											onClick: () => {
+												props.onSetDefault?.(textOf(model, "id"));
+											},
+											children: (0, react_jsx_runtime.jsx)(IconBrush, {})
+										}) : null,
+										(0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: ModelsSection_module_css_default["iconButton"],
+											"aria-label": `${t("modelAdvanced")} ${index + 1}`,
+											"aria-expanded": expanded.has(index),
+											title: t("modelAdvanced"),
+											onClick: () => {
+												toggleExpanded(index);
+											},
+											children: (0, react_jsx_runtime.jsx)(IconChevron, { open: expanded.has(index) })
+										}),
+										(0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: `${ModelsSection_module_css_default["iconButton"]} ${ModelsSection_module_css_default["iconButtonDanger"]}`,
+											"aria-label": `${t("removeModel")} ${index + 1}`,
+											title: t("removeModel"),
 											disabled,
-											onChange: (event) => {
-												editCapacity(index, "maxTokens", event.target.value);
-											}
-										})]
-									})
-								]
-							}) : null]
-						}, index);
+											onClick: () => {
+												removeAt(index);
+											},
+											children: (0, react_jsx_runtime.jsx)(IconMinus, {})
+										})
+									]
+								}), expanded.has(index) ? (0, react_jsx_runtime.jsxs)("div", {
+									className: ModelsSection_module_css_default["modelAdvanced"],
+									children: [
+										(0, react_jsx_runtime.jsxs)("label", {
+											className: ModelsSection_module_css_default["modelField"],
+											children: [(0, react_jsx_runtime.jsx)("span", {
+												className: ModelsSection_module_css_default["modelFieldLabel"],
+												children: t("modelName")
+											}), (0, react_jsx_runtime.jsx)("input", {
+												className: ModelsSection_module_css_default["input"],
+												type: "text",
+												value: textOf(model, "name"),
+												placeholder: t("modelNamePlaceholder"),
+												"aria-label": `${t("modelName")} ${index + 1}`,
+												disabled,
+												onChange: (event) => {
+													patch(index, { name: event.target.value === "" ? void 0 : event.target.value });
+												}
+											})]
+										}),
+										(0, react_jsx_runtime.jsxs)("label", {
+											className: ModelsSection_module_css_default["modelField"],
+											children: [(0, react_jsx_runtime.jsx)("span", {
+												className: ModelsSection_module_css_default["modelFieldLabel"],
+												children: t("modelContextWindow")
+											}), (0, react_jsx_runtime.jsx)("input", {
+												className: ModelsSection_module_css_default["input"],
+												type: "text",
+												inputMode: "numeric",
+												value: capacityText(model, index, "contextWindow"),
+												placeholder: CAPACITY_HINT.contextWindow,
+												"aria-label": `${t("modelContextWindow")} ${index + 1}`,
+												disabled,
+												onChange: (event) => {
+													editCapacity(index, "contextWindow", event.target.value);
+												}
+											})]
+										}),
+										(0, react_jsx_runtime.jsxs)("label", {
+											className: ModelsSection_module_css_default["modelField"],
+											children: [(0, react_jsx_runtime.jsx)("span", {
+												className: ModelsSection_module_css_default["modelFieldLabel"],
+												children: t("modelMaxTokens")
+											}), (0, react_jsx_runtime.jsx)("input", {
+												className: ModelsSection_module_css_default["input"],
+												type: "text",
+												inputMode: "numeric",
+												value: capacityText(model, index, "maxTokens"),
+												placeholder: CAPACITY_HINT.maxTokens,
+												"aria-label": `${t("modelMaxTokens")} ${index + 1}`,
+												disabled,
+												onChange: (event) => {
+													editCapacity(index, "maxTokens", event.target.value);
+												}
+											})]
+										})
+									]
+								}) : null]
+							}, index);
+						};
 						const searching = keyword.length > 0;
 						const showHeaders = !(grouped.length === 1 && grouped[0][0] === "__ungrouped__");
 						return grouped.map(([key, rows]) => {
@@ -8140,6 +8258,62 @@ window.__ModuleLoader__.load({
 									children: rows.map(renderRow)
 								})]
 							}, key);
+						});
+					})(),
+					props.catalogModels === void 0 || props.catalogModels.length === 0 ? null : (() => {
+						const known = new Set(models.map((model) => textOf(model, "id")).filter((id) => id.length > 0));
+						const offCatalog = props.catalogModels.filter((candidate) => !known.has(candidate.id));
+						if (offCatalog.length === 0) return null;
+						return (0, react_jsx_runtime.jsxs)("div", {
+							className: ModelsSection_module_css_default["modelGroup"],
+							children: [(0, react_jsx_runtime.jsxs)("div", {
+								className: ModelsSection_module_css_default["modelGroupHeader"],
+								"aria-hidden": true,
+								children: [
+									(0, react_jsx_runtime.jsx)(IconEyeClosed, {}),
+									(0, react_jsx_runtime.jsx)("span", {
+										className: ModelsSection_module_css_default["modelGroupTitle"],
+										children: t("modelsDisabled")
+									}),
+									(0, react_jsx_runtime.jsx)("span", {
+										className: ModelsSection_module_css_default["modelCountBadge"],
+										children: offCatalog.length
+									})
+								]
+							}), (0, react_jsx_runtime.jsx)("div", {
+								className: ModelsSection_module_css_default["modelGroupBody"],
+								children: offCatalog.map((candidate) => (0, react_jsx_runtime.jsx)("div", {
+									className: ModelsSection_module_css_default["modelEntry"],
+									children: (0, react_jsx_runtime.jsxs)("div", {
+										className: `${ModelsSection_module_css_default["modelRow"]} ${ModelsSection_module_css_default["modelRowDisabled"]}`,
+										children: [
+											(0, react_jsx_runtime.jsx)("span", {
+												className: ModelsSection_module_css_default["modelAvatar"],
+												"aria-hidden": true,
+												children: (candidate.name ?? candidate.id).charAt(0).toUpperCase() || "?"
+											}),
+											(0, react_jsx_runtime.jsx)("span", {
+												className: ModelsSection_module_css_default["modelDisabledId"],
+												children: candidate.id
+											}),
+											(0, react_jsx_runtime.jsx)("button", {
+												type: "button",
+												className: ModelsSection_module_css_default["iconButton"],
+												"aria-label": `${t("enableModel")} ${candidate.id}`,
+												title: t("enableModel"),
+												disabled: props.disabled,
+												onClick: () => {
+													onChange([...models, {
+														id: candidate.id,
+														...candidate.name === void 0 ? {} : { name: candidate.name }
+													}]);
+												},
+												children: (0, react_jsx_runtime.jsx)(IconEyeClosed, {})
+											})
+										]
+									})
+								}, candidate.id))
+							})]
 						});
 					})(),
 					failure !== void 0 ? (0, react_jsx_runtime.jsx)("p", {
@@ -8909,7 +9083,10 @@ window.__ModuleLoader__.load({
 						...catalogProps,
 						probe,
 						probeBlocked: keyFailure,
-						api
+						api,
+						...props.defaultModel === void 0 ? {} : { defaultModel: props.defaultModel },
+						...props.onSetDefault === void 0 ? {} : { onSetDefault: props.onSetDefault },
+						...props.catalogModels === void 0 ? {} : { catalogModels: props.catalogModels }
 					})
 				] });
 				if (props.panelStyle === true || props.credentialOnly === true) return props.credentialOnly === true ? keyField : (0, react_jsx_runtime.jsxs)("div", {
@@ -9662,6 +9839,319 @@ window.__ModuleLoader__.load({
 			});
 		}
 		//#endregion
+		//#region lib/types/client/RequestOptionsPanel.js
+		/**
+		* The 请求选项 panel behind the header's bolt icon (Cherry's API options
+		* drawer, mapped to what the profile really serves): the route's custom
+		* request headers, a first-class pi-ai profile field (`headers` dict) that
+		* every request to this provider carries.
+		*
+		* Edits are path ops against the stored section — `headers` is set wholesale
+		* (an absent dict and an empty one are the same wire request, so an emptied
+		* panel unsets rather than storing `{}`), with the namespace revision captured
+		* at open so a concurrent edit elsewhere is a refusal, not an overwrite.
+		*/
+		/**
+		* Render the custom-headers editor for one provider profile.
+		* @param props - open state, profile address, wire face, and copy.
+		* @returns the dialog, or null while closed.
+		*/
+		function RequestOptionsPanel(props) {
+			const { namespace, settingsPath, api, schema, t } = props;
+			const [rows, setRows] = (0, react.useState)(() => {
+				const stored = schema.getPath(namespace.value, [...settingsPath, "headers"]);
+				if (typeof stored !== "object" || stored === null || Array.isArray(stored)) return [];
+				return Object.entries(stored).filter(([, value]) => typeof value === "string").map(([key, value]) => ({
+					key,
+					value
+				}));
+			});
+			const [busy, setBusy] = (0, react.useState)(false);
+			const [failure, setFailure] = (0, react.useState)(void 0);
+			const [openedAt] = (0, react.useState)(() => namespace.revision);
+			const patch = (index, next) => {
+				setRows((current) => current.map((row, at) => at === index ? {
+					...row,
+					...next
+				} : row));
+			};
+			const apply = async () => {
+				setBusy(true);
+				setFailure(void 0);
+				try {
+					const cleaned = rows.map((row) => ({
+						key: row.key.trim(),
+						value: row.value
+					})).filter((row) => row.key.length > 0);
+					const dict = Object.fromEntries(cleaned.map((row) => [row.key, row.value]));
+					const op = cleaned.length === 0 ? {
+						op: "unset",
+						path: [...settingsPath, "headers"]
+					} : {
+						op: "set",
+						path: [...settingsPath, "headers"],
+						value: dict
+					};
+					const response = await api.settings.mutate({
+						ns: namespace.ns,
+						expectedRevision: openedAt,
+						ops: [op]
+					});
+					if (!response.result.ok) {
+						setFailure(response.result.error.message);
+						return;
+					}
+					props.onSaved();
+					props.onClose();
+				} catch (error) {
+					setFailure(messageOf$2(error));
+				} finally {
+					setBusy(false);
+				}
+			};
+			return (0, react_jsx_runtime.jsxs)(_deepseek_ai_dsh_client_ui_primitives.Modal, {
+				open: props.open,
+				onClose: props.onClose,
+				title: t("requestOptions"),
+				closeLabel: t("close"),
+				description: t("requestHeadersHint"),
+				className: ModelsSection_module_css_default["deleteDialog"],
+				footer: (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.Button, {
+					variant: "outline",
+					disabled: busy,
+					onClick: props.onClose,
+					children: t("cancel")
+				}), (0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.Button, {
+					variant: "outline",
+					disabled: props.readOnly || busy,
+					onClick: () => {
+						apply();
+					},
+					children: busy ? t("applying") : t("apply")
+				})] }),
+				children: [(0, react_jsx_runtime.jsxs)("div", {
+					className: ModelsSection_module_css_default["field"],
+					children: [
+						(0, react_jsx_runtime.jsx)("span", {
+							className: ModelsSection_module_css_default["fieldLabel"],
+							children: t("requestHeaders")
+						}),
+						rows.length === 0 ? (0, react_jsx_runtime.jsx)("p", {
+							className: ModelsSection_module_css_default["endpointPreview"],
+							children: t("requestHeadersEmpty")
+						}) : null,
+						rows.map((row, index) => (0, react_jsx_runtime.jsxs)("div", {
+							className: ModelsSection_module_css_default["headerRow"],
+							children: [
+								(0, react_jsx_runtime.jsx)("input", {
+									className: ModelsSection_module_css_default["input"],
+									type: "text",
+									value: row.key,
+									placeholder: t("headerName"),
+									"aria-label": `${t("headerName")} ${index + 1}`,
+									disabled: props.readOnly || busy,
+									onChange: (event) => {
+										patch(index, { key: event.target.value });
+									}
+								}),
+								(0, react_jsx_runtime.jsx)("input", {
+									className: ModelsSection_module_css_default["input"],
+									type: "text",
+									value: row.value,
+									placeholder: t("headerValue"),
+									"aria-label": `${t("headerValue")} ${index + 1}`,
+									disabled: props.readOnly || busy,
+									onChange: (event) => {
+										patch(index, { value: event.target.value });
+									}
+								}),
+								(0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: ModelsSection_module_css_default["iconButton"],
+									"aria-label": `${t("removeModel")} ${index + 1}`,
+									title: t("removeModel"),
+									disabled: props.readOnly || busy,
+									onClick: () => {
+										setRows((current) => current.filter((_row, at) => at !== index));
+									},
+									children: (0, react_jsx_runtime.jsx)("svg", {
+										width: "14",
+										height: "14",
+										viewBox: "0 0 24 24",
+										fill: "none",
+										stroke: "currentColor",
+										strokeWidth: "2",
+										strokeLinecap: "round",
+										"aria-hidden": true,
+										children: (0, react_jsx_runtime.jsx)("path", { d: "M5 12h14" })
+									})
+								})
+							]
+						}, index)),
+						(0, react_jsx_runtime.jsx)("button", {
+							type: "button",
+							className: ModelsSection_module_css_default["addModelButton"],
+							disabled: props.readOnly || busy,
+							onClick: () => {
+								setRows((current) => [...current, {
+									key: "",
+									value: ""
+								}]);
+							},
+							children: t("addHeader")
+						})
+					]
+				}), failure === void 0 ? null : (0, react_jsx_runtime.jsx)("p", {
+					className: ModelsSection_module_css_default["error"],
+					children: failure
+				})]
+			});
+		}
+		//#endregion
+		//#region lib/types/client/ModelHealthDialog.js
+		/**
+		* Cherry's model health-check dialog, mapped onto the real host capability:
+		* each enabled model gets one tiny streamed completion through
+		* controlCenterModelCheck — the same adapter registry and credential path a
+		* production request takes. Statuses run sequentially (a provider rate limit
+		* should surface as a failure on the model that caused it, not a storm), with
+		* per-row re-check and a run-all.
+		*/
+		/**
+		* Render the health-check dialog for one provider's models.
+		* @param props - open state, route, models, wire face, and copy.
+		* @returns the dialog, or null while closed.
+		*/
+		function ModelHealthDialog(props) {
+			const { provider, models, getCheck, t } = props;
+			const [states, setStates] = (0, react.useState)(/* @__PURE__ */ new Map());
+			const [running, setRunning] = (0, react.useState)(false);
+			const setModel = (model, state) => {
+				setStates((current) => new Map(current).set(model, state));
+			};
+			const checkOne = async (model) => {
+				const check = getCheck?.();
+				if (check === void 0) {
+					setModel(model, {
+						status: "fail",
+						error: t("loadFailed")
+					});
+					return;
+				}
+				setModel(model, { status: "checking" });
+				try {
+					const response = await check.check(provider, model);
+					if (!response.ok) {
+						setModel(model, {
+							status: "fail",
+							error: response.error.message
+						});
+						return;
+					}
+					const result = response.value;
+					setModel(model, result.ok ? {
+						status: "ok",
+						latencyMs: result.latencyMs
+					} : {
+						status: "fail",
+						error: result.error
+					});
+				} catch (error) {
+					setModel(model, {
+						status: "fail",
+						error: error instanceof Error ? error.message : String(error)
+					});
+				}
+			};
+			const checkAll = async () => {
+				setRunning(true);
+				try {
+					for (const model of models) await checkOne(model);
+				} finally {
+					setRunning(false);
+				}
+			};
+			const close = () => {
+				if (running) return;
+				props.onClose();
+			};
+			return (0, react_jsx_runtime.jsxs)(_deepseek_ai_dsh_client_ui_primitives.Modal, {
+				open: props.open,
+				onClose: close,
+				title: t("checkModels"),
+				closeLabel: t("close"),
+				description: t("checkModelsHint"),
+				className: ModelsSection_module_css_default["deleteDialog"],
+				footer: (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.Button, {
+					variant: "outline",
+					disabled: running || models.length === 0,
+					onClick: () => {
+						checkAll();
+					},
+					children: running ? t("checking") : t("checkAll")
+				}), (0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.Button, {
+					variant: "outline",
+					disabled: running,
+					onClick: props.onClose,
+					children: t("close")
+				})] }),
+				children: [models.length === 0 ? (0, react_jsx_runtime.jsx)("p", {
+					className: ModelsSection_module_css_default["endpointPreview"],
+					children: t("modelsEmpty")
+				}) : null, (0, react_jsx_runtime.jsx)("ul", {
+					className: ModelsSection_module_css_default["candidateList"],
+					children: models.map((model) => {
+						const state = states.get(model) ?? { status: "idle" };
+						return (0, react_jsx_runtime.jsxs)("li", {
+							className: ModelsSection_module_css_default["candidate"],
+							children: [
+								(0, react_jsx_runtime.jsx)("span", {
+									className: `${ModelsSection_module_css_default["healthDot"]} ${state.status === "ok" ? ModelsSection_module_css_default["healthOk"] : state.status === "fail" ? ModelsSection_module_css_default["healthFail"] : state.status === "checking" ? ModelsSection_module_css_default["healthChecking"] : ""}`,
+									role: "img",
+									"aria-label": state.status
+								}),
+								(0, react_jsx_runtime.jsx)("span", {
+									className: ModelsSection_module_css_default["candidateId"],
+									children: model
+								}),
+								(0, react_jsx_runtime.jsx)("span", {
+									className: `${ModelsSection_module_css_default["healthMeta"]} ${state.status === "fail" ? ModelsSection_module_css_default["healthFailText"] : ""}`,
+									children: state.status === "ok" ? `${state.latencyMs ?? 0} ms` : state.status === "checking" ? t("checking") : state.status === "fail" ? state.error : t("notChecked")
+								}),
+								(0, react_jsx_runtime.jsx)("button", {
+									type: "button",
+									className: ModelsSection_module_css_default["iconButton"],
+									"aria-label": `${t("recheck")} ${model}`,
+									title: t("recheck"),
+									disabled: running || !getCheck?.(),
+									onClick: () => {
+										checkOne(model);
+									},
+									children: (0, react_jsx_runtime.jsxs)("svg", {
+										width: "13",
+										height: "13",
+										viewBox: "0 0 24 24",
+										fill: "none",
+										stroke: "currentColor",
+										strokeWidth: "2",
+										strokeLinecap: "round",
+										strokeLinejoin: "round",
+										"aria-hidden": true,
+										children: [
+											(0, react_jsx_runtime.jsx)("path", { d: "M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" }),
+											(0, react_jsx_runtime.jsx)("path", { d: "M21 3v5h-5" }),
+											(0, react_jsx_runtime.jsx)("path", { d: "M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" }),
+											(0, react_jsx_runtime.jsx)("path", { d: "M8 16H3v5" })
+										]
+									})
+								})
+							]
+						}, model);
+					})
+				})]
+			});
+		}
+		//#endregion
 		//#region lib/types/client/provider-presets.js
 		/**
 		* Built-in provider presets — Cherry Studio provider catalog parity
@@ -10260,7 +10750,7 @@ window.__ModuleLoader__.load({
 		}
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\ProviderDirectorySection.module.css.mjs
-		const css$26 = ".l38w4q_section{flex-direction:column;gap:10px;width:100%;max-width:1080px;margin:0 auto;display:flex}.l38w4q_intro{color:var(--muted-foreground);font-size:13px}.l38w4q_split{border:.5px solid var(--border-subtle);background:var(--card);border-radius:12px;width:100%;max-width:1080px;height:min(640px,100vh - 230px);min-height:420px;display:flex;overflow:hidden}.l38w4q_list{flex-direction:column;flex:none;width:248px;display:flex}.l38w4q_listHeader{align-items:center;padding:10px 10px 6px;display:flex;position:relative}.l38w4q_searchInput{border:1px solid var(--border-subtle);background:var(--background);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:10px;outline:none;padding:0 28px 0 30px;font-family:inherit;font-size:13px}.l38w4q_searchInput::placeholder{color:var(--muted-foreground)}.l38w4q_searchInput:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.l38w4q_searchInput:before{content:\"\"}.l38w4q_listHeader:before{content:\"\";background:var(--muted-foreground);pointer-events:none;width:14px;height:14px;position:absolute;top:50%;left:20px;transform:translateY(-42%);mask:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E\") 50%/contain no-repeat}.l38w4q_searchClear{width:22px;height:22px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;display:inline-flex;position:absolute;top:50%;right:16px;transform:translateY(-50%)}.l38w4q_searchClear:hover{color:var(--foreground);background:color-mix(in srgb, var(--muted) 40%, transparent)}.l38w4q_listScroll{flex:1;min-height:0;padding:4px 10px 8px;overflow-y:auto}.l38w4q_emptyList{color:var(--muted-foreground);text-align:center;padding:16px 8px;font-size:13px}.l38w4q_groupRows{flex-direction:column;gap:4px;margin:0;padding:0;list-style:none;display:flex}.l38w4q_listItem{width:100%;height:34px;color:var(--foreground);text-align:left;cursor:pointer;box-sizing:border-box;background:0 0;border:none;border-radius:10px;justify-content:space-between;align-items:center;gap:8px;padding:0 8px 0 4px;font-family:inherit;display:flex;position:relative}.l38w4q_listItem:hover,.l38w4q_listItemSelected{background:var(--muted)}.l38w4q_listItemSelected .l38w4q_listItemName{font-weight:500}.l38w4q_listItemDisabled .l38w4q_listItemName,.l38w4q_listItemDisabled .l38w4q_avatar{opacity:.55}.l38w4q_listItemMain{align-items:center;gap:10px;min-width:0;display:flex}.l38w4q_avatar{border:.5px solid var(--border-subtle);background:var(--background);box-sizing:border-box;border-radius:7px;flex:none;justify-content:center;align-items:center;width:26px;height:26px;display:inline-flex;overflow:hidden}.l38w4q_avatar svg{width:100%;height:100%}.l38w4q_avatar[data-letter]{color:var(--muted-foreground);font-size:13px;font-weight:600}.l38w4q_listItemName{white-space:nowrap;text-overflow:ellipsis;font-size:13px;line-height:1.35;overflow:hidden}.l38w4q_enabledDot{background:var(--success);border-radius:50%;flex:none;width:6px;height:6px;transition:opacity .15s}.l38w4q_listItem:hover .l38w4q_enabledDot,.l38w4q_listItem:focus-within .l38w4q_enabledDot{opacity:0}.l38w4q_kebabSlot{display:inline-flex;position:absolute;top:50%;right:6px;transform:translateY(-50%)}.l38w4q_kebabButton{width:20px;height:20px;color:var(--muted-foreground);cursor:pointer;opacity:0;background:0 0;border:none;border-radius:5px;justify-content:center;align-items:center;transition:color .12s,background-color .12s,opacity .15s;display:inline-flex}.l38w4q_listItem:hover .l38w4q_kebabButton,.l38w4q_listItem:focus-within .l38w4q_kebabButton,.l38w4q_kebabButton[aria-expanded=true]{opacity:1}.l38w4q_kebabButton:hover{color:var(--foreground);background:color-mix(in srgb, var(--muted) 55%, transparent)}.l38w4q_freeBadge{background:color-mix(in srgb, var(--success) 10%, transparent);height:16px;color:var(--success);border-radius:4px;flex:none;align-items:center;padding:0 4px;font-size:9px;font-weight:500;line-height:1;display:inline-flex}.l38w4q_listFooter{padding:8px 10px 10px}.l38w4q_addCustomButton{border:1px solid var(--border-subtle);width:100%;height:32px;color:var(--foreground);cursor:pointer;background:0 0;border-radius:10px;justify-content:center;align-items:center;gap:6px;font-family:inherit;font-size:12px;display:inline-flex}.l38w4q_addCustomButton:hover:not(:disabled){border-color:var(--border-strong);background:color-mix(in srgb, var(--muted) 50%, transparent)}.l38w4q_addCustomButton:disabled{opacity:.5;cursor:not-allowed}.l38w4q_detail{background:var(--card);flex-direction:column;flex:1;min-width:0;display:flex}.l38w4q_detailScroll{flex:1;min-height:0;overflow-y:auto}.l38w4q_detailHeader{justify-content:space-between;align-items:center;gap:12px;padding:12px 24px 8px;display:flex}.l38w4q_detailHeaderMain{flex-wrap:wrap;align-items:center;gap:8px;min-width:0;display:flex}.l38w4q_detailTitle{color:var(--foreground);white-space:nowrap;font-size:15px;font-weight:600}a.l38w4q_detailTitle{text-decoration:none}a.l38w4q_detailTitle:hover{color:var(--primary)}.l38w4q_detailRoute{color:var(--muted-foreground);font-size:12px}.l38w4q_customTag,.l38w4q_disabledTag{background:var(--muted);height:18px;color:var(--muted-foreground);border-radius:9999px;flex:none;align-items:center;padding:0 7px;font-size:11px;display:inline-flex}.l38w4q_disabledTag{background:color-mix(in srgb, var(--warning) 15%, transparent);color:var(--warning)}.l38w4q_detailBody{flex-direction:column;gap:12px;max-width:860px;padding:4px 24px 24px;display:flex}.l38w4q_switch{background:var(--muted);cursor:pointer;border:none;border-radius:9999px;flex:none;width:36px;height:20px;padding:0;transition:background .14s;position:relative}.l38w4q_switch:hover:not(:disabled){filter:brightness(.96)}.l38w4q_switchOn{background:var(--success)}.l38w4q_switchThumb{background:#fff;border-radius:50%;width:16px;height:16px;transition:transform .14s;position:absolute;top:2px;left:2px;box-shadow:0 1px 2px #00000040}.l38w4q_switchOn .l38w4q_switchThumb{transform:translate(16px)}.l38w4q_switch:disabled{opacity:.45;cursor:not-allowed}.l38w4q_notice{border:1px solid var(--info-border);background:var(--info-subtle);color:var(--info-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.l38w4q_savedNotice{border:1px solid var(--success-border);background:var(--success-subtle);color:var(--success-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.l38w4q_error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.l38w4q_emptyDetail{text-align:center;flex-direction:column;flex:1;justify-content:center;align-items:center;gap:8px;padding:24px;display:flex}.l38w4q_emptyTitle{color:var(--foreground);font-size:15px;font-weight:600}.l38w4q_emptyHint{color:var(--muted-foreground);font-size:13px}.l38w4q_secondaryButton{border:1px solid var(--border-subtle);background:var(--secondary);height:32px;color:var(--secondary-foreground);cursor:pointer;border-radius:8px;justify-content:center;align-items:center;gap:6px;margin-top:8px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.l38w4q_deleteDialog{background:var(--popover);border-radius:14px;flex-direction:column;gap:12px;padding:16px;display:flex}.l38w4q_deleteConfirm{color:var(--destructive)}";
+		const css$26 = ".l38w4q_section{flex-direction:column;gap:10px;width:100%;max-width:1080px;margin:0 auto;display:flex}.l38w4q_intro{color:var(--muted-foreground);font-size:13px}.l38w4q_split{border:.5px solid var(--border-subtle);background:var(--card);border-radius:12px;width:100%;max-width:1080px;height:min(640px,100vh - 230px);min-height:420px;display:flex;overflow:hidden}.l38w4q_list{flex-direction:column;flex:none;width:248px;display:flex}.l38w4q_listHeader{align-items:center;padding:10px 10px 6px;display:flex;position:relative}.l38w4q_searchInput{border:1px solid var(--border-subtle);background:var(--background);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:10px;outline:none;padding:0 28px 0 30px;font-family:inherit;font-size:13px}.l38w4q_searchInput::placeholder{color:var(--muted-foreground)}.l38w4q_searchInput:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.l38w4q_searchInput:before{content:\"\"}.l38w4q_listHeader:before{content:\"\";background:var(--muted-foreground);pointer-events:none;width:14px;height:14px;position:absolute;top:50%;left:20px;transform:translateY(-42%);mask:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E\") 50%/contain no-repeat}.l38w4q_searchClear{width:22px;height:22px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;display:inline-flex;position:absolute;top:50%;right:16px;transform:translateY(-50%)}.l38w4q_searchClear:hover{color:var(--foreground);background:color-mix(in srgb, var(--muted) 40%, transparent)}.l38w4q_listScroll{flex:1;min-height:0;padding:4px 10px 8px;overflow-y:auto}.l38w4q_emptyList{color:var(--muted-foreground);text-align:center;padding:16px 8px;font-size:13px}.l38w4q_groupRows{flex-direction:column;gap:4px;margin:0;padding:0;list-style:none;display:flex}.l38w4q_listItem{width:100%;height:34px;color:var(--foreground);text-align:left;cursor:pointer;box-sizing:border-box;background:0 0;border:none;border-radius:10px;justify-content:space-between;align-items:center;gap:8px;padding:0 8px 0 4px;font-family:inherit;display:flex;position:relative}.l38w4q_listItem:hover,.l38w4q_listItemSelected{background:var(--muted)}.l38w4q_listItemSelected .l38w4q_listItemName{font-weight:500}.l38w4q_listItemDragging{opacity:.45}.l38w4q_listItemDropTarget{box-shadow:inset 0 2px 0 var(--primary)}.l38w4q_listItemDisabled .l38w4q_listItemName,.l38w4q_listItemDisabled .l38w4q_avatar{opacity:.55}.l38w4q_listItemMain{align-items:center;gap:10px;min-width:0;display:flex}.l38w4q_avatar{border:.5px solid var(--border-subtle);background:var(--background);box-sizing:border-box;border-radius:7px;flex:none;justify-content:center;align-items:center;width:26px;height:26px;display:inline-flex;overflow:hidden}.l38w4q_avatar svg{width:100%;height:100%}.l38w4q_avatar[data-letter]{color:var(--muted-foreground);font-size:13px;font-weight:600}.l38w4q_listItemName{white-space:nowrap;text-overflow:ellipsis;font-size:13px;line-height:1.35;overflow:hidden}.l38w4q_enabledDot{background:var(--success);border-radius:50%;flex:none;width:6px;height:6px;transition:opacity .15s}.l38w4q_listItem:hover .l38w4q_enabledDot,.l38w4q_listItem:focus-within .l38w4q_enabledDot{opacity:0}.l38w4q_kebabSlot{display:inline-flex;position:absolute;top:50%;right:6px;transform:translateY(-50%)}.l38w4q_kebabButton{width:20px;height:20px;color:var(--muted-foreground);cursor:pointer;opacity:0;background:0 0;border:none;border-radius:5px;justify-content:center;align-items:center;transition:color .12s,background-color .12s,opacity .15s;display:inline-flex}.l38w4q_listItem:hover .l38w4q_kebabButton,.l38w4q_listItem:focus-within .l38w4q_kebabButton,.l38w4q_kebabButton[aria-expanded=true]{opacity:1}.l38w4q_kebabButton:hover{color:var(--foreground);background:color-mix(in srgb, var(--muted) 55%, transparent)}.l38w4q_freeBadge{background:color-mix(in srgb, var(--success) 10%, transparent);height:16px;color:var(--success);border-radius:4px;flex:none;align-items:center;padding:0 4px;font-size:9px;font-weight:500;line-height:1;display:inline-flex}.l38w4q_listFooter{padding:8px 10px 10px}.l38w4q_addCustomButton{border:1px solid var(--border-subtle);width:100%;height:32px;color:var(--foreground);cursor:pointer;background:0 0;border-radius:10px;justify-content:center;align-items:center;gap:6px;font-family:inherit;font-size:12px;display:inline-flex}.l38w4q_addCustomButton:hover:not(:disabled){border-color:var(--border-strong);background:color-mix(in srgb, var(--muted) 50%, transparent)}.l38w4q_addCustomButton:disabled{opacity:.5;cursor:not-allowed}.l38w4q_detail{background:var(--card);flex-direction:column;flex:1;min-width:0;display:flex}.l38w4q_detailScroll{flex:1;min-height:0;overflow-y:auto}.l38w4q_detailHeader{justify-content:space-between;align-items:center;gap:12px;padding:12px 24px 8px;display:flex}.l38w4q_detailHeaderMain{flex-wrap:wrap;align-items:center;gap:8px;min-width:0;display:flex}.l38w4q_detailTitle{color:var(--foreground);white-space:nowrap;font-size:15px;font-weight:600}a.l38w4q_detailTitle{text-decoration:none}a.l38w4q_detailTitle:hover{color:var(--primary)}.l38w4q_detailRoute{color:var(--muted-foreground);font-size:12px}.l38w4q_boltButton{width:22px;height:22px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;flex:none;justify-content:center;align-items:center;display:inline-flex}.l38w4q_boltButton:hover{color:var(--warning);background:color-mix(in srgb, var(--muted) 40%, transparent)}.l38w4q_customTag,.l38w4q_disabledTag{background:var(--muted);height:18px;color:var(--muted-foreground);border-radius:9999px;flex:none;align-items:center;padding:0 7px;font-size:11px;display:inline-flex}.l38w4q_disabledTag{background:color-mix(in srgb, var(--warning) 15%, transparent);color:var(--warning)}.l38w4q_detailBody{flex-direction:column;gap:12px;max-width:860px;padding:4px 24px 24px;display:flex}.l38w4q_switch{background:var(--muted);cursor:pointer;border:none;border-radius:9999px;flex:none;width:36px;height:20px;padding:0;transition:background .14s;position:relative}.l38w4q_switch:hover:not(:disabled){filter:brightness(.96)}.l38w4q_switchOn{background:var(--success)}.l38w4q_switchThumb{background:#fff;border-radius:50%;width:16px;height:16px;transition:transform .14s;position:absolute;top:2px;left:2px;box-shadow:0 1px 2px #00000040}.l38w4q_switchOn .l38w4q_switchThumb{transform:translate(16px)}.l38w4q_switch:disabled{opacity:.45;cursor:not-allowed}.l38w4q_notice{border:1px solid var(--info-border);background:var(--info-subtle);color:var(--info-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.l38w4q_savedNotice{border:1px solid var(--success-border);background:var(--success-subtle);color:var(--success-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.l38w4q_error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.l38w4q_emptyDetail{text-align:center;flex-direction:column;flex:1;justify-content:center;align-items:center;gap:8px;padding:24px;display:flex}.l38w4q_emptyTitle{color:var(--foreground);font-size:15px;font-weight:600}.l38w4q_emptyHint{color:var(--muted-foreground);font-size:13px}.l38w4q_secondaryButton{border:1px solid var(--border-subtle);background:var(--secondary);height:32px;color:var(--secondary-foreground);cursor:pointer;border-radius:8px;justify-content:center;align-items:center;gap:6px;margin-top:8px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.l38w4q_deleteDialog{background:var(--popover);border-radius:14px;flex-direction:column;gap:12px;padding:16px;display:flex}.l38w4q_deleteConfirm{color:var(--destructive)}";
 		const tagId$26 = "@dsh-control-center/bundle/ProviderDirectorySection.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$26) + "]") === null) {
 			const tag = document.createElement("style");
@@ -10270,49 +10760,52 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderDirectorySection_module_css_default = {
-			"disabledTag": "l38w4q_disabledTag",
-			"section": "l38w4q_section",
-			"listItemName": "l38w4q_listItemName",
-			"notice": "l38w4q_notice",
-			"searchInput": "l38w4q_searchInput",
-			"avatar": "l38w4q_avatar",
-			"detailTitle": "l38w4q_detailTitle",
-			"error": "l38w4q_error",
-			"detailHeaderMain": "l38w4q_detailHeaderMain",
-			"emptyDetail": "l38w4q_emptyDetail",
-			"deleteDialog": "l38w4q_deleteDialog",
-			"kebabButton": "l38w4q_kebabButton",
-			"switchThumb": "l38w4q_switchThumb",
-			"secondaryButton": "l38w4q_secondaryButton",
-			"savedNotice": "l38w4q_savedNotice",
-			"list": "l38w4q_list",
-			"detailScroll": "l38w4q_detailScroll",
-			"groupRows": "l38w4q_groupRows",
-			"customTag": "l38w4q_customTag",
-			"deleteConfirm": "l38w4q_deleteConfirm",
-			"listItemMain": "l38w4q_listItemMain",
-			"enabledDot": "l38w4q_enabledDot",
-			"emptyHint": "l38w4q_emptyHint",
-			"addCustomButton": "l38w4q_addCustomButton",
-			"listItemDisabled": "l38w4q_listItemDisabled",
-			"emptyTitle": "l38w4q_emptyTitle",
 			"listItemSelected": "l38w4q_listItemSelected",
-			"listItem": "l38w4q_listItem",
-			"kebabSlot": "l38w4q_kebabSlot",
-			"listFooter": "l38w4q_listFooter",
-			"emptyList": "l38w4q_emptyList",
-			"detailBody": "l38w4q_detailBody",
-			"freeBadge": "l38w4q_freeBadge",
-			"switch": "l38w4q_switch",
-			"switchOn": "l38w4q_switchOn",
-			"split": "l38w4q_split",
-			"detailHeader": "l38w4q_detailHeader",
-			"listHeader": "l38w4q_listHeader",
-			"searchClear": "l38w4q_searchClear",
-			"detail": "l38w4q_detail",
+			"boltButton": "l38w4q_boltButton",
+			"searchInput": "l38w4q_searchInput",
+			"disabledTag": "l38w4q_disabledTag",
+			"deleteConfirm": "l38w4q_deleteConfirm",
+			"enabledDot": "l38w4q_enabledDot",
 			"detailRoute": "l38w4q_detailRoute",
+			"switchThumb": "l38w4q_switchThumb",
+			"error": "l38w4q_error",
+			"emptyDetail": "l38w4q_emptyDetail",
+			"customTag": "l38w4q_customTag",
+			"emptyTitle": "l38w4q_emptyTitle",
+			"secondaryButton": "l38w4q_secondaryButton",
+			"list": "l38w4q_list",
+			"listScroll": "l38w4q_listScroll",
+			"listItemMain": "l38w4q_listItemMain",
+			"emptyList": "l38w4q_emptyList",
+			"detailTitle": "l38w4q_detailTitle",
+			"notice": "l38w4q_notice",
+			"deleteDialog": "l38w4q_deleteDialog",
+			"section": "l38w4q_section",
 			"intro": "l38w4q_intro",
-			"listScroll": "l38w4q_listScroll"
+			"kebabButton": "l38w4q_kebabButton",
+			"listHeader": "l38w4q_listHeader",
+			"freeBadge": "l38w4q_freeBadge",
+			"listItem": "l38w4q_listItem",
+			"listItemName": "l38w4q_listItemName",
+			"addCustomButton": "l38w4q_addCustomButton",
+			"listFooter": "l38w4q_listFooter",
+			"detailHeaderMain": "l38w4q_detailHeaderMain",
+			"listItemDisabled": "l38w4q_listItemDisabled",
+			"listItemDragging": "l38w4q_listItemDragging",
+			"detail": "l38w4q_detail",
+			"groupRows": "l38w4q_groupRows",
+			"detailBody": "l38w4q_detailBody",
+			"switch": "l38w4q_switch",
+			"detailScroll": "l38w4q_detailScroll",
+			"switchOn": "l38w4q_switchOn",
+			"searchClear": "l38w4q_searchClear",
+			"detailHeader": "l38w4q_detailHeader",
+			"savedNotice": "l38w4q_savedNotice",
+			"avatar": "l38w4q_avatar",
+			"split": "l38w4q_split",
+			"listItemDropTarget": "l38w4q_listItemDropTarget",
+			"kebabSlot": "l38w4q_kebabSlot",
+			"emptyHint": "l38w4q_emptyHint"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderDirectorySection.js
@@ -10348,6 +10841,19 @@ window.__ModuleLoader__.load({
 		const STASH_NS = "control-center-provider-stash";
 		/** localStorage key for the persisted selection (Cherry's key name). */
 		const LAST_SELECTED_KEY = "settings.provider.last_selected_provider_id";
+		/** localStorage key for the user's provider ordering (drag to reorder). */
+		const ORDER_KEY = "settings.provider.order";
+		/** Read the persisted ordering, tolerating absent or corrupt storage. */
+		function loadOrder() {
+			try {
+				const raw = window.localStorage.getItem(ORDER_KEY);
+				if (raw === null) return [];
+				const parsed = JSON.parse(raw);
+				return Array.isArray(parsed) ? parsed.filter((id) => typeof id === "string") : [];
+			} catch {
+				return [];
+			}
+		}
 		function identityOf(entry) {
 			const row = entry.row;
 			return {
@@ -10429,18 +10935,19 @@ window.__ModuleLoader__.load({
 		* @returns the section, or null while the shell has not injected yet.
 		*/
 		function ProviderDirectorySection(props) {
-			const { controller, useSnapshot, api, schema, t } = props;
-			if (controller === void 0 || useSnapshot === void 0 || api === void 0 || t === void 0 || schema === void 0) return null;
+			const { controller, useSnapshot, api, schema, t, getCheck } = props;
+			if (controller === void 0 || useSnapshot === void 0 || api === void 0 || t === void 0 || schema === void 0 || getCheck === void 0) return null;
 			return (0, react_jsx_runtime.jsx)(Loaded, { injected: {
 				controller,
 				useSnapshot,
 				api,
 				schema,
-				t
+				t,
+				getCheck
 			} });
 		}
 		function Loaded({ injected }) {
-			const { controller, api, t, schema } = injected;
+			const { controller, api, t, schema, getCheck } = injected;
 			const state = injected.useSnapshot((snapshot) => snapshot);
 			const [search, setSearch] = (0, react.useState)("");
 			const [selectedId, setSelectedId] = (0, react.useState)(() => {
@@ -10455,6 +10962,13 @@ window.__ModuleLoader__.load({
 			const [toggleFailure, setToggleFailure] = (0, react.useState)(void 0);
 			const [toggling, setToggling] = (0, react.useState)(false);
 			const [menuFor, setMenuFor] = (0, react.useState)(void 0);
+			const [defaultSaved, setDefaultSaved] = (0, react.useState)(void 0);
+			const [optionsOpen, setOptionsOpen] = (0, react.useState)(false);
+			const [healthOpen, setHealthOpen] = (0, react.useState)(false);
+			const [order, setOrder] = (0, react.useState)(loadOrder);
+			const [draggingId, setDraggingId] = (0, react.useState)(void 0);
+			const [dropTargetId, setDropTargetId] = (0, react.useState)(void 0);
+			const [providerCatalog, setProviderCatalog] = (0, react.useState)([]);
 			const [deleteTarget, setDeleteTarget] = (0, react.useState)(void 0);
 			const [deleting, setDeleting] = (0, react.useState)(false);
 			if (state.status === "idle") controller.load();
@@ -10473,13 +10987,37 @@ window.__ModuleLoader__.load({
 					})]
 				});
 			}
-			const directory = (0, react.useMemo)(() => buildDirectory(state.rows), [state.rows]);
+			const directory = (0, react.useMemo)(() => {
+				const entries = buildDirectory(state.rows);
+				if (order.length === 0) return entries;
+				const rank = new Map(order.map((id, index) => [id, index]));
+				return [...entries].sort((left, right) => (rank.get(left.provider) ?? Number.MAX_SAFE_INTEGER) - (rank.get(right.provider) ?? Number.MAX_SAFE_INTEGER));
+			}, [state.rows, order]);
 			const filtered = (0, react.useMemo)(() => {
 				if (search.trim().length === 0) return directory;
 				const keywords = search.toLowerCase().split(/\s+/).filter(Boolean);
 				return directory.filter((entry) => keywords.every((kw) => entry.provider.toLowerCase().includes(kw) || entry.displayName.toLowerCase().includes(kw)));
 			}, [directory, search]);
 			const effective = (selectedId === void 0 ? void 0 : directory.find((entry) => entry.provider === selectedId)) ?? filtered[0];
+			/**
+			* Move one provider before another in the persisted ordering. The move
+			* happens on the FULL directory ids (a filtered view only picks the
+			* target), and searching suspends dragging entirely — reordering a subset
+			* has no honest meaning for a whole-list order.
+			*/
+			const reorder = (dragId, targetId) => {
+				if (dragId === targetId) return;
+				const ids = directory.map((entry) => entry.provider);
+				const from = ids.indexOf(dragId);
+				const to = ids.indexOf(targetId);
+				if (from === -1 || to === -1) return;
+				ids.splice(to, 0, ...ids.splice(from, 1));
+				const next = ids;
+				setOrder(next);
+				try {
+					window.localStorage.setItem(ORDER_KEY, JSON.stringify(next));
+				} catch {}
+			};
 			const select = (provider) => {
 				setSelectedId(provider);
 				setSavedTarget(void 0);
@@ -10491,6 +11029,67 @@ window.__ModuleLoader__.load({
 			const stashView = state.namespaces.get(STASH_NS);
 			const protocols = protocolChoices(namespace, schema);
 			const editTarget = effective === void 0 ? void 0 : identityOf(effective);
+			const defaultNsView = state.namespaces.get("agent-default-model");
+			const defaultProviderRaw = schema.getPath(defaultNsView?.value, ["provider"]);
+			const defaultModelRaw = schema.getPath(defaultNsView?.value, ["model"]);
+			const defaultSelection = typeof defaultProviderRaw === "string" && typeof defaultModelRaw === "string" ? {
+				provider: defaultProviderRaw,
+				model: defaultModelRaw
+			} : void 0;
+			const selectedProviderId = effective?.provider;
+			(0, react.useEffect)(() => {
+				let stale = false;
+				setProviderCatalog([]);
+				if (selectedProviderId === void 0) return void 0;
+				api.llm.models({}).then((response) => {
+					if (stale || !response.result.ok) return;
+					const group = response.result.value.groups.find((candidate) => candidate.id === selectedProviderId);
+					setProviderCatalog(group === void 0 ? [] : group.models.map((model) => ({
+						id: model.id,
+						...model.name === void 0 ? {} : { name: model.name }
+					})));
+				}, () => void 0);
+				return () => {
+					stale = true;
+				};
+			}, [api.llm.models, selectedProviderId]);
+			/** Point the future-session default at one of this provider's models. */
+			const setDefaultModel = async (providerId, modelId) => {
+				if (defaultNsView === void 0 || !state.writable) return;
+				try {
+					const response = await api.settings.mutate({
+						ns: "agent-default-model",
+						expectedRevision: defaultNsView.revision,
+						ops: [
+							{
+								op: "set",
+								path: ["provider"],
+								value: providerId
+							},
+							{
+								op: "set",
+								path: ["model"],
+								value: modelId
+							},
+							{
+								op: "unset",
+								path: ["reasoningEffort"]
+							}
+						]
+					});
+					if (!response.result.ok) {
+						setToggleFailure(response.result.error.message);
+						return;
+					}
+					setDefaultSaved({
+						provider: providerId,
+						model: modelId
+					});
+					await controller.load();
+				} catch (error) {
+					setToggleFailure(messageOf$2(error));
+				}
+			};
 			const announceSaved = (target) => {
 				controller.load().then(() => {
 					setSavedTarget(target);
@@ -10719,8 +11318,32 @@ window.__ModuleLoader__.load({
 											return (0, react_jsx_runtime.jsx)("li", { children: (0, react_jsx_runtime.jsxs)("div", {
 												role: "button",
 												tabIndex: 0,
-												className: `${ProviderDirectorySection_module_css_default["listItem"]} ${isSelected ? ProviderDirectorySection_module_css_default["listItemSelected"] : ""} ${enabled ? "" : ProviderDirectorySection_module_css_default["listItemDisabled"]}`,
+												className: `${ProviderDirectorySection_module_css_default["listItem"]} ${isSelected ? ProviderDirectorySection_module_css_default["listItemSelected"] : ""} ${enabled ? "" : ProviderDirectorySection_module_css_default["listItemDisabled"]} ${draggingId === entry.provider ? ProviderDirectorySection_module_css_default["listItemDragging"] : ""} ${dropTargetId === entry.provider && draggingId !== entry.provider ? ProviderDirectorySection_module_css_default["listItemDropTarget"] : ""}`,
 												"aria-pressed": isSelected,
+												draggable: search.trim().length === 0,
+												onDragStart: (event) => {
+													setDraggingId(entry.provider);
+													if (event.dataTransfer !== void 0) event.dataTransfer.effectAllowed = "move";
+												},
+												onDragEnd: () => {
+													setDraggingId(void 0);
+													setDropTargetId(void 0);
+												},
+												onDragOver: (event) => {
+													if (draggingId === void 0 || draggingId === entry.provider) return;
+													event.preventDefault();
+													if (event.dataTransfer !== void 0) event.dataTransfer.dropEffect = "move";
+													setDropTargetId(entry.provider);
+												},
+												onDragLeave: () => {
+													setDropTargetId((current) => current === entry.provider ? void 0 : current);
+												},
+												onDrop: (event) => {
+													event.preventDefault();
+													if (draggingId !== void 0 && draggingId !== entry.provider) reorder(draggingId, entry.provider);
+													setDraggingId(void 0);
+													setDropTargetId(void 0);
+												},
 												onClick: () => {
 													select(entry.provider);
 												},
@@ -10890,91 +11513,184 @@ window.__ModuleLoader__.load({
 								};
 								return (0, react_jsx_runtime.jsxs)("div", {
 									className: ProviderDirectorySection_module_css_default["detailScroll"],
-									children: [(0, react_jsx_runtime.jsxs)("header", {
-										className: ProviderDirectorySection_module_css_default["detailHeader"],
-										children: [(0, react_jsx_runtime.jsxs)("div", {
-											className: ProviderDirectorySection_module_css_default["detailHeaderMain"],
-											children: [
-												(0, react_jsx_runtime.jsx)(ProviderAvatar, {
-													providerId: effective.provider,
-													name: effective.displayName
-												}),
-												editTarget.website === void 0 ? (0, react_jsx_runtime.jsx)("span", {
-													className: ProviderDirectorySection_module_css_default["detailTitle"],
-													children: effective.displayName
-												}) : (0, react_jsx_runtime.jsx)("a", {
-													className: ProviderDirectorySection_module_css_default["detailTitle"],
-													href: editTarget.website,
-													target: "_blank",
-													rel: "noreferrer",
-													title: editTarget.website,
-													children: effective.displayName
-												}),
-												effective.provider !== effective.displayName ? (0, react_jsx_runtime.jsx)("span", {
-													className: ProviderDirectorySection_module_css_default["detailRoute"],
-													children: effective.provider
-												}) : null,
-												editTarget.declared === true ? (0, react_jsx_runtime.jsx)("span", {
-													className: ProviderDirectorySection_module_css_default["customTag"],
-													children: t("customTag")
-												}) : null,
-												!toggleState.enabled && toggleState.canToggle ? (0, react_jsx_runtime.jsx)("span", {
-													className: ProviderDirectorySection_module_css_default["disabledTag"],
-													children: t("providerDisabled")
-												}) : null
-											]
-										}), (0, react_jsx_runtime.jsx)(EnableSwitch, {
-											checked: toggleState.enabled,
-											disabled: !state.writable || toggling || !toggleState.canToggle,
-											title: editTarget.settingsNs !== NS ? t("advancedHint") : toggleState.canToggle ? void 0 : t("enableNeedsProfile"),
-											onChange: (next) => {
-												toggleEnabled(effective, next);
-											}
-										})]
-									}), (0, react_jsx_runtime.jsxs)("div", {
-										className: ProviderDirectorySection_module_css_default["detailBody"],
-										children: [
-											savedTarget === void 0 ? null : (0, react_jsx_runtime.jsx)("p", {
-												className: ProviderDirectorySection_module_css_default["savedNotice"],
-												role: "status",
-												"aria-live": "polite",
-												children: providerCopy(t("savedProvider"), savedTarget)
-											}),
-											toggleFailure === void 0 ? null : (0, react_jsx_runtime.jsx)("p", {
-												className: ProviderDirectorySection_module_css_default["error"],
-												children: t("toggleFailed").replace("{error}", toggleFailure)
-											}),
-											protocolLimitedType(effective.preset) === "iam" ? (0, react_jsx_runtime.jsx)("p", {
-												className: ProviderDirectorySection_module_css_default["notice"],
-												children: t("presetIamNote")
-											}) : protocolLimitedType(effective.preset) === "protocol" ? (0, react_jsx_runtime.jsx)("p", {
-												className: ProviderDirectorySection_module_css_default["notice"],
-												children: t("presetProtocolNote")
-											}) : null,
-											namespace === void 0 ? (0, react_jsx_runtime.jsx)("p", {
-												className: ProviderDirectorySection_module_css_default["error"],
-												children: `${effective.displayName}: ${NS} settings are unavailable`
-											}) : (0, react_jsx_runtime.jsx)(ProviderEditor, {
-												provider: editTarget.provider,
-												displayName: editTarget.displayName,
-												hideTitle: true,
-												panelStyle: true,
-												showCheck: true,
-												...editTarget.declared === true ? { declared: true } : {},
-												...editTarget.defaults === void 0 ? {} : { defaults: editTarget.defaults },
-												...editTarget.helpLinks === void 0 ? {} : { helpLinks: editTarget.helpLinks },
-												namespace,
-												settingsPath: editTarget.settingsPath,
-												api,
-												t,
-												schema,
-												readOnly: !state.writable,
-												onClose: (changed) => {
-													if (changed) announceSaved(identityLabel);
+									children: [
+										(0, react_jsx_runtime.jsxs)("header", {
+											className: ProviderDirectorySection_module_css_default["detailHeader"],
+											children: [(0, react_jsx_runtime.jsxs)("div", {
+												className: ProviderDirectorySection_module_css_default["detailHeaderMain"],
+												children: [
+													(0, react_jsx_runtime.jsx)(ProviderAvatar, {
+														providerId: effective.provider,
+														name: effective.displayName
+													}),
+													editTarget.settingsNs === NS && namespace !== void 0 ? (0, react_jsx_runtime.jsx)("button", {
+														type: "button",
+														className: ProviderDirectorySection_module_css_default["boltButton"],
+														"aria-label": t("checkModels"),
+														title: t("checkModels"),
+														onClick: () => {
+															setHealthOpen(true);
+														},
+														children: (0, react_jsx_runtime.jsxs)("svg", {
+															width: "13",
+															height: "13",
+															viewBox: "0 0 24 24",
+															fill: "none",
+															stroke: "currentColor",
+															strokeWidth: "2",
+															strokeLinecap: "round",
+															strokeLinejoin: "round",
+															"aria-hidden": true,
+															children: [(0, react_jsx_runtime.jsx)("path", { d: "M19.4 14a7.97 7.97 0 0 0 .3-2 7.97 7.97 0 0 0-.3-2l2.1-1.6a.5.5 0 0 0 .1-.7l-2-3.4a.5.5 0 0 0-.6-.2l-2.5 1a8 8 0 0 0-3.4-2L12.7.3a.5.5 0 0 0-.5-.4h-4a.5.5 0 0 0-.5.4l-.4 2.6a8 8 0 0 0-3.4 2l-2.5-1a.5.5 0 0 0-.6.2l-2 3.4a.5.5 0 0 0 .1.7L2.9 10a7.97 7.97 0 0 0 0 4l-2.1 1.6a.5.5 0 0 0-.1.7l2 3.4c.1.2.4.3.6.2l2.5-1a8 8 0 0 0 3.4 2l.4 2.6c0 .2.2.4.5.4h4c.2 0 .4-.2.5-.4l.4-2.6a8 8 0 0 0 3.4-2l2.5 1c.2.1.5 0 .6-.2l2-3.4a.5.5 0 0 0-.1-.7L19.4 14Z" }), (0, react_jsx_runtime.jsx)("circle", {
+																cx: "12",
+																cy: "12",
+																r: "3"
+															})]
+														})
+													}) : null,
+													editTarget.settingsNs === NS && namespace !== void 0 ? (0, react_jsx_runtime.jsx)("button", {
+														type: "button",
+														className: ProviderDirectorySection_module_css_default["boltButton"],
+														"aria-label": t("requestOptions"),
+														title: t("requestOptions"),
+														onClick: () => {
+															setOptionsOpen(true);
+														},
+														children: (0, react_jsx_runtime.jsx)("svg", {
+															width: "13",
+															height: "13",
+															viewBox: "0 0 24 24",
+															fill: "currentColor",
+															"aria-hidden": true,
+															children: (0, react_jsx_runtime.jsx)("path", { d: "M13 2 3 14h7l-1 8 10-12h-7l1-8z" })
+														})
+													}) : null,
+													editTarget.website === void 0 ? (0, react_jsx_runtime.jsx)("span", {
+														className: ProviderDirectorySection_module_css_default["detailTitle"],
+														children: effective.displayName
+													}) : (0, react_jsx_runtime.jsx)("a", {
+														className: ProviderDirectorySection_module_css_default["detailTitle"],
+														href: editTarget.website,
+														target: "_blank",
+														rel: "noreferrer",
+														title: editTarget.website,
+														children: effective.displayName
+													}),
+													effective.provider !== effective.displayName ? (0, react_jsx_runtime.jsx)("span", {
+														className: ProviderDirectorySection_module_css_default["detailRoute"],
+														children: effective.provider
+													}) : null,
+													editTarget.declared === true ? (0, react_jsx_runtime.jsx)("span", {
+														className: ProviderDirectorySection_module_css_default["customTag"],
+														children: t("customTag")
+													}) : null,
+													!toggleState.enabled && toggleState.canToggle ? (0, react_jsx_runtime.jsx)("span", {
+														className: ProviderDirectorySection_module_css_default["disabledTag"],
+														children: t("providerDisabled")
+													}) : null
+												]
+											}), (0, react_jsx_runtime.jsx)(EnableSwitch, {
+												checked: toggleState.enabled,
+												disabled: !state.writable || toggling || !toggleState.canToggle,
+												title: editTarget.settingsNs !== NS ? t("advancedHint") : toggleState.canToggle ? void 0 : t("enableNeedsProfile"),
+												onChange: (next) => {
+													toggleEnabled(effective, next);
 												}
-											}, editTarget.provider)
-										]
-									})]
+											})]
+										}),
+										namespace === void 0 || editTarget.settingsNs !== NS ? null : (0, react_jsx_runtime.jsx)(ModelHealthDialog, {
+											open: healthOpen,
+											provider: editTarget.provider,
+											models: (() => {
+												const stored = schema.getPath(namespace.value, [...editTarget.settingsPath, "models"]);
+												if (!Array.isArray(stored)) return [];
+												return stored.map((entry) => typeof entry === "object" && entry !== null ? entry.id : void 0).filter((id) => typeof id === "string" && id.length > 0);
+											})(),
+											getCheck,
+											t,
+											onClose: () => {
+												setHealthOpen(false);
+											}
+										}),
+										namespace === void 0 ? null : (0, react_jsx_runtime.jsx)(RequestOptionsPanel, {
+											open: optionsOpen,
+											namespace,
+											settingsPath: editTarget.settingsPath,
+											api,
+											schema,
+											t,
+											readOnly: !state.writable,
+											onClose: () => {
+												setOptionsOpen(false);
+											},
+											onSaved: () => {
+												setOptionsOpen(false);
+												controller.load().then(() => {
+													setSavedTarget({
+														provider: effective.provider,
+														displayName: effective.displayName
+													});
+												});
+											}
+										}),
+										(0, react_jsx_runtime.jsxs)("div", {
+											className: ProviderDirectorySection_module_css_default["detailBody"],
+											children: [
+												savedTarget === void 0 ? null : (0, react_jsx_runtime.jsx)("p", {
+													className: ProviderDirectorySection_module_css_default["savedNotice"],
+													role: "status",
+													"aria-live": "polite",
+													children: providerCopy(t("savedProvider"), savedTarget)
+												}),
+												defaultSaved === void 0 ? null : (0, react_jsx_runtime.jsx)("p", {
+													className: ProviderDirectorySection_module_css_default["savedNotice"],
+													role: "status",
+													"aria-live": "polite",
+													children: t("defaultModelSaved").replace("{provider}", defaultSaved.provider).replace("{model}", defaultSaved.model)
+												}),
+												toggleFailure === void 0 ? null : (0, react_jsx_runtime.jsx)("p", {
+													className: ProviderDirectorySection_module_css_default["error"],
+													children: t("toggleFailed").replace("{error}", toggleFailure)
+												}),
+												protocolLimitedType(effective.preset) === "iam" ? (0, react_jsx_runtime.jsx)("p", {
+													className: ProviderDirectorySection_module_css_default["notice"],
+													children: t("presetIamNote")
+												}) : protocolLimitedType(effective.preset) === "protocol" ? (0, react_jsx_runtime.jsx)("p", {
+													className: ProviderDirectorySection_module_css_default["notice"],
+													children: t("presetProtocolNote")
+												}) : null,
+												namespace === void 0 ? (0, react_jsx_runtime.jsx)("p", {
+													className: ProviderDirectorySection_module_css_default["error"],
+													children: `${effective.displayName}: ${NS} settings are unavailable`
+												}) : (0, react_jsx_runtime.jsx)(ProviderEditor, {
+													provider: editTarget.provider,
+													displayName: editTarget.displayName,
+													hideTitle: true,
+													panelStyle: true,
+													showCheck: true,
+													...editTarget.declared === true ? { declared: true } : {},
+													...editTarget.defaults === void 0 ? {} : { defaults: editTarget.defaults },
+													...editTarget.helpLinks === void 0 ? {} : { helpLinks: editTarget.helpLinks },
+													...providerCatalog.length === 0 || editTarget.settingsNs !== NS ? {} : { catalogModels: providerCatalog },
+													...editTarget.settingsNs !== NS || defaultSelection === void 0 ? {} : {
+														defaultModel: defaultSelection,
+														onSetDefault: (modelId) => {
+															setDefaultModel(editTarget.provider, modelId);
+														}
+													},
+													namespace,
+													settingsPath: editTarget.settingsPath,
+													api,
+													t,
+													schema,
+													readOnly: !state.writable,
+													onClose: (changed) => {
+														if (changed) announceSaved(identityLabel);
+													}
+												}, editTarget.provider)
+											]
+										})
+									]
 								});
 							})()
 						})]
@@ -11093,21 +11809,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var AddMcpServerDialog_module_css_default = {
-			"field": "uv_otq_field",
-			"textarea": "uv_otq_textarea",
-			"footer": "uv_otq_footer",
-			"dialog": "uv_otq_dialog",
-			"error": "uv_otq_error",
-			"form": "uv_otq_form",
-			"cancelButton": "uv_otq_cancelButton",
-			"overlay": "uv_otq_overlay",
-			"title": "uv_otq_title",
 			"select": "uv_otq_select",
+			"header": "uv_otq_header",
+			"textarea": "uv_otq_textarea",
+			"cancelButton": "uv_otq_cancelButton",
+			"footer": "uv_otq_footer",
+			"title": "uv_otq_title",
 			"closeButton": "uv_otq_closeButton",
 			"label": "uv_otq_label",
+			"overlay": "uv_otq_overlay",
 			"input": "uv_otq_input",
-			"header": "uv_otq_header",
-			"submitButton": "uv_otq_submitButton"
+			"form": "uv_otq_form",
+			"error": "uv_otq_error",
+			"submitButton": "uv_otq_submitButton",
+			"dialog": "uv_otq_dialog",
+			"field": "uv_otq_field"
 		};
 		//#endregion
 		//#region lib/types/client/AddMcpServerDialog.js
@@ -11343,76 +12059,76 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var McpSection_module_css_default = {
-			"dangerButton": "_0bBxiW_dangerButton",
-			"toolDescription": "_0bBxiW_toolDescription",
+			"searchWrap": "_0bBxiW_searchWrap",
+			"searchInput": "_0bBxiW_searchInput",
 			"listItem": "_0bBxiW_listItem",
-			"descriptionText": "_0bBxiW_descriptionText",
-			"secondaryButton": "_0bBxiW_secondaryButton",
-			"toolItem": "_0bBxiW_toolItem",
-			"toolName": "_0bBxiW_toolName",
-			"fieldRow": "_0bBxiW_fieldRow",
-			"detailTitle": "_0bBxiW_detailTitle",
-			"listItemAvatar": "_0bBxiW_listItemAvatar",
-			"tabActive": "_0bBxiW_tabActive",
-			"detailHeader": "_0bBxiW_detailHeader",
+			"toolsList": "_0bBxiW_toolsList",
+			"emptyDescription": "_0bBxiW_emptyDescription",
+			"switchSlider": "_0bBxiW_switchSlider",
+			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
 			"codeLine": "_0bBxiW_codeLine",
+			"detailScroll": "_0bBxiW_detailScroll",
+			"formActions": "_0bBxiW_formActions",
+			"fieldLabel": "_0bBxiW_fieldLabel",
+			"listItems": "_0bBxiW_listItems",
+			"tab": "_0bBxiW_tab",
+			"codeBlock": "_0bBxiW_codeBlock",
+			"loading": "_0bBxiW_loading",
 			"searchIcon": "_0bBxiW_searchIcon",
-			"resourceUri": "_0bBxiW_resourceUri",
-			"dangerZoneText": "_0bBxiW_dangerZoneText",
-			"addButton": "_0bBxiW_addButton",
-			"activeDot": "_0bBxiW_activeDot",
+			"addFooter": "_0bBxiW_addFooter",
 			"error": "_0bBxiW_error",
-			"serverList": "_0bBxiW_serverList",
+			"listItemSelected": "_0bBxiW_listItemSelected",
+			"dangerZone": "_0bBxiW_dangerZone",
+			"logInfo": "_0bBxiW_logInfo",
 			"emptyState": "_0bBxiW_emptyState",
-			"searchClearButton": "_0bBxiW_searchClearButton",
-			"fieldHint": "_0bBxiW_fieldHint",
-			"listItemLabel": "_0bBxiW_listItemLabel",
-			"listItemIdle": "_0bBxiW_listItemIdle",
-			"listScroller": "_0bBxiW_listScroller",
-			"serverDetail": "_0bBxiW_serverDetail",
+			"splitRoot": "_0bBxiW_splitRoot",
+			"detailMetaItem": "_0bBxiW_detailMetaItem",
+			"input": "_0bBxiW_input",
+			"sectionBody": "_0bBxiW_sectionBody",
 			"fieldGroup": "_0bBxiW_fieldGroup",
 			"textarea": "_0bBxiW_textarea",
-			"switchInput": "_0bBxiW_switchInput",
-			"searchWrap": "_0bBxiW_searchWrap",
-			"input": "_0bBxiW_input",
-			"logHeader": "_0bBxiW_logHeader",
-			"searchInput": "_0bBxiW_searchInput",
-			"addFooter": "_0bBxiW_addFooter",
-			"splitRoot": "_0bBxiW_splitRoot",
+			"dangerZoneText": "_0bBxiW_dangerZoneText",
+			"searchClearButton": "_0bBxiW_searchClearButton",
 			"listItemMain": "_0bBxiW_listItemMain",
-			"detailMetaItem": "_0bBxiW_detailMetaItem",
-			"listItems": "_0bBxiW_listItems",
-			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
-			"sectionHeader": "_0bBxiW_sectionHeader",
-			"sectionBody": "_0bBxiW_sectionBody",
-			"logInfo": "_0bBxiW_logInfo",
-			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
-			"emptyTitle": "_0bBxiW_emptyTitle",
-			"tab": "_0bBxiW_tab",
-			"formActions": "_0bBxiW_formActions",
-			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
+			"detailTitle": "_0bBxiW_detailTitle",
+			"primaryButton": "_0bBxiW_primaryButton",
+			"sectionHeading": "_0bBxiW_sectionHeading",
+			"toolItem": "_0bBxiW_toolItem",
+			"errorBox": "_0bBxiW_errorBox",
+			"listScroller": "_0bBxiW_listScroller",
 			"switchWrapper": "_0bBxiW_switchWrapper",
-			"detailMeta": "_0bBxiW_detailMeta",
-			"emptyDescription": "_0bBxiW_emptyDescription",
-			"emptyDetailState": "_0bBxiW_emptyDetailState",
+			"listItemIdle": "_0bBxiW_listItemIdle",
+			"logHeader": "_0bBxiW_logHeader",
+			"addButton": "_0bBxiW_addButton",
+			"toolHeader": "_0bBxiW_toolHeader",
 			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
 			"emptyIcon": "_0bBxiW_emptyIcon",
-			"tabBar": "_0bBxiW_tabBar",
-			"listItemSelected": "_0bBxiW_listItemSelected",
-			"loading": "_0bBxiW_loading",
+			"detailHeader": "_0bBxiW_detailHeader",
+			"emptyDetailState": "_0bBxiW_emptyDetailState",
+			"serverDetail": "_0bBxiW_serverDetail",
+			"toolDescription": "_0bBxiW_toolDescription",
+			"toolName": "_0bBxiW_toolName",
+			"listItemAvatar": "_0bBxiW_listItemAvatar",
+			"emptyTitle": "_0bBxiW_emptyTitle",
+			"fieldHint": "_0bBxiW_fieldHint",
 			"checkbox": "_0bBxiW_checkbox",
-			"codeBlock": "_0bBxiW_codeBlock",
-			"sectionHeading": "_0bBxiW_sectionHeading",
-			"detailScroll": "_0bBxiW_detailScroll",
-			"errorBox": "_0bBxiW_errorBox",
-			"fieldLabel": "_0bBxiW_fieldLabel",
-			"switchSlider": "_0bBxiW_switchSlider",
+			"listItemLabel": "_0bBxiW_listItemLabel",
+			"resourceUri": "_0bBxiW_resourceUri",
+			"searchRow": "_0bBxiW_searchRow",
+			"tabActive": "_0bBxiW_tabActive",
+			"switchInput": "_0bBxiW_switchInput",
+			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
+			"serverList": "_0bBxiW_serverList",
+			"fieldRow": "_0bBxiW_fieldRow",
+			"secondaryButton": "_0bBxiW_secondaryButton",
+			"activeDot": "_0bBxiW_activeDot",
+			"descriptionText": "_0bBxiW_descriptionText",
+			"detailMeta": "_0bBxiW_detailMeta",
+			"tabBar": "_0bBxiW_tabBar",
 			"section": "_0bBxiW_section",
-			"primaryButton": "_0bBxiW_primaryButton",
-			"toolHeader": "_0bBxiW_toolHeader",
-			"dangerZone": "_0bBxiW_dangerZone",
-			"toolsList": "_0bBxiW_toolsList",
-			"searchRow": "_0bBxiW_searchRow"
+			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
+			"sectionHeader": "_0bBxiW_sectionHeader",
+			"dangerButton": "_0bBxiW_dangerButton"
 		};
 		//#endregion
 		//#region lib/types/client/McpSection.js
@@ -12359,26 +13075,26 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WebSearchSection_module_css_default = {
-			"pageDescription": "_0WjBOa_pageDescription",
-			"iconButton": "_0WjBOa_iconButton",
-			"select": "_0WjBOa_select",
-			"cardTitle": "_0WjBOa_cardTitle",
-			"cardDescription": "_0WjBOa_cardDescription",
-			"fieldHint": "_0WjBOa_fieldHint",
+			"pageTitle": "_0WjBOa_pageTitle",
 			"error": "_0WjBOa_error",
-			"fieldLabel": "_0WjBOa_fieldLabel",
+			"cardTitle": "_0WjBOa_cardTitle",
+			"fieldRow": "_0WjBOa_fieldRow",
+			"select": "_0WjBOa_select",
 			"apiKeyRow": "_0WjBOa_apiKeyRow",
-			"providerDetail": "_0WjBOa_providerDetail",
-			"providerName": "_0WjBOa_providerName",
 			"card": "_0WjBOa_card",
+			"pageDescription": "_0WjBOa_pageDescription",
+			"cardDescription": "_0WjBOa_cardDescription",
+			"providerDetail": "_0WjBOa_providerDetail",
+			"providerDescription": "_0WjBOa_providerDescription",
+			"pageHeader": "_0WjBOa_pageHeader",
+			"iconButton": "_0WjBOa_iconButton",
+			"providerName": "_0WjBOa_providerName",
+			"checkbox": "_0WjBOa_checkbox",
+			"fieldHint": "_0WjBOa_fieldHint",
+			"fieldLabel": "_0WjBOa_fieldLabel",
 			"loading": "_0WjBOa_loading",
 			"root": "_0WjBOa_root",
-			"pageHeader": "_0WjBOa_pageHeader",
-			"pageTitle": "_0WjBOa_pageTitle",
-			"input": "_0WjBOa_input",
-			"checkbox": "_0WjBOa_checkbox",
-			"providerDescription": "_0WjBOa_providerDescription",
-			"fieldRow": "_0WjBOa_fieldRow"
+			"input": "_0WjBOa_input"
 		};
 		//#endregion
 		//#region lib/types/client/WebSearchSection.js
@@ -12795,23 +13511,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProcessorSection_module_css_default = {
-			"fieldHint": "CL8zIa_fieldHint",
-			"providerDescription": "CL8zIa_providerDescription",
-			"cardTitle": "CL8zIa_cardTitle",
 			"pageDescription": "CL8zIa_pageDescription",
 			"card": "CL8zIa_card",
-			"cardDescription": "CL8zIa_cardDescription",
-			"input": "CL8zIa_input",
-			"providerName": "CL8zIa_providerName",
-			"fieldLabel": "CL8zIa_fieldLabel",
-			"select": "CL8zIa_select",
-			"providerDetail": "CL8zIa_providerDetail",
-			"root": "CL8zIa_root",
-			"loading": "CL8zIa_loading",
-			"pageTitle": "CL8zIa_pageTitle",
+			"cardTitle": "CL8zIa_cardTitle",
 			"fieldRow": "CL8zIa_fieldRow",
+			"pageTitle": "CL8zIa_pageTitle",
+			"apiKeyRow": "CL8zIa_apiKeyRow",
+			"fieldLabel": "CL8zIa_fieldLabel",
+			"providerDetail": "CL8zIa_providerDetail",
+			"providerName": "CL8zIa_providerName",
 			"iconButton": "CL8zIa_iconButton",
-			"apiKeyRow": "CL8zIa_apiKeyRow"
+			"select": "CL8zIa_select",
+			"input": "CL8zIa_input",
+			"cardDescription": "CL8zIa_cardDescription",
+			"fieldHint": "CL8zIa_fieldHint",
+			"loading": "CL8zIa_loading",
+			"root": "CL8zIa_root",
+			"providerDescription": "CL8zIa_providerDescription"
 		};
 		//#endregion
 		//#region lib/types/client/ProcessorSection.js
@@ -13096,57 +13812,57 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var UsageSection_module_css_default = {
+			"heatmapTitle": "ej6-VW_heatmapTitle",
 			"metricValue": "ej6-VW_metricValue",
-			"windowTabs": "ej6-VW_windowTabs",
-			"heatmapScroll": "ej6-VW_heatmapScroll",
-			"donutLegendRow": "ej6-VW_donutLegendRow",
-			"controlSelect": "ej6-VW_controlSelect",
-			"metricLabel": "ej6-VW_metricLabel",
+			"barColumn": "ej6-VW_barColumn",
 			"up": "ej6-VW_up",
-			"insightValue": "ej6-VW_insightValue",
-			"metricStrip": "ej6-VW_metricStrip",
-			"heatmap": "ej6-VW_heatmap",
-			"controlLabel": "ej6-VW_controlLabel",
-			"insightLabel": "ej6-VW_insightLabel",
-			"pageHeader": "ej6-VW_pageHeader",
-			"donutSwatch": "ej6-VW_donutSwatch",
-			"tdRight": "ej6-VW_tdRight",
-			"controlRow": "ej6-VW_controlRow",
-			"loadMoreBtn": "ej6-VW_loadMoreBtn",
-			"down": "ej6-VW_down",
-			"exploreHeader": "ej6-VW_exploreHeader",
-			"insightStrip": "ej6-VW_insightStrip",
-			"heatmapSection": "ej6-VW_heatmapSection",
-			"barChart": "ej6-VW_barChart",
 			"barAxis": "ej6-VW_barAxis",
-			"donutWrap": "ej6-VW_donutWrap",
+			"root": "ej6-VW_root",
+			"modelProvider": "ej6-VW_modelProvider",
+			"metricLabel": "ej6-VW_metricLabel",
+			"loadMoreBtn": "ej6-VW_loadMoreBtn",
+			"heatmapCell": "ej6-VW_heatmapCell",
+			"donutLegendRow": "ej6-VW_donutLegendRow",
+			"metricDelta": "ej6-VW_metricDelta",
+			"metricCell": "ej6-VW_metricCell",
+			"modelName": "ej6-VW_modelName",
+			"usageEmpty": "ej6-VW_usageEmpty",
+			"exploreTitle": "ej6-VW_exploreTitle",
+			"heatmapSection": "ej6-VW_heatmapSection",
+			"pageTitle": "ej6-VW_pageTitle",
 			"donutLegend": "ej6-VW_donutLegend",
 			"donutLegendValue": "ej6-VW_donutLegendValue",
-			"insightItem": "ej6-VW_insightItem",
-			"heatmapTitle": "ej6-VW_heatmapTitle",
-			"modelName": "ej6-VW_modelName",
-			"tableEmpty": "ej6-VW_tableEmpty",
-			"modelCell": "ej6-VW_modelCell",
-			"barSegment": "ej6-VW_barSegment",
-			"active": "ej6-VW_active",
-			"pageDescription": "ej6-VW_pageDescription",
-			"pageTitle": "ej6-VW_pageTitle",
 			"windowTab": "ej6-VW_windowTab",
-			"exploreTitle": "ej6-VW_exploreTitle",
-			"barColumn": "ej6-VW_barColumn",
-			"metricSparkline": "ej6-VW_metricSparkline",
-			"donutLegendKey": "ej6-VW_donutLegendKey",
+			"down": "ej6-VW_down",
+			"insightItem": "ej6-VW_insightItem",
+			"controlSelect": "ej6-VW_controlSelect",
+			"active": "ej6-VW_active",
+			"barChart": "ej6-VW_barChart",
+			"controlRow": "ej6-VW_controlRow",
+			"modelCell": "ej6-VW_modelCell",
+			"tableEmpty": "ej6-VW_tableEmpty",
+			"insightValue": "ej6-VW_insightValue",
 			"summaryLine": "ej6-VW_summaryLine",
+			"windowTabs": "ej6-VW_windowTabs",
+			"donutSwatch": "ej6-VW_donutSwatch",
+			"insightLabel": "ej6-VW_insightLabel",
 			"tableWrap": "ej6-VW_tableWrap",
-			"root": "ej6-VW_root",
-			"metricCell": "ej6-VW_metricCell",
-			"modelProvider": "ej6-VW_modelProvider",
-			"usageEmpty": "ej6-VW_usageEmpty",
+			"exploreHeader": "ej6-VW_exploreHeader",
+			"pageDescription": "ej6-VW_pageDescription",
+			"metricSparkline": "ej6-VW_metricSparkline",
+			"controlLabel": "ej6-VW_controlLabel",
+			"pageHeader": "ej6-VW_pageHeader",
 			"exploreBody": "ej6-VW_exploreBody",
-			"heatmapCell": "ej6-VW_heatmapCell",
+			"insightStrip": "ej6-VW_insightStrip",
+			"barSegment": "ej6-VW_barSegment",
+			"donutLegendKey": "ej6-VW_donutLegendKey",
 			"entriesTable": "ej6-VW_entriesTable",
-			"metricDelta": "ej6-VW_metricDelta",
-			"exploreCard": "ej6-VW_exploreCard"
+			"metricStrip": "ej6-VW_metricStrip",
+			"donutWrap": "ej6-VW_donutWrap",
+			"heatmapScroll": "ej6-VW_heatmapScroll",
+			"exploreCard": "ej6-VW_exploreCard",
+			"tdRight": "ej6-VW_tdRight",
+			"heatmap": "ej6-VW_heatmap"
 		};
 		//#endregion
 		//#region lib/types/client/UsageSection.js
@@ -14158,16 +14874,16 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SystemSection_module_css_default = {
-			"card": "MzTzwq_card",
 			"cardTitle": "MzTzwq_cardTitle",
+			"infoValue": "MzTzwq_infoValue",
+			"card": "MzTzwq_card",
+			"root": "MzTzwq_root",
+			"infoLabel": "MzTzwq_infoLabel",
+			"pageTitle": "MzTzwq_pageTitle",
 			"loading": "MzTzwq_loading",
 			"badge": "MzTzwq_badge",
 			"pageDescription": "MzTzwq_pageDescription",
-			"pageTitle": "MzTzwq_pageTitle",
-			"infoValue": "MzTzwq_infoValue",
-			"root": "MzTzwq_root",
-			"infoRow": "MzTzwq_infoRow",
-			"infoLabel": "MzTzwq_infoLabel"
+			"infoRow": "MzTzwq_infoRow"
 		};
 		//#endregion
 		//#region lib/types/client/SystemSection.js
@@ -14431,23 +15147,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TasksSection_module_css_default = {
-			"taskRow": "_3yT94W_taskRow",
-			"runDetail": "_3yT94W_runDetail",
-			"runFail": "_3yT94W_runFail",
-			"root": "_3yT94W_root",
-			"input": "_3yT94W_input",
-			"taskMeta": "_3yT94W_taskMeta",
-			"runTime": "_3yT94W_runTime",
-			"loading": "_3yT94W_loading",
-			"cardTitle": "_3yT94W_cardTitle",
 			"pageTitle": "_3yT94W_pageTitle",
-			"select": "_3yT94W_select",
-			"taskMain": "_3yT94W_taskMain",
-			"card": "_3yT94W_card",
-			"runOk": "_3yT94W_runOk",
+			"taskName": "_3yT94W_taskName",
 			"runRow": "_3yT94W_runRow",
+			"runTime": "_3yT94W_runTime",
+			"taskRow": "_3yT94W_taskRow",
+			"taskMain": "_3yT94W_taskMain",
+			"runDetail": "_3yT94W_runDetail",
+			"card": "_3yT94W_card",
+			"root": "_3yT94W_root",
+			"taskMeta": "_3yT94W_taskMeta",
+			"loading": "_3yT94W_loading",
 			"pageDescription": "_3yT94W_pageDescription",
-			"taskName": "_3yT94W_taskName"
+			"select": "_3yT94W_select",
+			"runFail": "_3yT94W_runFail",
+			"runOk": "_3yT94W_runOk",
+			"input": "_3yT94W_input",
+			"cardTitle": "_3yT94W_cardTitle"
 		};
 		//#endregion
 		//#region lib/types/client/TasksSection.js
@@ -14811,17 +15527,17 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsPages_module_css_default = {
-			"row": "_0spVW_row",
-			"switchLabel": "_0spVW_switchLabel",
 			"shell": "_0spVW_shell",
-			"rowDescription": "_0spVW_rowDescription",
-			"groupDescription": "_0spVW_groupDescription",
-			"divider": "_0spVW_divider",
-			"rowControl": "_0spVW_rowControl",
-			"group": "_0spVW_group",
-			"groupTitle": "_0spVW_groupTitle",
 			"shellInner": "_0spVW_shellInner",
-			"rowTitle": "_0spVW_rowTitle"
+			"divider": "_0spVW_divider",
+			"row": "_0spVW_row",
+			"rowDescription": "_0spVW_rowDescription",
+			"rowControl": "_0spVW_rowControl",
+			"groupTitle": "_0spVW_groupTitle",
+			"groupDescription": "_0spVW_groupDescription",
+			"group": "_0spVW_group",
+			"rowTitle": "_0spVW_rowTitle",
+			"switchLabel": "_0spVW_switchLabel"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsPages.js
@@ -14891,24 +15607,24 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var LocalModelDownloads_module_css_default = {
+			"modelCard": "_9apQa_modelCard",
+			"noticeText": "_9apQa_noticeText",
+			"modelIcon": "_9apQa_modelIcon",
+			"modelStatus": "_9apQa_modelStatus",
+			"groupHeader": "_9apQa_groupHeader",
+			"statusDownloading": "_9apQa_statusDownloading",
 			"noticeTag": "_9apQa_noticeTag",
+			"modelSubtitle": "_9apQa_modelSubtitle",
 			"modelOps": "_9apQa_modelOps",
 			"modelMain": "_9apQa_modelMain",
-			"noticeText": "_9apQa_noticeText",
-			"modelSubtitle": "_9apQa_modelSubtitle",
-			"groupHeader": "_9apQa_groupHeader",
-			"modelName": "_9apQa_modelName",
 			"btn": "_9apQa_btn",
-			"groupDesc": "_9apQa_groupDesc",
-			"modelIcon": "_9apQa_modelIcon",
-			"btnDanger": "_9apQa_btnDanger",
-			"statusIdle": "_9apQa_statusIdle",
-			"modelCard": "_9apQa_modelCard",
-			"noticeRow": "_9apQa_noticeRow",
-			"statusReady": "_9apQa_statusReady",
-			"statusDownloading": "_9apQa_statusDownloading",
 			"btnPrimary": "_9apQa_btnPrimary",
-			"modelStatus": "_9apQa_modelStatus"
+			"modelName": "_9apQa_modelName",
+			"btnDanger": "_9apQa_btnDanger",
+			"noticeRow": "_9apQa_noticeRow",
+			"groupDesc": "_9apQa_groupDesc",
+			"statusReady": "_9apQa_statusReady",
+			"statusIdle": "_9apQa_statusIdle"
 		};
 		//#endregion
 		//#region lib/types/client/LocalModelDownloads.js
@@ -15308,21 +16024,21 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ApiGatewaySection_module_css_default = {
-			"notice": "S156cG_notice",
 			"statusRow": "S156cG_statusRow",
-			"input": "S156cG_input",
-			"copied": "S156cG_copied",
-			"statusStopped": "S156cG_statusStopped",
-			"docLink": "S156cG_docLink",
-			"iconBtn": "S156cG_iconBtn",
-			"headerBox": "S156cG_headerBox",
-			"statusDot": "S156cG_statusDot",
-			"ghostBtn": "S156cG_ghostBtn",
-			"groupHeaderRow": "S156cG_groupHeaderRow",
-			"inputSmall": "S156cG_inputSmall",
 			"outlineBtn": "S156cG_outlineBtn",
+			"input": "S156cG_input",
+			"inputGroup": "S156cG_inputGroup",
+			"notice": "S156cG_notice",
+			"inputSmall": "S156cG_inputSmall",
+			"groupHeaderRow": "S156cG_groupHeaderRow",
+			"statusDot": "S156cG_statusDot",
+			"headerBox": "S156cG_headerBox",
+			"copied": "S156cG_copied",
+			"docLink": "S156cG_docLink",
+			"ghostBtn": "S156cG_ghostBtn",
 			"statusText": "S156cG_statusText",
-			"inputGroup": "S156cG_inputGroup"
+			"iconBtn": "S156cG_iconBtn",
+			"statusStopped": "S156cG_statusStopped"
 		};
 		//#endregion
 		//#region lib/types/client/ApiGatewaySection.js
@@ -15698,28 +16414,28 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
-			"actions": "_4STY0G_actions",
-			"navTitle": "_4STY0G_navTitle",
+			"navGroupTitle": "_4STY0G_navGroupTitle",
+			"mask": "_4STY0G_mask",
+			"content": "_4STY0G_content",
 			"navLabel": "_4STY0G_navLabel",
 			"hiddenLabel": "_4STY0G_hiddenLabel",
+			"active": "_4STY0G_active",
+			"header": "_4STY0G_header",
+			"navGroup": "_4STY0G_navGroup",
 			"rail": "_4STY0G_rail",
-			"panel": "_4STY0G_panel",
-			"nav": "_4STY0G_nav",
+			"triggerLabel": "_4STY0G_triggerLabel",
+			"overlay": "_4STY0G_overlay",
+			"navList": "_4STY0G_navList",
 			"options": "_4STY0G_options",
 			"close": "_4STY0G_close",
-			"navGroupTitle": "_4STY0G_navGroupTitle",
-			"header": "_4STY0G_header",
-			"triggerLabel": "_4STY0G_triggerLabel",
-			"mask": "_4STY0G_mask",
-			"navGroup": "_4STY0G_navGroup",
 			"navIcon": "_4STY0G_navIcon",
-			"overlay": "_4STY0G_overlay",
-			"navScroll": "_4STY0G_navScroll",
+			"navTitle": "_4STY0G_navTitle",
 			"trigger": "_4STY0G_trigger",
-			"navList": "_4STY0G_navList",
+			"navScroll": "_4STY0G_navScroll",
 			"navCell": "_4STY0G_navCell",
-			"content": "_4STY0G_content",
-			"active": "_4STY0G_active"
+			"panel": "_4STY0G_panel",
+			"nav": "_4STY0G_nav",
+			"actions": "_4STY0G_actions"
 		};
 		//#endregion
 		//#region \0dsh-control-center-plain-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\cherry-tokens.css.mjs
@@ -16063,9 +16779,9 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var GeneralSection_module_css_default = {
-			"errorTitle": "DFoDHW_errorTitle",
 			"section": "DFoDHW_section",
-			"errorDescription": "DFoDHW_errorDescription"
+			"errorDescription": "DFoDHW_errorDescription",
+			"errorTitle": "DFoDHW_errorTitle"
 		};
 		//#endregion
 		//#region lib/types/client/GeneralSection.js
@@ -16188,23 +16904,23 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var AppearanceSection_module_css_default = {
-			"swatchActive": "_-7MpG_swatchActive",
-			"zoomControls": "_-7MpG_zoomControls",
-			"swatch": "_-7MpG_swatch",
-			"groupHeader": "_-7MpG_groupHeader",
-			"cssEditor": "_-7MpG_cssEditor",
 			"themePreviewActive": "_-7MpG_themePreviewActive",
 			"themeLabel": "_-7MpG_themeLabel",
-			"nativeSwatch": "_-7MpG_nativeSwatch",
-			"hexInput": "_-7MpG_hexInput",
+			"zoomControls": "_-7MpG_zoomControls",
+			"staticValue": "_-7MpG_staticValue",
 			"previewFrame": "_-7MpG_previewFrame",
-			"themeGrid": "_-7MpG_themeGrid",
 			"fontSelect": "_-7MpG_fontSelect",
+			"swatch": "_-7MpG_swatch",
+			"nativeSwatch": "_-7MpG_nativeSwatch",
 			"themeOption": "_-7MpG_themeOption",
+			"hexInput": "_-7MpG_hexInput",
+			"swatchActive": "_-7MpG_swatchActive",
 			"colorRow": "_-7MpG_colorRow",
-			"desktopTag": "_-7MpG_desktopTag",
+			"cssEditor": "_-7MpG_cssEditor",
 			"nativePicker": "_-7MpG_nativePicker",
-			"staticValue": "_-7MpG_staticValue"
+			"themeGrid": "_-7MpG_themeGrid",
+			"groupHeader": "_-7MpG_groupHeader",
+			"desktopTag": "_-7MpG_desktopTag"
 		};
 		//#endregion
 		//#region lib/types/client/AppearanceSection.js
@@ -17026,36 +17742,36 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ShortcutSection_module_css_default = {
-			"headerTitle": "-S_gJa_headerTitle",
-			"menuCount": "-S_gJa_menuCount",
-			"kbd": "-S_gJa_kbd",
-			"filterButton": "-S_gJa_filterButton",
-			"desktopTag": "-S_gJa_desktopTag",
-			"rowLabel": "-S_gJa_rowLabel",
-			"searchWrap": "-S_gJa_searchWrap",
-			"header": "-S_gJa_header",
-			"menuItemActive": "-S_gJa_menuItemActive",
-			"moreButton": "-S_gJa_moreButton",
-			"menuPop": "-S_gJa_menuPop",
 			"searchInput": "-S_gJa_searchInput",
-			"row": "-S_gJa_row",
+			"moreButton": "-S_gJa_moreButton",
+			"desktopTag": "-S_gJa_desktopTag",
+			"menuCount": "-S_gJa_menuCount",
 			"recording": "-S_gJa_recording",
-			"searchIcon": "-S_gJa_searchIcon",
-			"undo": "-S_gJa_undo",
-			"menuSep": "-S_gJa_menuSep",
-			"menuItem": "-S_gJa_menuItem",
 			"headerControls": "-S_gJa_headerControls",
+			"menuItemActive": "-S_gJa_menuItemActive",
+			"menuItem": "-S_gJa_menuItem",
+			"headerTitle": "-S_gJa_headerTitle",
+			"groupLabel": "-S_gJa_groupLabel",
+			"rowLabel": "-S_gJa_rowLabel",
+			"listGroup": "-S_gJa_listGroup",
 			"menuItemDanger": "-S_gJa_menuItemDanger",
 			"keys": "-S_gJa_keys",
-			"unbound": "-S_gJa_unbound",
-			"groupLabel": "-S_gJa_groupLabel",
-			"rowDisabled": "-S_gJa_rowDisabled",
-			"bound": "-S_gJa_bound",
-			"groupBlock": "-S_gJa_groupBlock",
+			"header": "-S_gJa_header",
+			"searchIcon": "-S_gJa_searchIcon",
+			"filterButton": "-S_gJa_filterButton",
+			"row": "-S_gJa_row",
 			"rowShortcut": "-S_gJa_rowShortcut",
 			"rowSwitch": "-S_gJa_rowSwitch",
-			"emptyState": "-S_gJa_emptyState",
-			"listGroup": "-S_gJa_listGroup"
+			"kbd": "-S_gJa_kbd",
+			"unbound": "-S_gJa_unbound",
+			"menuSep": "-S_gJa_menuSep",
+			"undo": "-S_gJa_undo",
+			"groupBlock": "-S_gJa_groupBlock",
+			"menuPop": "-S_gJa_menuPop",
+			"searchWrap": "-S_gJa_searchWrap",
+			"rowDisabled": "-S_gJa_rowDisabled",
+			"bound": "-S_gJa_bound",
+			"emptyState": "-S_gJa_emptyState"
 		};
 		//#endregion
 		//#region lib/types/client/ShortcutSection.js
@@ -17656,42 +18372,42 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SelectionAssistantSection_module_css_default = {
-			"enableBtnOn": "_2Suf7W_enableBtnOn",
-			"opacityRow": "_2Suf7W_opacityRow",
-			"enableBtn": "_2Suf7W_enableBtn",
-			"radioRow": "_2Suf7W_radioRow",
+			"modalCard": "_2Suf7W_modalCard",
+			"radioItem": "_2Suf7W_radioItem",
+			"actionRow": "_2Suf7W_actionRow",
 			"modalOverlay": "_2Suf7W_modalOverlay",
+			"formHint": "_2Suf7W_formHint",
+			"groupHeaderRow": "_2Suf7W_groupHeaderRow",
+			"modalFooter": "_2Suf7W_modalFooter",
+			"groupTitle": "_2Suf7W_groupTitle",
+			"toolbarPreview": "_2Suf7W_toolbarPreview",
+			"btn": "_2Suf7W_btn",
+			"actionRowDisabled": "_2Suf7W_actionRowDisabled",
 			"noticeText": "_2Suf7W_noticeText",
 			"actionRowDragging": "_2Suf7W_actionRowDragging",
-			"actionsDivider": "_2Suf7W_actionsDivider",
-			"toolbarIcon": "_2Suf7W_toolbarIcon",
-			"modalFooter": "_2Suf7W_modalFooter",
-			"actionIcon": "_2Suf7W_actionIcon",
-			"actionsHeaderBtns": "_2Suf7W_actionsHeaderBtns",
-			"actionRowDisabled": "_2Suf7W_actionRowDisabled",
-			"formField": "_2Suf7W_formField",
-			"dragHandle": "_2Suf7W_dragHandle",
-			"formInput": "_2Suf7W_formInput",
 			"faqLink": "_2Suf7W_faqLink",
-			"groupTitle": "_2Suf7W_groupTitle",
-			"opacitySlider": "_2Suf7W_opacitySlider",
-			"radioItem": "_2Suf7W_radioItem",
-			"toolbarPreview": "_2Suf7W_toolbarPreview",
-			"groupHeaderRow": "_2Suf7W_groupHeaderRow",
-			"toolbarItem": "_2Suf7W_toolbarItem",
-			"actionOps": "_2Suf7W_actionOps",
-			"btn": "_2Suf7W_btn",
-			"actionRow": "_2Suf7W_actionRow",
-			"actionName": "_2Suf7W_actionName",
-			"opBtnDanger": "_2Suf7W_opBtnDanger",
-			"notice": "_2Suf7W_notice",
-			"engineChip": "_2Suf7W_engineChip",
-			"formTextarea": "_2Suf7W_formTextarea",
-			"formHint": "_2Suf7W_formHint",
-			"ghostBtn": "_2Suf7W_ghostBtn",
+			"enableBtn": "_2Suf7W_enableBtn",
 			"outlineBtn": "_2Suf7W_outlineBtn",
+			"opacitySlider": "_2Suf7W_opacitySlider",
+			"dragHandle": "_2Suf7W_dragHandle",
+			"actionOps": "_2Suf7W_actionOps",
+			"opBtnDanger": "_2Suf7W_opBtnDanger",
+			"formTextarea": "_2Suf7W_formTextarea",
 			"opBtn": "_2Suf7W_opBtn",
-			"modalCard": "_2Suf7W_modalCard",
+			"toolbarItem": "_2Suf7W_toolbarItem",
+			"opacityRow": "_2Suf7W_opacityRow",
+			"notice": "_2Suf7W_notice",
+			"formField": "_2Suf7W_formField",
+			"toolbarIcon": "_2Suf7W_toolbarIcon",
+			"actionsHeaderBtns": "_2Suf7W_actionsHeaderBtns",
+			"actionsDivider": "_2Suf7W_actionsDivider",
+			"engineChip": "_2Suf7W_engineChip",
+			"ghostBtn": "_2Suf7W_ghostBtn",
+			"enableBtnOn": "_2Suf7W_enableBtnOn",
+			"actionIcon": "_2Suf7W_actionIcon",
+			"actionName": "_2Suf7W_actionName",
+			"radioRow": "_2Suf7W_radioRow",
+			"formInput": "_2Suf7W_formInput",
 			"btnPrimary": "_2Suf7W_btnPrimary"
 		};
 		//#endregion
@@ -18387,18 +19103,18 @@ window.__ModuleLoader__.load({
 		}
 		var QuickAssistantSection_module_css_default = {
 			"previewChip": "AweFxa_previewChip",
+			"previewWindow": "AweFxa_previewWindow",
 			"segItemActive": "AweFxa_segItemActive",
+			"modelHint": "AweFxa_modelHint",
+			"segItem": "AweFxa_segItem",
+			"notice": "AweFxa_notice",
+			"modelRow": "AweFxa_modelRow",
+			"groupTitle": "AweFxa_groupTitle",
 			"segmented": "AweFxa_segmented",
 			"previewBar": "AweFxa_previewBar",
-			"previewFooter": "AweFxa_previewFooter",
-			"modelHint": "AweFxa_modelHint",
 			"previewLogo": "AweFxa_previewLogo",
 			"previewPlaceholder": "AweFxa_previewPlaceholder",
-			"segItem": "AweFxa_segItem",
-			"groupTitle": "AweFxa_groupTitle",
-			"previewWindow": "AweFxa_previewWindow",
-			"modelRow": "AweFxa_modelRow",
-			"notice": "AweFxa_notice"
+			"previewFooter": "AweFxa_previewFooter"
 		};
 		//#endregion
 		//#region lib/types/client/QuickAssistantSection.js
@@ -18557,15 +19273,15 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ScreenshotSection_module_css_default = {
-			"shortcutRight": "RXXS4a_shortcutRight",
-			"groupTitle": "RXXS4a_groupTitle",
-			"shortcutDesc": "RXXS4a_shortcutDesc",
-			"shortcutLabel": "RXXS4a_shortcutLabel",
+			"shortcutBadge": "RXXS4a_shortcutBadge",
 			"shortcutTitle": "RXXS4a_shortcutTitle",
-			"notice": "RXXS4a_notice",
+			"shortcutLabel": "RXXS4a_shortcutLabel",
 			"linkBtn": "RXXS4a_linkBtn",
-			"ocrStatus": "RXXS4a_ocrStatus",
-			"shortcutBadge": "RXXS4a_shortcutBadge"
+			"notice": "RXXS4a_notice",
+			"shortcutDesc": "RXXS4a_shortcutDesc",
+			"groupTitle": "RXXS4a_groupTitle",
+			"shortcutRight": "RXXS4a_shortcutRight",
+			"ocrStatus": "RXXS4a_ocrStatus"
 		};
 		//#endregion
 		//#region lib/types/client/ScreenshotSection.js
@@ -18707,46 +19423,46 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ChannelsSection_module_css_default = {
-			"formHint": "bV1JOa_formHint",
-			"modalFooter": "bV1JOa_modalFooter",
-			"submenuItemActive": "bV1JOa_submenuItemActive",
-			"split": "bV1JOa_split",
-			"typeIconLarge": "bV1JOa_typeIconLarge",
-			"emptyState": "bV1JOa_emptyState",
-			"submenuItem": "bV1JOa_submenuItem",
-			"modalCard": "bV1JOa_modalCard",
-			"modalOverlay": "bV1JOa_modalOverlay",
-			"addBtn": "bV1JOa_addBtn",
-			"statusDot": "bV1JOa_statusDot",
-			"connectedBadge": "bV1JOa_connectedBadge",
-			"instanceRow": "bV1JOa_instanceRow",
-			"instanceSummary": "bV1JOa_instanceSummary",
-			"divider": "bV1JOa_divider",
-			"detailDesc": "bV1JOa_detailDesc",
-			"formInput": "bV1JOa_formInput",
-			"btnPrimary": "bV1JOa_btnPrimary",
-			"detailBody": "bV1JOa_detailBody",
-			"formField": "bV1JOa_formField",
-			"logsBody": "bV1JOa_logsBody",
-			"submenuList": "bV1JOa_submenuList",
-			"detailTitle": "bV1JOa_detailTitle",
-			"typeIconImgLarge": "bV1JOa_typeIconImgLarge",
-			"submenuTitle": "bV1JOa_submenuTitle",
-			"formSelect": "bV1JOa_formSelect",
-			"typeIconImg": "bV1JOa_typeIconImg",
-			"typeIcon": "bV1JOa_typeIcon",
-			"detailTitleBlock": "bV1JOa_detailTitleBlock",
-			"btn": "bV1JOa_btn",
-			"instanceMain": "bV1JOa_instanceMain",
-			"instanceOps": "bV1JOa_instanceOps",
 			"opBtn": "bV1JOa_opBtn",
-			"opBtnDanger": "bV1JOa_opBtnDanger",
-			"instanceName": "bV1JOa_instanceName",
-			"detailHeader": "bV1JOa_detailHeader",
+			"detailTitle": "bV1JOa_detailTitle",
 			"detail": "bV1JOa_detail",
+			"detailTitleBlock": "bV1JOa_detailTitleBlock",
+			"emptyState": "bV1JOa_emptyState",
+			"detailDesc": "bV1JOa_detailDesc",
+			"formHint": "bV1JOa_formHint",
+			"btnPrimary": "bV1JOa_btnPrimary",
 			"notice": "bV1JOa_notice",
+			"connectedBadge": "bV1JOa_connectedBadge",
+			"typeIconImg": "bV1JOa_typeIconImg",
+			"submenuTitle": "bV1JOa_submenuTitle",
+			"instanceRow": "bV1JOa_instanceRow",
+			"formField": "bV1JOa_formField",
+			"detailBody": "bV1JOa_detailBody",
+			"modalOverlay": "bV1JOa_modalOverlay",
+			"modalFooter": "bV1JOa_modalFooter",
+			"submenuItem": "bV1JOa_submenuItem",
 			"submenu": "bV1JOa_submenu",
-			"statusDotActive": "bV1JOa_statusDotActive"
+			"modalCard": "bV1JOa_modalCard",
+			"logsBody": "bV1JOa_logsBody",
+			"typeIconLarge": "bV1JOa_typeIconLarge",
+			"instanceSummary": "bV1JOa_instanceSummary",
+			"submenuItemActive": "bV1JOa_submenuItemActive",
+			"submenuList": "bV1JOa_submenuList",
+			"instanceMain": "bV1JOa_instanceMain",
+			"detailHeader": "bV1JOa_detailHeader",
+			"btn": "bV1JOa_btn",
+			"typeIconImgLarge": "bV1JOa_typeIconImgLarge",
+			"formSelect": "bV1JOa_formSelect",
+			"statusDot": "bV1JOa_statusDot",
+			"instanceName": "bV1JOa_instanceName",
+			"instanceOps": "bV1JOa_instanceOps",
+			"typeIcon": "bV1JOa_typeIcon",
+			"formInput": "bV1JOa_formInput",
+			"split": "bV1JOa_split",
+			"addBtn": "bV1JOa_addBtn",
+			"divider": "bV1JOa_divider",
+			"statusDotActive": "bV1JOa_statusDotActive",
+			"opBtnDanger": "bV1JOa_opBtnDanger"
 		};
 		//#endregion
 		//#region lib/types/client/ChannelsSection.js
@@ -19469,10 +20185,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var OnboardingModal_module_css_default = {
-			"content": "C_CJ_a_content",
-			"title": "C_CJ_a_title",
 			"body": "C_CJ_a_body",
-			"dialog": "C_CJ_a_dialog"
+			"title": "C_CJ_a_title",
+			"dialog": "C_CJ_a_dialog",
+			"content": "C_CJ_a_content"
 		};
 		//#endregion
 		//#region lib/types/client/OnboardingModal.js
@@ -19531,8 +20247,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var DeepSeekOnboardingDialog_module_css_default = {
-			"editor": "oxcHWa_editor",
-			"description": "oxcHWa_description"
+			"description": "oxcHWa_description",
+			"editor": "oxcHWa_editor"
 		};
 		//#endregion
 		//#region lib/types/client/DeepSeekOnboardingDialog.js
@@ -19623,10 +20339,10 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var WelcomeNotice_module_css_default = {
-			"actions": "RFswhG_actions",
-			"copy": "RFswhG_copy",
 			"primary": "RFswhG_primary",
-			"error": "RFswhG_error"
+			"actions": "RFswhG_actions",
+			"error": "RFswhG_error",
+			"copy": "RFswhG_copy"
 		};
 		//#endregion
 		//#region lib/types/client/WelcomeNotice.js
@@ -20004,6 +20720,23 @@ window.__ModuleLoader__.load({
 			providerDisabled: "Disabled",
 			freeBadge: "Free",
 			getApiKey: "Get API key",
+			checkModels: "Check models",
+			checkModelsHint: "Sends one tiny real completion per model through the live adapter — the same path a production request takes.",
+			checkAll: "Check all",
+			notChecked: "Not checked",
+			recheck: "Re-check",
+			requestOptions: "Request options",
+			requestHeaders: "Custom request headers",
+			requestHeadersHint: "Headers sent with every request to this provider.",
+			requestHeadersEmpty: "No custom headers. Requests carry only the standard authentication headers.",
+			headerName: "Header name",
+			headerValue: "Value",
+			addHeader: "Add header",
+			modelsDisabled: "Disabled",
+			enableModel: "Re-enable this model",
+			disableModel: "Stop serving this model",
+			setAsDefault: "Set as default model",
+			defaultModelSaved: "Default model set: {provider} / {model}",
 			modelGroupUngrouped: "Ungrouped",
 			expandAll: "Expand all groups",
 			collapseAll: "Collapse all groups"
@@ -20143,6 +20876,23 @@ window.__ModuleLoader__.load({
 			providerDisabled: "已禁用",
 			freeBadge: "免费",
 			getApiKey: "获取 API Key",
+			checkModels: "检测模型",
+			checkModelsHint: "对每个模型发送一次最小真实补全，走与正式请求完全相同的适配器与凭据链路。",
+			checkAll: "全部检测",
+			notChecked: "未检测",
+			recheck: "重新检测",
+			requestOptions: "请求选项",
+			requestHeaders: "自定义请求头",
+			requestHeadersHint: "发往该提供方的每个请求都会携带这些请求头。",
+			requestHeadersEmpty: "暂无自定义请求头；请求只携带标准认证头。",
+			headerName: "请求头名称",
+			headerValue: "值",
+			addHeader: "添加请求头",
+			modelsDisabled: "已停用",
+			enableModel: "恢复该模型",
+			disableModel: "停用该模型",
+			setAsDefault: "设为默认模型",
+			defaultModelSaved: "默认模型已设为 {provider} / {model}",
 			modelGroupUngrouped: "未分组",
 			expandAll: "全部展开",
 			collapseAll: "全部折叠"
@@ -20265,13 +21015,13 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProductWorkspaceSurface_module_css_default = {
-			"identity": "mzcFbW_identity",
-			"icon": "mzcFbW_icon",
 			"eyebrow": "mzcFbW_eyebrow",
-			"body": "mzcFbW_body",
-			"header": "mzcFbW_header",
 			"close": "mzcFbW_close",
-			"root": "mzcFbW_root"
+			"header": "mzcFbW_header",
+			"body": "mzcFbW_body",
+			"root": "mzcFbW_root",
+			"identity": "mzcFbW_identity",
+			"icon": "mzcFbW_icon"
 		};
 		//#endregion
 		//#region lib/types/client/ProductWorkspaceSurface.js
@@ -21936,6 +22686,7 @@ window.__ModuleLoader__.load({
 					};
 				}
 			};
+			let modelCheck;
 			let skills;
 			let mcp;
 			let websearch;
@@ -22051,6 +22802,7 @@ window.__ModuleLoader__.load({
 						...knowledgeRemote.descriptors,
 						...skillsRemote.descriptors,
 						...providersRemote.descriptors,
+						...modelCheckRemote.descriptors,
 						...mcpRemote.descriptors,
 						...webSearchRemote.descriptors,
 						...fileProcessingRemote.descriptors,
@@ -22067,6 +22819,7 @@ window.__ModuleLoader__.load({
 				translation = ctx.get("remote.controlCenterTranslation");
 				painting = ctx.get("remote.controlCenterPainting");
 				knowledge = ctx.get("remote.controlCenterKnowledge");
+				modelCheck = ctx.get("remote.controlCenterModelCheck");
 				skills = ctx.get("remote.controlCenterSkills");
 				mcp = ctx.get("remote.controlCenterMcp");
 				websearch = ctx.get("remote.controlCenterWebSearch");
@@ -22192,12 +22945,14 @@ window.__ModuleLoader__.load({
 				t: modelT
 			});
 			const skillsInjected = () => ({ skills });
+			const modelCheckInjected = () => ({ getCheck: () => modelCheck });
 			const providerDirectoryInjected = () => ({
 				controller: providerDirectoryController,
 				useSnapshot: useProviderDirectory,
 				api: connection.api,
 				schema,
-				t: modelT
+				t: modelT,
+				getCheck: modelCheckInjected().getCheck
 			});
 			const mcpInjected = () => ({ mcp });
 			const websearchInjected = () => ({

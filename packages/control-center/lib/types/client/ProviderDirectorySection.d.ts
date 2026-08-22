@@ -47,6 +47,25 @@ interface DirectoryEntry {
 }
 /** Injected dependencies of {@link ProviderDirectorySection}. */
 export interface ProviderDirectorySectionInjected {
+    /** Lazy handle to the host model-check remote (undefined until mounted). */
+    getCheck: () => {
+        check(provider: string, model: string): Promise<{
+            ok: true;
+            value: {
+                ok: boolean;
+                latencyMs?: number | undefined;
+                reply?: string | undefined;
+                error?: string | undefined;
+            };
+        } | {
+            ok: false;
+            error: {
+                code: string;
+                message: string;
+                details: object;
+            };
+        }>;
+    } | undefined;
     controller: ModelsSettingsStore;
     useSnapshot: SnapshotSelectorHook<ModelsSettingsState>;
     api: Pick<IApiClient, 'settings' | 'credentials' | 'llm'>;

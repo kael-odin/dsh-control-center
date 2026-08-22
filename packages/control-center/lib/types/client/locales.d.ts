@@ -134,6 +134,11 @@ export declare const en: {
     providerDisabled: string;
     freeBadge: string;
     getApiKey: string;
+    checkModels: string;
+    checkModelsHint: string;
+    checkAll: string;
+    notChecked: string;
+    recheck: string;
     requestOptions: string;
     requestHeaders: string;
     requestHeadersHint: string;

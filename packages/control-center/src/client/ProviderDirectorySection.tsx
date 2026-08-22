@@ -34,6 +34,7 @@ import { CustomProviderCard } from './CustomProviderCard.tsx'
 import { ProviderEditor } from './ProviderEditor.tsx'
 import { removeProviderProfile } from './ModelsSection.tsx'
 import { RequestOptionsPanel } from './RequestOptionsPanel.tsx'
+import { ModelHealthDialog } from './ModelHealthDialog.tsx'
 import {
   PI_AI_SHIPPED_PRESET_IDS, PROVIDER_PRESETS, presetApiOf, type ProviderPreset,
 } from './provider-presets.ts'
@@ -81,6 +82,13 @@ interface DirectoryEntry {
 
 /** Injected dependencies of {@link ProviderDirectorySection}. */
 export interface ProviderDirectorySectionInjected {
+  /** Lazy handle to the host model-check remote (undefined until mounted). */
+  getCheck: () => {
+    check(provider: string, model: string): Promise<
+      { ok: true; value: { ok: boolean; latencyMs?: number | undefined; reply?: string | undefined; error?: string | undefined } }
+      | { ok: false; error: { code: string; message: string; details: object } }
+    >
+  } | undefined
   controller: ModelsSettingsStore
   useSnapshot: SnapshotSelectorHook<ModelsSettingsState>
   api: Pick<IApiClient, 'settings' | 'credentials' | 'llm'>
@@ -200,13 +208,13 @@ function EnableSwitch({ checked, disabled, title, onChange }: {
  * @returns the section, or null while the shell has not injected yet.
  */
 export function ProviderDirectorySection(props: ProviderDirectorySectionProps): ReactNode {
-  const { controller, useSnapshot, api, schema, t } = props
-  if (controller === undefined || useSnapshot === undefined || api === undefined || t === undefined || schema === undefined) return null
-  return <Loaded injected={{ controller, useSnapshot, api, schema, t }} />
+  const { controller, useSnapshot, api, schema, t, getCheck } = props
+  if (controller === undefined || useSnapshot === undefined || api === undefined || t === undefined || schema === undefined || getCheck === undefined) return null
+  return <Loaded injected={{ controller, useSnapshot, api, schema, t, getCheck }} />
 }
 
 function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): ReactNode {
-  const { controller, api, t, schema } = injected
+  const { controller, api, t, schema, getCheck } = injected
   const state = injected.useSnapshot(snapshot => snapshot)
   const [search, setSearch] = useState('')
   const [selectedId, setSelectedId] = useState<string | undefined>(() => {
@@ -223,6 +231,7 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
   const [menuFor, setMenuFor] = useState<string | undefined>(undefined)
   const [defaultSaved, setDefaultSaved] = useState<{ provider: string; model: string } | undefined>(undefined)
   const [optionsOpen, setOptionsOpen] = useState(false)
+  const [healthOpen, setHealthOpen] = useState(false)
   // The user's drag ordering; known ids sort first in their saved order,
   // everything else keeps catalog order after them.
   const [order, setOrder] = useState<readonly string[]>(loadOrder)
@@ -559,7 +568,7 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                           draggable={search.trim().length === 0}
                           onDragStart={(event) => {
                             setDraggingId(entry.provider)
-                            event.dataTransfer.effectAllowed = 'move'
+                            if (event.dataTransfer !== undefined) event.dataTransfer.effectAllowed = 'move'
                           }}
                           onDragEnd={() => {
                             setDraggingId(undefined)
@@ -568,7 +577,7 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                           onDragOver={(event) => {
                             if (draggingId === undefined || draggingId === entry.provider) return
                             event.preventDefault()
-                            event.dataTransfer.dropEffect = 'move'
+                            if (event.dataTransfer !== undefined) event.dataTransfer.dropEffect = 'move'
                             setDropTargetId(entry.provider)
                           }}
                           onDragLeave={() => { setDropTargetId(current => current === entry.provider ? undefined : current) }}
@@ -702,6 +711,23 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                     <header className={styles['detailHeader']}>
                       <div className={styles['detailHeaderMain']}>
                         <ProviderAvatar providerId={effective.provider} name={effective.displayName} />
+                        {/* Model health check (Cherry's 检测 dialog). */}
+                        {editTarget.settingsNs === NS && namespace !== undefined
+                          ? (
+                            <button
+                              type="button"
+                              className={styles['boltButton']}
+                              aria-label={t('checkModels')}
+                              title={t('checkModels')}
+                              onClick={() => { setHealthOpen(true) }}
+                            >
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                                <path d="M19.4 14a7.97 7.97 0 0 0 .3-2 7.97 7.97 0 0 0-.3-2l2.1-1.6a.5.5 0 0 0 .1-.7l-2-3.4a.5.5 0 0 0-.6-.2l-2.5 1a8 8 0 0 0-3.4-2L12.7.3a.5.5 0 0 0-.5-.4h-4a.5.5 0 0 0-.5.4l-.4 2.6a8 8 0 0 0-3.4 2l-2.5-1a.5.5 0 0 0-.6.2l-2 3.4a.5.5 0 0 0 .1.7L2.9 10a7.97 7.97 0 0 0 0 4l-2.1 1.6a.5.5 0 0 0-.1.7l2 3.4c.1.2.4.3.6.2l2.5-1a8 8 0 0 0 3.4 2l.4 2.6c0 .2.2.4.5.4h4c.2 0 .4-.2.5-.4l.4-2.6a8 8 0 0 0 3.4-2l2.5 1c.2.1.5 0 .6-.2l2-3.4a.5.5 0 0 0-.1-.7L19.4 14Z" />
+                                <circle cx="12" cy="12" r="3" />
+                              </svg>
+                            </button>
+                          )
+                          : null}
                         {/* Cherry's bolt: the route's request options. */}
                         {editTarget.settingsNs === NS && namespace !== undefined
                           ? (
@@ -749,6 +775,24 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                         onChange={(next) => { void toggleEnabled(effective, next) }}
                       />
                     </header>
+                    {namespace === undefined || editTarget.settingsNs !== NS
+                      ? null
+                      : (
+                        <ModelHealthDialog
+                          open={healthOpen}
+                          provider={editTarget.provider}
+                          models={((): readonly string[] => {
+                            const stored = schema.getPath(namespace.value, [...editTarget.settingsPath, 'models'])
+                            if (!Array.isArray(stored)) return []
+                            return stored
+                              .map(entry => (typeof entry === 'object' && entry !== null ? (entry as { id?: unknown }).id : undefined))
+                              .filter((id): id is string => typeof id === 'string' && id.length > 0)
+                          })()}
+                          getCheck={getCheck}
+                          t={t}
+                          onClose={() => { setHealthOpen(false) }}
+                        />
+                      )}
                     {namespace === undefined
                       ? null
                       : (

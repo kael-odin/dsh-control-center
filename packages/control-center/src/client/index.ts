@@ -27,7 +27,9 @@ import type {} from '../skills-types.ts'
 import skillsRemote from '../skills-remote-client.ts'
 import { SkillsSection } from './SkillsSection.tsx'
 import type {} from '../provider-types.ts'
+import type {} from '../model-check.ts'
 import providersRemote from '../provider-remote-client.ts'
+import modelCheckRemote from '../model-check-remote-client.ts'
 import { ProviderDirectorySection } from './ProviderDirectorySection.tsx'
 import type { ProviderDirectorySectionInjected } from './ProviderDirectorySection.tsx'
 import type {} from '../mcp-types.ts'
@@ -174,6 +176,7 @@ export function apply(ctx: ClientContext): void {
       return () => { window.clearInterval(timer) }
     },
   }
+  let modelCheck: NonNullable<typeof remote.controlCenterModelCheck> | undefined
   let skills: NonNullable<typeof remote.controlCenterSkills> | undefined
   let mcp: NonNullable<typeof remote.controlCenterMcp> | undefined
   let websearch: NonNullable<typeof remote.controlCenterWebSearch> | undefined
@@ -277,6 +280,7 @@ export function apply(ctx: ClientContext): void {
         ...knowledgeRemote.descriptors,
         ...skillsRemote.descriptors,
         ...providersRemote.descriptors,
+        ...modelCheckRemote.descriptors,
         ...mcpRemote.descriptors,
         ...websearchRemote.descriptors,
         ...fileProcessingRemote.descriptors,
@@ -293,6 +297,7 @@ export function apply(ctx: ClientContext): void {
     translation = ctx.get('remote.controlCenterTranslation') as NonNullable<typeof remote.controlCenterTranslation>
     painting = ctx.get('remote.controlCenterPainting') as NonNullable<typeof remote.controlCenterPainting>
     knowledge = ctx.get('remote.controlCenterKnowledge') as NonNullable<typeof remote.controlCenterKnowledge>
+    modelCheck = ctx.get('remote.controlCenterModelCheck') as NonNullable<typeof remote.controlCenterModelCheck>
     skills = ctx.get('remote.controlCenterSkills') as NonNullable<typeof remote.controlCenterSkills>
     mcp = ctx.get('remote.controlCenterMcp') as NonNullable<typeof remote.controlCenterMcp>
     websearch = ctx.get('remote.controlCenterWebSearch') as NonNullable<typeof remote.controlCenterWebSearch>
@@ -419,12 +424,21 @@ export function apply(ctx: ClientContext): void {
   const skillsInjected = () => ({
     skills: skills!,
   })
+  const modelCheckInjected = (): { getCheck: () => {
+    check(provider: string, model: string): Promise<
+      { ok: true; value: { ok: boolean; latencyMs?: number | undefined; reply?: string | undefined; error?: string | undefined } }
+      | { ok: false; error: { code: string; message: string; details: object } }
+    >
+  } | undefined } => ({
+    getCheck: () => modelCheck,
+  })
   const providerDirectoryInjected = (): ProviderDirectorySectionInjected => ({
     controller: providerDirectoryController,
     useSnapshot: useProviderDirectory,
     api: connection.api,
     schema,
     t: modelT,
+    getCheck: modelCheckInjected().getCheck,
   })
   const mcpInjected = () => ({
     mcp: mcp!,

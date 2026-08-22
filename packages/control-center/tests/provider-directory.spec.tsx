@@ -137,6 +137,7 @@ function renderSection(rows: readonly ProviderRow[], options?: { stash?: Record<
       api={api as never}
       schema={schema}
       t={t}
+      getCheck={() => undefined}
     />,
   )
   return { api }
@@ -354,6 +355,45 @@ describe('RequestOptionsPanel', () => {
   })
 })
 
+describe('ModelHealthDialog', () => {
+  it('checks each model through the host and reports latency or failure', async () => {
+    const calls: string[] = []
+    const check = vi.fn(async (provider: string, model: string) => {
+      calls.push(model)
+      return model === 'bad'
+        ? { ok: true as const, value: { ok: false, error: 'auth refused' } }
+        : { ok: true as const, value: { ok: true, latencyMs: 42, reply: 'OK' } }
+    })
+    // Render the section for its locale/t context is overkill; mount the dialog directly.
+    const { ModelHealthDialog } = await import('../src/client/ModelHealthDialog.tsx')
+    render(
+      <ModelHealthDialog
+        open
+        provider="deepseek"
+        models={['good', 'bad']}
+        getCheck={() => ({ check })}
+        t={t}
+        onClose={() => {}}
+      />,
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'Check all' }))
+    await waitFor(() => {
+      expect(calls).toEqual(['good', 'bad'])
+    })
+    expect(await screen.findByText('42 ms')).toBeTruthy()
+    expect(screen.getByText('auth refused')).toBeTruthy()
+  })
+
+  it('reports a missing remote as a failure instead of hanging', async () => {
+    const { ModelHealthDialog } = await import('../src/client/ModelHealthDialog.tsx')
+    render(
+      <ModelHealthDialog open provider="p" models={['m1']} getCheck={() => undefined} t={t} onClose={() => {}} />,
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'Check all' }))
+    expect(await screen.findByText(/failed/i)).toBeTruthy()
+  })
+})
+
 describe('ProviderDirectorySection eye toggle', () => {
   it('merges the served catalog: re-enable appends, disable removes, apply persists', async () => {
     const api = apiMock()
@@ -410,6 +450,7 @@ describe('ProviderDirectorySection default marker', () => {
         api={api as never}
         schema={schema}
         t={t}
+        getCheck={() => undefined}
       />,
     )
     const deepseekRow = screen
@@ -446,6 +487,7 @@ describe('ProviderDirectorySection editor', () => {
         api={api as never}
         schema={schema}
         t={t}
+        getCheck={() => undefined}
       />,
     )
     fireEvent.click(screen.getByRole('button', { name: '硅基流动 (Silicon)' }))

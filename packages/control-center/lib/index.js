@@ -3047,6 +3047,113 @@ const webSearchRemote = {
 	}))
 };
 //#endregion
+//#region lib/types/model-check.js
+/**
+* Per-model health checks for configuration surfaces: one tiny real
+* completion per checked model, streamed through the same adapter registry
+* production requests use.
+*
+* This is deliberately NOT an endpoint ping — discoverModels already answers
+* reachability. A model check proves the route serves THIS model id: adapter,
+* credential, and catalog agree, and the provider actually completes. The
+* prompt asks for a fixed token so a healthy check costs cents of nothing and
+* the reply doubles as evidence.
+*/
+/** Hard ceiling on one check; a hung provider fails rather than blocking the run. */
+const CHECK_TIMEOUT_MS = 3e4;
+const CHECK_PROMPT = "Reply with exactly: OK";
+function markModelCheckRemoteMethods(service) {
+	const initializers = [];
+	for (const [method, exportName] of [["check", "check"]]) {
+		const implementation = Reflect.get(ModelCheckService.prototype, method);
+		Remote(exportName)(implementation, {
+			kind: "method",
+			name: method,
+			static: false,
+			private: false,
+			access: {
+				has: (value) => method in value,
+				get: (value) => Reflect.get(value, method)
+			},
+			addInitializer: (initializer) => {
+				initializers.push(initializer);
+			},
+			metadata: void 0
+		});
+	}
+	for (const initialize of initializers) initialize.call(service);
+}
+/**
+* One-shot real completions used as model health probes.
+*/
+var ModelCheckService = class extends Service {
+	static inject = ["llm"];
+	typertRemote = bindTypertRemote(this, "controlCenterModelCheck");
+	llm;
+	constructor(ctx) {
+		super(ctx, "controlCenterModelCheck");
+		this.llm = ctx.get("llm");
+		markModelCheckRemoteMethods(this);
+	}
+	/**
+	* Stream one minimal completion against {@param model} on
+	* {@param provider}, aborting at the first finish (or the ceiling).
+	*/
+	async check(provider, model) {
+		if (typeof provider !== "string" || provider.trim().length === 0) throw new Error("model check needs a provider route");
+		if (typeof model !== "string" || model.trim().length === 0) throw new Error("model check needs a model id");
+		const startedAt = Date.now();
+		const controller = new AbortController();
+		const timer = setTimeout(() => {
+			controller.abort(/* @__PURE__ */ new Error(`model check timed out after ${CHECK_TIMEOUT_MS / 1e3}s`));
+		}, CHECK_TIMEOUT_MS);
+		try {
+			const prepared = await this.llm.prepareCall({
+				provider,
+				model
+			}, controller.signal);
+			const message = createUserMessage({
+				source: { kind: "user" },
+				content: [{
+					type: "text",
+					text: CHECK_PROMPT
+				}]
+			});
+			let reply = "";
+			for await (const chunk of prepared.stream({
+				...prepared.config,
+				messages: [message],
+				signal: controller.signal
+			})) {
+				if (chunk.type === "text-delta") reply += chunk.text;
+				if (chunk.type === "finish") {
+					if (chunk.reason.kind === "error") return {
+						ok: false,
+						error: chunk.reason.failure.message
+					};
+					if (chunk.reason.kind === "aborted") return {
+						ok: false,
+						error: "model check aborted"
+					};
+					break;
+				}
+			}
+			return {
+				ok: true,
+				latencyMs: Date.now() - startedAt,
+				reply: reply.slice(0, 80)
+			};
+		} catch (error) {
+			return {
+				ok: false,
+				error: error instanceof Error ? error.message : String(error)
+			};
+		} finally {
+			clearTimeout(timer);
+		}
+	}
+};
+//#endregion
 //#region lib/types/providers.js
 /**
 * Control Center Providers Service - Host side provider management.
@@ -3407,6 +3514,29 @@ const providersRemote = {
 		namespace: "controlCenterProviders",
 		method,
 		...implementation === void 0 ? {} : { implementation },
+		invocation: { kind: "direct" },
+		parameters: parameters.map((name) => ({
+			name,
+			wire: name,
+			source: "json",
+			codec: STRICT_JSON
+		})),
+		result: STRICT_JSON
+	}))
+};
+//#endregion
+//#region lib/types/model-check-remote-client.js
+/** Client descriptor contribution for the Control Center model-check service. */
+const modelCheckRemote = {
+	package: "@dsh-control-center/control-center",
+	descriptors: [{
+		method: "check",
+		parameters: ["provider", "model"]
+	}].map(({ method, parameters }) => ({
+		id: `@dsh-control-center/control-center#controlCenterModelCheck/${method}`,
+		service: "controlCenterModelCheck",
+		namespace: "controlCenterModelCheck",
+		method,
 		invocation: { kind: "direct" },
 		parameters: parameters.map((name) => ({
 			name,
@@ -5137,6 +5267,7 @@ function apply(ctx) {
 	new McpService(ctx);
 	new WebSearchService(ctx);
 	new ProvidersService(ctx);
+	new ModelCheckService(ctx);
 	new FileProcessingService(ctx);
 	new UsageService(ctx);
 	new DataService(ctx);
@@ -5162,6 +5293,7 @@ function apply(ctx) {
 			...mcpRemote.descriptors,
 			...webSearchRemote.descriptors,
 			...providersRemote.descriptors,
+			...modelCheckRemote.descriptors,
 			...fileProcessingRemote.descriptors,
 			...usageRemote.descriptors,
 			...dataRemote.descriptors,
@@ -5179,4 +5311,4 @@ function apply(ctx) {
 	ctx.settings.register(PROVIDER_STASH_NAMESPACE, PROVIDER_STASH_SCHEMA);
 }
 //#endregion
-export { DataService, DesktopService, FileProcessingService, KnowledgeService, LocalModelsService, McpService, PaintingService, ProvidersService, SkillsService, SystemService, TasksService, TranslationService, UpdateService, UsageService, WebSearchService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, cronMatches, inject, name };
+export { DataService, DesktopService, FileProcessingService, KnowledgeService, LocalModelsService, McpService, ModelCheckService, PaintingService, ProvidersService, SkillsService, SystemService, TasksService, TranslationService, UpdateService, UsageService, WebSearchService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, cronMatches, inject, name };

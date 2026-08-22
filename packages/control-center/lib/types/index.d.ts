@@ -19,6 +19,8 @@ export type * from './mcp-types.ts';
 export { WebSearchService } from './websearch.ts';
 export type * from './websearch/types.ts';
 export { ProvidersService } from './providers.ts';
+export { ModelCheckService } from './model-check.ts';
+export type { ModelCheckResult } from './model-check.ts';
 export type * from './provider-types.ts';
 export { FileProcessingService } from './file-processing.ts';
 export type * from './file-processing-types.ts';

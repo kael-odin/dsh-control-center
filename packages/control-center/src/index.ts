@@ -16,8 +16,10 @@ import { McpService } from './mcp.ts'
 import mcpRemote from './mcp-remote-client.ts'
 import { WebSearchService } from './websearch.ts'
 import websearchRemote from './websearch-remote-client.ts'
+import { ModelCheckService } from './model-check.ts'
 import { ProvidersService } from './providers.ts'
 import providersRemote from './provider-remote-client.ts'
+import modelCheckRemote from './model-check-remote-client.ts'
 import { FileProcessingService } from './file-processing.ts'
 import fileProcessingRemote from './file-processing-remote-client.ts'
 import { UsageService } from './usage.ts'
@@ -99,6 +101,7 @@ export function apply(ctx: Context): void {
   new McpService(ctx)
   new WebSearchService(ctx)
   new ProvidersService(ctx)
+  new ModelCheckService(ctx)
   new FileProcessingService(ctx)
   new UsageService(ctx)
   new DataService(ctx)
@@ -121,6 +124,7 @@ export function apply(ctx: Context): void {
         ...mcpRemote.descriptors,
         ...websearchRemote.descriptors,
         ...providersRemote.descriptors,
+        ...modelCheckRemote.descriptors,
         ...fileProcessingRemote.descriptors,
         ...usageRemote.descriptors,
         ...dataRemote.descriptors,
@@ -165,6 +169,8 @@ export type * from './mcp-types.ts'
 export { WebSearchService } from './websearch.ts'
 export type * from './websearch/types.ts'
 export { ProvidersService } from './providers.ts'
+export { ModelCheckService } from './model-check.ts'
+export type { ModelCheckResult } from './model-check.ts'
 export type * from './provider-types.ts'
 export { FileProcessingService } from './file-processing.ts'
 export type * from './file-processing-types.ts'
