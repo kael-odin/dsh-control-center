@@ -94,6 +94,14 @@ export interface ModelListEditorProps {
   defaultModel?: { provider?: unknown; model?: unknown }
   /** Mark a row as the default model for future sessions. */
   onSetDefault?: (modelId: string) => void
+  /**
+   * The provider's full served-catalog candidates (`llm.models` for this
+   * route): entries missing from the profile array render as disabled rows
+   * that an eye-click re-enables. Presence in the profile array IS the
+   * enabled state — pi-ai serves exactly what the array lists (or its whole
+   * catalog when the array is absent).
+   */
+  catalogModels?: readonly { id: string; name?: string }[]
 }
 
 /** Disclosure chevron; rotates to point down while its row is open. */
@@ -143,6 +151,27 @@ function IconPlus(): ReactNode {
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
       <path d="M5 12h14" />
       <path d="M12 5v14" />
+    </svg>
+  )
+}
+
+/** Per-model serving toggle (Cherry's eye affordance). */
+function IconEyeOpen(): ReactNode {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  )
+}
+
+function IconEyeClosed(): ReactNode {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+      <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+      <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+      <line x1="2" x2="22" y1="2" y2="22" />
     </svg>
   )
 }
@@ -533,6 +562,16 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
                 disabled={disabled}
                 onChange={(event) => { patch(index, { id: event.target.value }) }}
               />
+              <button
+                type="button"
+                className={styles['iconButton']}
+                aria-label={`${t('disableModel')} ${index + 1}`}
+                title={t('disableModel')}
+                disabled={disabled}
+                onClick={() => { removeAt(index) }}
+              >
+                <IconEyeOpen />
+              </button>
               {props.onSetDefault !== undefined && textOf(model, 'id').length > 0
                 ? (
                   <button
@@ -649,6 +688,49 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
           )
         })
       })()}
+      {props.catalogModels === undefined || props.catalogModels.length === 0
+        ? null
+        : (() => {
+          const known = new Set(models.map(model => textOf(model, 'id')).filter(id => id.length > 0))
+          const offCatalog = props.catalogModels.filter(candidate => !known.has(candidate.id))
+          if (offCatalog.length === 0) return null
+          return (
+            <div className={styles['modelGroup']}>
+              <div className={styles['modelGroupHeader']} aria-hidden>
+                <IconEyeClosed />
+                <span className={styles['modelGroupTitle']}>{t('modelsDisabled')}</span>
+                <span className={styles['modelCountBadge']}>{offCatalog.length}</span>
+              </div>
+              <div className={styles['modelGroupBody']}>
+                {offCatalog.map(candidate => (
+                  <div key={candidate.id} className={styles['modelEntry']}>
+                    <div className={`${styles['modelRow']} ${styles['modelRowDisabled']}`}>
+                      <span className={styles['modelAvatar']} aria-hidden>
+                        {(candidate.name ?? candidate.id).charAt(0).toUpperCase() || '?'}
+                      </span>
+                      <span className={styles['modelDisabledId']}>{candidate.id}</span>
+                      <button
+                        type="button"
+                        className={styles['iconButton']}
+                        aria-label={`${t('enableModel')} ${candidate.id}`}
+                        title={t('enableModel')}
+                        disabled={props.disabled}
+                        onClick={() => {
+                          onChange([...models, {
+                            id: candidate.id,
+                            ...(candidate.name === undefined ? {} : { name: candidate.name }),
+                          }])
+                        }}
+                      >
+                        <IconEyeClosed />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
+        })()}
       {failure !== undefined ? <p className={styles['error']}>{failure}</p> : null}
       <Modal
         open={candidates !== undefined}

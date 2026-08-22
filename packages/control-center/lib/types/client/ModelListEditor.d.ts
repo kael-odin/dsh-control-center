@@ -76,6 +76,17 @@ export interface ModelListEditorProps {
     };
     /** Mark a row as the default model for future sessions. */
     onSetDefault?: (modelId: string) => void;
+    /**
+     * The provider's full served-catalog candidates (`llm.models` for this
+     * route): entries missing from the profile array render as disabled rows
+     * that an eye-click re-enables. Presence in the profile array IS the
+     * enabled state — pi-ai serves exactly what the array lists (or its whole
+     * catalog when the array is absent).
+     */
+    catalogModels?: readonly {
+        id: string;
+        name?: string;
+    }[];
 }
 /** The bucket an id with no derivable family lands in (sorts last). */
 export declare const UNGROUPED_MODEL_GROUP_KEY = "__ungrouped__";

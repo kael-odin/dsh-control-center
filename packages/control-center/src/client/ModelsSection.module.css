@@ -744,3 +744,22 @@
   gap: 2px;
   padding-left: 10px;
 }
+
+/* Disabled (not-served) catalog rows in the eye-toggle merge. */
+.modelRowDisabled {
+  opacity: 0.55;
+}
+
+.modelRowDisabled .modelAvatar {
+  filter: grayscale(1);
+}
+
+.modelDisabledId {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  color: var(--muted-foreground);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

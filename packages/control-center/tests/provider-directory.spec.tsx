@@ -47,17 +47,21 @@ const schemaService = {
     }
     return true
   },
+  // Immutable, like the host seam: an in-place mutation would hand React the
+  // same object reference and silently skip the re-render.
   setPath: (root: Record<string, unknown>, path: readonly string[], value: unknown) => {
-    let current = root
+    const clone = structuredClone(root)
+    let current = clone
     for (const key of path.slice(0, -1)) current = (current[key] ??= {}) as Record<string, unknown>
     current[path[path.length - 1]!] = value
-    return root
+    return clone
   },
   deletePath: (root: Record<string, unknown>, path: readonly string[]) => {
-    let current = root
+    const clone = structuredClone(root)
+    let current = clone
     for (const key of path.slice(0, -1)) current = (current[key] ??= {}) as Record<string, unknown>
     delete current[path[path.length - 1]!]
-    return root
+    return clone
   },
 } as never
 
@@ -77,7 +81,11 @@ function apiMock() {
       set: vi.fn(async () => ({ rpcId: 't', result: { ok: true as const, value: {} } })),
       unset: vi.fn(async () => ({ rpcId: 't', result: { ok: true as const, value: {} } })),
     },
-    llm: { providers: vi.fn(), models: vi.fn(), discoverModels: vi.fn() },
+    llm: {
+      providers: vi.fn(),
+      models: vi.fn(async () => ({ rpcId: 't', result: { ok: true as const, value: { groups: [], failures: [] } } })),
+      discoverModels: vi.fn(),
+    },
   }
 }
 
@@ -293,6 +301,46 @@ describe('ProviderDirectorySection kebab menu', () => {
     fireEvent.click(kebab)
     const deleteItem = screen.getByRole('menuitem', { name: 'Delete' }) as HTMLButtonElement
     expect(deleteItem.disabled).toBe(true)
+  })
+})
+
+describe('ProviderDirectorySection eye toggle', () => {
+  it('merges the served catalog: re-enable appends, disable removes, apply persists', async () => {
+    const api = apiMock()
+    api.llm.models.mockImplementation(async () => ({
+      rpcId: 't',
+      result: {
+        ok: true as const,
+        value: {
+          groups: [{ id: 'deepseek', name: 'DeepSeek', models: [{ id: 'm1', name: 'M1' }, { id: 'm2', name: 'M2' }] }],
+          failures: [],
+        },
+      },
+    }))
+    renderSection([row('deepseek', '深度求索 (DeepSeek)', true)], { api })
+    const deepseekRow = screen
+      .getAllByRole('button', { name: /深度求索/ })
+      .find(element => element.getAttribute('aria-pressed') !== null)!
+    fireEvent.click(deepseekRow)
+    // m2 is in the route catalog but not in the profile array → disabled row.
+    const enableM2 = await screen.findByRole('button', { name: 'Re-enable this model m2' })
+    fireEvent.click(enableM2)
+    // It joins the draft as an editable second row.
+    const secondRow = await screen.findByLabelText('Model ID 2') as HTMLInputElement
+    expect(secondRow.value).toBe('m2')
+    // Eye-off on m1 removes it from the draft; m2 shifts to row 1.
+    fireEvent.click(screen.getByRole('button', { name: 'Stop serving this model 1' }))
+    const firstRow = screen.getByLabelText('Model ID 1') as HTMLInputElement
+    expect(firstRow.value).toBe('m2')
+    fireEvent.click(screen.getByRole('button', { name: 'Apply' }))
+    await waitFor(() => {
+      expect(api.settings.mutate).toHaveBeenCalledWith(expect.objectContaining({
+        ns: 'llm-pi-ai',
+        ops: expect.arrayContaining([
+          { op: 'set', path: ['providers', 'deepseek', 'models'], value: [{ id: 'm2', name: 'M2' }] },
+        ]),
+      }))
+    })
   })
 })
 

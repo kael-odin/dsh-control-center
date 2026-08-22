@@ -25,7 +25,7 @@
  * serves.
  */
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client'
 import type { SnapshotSelectorHook } from '@deepseek-ai/dsh-client-ui-slots'
@@ -207,6 +207,9 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
   const [toggling, setToggling] = useState(false)
   const [menuFor, setMenuFor] = useState<string | undefined>(undefined)
   const [defaultSaved, setDefaultSaved] = useState<{ provider: string; model: string } | undefined>(undefined)
+  // The selected route's full served catalog (`llm.models`): the eye-toggle
+  // merge renders catalog entries missing from the profile array as disabled.
+  const [providerCatalog, setProviderCatalog] = useState<readonly { id: string; name?: string }[]>([])
   const [deleteTarget, setDeleteTarget] = useState<DirectoryEntry | undefined>(undefined)
   const [deleting, setDeleting] = useState(false)
 
@@ -258,6 +261,21 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
   const defaultSelection = typeof defaultProviderRaw === 'string' && typeof defaultModelRaw === 'string'
     ? { provider: defaultProviderRaw, model: defaultModelRaw }
     : undefined
+  const selectedProviderId = effective?.provider
+  useEffect(() => {
+    let stale = false
+    setProviderCatalog([])
+    if (selectedProviderId === undefined) return undefined
+    void api.llm.models({}).then((response) => {
+      if (stale || !response.result.ok) return
+      const group = response.result.value.groups.find(candidate => candidate.id === selectedProviderId)
+      setProviderCatalog(group === undefined
+        ? []
+        : group.models.map(model => ({ id: model.id, ...(model.name === undefined ? {} : { name: model.name }) })))
+    }, () => undefined)
+    return () => { stale = true }
+  }, [api.llm.models, selectedProviderId])
+
   /** Point the future-session default at one of this provider's models. */
   const setDefaultModel = async (providerId: string, modelId: string): Promise<void> => {
     if (defaultNsView === undefined || !state.writable) return
@@ -681,6 +699,9 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                             {...editTarget.declared === true ? { declared: true } : {}}
                             {...editTarget.defaults === undefined ? {} : { defaults: editTarget.defaults }}
                             {...editTarget.helpLinks === undefined ? {} : { helpLinks: editTarget.helpLinks }}
+                            {...providerCatalog.length === 0 || editTarget.settingsNs !== NS
+                              ? {}
+                              : { catalogModels: providerCatalog }}
                             {...editTarget.settingsNs !== NS || defaultSelection === undefined
                               ? {}
                               : {

@@ -78,6 +78,8 @@ export interface ProviderEditorProps {
   defaultModel?: { provider?: unknown; model?: unknown }
   /** Mark one of this provider's models as the default for future sessions. */
   onSetDefault?: (modelId: string) => void
+  /** The provider's served-catalog candidates for the eye-toggle merge. */
+  catalogModels?: readonly { id: string; name?: string }[]
   /**
    * Whether the adapter reports this route as hand-declared — absent from its
    * installed catalog. Such a route carries its own wire protocol, chosen when
@@ -626,6 +628,7 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
               api={api}
               {...props.defaultModel === undefined ? {} : { defaultModel: props.defaultModel }}
               {...props.onSetDefault === undefined ? {} : { onSetDefault: props.onSetDefault }}
+              {...props.catalogModels === undefined ? {} : { catalogModels: props.catalogModels }}
             />
           )}
       </>

@@ -134,6 +134,9 @@ export declare const en: {
     providerDisabled: string;
     freeBadge: string;
     getApiKey: string;
+    modelsDisabled: string;
+    enableModel: string;
+    disableModel: string;
     setAsDefault: string;
     defaultModelSaved: string;
     modelGroupUngrouped: string;
