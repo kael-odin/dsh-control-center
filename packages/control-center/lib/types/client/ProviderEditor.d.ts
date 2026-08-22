@@ -61,6 +61,14 @@ export interface ProviderEditorProps {
     helpLinks?: {
         apiKeyUrl?: string;
     };
+    /** The host default-model selection, passed through to the model list's
+     * default marker. */
+    defaultModel?: {
+        provider?: unknown;
+        model?: unknown;
+    };
+    /** Mark one of this provider's models as the default for future sessions. */
+    onSetDefault?: (modelId: string) => void;
     /**
      * Whether the adapter reports this route as hand-declared — absent from its
      * installed catalog. Such a route carries its own wire protocol, chosen when

@@ -39,7 +39,14 @@ const schemaService = {
   validate: () => undefined,
   nodeAtPath: () => ({ type: 'object' }),
   getPath: (value: unknown, path: readonly string[]) => path.reduce((current: any, key) => current?.[key], value),
-  hasPath: () => false,
+  hasPath: (value: unknown, path: readonly string[]) => {
+    let current: unknown = value
+    for (const key of path) {
+      if (typeof current !== 'object' || current === null || !(key in current as Record<string, unknown>)) return false
+      current = (current as Record<string, unknown>)[key]
+    }
+    return true
+  },
   setPath: (root: Record<string, unknown>, path: readonly string[], value: unknown) => {
     let current = root
     for (const key of path.slice(0, -1)) current = (current[key] ??= {}) as Record<string, unknown>
@@ -80,7 +87,11 @@ function t(key: keyof typeof en): string { return en[key] }
 
 afterEach(() => { cleanup() })
 
-function readyState(rows: readonly ProviderRow[], stashProviders: Record<string, unknown> = {}): ModelsSettingsState {
+function readyState(
+  rows: readonly ProviderRow[],
+  stashProviders: Record<string, unknown> = {},
+  defaultModel?: { provider: string; model: string },
+): ModelsSettingsState {
   // A configured row implies a stored profile at its settings path, which is
   // what the toggle reads when it stashes.
   const storedProfiles = Object.fromEntries(
@@ -92,11 +103,17 @@ function readyState(rows: readonly ProviderRow[], stashProviders: Record<string,
     value: { providers: storedProfiles }, user: { providers: structuredClone(storedProfiles) },
     base: {}, revision: 0, writable: true,
   } as unknown as SettingsNamespaceView
+  const defaultsNs: SettingsNamespaceView | undefined = defaultModel === undefined ? undefined : {
+    ns: 'agent-default-model', schema: {} as never,
+    value: { ...defaultModel }, user: { ...defaultModel },
+    base: {}, revision: 3, writable: true,
+  } as unknown as SettingsNamespaceView
   return {
     status: 'ready', error: null, credentialError: null, writable: true, rows,
     namespaces: new Map<string, SettingsNamespaceView>([
       ['llm-pi-ai', ns],
       [STASH_NS, stashNamespace(stashProviders)],
+      ...(defaultsNs === undefined ? [] : [['agent-default-model', defaultsNs] as const]),
     ]),
   }
 }
@@ -276,6 +293,46 @@ describe('ProviderDirectorySection kebab menu', () => {
     fireEvent.click(kebab)
     const deleteItem = screen.getByRole('menuitem', { name: 'Delete' }) as HTMLButtonElement
     expect(deleteItem.disabled).toBe(true)
+  })
+})
+
+describe('ProviderDirectorySection default marker', () => {
+  it('shows the brush on the default row and writes agent-default-model on click', async () => {
+    const api = apiMock()
+    const snapshot = readyState(
+      [row('deepseek', '深度求索 (DeepSeek)', true)],
+      {},
+      { provider: 'deepseek', model: 'm1' },
+    )
+    const useSnapshot = (selector: (state: ModelsSettingsState) => unknown) => selector(snapshot)
+    render(
+      <ProviderDirectorySection
+        controller={{ load: vi.fn(async () => {}) } as never}
+        useSnapshot={useSnapshot as never}
+        api={api as never}
+        schema={schema}
+        t={t}
+      />,
+    )
+    const deepseekRow = screen
+      .getAllByRole('button', { name: /深度求索/ })
+      .find(element => element.getAttribute('aria-pressed') !== null)!
+    fireEvent.click(deepseekRow)
+    const brush = screen.getByRole('button', { name: /Set as default model 1/ })
+    expect(brush.getAttribute('aria-pressed')).toBe('true')
+    fireEvent.click(brush)
+    await waitFor(() => {
+      expect(api.settings.mutate).toHaveBeenCalledWith({
+        ns: 'agent-default-model',
+        expectedRevision: 3,
+        ops: [
+          { op: 'set', path: ['provider'], value: 'deepseek' },
+          { op: 'set', path: ['model'], value: 'm1' },
+          { op: 'unset', path: ['reasoningEffort'] },
+        ],
+      })
+    })
+    expect(await screen.findByText(/Default model set/)).toBeTruthy()
   })
 })
 

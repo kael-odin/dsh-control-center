@@ -517,6 +517,15 @@
   color: var(--destructive);
 }
 
+/* Filled default-model marker (Cherry's orange brush; ours uses the brand). */
+.defaultMarker {
+  color: var(--primary);
+}
+
+.defaultMarker:hover:not(:disabled) {
+  color: var(--primary);
+}
+
 .fetchButton {
   display: inline-flex;
   align-items: center;

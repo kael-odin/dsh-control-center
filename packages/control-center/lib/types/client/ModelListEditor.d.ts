@@ -66,6 +66,16 @@ export interface ModelListEditorProps {
     t: (key: keyof typeof en) => string;
     /** Disable every control (read-only deployment or a pending write). */
     disabled: boolean;
+    /**
+     * The host's current default model selection; the row matching it under
+     * this provider shows the filled default marker.
+     */
+    defaultModel?: {
+        provider?: unknown;
+        model?: unknown;
+    };
+    /** Mark a row as the default model for future sessions. */
+    onSetDefault?: (modelId: string) => void;
 }
 /** The bucket an id with no derivable family lands in (sorts last). */
 export declare const UNGROUPED_MODEL_GROUP_KEY = "__ungrouped__";

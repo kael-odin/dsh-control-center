@@ -206,6 +206,7 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
   const [toggleFailure, setToggleFailure] = useState<string | undefined>(undefined)
   const [toggling, setToggling] = useState(false)
   const [menuFor, setMenuFor] = useState<string | undefined>(undefined)
+  const [defaultSaved, setDefaultSaved] = useState<{ provider: string; model: string } | undefined>(undefined)
   const [deleteTarget, setDeleteTarget] = useState<DirectoryEntry | undefined>(undefined)
   const [deleting, setDeleting] = useState(false)
 
@@ -250,6 +251,36 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
   const stashView = state.namespaces.get(STASH_NS)
   const protocols = protocolChoices(namespace, schema)
   const editTarget = effective === undefined ? undefined : identityOf(effective)
+  // The host default-model route: the brush marker and its write target.
+  const defaultNsView = state.namespaces.get('agent-default-model')
+  const defaultProviderRaw = schema.getPath(defaultNsView?.value, ['provider'])
+  const defaultModelRaw = schema.getPath(defaultNsView?.value, ['model'])
+  const defaultSelection = typeof defaultProviderRaw === 'string' && typeof defaultModelRaw === 'string'
+    ? { provider: defaultProviderRaw, model: defaultModelRaw }
+    : undefined
+  /** Point the future-session default at one of this provider's models. */
+  const setDefaultModel = async (providerId: string, modelId: string): Promise<void> => {
+    if (defaultNsView === undefined || !state.writable) return
+    try {
+      const response = await api.settings.mutate({
+        ns: 'agent-default-model',
+        expectedRevision: defaultNsView.revision,
+        ops: [
+          { op: 'set', path: ['provider'], value: providerId },
+          { op: 'set', path: ['model'], value: modelId },
+          { op: 'unset', path: ['reasoningEffort'] },
+        ],
+      })
+      if (!response.result.ok) {
+        setToggleFailure(response.result.error.message)
+        return
+      }
+      setDefaultSaved({ provider: providerId, model: modelId })
+      await controller.load()
+    } catch (error) {
+      setToggleFailure(messageOf(error))
+    }
+  }
 
   const announceSaved = (target: ProviderIdentity): void => {
     void controller.load().then(() => { setSavedTarget(target) })
@@ -620,6 +651,15 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                             {providerCopy(t('savedProvider'), savedTarget)}
                           </p>
                         )}
+                      {defaultSaved === undefined
+                        ? null
+                        : (
+                          <p className={styles['savedNotice']} role="status" aria-live="polite">
+                            {t('defaultModelSaved')
+                              .replace('{provider}', defaultSaved.provider)
+                              .replace('{model}', defaultSaved.model)}
+                          </p>
+                        )}
                       {toggleFailure === undefined
                         ? null
                         : <p className={styles['error']}>{t('toggleFailed').replace('{error}', toggleFailure)}</p>}
@@ -641,6 +681,12 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                             {...editTarget.declared === true ? { declared: true } : {}}
                             {...editTarget.defaults === undefined ? {} : { defaults: editTarget.defaults }}
                             {...editTarget.helpLinks === undefined ? {} : { helpLinks: editTarget.helpLinks }}
+                            {...editTarget.settingsNs !== NS || defaultSelection === undefined
+                              ? {}
+                              : {
+                                defaultModel: defaultSelection,
+                                onSetDefault: (modelId: string) => { void setDefaultModel(editTarget.provider, modelId) },
+                              }}
                             namespace={namespace}
                             settingsPath={editTarget.settingsPath}
                             api={api}

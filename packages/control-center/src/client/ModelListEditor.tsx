@@ -87,6 +87,13 @@ export interface ModelListEditorProps {
   t: (key: keyof typeof en) => string
   /** Disable every control (read-only deployment or a pending write). */
   disabled: boolean
+  /**
+   * The host's current default model selection; the row matching it under
+   * this provider shows the filled default marker.
+   */
+  defaultModel?: { provider?: unknown; model?: unknown }
+  /** Mark a row as the default model for future sessions. */
+  onSetDefault?: (modelId: string) => void
 }
 
 /** Disclosure chevron; rotates to point down while its row is open. */
@@ -136,6 +143,16 @@ function IconPlus(): ReactNode {
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
       <path d="M5 12h14" />
       <path d="M12 5v14" />
+    </svg>
+  )
+}
+
+/** Default-model marker (Cherry's paintbrush affordance). */
+function IconBrush(): ReactNode {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="m14.622 17.897-10.68-2.913" />
+      <path d="M18.376 2.622a1 1 0 1 1 3.002 3.002L17.36 9.643a.5.5 0 0 0 0 .354l.949 2.587a2 2 0 0 1-.094 1.791l-1.514 2.623a.5.5 0 0 1-.282.243l-10.68 2.913a.5.5 0 0 1-.62-.62l2.913-10.68a.5.5 0 0 1 .243-.282l2.623-1.514a2 2 0 0 1 1.791-.094l2.587.949a.5.5 0 0 0 .354 0z" />
     </svg>
   )
 }
@@ -497,7 +514,11 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
         : null}
       {models.length === 0 ? <p className={styles['modelEmpty']}>{t('modelsEmpty')}</p> : null}
       {(() => {
-        const renderRow = ({ model, index }: { model: ModelDraft; index: number }): ReactNode => (
+        const renderRow = ({ model, index }: { model: ModelDraft; index: number }): ReactNode => {
+          const rowId = textOf(model, 'id')
+          const isDefaultRow = props.defaultModel?.provider === probe.provider
+            && props.defaultModel?.model === rowId
+          return (
           <div key={index} className={styles['modelEntry']}>
             <div className={styles['modelRow']}>
               <span className={styles['modelAvatar']} aria-hidden>
@@ -512,6 +533,20 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
                 disabled={disabled}
                 onChange={(event) => { patch(index, { id: event.target.value }) }}
               />
+              {props.onSetDefault !== undefined && textOf(model, 'id').length > 0
+                ? (
+                  <button
+                    type="button"
+                    className={`${styles['iconButton']} ${isDefaultRow ? styles['defaultMarker'] : ''}`}
+                    aria-label={`${t('setAsDefault')} ${index + 1}`}
+                    aria-pressed={isDefaultRow}
+                    title={t('setAsDefault')}
+                    onClick={() => { props.onSetDefault?.(textOf(model, 'id')) }}
+                  >
+                    <IconBrush />
+                  </button>
+                )
+                : null}
               <button
                 type="button"
                 className={styles['iconButton']}
@@ -578,7 +613,8 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
               )
               : null}
           </div>
-        )
+          )
+        }
         const searching = keyword.length > 0
         // A lone unnamed bucket stays flat — a three-model catalog needs no
         // collapsible chrome. Named groups always get their header.
