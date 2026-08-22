@@ -21,6 +21,14 @@ type RemoteResult<T> = {
         details: object;
     };
 };
+interface MarketplaceHit {
+    id: string;
+    name: string;
+    namespace: string;
+    sourceUrl: string | null;
+    description: string | null;
+    author: string | null;
+}
 interface SkillsService {
     list(params: {
         search?: string;
@@ -37,7 +45,15 @@ interface SkillsService {
     } | {
         source: 'zip';
         path: string;
+    } | {
+        source: 'url';
+        url: string;
     }): Promise<RemoteResult<InstalledSkill>>;
+    searchMarketplace(query: {
+        query: string;
+    }): Promise<RemoteResult<{
+        skills: MarketplaceHit[];
+    }>>;
 }
 /** Native directory/zip picker slice of the desktop bridge. */
 interface DesktopPicker {

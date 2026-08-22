@@ -9,7 +9,8 @@
  */
 
 import { readFileSync, existsSync, readdirSync, statSync, mkdirSync, rmSync, writeFileSync } from 'node:fs'
-import { join, resolve, basename, relative } from 'node:path'
+import { tmpdir } from 'node:os'
+import { join, resolve, basename, relative, sep as pathSep } from 'node:path'
 import { createHash } from 'node:crypto'
 import { DatabaseSync } from 'node:sqlite'
 import { Service } from '@deepseek-ai/cordis'
@@ -17,11 +18,13 @@ import type { Context } from '@deepseek-ai/cordis'
 import { resolveDshHome } from '@deepseek-ai/dsh-home-paths'
 import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
 import { markRemoteMethods } from './knowledge/remote-methods.ts'
+import { searchSkillMarketplaces, SKILL_SEARCH_FAILED } from './skill-marketplace.ts'
 import type {
   InstalledSkill,
   ListSkillsQuery,
   UpdateSkillDto,
   SkillInstallOptions,
+  MarketplaceSkillItem,
   MarketplaceSearchQuery,
   MarketplaceSearchResponse
 } from './skills-types.ts'
@@ -289,7 +292,7 @@ export class SkillsService extends Service {
       case 'zip':
         throw new Error('ZIP installation not yet implemented')
       case 'url':
-        throw new Error('URL installation not yet implemented')
+        return this.installFromUrl(options.url)
       case 'marketplace':
         throw new Error('Marketplace installation not yet implemented')
       default:
@@ -380,6 +383,57 @@ export class SkillsService extends Service {
     }
   }
 
+  /**
+   * Install one skill directory from a github.com tree URL
+   * (`/{owner}/{repo}/tree/{branch}/{dir}`): the Git Trees API lists the
+   * subtree, each blob downloads from raw.githubusercontent.com, and the
+   * staged copy re-enters the ordinary directory installer — validation,
+   * hashing, and dedupe stay in exactly one code path.
+   */
+  private async installFromUrl(sourceUrl: string): Promise<InstalledSkill> {
+    let url: URL
+    try { url = new URL(sourceUrl.trim()) } catch { throw new Error(`无效 URL：${sourceUrl}`) }
+    const parts = url.pathname.split('/').filter(Boolean).map(decodeURIComponent)
+    if (url.hostname.replace(/^www\./, '') !== 'github.com'
+      || parts.length < 5 || parts[2] !== 'tree') {
+      throw new Error('目前仅支持 GitHub 目录链接（github.com/{owner}/{repo}/tree/{分支}/{目录}）')
+    }
+    const [owner, repo, , ref, ...dirParts] = parts as [string, string, string, string, ...string[]]
+    const dirPath = dirParts.join('/')
+    if (dirPath.length === 0) throw new Error('链接未指向技能子目录')
+
+    const api = `https://api.github.com/repos/${owner}/${repo}/git/trees/${encodeURIComponent(ref)}?recursive=1`
+    const treeResponse = await fetch(api, { headers: { accept: 'application/vnd.github+json' } })
+    if (!treeResponse.ok) throw new Error(`GitHub Trees API 返回 ${String(treeResponse.status)}`)
+    const tree = await treeResponse.json() as { tree?: Array<{ path?: unknown; type?: unknown }> }
+    const entries = (Array.isArray(tree.tree) ? tree.tree : [])
+      .map(entry => typeof entry.path === 'string' ? entry : null)
+      .filter((entry): entry is { path: string } => entry !== null && (entry.type ?? 'blob') === 'blob')
+      .filter(entry => entry.path === dirPath || entry.path.startsWith(`${dirPath}/`))
+    if (entries.length === 0) throw new Error(`仓库分支 ${ref} 下不存在目录 ${dirPath}`)
+
+    // Stage into a temp folder named after the skill directory so the
+    // directory installer's dedupe keeps working unchanged.
+    const stageRoot = join(tmpdir(), `dsh-skill-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`)
+    const stageDir = join(stageRoot, basename(dirPath))
+    try {
+      for (const entry of entries) {
+        const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${encodeURIComponent(ref)}/${entry.path.split('/').map(encodeURIComponent).join('/')}`
+        const fileResponse = await fetch(rawUrl)
+        if (!fileResponse.ok) throw new Error(`下载 ${entry.path} 失败（${String(fileResponse.status)}）`)
+        const content = Buffer.from(await fileResponse.arrayBuffer())
+        const target = join(stageDir, entry.path.slice(dirPath.length).replace(/^\//, ''))
+        mkdirSync(target.slice(0, target.lastIndexOf(pathSep)), { recursive: true })
+        writeFileSync(target, content)
+      }
+      return this.installFromDirectory(stageDir)
+    } finally {
+      rmSync(stageRoot, { recursive: true, force: true })
+    }
+  }
+
+
+
   private copyDirectory(src: string, dest: string) {
     mkdirSync(dest, { recursive: true })
     const entries = readdirSync(src)
@@ -426,8 +480,45 @@ export class SkillsService extends Service {
    * wired. Throws loudly rather than silently returning an empty result set,
    * so callers cannot mistake an unimplemented capability for "no matches".
    */
-  async searchMarketplace(_query: MarketplaceSearchQuery): Promise<MarketplaceSearchResponse> {
-    throw new Error('Skill marketplace search is not yet implemented on this host')
+  /**
+   * Search the three public skill registries (Cherry's set) in parallel via
+   * host fetch — browser CORS never gates it. Results are installable
+   * through {@link install} with `{ source: 'url', url: sourceUrl }` when the
+   * entry carries a GitHub directory.
+   */
+  async searchMarketplace(query: MarketplaceSearchQuery): Promise<MarketplaceSearchResponse> {
+    const results = await searchSkillMarketplaces(
+      query.query,
+      async (url) => {
+        const response = await fetch(url, { headers: { accept: 'application/json' } })
+        if (!response.ok) throw new Error(`registry answered ${String(response.status)}`)
+        return await response.json()
+      },
+      (source, error) => {
+        this.ctx.logger.warn(`skill marketplace "${String(source)}" failed: ${error instanceof Error ? error.message : String(error)}`)
+      },
+    )
+    const skills: MarketplaceSkillItem[] = results.map(result => ({
+      id: result.slug,
+      name: result.name,
+      namespace: result.sourceRegistry,
+      sourceUrl: result.sourceUrl,
+      description: result.description,
+      version: null,
+      author: result.author,
+      stars: result.stars,
+      installs: result.downloads,
+    }))
+    if (skills.length === 0 && query.query.trim().length > 0) {
+      // Distinguish "no hits anywhere" from an all-registry transport failure
+      // so the UI can show an actionable message either way.
+      try {
+        await searchSkillMarketplaces('', async () => ({ skills: [] }))
+      } catch {
+        throw new Error(SKILL_SEARCH_FAILED)
+      }
+    }
+    return { skills, total: skills.length, limit: query.limit ?? skills.length, offset: query.offset ?? 0 }
   }
 
   [Symbol.dispose]() {

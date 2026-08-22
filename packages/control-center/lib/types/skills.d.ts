@@ -38,6 +38,14 @@ export declare class SkillsService extends Service {
      */
     install(options: SkillInstallOptions): Promise<InstalledSkill>;
     private installFromDirectory;
+    /**
+     * Install one skill directory from a github.com tree URL
+     * (`/{owner}/{repo}/tree/{branch}/{dir}`): the Git Trees API lists the
+     * subtree, each blob downloads from raw.githubusercontent.com, and the
+     * staged copy re-enters the ordinary directory installer — validation,
+     * hashing, and dedupe stay in exactly one code path.
+     */
+    private installFromUrl;
     private copyDirectory;
     /**
      * Uninstall a skill.
@@ -50,7 +58,13 @@ export declare class SkillsService extends Service {
      * wired. Throws loudly rather than silently returning an empty result set,
      * so callers cannot mistake an unimplemented capability for "no matches".
      */
-    searchMarketplace(_query: MarketplaceSearchQuery): Promise<MarketplaceSearchResponse>;
+    /**
+     * Search the three public skill registries (Cherry's set) in parallel via
+     * host fetch — browser CORS never gates it. Results are installable
+     * through {@link install} with `{ source: 'url', url: sourceUrl }` when the
+     * entry carries a GitHub directory.
+     */
+    searchMarketplace(query: MarketplaceSearchQuery): Promise<MarketplaceSearchResponse>;
     [Symbol.dispose](): void;
 }
 //# sourceMappingURL=skills.d.ts.map

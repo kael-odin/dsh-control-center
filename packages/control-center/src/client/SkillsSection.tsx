@@ -16,13 +16,24 @@ import css from './SkillsSection.module.css'
 /** Wire envelope of a strict-mode Typert remote call (same shape as translation-types). */
 type RemoteResult<T> = { ok: true; value: T } | { ok: false; error: { code: string; message: string; details: object } }
 
+interface MarketplaceHit {
+  id: string
+  name: string
+  namespace: string
+  sourceUrl: string | null
+  description: string | null
+  author: string | null
+}
+
 interface SkillsService {
   list(params: { search?: string }): Promise<RemoteResult<InstalledSkill[]>>
   update(skillId: string, dto: { isGlobalEnabled: boolean }): Promise<RemoteResult<InstalledSkill>>
   uninstall(skillId: string): Promise<RemoteResult<{ absent: true }>>
   installSkill(options:
     | { source: 'directory'; path: string }
-    | { source: 'zip'; path: string }): Promise<RemoteResult<InstalledSkill>>
+    | { source: 'zip'; path: string }
+    | { source: 'url'; url: string }): Promise<RemoteResult<InstalledSkill>>
+  searchMarketplace(query: { query: string }): Promise<RemoteResult<{ skills: MarketplaceHit[] }>>
 }
 
 /** Native directory/zip picker slice of the desktop bridge. */
@@ -98,6 +109,44 @@ export function SkillsSection(props: SkillsSectionProps) {
 
   const [importing, setImporting] = useState(false)
   const [importError, setImportError] = useState<string | null>(null)
+  // 在线搜索 (marketplace) state — results install through the URL installer.
+  const [marketOpen, setMarketOpen] = useState(false)
+  const [marketQuery, setMarketQuery] = useState('')
+  const [marketHits, setMarketHits] = useState<MarketplaceHit[]>([])
+  const [marketBusy, setMarketBusy] = useState(false)
+  const [installingId, setInstallingId] = useState<string | null>(null)
+  const [marketNotice, setMarketNotice] = useState<string | null>(null)
+  const [marketError, setMarketError] = useState<string | null>(null)
+
+  const handleMarketSearch = useCallback(async (): Promise<void> => {
+    if (!skillsService || marketBusy || marketQuery.trim().length === 0) return
+    setMarketBusy(true); setMarketError(null); setMarketNotice(null)
+    try {
+      const response = await skillsService.searchMarketplace({ query: marketQuery.trim() })
+      if (!response.ok) throw new Error(response.error.message)
+      setMarketHits(response.value.skills)
+      if (response.value.skills.length === 0) setMarketNotice('没有找到匹配的技能。')
+    } catch (err) {
+      setMarketError(err instanceof Error ? err.message : '搜索失败')
+    } finally {
+      setMarketBusy(false)
+    }
+  }, [skillsService, marketQuery, marketBusy])
+
+  const handleMarketInstall = useCallback(async (hit: MarketplaceHit): Promise<void> => {
+    if (!skillsService) return
+    setInstallingId(hit.id); setMarketError(null)
+    try {
+      if (hit.sourceUrl === null) throw new Error('该结果没有可安装的来源链接')
+      const result = await skillsService.installSkill({ source: 'url', url: hit.sourceUrl })
+      if (!result.ok) throw new Error(result.error.message)
+      await loadSkills()
+    } catch (err) {
+      setMarketError(err instanceof Error ? err.message : '安装失败')
+    } finally {
+      setInstallingId(null)
+    }
+  }, [skillsService, loadSkills])
 
   /**
    * Local import through the desktop bridge's native dialog: pick a skill
@@ -151,9 +200,12 @@ export function SkillsSection(props: SkillsSectionProps) {
         <div style={{ display: 'flex', gap: 8 }}>
           <button
             type="button"
-            className="cc-btn cc-btn-secondary"
-            disabled
-            title="当前平台不支持：技能市场搜索尚未接入宿主"
+            className={`cc-btn cc-btn-secondary ${marketOpen ? 'cc-active' : ''}`}
+            aria-pressed={marketOpen}
+            onClick={() => {
+              setMarketOpen(open => !open)
+              if (marketOpen) { setMarketHits([]); setMarketError(null) }
+            }}
           >
             在线搜索
           </button>
@@ -181,6 +233,69 @@ export function SkillsSection(props: SkillsSectionProps) {
           </button>
         </div>
       </div>
+
+      {marketOpen && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <input
+              type="text"
+              value={marketQuery}
+              onChange={(e) => { setMarketQuery(e.target.value) }}
+              onKeyDown={(e) => { if (e.key === 'Enter') void handleMarketSearch() }}
+              placeholder="搜索关键词，如 git、pdf、web…"
+              aria-label="技能市场搜索"
+            />
+            <button
+              type="button"
+              className="cc-btn cc-btn-primary"
+              disabled={marketBusy || marketQuery.trim().length === 0}
+              onClick={() => { void handleMarketSearch() }}
+            >
+              {marketBusy ? '搜索中…' : '搜索'}
+            </button>
+          </div>
+          {marketError !== null && (
+            <p role="alert" style={{
+              margin: 0, padding: '8px 12px', borderRadius: 8, fontSize: 13,
+              border: '1px solid var(--error-border)', background: 'var(--error-subtle)',
+              color: 'var(--error-subtle-foreground)',
+            }}>{marketError}</p>
+          )}
+          {marketNotice !== null && (
+            <p style={{ margin: 0, fontSize: 13, color: 'var(--muted-foreground)' }}>{marketNotice}</p>
+          )}
+          <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {marketHits.map(hit => (
+              <li key={`${hit.namespace}/${hit.id}`} style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
+                padding: '8px 10px', borderRadius: 8,
+                border: '1px solid var(--border-subtle)', background: 'var(--card)',
+              }}>
+                <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--foreground)' }}>{hit.name}</span>
+                  {hit.description !== null && (
+                    <span style={{ fontSize: 12, color: 'var(--muted-foreground)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {hit.description}
+                    </span>
+                  )}
+                  <span style={{ fontSize: 11, color: 'var(--muted-foreground)' }}>
+                    {hit.sourceUrl !== null && hit.sourceUrl.includes('github.com') ? 'GitHub' : hit.namespace}
+                    {hit.author !== null ? ` · ${hit.author}` : ''}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  className="cc-btn cc-btn-primary"
+                  disabled={installingId === hit.id}
+                  onClick={() => { void handleMarketInstall(hit) }}
+                >
+                  {installingId === hit.id ? '安装中…' : '安装'}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <div className={css.searchRow}>
         <input

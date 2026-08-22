@@ -45,7 +45,7 @@
 | （核心） | 本地模型 | `/settings/local-models` | `local-models`（LocalModelsSection） | P0 | ✅ controlCenterLocalModels |
 | （核心） | 网关 | `/settings/api-gateway` | `api-gateway`（ApiGatewaySection） | P0 | ✅ 真实（web 诚实标注） |
 | 能力 | MCP | `/settings/mcp` | `mcp`（McpSection） | T1 | ✅ split-pane + 快速导入 + Npx 市场 + **内置服务器目录**（4 个外部可达预设；Cherry 的 9 个 inMemory 内置运行于其自有运行时，诚实未列）+ **更多市场**（7 站外链，同 Cherry 更多市场列表）|
-| 能力 | 技能 | `/settings/skills` | `skills`（SkillsSection） | T1 | ✅ 本地目录/ZIP 导入经桌面桥真实接线（Web 诚实门控）；市场搜索待宿主实现 |
+| 能力 | 技能 | `/settings/skills` | `skills`（SkillsSection） | T1 | ✅ 本地目录导入 + **在线市场搜索/安装** 真实接线（三注册表并发、GitHub 目录安装器）；Web 门控仅剩 ZIP |
 | 能力 | 联网搜索 | `/settings/websearch` | `websearch`（WebSearchSection） | T1 | ✅ 真实 |
 | 能力 | 文件处理 | `/settings/file-processing` | `processor`（ProcessorSection） | T1 | ✅ controlCenterFileProcessing |
 | 能力 | OCR | `/settings/ocr` | `processor`（ProcessorSection） | T1 | ✅ 同上 |
@@ -161,7 +161,7 @@ control-center 现状：✅ McpSection.tsx（split-pane：左服务器列表+搜
 ### 3.2 技能 Skills
 
 Cherry 参照：`.../SkillsSettings.tsx`
-control-center 现状：✅ SkillsSection.tsx（卡片网格 + 搜索 + 启用/禁用/卸载 + **本地导入真实接线**：桌面桥 pickFile 选目录/ZIP → host `installSkill({source})`，浏览器只传路径、host 进程读文件；Web 无桌面桥时按钮置灰并诚实标注）。市场搜索仍诚实禁用（host `searchMarketplace` 未实现，抛错而非伪造）。
+control-center 现状：✅ SkillsSection.tsx（卡片网格 + 搜索 + 启用/禁用/卸载 + **本地导入真实接线**：桌面桥 pickFile 选目录/ZIP → host `installSkill({source})`，浏览器只传路径、host 进程读文件；Web 无桌面桥时按钮置灰并诚实标注）。**在线搜索真实接线**：host `searchMarketplace` 并发查询 skills.sh / claude-plugins.dev / clawhub.ai 三大注册表（Cherry 同款端点与归一化规则），按名去重；claude-plugins 条目经 GitHub Trees API + raw 下载安装目录（无 git 依赖）；部分源失败容忍，仅全失败才报错。ZIP 安装仍诚实未实现。
 
 ### 3.3 联网搜索 WebSearch
 

@@ -2,7 +2,7 @@
  * Skills service contract tests.
  */
 
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { Context } from '@deepseek-ai/cordis'
 import { rmSync, mkdirSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
@@ -197,10 +197,81 @@ description: A skill
   })
 
   describe('searchMarketplace', () => {
-    it('reports marketplace search as unimplemented on this host', async () => {
-      await expect(service.searchMarketplace({ query: 'test' })).rejects.toThrow(
-        'Skill marketplace search is not yet implemented on this host'
-      )
+    it('searches all three registries and merges deduped results', async () => {
+      const seen: string[] = []
+      vi.stubGlobal('fetch', async (url: string | URL) => {
+        const text = String(url)
+        seen.push(text)
+        if (text.includes('skills.sh')) {
+          return { ok: true, json: async () => ({ skills: [{ id: 'acme/git-skill', name: 'Git Skill', installs: 5 }] }) }
+        }
+        if (text.includes('claude-plugins.dev')) {
+          return {
+            ok: true,
+            json: async () => ({
+              skills: [{
+                id: 'git-skill',
+                name: 'Git Skill',
+                description: 'dup across registries',
+                metadata: { repoOwner: 'acme', repoName: 'skills', directoryPath: 'git' },
+              }],
+            }),
+          }
+        }
+        return { ok: false, status: 503, json: async () => ({}) }
+      })
+      try {
+        const response = await service.searchMarketplace({ query: 'git' })
+        expect(seen.some(u => u.includes('skills.sh'))).toBe(true)
+        expect(seen.some(u => u.includes('claude-plugins.dev'))).toBe(true)
+        // Deduped by name: the skills.sh hit survives, the claude-plugins dup drops.
+        expect(response.skills.map(skill => skill.id)).toEqual(['acme/git-skill'])
+      } finally {
+        vi.unstubAllGlobals()
+      }
+    })
+
+    it('rejects only when every registry fails', async () => {
+      vi.stubGlobal('fetch', async () => ({ ok: false, status: 503, json: async () => ({}) }))
+      try {
+        await expect(service.searchMarketplace({ query: 'test' })).rejects.toThrow('skill_search_failed')
+      } finally {
+        vi.unstubAllGlobals()
+      }
+    })
+
+    it('installs a claude-plugins hit through its GitHub tree URL', async () => {
+      // The URL installer walks the GitHub trees API; stub the tree listing and
+      // two raw file downloads (SKILL.md + one script).
+      const rawFiles: Record<string, string> = {
+        'https://raw.githubusercontent.com/acme/skills/main/git/SKILL.md': '---\nname: Git Skill\ndescription: git helper\n---\nbody',
+        'https://raw.githubusercontent.com/acme/skills/main/git/run.sh': 'echo hi',
+      }
+      vi.stubGlobal('fetch', async (input: string | URL) => {
+        const url = String(input)
+        if (url.includes('/git/trees/')) {
+          return {
+            ok: true,
+            json: async () => ({ tree: [
+              { path: 'git/SKILL.md', type: 'blob' },
+              { path: 'git/run.sh', type: 'blob' },
+            ] }),
+          }
+        }
+        if (url in rawFiles) {
+          return { ok: true, arrayBuffer: async () => Buffer.from(rawFiles[url]!, 'utf8') }
+        }
+        return { ok: false, status: 404, arrayBuffer: async () => Buffer.alloc(0) }
+      })
+      try {
+        const installed = await service.install({
+          source: 'url',
+          url: 'https://github.com/acme/skills/tree/main/git',
+        })
+        expect(installed.name).toBe('Git Skill')
+      } finally {
+        vi.unstubAllGlobals()
+      }
     })
   })
 })

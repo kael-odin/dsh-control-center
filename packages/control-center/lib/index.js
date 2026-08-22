@@ -4,7 +4,7 @@ import { t as knowledgeRemote } from "./knowledge-remote-client-z0vloa3L.js";
 import { createRequire } from "node:module";
 import Schema from "@deepseek-ai/schemastery";
 import { installSettingsSection, settingsNamespace } from "@deepseek-ai/dsh-settings";
-import { basename, join, relative, resolve } from "node:path";
+import { basename, join, relative, resolve, sep } from "node:path";
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { resolveDshHome } from "@deepseek-ai/dsh-home-paths";
 import { createHash, randomUUID } from "node:crypto";
@@ -14,10 +14,10 @@ import { Remote, bindTypertRemote } from "@deepseek-ai/dsh-typert-protocol";
 import { appendFile, mkdir, rm, writeFile } from "node:fs/promises";
 import { DatabaseSync } from "node:sqlite";
 import { defineTool } from "@deepseek-ai/dsh-tools";
+import { arch, homedir, platform, release, tmpdir } from "node:os";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { credentialRef } from "@deepseek-ai/dsh-credentials";
-import { arch, homedir, platform, release } from "node:os";
 import { spawnSync } from "node:child_process";
 //#region lib/types/compatibility.js
 /** DSH package versions and exports required by the first Control Center release. */
@@ -1835,6 +1835,168 @@ var KnowledgeService = class extends Service {
 	}
 };
 //#endregion
+//#region lib/types/skill-marketplace.js
+/**
+* Skill marketplace search — ported from Cherry Studio
+* `src/shared/utils/skillMarketplace.ts`: three public registries searched in
+* parallel, partial failures tolerated (only an all-source failure rejects),
+* de-duplicated by display name.
+*
+* Transport is injected so tests can stub responses; production passes the
+* host `fetch`.
+*/
+function asRecord(value) {
+	return typeof value === "object" && value !== null ? value : null;
+}
+function str(record, key) {
+	const value = record[key];
+	return typeof value === "string" && value.length > 0 ? value : null;
+}
+function num(record, key) {
+	const value = record[key];
+	return typeof value === "number" && Number.isFinite(value) ? value : 0;
+}
+/**
+* Resolve the installable GitHub directory for one claude-plugins entry:
+* prefer metadata.directoryPath, else derive it from a github.com tree URL on
+* the same repo/main branch (Cherry's rule — fail closed when ambiguous).
+*/
+function claudePluginsEntries(raw) {
+	const root = asRecord(raw);
+	const skills = Array.isArray(root?.skills) ? root.skills : [];
+	const out = [];
+	for (const itemRaw of skills) {
+		const item = asRecord(itemRaw);
+		if (item === null) continue;
+		const meta = asRecord(item.metadata) ?? {};
+		const repoOwner = str(meta, "repoOwner");
+		const repoName = str(meta, "repoName");
+		let dir = str(meta, "directoryPath");
+		if (dir === null && typeof item.sourceUrl === "string") try {
+			const url = new URL(item.sourceUrl);
+			const parts = url.pathname.split("/").filter(Boolean);
+			if (url.hostname === "github.com" && parts.length >= 5 && parts[0].toLowerCase() === repoOwner?.toLowerCase() && parts[1].toLowerCase() === repoName?.toLowerCase() && parts[2] === "tree" && (parts[3] === "main" || parts[3] === "master")) dir = parts.slice(4).map(decodeURIComponent).filter(Boolean).join("/");
+		} catch {}
+		if (repoOwner === null || repoName === null || dir === null || dir.length === 0) continue;
+		out.push({
+			slug: str(item, "id") ?? `${repoOwner}/${repoName}/${dir}`,
+			name: str(item, "name") ?? dir,
+			description: str(item, "description"),
+			author: str(item, "author") ?? str(item, "namespace") ?? repoOwner,
+			stars: num(item, "stars"),
+			downloads: num(item, "installs"),
+			sourceRegistry: "claude-plugins.dev",
+			sourceUrl: item.sourceUrl === null || typeof item.sourceUrl !== "string" ? `https://github.com/${repoOwner}/${repoName}/tree/main/${dir}` : item.sourceUrl
+		});
+	}
+	return out;
+}
+function skillsShEntries(raw) {
+	const root = asRecord(raw);
+	const skills = Array.isArray(root?.skills) ? root.skills : [];
+	const out = [];
+	for (const itemRaw of skills) {
+		const item = asRecord(itemRaw);
+		if (item === null) continue;
+		const id = str(item, "id");
+		if (id === null) continue;
+		out.push({
+			slug: id,
+			name: str(item, "name") ?? id,
+			description: null,
+			author: id.includes("/") ? id.split("/")[0] : null,
+			stars: 0,
+			downloads: num(item, "installs"),
+			sourceRegistry: "skills.sh",
+			sourceUrl: `https://skills.sh/${id}`
+		});
+	}
+	return out;
+}
+function clawhubEntries(raw) {
+	const root = asRecord(raw);
+	const results = Array.isArray(root?.results) ? root.results : [];
+	const out = [];
+	for (const itemRaw of results) {
+		const item = asRecord(itemRaw);
+		if (item === null) continue;
+		const owner = str(item, "ownerHandle");
+		const slug = str(item, "slug");
+		if (owner === null || slug === null) continue;
+		out.push({
+			slug,
+			name: str(item, "displayName") ?? slug,
+			description: str(item, "summary"),
+			author: owner,
+			stars: 0,
+			downloads: 0,
+			sourceRegistry: "clawhub.ai",
+			sourceUrl: `https://clawhub.ai/${owner}/skills/${slug}`
+		});
+	}
+	return out;
+}
+const MARKETPLACE_SOURCES = [
+	{
+		name: "skills.sh",
+		buildUrl: (query) => {
+			const url = new URL("https://skills.sh/api/search");
+			url.searchParams.set("q", query);
+			return url.toString();
+		},
+		normalize: skillsShEntries
+	},
+	{
+		name: "claude-plugins.dev",
+		buildUrl: (query) => {
+			const url = new URL("https://claude-plugins.dev/api/skills");
+			url.searchParams.set("q", query);
+			url.searchParams.set("limit", "20");
+			return url.toString();
+		},
+		normalize: claudePluginsEntries
+	},
+	{
+		name: "clawhub.ai",
+		buildUrl: (query) => {
+			const url = new URL("https://clawhub.ai/api/v1/search");
+			url.searchParams.set("q", query);
+			return url.toString();
+		},
+		normalize: clawhubEntries
+	}
+];
+const SKILL_SEARCH_FAILED = "skill_search_failed";
+/**
+* Search every supported registry. Only an all-source failure rejects;
+* per-source failures are reported through {@param onSourceFailure}.
+*/
+async function searchSkillMarketplaces(query, fetchJson, onSourceFailure) {
+	const trimmed = query.trim();
+	if (trimmed.length === 0) return [];
+	const settled = await Promise.allSettled(MARKETPLACE_SOURCES.map(async (source) => source.normalize(await fetchJson(source.buildUrl(trimmed)))));
+	const combined = [];
+	let failed = 0;
+	settled.forEach((result, index) => {
+		if (result.status === "fulfilled") combined.push(...result.value);
+		else {
+			failed += 1;
+			onSourceFailure?.(MARKETPLACE_SOURCES[index].name, result.reason);
+		}
+	});
+	if (failed === MARKETPLACE_SOURCES.length) throw new Error(SKILL_SEARCH_FAILED);
+	const seen = /* @__PURE__ */ new Set();
+	return combined.filter((result) => {
+		const key = result.name.toLowerCase();
+		if (seen.has(key)) return false;
+		seen.add(key);
+		return true;
+	}).map((result) => ({
+		...result,
+		installUrl: result.sourceRegistry === "claude-plugins.dev" && result.sourceUrl !== null ? result.sourceUrl : null
+	}));
+}
+//#endregion
 //#region lib/types/skills.js
 /**
 * Skills vertical Host service.
@@ -2044,7 +2206,7 @@ var SkillsService = class extends Service {
 		switch (options.source) {
 			case "directory": return this.installFromDirectory(options.path);
 			case "zip": throw new Error("ZIP installation not yet implemented");
-			case "url": throw new Error("URL installation not yet implemented");
+			case "url": return this.installFromUrl(options.url);
 			case "marketplace": throw new Error("Marketplace installation not yet implemented");
 			default: throw new Error(`Unknown install source: ${options.source}`);
 		}
@@ -2094,6 +2256,51 @@ var SkillsService = class extends Service {
 			isGlobalEnabled: Boolean(installed.isGlobalEnabled)
 		};
 	}
+	/**
+	* Install one skill directory from a github.com tree URL
+	* (`/{owner}/{repo}/tree/{branch}/{dir}`): the Git Trees API lists the
+	* subtree, each blob downloads from raw.githubusercontent.com, and the
+	* staged copy re-enters the ordinary directory installer — validation,
+	* hashing, and dedupe stay in exactly one code path.
+	*/
+	async installFromUrl(sourceUrl) {
+		let url;
+		try {
+			url = new URL(sourceUrl.trim());
+		} catch {
+			throw new Error(`无效 URL：${sourceUrl}`);
+		}
+		const parts = url.pathname.split("/").filter(Boolean).map(decodeURIComponent);
+		if (url.hostname.replace(/^www\./, "") !== "github.com" || parts.length < 5 || parts[2] !== "tree") throw new Error("目前仅支持 GitHub 目录链接（github.com/{owner}/{repo}/tree/{分支}/{目录}）");
+		const [owner, repo, , ref, ...dirParts] = parts;
+		const dirPath = dirParts.join("/");
+		if (dirPath.length === 0) throw new Error("链接未指向技能子目录");
+		const api = `https://api.github.com/repos/${owner}/${repo}/git/trees/${encodeURIComponent(ref)}?recursive=1`;
+		const treeResponse = await fetch(api, { headers: { accept: "application/vnd.github+json" } });
+		if (!treeResponse.ok) throw new Error(`GitHub Trees API 返回 ${String(treeResponse.status)}`);
+		const tree = await treeResponse.json();
+		const entries = (Array.isArray(tree.tree) ? tree.tree : []).map((entry) => typeof entry.path === "string" ? entry : null).filter((entry) => entry !== null && (entry.type ?? "blob") === "blob").filter((entry) => entry.path === dirPath || entry.path.startsWith(`${dirPath}/`));
+		if (entries.length === 0) throw new Error(`仓库分支 ${ref} 下不存在目录 ${dirPath}`);
+		const stageRoot = join(tmpdir(), `dsh-skill-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`);
+		const stageDir = join(stageRoot, basename(dirPath));
+		try {
+			for (const entry of entries) {
+				const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${encodeURIComponent(ref)}/${entry.path.split("/").map(encodeURIComponent).join("/")}`;
+				const fileResponse = await fetch(rawUrl);
+				if (!fileResponse.ok) throw new Error(`下载 ${entry.path} 失败（${String(fileResponse.status)}）`);
+				const content = Buffer.from(await fileResponse.arrayBuffer());
+				const target = join(stageDir, entry.path.slice(dirPath.length).replace(/^\//, ""));
+				mkdirSync(target.slice(0, target.lastIndexOf(sep)), { recursive: true });
+				writeFileSync(target, content);
+			}
+			return this.installFromDirectory(stageDir);
+		} finally {
+			rmSync(stageRoot, {
+				recursive: true,
+				force: true
+			});
+		}
+	}
 	copyDirectory(src, dest) {
 		mkdirSync(dest, { recursive: true });
 		const entries = readdirSync(src);
@@ -2132,8 +2339,41 @@ var SkillsService = class extends Service {
 	* wired. Throws loudly rather than silently returning an empty result set,
 	* so callers cannot mistake an unimplemented capability for "no matches".
 	*/
-	async searchMarketplace(_query) {
-		throw new Error("Skill marketplace search is not yet implemented on this host");
+	/**
+	* Search the three public skill registries (Cherry's set) in parallel via
+	* host fetch — browser CORS never gates it. Results are installable
+	* through {@link install} with `{ source: 'url', url: sourceUrl }` when the
+	* entry carries a GitHub directory.
+	*/
+	async searchMarketplace(query) {
+		const skills = (await searchSkillMarketplaces(query.query, async (url) => {
+			const response = await fetch(url, { headers: { accept: "application/json" } });
+			if (!response.ok) throw new Error(`registry answered ${String(response.status)}`);
+			return await response.json();
+		}, (source, error) => {
+			this.ctx.logger.warn(`skill marketplace "${String(source)}" failed: ${error instanceof Error ? error.message : String(error)}`);
+		})).map((result) => ({
+			id: result.slug,
+			name: result.name,
+			namespace: result.sourceRegistry,
+			sourceUrl: result.sourceUrl,
+			description: result.description,
+			version: null,
+			author: result.author,
+			stars: result.stars,
+			installs: result.downloads
+		}));
+		if (skills.length === 0 && query.query.trim().length > 0) try {
+			await searchSkillMarketplaces("", async () => ({ skills: [] }));
+		} catch {
+			throw new Error(SKILL_SEARCH_FAILED);
+		}
+		return {
+			skills,
+			total: skills.length,
+			limit: query.limit ?? skills.length,
+			offset: query.offset ?? 0
+		};
 	}
 	[Symbol.dispose]() {
 		this.db.close();
