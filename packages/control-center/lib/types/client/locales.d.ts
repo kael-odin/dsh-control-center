@@ -134,6 +134,7 @@ export declare const en: {
     providerDisabled: string;
     freeBadge: string;
     getApiKey: string;
+    routeInfo: string;
     prefTitle: string;
     prefTranslation: string;
     prefPainting: string;

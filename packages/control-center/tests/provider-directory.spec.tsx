@@ -339,7 +339,7 @@ describe('RequestOptionsPanel', () => {
       .getAllByRole('button', { name: /深度求索/ })
       .find(element => element.getAttribute('aria-pressed') !== null)!
     fireEvent.click(deepseekRow)
-    fireEvent.click(screen.getByRole('button', { name: 'Request options' }))
+    fireEvent.click(screen.getAllByRole('button', { name: 'Request options' })[0]!)
     const dialog = within(screen.getByRole('dialog'))
     fireEvent.click(dialog.getByRole('button', { name: 'Add header' }))
     fireEvent.change(dialog.getByLabelText('Header name 1'), { target: { value: 'X-Test' } })

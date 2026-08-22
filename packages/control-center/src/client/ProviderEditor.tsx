@@ -80,6 +80,9 @@ export interface ProviderEditorProps {
   onSetDefault?: (modelId: string) => void
   /** The provider's served-catalog candidates for the eye-toggle merge. */
   catalogModels?: readonly { id: string; name?: string }[]
+  /** Open the route's request-options panel (the Cherry gear beside the
+   * base URL); absent on surfaces that host their own entry point. */
+  onOpenRequestOptions?: () => void
   /**
    * Whether the adapter reports this route as hand-declared — absent from its
    * installed catalog. Such a route carries its own wire protocol, chosen when
@@ -560,7 +563,10 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
           )
           : null}
         <div className={styles['field']}>
-          <span className={styles['fieldLabel']}>{t('baseUrl')}</span>
+          <span className={styles['fieldLabelRow']}>
+            <span className={styles['fieldLabel']}>{t('baseUrl')}</span>
+          </span>
+          <div className={styles['inputRow']}>
           <input
             className={`${styles['input']} ${styles['monoInput']}`}
             type="text"
@@ -574,6 +580,24 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
               setField('baseURL', event.target.value === '' ? undefined : event.target.value)
             }}
           />
+          {props.onOpenRequestOptions !== undefined
+            ? (
+              <button
+                type="button"
+                className={styles['iconButton']}
+                aria-label={t('requestOptions')}
+                title={t('requestOptions')}
+                disabled={disabled}
+                onClick={() => { props.onOpenRequestOptions?.() }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z" />
+                </svg>
+              </button>
+            )
+            : null}
+          </div>
           {endpointPreview === undefined
             ? null
             : (

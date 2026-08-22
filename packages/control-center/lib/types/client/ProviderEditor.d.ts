@@ -74,6 +74,9 @@ export interface ProviderEditorProps {
         id: string;
         name?: string;
     }[];
+    /** Open the route's request-options panel (the Cherry gear beside the
+     * base URL); absent on surfaces that host their own entry point. */
+    onOpenRequestOptions?: () => void;
     /**
      * Whether the adapter reports this route as hand-declared — absent from its
      * installed catalog. Such a route carries its own wire protocol, chosen when

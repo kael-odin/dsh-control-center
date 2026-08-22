@@ -744,6 +744,16 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                             </button>
                           )
                           : null}
+                          <span
+                          className={styles['infoDot']}
+                          data-tip={`${effective.provider}${effective.preset === undefined ? '' : ` · ${effective.preset.type}`}${editTarget.defaults?.baseURL === undefined ? '' : `
+${editTarget.defaults.baseURL}`}`}
+                          tabIndex={0}
+                          role="img"
+                          aria-label={t('routeInfo')}
+                        >
+                          i
+                        </span>
                         {/* Cherry links the provider name to its official site. */}
                         {editTarget.website === undefined
                           ? <span className={styles['detailTitle']}>{effective.displayName}</span>
@@ -851,6 +861,7 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                             {...editTarget.declared === true ? { declared: true } : {}}
                             {...editTarget.defaults === undefined ? {} : { defaults: editTarget.defaults }}
                             {...editTarget.helpLinks === undefined ? {} : { helpLinks: editTarget.helpLinks }}
+                            {...editTarget.settingsNs !== NS ? {} : { onOpenRequestOptions: () => { setOptionsOpen(true) } }}
                             {...providerCatalog.length === 0 || editTarget.settingsNs !== NS
                               ? {}
                               : { catalogModels: providerCatalog }}
