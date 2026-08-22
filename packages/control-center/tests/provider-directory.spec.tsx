@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { render, screen, fireEvent, within, cleanup } from '@testing-library/react'
+import { render, screen, fireEvent, within, cleanup, waitFor } from '@testing-library/react'
 import { createSettingsSchemaOperations } from '../src/client/schema-operations.ts'
 import { buildDirectory, identityOf, ProviderDirectorySection } from '../src/client/ProviderDirectorySection.tsx'
 import type { ConfigurableProviderView, CredentialView, SettingsNamespaceView } from '@deepseek-ai/dsh-api-remotes/client'
@@ -176,5 +176,34 @@ describe('ProviderDirectorySection', () => {
     renderSection([row('deepseek', '深度求索 (DeepSeek)', true, true)])
     const deepseekRow = screen.getByRole('button', { name: /深度求索/ })
     expect(within(deepseekRow).getByTitle('API key configured')).toBeTruthy()
+  })
+
+  it('writes a fresh preset profile with the preset defaults on apply', async () => {
+    const api = apiMock()
+    const useSnapshot = (selector: (state: ModelsSettingsState) => unknown) => selector(readyState([]))
+    render(
+      <ProviderDirectorySection
+        controller={{ load: vi.fn() } as never}
+        useSnapshot={useSnapshot as never}
+        api={api as never}
+        schema={schema}
+        t={t}
+      />,
+    )
+    fireEvent.click(screen.getByRole('button', { name: '硅基流动 (Silicon)' }))
+    fireEvent.change(screen.getByLabelText('API key'), { target: { value: 'sk-test' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Apply' }))
+    await waitFor(() => {
+      expect(api.settings.mutate).toHaveBeenCalledWith({
+        ns: 'llm-pi-ai',
+        expectedRevision: 0,
+        ops: expect.arrayContaining([
+          { op: 'set', path: ['providers', 'silicon', 'api'], value: 'openai-completions' },
+          { op: 'set', path: ['providers', 'silicon', 'baseURL'], value: 'https://api.siliconflow.cn/v1' },
+          { op: 'set', path: ['providers', 'silicon', 'apiKeyEnv'], value: 'SILICON_API_KEY' },
+        ]),
+      })
+    })
+    expect(api.credentials.set).toHaveBeenCalledWith({ ref: 'SILICON_API_KEY', value: 'sk-test' })
   })
 })
