@@ -13,8 +13,24 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const ICONS_DIR = resolve(ROOT, '..', 'cherry-studio', 'packages', 'ui', 'src', 'components', 'icons', 'providers')
 
 /** Convert an SVG JSX string into plain HTML (best-effort, deterministic). */
-function jsxToHtml(svg, iconId) {
+function jsxToHtml(svg, iconId, source) {
   let out = svg
+  // Inline module-level string constants (Cherry embeds raster logos as
+  // `const NAME = ['b64...', '...'].join('')` above the component). Without
+  // this the identifier survives as a literal href and the glyph 404s.
+  if (source !== undefined) {
+    const constants = new Map()
+    for (const match of source.matchAll(/const\s+(\w+)\s*=\s*\[([\s\S]*?)\]\.join\(\s*['"]{2}\s*\)/g)) {
+      const parts = [...match[2].matchAll(/'([^']*)'/g)].map(piece => piece[1])
+      constants.set(match[1], parts.join(''))
+    }
+    for (const match of source.matchAll(/const\s+(\w+)\s*=\s*'([^']*)'\s*;?/g)) {
+      if (!constants.has(match[1])) constants.set(match[1], match[2])
+    }
+    for (const [name, value] of constants) {
+      out = out.replaceAll(`={${name}}`, `="${value}"`)
+    }
+  }
   // Remove spread props ({...props}) and useId() declarations.
   out = out.replace(/\{\.\.\.[\w]+\}/g, '')
   // Staticize useId()-style template ids: {`${iconId}-suffix`} -> cc-<slug>.
@@ -44,12 +60,22 @@ function jsxToHtml(svg, iconId) {
     return `style="${css}"`
   })
   // Numeric/string JSX attributes: width={65} -> width="65"; fill="#fff" stays.
-  out = out.replace(/([\w-]+)=\{([0-9.]+)\}/g, '$1="$2"')
+  // Negative and decimal values must both match, or the leftover {...} cleanup
+  // below strips the braces and leaves an unquoted attribute that swallows the
+  // next one (observed as y1="y2=..." on gradient glyphs).
+  out = out.replace(/([\w-]+)=\{(-?[0-9.]+)\}/g, '$1="$2"')
   out = out.replace(/([\w-]+)=\{'(.*?)'\}/g, '$1="$2"')
   out = out.replace(/([\w-]+)=\{`(.*?)`\}/g, '$1="$2"')
-  out = out.replace(/([\w-]+)=\{([\w]+)\}/g, '$1="$2"')
+  out = out.replace(/([\w-]+)=\{(-?[\w]+)\}/g, '$1="$2"')
   // Remove remaining JSX expressions that cannot be HTML.
   out = out.replace(/\{[^}]*\}/g, '')
+  // A body that still carries braces, or an attribute whose equals sign is
+  // followed by whitespace (the fingerprint of a stripped expression value),
+  // means conversion failed for this glyph — refuse it rather than shipping
+  // broken SVG.
+  if (/[\{\}]/.test(out) || /[\w-]+=\s/.test(out)) {
+    return null
+  }
   // The body excludes the <svg> tag itself; empty means conversion failed.
   if (out.trim().length === 0) return null
   return out.trim()
@@ -73,7 +99,7 @@ for (const key of keys) {
   if (viewBoxMatch === null) continue
   const bodyStart = inner.indexOf('>')
   if (bodyStart < 0) continue
-  const body = jsxToHtml(inner.slice(bodyStart + 1), key)
+  const body = jsxToHtml(inner.slice(bodyStart + 1), key, light)
   if (body === null) continue
   let color = ''
   try {

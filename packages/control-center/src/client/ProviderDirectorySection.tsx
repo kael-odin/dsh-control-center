@@ -35,10 +35,10 @@ import { ProviderEditor } from './ProviderEditor.tsx'
 import { removeProviderProfile } from './ModelsSection.tsx'
 import { RequestOptionsPanel } from './RequestOptionsPanel.tsx'
 import { ModelHealthDialog } from './ModelHealthDialog.tsx'
+import { ProviderAvatar } from './provider-avatar.tsx'
 import {
   PI_AI_SHIPPED_PRESET_IDS, PROVIDER_PRESETS, presetApiOf, type ProviderPreset,
 } from './provider-presets.ts'
-import { providerIconSvg } from './provider-icons-data.ts'
 import { providerCopy, type ProviderIdentity } from './ModelsSection.tsx'
 import type { ModelsSettingsState, ModelsSettingsStore, ProviderRow } from './store.ts'
 import { messageOf, protocolChoices } from './store.ts'
@@ -55,6 +55,9 @@ export const STASH_NS = 'control-center-provider-stash'
 const LAST_SELECTED_KEY = 'settings.provider.last_selected_provider_id'
 /** localStorage key for the user's provider ordering (drag to reorder). */
 const ORDER_KEY = 'settings.provider.order'
+
+/** Cherry's persisted list filter modes (ProviderListHeaderFilterMenu). */
+type FilterMode = 'all' | 'enabled' | 'disabled'
 
 /** Read the persisted ordering, tolerating absent or corrupt storage. */
 function loadOrder(): readonly string[] {
@@ -162,21 +165,6 @@ export function buildDirectory(rows: readonly ProviderRow[]): readonly Directory
   return entries
 }
 
-/** Cherry-style brand avatar; falls back to the leading letter when the icon
- * registry has no glyph for the id. */
-function ProviderAvatar({ providerId, name }: { providerId: string; name: string }): ReactNode {
-  const glyph = providerIconSvg(providerId, 26)
-  if (glyph !== '') {
-    return (
-      <span
-        className={styles['avatar']}
-        dangerouslySetInnerHTML={{ __html: glyph }}
-      />
-    )
-  }
-  return <span className={styles['avatar']} data-letter>{name.charAt(0).toUpperCase() || '?'}</span>
-}
-
 /**
  * An accessible pill switch (the primitives package ships none). Real state
  * lives with the caller; this renders and clicks.
@@ -217,6 +205,9 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
   const { controller, api, t, schema, getCheck } = injected
   const state = injected.useSnapshot(snapshot => snapshot)
   const [search, setSearch] = useState('')
+  /** Cherry's persisted header filter: all / enabled / disabled. */
+  const [filterMode, setFilterMode] = useState<FilterMode>('all')
+  const [filterOpen, setFilterOpen] = useState(false)
   const [selectedId, setSelectedId] = useState<string | undefined>(() => {
     try {
       return window.localStorage.getItem(LAST_SELECTED_KEY) ?? undefined
@@ -257,6 +248,28 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
     )
   }
 
+  const namespace = state.namespaces.get(NS)
+  const stashView = state.namespaces.get(STASH_NS)
+
+  /**
+   * Whether this route CAN be toggled at all. A live or stashed profile is
+   * always toggleable; a never-configured route only when the adapter ships
+   * its catalog (an empty profile is serviceable there). A whole-section
+   * route (`llm-deepseek`, no sub-path) is composition-owned and stays out of
+   * reach — unsetting it here would tear down the deployment's own section.
+   */
+  const toggleStateOf = (entry: DirectoryEntry): { enabled: boolean; canToggle: boolean } => {
+    const live = entry.row?.configured === true
+      && entry.row.entry.settingsPath.length > 0
+    const stashed = stashView !== undefined
+      && schema.getPath(stashView.value, ['providers', entry.provider]) !== undefined
+    if (live) return { enabled: true, canToggle: true }
+    if (stashed) return { enabled: false, canToggle: true }
+    const shippable = entry.row?.entry.settingsPath.length !== 0
+      && (entry.preset !== undefined && PI_AI_SHIPPED_PRESET_IDS.has(entry.provider))
+    return { enabled: false, canToggle: shippable }
+  }
+
   const directory = useMemo(() => {
     const entries = buildDirectory(state.rows)
     if (order.length === 0) return entries
@@ -265,11 +278,18 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
       (rank.get(left.provider) ?? Number.MAX_SAFE_INTEGER) - (rank.get(right.provider) ?? Number.MAX_SAFE_INTEGER))
   }, [state.rows, order])
   const filtered = useMemo(() => {
-    if (search.trim().length === 0) return directory
+    const byFilter = filterMode === 'all'
+      ? directory
+      : directory.filter(entry => {
+        const { enabled, canToggle } = toggleStateOf(entry)
+        const effectivelyEnabled = canToggle && enabled
+        return filterMode === 'enabled' ? effectivelyEnabled : canToggle && !enabled
+      })
+    if (search.trim().length === 0) return byFilter
     const keywords = search.toLowerCase().split(/\s+/).filter(Boolean)
-    return directory.filter(entry => keywords.every(kw =>
+    return byFilter.filter(entry => keywords.every(kw =>
       entry.provider.toLowerCase().includes(kw) || entry.displayName.toLowerCase().includes(kw)))
-  }, [directory, search])
+  }, [directory, search, filterMode])
 
   const selected = selectedId === undefined ? undefined : directory.find(entry => entry.provider === selectedId)
   // A selection that no longer exists (renamed or removed) falls back to the
@@ -309,8 +329,6 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
     }
   }
 
-  const namespace = state.namespaces.get(NS)
-  const stashView = state.namespaces.get(STASH_NS)
   const protocols = protocolChoices(namespace, schema)
   const editTarget = effective === undefined ? undefined : identityOf(effective)
   // The host default-model route: the brush marker and its write target.
@@ -361,25 +379,6 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
 
   const announceSaved = (target: ProviderIdentity): void => {
     void controller.load().then(() => { setSavedTarget(target) })
-  }
-
-  /**
-   * Whether this route CAN be toggled at all. A live or stashed profile is
-   * always toggleable; a never-configured route only when the adapter ships
-   * its catalog (an empty profile is serviceable there). A whole-section
-   * route (`llm-deepseek`, no sub-path) is composition-owned and stays out of
-   * reach — unsetting it here would tear down the deployment's own section.
-   */
-  const toggleStateOf = (entry: DirectoryEntry): { enabled: boolean; canToggle: boolean } => {
-    const live = entry.row?.configured === true
-      && entry.row.entry.settingsPath.length > 0
-    const stashed = stashView !== undefined
-      && schema.getPath(stashView.value, ['providers', entry.provider]) !== undefined
-    if (live) return { enabled: true, canToggle: true }
-    if (stashed) return { enabled: false, canToggle: true }
-    const shippable = entry.row?.entry.settingsPath.length !== 0
-      && (entry.preset !== undefined && PI_AI_SHIPPED_PRESET_IDS.has(entry.provider))
-    return { enabled: false, canToggle: shippable }
   }
 
   /**
@@ -519,29 +518,74 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
       <div className={styles['split']}>
         {/* Left pane: provider list */}
         <aside className={styles['list']}>
-          <div className={styles['listHeader']}>
-            <input
-              className={styles['searchInput']}
-              type="text"
-              value={search}
-              placeholder={t('searchProviders')}
-              aria-label={t('searchProviders')}
-              onChange={(event) => { setSearch(event.target.value) }}
-            />
-            {search.length === 0
-              ? null
-              : (
+          <div className={styles['searchRow']}>
+            <div className={styles['searchWrap']}>
+              <span className={styles['searchIcon']} aria-hidden>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="m21 21-4.3-4.3" />
+                </svg>
+              </span>
+              <input
+                className={styles['searchInput']}
+                type="text"
+                value={search}
+                placeholder={t('searchProviders')}
+                aria-label={t('searchProviders')}
+                onChange={(event) => { setSearch(event.target.value) }}
+                onKeyDown={(event) => {
+                  if (event.key === 'Escape') {
+                    event.stopPropagation()
+                    setSearch('')
+                  }
+                }}
+              />
+              {search.length === 0
+                ? null
+                : (
+                  <button
+                    type="button"
+                    className={styles['searchClear']}
+                    aria-label={t('cancel')}
+                    onClick={() => { setSearch('') }}
+                  >
+                    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                      <path d="M18 6 6 18" />
+                      <path d="m6 6 12 12" />
+                    </svg>
+                  </button>
+                )}
+            </div>
+            {/* Cherry's header filter menu: all / enabled / disabled. */}
+            <Menu
+              open={filterOpen}
+              align="end"
+              selectedId={filterMode}
+              anchor={(
                 <button
                   type="button"
-                  className={styles['searchClear']}
-                  aria-label={t('cancel')}
-                  onClick={() => { setSearch('') }}
+                  className={styles['headerIconButton']}
+                  aria-label={t('filterProviders')}
+                  title={t('filterProviders')}
+                  onClick={() => { setFilterOpen(open => !open) }}
                 >
-                  <svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden>
-                    <path d="M9 3L3 9M3 3L9 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
                   </svg>
                 </button>
               )}
+              portal
+              items={[
+                { id: 'all', label: t('filterAll') },
+                { id: 'enabled', label: t('filterEnabled') },
+                { id: 'disabled', label: t('filterDisabled') },
+              ]}
+              onSelect={(id) => {
+                setFilterMode(id as FilterMode)
+                setFilterOpen(false)
+              }}
+              onClose={() => { setFilterOpen(false) }}
+            />
           </div>
           <div className={styles['listScroll']}>
             {filtered.length === 0
@@ -597,8 +641,22 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                           }}
                         >
                           <span className={styles['listItemMain']}>
-                            <ProviderAvatar providerId={entry.provider} name={entry.displayName} />
-                            <span className={styles['listItemName']}>{entry.displayName}</span>
+                            <span
+                              className={styles['dragHandle']}
+                              data-dragging={draggingId === entry.provider ? 'true' : 'false'}
+                              aria-hidden
+                            >
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                                <circle cx="9" cy="5" r="1" />
+                                <circle cx="9" cy="12" r="1" />
+                                <circle cx="9" cy="19" r="1" />
+                                <circle cx="15" cy="5" r="1" />
+                                <circle cx="15" cy="12" r="1" />
+                                <circle cx="15" cy="19" r="1" />
+                              </svg>
+                            </span>
+                            <ProviderAvatar providerId={entry.provider} name={entry.displayName} className={styles['avatar']} displayContext="provider-list" />
+                            <span className={styles['listItemName']} data-selected={isSelected ? 'true' : 'false'}>{entry.displayName}</span>
                             {/* Cherry tags exactly one catalog entry this way. */}
                             {entry.provider === 'radeon-cloud'
                               ? <span className={styles['freeBadge']}>{t('freeBadge')}</span>
@@ -623,10 +681,10 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                                     setMenuFor(open => open === entry.provider ? undefined : entry.provider)
                                   }}
                                 >
-                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                                    <circle cx="12" cy="5" r="1.6" />
-                                    <circle cx="12" cy="12" r="1.6" />
-                                    <circle cx="12" cy="19" r="1.6" />
+                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                                    <circle cx="12" cy="5" r="1" />
+                                    <circle cx="12" cy="12" r="1" />
+                                    <circle cx="12" cy="19" r="1" />
                                   </svg>
                                 </button>
                               )}
@@ -710,8 +768,10 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                   <div className={styles['detailScroll']}>
                     <header className={styles['detailHeader']}>
                       <div className={styles['detailHeaderMain']}>
-                        <ProviderAvatar providerId={effective.provider} name={effective.displayName} />
-                        {/* Model health check (Cherry's 检测 dialog). */}
+                        {/* Cherry's ProviderHeader: name (official-site link) +
+                            one Bolt button for the API options drawer. The
+                            health-check entry rides beside it as the same
+                            ghost-icon button. */}
                         {editTarget.settingsNs === NS && namespace !== undefined
                           ? (
                             <button
@@ -721,14 +781,13 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                               title={t('checkModels')}
                               onClick={() => { setHealthOpen(true) }}
                             >
-                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                                 <path d="M19.4 14a7.97 7.97 0 0 0 .3-2 7.97 7.97 0 0 0-.3-2l2.1-1.6a.5.5 0 0 0 .1-.7l-2-3.4a.5.5 0 0 0-.6-.2l-2.5 1a8 8 0 0 0-3.4-2L12.7.3a.5.5 0 0 0-.5-.4h-4a.5.5 0 0 0-.5.4l-.4 2.6a8 8 0 0 0-3.4 2l-2.5-1a.5.5 0 0 0-.6.2l-2 3.4a.5.5 0 0 0 .1.7L2.9 10a7.97 7.97 0 0 0 0 4l-2.1 1.6a.5.5 0 0 0-.1.7l2 3.4c.1.2.4.3.6.2l2.5-1a8 8 0 0 0 3.4 2l.4 2.6c0 .2.2.4.5.4h4c.2 0 .4-.2.5-.4l.4-2.6a8 8 0 0 0 3.4-2l2.5 1c.2.1.5 0 .6-.2l2-3.4a.5.5 0 0 0-.1-.7L19.4 14Z" />
                                 <circle cx="12" cy="12" r="3" />
                               </svg>
                             </button>
                           )
                           : null}
-                        {/* Cherry's bolt: the route's request options. */}
                         {editTarget.settingsNs === NS && namespace !== undefined
                           ? (
                             <button
@@ -738,13 +797,13 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                               title={t('requestOptions')}
                               onClick={() => { setOptionsOpen(true) }}
                             >
-                              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                                <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                                <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />
                               </svg>
                             </button>
                           )
                           : null}
-                          <span
+                        <span
                           className={styles['infoDot']}
                           data-tip={`${effective.provider}${effective.preset === undefined ? '' : ` · ${effective.preset.type}`}${editTarget.defaults?.baseURL === undefined ? '' : `
 ${editTarget.defaults.baseURL}`}`}

@@ -319,112 +319,112 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var PaintingWorkspace_module_css_default = {
-			"frame": "_-UrTq_frame",
-			"addPromptField": "_-UrTq_addPromptField",
-			"promptLibEmpty": "_-UrTq_promptLibEmpty",
-			"stripDelete": "_-UrTq_stripDelete",
-			"counterPill": "_-UrTq_counterPill",
-			"skeletonCell": "_-UrTq_skeletonCell",
-			"sendButton": "_-UrTq_sendButton",
-			"sizeLabel": "_-UrTq_sizeLabel",
-			"showcase": "_-UrTq_showcase",
-			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
-			"surface": "_-UrTq_surface",
-			"stripHeader": "_-UrTq_stripHeader",
-			"artboard": "_-UrTq_artboard",
-			"cc-cell-blink": "_-UrTq_cc-cell-blink",
-			"composerTextRow": "_-UrTq_composerTextRow",
-			"promptBarText": "_-UrTq_promptBarText",
-			"toolbarDivider": "_-UrTq_toolbarDivider",
-			"portalPanel": "_-UrTq_portalPanel",
-			"artboardStage": "_-UrTq_artboardStage",
-			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
-			"showcaseInner": "_-UrTq_showcaseInner",
-			"toolbarButton": "_-UrTq_toolbarButton",
-			"quickItemLabel": "_-UrTq_quickItemLabel",
-			"carouselCardImage": "_-UrTq_carouselCardImage",
-			"root": "_-UrTq_root",
-			"stripEnd": "_-UrTq_stripEnd",
-			"addPromptTextarea": "_-UrTq_addPromptTextarea",
-			"manageRowMain": "_-UrTq_manageRowMain",
-			"active": "_-UrTq_active",
-			"roundButton": "_-UrTq_roundButton",
-			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
-			"carouselLabel": "_-UrTq_carouselLabel",
-			"selected": "_-UrTq_selected",
-			"countSlider": "_-UrTq_countSlider",
-			"backButton": "_-UrTq_backButton",
+			"addImageButton": "_-UrTq_addImageButton",
 			"pauseButton": "_-UrTq_pauseButton",
-			"promptBar": "_-UrTq_promptBar",
-			"imageBox": "_-UrTq_imageBox",
-			"newButton": "_-UrTq_newButton",
-			"dragging": "_-UrTq_dragging",
-			"pillButton": "_-UrTq_pillButton",
-			"skeletonGrid": "_-UrTq_skeletonGrid",
-			"promptLibItemMain": "_-UrTq_promptLibItemMain",
-			"promptLibTitle": "_-UrTq_promptLibTitle",
-			"promptLibFooter": "_-UrTq_promptLibFooter",
-			"addPromptCard": "_-UrTq_addPromptCard",
-			"manageRowTitle": "_-UrTq_manageRowTitle",
-			"ratioThumb": "_-UrTq_ratioThumb",
+			"sizeGrid": "_-UrTq_sizeGrid",
+			"manageRow": "_-UrTq_manageRow",
+			"frame": "_-UrTq_frame",
+			"stripEnd": "_-UrTq_stripEnd",
+			"stripItem": "_-UrTq_stripItem",
+			"composerTextarea": "_-UrTq_composerTextarea",
 			"paramsField": "_-UrTq_paramsField",
+			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
+			"paramsSelect": "_-UrTq_paramsSelect",
+			"promptDockInner": "_-UrTq_promptDockInner",
+			"countInput": "_-UrTq_countInput",
+			"attachmentTile": "_-UrTq_attachmentTile",
+			"artboard": "_-UrTq_artboard",
+			"carouselCard": "_-UrTq_carouselCard",
 			"sizeChip": "_-UrTq_sizeChip",
-			"showcaseTitle": "_-UrTq_showcaseTitle",
-			"showcaseCaption": "_-UrTq_showcaseCaption",
+			"artboardEmpty": "_-UrTq_artboardEmpty",
+			"quickItemLabel": "_-UrTq_quickItemLabel",
+			"quickItemIcon": "_-UrTq_quickItemIcon",
+			"promptLibItem": "_-UrTq_promptLibItem",
+			"sendButton": "_-UrTq_sendButton",
+			"toolbarDivider": "_-UrTq_toolbarDivider",
+			"promptLibTitle": "_-UrTq_promptLibTitle",
 			"cc-strip-loading": "_-UrTq_cc-strip-loading",
 			"promptLibDelete": "_-UrTq_promptLibDelete",
-			"dialogActions": "_-UrTq_dialogActions",
-			"btnPrimary": "_-UrTq_btnPrimary",
-			"promptLibList": "_-UrTq_promptLibList",
-			"manageRowContent": "_-UrTq_manageRowContent",
-			"strip": "_-UrTq_strip",
-			"manageRowBtn": "_-UrTq_manageRowBtn",
-			"quickItem": "_-UrTq_quickItem",
-			"promptDock": "_-UrTq_promptDock",
-			"thumbEmpty": "_-UrTq_thumbEmpty",
-			"promptDockInner": "_-UrTq_promptDockInner",
-			"attachmentTile": "_-UrTq_attachmentTile",
-			"pillSummary": "_-UrTq_pillSummary",
-			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
-			"promptLib": "_-UrTq_promptLib",
-			"btn": "_-UrTq_btn",
-			"manageCard": "_-UrTq_manageCard",
-			"manageRow": "_-UrTq_manageRow",
+			"ratioThumb": "_-UrTq_ratioThumb",
+			"addPromptField": "_-UrTq_addPromptField",
 			"manageRowBtnDanger": "_-UrTq_manageRowBtnDanger",
-			"progressText": "_-UrTq_progressText",
-			"promptLibItem": "_-UrTq_promptLibItem",
-			"stripItem": "_-UrTq_stripItem",
-			"countRow": "_-UrTq_countRow",
-			"quickItemIcon": "_-UrTq_quickItemIcon",
-			"centerPane": "_-UrTq_centerPane",
-			"composer": "_-UrTq_composer",
-			"addImageButton": "_-UrTq_addImageButton",
-			"toolbarRail": "_-UrTq_toolbarRail",
-			"errorBanner": "_-UrTq_errorBanner",
-			"promptLibContent": "_-UrTq_promptLibContent",
-			"showcaseCarousel": "_-UrTq_showcaseCarousel",
-			"muted": "_-UrTq_muted",
-			"addPromptOverlay": "_-UrTq_addPromptOverlay",
-			"quickPanel": "_-UrTq_quickPanel",
-			"composerToolbar": "_-UrTq_composerToolbar",
-			"manageRowActions": "_-UrTq_manageRowActions",
-			"hidden": "_-UrTq_hidden",
-			"addPromptInput": "_-UrTq_addPromptInput",
-			"countInput": "_-UrTq_countInput",
-			"attachmentTray": "_-UrTq_attachmentTray",
+			"thumbEmpty": "_-UrTq_thumbEmpty",
+			"imageBox": "_-UrTq_imageBox",
+			"promptLibList": "_-UrTq_promptLibList",
+			"skeletonCell": "_-UrTq_skeletonCell",
+			"sizeLabel": "_-UrTq_sizeLabel",
+			"promptBarText": "_-UrTq_promptBarText",
+			"quickItem": "_-UrTq_quickItem",
+			"manageRowContent": "_-UrTq_manageRowContent",
+			"showcaseInner": "_-UrTq_showcaseInner",
+			"carouselLabel": "_-UrTq_carouselLabel",
+			"newButton": "_-UrTq_newButton",
+			"counterPill": "_-UrTq_counterPill",
+			"manageCard": "_-UrTq_manageCard",
+			"surface": "_-UrTq_surface",
+			"showcaseTitle": "_-UrTq_showcaseTitle",
 			"manageList": "_-UrTq_manageList",
+			"manageRowMain": "_-UrTq_manageRowMain",
 			"paramsPopover": "_-UrTq_paramsPopover",
+			"addPromptOverlay": "_-UrTq_addPromptOverlay",
+			"attachmentTray": "_-UrTq_attachmentTray",
+			"showcase": "_-UrTq_showcase",
+			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
+			"btnPrimary": "_-UrTq_btnPrimary",
+			"stripProgress": "_-UrTq_stripProgress",
+			"addPromptTextarea": "_-UrTq_addPromptTextarea",
+			"active": "_-UrTq_active",
+			"pillButton": "_-UrTq_pillButton",
+			"manageRowTitle": "_-UrTq_manageRowTitle",
 			"thumb": "_-UrTq_thumb",
+			"stripHeader": "_-UrTq_stripHeader",
+			"carouselCardImage": "_-UrTq_carouselCardImage",
+			"addPromptCard": "_-UrTq_addPromptCard",
 			"centerStage": "_-UrTq_centerStage",
-			"modelPill": "_-UrTq_modelPill",
-			"paramsSelect": "_-UrTq_paramsSelect",
-			"artboardEmpty": "_-UrTq_artboardEmpty",
+			"btn": "_-UrTq_btn",
+			"composerTextRow": "_-UrTq_composerTextRow",
+			"selected": "_-UrTq_selected",
+			"cc-cell-blink": "_-UrTq_cc-cell-blink",
+			"promptLibFooter": "_-UrTq_promptLibFooter",
+			"addPromptInput": "_-UrTq_addPromptInput",
+			"showcaseCaption": "_-UrTq_showcaseCaption",
+			"countSlider": "_-UrTq_countSlider",
+			"quickPanel": "_-UrTq_quickPanel",
+			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
 			"attachmentDelete": "_-UrTq_attachmentDelete",
-			"composerTextarea": "_-UrTq_composerTextarea",
-			"carouselCard": "_-UrTq_carouselCard",
+			"pillSummary": "_-UrTq_pillSummary",
+			"countRow": "_-UrTq_countRow",
+			"progressText": "_-UrTq_progressText",
+			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
+			"promptLib": "_-UrTq_promptLib",
+			"promptLibItemMain": "_-UrTq_promptLibItemMain",
+			"promptLibContent": "_-UrTq_promptLibContent",
+			"promptLibEmpty": "_-UrTq_promptLibEmpty",
+			"dialogActions": "_-UrTq_dialogActions",
+			"errorBanner": "_-UrTq_errorBanner",
 			"chevron": "_-UrTq_chevron",
-			"sizeGrid": "_-UrTq_sizeGrid",
-			"stripProgress": "_-UrTq_stripProgress"
+			"toolbarRail": "_-UrTq_toolbarRail",
+			"manageRowActions": "_-UrTq_manageRowActions",
+			"manageRowBtn": "_-UrTq_manageRowBtn",
+			"portalPanel": "_-UrTq_portalPanel",
+			"stripDelete": "_-UrTq_stripDelete",
+			"skeletonGrid": "_-UrTq_skeletonGrid",
+			"root": "_-UrTq_root",
+			"composer": "_-UrTq_composer",
+			"composerToolbar": "_-UrTq_composerToolbar",
+			"roundButton": "_-UrTq_roundButton",
+			"centerPane": "_-UrTq_centerPane",
+			"promptBar": "_-UrTq_promptBar",
+			"strip": "_-UrTq_strip",
+			"modelPill": "_-UrTq_modelPill",
+			"artboardStage": "_-UrTq_artboardStage",
+			"muted": "_-UrTq_muted",
+			"showcaseCarousel": "_-UrTq_showcaseCarousel",
+			"hidden": "_-UrTq_hidden",
+			"promptDock": "_-UrTq_promptDock",
+			"backButton": "_-UrTq_backButton",
+			"toolbarButton": "_-UrTq_toolbarButton",
+			"dragging": "_-UrTq_dragging"
 		};
 		//#endregion
 		//#region lib/types/client/painting-icons.js
@@ -1155,27 +1155,27 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var Combobox_module_css_default = {
-			"triggerChevron": "PJZ1pG_triggerChevron",
-			"optionSub": "PJZ1pG_optionSub",
-			"option": "PJZ1pG_option",
 			"trigger": "PJZ1pG_trigger",
-			"popoverPortal": "PJZ1pG_popoverPortal",
-			"group": "PJZ1pG_group",
-			"root": "PJZ1pG_root",
-			"list": "PJZ1pG_list",
-			"optionActive": "PJZ1pG_optionActive",
+			"triggerChevron": "PJZ1pG_triggerChevron",
 			"footerButton": "PJZ1pG_footerButton",
-			"searchInput": "PJZ1pG_searchInput",
-			"groupTitle": "PJZ1pG_groupTitle",
-			"optionLabel": "PJZ1pG_optionLabel",
-			"footer": "PJZ1pG_footer",
-			"triggerIcon": "PJZ1pG_triggerIcon",
-			"searchIcon": "PJZ1pG_searchIcon",
-			"optionIcon": "PJZ1pG_optionIcon",
-			"empty": "PJZ1pG_empty",
+			"optionSub": "PJZ1pG_optionSub",
+			"popoverPortal": "PJZ1pG_popoverPortal",
 			"triggerLabel": "PJZ1pG_triggerLabel",
+			"searchIcon": "PJZ1pG_searchIcon",
+			"optionText": "PJZ1pG_optionText",
+			"optionIcon": "PJZ1pG_optionIcon",
+			"optionLabel": "PJZ1pG_optionLabel",
+			"group": "PJZ1pG_group",
+			"triggerIcon": "PJZ1pG_triggerIcon",
+			"optionActive": "PJZ1pG_optionActive",
+			"empty": "PJZ1pG_empty",
 			"searchWrap": "PJZ1pG_searchWrap",
-			"optionText": "PJZ1pG_optionText"
+			"searchInput": "PJZ1pG_searchInput",
+			"list": "PJZ1pG_list",
+			"option": "PJZ1pG_option",
+			"groupTitle": "PJZ1pG_groupTitle",
+			"root": "PJZ1pG_root",
+			"footer": "PJZ1pG_footer"
 		};
 		//#endregion
 		//#region lib/types/client/Combobox.js
@@ -3359,115 +3359,115 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TranslationWorkspace_module_css_default = {
-			"langFormRow": "_8lesPa_langFormRow",
-			"historyList": "_8lesPa_historyList",
-			"helpIcon": "_8lesPa_helpIcon",
-			"on": "_8lesPa_on",
-			"pairChip": "_8lesPa_pairChip",
-			"topBar": "_8lesPa_topBar",
-			"rowSource": "_8lesPa_rowSource",
-			"settingHint": "_8lesPa_settingHint",
-			"stopBtn": "_8lesPa_stopBtn",
-			"confirmActions": "_8lesPa_confirmActions",
-			"settingLabel": "_8lesPa_settingLabel",
-			"starBtn": "_8lesPa_starBtn",
-			"historyEmpty": "_8lesPa_historyEmpty",
-			"translating": "_8lesPa_translating",
-			"visible": "_8lesPa_visible",
-			"rowTime": "_8lesPa_rowTime",
-			"switchTrack": "_8lesPa_switchTrack",
-			"chip": "_8lesPa_chip",
-			"panelTitle": "_8lesPa_panelTitle",
-			"detailMeta": "_8lesPa_detailMeta",
-			"detailActions": "_8lesPa_detailActions",
-			"clearBtn": "_8lesPa_clearBtn",
-			"backdrop": "_8lesPa_backdrop",
-			"langAdd": "_8lesPa_langAdd",
-			"langForm": "_8lesPa_langForm",
-			"btnPrimary": "_8lesPa_btnPrimary",
-			"countBadge": "_8lesPa_countBadge",
-			"confirmTitle": "_8lesPa_confirmTitle",
-			"destructive": "_8lesPa_destructive",
-			"errorBanner": "_8lesPa_errorBanner",
-			"switchRow": "_8lesPa_switchRow",
-			"langSelect": "_8lesPa_langSelect",
-			"panelHeader": "_8lesPa_panelHeader",
-			"uploadIcon": "_8lesPa_uploadIcon",
-			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
-			"rowTarget": "_8lesPa_rowTarget",
-			"md": "_8lesPa_md",
-			"modelSelectWrap": "_8lesPa_modelSelectWrap",
-			"panelBody": "_8lesPa_panelBody",
-			"settingsEmpty": "_8lesPa_settingsEmpty",
-			"sidePanel": "_8lesPa_sidePanel",
-			"detailBlockHeader": "_8lesPa_detailBlockHeader",
-			"pairRow": "_8lesPa_pairRow",
-			"langFormActions": "_8lesPa_langFormActions",
-			"inputArea": "_8lesPa_inputArea",
-			"translateBtn": "_8lesPa_translateBtn",
-			"uploadZone": "_8lesPa_uploadZone",
-			"panes": "_8lesPa_panes",
-			"btn": "_8lesPa_btn",
-			"swapBtn": "_8lesPa_swapBtn",
-			"backButton": "_8lesPa_backButton",
 			"detailBlockLabel": "_8lesPa_detailBlockLabel",
-			"cc-fade": "_8lesPa_cc-fade",
-			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
-			"root": "_8lesPa_root",
-			"langRowActions": "_8lesPa_langRowActions",
-			"spacer": "_8lesPa_spacer",
-			"count": "_8lesPa_count",
-			"historyRow": "_8lesPa_historyRow",
-			"paneFooter": "_8lesPa_paneFooter",
-			"historyRowMeta": "_8lesPa_historyRowMeta",
-			"langChevron": "_8lesPa_langChevron",
-			"detailText": "_8lesPa_detailText",
 			"sectionTitle": "_8lesPa_sectionTitle",
+			"langRow": "_8lesPa_langRow",
+			"langFormLabel": "_8lesPa_langFormLabel",
+			"settingsEmpty": "_8lesPa_settingsEmpty",
+			"confirmTitle": "_8lesPa_confirmTitle",
+			"outputArea": "_8lesPa_outputArea",
+			"confirmOverlay": "_8lesPa_confirmOverlay",
+			"helpWrap": "_8lesPa_helpWrap",
+			"confirmText": "_8lesPa_confirmText",
+			"countBadge": "_8lesPa_countBadge",
+			"stopBtn": "_8lesPa_stopBtn",
+			"cc-slide-in": "_8lesPa_cc-slide-in",
+			"chipTarget": "_8lesPa_chipTarget",
+			"panelBody": "_8lesPa_panelBody",
+			"segmented": "_8lesPa_segmented",
+			"chipArrow": "_8lesPa_chipArrow",
+			"loadMore": "_8lesPa_loadMore",
+			"langAdd": "_8lesPa_langAdd",
+			"detailBack": "_8lesPa_detailBack",
+			"detailText": "_8lesPa_detailText",
+			"root": "_8lesPa_root",
+			"reuse": "_8lesPa_reuse",
+			"langFormRow": "_8lesPa_langFormRow",
+			"helpIcon": "_8lesPa_helpIcon",
+			"panelTitle": "_8lesPa_panelTitle",
+			"detailAction": "_8lesPa_detailAction",
+			"langForm": "_8lesPa_langForm",
+			"langFormError": "_8lesPa_langFormError",
+			"panelHeader": "_8lesPa_panelHeader",
+			"uploadIcons": "_8lesPa_uploadIcons",
+			"rightCluster": "_8lesPa_rightCluster",
+			"langSelect": "_8lesPa_langSelect",
+			"historyEmpty": "_8lesPa_historyEmpty",
+			"pairChip": "_8lesPa_pairChip",
+			"clearBtn": "_8lesPa_clearBtn",
+			"langName": "_8lesPa_langName",
+			"backdrop": "_8lesPa_backdrop",
+			"starBtn": "_8lesPa_starBtn",
+			"settingsSection": "_8lesPa_settingsSection",
+			"detailBlock": "_8lesPa_detailBlock",
+			"cc-spin": "_8lesPa_cc-spin",
+			"count": "_8lesPa_count",
+			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
+			"resetLink": "_8lesPa_resetLink",
+			"cc-fade": "_8lesPa_cc-fade",
+			"switchTrack": "_8lesPa_switchTrack",
+			"langInput": "_8lesPa_langInput",
+			"pairRow": "_8lesPa_pairRow",
+			"confirmCard": "_8lesPa_confirmCard",
+			"confirmActions": "_8lesPa_confirmActions",
+			"uploadZone": "_8lesPa_uploadZone",
+			"pane": "_8lesPa_pane",
+			"translateBtn": "_8lesPa_translateBtn",
+			"topBar": "_8lesPa_topBar",
+			"visible": "_8lesPa_visible",
+			"outputPane": "_8lesPa_outputPane",
+			"detailActions": "_8lesPa_detailActions",
+			"settingsTextarea": "_8lesPa_settingsTextarea",
+			"uploadIcon": "_8lesPa_uploadIcon",
+			"smallIconBtn": "_8lesPa_smallIconBtn",
+			"langFormActions": "_8lesPa_langFormActions",
+			"langSelectWrap": "_8lesPa_langSelectWrap",
+			"rowSource": "_8lesPa_rowSource",
 			"spinner": "_8lesPa_spinner",
+			"rowTarget": "_8lesPa_rowTarget",
+			"settingHint": "_8lesPa_settingHint",
+			"helpBubble": "_8lesPa_helpBubble",
+			"md": "_8lesPa_md",
+			"historyRowMeta": "_8lesPa_historyRowMeta",
+			"sidePanel": "_8lesPa_sidePanel",
+			"destructive": "_8lesPa_destructive",
 			"textareaScroll": "_8lesPa_textareaScroll",
 			"modelSelect": "_8lesPa_modelSelect",
-			"paneCorner": "_8lesPa_paneCorner",
-			"langFormLabel": "_8lesPa_langFormLabel",
-			"helpWrap": "_8lesPa_helpWrap",
-			"helpBubble": "_8lesPa_helpBubble",
-			"outputPane": "_8lesPa_outputPane",
-			"langRow": "_8lesPa_langRow",
+			"inputArea": "_8lesPa_inputArea",
+			"rowTime": "_8lesPa_rowTime",
 			"settingRow": "_8lesPa_settingRow",
-			"langInput": "_8lesPa_langInput",
-			"chipArrow": "_8lesPa_chipArrow",
-			"detailBack": "_8lesPa_detailBack",
-			"langName": "_8lesPa_langName",
-			"langSelectWrap": "_8lesPa_langSelectWrap",
-			"iconBtn": "_8lesPa_iconBtn",
-			"confirmText": "_8lesPa_confirmText",
-			"detailBlock": "_8lesPa_detailBlock",
-			"loadMore": "_8lesPa_loadMore",
-			"smallIconBtn": "_8lesPa_smallIconBtn",
-			"chipTarget": "_8lesPa_chipTarget",
-			"outputArea": "_8lesPa_outputArea",
+			"langRowActions": "_8lesPa_langRowActions",
+			"errorBanner": "_8lesPa_errorBanner",
+			"chip": "_8lesPa_chip",
 			"active": "_8lesPa_active",
-			"pane": "_8lesPa_pane",
-			"cc-slide-in": "_8lesPa_cc-slide-in",
+			"translating": "_8lesPa_translating",
+			"spacer": "_8lesPa_spacer",
+			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
+			"paneCorner": "_8lesPa_paneCorner",
+			"btnPrimary": "_8lesPa_btnPrimary",
+			"switchRow": "_8lesPa_switchRow",
+			"on": "_8lesPa_on",
+			"langCode": "_8lesPa_langCode",
+			"btn": "_8lesPa_btn",
+			"detailBlockTarget": "_8lesPa_detailBlockTarget",
+			"starFill": "_8lesPa_starFill",
+			"historyRow": "_8lesPa_historyRow",
+			"panelBodyScroll": "_8lesPa_panelBodyScroll",
+			"detailMeta": "_8lesPa_detailMeta",
+			"modelSelectWrap": "_8lesPa_modelSelectWrap",
+			"langChevron": "_8lesPa_langChevron",
+			"iconBtn": "_8lesPa_iconBtn",
+			"backButton": "_8lesPa_backButton",
+			"paneFooter": "_8lesPa_paneFooter",
+			"detailBlockHeader": "_8lesPa_detailBlockHeader",
+			"copy": "_8lesPa_copy",
+			"swapBtn": "_8lesPa_swapBtn",
+			"panes": "_8lesPa_panes",
+			"settingLabel": "_8lesPa_settingLabel",
+			"switch": "_8lesPa_switch",
 			"success": "_8lesPa_success",
 			"segItem": "_8lesPa_segItem",
-			"detailBlockTarget": "_8lesPa_detailBlockTarget",
-			"cc-spin": "_8lesPa_cc-spin",
-			"detailAction": "_8lesPa_detailAction",
-			"uploadIcons": "_8lesPa_uploadIcons",
-			"settingsSection": "_8lesPa_settingsSection",
-			"panelBodyScroll": "_8lesPa_panelBodyScroll",
-			"langFormError": "_8lesPa_langFormError",
-			"settingsTextarea": "_8lesPa_settingsTextarea",
-			"confirmOverlay": "_8lesPa_confirmOverlay",
-			"confirmCard": "_8lesPa_confirmCard",
-			"reuse": "_8lesPa_reuse",
-			"segmented": "_8lesPa_segmented",
-			"starFill": "_8lesPa_starFill",
-			"switch": "_8lesPa_switch",
-			"resetLink": "_8lesPa_resetLink",
-			"langCode": "_8lesPa_langCode",
-			"rightCluster": "_8lesPa_rightCluster",
-			"copy": "_8lesPa_copy"
+			"historyList": "_8lesPa_historyList"
 		};
 		//#endregion
 		//#region lib/types/client/panel-ui.js
@@ -4162,103 +4162,103 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var KnowledgeWorkspace_module_css_default = {
-			"dataHeaderActions": "uHDY1a_dataHeaderActions",
-			"detail": "uHDY1a_detail",
-			"sourceTypeCards": "uHDY1a_sourceTypeCards",
-			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
-			"navCreate": "uHDY1a_navCreate",
-			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
+			"recallRank": "uHDY1a_recallRank",
+			"notice": "uHDY1a_notice",
+			"statusReady": "uHDY1a_statusReady",
+			"ragLabel": "uHDY1a_ragLabel",
+			"ragFooter": "uHDY1a_ragFooter",
+			"errorBanner": "uHDY1a_errorBanner",
+			"detailEmptyHint": "uHDY1a_detailEmptyHint",
+			"dialogSelect": "uHDY1a_dialogSelect",
+			"advancedToggle": "uHDY1a_advancedToggle",
+			"btn": "uHDY1a_btn",
 			"ragTitle": "uHDY1a_ragTitle",
-			"ragSliderRow": "uHDY1a_ragSliderRow",
+			"ragBody": "uHDY1a_ragBody",
+			"advancedBody": "uHDY1a_advancedBody",
+			"recallChunkIndex": "uHDY1a_recallChunkIndex",
+			"ragSlider": "uHDY1a_ragSlider",
+			"root": "uHDY1a_root",
+			"active": "uHDY1a_active",
+			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
+			"recallEmpty": "uHDY1a_recallEmpty",
+			"dataHeader": "uHDY1a_dataHeader",
+			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
+			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
+			"advancedChevronOpen": "uHDY1a_advancedChevronOpen",
 			"ragHint": "uHDY1a_ragHint",
-			"dialogHint": "uHDY1a_dialogHint",
-			"detailHeaderActions": "uHDY1a_detailHeaderActions",
-			"navRowMenu": "uHDY1a_navRowMenu",
+			"dialogSliderRow": "uHDY1a_dialogSliderRow",
+			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
+			"rowMenu": "uHDY1a_rowMenu",
+			"dataHeaderActions": "uHDY1a_dataHeaderActions",
+			"cc-spin": "uHDY1a_cc-spin",
+			"split": "uHDY1a_split",
+			"ragSelect": "uHDY1a_ragSelect",
+			"navCreate": "uHDY1a_navCreate",
+			"addSourceButton": "uHDY1a_addSourceButton",
+			"recallSubmit": "uHDY1a_recallSubmit",
+			"recallBody": "uHDY1a_recallBody",
+			"dialogInput": "uHDY1a_dialogInput",
+			"ragSliderRow": "uHDY1a_ragSliderRow",
+			"clamped": "uHDY1a_clamped",
+			"ragNumber": "uHDY1a_ragNumber",
+			"destructive": "uHDY1a_destructive",
+			"sourceUpdated": "uHDY1a_sourceUpdated",
+			"recallResults": "uHDY1a_recallResults",
+			"dialogActions": "uHDY1a_dialogActions",
+			"gridHeader": "uHDY1a_gridHeader",
+			"indexButton": "uHDY1a_indexButton",
+			"ragFieldRow": "uHDY1a_ragFieldRow",
+			"menuPopover": "uHDY1a_menuPopover",
+			"dialogField": "uHDY1a_dialogField",
+			"recallCard": "uHDY1a_recallCard",
+			"gridRow": "uHDY1a_gridRow",
+			"navRow": "uHDY1a_navRow",
+			"sourceTypeCards": "uHDY1a_sourceTypeCards",
+			"statusIndexing": "uHDY1a_statusIndexing",
+			"recallInput": "uHDY1a_recallInput",
+			"navScroll": "uHDY1a_navScroll",
+			"recallCardHeader": "uHDY1a_recallCardHeader",
+			"recallScore": "uHDY1a_recallScore",
+			"statusSpinner": "uHDY1a_statusSpinner",
+			"dialogTextarea": "uHDY1a_dialogTextarea",
+			"gridScroll": "uHDY1a_gridScroll",
+			"ragReadonly": "uHDY1a_ragReadonly",
+			"sourceName": "uHDY1a_sourceName",
+			"detail": "uHDY1a_detail",
+			"success": "uHDY1a_success",
+			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
+			"detailHeader": "uHDY1a_detailHeader",
+			"sourceIcon": "uHDY1a_sourceIcon",
+			"recallBar": "uHDY1a_recallBar",
+			"dataPanel": "uHDY1a_dataPanel",
 			"recallCopy": "uHDY1a_recallCopy",
 			"dialogOverlay": "uHDY1a_dialogOverlay",
-			"menuPopover": "uHDY1a_menuPopover",
-			"sourceType": "uHDY1a_sourceType",
-			"ragLabel": "uHDY1a_ragLabel",
-			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
-			"recallBar": "uHDY1a_recallBar",
-			"recallSubmit": "uHDY1a_recallSubmit",
-			"btn": "uHDY1a_btn",
-			"navRow": "uHDY1a_navRow",
-			"rowMenu": "uHDY1a_rowMenu",
-			"success": "uHDY1a_success",
-			"dialogTextarea": "uHDY1a_dialogTextarea",
-			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
-			"split": "uHDY1a_split",
-			"sourceName": "uHDY1a_sourceName",
-			"navEmpty": "uHDY1a_navEmpty",
-			"dataPanel": "uHDY1a_dataPanel",
 			"btnPrimary": "uHDY1a_btnPrimary",
-			"ragFooter": "uHDY1a_ragFooter",
-			"dialogSliderRow": "uHDY1a_dialogSliderRow",
+			"ragField": "uHDY1a_ragField",
 			"ragSelectWrap": "uHDY1a_ragSelectWrap",
-			"advancedToggle": "uHDY1a_advancedToggle",
-			"advancedChevronOpen": "uHDY1a_advancedChevronOpen",
-			"notice": "uHDY1a_notice",
-			"advancedBody": "uHDY1a_advancedBody",
-			"destructive": "uHDY1a_destructive",
-			"detailEmpty": "uHDY1a_detailEmpty",
-			"clamped": "uHDY1a_clamped",
-			"active": "uHDY1a_active",
+			"navigator": "uHDY1a_navigator",
+			"ghostButton": "uHDY1a_ghostButton",
+			"navEmpty": "uHDY1a_navEmpty",
+			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
+			"statusFailed": "uHDY1a_statusFailed",
+			"sourcesEmpty": "uHDY1a_sourcesEmpty",
+			"recallSummary": "uHDY1a_recallSummary",
+			"navRowMenu": "uHDY1a_navRowMenu",
+			"recallInputWrap": "uHDY1a_recallInputWrap",
+			"recallSource": "uHDY1a_recallSource",
+			"dialogCard": "uHDY1a_dialogCard",
+			"ragSection": "uHDY1a_ragSection",
+			"navRowName": "uHDY1a_navRowName",
+			"ragNumberFull": "uHDY1a_ragNumberFull",
+			"statusBadge": "uHDY1a_statusBadge",
 			"dialogFieldRow": "uHDY1a_dialogFieldRow",
-			"recallChunkIndex": "uHDY1a_recallChunkIndex",
-			"recallEmpty": "uHDY1a_recallEmpty",
+			"detailHeaderActions": "uHDY1a_detailHeaderActions",
 			"detailEmptyTitle": "uHDY1a_detailEmptyTitle",
 			"sourceTypeCard": "uHDY1a_sourceTypeCard",
-			"errorBanner": "uHDY1a_errorBanner",
-			"ghostButton": "uHDY1a_ghostButton",
-			"sourcesEmpty": "uHDY1a_sourcesEmpty",
-			"recallCardHeader": "uHDY1a_recallCardHeader",
-			"gridHeader": "uHDY1a_gridHeader",
-			"recallBody": "uHDY1a_recallBody",
-			"ragField": "uHDY1a_ragField",
-			"ragFieldRow": "uHDY1a_ragFieldRow",
-			"dataHeader": "uHDY1a_dataHeader",
-			"recallRank": "uHDY1a_recallRank",
-			"statusFailed": "uHDY1a_statusFailed",
-			"navScroll": "uHDY1a_navScroll",
-			"indexButton": "uHDY1a_indexButton",
-			"recallResults": "uHDY1a_recallResults",
-			"addSourceButton": "uHDY1a_addSourceButton",
-			"ragNumberFull": "uHDY1a_ragNumberFull",
-			"navRowName": "uHDY1a_navRowName",
-			"statusReady": "uHDY1a_statusReady",
-			"sourceUpdated": "uHDY1a_sourceUpdated",
-			"recallSummary": "uHDY1a_recallSummary",
-			"recallInput": "uHDY1a_recallInput",
-			"recallCard": "uHDY1a_recallCard",
-			"recallSource": "uHDY1a_recallSource",
-			"ragReadonly": "uHDY1a_ragReadonly",
-			"dialogField": "uHDY1a_dialogField",
-			"ragSection": "uHDY1a_ragSection",
-			"statusSpinner": "uHDY1a_statusSpinner",
-			"recallInputWrap": "uHDY1a_recallInputWrap",
-			"detailEmptyHint": "uHDY1a_detailEmptyHint",
-			"gridRow": "uHDY1a_gridRow",
-			"dialogActions": "uHDY1a_dialogActions",
-			"ragBody": "uHDY1a_ragBody",
-			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
-			"dialogCard": "uHDY1a_dialogCard",
-			"dialogInput": "uHDY1a_dialogInput",
-			"statusIndexing": "uHDY1a_statusIndexing",
-			"ragSlider": "uHDY1a_ragSlider",
-			"ragNumber": "uHDY1a_ragNumber",
-			"sourceIcon": "uHDY1a_sourceIcon",
-			"cc-spin": "uHDY1a_cc-spin",
-			"root": "uHDY1a_root",
-			"dialogSelect": "uHDY1a_dialogSelect",
-			"gridScroll": "uHDY1a_gridScroll",
-			"menuItem": "uHDY1a_menuItem",
-			"navigator": "uHDY1a_navigator",
-			"statusBadge": "uHDY1a_statusBadge",
-			"detailHeader": "uHDY1a_detailHeader",
-			"ragSelect": "uHDY1a_ragSelect",
-			"recallScore": "uHDY1a_recallScore",
-			"detailHeaderTitle": "uHDY1a_detailHeaderTitle"
+			"dialogHint": "uHDY1a_dialogHint",
+			"detailEmpty": "uHDY1a_detailEmpty",
+			"sourceType": "uHDY1a_sourceType",
+			"menuItem": "uHDY1a_menuItem"
 		};
 		//#endregion
 		//#region lib/types/client/KnowledgeWorkspace.js
@@ -5721,19 +5721,19 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SkillsSection_module_css_default = {
-			"grid": "pyHmqW_grid",
-			"cardMetaItem": "pyHmqW_cardMetaItem",
-			"cardActions": "pyHmqW_cardActions",
 			"cardHeader": "pyHmqW_cardHeader",
-			"searchInput": "pyHmqW_searchInput",
+			"searchRow": "pyHmqW_searchRow",
+			"grid": "pyHmqW_grid",
+			"cardActions": "pyHmqW_cardActions",
+			"cardMetaItem": "pyHmqW_cardMetaItem",
+			"cardFooter": "pyHmqW_cardFooter",
+			"cardTitle": "pyHmqW_cardTitle",
 			"cardDescription": "pyHmqW_cardDescription",
-			"cardMeta": "pyHmqW_cardMeta",
 			"cardTags": "pyHmqW_cardTags",
 			"tag": "pyHmqW_tag",
-			"cardTitle": "pyHmqW_cardTitle",
-			"cardFooter": "pyHmqW_cardFooter",
-			"card": "pyHmqW_card",
-			"searchRow": "pyHmqW_searchRow"
+			"cardMeta": "pyHmqW_cardMeta",
+			"searchInput": "pyHmqW_searchInput",
+			"card": "pyHmqW_card"
 		};
 		//#endregion
 		//#region lib/types/client/SkillsSection.js
@@ -6379,7 +6379,7 @@ window.__ModuleLoader__.load({
 		}
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\ModelsSection.module.css.mjs
-		const css$27 = ".tKsOKa_section{flex-direction:column;gap:16px;width:100%;max-width:768px;margin:0 auto;display:flex}.tKsOKa_title{color:var(--foreground);font-size:15px;font-weight:600}.tKsOKa_intro{color:var(--muted-foreground);margin-top:4px;font-size:14px}.tKsOKa_notice{border:1px solid var(--info-border);background:var(--info-subtle);color:var(--info-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.tKsOKa_savedNotice{border:1px solid var(--success-border);background:var(--success-subtle);color:var(--success-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.tKsOKa_error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;align-items:center;gap:8px;padding:8px 12px;font-size:13px;display:flex}.tKsOKa_rows{flex-direction:column;gap:8px;margin:0;padding:0;list-style:none;display:flex}.tKsOKa_rowCard{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;display:flex}.tKsOKa_rowHead{align-items:center;gap:10px;min-width:0;display:flex}.tKsOKa_rowIdentity{align-items:center;gap:8px;min-width:0;display:flex}.tKsOKa_rowName{color:var(--foreground);white-space:nowrap;text-overflow:ellipsis;font-size:14px;font-weight:500;overflow:hidden}.tKsOKa_rowTag{background:var(--muted);height:20px;color:var(--muted-foreground);border-radius:9999px;flex:none;align-items:center;padding:0 8px;font-size:12px;display:inline-flex}.tKsOKa_rowActions{flex:none;align-items:center;gap:8px;display:flex}.tKsOKa_credentialDot{border-radius:50%;flex:none;width:8px;height:8px}.tKsOKa_credentialDotConfigured{background:var(--success)}.tKsOKa_credentialDotMissing{background:var(--warning)}.tKsOKa_setupCard{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_addCard{border:1px dashed var(--border-strong);background:0 0;border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_addBlock{flex-direction:column;gap:12px;display:flex}.tKsOKa_addActions{align-items:center;gap:8px;display:flex}.tKsOKa_field{flex-direction:column;gap:6px;display:flex}.tKsOKa_fieldLabel{color:var(--foreground);font-size:13px;font-weight:500}.tKsOKa_fieldLabelRow{align-items:baseline;gap:8px;display:flex}.tKsOKa_helpLink{color:var(--primary);font-size:12px;text-decoration:none}.tKsOKa_helpLink:hover{text-decoration:underline}.tKsOKa_headerRow{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) auto;align-items:center;gap:8px;display:grid}.tKsOKa_healthDot{background:var(--border-subtle);border-radius:50%;flex:none;width:8px;height:8px}.tKsOKa_healthOk{background:var(--success)}.tKsOKa_healthFail{background:var(--destructive)}.tKsOKa_healthChecking{background:var(--warning);animation:1s ease-in-out infinite tKsOKa_healthPulse}@keyframes tKsOKa_healthPulse{50%{opacity:.35}}.tKsOKa_healthMeta{min-width:0;color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;flex:1;font-size:12px;overflow:hidden}.tKsOKa_healthFailText{color:var(--destructive)}.tKsOKa_input{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px}.tKsOKa_input:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.tKsOKa_selectInput{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 28px 0 10px;font-family:inherit;font-size:14px}.tKsOKa_selectInput:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.tKsOKa_selectInput option,.tKsOKa_selectInput optgroup{background:var(--card);color:var(--foreground)}.tKsOKa_addButton{background:var(--primary);height:32px;color:var(--primary-foreground);cursor:pointer;border:1px solid #0000;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_addButton:hover:not(:disabled){background:var(--cs-brand-600)}.tKsOKa_addButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_secondaryButton{border:1px solid var(--border-subtle);background:var(--secondary);height:32px;color:var(--secondary-foreground);cursor:pointer;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_secondaryButton:hover:not(:disabled){background:var(--secondary-hover)}.tKsOKa_secondaryButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_dangerButton{border:1px solid var(--error-border);height:32px;color:var(--destructive);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_dangerButton:hover{background:var(--error-subtle)}.tKsOKa_deleteDialog{background:var(--popover);border-radius:14px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_deleteConfirm{justify-content:flex-end;align-items:center;gap:8px;display:flex}.tKsOKa_inputRow{align-items:center;gap:8px;display:flex}.tKsOKa_inputGroup{flex:1;min-width:0;display:flex;position:relative}.tKsOKa_inputGroup .tKsOKa_input{font-variant-numeric:tabular-nums;padding-right:30px}.tKsOKa_monoInput{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.tKsOKa_eyeButton{width:22px;height:22px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;display:inline-flex;position:absolute;top:50%;right:6px;transform:translateY(-50%)}.tKsOKa_eyeButton:hover:not(:disabled){color:var(--foreground);background:color-mix(in srgb, var(--muted) 45%, transparent)}.tKsOKa_checkButton{border:1px solid var(--border-subtle);background:var(--card);height:32px;color:var(--foreground);cursor:pointer;border-radius:8px;flex:none;justify-content:center;align-items:center;padding:0 12px;font-family:inherit;font-size:13px;display:inline-flex}.tKsOKa_checkButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent)}.tKsOKa_checkButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_checkResult{overflow-wrap:anywhere;margin-top:2px;font-size:12px;line-height:1.4}.tKsOKa_checkResultOk{color:var(--success)}.tKsOKa_checkResultFail{color:var(--destructive)}.tKsOKa_endpointPreview{color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;margin-top:2px;font-size:12px;overflow:hidden}.tKsOKa_panelBody{flex-direction:column;gap:14px;display:flex}.tKsOKa_modelCatalog{flex-direction:column;gap:8px;display:flex}.tKsOKa_modelListHead{flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;min-height:28px;display:flex}.tKsOKa_modelCatalogHeading{align-items:center;gap:8px;min-width:0;display:flex}.tKsOKa_modelCatalogTitle{color:var(--foreground);font-size:14px;font-weight:600}.tKsOKa_modelCountBadge{background:color-mix(in srgb, var(--primary) 14%, transparent);height:16px;color:var(--primary);border-radius:9999px;align-items:center;padding:0 6px;font-size:11px;font-weight:600;line-height:1;display:inline-flex}.tKsOKa_modelCatalogMeta{color:var(--muted-foreground);font-size:12px}.tKsOKa_modelToolbarActions{flex-wrap:wrap;align-items:center;gap:6px;display:flex}.tKsOKa_linkButton{height:26px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;padding:0 4px;font-family:inherit;font-size:12px}.tKsOKa_linkButton:hover:not(:disabled){color:var(--foreground)}.tKsOKa_linkButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_iconButton{width:26px;height:26px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:7px;justify-content:center;align-items:center;display:inline-flex}.tKsOKa_iconButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent);color:var(--foreground)}.tKsOKa_iconButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_iconButtonDanger:hover:not(:disabled){color:var(--destructive)}.tKsOKa_defaultMarker,.tKsOKa_defaultMarker:hover:not(:disabled){color:var(--primary)}.tKsOKa_fetchButton{border:1px solid var(--border-subtle);background:var(--card);height:28px;color:var(--foreground);cursor:pointer;border-radius:8px;align-items:center;gap:6px;padding:0 10px;font-family:inherit;font-size:12px;display:inline-flex}.tKsOKa_fetchButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent)}.tKsOKa_fetchButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_modelSearchInput{height:28px;font-size:13px}.tKsOKa_modelEmpty{border:1px dashed var(--border-subtle);color:var(--muted-foreground);border-radius:8px;padding:10px 12px;font-size:12px}.tKsOKa_modelList{flex-direction:column;gap:2px;display:flex}.tKsOKa_modelEntry{border-radius:8px;flex-direction:column;display:flex}.tKsOKa_modelEntry:hover{background:color-mix(in srgb, var(--muted) 25%, transparent)}.tKsOKa_modelRow{align-items:center;gap:6px;min-height:34px;padding:0 4px;display:flex}.tKsOKa_modelAvatar{background:color-mix(in srgb, var(--primary) 14%, transparent);width:22px;height:22px;color:var(--primary);border-radius:50%;flex:none;justify-content:center;align-items:center;font-size:11px;font-weight:600;display:inline-flex}.tKsOKa_modelIdInput{min-width:0;height:28px;color:var(--foreground);background:0 0;border:1px solid #0000;border-radius:6px;outline:none;flex:1;padding:0 6px;font-family:inherit;font-size:13px}.tKsOKa_modelIdInput:hover:not(:disabled){border-color:var(--border-subtle)}.tKsOKa_modelIdInput:focus-visible{border-color:var(--ring);background:var(--background)}.tKsOKa_modelIdInput::placeholder{color:var(--muted-foreground)}.tKsOKa_modelAdvanced{grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;padding:4px 4px 8px 36px;display:grid}.tKsOKa_modelField{flex-direction:column;gap:4px;display:flex}.tKsOKa_modelFieldLabel{color:var(--muted-foreground);font-size:11px}.tKsOKa_addModelButton{border:1px dashed var(--border-subtle);width:100%;height:30px;color:var(--muted-foreground);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;gap:6px;margin-top:4px;font-family:inherit;font-size:12px;display:inline-flex}.tKsOKa_addModelButton:hover:not(:disabled){color:var(--foreground);border-color:var(--border-strong)}.tKsOKa_candidateList{flex-direction:column;gap:2px;max-height:320px;margin:0;padding:0;list-style:none;display:flex;overflow-y:auto}.tKsOKa_candidateLabel{cursor:pointer;border-radius:6px;align-items:center;gap:8px;height:30px;padding:0 8px;font-size:13px;display:flex}.tKsOKa_candidateLabel:hover{background:var(--muted)}.tKsOKa_candidateId{white-space:nowrap;text-overflow:ellipsis;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;overflow:hidden}.tKsOKa_modelGroup{flex-direction:column;display:flex}.tKsOKa_modelGroupHeader{background:color-mix(in srgb, var(--muted) 45%, transparent);height:32px;color:var(--foreground);text-align:left;cursor:pointer;border:none;border-radius:8px;align-items:center;gap:6px;padding:0 6px;font-family:inherit;display:flex}.tKsOKa_modelGroupHeader:hover{background:var(--muted)}.tKsOKa_modelGroupTitle{font-size:13px;font-weight:600}.tKsOKa_modelGroupCount{color:var(--muted-foreground);font-size:11px}.tKsOKa_modelGroupBody{flex-direction:column;gap:2px;padding-left:10px;display:flex}.tKsOKa_modelRowDisabled{opacity:.55}.tKsOKa_modelRowDisabled .tKsOKa_modelAvatar{filter:grayscale()}.tKsOKa_modelDisabledId{min-width:0;color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;flex:1;font-size:13px;overflow:hidden}.tKsOKa_prefsPanel{flex-direction:column;gap:14px;margin-top:18px;display:flex}.tKsOKa_modelSelectionPanel{flex-direction:column;gap:14px;display:flex}.tKsOKa_modelSelectionTitle{color:var(--foreground);margin:0;font-size:15px;font-weight:600}.tKsOKa_advancedHint{color:var(--muted-foreground);font-size:12px}.tKsOKa_fieldRow{align-items:center;gap:8px;display:flex}.tKsOKa_fieldRow select.tKsOKa_selectInput{flex:1;min-width:0}.tKsOKa_fieldRowWithAction select.tKsOKa_selectInput{flex:1}.tKsOKa_gearButton{border:1px solid var(--border-subtle);width:32px;height:32px;color:var(--muted-foreground);cursor:pointer;background:0 0;border-radius:8px;flex-shrink:0;justify-content:center;align-items:center;font-size:15px;line-height:1;display:inline-flex}.tKsOKa_gearButton:hover:not(:disabled){color:var(--foreground);border-color:var(--ring)}.tKsOKa_topicNamingCard{flex-direction:column;gap:10px;display:flex}.tKsOKa_topicNamingHeading{color:var(--foreground);margin:0;font-size:14px;font-weight:600}.tKsOKa_topicNamingBody,.tKsOKa_topicNamingNote{color:var(--muted-foreground);margin:0;font-size:13px;line-height:1.6}.tKsOKa_retryGroup{border-top:1px solid var(--border-subtle);flex-direction:column;gap:8px;padding-top:12px;display:flex}.tKsOKa_retryRow{justify-content:space-between;align-items:center;gap:12px;display:flex}.tKsOKa_attemptsInput{text-align:left;flex:none!important;width:96px!important}.tKsOKa_fallbackDetails{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);border-radius:8px}.tKsOKa_fallbackSummary{color:var(--foreground);cursor:pointer;list-style:revert;justify-content:space-between;align-items:center;gap:8px;padding:9px 12px;font-size:13px;font-weight:500;display:flex}.tKsOKa_fallbackCount{color:var(--muted-foreground);font-size:12px;font-weight:400}.tKsOKa_fallbackList{grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:4px 16px;max-height:260px;padding:4px 12px 10px;display:grid;overflow-y:auto}.tKsOKa_fallbackItem{min-width:0;color:var(--foreground);cursor:pointer;align-items:center;gap:8px;font-size:13px;display:flex}.tKsOKa_fallbackItem input[type=checkbox]{accent-color:var(--primary)}";
+		const css$27 = ".tKsOKa_section{flex-direction:column;gap:16px;width:100%;max-width:768px;margin:0 auto;display:flex}.tKsOKa_title{color:var(--foreground);font-size:15px;font-weight:600}.tKsOKa_intro{color:var(--muted-foreground);margin-top:4px;font-size:14px}.tKsOKa_notice{border:1px solid var(--info-border);background:var(--info-subtle);color:var(--info-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.tKsOKa_savedNotice{border:1px solid var(--success-border);background:var(--success-subtle);color:var(--success-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.tKsOKa_error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;align-items:center;gap:8px;padding:8px 12px;font-size:13px;display:flex}.tKsOKa_rows{flex-direction:column;gap:8px;margin:0;padding:0;list-style:none;display:flex}.tKsOKa_rowCard{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;display:flex}.tKsOKa_rowHead{align-items:center;gap:10px;min-width:0;display:flex}.tKsOKa_rowIdentity{align-items:center;gap:8px;min-width:0;display:flex}.tKsOKa_rowName{color:var(--foreground);white-space:nowrap;text-overflow:ellipsis;font-size:14px;font-weight:500;overflow:hidden}.tKsOKa_rowTag{background:var(--muted);height:20px;color:var(--muted-foreground);border-radius:9999px;flex:none;align-items:center;padding:0 8px;font-size:12px;display:inline-flex}.tKsOKa_rowActions{flex:none;align-items:center;gap:8px;display:flex}.tKsOKa_credentialDot{border-radius:50%;flex:none;width:8px;height:8px}.tKsOKa_credentialDotConfigured{background:var(--success)}.tKsOKa_credentialDotMissing{background:var(--warning)}.tKsOKa_setupCard{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_addCard{border:1px dashed var(--border-strong);background:0 0;border-radius:10px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_addBlock{flex-direction:column;gap:12px;display:flex}.tKsOKa_addActions{align-items:center;gap:8px;display:flex}.tKsOKa_field{flex-direction:column;gap:6px;display:flex}.tKsOKa_fieldLabel{color:var(--foreground);font-size:13px;font-weight:500}.tKsOKa_fieldLabelRow{align-items:baseline;gap:8px;display:flex}.tKsOKa_helpLink{color:var(--primary);font-size:12px;text-decoration:none}.tKsOKa_helpLink:hover{text-decoration:underline}.tKsOKa_headerRow{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) auto;align-items:center;gap:8px;display:grid}.tKsOKa_healthDot{background:var(--border-subtle);border-radius:50%;flex:none;width:8px;height:8px}.tKsOKa_healthOk{background:var(--success)}.tKsOKa_healthFail{background:var(--destructive)}.tKsOKa_healthChecking{background:var(--warning);animation:1s ease-in-out infinite tKsOKa_healthPulse}@keyframes tKsOKa_healthPulse{50%{opacity:.35}}.tKsOKa_healthMeta{min-width:0;color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;flex:1;font-size:12px;overflow:hidden}.tKsOKa_healthFailText{color:var(--destructive)}.tKsOKa_input{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px}.tKsOKa_input:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.tKsOKa_selectInput{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 28px 0 10px;font-family:inherit;font-size:14px}.tKsOKa_selectInput:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.tKsOKa_selectInput option,.tKsOKa_selectInput optgroup{background:var(--card);color:var(--foreground)}.tKsOKa_addButton{background:var(--primary);height:32px;color:var(--primary-foreground);cursor:pointer;border:1px solid #0000;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_addButton:hover:not(:disabled){background:var(--cs-brand-600)}.tKsOKa_addButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_secondaryButton{border:1px solid var(--border-subtle);background:var(--secondary);height:32px;color:var(--secondary-foreground);cursor:pointer;border-radius:8px;justify-content:center;align-items:center;gap:6px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_secondaryButton:hover:not(:disabled){background:var(--secondary-hover)}.tKsOKa_secondaryButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_dangerButton{border:1px solid var(--error-border);height:32px;color:var(--destructive);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.tKsOKa_dangerButton:hover{background:var(--error-subtle)}.tKsOKa_deleteDialog{background:var(--popover);border-radius:14px;flex-direction:column;gap:12px;padding:16px;display:flex}.tKsOKa_deleteConfirm{justify-content:flex-end;align-items:center;gap:8px;display:flex}.tKsOKa_inputRow{align-items:center;gap:8px;display:flex}.tKsOKa_inputGroup{flex:1;min-width:0;display:flex;position:relative}.tKsOKa_inputGroup .tKsOKa_input{font-variant-numeric:tabular-nums;padding-right:30px}.tKsOKa_monoInput{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.tKsOKa_eyeButton{width:22px;height:22px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;display:inline-flex;position:absolute;top:50%;right:6px;transform:translateY(-50%)}.tKsOKa_eyeButton:hover:not(:disabled){color:var(--foreground);background:color-mix(in srgb, var(--muted) 45%, transparent)}.tKsOKa_checkButton{border:1px solid var(--border-subtle);background:var(--card);height:32px;color:var(--foreground);cursor:pointer;border-radius:8px;flex:none;justify-content:center;align-items:center;padding:0 12px;font-family:inherit;font-size:13px;display:inline-flex}.tKsOKa_checkButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent)}.tKsOKa_checkButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_checkResult{overflow-wrap:anywhere;margin-top:2px;font-size:12px;line-height:1.4}.tKsOKa_checkResultOk{color:var(--success)}.tKsOKa_checkResultFail{color:var(--destructive)}.tKsOKa_endpointPreview{color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;margin-top:2px;font-size:12px;overflow:hidden}.tKsOKa_panelBody{flex-direction:column;gap:14px;display:flex}.tKsOKa_modelCatalog{flex-direction:column;gap:8px;display:flex}.tKsOKa_modelListHead{flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;min-height:28px;display:flex}.tKsOKa_modelCatalogHeading{align-items:center;gap:8px;min-width:0;display:flex}.tKsOKa_modelCatalogTitle{color:var(--foreground);font-size:14px;font-weight:600}.tKsOKa_modelCountBadge{background:color-mix(in srgb, var(--primary) 14%, transparent);height:16px;color:var(--primary);border-radius:9999px;align-items:center;padding:0 6px;font-size:11px;font-weight:600;line-height:1;display:inline-flex}.tKsOKa_modelCatalogMeta{color:var(--muted-foreground);font-size:12px}.tKsOKa_modelToolbarActions{flex-wrap:wrap;align-items:center;gap:6px;display:flex}.tKsOKa_linkButton{height:26px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;padding:0 4px;font-family:inherit;font-size:12px}.tKsOKa_linkButton:hover:not(:disabled){color:var(--foreground)}.tKsOKa_linkButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_iconButton{width:26px;height:26px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:7px;justify-content:center;align-items:center;display:inline-flex}.tKsOKa_iconButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent);color:var(--foreground)}.tKsOKa_iconButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_iconButtonDanger:hover:not(:disabled){color:var(--destructive)}.tKsOKa_defaultMarker,.tKsOKa_defaultMarker:hover:not(:disabled){color:var(--primary)}.tKsOKa_fetchButton{border:1px solid var(--border-subtle);background:var(--card);height:28px;color:var(--foreground);cursor:pointer;border-radius:8px;align-items:center;gap:6px;padding:0 10px;font-family:inherit;font-size:12px;display:inline-flex}.tKsOKa_fetchButton:hover:not(:disabled){background:color-mix(in srgb, var(--muted) 40%, transparent)}.tKsOKa_fetchButton:disabled{opacity:.5;cursor:not-allowed}.tKsOKa_modelSearchInput{height:28px;font-size:13px}.tKsOKa_modelEmpty{border:1px dashed var(--border-subtle);color:var(--muted-foreground);border-radius:8px;padding:10px 12px;font-size:12px}.tKsOKa_modelList{flex-direction:column;gap:2px;display:flex}.tKsOKa_modelEntry{border-radius:8px;flex-direction:column;display:flex}.tKsOKa_modelEntry:hover{background:color-mix(in srgb, var(--muted) 25%, transparent)}.tKsOKa_modelRow{align-items:center;gap:10px;min-height:42px;padding:0 8px;display:flex}.tKsOKa_modelAvatar{background:color-mix(in srgb, var(--primary) 14%, transparent);width:22px;height:22px;color:var(--primary);border-radius:50%;flex:none;justify-content:center;align-items:center;font-size:11px;font-weight:600;display:inline-flex}.tKsOKa_modelAvatarBrand{border:1px solid var(--border);background:var(--background);box-sizing:border-box;border-radius:50%;flex:none;justify-content:center;align-items:center;display:inline-flex;overflow:hidden}.tKsOKa_modelIdInput{min-width:0;height:28px;color:var(--foreground);background:0 0;border:1px solid #0000;border-radius:6px;outline:none;flex:1;padding:0 6px;font-family:inherit;font-size:13px}.tKsOKa_modelIdInput:hover:not(:disabled){border-color:var(--border-subtle)}.tKsOKa_modelIdInput:focus-visible{border-color:var(--ring);background:var(--background)}.tKsOKa_modelIdInput::placeholder{color:var(--muted-foreground)}.tKsOKa_modelAdvanced{grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;padding:4px 4px 8px 36px;display:grid}.tKsOKa_modelField{flex-direction:column;gap:4px;display:flex}.tKsOKa_modelFieldLabel{color:var(--muted-foreground);font-size:11px}.tKsOKa_addModelButton{border:1px dashed var(--border-subtle);width:100%;height:30px;color:var(--muted-foreground);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;gap:6px;margin-top:4px;font-family:inherit;font-size:12px;display:inline-flex}.tKsOKa_addModelButton:hover:not(:disabled){color:var(--foreground);border-color:var(--border-strong)}.tKsOKa_candidateList{flex-direction:column;gap:2px;max-height:320px;margin:0;padding:0;list-style:none;display:flex;overflow-y:auto}.tKsOKa_candidateLabel{cursor:pointer;border-radius:6px;align-items:center;gap:8px;height:30px;padding:0 8px;font-size:13px;display:flex}.tKsOKa_candidateLabel:hover{background:var(--muted)}.tKsOKa_candidateId{white-space:nowrap;text-overflow:ellipsis;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;overflow:hidden}.tKsOKa_modelGroup{flex-direction:column;display:flex}.tKsOKa_modelGroupHeader{background:color-mix(in srgb, var(--muted) 45%, transparent);height:32px;color:var(--foreground);text-align:left;cursor:pointer;border:none;border-radius:8px;align-items:center;gap:6px;padding:0 6px;font-family:inherit;display:flex}.tKsOKa_modelGroupHeader:hover{background:var(--muted)}.tKsOKa_modelGroupTitle{font-size:13px;font-weight:600}.tKsOKa_modelGroupCount{color:var(--muted-foreground);font-size:11px}.tKsOKa_modelGroupBody{flex-direction:column;gap:2px;padding-left:10px;display:flex}.tKsOKa_modelRowDisabled{opacity:.55}.tKsOKa_modelRowDisabled .tKsOKa_modelAvatar{filter:grayscale()}.tKsOKa_modelDisabledId{min-width:0;color:var(--muted-foreground);white-space:nowrap;text-overflow:ellipsis;flex:1;font-size:13px;overflow:hidden}.tKsOKa_prefsPanel{flex-direction:column;gap:14px;margin-top:18px;display:flex}.tKsOKa_modelSelectionPanel{flex-direction:column;gap:14px;display:flex}.tKsOKa_modelSelectionTitle{color:var(--foreground);margin:0;font-size:15px;font-weight:600}.tKsOKa_advancedHint{color:var(--muted-foreground);font-size:12px}.tKsOKa_fieldRow{align-items:center;gap:8px;display:flex}.tKsOKa_fieldRow select.tKsOKa_selectInput{flex:1;min-width:0}.tKsOKa_fieldRowWithAction select.tKsOKa_selectInput{flex:1}.tKsOKa_gearButton{border:1px solid var(--border-subtle);width:32px;height:32px;color:var(--muted-foreground);cursor:pointer;background:0 0;border-radius:8px;flex-shrink:0;justify-content:center;align-items:center;font-size:15px;line-height:1;display:inline-flex}.tKsOKa_gearButton:hover:not(:disabled){color:var(--foreground);border-color:var(--ring)}.tKsOKa_topicNamingCard{flex-direction:column;gap:10px;display:flex}.tKsOKa_topicNamingHeading{color:var(--foreground);margin:0;font-size:14px;font-weight:600}.tKsOKa_topicNamingBody,.tKsOKa_topicNamingNote{color:var(--muted-foreground);margin:0;font-size:13px;line-height:1.6}.tKsOKa_retryGroup{border-top:1px solid var(--border-subtle);flex-direction:column;gap:8px;padding-top:12px;display:flex}.tKsOKa_retryRow{justify-content:space-between;align-items:center;gap:12px;display:flex}.tKsOKa_attemptsInput{text-align:left;flex:none!important;width:96px!important}.tKsOKa_fallbackDetails{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 30%, transparent);border-radius:8px}.tKsOKa_fallbackSummary{color:var(--foreground);cursor:pointer;list-style:revert;justify-content:space-between;align-items:center;gap:8px;padding:9px 12px;font-size:13px;font-weight:500;display:flex}.tKsOKa_fallbackCount{color:var(--muted-foreground);font-size:12px;font-weight:400}.tKsOKa_fallbackList{grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:4px 16px;max-height:260px;padding:4px 12px 10px;display:grid;overflow-y:auto}.tKsOKa_fallbackItem{min-width:0;color:var(--foreground);cursor:pointer;align-items:center;gap:8px;font-size:13px;display:flex}.tKsOKa_fallbackItem input[type=checkbox]{accent-color:var(--primary)}";
 		const tagId$27 = "@dsh-control-center/bundle/ModelsSection.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$27) + "]") === null) {
 			const tag = document.createElement("style");
@@ -6389,107 +6389,108 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelsSection_module_css_default = {
-			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
-			"fetchButton": "tKsOKa_fetchButton",
-			"healthChecking": "tKsOKa_healthChecking",
-			"modelList": "tKsOKa_modelList",
-			"modelRowDisabled": "tKsOKa_modelRowDisabled",
-			"section": "tKsOKa_section",
-			"helpLink": "tKsOKa_helpLink",
-			"fieldRow": "tKsOKa_fieldRow",
-			"fallbackCount": "tKsOKa_fallbackCount",
-			"title": "tKsOKa_title",
-			"deleteDialog": "tKsOKa_deleteDialog",
-			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
-			"healthFailText": "tKsOKa_healthFailText",
-			"addBlock": "tKsOKa_addBlock",
-			"modelAdvanced": "tKsOKa_modelAdvanced",
-			"selectInput": "tKsOKa_selectInput",
-			"dangerButton": "tKsOKa_dangerButton",
-			"topicNamingBody": "tKsOKa_topicNamingBody",
-			"retryGroup": "tKsOKa_retryGroup",
-			"fieldLabelRow": "tKsOKa_fieldLabelRow",
-			"rowName": "tKsOKa_rowName",
-			"attemptsInput": "tKsOKa_attemptsInput",
-			"fieldLabel": "tKsOKa_fieldLabel",
-			"addActions": "tKsOKa_addActions",
-			"iconButtonDanger": "tKsOKa_iconButtonDanger",
-			"field": "tKsOKa_field",
-			"modelAvatar": "tKsOKa_modelAvatar",
-			"modelSelectionTitle": "tKsOKa_modelSelectionTitle",
-			"modelToolbarActions": "tKsOKa_modelToolbarActions",
-			"modelEmpty": "tKsOKa_modelEmpty",
-			"linkButton": "tKsOKa_linkButton",
-			"inputGroup": "tKsOKa_inputGroup",
-			"modelField": "tKsOKa_modelField",
-			"gearButton": "tKsOKa_gearButton",
-			"fieldRowWithAction": "tKsOKa_fieldRowWithAction",
-			"fallbackDetails": "tKsOKa_fallbackDetails",
-			"candidateLabel": "tKsOKa_candidateLabel",
-			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
-			"panelBody": "tKsOKa_panelBody",
-			"rows": "tKsOKa_rows",
-			"credentialDotMissing": "tKsOKa_credentialDotMissing",
-			"error": "tKsOKa_error",
-			"rowIdentity": "tKsOKa_rowIdentity",
-			"savedNotice": "tKsOKa_savedNotice",
-			"healthPulse": "tKsOKa_healthPulse",
-			"modelEntry": "tKsOKa_modelEntry",
-			"modelIdInput": "tKsOKa_modelIdInput",
-			"advancedHint": "tKsOKa_advancedHint",
-			"modelListHead": "tKsOKa_modelListHead",
-			"rowActions": "tKsOKa_rowActions",
-			"inputRow": "tKsOKa_inputRow",
-			"endpointPreview": "tKsOKa_endpointPreview",
-			"deleteConfirm": "tKsOKa_deleteConfirm",
-			"defaultMarker": "tKsOKa_defaultMarker",
-			"candidateList": "tKsOKa_candidateList",
-			"modelCountBadge": "tKsOKa_modelCountBadge",
-			"prefsPanel": "tKsOKa_prefsPanel",
 			"topicNamingHeading": "tKsOKa_topicNamingHeading",
-			"notice": "tKsOKa_notice",
-			"credentialDot": "tKsOKa_credentialDot",
-			"modelGroupTitle": "tKsOKa_modelGroupTitle",
-			"modelGroupCount": "tKsOKa_modelGroupCount",
-			"addButton": "tKsOKa_addButton",
+			"selectInput": "tKsOKa_selectInput",
 			"healthOk": "tKsOKa_healthOk",
-			"headerRow": "tKsOKa_headerRow",
-			"checkResultOk": "tKsOKa_checkResultOk",
-			"modelRow": "tKsOKa_modelRow",
-			"modelFieldLabel": "tKsOKa_modelFieldLabel",
-			"candidateId": "tKsOKa_candidateId",
-			"modelGroup": "tKsOKa_modelGroup",
-			"modelSearchInput": "tKsOKa_modelSearchInput",
-			"topicNamingCard": "tKsOKa_topicNamingCard",
-			"secondaryButton": "tKsOKa_secondaryButton",
-			"rowCard": "tKsOKa_rowCard",
-			"modelCatalog": "tKsOKa_modelCatalog",
-			"modelSelectionPanel": "tKsOKa_modelSelectionPanel",
-			"monoInput": "tKsOKa_monoInput",
-			"retryRow": "tKsOKa_retryRow",
-			"topicNamingNote": "tKsOKa_topicNamingNote",
-			"intro": "tKsOKa_intro",
-			"checkResultFail": "tKsOKa_checkResultFail",
-			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
-			"fallbackList": "tKsOKa_fallbackList",
-			"fallbackSummary": "tKsOKa_fallbackSummary",
-			"healthDot": "tKsOKa_healthDot",
-			"iconButton": "tKsOKa_iconButton",
-			"rowHead": "tKsOKa_rowHead",
-			"healthFail": "tKsOKa_healthFail",
-			"checkResult": "tKsOKa_checkResult",
-			"modelGroupHeader": "tKsOKa_modelGroupHeader",
-			"addModelButton": "tKsOKa_addModelButton",
-			"checkButton": "tKsOKa_checkButton",
+			"fallbackDetails": "tKsOKa_fallbackDetails",
 			"fallbackItem": "tKsOKa_fallbackItem",
-			"setupCard": "tKsOKa_setupCard",
-			"input": "tKsOKa_input",
-			"healthMeta": "tKsOKa_healthMeta",
-			"modelGroupBody": "tKsOKa_modelGroupBody",
+			"attemptsInput": "tKsOKa_attemptsInput",
+			"topicNamingCard": "tKsOKa_topicNamingCard",
+			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
+			"modelRowDisabled": "tKsOKa_modelRowDisabled",
+			"dangerButton": "tKsOKa_dangerButton",
+			"rowActions": "tKsOKa_rowActions",
+			"deleteDialog": "tKsOKa_deleteDialog",
+			"checkResultFail": "tKsOKa_checkResultFail",
+			"modelListHead": "tKsOKa_modelListHead",
+			"iconButtonDanger": "tKsOKa_iconButtonDanger",
+			"inputGroup": "tKsOKa_inputGroup",
+			"title": "tKsOKa_title",
+			"headerRow": "tKsOKa_headerRow",
+			"rowIdentity": "tKsOKa_rowIdentity",
+			"deleteConfirm": "tKsOKa_deleteConfirm",
+			"addBlock": "tKsOKa_addBlock",
+			"monoInput": "tKsOKa_monoInput",
+			"checkButton": "tKsOKa_checkButton",
+			"modelEntry": "tKsOKa_modelEntry",
+			"healthPulse": "tKsOKa_healthPulse",
+			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
+			"healthFail": "tKsOKa_healthFail",
+			"defaultMarker": "tKsOKa_defaultMarker",
+			"modelIdInput": "tKsOKa_modelIdInput",
+			"modelAdvanced": "tKsOKa_modelAdvanced",
+			"modelFieldLabel": "tKsOKa_modelFieldLabel",
+			"candidateLabel": "tKsOKa_candidateLabel",
+			"candidateId": "tKsOKa_candidateId",
+			"modelGroupTitle": "tKsOKa_modelGroupTitle",
+			"candidateList": "tKsOKa_candidateList",
+			"retryGroup": "tKsOKa_retryGroup",
+			"retryRow": "tKsOKa_retryRow",
+			"modelAvatar": "tKsOKa_modelAvatar",
+			"fallbackSummary": "tKsOKa_fallbackSummary",
+			"section": "tKsOKa_section",
 			"rowTag": "tKsOKa_rowTag",
-			"modelDisabledId": "tKsOKa_modelDisabledId",
+			"secondaryButton": "tKsOKa_secondaryButton",
+			"iconButton": "tKsOKa_iconButton",
+			"modelCatalog": "tKsOKa_modelCatalog",
+			"credentialDot": "tKsOKa_credentialDot",
+			"modelSearchInput": "tKsOKa_modelSearchInput",
+			"modelAvatarBrand": "tKsOKa_modelAvatarBrand",
+			"modelGroup": "tKsOKa_modelGroup",
+			"healthChecking": "tKsOKa_healthChecking",
+			"checkResultOk": "tKsOKa_checkResultOk",
+			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
+			"modelEmpty": "tKsOKa_modelEmpty",
+			"rows": "tKsOKa_rows",
+			"fieldLabel": "tKsOKa_fieldLabel",
+			"fieldLabelRow": "tKsOKa_fieldLabelRow",
+			"eyeButton": "tKsOKa_eyeButton",
+			"panelBody": "tKsOKa_panelBody",
+			"input": "tKsOKa_input",
+			"addModelButton": "tKsOKa_addModelButton",
+			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
 			"addCard": "tKsOKa_addCard",
-			"eyeButton": "tKsOKa_eyeButton"
+			"modelToolbarActions": "tKsOKa_modelToolbarActions",
+			"modelGroupCount": "tKsOKa_modelGroupCount",
+			"modelSelectionTitle": "tKsOKa_modelSelectionTitle",
+			"linkButton": "tKsOKa_linkButton",
+			"addButton": "tKsOKa_addButton",
+			"checkResult": "tKsOKa_checkResult",
+			"setupCard": "tKsOKa_setupCard",
+			"rowCard": "tKsOKa_rowCard",
+			"rowName": "tKsOKa_rowName",
+			"field": "tKsOKa_field",
+			"modelList": "tKsOKa_modelList",
+			"intro": "tKsOKa_intro",
+			"error": "tKsOKa_error",
+			"healthFailText": "tKsOKa_healthFailText",
+			"modelField": "tKsOKa_modelField",
+			"modelGroupBody": "tKsOKa_modelGroupBody",
+			"prefsPanel": "tKsOKa_prefsPanel",
+			"fieldRow": "tKsOKa_fieldRow",
+			"modelDisabledId": "tKsOKa_modelDisabledId",
+			"advancedHint": "tKsOKa_advancedHint",
+			"topicNamingBody": "tKsOKa_topicNamingBody",
+			"rowHead": "tKsOKa_rowHead",
+			"savedNotice": "tKsOKa_savedNotice",
+			"addActions": "tKsOKa_addActions",
+			"healthDot": "tKsOKa_healthDot",
+			"inputRow": "tKsOKa_inputRow",
+			"fetchButton": "tKsOKa_fetchButton",
+			"modelRow": "tKsOKa_modelRow",
+			"helpLink": "tKsOKa_helpLink",
+			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"modelGroupHeader": "tKsOKa_modelGroupHeader",
+			"fieldRowWithAction": "tKsOKa_fieldRowWithAction",
+			"topicNamingNote": "tKsOKa_topicNamingNote",
+			"modelCountBadge": "tKsOKa_modelCountBadge",
+			"endpointPreview": "tKsOKa_endpointPreview",
+			"fallbackList": "tKsOKa_fallbackList",
+			"notice": "tKsOKa_notice",
+			"healthMeta": "tKsOKa_healthMeta",
+			"gearButton": "tKsOKa_gearButton",
+			"fallbackCount": "tKsOKa_fallbackCount",
+			"modelSelectionPanel": "tKsOKa_modelSelectionPanel"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -6802,6 +6803,83 @@ window.__ModuleLoader__.load({
 						children: [(0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.IconPlusOutline16, { size: 14 }), props.t("addModel")]
 					})
 				]
+			});
+		}
+		//#endregion
+		//#region lib/types/client/provider-avatar.js
+		/** Cherry iconDisplayConfig 'provider-list' contained set. */
+		const CONTAINED_ICONS = /* @__PURE__ */ new Set([
+			"cherryin",
+			"aihubmix",
+			"lmstudio",
+			"anthropic",
+			"yi",
+			"groq",
+			"aws-bedrock"
+		]);
+		/** Cherry generateColorFromChar: LCG-seeded pseudo-RGB from the char code. */
+		function generateColorFromChar(char) {
+			const seed = char.charCodeAt(0);
+			const a = 1664525;
+			const c = 1013904223;
+			const m = 2 ** 32;
+			let r = (a * seed + c) % m;
+			let g = (a * r + c) % m;
+			const b = (a * g + c) % m;
+			r = Math.floor(r / m * 256);
+			g = Math.floor(g / m * 256);
+			const blue = Math.floor(b / m * 256);
+			return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${blue.toString(16).padStart(2, "0")}`;
+		}
+		/** Cherry getForegroundColor: relative-luminance black/white contrast pick. */
+		function getForegroundColor(background) {
+			const value = background.replace("#", "");
+			const srgb = [
+				0,
+				2,
+				4
+			].map((offset) => Number.parseInt(value.slice(offset, offset + 2), 16)).map((channel) => {
+				const scaled = channel / 255;
+				return scaled <= .03928 ? scaled / 12.92 : ((scaled + .055) / 1.055) ** 2.4;
+			});
+			return .2126 * srgb[0] + .7152 * srgb[1] + .0722 * srgb[2] > .179 ? "#000000" : "#FFFFFF";
+		}
+		/** One provider brand avatar, rendered exactly like Cherry's list/header use. */
+		function ProviderAvatar({ providerId, name, size = 26, displayContext, className }) {
+			const glyph = providerIconSvg(providerId);
+			if (glyph !== "") {
+				const scaled = displayContext === "provider-list";
+				const contained = scaled && CONTAINED_ICONS.has(providerId);
+				return (0, react_jsx_runtime.jsx)("span", {
+					className,
+					"data-avatar": true,
+					style: {
+						width: size,
+						height: size
+					},
+					children: (0, react_jsx_runtime.jsx)("span", {
+						"data-avatar-glyph": true,
+						...contained ? { "data-contained": "true" } : {},
+						...scaled ? { "data-scaled": "true" } : {},
+						dangerouslySetInnerHTML: { __html: glyph }
+					})
+				});
+			}
+			const seedChar = name.charAt(0).toUpperCase() || "?";
+			const background = generateColorFromChar(seedChar);
+			return (0, react_jsx_runtime.jsx)("span", {
+				className,
+				"data-avatar": true,
+				style: {
+					width: size,
+					height: size,
+					background,
+					color: getForegroundColor(background)
+				},
+				children: (0, react_jsx_runtime.jsx)("span", {
+					"data-avatar-letter": true,
+					children: seedChar
+				})
 			});
 		}
 		//#endregion
@@ -8360,10 +8438,15 @@ window.__ModuleLoader__.load({
 								children: [(0, react_jsx_runtime.jsxs)("div", {
 									className: ModelsSection_module_css_default["modelRow"],
 									children: [
-										(0, react_jsx_runtime.jsx)("span", {
+										probe.provider === void 0 ? (0, react_jsx_runtime.jsx)("span", {
 											className: ModelsSection_module_css_default["modelAvatar"],
 											"aria-hidden": true,
-											children: (textOf(model, "name") || textOf(model, "id")).charAt(0).toUpperCase() || "?"
+											children: (textOf(model, "name") || rowId).charAt(0).toUpperCase() || "?"
+										}) : (0, react_jsx_runtime.jsx)(ProviderAvatar, {
+											providerId: probe.provider,
+											name: probe.provider,
+											size: 26,
+											className: ModelsSection_module_css_default["modelAvatarBrand"]
 										}),
 										(0, react_jsx_runtime.jsx)("input", {
 											className: ModelsSection_module_css_default["modelIdInput"],
@@ -11184,7 +11267,7 @@ window.__ModuleLoader__.load({
 		}
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\ProviderDirectorySection.module.css.mjs
-		const css$26 = ".l38w4q_section{flex-direction:column;gap:10px;width:100%;max-width:1080px;margin:0 auto;display:flex}.l38w4q_intro{color:var(--muted-foreground);font-size:13px}.l38w4q_split{border:.5px solid var(--border-subtle);background:var(--card);border-radius:12px;width:100%;max-width:1080px;height:min(640px,100vh - 230px);min-height:420px;display:flex;overflow:hidden}.l38w4q_list{flex-direction:column;flex:none;width:248px;display:flex}.l38w4q_listHeader{align-items:center;padding:10px 10px 6px;display:flex;position:relative}.l38w4q_searchInput{border:1px solid var(--border-subtle);background:var(--background);width:100%;height:32px;color:var(--foreground);box-sizing:border-box;border-radius:10px;outline:none;padding:0 28px 0 30px;font-family:inherit;font-size:13px}.l38w4q_searchInput::placeholder{color:var(--muted-foreground)}.l38w4q_searchInput:focus-visible{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.l38w4q_searchInput:before{content:\"\"}.l38w4q_listHeader:before{content:\"\";background:var(--muted-foreground);pointer-events:none;width:14px;height:14px;position:absolute;top:50%;left:20px;transform:translateY(-42%);mask:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E\") 50%/contain no-repeat}.l38w4q_searchClear{width:22px;height:22px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;display:inline-flex;position:absolute;top:50%;right:16px;transform:translateY(-50%)}.l38w4q_searchClear:hover{color:var(--foreground);background:color-mix(in srgb, var(--muted) 40%, transparent)}.l38w4q_listScroll{flex:1;min-height:0;padding:4px 10px 8px;overflow-y:auto}.l38w4q_emptyList{color:var(--muted-foreground);text-align:center;padding:16px 8px;font-size:13px}.l38w4q_groupRows{flex-direction:column;gap:4px;margin:0;padding:0;list-style:none;display:flex}.l38w4q_listItem{width:100%;height:34px;color:var(--foreground);text-align:left;cursor:pointer;box-sizing:border-box;background:0 0;border:none;border-radius:10px;justify-content:space-between;align-items:center;gap:8px;padding:0 8px 0 4px;font-family:inherit;display:flex;position:relative}.l38w4q_listItem:hover,.l38w4q_listItemSelected{background:var(--muted)}.l38w4q_listItemSelected .l38w4q_listItemName{font-weight:500}.l38w4q_listItemDragging{opacity:.45}.l38w4q_listItemDropTarget{box-shadow:inset 0 2px 0 var(--primary)}.l38w4q_listItemDisabled .l38w4q_listItemName,.l38w4q_listItemDisabled .l38w4q_avatar{opacity:.55}.l38w4q_listItemMain{align-items:center;gap:10px;min-width:0;display:flex}.l38w4q_avatar{border:.5px solid var(--border-subtle);background:var(--background);box-sizing:border-box;border-radius:7px;flex:none;justify-content:center;align-items:center;width:26px;height:26px;display:inline-flex;overflow:hidden}.l38w4q_avatar svg{width:100%;height:100%}.l38w4q_avatar[data-letter]{color:var(--muted-foreground);font-size:13px;font-weight:600}.l38w4q_listItemName{white-space:nowrap;text-overflow:ellipsis;font-size:13px;line-height:1.35;overflow:hidden}.l38w4q_enabledDot{background:var(--success);border-radius:50%;flex:none;width:6px;height:6px;transition:opacity .15s}.l38w4q_listItem:hover .l38w4q_enabledDot,.l38w4q_listItem:focus-within .l38w4q_enabledDot{opacity:0}.l38w4q_kebabSlot{display:inline-flex;position:absolute;top:50%;right:6px;transform:translateY(-50%)}.l38w4q_kebabButton{width:20px;height:20px;color:var(--muted-foreground);cursor:pointer;opacity:0;background:0 0;border:none;border-radius:5px;justify-content:center;align-items:center;transition:color .12s,background-color .12s,opacity .15s;display:inline-flex}.l38w4q_listItem:hover .l38w4q_kebabButton,.l38w4q_listItem:focus-within .l38w4q_kebabButton,.l38w4q_kebabButton[aria-expanded=true]{opacity:1}.l38w4q_kebabButton:hover{color:var(--foreground);background:color-mix(in srgb, var(--muted) 55%, transparent)}.l38w4q_freeBadge{background:color-mix(in srgb, var(--success) 10%, transparent);height:16px;color:var(--success);border-radius:4px;flex:none;align-items:center;padding:0 4px;font-size:9px;font-weight:500;line-height:1;display:inline-flex}.l38w4q_listFooter{padding:8px 10px 10px}.l38w4q_addCustomButton{border:1px solid var(--border-subtle);width:100%;height:32px;color:var(--foreground);cursor:pointer;background:0 0;border-radius:10px;justify-content:center;align-items:center;gap:6px;font-family:inherit;font-size:12px;display:inline-flex}.l38w4q_addCustomButton:hover:not(:disabled){border-color:var(--border-strong);background:color-mix(in srgb, var(--muted) 50%, transparent)}.l38w4q_addCustomButton:disabled{opacity:.5;cursor:not-allowed}.l38w4q_detail{background:var(--card);flex-direction:column;flex:1;min-width:0;display:flex}.l38w4q_detailScroll{flex:1;min-height:0;overflow-y:auto}.l38w4q_detailHeader{justify-content:space-between;align-items:center;gap:12px;padding:12px 24px 8px;display:flex}.l38w4q_detailHeaderMain{flex-wrap:wrap;align-items:center;gap:8px;min-width:0;display:flex}.l38w4q_detailTitle{color:var(--foreground);white-space:nowrap;font-size:15px;font-weight:600}a.l38w4q_detailTitle{text-decoration:none}a.l38w4q_detailTitle:hover{color:var(--primary)}.l38w4q_infoDot{border:1px solid var(--border-subtle);width:18px;height:18px;color:var(--muted-foreground);cursor:help;white-space:pre-line;background:0 0;border-radius:50%;flex:none;justify-content:center;align-items:center;font-size:10px;font-style:normal;display:inline-flex;position:relative}.l38w4q_infoDot:hover:after,.l38w4q_infoDot:focus-visible:after{content:attr(data-tip);z-index:30;border:1px solid var(--border-subtle);background:var(--popover);color:var(--popover-foreground,var(--foreground));white-space:pre-line;pointer-events:none;border-radius:8px;padding:8px 10px;font-size:12px;line-height:1.5;position:absolute;top:calc(100% + 6px);left:0;box-shadow:0 4px 16px #00000040}.l38w4q_detailRoute{color:var(--muted-foreground);font-size:12px}.l38w4q_boltButton{width:22px;height:22px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;flex:none;justify-content:center;align-items:center;display:inline-flex}.l38w4q_boltButton:hover{color:var(--warning);background:color-mix(in srgb, var(--muted) 40%, transparent)}.l38w4q_customTag,.l38w4q_disabledTag{background:var(--muted);height:18px;color:var(--muted-foreground);border-radius:9999px;flex:none;align-items:center;padding:0 7px;font-size:11px;display:inline-flex}.l38w4q_disabledTag{background:color-mix(in srgb, var(--warning) 15%, transparent);color:var(--warning)}.l38w4q_detailBody{flex-direction:column;gap:12px;max-width:860px;padding:4px 24px 24px;display:flex}.l38w4q_switch{background:var(--muted);cursor:pointer;border:none;border-radius:9999px;flex:none;width:36px;height:20px;padding:0;transition:background .14s;position:relative}.l38w4q_switch:hover:not(:disabled){filter:brightness(.96)}.l38w4q_switchOn{background:var(--success)}.l38w4q_switchThumb{background:#fff;border-radius:50%;width:16px;height:16px;transition:transform .14s;position:absolute;top:2px;left:2px;box-shadow:0 1px 2px #00000040}.l38w4q_switchOn .l38w4q_switchThumb{transform:translate(16px)}.l38w4q_switch:disabled{opacity:.45;cursor:not-allowed}.l38w4q_notice{border:1px solid var(--info-border);background:var(--info-subtle);color:var(--info-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.l38w4q_savedNotice{border:1px solid var(--success-border);background:var(--success-subtle);color:var(--success-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.l38w4q_error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.l38w4q_emptyDetail{text-align:center;flex-direction:column;flex:1;justify-content:center;align-items:center;gap:8px;padding:24px;display:flex}.l38w4q_emptyTitle{color:var(--foreground);font-size:15px;font-weight:600}.l38w4q_emptyHint{color:var(--muted-foreground);font-size:13px}.l38w4q_secondaryButton{border:1px solid var(--border-subtle);background:var(--secondary);height:32px;color:var(--secondary-foreground);cursor:pointer;border-radius:8px;justify-content:center;align-items:center;gap:6px;margin-top:8px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.l38w4q_deleteDialog{background:var(--popover);border-radius:14px;flex-direction:column;gap:12px;padding:16px;display:flex}.l38w4q_deleteConfirm{color:var(--destructive)}";
+		const css$26 = ".l38w4q_section{flex-direction:column;gap:10px;width:100%;max-width:1080px;margin:0 auto;display:flex}.l38w4q_intro{color:var(--muted-foreground);font-size:13px}.l38w4q_split{border:.5px solid var(--border-subtle);background:var(--card);border-radius:12px;width:100%;max-width:1080px;height:min(640px,100vh - 230px);min-height:420px;display:flex;overflow:hidden}.l38w4q_list{flex-direction:column;flex:none;width:248px;display:flex}.l38w4q_searchRow{align-items:center;gap:6px;padding:10px 10px 0;display:flex}.l38w4q_searchWrap{border:1px solid var(--border-input,var(--border-subtle));background:var(--background);box-sizing:border-box;border-radius:10px;flex:1;align-items:center;gap:4px;min-width:0;height:32px;padding:0 4px 0 10px;display:flex}.l38w4q_searchWrap:focus-within{box-shadow:0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent)}.l38w4q_searchIcon{color:var(--muted-foreground);flex:none;margin-right:2px;display:inline-flex}.l38w4q_searchInput{min-width:0;height:100%;color:var(--foreground);box-sizing:border-box;background:0 0;border:none;outline:none;flex:1;padding:0;font-family:inherit;font-size:14px;line-height:20px}.l38w4q_searchInput::placeholder{color:var(--muted-foreground)}.l38w4q_searchClear{width:22px;height:22px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;flex:none;justify-content:center;align-items:center;display:inline-flex}.l38w4q_searchClear:hover{color:var(--foreground);background:color-mix(in srgb, var(--muted) 40%, transparent)}.l38w4q_headerIconButton{width:24px;height:24px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;flex:none;justify-content:center;align-items:center;transition:color .12s,background-color .12s;display:flex}.l38w4q_headerIconButton:hover{color:var(--foreground);background:color-mix(in srgb, var(--muted) 40%, transparent)}.l38w4q_listScroll{flex:1;min-height:0;padding:8px 10px 0;overflow-y:auto}.l38w4q_emptyList{color:var(--muted-foreground);text-align:center;padding:16px 8px;font-size:13px}.l38w4q_groupRows{flex-direction:column;gap:8px;margin:0;padding:0;list-style:none;display:flex}.l38w4q_listItem{width:100%;height:32px;color:var(--foreground);text-align:left;cursor:pointer;box-sizing:border-box;background:0 0;border:none;border-radius:10px;justify-content:space-between;align-items:center;gap:8px;padding:0 10px 0 2px;font-family:inherit;display:flex;position:relative}.l38w4q_listItem:hover,.l38w4q_listItemSelected{background:var(--muted)}.l38w4q_listItemSelected .l38w4q_listItemName{font-weight:500}.l38w4q_listItemDragging{opacity:.45}.l38w4q_listItemDropTarget{box-shadow:inset 0 2px 0 var(--primary)}.l38w4q_listItemDisabled .l38w4q_listItemName,.l38w4q_listItemDisabled .l38w4q_avatar{opacity:.55}.l38w4q_listItemMain{align-items:center;gap:10px;min-width:0;display:flex}.l38w4q_avatar{border:.5px solid var(--border-subtle);background:var(--background);box-sizing:border-box;border-radius:6px;flex:none;justify-content:center;align-items:center;display:inline-flex;overflow:hidden}[data-avatar] [data-avatar-glyph]{width:100%;height:100%;display:inline-flex}[data-avatar] [data-avatar-glyph][data-scaled]{width:120%;height:120%}[data-avatar] [data-avatar-glyph][data-contained]{width:71.4286%;height:71.4286%}[data-avatar] [data-avatar-glyph] svg{border-radius:inherit;width:100%;height:100%}[data-avatar] [data-avatar-glyph][data-contained] svg{border-radius:5px}[data-avatar-letter]{font-size:13px;font-weight:600;line-height:1}.l38w4q_dragHandle{width:10px;color:var(--muted-foreground);opacity:0;flex:none;justify-content:center;align-items:center;transition:opacity .15s;display:flex}.l38w4q_listItem:hover .l38w4q_dragHandle,.l38w4q_listItem:focus-within .l38w4q_dragHandle,.l38w4q_dragHandle[data-dragging=true]{opacity:1}.l38w4q_listItemName{white-space:nowrap;text-overflow:ellipsis;font-size:13px;line-height:1.35;overflow:hidden}.l38w4q_enabledDot{background:var(--success);border-radius:50%;flex:none;width:6px;height:6px;transition:opacity .15s}.l38w4q_listItem:hover .l38w4q_enabledDot,.l38w4q_listItem:focus-within .l38w4q_enabledDot{opacity:0}.l38w4q_kebabSlot{display:inline-flex;position:absolute;top:50%;right:6px;transform:translateY(-50%)}.l38w4q_kebabButton{width:20px;height:20px;color:var(--muted-foreground);cursor:pointer;opacity:0;background:0 0;border:none;border-radius:5px;justify-content:center;align-items:center;transition:color .12s,background-color .12s,opacity .15s;display:inline-flex}.l38w4q_listItem:hover .l38w4q_kebabButton,.l38w4q_listItem:focus-within .l38w4q_kebabButton,.l38w4q_kebabButton[aria-expanded=true]{opacity:1}.l38w4q_kebabButton:hover{color:var(--foreground);background:color-mix(in srgb, var(--muted) 55%, transparent)}.l38w4q_freeBadge{background:color-mix(in srgb, var(--success) 10%, transparent);height:16px;color:var(--success);border-radius:4px;flex:none;align-items:center;padding:0 4px;font-size:9px;font-weight:500;line-height:1;display:inline-flex}.l38w4q_listFooter{padding:8px 10px 10px}.l38w4q_addCustomButton{border:1px solid var(--border-subtle);width:100%;height:32px;color:var(--foreground);cursor:pointer;background:0 0;border-radius:10px;justify-content:center;align-items:center;gap:6px;font-family:inherit;font-size:12px;display:inline-flex}.l38w4q_addCustomButton:hover:not(:disabled){border-color:var(--border-strong);background:color-mix(in srgb, var(--muted) 50%, transparent)}.l38w4q_addCustomButton:disabled{opacity:.5;cursor:not-allowed}.l38w4q_detail{background:var(--card);flex-direction:column;flex:1;min-width:0;display:flex}.l38w4q_detailScroll{flex:1;min-height:0;overflow-y:auto}.l38w4q_detailHeader{justify-content:space-between;align-items:center;gap:12px;padding:12px 24px 8px;display:flex}.l38w4q_detailHeaderMain{flex-wrap:wrap;align-items:center;gap:8px;min-width:0;display:flex}.l38w4q_detailTitle{color:var(--foreground);white-space:nowrap;font-size:15px;font-weight:600}a.l38w4q_detailTitle{text-decoration:none}a.l38w4q_detailTitle:hover{color:var(--primary)}.l38w4q_infoDot{border:1px solid var(--border-subtle);width:18px;height:18px;color:var(--muted-foreground);cursor:help;white-space:pre-line;background:0 0;border-radius:50%;flex:none;justify-content:center;align-items:center;font-size:10px;font-style:normal;display:inline-flex;position:relative}.l38w4q_infoDot:hover:after,.l38w4q_infoDot:focus-visible:after{content:attr(data-tip);z-index:30;border:1px solid var(--border-subtle);background:var(--popover);color:var(--popover-foreground,var(--foreground));white-space:pre-line;pointer-events:none;border-radius:8px;padding:8px 10px;font-size:12px;line-height:1.5;position:absolute;top:calc(100% + 6px);left:0;box-shadow:0 4px 16px #00000040}.l38w4q_detailRoute{color:var(--muted-foreground);font-size:12px}.l38w4q_boltButton{width:28px;height:28px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:8px;flex:none;justify-content:center;align-items:center;display:inline-flex}.l38w4q_boltButton:hover{color:var(--foreground);background:color-mix(in srgb, var(--muted) 40%, transparent)}.l38w4q_customTag,.l38w4q_disabledTag{background:var(--muted);height:18px;color:var(--muted-foreground);border-radius:9999px;flex:none;align-items:center;padding:0 7px;font-size:11px;display:inline-flex}.l38w4q_disabledTag{background:color-mix(in srgb, var(--warning) 15%, transparent);color:var(--warning)}.l38w4q_detailBody{flex-direction:column;gap:12px;max-width:860px;padding:4px 24px 24px;display:flex}.l38w4q_switch{background:var(--muted);cursor:pointer;border:none;border-radius:9999px;flex:none;width:36px;height:20px;padding:0;transition:background .14s;position:relative}.l38w4q_switch:hover:not(:disabled){filter:brightness(.96)}.l38w4q_switchOn{background:var(--success)}.l38w4q_switchThumb{background:#fff;border-radius:50%;width:16px;height:16px;transition:transform .14s;position:absolute;top:2px;left:2px;box-shadow:0 1px 2px #00000040}.l38w4q_switchOn .l38w4q_switchThumb{transform:translate(16px)}.l38w4q_switch:disabled{opacity:.45;cursor:not-allowed}.l38w4q_notice{border:1px solid var(--info-border);background:var(--info-subtle);color:var(--info-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.l38w4q_savedNotice{border:1px solid var(--success-border);background:var(--success-subtle);color:var(--success-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.l38w4q_error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.l38w4q_emptyDetail{text-align:center;flex-direction:column;flex:1;justify-content:center;align-items:center;gap:8px;padding:24px;display:flex}.l38w4q_emptyTitle{color:var(--foreground);font-size:15px;font-weight:600}.l38w4q_emptyHint{color:var(--muted-foreground);font-size:13px}.l38w4q_secondaryButton{border:1px solid var(--border-subtle);background:var(--secondary);height:32px;color:var(--secondary-foreground);cursor:pointer;border-radius:8px;justify-content:center;align-items:center;gap:6px;margin-top:8px;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.l38w4q_deleteDialog{background:var(--popover);border-radius:14px;flex-direction:column;gap:12px;padding:16px;display:flex}.l38w4q_deleteConfirm{color:var(--destructive)}";
 		const tagId$26 = "@dsh-control-center/bundle/ProviderDirectorySection.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$26) + "]") === null) {
 			const tag = document.createElement("style");
@@ -11194,53 +11277,57 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderDirectorySection_module_css_default = {
-			"detailHeaderMain": "l38w4q_detailHeaderMain",
-			"freeBadge": "l38w4q_freeBadge",
-			"avatar": "l38w4q_avatar",
-			"listScroll": "l38w4q_listScroll",
-			"listItem": "l38w4q_listItem",
-			"listItemName": "l38w4q_listItemName",
-			"kebabSlot": "l38w4q_kebabSlot",
-			"detailRoute": "l38w4q_detailRoute",
-			"listItemDropTarget": "l38w4q_listItemDropTarget",
-			"boltButton": "l38w4q_boltButton",
-			"listItemSelected": "l38w4q_listItemSelected",
-			"listHeader": "l38w4q_listHeader",
-			"error": "l38w4q_error",
-			"secondaryButton": "l38w4q_secondaryButton",
-			"infoDot": "l38w4q_infoDot",
-			"savedNotice": "l38w4q_savedNotice",
-			"listFooter": "l38w4q_listFooter",
-			"searchClear": "l38w4q_searchClear",
-			"deleteDialog": "l38w4q_deleteDialog",
-			"deleteConfirm": "l38w4q_deleteConfirm",
-			"list": "l38w4q_list",
-			"detailBody": "l38w4q_detailBody",
-			"notice": "l38w4q_notice",
+			"detail": "l38w4q_detail",
 			"disabledTag": "l38w4q_disabledTag",
-			"section": "l38w4q_section",
-			"intro": "l38w4q_intro",
-			"emptyHint": "l38w4q_emptyHint",
-			"detailHeader": "l38w4q_detailHeader",
+			"deleteConfirm": "l38w4q_deleteConfirm",
+			"listItemDropTarget": "l38w4q_listItemDropTarget",
 			"addCustomButton": "l38w4q_addCustomButton",
-			"emptyList": "l38w4q_emptyList",
-			"listItemDragging": "l38w4q_listItemDragging",
+			"detailBody": "l38w4q_detailBody",
+			"savedNotice": "l38w4q_savedNotice",
+			"freeBadge": "l38w4q_freeBadge",
 			"listItemMain": "l38w4q_listItemMain",
-			"emptyTitle": "l38w4q_emptyTitle",
-			"emptyDetail": "l38w4q_emptyDetail",
-			"groupRows": "l38w4q_groupRows",
+			"kebabSlot": "l38w4q_kebabSlot",
+			"headerIconButton": "l38w4q_headerIconButton",
+			"list": "l38w4q_list",
 			"enabledDot": "l38w4q_enabledDot",
-			"detailTitle": "l38w4q_detailTitle",
-			"switch": "l38w4q_switch",
+			"searchClear": "l38w4q_searchClear",
+			"dragHandle": "l38w4q_dragHandle",
 			"customTag": "l38w4q_customTag",
 			"switchOn": "l38w4q_switchOn",
-			"switchThumb": "l38w4q_switchThumb",
-			"detailScroll": "l38w4q_detailScroll",
-			"detail": "l38w4q_detail",
+			"section": "l38w4q_section",
+			"searchWrap": "l38w4q_searchWrap",
+			"searchIcon": "l38w4q_searchIcon",
+			"listItemName": "l38w4q_listItemName",
+			"listItemDragging": "l38w4q_listItemDragging",
+			"detailHeaderMain": "l38w4q_detailHeaderMain",
+			"boltButton": "l38w4q_boltButton",
+			"avatar": "l38w4q_avatar",
 			"split": "l38w4q_split",
+			"detailTitle": "l38w4q_detailTitle",
+			"searchRow": "l38w4q_searchRow",
+			"switch": "l38w4q_switch",
+			"error": "l38w4q_error",
+			"emptyDetail": "l38w4q_emptyDetail",
+			"emptyHint": "l38w4q_emptyHint",
+			"intro": "l38w4q_intro",
+			"listFooter": "l38w4q_listFooter",
+			"detailScroll": "l38w4q_detailScroll",
+			"emptyTitle": "l38w4q_emptyTitle",
+			"secondaryButton": "l38w4q_secondaryButton",
+			"deleteDialog": "l38w4q_deleteDialog",
+			"searchInput": "l38w4q_searchInput",
+			"groupRows": "l38w4q_groupRows",
+			"emptyList": "l38w4q_emptyList",
+			"notice": "l38w4q_notice",
 			"kebabButton": "l38w4q_kebabButton",
+			"listItemSelected": "l38w4q_listItemSelected",
+			"listItem": "l38w4q_listItem",
 			"listItemDisabled": "l38w4q_listItemDisabled",
-			"searchInput": "l38w4q_searchInput"
+			"infoDot": "l38w4q_infoDot",
+			"switchThumb": "l38w4q_switchThumb",
+			"listScroll": "l38w4q_listScroll",
+			"detailHeader": "l38w4q_detailHeader",
+			"detailRoute": "l38w4q_detailRoute"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderDirectorySection.js
@@ -11332,20 +11419,6 @@ window.__ModuleLoader__.load({
 			}
 			return entries;
 		}
-		/** Cherry-style brand avatar; falls back to the leading letter when the icon
-		* registry has no glyph for the id. */
-		function ProviderAvatar({ providerId, name }) {
-			const glyph = providerIconSvg(providerId, 26);
-			if (glyph !== "") return (0, react_jsx_runtime.jsx)("span", {
-				className: ProviderDirectorySection_module_css_default["avatar"],
-				dangerouslySetInnerHTML: { __html: glyph }
-			});
-			return (0, react_jsx_runtime.jsx)("span", {
-				className: ProviderDirectorySection_module_css_default["avatar"],
-				"data-letter": true,
-				children: name.charAt(0).toUpperCase() || "?"
-			});
-		}
 		/**
 		* An accessible pill switch (the primitives package ships none). Real state
 		* lives with the caller; this renders and clicks.
@@ -11385,6 +11458,9 @@ window.__ModuleLoader__.load({
 			const { controller, api, t, schema, getCheck } = injected;
 			const state = injected.useSnapshot((snapshot) => snapshot);
 			const [search, setSearch] = (0, react.useState)("");
+			/** Cherry's persisted header filter: all / enabled / disabled. */
+			const [filterMode, setFilterMode] = (0, react.useState)("all");
+			const [filterOpen, setFilterOpen] = (0, react.useState)(false);
 			const [selectedId, setSelectedId] = (0, react.useState)(() => {
 				try {
 					return window.localStorage.getItem(LAST_SELECTED_KEY) ?? void 0;
@@ -11422,6 +11498,31 @@ window.__ModuleLoader__.load({
 					})]
 				});
 			}
+			const namespace = state.namespaces.get(NS);
+			const stashView = state.namespaces.get(STASH_NS);
+			/**
+			* Whether this route CAN be toggled at all. A live or stashed profile is
+			* always toggleable; a never-configured route only when the adapter ships
+			* its catalog (an empty profile is serviceable there). A whole-section
+			* route (`llm-deepseek`, no sub-path) is composition-owned and stays out of
+			* reach — unsetting it here would tear down the deployment's own section.
+			*/
+			const toggleStateOf = (entry) => {
+				const live = entry.row?.configured === true && entry.row.entry.settingsPath.length > 0;
+				const stashed = stashView !== void 0 && schema.getPath(stashView.value, ["providers", entry.provider]) !== void 0;
+				if (live) return {
+					enabled: true,
+					canToggle: true
+				};
+				if (stashed) return {
+					enabled: false,
+					canToggle: true
+				};
+				return {
+					enabled: false,
+					canToggle: entry.row?.entry.settingsPath.length !== 0 && entry.preset !== void 0 && PI_AI_SHIPPED_PRESET_IDS.has(entry.provider)
+				};
+			};
 			const directory = (0, react.useMemo)(() => {
 				const entries = buildDirectory(state.rows);
 				if (order.length === 0) return entries;
@@ -11429,10 +11530,18 @@ window.__ModuleLoader__.load({
 				return [...entries].sort((left, right) => (rank.get(left.provider) ?? Number.MAX_SAFE_INTEGER) - (rank.get(right.provider) ?? Number.MAX_SAFE_INTEGER));
 			}, [state.rows, order]);
 			const filtered = (0, react.useMemo)(() => {
-				if (search.trim().length === 0) return directory;
+				const byFilter = filterMode === "all" ? directory : directory.filter((entry) => {
+					const { enabled, canToggle } = toggleStateOf(entry);
+					return filterMode === "enabled" ? canToggle && enabled : canToggle && !enabled;
+				});
+				if (search.trim().length === 0) return byFilter;
 				const keywords = search.toLowerCase().split(/\s+/).filter(Boolean);
-				return directory.filter((entry) => keywords.every((kw) => entry.provider.toLowerCase().includes(kw) || entry.displayName.toLowerCase().includes(kw)));
-			}, [directory, search]);
+				return byFilter.filter((entry) => keywords.every((kw) => entry.provider.toLowerCase().includes(kw) || entry.displayName.toLowerCase().includes(kw)));
+			}, [
+				directory,
+				search,
+				filterMode
+			]);
 			const effective = (selectedId === void 0 ? void 0 : directory.find((entry) => entry.provider === selectedId)) ?? filtered[0];
 			/**
 			* Move one provider before another in the persisted ordering. The move
@@ -11460,8 +11569,6 @@ window.__ModuleLoader__.load({
 					window.localStorage.setItem(LAST_SELECTED_KEY, provider);
 				} catch {}
 			};
-			const namespace = state.namespaces.get(NS);
-			const stashView = state.namespaces.get(STASH_NS);
 			const protocols = protocolChoices(namespace, schema);
 			const editTarget = effective === void 0 ? void 0 : identityOf(effective);
 			const defaultNsView = state.namespaces.get("agent-default-model");
@@ -11529,29 +11636,6 @@ window.__ModuleLoader__.load({
 				controller.load().then(() => {
 					setSavedTarget(target);
 				});
-			};
-			/**
-			* Whether this route CAN be toggled at all. A live or stashed profile is
-			* always toggleable; a never-configured route only when the adapter ships
-			* its catalog (an empty profile is serviceable there). A whole-section
-			* route (`llm-deepseek`, no sub-path) is composition-owned and stays out of
-			* reach — unsetting it here would tear down the deployment's own section.
-			*/
-			const toggleStateOf = (entry) => {
-				const live = entry.row?.configured === true && entry.row.entry.settingsPath.length > 0;
-				const stashed = stashView !== void 0 && schema.getPath(stashView.value, ["providers", entry.provider]) !== void 0;
-				if (live) return {
-					enabled: true,
-					canToggle: true
-				};
-				if (stashed) return {
-					enabled: false,
-					canToggle: true
-				};
-				return {
-					enabled: false,
-					canToggle: entry.row?.entry.settingsPath.length !== 0 && entry.preset !== void 0 && PI_AI_SHIPPED_PRESET_IDS.has(entry.provider)
-				};
 			};
 			/**
 			* Flip the Switch. Disable stashes the full profile FIRST (a crash between
@@ -11707,36 +11791,113 @@ window.__ModuleLoader__.load({
 							className: ProviderDirectorySection_module_css_default["list"],
 							children: [
 								(0, react_jsx_runtime.jsxs)("div", {
-									className: ProviderDirectorySection_module_css_default["listHeader"],
-									children: [(0, react_jsx_runtime.jsx)("input", {
-										className: ProviderDirectorySection_module_css_default["searchInput"],
-										type: "text",
-										value: search,
-										placeholder: t("searchProviders"),
-										"aria-label": t("searchProviders"),
-										onChange: (event) => {
-											setSearch(event.target.value);
-										}
-									}), search.length === 0 ? null : (0, react_jsx_runtime.jsx)("button", {
-										type: "button",
-										className: ProviderDirectorySection_module_css_default["searchClear"],
-										"aria-label": t("cancel"),
-										onClick: () => {
-											setSearch("");
-										},
-										children: (0, react_jsx_runtime.jsx)("svg", {
-											width: "10",
-											height: "10",
-											viewBox: "0 0 12 12",
-											fill: "none",
-											"aria-hidden": true,
-											children: (0, react_jsx_runtime.jsx)("path", {
-												d: "M9 3L3 9M3 3L9 9",
-												stroke: "currentColor",
-												strokeWidth: "1.5",
-												strokeLinecap: "round"
+									className: ProviderDirectorySection_module_css_default["searchRow"],
+									children: [(0, react_jsx_runtime.jsxs)("div", {
+										className: ProviderDirectorySection_module_css_default["searchWrap"],
+										children: [
+											(0, react_jsx_runtime.jsx)("span", {
+												className: ProviderDirectorySection_module_css_default["searchIcon"],
+												"aria-hidden": true,
+												children: (0, react_jsx_runtime.jsxs)("svg", {
+													width: "14",
+													height: "14",
+													viewBox: "0 0 24 24",
+													fill: "none",
+													stroke: "currentColor",
+													strokeWidth: "2",
+													strokeLinecap: "round",
+													strokeLinejoin: "round",
+													children: [(0, react_jsx_runtime.jsx)("circle", {
+														cx: "11",
+														cy: "11",
+														r: "8"
+													}), (0, react_jsx_runtime.jsx)("path", { d: "m21 21-4.3-4.3" })]
+												})
+											}),
+											(0, react_jsx_runtime.jsx)("input", {
+												className: ProviderDirectorySection_module_css_default["searchInput"],
+												type: "text",
+												value: search,
+												placeholder: t("searchProviders"),
+												"aria-label": t("searchProviders"),
+												onChange: (event) => {
+													setSearch(event.target.value);
+												},
+												onKeyDown: (event) => {
+													if (event.key === "Escape") {
+														event.stopPropagation();
+														setSearch("");
+													}
+												}
+											}),
+											search.length === 0 ? null : (0, react_jsx_runtime.jsx)("button", {
+												type: "button",
+												className: ProviderDirectorySection_module_css_default["searchClear"],
+												"aria-label": t("cancel"),
+												onClick: () => {
+													setSearch("");
+												},
+												children: (0, react_jsx_runtime.jsxs)("svg", {
+													width: "9",
+													height: "9",
+													viewBox: "0 0 24 24",
+													fill: "none",
+													stroke: "currentColor",
+													strokeWidth: "2",
+													strokeLinecap: "round",
+													strokeLinejoin: "round",
+													"aria-hidden": true,
+													children: [(0, react_jsx_runtime.jsx)("path", { d: "M18 6 6 18" }), (0, react_jsx_runtime.jsx)("path", { d: "m6 6 12 12" })]
+												})
 											})
-										})
+										]
+									}), (0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.Menu, {
+										open: filterOpen,
+										align: "end",
+										selectedId: filterMode,
+										anchor: (0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: ProviderDirectorySection_module_css_default["headerIconButton"],
+											"aria-label": t("filterProviders"),
+											title: t("filterProviders"),
+											onClick: () => {
+												setFilterOpen((open) => !open);
+											},
+											children: (0, react_jsx_runtime.jsx)("svg", {
+												width: "14",
+												height: "14",
+												viewBox: "0 0 24 24",
+												fill: "none",
+												stroke: "currentColor",
+												strokeWidth: "2",
+												strokeLinecap: "round",
+												strokeLinejoin: "round",
+												"aria-hidden": true,
+												children: (0, react_jsx_runtime.jsx)("polygon", { points: "22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" })
+											})
+										}),
+										portal: true,
+										items: [
+											{
+												id: "all",
+												label: t("filterAll")
+											},
+											{
+												id: "enabled",
+												label: t("filterEnabled")
+											},
+											{
+												id: "disabled",
+												label: t("filterDisabled")
+											}
+										],
+										onSelect: (id) => {
+											setFilterMode(id);
+											setFilterOpen(false);
+										},
+										onClose: () => {
+											setFilterOpen(false);
+										}
 									})]
 								}),
 								(0, react_jsx_runtime.jsx)("div", {
@@ -11793,12 +11954,63 @@ window.__ModuleLoader__.load({
 													(0, react_jsx_runtime.jsxs)("span", {
 														className: ProviderDirectorySection_module_css_default["listItemMain"],
 														children: [
+															(0, react_jsx_runtime.jsx)("span", {
+																className: ProviderDirectorySection_module_css_default["dragHandle"],
+																"data-dragging": draggingId === entry.provider ? "true" : "false",
+																"aria-hidden": true,
+																children: (0, react_jsx_runtime.jsxs)("svg", {
+																	width: "16",
+																	height: "16",
+																	viewBox: "0 0 24 24",
+																	fill: "none",
+																	stroke: "currentColor",
+																	strokeWidth: "2",
+																	strokeLinecap: "round",
+																	strokeLinejoin: "round",
+																	"aria-hidden": true,
+																	children: [
+																		(0, react_jsx_runtime.jsx)("circle", {
+																			cx: "9",
+																			cy: "5",
+																			r: "1"
+																		}),
+																		(0, react_jsx_runtime.jsx)("circle", {
+																			cx: "9",
+																			cy: "12",
+																			r: "1"
+																		}),
+																		(0, react_jsx_runtime.jsx)("circle", {
+																			cx: "9",
+																			cy: "19",
+																			r: "1"
+																		}),
+																		(0, react_jsx_runtime.jsx)("circle", {
+																			cx: "15",
+																			cy: "5",
+																			r: "1"
+																		}),
+																		(0, react_jsx_runtime.jsx)("circle", {
+																			cx: "15",
+																			cy: "12",
+																			r: "1"
+																		}),
+																		(0, react_jsx_runtime.jsx)("circle", {
+																			cx: "15",
+																			cy: "19",
+																			r: "1"
+																		})
+																	]
+																})
+															}),
 															(0, react_jsx_runtime.jsx)(ProviderAvatar, {
 																providerId: entry.provider,
-																name: entry.displayName
+																name: entry.displayName,
+																className: ProviderDirectorySection_module_css_default["avatar"],
+																displayContext: "provider-list"
 															}),
 															(0, react_jsx_runtime.jsx)("span", {
 																className: ProviderDirectorySection_module_css_default["listItemName"],
+																"data-selected": isSelected ? "true" : "false",
 																children: entry.displayName
 															}),
 															entry.provider === "radeon-cloud" ? (0, react_jsx_runtime.jsx)("span", {
@@ -11836,23 +12048,27 @@ window.__ModuleLoader__.load({
 																	width: "14",
 																	height: "14",
 																	viewBox: "0 0 24 24",
-																	fill: "currentColor",
+																	fill: "none",
+																	stroke: "currentColor",
+																	strokeWidth: "2",
+																	strokeLinecap: "round",
+																	strokeLinejoin: "round",
 																	"aria-hidden": true,
 																	children: [
 																		(0, react_jsx_runtime.jsx)("circle", {
 																			cx: "12",
 																			cy: "5",
-																			r: "1.6"
+																			r: "1"
 																		}),
 																		(0, react_jsx_runtime.jsx)("circle", {
 																			cx: "12",
 																			cy: "12",
-																			r: "1.6"
+																			r: "1"
 																		}),
 																		(0, react_jsx_runtime.jsx)("circle", {
 																			cx: "12",
 																			cy: "19",
-																			r: "1.6"
+																			r: "1"
 																		})
 																	]
 																})
@@ -11954,10 +12170,6 @@ window.__ModuleLoader__.load({
 											children: [(0, react_jsx_runtime.jsxs)("div", {
 												className: ProviderDirectorySection_module_css_default["detailHeaderMain"],
 												children: [
-													(0, react_jsx_runtime.jsx)(ProviderAvatar, {
-														providerId: effective.provider,
-														name: effective.displayName
-													}),
 													editTarget.settingsNs === NS && namespace !== void 0 ? (0, react_jsx_runtime.jsx)("button", {
 														type: "button",
 														className: ProviderDirectorySection_module_css_default["boltButton"],
@@ -11967,8 +12179,8 @@ window.__ModuleLoader__.load({
 															setHealthOpen(true);
 														},
 														children: (0, react_jsx_runtime.jsxs)("svg", {
-															width: "13",
-															height: "13",
+															width: "14",
+															height: "14",
 															viewBox: "0 0 24 24",
 															fill: "none",
 															stroke: "currentColor",
@@ -11992,12 +12204,16 @@ window.__ModuleLoader__.load({
 															setOptionsOpen(true);
 														},
 														children: (0, react_jsx_runtime.jsx)("svg", {
-															width: "13",
-															height: "13",
+															width: "14",
+															height: "14",
 															viewBox: "0 0 24 24",
-															fill: "currentColor",
+															fill: "none",
+															stroke: "currentColor",
+															strokeWidth: "2",
+															strokeLinecap: "round",
+															strokeLinejoin: "round",
 															"aria-hidden": true,
-															children: (0, react_jsx_runtime.jsx)("path", { d: "M13 2 3 14h7l-1 8 10-12h-7l1-8z" })
+															children: (0, react_jsx_runtime.jsx)("path", { d: "M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" })
 														})
 													}) : null,
 													(0, react_jsx_runtime.jsx)("span", {
@@ -12493,35 +12709,35 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var AddMcpServerDialog_module_css_default = {
+			"form": "uv_otq_form",
+			"marketName": "uv_otq_marketName",
+			"tabRow": "uv_otq_tabRow",
+			"tabActive": "uv_otq_tabActive",
+			"quickImportActions": "uv_otq_quickImportActions",
+			"marketList": "uv_otq_marketList",
+			"input": "uv_otq_input",
+			"select": "uv_otq_select",
+			"quickImportSummary": "uv_otq_quickImportSummary",
+			"footer": "uv_otq_footer",
+			"overlay": "uv_otq_overlay",
+			"closeButton": "uv_otq_closeButton",
+			"marketRow": "uv_otq_marketRow",
+			"tabButton": "uv_otq_tabButton",
+			"dialog": "uv_otq_dialog",
+			"error": "uv_otq_error",
+			"field": "uv_otq_field",
 			"title": "uv_otq_title",
 			"submitButton": "uv_otq_submitButton",
 			"quickImport": "uv_otq_quickImport",
 			"cancelButton": "uv_otq_cancelButton",
-			"marketMain": "uv_otq_marketMain",
-			"tabRow": "uv_otq_tabRow",
-			"header": "uv_otq_header",
-			"overlay": "uv_otq_overlay",
-			"label": "uv_otq_label",
-			"input": "uv_otq_input",
 			"marketVersion": "uv_otq_marketVersion",
-			"form": "uv_otq_form",
-			"quickImportActions": "uv_otq_quickImportActions",
-			"field": "uv_otq_field",
-			"textarea": "uv_otq_textarea",
-			"marketItem": "uv_otq_marketItem",
-			"tabActive": "uv_otq_tabActive",
-			"closeButton": "uv_otq_closeButton",
-			"error": "uv_otq_error",
-			"marketEmpty": "uv_otq_marketEmpty",
-			"dialog": "uv_otq_dialog",
-			"marketList": "uv_otq_marketList",
-			"select": "uv_otq_select",
-			"footer": "uv_otq_footer",
-			"quickImportSummary": "uv_otq_quickImportSummary",
-			"marketName": "uv_otq_marketName",
+			"header": "uv_otq_header",
+			"marketMain": "uv_otq_marketMain",
+			"label": "uv_otq_label",
 			"marketDesc": "uv_otq_marketDesc",
-			"marketRow": "uv_otq_marketRow",
-			"tabButton": "uv_otq_tabButton"
+			"marketItem": "uv_otq_marketItem",
+			"textarea": "uv_otq_textarea",
+			"marketEmpty": "uv_otq_marketEmpty"
 		};
 		//#endregion
 		//#region lib/types/client/AddMcpServerDialog.js
@@ -13110,76 +13326,76 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var McpSection_module_css_default = {
-			"searchInput": "_0bBxiW_searchInput",
-			"searchWrap": "_0bBxiW_searchWrap",
-			"listItem": "_0bBxiW_listItem",
-			"error": "_0bBxiW_error",
-			"emptyDetailState": "_0bBxiW_emptyDetailState",
-			"emptyTitle": "_0bBxiW_emptyTitle",
-			"tab": "_0bBxiW_tab",
-			"addFooter": "_0bBxiW_addFooter",
-			"toolsList": "_0bBxiW_toolsList",
-			"listItems": "_0bBxiW_listItems",
-			"dangerZone": "_0bBxiW_dangerZone",
-			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
-			"detailMeta": "_0bBxiW_detailMeta",
-			"emptyIcon": "_0bBxiW_emptyIcon",
-			"tabActive": "_0bBxiW_tabActive",
-			"listItemIdle": "_0bBxiW_listItemIdle",
-			"detailTitle": "_0bBxiW_detailTitle",
-			"tabBar": "_0bBxiW_tabBar",
-			"fieldRow": "_0bBxiW_fieldRow",
 			"primaryButton": "_0bBxiW_primaryButton",
-			"codeLine": "_0bBxiW_codeLine",
-			"textarea": "_0bBxiW_textarea",
-			"fieldGroup": "_0bBxiW_fieldGroup",
-			"switchWrapper": "_0bBxiW_switchWrapper",
-			"listItemSelected": "_0bBxiW_listItemSelected",
-			"toolHeader": "_0bBxiW_toolHeader",
-			"dangerZoneText": "_0bBxiW_dangerZoneText",
-			"toolName": "_0bBxiW_toolName",
-			"activeDot": "_0bBxiW_activeDot",
-			"searchRow": "_0bBxiW_searchRow",
-			"switchInput": "_0bBxiW_switchInput",
-			"secondaryButton": "_0bBxiW_secondaryButton",
-			"descriptionText": "_0bBxiW_descriptionText",
-			"codeBlock": "_0bBxiW_codeBlock",
-			"loading": "_0bBxiW_loading",
-			"switchSlider": "_0bBxiW_switchSlider",
-			"listItemAvatar": "_0bBxiW_listItemAvatar",
-			"input": "_0bBxiW_input",
-			"resourceUri": "_0bBxiW_resourceUri",
-			"detailHeader": "_0bBxiW_detailHeader",
-			"searchIcon": "_0bBxiW_searchIcon",
-			"toolItem": "_0bBxiW_toolItem",
 			"sectionHeading": "_0bBxiW_sectionHeading",
-			"logHeader": "_0bBxiW_logHeader",
-			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
-			"listItemLabel": "_0bBxiW_listItemLabel",
-			"errorBox": "_0bBxiW_errorBox",
-			"splitRoot": "_0bBxiW_splitRoot",
-			"sectionBody": "_0bBxiW_sectionBody",
-			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
-			"logInfo": "_0bBxiW_logInfo",
-			"emptyDescription": "_0bBxiW_emptyDescription",
-			"fieldHint": "_0bBxiW_fieldHint",
-			"detailMetaItem": "_0bBxiW_detailMetaItem",
-			"sectionHeader": "_0bBxiW_sectionHeader",
-			"emptyState": "_0bBxiW_emptyState",
-			"searchClearButton": "_0bBxiW_searchClearButton",
-			"serverDetail": "_0bBxiW_serverDetail",
-			"formActions": "_0bBxiW_formActions",
-			"addButton": "_0bBxiW_addButton",
-			"detailScroll": "_0bBxiW_detailScroll",
-			"listScroller": "_0bBxiW_listScroller",
-			"checkbox": "_0bBxiW_checkbox",
-			"fieldLabel": "_0bBxiW_fieldLabel",
-			"dangerButton": "_0bBxiW_dangerButton",
-			"serverList": "_0bBxiW_serverList",
-			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
 			"section": "_0bBxiW_section",
+			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
+			"loading": "_0bBxiW_loading",
+			"sectionHeader": "_0bBxiW_sectionHeader",
+			"input": "_0bBxiW_input",
+			"dangerZoneText": "_0bBxiW_dangerZoneText",
+			"descriptionText": "_0bBxiW_descriptionText",
+			"toolItem": "_0bBxiW_toolItem",
+			"detailScroll": "_0bBxiW_detailScroll",
+			"fieldHint": "_0bBxiW_fieldHint",
+			"error": "_0bBxiW_error",
+			"toolsList": "_0bBxiW_toolsList",
+			"listItemLabel": "_0bBxiW_listItemLabel",
+			"listItems": "_0bBxiW_listItems",
+			"serverList": "_0bBxiW_serverList",
+			"dangerZone": "_0bBxiW_dangerZone",
 			"listItemMain": "_0bBxiW_listItemMain",
-			"toolDescription": "_0bBxiW_toolDescription"
+			"emptyState": "_0bBxiW_emptyState",
+			"emptyTitle": "_0bBxiW_emptyTitle",
+			"searchRow": "_0bBxiW_searchRow",
+			"emptyDetailState": "_0bBxiW_emptyDetailState",
+			"switchWrapper": "_0bBxiW_switchWrapper",
+			"emptyIcon": "_0bBxiW_emptyIcon",
+			"emptyDescription": "_0bBxiW_emptyDescription",
+			"codeBlock": "_0bBxiW_codeBlock",
+			"fieldLabel": "_0bBxiW_fieldLabel",
+			"addFooter": "_0bBxiW_addFooter",
+			"errorBox": "_0bBxiW_errorBox",
+			"tab": "_0bBxiW_tab",
+			"searchIcon": "_0bBxiW_searchIcon",
+			"detailTitle": "_0bBxiW_detailTitle",
+			"detailMetaItem": "_0bBxiW_detailMetaItem",
+			"listItemIdle": "_0bBxiW_listItemIdle",
+			"toolDescription": "_0bBxiW_toolDescription",
+			"toolHeader": "_0bBxiW_toolHeader",
+			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
+			"searchInput": "_0bBxiW_searchInput",
+			"detailMeta": "_0bBxiW_detailMeta",
+			"textarea": "_0bBxiW_textarea",
+			"searchWrap": "_0bBxiW_searchWrap",
+			"splitRoot": "_0bBxiW_splitRoot",
+			"tabActive": "_0bBxiW_tabActive",
+			"listItemSelected": "_0bBxiW_listItemSelected",
+			"listScroller": "_0bBxiW_listScroller",
+			"fieldRow": "_0bBxiW_fieldRow",
+			"logHeader": "_0bBxiW_logHeader",
+			"codeLine": "_0bBxiW_codeLine",
+			"formActions": "_0bBxiW_formActions",
+			"listItem": "_0bBxiW_listItem",
+			"switchInput": "_0bBxiW_switchInput",
+			"toolName": "_0bBxiW_toolName",
+			"detailHeader": "_0bBxiW_detailHeader",
+			"sectionBody": "_0bBxiW_sectionBody",
+			"dangerButton": "_0bBxiW_dangerButton",
+			"switchSlider": "_0bBxiW_switchSlider",
+			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
+			"tabBar": "_0bBxiW_tabBar",
+			"searchClearButton": "_0bBxiW_searchClearButton",
+			"listItemAvatar": "_0bBxiW_listItemAvatar",
+			"activeDot": "_0bBxiW_activeDot",
+			"fieldGroup": "_0bBxiW_fieldGroup",
+			"serverDetail": "_0bBxiW_serverDetail",
+			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
+			"resourceUri": "_0bBxiW_resourceUri",
+			"addButton": "_0bBxiW_addButton",
+			"checkbox": "_0bBxiW_checkbox",
+			"secondaryButton": "_0bBxiW_secondaryButton",
+			"logInfo": "_0bBxiW_logInfo"
 		};
 		//#endregion
 		//#region lib/types/client/McpSection.js
@@ -14131,26 +14347,26 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var WebSearchSection_module_css_default = {
+			"loading": "_0WjBOa_loading",
+			"pageHeader": "_0WjBOa_pageHeader",
+			"card": "_0WjBOa_card",
 			"root": "_0WjBOa_root",
 			"input": "_0WjBOa_input",
-			"providerName": "_0WjBOa_providerName",
-			"select": "_0WjBOa_select",
-			"pageHeader": "_0WjBOa_pageHeader",
 			"apiKeyRow": "_0WjBOa_apiKeyRow",
-			"fieldLabel": "_0WjBOa_fieldLabel",
-			"cardDescription": "_0WjBOa_cardDescription",
-			"iconButton": "_0WjBOa_iconButton",
-			"pageTitle": "_0WjBOa_pageTitle",
-			"error": "_0WjBOa_error",
-			"fieldHint": "_0WjBOa_fieldHint",
-			"checkbox": "_0WjBOa_checkbox",
 			"pageDescription": "_0WjBOa_pageDescription",
-			"cardTitle": "_0WjBOa_cardTitle",
-			"providerDetail": "_0WjBOa_providerDetail",
+			"fieldLabel": "_0WjBOa_fieldLabel",
+			"select": "_0WjBOa_select",
+			"checkbox": "_0WjBOa_checkbox",
+			"error": "_0WjBOa_error",
+			"cardDescription": "_0WjBOa_cardDescription",
+			"fieldRow": "_0WjBOa_fieldRow",
 			"providerDescription": "_0WjBOa_providerDescription",
-			"card": "_0WjBOa_card",
-			"loading": "_0WjBOa_loading",
-			"fieldRow": "_0WjBOa_fieldRow"
+			"cardTitle": "_0WjBOa_cardTitle",
+			"pageTitle": "_0WjBOa_pageTitle",
+			"iconButton": "_0WjBOa_iconButton",
+			"fieldHint": "_0WjBOa_fieldHint",
+			"providerDetail": "_0WjBOa_providerDetail",
+			"providerName": "_0WjBOa_providerName"
 		};
 		//#endregion
 		//#region lib/types/client/WebSearchSection.js
@@ -14567,23 +14783,23 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ProcessorSection_module_css_default = {
-			"fieldRow": "CL8zIa_fieldRow",
-			"fieldLabel": "CL8zIa_fieldLabel",
-			"pageTitle": "CL8zIa_pageTitle",
-			"fieldHint": "CL8zIa_fieldHint",
-			"providerDetail": "CL8zIa_providerDetail",
-			"pageDescription": "CL8zIa_pageDescription",
-			"select": "CL8zIa_select",
-			"cardTitle": "CL8zIa_cardTitle",
-			"iconButton": "CL8zIa_iconButton",
-			"root": "CL8zIa_root",
-			"input": "CL8zIa_input",
-			"cardDescription": "CL8zIa_cardDescription",
-			"loading": "CL8zIa_loading",
+			"apiKeyRow": "CL8zIa_apiKeyRow",
 			"card": "CL8zIa_card",
-			"providerDescription": "CL8zIa_providerDescription",
+			"cardDescription": "CL8zIa_cardDescription",
+			"providerDetail": "CL8zIa_providerDetail",
 			"providerName": "CL8zIa_providerName",
-			"apiKeyRow": "CL8zIa_apiKeyRow"
+			"root": "CL8zIa_root",
+			"providerDescription": "CL8zIa_providerDescription",
+			"loading": "CL8zIa_loading",
+			"fieldHint": "CL8zIa_fieldHint",
+			"fieldRow": "CL8zIa_fieldRow",
+			"iconButton": "CL8zIa_iconButton",
+			"pageTitle": "CL8zIa_pageTitle",
+			"input": "CL8zIa_input",
+			"cardTitle": "CL8zIa_cardTitle",
+			"select": "CL8zIa_select",
+			"fieldLabel": "CL8zIa_fieldLabel",
+			"pageDescription": "CL8zIa_pageDescription"
 		};
 		//#endregion
 		//#region lib/types/client/ProcessorSection.js
@@ -14868,61 +15084,61 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var UsageSection_module_css_default = {
-			"heatmapCellOutside": "ej6-VW_heatmapCellOutside",
-			"active": "ej6-VW_active",
-			"insightLabel": "ej6-VW_insightLabel",
-			"heatmap": "ej6-VW_heatmap",
-			"controlRow": "ej6-VW_controlRow",
-			"controlLabel": "ej6-VW_controlLabel",
-			"heatmapCol": "ej6-VW_heatmapCol",
-			"exploreCard": "ej6-VW_exploreCard",
-			"metricDelta": "ej6-VW_metricDelta",
-			"donutLegend": "ej6-VW_donutLegend",
-			"heatmapSection": "ej6-VW_heatmapSection",
-			"down": "ej6-VW_down",
-			"metricStrip": "ej6-VW_metricStrip",
-			"heatmapMonth": "ej6-VW_heatmapMonth",
-			"heatmapColCells": "ej6-VW_heatmapColCells",
-			"metricValue": "ej6-VW_metricValue",
-			"heatmapCell": "ej6-VW_heatmapCell",
-			"barSegment": "ej6-VW_barSegment",
 			"heatmapScroll": "ej6-VW_heatmapScroll",
-			"metricSparkline": "ej6-VW_metricSparkline",
+			"insightStrip": "ej6-VW_insightStrip",
 			"insightItem": "ej6-VW_insightItem",
-			"root": "ej6-VW_root",
-			"donutWrap": "ej6-VW_donutWrap",
-			"windowTabs": "ej6-VW_windowTabs",
+			"exploreCard": "ej6-VW_exploreCard",
+			"down": "ej6-VW_down",
+			"exploreHeader": "ej6-VW_exploreHeader",
+			"controlSelect": "ej6-VW_controlSelect",
+			"controlLabel": "ej6-VW_controlLabel",
+			"summaryLine": "ej6-VW_summaryLine",
+			"barChart": "ej6-VW_barChart",
 			"donutLegendRow": "ej6-VW_donutLegendRow",
-			"donutSwatch": "ej6-VW_donutSwatch",
+			"tableWrap": "ej6-VW_tableWrap",
+			"entriesTable": "ej6-VW_entriesTable",
+			"windowTabs": "ej6-VW_windowTabs",
+			"metricStrip": "ej6-VW_metricStrip",
+			"insightValue": "ej6-VW_insightValue",
+			"barSegment": "ej6-VW_barSegment",
+			"pageHeader": "ej6-VW_pageHeader",
+			"active": "ej6-VW_active",
+			"heatmapSection": "ej6-VW_heatmapSection",
+			"heatmapColCells": "ej6-VW_heatmapColCells",
+			"donutLegend": "ej6-VW_donutLegend",
+			"barAxis": "ej6-VW_barAxis",
+			"donutWrap": "ej6-VW_donutWrap",
+			"windowTab": "ej6-VW_windowTab",
+			"controlRow": "ej6-VW_controlRow",
+			"metricLabel": "ej6-VW_metricLabel",
+			"heatmapTitle": "ej6-VW_heatmapTitle",
+			"metricValue": "ej6-VW_metricValue",
+			"donutLegendKey": "ej6-VW_donutLegendKey",
+			"tdRight": "ej6-VW_tdRight",
 			"modelCell": "ej6-VW_modelCell",
 			"modelName": "ej6-VW_modelName",
 			"loadMoreBtn": "ej6-VW_loadMoreBtn",
-			"pageTitle": "ej6-VW_pageTitle",
-			"usageEmpty": "ej6-VW_usageEmpty",
-			"summaryLine": "ej6-VW_summaryLine",
-			"exploreTitle": "ej6-VW_exploreTitle",
+			"barColumn": "ej6-VW_barColumn",
+			"heatmapCellOutside": "ej6-VW_heatmapCellOutside",
+			"donutSwatch": "ej6-VW_donutSwatch",
 			"metricCell": "ej6-VW_metricCell",
-			"controlSelect": "ej6-VW_controlSelect",
-			"pageHeader": "ej6-VW_pageHeader",
-			"tableEmpty": "ej6-VW_tableEmpty",
-			"tdRight": "ej6-VW_tdRight",
-			"up": "ej6-VW_up",
-			"barAxis": "ej6-VW_barAxis",
+			"exploreBody": "ej6-VW_exploreBody",
 			"donutLegendValue": "ej6-VW_donutLegendValue",
 			"modelProvider": "ej6-VW_modelProvider",
-			"tableWrap": "ej6-VW_tableWrap",
+			"tableEmpty": "ej6-VW_tableEmpty",
+			"metricSparkline": "ej6-VW_metricSparkline",
+			"exploreTitle": "ej6-VW_exploreTitle",
+			"usageEmpty": "ej6-VW_usageEmpty",
 			"pageDescription": "ej6-VW_pageDescription",
-			"metricLabel": "ej6-VW_metricLabel",
-			"exploreBody": "ej6-VW_exploreBody",
-			"entriesTable": "ej6-VW_entriesTable",
-			"insightValue": "ej6-VW_insightValue",
-			"donutLegendKey": "ej6-VW_donutLegendKey",
-			"exploreHeader": "ej6-VW_exploreHeader",
-			"barChart": "ej6-VW_barChart",
-			"barColumn": "ej6-VW_barColumn",
-			"windowTab": "ej6-VW_windowTab",
-			"insightStrip": "ej6-VW_insightStrip",
-			"heatmapTitle": "ej6-VW_heatmapTitle"
+			"insightLabel": "ej6-VW_insightLabel",
+			"heatmapCell": "ej6-VW_heatmapCell",
+			"heatmap": "ej6-VW_heatmap",
+			"pageTitle": "ej6-VW_pageTitle",
+			"metricDelta": "ej6-VW_metricDelta",
+			"up": "ej6-VW_up",
+			"heatmapCol": "ej6-VW_heatmapCol",
+			"root": "ej6-VW_root",
+			"heatmapMonth": "ej6-VW_heatmapMonth"
 		};
 		//#endregion
 		//#region lib/types/client/UsageSection.js
@@ -16135,13 +16351,13 @@ ${editTarget.defaults.baseURL}`}`,
 		var SystemSection_module_css_default = {
 			"infoValue": "MzTzwq_infoValue",
 			"loading": "MzTzwq_loading",
-			"cardTitle": "MzTzwq_cardTitle",
-			"card": "MzTzwq_card",
 			"badge": "MzTzwq_badge",
+			"card": "MzTzwq_card",
 			"root": "MzTzwq_root",
+			"pageDescription": "MzTzwq_pageDescription",
+			"cardTitle": "MzTzwq_cardTitle",
 			"infoRow": "MzTzwq_infoRow",
 			"infoLabel": "MzTzwq_infoLabel",
-			"pageDescription": "MzTzwq_pageDescription",
 			"pageTitle": "MzTzwq_pageTitle"
 		};
 		//#endregion
@@ -16406,23 +16622,23 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var TasksSection_module_css_default = {
-			"card": "_3yT94W_card",
-			"loading": "_3yT94W_loading",
-			"pageDescription": "_3yT94W_pageDescription",
-			"root": "_3yT94W_root",
 			"taskMeta": "_3yT94W_taskMeta",
-			"runRow": "_3yT94W_runRow",
-			"runFail": "_3yT94W_runFail",
-			"runOk": "_3yT94W_runOk",
 			"cardTitle": "_3yT94W_cardTitle",
+			"runOk": "_3yT94W_runOk",
+			"taskRow": "_3yT94W_taskRow",
+			"input": "_3yT94W_input",
+			"pageTitle": "_3yT94W_pageTitle",
+			"runDetail": "_3yT94W_runDetail",
+			"runFail": "_3yT94W_runFail",
+			"root": "_3yT94W_root",
+			"pageDescription": "_3yT94W_pageDescription",
 			"select": "_3yT94W_select",
 			"taskMain": "_3yT94W_taskMain",
-			"runTime": "_3yT94W_runTime",
-			"runDetail": "_3yT94W_runDetail",
-			"pageTitle": "_3yT94W_pageTitle",
 			"taskName": "_3yT94W_taskName",
-			"input": "_3yT94W_input",
-			"taskRow": "_3yT94W_taskRow"
+			"card": "_3yT94W_card",
+			"runRow": "_3yT94W_runRow",
+			"runTime": "_3yT94W_runTime",
+			"loading": "_3yT94W_loading"
 		};
 		//#endregion
 		//#region lib/types/client/TasksSection.js
@@ -16795,16 +17011,16 @@ ${editTarget.defaults.baseURL}`}`,
 		}
 		var SettingsPages_module_css_default = {
 			"shell": "_0spVW_shell",
-			"shellInner": "_0spVW_shellInner",
-			"group": "_0spVW_group",
 			"groupDescription": "_0spVW_groupDescription",
 			"groupTitle": "_0spVW_groupTitle",
-			"switchLabel": "_0spVW_switchLabel",
+			"group": "_0spVW_group",
 			"rowDescription": "_0spVW_rowDescription",
+			"switchLabel": "_0spVW_switchLabel",
 			"rowTitle": "_0spVW_rowTitle",
-			"rowControl": "_0spVW_rowControl",
+			"divider": "_0spVW_divider",
 			"row": "_0spVW_row",
-			"divider": "_0spVW_divider"
+			"shellInner": "_0spVW_shellInner",
+			"rowControl": "_0spVW_rowControl"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsPages.js
@@ -16874,24 +17090,24 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var LocalModelDownloads_module_css_default = {
-			"modelSubtitle": "_9apQa_modelSubtitle",
-			"btnDanger": "_9apQa_btnDanger",
-			"noticeText": "_9apQa_noticeText",
-			"modelMain": "_9apQa_modelMain",
-			"btn": "_9apQa_btn",
-			"btnPrimary": "_9apQa_btnPrimary",
-			"groupDesc": "_9apQa_groupDesc",
-			"noticeTag": "_9apQa_noticeTag",
-			"groupHeader": "_9apQa_groupHeader",
-			"modelStatus": "_9apQa_modelStatus",
 			"modelIcon": "_9apQa_modelIcon",
-			"statusReady": "_9apQa_statusReady",
-			"statusDownloading": "_9apQa_statusDownloading",
+			"modelName": "_9apQa_modelName",
+			"btnDanger": "_9apQa_btnDanger",
 			"noticeRow": "_9apQa_noticeRow",
 			"modelCard": "_9apQa_modelCard",
-			"modelOps": "_9apQa_modelOps",
+			"modelSubtitle": "_9apQa_modelSubtitle",
 			"statusIdle": "_9apQa_statusIdle",
-			"modelName": "_9apQa_modelName"
+			"noticeText": "_9apQa_noticeText",
+			"modelStatus": "_9apQa_modelStatus",
+			"btn": "_9apQa_btn",
+			"statusReady": "_9apQa_statusReady",
+			"noticeTag": "_9apQa_noticeTag",
+			"modelOps": "_9apQa_modelOps",
+			"groupHeader": "_9apQa_groupHeader",
+			"groupDesc": "_9apQa_groupDesc",
+			"statusDownloading": "_9apQa_statusDownloading",
+			"btnPrimary": "_9apQa_btnPrimary",
+			"modelMain": "_9apQa_modelMain"
 		};
 		//#endregion
 		//#region lib/types/client/LocalModelDownloads.js
@@ -17291,21 +17507,21 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ApiGatewaySection_module_css_default = {
-			"outlineBtn": "S156cG_outlineBtn",
-			"headerBox": "S156cG_headerBox",
-			"statusDot": "S156cG_statusDot",
-			"docLink": "S156cG_docLink",
-			"notice": "S156cG_notice",
-			"copied": "S156cG_copied",
-			"inputGroup": "S156cG_inputGroup",
-			"input": "S156cG_input",
-			"statusStopped": "S156cG_statusStopped",
 			"ghostBtn": "S156cG_ghostBtn",
-			"groupHeaderRow": "S156cG_groupHeaderRow",
-			"statusText": "S156cG_statusText",
+			"inputSmall": "S156cG_inputSmall",
+			"statusStopped": "S156cG_statusStopped",
+			"docLink": "S156cG_docLink",
+			"copied": "S156cG_copied",
+			"headerBox": "S156cG_headerBox",
+			"outlineBtn": "S156cG_outlineBtn",
 			"statusRow": "S156cG_statusRow",
+			"inputGroup": "S156cG_inputGroup",
+			"statusText": "S156cG_statusText",
 			"iconBtn": "S156cG_iconBtn",
-			"inputSmall": "S156cG_inputSmall"
+			"notice": "S156cG_notice",
+			"groupHeaderRow": "S156cG_groupHeaderRow",
+			"statusDot": "S156cG_statusDot",
+			"input": "S156cG_input"
 		};
 		//#endregion
 		//#region lib/types/client/ApiGatewaySection.js
@@ -17681,28 +17897,28 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
-			"panel": "_4STY0G_panel",
 			"mask": "_4STY0G_mask",
-			"trigger": "_4STY0G_trigger",
-			"triggerLabel": "_4STY0G_triggerLabel",
-			"close": "_4STY0G_close",
-			"overlay": "_4STY0G_overlay",
-			"content": "_4STY0G_content",
-			"header": "_4STY0G_header",
-			"navTitle": "_4STY0G_navTitle",
-			"hiddenLabel": "_4STY0G_hiddenLabel",
-			"active": "_4STY0G_active",
-			"options": "_4STY0G_options",
 			"nav": "_4STY0G_nav",
-			"navLabel": "_4STY0G_navLabel",
-			"navIcon": "_4STY0G_navIcon",
-			"navCell": "_4STY0G_navCell",
-			"rail": "_4STY0G_rail",
-			"navGroup": "_4STY0G_navGroup",
-			"actions": "_4STY0G_actions",
+			"header": "_4STY0G_header",
+			"content": "_4STY0G_content",
 			"navGroupTitle": "_4STY0G_navGroupTitle",
+			"navTitle": "_4STY0G_navTitle",
+			"overlay": "_4STY0G_overlay",
+			"navLabel": "_4STY0G_navLabel",
+			"options": "_4STY0G_options",
+			"active": "_4STY0G_active",
+			"hiddenLabel": "_4STY0G_hiddenLabel",
+			"navList": "_4STY0G_navList",
+			"trigger": "_4STY0G_trigger",
+			"rail": "_4STY0G_rail",
+			"triggerLabel": "_4STY0G_triggerLabel",
+			"navCell": "_4STY0G_navCell",
+			"actions": "_4STY0G_actions",
+			"navIcon": "_4STY0G_navIcon",
+			"panel": "_4STY0G_panel",
+			"navGroup": "_4STY0G_navGroup",
 			"navScroll": "_4STY0G_navScroll",
-			"navList": "_4STY0G_navList"
+			"close": "_4STY0G_close"
 		};
 		//#endregion
 		//#region \0dsh-control-center-plain-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\cherry-tokens.css.mjs
@@ -18046,9 +18262,9 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var GeneralSection_module_css_default = {
-			"errorTitle": "DFoDHW_errorTitle",
+			"errorDescription": "DFoDHW_errorDescription",
 			"section": "DFoDHW_section",
-			"errorDescription": "DFoDHW_errorDescription"
+			"errorTitle": "DFoDHW_errorTitle"
 		};
 		//#endregion
 		//#region lib/types/client/GeneralSection.js
@@ -18171,23 +18387,23 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var AppearanceSection_module_css_default = {
-			"fontSelect": "_-7MpG_fontSelect",
+			"themePreviewActive": "_-7MpG_themePreviewActive",
+			"themeOption": "_-7MpG_themeOption",
+			"desktopTag": "_-7MpG_desktopTag",
+			"zoomControls": "_-7MpG_zoomControls",
+			"colorRow": "_-7MpG_colorRow",
+			"previewFrame": "_-7MpG_previewFrame",
+			"staticValue": "_-7MpG_staticValue",
+			"groupHeader": "_-7MpG_groupHeader",
+			"swatchActive": "_-7MpG_swatchActive",
+			"nativePicker": "_-7MpG_nativePicker",
+			"themeGrid": "_-7MpG_themeGrid",
+			"themeLabel": "_-7MpG_themeLabel",
+			"swatch": "_-7MpG_swatch",
 			"nativeSwatch": "_-7MpG_nativeSwatch",
 			"cssEditor": "_-7MpG_cssEditor",
-			"previewFrame": "_-7MpG_previewFrame",
-			"colorRow": "_-7MpG_colorRow",
-			"staticValue": "_-7MpG_staticValue",
-			"swatch": "_-7MpG_swatch",
-			"themeGrid": "_-7MpG_themeGrid",
-			"swatchActive": "_-7MpG_swatchActive",
-			"hexInput": "_-7MpG_hexInput",
-			"zoomControls": "_-7MpG_zoomControls",
-			"themeLabel": "_-7MpG_themeLabel",
-			"desktopTag": "_-7MpG_desktopTag",
-			"groupHeader": "_-7MpG_groupHeader",
-			"themePreviewActive": "_-7MpG_themePreviewActive",
-			"nativePicker": "_-7MpG_nativePicker",
-			"themeOption": "_-7MpG_themeOption"
+			"fontSelect": "_-7MpG_fontSelect",
+			"hexInput": "_-7MpG_hexInput"
 		};
 		//#endregion
 		//#region lib/types/client/AppearanceSection.js
@@ -19009,36 +19225,36 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ShortcutSection_module_css_default = {
-			"headerTitle": "-S_gJa_headerTitle",
-			"searchInput": "-S_gJa_searchInput",
-			"row": "-S_gJa_row",
-			"menuItemDanger": "-S_gJa_menuItemDanger",
-			"unbound": "-S_gJa_unbound",
-			"searchWrap": "-S_gJa_searchWrap",
-			"filterButton": "-S_gJa_filterButton",
-			"emptyState": "-S_gJa_emptyState",
-			"rowSwitch": "-S_gJa_rowSwitch",
 			"menuCount": "-S_gJa_menuCount",
-			"groupBlock": "-S_gJa_groupBlock",
-			"kbd": "-S_gJa_kbd",
-			"listGroup": "-S_gJa_listGroup",
-			"groupLabel": "-S_gJa_groupLabel",
 			"menuItemActive": "-S_gJa_menuItemActive",
-			"rowDisabled": "-S_gJa_rowDisabled",
-			"menuPop": "-S_gJa_menuPop",
-			"menuItem": "-S_gJa_menuItem",
-			"searchIcon": "-S_gJa_searchIcon",
-			"headerControls": "-S_gJa_headerControls",
-			"header": "-S_gJa_header",
-			"bound": "-S_gJa_bound",
-			"rowLabel": "-S_gJa_rowLabel",
 			"desktopTag": "-S_gJa_desktopTag",
-			"keys": "-S_gJa_keys",
-			"menuSep": "-S_gJa_menuSep",
-			"moreButton": "-S_gJa_moreButton",
+			"header": "-S_gJa_header",
+			"searchIcon": "-S_gJa_searchIcon",
+			"kbd": "-S_gJa_kbd",
+			"unbound": "-S_gJa_unbound",
+			"bound": "-S_gJa_bound",
+			"searchInput": "-S_gJa_searchInput",
+			"menuItemDanger": "-S_gJa_menuItemDanger",
+			"groupBlock": "-S_gJa_groupBlock",
 			"recording": "-S_gJa_recording",
+			"headerControls": "-S_gJa_headerControls",
+			"rowShortcut": "-S_gJa_rowShortcut",
+			"menuItem": "-S_gJa_menuItem",
+			"emptyState": "-S_gJa_emptyState",
 			"undo": "-S_gJa_undo",
-			"rowShortcut": "-S_gJa_rowShortcut"
+			"searchWrap": "-S_gJa_searchWrap",
+			"keys": "-S_gJa_keys",
+			"rowSwitch": "-S_gJa_rowSwitch",
+			"row": "-S_gJa_row",
+			"rowDisabled": "-S_gJa_rowDisabled",
+			"listGroup": "-S_gJa_listGroup",
+			"filterButton": "-S_gJa_filterButton",
+			"menuPop": "-S_gJa_menuPop",
+			"rowLabel": "-S_gJa_rowLabel",
+			"groupLabel": "-S_gJa_groupLabel",
+			"menuSep": "-S_gJa_menuSep",
+			"headerTitle": "-S_gJa_headerTitle",
+			"moreButton": "-S_gJa_moreButton"
 		};
 		//#endregion
 		//#region lib/types/client/ShortcutSection.js
@@ -19639,43 +19855,43 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var SelectionAssistantSection_module_css_default = {
-			"enableBtn": "_2Suf7W_enableBtn",
 			"radioRow": "_2Suf7W_radioRow",
-			"notice": "_2Suf7W_notice",
-			"actionName": "_2Suf7W_actionName",
-			"modalOverlay": "_2Suf7W_modalOverlay",
-			"formHint": "_2Suf7W_formHint",
-			"actionsHeaderBtns": "_2Suf7W_actionsHeaderBtns",
-			"modalFooter": "_2Suf7W_modalFooter",
-			"toolbarPreview": "_2Suf7W_toolbarPreview",
-			"noticeText": "_2Suf7W_noticeText",
-			"formInput": "_2Suf7W_formInput",
-			"actionIcon": "_2Suf7W_actionIcon",
-			"engineChip": "_2Suf7W_engineChip",
-			"modalCard": "_2Suf7W_modalCard",
-			"formTextarea": "_2Suf7W_formTextarea",
-			"opBtnDanger": "_2Suf7W_opBtnDanger",
-			"formField": "_2Suf7W_formField",
-			"outlineBtn": "_2Suf7W_outlineBtn",
-			"actionRowDragging": "_2Suf7W_actionRowDragging",
-			"opacitySlider": "_2Suf7W_opacitySlider",
-			"toolbarIcon": "_2Suf7W_toolbarIcon",
-			"ghostBtn": "_2Suf7W_ghostBtn",
-			"actionRowDisabled": "_2Suf7W_actionRowDisabled",
-			"dragHandle": "_2Suf7W_dragHandle",
-			"enableBtnOn": "_2Suf7W_enableBtnOn",
-			"actionsDivider": "_2Suf7W_actionsDivider",
-			"faqLink": "_2Suf7W_faqLink",
-			"actionOps": "_2Suf7W_actionOps",
-			"btn": "_2Suf7W_btn",
-			"opBtn": "_2Suf7W_opBtn",
-			"opacityRow": "_2Suf7W_opacityRow",
 			"actionRow": "_2Suf7W_actionRow",
-			"radioItem": "_2Suf7W_radioItem",
-			"btnPrimary": "_2Suf7W_btnPrimary",
-			"groupTitle": "_2Suf7W_groupTitle",
+			"btn": "_2Suf7W_btn",
+			"modalOverlay": "_2Suf7W_modalOverlay",
 			"toolbarItem": "_2Suf7W_toolbarItem",
-			"groupHeaderRow": "_2Suf7W_groupHeaderRow"
+			"modalFooter": "_2Suf7W_modalFooter",
+			"enableBtn": "_2Suf7W_enableBtn",
+			"formHint": "_2Suf7W_formHint",
+			"enableBtnOn": "_2Suf7W_enableBtnOn",
+			"opBtn": "_2Suf7W_opBtn",
+			"faqLink": "_2Suf7W_faqLink",
+			"actionIcon": "_2Suf7W_actionIcon",
+			"opBtnDanger": "_2Suf7W_opBtnDanger",
+			"groupTitle": "_2Suf7W_groupTitle",
+			"dragHandle": "_2Suf7W_dragHandle",
+			"notice": "_2Suf7W_notice",
+			"actionsHeaderBtns": "_2Suf7W_actionsHeaderBtns",
+			"ghostBtn": "_2Suf7W_ghostBtn",
+			"toolbarPreview": "_2Suf7W_toolbarPreview",
+			"radioItem": "_2Suf7W_radioItem",
+			"actionRowDragging": "_2Suf7W_actionRowDragging",
+			"engineChip": "_2Suf7W_engineChip",
+			"opacityRow": "_2Suf7W_opacityRow",
+			"modalCard": "_2Suf7W_modalCard",
+			"formField": "_2Suf7W_formField",
+			"toolbarIcon": "_2Suf7W_toolbarIcon",
+			"formInput": "_2Suf7W_formInput",
+			"formTextarea": "_2Suf7W_formTextarea",
+			"btnPrimary": "_2Suf7W_btnPrimary",
+			"actionRowDisabled": "_2Suf7W_actionRowDisabled",
+			"actionsDivider": "_2Suf7W_actionsDivider",
+			"actionOps": "_2Suf7W_actionOps",
+			"outlineBtn": "_2Suf7W_outlineBtn",
+			"actionName": "_2Suf7W_actionName",
+			"groupHeaderRow": "_2Suf7W_groupHeaderRow",
+			"noticeText": "_2Suf7W_noticeText",
+			"opacitySlider": "_2Suf7W_opacitySlider"
 		};
 		//#endregion
 		//#region lib/types/client/SelectionAssistantSection.js
@@ -20369,19 +20585,19 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var QuickAssistantSection_module_css_default = {
-			"previewWindow": "AweFxa_previewWindow",
 			"previewBar": "AweFxa_previewBar",
+			"previewPlaceholder": "AweFxa_previewPlaceholder",
 			"previewLogo": "AweFxa_previewLogo",
 			"previewFooter": "AweFxa_previewFooter",
 			"previewChip": "AweFxa_previewChip",
-			"segmented": "AweFxa_segmented",
-			"segItemActive": "AweFxa_segItemActive",
-			"previewPlaceholder": "AweFxa_previewPlaceholder",
+			"segItem": "AweFxa_segItem",
 			"groupTitle": "AweFxa_groupTitle",
 			"notice": "AweFxa_notice",
-			"segItem": "AweFxa_segItem",
-			"modelRow": "AweFxa_modelRow",
-			"modelHint": "AweFxa_modelHint"
+			"segmented": "AweFxa_segmented",
+			"previewWindow": "AweFxa_previewWindow",
+			"segItemActive": "AweFxa_segItemActive",
+			"modelHint": "AweFxa_modelHint",
+			"modelRow": "AweFxa_modelRow"
 		};
 		//#endregion
 		//#region lib/types/client/QuickAssistantSection.js
@@ -20540,15 +20756,15 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ScreenshotSection_module_css_default = {
+			"shortcutTitle": "RXXS4a_shortcutTitle",
+			"shortcutDesc": "RXXS4a_shortcutDesc",
+			"shortcutBadge": "RXXS4a_shortcutBadge",
 			"shortcutLabel": "RXXS4a_shortcutLabel",
 			"shortcutRight": "RXXS4a_shortcutRight",
-			"shortcutTitle": "RXXS4a_shortcutTitle",
-			"shortcutBadge": "RXXS4a_shortcutBadge",
-			"groupTitle": "RXXS4a_groupTitle",
-			"ocrStatus": "RXXS4a_ocrStatus",
 			"notice": "RXXS4a_notice",
-			"shortcutDesc": "RXXS4a_shortcutDesc",
-			"linkBtn": "RXXS4a_linkBtn"
+			"ocrStatus": "RXXS4a_ocrStatus",
+			"linkBtn": "RXXS4a_linkBtn",
+			"groupTitle": "RXXS4a_groupTitle"
 		};
 		//#endregion
 		//#region lib/types/client/ScreenshotSection.js
@@ -20820,52 +21036,52 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ChannelsSection_module_css_default = {
-			"formHint": "bV1JOa_formHint",
-			"logLine": "bV1JOa_logLine",
-			"formSwitchRow": "bV1JOa_formSwitchRow",
-			"statusDotConnected": "bV1JOa_statusDotConnected",
-			"modalFooter": "bV1JOa_modalFooter",
-			"submenuItem": "bV1JOa_submenuItem",
-			"instanceRow": "bV1JOa_instanceRow",
-			"instanceOps": "bV1JOa_instanceOps",
-			"addBtn": "bV1JOa_addBtn",
-			"opBtn": "bV1JOa_opBtn",
-			"formFieldSpan2": "bV1JOa_formFieldSpan2",
-			"btn": "bV1JOa_btn",
 			"emptyState": "bV1JOa_emptyState",
-			"btnPrimary": "bV1JOa_btnPrimary",
-			"formGrid": "bV1JOa_formGrid",
-			"typeIconImg": "bV1JOa_typeIconImg",
-			"formInput": "bV1JOa_formInput",
-			"detailDesc": "bV1JOa_detailDesc",
-			"split": "bV1JOa_split",
-			"logsBody": "bV1JOa_logsBody",
-			"detail": "bV1JOa_detail",
-			"statusDotError": "bV1JOa_statusDotError",
-			"divider": "bV1JOa_divider",
-			"typeIconImgLarge": "bV1JOa_typeIconImgLarge",
-			"submenuList": "bV1JOa_submenuList",
-			"formField": "bV1JOa_formField",
-			"detailTitle": "bV1JOa_detailTitle",
-			"typeIcon": "bV1JOa_typeIcon",
-			"typeIconLarge": "bV1JOa_typeIconLarge",
 			"notice": "bV1JOa_notice",
-			"submenuItemActive": "bV1JOa_submenuItemActive",
-			"submenu": "bV1JOa_submenu",
-			"detailBody": "bV1JOa_detailBody",
-			"opBtnDanger": "bV1JOa_opBtnDanger",
-			"detailHeader": "bV1JOa_detailHeader",
-			"statusDotActive": "bV1JOa_statusDotActive",
-			"instanceName": "bV1JOa_instanceName",
-			"statusDot": "bV1JOa_statusDot",
-			"instanceMain": "bV1JOa_instanceMain",
-			"connectedBadge": "bV1JOa_connectedBadge",
-			"instanceSummary": "bV1JOa_instanceSummary",
-			"modalOverlay": "bV1JOa_modalOverlay",
+			"submenuList": "bV1JOa_submenuList",
+			"typeIconLarge": "bV1JOa_typeIconLarge",
 			"modalCard": "bV1JOa_modalCard",
-			"formSelect": "bV1JOa_formSelect",
+			"typeIconImg": "bV1JOa_typeIconImg",
 			"detailTitleBlock": "bV1JOa_detailTitleBlock",
-			"submenuTitle": "bV1JOa_submenuTitle"
+			"modalOverlay": "bV1JOa_modalOverlay",
+			"detailDesc": "bV1JOa_detailDesc",
+			"statusDot": "bV1JOa_statusDot",
+			"connectedBadge": "bV1JOa_connectedBadge",
+			"formHint": "bV1JOa_formHint",
+			"submenuTitle": "bV1JOa_submenuTitle",
+			"instanceName": "bV1JOa_instanceName",
+			"statusDotActive": "bV1JOa_statusDotActive",
+			"submenuItemActive": "bV1JOa_submenuItemActive",
+			"instanceMain": "bV1JOa_instanceMain",
+			"formInput": "bV1JOa_formInput",
+			"addBtn": "bV1JOa_addBtn",
+			"modalFooter": "bV1JOa_modalFooter",
+			"detailBody": "bV1JOa_detailBody",
+			"divider": "bV1JOa_divider",
+			"logLine": "bV1JOa_logLine",
+			"statusDotConnected": "bV1JOa_statusDotConnected",
+			"statusDotError": "bV1JOa_statusDotError",
+			"detail": "bV1JOa_detail",
+			"opBtn": "bV1JOa_opBtn",
+			"instanceOps": "bV1JOa_instanceOps",
+			"instanceRow": "bV1JOa_instanceRow",
+			"formGrid": "bV1JOa_formGrid",
+			"btn": "bV1JOa_btn",
+			"typeIconImgLarge": "bV1JOa_typeIconImgLarge",
+			"formSwitchRow": "bV1JOa_formSwitchRow",
+			"btnPrimary": "bV1JOa_btnPrimary",
+			"submenu": "bV1JOa_submenu",
+			"formField": "bV1JOa_formField",
+			"opBtnDanger": "bV1JOa_opBtnDanger",
+			"typeIcon": "bV1JOa_typeIcon",
+			"instanceSummary": "bV1JOa_instanceSummary",
+			"split": "bV1JOa_split",
+			"formFieldSpan2": "bV1JOa_formFieldSpan2",
+			"logsBody": "bV1JOa_logsBody",
+			"submenuItem": "bV1JOa_submenuItem",
+			"detailTitle": "bV1JOa_detailTitle",
+			"detailHeader": "bV1JOa_detailHeader",
+			"formSelect": "bV1JOa_formSelect"
 		};
 		//#endregion
 		//#region lib/types/client/ChannelsSection.js
@@ -21562,8 +21778,8 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var SettingsDocumentAction_module_css_default = {
-			"error": "SgSrUG_error",
-			"action": "SgSrUG_action"
+			"action": "SgSrUG_action",
+			"error": "SgSrUG_error"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsDocumentAction.js
@@ -21791,9 +22007,9 @@ ${editTarget.defaults.baseURL}`}`,
 		}
 		var OnboardingModal_module_css_default = {
 			"body": "C_CJ_a_body",
-			"content": "C_CJ_a_content",
+			"dialog": "C_CJ_a_dialog",
 			"title": "C_CJ_a_title",
-			"dialog": "C_CJ_a_dialog"
+			"content": "C_CJ_a_content"
 		};
 		//#endregion
 		//#region lib/types/client/OnboardingModal.js
@@ -21944,9 +22160,9 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var WelcomeNotice_module_css_default = {
+			"error": "RFswhG_error",
 			"primary": "RFswhG_primary",
 			"copy": "RFswhG_copy",
-			"error": "RFswhG_error",
 			"actions": "RFswhG_actions"
 		};
 		//#endregion
@@ -22486,6 +22702,10 @@ ${editTarget.defaults.baseURL}`}`,
 			modelUnset: "Select a model",
 			directoryIntro: "Configure model providers from the Cherry Studio catalog, or declare your own. Every provider here stores its key and profile through DSH settings, so a provider configured in settings.yaml appears here the same way.",
 			searchProviders: "Search providers",
+			filterProviders: "Filter providers",
+			filterAll: "All providers",
+			filterEnabled: "Enabled",
+			filterDisabled: "Disabled",
 			groupDomestic: "Domestic",
 			groupInternational: "International",
 			groupLocal: "Local",
@@ -22672,6 +22892,10 @@ ${editTarget.defaults.baseURL}`}`,
 			modelUnset: "选择模型",
 			directoryIntro: "从 Cherry Studio 供应商目录中配置模型服务，或声明自定义提供方。所有提供方的密钥与配置都写入 DSH settings，因此在 settings.yaml 中配置的提供方会以同样的方式出现在这里。",
 			searchProviders: "搜索提供方",
+			filterProviders: "筛选提供方",
+			filterAll: "全部提供方",
+			filterEnabled: "已启用",
+			filterDisabled: "未启用",
 			groupDomestic: "国内平台",
 			groupInternational: "国际平台",
 			groupLocal: "本地服务",
@@ -22868,13 +23092,13 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ProductWorkspaceSurface_module_css_default = {
-			"header": "mzcFbW_header",
-			"identity": "mzcFbW_identity",
-			"icon": "mzcFbW_icon",
 			"close": "mzcFbW_close",
-			"body": "mzcFbW_body",
+			"eyebrow": "mzcFbW_eyebrow",
+			"header": "mzcFbW_header",
 			"root": "mzcFbW_root",
-			"eyebrow": "mzcFbW_eyebrow"
+			"icon": "mzcFbW_icon",
+			"body": "mzcFbW_body",
+			"identity": "mzcFbW_identity"
 		};
 		//#endregion
 		//#region lib/types/client/ProductWorkspaceSurface.js

@@ -20,6 +20,7 @@ import type { DiscoveredModelView, IApiClient } from '@deepseek-ai/dsh-api-remot
 import { Button, Modal } from '@deepseek-ai/dsh-client-ui-primitives'
 import { formatCapacity, parseCapacity } from './DeepSeekModelsEditor.tsx'
 import type { DeepSeekModelDraft } from './DeepSeekModelsEditor.tsx'
+import { ProviderAvatar } from './provider-avatar.tsx'
 import { messageOf } from './store.ts'
 import type { en } from './locales.ts'
 import styles from './ModelsSection.module.css'
@@ -550,9 +551,14 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
           return (
           <div key={index} className={styles['modelEntry']}>
             <div className={styles['modelRow']}>
-              <span className={styles['modelAvatar']} aria-hidden>
-                {(textOf(model, 'name') || textOf(model, 'id')).charAt(0).toUpperCase() || '?'}
-              </span>
+              {/* Cherry model rows carry the provider brand in a 26px bordered circle. */}
+              {probe.provider === undefined
+                ? (
+                  <span className={styles['modelAvatar']} aria-hidden>
+                    {(textOf(model, 'name') || rowId).charAt(0).toUpperCase() || '?'}
+                  </span>
+                )
+                : <ProviderAvatar providerId={probe.provider} name={probe.provider} size={26} className={styles['modelAvatarBrand']} />}
               <input
                 className={styles['modelIdInput']}
                 type="text"

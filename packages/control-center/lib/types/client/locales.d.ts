@@ -107,6 +107,10 @@ export declare const en: {
     modelUnset: string;
     directoryIntro: string;
     searchProviders: string;
+    filterProviders: string;
+    filterAll: string;
+    filterEnabled: string;
+    filterDisabled: string;
     groupDomestic: string;
     groupInternational: string;
     groupLocal: string;
