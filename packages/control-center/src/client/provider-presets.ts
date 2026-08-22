@@ -97,6 +97,20 @@ export const PROVIDER_PRESET_GROUPS: ReadonlyArray<{ id: ProviderPreset['group']
   { id: 'local', label: '本地服务' },
 ]
 
+/**
+ * Preset ids the harness's pi-ai adapter ships as installed catalog routes. A
+ * fresh pick of one of these routes is served by pi-ai's own catalog entry
+ * (its base URL, protocol, and models), so the editor treats it as a shipped
+ * route rather than a hand-declared one. This is a client-side UI heuristic
+ * mirroring the adapter's installed catalog; once a route is configured the
+ * authoritative answer comes from `llm.providers()`'s `declared` field.
+ */
+export const PI_AI_SHIPPED_PRESET_IDS: ReadonlySet<string> = new Set([
+  'deepseek', 'openai', 'anthropic', 'openrouter', 'groq', 'together',
+  'fireworks', 'nvidia', 'mistral', 'huggingface', 'cerebras',
+  'openai-codex', 'zai', 'minimax', 'opencode',
+])
+
 export const PROVIDER_TYPES: ReadonlyArray<{ value: ProviderType; label: string }> = [
   { value: 'openai-compatible', label: 'OpenAI Compatible' },
   { value: 'openai', label: 'OpenAI' },
@@ -117,4 +131,24 @@ export const DEFAULT_BASE_URLS: Record<ProviderType, string> = {
   'openai-compatible': '',
   ollama: 'http://localhost:11434',
   custom: '',
+}
+
+/**
+ * The wire protocol a preset's endpoint most plausibly speaks, pre-filled into
+ * the profile when a user configures the preset through the UI. The harness's
+ * pi-ai adapter accepts only `openai-completions`, `openai-responses`, and
+ * `anthropic-messages` for a hand-declared route, so every preset maps to the
+ * closest of the three: OpenAI-compatible families default to chat
+ * completions, Anthropic to Messages. The remaining types (Google, Azure,
+ * Ollama) are OpenAI-compatible in name only — their native endpoints are not
+ * — so the default is an honest best-effort the user must adjust (or use the
+ * adapter's own catalog route for the same provider), surfaced by the UI as a
+ * capability note rather than silently claimed to work.
+ * @param type - the preset's declared API shape.
+ * @returns the wire protocol to pre-fill, or `openai-completions` as the
+ *   honest fallback.
+ */
+export function presetApiOf(type: ProviderType): string {
+  if (type === 'anthropic') return 'anthropic-messages'
+  return 'openai-completions'
 }

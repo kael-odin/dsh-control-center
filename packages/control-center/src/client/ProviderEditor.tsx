@@ -50,6 +50,13 @@ export interface ProviderEditorProps {
   /** Hide the title row (the add card renders its own provider select). */
   hideTitle?: boolean
   /**
+   * Defaults pre-filled into the profile when no stored profile exists yet.
+   * The directory page uses this to seed the right panel with the preset's
+   * base URL and wire protocol, so a fresh pick is ready to save without
+   * extra field edits.
+   */
+  defaults?: { baseURL?: string; api?: string }
+  /**
    * Whether the adapter reports this route as hand-declared — absent from its
    * installed catalog. Such a route carries its own wire protocol, chosen when
    * it was created and editable here for the same reason; a catalog route's
@@ -89,10 +96,19 @@ function draftAt(
   namespace: SettingsNamespaceView,
   path: readonly string[],
   schema: SettingsSchemaOperations,
+  defaults?: { baseURL?: string; api?: string },
 ): Record<string, unknown> {
   const subtree = schema.getPath(namespace.user, [...path])
-  if (typeof subtree !== 'object' || subtree === null || Array.isArray(subtree)) return {}
-  return structuredClone(subtree) as Record<string, unknown>
+  if (typeof subtree === 'object' && subtree !== null && !Array.isArray(subtree)) {
+    return structuredClone(subtree) as Record<string, unknown>
+  }
+  // No stored profile yet: seed the draft with the preset defaults so a fresh
+  // pick from the directory applies a complete profile (pi-ai requires a
+  // hand-declared route to name both the wire protocol and the endpoint).
+  const seeded: Record<string, unknown> = {}
+  if (defaults?.api !== undefined) seeded.api = defaults.api
+  if (defaults?.baseURL !== undefined) seeded.baseURL = defaults.baseURL
+  return seeded
 }
 
 /**
@@ -155,7 +171,9 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
   // Local aliases keep the rc.7 helper signatures intact inside the card; they
   // all delegate to the bound `ctx.settingsSchema` service callbacks.
   const { getPath, hasPath, nodeAtPath, rehydrate, deletePath, setPath, validate } = schema
-  const [draft, setDraft] = useState<Record<string, unknown>>(() => draftAt(namespace, settingsPath, schema))
+  const [draft, setDraft] = useState<Record<string, unknown>>(
+    () => draftAt(namespace, settingsPath, schema, props.defaults),
+  )
   const [keyDraft, setKeyDraft] = useState('')
   const [keyState, setKeyState] = useState<CredentialView | undefined>(undefined)
   const [busy, setBusy] = useState(false)

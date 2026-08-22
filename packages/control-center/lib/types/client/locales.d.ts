@@ -105,6 +105,20 @@ export declare const en: {
     currentOnlyUpdated: string;
     modelUnroutable: string;
     modelUnset: string;
+    directoryIntro: string;
+    searchProviders: string;
+    groupDomestic: string;
+    groupInternational: string;
+    groupLocal: string;
+    groupCustom: string;
+    groupConfigured: string;
+    noMatchingProviders: string;
+    selectProvider: string;
+    selectProviderHint: string;
+    activeProvider: string;
+    inactiveProvider: string;
+    presetIamNote: string;
+    presetProtocolNote: string;
 };
 /** The settings.models namespace key union. */
 export type ModelsKey = keyof typeof en;

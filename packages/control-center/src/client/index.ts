@@ -28,7 +28,8 @@ import skillsRemote from '../skills-remote-client.ts'
 import { SkillsSection } from './SkillsSection.tsx'
 import type {} from '../provider-types.ts'
 import providersRemote from '../provider-remote-client.ts'
-import { ProvidersSection } from './ProvidersSection.tsx'
+import { ProviderDirectorySection } from './ProviderDirectorySection.tsx'
+import type { ProviderDirectorySectionInjected } from './ProviderDirectorySection.tsx'
 import type {} from '../mcp-types.ts'
 import mcpRemote from '../mcp-remote-client.ts'
 import type {} from '../mcp-types.ts'
@@ -174,7 +175,6 @@ export function apply(ctx: ClientContext): void {
     },
   }
   let skills: NonNullable<typeof remote.controlCenterSkills> | undefined
-  let providers: NonNullable<typeof remote.controlCenterProviders> | undefined
   let mcp: NonNullable<typeof remote.controlCenterMcp> | undefined
   let websearch: NonNullable<typeof remote.controlCenterWebSearch> | undefined
   let fileProcessing: NonNullable<typeof remote.controlCenterFileProcessing> | undefined
@@ -294,7 +294,6 @@ export function apply(ctx: ClientContext): void {
     painting = ctx.get('remote.controlCenterPainting') as NonNullable<typeof remote.controlCenterPainting>
     knowledge = ctx.get('remote.controlCenterKnowledge') as NonNullable<typeof remote.controlCenterKnowledge>
     skills = ctx.get('remote.controlCenterSkills') as NonNullable<typeof remote.controlCenterSkills>
-    providers = ctx.get('remote.controlCenterProviders') as NonNullable<typeof remote.controlCenterProviders>
     mcp = ctx.get('remote.controlCenterMcp') as NonNullable<typeof remote.controlCenterMcp>
     websearch = ctx.get('remote.controlCenterWebSearch') as NonNullable<typeof remote.controlCenterWebSearch>
     fileProcessing = ctx.get('remote.controlCenterFileProcessing') as NonNullable<typeof remote.controlCenterFileProcessing>
@@ -329,6 +328,11 @@ export function apply(ctx: ClientContext): void {
 
   const modelsController = new ModelsSettingsStore(connection.api, schema, settingsMirror)
   const useModels = bindSnapshotSelector(modelsController.store)
+  // The Model Services (provider directory) page shares the same provider/
+  // settings/credential join; a second store keeps the two pages' loads and
+  // refresh triggers independent.
+  const providerDirectoryController = new ModelsSettingsStore(connection.api, schema, settingsMirror)
+  const useProviderDirectory = bindSnapshotSelector(providerDirectoryController.store)
   const selectionController = new ModelSelectionStore(connection.api, schema)
   const useSelection = bindSnapshotSelector(selectionController.store)
   const welcomeController = new WelcomeNoticeStore(connection.api, connection.isLoopback ? 'host' : 'memory')
@@ -415,8 +419,12 @@ export function apply(ctx: ClientContext): void {
   const skillsInjected = () => ({
     skills: skills!,
   })
-  const providersInjected = () => ({
-    providers: providers!,
+  const providerDirectoryInjected = (): ProviderDirectorySectionInjected => ({
+    controller: providerDirectoryController,
+    useSnapshot: useProviderDirectory,
+    api: connection.api,
+    schema,
+    t: modelT,
   })
   const mcpInjected = () => ({
     mcp: mcp!,
@@ -585,8 +593,8 @@ export function apply(ctx: ClientContext): void {
     id: 'providers',
     order: 1,
     label: () => shellT('providersNav'),
-    inject: providersInjected,
-  }, ProvidersSection))
+    inject: providerDirectoryInjected,
+  }, ProviderDirectorySection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'mcp',

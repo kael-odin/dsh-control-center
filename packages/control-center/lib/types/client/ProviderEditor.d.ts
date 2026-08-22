@@ -33,6 +33,16 @@ export interface ProviderEditorProps {
     /** Hide the title row (the add card renders its own provider select). */
     hideTitle?: boolean;
     /**
+     * Defaults pre-filled into the profile when no stored profile exists yet.
+     * The directory page uses this to seed the right panel with the preset's
+     * base URL and wire protocol, so a fresh pick is ready to save without
+     * extra field edits.
+     */
+    defaults?: {
+        baseURL?: string;
+        api?: string;
+    };
+    /**
      * Whether the adapter reports this route as hand-declared — absent from its
      * installed catalog. Such a route carries its own wire protocol, chosen when
      * it was created and editable here for the same reason; a catalog route's
