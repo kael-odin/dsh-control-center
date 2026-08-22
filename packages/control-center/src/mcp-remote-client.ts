@@ -11,7 +11,8 @@ const methods: ReadonlyArray<{ method: string; implementation?: string; paramete
   { method: 'stopServer', parameters: ['serverId'] },
   { method: 'refreshTools', parameters: ['serverId'] },
   { method: 'getServerLogs', parameters: ['serverId', 'lines'] },
-  { method: 'getCapabilities', parameters: ['serverId'] }
+  { method: 'getCapabilities', parameters: ['serverId'] },
+  { method: 'searchNpxRegistry', parameters: ['scope'] }
 ]
 
 /** Client descriptor contribution for the Control Center MCP service. */

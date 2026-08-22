@@ -4,7 +4,7 @@
  */
 
 import { useCallback, useEffect, useState, useMemo } from 'react'
-import type { CreateMcpServerDto, McpServerView, UpdateMcpServerDto, McpServerCapabilities } from '../mcp-types.ts'
+import type { CreateMcpServerDto, McpNpxPackage, McpServerView, UpdateMcpServerDto, McpServerCapabilities } from '../mcp-types.ts'
 import { AddMcpServerDialog } from './AddMcpServerDialog.tsx'
 import css from './McpSection.module.css'
 
@@ -22,6 +22,7 @@ interface McpService {
   refreshTools(serverId: string): Promise<RemoteResult<null>>
   getServerLogs(serverId: string, lines?: number): Promise<RemoteResult<string[]>>
   getCapabilities(serverId: string): Promise<RemoteResult<McpServerCapabilities | null>>
+  searchNpxRegistry(scope: string): Promise<RemoteResult<Array<{ fullName: string; name: string; description: string; version: string; link: string }>>>
 }
 
 export interface McpSectionProps {
@@ -844,6 +845,13 @@ export function McpSection(props: McpSectionProps) {
         visible={showAddDialog}
         onClose={() => setShowAddDialog(false)}
         onSubmit={handleCreate}
+        searchNpx={mcpService === undefined
+          ? undefined
+          : async (scope): Promise<McpNpxPackage[]> => {
+            const result = await mcpService.searchNpxRegistry(scope)
+            if (!result.ok) throw new Error(result.error.message)
+            return result.value
+          }}
       />
     </div>
   )

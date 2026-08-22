@@ -8,6 +8,7 @@ import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 import type { Transport } from '@modelcontextprotocol/sdk/shared/transport.js'
 import type {
   CreateMcpServerDto,
+  McpNpxPackage,
   McpServerCapabilities,
   McpServerRecord,
   McpServerView,
@@ -724,6 +725,32 @@ export class McpService extends Service {
   async getCapabilities(serverId: string): Promise<McpServerCapabilities | null> {
     const state = this.runtimeStates.get(serverId)
     return state?.capabilities || null
+  }
+
+  /**
+   * Search the public npm registry for MCP servers under one scope (Cherry's
+   * Npx 市场列表). Runs on the host so browser CORS never gates it; results
+   * are advisory candidates the user still has to add.
+   */
+  async searchNpxRegistry(scope: string): Promise<McpNpxPackage[]> {
+    const trimmed = typeof scope === 'string' ? scope.trim() : ''
+    if (trimmed.length === 0) throw new Error('npx search needs a package scope, e.g. @modelcontextprotocol')
+    const url = `https://registry.npmjs.org/-/v1/search?text=${encodeURIComponent(trimmed)}&size=25`
+    const response = await fetch(url, { headers: { accept: 'application/json' } })
+    if (!response.ok) throw new Error(`npm registry answered ${String(response.status)}`)
+    const body = await response.json() as { objects?: Array<{ package?: { name?: unknown; description?: unknown; version?: unknown; links?: { npm?: unknown } } }> }
+    const objects = Array.isArray(body.objects) ? body.objects : []
+    return objects
+      .map((entry) => entry.package ?? {})
+      .filter((pkg): pkg is { name: string; description?: string; version?: string; links?: { npm?: string } } =>
+        typeof pkg.name === 'string' && pkg.name.startsWith(trimmed))
+      .map(pkg => ({
+        fullName: pkg.name,
+        name: pkg.name.slice(trimmed.length).replace(/^[-_/]/, ''),
+        description: typeof pkg.description === 'string' ? pkg.description : '',
+        version: typeof pkg.version === 'string' ? pkg.version : '',
+        link: typeof pkg.links?.npm === 'string' ? pkg.links.npm : `https://www.npmjs.com/package/${pkg.name}`,
+      }))
   }
 
   private addServerLog(serverId: string, message: string): void {

@@ -24,6 +24,13 @@ interface McpService {
     refreshTools(serverId: string): Promise<RemoteResult<null>>;
     getServerLogs(serverId: string, lines?: number): Promise<RemoteResult<string[]>>;
     getCapabilities(serverId: string): Promise<RemoteResult<McpServerCapabilities | null>>;
+    searchNpxRegistry(scope: string): Promise<RemoteResult<Array<{
+        fullName: string;
+        name: string;
+        description: string;
+        version: string;
+        link: string;
+    }>>>;
 }
 export interface McpSectionProps {
     mcp?: McpService;

@@ -128,8 +128,18 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
       refreshTools(serverId: string): Promise<{ ok: true; value: null } | { ok: false; error: { code: string; message: string; details: object } }>
       getServerLogs(serverId: string, lines?: number): Promise<{ ok: true; value: string[] } | { ok: false; error: { code: string; message: string; details: object } }>
       getCapabilities(serverId: string): Promise<{ ok: true; value: McpServerCapabilities | null } | { ok: false; error: { code: string; message: string; details: object } }>
+      searchNpxRegistry(scope: string): Promise<{ ok: true; value: { fullName: string; name: string; description: string; version: string; link: string }[] } | { ok: false; error: { code: string; message: string; details: object } }>
     }
   }
+}
+
+/** One npm-registry candidate from the Npx market search. */
+export interface McpNpxPackage {
+  fullName: string
+  name: string
+  description: string
+  version: string
+  link: string
 }
 
 export interface McpToolInfo {

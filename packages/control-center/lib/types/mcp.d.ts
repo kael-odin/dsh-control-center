@@ -1,6 +1,6 @@
 import { Service } from '@deepseek-ai/cordis';
 import type { Context } from '@deepseek-ai/cordis';
-import type { CreateMcpServerDto, McpServerCapabilities, McpServerView, UpdateMcpServerDto } from './mcp-types';
+import type { CreateMcpServerDto, McpNpxPackage, McpServerCapabilities, McpServerView, UpdateMcpServerDto } from './mcp-types';
 declare module '@deepseek-ai/dsh-api-remotes/client' {
     interface TypertClientRemote {
         controlCenterMcp?: {
@@ -156,6 +156,12 @@ export declare class McpService extends Service {
     refreshTools(serverId: string): Promise<void>;
     getServerLogs(serverId: string, lines?: number): Promise<string[]>;
     getCapabilities(serverId: string): Promise<McpServerCapabilities | null>;
+    /**
+     * Search the public npm registry for MCP servers under one scope (Cherry's
+     * Npx 市场列表). Runs on the host so browser CORS never gates it; results
+     * are advisory candidates the user still has to add.
+     */
+    searchNpxRegistry(scope: string): Promise<McpNpxPackage[]>;
     private addServerLog;
 }
 //# sourceMappingURL=mcp.d.ts.map

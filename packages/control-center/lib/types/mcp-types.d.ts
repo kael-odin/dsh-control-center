@@ -220,8 +220,33 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
+            searchNpxRegistry(scope: string): Promise<{
+                ok: true;
+                value: {
+                    fullName: string;
+                    name: string;
+                    description: string;
+                    version: string;
+                    link: string;
+                }[];
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
         };
     }
+}
+/** One npm-registry candidate from the Npx market search. */
+export interface McpNpxPackage {
+    fullName: string;
+    name: string;
+    description: string;
+    version: string;
+    link: string;
 }
 export interface McpToolInfo {
     name: string;

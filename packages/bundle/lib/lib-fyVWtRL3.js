@@ -24441,7 +24441,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-DRKk3Gzx.js");
+				const { SSEClientTransport } = await import("./sse-B4aWznvk.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -24463,7 +24463,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-D2PWa9qp.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-DGmSxZXV.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -24686,6 +24686,26 @@ var McpService = class extends Service {
 	async getCapabilities(serverId) {
 		return this.runtimeStates.get(serverId)?.capabilities || null;
 	}
+	/**
+	* Search the public npm registry for MCP servers under one scope (Cherry's
+	* Npx 市场列表). Runs on the host so browser CORS never gates it; results
+	* are advisory candidates the user still has to add.
+	*/
+	async searchNpxRegistry(scope) {
+		const trimmed = typeof scope === "string" ? scope.trim() : "";
+		if (trimmed.length === 0) throw new Error("npx search needs a package scope, e.g. @modelcontextprotocol");
+		const url = `https://registry.npmjs.org/-/v1/search?text=${encodeURIComponent(trimmed)}&size=25`;
+		const response = await fetch(url, { headers: { accept: "application/json" } });
+		if (!response.ok) throw new Error(`npm registry answered ${String(response.status)}`);
+		const body = await response.json();
+		return (Array.isArray(body.objects) ? body.objects : []).map((entry) => entry.package ?? {}).filter((pkg) => typeof pkg.name === "string" && pkg.name.startsWith(trimmed)).map((pkg) => ({
+			fullName: pkg.name,
+			name: pkg.name.slice(trimmed.length).replace(/^[-_/]/, ""),
+			description: typeof pkg.description === "string" ? pkg.description : "",
+			version: typeof pkg.version === "string" ? pkg.version : "",
+			link: typeof pkg.links?.npm === "string" ? pkg.links.npm : `https://www.npmjs.com/package/${pkg.name}`
+		}));
+	}
 	addServerLog(serverId, message) {
 		const state = this.runtimeStates.get(serverId);
 		if (!state) return;
@@ -24742,6 +24762,10 @@ const mcpRemote = {
 		{
 			method: "getCapabilities",
 			parameters: ["serverId"]
+		},
+		{
+			method: "searchNpxRegistry",
+			parameters: ["scope"]
 		}
 	].map(({ method, implementation, parameters }) => ({
 		id: `@dsh-control-center/control-center#controlCenterMcp/${method}`,

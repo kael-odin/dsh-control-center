@@ -44,7 +44,7 @@
 | （核心） | 模型 | `/settings/model` | `models`（ModelsSection：模型选择 + 工作区偏好） | **P0** | ✅ Cherry ModelSettings 对齐（默认/当前/翻译/绘画；快捷与重试后续） |
 | （核心） | 本地模型 | `/settings/local-models` | `local-models`（LocalModelsSection） | P0 | ✅ controlCenterLocalModels |
 | （核心） | 网关 | `/settings/api-gateway` | `api-gateway`（ApiGatewaySection） | P0 | ✅ 真实（web 诚实标注） |
-| 能力 | MCP | `/settings/mcp` | `mcp`（McpSection） | T1 | ✅ 真实（split-pane） |
+| 能力 | MCP | `/settings/mcp` | `mcp`（McpSection） | T1 | ✅ split-pane + 快速导入解析 + Npx 市场（npm registry host 侧搜索） |
 | 能力 | 技能 | `/settings/skills` | `skills`（SkillsSection） | T1 | ✅ controlCenterSkills（本地导入诚实门控） |
 | 能力 | 联网搜索 | `/settings/websearch` | `websearch`（WebSearchSection） | T1 | ✅ 真实 |
 | 能力 | 文件处理 | `/settings/file-processing` | `processor`（ProcessorSection） | T1 | ✅ controlCenterFileProcessing |
@@ -152,8 +152,8 @@ control-center 现状：✅ McpSection.tsx（split-pane：左服务器列表+搜
 | # | Cherry 能力 | control-center 现状 | 待办 | 完成标准 |
 |---|-------------|---------------------|------|----------|
 | 3.1.1 | 服务器列表 + 搜索/筛选 | ✅ | 逐控件核对 | 服务器真实增删改、启停 |
-| 3.1.2 | 添加服务器（stdio/SSE/HTTP 协议字段） | 🔶 AddMcpServerDialog 已存在 | 对齐字段（含快速创建） | 真实创建并连接 |
-| 3.1.3 | 市场安装 / Npx 搜索 | 🚧 | 接入 host 市场能力或诚实标注 | 市场真实可搜可装 |
+| 3.1.2 | 添加服务器（stdio/SSE/HTTP 协议字段） | ✅ 双 Tab 对话框：手动创建 + **快速导入**（粘贴 npx 命令行 / JSON 定义 / mcpServers 包装 / URL，自动解析预填全部字段，纯客户端可测） | — | 真实创建并连接 ✅ |
+| 3.1.3 | 市场安装 / Npx 搜索 | ✅ 「Npx 市场」Tab：host 新方法 `controlCenterMcp.searchNpxRegistry` 走公共 npm registry 按 scope 搜索，结果逐包「添加」即建 stdio 服务器（npx -y 包名）；远程未挂载诚实提示。Cherry 的 configSample-from-readme 未做 | 后续：readme 配置样例抽取 | 市场真实可搜可装 ✅ |
 | 3.1.4 | 详情：工具/资源/提示 | 🔶 | 核对 | 列出真实暴露的工具/资源 |
 | 3.1.5 | 日志 | ✅ | 核对 | 真实显示会话日志 |
 | 3.1.6 | 协议安装（mcp install 警告流程） | 🚧 | 诚实处理 | 不可安装则标"当前平台不支持" |
