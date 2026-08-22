@@ -5,7 +5,7 @@
  * painting/embedding calls record real tokens).
  */
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { HostObservable, InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
 import type { UsageEntriesPage, UsageRecord, UsageStats, UsageTimelinePoint } from '../usage-types.ts'
@@ -107,6 +107,9 @@ export function UsageSection({ getUsage, useUsageReady }: UsageSectionProps) {
   const [statsByModel, setStatsByModel] = useState<UsageStats | null>(null)
   const [entries, setEntries] = useState<UsageRecord[]>([])
   const [nextCursor, setNextCursor] = useState<string | null>(null)
+  // The heatmap is window-independent (Cherry shows a rolling year); it loads
+  // its own 365-day series once.
+  const [yearTimeline, setYearTimeline] = useState<UsageTimelinePoint[]>([])
   const [groupBy, setGroupBy] = useState<'provider' | 'model'>('provider')
   const [chartMode, setChartMode] = useState<'total' | 'day'>('total')
   const [error, setError] = useState<string | null>(null)
@@ -140,6 +143,18 @@ export function UsageSection({ getUsage, useUsageReady }: UsageSectionProps) {
   useEffect(() => {
     void loadAll()
   }, [loadAll])
+
+  useEffect(() => {
+    if (usage === undefined) return undefined
+    let stale = false
+    const to = Date.now()
+    const from = to - 365 * 86_400_000
+    void usage.timeline({ from, to, groupBy: 'day' })!.then(
+      (result) => { if (!stale && result.ok) setYearTimeline(result.value) },
+      () => undefined,
+    )
+    return () => { stale = true }
+  }, [usage])
 
   const loadMore = async (): Promise<void> => {
     if (usage === undefined || nextCursor === null) return
@@ -182,32 +197,57 @@ export function UsageSection({ getUsage, useUsageReady }: UsageSectionProps) {
   // Sparkline data (last 64 days of the current window).
   const spark = useMemo(() => timeline.slice(-64).map(point => totalTokensOf(point)), [timeline])
 
-  // Heatmap: 7 rows x N weeks ending this week.
+  // Heatmap — Cherry UsageHeatmap semantics: a rolling 53-week GitHub-style
+  // grid that IGNORES the window tabs (they scope the stat panels above),
+  // Monday-first, with quantile thresholds so one huge day no longer flattens
+  // the rest, and month labels along the top.
   const heatmap = useMemo(() => {
-    const cells: Array<{ timestamp: number; tokens: number; requests: number }> = []
+    const byDay = new Map(yearTimeline.map(point => [point.dateKey, point]))
     const start = new Date()
     start.setHours(0, 0, 0, 0)
     const today = start.getTime()
     const weekStart = today - ((start.getDay() + 6) % 7) * 86_400_000
-    const byDay = new Map<string, UsageTimelinePoint>()
-    for (const point of timeline) byDay.set(point.dateKey, point)
+    // Days before the first record ever are outside the served range: they
+    // render as faint placeholders (Cherry's isOutsideRange), not as empty.
+    const firstData = yearTimeline.length > 0
+      ? Math.min(...yearTimeline.map(point => new Date(`${point.dateKey}T00:00:00`).getTime()))
+      : today
+    const cells: Array<{ timestamp: number; tokens: number; requests: number; outside: boolean }> = []
     for (let offset = 0; offset < 7 * 53; offset++) {
       const timestamp = weekStart - offset * 86_400_000
-      if (timestamp < range.from) break
+      if (timestamp < firstData) break
       const point = byDay.get(dateKeyOf(timestamp))
-      cells.unshift({ timestamp, tokens: point === undefined ? 0 : totalTokensOf(point), requests: point?.requests ?? 0 })
+      cells.unshift({
+        timestamp,
+        tokens: point === undefined ? 0 : totalTokensOf(point),
+        requests: point?.requests ?? 0,
+        outside: false,
+      })
+    }
+    // Pad the head to a whole column with faint placeholders.
+    while (cells.length % 7 !== 0) {
+      const head = cells[0] === undefined ? weekStart : cells[0].timestamp
+      cells.unshift({ timestamp: head - 86_400_000, tokens: 0, requests: 0, outside: true })
     }
     return cells
-  }, [timeline, range.from])
+  }, [yearTimeline])
 
-  const heatmapMax = Math.max(1, ...heatmap.map(cell => cell.tokens))
+  // Quantile thresholds over non-zero days (Cherry): robust against a single
+  // huge day that a max-ratio ramp would flatten everything else with.
+  const heatThresholds = useMemo(() => {
+    const values = heatmap.map(cell => cell.tokens).filter(tokens => tokens > 0).sort((left, right) => left - right)
+    const quantile = (ratio: number): number => values.length === 0
+      ? 0
+      : values[Math.min(values.length - 1, Math.floor((values.length - 1) * ratio))]!
+    return [quantile(0.25), quantile(0.5), quantile(0.75)] as const
+  }, [heatmap])
+
   const heatLevel = (tokens: number): number => {
-    if (tokens === 0) return 0
-    const ratio = tokens / heatmapMax
-    if (ratio > 0.6) return 4
-    if (ratio > 0.3) return 3
-    if (ratio > 0.12) return 2
-    return 1
+    if (tokens <= 0) return 0
+    if (tokens <= heatThresholds[0]) return 1
+    if (tokens <= heatThresholds[1]) return 2
+    if (tokens <= heatThresholds[2]) return 3
+    return 4
   }
   // Theme-token ramp: an empty day reads as a muted cell (never transparent —
   // it vanished against dark cards), and intensity rides --success so both
@@ -219,6 +259,35 @@ export function UsageSection({ getUsage, useUsageReady }: UsageSectionProps) {
     'color-mix(in srgb, var(--success) 85%, transparent)',
     'var(--success)',
   ]
+
+  // Month labels above the columns: first column of a new month, at least
+  // three columns after the previous label (Cherry's spacing rule).
+  const heatmapColumns = useMemo(() => {
+    const columns: Array<Array<{ timestamp: number; tokens: number; requests: number; outside: boolean }>> = []
+    for (let index = 0; index < heatmap.length; index += 7) columns.push(heatmap.slice(index, index + 7))
+    const formatter = new Intl.DateTimeFormat('zh-CN', { month: 'short' })
+    const labels: string[] = []
+    let lastLabeled = -Infinity
+    columns.forEach((column, index) => {
+      const day = new Date(column[0]!.timestamp)
+      const previous = index > 0 ? new Date(columns[index - 1]![0]!.timestamp) : undefined
+      const isNewMonth = previous === undefined || previous.getMonth() !== day.getMonth()
+      if (isNewMonth && index - lastLabeled >= 3) {
+        lastLabeled = index
+        labels.push(formatter.format(day))
+      } else {
+        labels.push('')
+      }
+    })
+    return { columns, labels }
+  }, [heatmap])
+
+  const heatmapScrollRef = useRef<HTMLDivElement | null>(null)
+  useEffect(() => {
+    // Open on the latest week, like Cherry.
+    const element = heatmapScrollRef.current
+    if (element !== null) element.scrollLeft = element.scrollWidth
+  }, [yearTimeline])
 
   // Distribution chart.
   const chartGroups = stats?.groups ?? []
@@ -324,18 +393,32 @@ export function UsageSection({ getUsage, useUsageReady }: UsageSectionProps) {
             <div className={css.heatmapSection} style={{ marginTop: 16 }}>
               <div className={css.heatmapTitle}>
                 <span>每日活动</span>
-                <span style={{ fontWeight: 400, color: 'var(--foreground-tertiary)', fontSize: 12 }}>Token</span>
+                <span style={{ fontWeight: 400, color: 'var(--foreground-tertiary)', fontSize: 12 }}>近一年 · Token</span>
               </div>
-              <div className={css.heatmapScroll}>
+              <div className={css.heatmapScroll} ref={heatmapScrollRef}>
                 <div className={css.heatmap} role="img" aria-label="每日活动热力图">
-                  {heatmap.map(cell => (
-                    <button
-                      key={cell.timestamp}
-                      type="button"
-                      className={css.heatmapCell}
-                      style={{ background: HEAT_COLORS[heatLevel(cell.tokens)] }}
-                      title={`${dateKeyOf(cell.timestamp)} · ${cell.requests} 个请求 · ${formatTokens(cell.tokens)} tokens`}
-                    />
+                  {heatmapColumns.columns.map((column, columnIndex) => (
+                    <div key={column[0]!.timestamp} className={css.heatmapCol}>
+                      <div className={css.heatmapMonth}>{heatmapColumns.labels[columnIndex]}</div>
+                      <div className={css.heatmapColCells}>
+                        {column.map(cell => {
+                          const tooltip = `${dateKeyOf(cell.timestamp)} · ${formatTokens(cell.tokens)} tokens · ${cell.requests} 个请求`
+                          if (cell.outside) {
+                            return <div key={cell.timestamp} className={`${css.heatmapCell} ${css.heatmapCellOutside}`} aria-hidden />
+                          }
+                          return (
+                            <button
+                              key={cell.timestamp}
+                              type="button"
+                              className={css.heatmapCell}
+                              style={{ background: HEAT_COLORS[heatLevel(cell.tokens)] }}
+                              aria-label={tooltip}
+                              title={tooltip}
+                            />
+                          )
+                        })}
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>

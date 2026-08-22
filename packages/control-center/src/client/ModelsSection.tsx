@@ -173,6 +173,13 @@ function Loaded({ injected }: { injected: ModelsSectionInjected }): ReactNode {
         : null}
       <ModelSelectionPanel {...injected.modelSelection} />
 
+      {!prefs.available && prefs.status === 'ready'
+        ? (
+          <p className={styles['notice']}>
+            {'当前部署的 Control Center host 未启用工作区偏好存储；默认模型与当前会话模型不受影响。更新插件后可用。'}
+          </p>
+        )
+        : null}
       <section aria-label={t('prefTitle')} className={styles['prefsPanel']}>
         <h3 className={styles['modelSelectionTitle']}>{t('prefTitle')}</h3>
         {savedKind !== undefined
@@ -187,7 +194,7 @@ function Loaded({ injected }: { injected: ModelsSectionInjected }): ReactNode {
           hint={t('prefHint')}
           selection={prefs.translation}
           groups={prefs.groups}
-          disabled={prefs.status !== 'ready'}
+          disabled={prefs.status !== 'ready' || !prefs.available}
           t={t}
           onSave={(selection) => {
             setSavedKind(undefined)
@@ -201,7 +208,7 @@ function Loaded({ injected }: { injected: ModelsSectionInjected }): ReactNode {
           hint={t('prefHint')}
           selection={prefs.painting}
           groups={prefs.groups}
-          disabled={prefs.status !== 'ready'}
+          disabled={prefs.status !== 'ready' || !prefs.available}
           t={t}
           onSave={(selection) => {
             setSavedKind(undefined)

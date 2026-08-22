@@ -76,13 +76,17 @@ describe('ModelPrefsStore', () => {
     })
   })
 
-  it('surfaces a missing namespace as an error, not a silent default', async () => {
+  it('degrades to an unavailable-but-ready state when the namespace is missing', async () => {
     const api = {
       settings: { describe: vi.fn(async () => ok({ writable: true, hasDocument: true, namespaces: [] })) },
-      llm: { models: vi.fn(async () => ok({ groups: [], failures: [] })) },
+      llm: { models: vi.fn(async () => ok({ groups: [{ id: 'acme', name: 'Acme', models: [] }], failures: [] })) },
     } as unknown as Pick<IApiClient, 'settings' | 'llm'>
     const store = new ModelPrefsStore(api, schema)
     await store.load()
-    expect(store.store.getSnapshot()).toMatchObject({ status: 'error' })
+    const state = store.store.getSnapshot()
+    // An older host without the namespace must NOT fail the whole page.
+    expect(state.status).toBe('ready')
+    expect(state.available).toBe(false)
+    await expect(store.save('painting', { provider: 'p', model: 'm' })).resolves.toBe(false)
   })
 })

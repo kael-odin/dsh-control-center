@@ -20,6 +20,12 @@ export interface ModelPrefSelection {
 export interface ModelPrefsState {
     status: 'idle' | 'loading' | 'ready' | 'error';
     error: string | null;
+    /**
+     * False when the running host does not register the preference namespace
+     * (an older deployed bundle). The page then renders an honest notice and
+     * keeps default/current selection working instead of failing wholesale.
+     */
+    available: boolean;
     writable: boolean;
     revision: number | null;
     translation: ModelPrefSelection | null;

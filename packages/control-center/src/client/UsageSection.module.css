@@ -168,12 +168,33 @@
   padding-bottom: 4px;
 }
 
+/* Cherry-style column layout: a month-label row above each 7-cell column. */
 .heatmap {
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-rows: repeat(7, 1fr);
+  display: flex;
   gap: 3px;
   width: max-content;
+}
+
+.heatmapCol {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 12px;
+}
+
+.heatmapMonth {
+  height: 16px;
+  font-size: 10px;
+  line-height: 16px;
+  color: var(--foreground-tertiary);
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.heatmapColCells {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
 .heatmapCell {
@@ -189,6 +210,12 @@
 .heatmapCell:hover {
   outline: 1px solid var(--foreground-tertiary);
   outline-offset: 1px;
+}
+
+/* Days before the first record ever (Cherry's isOutsideRange). */
+.heatmapCellOutside {
+  background: color-mix(in srgb, var(--muted) 30%, transparent) !important;
+  cursor: default;
 }
 
 /* ---------- Explore ---------- */

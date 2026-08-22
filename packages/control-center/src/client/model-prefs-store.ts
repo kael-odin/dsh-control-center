@@ -26,6 +26,12 @@ export interface ModelPrefSelection {
 export interface ModelPrefsState {
   status: 'idle' | 'loading' | 'ready' | 'error'
   error: string | null
+  /**
+   * False when the running host does not register the preference namespace
+   * (an older deployed bundle). The page then renders an honest notice and
+   * keeps default/current selection working instead of failing wholesale.
+   */
+  available: boolean
   writable: boolean
   revision: number | null
   translation: ModelPrefSelection | null
@@ -44,7 +50,7 @@ function readSelection(value: unknown, schema: SettingsSchemaOperations, kind: '
 /** The shared controller (one per client surface). */
 export class ModelPrefsStore {
   readonly store: SnapshotStore<ModelPrefsState> = createSnapshotStore<ModelPrefsState>({
-    status: 'idle', error: null, writable: false, revision: null,
+    status: 'idle', error: null, available: true, writable: false, revision: null,
     translation: null, painting: null, groups: [],
   })
 
@@ -69,10 +75,21 @@ export class ModelPrefsStore {
       if (!catalog.ok) throw new Error(catalog.error.message)
       if (generation !== this.generation) return
       const namespace = settings.value.namespaces.find(view => view.ns === MODEL_PREFS_NAMESPACE)
-      if (namespace === undefined) throw new Error('model preference settings are unavailable')
+      if (namespace === undefined) {
+        // Older host without the namespace: degrade, never fail the page.
+        this.store.update((state) => {
+          state.status = 'ready'
+          state.available = false
+          state.writable = false
+          state.revision = null
+          state.groups = catalog.value.groups
+        })
+        return
+      }
       const value = namespace.value
       this.store.update((state) => {
         state.status = 'ready'
+        state.available = true
         state.writable = settings.value.writable
         state.revision = namespace.revision
         state.translation = readSelection(value, this.schema, 'translation')
@@ -91,7 +108,7 @@ export class ModelPrefsStore {
   /** Persist one purpose's selection; keeps the other untouched. */
   async save(kind: 'translation' | 'painting', selection: ModelPrefSelection): Promise<boolean> {
     const snapshot = this.store.getSnapshot()
-    if (snapshot.revision === null) return false
+    if (snapshot.revision === null || !snapshot.available) return false
     this.store.update((state) => { state.status = 'loading'; state.error = null })
     const response = await this.api.settings.mutate({
       ns: MODEL_PREFS_NAMESPACE,
