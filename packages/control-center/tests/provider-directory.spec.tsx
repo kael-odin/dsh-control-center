@@ -304,6 +304,30 @@ describe('ProviderDirectorySection kebab menu', () => {
   })
 })
 
+describe('RequestOptionsPanel', () => {
+  it('saves custom headers as a profile headers dict', async () => {
+    const api = apiMock()
+    renderSection([row('deepseek', '深度求索 (DeepSeek)', true)], { api })
+    const deepseekRow = screen
+      .getAllByRole('button', { name: /深度求索/ })
+      .find(element => element.getAttribute('aria-pressed') !== null)!
+    fireEvent.click(deepseekRow)
+    fireEvent.click(screen.getByRole('button', { name: 'Request options' }))
+    const dialog = within(screen.getByRole('dialog'))
+    fireEvent.click(dialog.getByRole('button', { name: 'Add header' }))
+    fireEvent.change(dialog.getByLabelText('Header name 1'), { target: { value: 'X-Test' } })
+    fireEvent.change(dialog.getByLabelText('Value 1'), { target: { value: 'v1' } })
+    fireEvent.click(dialog.getByRole('button', { name: 'Apply' }))
+    await waitFor(() => {
+      expect(api.settings.mutate).toHaveBeenCalledWith({
+        ns: 'llm-pi-ai',
+        expectedRevision: 0,
+        ops: [{ op: 'set', path: ['providers', 'deepseek', 'headers'], value: { 'X-Test': 'v1' } }],
+      })
+    })
+  })
+})
+
 describe('ProviderDirectorySection eye toggle', () => {
   it('merges the served catalog: re-enable appends, disable removes, apply persists', async () => {
     const api = apiMock()

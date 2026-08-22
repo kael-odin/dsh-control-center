@@ -33,6 +33,7 @@ import { Button, Menu, Modal } from '@deepseek-ai/dsh-client-ui-primitives'
 import { CustomProviderCard } from './CustomProviderCard.tsx'
 import { ProviderEditor } from './ProviderEditor.tsx'
 import { removeProviderProfile } from './ModelsSection.tsx'
+import { RequestOptionsPanel } from './RequestOptionsPanel.tsx'
 import {
   PI_AI_SHIPPED_PRESET_IDS, PROVIDER_PRESETS, presetApiOf, type ProviderPreset,
 } from './provider-presets.ts'
@@ -207,6 +208,7 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
   const [toggling, setToggling] = useState(false)
   const [menuFor, setMenuFor] = useState<string | undefined>(undefined)
   const [defaultSaved, setDefaultSaved] = useState<{ provider: string; model: string } | undefined>(undefined)
+  const [optionsOpen, setOptionsOpen] = useState(false)
   // The selected route's full served catalog (`llm.models`): the eye-toggle
   // merge renders catalog entries missing from the profile array as disabled.
   const [providerCatalog, setProviderCatalog] = useState<readonly { id: string; name?: string }[]>([])
@@ -630,6 +632,22 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                     <header className={styles['detailHeader']}>
                       <div className={styles['detailHeaderMain']}>
                         <ProviderAvatar providerId={effective.provider} name={effective.displayName} />
+                        {/* Cherry's bolt: the route's request options. */}
+                        {editTarget.settingsNs === NS && namespace !== undefined
+                          ? (
+                            <button
+                              type="button"
+                              className={styles['boltButton']}
+                              aria-label={t('requestOptions')}
+                              title={t('requestOptions')}
+                              onClick={() => { setOptionsOpen(true) }}
+                            >
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                                <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
+                              </svg>
+                            </button>
+                          )
+                          : null}
                         {/* Cherry links the provider name to its official site. */}
                         {editTarget.website === undefined
                           ? <span className={styles['detailTitle']}>{effective.displayName}</span>
@@ -661,6 +679,26 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                         onChange={(next) => { void toggleEnabled(effective, next) }}
                       />
                     </header>
+                    {namespace === undefined
+                      ? null
+                      : (
+                        <RequestOptionsPanel
+                          open={optionsOpen}
+                          namespace={namespace}
+                          settingsPath={editTarget.settingsPath}
+                          api={api}
+                          schema={schema}
+                          t={t}
+                          readOnly={!state.writable}
+                          onClose={() => { setOptionsOpen(false) }}
+                          onSaved={() => {
+                            setOptionsOpen(false)
+                            void controller.load().then(() => {
+                              setSavedTarget({ provider: effective.provider, displayName: effective.displayName })
+                            })
+                          }}
+                        />
+                      )}
                     <div className={styles['detailBody']}>
                       {savedTarget === undefined
                         ? null
