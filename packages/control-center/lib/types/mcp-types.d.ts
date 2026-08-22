@@ -247,6 +247,12 @@ export interface McpNpxPackage {
     description: string;
     version: string;
     link: string;
+    /** README-derived config sample, when the package ships one. */
+    configSample?: {
+        command: string;
+        args?: string[];
+        env?: Record<string, string>;
+    } | undefined;
 }
 export interface McpToolInfo {
     name: string;

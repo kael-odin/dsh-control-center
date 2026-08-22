@@ -24493,6 +24493,31 @@ const skillsRemote = {
 		result: STRICT_JSON
 	}))
 };
+/**
+* Extract an npx MCP config sample from a package README — ported from
+* Cherry Studio `src/renderer/utils/mcp.ts getMcpConfigSampleFromReadme`.
+*
+* Scans for a `"mcpServers": { ... }` JSON block (one nesting level deep),
+* takes its first entry, and accepts it only when the command is `npx` — the
+* one shape our stdio installer can serve directly.
+*/
+function getMcpConfigSampleFromReadme(readme) {
+	if (readme.length === 0) return null;
+	try {
+		for (const match of readme.matchAll(/"mcpServers"\s*:\s*({(?:[^{}]*|{(?:[^{}]*|{[^{}]*})*})*})/g)) {
+			let sample = JSON.parse(match[1] ?? "{}");
+			const firstKey = Object.keys(sample)[0];
+			if (firstKey === void 0) continue;
+			sample = sample[firstKey] ?? {};
+			if (sample.command === "npx") return {
+				command: "npx",
+				...Array.isArray(sample.args) ? { args: sample.args.filter((a) => typeof a === "string") } : {},
+				...typeof sample.env === "object" && sample.env !== null && !Array.isArray(sample.env) ? { env: Object.fromEntries(Object.entries(sample.env).flatMap(([k, v]) => typeof v === "string" ? [[k, v]] : [])) } : {}
+			};
+		}
+	} catch {}
+	return null;
+}
 const MCP_NAMESPACE = settingsNamespace("control-center-mcp");
 var McpService = class extends Service {
 	static inject = ["settings"];
@@ -24723,7 +24748,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-B4O_tHnK.js");
+				const { SSEClientTransport } = await import("./sse-CztXZEll.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -24745,7 +24770,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-D7sE_lYl.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-Hwqg5RfK.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -24980,13 +25005,27 @@ var McpService = class extends Service {
 		const response = await fetch(url, { headers: { accept: "application/json" } });
 		if (!response.ok) throw new Error(`npm registry answered ${String(response.status)}`);
 		const body = await response.json();
-		return (Array.isArray(body.objects) ? body.objects : []).map((entry) => entry.package ?? {}).filter((pkg) => typeof pkg.name === "string" && pkg.name.startsWith(trimmed)).map((pkg) => ({
+		const candidates = (Array.isArray(body.objects) ? body.objects : []).map((entry) => entry.package ?? {}).filter((pkg) => typeof pkg.name === "string" && pkg.name.startsWith(trimmed)).map((pkg) => ({
 			fullName: pkg.name,
 			name: pkg.name.slice(trimmed.length).replace(/^[-_/]/, ""),
 			description: typeof pkg.description === "string" ? pkg.description : "",
 			version: typeof pkg.version === "string" ? pkg.version : "",
 			link: typeof pkg.links?.npm === "string" ? pkg.links.npm : `https://www.npmjs.com/package/${pkg.name}`
 		}));
+		return (await Promise.allSettled(candidates.slice(0, 10).map(async (pkg) => {
+			try {
+				const detailResponse = await fetch(`https://registry.npmjs.org/${encodeURIComponent(pkg.fullName)}`, { headers: { accept: "application/json" } });
+				if (!detailResponse.ok) return pkg;
+				const detail = await detailResponse.json();
+				const sample = getMcpConfigSampleFromReadme(typeof detail.readme === "string" ? detail.readme : "");
+				return sample === null ? pkg : {
+					...pkg,
+					configSample: sample
+				};
+			} catch {
+				return pkg;
+			}
+		}))).map((result, index) => result.status === "fulfilled" ? result.value : candidates[index]);
 	}
 	addServerLog(serverId, message) {
 		const state = this.runtimeStates.get(serverId);

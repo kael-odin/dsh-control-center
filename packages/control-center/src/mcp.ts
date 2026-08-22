@@ -6,6 +6,7 @@ import Schema from '@deepseek-ai/schemastery'
 import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 import type { Transport } from '@modelcontextprotocol/sdk/shared/transport.js'
+import { getMcpConfigSampleFromReadme } from './mcp-readme-sample.ts'
 import type {
   CreateMcpServerDto,
   McpNpxPackage,
@@ -740,7 +741,7 @@ export class McpService extends Service {
     if (!response.ok) throw new Error(`npm registry answered ${String(response.status)}`)
     const body = await response.json() as { objects?: Array<{ package?: { name?: unknown; description?: unknown; version?: unknown; links?: { npm?: unknown } } }> }
     const objects = Array.isArray(body.objects) ? body.objects : []
-    return objects
+    const candidates = objects
       .map((entry) => entry.package ?? {})
       .filter((pkg): pkg is { name: string; description?: string; version?: string; links?: { npm?: string } } =>
         typeof pkg.name === 'string' && pkg.name.startsWith(trimmed))
@@ -751,6 +752,27 @@ export class McpService extends Service {
         version: typeof pkg.version === 'string' ? pkg.version : '',
         link: typeof pkg.links?.npm === 'string' ? pkg.links.npm : `https://www.npmjs.com/package/${pkg.name}`,
       }))
+    // Enrich the top hits with their README config sample (Cherry's
+    // getMcpConfigSampleFromReadme), so 添加 can carry the author's real
+    // command/args/env instead of a blind `npx -y`.
+    const enriched = await Promise.allSettled(
+      candidates.slice(0, 10).map(async (pkg) => {
+        try {
+          const detailResponse = await fetch(`https://registry.npmjs.org/${encodeURIComponent(pkg.fullName)}`, {
+            headers: { accept: 'application/json' },
+          })
+          if (!detailResponse.ok) return pkg
+          const detail = await detailResponse.json() as { readme?: unknown }
+          const sample = getMcpConfigSampleFromReadme(typeof detail.readme === 'string' ? detail.readme : '')
+          return sample === null ? pkg : { ...pkg, configSample: sample }
+        } catch {
+          return pkg
+        }
+      }),
+    )
+    return enriched.map((result, index) =>
+      result.status === 'fulfilled' ? result.value : candidates[index]!,
+    )
   }
 
   private addServerLog(serverId: string, message: string): void {

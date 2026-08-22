@@ -172,11 +172,14 @@ export function AddMcpServerDialog({ visible, onClose, onSubmit, searchNpx }: Ad
 
   const handleAddFromMarket = async (pkg: McpNpxPackage): Promise<void> => {
     setAddedNames(current => new Set([...current, pkg.fullName]))
+    const sample = pkg.configSample
     await onSubmit({
       name: pkg.name.length > 0 ? pkg.name : pkg.fullName,
       type: 'stdio',
-      command: 'npx',
-      args: ['-y', pkg.fullName],
+      // The package's own README sample wins; the blind `npx -y` is fallback.
+      ...(sample !== undefined && sample.command !== undefined
+        ? { command: sample.command, ...(sample.args !== undefined ? { args: sample.args } : {}), ...(sample.env !== undefined ? { env: { ...sample.env } } : {}) }
+        : { command: 'npx', args: ['-y', pkg.fullName] }),
       description: pkg.description,
       providerUrl: pkg.link,
       timeout: 30000,
@@ -440,6 +443,7 @@ export function AddMcpServerDialog({ visible, onClose, onSubmit, searchNpx }: Ad
                       <div className={css.marketMain}>
                         <span className={css.marketName}>{pkg.fullName}</span>
                         {pkg.version !== '' && <span className={css.marketVersion}>v{pkg.version}</span>}
+                        {pkg.configSample !== undefined && <span className={css.marketVersion}>含配置</span>}
                         {pkg.description !== '' && <span className={css.marketDesc}>{pkg.description}</span>}
                       </div>
                       <button

@@ -153,7 +153,7 @@ control-center 现状：✅ McpSection.tsx（split-pane：左服务器列表+搜
 |---|-------------|---------------------|------|----------|
 | 3.1.1 | 服务器列表 + 搜索/筛选 | ✅ | 逐控件核对 | 服务器真实增删改、启停 |
 | 3.1.2 | 添加服务器（stdio/SSE/HTTP 协议字段） | ✅ 双 Tab 对话框：手动创建 + **快速导入**（粘贴 npx 命令行 / JSON 定义 / mcpServers 包装 / URL，自动解析预填全部字段，纯客户端可测） | — | 真实创建并连接 ✅ |
-| 3.1.3 | 市场安装 / Npx 搜索 | ✅ 「Npx 市场」Tab：host 新方法 `controlCenterMcp.searchNpxRegistry` 走公共 npm registry 按 scope 搜索，结果逐包「添加」即建 stdio 服务器（npx -y 包名）；远程未挂载诚实提示。Cherry 的 configSample-from-readme 未做 | 后续：readme 配置样例抽取 | 市场真实可搜可装 ✅ |
+| 3.1.3 | 市场安装 / Npx 搜索 | ✅ 「Npx 市场」Tab：host 新方法 `controlCenterMcp.searchNpxRegistry` 走公共 npm registry 按 scope 搜索，结果逐包「添加」即建 stdio 服务器（npx -y 包名）；远程未挂载诚实提示。configSample-from-readme 已移植（前 10 个结果自动抓取 npm README 抽取 mcpServers 样例，命中包显示「含配置」并按作者真实命令安装）| 后续：readme 配置样例抽取 | 市场真实可搜可装 ✅ |
 | 3.1.4 | 详情：工具/资源/提示 | 🔶 | 核对 | 列出真实暴露的工具/资源 |
 | 3.1.5 | 日志 | ✅ | 核对 | 真实显示会话日志 |
 | 3.1.6 | 协议安装（mcp install 警告流程） | 🚧 | 诚实处理 | 不可安装则标"当前平台不支持" |
