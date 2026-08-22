@@ -133,6 +133,7 @@ export declare const en: {
     toggleFailed: string;
     providerDisabled: string;
     freeBadge: string;
+    getApiKey: string;
     modelGroupUngrouped: string;
     expandAll: string;
     collapseAll: string;

@@ -82,6 +82,8 @@ interface SelectedIdentity extends ProviderIdentity {
   settingsPath: readonly string[]
   declared?: boolean
   defaults?: { baseURL?: string; api?: string }
+  website?: string
+  helpLinks?: { apiKeyUrl?: string }
 }
 
 export function identityOf(entry: DirectoryEntry): SelectedIdentity {
@@ -105,6 +107,8 @@ export function identityOf(entry: DirectoryEntry): SelectedIdentity {
         baseURL: entry.preset.baseURL,
         api: presetApiOf(entry.preset.type),
       },
+      ...entry.preset.website === undefined || entry.preset.website.length === 0 ? {} : { website: entry.preset.website },
+      ...entry.preset.apiUrl === undefined ? {} : { helpLinks: { apiKeyUrl: entry.preset.apiUrl } },
     },
   }
 }
@@ -577,7 +581,20 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                     <header className={styles['detailHeader']}>
                       <div className={styles['detailHeaderMain']}>
                         <ProviderAvatar providerId={effective.provider} name={effective.displayName} />
-                        <span className={styles['detailTitle']}>{effective.displayName}</span>
+                        {/* Cherry links the provider name to its official site. */}
+                        {editTarget.website === undefined
+                          ? <span className={styles['detailTitle']}>{effective.displayName}</span>
+                          : (
+                            <a
+                              className={styles['detailTitle']}
+                              href={editTarget.website}
+                              target="_blank"
+                              rel="noreferrer"
+                              title={editTarget.website}
+                            >
+                              {effective.displayName}
+                            </a>
+                          )}
                         {effective.provider !== effective.displayName
                           ? <span className={styles['detailRoute']}>{effective.provider}</span>
                           : null}
@@ -623,6 +640,7 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                             showCheck
                             {...editTarget.declared === true ? { declared: true } : {}}
                             {...editTarget.defaults === undefined ? {} : { defaults: editTarget.defaults }}
+                            {...editTarget.helpLinks === undefined ? {} : { helpLinks: editTarget.helpLinks }}
                             namespace={namespace}
                             settingsPath={editTarget.settingsPath}
                             api={api}

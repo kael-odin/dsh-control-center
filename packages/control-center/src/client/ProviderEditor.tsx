@@ -68,6 +68,12 @@ export interface ProviderEditorProps {
    */
   showCheck?: boolean
   /**
+   * Registry links for this provider: its official site (unused here — the
+   * directory header owns that link) and where to apply for a key, shown as a
+   * help link beside the key label like Cherry's 获取 API 卡密.
+   */
+  helpLinks?: { apiKeyUrl?: string }
+  /**
    * Whether the adapter reports this route as hand-declared — absent from its
    * installed catalog. Such a route carries its own wire protocol, chosen when
    * it was created and editable here for the same reason; a catalog route's
@@ -440,7 +446,16 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
     }
     const keyField = (
       <div className={styles['field']}>
-        <span className={styles['fieldLabel']}>{t('keyInput')}</span>
+        <span className={styles['fieldLabelRow']}>
+          <span className={styles['fieldLabel']}>{t('keyInput')}</span>
+          {props.helpLinks?.apiKeyUrl === undefined
+            ? null
+            : (
+              <a className={styles['helpLink']} href={props.helpLinks.apiKeyUrl} target="_blank" rel="noreferrer">
+                {t('getApiKey')}
+              </a>
+            )}
+        </span>
         <div className={styles['inputRow']}>
           <div className={styles['inputGroup']}>
             <input

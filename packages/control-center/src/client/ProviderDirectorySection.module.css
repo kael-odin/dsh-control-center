@@ -337,6 +337,14 @@
   white-space: nowrap;
 }
 
+a.detailTitle {
+  text-decoration: none;
+}
+
+a.detailTitle:hover {
+  color: var(--primary);
+}
+
 .detailRoute {
   font-size: 12px;
   color: var(--muted-foreground);

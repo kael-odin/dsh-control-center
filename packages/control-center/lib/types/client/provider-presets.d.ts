@@ -4,7 +4,9 @@
  * endpoints unless noted; provider-specific IAM/OAuth flows (Vertex, Bedrock,
  * Azure IAM) are represented by their API-key/baseURL form.
  *
- * AGPL-3.0-only — adapted from Cherry Studio's provider registry.
+ * AGPL-3.0-only — adapted from Cherry Studio's provider registry
+ * (packages/provider-registry/data/providers.json; website/apiUrl from
+ * metadata.website.official / .apiKey).
  */
 import type { ProviderType } from '../provider-types.ts';
 export interface ProviderPreset {
@@ -18,6 +20,10 @@ export interface ProviderPreset {
     baseURL: string;
     /** Preset group for the picker. */
     group: 'domestic' | 'international' | 'local' | 'custom';
+    /** Official website (Cherry registry metadata.website.official). */
+    website: string;
+    /** Where to apply for an API key, when the registry names one. */
+    apiUrl?: string;
 }
 export declare const PROVIDER_PRESETS: readonly ProviderPreset[];
 export declare const PROVIDER_PRESET_GROUPS: ReadonlyArray<{

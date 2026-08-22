@@ -64,6 +64,10 @@ interface SelectedIdentity extends ProviderIdentity {
         baseURL?: string;
         api?: string;
     };
+    website?: string;
+    helpLinks?: {
+        apiKeyUrl?: string;
+    };
 }
 export declare function identityOf(entry: DirectoryEntry): SelectedIdentity;
 /** Build the left-pane directory: the 61 presets joined with host rows, then
