@@ -101,7 +101,7 @@ Cherry 参照：`cherry-studio/src/renderer/pages/settings/ProviderSettings/Prov
 
 | # | Cherry 控件/能力 | Cherry 行为要点 | control-center 现状 | 需要的 DSH 能力 | 待办 | 完成标准 |
 |---|------------------|-----------------|---------------------|------------------|------|----------|
-| 2.2.1 | 供应商列表 | 左栏全量目录，**扁平列表**（2.0.8 无国内/国际分组头；仅同 preset 多部署折叠），品牌图标 + 名称 + 启用绿点，点击选中并持久化 `last_selected_provider_id` | ✅ `ProviderDirectorySection` 左栏：扁平 61 预设 + host 目录行，Cherry 生成的品牌图标（provider-icons-data）、绿点、muted 选中态、选中持久化 | `llm.providers()`（状态 join） | 后续：拖拽排序 / kebab 菜单 / 免费 徽章 | 点任一供应商，右栏切换并刷新后保持选中 ✅ |
+| 2.2.1 | 供应商列表 | 左栏全量目录，**扁平列表**（2.0.8 无国内/国际分组头；仅同 preset 多部署折叠），品牌图标 + 名称 + 启用绿点，点击选中并持久化 `last_selected_provider_id` | ✅ `ProviderDirectorySection` 左栏：扁平 61 预设 + host 目录行，Cherry 生成的品牌图标（provider-icons-data）、绿点、muted 选中态、免费 徽章、选中持久化 | `llm.providers()`（状态 join） | 后续：拖拽排序 | 点任一供应商，右栏切换并刷新后保持选中 ✅ |
 | 2.2.2 | 搜索 | ProviderListSearchField 过滤列表 | ✅ 搜索框内置放大镜与清除按钮，本地过滤（id/name） | 同上 | — | 输入关键字过滤列表 ✅ |
 | 2.2.3 | 添加自定义 | ProviderEditorDrawer：创建自定义供应商（名称/baseURL/API 类型） | ✅ 左栏底部「添加自定义」→ `CustomProviderCard`（声明到 llm-pi-ai） | 已有 llm-pi-ai 声明能力 | — | 自定义供应商出现在目录并可在右栏编辑 ✅ |
 | 2.2.4 | 右键菜单 | ProviderListItemWithContextMenu：编辑 / 删除 / 启用 | ✅ 行悬停 kebab → Menu（编辑 / 删除，删除为 danger 项）：删除按「凭据 → live profile → stash 拷贝」顺序移除且每步可重试，带确认对话框；未配置预设的删除项禁用 | 已有 | 后续：原生右键（contextmenu）触发 | 右键供应商出现编辑/删除菜单 ✅ |
@@ -113,8 +113,8 @@ Cherry 参照：`.../ProviderSettings/ProviderSetting.tsx`、`.../components/Pro
 
 | # | Cherry 能力 | Cherry 行为要点 | control-center 现状 | 待办 | 完成标准 |
 |---|-------------|-----------------|---------------------|------|----------|
-| 2.3.1 | ProviderHeader | 名称（可链官网）+ 启用 Switch + 闪电图标打开 API 选项抽屉 | ✅ 右栏 Header：品牌头像 + 名称 + route + 自定义/已禁用标签 + 启用 Switch；官网链接与 API 选项抽屉未做 | 后续：官网链接 / 抽屉化 | 右栏顶部显示名称/启用开关 ✅ |
-| 2.3.2 | 认证区 | API key 输入/保存、连接测试、"获取模型"引导动画 | ✅ 密钥行：眼睛显隐切换 + 「检测」按钮（真实 `llm.discoverModels` 探测，回显模型数+延迟）；baseURL 等宽输入 + 端点预览行；引导动画未做 | 后续：引导动画 / 密钥列表抽屉 | 填 key → 测试 → 真实 HTTP 探测并反馈 ✅ |
+| 2.3.1 | ProviderHeader | 名称（可链官网）+ 启用 Switch + 闪电图标打开 API 选项抽屉 | ✅ 右栏 Header：品牌头像 + 名称（61 预设全量携带 registry 官网地址，名称即外链）+ route + 自定义/已禁用标签 + 启用 Switch；API 选项抽屉未做 | 后续：抽屉化 | 右栏顶部显示名称(可链官网)/启用开关 ✅ |
+| 2.3.2 | 认证区 | API key 输入/保存、连接测试、"获取模型"引导动画 | ✅ 密钥行：眼睛显隐切换 + 「检测」按钮（真实 `llm.discoverModels` 探测，回显模型数+延迟）；baseURL 等宽输入 + 端点预览行；registry 有取键地址时密钥标签旁显示「获取 API Key」帮助链接；引导动画未做 | 后续：引导动画 / 密钥列表抽屉 | 填 key → 测试 → 真实 HTTP 探测并反馈 ✅ |
 | 2.3.3 | 模型列表 | 该供应商模型列表：启用/禁用、搜索、添加、从供应商拉取、默认标记、健康状态 | ✅ Cherry 式工具栏（标题+计数徽章+搜索切换+获取模型列表+加号）+ **家族分组折叠**（`openai/gpt-4o`→openai、`deepseek-v4-pro`→deepseek，未分组殿后，全局展开/折叠切换）；行 = 字母头像 + 无边框 ID 输入 + 折叠（显示名/容量在内）+ 减号删除；拉取候选多选采纳。健康检测对话框/默认标记/每行启停眼动未做 | 后续：健康检测 / 默认标记 / 行级启停 | 模型列表真实增删、可拉取、分组折叠 ✅ |
 
 ### 2.4 模型选择页 ModelSettings
