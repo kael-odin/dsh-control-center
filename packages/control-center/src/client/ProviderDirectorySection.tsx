@@ -215,152 +215,152 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
     <div className={styles['section']}>
       <p className={styles['intro']}>{t('directoryIntro')}</p>
       <div className={styles['split']}>
-      {/* Left pane: provider list */}
-      <aside className={styles['list']}>
-        <div className={styles['listHeader']}>
-          <input
-            className={styles['searchInput']}
-            type="text"
-            value={search}
-            placeholder={t('searchProviders')}
-            aria-label={t('searchProviders')}
-            onChange={(event) => { setSearch(event.target.value) }}
-          />
-        </div>
-        <div className={styles['listScroll']}>
-          {filtered.length === 0
-            ? <p className={styles['emptyList']}>{t('noMatchingProviders')}</p>
-            : groups.map(group => (
-              <section key={group.id} className={styles['group']}>
-                <h3 className={styles['groupTitle']}>{group.label}</h3>
-                <ul className={styles['groupRows']}>
-                  {group.entries.map(entry => {
-                    const configured = entry.row?.configured === true
-                    const active = entry.row?.entry.active === true
-                    const credentialConfigured = entry.row?.credential?.configured === true
-                    return (
-                      <li key={entry.provider}>
-                        <button
-                          type="button"
-                          className={`${styles['listItem']} ${entry.provider === effective?.provider ? styles['listItemSelected'] : ''}`}
-                          aria-pressed={entry.provider === effective?.provider}
-                          onClick={() => { select(entry.provider) }}
-                        >
-                          <span className={styles['listItemName']}>{entry.displayName}</span>
-                          {configured
-                            ? (
-                              <span
-                                className={`${styles['dot']} ${credentialConfigured ? styles['dotConfigured'] : styles['dotMissing']}`}
-                                role="img"
-                                aria-label={credentialConfigured ? t('credentialConfigured') : t('credentialMissing')}
-                                title={credentialConfigured ? t('credentialConfigured') : t('credentialMissing')}
-                              />
-                            )
-                            : active
-                              ? <span className={styles['dotActive']} role="img" aria-label={t('activeProvider')} title={t('activeProvider')} />
-                              : null}
-                        </button>
-                      </li>
-                    )
-                  })}
-                </ul>
-              </section>
-            ))}
-        </div>
-        <div className={styles['listFooter']}>
-          <button
-            type="button"
-            className={styles['addCustomButton']}
-            disabled={!state.writable}
-            onClick={() => {
-              setDeclaring(true)
-              setSavedTarget(undefined)
-            }}
-          >
-            {t('customAdd')}
-          </button>
-        </div>
-      </aside>
+        {/* Left pane: provider list */}
+        <aside className={styles['list']}>
+          <div className={styles['listHeader']}>
+            <input
+              className={styles['searchInput']}
+              type="text"
+              value={search}
+              placeholder={t('searchProviders')}
+              aria-label={t('searchProviders')}
+              onChange={(event) => { setSearch(event.target.value) }}
+            />
+          </div>
+          <div className={styles['listScroll']}>
+            {filtered.length === 0
+              ? <p className={styles['emptyList']}>{t('noMatchingProviders')}</p>
+              : groups.map(group => (
+                <section key={group.id} className={styles['group']}>
+                  <h3 className={styles['groupTitle']}>{group.label}</h3>
+                  <ul className={styles['groupRows']}>
+                    {group.entries.map(entry => {
+                      const configured = entry.row?.configured === true
+                      const active = entry.row?.entry.active === true
+                      const credentialConfigured = entry.row?.credential?.configured === true
+                      return (
+                        <li key={entry.provider}>
+                          <button
+                            type="button"
+                            className={`${styles['listItem']} ${entry.provider === effective?.provider ? styles['listItemSelected'] : ''}`}
+                            aria-pressed={entry.provider === effective?.provider}
+                            onClick={() => { select(entry.provider) }}
+                          >
+                            <span className={styles['listItemName']}>{entry.displayName}</span>
+                            {configured
+                              ? (
+                                <span
+                                  className={`${styles['dot']} ${credentialConfigured ? styles['dotConfigured'] : styles['dotMissing']}`}
+                                  role="img"
+                                  aria-label={credentialConfigured ? t('credentialConfigured') : t('credentialMissing')}
+                                  title={credentialConfigured ? t('credentialConfigured') : t('credentialMissing')}
+                                />
+                              )
+                              : active
+                                ? <span className={styles['dotActive']} role="img" aria-label={t('activeProvider')} title={t('activeProvider')} />
+                                : null}
+                          </button>
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </section>
+              ))}
+          </div>
+          <div className={styles['listFooter']}>
+            <button
+              type="button"
+              className={styles['addCustomButton']}
+              disabled={!state.writable}
+              onClick={() => {
+                setDeclaring(true)
+                setSavedTarget(undefined)
+              }}
+            >
+              {t('customAdd')}
+            </button>
+          </div>
+        </aside>
 
-      {/* Right pane: provider setting */}
-      <main className={styles['detail']}>
-        {declaring
-          ? (
-            <div className={styles['editorWrap']}>
-              <CustomProviderCard
-                taken={state.rows.map(row => row.entry.provider)}
-                protocols={protocols}
-                /* v8 ignore next -- the card only opens from a button that requires the namespace */
-                revision={state.namespaces.get(NS)?.revision ?? 0}
-                api={api}
-                t={t}
-                readOnly={!state.writable}
-                onClose={(changed) => {
-                  setDeclaring(false)
-                  if (changed) void controller.load()
-                }}
-              />
-            </div>
-          )
-          : effective === undefined || editTarget === undefined
+        {/* Right pane: provider setting */}
+        <main className={styles['detail']}>
+          {declaring
             ? (
-              <div className={styles['emptyDetail']}>
-                <p className={styles['emptyTitle']}>{t('selectProvider')}</p>
-                <p className={styles['emptyHint']}>{t('selectProviderHint')}</p>
+              <div className={styles['editorWrap']}>
+                <CustomProviderCard
+                  taken={state.rows.map(row => row.entry.provider)}
+                  protocols={protocols}
+                  /* v8 ignore next -- the card only opens from a button that requires the namespace */
+                  revision={state.namespaces.get(NS)?.revision ?? 0}
+                  api={api}
+                  t={t}
+                  readOnly={!state.writable}
+                  onClose={(changed) => {
+                    setDeclaring(false)
+                    if (changed) void controller.load()
+                  }}
+                />
               </div>
             )
-            : (
-              <div className={styles['detailScroll']}>
-                <div className={styles['detailContent']}>
-                  {savedTarget === undefined
-                    ? null
-                    : (
-                      <p className={styles['savedNotice']} role="status" aria-live="polite">
-                        {providerCopy(t('savedProvider'), savedTarget)}
-                      </p>
-                    )}
-                  <header className={styles['detailHeader']}>
-                    <div className={styles['detailHeaderMain']}>
-                      <span className={styles['detailTitle']}>{effective.displayName}</span>
-                      {effective.provider !== effective.displayName
-                        ? <span className={styles['detailRoute']}>{effective.provider}</span>
-                        : null}
-                      {editTarget.declared === true ? <span className={styles['customTag']}>{t('customTag')}</span> : null}
-                      {effective.row?.entry.active === true
-                        ? <span className={styles['activeTag']}>{t('activeProvider')}</span>
-                        : null}
-                    </div>
-                  </header>
-                  {protocolLimitedType(effective.preset) === 'iam'
-                    ? <p className={styles['notice']}>{t('presetIamNote')}</p>
-                    : protocolLimitedType(effective.preset) === 'protocol'
-                      ? <p className={styles['notice']}>{t('presetProtocolNote')}</p>
-                      : null}
-                  {namespace === undefined
-                    ? <p className={styles['error']}>{`${effective.displayName}: ${NS} settings are unavailable`}</p>
-                    : (
-                      <div className={styles['editorWrap']}>
-                        <ProviderEditor
-                          key={editTarget.provider}
-                          provider={editTarget.provider}
-                          displayName={editTarget.displayName}
-                          hideTitle
-                          {...editTarget.declared === true ? { declared: true } : {}}
-                          {...editTarget.defaults === undefined ? {} : { defaults: editTarget.defaults }}
-                          namespace={namespace}
-                          settingsPath={editTarget.settingsPath}
-                          api={api}
-                          t={t}
-                          schema={schema}
-                          readOnly={!state.writable}
-                          onClose={(changed) => { if (changed) announceSaved(editTarget) }}
-                        />
-                      </div>
-                    )}
+            : effective === undefined || editTarget === undefined
+              ? (
+                <div className={styles['emptyDetail']}>
+                  <p className={styles['emptyTitle']}>{t('selectProvider')}</p>
+                  <p className={styles['emptyHint']}>{t('selectProviderHint')}</p>
                 </div>
-              </div>
-            )}
-      </main>
+              )
+              : (
+                <div className={styles['detailScroll']}>
+                  <div className={styles['detailContent']}>
+                    {savedTarget === undefined
+                      ? null
+                      : (
+                        <p className={styles['savedNotice']} role="status" aria-live="polite">
+                          {providerCopy(t('savedProvider'), savedTarget)}
+                        </p>
+                      )}
+                    <header className={styles['detailHeader']}>
+                      <div className={styles['detailHeaderMain']}>
+                        <span className={styles['detailTitle']}>{effective.displayName}</span>
+                        {effective.provider !== effective.displayName
+                          ? <span className={styles['detailRoute']}>{effective.provider}</span>
+                          : null}
+                        {editTarget.declared === true ? <span className={styles['customTag']}>{t('customTag')}</span> : null}
+                        {effective.row?.entry.active === true
+                          ? <span className={styles['activeTag']}>{t('activeProvider')}</span>
+                          : null}
+                      </div>
+                    </header>
+                    {protocolLimitedType(effective.preset) === 'iam'
+                      ? <p className={styles['notice']}>{t('presetIamNote')}</p>
+                      : protocolLimitedType(effective.preset) === 'protocol'
+                        ? <p className={styles['notice']}>{t('presetProtocolNote')}</p>
+                        : null}
+                    {namespace === undefined
+                      ? <p className={styles['error']}>{`${effective.displayName}: ${NS} settings are unavailable`}</p>
+                      : (
+                        <div className={styles['editorWrap']}>
+                          <ProviderEditor
+                            key={editTarget.provider}
+                            provider={editTarget.provider}
+                            displayName={editTarget.displayName}
+                            hideTitle
+                            {...editTarget.declared === true ? { declared: true } : {}}
+                            {...editTarget.defaults === undefined ? {} : { defaults: editTarget.defaults }}
+                            namespace={namespace}
+                            settingsPath={editTarget.settingsPath}
+                            api={api}
+                            t={t}
+                            schema={schema}
+                            readOnly={!state.writable}
+                            onClose={(changed) => { if (changed) announceSaved(editTarget) }}
+                          />
+                        </div>
+                      )}
+                  </div>
+                </div>
+              )}
+        </main>
       </div>
     </div>
   )
