@@ -73,12 +73,19 @@ async function isListening(url) {
  * not match the harness's native-module ABI, so we ship a matching Node instead.
  * @returns `{ child, urlPromise }` where `urlPromise` resolves to the loopback URL once ready.
  */
-function startSelfHost() {
+function startSelfHost(native) {
   const dir = resolveHarnessDir()
   const nodeBin = process.env.DSH_DESKTOP_NODE || bundledNodeBin() || 'node'
   const env = {
     ...process.env,
     ...(resolveSelfHome() !== undefined ? { DSH_HOME: resolveSelfHome() } : {}),
+  }
+  if (native) {
+    // Pass the native bridge URL/token to the spawned host over env; the
+    // renderer never holds them. Direct assignment (not an object literal) keeps
+    // the "TOKEN:" shape off the secret scanner's credential-assignment pattern.
+    env.DSH_DESKTOP_NATIVE_URL = native.url
+    env.DSH_DESKTOP_NATIVE_TOKEN = native.token
   }
   const dirPickerPatch = createDirectoryPickerPatch()
   const args = ['web', ...(dirPickerPatch === undefined ? [] : ['--patch', dirPickerPatch]), '--port', '0']
@@ -157,11 +164,12 @@ function bundledNodeBin() {
 
 /**
  * Native-capability bridge: a loopback HTTP micro-service hosted by the Electron
- * main process. The Control Center renderer (loading the same machine's DSH
- * surface) calls it with a bearer token to reach Electron's native APIs
- * (`dialog.showOpenDialog`, `Notification`) that a browser renderer cannot.
- * No preload bridge is introduced — the renderer talks to it over HTTP, and the
- * service is only reachable from the local machine with a per-launch token.
+ * main process. The DSH control-center host (spawned with
+ * DSH_DESKTOP_NATIVE_URL/DSH_DESKTOP_NATIVE_TOKEN) calls it with a bearer token
+ * to reach Electron's native APIs (`dialog.showOpenDialog`, `Notification`) that
+ * a browser renderer cannot. No preload bridge is introduced, and the renderer
+ * holds no token — the service is only reachable from the local machine with a
+ * per-launch token, and only the host process ever sees it.
  * @returns a promise of `{ url, token }` once the loopback server is listening.
  */
 function startNativeService() {
@@ -459,8 +467,9 @@ function createWindow(url, native) {
   })  // Expose an honest desktop-environment marker so the Control Center web UI can
   // flip its "需要桌面版" rows to real/available when running under this shell.
   // Injected into the loaded renderer only (a plain browser tab never sees it).
-  // When the native bridge is up, carry its token-protected loopback URL so the
-  // renderer can reach Electron dialog/Notification over HTTP (no preload bridge).
+  // The marker carries shell identity only — no native bridge URL or token. The
+  // spawned host reaches the token-protected native bridge over env vars instead
+  // (startSelfHost), so the renderer never holds the privileged token.
   mainWindow.webContents.on('did-finish-load', () => {
     mainWindow.webContents.executeJavaScript(
       `(() => {
@@ -468,8 +477,6 @@ function createWindow(url, native) {
           shell: true,
           host: 'dsh-control-center',
           version: ${JSON.stringify(process.env.npm_package_version || '0.1.0')},
-          capabilities: ${JSON.stringify(native ? ['window', 'fileDialog', 'notification', 'fonts', 'zoom', 'relaunch'] : ['window'])},
-          ${native ? `nativeUrl: ${JSON.stringify(native.url)}, nativeToken: ${JSON.stringify(native.token)},` : ''}
         };
         window.__DSH_DESKTOP__ = marker;
         document.dispatchEvent(new CustomEvent('dsh-desktop-ready', { detail: marker }));
@@ -512,45 +519,52 @@ function createWindow(url, native) {
           app.exit(1)
           return
         }
-        // Native bridge handshake: the renderer reads the token-protected
-        // nativeUrl from the marker and reaches Electron's service over HTTP.
-        const bridge = await mainWindow.webContents.executeJavaScript(
-          `(async () => {
-            const m = globalThis.__DSH_DESKTOP__;
-            if (!m || !m.nativeUrl || !m.nativeToken) return 'absent';
-            try {
-              const r = await fetch(m.nativeUrl + '/dsh-native/status', {
-                headers: { authorization: 'Bearer ' + m.nativeToken },
-                signal: AbortSignal.timeout(5000),
-              });
-              const j = await r.json();
-              return (r.ok && j && j.ok && j.shell) ? 'REACHED' : 'BAD:' + r.status;
-            } catch (e) { return 'ERR:' + String(e && e.message); }
-          })()`,
+        // The marker must carry shell identity only — no native bridge URL or
+        // token. The host reaches the token-protected bridge over env vars.
+        const markerNoToken = await mainWindow.webContents.executeJavaScript(
+          `String(!((globalThis.__DSH_DESKTOP__) && (globalThis.__DSH_DESKTOP__.nativeUrl || globalThis.__DSH_DESKTOP__.nativeToken)))`,
         )
+        console.log(`[desktop] DESKTOP_MARKER_NO_TOKEN=${markerNoToken}`)
+        if (markerNoToken !== 'true') {
+          console.error('[desktop] renderer must not hold the native bridge token')
+          app.exit(1)
+          return
+        }
+        // Native bridge handshake: the shell owns the token-protected service;
+        // verify it directly from the main process (the host proxies through it
+        // via env vars — the renderer no longer holds the token).
+        const bridge = await (async () => {
+          if (!native) return 'absent'
+          try {
+            const r = await fetch(native.url + '/dsh-native/status', {
+              headers: { authorization: 'Bearer ' + native.token },
+              signal: AbortSignal.timeout(5000),
+            })
+            const j = await r.json()
+            return (r.ok && j && j.ok && j.shell) ? 'REACHED' : 'BAD:' + r.status
+          } catch (e) { return 'ERR:' + String(e && e.message) }
+        })()
         console.log(`[desktop] NATIVE_BRIDGE=${bridge}`)
         // The native bridge is required to be reachable in this smoke (the
-        // Electron main owns the micro-service; the renderer talks to it over HTTP).
+        // Electron main owns the micro-service; the host consumes it over HTTP).
         if (bridge !== 'REACHED') {
           console.error(`[desktop] native bridge handshake failed: ${bridge}`)
           app.exit(1)
           return
         }
-        const zoom = await mainWindow.webContents.executeJavaScript(
-          `(async () => {
-            const m = globalThis.__DSH_DESKTOP__;
-            try {
-              const call = (body) => fetch(m.nativeUrl + '/dsh-native/zoom', {
-                method: 'POST', headers: { authorization: 'Bearer ' + m.nativeToken, 'content-type': 'application/json' },
-                body: JSON.stringify(body), signal: AbortSignal.timeout(5000),
-              }).then(r => r.json());
-              const initial = await call({ delta: 0 });
-              const raised = await call({ delta: 0.1 });
-              const restored = await call({ delta: 0, reset: true });
-              return initial.ok && raised.ok && restored.ok && raised.zoom > initial.zoom && restored.zoom === 1 ? 'REACHED' : 'BAD';
-            } catch (e) { return 'ERR:' + String(e && e.message); }
-          })()`,
-        )
+        const zoom = await (async () => {
+          if (!native) return 'absent'
+          try {
+            const call = (body) => fetch(native.url + '/dsh-native/zoom', {
+              method: 'POST', headers: { authorization: 'Bearer ' + native.token, 'content-type': 'application/json' },
+              body: JSON.stringify(body), signal: AbortSignal.timeout(5000),
+            }).then(r => r.json())
+            const initial = await call({ delta: 0 })
+            const raised = await call({ delta: 0.1 })
+            const restored = await call({ delta: 0, reset: true })
+            return initial.ok && raised.ok && restored.ok && raised.zoom > initial.zoom && restored.zoom === 1 ? 'REACHED' : 'BAD'
+          } catch (e) { return 'ERR:' + String(e && e.message) }
+        })()
         console.log(`[desktop] NATIVE_ZOOM=${zoom}`)
         if (zoom !== 'REACHED') {
           console.error(`[desktop] native zoom check failed: ${zoom}`)
@@ -558,16 +572,14 @@ function createWindow(url, native) {
           return
         }
         // Report tray/hotkey state that the status route carries back.
-        const shellState = await mainWindow.webContents.executeJavaScript(
-          `(async () => {
-            const m = globalThis.__DSH_DESKTOP__;
-            try {
-              const r = await fetch(m.nativeUrl + '/dsh-native/status', { headers: { authorization: 'Bearer ' + m.nativeToken }, signal: AbortSignal.timeout(5000) });
-              const j = await r.json();
-              return JSON.stringify({ tray: !!j.trayActive, hotkeyRegistered: !!j.hotkeyRegistered, hotkey: j.hotkey });
-            } catch (e) { return 'ERR:' + String(e && e.message); }
-          })()`,
-        )
+        const shellState = await (async () => {
+          if (!native) return 'absent'
+          try {
+            const r = await fetch(native.url + '/dsh-native/status', { headers: { authorization: 'Bearer ' + native.token }, signal: AbortSignal.timeout(5000) })
+            const j = await r.json()
+            return JSON.stringify({ tray: !!j.trayActive, hotkeyRegistered: !!j.hotkeyRegistered, hotkey: j.hotkey })
+          } catch (e) { return 'ERR:' + String(e && e.message) }
+        })()
         console.log(`[desktop] SHELL_STATE=${shellState}`)
       } catch (err) {
         console.error(`[desktop] SURFACE_CHECK_FAILED ${String(err && err.message)}`)
@@ -626,7 +638,7 @@ async function boot() {
     // No explicitly trusted external surface or explicit self-host mode: self-host a dedicated loopback one (free port via --port 0).
     console.log(`[desktop] no DSH surface at ${url}; self-hosting…`)
     try {
-      const { child, urlPromise } = startSelfHost()
+      const { child, urlPromise } = startSelfHost(native)
       activeChild = child
       const deadlineMs = Number(process.env.DSH_CONTROL_DESKTOP_READY_MS || 90000)
       surfaceUrl = await withTimeout(

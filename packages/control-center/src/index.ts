@@ -31,6 +31,8 @@ import tasksRemote from './tasks-remote-client.ts'
 import { LocalModelsService } from './local-models.ts'
 import { UpdateService } from './update.ts'
 import { localModelsRemote, updateRemote } from './local-models-remote-client.ts'
+import { DesktopService } from './desktop.ts'
+import desktopRemote from './desktop-remote-client.ts'
 
 const ONBOARDING_SETTINGS_NAMESPACE = 'ui-onboarding'
 const NOTIFICATION_SETTINGS_NAMESPACE = 'control-center-notifications'
@@ -96,6 +98,7 @@ export function apply(ctx: Context): void {
   new TasksService(ctx)
   new LocalModelsService(ctx)
   new UpdateService(ctx)
+  new DesktopService(ctx)
   const contributions: readonly TypertContribution[] = [
     {
       package: '@dsh-control-center/control-center',
@@ -116,7 +119,8 @@ export function apply(ctx: Context): void {
         ...systemRemote.descriptors,
         ...tasksRemote.descriptors,
         ...localModelsRemote.descriptors,
-        ...updateRemote.descriptors
+        ...updateRemote.descriptors,
+        ...desktopRemote.descriptors
       ]
     }
   ]
@@ -163,5 +167,7 @@ export type * from './tasks-types.ts'
 export { LocalModelsService } from './local-models.ts'
 export { UpdateService } from './update.ts'
 export type * from './local-models-types.ts'
+export { DesktopService } from './desktop.ts'
+export type * from './desktop-types.ts'
 export { assertSecretSchemaSafe, auditSecretSchema } from './secret-schema.ts'
 export type { SecretSchemaViolation } from './secret-schema.ts'

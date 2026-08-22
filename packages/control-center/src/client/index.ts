@@ -58,6 +58,8 @@ import { TasksSection } from './TasksSection.tsx'
 import type { TasksSectionInjected } from './TasksSection.tsx'
 import type {} from '../local-models-types.ts'
 import { localModelsRemote, updateRemote } from '../local-models-remote-client.ts'
+import type {} from '../desktop-types.ts'
+import desktopRemote from '../desktop-remote-client.ts'
 import { LocalModelsSection } from './LocalModelsSection.tsx'
 import { ApiGatewaySection } from './ApiGatewaySection.tsx'
 import type { LocalModelsSectionInjected } from './LocalModelsSection.tsx'
@@ -182,6 +184,7 @@ export function apply(ctx: ClientContext): void {
   let tasks: NonNullable<typeof remote.controlCenterTasks> | undefined
   let localModels: NonNullable<typeof remote.controlCenterLocalModels> | undefined
   let update: NonNullable<typeof remote.controlCenterUpdate> | undefined
+  let desktop: NonNullable<typeof remote.controlCenterDesktop> | undefined
   const localModelsReadySource: HostObservable<boolean> = {
     getSnapshot: () => localModels !== undefined,
     subscribe: (listener) => {
@@ -198,6 +201,17 @@ export function apply(ctx: ClientContext): void {
     subscribe: (listener) => {
       const timer = window.setInterval(() => {
         if (update === undefined) return
+        window.clearInterval(timer)
+        listener()
+      }, 25)
+      return () => { window.clearInterval(timer) }
+    },
+  }
+  const desktopReadySource: HostObservable<boolean> = {
+    getSnapshot: () => desktop !== undefined,
+    subscribe: (listener) => {
+      const timer = window.setInterval(() => {
+        if (desktop === undefined) return
         window.clearInterval(timer)
         listener()
       }, 25)
@@ -271,7 +285,8 @@ export function apply(ctx: ClientContext): void {
         ...systemRemote.descriptors,
         ...tasksRemote.descriptors,
         ...localModelsRemote.descriptors,
-        ...updateRemote.descriptors
+        ...updateRemote.descriptors,
+        ...desktopRemote.descriptors
       ],
     }
     const dispose = await remote.$mount(controlCenterRemote)
@@ -289,6 +304,7 @@ export function apply(ctx: ClientContext): void {
     tasks = ctx.get('remote.controlCenterTasks') as NonNullable<typeof remote.controlCenterTasks>
     localModels = ctx.get('remote.controlCenterLocalModels') as NonNullable<typeof remote.controlCenterLocalModels>
     update = ctx.get('remote.controlCenterUpdate') as NonNullable<typeof remote.controlCenterUpdate>
+    desktop = ctx.get('remote.controlCenterDesktop') as NonNullable<typeof remote.controlCenterDesktop>
     return dispose
   }, 'control-center: control-center Remote namespaces')
   ctx.effect(() => ctx.locale.register(SHELL_NS, { zh: shellZh, en: shellEn }), 'control-center: shell dictionaries')
@@ -319,6 +335,7 @@ export function apply(ctx: ClientContext): void {
   const notificationRuntime = new ConversationNotificationRuntime(
     connection.api,
     ctx.sessions.list as unknown as HostObservable<SessionListState>,
+    () => desktop,
   )
   ctx.effect(() => notificationRuntime.start(), 'control-center: conversation notifications')
 
@@ -499,6 +516,10 @@ export function apply(ctx: ClientContext): void {
             if (knowledge === undefined) throw new Error('knowledge Remote namespace is not mounted')
             return knowledge
           },
+          getDesktop: () => {
+            if (desktop === undefined) throw new Error('desktop Remote namespace is not mounted')
+            return desktop
+          },
           hooks: { knowledgeReady: knowledgeReadySource },
           listModels: async () => {
             const result = await connection.api.llm.models({})
@@ -635,7 +656,15 @@ export function apply(ctx: ClientContext): void {
     id: 'appearance',
     order: 21,
     label: () => shellT('appearanceNav'),
-    inject: (): AppearanceSectionInjected => ({ api: connection.api, locale: ctx.locale }),
+    inject: (): AppearanceSectionInjected => ({
+      api: connection.api,
+      locale: ctx.locale,
+      getDesktop: () => {
+        if (desktop === undefined) throw new Error('desktop Remote namespace is not mounted')
+        return desktop
+      },
+      hooks: { desktopReady: desktopReadySource },
+    }),
   }, AppearanceSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',

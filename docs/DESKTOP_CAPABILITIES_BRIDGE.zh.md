@@ -1,9 +1,9 @@
-# DSH Control Center — 桌面原生能力桥（main 原生微服务）
+# DSH Control Center — 桌面原生能力桥（main 原生微服务 + host 服务面）
 
-> 目标：把 Cherry 桌面级的原生能力（文件/目录对话框、系统通知、托盘、全局快捷键、截图、OCR/PDF
-> 本地模型）真实暴露给运行在 loopback 页面里的 Control Center web UI，让"桌面（已就绪）"过渡为真实接线。
+> 目标：把 Cherry 桌面级的原生能力（文件/目录对话框、系统通知、托盘、全局快捷键、缩放、字体）真实暴露给
+> Control Center web UI，让"桌面（已就绪）"过渡为真实接线 —— 并且**不把原生 token 放进 renderer**。
 
-## 一、方案决策（2026-08 已拍板：main 原生微服务桥）
+## 一、方案决策（2026-08 已拍板：main 原生微服务桥 + host `controlCenterDesktop` 服务面）
 
 原生能力（`dialog`、`Notification`、托盘）只存在于 **Electron main 进程**。renderer（DSH surface 页面）
 是 sandbox、无 preload bridge、也不向 renderer 暴露 Electron API。
@@ -12,9 +12,11 @@
 1. **host 内嵌 Electron main**（DSH Host Cordis service 方式）——经实测在当前工具链受阻：
    harness workspace 裸依赖在 Electron 内置 node 的 resolver 下 `Cannot find package`（`dsh-llm`/
    `directory-picker-native`），而 system node + tsx 能解析但那在**子进程**拿不到 Electron API。
-2. **main 原生微服务桥（已采用）**——Electron main 起一个 **loopback HTTP 微服务**（绑定 127.0.0.1
-   高端口 + 每启动随机 bearer token），renderer 用 token 鉴权的同机 `fetch` 调它，main 内直接调
-   `electron.dialog`/`Notification`。**不引入 preload bridge**（仍是 HTTP），可立即验证。
+2. **main 原生微服务桥 + host 服务面（已采用）**——Electron main 起一个 **loopback HTTP 微服务**（绑定
+   127.0.0.1 高端口 + 每启动随机 bearer token）；DSH host（被 Electron main spawn 的子进程）通过环境变量
+   `DSH_DESKTOP_NATIVE_URL`/`DSH_DESKTOP_NATIVE_TOKEN` 持有访问权，包一层 Cordis 服务
+   `controlCenterDesktop`，经既有的 `desktop-remote-client.ts` + STRICT_JSON RPC 线暴露给同一套
+   Control Center UI。**renderer 不持有任何 token**（标记只含 `{ shell, host, version }`）。
 
 ## 二、已实现（2026-08）
 
@@ -22,45 +24,59 @@
 
 ```
 Electron main (apps/desktop/bin/main.mjs)
-  └─ startNativeService() → 127.0.0.1:<random> HTTP micro-service (bearer token + CORS)
-       ├─ GET  /dsh-native/status       → { ok, shell, electron, node }
-       ├─ POST /dsh-native/fileDialog   → electron.dialog.showOpenDialog → { canceled, filePaths }
-       ├─ POST /dsh-native/notify       → new Notification(...).show() → { ok, supported }
-       └─ token 校验(非 OPTIONS) + CORS 头(预检先于鉴权放行)
-                  │
+  ├─ startNativeService() → 127.0.0.1:<random> HTTP micro-service (bearer token + CORS)
+  │     GET  /dsh-native/status      → { ok, shell, electron, node, trayActive, hotkey, hotkeyRegistered }
+  │     POST /dsh-native/fonts       → { ok, fonts[] }
+  │     POST /dsh-native/menu        → { ok, action }
+  │     POST /dsh-native/zoom        → { ok, zoom } (delta / reset)
+  │     POST /dsh-native/relaunch    → { ok }
+  │     POST /dsh-native/fileDialog  → { canceled, filePaths }
+  │     POST /dsh-native/readFile    → { name, contentBase64, mediaType }
+  │     POST /dsh-native/notify      → { ok, supported }
+  └─ startSelfHost(native)  → 子进程 env 注入 DSH_DESKTOP_NATIVE_URL / DSH_DESKTOP_NATIVE_TOKEN
+            │  (startNativeService 先于 startSelfHost 就绪，端口已知才能注入)
+            ▼
+DSH host (control-center bundle)
+  └─ DesktopService (packages/control-center/src/desktop.ts, 服务名 controlCenterDesktop)
+       ├─ 构造时读 env；bridgeFetch<T>(path, init) 私有代理 → 带 Bearer 的同机 fetch
+       ├─ check()/fonts()/menu()/adjustZoom()/relaunch()/pickFile()/readFile()/notify()
+       └─ bindTypertRemote(this, 'controlCenterDesktop') → desktop-remote-client.ts descriptors
+            │
+            ▼
 renderer (DSH surface 页面)
-  └─ window.__DSH_DESKTOP__ = { shell, host, version, capabilities:['window','fileDialog','notification'],
-                               nativeUrl, nativeToken }
-       └─ desktopNativeApi(packages/control-center/src/client/desktop-capabilities.ts):
-            status() / pickFile() / notify() 均为带 Bearer 的 fetch 封装
+  ├─ window.__DSH_DESKTOP__ = { shell: true, host, version }   ← 无 nativeUrl / nativeToken / capabilities
+  ├─ remote.controlCenterDesktop（RPC 线）→ AppearanceSection / KnowledgeWorkspace / notification-runtime
+  └─ desktop.check() 是能力真值来源；web profile 下服务诚实返回 { supported:false } → 行显"需要桌面版"
 ```
 
 端到端已验证（三种冒烟 dev-connect / dev-selfhost / packed exe 均输出 `NATIVE_BRIDGE=REACHED`）：
 
 - `native service listening on 127.0.0.1:<port>`（Electron main 起服务）
-- `DESKTOP_MARKER=true`（注入 nativeUrl/nativeToken + capabilities 扩充）
-- renderer 用 token `fetch(/dsh-native/status)` → `{ ok, shell: true, electron }` → `NATIVE_BRIDGE=REACHED`
+- `DESKTOP_MARKER=true` + `DESKTOP_MARKER_NO_TOKEN=true`（标记只含 shell 身份，renderer 无 token）
+- main 进程直接 `fetch(/dsh-native/status)`（带 token）→ `NATIVE_BRIDGE=REACHED`；host 侧
+  `desktop.check()` → `{ supported:true, electron }`，web profile（无 env）→ `{ supported:false }`。
 
 ## 三、分阶段实施
 
 | 阶段 | 能力 | 状态 |
 |---|---|---|
-| B0 | main 原生微服务桥（status + token + CORS） | **已完成**：三种冒烟握手 REACHED |
-| B1 | 文件对话框真实接线 | 路由就绪（`dialog.showOpenDialog`）；交互弹出待 live 人工验证 + 知识库接入 |
-| B2 | 系统通知真实接线 | 路由就绪（`Notification`）；通知设置页接入待接 |
-| B3 | 托盘 + 全局快捷键 | 微服务加路由 + 托盘/快捷键注册 |
-| B4 | 截图 / 划词；OCR/PDF 本地模型 | 后续 |
+| B0 | main 原生微服务桥（status + token + CORS）+ host 服务面 + 能力探测 | **已完成**：三种冒烟握手 REACHED，renderer 无 token |
+| B1 | 文件对话框真实接线 | **已完成**：`desktop.pickFile`/`readFile` → 知识库"添加文件"走原生对话框，失败回退 file input |
+| B2 | 系统通知真实接线 | **已完成**：`desktop.notify` → Electron Notification；对话完成通知 runtime 消费 |
+| B3 | 托盘 + 全局快捷键 | 微服务路由 + 托盘/快捷键注册（status 上报，`check()` 可见） |
+| B4 | 缩放 / 字体 / 菜单 / 重启 | **已完成**：`desktop.adjustZoom`/`fonts`/`menu`/`relaunch` → 外观页缩放持久化、字体列表、应用菜单 |
+| B5 | 截图 / 划词；OCR/PDF 本地模型 | 后续 |
 
-每个能力上线前：live 验证 + `pnpm run check` + 打包 E2E；沿用"无 preload bridge、UI 诚实标注
-（`capabilities` 列表只列真实接线的能力，`desktopNativeApi` 只有在 bridge up 且带 token 时才可用）"。
+每个能力上线前：live 验证 + `pnpm run check` + 打包 E2E；UI 诚实标注（`desktop.check()` 只报真实接线的
+能力；bridge 缺席时 `{supported:false}`，绝不静默假装）。
 
 ## 四、风险与边界
 
 - **安全**：微服务 token 每次启动随机、只监听 127.0.0.1、CORS 预检先放行但真实请求必须带 `Bearer`；
-  `capabilities` 只列真实接线的能力，绝不静默假装。
+  **token 只在 Electron main 与 host 子进程之间流转**（env 注入），renderer 拿不到 `readFile` 可达的凭证。
 - **交互无法无头断言**：`dialog.showOpenDialog` 会弹 GUI 阻塞、`Notification` 无头不弹，因此 B1/B2 的
-  "真弹出"验证放在 live 人工 / 后续交互 E2E；自动化冒烟覆盖到 **握手 REACHED**（renderer 真实触达
-  Electron main 服务）。
+  "真弹出"验证放在 live 人工 / 后续交互 E2E；自动化冒烟覆盖到 **握手 REACHED**（main 进程真实触达
+  Electron 服务）。
 - **打包**：`packed exe` 冒烟同样 REACHED，证明打包产物内的微服务与握手可用。
 
 ## 六、发行状态与物化瓶颈（2026-08）

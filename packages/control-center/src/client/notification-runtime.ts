@@ -1,9 +1,12 @@
 /** Deliver Cherry-compatible conversation-complete notifications from DSH session state. */
 import type { IApiClient } from '@deepseek-ai/dsh-client-connection/client'
 import type { SessionListState } from '@deepseek-ai/dsh-client-runtime/client'
-import { desktopNativeApi, hasNativeBridge } from './desktop-capabilities.ts'
+import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
+import type {} from '../desktop-types.ts'
 
 export const NOTIFICATION_SETTINGS_NAMESPACE = 'control-center-notifications'
+
+export type DesktopRemote = NonNullable<ClientRemote['controlCenterDesktop']>
 
 interface SnapshotSource<T> {
   getSnapshot(): T
@@ -14,11 +17,20 @@ function browserCanNotify(): boolean {
   return typeof Notification !== 'undefined' && Notification.permission === 'granted'
 }
 
-async function notifyConversationComplete(title: string): Promise<void> {
+/**
+ * Deliver via the desktop service (Electron Notification, when the shell bridge
+ * is reachable); fall back to the browser Notification API otherwise.
+ */
+async function notifyConversationComplete(getDesktop: () => DesktopRemote | undefined, title: string): Promise<void> {
   const body = title.trim() === '' ? '对话已完成' : `${title} 已完成`
-  if (hasNativeBridge()) {
-    await desktopNativeApi.notify('DSH Control Center', body)
-    return
+  const desktop = getDesktop()
+  if (desktop !== undefined) {
+    try {
+      const result = await desktop.notify('DSH Control Center', body)
+      if (result.ok && result.value.ok) return
+    } catch {
+      // Fall through to the browser Notification below.
+    }
   }
   if (browserCanNotify()) new Notification('DSH Control Center', { body })
 }
@@ -36,6 +48,7 @@ export class ConversationNotificationRuntime {
   constructor(
     private readonly api: IApiClient,
     private readonly sessions: SnapshotSource<SessionListState>,
+    private readonly getDesktop: () => DesktopRemote | undefined,
   ) {}
 
   async refreshPreferences(): Promise<void> {
@@ -66,7 +79,7 @@ export class ConversationNotificationRuntime {
       const key = String(id)
       next.set(key, row.running)
       if (this.running.get(key) === true && !row.running && this.assistantEnabled && !document.hasFocus()) {
-        void notifyConversationComplete(row.displayTitle)
+        void notifyConversationComplete(this.getDesktop, row.displayTitle)
       }
     }
     this.running = next

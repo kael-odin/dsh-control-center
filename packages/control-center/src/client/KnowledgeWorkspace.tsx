@@ -19,10 +19,11 @@ import {
   IconMoreHorizontal, IconPlus, IconRefreshCw, IconSlidersHorizontal, IconStickyNote, IconZap,
 } from './cherry-icons.tsx'
 import { ConfirmDialog, HelpTooltip, PanelShell, Switch, useCopy } from './panel-ui.tsx'
-import { hasNativeBridge, desktopNativeApi } from './desktop-capabilities.ts'
+import type {} from '../desktop-types.ts'
 
 export interface KnowledgeWorkspaceInjected {
   getKnowledge: () => NonNullable<ClientRemote['controlCenterKnowledge']>
+  getDesktop: () => NonNullable<ClientRemote['controlCenterDesktop']>
   hooks: { knowledgeReady: HostObservable<boolean> }
   listModels: () => Promise<readonly ModelProviderGroup[]>
 }
@@ -95,7 +96,7 @@ async function pickDirectoryFiles(): Promise<DirectoryFile[] | null> {
 }
 
 /** Full Knowledge Base workspace over the real Control Center knowledge service. */
-export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels, close }: KnowledgeWorkspaceProps) {
+export function KnowledgeWorkspace({ getKnowledge, getDesktop, useKnowledgeReady, listModels, close }: KnowledgeWorkspaceProps) {
   const knowledgeReady = useKnowledgeReady(value => value)
   const knowledge = knowledgeReady ? getKnowledge() : undefined
   const [bases, setBases] = useState<KnowledgeBaseView[]>([])
@@ -349,26 +350,29 @@ export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels
     setAddMenuOpen(false)
     if (type === 'file') {
       setAddDialog('file')
-      if (hasNativeBridge()) {
-        // Native dialog + bridge read: pick local file(s) via Electron, read the
-        // bytes through the bridge, then feed them into the existing addFile().
-        void (async () => {
-          const picked = await desktopNativeApi.pickFile(['openFile', 'multiSelections'])
+      void (async () => {
+        // Native dialog + bridge read through the desktop service; fall back to
+        // the browser picker when the service is unmounted or the bridge is
+        // unreachable (web profile / desktop shell without a live bridge).
+        try {
+          const picked = await getDesktop().pickFile(['openFile', 'multiSelections'])
+          if (!picked.ok || !picked.value.ok) throw new Error('desktop native file pick unavailable')
+          if (picked.value.canceled) { setAddDialog(null); return }
           setAddDialog(null)
-          if (!picked.ok || picked.canceled || !picked.filePaths) return
-          for (const path of picked.filePaths) {
-            const read = await desktopNativeApi.readFile(path)
-            if (!read.ok || read.contentBase64 === undefined) continue
+          for (const path of picked.value.filePaths ?? []) {
+            const read = await getDesktop().readFile(path)
+            if (!read.ok || !read.value.ok || read.value.contentBase64 === undefined) continue
             try {
-              const bytes = Uint8Array.from(atob(read.contentBase64), c => c.charCodeAt(0))
-              const file = new File([bytes], read.name ?? 'file', { type: read.mediaType ?? 'text/plain' })
+              const bytes = Uint8Array.from(atob(read.value.contentBase64), c => c.charCodeAt(0))
+              const file = new File([bytes], read.value.name ?? 'file', { type: read.value.mediaType ?? 'text/plain' })
               void addFile(file)
             } catch { /* skip unreadable */ }
           }
-        })()
-        return
-      }
-      fileRef.current?.click()
+        } catch {
+          setAddDialog(null)
+          fileRef.current?.click()
+        }
+      })()
       return
     }
     if (type === 'directory') {

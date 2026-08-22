@@ -52,7 +52,7 @@ describe('ConversationNotificationRuntime', () => {
     }
     vi.stubGlobal('Notification', FakeNotification)
     const sessions = source(state(true))
-    const runtime = new ConversationNotificationRuntime(api(true), sessions)
+    const runtime = new ConversationNotificationRuntime(api(true), sessions, () => undefined)
     const stop = runtime.start()
     await runtime.refreshPreferences()
 
@@ -67,7 +67,7 @@ describe('ConversationNotificationRuntime', () => {
     Object.assign(notification, { permission: 'granted' })
     vi.stubGlobal('Notification', notification)
     const sessions = source(state(true))
-    const runtime = new ConversationNotificationRuntime(api(false), sessions)
+    const runtime = new ConversationNotificationRuntime(api(false), sessions, () => undefined)
     runtime.start()
     await runtime.refreshPreferences()
 

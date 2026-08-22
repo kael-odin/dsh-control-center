@@ -5,6 +5,12 @@ import { AppearanceSection } from '../src/client/AppearanceSection.tsx'
 
 const defaults = { colorPrimary: '#00b96b', fontFamily: '', codeFontFamily: '', customCss: '' }
 
+// These tests exercise settings behavior only; stub the desktop bridge as
+// not-ready so the desktop-only probes never fire (they are covered by
+// desktop.spec.ts and the desktop smoke).
+const useDesktopReady = (): boolean => false
+const getDesktop = () => { throw new Error('desktop bridge must not be used in appearance settings tests') }
+
 function api(value = defaults, revision = 4) {
   const mutate = vi.fn(async () => ({ result: { ok: true, value: { revision: revision + 1 } } }))
   return {
@@ -29,7 +35,7 @@ describe('AppearanceSection authoritative settings', () => {
 
   it('loads DSH values and persists a color with the current revision', async () => {
     const fixture = api({ ...defaults, colorPrimary: '#EF4444' })
-    render(<AppearanceSection api={fixture.client} />)
+    render(<AppearanceSection api={fixture.client} useDesktopReady={useDesktopReady} getDesktop={getDesktop} />)
 
     const hex = await screen.findByDisplayValue('#EF4444')
     await waitFor(() => { expect((hex as HTMLInputElement).disabled).toBe(false) })
@@ -50,7 +56,7 @@ describe('AppearanceSection authoritative settings', () => {
   it('rolls back the preview and field after a rejected write', async () => {
     const fixture = api({ ...defaults, colorPrimary: '#EF4444' })
     fixture.mutate.mockResolvedValueOnce({ result: { ok: false, error: { message: 'revision conflict' } } } as never)
-    render(<AppearanceSection api={fixture.client} />)
+    render(<AppearanceSection api={fixture.client} useDesktopReady={useDesktopReady} getDesktop={getDesktop} />)
 
     const hex = await screen.findByDisplayValue('#EF4444')
     await waitFor(() => { expect((hex as HTMLInputElement).disabled).toBe(false) })
@@ -70,7 +76,7 @@ describe('AppearanceSection authoritative settings', () => {
       subscribe: (listener: () => void) => { void listener; return () => {} },
       setLocale,
     } as never
-    render(<AppearanceSection api={fixture.client} locale={locale} />)
+    render(<AppearanceSection api={fixture.client} locale={locale} useDesktopReady={useDesktopReady} getDesktop={getDesktop} />)
 
     const select = (await screen.findAllByLabelText('语言')).at(-1)!
     fireEvent.change(select, { target: { value: 'en' } })
@@ -81,7 +87,7 @@ describe('AppearanceSection authoritative settings', () => {
       colorPrimary: '#8B5CF6', fontFamily: 'Inter', codeFontFamily: 'Fira Code', customCss: '.cc-surface { opacity: .9 }',
     }))
     const fixture = api()
-    render(<AppearanceSection api={fixture.client} />)
+    render(<AppearanceSection api={fixture.client} useDesktopReady={useDesktopReady} getDesktop={getDesktop} />)
 
     await waitFor(() => {
       expect(fixture.mutate).toHaveBeenCalledWith(expect.objectContaining({

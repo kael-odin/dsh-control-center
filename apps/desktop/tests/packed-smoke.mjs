@@ -33,7 +33,7 @@ if (!existsSync(exe)) {
 }
 console.log(`packed exe: ${exe}`)
 
-const expected = { loaded: false, attached: false, marker: false, bridge: false, zoom: false, shellTray: false, shellHotkey: false }
+const expected = { loaded: false, attached: false, marker: false, markerNoToken: false, bridge: false, zoom: false, shellTray: false, shellHotkey: false }
 const child = spawn(exe, ['--e2e'], { cwd: root, stdio: ['ignore', 'pipe', 'pipe'], shell: false })
 
 let stdout = ''
@@ -43,6 +43,7 @@ child.stdout.on('data', (b) => {
   if (b.toString().includes('SURFACE_LOADED')) expected.loaded = true
   if (/CONTROL_CENTER_ATTACHED=true/.test(b.toString())) expected.attached = true
   if (/DESKTOP_MARKER=true/.test(b.toString())) expected.marker = true
+  if (/DESKTOP_MARKER_NO_TOKEN=true/.test(b.toString())) expected.markerNoToken = true
   if (/NATIVE_BRIDGE=REACHED/.test(b.toString())) expected.bridge = true
   if (/NATIVE_ZOOM=REACHED/.test(b.toString())) expected.zoom = true
   if (/"tray":true/.test(b.toString())) expected.shellTray = true
@@ -63,9 +64,9 @@ child.on('close', (code) => {
   console.log('--- packed desktop-shell stderr ---')
   console.log(stderr.trim())
 
-  const ok = code === 0 && expected.loaded && expected.attached && expected.marker && expected.bridge && expected.zoom && expected.shellTray && expected.shellHotkey
+  const ok = code === 0 && expected.loaded && expected.attached && expected.marker && expected.markerNoToken && expected.bridge && expected.zoom && expected.shellTray && expected.shellHotkey
   if (!ok) {
-    console.error(`smoke FAIL(packed): code=${code} loaded=${expected.loaded} attached=${expected.attached} marker=${expected.marker} bridge=${expected.bridge} tray=${expected.shellTray} hotkey=${expected.shellHotkey}`)
+    console.error(`smoke FAIL(packed): code=${code} loaded=${expected.loaded} attached=${expected.attached} marker=${expected.marker} noToken=${expected.markerNoToken} bridge=${expected.bridge} tray=${expected.shellTray} hotkey=${expected.shellHotkey}`)
     process.exit(1)
   }
   console.log('smoke PASS(packed)')

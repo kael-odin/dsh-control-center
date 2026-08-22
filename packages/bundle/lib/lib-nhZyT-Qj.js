@@ -22043,6 +22043,7 @@ function isCredentialRefName(value) {
 //#region packages/control-center/lib/index.js
 var lib_exports = /* @__PURE__ */ __exportAll({
 	DataService: () => DataService,
+	DesktopService: () => DesktopService,
 	FileProcessingService: () => FileProcessingService,
 	KnowledgeService: () => KnowledgeService,
 	LocalModelsService: () => LocalModelsService,
@@ -24437,7 +24438,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-B8idcC2Q.js");
+				const { SSEClientTransport } = await import("./sse-CqKG9Rr2.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -24459,7 +24460,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-DvhnO2ss.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-Dn3mIPui.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -26789,6 +26790,213 @@ const updateRemote = {
 	package: "@dsh-control-center/control-center",
 	descriptors: descriptors(updateMethods, "controlCenterUpdate")
 };
+/**
+* Desktop shell bridge service.
+*
+* The Electron desktop shell spawns a DSH host and exposes its native
+* capabilities (file dialogs, notifications, fonts, window zoom/relaunch) over
+* a token-protected loopback HTTP micro-service in the Electron main process.
+* This host service is the DSH-side consumer of that bridge: the Electron main
+* passes the bridge URL/token to the spawned host via `DSH_DESKTOP_NATIVE_URL`
+* / `DSH_DESKTOP_NATIVE_TOKEN`, so the host reaches Electron's native APIs over
+* HTTP — the renderer never holds the token.
+*
+* The service is always registered (web profiles too). When the bridge env is
+* absent or the bridge is unreachable, every method reports an honest
+* `{ ok: false, error: 'desktop native bridge is not reachable' }` and
+* `check()` returns `{ supported: false }` — the UI flips its "需要桌面版" rows
+* on that, with no per-desktop gating code.
+*/
+const BRIDGE_URL_ENV = "DSH_DESKTOP_NATIVE_URL";
+const BRIDGE_TOKEN_ENV = "DSH_DESKTOP_NATIVE_TOKEN";
+const BRIDGE_UNAVAILABLE = "desktop native bridge is not reachable";
+var DesktopService = class extends Service {
+	static inject = [];
+	typertRemote = bindTypertRemote(this, "controlCenterDesktop");
+	nativeUrl;
+	nativeToken;
+	constructor(ctx, _config) {
+		super(ctx, "controlCenterDesktop");
+		this.nativeUrl = process.env[BRIDGE_URL_ENV];
+		this.nativeToken = process.env[BRIDGE_TOKEN_ENV];
+	}
+	get bridge() {
+		if (this.nativeUrl === void 0 || this.nativeToken === void 0) return void 0;
+		return {
+			url: this.nativeUrl,
+			token: this.nativeToken
+		};
+	}
+	/**
+	* Proxy a request to the native bridge. Returns `undefined` when the bridge
+	* is absent, unreachable, or answers with a non-OK HTTP status — callers map
+	* that to an honest error result (never a throw).
+	*/
+	async bridgeFetch(path, init = {}, timeoutMs = 1e4) {
+		const bridge = this.bridge;
+		if (bridge === void 0) return void 0;
+		try {
+			const response = await fetch(`${bridge.url}${path}`, {
+				method: init.method ?? "GET",
+				headers: {
+					authorization: `Bearer ${bridge.token}`,
+					...init.body === void 0 ? {} : { "content-type": "application/json" },
+					...init.headers
+				},
+				body: init.body === void 0 ? null : JSON.stringify(init.body),
+				signal: AbortSignal.timeout(timeoutMs)
+			});
+			if (!response.ok) return void 0;
+			return await response.json();
+		} catch {
+			return;
+		}
+	}
+	/** Capability probe: is the native bridge reachable, and what does it report? */
+	async check() {
+		const result = await this.bridgeFetch("/dsh-native/status", {}, 5e3);
+		if (result === void 0 || result.ok !== true) return {
+			supported: false,
+			error: BRIDGE_UNAVAILABLE
+		};
+		return {
+			supported: true,
+			...result.electron !== void 0 ? { electron: result.electron } : {},
+			...result.node !== void 0 ? { node: result.node } : {},
+			...result.trayActive !== void 0 ? { trayActive: result.trayActive } : {},
+			...result.hotkey !== void 0 ? { hotkey: result.hotkey } : {},
+			...result.hotkeyRegistered !== void 0 ? { hotkeyRegistered: result.hotkeyRegistered } : {}
+		};
+	}
+	async fonts() {
+		const result = await this.bridgeFetch("/dsh-native/fonts", {
+			method: "POST",
+			body: {}
+		});
+		return result === void 0 ? {
+			ok: false,
+			error: BRIDGE_UNAVAILABLE
+		} : result;
+	}
+	async menu(model) {
+		const result = await this.bridgeFetch("/dsh-native/menu", {
+			method: "POST",
+			body: { model }
+		});
+		return result === void 0 ? {
+			ok: false,
+			error: BRIDGE_UNAVAILABLE
+		} : result;
+	}
+	async adjustZoom(delta, reset) {
+		const result = await this.bridgeFetch("/dsh-native/zoom", {
+			method: "POST",
+			body: {
+				delta,
+				reset
+			}
+		});
+		return result === void 0 ? {
+			ok: false,
+			error: BRIDGE_UNAVAILABLE
+		} : result;
+	}
+	async relaunch() {
+		const result = await this.bridgeFetch("/dsh-native/relaunch", {
+			method: "POST",
+			body: {}
+		});
+		return result === void 0 ? {
+			ok: false,
+			error: BRIDGE_UNAVAILABLE
+		} : result;
+	}
+	async pickFile(properties) {
+		const result = await this.bridgeFetch("/dsh-native/fileDialog", {
+			method: "POST",
+			body: { properties }
+		}, 6e4);
+		return result === void 0 ? {
+			ok: false,
+			error: BRIDGE_UNAVAILABLE
+		} : result;
+	}
+	async readFile(path) {
+		const result = await this.bridgeFetch("/dsh-native/readFile", {
+			method: "POST",
+			body: { path }
+		}, 6e4);
+		return result === void 0 ? {
+			ok: false,
+			error: BRIDGE_UNAVAILABLE
+		} : result;
+	}
+	async notify(title, body) {
+		const result = await this.bridgeFetch("/dsh-native/notify", {
+			method: "POST",
+			body: {
+				title,
+				body
+			}
+		});
+		return result === void 0 ? {
+			ok: false,
+			error: BRIDGE_UNAVAILABLE
+		} : result;
+	}
+	[Symbol.dispose]() {}
+};
+/** Client descriptor contribution for the Control Center desktop service. */
+const desktopRemote = {
+	package: "@dsh-control-center/control-center",
+	descriptors: [
+		{
+			method: "check",
+			parameters: []
+		},
+		{
+			method: "fonts",
+			parameters: []
+		},
+		{
+			method: "menu",
+			parameters: ["model"]
+		},
+		{
+			method: "adjustZoom",
+			parameters: ["delta", "reset"]
+		},
+		{
+			method: "relaunch",
+			parameters: []
+		},
+		{
+			method: "pickFile",
+			parameters: ["properties"]
+		},
+		{
+			method: "readFile",
+			parameters: ["path"]
+		},
+		{
+			method: "notify",
+			parameters: ["title", "body"]
+		}
+	].map(({ method, parameters }) => ({
+		id: `@dsh-control-center/control-center#controlCenterDesktop/${method}`,
+		service: "controlCenterDesktop",
+		namespace: "controlCenterDesktop",
+		method,
+		invocation: { kind: "direct" },
+		parameters: parameters.map((name) => ({
+			name,
+			wire: name,
+			source: "json",
+			codec: STRICT_JSON
+		})),
+		result: STRICT_JSON
+	}))
+};
 /** Fail-closed audit for settings schemas that contain secret-role nodes. */
 const SAFE_CONTAINERS = /* @__PURE__ */ new Set([
 	"object",
@@ -26903,6 +27111,7 @@ function apply(ctx) {
 	new TasksService(ctx);
 	new LocalModelsService(ctx);
 	new UpdateService(ctx);
+	new DesktopService(ctx);
 	const contributions = [{
 		package: "@dsh-control-center/control-center",
 		face: "host",
@@ -26926,7 +27135,8 @@ function apply(ctx) {
 			...systemRemote.descriptors,
 			...tasksRemote.descriptors,
 			...localModelsRemote.descriptors,
-			...updateRemote.descriptors
+			...updateRemote.descriptors,
+			...desktopRemote.descriptors
 		]
 	}];
 	for (const contribution of contributions) ctx.typert.register(contribution);
@@ -26935,4 +27145,4 @@ function apply(ctx) {
 	ctx.settings.register(settingsNamespace(APPEARANCE_SETTINGS_NAMESPACE), AppearanceSettingsSchema);
 }
 //#endregion
-export { DataService, FileProcessingService, KnowledgeService, LocalModelsService, McpService, PaintingService, ProvidersService, SkillsService, SystemService, TasksService, TranslationService, UpdateService, UsageService, WebSearchService, _coercedNumber as _, isJSONRPCRequest as a, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, __toESM as b, any as c, cronMatches, literal as d, looseObject as f, url as g, string as h, isInitializedNotification as i, inject, array as l, object as m, JSONRPCMessageSchema as n, name, isJSONRPCResultResponse as o, number as p, LATEST_PROTOCOL_VERSION as r, ZodNumber as s, lib_exports as t, boolean as u, NEVER as v, __commonJSMin as y };
+export { DataService, DesktopService, FileProcessingService, KnowledgeService, LocalModelsService, McpService, PaintingService, ProvidersService, SkillsService, SystemService, TasksService, TranslationService, UpdateService, UsageService, WebSearchService, _coercedNumber as _, isJSONRPCRequest as a, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, __toESM as b, any as c, cronMatches, literal as d, looseObject as f, url as g, string as h, isInitializedNotification as i, inject, array as l, object as m, JSONRPCMessageSchema as n, name, isJSONRPCResultResponse as o, number as p, LATEST_PROTOCOL_VERSION as r, ZodNumber as s, lib_exports as t, boolean as u, NEVER as v, __commonJSMin as y };

@@ -33,6 +33,8 @@ export type * from './tasks-types.ts';
 export { LocalModelsService } from './local-models.ts';
 export { UpdateService } from './update.ts';
 export type * from './local-models-types.ts';
+export { DesktopService } from './desktop.ts';
+export type * from './desktop-types.ts';
 export { assertSecretSchemaSafe, auditSecretSchema } from './secret-schema.ts';
 export type { SecretSchemaViolation } from './secret-schema.ts';
 //# sourceMappingURL=index.d.ts.map

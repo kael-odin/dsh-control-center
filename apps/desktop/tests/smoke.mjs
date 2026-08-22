@@ -24,15 +24,12 @@ const electronBin = process.platform === 'win32'
 
 const selfHost = process.argv.includes('--selfhost')
 
-// A loopback port that is (almost certainly) not listening, to force the
-// self-host branch when SELFHOST is set.
-const TRIGGER_PORT = Number(process.env.SMOKE_TRIGGER_PORT || 39999)
-
 const expected = {
   loaded: false,
   attached: false,
   selfHostReady: false,
   marker: false,
+  markerNoToken: false,
   bridge: false,
   zoom: false,
   shellTray: false,
@@ -42,11 +39,11 @@ const expected = {
 const env = { ...process.env }
 
 if (selfHost) {
-  // Point the shell at an unused loopback URL so it takes the self-host path.
-  // No DSH_DESKTOP_HOME is set: the shell reuses the default `~/.dsh` home,
-  // whose web profile carries the Control Center bundle, so we can assert the
-  // trigger is actually mounted in the self-hosted surface too.
-  env.DSH_CONTROL_DESKTOP_URL = `http://127.0.0.1:${TRIGGER_PORT}/`
+  // Force the self-host path: the boot mode checks DSH_CONTROL_DESKTOP_SELF_HOST
+  // first; with this set, the shell spawns a DSH host on a free port (--port 0),
+  // reuses the default ~/.dsh home (which carries the Control Center bundle),
+  // and loads the self-hosted surface.
+  env.DSH_CONTROL_DESKTOP_SELF_HOST = '1'
 }
 
 const child = spawn(electronBin, ['.', '--e2e'], { cwd: root, stdio: ['ignore', 'pipe', 'pipe'], shell: false, env })
@@ -59,6 +56,7 @@ child.stdout.on('data', (b) => {
   if (/CONTROL_CENTER_ATTACHED=true/.test(b.toString())) expected.attached = true
   if (/self-host ready/.test(b.toString())) expected.selfHostReady = true
   if (/DESKTOP_MARKER=true/.test(b.toString())) expected.marker = true
+  if (/DESKTOP_MARKER_NO_TOKEN=true/.test(b.toString())) expected.markerNoToken = true
   if (/NATIVE_BRIDGE=REACHED/.test(b.toString())) expected.bridge = true
   if (/NATIVE_ZOOM=REACHED/.test(b.toString())) expected.zoom = true
   if (/"tray":true/.test(b.toString())) expected.shellTray = true
@@ -80,18 +78,18 @@ child.on('close', (code) => {
   console.log(stderr.trim())
 
   if (selfHost) {
-    const ok = code === 0 && expected.loaded && expected.selfHostReady && expected.attached && expected.marker && expected.bridge && expected.zoom && expected.shellTray && expected.shellHotkey
+    const ok = code === 0 && expected.loaded && expected.selfHostReady && expected.attached && expected.marker && expected.markerNoToken && expected.bridge && expected.zoom && expected.shellTray && expected.shellHotkey
     if (!ok) {
-      console.error(`smoke FAIL(self-host): code=${code} loaded=${expected.loaded} ready=${expected.selfHostReady} attached=${expected.attached} marker=${expected.marker} bridge=${expected.bridge} zoom=${expected.zoom} tray=${expected.shellTray} hotkey=${expected.shellHotkey}`)
+      console.error(`smoke FAIL(self-host): code=${code} loaded=${expected.loaded} ready=${expected.selfHostReady} attached=${expected.attached} marker=${expected.marker} noToken=${expected.markerNoToken} bridge=${expected.bridge} zoom=${expected.zoom} tray=${expected.shellTray} hotkey=${expected.shellHotkey}`)
       process.exit(1)
     }
     console.log('smoke PASS(self-host)')
     process.exit(0)
   }
 
-  const ok = code === 0 && expected.loaded && expected.attached && expected.marker && expected.bridge && expected.zoom && expected.shellTray && expected.shellHotkey
+  const ok = code === 0 && expected.loaded && expected.attached && expected.marker && expected.markerNoToken && expected.bridge && expected.zoom && expected.shellTray && expected.shellHotkey
   if (!ok) {
-    console.error(`smoke FAIL: code=${code} loaded=${expected.loaded} attached=${expected.attached} marker=${expected.marker} bridge=${expected.bridge} zoom=${expected.zoom} tray=${expected.shellTray} hotkey=${expected.shellHotkey}`)
+    console.error(`smoke FAIL: code=${code} loaded=${expected.loaded} attached=${expected.attached} marker=${expected.marker} noToken=${expected.markerNoToken} bridge=${expected.bridge} zoom=${expected.zoom} tray=${expected.shellTray} hotkey=${expected.shellHotkey}`)
     process.exit(1)
   }
   console.log('smoke PASS')

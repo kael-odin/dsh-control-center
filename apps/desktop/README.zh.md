@@ -97,34 +97,38 @@ smoke PASS(self-host)
 > rebuild harness —— 926+ 个 pnpm 虚拟包真实实体化，体积数百 MB）是更大的发布架构项，尚待完成，
 > 见 `docs/DESKTOP_CAPABILITIES_BRIDGE.zh.md`。
 
-## 原生能力桥（main 原生微服务）
+## 原生能力桥（main 原生微服务 + host 服务面）
 
 Electron main 起一个 **loopback HTTP 微服务**（`startNativeService()`，127.0.0.1 高端口 + 每启动随机
-bearer token + CORS），路由：`GET /dsh-native/status`、`POST /dsh-native/fileDialog`（
-`dialog.showOpenDialog`）、`POST /dsh-native/notify`（`Notification`）。renderer 用 marker 里的
-`nativeUrl`/`nativeToken` 以带 `Bearer` 的 `fetch` 调用（`packages/control-center/.../desktop-capabilities.ts`
-`desktopNativeApi.status()/pickFile()/notify()`）。无 preload bridge。
+bearer token + CORS），路由：`GET /dsh-native/status`、`POST /dsh-native/fonts`、`POST /dsh-native/menu`、
+`POST /dsh-native/zoom`、`POST /dsh-native/relaunch`、`POST /dsh-native/fileDialog`（
+`dialog.showOpenDialog`）、`POST /dsh-native/readFile`、`POST /dsh-native/notify`（`Notification`）。
 
-冒烟（dev-connect / dev-selfhost / packed-exe）均断言 `DESKTOP_MARKER=true` + `NATIVE_BRIDGE=REACHED`
-（renderer 真实触达 Electron main 服务）。交互弹出（真对话框/真通知）留待 live 人工验证。详见
-`docs/DESKTOP_CAPABILITIES_BRIDGE.zh.md`。
+**renderer 不持有 token。** 微服务的 URL/token 通过环境变量 `DSH_DESKTOP_NATIVE_URL`/`DSH_DESKTOP_NATIVE_TOKEN`
+注入到 spawn 出的 DSH host 子进程（`startNativeService()` 先于 `startSelfHost()` 就绪，端口已知才能注入）。
+host 侧 `DesktopService`（`packages/control-center/src/desktop.ts`）包一层 Cordis 服务
+`controlCenterDesktop`，经 `desktop-remote-client.ts` + STRICT_JSON RPC 线暴露给 UI。
+
+冒烟（dev-connect / dev-selfhost / packed-exe）均断言 `DESKTOP_MARKER=true` + `DESKTOP_MARKER_NO_TOKEN=true`
++ `NATIVE_BRIDGE=REACHED`（main 进程直接触达 Electron 原生服务）。交互弹出（真对话框/真通知）留待 live
+人工验证。详见 `docs/DESKTOP_CAPABILITIES_BRIDGE.zh.md`。
 
 > 历史：`pnpm probe:hostinmain` 验证了 host 的 app-boot trunk 在 harness resolver 下可准备 profile
 > （`HOST_IN_MAIN=OK`）；因 Electron 内置 node 解析 harness workspace 裸依赖受阻，能力桥采用
-> main 原生微服务桥而非 host 内嵌。
+> main 原生微服务桥 + host 服务面而非 host 内嵌。
 
 ## 桌面环境探测
 
-壳加载页面后向 renderer 注入 `window.__DSH_DESKTOP__`（含 `shell`/`host`/`version`/
-`capabilities:['window','fileDialog','notification']`，以及 bridge 存在时的 `nativeUrl`/`nativeToken`）
-并派发 `dsh-desktop-ready`。web UI（`packages/control-center/src/client/desktop-capabilities.ts`）据此把
-"需要桌面版"的行切换为"桌面（已就绪）"——仅在桌面壳里有该标记，浏览器标签页永看不到，因此 web 预览与
-E2E 保持诚实标注。
+壳加载页面后向 renderer 注入 `window.__DSH_DESKTOP__`（只含 `shell`/`host`/`version`，**无**
+`nativeUrl`/`nativeToken`/`capabilities`）并派发 `dsh-desktop-ready`。web UI 据此判断 `isDesktopEnv()`，
+能力真值来自 `desktop.check()` RPC 调用（web profile 下服务诚实返回 `{supported:false}` → 行显
+"需要桌面版"）。浏览器标签页永看不到桌面标记，因此 web 预览与 E2E 保持诚实标注。
 
 ## 后续（P1–P5）
 
 - 单实例锁已实现；自启 host 已实现（`--port 0` + 就绪行 URL 解析 + 复用默认 home，surface 含完整
-  Control Center）；原生能力桥已握手连通（status/fileDialog/notify 路由就绪）。
-- 下一步：文件对话框/系统通知在 UI 侧真实接线（状态栏/设置页 + live 验证），随能力扩充
-  `capabilities`；接托盘/全局快捷键；随应用内置 node + 打包发行。
+  Control Center）；原生能力桥已握手连通，UI 侧真实接线：文件对话框/读文件（知识库）、系统通知
+  （对话完成）、缩放/字体（外观页）。
+- 下一步：托盘/全局快捷键 UI 化（`check()` 已上报状态）；截图 / 划词；OCR/PDF 本地模型；随能力扩充
+  服务方法。
 - 每阶段前：live 验证 + `pnpm run check` + 打包 E2E；Cherry 借鉴进 provenance。
