@@ -74,6 +74,8 @@ import { SettingsRoot } from './SettingsRoot.tsx'
 import type { SettingsOnboardingStep, SettingsRootInjected, SettingsSectionRow } from './shell-contract.ts'
 import { CloseLabel, HeaderContent, TriggerContent } from './chrome.tsx'
 import { GeneralSection } from './GeneralSection.tsx'
+import { GeneralCherrySettings } from './GeneralCherrySettings.tsx'
+import type { GeneralCherrySettingsInjected } from './GeneralCherrySettings.tsx'
 import { AppearanceSection } from './AppearanceSection.tsx'
 import type { AppearanceSectionInjected } from './AppearanceSection.tsx'
 import { NotificationSection, type NotificationSectionInjected } from './NotificationSection.tsx'
@@ -85,6 +87,7 @@ import { ScreenshotSection } from './ScreenshotSection.tsx'
 import { ChannelsSection } from './ChannelsSection.tsx'
 import type { ChannelsSectionInjected } from './ChannelsSection.tsx'
 import { ChannelsStore } from './channels-store.ts'
+import { GeneralSettingsStore } from './general-store.ts'
 import type { ChannelBridgeHandle } from './ChannelsSection.tsx'
 import { SettingsDocumentAction } from './SettingsDocumentAction.tsx'
 import type { SettingsDocumentActionInjected } from './SettingsDocumentAction.tsx'
@@ -351,6 +354,9 @@ export function apply(ctx: ClientContext): void {
   const useChannels = bindSnapshotSelector(channelsController.store)
   let channelBridge: NonNullable<typeof remote.controlCenterChannelBridge> | undefined
   const welcomeController = new WelcomeNoticeStore(connection.api, connection.isLoopback ? 'host' : 'memory')
+  const generalController = new GeneralSettingsStore(connection.api, schema)
+  const useGeneral = bindSnapshotSelector(generalController.store)
+  ctx.effect(() => { void generalController.load(); return () => undefined }, 'control-center: general load')
   const notificationRuntime = new ConversationNotificationRuntime(
     connection.api,
     ctx.sessions.list as unknown as HostObservable<SessionListState>,
@@ -611,6 +617,16 @@ export function apply(ctx: ClientContext): void {
     locale: SHELL_NS,
     children: { 'settings.general.item': { kind: 'list', scope: 'root' } },
   }, GeneralSection))
+  ctx.slots.inject('settings.general.item', () => ctx.slots.register({
+    name: 'settings.general.item',
+    id: 'control-center-general',
+    order: 0,
+    inject: (): GeneralCherrySettingsInjected => ({
+      controller: generalController,
+      useSnapshot: useGeneral,
+      t: modelT as GeneralCherrySettingsInjected['t'],
+    }),
+  }, GeneralCherrySettings))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section', id: 'models', order: 2, label: () => modelT('nav'), inject: modelsInjected,
   }, ModelsSection))

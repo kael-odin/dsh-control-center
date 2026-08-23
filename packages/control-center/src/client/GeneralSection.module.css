@@ -23,3 +23,166 @@
   margin-top: 6px;
   white-space: pre-wrap;
 }
+
+.group {
+  margin-bottom: 20px;
+}
+
+.groupTitle {
+  margin: 0 0 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.groupBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--card);
+}
+
+.prefRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  min-height: 40px;
+  background: var(--card);
+}
+
+.prefRow + .prefRow {
+  border-top: 1px solid var(--border-subtle);
+}
+
+.prefRowTitle {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+  color: var(--foreground);
+}
+
+.prefRowHint {
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+
+.prefRowControl {
+  flex: none;
+}
+
+.nativeNote {
+  padding: 12px 14px;
+  background: var(--card);
+}
+
+.nativeNoteTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--foreground);
+  margin-bottom: 4px;
+}
+
+.nativeNoteBody {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+}
+
+.error {
+  padding: 8px 12px;
+  border: 1px solid var(--error-border);
+  border-radius: 8px;
+  background: var(--error-subtle);
+  color: var(--error-subtle-foreground);
+  font-size: 13px;
+}
+
+/* Cherry block contributed to the native General page (settings.general.item). */
+.groupBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.groupTitle {
+  margin: 8px 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--foreground);
+  padding: 0 14px;
+}
+
+.prefRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  min-height: 40px;
+}
+
+.prefRow + .prefRow {
+  border-top: 1px solid var(--border-subtle);
+}
+
+.prefRowTitle {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+  color: var(--foreground);
+}
+
+.prefRowHint {
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+
+.prefRowControl {
+  flex: none;
+}
+
+.note {
+  padding: 6px 14px 10px;
+}
+
+.noteTitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--foreground);
+  margin-bottom: 4px;
+}
+
+.noteBody {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+}
+
+.divider {
+  height: 1px;
+  margin: 8px 14px;
+  background: var(--border-subtle);
+}
+
+.error {
+  padding: 8px 12px;
+  border: 1px solid var(--error-border);
+  border-radius: 8px;
+  background: var(--error-subtle);
+  color: var(--error-subtle-foreground);
+  font-size: 13px;
+  margin: 8px 0;
+}

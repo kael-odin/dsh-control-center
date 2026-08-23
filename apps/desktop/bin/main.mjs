@@ -19,7 +19,7 @@ import { createServer } from 'node:http'
 import { randomBytes } from 'node:crypto'
 import { readFileSync, statSync, existsSync, writeFileSync, rmSync } from 'node:fs'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { tmpdir } from 'node:os'
+import { homedir, tmpdir } from 'node:os'
 import { join } from 'node:path'
 
 const DEFAULT_LOOPBACK = 'http://127.0.0.1:3080/'
@@ -461,6 +461,43 @@ function setupTrayAndShortcut() {
   }
 }
 
+/**
+ * The desktop general preferences from the shared settings document —
+ * the `control-center-general:` section the 通用 page writes. The companion
+ * applies them at startup so the settings page's switches are real.
+ */
+let generalPrefs = { launchOnBoot: false, trayEnabled: true, trayOnClose: false }
+
+
+function readGeneralPrefs() {
+  const home = process.env.DSH_DESKTOP_HOME || join(homedir(), '.dsh')
+  let text
+  try { text = readFileSync(join(home, 'settings.yaml'), 'utf8') } catch { return }
+  const lines = text.split(/\r?\n/)
+let inSection = false
+  for (const line of lines) {
+    if (!inSection) {
+      if (/^control-center-general:\s*$/.test(line)) inSection = true
+      continue
+    }
+    if (/^\S/.test(line) && line !== '') break
+    const bool = (key) => {
+      const match = new RegExp(`^\s*${key}:\s*(true|false)\s*$`).exec(line)
+      if (!match) return undefined
+      return match[1] === 'true'
+    }
+    const v = bool('launchOnBoot'); if (v !== undefined) generalPrefs.launchOnBoot = v
+    const t = bool('trayEnabled'); if (t !== undefined) generalPrefs.trayEnabled = t
+    const c = bool('trayOnClose'); if (c !== undefined) generalPrefs.trayOnClose = c
+  }
+}
+
+function applyGeneralPrefs() {
+  readGeneralPrefs()
+  try { app.setLoginItemSettings({ openAtLogin: generalPrefs.launchOnBoot }) } catch { /* best effort */ }
+  console.log(`[desktop] GENERAL_PREFS launchOnBoot=${generalPrefs.launchOnBoot} tray=${generalPrefs.trayEnabled} trayOnClose=${generalPrefs.trayOnClose}`)
+}
+
 function createWindow(url, native) {
   lastSurfaceUrl = url
   nativeInfo = native
@@ -480,6 +517,13 @@ function createWindow(url, native) {
     },
   })
   mainWindow.setMenuBarVisibility(false)
+  // Cherry close-to-tray: hide instead of quit when the tray is on.
+  mainWindow.on('close', (event) => {
+    if (generalPrefs.trayEnabled && generalPrefs.trayOnClose && tray && !tray.isDestroyed() && !app.isQuiting) {
+      event.preventDefault()
+      mainWindow.hide()
+    }
+  })
   let finishCount = 0
   mainWindow.webContents.on('did-start-loading', () => { console.log(`[desktop] DID_START_LOADING url=${mainWindow.webContents.getURL()}`) })
   mainWindow.webContents.on('did-finish-load', () => {
@@ -652,6 +696,9 @@ async function boot() {
 
   await app.whenReady()
 
+  // Desktop general preferences (launch on boot, tray behavior).
+  applyGeneralPrefs()
+
   // System tray + global shortcut (focus/reopen window).
   setupTrayAndShortcut()
 
@@ -714,6 +761,7 @@ function withTimeout(promise, ms, message) {
 }
 
 app.on('before-quit', () => {
+  app.isQuiting = true
   // Release the global shortcut and destroy the tray on a clean quit.
   try { globalShortcut.unregisterAll() } catch { /* best effort */ }
   if (tray && !tray.isDestroyed()) { try { tray.destroy() } catch { /* best effort */ } }

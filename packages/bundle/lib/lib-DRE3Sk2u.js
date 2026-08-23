@@ -24869,7 +24869,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-Bmwwdf-E.js");
+				const { SSEClientTransport } = await import("./sse-CpuzRoKW.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -24891,7 +24891,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-BJ08aW1e.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-BD4CdBNL.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -28081,6 +28081,14 @@ const RETRY_FALLBACK_SCHEMA = Schema.object({
 const MODEL_PREFS_NAMESPACE_SETTINGS = settingsNamespace("control-center-model-prefs");
 /** Multi-key slot metadata per provider (values stay in DSH credentials). */
 const API_KEYS_NAMESPACE_SETTINGS = settingsNamespace("control-center-api-keys");
+/** Desktop general settings (launch, tray, proxy) — Cherry GeneralSettings parity. */
+const GENERAL_NAMESPACE_SETTINGS = settingsNamespace("control-center-general");
+const GENERAL_SCHEMA = Schema.object({
+	launchOnBoot: Schema.boolean().default(false),
+	trayEnabled: Schema.boolean().default(true),
+	trayOnClose: Schema.boolean().default(false),
+	preventSleepWhenBusy: Schema.boolean().default(false)
+});
 const API_KEYS_SCHEMA = Schema.object({ providers: Schema.dict(Schema.any()).default({}) });
 const MODEL_PREFS_SCHEMA = Schema.object({
 	translationProvider: Schema.string().default(""),
@@ -28167,6 +28175,7 @@ function apply(ctx) {
 	ctx.settings.register(PROVIDER_STASH_NAMESPACE, PROVIDER_STASH_SCHEMA);
 	ctx.settings.register(MODEL_PREFS_NAMESPACE_SETTINGS, MODEL_PREFS_SCHEMA);
 	ctx.settings.register(API_KEYS_NAMESPACE_SETTINGS, API_KEYS_SCHEMA);
+	ctx.settings.register(GENERAL_NAMESPACE_SETTINGS, GENERAL_SCHEMA);
 }
 //#endregion
 export { ChannelBridgeService, DataService, DesktopService, FileProcessingService, KnowledgeService, LocalModelsService, MODEL_PREFS_NAMESPACE_SETTINGS, McpService, ModelCheckService, PaintingService, ProvidersService, SkillsService, SystemService, TasksService, TranslationService, UpdateService, UsageService, WebSearchService, _coercedNumber as _, isJSONRPCRequest as a, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, __toESM as b, any as c, cronMatches, literal as d, looseObject as f, url as g, string as h, isInitializedNotification as i, inject, array as l, object as m, JSONRPCMessageSchema as n, name, isJSONRPCResultResponse as o, number as p, LATEST_PROTOCOL_VERSION as r, ZodNumber as s, lib_exports as t, boolean as u, NEVER as v, __commonJSMin as y };

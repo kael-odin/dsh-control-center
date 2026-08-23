@@ -319,112 +319,112 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var PaintingWorkspace_module_css_default = {
-			"btnPrimary": "_-UrTq_btnPrimary",
-			"manageRow": "_-UrTq_manageRow",
-			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
-			"frame": "_-UrTq_frame",
-			"showcaseInner": "_-UrTq_showcaseInner",
-			"modelPill": "_-UrTq_modelPill",
-			"cc-cell-blink": "_-UrTq_cc-cell-blink",
-			"quickPanel": "_-UrTq_quickPanel",
-			"pauseButton": "_-UrTq_pauseButton",
-			"pillSummary": "_-UrTq_pillSummary",
-			"promptLibList": "_-UrTq_promptLibList",
-			"artboardEmpty": "_-UrTq_artboardEmpty",
-			"promptLibDelete": "_-UrTq_promptLibDelete",
-			"showcaseCaption": "_-UrTq_showcaseCaption",
-			"sendButton": "_-UrTq_sendButton",
-			"countSlider": "_-UrTq_countSlider",
-			"addImageButton": "_-UrTq_addImageButton",
-			"promptLibEmpty": "_-UrTq_promptLibEmpty",
-			"sizeChip": "_-UrTq_sizeChip",
-			"artboardStage": "_-UrTq_artboardStage",
-			"quickItemIcon": "_-UrTq_quickItemIcon",
-			"promptLib": "_-UrTq_promptLib",
-			"hidden": "_-UrTq_hidden",
-			"countInput": "_-UrTq_countInput",
-			"promptLibTitle": "_-UrTq_promptLibTitle",
-			"chevron": "_-UrTq_chevron",
-			"toolbarDivider": "_-UrTq_toolbarDivider",
-			"addPromptTextarea": "_-UrTq_addPromptTextarea",
-			"dialogActions": "_-UrTq_dialogActions",
-			"centerStage": "_-UrTq_centerStage",
-			"promptLibItemMain": "_-UrTq_promptLibItemMain",
-			"manageCard": "_-UrTq_manageCard",
-			"showcase": "_-UrTq_showcase",
-			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
-			"portalPanel": "_-UrTq_portalPanel",
-			"composerToolbar": "_-UrTq_composerToolbar",
-			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
-			"manageRowTitle": "_-UrTq_manageRowTitle",
-			"cc-strip-loading": "_-UrTq_cc-strip-loading",
-			"manageRowContent": "_-UrTq_manageRowContent",
-			"manageRowActions": "_-UrTq_manageRowActions",
-			"addPromptInput": "_-UrTq_addPromptInput",
-			"manageList": "_-UrTq_manageList",
-			"active": "_-UrTq_active",
-			"btn": "_-UrTq_btn",
-			"toolbarRail": "_-UrTq_toolbarRail",
-			"composer": "_-UrTq_composer",
-			"attachmentTray": "_-UrTq_attachmentTray",
-			"showcaseCarousel": "_-UrTq_showcaseCarousel",
-			"selected": "_-UrTq_selected",
-			"paramsSelect": "_-UrTq_paramsSelect",
-			"promptLibItem": "_-UrTq_promptLibItem",
-			"promptLibContent": "_-UrTq_promptLibContent",
-			"quickItem": "_-UrTq_quickItem",
-			"carouselCardImage": "_-UrTq_carouselCardImage",
-			"sizeGrid": "_-UrTq_sizeGrid",
-			"roundButton": "_-UrTq_roundButton",
-			"composerTextarea": "_-UrTq_composerTextarea",
-			"addPromptField": "_-UrTq_addPromptField",
-			"stripItem": "_-UrTq_stripItem",
-			"root": "_-UrTq_root",
-			"centerPane": "_-UrTq_centerPane",
-			"surface": "_-UrTq_surface",
-			"attachmentDelete": "_-UrTq_attachmentDelete",
-			"newButton": "_-UrTq_newButton",
-			"promptDock": "_-UrTq_promptDock",
-			"promptDockInner": "_-UrTq_promptDockInner",
-			"artboard": "_-UrTq_artboard",
-			"promptBar": "_-UrTq_promptBar",
-			"quickItemLabel": "_-UrTq_quickItemLabel",
-			"manageRowBtnDanger": "_-UrTq_manageRowBtnDanger",
-			"strip": "_-UrTq_strip",
-			"manageRowMain": "_-UrTq_manageRowMain",
-			"stripEnd": "_-UrTq_stripEnd",
-			"promptLibFooter": "_-UrTq_promptLibFooter",
-			"thumbEmpty": "_-UrTq_thumbEmpty",
-			"counterPill": "_-UrTq_counterPill",
-			"paramsField": "_-UrTq_paramsField",
-			"skeletonGrid": "_-UrTq_skeletonGrid",
-			"errorBanner": "_-UrTq_errorBanner",
-			"showcaseTitle": "_-UrTq_showcaseTitle",
-			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
-			"progressText": "_-UrTq_progressText",
-			"backButton": "_-UrTq_backButton",
-			"stripDelete": "_-UrTq_stripDelete",
-			"stripHeader": "_-UrTq_stripHeader",
-			"carouselLabel": "_-UrTq_carouselLabel",
-			"pillButton": "_-UrTq_pillButton",
-			"paramsPopover": "_-UrTq_paramsPopover",
-			"sizeLabel": "_-UrTq_sizeLabel",
-			"imageBox": "_-UrTq_imageBox",
-			"addPromptOverlay": "_-UrTq_addPromptOverlay",
-			"carouselCard": "_-UrTq_carouselCard",
-			"stripProgress": "_-UrTq_stripProgress",
-			"promptBarText": "_-UrTq_promptBarText",
-			"addPromptCard": "_-UrTq_addPromptCard",
 			"ratioThumb": "_-UrTq_ratioThumb",
-			"toolbarButton": "_-UrTq_toolbarButton",
+			"promptLibContent": "_-UrTq_promptLibContent",
+			"sizeGrid": "_-UrTq_sizeGrid",
+			"stripEnd": "_-UrTq_stripEnd",
+			"composer": "_-UrTq_composer",
+			"sizeChip": "_-UrTq_sizeChip",
+			"toolbarDivider": "_-UrTq_toolbarDivider",
 			"thumb": "_-UrTq_thumb",
-			"countRow": "_-UrTq_countRow",
-			"composerTextRow": "_-UrTq_composerTextRow",
-			"manageRowBtn": "_-UrTq_manageRowBtn",
-			"dragging": "_-UrTq_dragging",
+			"roundButton": "_-UrTq_roundButton",
+			"sendButton": "_-UrTq_sendButton",
+			"sizeLabel": "_-UrTq_sizeLabel",
+			"root": "_-UrTq_root",
+			"surface": "_-UrTq_surface",
+			"pauseButton": "_-UrTq_pauseButton",
+			"artboardEmpty": "_-UrTq_artboardEmpty",
+			"addPromptInput": "_-UrTq_addPromptInput",
+			"paramsField": "_-UrTq_paramsField",
+			"quickItemIcon": "_-UrTq_quickItemIcon",
+			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
+			"promptDockInner": "_-UrTq_promptDockInner",
+			"carouselCardImage": "_-UrTq_carouselCardImage",
+			"promptLibFooter": "_-UrTq_promptLibFooter",
+			"showcase": "_-UrTq_showcase",
+			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
+			"skeletonGrid": "_-UrTq_skeletonGrid",
+			"pillButton": "_-UrTq_pillButton",
+			"promptLibDelete": "_-UrTq_promptLibDelete",
+			"carouselCard": "_-UrTq_carouselCard",
+			"attachmentDelete": "_-UrTq_attachmentDelete",
+			"stripHeader": "_-UrTq_stripHeader",
+			"promptLibEmpty": "_-UrTq_promptLibEmpty",
+			"quickItemLabel": "_-UrTq_quickItemLabel",
+			"toolbarButton": "_-UrTq_toolbarButton",
+			"promptLibItemMain": "_-UrTq_promptLibItemMain",
+			"btnPrimary": "_-UrTq_btnPrimary",
+			"manageList": "_-UrTq_manageList",
+			"manageRow": "_-UrTq_manageRow",
+			"promptLibItem": "_-UrTq_promptLibItem",
+			"btn": "_-UrTq_btn",
+			"artboard": "_-UrTq_artboard",
+			"newButton": "_-UrTq_newButton",
+			"cc-strip-loading": "_-UrTq_cc-strip-loading",
 			"muted": "_-UrTq_muted",
+			"progressText": "_-UrTq_progressText",
+			"skeletonCell": "_-UrTq_skeletonCell",
 			"attachmentTile": "_-UrTq_attachmentTile",
-			"skeletonCell": "_-UrTq_skeletonCell"
+			"artboardStage": "_-UrTq_artboardStage",
+			"centerStage": "_-UrTq_centerStage",
+			"backButton": "_-UrTq_backButton",
+			"promptLib": "_-UrTq_promptLib",
+			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
+			"active": "_-UrTq_active",
+			"counterPill": "_-UrTq_counterPill",
+			"promptLibList": "_-UrTq_promptLibList",
+			"promptLibTitle": "_-UrTq_promptLibTitle",
+			"addPromptField": "_-UrTq_addPromptField",
+			"countInput": "_-UrTq_countInput",
+			"addImageButton": "_-UrTq_addImageButton",
+			"strip": "_-UrTq_strip",
+			"promptBarText": "_-UrTq_promptBarText",
+			"composerTextRow": "_-UrTq_composerTextRow",
+			"selected": "_-UrTq_selected",
+			"imageBox": "_-UrTq_imageBox",
+			"thumbEmpty": "_-UrTq_thumbEmpty",
+			"showcaseCaption": "_-UrTq_showcaseCaption",
+			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
+			"showcaseTitle": "_-UrTq_showcaseTitle",
+			"manageCard": "_-UrTq_manageCard",
+			"manageRowMain": "_-UrTq_manageRowMain",
+			"stripDelete": "_-UrTq_stripDelete",
+			"addPromptCard": "_-UrTq_addPromptCard",
+			"dragging": "_-UrTq_dragging",
+			"toolbarRail": "_-UrTq_toolbarRail",
+			"dialogActions": "_-UrTq_dialogActions",
+			"modelPill": "_-UrTq_modelPill",
+			"quickPanel": "_-UrTq_quickPanel",
+			"portalPanel": "_-UrTq_portalPanel",
+			"countRow": "_-UrTq_countRow",
+			"stripItem": "_-UrTq_stripItem",
+			"promptBar": "_-UrTq_promptBar",
+			"showcaseCarousel": "_-UrTq_showcaseCarousel",
+			"chevron": "_-UrTq_chevron",
+			"pillSummary": "_-UrTq_pillSummary",
+			"cc-cell-blink": "_-UrTq_cc-cell-blink",
+			"addPromptTextarea": "_-UrTq_addPromptTextarea",
+			"manageRowContent": "_-UrTq_manageRowContent",
+			"manageRowTitle": "_-UrTq_manageRowTitle",
+			"manageRowActions": "_-UrTq_manageRowActions",
+			"paramsPopover": "_-UrTq_paramsPopover",
+			"hidden": "_-UrTq_hidden",
+			"attachmentTray": "_-UrTq_attachmentTray",
+			"stripProgress": "_-UrTq_stripProgress",
+			"countSlider": "_-UrTq_countSlider",
+			"paramsSelect": "_-UrTq_paramsSelect",
+			"composerTextarea": "_-UrTq_composerTextarea",
+			"quickItem": "_-UrTq_quickItem",
+			"frame": "_-UrTq_frame",
+			"centerPane": "_-UrTq_centerPane",
+			"composerToolbar": "_-UrTq_composerToolbar",
+			"addPromptOverlay": "_-UrTq_addPromptOverlay",
+			"errorBanner": "_-UrTq_errorBanner",
+			"manageRowBtn": "_-UrTq_manageRowBtn",
+			"carouselLabel": "_-UrTq_carouselLabel",
+			"manageRowBtnDanger": "_-UrTq_manageRowBtnDanger",
+			"promptDock": "_-UrTq_promptDock",
+			"showcaseInner": "_-UrTq_showcaseInner"
 		};
 		//#endregion
 		//#region lib/types/client/painting-icons.js
@@ -1155,27 +1155,27 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var Combobox_module_css_default = {
-			"searchWrap": "PJZ1pG_searchWrap",
+			"triggerChevron": "PJZ1pG_triggerChevron",
+			"optionIcon": "PJZ1pG_optionIcon",
 			"optionActive": "PJZ1pG_optionActive",
 			"searchInput": "PJZ1pG_searchInput",
-			"groupTitle": "PJZ1pG_groupTitle",
-			"optionIcon": "PJZ1pG_optionIcon",
-			"footer": "PJZ1pG_footer",
-			"triggerChevron": "PJZ1pG_triggerChevron",
-			"list": "PJZ1pG_list",
-			"root": "PJZ1pG_root",
-			"group": "PJZ1pG_group",
 			"option": "PJZ1pG_option",
-			"trigger": "PJZ1pG_trigger",
-			"popoverPortal": "PJZ1pG_popoverPortal",
-			"searchIcon": "PJZ1pG_searchIcon",
-			"empty": "PJZ1pG_empty",
-			"optionText": "PJZ1pG_optionText",
+			"list": "PJZ1pG_list",
+			"groupTitle": "PJZ1pG_groupTitle",
 			"optionLabel": "PJZ1pG_optionLabel",
-			"triggerLabel": "PJZ1pG_triggerLabel",
+			"root": "PJZ1pG_root",
 			"optionSub": "PJZ1pG_optionSub",
+			"empty": "PJZ1pG_empty",
 			"triggerIcon": "PJZ1pG_triggerIcon",
-			"footerButton": "PJZ1pG_footerButton"
+			"searchWrap": "PJZ1pG_searchWrap",
+			"footer": "PJZ1pG_footer",
+			"optionText": "PJZ1pG_optionText",
+			"footerButton": "PJZ1pG_footerButton",
+			"popoverPortal": "PJZ1pG_popoverPortal",
+			"group": "PJZ1pG_group",
+			"searchIcon": "PJZ1pG_searchIcon",
+			"trigger": "PJZ1pG_trigger",
+			"triggerLabel": "PJZ1pG_triggerLabel"
 		};
 		//#endregion
 		//#region lib/types/client/Combobox.js
@@ -2329,8 +2329,8 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelSelector_module_css_default = {
-			"avatar": "DFvSka_avatar",
-			"configureButton": "DFvSka_configureButton"
+			"configureButton": "DFvSka_configureButton",
+			"avatar": "DFvSka_avatar"
 		};
 		//#endregion
 		//#region lib/types/client/ModelSelector.js
@@ -3377,115 +3377,115 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TranslationWorkspace_module_css_default = {
-			"modelSelect": "_8lesPa_modelSelect",
-			"iconBtn": "_8lesPa_iconBtn",
-			"detailText": "_8lesPa_detailText",
-			"historyEmpty": "_8lesPa_historyEmpty",
-			"settingLabel": "_8lesPa_settingLabel",
-			"modelSelectWrap": "_8lesPa_modelSelectWrap",
-			"stopBtn": "_8lesPa_stopBtn",
-			"switchTrack": "_8lesPa_switchTrack",
+			"detailActions": "_8lesPa_detailActions",
+			"confirmActions": "_8lesPa_confirmActions",
 			"segmented": "_8lesPa_segmented",
-			"helpBubble": "_8lesPa_helpBubble",
-			"spacer": "_8lesPa_spacer",
-			"backdrop": "_8lesPa_backdrop",
-			"langFormLabel": "_8lesPa_langFormLabel",
-			"paneCorner": "_8lesPa_paneCorner",
-			"detailBack": "_8lesPa_detailBack",
-			"sectionTitle": "_8lesPa_sectionTitle",
-			"on": "_8lesPa_on",
-			"langRow": "_8lesPa_langRow",
-			"confirmOverlay": "_8lesPa_confirmOverlay",
-			"uploadZone": "_8lesPa_uploadZone",
-			"rowTarget": "_8lesPa_rowTarget",
-			"helpIcon": "_8lesPa_helpIcon",
-			"textareaScroll": "_8lesPa_textareaScroll",
-			"cc-spin": "_8lesPa_cc-spin",
-			"langSelectWrap": "_8lesPa_langSelectWrap",
-			"chipArrow": "_8lesPa_chipArrow",
-			"langFormError": "_8lesPa_langFormError",
-			"cc-slide-in": "_8lesPa_cc-slide-in",
-			"resetLink": "_8lesPa_resetLink",
-			"langFormActions": "_8lesPa_langFormActions",
-			"historyRow": "_8lesPa_historyRow",
+			"chipTarget": "_8lesPa_chipTarget",
 			"detailMeta": "_8lesPa_detailMeta",
-			"langCode": "_8lesPa_langCode",
-			"panelBody": "_8lesPa_panelBody",
-			"spinner": "_8lesPa_spinner",
-			"md": "_8lesPa_md",
-			"chip": "_8lesPa_chip",
-			"btn": "_8lesPa_btn",
-			"pane": "_8lesPa_pane",
-			"countBadge": "_8lesPa_countBadge",
-			"switchRow": "_8lesPa_switchRow",
-			"destructive": "_8lesPa_destructive",
+			"rowTarget": "_8lesPa_rowTarget",
+			"langChevron": "_8lesPa_langChevron",
 			"detailBlockLabel": "_8lesPa_detailBlockLabel",
 			"errorBanner": "_8lesPa_errorBanner",
-			"helpWrap": "_8lesPa_helpWrap",
-			"translating": "_8lesPa_translating",
-			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
-			"panes": "_8lesPa_panes",
-			"inputArea": "_8lesPa_inputArea",
-			"reuse": "_8lesPa_reuse",
-			"settingHint": "_8lesPa_settingHint",
-			"pairChip": "_8lesPa_pairChip",
-			"rightCluster": "_8lesPa_rightCluster",
-			"rowTime": "_8lesPa_rowTime",
-			"settingRow": "_8lesPa_settingRow",
-			"pairRow": "_8lesPa_pairRow",
-			"langForm": "_8lesPa_langForm",
-			"chipTarget": "_8lesPa_chipTarget",
-			"historyList": "_8lesPa_historyList",
-			"count": "_8lesPa_count",
-			"panelBodyScroll": "_8lesPa_panelBodyScroll",
-			"swapBtn": "_8lesPa_swapBtn",
-			"translateBtn": "_8lesPa_translateBtn",
-			"historyRowMeta": "_8lesPa_historyRowMeta",
-			"detailBlockHeader": "_8lesPa_detailBlockHeader",
-			"langFormRow": "_8lesPa_langFormRow",
-			"topBar": "_8lesPa_topBar",
-			"switch": "_8lesPa_switch",
-			"uploadIcon": "_8lesPa_uploadIcon",
-			"clearBtn": "_8lesPa_clearBtn",
-			"smallIconBtn": "_8lesPa_smallIconBtn",
-			"panelHeader": "_8lesPa_panelHeader",
-			"detailBlockTarget": "_8lesPa_detailBlockTarget",
-			"copy": "_8lesPa_copy",
-			"langRowActions": "_8lesPa_langRowActions",
-			"langName": "_8lesPa_langName",
-			"settingsSection": "_8lesPa_settingsSection",
-			"detailActions": "_8lesPa_detailActions",
-			"detailAction": "_8lesPa_detailAction",
+			"iconBtn": "_8lesPa_iconBtn",
+			"cc-spin": "_8lesPa_cc-spin",
 			"cc-fade": "_8lesPa_cc-fade",
-			"visible": "_8lesPa_visible",
-			"root": "_8lesPa_root",
-			"langSelect": "_8lesPa_langSelect",
-			"langChevron": "_8lesPa_langChevron",
-			"panelTitle": "_8lesPa_panelTitle",
-			"loadMore": "_8lesPa_loadMore",
-			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
-			"segItem": "_8lesPa_segItem",
-			"langAdd": "_8lesPa_langAdd",
-			"settingsEmpty": "_8lesPa_settingsEmpty",
-			"rowSource": "_8lesPa_rowSource",
-			"active": "_8lesPa_active",
-			"confirmActions": "_8lesPa_confirmActions",
-			"success": "_8lesPa_success",
-			"langInput": "_8lesPa_langInput",
-			"confirmCard": "_8lesPa_confirmCard",
-			"settingsTextarea": "_8lesPa_settingsTextarea",
-			"paneFooter": "_8lesPa_paneFooter",
-			"confirmText": "_8lesPa_confirmText",
-			"backButton": "_8lesPa_backButton",
-			"starBtn": "_8lesPa_starBtn",
-			"starFill": "_8lesPa_starFill",
+			"panelHeader": "_8lesPa_panelHeader",
+			"langCode": "_8lesPa_langCode",
+			"settingHint": "_8lesPa_settingHint",
+			"historyEmpty": "_8lesPa_historyEmpty",
 			"outputPane": "_8lesPa_outputPane",
+			"panelBodyScroll": "_8lesPa_panelBodyScroll",
 			"detailBlock": "_8lesPa_detailBlock",
-			"btnPrimary": "_8lesPa_btnPrimary",
-			"sidePanel": "_8lesPa_sidePanel",
-			"confirmTitle": "_8lesPa_confirmTitle",
+			"settingLabel": "_8lesPa_settingLabel",
+			"copy": "_8lesPa_copy",
+			"langInput": "_8lesPa_langInput",
+			"topBar": "_8lesPa_topBar",
+			"backButton": "_8lesPa_backButton",
+			"settingsEmpty": "_8lesPa_settingsEmpty",
+			"root": "_8lesPa_root",
+			"langSelectWrap": "_8lesPa_langSelectWrap",
+			"sectionTitle": "_8lesPa_sectionTitle",
+			"historyRowMeta": "_8lesPa_historyRowMeta",
+			"on": "_8lesPa_on",
+			"langRow": "_8lesPa_langRow",
+			"detailBlockHeader": "_8lesPa_detailBlockHeader",
+			"active": "_8lesPa_active",
+			"smallIconBtn": "_8lesPa_smallIconBtn",
+			"rowSource": "_8lesPa_rowSource",
+			"starBtn": "_8lesPa_starBtn",
+			"translateBtn": "_8lesPa_translateBtn",
+			"textareaScroll": "_8lesPa_textareaScroll",
+			"settingsTextarea": "_8lesPa_settingsTextarea",
+			"backdrop": "_8lesPa_backdrop",
+			"detailText": "_8lesPa_detailText",
+			"uploadIcons": "_8lesPa_uploadIcons",
+			"destructive": "_8lesPa_destructive",
+			"switchRow": "_8lesPa_switchRow",
+			"count": "_8lesPa_count",
+			"uploadZone": "_8lesPa_uploadZone",
+			"uploadIcon": "_8lesPa_uploadIcon",
+			"inputArea": "_8lesPa_inputArea",
+			"stopBtn": "_8lesPa_stopBtn",
+			"paneFooter": "_8lesPa_paneFooter",
+			"detailBlockTarget": "_8lesPa_detailBlockTarget",
+			"success": "_8lesPa_success",
+			"modelSelectWrap": "_8lesPa_modelSelectWrap",
+			"settingRow": "_8lesPa_settingRow",
+			"detailAction": "_8lesPa_detailAction",
+			"chipArrow": "_8lesPa_chipArrow",
+			"settingsSection": "_8lesPa_settingsSection",
+			"switch": "_8lesPa_switch",
+			"confirmCard": "_8lesPa_confirmCard",
+			"langSelect": "_8lesPa_langSelect",
 			"outputArea": "_8lesPa_outputArea",
-			"uploadIcons": "_8lesPa_uploadIcons"
+			"langForm": "_8lesPa_langForm",
+			"rowTime": "_8lesPa_rowTime",
+			"pane": "_8lesPa_pane",
+			"langFormActions": "_8lesPa_langFormActions",
+			"langName": "_8lesPa_langName",
+			"pairChip": "_8lesPa_pairChip",
+			"btn": "_8lesPa_btn",
+			"visible": "_8lesPa_visible",
+			"helpBubble": "_8lesPa_helpBubble",
+			"langRowActions": "_8lesPa_langRowActions",
+			"historyRow": "_8lesPa_historyRow",
+			"cc-slide-in": "_8lesPa_cc-slide-in",
+			"helpIcon": "_8lesPa_helpIcon",
+			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
+			"helpWrap": "_8lesPa_helpWrap",
+			"swapBtn": "_8lesPa_swapBtn",
+			"langFormRow": "_8lesPa_langFormRow",
+			"loadMore": "_8lesPa_loadMore",
+			"clearBtn": "_8lesPa_clearBtn",
+			"segItem": "_8lesPa_segItem",
+			"switchTrack": "_8lesPa_switchTrack",
+			"translating": "_8lesPa_translating",
+			"sidePanel": "_8lesPa_sidePanel",
+			"md": "_8lesPa_md",
+			"panelBody": "_8lesPa_panelBody",
+			"detailBack": "_8lesPa_detailBack",
+			"langAdd": "_8lesPa_langAdd",
+			"btnPrimary": "_8lesPa_btnPrimary",
+			"confirmOverlay": "_8lesPa_confirmOverlay",
+			"confirmTitle": "_8lesPa_confirmTitle",
+			"chip": "_8lesPa_chip",
+			"confirmText": "_8lesPa_confirmText",
+			"rightCluster": "_8lesPa_rightCluster",
+			"pairRow": "_8lesPa_pairRow",
+			"countBadge": "_8lesPa_countBadge",
+			"langFormLabel": "_8lesPa_langFormLabel",
+			"spacer": "_8lesPa_spacer",
+			"paneCorner": "_8lesPa_paneCorner",
+			"panes": "_8lesPa_panes",
+			"historyList": "_8lesPa_historyList",
+			"modelSelect": "_8lesPa_modelSelect",
+			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
+			"spinner": "_8lesPa_spinner",
+			"panelTitle": "_8lesPa_panelTitle",
+			"reuse": "_8lesPa_reuse",
+			"resetLink": "_8lesPa_resetLink",
+			"langFormError": "_8lesPa_langFormError",
+			"starFill": "_8lesPa_starFill"
 		};
 		//#endregion
 		//#region lib/types/client/panel-ui.js
@@ -4180,103 +4180,103 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var KnowledgeWorkspace_module_css_default = {
-			"ragFooter": "uHDY1a_ragFooter",
-			"dialogFieldRow": "uHDY1a_dialogFieldRow",
-			"detailEmptyHint": "uHDY1a_detailEmptyHint",
-			"dialogSelect": "uHDY1a_dialogSelect",
-			"ragSelectWrap": "uHDY1a_ragSelectWrap",
-			"ragSelect": "uHDY1a_ragSelect",
+			"navRow": "uHDY1a_navRow",
 			"advancedChevronOpen": "uHDY1a_advancedChevronOpen",
-			"indexButton": "uHDY1a_indexButton",
-			"advancedToggle": "uHDY1a_advancedToggle",
-			"btn": "uHDY1a_btn",
-			"recallInputWrap": "uHDY1a_recallInputWrap",
-			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
-			"recallCopy": "uHDY1a_recallCopy",
-			"dialogTextarea": "uHDY1a_dialogTextarea",
-			"dataHeader": "uHDY1a_dataHeader",
+			"recallBar": "uHDY1a_recallBar",
 			"recallEmpty": "uHDY1a_recallEmpty",
-			"menuItem": "uHDY1a_menuItem",
-			"ragReadonly": "uHDY1a_ragReadonly",
-			"sourceUpdated": "uHDY1a_sourceUpdated",
-			"ragSlider": "uHDY1a_ragSlider",
-			"detailEmpty": "uHDY1a_detailEmpty",
-			"advancedBody": "uHDY1a_advancedBody",
-			"dialogHint": "uHDY1a_dialogHint",
-			"navigator": "uHDY1a_navigator",
-			"recallInput": "uHDY1a_recallInput",
-			"detailHeaderActions": "uHDY1a_detailHeaderActions",
-			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
-			"dataHeaderActions": "uHDY1a_dataHeaderActions",
-			"sourceIcon": "uHDY1a_sourceIcon",
 			"navRowMenu": "uHDY1a_navRowMenu",
 			"statusSpinner": "uHDY1a_statusSpinner",
-			"sourcesEmpty": "uHDY1a_sourcesEmpty",
+			"recallInput": "uHDY1a_recallInput",
+			"detailEmpty": "uHDY1a_detailEmpty",
+			"ragSelectWrap": "uHDY1a_ragSelectWrap",
 			"cc-spin": "uHDY1a_cc-spin",
-			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
-			"recallSource": "uHDY1a_recallSource",
-			"success": "uHDY1a_success",
-			"recallSummary": "uHDY1a_recallSummary",
-			"split": "uHDY1a_split",
-			"gridHeader": "uHDY1a_gridHeader",
-			"statusBadge": "uHDY1a_statusBadge",
-			"dataPanel": "uHDY1a_dataPanel",
-			"statusIndexing": "uHDY1a_statusIndexing",
-			"recallChunkIndex": "uHDY1a_recallChunkIndex",
-			"recallBody": "uHDY1a_recallBody",
-			"addSourceButton": "uHDY1a_addSourceButton",
-			"clamped": "uHDY1a_clamped",
-			"dialogOverlay": "uHDY1a_dialogOverlay",
-			"notice": "uHDY1a_notice",
-			"gridRow": "uHDY1a_gridRow",
-			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
-			"dialogField": "uHDY1a_dialogField",
-			"ragNumber": "uHDY1a_ragNumber",
-			"navEmpty": "uHDY1a_navEmpty",
-			"ragNumberFull": "uHDY1a_ragNumberFull",
-			"ragField": "uHDY1a_ragField",
-			"ragFieldRow": "uHDY1a_ragFieldRow",
-			"sourceTypeCard": "uHDY1a_sourceTypeCard",
-			"recallCardHeader": "uHDY1a_recallCardHeader",
-			"detailEmptyTitle": "uHDY1a_detailEmptyTitle",
-			"navScroll": "uHDY1a_navScroll",
-			"sourceName": "uHDY1a_sourceName",
-			"destructive": "uHDY1a_destructive",
-			"sourceTypeCards": "uHDY1a_sourceTypeCards",
-			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
-			"root": "uHDY1a_root",
-			"navRow": "uHDY1a_navRow",
-			"navCreate": "uHDY1a_navCreate",
-			"active": "uHDY1a_active",
-			"detail": "uHDY1a_detail",
-			"sourceType": "uHDY1a_sourceType",
-			"rowMenu": "uHDY1a_rowMenu",
-			"recallResults": "uHDY1a_recallResults",
-			"dialogInput": "uHDY1a_dialogInput",
 			"menuPopover": "uHDY1a_menuPopover",
-			"dialogSliderRow": "uHDY1a_dialogSliderRow",
-			"recallScore": "uHDY1a_recallScore",
-			"ghostButton": "uHDY1a_ghostButton",
-			"detailHeader": "uHDY1a_detailHeader",
-			"recallSubmit": "uHDY1a_recallSubmit",
-			"statusReady": "uHDY1a_statusReady",
-			"dialogCard": "uHDY1a_dialogCard",
-			"errorBanner": "uHDY1a_errorBanner",
-			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
-			"recallCard": "uHDY1a_recallCard",
-			"recallRank": "uHDY1a_recallRank",
-			"navRowName": "uHDY1a_navRowName",
-			"ragSliderRow": "uHDY1a_ragSliderRow",
-			"recallBar": "uHDY1a_recallBar",
-			"ragTitle": "uHDY1a_ragTitle",
-			"ragLabel": "uHDY1a_ragLabel",
-			"ragBody": "uHDY1a_ragBody",
-			"gridScroll": "uHDY1a_gridScroll",
-			"statusFailed": "uHDY1a_statusFailed",
-			"dialogActions": "uHDY1a_dialogActions",
-			"btnPrimary": "uHDY1a_btnPrimary",
 			"ragSection": "uHDY1a_ragSection",
-			"ragHint": "uHDY1a_ragHint"
+			"active": "uHDY1a_active",
+			"detailHeader": "uHDY1a_detailHeader",
+			"sourceName": "uHDY1a_sourceName",
+			"dialogField": "uHDY1a_dialogField",
+			"recallChunkIndex": "uHDY1a_recallChunkIndex",
+			"menuItem": "uHDY1a_menuItem",
+			"ragBody": "uHDY1a_ragBody",
+			"sourceType": "uHDY1a_sourceType",
+			"ragNumber": "uHDY1a_ragNumber",
+			"navScroll": "uHDY1a_navScroll",
+			"sourcesEmpty": "uHDY1a_sourcesEmpty",
+			"dialogInput": "uHDY1a_dialogInput",
+			"root": "uHDY1a_root",
+			"detailEmptyTitle": "uHDY1a_detailEmptyTitle",
+			"gridHeader": "uHDY1a_gridHeader",
+			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
+			"navRowName": "uHDY1a_navRowName",
+			"gridRow": "uHDY1a_gridRow",
+			"recallSummary": "uHDY1a_recallSummary",
+			"clamped": "uHDY1a_clamped",
+			"ragNumberFull": "uHDY1a_ragNumberFull",
+			"ragSelect": "uHDY1a_ragSelect",
+			"indexButton": "uHDY1a_indexButton",
+			"sourceIcon": "uHDY1a_sourceIcon",
+			"dataHeader": "uHDY1a_dataHeader",
+			"sourceUpdated": "uHDY1a_sourceUpdated",
+			"recallSource": "uHDY1a_recallSource",
+			"dataPanel": "uHDY1a_dataPanel",
+			"gridScroll": "uHDY1a_gridScroll",
+			"ghostButton": "uHDY1a_ghostButton",
+			"sourceTypeCards": "uHDY1a_sourceTypeCards",
+			"dialogHint": "uHDY1a_dialogHint",
+			"ragLabel": "uHDY1a_ragLabel",
+			"dialogFieldRow": "uHDY1a_dialogFieldRow",
+			"recallResults": "uHDY1a_recallResults",
+			"rowMenu": "uHDY1a_rowMenu",
+			"recallCardHeader": "uHDY1a_recallCardHeader",
+			"dataHeaderActions": "uHDY1a_dataHeaderActions",
+			"notice": "uHDY1a_notice",
+			"advancedToggle": "uHDY1a_advancedToggle",
+			"ragField": "uHDY1a_ragField",
+			"dialogOverlay": "uHDY1a_dialogOverlay",
+			"recallSubmit": "uHDY1a_recallSubmit",
+			"statusFailed": "uHDY1a_statusFailed",
+			"success": "uHDY1a_success",
+			"statusReady": "uHDY1a_statusReady",
+			"navEmpty": "uHDY1a_navEmpty",
+			"destructive": "uHDY1a_destructive",
+			"recallBody": "uHDY1a_recallBody",
+			"detail": "uHDY1a_detail",
+			"navCreate": "uHDY1a_navCreate",
+			"detailHeaderActions": "uHDY1a_detailHeaderActions",
+			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
+			"statusIndexing": "uHDY1a_statusIndexing",
+			"dialogCard": "uHDY1a_dialogCard",
+			"dialogActions": "uHDY1a_dialogActions",
+			"addSourceButton": "uHDY1a_addSourceButton",
+			"recallInputWrap": "uHDY1a_recallInputWrap",
+			"errorBanner": "uHDY1a_errorBanner",
+			"recallCard": "uHDY1a_recallCard",
+			"ragReadonly": "uHDY1a_ragReadonly",
+			"ragHint": "uHDY1a_ragHint",
+			"dialogSelect": "uHDY1a_dialogSelect",
+			"split": "uHDY1a_split",
+			"btn": "uHDY1a_btn",
+			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
+			"btnPrimary": "uHDY1a_btnPrimary",
+			"ragSlider": "uHDY1a_ragSlider",
+			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
+			"recallCopy": "uHDY1a_recallCopy",
+			"recallScore": "uHDY1a_recallScore",
+			"detailEmptyHint": "uHDY1a_detailEmptyHint",
+			"advancedBody": "uHDY1a_advancedBody",
+			"statusBadge": "uHDY1a_statusBadge",
+			"ragSliderRow": "uHDY1a_ragSliderRow",
+			"ragTitle": "uHDY1a_ragTitle",
+			"dialogTextarea": "uHDY1a_dialogTextarea",
+			"sourceTypeCard": "uHDY1a_sourceTypeCard",
+			"dialogSliderRow": "uHDY1a_dialogSliderRow",
+			"navigator": "uHDY1a_navigator",
+			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
+			"ragFooter": "uHDY1a_ragFooter",
+			"ragFieldRow": "uHDY1a_ragFieldRow",
+			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
+			"recallRank": "uHDY1a_recallRank"
 		};
 		//#endregion
 		//#region lib/types/client/KnowledgeWorkspace.js
@@ -5740,18 +5740,18 @@ window.__ModuleLoader__.load({
 		}
 		var SkillsSection_module_css_default = {
 			"cardHeader": "pyHmqW_cardHeader",
-			"searchInput": "pyHmqW_searchInput",
-			"card": "pyHmqW_card",
-			"cardMeta": "pyHmqW_cardMeta",
 			"cardTitle": "pyHmqW_cardTitle",
 			"cardMetaItem": "pyHmqW_cardMetaItem",
-			"cardDescription": "pyHmqW_cardDescription",
+			"cardTags": "pyHmqW_cardTags",
+			"cardMeta": "pyHmqW_cardMeta",
 			"tag": "pyHmqW_tag",
-			"grid": "pyHmqW_grid",
-			"cardActions": "pyHmqW_cardActions",
+			"cardDescription": "pyHmqW_cardDescription",
 			"searchRow": "pyHmqW_searchRow",
 			"cardFooter": "pyHmqW_cardFooter",
-			"cardTags": "pyHmqW_cardTags"
+			"cardActions": "pyHmqW_cardActions",
+			"grid": "pyHmqW_grid",
+			"searchInput": "pyHmqW_searchInput",
+			"card": "pyHmqW_card"
 		};
 		//#endregion
 		//#region lib/types/client/SkillsSection.js
@@ -6407,113 +6407,113 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelsSection_module_css_default = {
-			"topicNamingBody": "tKsOKa_topicNamingBody",
-			"attemptsInput": "tKsOKa_attemptsInput",
 			"modelAvatar": "tKsOKa_modelAvatar",
-			"modelRowDisabled": "tKsOKa_modelRowDisabled",
-			"rowActions": "tKsOKa_rowActions",
-			"fallbackCount": "tKsOKa_fallbackCount",
-			"typeTabActive": "tKsOKa_typeTabActive",
-			"topicNamingHeading": "tKsOKa_topicNamingHeading",
+			"modelGroupHeader": "tKsOKa_modelGroupHeader",
+			"attemptsInput": "tKsOKa_attemptsInput",
 			"typeTabCount": "tKsOKa_typeTabCount",
-			"fieldLabel": "tKsOKa_fieldLabel",
-			"intro": "tKsOKa_intro",
+			"setupCard": "tKsOKa_setupCard",
+			"checkResultOk": "tKsOKa_checkResultOk",
+			"section": "tKsOKa_section",
+			"typeTabActive": "tKsOKa_typeTabActive",
+			"healthPulse": "tKsOKa_healthPulse",
+			"modelEmpty": "tKsOKa_modelEmpty",
+			"modelTypeTabsRow": "tKsOKa_modelTypeTabsRow",
+			"modelFieldLabel": "tKsOKa_modelFieldLabel",
+			"modelGroupBody": "tKsOKa_modelGroupBody",
+			"modelListHead": "tKsOKa_modelListHead",
+			"monoInput": "tKsOKa_monoInput",
+			"addButton": "tKsOKa_addButton",
+			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"credentialDot": "tKsOKa_credentialDot",
+			"candidateId": "tKsOKa_candidateId",
+			"modelSearchInput": "tKsOKa_modelSearchInput",
+			"notice": "tKsOKa_notice",
+			"fallbackList": "tKsOKa_fallbackList",
+			"typeTab": "tKsOKa_typeTab",
+			"fetchButton": "tKsOKa_fetchButton",
+			"eyeButton": "tKsOKa_eyeButton",
+			"modelIdInput": "tKsOKa_modelIdInput",
+			"linkButton": "tKsOKa_linkButton",
+			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
+			"savedNotice": "tKsOKa_savedNotice",
+			"error": "tKsOKa_error",
+			"iconButton": "tKsOKa_iconButton",
+			"iconButtonDanger": "tKsOKa_iconButtonDanger",
+			"modelGroup": "tKsOKa_modelGroup",
+			"modelRow": "tKsOKa_modelRow",
+			"input": "tKsOKa_input",
+			"modelDisabledId": "tKsOKa_modelDisabledId",
+			"headerRow": "tKsOKa_headerRow",
+			"deleteConfirm": "tKsOKa_deleteConfirm",
+			"addModelButton": "tKsOKa_addModelButton",
+			"fieldRow": "tKsOKa_fieldRow",
+			"healthDot": "tKsOKa_healthDot",
+			"topicNamingHeading": "tKsOKa_topicNamingHeading",
+			"title": "tKsOKa_title",
+			"modelCountBadge": "tKsOKa_modelCountBadge",
+			"healthFail": "tKsOKa_healthFail",
 			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
 			"modelCatalog": "tKsOKa_modelCatalog",
-			"topicNamingCard": "tKsOKa_topicNamingCard",
-			"endpointPreview": "tKsOKa_endpointPreview",
-			"healthChecking": "tKsOKa_healthChecking",
-			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
-			"healthDot": "tKsOKa_healthDot",
-			"fallbackList": "tKsOKa_fallbackList",
-			"retryRow": "tKsOKa_retryRow",
-			"candidateLabel": "tKsOKa_candidateLabel",
-			"modelGroup": "tKsOKa_modelGroup",
-			"fallbackItem": "tKsOKa_fallbackItem",
-			"healthFail": "tKsOKa_healthFail",
-			"rowCard": "tKsOKa_rowCard",
-			"checkButton": "tKsOKa_checkButton",
-			"retryGroup": "tKsOKa_retryGroup",
-			"modelList": "tKsOKa_modelList",
-			"modelRow": "tKsOKa_modelRow",
 			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
-			"rowIdentity": "tKsOKa_rowIdentity",
-			"defaultMarker": "tKsOKa_defaultMarker",
-			"healthMeta": "tKsOKa_healthMeta",
-			"fieldLabelRow": "tKsOKa_fieldLabelRow",
-			"fallbackSummary": "tKsOKa_fallbackSummary",
-			"iconButtonDanger": "tKsOKa_iconButtonDanger",
-			"candidateList": "tKsOKa_candidateList",
-			"modelTypeTabsRow": "tKsOKa_modelTypeTabsRow",
-			"checkResultFail": "tKsOKa_checkResultFail",
-			"addButton": "tKsOKa_addButton",
-			"addCard": "tKsOKa_addCard",
-			"helpLink": "tKsOKa_helpLink",
-			"checkResult": "tKsOKa_checkResult",
-			"healthPulse": "tKsOKa_healthPulse",
-			"panelBody": "tKsOKa_panelBody",
-			"iconButton": "tKsOKa_iconButton",
-			"modelDisabledId": "tKsOKa_modelDisabledId",
-			"fallbackDetails": "tKsOKa_fallbackDetails",
-			"rowHead": "tKsOKa_rowHead",
-			"modelEmpty": "tKsOKa_modelEmpty",
-			"addModelButton": "tKsOKa_addModelButton",
-			"typeTab": "tKsOKa_typeTab",
-			"setupCard": "tKsOKa_setupCard",
-			"inputRow": "tKsOKa_inputRow",
-			"modelListHead": "tKsOKa_modelListHead",
-			"keyListButton": "tKsOKa_keyListButton",
-			"topicNamingNote": "tKsOKa_topicNamingNote",
-			"dangerButton": "tKsOKa_dangerButton",
-			"section": "tKsOKa_section",
-			"linkButton": "tKsOKa_linkButton",
-			"fieldRow": "tKsOKa_fieldRow",
-			"rowTag": "tKsOKa_rowTag",
-			"credentialDotMissing": "tKsOKa_credentialDotMissing",
-			"healthOk": "tKsOKa_healthOk",
-			"fetchButton": "tKsOKa_fetchButton",
-			"healthFailText": "tKsOKa_healthFailText",
-			"secondaryButton": "tKsOKa_secondaryButton",
-			"deleteConfirm": "tKsOKa_deleteConfirm",
-			"modelAvatarBrand": "tKsOKa_modelAvatarBrand",
-			"modelSelectionTitle": "tKsOKa_modelSelectionTitle",
-			"addBlock": "tKsOKa_addBlock",
-			"savedNotice": "tKsOKa_savedNotice",
-			"modelSearchInput": "tKsOKa_modelSearchInput",
-			"credentialDot": "tKsOKa_credentialDot",
-			"deleteDialog": "tKsOKa_deleteDialog",
-			"eyeButton": "tKsOKa_eyeButton",
-			"checkResultOk": "tKsOKa_checkResultOk",
-			"candidateId": "tKsOKa_candidateId",
-			"title": "tKsOKa_title",
-			"headerRow": "tKsOKa_headerRow",
-			"monoInput": "tKsOKa_monoInput",
-			"modelAdvanced": "tKsOKa_modelAdvanced",
 			"rowName": "tKsOKa_rowName",
-			"modelEntry": "tKsOKa_modelEntry",
-			"notice": "tKsOKa_notice",
-			"modelIdInput": "tKsOKa_modelIdInput",
-			"modelField": "tKsOKa_modelField",
-			"modelCountBadge": "tKsOKa_modelCountBadge",
-			"modelFieldLabel": "tKsOKa_modelFieldLabel",
-			"modelGroupHeader": "tKsOKa_modelGroupHeader",
+			"rowActions": "tKsOKa_rowActions",
 			"modelGroupTitle": "tKsOKa_modelGroupTitle",
-			"prefsPanel": "tKsOKa_prefsPanel",
-			"error": "tKsOKa_error",
-			"input": "tKsOKa_input",
-			"modelSelectionPanel": "tKsOKa_modelSelectionPanel",
-			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
-			"advancedHint": "tKsOKa_advancedHint",
-			"modelGroupCount": "tKsOKa_modelGroupCount",
-			"inputGroup": "tKsOKa_inputGroup",
-			"modelGroupBody": "tKsOKa_modelGroupBody",
-			"fieldRowWithAction": "tKsOKa_fieldRowWithAction",
-			"gearButton": "tKsOKa_gearButton",
+			"endpointPreview": "tKsOKa_endpointPreview",
+			"addCard": "tKsOKa_addCard",
+			"selectInput": "tKsOKa_selectInput",
+			"dangerButton": "tKsOKa_dangerButton",
+			"topicNamingCard": "tKsOKa_topicNamingCard",
+			"fallbackDetails": "tKsOKa_fallbackDetails",
+			"deleteDialog": "tKsOKa_deleteDialog",
 			"field": "tKsOKa_field",
-			"modelToolbarActions": "tKsOKa_modelToolbarActions",
+			"retryGroup": "tKsOKa_retryGroup",
+			"rowCard": "tKsOKa_rowCard",
+			"prefsPanel": "tKsOKa_prefsPanel",
+			"topicNamingBody": "tKsOKa_topicNamingBody",
+			"modelAvatarBrand": "tKsOKa_modelAvatarBrand",
 			"rows": "tKsOKa_rows",
+			"rowIdentity": "tKsOKa_rowIdentity",
+			"modelField": "tKsOKa_modelField",
+			"candidateLabel": "tKsOKa_candidateLabel",
+			"modelList": "tKsOKa_modelList",
+			"fallbackCount": "tKsOKa_fallbackCount",
+			"modelSelectionTitle": "tKsOKa_modelSelectionTitle",
+			"rowHead": "tKsOKa_rowHead",
+			"modelRowDisabled": "tKsOKa_modelRowDisabled",
+			"fallbackSummary": "tKsOKa_fallbackSummary",
+			"rowTag": "tKsOKa_rowTag",
+			"fieldLabelRow": "tKsOKa_fieldLabelRow",
+			"modelEntry": "tKsOKa_modelEntry",
+			"keyListButton": "tKsOKa_keyListButton",
+			"modelSelectionPanel": "tKsOKa_modelSelectionPanel",
+			"healthFailText": "tKsOKa_healthFailText",
+			"candidateList": "tKsOKa_candidateList",
+			"fieldLabel": "tKsOKa_fieldLabel",
+			"fallbackItem": "tKsOKa_fallbackItem",
+			"checkResultFail": "tKsOKa_checkResultFail",
+			"inputRow": "tKsOKa_inputRow",
+			"inputGroup": "tKsOKa_inputGroup",
+			"gearButton": "tKsOKa_gearButton",
+			"fieldRowWithAction": "tKsOKa_fieldRowWithAction",
+			"retryRow": "tKsOKa_retryRow",
+			"topicNamingNote": "tKsOKa_topicNamingNote",
+			"addBlock": "tKsOKa_addBlock",
+			"intro": "tKsOKa_intro",
 			"addActions": "tKsOKa_addActions",
-			"selectInput": "tKsOKa_selectInput"
+			"modelGroupCount": "tKsOKa_modelGroupCount",
+			"checkButton": "tKsOKa_checkButton",
+			"secondaryButton": "tKsOKa_secondaryButton",
+			"modelAdvanced": "tKsOKa_modelAdvanced",
+			"checkResult": "tKsOKa_checkResult",
+			"advancedHint": "tKsOKa_advancedHint",
+			"panelBody": "tKsOKa_panelBody",
+			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
+			"modelToolbarActions": "tKsOKa_modelToolbarActions",
+			"healthChecking": "tKsOKa_healthChecking",
+			"healthOk": "tKsOKa_healthOk",
+			"helpLink": "tKsOKa_helpLink",
+			"defaultMarker": "tKsOKa_defaultMarker",
+			"healthMeta": "tKsOKa_healthMeta"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -9297,27 +9297,27 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ApiKeyListDrawer_module_css_default = {
-			"empty": "fY1kUq_empty",
-			"keyDraftRow": "fY1kUq_keyDraftRow",
-			"helper": "fY1kUq_helper",
 			"keyRow": "fY1kUq_keyRow",
-			"keyActions": "fY1kUq_keyActions",
-			"shell": "fY1kUq_shell",
-			"keyLabel": "fY1kUq_keyLabel",
-			"keyIcon": "fY1kUq_keyIcon",
-			"error": "fY1kUq_error",
+			"keyDraftInputs": "fY1kUq_keyDraftInputs",
 			"keyMeta": "fY1kUq_keyMeta",
-			"keyInput": "fY1kUq_keyInput",
-			"keyDanger": "fY1kUq_keyDanger",
-			"actionRow": "fY1kUq_actionRow",
-			"listWrap": "fY1kUq_listWrap",
-			"keyLabelInput": "fY1kUq_keyLabelInput",
-			"summaryMeta": "fY1kUq_summaryMeta",
-			"keySave": "fY1kUq_keySave",
 			"listScroller": "fY1kUq_listScroller",
+			"keyDanger": "fY1kUq_keyDanger",
 			"keyTextBlock": "fY1kUq_keyTextBlock",
-			"addButton": "fY1kUq_addButton",
-			"keyDraftInputs": "fY1kUq_keyDraftInputs"
+			"keyDraftRow": "fY1kUq_keyDraftRow",
+			"keyInput": "fY1kUq_keyInput",
+			"error": "fY1kUq_error",
+			"listWrap": "fY1kUq_listWrap",
+			"empty": "fY1kUq_empty",
+			"helper": "fY1kUq_helper",
+			"keyLabel": "fY1kUq_keyLabel",
+			"actionRow": "fY1kUq_actionRow",
+			"keyActions": "fY1kUq_keyActions",
+			"summaryMeta": "fY1kUq_summaryMeta",
+			"keyIcon": "fY1kUq_keyIcon",
+			"shell": "fY1kUq_shell",
+			"keyLabelInput": "fY1kUq_keyLabelInput",
+			"keySave": "fY1kUq_keySave",
+			"addButton": "fY1kUq_addButton"
 		};
 		//#endregion
 		//#region lib/types/client/ApiKeyListDrawer.js
@@ -10941,7 +10941,7 @@ window.__ModuleLoader__.load({
 		function ModelsSection(props) {
 			const { controller, useSnapshot, prefsController, usePrefsSnapshot, api, t, schema, modelSelection } = props;
 			if (controller === void 0 || useSnapshot === void 0 || prefsController === void 0 || usePrefsSnapshot === void 0 || api === void 0 || t === void 0 || schema === void 0 || modelSelection === void 0) return null;
-			return (0, react_jsx_runtime.jsx)(Loaded$2, { injected: {
+			return (0, react_jsx_runtime.jsx)(Loaded$3, { injected: {
 				controller,
 				useSnapshot,
 				prefsController,
@@ -10967,7 +10967,7 @@ window.__ModuleLoader__.load({
 			if (typeof providers !== "object" || providers === null) return [];
 			return Object.keys(providers);
 		}
-		function Loaded$2({ injected }) {
+		function Loaded$3({ injected }) {
 			const { controller, t, prefsController, api } = injected;
 			const state = injected.useSnapshot((snapshot) => snapshot);
 			const prefs = injected.usePrefsSnapshot((snapshot) => snapshot);
@@ -12071,57 +12071,57 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderDirectorySection_module_css_default = {
-			"enabledDot": "l38w4q_enabledDot",
-			"searchClear": "l38w4q_searchClear",
-			"notice": "l38w4q_notice",
-			"listItemDisabled": "l38w4q_listItemDisabled",
-			"split": "l38w4q_split",
-			"searchRow": "l38w4q_searchRow",
-			"savedNotice": "l38w4q_savedNotice",
-			"listItemDragging": "l38w4q_listItemDragging",
-			"intro": "l38w4q_intro",
-			"listItemSelected": "l38w4q_listItemSelected",
+			"searchWrap": "l38w4q_searchWrap",
+			"error": "l38w4q_error",
 			"listItemDropTarget": "l38w4q_listItemDropTarget",
 			"kebabButton": "l38w4q_kebabButton",
-			"avatar": "l38w4q_avatar",
-			"secondaryButton": "l38w4q_secondaryButton",
-			"deleteDialog": "l38w4q_deleteDialog",
-			"deleteConfirm": "l38w4q_deleteConfirm",
-			"error": "l38w4q_error",
-			"list": "l38w4q_list",
+			"savedNotice": "l38w4q_savedNotice",
+			"emptyDetail": "l38w4q_emptyDetail",
+			"searchClear": "l38w4q_searchClear",
+			"listItemDragging": "l38w4q_listItemDragging",
+			"listItemMain": "l38w4q_listItemMain",
 			"dragHandle": "l38w4q_dragHandle",
+			"freeBadge": "l38w4q_freeBadge",
 			"detail": "l38w4q_detail",
-			"detailScroll": "l38w4q_detailScroll",
+			"infoDot": "l38w4q_infoDot",
+			"detailBody": "l38w4q_detailBody",
+			"deleteConfirm": "l38w4q_deleteConfirm",
+			"detailHeaderMain": "l38w4q_detailHeaderMain",
+			"searchInput": "l38w4q_searchInput",
+			"listItem": "l38w4q_listItem",
 			"section": "l38w4q_section",
-			"switchOn": "l38w4q_switchOn",
+			"detailRoute": "l38w4q_detailRoute",
+			"listItemSelected": "l38w4q_listItemSelected",
+			"headerIconButton": "l38w4q_headerIconButton",
+			"boltButton": "l38w4q_boltButton",
+			"notice": "l38w4q_notice",
+			"switch": "l38w4q_switch",
+			"searchRow": "l38w4q_searchRow",
+			"kebabSlot": "l38w4q_kebabSlot",
+			"detailHeader": "l38w4q_detailHeader",
+			"emptyList": "l38w4q_emptyList",
+			"intro": "l38w4q_intro",
+			"groupRows": "l38w4q_groupRows",
+			"listItemDisabled": "l38w4q_listItemDisabled",
+			"emptyTitle": "l38w4q_emptyTitle",
+			"secondaryButton": "l38w4q_secondaryButton",
+			"customTag": "l38w4q_customTag",
+			"searchIcon": "l38w4q_searchIcon",
+			"listScroll": "l38w4q_listScroll",
 			"addCustomButton": "l38w4q_addCustomButton",
 			"listItemName": "l38w4q_listItemName",
-			"kebabSlot": "l38w4q_kebabSlot",
-			"detailBody": "l38w4q_detailBody",
-			"detailTitle": "l38w4q_detailTitle",
-			"searchIcon": "l38w4q_searchIcon",
-			"detailHeaderMain": "l38w4q_detailHeaderMain",
-			"listItem": "l38w4q_listItem",
-			"infoDot": "l38w4q_infoDot",
-			"emptyTitle": "l38w4q_emptyTitle",
-			"customTag": "l38w4q_customTag",
-			"switch": "l38w4q_switch",
-			"emptyDetail": "l38w4q_emptyDetail",
-			"emptyHint": "l38w4q_emptyHint",
-			"emptyList": "l38w4q_emptyList",
-			"listScroll": "l38w4q_listScroll",
-			"groupRows": "l38w4q_groupRows",
-			"searchInput": "l38w4q_searchInput",
-			"listItemMain": "l38w4q_listItemMain",
-			"headerIconButton": "l38w4q_headerIconButton",
-			"detailRoute": "l38w4q_detailRoute",
-			"boltButton": "l38w4q_boltButton",
 			"disabledTag": "l38w4q_disabledTag",
-			"listFooter": "l38w4q_listFooter",
-			"detailHeader": "l38w4q_detailHeader",
-			"searchWrap": "l38w4q_searchWrap",
+			"detailTitle": "l38w4q_detailTitle",
+			"switchOn": "l38w4q_switchOn",
 			"switchThumb": "l38w4q_switchThumb",
-			"freeBadge": "l38w4q_freeBadge"
+			"listFooter": "l38w4q_listFooter",
+			"detailScroll": "l38w4q_detailScroll",
+			"emptyHint": "l38w4q_emptyHint",
+			"avatar": "l38w4q_avatar",
+			"enabledDot": "l38w4q_enabledDot",
+			"deleteDialog": "l38w4q_deleteDialog",
+			"split": "l38w4q_split",
+			"list": "l38w4q_list"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderDirectorySection.js
@@ -12239,7 +12239,7 @@ window.__ModuleLoader__.load({
 		function ProviderDirectorySection(props) {
 			const { controller, useSnapshot, api, schema, t, getCheck } = props;
 			if (controller === void 0 || useSnapshot === void 0 || api === void 0 || t === void 0 || schema === void 0 || getCheck === void 0) return null;
-			return (0, react_jsx_runtime.jsx)(Loaded$1, { injected: {
+			return (0, react_jsx_runtime.jsx)(Loaded$2, { injected: {
 				controller,
 				useSnapshot,
 				api,
@@ -12248,7 +12248,7 @@ window.__ModuleLoader__.load({
 				getCheck
 			} });
 		}
-		function Loaded$1({ injected }) {
+		function Loaded$2({ injected }) {
 			const { controller, api, t, schema, getCheck } = injected;
 			const state = injected.useSnapshot((snapshot) => snapshot);
 			const [search, setSearch] = (0, react.useState)("");
@@ -13509,35 +13509,35 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var AddMcpServerDialog_module_css_default = {
-			"textarea": "uv_otq_textarea",
-			"input": "uv_otq_input",
-			"marketList": "uv_otq_marketList",
-			"title": "uv_otq_title",
-			"closeButton": "uv_otq_closeButton",
-			"quickImport": "uv_otq_quickImport",
-			"marketEmpty": "uv_otq_marketEmpty",
-			"marketVersion": "uv_otq_marketVersion",
-			"overlay": "uv_otq_overlay",
-			"cancelButton": "uv_otq_cancelButton",
-			"tabButton": "uv_otq_tabButton",
-			"field": "uv_otq_field",
+			"marketDesc": "uv_otq_marketDesc",
 			"quickImportActions": "uv_otq_quickImportActions",
-			"label": "uv_otq_label",
-			"submitButton": "uv_otq_submitButton",
-			"marketMain": "uv_otq_marketMain",
-			"error": "uv_otq_error",
-			"header": "uv_otq_header",
-			"footer": "uv_otq_footer",
-			"marketRow": "uv_otq_marketRow",
 			"tabRow": "uv_otq_tabRow",
 			"dialog": "uv_otq_dialog",
-			"quickImportSummary": "uv_otq_quickImportSummary",
+			"title": "uv_otq_title",
+			"label": "uv_otq_label",
+			"cancelButton": "uv_otq_cancelButton",
 			"marketName": "uv_otq_marketName",
-			"marketItem": "uv_otq_marketItem",
+			"marketRow": "uv_otq_marketRow",
+			"form": "uv_otq_form",
+			"closeButton": "uv_otq_closeButton",
 			"tabActive": "uv_otq_tabActive",
+			"header": "uv_otq_header",
+			"marketEmpty": "uv_otq_marketEmpty",
 			"select": "uv_otq_select",
-			"marketDesc": "uv_otq_marketDesc",
-			"form": "uv_otq_form"
+			"marketItem": "uv_otq_marketItem",
+			"marketMain": "uv_otq_marketMain",
+			"marketVersion": "uv_otq_marketVersion",
+			"input": "uv_otq_input",
+			"footer": "uv_otq_footer",
+			"error": "uv_otq_error",
+			"quickImport": "uv_otq_quickImport",
+			"textarea": "uv_otq_textarea",
+			"marketList": "uv_otq_marketList",
+			"overlay": "uv_otq_overlay",
+			"field": "uv_otq_field",
+			"quickImportSummary": "uv_otq_quickImportSummary",
+			"submitButton": "uv_otq_submitButton",
+			"tabButton": "uv_otq_tabButton"
 		};
 		//#endregion
 		//#region lib/types/client/AddMcpServerDialog.js
@@ -14126,76 +14126,76 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var McpSection_module_css_default = {
-			"checkbox": "_0bBxiW_checkbox",
-			"sectionHeader": "_0bBxiW_sectionHeader",
-			"emptyTitle": "_0bBxiW_emptyTitle",
-			"listItemSelected": "_0bBxiW_listItemSelected",
-			"codeBlock": "_0bBxiW_codeBlock",
-			"searchWrap": "_0bBxiW_searchWrap",
-			"sectionHeading": "_0bBxiW_sectionHeading",
-			"switchSlider": "_0bBxiW_switchSlider",
-			"tab": "_0bBxiW_tab",
-			"dangerButton": "_0bBxiW_dangerButton",
-			"listItem": "_0bBxiW_listItem",
-			"listItems": "_0bBxiW_listItems",
-			"switchWrapper": "_0bBxiW_switchWrapper",
-			"loading": "_0bBxiW_loading",
-			"serverDetail": "_0bBxiW_serverDetail",
-			"tabActive": "_0bBxiW_tabActive",
-			"listItemIdle": "_0bBxiW_listItemIdle",
-			"detailMetaItem": "_0bBxiW_detailMetaItem",
-			"sectionBody": "_0bBxiW_sectionBody",
-			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
-			"section": "_0bBxiW_section",
-			"secondaryButton": "_0bBxiW_secondaryButton",
-			"fieldLabel": "_0bBxiW_fieldLabel",
-			"input": "_0bBxiW_input",
-			"searchRow": "_0bBxiW_searchRow",
-			"addFooter": "_0bBxiW_addFooter",
-			"dangerZoneText": "_0bBxiW_dangerZoneText",
-			"errorBox": "_0bBxiW_errorBox",
-			"splitRoot": "_0bBxiW_splitRoot",
-			"descriptionText": "_0bBxiW_descriptionText",
-			"fieldRow": "_0bBxiW_fieldRow",
-			"emptyDetailState": "_0bBxiW_emptyDetailState",
-			"textarea": "_0bBxiW_textarea",
-			"serverList": "_0bBxiW_serverList",
-			"listItemLabel": "_0bBxiW_listItemLabel",
-			"addButton": "_0bBxiW_addButton",
-			"activeDot": "_0bBxiW_activeDot",
-			"detailTitle": "_0bBxiW_detailTitle",
-			"listItemMain": "_0bBxiW_listItemMain",
-			"codeLine": "_0bBxiW_codeLine",
-			"logInfo": "_0bBxiW_logInfo",
-			"toolDescription": "_0bBxiW_toolDescription",
-			"logHeader": "_0bBxiW_logHeader",
-			"error": "_0bBxiW_error",
-			"formActions": "_0bBxiW_formActions",
-			"resourceUri": "_0bBxiW_resourceUri",
-			"toolItem": "_0bBxiW_toolItem",
-			"toolHeader": "_0bBxiW_toolHeader",
-			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
-			"detailMeta": "_0bBxiW_detailMeta",
-			"switchInput": "_0bBxiW_switchInput",
-			"primaryButton": "_0bBxiW_primaryButton",
-			"dangerZone": "_0bBxiW_dangerZone",
-			"tabBar": "_0bBxiW_tabBar",
 			"toolName": "_0bBxiW_toolName",
-			"fieldGroup": "_0bBxiW_fieldGroup",
-			"searchInput": "_0bBxiW_searchInput",
-			"detailScroll": "_0bBxiW_detailScroll",
-			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
-			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
-			"listScroller": "_0bBxiW_listScroller",
-			"listItemAvatar": "_0bBxiW_listItemAvatar",
+			"listItemMain": "_0bBxiW_listItemMain",
+			"listItemSelected": "_0bBxiW_listItemSelected",
+			"switchInput": "_0bBxiW_switchInput",
 			"emptyDescription": "_0bBxiW_emptyDescription",
-			"toolsList": "_0bBxiW_toolsList",
 			"detailHeader": "_0bBxiW_detailHeader",
+			"fieldRow": "_0bBxiW_fieldRow",
+			"addFooter": "_0bBxiW_addFooter",
+			"section": "_0bBxiW_section",
+			"detailMeta": "_0bBxiW_detailMeta",
+			"detailScroll": "_0bBxiW_detailScroll",
+			"errorBox": "_0bBxiW_errorBox",
+			"fieldGroup": "_0bBxiW_fieldGroup",
+			"detailMetaItem": "_0bBxiW_detailMetaItem",
+			"activeDot": "_0bBxiW_activeDot",
+			"searchIcon": "_0bBxiW_searchIcon",
+			"error": "_0bBxiW_error",
+			"primaryButton": "_0bBxiW_primaryButton",
+			"listItem": "_0bBxiW_listItem",
+			"sectionBody": "_0bBxiW_sectionBody",
+			"toolDescription": "_0bBxiW_toolDescription",
+			"listItems": "_0bBxiW_listItems",
+			"switchSlider": "_0bBxiW_switchSlider",
+			"searchRow": "_0bBxiW_searchRow",
+			"searchWrap": "_0bBxiW_searchWrap",
+			"tabActive": "_0bBxiW_tabActive",
+			"serverList": "_0bBxiW_serverList",
+			"serverDetail": "_0bBxiW_serverDetail",
+			"codeBlock": "_0bBxiW_codeBlock",
+			"toolsList": "_0bBxiW_toolsList",
+			"dangerZoneText": "_0bBxiW_dangerZoneText",
+			"toolItem": "_0bBxiW_toolItem",
+			"descriptionText": "_0bBxiW_descriptionText",
+			"dangerZone": "_0bBxiW_dangerZone",
+			"toolHeader": "_0bBxiW_toolHeader",
+			"listScroller": "_0bBxiW_listScroller",
+			"logInfo": "_0bBxiW_logInfo",
+			"listItemLabel": "_0bBxiW_listItemLabel",
+			"input": "_0bBxiW_input",
 			"emptyIcon": "_0bBxiW_emptyIcon",
+			"addButton": "_0bBxiW_addButton",
+			"codeLine": "_0bBxiW_codeLine",
+			"sectionHeading": "_0bBxiW_sectionHeading",
+			"loading": "_0bBxiW_loading",
 			"searchClearButton": "_0bBxiW_searchClearButton",
+			"tab": "_0bBxiW_tab",
+			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
+			"dangerButton": "_0bBxiW_dangerButton",
+			"listItemAvatar": "_0bBxiW_listItemAvatar",
+			"checkbox": "_0bBxiW_checkbox",
+			"tabBar": "_0bBxiW_tabBar",
+			"textarea": "_0bBxiW_textarea",
+			"logHeader": "_0bBxiW_logHeader",
+			"splitRoot": "_0bBxiW_splitRoot",
+			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
+			"emptyDetailState": "_0bBxiW_emptyDetailState",
+			"emptyTitle": "_0bBxiW_emptyTitle",
+			"formActions": "_0bBxiW_formActions",
+			"searchInput": "_0bBxiW_searchInput",
+			"detailTitle": "_0bBxiW_detailTitle",
 			"fieldHint": "_0bBxiW_fieldHint",
 			"emptyState": "_0bBxiW_emptyState",
-			"searchIcon": "_0bBxiW_searchIcon"
+			"resourceUri": "_0bBxiW_resourceUri",
+			"sectionHeader": "_0bBxiW_sectionHeader",
+			"listItemIdle": "_0bBxiW_listItemIdle",
+			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
+			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
+			"fieldLabel": "_0bBxiW_fieldLabel",
+			"secondaryButton": "_0bBxiW_secondaryButton",
+			"switchWrapper": "_0bBxiW_switchWrapper"
 		};
 		//#endregion
 		//#region lib/types/client/McpSection.js
@@ -15147,26 +15147,26 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var WebSearchSection_module_css_default = {
-			"error": "_0WjBOa_error",
-			"select": "_0WjBOa_select",
-			"cardDescription": "_0WjBOa_cardDescription",
-			"cardTitle": "_0WjBOa_cardTitle",
-			"root": "_0WjBOa_root",
-			"pageDescription": "_0WjBOa_pageDescription",
-			"providerDescription": "_0WjBOa_providerDescription",
-			"loading": "_0WjBOa_loading",
-			"iconButton": "_0WjBOa_iconButton",
-			"providerName": "_0WjBOa_providerName",
-			"card": "_0WjBOa_card",
-			"checkbox": "_0WjBOa_checkbox",
-			"providerDetail": "_0WjBOa_providerDetail",
-			"input": "_0WjBOa_input",
-			"fieldRow": "_0WjBOa_fieldRow",
-			"fieldLabel": "_0WjBOa_fieldLabel",
-			"apiKeyRow": "_0WjBOa_apiKeyRow",
-			"pageHeader": "_0WjBOa_pageHeader",
 			"pageTitle": "_0WjBOa_pageTitle",
-			"fieldHint": "_0WjBOa_fieldHint"
+			"pageHeader": "_0WjBOa_pageHeader",
+			"card": "_0WjBOa_card",
+			"input": "_0WjBOa_input",
+			"providerName": "_0WjBOa_providerName",
+			"checkbox": "_0WjBOa_checkbox",
+			"apiKeyRow": "_0WjBOa_apiKeyRow",
+			"error": "_0WjBOa_error",
+			"fieldRow": "_0WjBOa_fieldRow",
+			"providerDescription": "_0WjBOa_providerDescription",
+			"iconButton": "_0WjBOa_iconButton",
+			"loading": "_0WjBOa_loading",
+			"select": "_0WjBOa_select",
+			"fieldHint": "_0WjBOa_fieldHint",
+			"cardDescription": "_0WjBOa_cardDescription",
+			"providerDetail": "_0WjBOa_providerDetail",
+			"cardTitle": "_0WjBOa_cardTitle",
+			"pageDescription": "_0WjBOa_pageDescription",
+			"root": "_0WjBOa_root",
+			"fieldLabel": "_0WjBOa_fieldLabel"
 		};
 		//#endregion
 		//#region lib/types/client/WebSearchSection.js
@@ -15583,22 +15583,22 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ProcessorSection_module_css_default = {
-			"card": "CL8zIa_card",
-			"fieldLabel": "CL8zIa_fieldLabel",
-			"input": "CL8zIa_input",
-			"loading": "CL8zIa_loading",
-			"root": "CL8zIa_root",
-			"pageDescription": "CL8zIa_pageDescription",
-			"cardTitle": "CL8zIa_cardTitle",
-			"select": "CL8zIa_select",
-			"providerDescription": "CL8zIa_providerDescription",
-			"apiKeyRow": "CL8zIa_apiKeyRow",
-			"fieldHint": "CL8zIa_fieldHint",
-			"cardDescription": "CL8zIa_cardDescription",
 			"fieldRow": "CL8zIa_fieldRow",
-			"providerName": "CL8zIa_providerName",
-			"pageTitle": "CL8zIa_pageTitle",
+			"loading": "CL8zIa_loading",
+			"input": "CL8zIa_input",
 			"providerDetail": "CL8zIa_providerDetail",
+			"providerName": "CL8zIa_providerName",
+			"cardDescription": "CL8zIa_cardDescription",
+			"select": "CL8zIa_select",
+			"root": "CL8zIa_root",
+			"cardTitle": "CL8zIa_cardTitle",
+			"apiKeyRow": "CL8zIa_apiKeyRow",
+			"card": "CL8zIa_card",
+			"pageTitle": "CL8zIa_pageTitle",
+			"providerDescription": "CL8zIa_providerDescription",
+			"fieldLabel": "CL8zIa_fieldLabel",
+			"fieldHint": "CL8zIa_fieldHint",
+			"pageDescription": "CL8zIa_pageDescription",
 			"iconButton": "CL8zIa_iconButton"
 		};
 		//#endregion
@@ -15884,61 +15884,61 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var UsageSection_module_css_default = {
-			"heatmapColCells": "ej6-VW_heatmapColCells",
-			"insightValue": "ej6-VW_insightValue",
-			"heatmapMonth": "ej6-VW_heatmapMonth",
-			"controlLabel": "ej6-VW_controlLabel",
-			"controlSelect": "ej6-VW_controlSelect",
-			"donutLegendKey": "ej6-VW_donutLegendKey",
-			"metricValue": "ej6-VW_metricValue",
-			"metricLabel": "ej6-VW_metricLabel",
-			"insightLabel": "ej6-VW_insightLabel",
-			"donutSwatch": "ej6-VW_donutSwatch",
-			"loadMoreBtn": "ej6-VW_loadMoreBtn",
-			"exploreBody": "ej6-VW_exploreBody",
-			"exploreCard": "ej6-VW_exploreCard",
-			"metricSparkline": "ej6-VW_metricSparkline",
-			"summaryLine": "ej6-VW_summaryLine",
-			"heatmapCol": "ej6-VW_heatmapCol",
-			"pageTitle": "ej6-VW_pageTitle",
-			"barChart": "ej6-VW_barChart",
-			"metricCell": "ej6-VW_metricCell",
-			"heatmapCellOutside": "ej6-VW_heatmapCellOutside",
-			"exploreHeader": "ej6-VW_exploreHeader",
-			"metricDelta": "ej6-VW_metricDelta",
-			"pageHeader": "ej6-VW_pageHeader",
-			"windowTab": "ej6-VW_windowTab",
-			"heatmapScroll": "ej6-VW_heatmapScroll",
-			"pageDescription": "ej6-VW_pageDescription",
-			"barSegment": "ej6-VW_barSegment",
 			"heatmapSection": "ej6-VW_heatmapSection",
-			"modelProvider": "ej6-VW_modelProvider",
-			"tdRight": "ej6-VW_tdRight",
-			"usageEmpty": "ej6-VW_usageEmpty",
-			"insightStrip": "ej6-VW_insightStrip",
-			"down": "ej6-VW_down",
-			"root": "ej6-VW_root",
-			"heatmapTitle": "ej6-VW_heatmapTitle",
-			"donutLegend": "ej6-VW_donutLegend",
-			"heatmap": "ej6-VW_heatmap",
-			"entriesTable": "ej6-VW_entriesTable",
-			"donutLegendValue": "ej6-VW_donutLegendValue",
-			"metricStrip": "ej6-VW_metricStrip",
-			"up": "ej6-VW_up",
+			"pageTitle": "ej6-VW_pageTitle",
+			"heatmapMonth": "ej6-VW_heatmapMonth",
+			"controlSelect": "ej6-VW_controlSelect",
+			"exploreBody": "ej6-VW_exploreBody",
+			"donutLegendRow": "ej6-VW_donutLegendRow",
+			"donutSwatch": "ej6-VW_donutSwatch",
+			"barChart": "ej6-VW_barChart",
+			"controlLabel": "ej6-VW_controlLabel",
+			"pageHeader": "ej6-VW_pageHeader",
 			"heatmapCell": "ej6-VW_heatmapCell",
+			"metricCell": "ej6-VW_metricCell",
+			"modelCell": "ej6-VW_modelCell",
+			"metricValue": "ej6-VW_metricValue",
+			"heatmapCol": "ej6-VW_heatmapCol",
+			"insightStrip": "ej6-VW_insightStrip",
+			"heatmapColCells": "ej6-VW_heatmapColCells",
+			"exploreCard": "ej6-VW_exploreCard",
+			"heatmapTitle": "ej6-VW_heatmapTitle",
+			"exploreHeader": "ej6-VW_exploreHeader",
+			"donutLegend": "ej6-VW_donutLegend",
+			"tableWrap": "ej6-VW_tableWrap",
+			"entriesTable": "ej6-VW_entriesTable",
+			"metricDelta": "ej6-VW_metricDelta",
+			"metricLabel": "ej6-VW_metricLabel",
+			"insightValue": "ej6-VW_insightValue",
+			"tdRight": "ej6-VW_tdRight",
+			"modelName": "ej6-VW_modelName",
+			"modelProvider": "ej6-VW_modelProvider",
+			"loadMoreBtn": "ej6-VW_loadMoreBtn",
+			"barAxis": "ej6-VW_barAxis",
+			"usageEmpty": "ej6-VW_usageEmpty",
+			"active": "ej6-VW_active",
+			"donutLegendValue": "ej6-VW_donutLegendValue",
+			"windowTab": "ej6-VW_windowTab",
+			"tableEmpty": "ej6-VW_tableEmpty",
+			"heatmapScroll": "ej6-VW_heatmapScroll",
+			"root": "ej6-VW_root",
+			"summaryLine": "ej6-VW_summaryLine",
+			"pageDescription": "ej6-VW_pageDescription",
+			"barColumn": "ej6-VW_barColumn",
+			"barSegment": "ej6-VW_barSegment",
+			"windowTabs": "ej6-VW_windowTabs",
+			"up": "ej6-VW_up",
+			"insightItem": "ej6-VW_insightItem",
+			"insightLabel": "ej6-VW_insightLabel",
+			"metricSparkline": "ej6-VW_metricSparkline",
+			"heatmap": "ej6-VW_heatmap",
 			"exploreTitle": "ej6-VW_exploreTitle",
 			"controlRow": "ej6-VW_controlRow",
-			"barAxis": "ej6-VW_barAxis",
-			"donutLegendRow": "ej6-VW_donutLegendRow",
-			"active": "ej6-VW_active",
-			"barColumn": "ej6-VW_barColumn",
+			"donutLegendKey": "ej6-VW_donutLegendKey",
 			"donutWrap": "ej6-VW_donutWrap",
-			"tableWrap": "ej6-VW_tableWrap",
-			"modelCell": "ej6-VW_modelCell",
-			"windowTabs": "ej6-VW_windowTabs",
-			"insightItem": "ej6-VW_insightItem",
-			"modelName": "ej6-VW_modelName",
-			"tableEmpty": "ej6-VW_tableEmpty"
+			"down": "ej6-VW_down",
+			"metricStrip": "ej6-VW_metricStrip",
+			"heatmapCellOutside": "ej6-VW_heatmapCellOutside"
 		};
 		//#endregion
 		//#region lib/types/client/UsageSection.js
@@ -17149,15 +17149,15 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var SystemSection_module_css_default = {
-			"cardTitle": "MzTzwq_cardTitle",
-			"infoValue": "MzTzwq_infoValue",
-			"loading": "MzTzwq_loading",
-			"infoRow": "MzTzwq_infoRow",
-			"infoLabel": "MzTzwq_infoLabel",
-			"card": "MzTzwq_card",
 			"root": "MzTzwq_root",
-			"badge": "MzTzwq_badge",
+			"infoRow": "MzTzwq_infoRow",
+			"infoValue": "MzTzwq_infoValue",
+			"cardTitle": "MzTzwq_cardTitle",
 			"pageTitle": "MzTzwq_pageTitle",
+			"infoLabel": "MzTzwq_infoLabel",
+			"badge": "MzTzwq_badge",
+			"loading": "MzTzwq_loading",
+			"card": "MzTzwq_card",
 			"pageDescription": "MzTzwq_pageDescription"
 		};
 		//#endregion
@@ -17423,22 +17423,22 @@ ${editTarget.defaults.baseURL}`}`,
 		}
 		var TasksSection_module_css_default = {
 			"root": "_3yT94W_root",
-			"taskMain": "_3yT94W_taskMain",
-			"runFail": "_3yT94W_runFail",
-			"runRow": "_3yT94W_runRow",
-			"select": "_3yT94W_select",
-			"taskRow": "_3yT94W_taskRow",
-			"pageTitle": "_3yT94W_pageTitle",
-			"input": "_3yT94W_input",
-			"card": "_3yT94W_card",
-			"runDetail": "_3yT94W_runDetail",
-			"cardTitle": "_3yT94W_cardTitle",
-			"taskMeta": "_3yT94W_taskMeta",
-			"taskName": "_3yT94W_taskName",
-			"runTime": "_3yT94W_runTime",
 			"loading": "_3yT94W_loading",
 			"runOk": "_3yT94W_runOk",
-			"pageDescription": "_3yT94W_pageDescription"
+			"pageDescription": "_3yT94W_pageDescription",
+			"card": "_3yT94W_card",
+			"taskRow": "_3yT94W_taskRow",
+			"taskMain": "_3yT94W_taskMain",
+			"taskMeta": "_3yT94W_taskMeta",
+			"runFail": "_3yT94W_runFail",
+			"runTime": "_3yT94W_runTime",
+			"runRow": "_3yT94W_runRow",
+			"pageTitle": "_3yT94W_pageTitle",
+			"cardTitle": "_3yT94W_cardTitle",
+			"input": "_3yT94W_input",
+			"taskName": "_3yT94W_taskName",
+			"runDetail": "_3yT94W_runDetail",
+			"select": "_3yT94W_select"
 		};
 		//#endregion
 		//#region lib/types/client/TasksSection.js
@@ -17810,17 +17810,17 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var SettingsPages_module_css_default = {
-			"groupDescription": "_0spVW_groupDescription",
-			"rowTitle": "_0spVW_rowTitle",
-			"rowControl": "_0spVW_rowControl",
-			"groupTitle": "_0spVW_groupTitle",
 			"row": "_0spVW_row",
-			"divider": "_0spVW_divider",
-			"group": "_0spVW_group",
-			"rowDescription": "_0spVW_rowDescription",
-			"switchLabel": "_0spVW_switchLabel",
+			"groupTitle": "_0spVW_groupTitle",
 			"shell": "_0spVW_shell",
-			"shellInner": "_0spVW_shellInner"
+			"groupDescription": "_0spVW_groupDescription",
+			"rowDescription": "_0spVW_rowDescription",
+			"shellInner": "_0spVW_shellInner",
+			"switchLabel": "_0spVW_switchLabel",
+			"rowTitle": "_0spVW_rowTitle",
+			"group": "_0spVW_group",
+			"divider": "_0spVW_divider",
+			"rowControl": "_0spVW_rowControl"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsPages.js
@@ -17890,24 +17890,24 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var LocalModelDownloads_module_css_default = {
-			"modelIcon": "_9apQa_modelIcon",
-			"noticeTag": "_9apQa_noticeTag",
+			"noticeText": "_9apQa_noticeText",
 			"statusDownloading": "_9apQa_statusDownloading",
-			"modelName": "_9apQa_modelName",
-			"statusReady": "_9apQa_statusReady",
-			"groupDesc": "_9apQa_groupDesc",
-			"modelOps": "_9apQa_modelOps",
+			"noticeTag": "_9apQa_noticeTag",
+			"modelIcon": "_9apQa_modelIcon",
 			"btnDanger": "_9apQa_btnDanger",
-			"noticeRow": "_9apQa_noticeRow",
 			"btn": "_9apQa_btn",
-			"modelCard": "_9apQa_modelCard",
-			"btnPrimary": "_9apQa_btnPrimary",
-			"modelStatus": "_9apQa_modelStatus",
-			"modelMain": "_9apQa_modelMain",
 			"modelSubtitle": "_9apQa_modelSubtitle",
-			"statusIdle": "_9apQa_statusIdle",
+			"noticeRow": "_9apQa_noticeRow",
+			"modelMain": "_9apQa_modelMain",
+			"modelCard": "_9apQa_modelCard",
 			"groupHeader": "_9apQa_groupHeader",
-			"noticeText": "_9apQa_noticeText"
+			"modelName": "_9apQa_modelName",
+			"btnPrimary": "_9apQa_btnPrimary",
+			"modelOps": "_9apQa_modelOps",
+			"statusReady": "_9apQa_statusReady",
+			"modelStatus": "_9apQa_modelStatus",
+			"statusIdle": "_9apQa_statusIdle",
+			"groupDesc": "_9apQa_groupDesc"
 		};
 		//#endregion
 		//#region lib/types/client/LocalModelDownloads.js
@@ -18307,21 +18307,21 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ApiGatewaySection_module_css_default = {
-			"inputSmall": "S156cG_inputSmall",
-			"ghostBtn": "S156cG_ghostBtn",
-			"headerBox": "S156cG_headerBox",
-			"docLink": "S156cG_docLink",
-			"outlineBtn": "S156cG_outlineBtn",
 			"groupHeaderRow": "S156cG_groupHeaderRow",
-			"inputGroup": "S156cG_inputGroup",
-			"copied": "S156cG_copied",
-			"statusText": "S156cG_statusText",
+			"inputSmall": "S156cG_inputSmall",
+			"outlineBtn": "S156cG_outlineBtn",
+			"input": "S156cG_input",
 			"iconBtn": "S156cG_iconBtn",
-			"statusRow": "S156cG_statusRow",
-			"statusDot": "S156cG_statusDot",
-			"statusStopped": "S156cG_statusStopped",
+			"ghostBtn": "S156cG_ghostBtn",
+			"inputGroup": "S156cG_inputGroup",
+			"statusText": "S156cG_statusText",
+			"docLink": "S156cG_docLink",
 			"notice": "S156cG_notice",
-			"input": "S156cG_input"
+			"statusStopped": "S156cG_statusStopped",
+			"copied": "S156cG_copied",
+			"statusRow": "S156cG_statusRow",
+			"headerBox": "S156cG_headerBox",
+			"statusDot": "S156cG_statusDot"
 		};
 		//#endregion
 		//#region lib/types/client/ApiGatewaySection.js
@@ -18697,28 +18697,28 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
+			"nav": "_4STY0G_nav",
+			"navScroll": "_4STY0G_navScroll",
+			"navGroupTitle": "_4STY0G_navGroupTitle",
+			"navCell": "_4STY0G_navCell",
+			"navGroup": "_4STY0G_navGroup",
+			"header": "_4STY0G_header",
+			"active": "_4STY0G_active",
+			"triggerLabel": "_4STY0G_triggerLabel",
 			"navList": "_4STY0G_navList",
+			"navIcon": "_4STY0G_navIcon",
+			"hiddenLabel": "_4STY0G_hiddenLabel",
+			"options": "_4STY0G_options",
 			"trigger": "_4STY0G_trigger",
 			"overlay": "_4STY0G_overlay",
-			"navCell": "_4STY0G_navCell",
-			"options": "_4STY0G_options",
-			"triggerLabel": "_4STY0G_triggerLabel",
-			"rail": "_4STY0G_rail",
-			"navGroup": "_4STY0G_navGroup",
-			"navScroll": "_4STY0G_navScroll",
-			"active": "_4STY0G_active",
-			"navIcon": "_4STY0G_navIcon",
-			"actions": "_4STY0G_actions",
-			"close": "_4STY0G_close",
-			"navTitle": "_4STY0G_navTitle",
-			"content": "_4STY0G_content",
-			"navGroupTitle": "_4STY0G_navGroupTitle",
 			"panel": "_4STY0G_panel",
+			"close": "_4STY0G_close",
 			"mask": "_4STY0G_mask",
-			"nav": "_4STY0G_nav",
+			"navTitle": "_4STY0G_navTitle",
 			"navLabel": "_4STY0G_navLabel",
-			"header": "_4STY0G_header",
-			"hiddenLabel": "_4STY0G_hiddenLabel"
+			"content": "_4STY0G_content",
+			"rail": "_4STY0G_rail",
+			"actions": "_4STY0G_actions"
 		};
 		//#endregion
 		//#region \0dsh-control-center-plain-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\cherry-tokens.css.mjs
@@ -19052,7 +19052,7 @@ ${editTarget.defaults.baseURL}`}`,
 		}
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\GeneralSection.module.css.mjs
-		const css$12 = ".DFoDHW_section{flex-direction:column;width:100%;display:flex}.DFoDHW_section>[data-slot=\"settings.general.item\"]>:last-child{border-bottom:none}.DFoDHW_errorTitle{color:var(--cc-text-primary);font-size:14px;font-weight:600}.DFoDHW_errorDescription{color:var(--cc-text-secondary);white-space:pre-wrap;margin-top:6px;font-size:12px}";
+		const css$12 = ".DFoDHW_section{flex-direction:column;width:100%;display:flex}.DFoDHW_section>[data-slot=\"settings.general.item\"]>:last-child{border-bottom:none}.DFoDHW_errorTitle{color:var(--cc-text-primary);font-size:14px;font-weight:600}.DFoDHW_errorDescription{color:var(--cc-text-secondary);white-space:pre-wrap;margin-top:6px;font-size:12px}.DFoDHW_group{margin-bottom:20px}.DFoDHW_groupTitle{color:var(--foreground);margin:0 0 10px;font-size:15px;font-weight:600}.DFoDHW_groupBody{border:1px solid var(--border-subtle);background:var(--card);border-radius:10px;flex-direction:column;gap:1px;display:flex;overflow:hidden}.DFoDHW_prefRow{background:var(--card);justify-content:space-between;align-items:center;gap:12px;min-height:40px;padding:10px 14px;display:flex}.DFoDHW_nativeNote{background:var(--card);padding:12px 14px}.DFoDHW_nativeNoteTitle{color:var(--foreground);margin-bottom:4px;font-size:14px;font-weight:500}.DFoDHW_nativeNoteBody{color:var(--muted-foreground);font-size:12px;line-height:1.6}.DFoDHW_error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;padding:8px 12px;font-size:13px}.DFoDHW_groupBody{flex-direction:column;gap:0;margin:0;padding:0;display:flex}.DFoDHW_groupTitle{color:var(--foreground);margin:8px 0 6px;padding:0 14px;font-size:13px;font-weight:600}.DFoDHW_prefRow{justify-content:space-between;align-items:center;gap:12px;min-height:40px;padding:10px 14px;display:flex}.DFoDHW_prefRow+.DFoDHW_prefRow{border-top:1px solid var(--border-subtle)}.DFoDHW_prefRowTitle{min-width:0;color:var(--foreground);flex-direction:column;flex:1;gap:2px;font-size:14px;display:flex}.DFoDHW_prefRowHint{color:var(--muted-foreground);font-size:12px}.DFoDHW_prefRowControl{flex:none}.DFoDHW_note{padding:6px 14px 10px}.DFoDHW_noteTitle{color:var(--foreground);margin-bottom:4px;font-size:13px;font-weight:500}.DFoDHW_noteBody{color:var(--muted-foreground);font-size:12px;line-height:1.6}.DFoDHW_divider{background:var(--border-subtle);height:1px;margin:8px 14px}.DFoDHW_error{border:1px solid var(--error-border);background:var(--error-subtle);color:var(--error-subtle-foreground);border-radius:8px;margin:8px 0;padding:8px 12px;font-size:13px}";
 		const tagId$12 = "@dsh-control-center/bundle/GeneralSection.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$12) + "]") === null) {
 			const tag = document.createElement("style");
@@ -19062,9 +19062,24 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var GeneralSection_module_css_default = {
-			"section": "DFoDHW_section",
+			"prefRowHint": "DFoDHW_prefRowHint",
+			"group": "DFoDHW_group",
+			"nativeNoteBody": "DFoDHW_nativeNoteBody",
+			"errorTitle": "DFoDHW_errorTitle",
 			"errorDescription": "DFoDHW_errorDescription",
-			"errorTitle": "DFoDHW_errorTitle"
+			"note": "DFoDHW_note",
+			"nativeNoteTitle": "DFoDHW_nativeNoteTitle",
+			"noteTitle": "DFoDHW_noteTitle",
+			"noteBody": "DFoDHW_noteBody",
+			"section": "DFoDHW_section",
+			"groupBody": "DFoDHW_groupBody",
+			"prefRowTitle": "DFoDHW_prefRowTitle",
+			"nativeNote": "DFoDHW_nativeNote",
+			"prefRowControl": "DFoDHW_prefRowControl",
+			"groupTitle": "DFoDHW_groupTitle",
+			"error": "DFoDHW_error",
+			"prefRow": "DFoDHW_prefRow",
+			"divider": "DFoDHW_divider"
 		};
 		//#endregion
 		//#region lib/types/client/GeneralSection.js
@@ -19098,6 +19113,134 @@ ${editTarget.defaults.baseURL}`}`,
 				className: GeneralSection_module_css_default.section,
 				children: renderSlot("settings.general.item", {})
 			}) });
+		}
+		//#endregion
+		//#region lib/types/client/GeneralCherrySettings.js
+		/**
+		* One 通用 preference block contributed to the native General settings page —
+		* Cherry GeneralSettings parity for the parts DSH can honor (启动行为 / 托盘),
+		* plus honest platform notes for 代理 / 上下文管理.
+		*
+		* The native General page renders every `settings.general.item` row; this
+		* component owns its own copy, store, and write path through the injected
+		* `generalController`.
+		*/
+		/** One Cherry-style preference row: title left, switch right. */
+		function PrefRow({ title, hint, checked, disabled, label, onChange }) {
+			return (0, react_jsx_runtime.jsxs)("div", {
+				className: GeneralSection_module_css_default["prefRow"],
+				children: [(0, react_jsx_runtime.jsxs)("div", {
+					className: GeneralSection_module_css_default["prefRowTitle"],
+					children: [(0, react_jsx_runtime.jsx)("span", { children: title }), hint === void 0 ? null : (0, react_jsx_runtime.jsx)("span", {
+						className: GeneralSection_module_css_default["prefRowHint"],
+						children: hint
+					})]
+				}), (0, react_jsx_runtime.jsx)("div", {
+					className: GeneralSection_module_css_default["prefRowControl"],
+					children: (0, react_jsx_runtime.jsx)(Switch, {
+						checked,
+						disabled,
+						label,
+						onChange
+					})
+				})]
+			});
+		}
+		/** One honest platform card (no fake switch). */
+		function Note({ title, body }) {
+			return (0, react_jsx_runtime.jsxs)("div", {
+				className: GeneralSection_module_css_default["note"],
+				children: [(0, react_jsx_runtime.jsx)("div", {
+					className: GeneralSection_module_css_default["noteTitle"],
+					children: title
+				}), (0, react_jsx_runtime.jsx)("div", {
+					className: GeneralSection_module_css_default["noteBody"],
+					children: body
+				})]
+			});
+		}
+		function GeneralCherrySettings(props) {
+			const { controller, useSnapshot, t } = props;
+			if (controller === void 0 || useSnapshot === void 0 || t === void 0) return null;
+			return (0, react_jsx_runtime.jsx)(Loaded$1, {
+				controller,
+				useSnapshot,
+				t
+			});
+		}
+		function Loaded$1({ controller, useSnapshot, t }) {
+			const state = useSnapshot((snapshot) => snapshot);
+			(0, react.useEffect)(() => {
+				if (state.status === "idle") controller.load();
+			}, [state.status, controller]);
+			if (state.status === "error")
+ /* v8 ignore next -- an error status always carries text */
+			return (0, react_jsx_runtime.jsx)("p", {
+				className: GeneralSection_module_css_default["error"],
+				children: `${t("loadFailed")}: ${state.error ?? ""}`
+			});
+			const setPref = (key, value) => {
+				controller.save(key, value);
+			};
+			const disabled = state.status !== "ready" || !state.available || !state.writable;
+			const prefs = state.prefs;
+			return (0, react_jsx_runtime.jsxs)("div", {
+				className: GeneralSection_module_css_default["groupBody"],
+				children: [
+					(0, react_jsx_runtime.jsx)("div", {
+						className: GeneralSection_module_css_default["groupTitle"],
+						children: t("generalLaunch")
+					}),
+					(0, react_jsx_runtime.jsx)(PrefRow, {
+						title: t("generalLaunchOnBoot"),
+						hint: t("generalDesktopOnly"),
+						checked: prefs.launchOnBoot,
+						disabled,
+						label: t("generalLaunchOnBoot"),
+						onChange: (next) => {
+							setPref("launchOnBoot", next);
+						}
+					}),
+					(0, react_jsx_runtime.jsx)(PrefRow, {
+						title: t("generalTrayEnabled"),
+						hint: t("generalDesktopOnly"),
+						checked: prefs.trayEnabled,
+						disabled,
+						label: t("generalTrayEnabled"),
+						onChange: (next) => {
+							setPref("trayEnabled", next);
+						}
+					}),
+					(0, react_jsx_runtime.jsx)(PrefRow, {
+						title: t("generalTrayOnClose"),
+						hint: t("generalDesktopOnly"),
+						checked: prefs.trayOnClose,
+						disabled,
+						label: t("generalTrayOnClose"),
+						onChange: (next) => {
+							setPref("trayOnClose", next);
+						}
+					}),
+					(0, react_jsx_runtime.jsx)("div", { className: GeneralSection_module_css_default["divider"] }),
+					(0, react_jsx_runtime.jsx)("div", {
+						className: GeneralSection_module_css_default["groupTitle"],
+						children: t("generalProxy")
+					}),
+					(0, react_jsx_runtime.jsx)(Note, {
+						title: t("generalProxyUnsupportedTitle"),
+						body: t("generalProxyUnsupportedBody")
+					}),
+					(0, react_jsx_runtime.jsx)("div", { className: GeneralSection_module_css_default["divider"] }),
+					(0, react_jsx_runtime.jsx)("div", {
+						className: GeneralSection_module_css_default["groupTitle"],
+						children: t("generalContext")
+					}),
+					(0, react_jsx_runtime.jsx)(Note, {
+						title: t("generalContextNativeTitle"),
+						body: t("generalContextNativeBody")
+					})
+				]
+			});
 		}
 		//#endregion
 		//#region lib/types/client/theme-overrides.js
@@ -19187,23 +19330,23 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var AppearanceSection_module_css_default = {
-			"hexInput": "_-7MpG_hexInput",
-			"themePreviewActive": "_-7MpG_themePreviewActive",
-			"swatchActive": "_-7MpG_swatchActive",
-			"themeLabel": "_-7MpG_themeLabel",
-			"themeOption": "_-7MpG_themeOption",
 			"staticValue": "_-7MpG_staticValue",
+			"hexInput": "_-7MpG_hexInput",
 			"desktopTag": "_-7MpG_desktopTag",
 			"groupHeader": "_-7MpG_groupHeader",
-			"themeGrid": "_-7MpG_themeGrid",
-			"colorRow": "_-7MpG_colorRow",
-			"cssEditor": "_-7MpG_cssEditor",
+			"swatch": "_-7MpG_swatch",
 			"nativeSwatch": "_-7MpG_nativeSwatch",
-			"previewFrame": "_-7MpG_previewFrame",
-			"fontSelect": "_-7MpG_fontSelect",
-			"zoomControls": "_-7MpG_zoomControls",
+			"themePreviewActive": "_-7MpG_themePreviewActive",
+			"swatchActive": "_-7MpG_swatchActive",
 			"nativePicker": "_-7MpG_nativePicker",
-			"swatch": "_-7MpG_swatch"
+			"themeGrid": "_-7MpG_themeGrid",
+			"previewFrame": "_-7MpG_previewFrame",
+			"themeLabel": "_-7MpG_themeLabel",
+			"themeOption": "_-7MpG_themeOption",
+			"fontSelect": "_-7MpG_fontSelect",
+			"colorRow": "_-7MpG_colorRow",
+			"zoomControls": "_-7MpG_zoomControls",
+			"cssEditor": "_-7MpG_cssEditor"
 		};
 		//#endregion
 		//#region lib/types/client/AppearanceSection.js
@@ -19872,7 +20015,7 @@ ${editTarget.defaults.baseURL}`}`,
 		* storage so they follow the installed plugin across clients.
 		*/
 		const NOTIFICATION_NS = NOTIFICATION_SETTINGS_NAMESPACE;
-		const DEFAULT_PREFS = {
+		const DEFAULT_PREFS$1 = {
 			assistant: false,
 			backup: false,
 			knowledge: false,
@@ -19888,7 +20031,7 @@ ${editTarget.defaults.baseURL}`}`,
 			};
 		}
 		function NotificationSection({ api }) {
-			const [prefs, setPrefs] = (0, react.useState)(DEFAULT_PREFS);
+			const [prefs, setPrefs] = (0, react.useState)(DEFAULT_PREFS$1);
 			const [revision, setRevision] = (0, react.useState)(null);
 			const [loading, setLoading] = (0, react.useState)(true);
 			const [error, setError] = (0, react.useState)("");
@@ -20025,36 +20168,36 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ShortcutSection_module_css_default = {
-			"groupBlock": "-S_gJa_groupBlock",
+			"headerControls": "-S_gJa_headerControls",
+			"filterButton": "-S_gJa_filterButton",
+			"menuCount": "-S_gJa_menuCount",
+			"unbound": "-S_gJa_unbound",
 			"menuItemActive": "-S_gJa_menuItemActive",
-			"rowShortcut": "-S_gJa_rowShortcut",
+			"groupLabel": "-S_gJa_groupLabel",
+			"searchWrap": "-S_gJa_searchWrap",
 			"rowSwitch": "-S_gJa_rowSwitch",
-			"bound": "-S_gJa_bound",
-			"recording": "-S_gJa_recording",
-			"menuPop": "-S_gJa_menuPop",
+			"emptyState": "-S_gJa_emptyState",
+			"header": "-S_gJa_header",
+			"menuItem": "-S_gJa_menuItem",
+			"menuSep": "-S_gJa_menuSep",
+			"rowShortcut": "-S_gJa_rowShortcut",
 			"headerTitle": "-S_gJa_headerTitle",
 			"kbd": "-S_gJa_kbd",
-			"desktopTag": "-S_gJa_desktopTag",
-			"menuCount": "-S_gJa_menuCount",
-			"groupLabel": "-S_gJa_groupLabel",
-			"rowDisabled": "-S_gJa_rowDisabled",
+			"row": "-S_gJa_row",
+			"bound": "-S_gJa_bound",
 			"keys": "-S_gJa_keys",
-			"emptyState": "-S_gJa_emptyState",
-			"rowLabel": "-S_gJa_rowLabel",
-			"menuItem": "-S_gJa_menuItem",
-			"searchWrap": "-S_gJa_searchWrap",
-			"menuItemDanger": "-S_gJa_menuItemDanger",
-			"header": "-S_gJa_header",
-			"listGroup": "-S_gJa_listGroup",
-			"filterButton": "-S_gJa_filterButton",
-			"unbound": "-S_gJa_unbound",
-			"searchInput": "-S_gJa_searchInput",
 			"searchIcon": "-S_gJa_searchIcon",
+			"recording": "-S_gJa_recording",
 			"undo": "-S_gJa_undo",
-			"menuSep": "-S_gJa_menuSep",
-			"headerControls": "-S_gJa_headerControls",
+			"menuItemDanger": "-S_gJa_menuItemDanger",
+			"listGroup": "-S_gJa_listGroup",
 			"moreButton": "-S_gJa_moreButton",
-			"row": "-S_gJa_row"
+			"rowDisabled": "-S_gJa_rowDisabled",
+			"searchInput": "-S_gJa_searchInput",
+			"menuPop": "-S_gJa_menuPop",
+			"desktopTag": "-S_gJa_desktopTag",
+			"groupBlock": "-S_gJa_groupBlock",
+			"rowLabel": "-S_gJa_rowLabel"
 		};
 		//#endregion
 		//#region lib/types/client/ShortcutSection.js
@@ -20655,43 +20798,43 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var SelectionAssistantSection_module_css_default = {
-			"radioItem": "_2Suf7W_radioItem",
-			"opacitySlider": "_2Suf7W_opacitySlider",
-			"formHint": "_2Suf7W_formHint",
-			"formField": "_2Suf7W_formField",
-			"toolbarIcon": "_2Suf7W_toolbarIcon",
-			"formTextarea": "_2Suf7W_formTextarea",
-			"toolbarPreview": "_2Suf7W_toolbarPreview",
-			"modalCard": "_2Suf7W_modalCard",
-			"btn": "_2Suf7W_btn",
-			"opBtnDanger": "_2Suf7W_opBtnDanger",
-			"formInput": "_2Suf7W_formInput",
-			"dragHandle": "_2Suf7W_dragHandle",
-			"ghostBtn": "_2Suf7W_ghostBtn",
-			"actionsHeaderBtns": "_2Suf7W_actionsHeaderBtns",
-			"outlineBtn": "_2Suf7W_outlineBtn",
-			"faqLink": "_2Suf7W_faqLink",
-			"groupTitle": "_2Suf7W_groupTitle",
-			"actionRowDragging": "_2Suf7W_actionRowDragging",
-			"actionOps": "_2Suf7W_actionOps",
-			"enableBtnOn": "_2Suf7W_enableBtnOn",
-			"actionName": "_2Suf7W_actionName",
-			"noticeText": "_2Suf7W_noticeText",
-			"notice": "_2Suf7W_notice",
-			"enableBtn": "_2Suf7W_enableBtn",
-			"actionIcon": "_2Suf7W_actionIcon",
-			"opBtn": "_2Suf7W_opBtn",
-			"actionsDivider": "_2Suf7W_actionsDivider",
-			"radioRow": "_2Suf7W_radioRow",
-			"groupHeaderRow": "_2Suf7W_groupHeaderRow",
 			"actionRow": "_2Suf7W_actionRow",
+			"actionsHeaderBtns": "_2Suf7W_actionsHeaderBtns",
+			"ghostBtn": "_2Suf7W_ghostBtn",
 			"btnPrimary": "_2Suf7W_btnPrimary",
+			"actionRowDragging": "_2Suf7W_actionRowDragging",
+			"outlineBtn": "_2Suf7W_outlineBtn",
+			"noticeText": "_2Suf7W_noticeText",
+			"enableBtnOn": "_2Suf7W_enableBtnOn",
 			"opacityRow": "_2Suf7W_opacityRow",
-			"modalOverlay": "_2Suf7W_modalOverlay",
-			"toolbarItem": "_2Suf7W_toolbarItem",
-			"actionRowDisabled": "_2Suf7W_actionRowDisabled",
+			"opBtnDanger": "_2Suf7W_opBtnDanger",
+			"groupTitle": "_2Suf7W_groupTitle",
+			"toolbarPreview": "_2Suf7W_toolbarPreview",
+			"formTextarea": "_2Suf7W_formTextarea",
+			"actionName": "_2Suf7W_actionName",
 			"engineChip": "_2Suf7W_engineChip",
-			"modalFooter": "_2Suf7W_modalFooter"
+			"modalFooter": "_2Suf7W_modalFooter",
+			"formInput": "_2Suf7W_formInput",
+			"actionRowDisabled": "_2Suf7W_actionRowDisabled",
+			"actionOps": "_2Suf7W_actionOps",
+			"actionsDivider": "_2Suf7W_actionsDivider",
+			"modalOverlay": "_2Suf7W_modalOverlay",
+			"groupHeaderRow": "_2Suf7W_groupHeaderRow",
+			"faqLink": "_2Suf7W_faqLink",
+			"enableBtn": "_2Suf7W_enableBtn",
+			"dragHandle": "_2Suf7W_dragHandle",
+			"radioRow": "_2Suf7W_radioRow",
+			"opBtn": "_2Suf7W_opBtn",
+			"modalCard": "_2Suf7W_modalCard",
+			"opacitySlider": "_2Suf7W_opacitySlider",
+			"radioItem": "_2Suf7W_radioItem",
+			"toolbarIcon": "_2Suf7W_toolbarIcon",
+			"notice": "_2Suf7W_notice",
+			"actionIcon": "_2Suf7W_actionIcon",
+			"formField": "_2Suf7W_formField",
+			"btn": "_2Suf7W_btn",
+			"formHint": "_2Suf7W_formHint",
+			"toolbarItem": "_2Suf7W_toolbarItem"
 		};
 		//#endregion
 		//#region lib/types/client/SelectionAssistantSection.js
@@ -21387,17 +21530,17 @@ ${editTarget.defaults.baseURL}`}`,
 		var QuickAssistantSection_module_css_default = {
 			"groupTitle": "AweFxa_groupTitle",
 			"previewLogo": "AweFxa_previewLogo",
+			"previewChip": "AweFxa_previewChip",
 			"segItemActive": "AweFxa_segItemActive",
 			"notice": "AweFxa_notice",
 			"previewBar": "AweFxa_previewBar",
+			"previewPlaceholder": "AweFxa_previewPlaceholder",
+			"modelRow": "AweFxa_modelRow",
 			"segmented": "AweFxa_segmented",
 			"segItem": "AweFxa_segItem",
-			"modelHint": "AweFxa_modelHint",
-			"previewPlaceholder": "AweFxa_previewPlaceholder",
-			"previewChip": "AweFxa_previewChip",
 			"previewWindow": "AweFxa_previewWindow",
 			"previewFooter": "AweFxa_previewFooter",
-			"modelRow": "AweFxa_modelRow"
+			"modelHint": "AweFxa_modelHint"
 		};
 		//#endregion
 		//#region lib/types/client/QuickAssistantSection.js
@@ -21556,15 +21699,15 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ScreenshotSection_module_css_default = {
-			"shortcutLabel": "RXXS4a_shortcutLabel",
-			"shortcutRight": "RXXS4a_shortcutRight",
-			"shortcutBadge": "RXXS4a_shortcutBadge",
-			"shortcutTitle": "RXXS4a_shortcutTitle",
+			"notice": "RXXS4a_notice",
 			"shortcutDesc": "RXXS4a_shortcutDesc",
-			"groupTitle": "RXXS4a_groupTitle",
 			"linkBtn": "RXXS4a_linkBtn",
 			"ocrStatus": "RXXS4a_ocrStatus",
-			"notice": "RXXS4a_notice"
+			"shortcutTitle": "RXXS4a_shortcutTitle",
+			"shortcutRight": "RXXS4a_shortcutRight",
+			"groupTitle": "RXXS4a_groupTitle",
+			"shortcutLabel": "RXXS4a_shortcutLabel",
+			"shortcutBadge": "RXXS4a_shortcutBadge"
 		};
 		//#endregion
 		//#region lib/types/client/ScreenshotSection.js
@@ -21836,52 +21979,52 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ChannelsSection_module_css_default = {
+			"submenu": "bV1JOa_submenu",
+			"typeIconImg": "bV1JOa_typeIconImg",
 			"divider": "bV1JOa_divider",
-			"statusDot": "bV1JOa_statusDot",
-			"detailHeader": "bV1JOa_detailHeader",
-			"formField": "bV1JOa_formField",
-			"btn": "bV1JOa_btn",
-			"split": "bV1JOa_split",
-			"opBtn": "bV1JOa_opBtn",
-			"statusDotConnected": "bV1JOa_statusDotConnected",
-			"logLine": "bV1JOa_logLine",
-			"detailDesc": "bV1JOa_detailDesc",
-			"formSwitchRow": "bV1JOa_formSwitchRow",
-			"submenuItemActive": "bV1JOa_submenuItemActive",
-			"submenuList": "bV1JOa_submenuList",
-			"logsBody": "bV1JOa_logsBody",
-			"detail": "bV1JOa_detail",
+			"instanceName": "bV1JOa_instanceName",
+			"submenuTitle": "bV1JOa_submenuTitle",
 			"detailTitle": "bV1JOa_detailTitle",
 			"typeIcon": "bV1JOa_typeIcon",
+			"statusDot": "bV1JOa_statusDot",
 			"detailTitleBlock": "bV1JOa_detailTitleBlock",
-			"instanceOps": "bV1JOa_instanceOps",
-			"typeIconImg": "bV1JOa_typeIconImg",
-			"notice": "bV1JOa_notice",
-			"opBtnDanger": "bV1JOa_opBtnDanger",
-			"formGrid": "bV1JOa_formGrid",
-			"formInput": "bV1JOa_formInput",
-			"emptyState": "bV1JOa_emptyState",
-			"modalFooter": "bV1JOa_modalFooter",
-			"instanceRow": "bV1JOa_instanceRow",
-			"instanceMain": "bV1JOa_instanceMain",
-			"instanceSummary": "bV1JOa_instanceSummary",
-			"modalOverlay": "bV1JOa_modalOverlay",
-			"typeIconImgLarge": "bV1JOa_typeIconImgLarge",
-			"typeIconLarge": "bV1JOa_typeIconLarge",
-			"submenuItem": "bV1JOa_submenuItem",
-			"btnPrimary": "bV1JOa_btnPrimary",
 			"connectedBadge": "bV1JOa_connectedBadge",
-			"modalCard": "bV1JOa_modalCard",
-			"statusDotActive": "bV1JOa_statusDotActive",
-			"instanceName": "bV1JOa_instanceName",
-			"addBtn": "bV1JOa_addBtn",
-			"submenu": "bV1JOa_submenu",
-			"detailBody": "bV1JOa_detailBody",
-			"formFieldSpan2": "bV1JOa_formFieldSpan2",
+			"formField": "bV1JOa_formField",
 			"formSelect": "bV1JOa_formSelect",
+			"statusDotActive": "bV1JOa_statusDotActive",
+			"statusDotConnected": "bV1JOa_statusDotConnected",
+			"detailBody": "bV1JOa_detailBody",
+			"typeIconLarge": "bV1JOa_typeIconLarge",
+			"formHint": "bV1JOa_formHint",
+			"notice": "bV1JOa_notice",
+			"split": "bV1JOa_split",
+			"submenuItem": "bV1JOa_submenuItem",
+			"opBtn": "bV1JOa_opBtn",
+			"instanceRow": "bV1JOa_instanceRow",
+			"formSwitchRow": "bV1JOa_formSwitchRow",
+			"logsBody": "bV1JOa_logsBody",
+			"formGrid": "bV1JOa_formGrid",
+			"btn": "bV1JOa_btn",
 			"statusDotError": "bV1JOa_statusDotError",
-			"submenuTitle": "bV1JOa_submenuTitle",
-			"formHint": "bV1JOa_formHint"
+			"formInput": "bV1JOa_formInput",
+			"addBtn": "bV1JOa_addBtn",
+			"submenuItemActive": "bV1JOa_submenuItemActive",
+			"opBtnDanger": "bV1JOa_opBtnDanger",
+			"instanceMain": "bV1JOa_instanceMain",
+			"submenuList": "bV1JOa_submenuList",
+			"modalCard": "bV1JOa_modalCard",
+			"instanceOps": "bV1JOa_instanceOps",
+			"modalFooter": "bV1JOa_modalFooter",
+			"typeIconImgLarge": "bV1JOa_typeIconImgLarge",
+			"detail": "bV1JOa_detail",
+			"detailDesc": "bV1JOa_detailDesc",
+			"modalOverlay": "bV1JOa_modalOverlay",
+			"logLine": "bV1JOa_logLine",
+			"instanceSummary": "bV1JOa_instanceSummary",
+			"detailHeader": "bV1JOa_detailHeader",
+			"btnPrimary": "bV1JOa_btnPrimary",
+			"emptyState": "bV1JOa_emptyState",
+			"formFieldSpan2": "bV1JOa_formFieldSpan2"
 		};
 		//#endregion
 		//#region lib/types/client/ChannelsSection.js
@@ -22567,6 +22710,105 @@ ${editTarget.defaults.baseURL}`}`,
 			});
 		}
 		//#endregion
+		//#region lib/types/client/general-store.js
+		/**
+		* Desktop general preferences (启动行为 / 托盘) behind the 通用 page — Cherry
+		* GeneralSettings parity for the parts DSH can honor: the preferences persist
+		* in the shared `control-center-general` settings namespace, and the desktop
+		* companion reads the same document at startup to apply 开机自启 and
+		* 关闭到托盘. Proxy / context management / hardware acceleration are honest
+		* platform notes on the page, not fake switches.
+		*/
+		const GENERAL_NAMESPACE = "control-center-general";
+		const DEFAULT_PREFS = {
+			launchOnBoot: false,
+			trayEnabled: true,
+			trayOnClose: false,
+			preventSleepWhenBusy: false
+		};
+		function readPrefs(value, schema) {
+			const flag = (key, fallback) => {
+				const raw = schema.getPath(value, [key]);
+				return typeof raw === "boolean" ? raw : fallback;
+			};
+			return {
+				launchOnBoot: flag("launchOnBoot", DEFAULT_PREFS.launchOnBoot),
+				trayEnabled: flag("trayEnabled", DEFAULT_PREFS.trayEnabled),
+				trayOnClose: flag("trayOnClose", DEFAULT_PREFS.trayOnClose),
+				preventSleepWhenBusy: flag("preventSleepWhenBusy", DEFAULT_PREFS.preventSleepWhenBusy)
+			};
+		}
+		var GeneralSettingsStore = class {
+			api;
+			schema;
+			store = (0, _deepseek_ai_dsh_client_runtime_client.createSnapshotStore)({
+				status: "idle",
+				error: null,
+				writeError: null,
+				available: true,
+				writable: false,
+				revision: null,
+				prefs: DEFAULT_PREFS
+			});
+			generation = 0;
+			constructor(api, schema) {
+				this.api = api;
+				this.schema = schema;
+			}
+			async load() {
+				const generation = ++this.generation;
+				this.store.update((state) => {
+					state.status = "loading";
+					state.error = null;
+				});
+				try {
+					const described = (await this.api.settings.describe({})).result;
+					if (!described.ok) throw new Error(described.error.message);
+					if (generation !== this.generation) return;
+					const namespace = described.value.namespaces.find((view) => view.ns === GENERAL_NAMESPACE);
+					this.store.update((state) => {
+						state.status = "ready";
+						state.available = namespace !== void 0;
+						state.writable = described.value.writable;
+						state.revision = namespace === void 0 ? null : namespace.revision;
+						state.prefs = namespace === void 0 ? DEFAULT_PREFS : readPrefs(namespace.value, this.schema);
+					});
+				} catch (error) {
+					if (generation !== this.generation) return;
+					this.store.update((state) => {
+						state.status = "error";
+						state.error = messageOf$2(error);
+					});
+				}
+			}
+			/** Persist one preference; keeps the others untouched. */
+			async save(key, value) {
+				const snapshot = this.store.getSnapshot();
+				if (snapshot.revision === null || !snapshot.available) return false;
+				this.store.update((state) => {
+					state.writeError = null;
+				});
+				const response = await this.api.settings.mutate({
+					ns: GENERAL_NAMESPACE,
+					expectedRevision: snapshot.revision,
+					ops: [{
+						op: "set",
+						path: [key],
+						value
+					}]
+				});
+				if (!response.result.ok) {
+					const failure = response.result;
+					this.store.update((state) => {
+						state.writeError = failure.error.message;
+					});
+					return false;
+				}
+				await this.load();
+				return true;
+			}
+		};
+		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\SettingsDocumentAction.module.css.mjs
 		const css$5 = ".SgSrUG_action{align-items:center;gap:8px;min-width:0;display:flex}.SgSrUG_error{max-width:180px;color:var(--error);text-overflow:ellipsis;white-space:nowrap;font-size:12px;line-height:18px;overflow:hidden}";
 		const tagId$5 = "@dsh-control-center/bundle/SettingsDocumentAction.module.css";
@@ -22806,10 +23048,10 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var OnboardingModal_module_css_default = {
-			"title": "C_CJ_a_title",
+			"content": "C_CJ_a_content",
 			"dialog": "C_CJ_a_dialog",
 			"body": "C_CJ_a_body",
-			"content": "C_CJ_a_content"
+			"title": "C_CJ_a_title"
 		};
 		//#endregion
 		//#region lib/types/client/OnboardingModal.js
@@ -22960,10 +23202,10 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var WelcomeNotice_module_css_default = {
-			"primary": "RFswhG_primary",
-			"error": "RFswhG_error",
 			"copy": "RFswhG_copy",
-			"actions": "RFswhG_actions"
+			"primary": "RFswhG_primary",
+			"actions": "RFswhG_actions",
+			"error": "RFswhG_error"
 		};
 		//#endregion
 		//#region lib/types/client/WelcomeNotice.js
@@ -23598,7 +23840,18 @@ ${editTarget.defaults.baseURL}`}`,
 			collapseAll: "Collapse all groups",
 			typeChat: "Chat",
 			typeVision: "Vision",
-			typeReasoning: "Reasoning"
+			typeReasoning: "Reasoning",
+			generalLaunch: "Launch",
+			generalLaunchOnBoot: "Launch at login",
+			generalTrayEnabled: "Show in system tray",
+			generalTrayOnClose: "Close to tray instead of quitting",
+			generalDesktopOnly: "Takes effect in the desktop edition",
+			generalProxy: "Proxy",
+			generalProxyUnsupportedTitle: "Proxy settings are not supported on this platform",
+			generalProxyUnsupportedBody: "DSH has no proxy configuration seam; the desktop edition follows the operating system proxy. Cherry’s custom proxy (SOCKS/HTTP) is not available here.",
+			generalContext: "Context management",
+			generalContextNativeTitle: "Automatic context compression is built in",
+			generalContextNativeBody: "DSH compacts sessions automatically based on the model’s context window. Cherry’s message-count limits and truncate thresholds are not configurable from this page."
 		};
 		/** Chinese strings (same keys as {@link en}). */
 		const zh$1 = {
@@ -23804,7 +24057,18 @@ ${editTarget.defaults.baseURL}`}`,
 			collapseAll: "全部折叠",
 			typeChat: "对话",
 			typeVision: "视觉",
-			typeReasoning: "推理"
+			typeReasoning: "推理",
+			generalLaunch: "启动行为",
+			generalLaunchOnBoot: "开机自启",
+			generalTrayEnabled: "在系统托盘显示",
+			generalTrayOnClose: "关闭到托盘",
+			generalDesktopOnly: "桌面版生效",
+			generalProxy: "代理",
+			generalProxyUnsupportedTitle: "当前平台不支持代理设置",
+			generalProxyUnsupportedBody: "DSH 没有代理配置入口；桌面版跟随操作系统代理。Cherry 的自定义代理（SOCKS/HTTP）此处不可用。",
+			generalContext: "上下文管理",
+			generalContextNativeTitle: "自动上下文压缩已内建",
+			generalContextNativeBody: "DSH 根据模型的上下文窗口自动压缩会话。Cherry 的消息数限制与截断阈值在此页不可配置。"
 		};
 		//#endregion
 		//#region lib/types/client/websearch-locales.js
@@ -23924,13 +24188,13 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ProductWorkspaceSurface_module_css_default = {
-			"header": "mzcFbW_header",
 			"root": "mzcFbW_root",
-			"identity": "mzcFbW_identity",
+			"header": "mzcFbW_header",
 			"icon": "mzcFbW_icon",
-			"eyebrow": "mzcFbW_eyebrow",
 			"close": "mzcFbW_close",
-			"body": "mzcFbW_body"
+			"body": "mzcFbW_body",
+			"eyebrow": "mzcFbW_eyebrow",
+			"identity": "mzcFbW_identity"
 		};
 		//#endregion
 		//#region lib/types/client/ProductWorkspaceSurface.js
@@ -25787,6 +26051,12 @@ ${editTarget.defaults.baseURL}`}`,
 			const useChannels = bindSnapshotSelector(channelsController.store);
 			let channelBridge;
 			const welcomeController = new WelcomeNoticeStore(connection.api, connection.isLoopback ? "host" : "memory");
+			const generalController = new GeneralSettingsStore(connection.api, schema);
+			const useGeneral = bindSnapshotSelector(generalController.store);
+			ctx.effect(() => {
+				generalController.load();
+				return () => void 0;
+			}, "control-center: general load");
 			const notificationRuntime = new ConversationNotificationRuntime(connection.api, ctx.sessions.list, () => desktop);
 			ctx.effect(() => notificationRuntime.start(), "control-center: conversation notifications");
 			ctx.effect(() => {
@@ -26080,6 +26350,16 @@ ${editTarget.defaults.baseURL}`}`,
 					scope: "root"
 				} }
 			}, GeneralSection));
+			ctx.slots.inject("settings.general.item", () => ctx.slots.register({
+				name: "settings.general.item",
+				id: "control-center-general",
+				order: 0,
+				inject: () => ({
+					controller: generalController,
+					useSnapshot: useGeneral,
+					t: modelT
+				})
+			}, GeneralCherrySettings));
 			ctx.slots.inject("settings.section", () => ctx.slots.register({
 				name: "settings.section",
 				id: "models",

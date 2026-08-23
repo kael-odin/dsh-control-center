@@ -81,6 +81,9 @@ async function main(): Promise<void> {
   const browser = await chromium.launch()
   try {
     const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, locale: 'zh-CN' })
+    const pageErrors: string[] = []
+    page.on('pageerror', (error) => pageErrors.push(error.message))
+    page.on('console', (message) => { if (message.type() === 'error') pageErrors.push(message.text()) })
     await page.goto(host.url, { waitUntil: 'load' })
     await page.waitForSelector('[class*="frame"]', { timeout: 30_000 })
     const openSidebar = page.getByRole('button', { name: '打开侧边栏' })
@@ -105,6 +108,29 @@ async function main(): Promise<void> {
     await row.evaluate((element: HTMLElement) => { element.click() })
     await page.waitForTimeout(800)
     await page.screenshot({ path: join(SHOTS, 'probe-provider-detail.png') })
+    // 通用 settings page.
+    const generalBtn = dialog.getByRole('button', { name: '通用', exact: true })
+    console.log('PROBE_GENERAL_BTN_COUNT', await generalBtn.count())
+    await generalBtn.click()
+    await page.waitForTimeout(1200)
+    const domProbe = await page.evaluate(() => {
+      const dialogs = [...document.querySelectorAll('[role="dialog"]')].map(d => ({ name: d.getAttribute('aria-label'), visible: d.offsetParent !== null }))
+      return {
+        dialogs,
+        bodyHasMarker: document.body.innerText.includes('GENERAL-PAGE-MOUNTED'),
+        bodyHasGeneralNav: document.body.innerText.includes('启动行为') || document.body.innerText.includes('通用'),
+      }
+    })
+    console.log('PROBE_DOM', JSON.stringify(domProbe))
+    await page.screenshot({ path: join(SHOTS, 'probe-general-debug.png') })
+    try {
+      await page.getByText('启动行为').first().waitFor({ timeout: 15_000 })
+    } catch (error) {
+      const body = await page.locator('body').innerText().catch(() => '')
+      throw new Error(`general page did not render; browser errors: ${pageErrors.join(' | ')}; body tail: ${body.slice(-800)}`, { cause: error })
+    }
+    await page.waitForTimeout(600)
+    await page.screenshot({ path: join(SHOTS, 'probe-general.png') })
     console.log('screenshots written to shots/')
   } finally {
     await browser.close()

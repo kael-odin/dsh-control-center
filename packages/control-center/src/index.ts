@@ -64,6 +64,15 @@ const RETRY_FALLBACK_SCHEMA = z.object({
 export const MODEL_PREFS_NAMESPACE_SETTINGS = settingsNamespace('control-center-model-prefs')
 /** Multi-key slot metadata per provider (values stay in DSH credentials). */
 const API_KEYS_NAMESPACE_SETTINGS = settingsNamespace('control-center-api-keys')
+/** Desktop general settings (launch, tray, proxy) — Cherry GeneralSettings parity. */
+const GENERAL_NAMESPACE_SETTINGS = settingsNamespace('control-center-general')
+const GENERAL_SCHEMA = z.object({
+  launchOnBoot: z.boolean().default(false),
+  trayEnabled: z.boolean().default(true),
+  trayOnClose: z.boolean().default(false),
+  preventSleepWhenBusy: z.boolean().default(false),
+})
+
 const API_KEYS_SCHEMA = z.object({
   providers: z.dict(z.any()).default({}),
 })
@@ -195,6 +204,10 @@ export function apply(ctx: Context): void {
   ctx.settings.register(
     API_KEYS_NAMESPACE_SETTINGS,
     API_KEYS_SCHEMA,
+  )
+  ctx.settings.register(
+    GENERAL_NAMESPACE_SETTINGS,
+    GENERAL_SCHEMA,
   )
 }
 

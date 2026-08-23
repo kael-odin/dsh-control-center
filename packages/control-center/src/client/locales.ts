@@ -208,6 +208,18 @@ export const en = {
   typeChat: 'Chat',
   typeVision: 'Vision',
   typeReasoning: 'Reasoning',
+  generalLaunch: 'Launch',
+  generalLaunchOnBoot: 'Launch at login',
+  generalTrayEnabled: 'Show in system tray',
+  generalTrayOnClose: 'Close to tray instead of quitting',
+  generalDesktopOnly: 'Takes effect in the desktop edition',
+  generalProxy: 'Proxy',
+  generalProxyUnsupportedTitle: 'Proxy settings are not supported on this platform',
+  generalProxyUnsupportedBody: 'DSH has no proxy configuration seam; the desktop edition follows the operating system proxy. Cherry’s custom proxy (SOCKS/HTTP) is not available here.',
+  generalContext: 'Context management',
+  generalContextNativeTitle: 'Automatic context compression is built in',
+  generalContextNativeBody: 'DSH compacts sessions automatically based on the model’s context window. Cherry’s message-count limits and truncate thresholds are not configurable from this page.',
+
 }
 
 /** The settings.models namespace key union. */
@@ -419,4 +431,16 @@ export const zh: { [Key in keyof typeof en]: string } = {
   typeChat: '对话',
   typeVision: '视觉',
   typeReasoning: '推理',
+  generalLaunch: '启动行为',
+  generalLaunchOnBoot: '开机自启',
+  generalTrayEnabled: '在系统托盘显示',
+  generalTrayOnClose: '关闭到托盘',
+  generalDesktopOnly: '桌面版生效',
+  generalProxy: '代理',
+  generalProxyUnsupportedTitle: '当前平台不支持代理设置',
+  generalProxyUnsupportedBody: 'DSH 没有代理配置入口；桌面版跟随操作系统代理。Cherry 的自定义代理（SOCKS/HTTP）此处不可用。',
+  generalContext: '上下文管理',
+  generalContextNativeTitle: '自动上下文压缩已内建',
+  generalContextNativeBody: 'DSH 根据模型的上下文窗口自动压缩会话。Cherry 的消息数限制与截断阈值在此页不可配置。',
+
 }

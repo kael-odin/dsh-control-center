@@ -204,6 +204,17 @@ export declare const en: {
     typeChat: string;
     typeVision: string;
     typeReasoning: string;
+    generalLaunch: string;
+    generalLaunchOnBoot: string;
+    generalTrayEnabled: string;
+    generalTrayOnClose: string;
+    generalDesktopOnly: string;
+    generalProxy: string;
+    generalProxyUnsupportedTitle: string;
+    generalProxyUnsupportedBody: string;
+    generalContext: string;
+    generalContextNativeTitle: string;
+    generalContextNativeBody: string;
 };
 /** The settings.models namespace key union. */
 export type ModelsKey = keyof typeof en;
