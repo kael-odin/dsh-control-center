@@ -131,6 +131,7 @@ export declare const en: {
     checkFailed: string;
     endpointPreview: string;
     searchModels: string;
+    modelsDocs: string;
     enableProvider: string;
     disableProvider: string;
     enableNeedsProfile: string;

@@ -920,6 +920,7 @@ ${editTarget.defaults.baseURL}`}`}
                             {...editTarget.declared === true ? { declared: true } : {}}
                             {...editTarget.defaults === undefined ? {} : { defaults: editTarget.defaults }}
                             {...editTarget.helpLinks === undefined ? {} : { helpLinks: editTarget.helpLinks }}
+                            {...editTarget.website === undefined ? {} : { docsUrl: editTarget.website }}
                             {...editTarget.settingsNs !== NS ? {} : { onOpenRequestOptions: () => { setOptionsOpen(true) } }}
                             {...providerCatalog.length === 0 || editTarget.settingsNs !== NS
                               ? {}

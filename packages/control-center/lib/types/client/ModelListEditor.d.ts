@@ -62,6 +62,8 @@ export interface ModelListEditorProps {
     probeBlocked?: keyof typeof en | undefined;
     /** Wire face the fetch action calls. */
     api: Pick<IApiClient, 'llm'>;
+    /** Provider docs/models URL for Cherry's FileText header link; absent = no link. */
+    docsUrl?: string | undefined;
     /** Section copy. */
     t: (key: keyof typeof en) => string;
     /** Disable every control (read-only deployment or a pending write). */

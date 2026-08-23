@@ -73,6 +73,8 @@ export interface ProviderEditorProps {
    * help link beside the key label like Cherry's 获取 API 卡密.
    */
   helpLinks?: { apiKeyUrl?: string }
+  /** Official site for Cherry's FileText docs link on the model list toolbar. */
+  docsUrl?: string | undefined
   /** The host default-model selection, passed through to the model list's
    * default marker. */
   defaultModel?: { provider?: unknown; model?: unknown }
@@ -653,6 +655,7 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
               {...props.defaultModel === undefined ? {} : { defaultModel: props.defaultModel }}
               {...props.onSetDefault === undefined ? {} : { onSetDefault: props.onSetDefault }}
               {...props.catalogModels === undefined ? {} : { catalogModels: props.catalogModels }}
+              {...props.docsUrl === undefined ? {} : { docsUrl: props.docsUrl }}
             />
           )}
       </>

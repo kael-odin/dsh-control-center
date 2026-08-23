@@ -61,6 +61,8 @@ export interface ProviderEditorProps {
     helpLinks?: {
         apiKeyUrl?: string;
     };
+    /** Official site for Cherry's FileText docs link on the model list toolbar. */
+    docsUrl?: string | undefined;
     /** The host default-model selection, passed through to the model list's
      * default marker. */
     defaultModel?: {
