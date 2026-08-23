@@ -329,9 +329,9 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
 
             <div className={css.notice}>
               此处配置真实写入 DSH settings 并长期保留。宿主桥接进程会为启用中的频道建立连接：
-              Telegram（长轮询）、Discord（网关 WebSocket）、Slack（Socket Mode）、QQ（开放平台网关）
-              已支持接收消息并使用默认模型自动回复（受「允许的会话 ID / 频道 ID」约束）；
-              飞书与微信的协议桥接仍在实现中。
+              Telegram（长轮询）、Discord（网关 WebSocket）、Slack（Socket Mode）、QQ（开放平台网关）、
+              飞书（长连接 WebSocket）已支持接收消息并使用默认模型自动回复（受「允许的会话 ID / 频道 ID」约束）；
+              微信的协议桥接仍在实现中。
               {!available && ' 当前部署未启用频道存储，更改仅保存在本浏览器；更新 Control Center 后可迁移。'}
             </div>
 

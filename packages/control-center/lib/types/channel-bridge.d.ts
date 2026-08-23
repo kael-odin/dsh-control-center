@@ -32,6 +32,36 @@ export interface ChannelBridgeStatus {
     detail?: string | undefined;
     updatedAt: number;
 }
+/**
+ * pbbp2 wire frames (the Lark long-connection protocol) are protobuf messages
+ * with a tiny fixed schema:
+ *
+ *   message Header { string key = 1; string value = 2 }
+ *   message Frame {
+ *     uint64 SeqID = 1;  uint64 LogID = 2;  int32 service = 3;  int32 method = 4;
+ *     repeated Header headers = 5;  string payloadEncoding = 6;
+ *     string payloadType = 7;  bytes payload = 8;  string LogIDNew = 9;
+ *   }
+ *
+ * method: 0 = control (ping/pong), 1 = data (events). Encoded frames are
+ * sent as raw binary WebSocket messages.
+ */
+interface LarkFrame {
+    SeqID?: number;
+    LogID?: number;
+    service?: number;
+    method?: number;
+    headers?: Array<{
+        key: string;
+        value: string;
+    }>;
+    payload?: Uint8Array;
+}
+export type { LarkFrame };
+/** Minimal protobuf writer for the Frame/Header schema. */
+export declare function encodeLarkFrame(frame: LarkFrame): Uint8Array<ArrayBuffer>;
+/** Minimal protobuf reader for the Frame/Header schema. */
+export declare function decodeLarkFrame(buffer: Uint8Array): LarkFrame;
 declare module '@deepseek-ai/cordis' {
     interface Context {
         controlCenterChannelBridge: ChannelBridgeService;
@@ -118,6 +148,26 @@ export declare class ChannelBridgeService extends Service {
     /** Route one QQ dispatch event to its chat-type handler. */
     private handleQqDispatch;
     private sendQqMessage;
+    private feishuTokenCache;
+    private feishuBotOpenId;
+    private feishuTenantToken;
+    private startFeishu;
+    /**
+     * Feishu Lark long-connection loop: mint a tenant token, discover the wss
+     * endpoint, then speak the protobuf ping/pong + event protocol. Inbound
+     * event frames are ACKed with an echoed frame (Feishu redelivers otherwise)
+     * and routed through the shared reply pipeline.
+     */
+    private runFeishuLoop;
+    /**
+     * One Feishu im.message.receive_v1 event: allowlist the chat, require a
+     * mention of the bot in group chats (parity with cherry's requireMention),
+     * strip mention tokens, then ride the shared reply pipeline.
+     */
+    private handleFeishuEvent;
+    /** app_id/app_secret of live feishu runtimes (used by the deliver closure). */
+    private feishuCredentials;
+    private sendFeishuMessage;
     /**
      * Shared WebSocket session for the gateway-style platforms (Discord/Slack/QQ):
      * opens one socket on Node's built-in WebSocket, hands every parsed payload

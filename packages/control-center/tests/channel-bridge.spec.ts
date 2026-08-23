@@ -1,6 +1,6 @@
 import { Context } from '@deepseek-ai/cordis'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { ChannelBridgeService } from '../src/channel-bridge.ts'
+import { ChannelBridgeService, decodeLarkFrame, encodeLarkFrame } from '../src/channel-bridge.ts'
 
 type FetchLike = (url: string, init?: { headers?: Record<string, string>; signal?: AbortSignal }) => Promise<{
   ok: boolean
@@ -149,11 +149,10 @@ describe('ChannelBridgeService', () => {
     expect(service.status()[0]).toMatchObject({ state: 'error', detail: '缺少 AppID 或 ClientSecret' })
   })
 
-  it('marks feishu/wechat activation as an honest unsupported error', async () => {
+  it('marks wechat activation as an honest unsupported error', async () => {
     const fetchSpy = vi.fn()
     globalThis.fetch = fetchSpy as unknown as typeof fetch
     const { service } = makeService([
-      { id: 'fs1', type: 'feishu', name: 'FS', isActive: true, config: {} },
       { id: 'wx1', type: 'wechat', name: 'WX', isActive: true, config: {} },
     ])
     reconcileNow(service)
@@ -161,5 +160,65 @@ describe('ChannelBridgeService', () => {
     expect(fetchSpy).not.toHaveBeenCalled()
     expect(service.status()[0]?.state).toBe('error')
     expect(service.status()[0]?.detail).toContain('尚未实现')
+  })
+
+  it('reports missing feishu credentials as error without starting a loop', async () => {
+    const fetchSpy = vi.fn()
+    globalThis.fetch = fetchSpy as unknown as typeof fetch
+    const { service } = makeService([
+      { id: 'fs2', type: 'feishu', name: 'FS2', isActive: true, config: { app_id: 'cli_x' } },
+    ])
+    reconcileNow(service)
+    await settle(20)
+    expect(fetchSpy).not.toHaveBeenCalled()
+    expect(service.status()[0]).toMatchObject({ state: 'error', detail: '缺少 AppID 或 AppSecret' })
+  })
+})
+
+describe('Lark protobuf frame codec', () => {
+  it('round-trips a ping control frame', () => {
+    const encoded = encodeLarkFrame({
+      SeqID: 0,
+      LogID: 0,
+      service: 42,
+      method: 0,
+      headers: [{ key: 'type', value: 'ping' }],
+    })
+    const decoded = decodeLarkFrame(encoded)
+    expect(decoded.SeqID).toBe(0)
+    expect(decoded.service).toBe(42)
+    expect(decoded.method).toBe(0)
+    expect(decoded.headers).toEqual([{ key: 'type', value: 'ping' }])
+  })
+
+  it('round-trips an event data frame with payload', () => {
+    const payload = new TextEncoder().encode(JSON.stringify({ code: 200 }))
+    const encoded = encodeLarkFrame({
+      SeqID: 7,
+      LogID: 3,
+      service: 42,
+      method: 1,
+      headers: [
+        { key: 'type', value: 'event' },
+        { key: 'message_id', value: 'om_x' },
+        { key: 'sum', value: '1' },
+        { key: 'seq', value: '0' },
+      ],
+      payload,
+    })
+    const decoded = decodeLarkFrame(encoded)
+    expect(decoded.SeqID).toBe(7)
+    expect(decoded.LogID).toBe(3)
+    expect(decoded.method).toBe(1)
+    expect(decoded.headers?.find(h => h.key === 'type')?.value).toBe('event')
+    expect(decoded.headers?.find(h => h.key === 'message_id')?.value).toBe('om_x')
+    expect(decoded.payload).toEqual(payload)
+  })
+
+  it('decodes larger numeric ids (varint multi-byte)', () => {
+    const encoded = encodeLarkFrame({ SeqID: 123456, service: 200, method: 1 })
+    const decoded = decodeLarkFrame(encoded)
+    expect(decoded.SeqID).toBe(123456)
+    expect(decoded.service).toBe(200)
   })
 })

@@ -108,6 +108,173 @@ interface QqPassiveRecord {
   seq: number
 }
 
+// ─── Feishu: Lark long-connection WebSocket (protobuf frames) ────────────────
+
+const FEISHU_API_BASE = 'https://open.feishu.cn'
+/** One inbound event's text cap before the reply pipeline sees it. */
+const FEISHU_MAX_LENGTH = 3_000
+
+/**
+ * pbbp2 wire frames (the Lark long-connection protocol) are protobuf messages
+ * with a tiny fixed schema:
+ *
+ *   message Header { string key = 1; string value = 2 }
+ *   message Frame {
+ *     uint64 SeqID = 1;  uint64 LogID = 2;  int32 service = 3;  int32 method = 4;
+ *     repeated Header headers = 5;  string payloadEncoding = 6;
+ *     string payloadType = 7;  bytes payload = 8;  string LogIDNew = 9;
+ *   }
+ *
+ * method: 0 = control (ping/pong), 1 = data (events). Encoded frames are
+ * sent as raw binary WebSocket messages.
+ */
+interface LarkFrame {
+  SeqID?: number
+  LogID?: number
+  service?: number
+  method?: number
+  headers?: Array<{ key: string; value: string }>
+  payload?: Uint8Array
+}
+
+export type { LarkFrame }
+
+/** Minimal protobuf writer for the Frame/Header schema. */
+export function encodeLarkFrame(frame: LarkFrame): Uint8Array<ArrayBuffer> {
+  const chunks: number[][] = []
+  const pushVarint = (value: number): void => {
+    let v = value >>> 0
+    while (v >= 0x80) {
+      chunks.push([(v & 0x7f) | 0x80])
+      v >>>= 7
+    }
+    chunks.push([v])
+  }
+  const pushTag = (field: number, wireType: number): void => pushVarint((field << 3) | wireType)
+  const pushBytes = (tag: number, data: Uint8Array): void => {
+    pushTag(tag, 2)
+    pushVarint(data.length)
+    chunks.push([...data])
+  }
+  if (frame.SeqID !== undefined) { pushTag(1, 0); pushVarint(frame.SeqID) }
+  if (frame.LogID !== undefined) { pushTag(2, 0); pushVarint(frame.LogID) }
+  if (frame.service !== undefined) { pushTag(3, 0); pushVarint(frame.service >>> 0) }
+  if (frame.method !== undefined) { pushTag(4, 0); pushVarint(frame.method >>> 0) }
+  if (frame.headers !== undefined) {
+    for (const header of frame.headers) {
+      const inner: number[][] = []
+      const tagString = (field: number, value: string): void => {
+        const bytes = new TextEncoder().encode(value)
+        inner.push([(field << 3) | 2])
+        let v = bytes.length
+        while (v >= 0x80) { inner.push([(v & 0x7f) | 0x80]); v >>>= 7 }
+        inner.push([v])
+        inner.push([...bytes])
+      }
+      tagString(1, header.key)
+      tagString(2, header.value)
+      const headerBytes = new Uint8Array(inner.flat())
+      pushBytes(5, headerBytes)
+    }
+  }
+  if (frame.payload !== undefined) pushBytes(8, frame.payload)
+  const flat = chunks.flat()
+  const result = new Uint8Array(flat.length)
+  result.set(flat)
+  return result
+}
+
+/** Minimal protobuf reader for the Frame/Header schema. */
+export function decodeLarkFrame(buffer: Uint8Array): LarkFrame {
+  const frame: LarkFrame = {}
+  const headers: Array<{ key: string; value: string }> = []
+  let pos = 0
+  const readVarint = (): number => {
+    let result = 0
+    let shift = 0
+    while (pos < buffer.length) {
+      const byte = buffer[pos++]!
+      result |= (byte & 0x7f) << shift
+      if ((byte & 0x80) === 0) break
+      shift += 7
+      if (shift > 35) break
+    }
+    return result >>> 0
+  }
+  while (pos < buffer.length) {
+    const tag = readVarint()
+    const field = tag >>> 3
+    const wireType = tag & 7
+    if (wireType === 0) {
+      const value = readVarint()
+      if (field === 1) frame.SeqID = value
+      else if (field === 2) frame.LogID = value
+      else if (field === 3) frame.service = value
+      else if (field === 4) frame.method = value
+    } else if (wireType === 2) {
+      const length = readVarint()
+      const end = Math.min(pos + length, buffer.length)
+      const slice = buffer.slice(pos, end)
+      pos = end
+      if (field === 5) {
+        // Nested Header message: key=1, value=2.
+        let innerPos = 0
+        let key = ''
+        let value = ''
+        while (innerPos < slice.length) {
+          const innerTag = (() => {
+            let result = 0
+            let shift = 0
+            while (innerPos < slice.length) {
+              const byte = slice[innerPos++]!
+              result |= (byte & 0x7f) << shift
+              if ((byte & 0x80) === 0) break
+              shift += 7
+            }
+            return result >>> 0
+          })()
+          const innerField = innerTag >>> 3
+          if ((innerTag & 7) === 0) {
+            let result = 0
+            let shift = 0
+            while (innerPos < slice.length) {
+              const byte = slice[innerPos++]!
+              result |= (byte & 0x7f) << shift
+              if ((byte & 0x80) === 0) break
+              shift += 7
+            }
+            if (innerField === 1) key = String(result)
+            else if (innerField === 2) value = String(result)
+          } else if ((innerTag & 7) === 2) {
+            const len = (() => {
+              let result = 0
+              let shift = 0
+              while (innerPos < slice.length) {
+                const byte = slice[innerPos++]!
+                result |= (byte & 0x7f) << shift
+                if ((byte & 0x80) === 0) break
+                shift += 7
+              }
+              return result
+            })()
+            const text = new TextDecoder().decode(slice.slice(innerPos, innerPos + len))
+            innerPos += len
+            if (innerField === 1) key = text
+            else if (innerField === 2) value = text
+          }
+        }
+        headers.push({ key, value })
+      } else if (field === 8) {
+        frame.payload = slice
+      }
+    } else {
+      break
+    }
+  }
+  if (headers.length > 0) frame.headers = headers
+  return frame
+}
+
 /** Resolve after `ms`, settling early when the signal aborts. */
 function abortableSleep(ms: number, signal?: AbortSignal): Promise<void> {
   if (ms <= 0 || signal?.aborted === true) return Promise.resolve()
@@ -216,9 +383,12 @@ export class ChannelBridgeService extends Service {
         case 'qq':
           this.startQq(record)
           break
+        case 'feishu':
+          this.startFeishu(record)
+          break
         default: {
-          // Feishu needs the Lark long-connection SDK port; WeChat the reverse-
-          // engineered iLink protocol — stay honest instead of pretending.
+          // WeChat needs the reverse-engineered iLink protocol port — stay
+          // honest instead of pretending.
           const existing = this.statuses.get(record.id)
           if (existing === undefined || existing.state !== 'error') {
             this.setStatus(record.id, 'error', `平台「${record.type}」的实时桥接尚未实现（已支持 Telegram / Discord / Slack / QQ）`)
@@ -929,6 +1099,300 @@ export class ChannelBridgeService extends Service {
         const errorText = await response.text().catch(() => '')
         throw new Error(`QQ 发送失败（HTTP ${String(response.status)}）：${errorText.slice(0, 200)}`)
       }
+    }
+  }
+
+  // ─── Feishu: Lark long-connection WebSocket + im/v1 sends ──────────────────
+
+  private feishuTokenCache: { accessToken: string; expiresAt: number } | null = null
+  private feishuBotOpenId: string | null = null
+
+  private async feishuTenantToken(appId: string, appSecret: string): Promise<string> {
+    if (this.feishuTokenCache !== null && Date.now() < this.feishuTokenCache.expiresAt - 60_000) {
+      return this.feishuTokenCache.accessToken
+    }
+    const response = await fetch(`${FEISHU_API_BASE}/open-apis/auth/v3/tenant_access_token/internal`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ app_id: appId, app_secret: appSecret }),
+    })
+    if (!response.ok) {
+      await response.body?.cancel().catch(() => undefined)
+      throw new Error(`获取 tenant_access_token 失败（HTTP ${String(response.status)}）`)
+    }
+    const data = await response.json() as { code?: number; tenant_access_token?: string; expire?: number; msg?: string }
+    if (data.code !== 0 || typeof data.tenant_access_token !== 'string') {
+      throw new Error(`tenant_access_token 响应无效：${data.msg ?? JSON.stringify(data).slice(0, 120)}`)
+    }
+    this.feishuTokenCache = { accessToken: data.tenant_access_token, expiresAt: Date.now() + (data.expire ?? 7200) * 1000 }
+    return this.feishuTokenCache.accessToken
+  }
+
+  private startFeishu(record: ChannelRecord): void {
+    const appId = typeof record.config?.app_id === 'string' ? record.config.app_id : ''
+    const appSecret = typeof record.config?.app_secret === 'string' ? record.config.app_secret : ''
+    if (appId.length === 0 || appSecret.length === 0) {
+      this.names.set(record.id, record.name)
+      this.setStatus(record.id, 'error', '缺少 AppID 或 AppSecret')
+      return
+    }
+    this.feishuCredentials.set(record.id, { appId, appSecret })
+    const controller = new AbortController()
+    this.runtimes.set(record.id, { controller, log: [] })
+    this.setStatus(record.id, 'starting')
+    void this.runFeishuLoop(record.id, record.name, appId, appSecret, record.config ?? {}, controller.signal)
+  }
+
+  /**
+   * Feishu Lark long-connection loop: mint a tenant token, discover the wss
+   * endpoint, then speak the protobuf ping/pong + event protocol. Inbound
+   * event frames are ACKed with an echoed frame (Feishu redelivers otherwise)
+   * and routed through the shared reply pipeline.
+   */
+  private async runFeishuLoop(
+    id: string,
+    name: string,
+    appId: string,
+    appSecret: string,
+    config: Record<string, unknown>,
+    signal: AbortSignal,
+  ): Promise<void> {
+    this.appendLog(id, `频道「${name}」连接飞书长连接`)
+    while (!signal.aborted) {
+      let pingTimer: ReturnType<typeof setTimeout> | null = null
+      let pingIntervalMs = 25_000
+      try {
+        const token = await this.feishuTenantToken(appId, appSecret)
+        if (this.feishuBotOpenId === null) {
+          try {
+            const botInfo = await fetch(`${FEISHU_API_BASE}/open-apis/bot/v3/info`, {
+              headers: { Authorization: `Bearer ${token}` },
+              signal,
+            })
+            if (botInfo.ok) {
+              const body = await botInfo.json() as { code?: number; bot?: { open_id?: string } }
+              if (body.code === 0 && typeof body.bot?.open_id === 'string') {
+                this.feishuBotOpenId = body.bot.open_id
+              }
+            }
+          } catch { /* bot identity is best-effort for mention matching */ }
+        }
+        const endpointResponse = await fetch(`${FEISHU_API_BASE}/callback/ws/endpoint`, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', locale: 'zh' },
+          body: JSON.stringify({ AppID: appId, AppSecret: appSecret }),
+          signal,
+        })
+        if (!endpointResponse.ok) {
+          await endpointResponse.body?.cancel().catch(() => undefined)
+          throw new Error(`获取长连接端点失败（HTTP ${String(endpointResponse.status)}）`)
+        }
+        const endpointData = await endpointResponse.json() as { code?: number; data?: { URL?: string; ClientConfig?: { PingInterval?: number } } }
+        const url = endpointData.data?.URL
+        if (endpointData.code !== 0 || typeof url !== 'string' || url.length === 0) {
+          throw new Error(`长连接端点响应无效（code=${String(endpointData.code)}）`)
+        }
+        if (typeof endpointData.data?.ClientConfig?.PingInterval === 'number') {
+          pingIntervalMs = Math.max(5_000, endpointData.data.ClientConfig.PingInterval * 1000)
+        }
+        const serviceId = Number(new URL(url).searchParams.get('service_id') ?? '0')
+        this.appendLog(id, '长连接端点已解析，建立 WebSocket…')
+
+        await new Promise<void>((resolvePromise) => {
+          let settled = false
+          const settle = (): void => {
+            if (settled) return
+            settled = true
+            if (pingTimer !== null) clearTimeout(pingTimer)
+            pingTimer = null
+            resolvePromise()
+          }
+          if (signal.aborted === true) { settle(); return }
+          const ws = new WebSocket(url)
+          signal.addEventListener('abort', () => { try { ws.close() } catch { /* already closed */ } }, { once: true })
+
+          const ping = (): void => {
+            if (ws.readyState !== WebSocket.OPEN) return
+            try {
+              ws.send(encodeLarkFrame({ SeqID: 0, LogID: 0, service: serviceId, method: 0, headers: [{ key: 'type', value: 'ping' }] }))
+            } catch { /* closing */ }
+            pingTimer = setTimeout(ping, pingIntervalMs)
+          }
+
+          ws.addEventListener('open', () => {
+            this.setStatus(id, 'connected')
+            this.appendLog(id, '飞书长连接已连接')
+            ping()
+          })
+          ws.addEventListener('message', (event: MessageEvent) => {
+            void (async () => {
+              const data = event.data
+              // Normalize to a plain Uint8Array over an ArrayBuffer so the
+              // protobuf decoder and ws.send both accept it.
+              const raw: ArrayBuffer = typeof data === 'string'
+                ? new TextEncoder().encode(data).buffer
+                : data instanceof ArrayBuffer ? data
+                : data instanceof Blob ? await data.arrayBuffer()
+                : data instanceof Uint8Array ? data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength) as ArrayBuffer
+                : new ArrayBuffer(0)
+              const bytes = new Uint8Array(raw)
+              const frame = decodeLarkFrame(bytes)
+              if (frame.method === 0) {
+                // control: pong payload carries updated keepalive config
+                const type = frame.headers?.find(h => h.key === 'type')?.value
+                if (type === 'pong' && frame.payload !== undefined) {
+                  try {
+                    const parsed = JSON.parse(new TextDecoder().decode(frame.payload)) as { PingInterval?: number }
+                    if (typeof parsed.PingInterval === 'number') {
+                      pingIntervalMs = Math.max(5_000, parsed.PingInterval * 1000)
+                    }
+                  } catch { /* keep current interval */ }
+                }
+                return
+              }
+              if (frame.method !== 1) return
+              const headers = new Map((frame.headers ?? []).map(h => [h.key, h.value]))
+              if (headers.get('type') !== 'event') return
+              // Acknowledge (echo frame with biz_rt) so Feishu does not redeliver.
+              const ackFrame: LarkFrame = {
+                method: 1,
+                headers: [...(frame.headers ?? []), { key: 'biz_rt', value: '0' }],
+                payload: new TextEncoder().encode(JSON.stringify({ code: 200 })),
+              }
+              if (frame.SeqID !== undefined) ackFrame.SeqID = frame.SeqID
+              if (frame.LogID !== undefined) ackFrame.LogID = frame.LogID
+              if (frame.service !== undefined) ackFrame.service = frame.service
+              try {
+                ws.send(encodeLarkFrame(ackFrame))
+              } catch { /* closing */ }
+              if (frame.payload === undefined) return
+              try {
+                const envelope = JSON.parse(new TextDecoder().decode(frame.payload)) as {
+                  header?: { event_type?: string }
+                  event?: unknown
+                }
+                if (envelope.header?.event_type === 'im.message.receive_v1' && envelope.event !== undefined) {
+                  this.handleFeishuEvent(id, config, envelope.event)
+                }
+              } catch (error) {
+                this.appendLog(id, `事件解析失败：${error instanceof Error ? error.message : String(error)}`)
+              }
+            })().catch(error => {
+              this.appendLog(id, `事件处理失败：${error instanceof Error ? error.message : String(error)}`)
+            })
+          })
+          ws.addEventListener('close', settle)
+          ws.addEventListener('error', () => { try { ws.close() } catch { /* already closing */ } })
+        })
+      } catch (error) {
+        if (signal.aborted) break
+        const messageText = error instanceof Error ? error.message : String(error)
+        this.setStatus(id, 'error', messageText)
+        this.appendLog(id, `连接失败：${messageText}`)
+        await abortableSleep(RETRY_MS, signal)
+        continue
+      }
+      if (signal.aborted) break
+      this.setStatus(id, 'disconnected')
+      await abortableSleep(RETRY_MS, signal)
+    }
+    this.appendLog(id, '飞书连接循环已停止')
+  }
+
+  /**
+   * One Feishu im.message.receive_v1 event: allowlist the chat, require a
+   * mention of the bot in group chats (parity with cherry's requireMention),
+   * strip mention tokens, then ride the shared reply pipeline.
+   */
+  private handleFeishuEvent(id: string, config: Record<string, unknown>, eventRaw: unknown): void {
+    const event = eventRaw as {
+      sender?: { sender_id?: { open_id?: string } }
+      message?: {
+        message_id?: string
+        chat_id?: string
+        chat_type?: string
+        message_type?: string
+        content?: string
+        mentions?: Array<{ id?: { open_id?: string }; key?: string }>
+      }
+    }
+    const message = event.message
+    if (message?.chat_id === undefined) return
+    if (message.message_type !== 'text' && message.message_type !== 'post') return
+    if (!this.isAllowed(config, [message.chat_id])) {
+      this.appendLog(id, `忽略非允许会话 ${message.chat_id} 的消息`)
+      return
+    }
+    // Group chats only answer when the bot is mentioned (cherry requireMention).
+    if (message.chat_type === 'group' || message.chat_type === 'p2p') {
+      const mentioned = (message.mentions ?? []).some(mention => mention.id?.open_id === this.feishuBotOpenId)
+      const mentionAll = (message.mentions ?? []).some(mention => mention.key === 'ALL' || mention.id?.open_id === 'all')
+      const isSelf = event.sender?.sender_id?.open_id !== undefined
+        && this.feishuBotOpenId !== null
+        && event.sender.sender_id.open_id === this.feishuBotOpenId
+      if (isSelf) return
+      if (message.chat_type === 'group' && !mentioned && !mentionAll) return
+    }
+    let text = ''
+    if (message.message_type === 'text') {
+      try {
+        const parsed = JSON.parse(message.content ?? '{}') as { text?: string }
+        text = parsed.text ?? ''
+      } catch { text = message.content ?? '' }
+    } else if (message.message_type === 'post') {
+      // Rich text: collect plain-text runs, preserving order.
+      try {
+        const parsed = JSON.parse(message.content ?? '{}') as {
+          content?: Array<Array<{ tag?: string; text?: string }>>
+        }
+        text = (parsed.content ?? []).flatMap(paragraph =>
+          (paragraph ?? []).filter(part => part?.tag === 'text' && typeof part.text === 'string').map(part => part.text!),
+        ).join('')
+      } catch { /* unreadable rich text */ }
+    }
+    // Strip the @-mention token that Feishu includes in the text.
+    text = text.replace(/@_user_\d+/g, '').replace(/@(?!_)[^\s@]+/g, '').trim()
+    if (text.length === 0) return
+    const chatId = message.chat_id
+    const messageId = message.message_id
+    this.appendLog(id, `收到消息：${text.slice(0, 80)}`)
+    const credentials = this.feishuCredentials.get(id)
+    if (credentials === undefined) return
+    void this.generateAndDeliver(id, text, async reply => {
+      await this.sendFeishuMessage(credentials.appId, credentials.appSecret, chatId, reply, messageId)
+    })
+  }
+
+  /** app_id/app_secret of live feishu runtimes (used by the deliver closure). */
+  private feishuCredentials = new Map<string, { appId: string; appSecret: string }>()
+
+  private async sendFeishuMessage(
+    appId: string,
+    appSecret: string,
+    chatId: string,
+    text: string,
+    messageId: string | undefined,
+  ): Promise<void> {
+    const token = await this.feishuTenantToken(appId, appSecret)
+    for (let start = 0; start <= text.length; start += FEISHU_MAX_LENGTH - 100) {
+      const chunk = text.slice(start, start + FEISHU_MAX_LENGTH - 100)
+      if (chunk.length === 0 && start > 0) break
+      const response = await fetch(`${FEISHU_API_BASE}/open-apis/im/v1/messages?receive_id_type=chat_id`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'content-type': 'application/json' },
+        body: JSON.stringify({
+          receive_id: chatId,
+          msg_type: 'text',
+          content: JSON.stringify({ text: chunk }),
+          ...(messageId === undefined ? {} : { uuid: messageId }),
+        }),
+      })
+      if (!response.ok) {
+        await response.body?.cancel().catch(() => undefined)
+        throw new Error(`发送失败（HTTP ${String(response.status)}）`)
+      }
+      const body = await response.json() as { code?: number; msg?: string }
+      if (body.code !== 0) throw new Error(`发送失败：${body.msg ?? `code=${String(body.code)}`}`)
     }
   }
 

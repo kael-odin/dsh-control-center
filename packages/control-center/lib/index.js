@@ -3521,6 +3521,153 @@ const QQ_MAX_LENGTH = 2e3;
 * msg_id accepts at most five replies before further sends are rejected. */
 const QQ_PASSIVE_REPLY_TTL_MS = 3e5;
 const QQ_MAX_PASSIVE_REPLIES = 5;
+const FEISHU_API_BASE = "https://open.feishu.cn";
+/** One inbound event's text cap before the reply pipeline sees it. */
+const FEISHU_MAX_LENGTH = 3e3;
+/** Minimal protobuf writer for the Frame/Header schema. */
+function encodeLarkFrame(frame) {
+	const chunks = [];
+	const pushVarint = (value) => {
+		let v = value >>> 0;
+		while (v >= 128) {
+			chunks.push([v & 127 | 128]);
+			v >>>= 7;
+		}
+		chunks.push([v]);
+	};
+	const pushTag = (field, wireType) => pushVarint(field << 3 | wireType);
+	const pushBytes = (tag, data) => {
+		pushTag(tag, 2);
+		pushVarint(data.length);
+		chunks.push([...data]);
+	};
+	if (frame.SeqID !== void 0) {
+		pushTag(1, 0);
+		pushVarint(frame.SeqID);
+	}
+	if (frame.LogID !== void 0) {
+		pushTag(2, 0);
+		pushVarint(frame.LogID);
+	}
+	if (frame.service !== void 0) {
+		pushTag(3, 0);
+		pushVarint(frame.service >>> 0);
+	}
+	if (frame.method !== void 0) {
+		pushTag(4, 0);
+		pushVarint(frame.method >>> 0);
+	}
+	if (frame.headers !== void 0) for (const header of frame.headers) {
+		const inner = [];
+		const tagString = (field, value) => {
+			const bytes = new TextEncoder().encode(value);
+			inner.push([field << 3 | 2]);
+			let v = bytes.length;
+			while (v >= 128) {
+				inner.push([v & 127 | 128]);
+				v >>>= 7;
+			}
+			inner.push([v]);
+			inner.push([...bytes]);
+		};
+		tagString(1, header.key);
+		tagString(2, header.value);
+		pushBytes(5, new Uint8Array(inner.flat()));
+	}
+	if (frame.payload !== void 0) pushBytes(8, frame.payload);
+	const flat = chunks.flat();
+	const result = new Uint8Array(flat.length);
+	result.set(flat);
+	return result;
+}
+/** Minimal protobuf reader for the Frame/Header schema. */
+function decodeLarkFrame(buffer) {
+	const frame = {};
+	const headers = [];
+	let pos = 0;
+	const readVarint = () => {
+		let result = 0;
+		let shift = 0;
+		while (pos < buffer.length) {
+			const byte = buffer[pos++];
+			result |= (byte & 127) << shift;
+			if ((byte & 128) === 0) break;
+			shift += 7;
+			if (shift > 35) break;
+		}
+		return result >>> 0;
+	};
+	while (pos < buffer.length) {
+		const tag = readVarint();
+		const field = tag >>> 3;
+		const wireType = tag & 7;
+		if (wireType === 0) {
+			const value = readVarint();
+			if (field === 1) frame.SeqID = value;
+			else if (field === 2) frame.LogID = value;
+			else if (field === 3) frame.service = value;
+			else if (field === 4) frame.method = value;
+		} else if (wireType === 2) {
+			const length = readVarint();
+			const end = Math.min(pos + length, buffer.length);
+			const slice = buffer.slice(pos, end);
+			pos = end;
+			if (field === 5) {
+				let innerPos = 0;
+				let key = "";
+				let value = "";
+				while (innerPos < slice.length) {
+					const innerTag = (() => {
+						let result = 0;
+						let shift = 0;
+						while (innerPos < slice.length) {
+							const byte = slice[innerPos++];
+							result |= (byte & 127) << shift;
+							if ((byte & 128) === 0) break;
+							shift += 7;
+						}
+						return result >>> 0;
+					})();
+					const innerField = innerTag >>> 3;
+					if ((innerTag & 7) === 0) {
+						let result = 0;
+						let shift = 0;
+						while (innerPos < slice.length) {
+							const byte = slice[innerPos++];
+							result |= (byte & 127) << shift;
+							if ((byte & 128) === 0) break;
+							shift += 7;
+						}
+						if (innerField === 1) key = String(result);
+						else if (innerField === 2) value = String(result);
+					} else if ((innerTag & 7) === 2) {
+						const len = (() => {
+							let result = 0;
+							let shift = 0;
+							while (innerPos < slice.length) {
+								const byte = slice[innerPos++];
+								result |= (byte & 127) << shift;
+								if ((byte & 128) === 0) break;
+								shift += 7;
+							}
+							return result;
+						})();
+						const text = new TextDecoder().decode(slice.slice(innerPos, innerPos + len));
+						innerPos += len;
+						if (innerField === 1) key = text;
+						else if (innerField === 2) value = text;
+					}
+				}
+				headers.push({
+					key,
+					value
+				});
+			} else if (field === 8) frame.payload = slice;
+		} else break;
+	}
+	if (headers.length > 0) frame.headers = headers;
+	return frame;
+}
 /** Resolve after `ms`, settling early when the signal aborts. */
 function abortableSleep(ms, signal) {
 	if (ms <= 0 || signal?.aborted === true) return Promise.resolve();
@@ -3627,6 +3774,9 @@ var ChannelBridgeService = class extends Service {
 					break;
 				case "qq":
 					this.startQq(record);
+					break;
+				case "feishu":
+					this.startFeishu(record);
 					break;
 				default: {
 					const existing = this.statuses.get(record.id);
@@ -4274,6 +4424,263 @@ var ChannelBridgeService = class extends Service {
 				const errorText = await response.text().catch(() => "");
 				throw new Error(`QQ 发送失败（HTTP ${String(response.status)}）：${errorText.slice(0, 200)}`);
 			}
+		}
+	}
+	feishuTokenCache = null;
+	feishuBotOpenId = null;
+	async feishuTenantToken(appId, appSecret) {
+		if (this.feishuTokenCache !== null && Date.now() < this.feishuTokenCache.expiresAt - 6e4) return this.feishuTokenCache.accessToken;
+		const response = await fetch(`${FEISHU_API_BASE}/open-apis/auth/v3/tenant_access_token/internal`, {
+			method: "POST",
+			headers: { "content-type": "application/json" },
+			body: JSON.stringify({
+				app_id: appId,
+				app_secret: appSecret
+			})
+		});
+		if (!response.ok) {
+			await response.body?.cancel().catch(() => void 0);
+			throw new Error(`获取 tenant_access_token 失败（HTTP ${String(response.status)}）`);
+		}
+		const data = await response.json();
+		if (data.code !== 0 || typeof data.tenant_access_token !== "string") throw new Error(`tenant_access_token 响应无效：${data.msg ?? JSON.stringify(data).slice(0, 120)}`);
+		this.feishuTokenCache = {
+			accessToken: data.tenant_access_token,
+			expiresAt: Date.now() + (data.expire ?? 7200) * 1e3
+		};
+		return this.feishuTokenCache.accessToken;
+	}
+	startFeishu(record) {
+		const appId = typeof record.config?.app_id === "string" ? record.config.app_id : "";
+		const appSecret = typeof record.config?.app_secret === "string" ? record.config.app_secret : "";
+		if (appId.length === 0 || appSecret.length === 0) {
+			this.names.set(record.id, record.name);
+			this.setStatus(record.id, "error", "缺少 AppID 或 AppSecret");
+			return;
+		}
+		this.feishuCredentials.set(record.id, {
+			appId,
+			appSecret
+		});
+		const controller = new AbortController();
+		this.runtimes.set(record.id, {
+			controller,
+			log: []
+		});
+		this.setStatus(record.id, "starting");
+		this.runFeishuLoop(record.id, record.name, appId, appSecret, record.config ?? {}, controller.signal);
+	}
+	/**
+	* Feishu Lark long-connection loop: mint a tenant token, discover the wss
+	* endpoint, then speak the protobuf ping/pong + event protocol. Inbound
+	* event frames are ACKed with an echoed frame (Feishu redelivers otherwise)
+	* and routed through the shared reply pipeline.
+	*/
+	async runFeishuLoop(id, name, appId, appSecret, config, signal) {
+		this.appendLog(id, `频道「${name}」连接飞书长连接`);
+		while (!signal.aborted) {
+			let pingTimer = null;
+			let pingIntervalMs = 25e3;
+			try {
+				const token = await this.feishuTenantToken(appId, appSecret);
+				if (this.feishuBotOpenId === null) try {
+					const botInfo = await fetch(`${FEISHU_API_BASE}/open-apis/bot/v3/info`, {
+						headers: { Authorization: `Bearer ${token}` },
+						signal
+					});
+					if (botInfo.ok) {
+						const body = await botInfo.json();
+						if (body.code === 0 && typeof body.bot?.open_id === "string") this.feishuBotOpenId = body.bot.open_id;
+					}
+				} catch {}
+				const endpointResponse = await fetch(`${FEISHU_API_BASE}/callback/ws/endpoint`, {
+					method: "POST",
+					headers: {
+						"content-type": "application/json",
+						locale: "zh"
+					},
+					body: JSON.stringify({
+						AppID: appId,
+						AppSecret: appSecret
+					}),
+					signal
+				});
+				if (!endpointResponse.ok) {
+					await endpointResponse.body?.cancel().catch(() => void 0);
+					throw new Error(`获取长连接端点失败（HTTP ${String(endpointResponse.status)}）`);
+				}
+				const endpointData = await endpointResponse.json();
+				const url = endpointData.data?.URL;
+				if (endpointData.code !== 0 || typeof url !== "string" || url.length === 0) throw new Error(`长连接端点响应无效（code=${String(endpointData.code)}）`);
+				if (typeof endpointData.data?.ClientConfig?.PingInterval === "number") pingIntervalMs = Math.max(5e3, endpointData.data.ClientConfig.PingInterval * 1e3);
+				const serviceId = Number(new URL(url).searchParams.get("service_id") ?? "0");
+				this.appendLog(id, "长连接端点已解析，建立 WebSocket…");
+				await new Promise((resolvePromise) => {
+					let settled = false;
+					const settle = () => {
+						if (settled) return;
+						settled = true;
+						if (pingTimer !== null) clearTimeout(pingTimer);
+						pingTimer = null;
+						resolvePromise();
+					};
+					if (signal.aborted === true) {
+						settle();
+						return;
+					}
+					const ws = new WebSocket(url);
+					signal.addEventListener("abort", () => {
+						try {
+							ws.close();
+						} catch {}
+					}, { once: true });
+					const ping = () => {
+						if (ws.readyState !== WebSocket.OPEN) return;
+						try {
+							ws.send(encodeLarkFrame({
+								SeqID: 0,
+								LogID: 0,
+								service: serviceId,
+								method: 0,
+								headers: [{
+									key: "type",
+									value: "ping"
+								}]
+							}));
+						} catch {}
+						pingTimer = setTimeout(ping, pingIntervalMs);
+					};
+					ws.addEventListener("open", () => {
+						this.setStatus(id, "connected");
+						this.appendLog(id, "飞书长连接已连接");
+						ping();
+					});
+					ws.addEventListener("message", (event) => {
+						(async () => {
+							const data = event.data;
+							const raw = typeof data === "string" ? new TextEncoder().encode(data).buffer : data instanceof ArrayBuffer ? data : data instanceof Blob ? await data.arrayBuffer() : data instanceof Uint8Array ? data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength) : /* @__PURE__ */ new ArrayBuffer(0);
+							const frame = decodeLarkFrame(new Uint8Array(raw));
+							if (frame.method === 0) {
+								if (frame.headers?.find((h) => h.key === "type")?.value === "pong" && frame.payload !== void 0) try {
+									const parsed = JSON.parse(new TextDecoder().decode(frame.payload));
+									if (typeof parsed.PingInterval === "number") pingIntervalMs = Math.max(5e3, parsed.PingInterval * 1e3);
+								} catch {}
+								return;
+							}
+							if (frame.method !== 1) return;
+							if (new Map((frame.headers ?? []).map((h) => [h.key, h.value])).get("type") !== "event") return;
+							const ackFrame = {
+								method: 1,
+								headers: [...frame.headers ?? [], {
+									key: "biz_rt",
+									value: "0"
+								}],
+								payload: new TextEncoder().encode(JSON.stringify({ code: 200 }))
+							};
+							if (frame.SeqID !== void 0) ackFrame.SeqID = frame.SeqID;
+							if (frame.LogID !== void 0) ackFrame.LogID = frame.LogID;
+							if (frame.service !== void 0) ackFrame.service = frame.service;
+							try {
+								ws.send(encodeLarkFrame(ackFrame));
+							} catch {}
+							if (frame.payload === void 0) return;
+							try {
+								const envelope = JSON.parse(new TextDecoder().decode(frame.payload));
+								if (envelope.header?.event_type === "im.message.receive_v1" && envelope.event !== void 0) this.handleFeishuEvent(id, config, envelope.event);
+							} catch (error) {
+								this.appendLog(id, `事件解析失败：${error instanceof Error ? error.message : String(error)}`);
+							}
+						})().catch((error) => {
+							this.appendLog(id, `事件处理失败：${error instanceof Error ? error.message : String(error)}`);
+						});
+					});
+					ws.addEventListener("close", settle);
+					ws.addEventListener("error", () => {
+						try {
+							ws.close();
+						} catch {}
+					});
+				});
+			} catch (error) {
+				if (signal.aborted) break;
+				const messageText = error instanceof Error ? error.message : String(error);
+				this.setStatus(id, "error", messageText);
+				this.appendLog(id, `连接失败：${messageText}`);
+				await abortableSleep(RETRY_MS, signal);
+				continue;
+			}
+			if (signal.aborted) break;
+			this.setStatus(id, "disconnected");
+			await abortableSleep(RETRY_MS, signal);
+		}
+		this.appendLog(id, "飞书连接循环已停止");
+	}
+	/**
+	* One Feishu im.message.receive_v1 event: allowlist the chat, require a
+	* mention of the bot in group chats (parity with cherry's requireMention),
+	* strip mention tokens, then ride the shared reply pipeline.
+	*/
+	handleFeishuEvent(id, config, eventRaw) {
+		const event = eventRaw;
+		const message = event.message;
+		if (message?.chat_id === void 0) return;
+		if (message.message_type !== "text" && message.message_type !== "post") return;
+		if (!this.isAllowed(config, [message.chat_id])) {
+			this.appendLog(id, `忽略非允许会话 ${message.chat_id} 的消息`);
+			return;
+		}
+		if (message.chat_type === "group" || message.chat_type === "p2p") {
+			const mentioned = (message.mentions ?? []).some((mention) => mention.id?.open_id === this.feishuBotOpenId);
+			const mentionAll = (message.mentions ?? []).some((mention) => mention.key === "ALL" || mention.id?.open_id === "all");
+			if (event.sender?.sender_id?.open_id !== void 0 && this.feishuBotOpenId !== null && event.sender.sender_id.open_id === this.feishuBotOpenId) return;
+			if (message.chat_type === "group" && !mentioned && !mentionAll) return;
+		}
+		let text = "";
+		if (message.message_type === "text") try {
+			text = JSON.parse(message.content ?? "{}").text ?? "";
+		} catch {
+			text = message.content ?? "";
+		}
+		else if (message.message_type === "post") try {
+			text = (JSON.parse(message.content ?? "{}").content ?? []).flatMap((paragraph) => (paragraph ?? []).filter((part) => part?.tag === "text" && typeof part.text === "string").map((part) => part.text)).join("");
+		} catch {}
+		text = text.replace(/@_user_\d+/g, "").replace(/@(?!_)[^\s@]+/g, "").trim();
+		if (text.length === 0) return;
+		const chatId = message.chat_id;
+		const messageId = message.message_id;
+		this.appendLog(id, `收到消息：${text.slice(0, 80)}`);
+		const credentials = this.feishuCredentials.get(id);
+		if (credentials === void 0) return;
+		this.generateAndDeliver(id, text, async (reply) => {
+			await this.sendFeishuMessage(credentials.appId, credentials.appSecret, chatId, reply, messageId);
+		});
+	}
+	/** app_id/app_secret of live feishu runtimes (used by the deliver closure). */
+	feishuCredentials = /* @__PURE__ */ new Map();
+	async sendFeishuMessage(appId, appSecret, chatId, text, messageId) {
+		const token = await this.feishuTenantToken(appId, appSecret);
+		for (let start = 0; start <= text.length; start += 2900) {
+			const chunk = text.slice(start, start + FEISHU_MAX_LENGTH - 100);
+			if (chunk.length === 0 && start > 0) break;
+			const response = await fetch(`${FEISHU_API_BASE}/open-apis/im/v1/messages?receive_id_type=chat_id`, {
+				method: "POST",
+				headers: {
+					Authorization: `Bearer ${token}`,
+					"content-type": "application/json"
+				},
+				body: JSON.stringify({
+					receive_id: chatId,
+					msg_type: "text",
+					content: JSON.stringify({ text: chunk }),
+					...messageId === void 0 ? {} : { uuid: messageId }
+				})
+			});
+			if (!response.ok) {
+				await response.body?.cancel().catch(() => void 0);
+				throw new Error(`发送失败（HTTP ${String(response.status)}）`);
+			}
+			const body = await response.json();
+			if (body.code !== 0) throw new Error(`发送失败：${body.msg ?? `code=${String(body.code)}`}`);
 		}
 	}
 	/**
