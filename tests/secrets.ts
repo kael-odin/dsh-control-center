@@ -11,7 +11,8 @@ const TEXT_EXTENSIONS = new Set([
   '', '.cjs', '.css', '.js', '.json', '.jsx', '.md', '.mjs', '.ts', '.tsx', '.txt', '.yaml', '.yml',
 ])
 const SYNTHETIC_CREDENTIAL = ['local', 'fixture', 'key'].join('-')
-const ALLOWED_FIXTURE_FILE = 'tests/packed-browser-e2e.ts'
+/** Test fixtures that materialize the documented synthetic credential. */
+const ALLOWED_FIXTURE_FILES = new Set(['tests/packed-browser-e2e.ts', 'tests/visual-probe.ts'])
 const SCANNER_FILE = 'tests/secrets.ts'
 const SECRET_PATTERNS: Array<{ name: string; pattern: RegExp }> = [
   { name: 'OpenAI-style secret key', pattern: /\bsk-[A-Za-z0-9_-]{20,}\b/g },
@@ -44,7 +45,7 @@ for (const file of await collect(ROOT)) {
   }
   for (const match of text.matchAll(/\b[A-Z][A-Z0-9_]*(?:KEY|TOKEN|SECRET|PASSWORD):\s*([^\s$<{][^\s'"\\n]*)/g)) {
     const syntheticFixture = match[1] === SYNTHETIC_CREDENTIAL
-      && (path === ALLOWED_FIXTURE_FILE || path === SCANNER_FILE)
+      && (ALLOWED_FIXTURE_FILES.has(path) || path === SCANNER_FILE)
     if (!syntheticFixture) {
       findings.push(`${path}: credential-like assignment: ${match[1]?.slice(0, 8) ?? ''}…`)
     }

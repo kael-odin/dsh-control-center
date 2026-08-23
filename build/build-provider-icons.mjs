@@ -31,22 +31,15 @@ function jsxToHtml(svg, iconId, source) {
       out = out.replaceAll(`={${name}}`, `="${value}"`)
     }
   }
-  // Remove spread props ({...props}) and useId() declarations.
+  // Remove spread props ({...props}).
   out = out.replace(/\{\.\.\.[\w]+\}/g, '')
-  // Staticize useId()-style template ids: {`${iconId}-suffix`} -> cc-<slug>.
-  const idTokens = new Map()
-  out = out.replace(/\{`\$\{iconId\}-([\w]+)`}/g, (_m, suffix) => {
-    const token = `cc-${iconId}-${suffix}`
-    idTokens.set(suffix, token)
-    return token
-  })
-  // Also handle direct {`...`} references without iconId.
-  out = out.replace(/\{`\$\{iconId\}([\w-]*)`}/g, (_m, suffix) => `cc-${iconId}${suffix}`)
-  // url(#...) references must match the static ids above.
-  for (const [suffix, token] of idTokens) {
-    out = out.replaceAll(`url(#\${iconId}-${suffix})`, `url(#${token})`)
-  }
-  out = out.replaceAll(`url(#\${iconId})`, `url(#cc-${iconId})`)
+  // Staticize EVERY useId() occurrence first — both id definitions and their
+  // url(#...)/href="#..." references — by substituting the literal prefix.
+  out = out.replaceAll('${iconId}', `cc-${iconId}`)
+  // Then unwrap whatever template-literal expressions remain.
+  out = out.replace(/\{`([^`]*)`\}/g, '$1')
+  // JSX camelCase to namespaced attribute (use/image references).
+  out = out.replaceAll('xlinkHref=', 'xlink:href=')
   // style={{ k: 'v', k2: 'v2' }} -> style="k: v; k2: v2"
   out = out.replace(/style=\{\{\s*([\s\S]*?)\s*\}\}/g, (_m, body) => {
     const parts = body.split(',').map((part) => part.trim()).filter(Boolean)
@@ -60,9 +53,9 @@ function jsxToHtml(svg, iconId, source) {
     return `style="${css}"`
   })
   // Numeric/string JSX attributes: width={65} -> width="65"; fill="#fff" stays.
-  // Negative and decimal values must both match, or the leftover {...} cleanup
-  // below strips the braces and leaves an unquoted attribute that swallows the
-  // next one (observed as y1="y2=..." on gradient glyphs).
+  // Negative values must match too, or the leftover {...} cleanup below strips
+  // the braces and leaves an unquoted attribute that swallows the next one
+  // (observed as y1="y2=..." on gradient glyphs).
   out = out.replace(/([\w-]+)=\{(-?[0-9.]+)\}/g, '$1="$2"')
   out = out.replace(/([\w-]+)=\{'(.*?)'\}/g, '$1="$2"')
   out = out.replace(/([\w-]+)=\{`(.*?)`\}/g, '$1="$2"')
@@ -73,7 +66,7 @@ function jsxToHtml(svg, iconId, source) {
   // followed by whitespace (the fingerprint of a stripped expression value),
   // means conversion failed for this glyph — refuse it rather than shipping
   // broken SVG.
-  if (/[\{\}]/.test(out) || /[\w-]+=\s/.test(out)) {
+  if (/[{]/.test(out) || /[\w-]+=\s/.test(out)) {
     return null
   }
   // The body excludes the <svg> tag itself; empty means conversion failed.
@@ -92,14 +85,25 @@ for (const key of keys) {
   } catch {
     continue
   }
-  const svgMatch = /<svg([\s\S]*?)<\/svg>/.exec(light)
+  // Hand-written forwarders (e.g. opencode) reuse a general glyph instead of
+  // embedding an <svg>; resolve one level to the real source.
+  let svgSource = light
+  const forwarder = /from '\.\.\/\.\.\/general\/([\w-]+)'/.exec(light)
+  if (!/<svg/.test(light) && forwarder !== undefined) {
+    try {
+      svgSource = readFileSync(join(ICONS_DIR, '..', 'general', `${forwarder[1]}.tsx`), 'utf8')
+    } catch {
+      continue
+    }
+  }
+  const svgMatch = /<svg([\s\S]*?)<\/svg>/.exec(svgSource)
   if (svgMatch === null) continue
   const inner = svgMatch[1]
   const viewBoxMatch = /viewBox="([^"]+)"/.exec(inner)
   if (viewBoxMatch === null) continue
   const bodyStart = inner.indexOf('>')
   if (bodyStart < 0) continue
-  const body = jsxToHtml(inner.slice(bodyStart + 1), key, light)
+  const body = jsxToHtml(inner.slice(bodyStart + 1), key, svgSource)
   if (body === null) continue
   let color = ''
   try {
@@ -132,11 +136,24 @@ const BY_KEY = new Map(PROVIDER_ICONS.map(icon => [icon.key, icon]))
 const ALIASES: Record<string, string> = {
   'deepseek-official': 'deepseek',
   'openai-compatible': 'openai',
-  'google': 'gemini',
+  // Cherry registry ids whose icon dir ships under a different name.
+  'google': 'google',
+  'gemini': 'google',
   'azure': 'azureai',
+  'azure-openai': 'azureai',
   'dashscope': 'bailian',
   'siliconflow': 'silicon',
   'moonshot': 'moonshot',
+  'stepfun': 'step',
+  'zai': 'z-ai',
+  'aionly': 'ai-only',
+  'copilot': 'github-copilot',
+  'grok-cli': 'grok',
+  'minimax-global': 'minimax',
+  'new-api': 'newapi',
+  'gateway': 'vercel',
+  'voyageai': 'voyage',
+  'openai-codex': 'openai',
 }
 
 export function providerIcon(id: string): ProviderIconGlyph | undefined {
