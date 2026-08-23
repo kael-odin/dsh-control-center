@@ -632,6 +632,11 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
                             setDropTargetId(undefined)
                           }}
                           onClick={() => { select(entry.provider) }}
+                          onContextMenu={(event) => {
+                            event.preventDefault()
+                            select(entry.provider)
+                            setMenuFor(current => current === entry.provider ? undefined : entry.provider)
+                          }}
                           onKeyDown={(event) => {
                             if (event.currentTarget !== event.target) return
                             if (event.key === 'Enter' || event.key === ' ') {
