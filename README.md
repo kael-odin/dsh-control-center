@@ -37,7 +37,7 @@ Delivered (v0.1.0, all browser-verified against the real DeepSeek API):
 
 Capabilities DSH already owns (themes, sessions, permissions, presets, credentials, plugin inventory) stay authoritative; the Control Center surfaces them without duplicating their storage.
 
-See the bilingual [product specification](docs/control-center-web-edition.md) and [implementation ledger](docs/implementation-status.md) for the authoritative target and current status.
+See the authoritative [parity ledger](docs/PARITY_LEDGER.md) for the Cherry→DSH migration target and current status per settings surface.
 
 ## Development
 

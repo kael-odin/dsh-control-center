@@ -5,7 +5,7 @@ import { createRequire } from "node:module";
 import Schema from "@deepseek-ai/schemastery";
 import { installSettingsSection, settingsNamespace } from "@deepseek-ai/dsh-settings";
 import { basename, join, relative, resolve, sep } from "node:path";
-import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, unlinkSync, writeFileSync } from "node:fs";
 import { resolveDshHome } from "@deepseek-ai/dsh-home-paths";
 import { createHash, randomUUID } from "node:crypto";
 import { Service } from "@deepseek-ai/cordis";
@@ -4952,17 +4952,59 @@ const DATA_NAMESPACES = [
 	"control-center-tasks",
 	"control-center-local-models",
 	"control-center-appearance",
-	"control-center-notifications"
+	"control-center-notifications",
+	"control-center-webdav"
 ].map((name) => settingsNamespace(name));
+/** Regex matching a backup file produced by backupToDirectory. */
+const BACKUP_FILE_PATTERN = /^dsh-control-center-\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z\.json$/;
+/** WebDAV cloud-backup configuration stored in the settings namespace. */
+const WEBDAV_NS = settingsNamespace("control-center-webdav");
+const WEBDAV_SCHEMA = Schema.object({
+	host: Schema.string().default(""),
+	user: Schema.string().default(""),
+	pass: Schema.string().role("secret").default(""),
+	path: Schema.string().default("")
+});
+/** Append a path segment to a WebDAV server URL, both trailing-slash tolerant. */
+function webdavUrl(config, segment) {
+	const base = config.host.replace(/\/+$/, "");
+	const folder = config.path.replace(/^\/+|\/+$/g, "");
+	const name = segment.replace(/^\/+/, "");
+	return folder === "" ? `${base}/${name}` : `${base}/${folder}/${name}`;
+}
+function basicAuth(config) {
+	return "Basic " + Buffer.from(`${config.user}:${config.pass}`).toString("base64");
+}
+function webdavError(status, statusText) {
+	return /* @__PURE__ */ new Error(`WebDAV 请求失败 (${status}) ${statusText}`);
+}
+/** Extract `.json` file hrefs from a PROPFIND Multi-Status body. */
+function parsePropfindFiles(body) {
+	const hrefs = /* @__PURE__ */ new Set();
+	const pattern = /<d?:href[^>]*>([^<]+)<\/d?:href>/gi;
+	let match;
+	while ((match = pattern.exec(body)) !== null) {
+		const href = match[1].trim();
+		if (href.endsWith(".json")) {
+			const name = href.split("/").filter(Boolean).pop();
+			if (name !== void 0 && BACKUP_FILE_PATTERN.test(name)) hrefs.add(name);
+		}
+	}
+	return [...hrefs].sort().reverse();
+}
 var DataService = class extends Service {
 	static inject = ["settings"];
 	typertRemote = bindTypertRemote(this, "controlCenterData");
 	constructor(ctx, _config) {
 		super(ctx, "controlCenterData");
+		ctx.settings.register(WEBDAV_NS, WEBDAV_SCHEMA);
 	}
 	async exportControlCenter() {
 		const namespaces = {};
-		for (const ns of DATA_NAMESPACES) namespaces[ns] = this.ctx.settings.get(ns);
+		for (const ns of DATA_NAMESPACES) {
+			const value = this.ctx.settings.get(ns);
+			namespaces[ns] = typeof value === "object" && value !== null ? JSON.parse(JSON.stringify(value)) : {};
+		}
 		return {
 			version: 1,
 			exportedAt: (/* @__PURE__ */ new Date()).toISOString(),
@@ -4996,6 +5038,154 @@ var DataService = class extends Service {
 		const snapshot = JSON.parse(raw);
 		return this.importControlCenter(snapshot);
 	}
+	/**
+	* Backup to a directory: create a timestamped snapshot file and prune
+	* old backups beyond maxBackups (0 = unlimited).
+	* Returns the newly created file path. The Typert gateway wraps this in
+	* `{ ok: true, value: string }` on the client side; failures are thrown.
+	*/
+	async backupToDirectory(dir, maxBackups) {
+		try {
+			const fileName = `dsh-control-center-${(/* @__PURE__ */ new Date()).toISOString().replace(/[:.]/g, "-").slice(0, 23) + "Z"}.json`;
+			const filePath = join(dir, fileName);
+			const snapshot = await this.exportControlCenter();
+			writeFileSync(filePath, JSON.stringify(snapshot, null, 2), "utf8");
+			if (maxBackups > 0) {
+				const files = readdirSync(dir).filter((name) => BACKUP_FILE_PATTERN.test(name)).sort();
+				while (files.length > maxBackups) {
+					const oldest = files.shift();
+					if (oldest !== void 0) unlinkSync(join(dir, oldest));
+				}
+			}
+			this.ctx.logger.info("Backup created", { path: filePath });
+			return filePath;
+		} catch (error) {
+			const message = error instanceof Error ? error.message : String(error);
+			this.ctx.logger.error("Backup failed", {
+				dir,
+				error: message
+			});
+			throw error instanceof Error ? error : new Error(message);
+		}
+	}
+	/**
+	* List existing backup files in a directory, sorted newest-first.
+	* Returns the file names; the Typert gateway wraps them in `{ ok, value }`.
+	*/
+	async listBackupFiles(dir) {
+		return readdirSync(dir).filter((name) => BACKUP_FILE_PATTERN.test(name)).sort().reverse();
+	}
+	/** Read the stored WebDAV config (password omitted on the wire). */
+	async getWebdavConfig() {
+		const raw = this.ctx.settings.get(WEBDAV_NS);
+		return {
+			host: typeof raw?.host === "string" ? raw.host : "",
+			user: typeof raw?.user === "string" ? raw.user : "",
+			path: typeof raw?.path === "string" ? raw.path : "",
+			passSet: typeof raw?.pass === "string" && raw.pass.length > 0
+		};
+	}
+	/** Save the WebDAV config. `pass` is write-only: it replaces the stored
+	* secret only when provided and non-empty. */
+	async setWebdavConfig(config) {
+		const current = this.ctx.settings.get(WEBDAV_NS) ?? {};
+		const next = {
+			host: config.host,
+			user: config.user,
+			path: config.path,
+			pass: typeof config.pass === "string" && config.pass.length > 0 ? config.pass : current.pass ?? ""
+		};
+		await this.ctx.settings.update(WEBDAV_NS, next);
+		return { absent: true };
+	}
+	async loadWebdavConfig() {
+		const raw = this.ctx.settings.get(WEBDAV_NS);
+		const config = {
+			host: typeof raw?.host === "string" ? raw.host : "",
+			user: typeof raw?.user === "string" ? raw.user : "",
+			pass: typeof raw?.pass === "string" ? raw.pass : "",
+			path: typeof raw?.path === "string" ? raw.path : ""
+		};
+		if (!config.host || !config.user || !config.pass) throw new Error("WebDAV 配置不完整：请填写服务器地址、用户名和密码");
+		return config;
+	}
+	/** PROPFIND the target collection to verify host + credentials. */
+	async testWebdavConnection() {
+		const config = await this.loadWebdavConfig();
+		try {
+			const url = webdavUrl(config, "");
+			const response = await fetch(url, {
+				method: "PROPFIND",
+				headers: {
+					Authorization: basicAuth(config),
+					Depth: "0"
+				}
+			});
+			if (response.status === 401 || response.status === 403) return {
+				ok: false,
+				message: "认证失败：用户名或密码不正确"
+			};
+			if (response.status === 404) return {
+				ok: false,
+				message: `目标路径不存在：${url}`
+			};
+			if (response.ok || response.status === 207) return {
+				ok: true,
+				message: "连接成功"
+			};
+			return {
+				ok: false,
+				message: webdavError(response.status, response.statusText).message
+			};
+		} catch (error) {
+			return {
+				ok: false,
+				message: error instanceof Error ? error.message : String(error)
+			};
+		}
+	}
+	/** PUT a timestamped snapshot to the WebDAV collection. Returns the remote file name. */
+	async webdavBackup() {
+		const config = await this.loadWebdavConfig();
+		const fileName = `dsh-control-center-${(/* @__PURE__ */ new Date()).toISOString().replace(/[:.]/g, "-").slice(0, 23) + "Z"}.json`;
+		const snapshot = await this.exportControlCenter();
+		const response = await fetch(webdavUrl(config, fileName), {
+			method: "PUT",
+			headers: {
+				Authorization: basicAuth(config),
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(snapshot, null, 2)
+		});
+		if (!response.ok && response.status !== 201 && response.status !== 204) throw webdavError(response.status, response.statusText);
+		this.ctx.logger.info("WebDAV backup created", { fileName });
+		return fileName;
+	}
+	/** GET a snapshot from the WebDAV collection and import it. */
+	async webdavRestore(fileName) {
+		const config = await this.loadWebdavConfig();
+		const response = await fetch(webdavUrl(config, fileName), {
+			method: "GET",
+			headers: { Authorization: basicAuth(config) }
+		});
+		if (!response.ok) throw webdavError(response.status, response.statusText);
+		const snapshot = await response.json();
+		await this.importControlCenter(snapshot);
+		return { absent: true };
+	}
+	/** PROPFIND Depth:1 to list snapshot files in the WebDAV collection. */
+	async listWebdavBackups() {
+		const config = await this.loadWebdavConfig();
+		const response = await fetch(webdavUrl(config, ""), {
+			method: "PROPFIND",
+			headers: {
+				Authorization: basicAuth(config),
+				Depth: "1"
+			}
+		});
+		if (!response.ok && response.status !== 207) throw webdavError(response.status, response.statusText);
+		return parsePropfindFiles(await response.text());
+	}
 	[Symbol.dispose]() {}
 };
 //#endregion
@@ -5023,6 +5213,38 @@ const dataRemote = {
 		{
 			method: "importFromFile",
 			parameters: ["path"]
+		},
+		{
+			method: "backupToDirectory",
+			parameters: ["dir", "maxBackups"]
+		},
+		{
+			method: "listBackupFiles",
+			parameters: ["dir"]
+		},
+		{
+			method: "getWebdavConfig",
+			parameters: []
+		},
+		{
+			method: "setWebdavConfig",
+			parameters: ["config"]
+		},
+		{
+			method: "testWebdavConnection",
+			parameters: []
+		},
+		{
+			method: "webdavBackup",
+			parameters: []
+		},
+		{
+			method: "webdavRestore",
+			parameters: ["fileName"]
+		},
+		{
+			method: "listWebdavBackups",
+			parameters: []
 		}
 	].map(({ method, parameters }) => ({
 		id: `@dsh-control-center/control-center#controlCenterData/${method}`,

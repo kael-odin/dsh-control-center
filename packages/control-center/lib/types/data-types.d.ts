@@ -1,7 +1,7 @@
 /**
  * Data management types (shared between Host and Client).
  */
-import type { DataExport } from './data.ts';
+import type { DataExport, WebDavConfigUpdate, WebDavConfigView } from './data.ts';
 declare module '@deepseek-ai/dsh-typert-protocol' {
     interface TypertRemoteNamespaceMap {
         controlCenterData: {
@@ -68,8 +68,103 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
+            backupToDirectory(dir: string, maxBackups: number): Promise<{
+                ok: true;
+                value: string;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            listBackupFiles(dir: string): Promise<{
+                ok: true;
+                value: string[];
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            getWebdavConfig(): Promise<{
+                ok: true;
+                value: WebDavConfigView;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            setWebdavConfig(config: WebDavConfigUpdate): Promise<{
+                ok: true;
+                value: {
+                    absent: true;
+                };
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            testWebdavConnection(): Promise<{
+                ok: true;
+                value: {
+                    ok: boolean;
+                    message: string;
+                };
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            webdavBackup(): Promise<{
+                ok: true;
+                value: string;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            webdavRestore(fileName: string): Promise<{
+                ok: true;
+                value: {
+                    absent: true;
+                };
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            listWebdavBackups(): Promise<{
+                ok: true;
+                value: string[];
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
         };
     }
 }
-export type { DataExport };
+export type { DataExport, WebDavConfigUpdate, WebDavConfigView };
 //# sourceMappingURL=data-types.d.ts.map

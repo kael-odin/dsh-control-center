@@ -1,0 +1,116 @@
+/* Data settings — Cherry sub-menu layout */
+
+.container {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+.sidebar {
+  width: 220px;
+  min-width: 220px;
+  border-right: 0.5px solid var(--border, rgba(128, 128, 128, 0.25));
+  display: flex;
+  flex-direction: column;
+  padding: 12px 8px 8px;
+  overflow-y: auto;
+}
+
+.sidebarTitle {
+  padding: 4px 10px 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.sidebarDivider {
+  padding: 10px 10px 4px;
+  font-size: 11px;
+  color: var(--foreground-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sidebarItem {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--foreground);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.sidebarItem:hover {
+  background: var(--background-subtle, rgba(128, 128, 128, 0.08));
+}
+
+.sidebarItemActive,
+.sidebarItemActive:hover {
+  background: color-mix(in srgb, var(--primary, #00b96b) 14%, transparent);
+  color: var(--primary, #00b96b);
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 20px 24px;
+}
+
+.pathInput {
+  flex: 1;
+  min-width: 200px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border, rgba(128, 128, 128, 0.3));
+  background: var(--background, #fff);
+  color: var(--foreground);
+  font-size: 13px;
+}
+
+.select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border, rgba(128, 128, 128, 0.3));
+  background: var(--background, #fff);
+  color: var(--foreground);
+  font-size: 13px;
+}
+
+.statusNotice {
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--success-border, rgba(0, 185, 107, 0.4));
+  background: var(--success-subtle, rgba(0, 185, 107, 0.1));
+  color: var(--success-subtle-foreground);
+  font-size: 13px;
+}
+
+.capabilityNotice {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 8px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--background-subtle, rgba(128, 128, 128, 0.06));
+  color: var(--foreground-tertiary);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.capabilityNoticeIcon {
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.capabilityNoticeText {
+  flex: 1;
+}

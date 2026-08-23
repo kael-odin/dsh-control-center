@@ -16,6 +16,7 @@ describe('DataService', () => {
         updated.push(String(ns))
         stored.set(String(ns), structuredClone(value))
       },
+      register: () => {},
     }
     const service = new DataService(ctx)
     return { service, stored, updated }
@@ -37,6 +38,7 @@ describe('DataService', () => {
       'control-center-skills',
       'control-center-tasks',
       'control-center-translation',
+      'control-center-webdav',
       'control-center-websearch',
     ])
     const snapshot = await service.exportControlCenter()
@@ -77,5 +79,52 @@ describe('DataService', () => {
     } finally {
       await rm(dir, { recursive: true, force: true })
     }
+  })
+
+  it('backs up to a directory and lists backups', async () => {
+    const { service } = setup()
+    const dir = await mkdtemp(join(tmpdir(), 'dsh-backup-'))
+    try {
+      const first = await service.backupToDirectory(dir, 2)
+      expect(first).toMatch(/dsh-control-center-.*\.json$/)
+      const second = await service.backupToDirectory(dir, 2)
+      expect(second).not.toBe(first)
+      expect(await service.listBackupFiles(dir)).toHaveLength(2)
+      // Rotation: with maxBackups=1 a third backup prunes the oldest.
+      await service.backupToDirectory(dir, 1)
+      const files = await service.listBackupFiles(dir)
+      expect(files).toHaveLength(1)
+    } finally {
+      await rm(dir, { recursive: true, force: true })
+    }
+  })
+
+  it('reports a missing backup directory as an error', async () => {
+    const { service } = setup()
+    const missing = join(tmpdir(), 'dsh-backup-missing-dir-does-not-exist')
+    await expect(service.backupToDirectory(missing, 5)).rejects.toThrow()
+  })
+
+  it('round-trips WebDAV config with a write-only password', async () => {
+    const { service } = setup()
+    // Set a config with a password.
+    await service.setWebdavConfig({ host: 'https://example.com', user: 'alice', path: 'backups', pass: 'secret-1' })
+    const view = await service.getWebdavConfig()
+    expect(view).toEqual({ host: 'https://example.com', user: 'alice', path: 'backups', passSet: true })
+    expect(JSON.stringify(view)).not.toContain('secret-1')
+    // Empty pass keeps the stored secret.
+    await service.setWebdavConfig({ host: 'https://example.com', user: 'alice', path: 'backups', pass: '' })
+    expect((await service.getWebdavConfig()).passSet).toBe(true)
+    // A new pass replaces it.
+    await service.setWebdavConfig({ host: 'https://example.com', user: 'alice', path: 'backups', pass: 'secret-2' })
+    expect((await service.getWebdavConfig()).passSet).toBe(true)
+  })
+
+  it('exports the WebDAV namespace in a backup', async () => {
+    const { service } = setup()
+    await service.setWebdavConfig({ host: 'https://example.com', user: 'alice', path: 'backups', pass: 'secret' })
+    const snapshot = await service.exportControlCenter()
+    const webdavNs = snapshot.namespaces['control-center-webdav'] as { host?: string }
+    expect(webdavNs?.host).toBe('https://example.com')
   })
 })

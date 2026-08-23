@@ -1,16 +1,12 @@
 /**
  * 数据 (Data management) section — Cherry DataSettings parity.
  *
- * - 本地备份（桌面桥）: save dialog → host writes the full snapshot to the
- *   granted path; restore reads a picked file back through the same confined
- *   bridge. The bridge cannot touch any file the user did not just pick.
- * - 快照导出/导入（浏览器下载/上传）: the web fallback, same snapshot format.
- * - WebDAV / S3 / 第三方笔记同步: honestly labeled unsupported on this
- *   platform rather than rendered as dead switches (Cherry offers them; DSH
- *   has no such service yet).
+ * 重新设计为 Cherry 风格的子菜单结构：
+ * - 左侧菜单列表（13 项，4 个分隔组）
+ * - 右侧面板渲染对应子工具
  *
- * The snapshot covers every Control Center settings namespace; API keys stay
- * in the DSH credentials store and never leave it.
+ * 已实现的面板：基础数据（备份/恢复/导出/导入/清除）、本地目录备份、Markdown 导出
+ * 其余面板如实标注能力状态。
  */
 import type { HostObservable, InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots';
 import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client';
