@@ -63,6 +63,7 @@ import type {} from '../local-models-types.ts'
 import { localModelsRemote, updateRemote } from '../local-models-remote-client.ts'
 import type {} from '../desktop-types.ts'
 import desktopRemote from '../desktop-remote-client.ts'
+import channelBridgeRemote from '../channel-bridge-remote-client.ts'
 import { LocalModelsSection } from './LocalModelsSection.tsx'
 import { ApiGatewaySection } from './ApiGatewaySection.tsx'
 import type { LocalModelsSectionInjected } from './LocalModelsSection.tsx'
@@ -282,6 +283,7 @@ export function apply(ctx: ClientContext): void {
     const controlCenterRemote: typeof translationRemote = {
       package: '@dsh-control-center/control-center',
       descriptors: [
+        ...channelBridgeRemote.descriptors,
         ...translationRemote.descriptors,
         ...paintingRemote.descriptors,
         ...knowledgeRemote.descriptors,
@@ -833,9 +835,10 @@ export function apply(ctx: ClientContext): void {
     api: connection.api,
     useChannels,
     controller: channelsController,
-    getBridge: channelBridge === undefined
-      ? undefined
-      : () => channelBridge as unknown as ChannelBridgeHandle,
+    // Lazy read: the bridge Remote namespace mounts asynchronously after this
+    // closure's first evaluation, so the value must be resolved per call.
+    getBridge: (): ChannelBridgeHandle | undefined =>
+      channelBridge === undefined ? undefined : channelBridge as unknown as ChannelBridgeHandle,
   })
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',

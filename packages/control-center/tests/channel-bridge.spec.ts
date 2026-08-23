@@ -90,4 +90,76 @@ describe('ChannelBridgeService', () => {
     expect(service.status()[0]).toMatchObject({ state: 'error', detail: '缺少 Bot Token' })
     expect(service.getLog('tg3')).toEqual([])
   })
+
+  it('drives a discord gateway attempt and reports the 401 as error', async () => {
+    const fetchSpy = vi.fn(async () => ({
+      ok: false,
+      status: 401,
+      body: null,
+      json: async () => ({}),
+    })) as unknown as typeof fetch
+    globalThis.fetch = fetchSpy
+    const { service } = makeService([
+      { id: 'dc1', type: 'discord', name: 'DC', isActive: true, config: { bot_token: 'fake' } },
+    ])
+    reconcileNow(service)
+    await settle(50)
+    const statuses = service.status()
+    expect(statuses[0]).toMatchObject({ state: 'error' })
+    expect(statuses[0]?.detail).toContain('401')
+    // Runtime started and wrote a log line.
+    expect(service.getLog('dc1', 20).length).toBeGreaterThan(0)
+    ;(service as unknown as { runtimes: Map<string, { controller: AbortController }> }).runtimes.get('dc1')!.controller.abort()
+  })
+
+  it('reports missing discord token as error without a runtime', async () => {
+    const fetchSpy = vi.fn()
+    globalThis.fetch = fetchSpy as unknown as typeof fetch
+    const { service } = makeService([
+      { id: 'dc2', type: 'discord', name: 'DC2', isActive: true, config: {} },
+    ])
+    reconcileNow(service)
+    await settle(20)
+    expect(fetchSpy).not.toHaveBeenCalled()
+    expect(service.status()[0]).toMatchObject({ state: 'error', detail: '缺少 Bot Token' })
+  })
+
+  it('reports missing slack tokens as error without starting a loop', async () => {
+    const fetchSpy = vi.fn()
+    globalThis.fetch = fetchSpy as unknown as typeof fetch
+    const { service } = makeService([
+      { id: 'sl1', type: 'slack', name: 'SL', isActive: true, config: { bot_token: 'xoxb-x' } },
+      { id: 'sl2', type: 'slack', name: 'SL2', isActive: true, config: {} },
+    ])
+    reconcileNow(service)
+    await settle(20)
+    expect(fetchSpy).not.toHaveBeenCalled()
+    expect(service.status()[0]).toMatchObject({ state: 'error', detail: '缺少 Bot Token（xoxb-）或 App-Level Token（xapp-）' })
+  })
+
+  it('reports missing qq credentials as error without starting a loop', async () => {
+    const fetchSpy = vi.fn()
+    globalThis.fetch = fetchSpy as unknown as typeof fetch
+    const { service } = makeService([
+      { id: 'qq1', type: 'qq', name: 'QQ', isActive: true, config: { app_id: '123' } },
+    ])
+    reconcileNow(service)
+    await settle(20)
+    expect(fetchSpy).not.toHaveBeenCalled()
+    expect(service.status()[0]).toMatchObject({ state: 'error', detail: '缺少 AppID 或 ClientSecret' })
+  })
+
+  it('marks feishu/wechat activation as an honest unsupported error', async () => {
+    const fetchSpy = vi.fn()
+    globalThis.fetch = fetchSpy as unknown as typeof fetch
+    const { service } = makeService([
+      { id: 'fs1', type: 'feishu', name: 'FS', isActive: true, config: {} },
+      { id: 'wx1', type: 'wechat', name: 'WX', isActive: true, config: {} },
+    ])
+    reconcileNow(service)
+    await settle(20)
+    expect(fetchSpy).not.toHaveBeenCalled()
+    expect(service.status()[0]?.state).toBe('error')
+    expect(service.status()[0]?.detail).toContain('尚未实现')
+  })
 })

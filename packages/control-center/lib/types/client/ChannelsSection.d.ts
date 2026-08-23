@@ -35,7 +35,7 @@ export interface ChannelsSectionInjected {
     useChannels: SnapshotSelectorHook<ChannelsState>;
     controller: ChannelsStore;
     /** Lazy handle to the host channel bridge (undefined until mounted). */
-    getBridge?: (() => ChannelBridgeHandle) | undefined;
+    getBridge?: (() => ChannelBridgeHandle | undefined) | undefined;
 }
 /** Props delivered by the slot outlet (partial until injected). */
 export type ChannelsSectionProps = Partial<ChannelsSectionInjected>;

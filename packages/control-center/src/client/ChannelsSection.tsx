@@ -28,7 +28,7 @@ export interface ChannelsSectionInjected {
   useChannels: SnapshotSelectorHook<ChannelsState>
   controller: ChannelsStore
   /** Lazy handle to the host channel bridge (undefined until mounted). */
-  getBridge?: (() => ChannelBridgeHandle) | undefined
+  getBridge?: (() => ChannelBridgeHandle | undefined) | undefined
 }
 
 /** Props delivered by the slot outlet (partial until injected). */
@@ -161,9 +161,9 @@ function summaryOf(channel: ChannelInstance): string {
  * notice) when the running host predates the namespace.
  */
 export function ChannelsSection(props: ChannelsSectionProps): ReactNode {
-  const { api, useChannels, controller } = props
+  const { api, useChannels, controller, getBridge } = props
   if (api === undefined || useChannels === undefined || controller === undefined) return null
-  return <Loaded injected={{ api, useChannels, controller }} />
+  return <Loaded injected={{ api, useChannels, controller, getBridge }} />
 }
 
 function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode {
@@ -206,7 +206,9 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
     if (!available || getBridge === undefined) return undefined
     let stopped = false
     const tick = (): void => {
-      void getBridge().status().then((result) => {
+      const bridge = getBridge()
+      if (bridge === undefined) return
+      void bridge.status().then((result) => {
         if (!stopped && result.ok) setBridgeStatuses(result.value)
       }, () => undefined)
     }
@@ -220,7 +222,9 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
     if (logsFor === null || getBridge === undefined) return undefined
     let stopped = false
     const fetchLog = (): void => {
-      void getBridge().getLog(logsFor.id, 50).then((result) => {
+      const bridge = getBridge()
+      if (bridge === undefined) return
+      void bridge.getLog(logsFor.id, 50).then((result) => {
         if (!stopped && result.ok) setLogLines(result.value)
       }, () => undefined)
     }
@@ -325,8 +329,9 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
 
             <div className={css.notice}>
               此处配置真实写入 DSH settings 并长期保留。宿主桥接进程会为启用中的频道建立连接：
-              Telegram 已支持接收消息并使用默认模型自动回复（受「允许的会话 ID」约束）；
-              其余平台与更细的控制项将逐步接入。
+              Telegram（长轮询）、Discord（网关 WebSocket）、Slack（Socket Mode）、QQ（开放平台网关）
+              已支持接收消息并使用默认模型自动回复（受「允许的会话 ID / 频道 ID」约束）；
+              飞书与微信的协议桥接仍在实现中。
               {!available && ' 当前部署未启用频道存储，更改仅保存在本浏览器；更新 Control Center 后可迁移。'}
             </div>
 

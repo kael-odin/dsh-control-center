@@ -35,7 +35,7 @@ Cherry 侧边栏 5 组 22 项。Control Center 导航已对齐，组顺序和成
 | 个人 | Notification | ✅ | 4 个开关完全对等 |
 | 个人 | Data | 🔄 | 已重构为 Cherry 子菜单 IA（13 项/5 组），本地目录备份+轮转+Markdown 导出+WebDAV 云备份已可用。S3/坚果云/笔记导出待实现 |
 | 个人 | Usage | ✅ | 热力图/分布图/指标条/详情表 |
-| 自动化 | Channels | ⚠️ | 6 种频道表单 UI 齐备。桥接仅连通 Telegram，其余 5 种待连接 |
+| 自动化 | Channels | ✅ | 6 种频道表单 UI 齐备。桥接已连通 Telegram/Discord/Slack/QQ（真实协议），飞书/微信待移植 |
 | 自动化 | Scheduled Tasks | ✅ | 任务列表/调度/历史 |
 | 自动化 | Shortcuts | ✅ | 快捷键列表 |
 | 自动化 | Quick Assistant | ⚠️ | 启用/托盘/剪贴板/模型选择已实现。缺少：真实助手选择器、窗口预览（Web 限制） |
@@ -187,15 +187,15 @@ Cherry 的 `McpSettingsPage.tsx` 有子导航结构：
 
 | 频道 | 状态 | 说明 |
 |------|------|------|
-| 飞书 | ❌ | 表单 UI 有，桥接未实现 |
-| Telegram | ✅ | 长轮询桥接在工作 |
-| QQ | ❌ | 表单 UI 有，桥接未实现 |
-| 微信 | ❌ | 表单 UI 有，桥接未实现 |
-| Discord | ❌ | 表单 UI 有，桥接未实现 |
-| Slack | ❌ | 表单 UI 有，桥接未实现 |
+| 飞书 | ❌ | 表单 UI 有，Lark 长连接 SDK 协议待移植 |
+| Telegram | ✅ | 长轮询桥接在工作（allowlist + 默认模型回复 + 重试策略） |
+| QQ | ✅ | 开放平台网关 WebSocket（getAppAccessToken + 被动回复 msg_id 窗口） |
+| 微信 | ❌ | 表单 UI 有，iLink 逆向协议待移植 |
+| Discord | ✅ | 网关 WebSocket（heartbeat/identify/MESSAGE_CREATE + REST 发送） |
+| Slack | ✅ | Socket Mode（apps.connections.open + 信封 ACK + chat.postMessage） |
 | Agent 绑定 | ❌ | 每个频道可绑定一个 Agent + Workspace |
-| 连接状态 | ❌ | 实时连接状态指示 |
-| 日志 | ⚠️ | 我们的日志通过 host 桥接 |
+| 连接状态 | ✅ | 实时状态点（connected/error/starting/disconnected）+ 状态轮询 |
+| 日志 | ✅ | 每频道日志环 + 实时日志对话框 |
 
 ---
 
@@ -218,8 +218,8 @@ Cherry 的 `McpSettingsPage.tsx` 有子导航结构：
 3. **Appearance** → 字体大小设置
 
 ### P1 (中等可见度，需要 host 能力)
-4. **Channels 桥接** → 飞书/QQ/微信/Discord/Slack 桥接
-5. **Data 云存储** → WebDAV/S3 备份（需要 host HTTP 客户端）
+4. **Channels 剩余桥接** → 飞书（Lark SDK 长连接）/ 微信（iLink 逆向协议）+ Agent 绑定
+5. **Data 云存储** → S3 备份（WebDAV 已完成）
 6. **General 上下文管理** → 映射到 DSH compaction 配置
 
 ### P2 (低可见度，或需要 DSH 新能力)
