@@ -6073,6 +6073,9 @@ const RETRY_FALLBACK_SCHEMA = Schema.object({
 * (enabled false, max attempts 3, backoff on, no fallbacks).
 */
 const MODEL_PREFS_NAMESPACE_SETTINGS = settingsNamespace("control-center-model-prefs");
+/** Multi-key slot metadata per provider (values stay in DSH credentials). */
+const API_KEYS_NAMESPACE_SETTINGS = settingsNamespace("control-center-api-keys");
+const API_KEYS_SCHEMA = Schema.object({ providers: Schema.dict(Schema.any()).default({}) });
 const MODEL_PREFS_SCHEMA = Schema.object({
 	translationProvider: Schema.string().default(""),
 	translationModel: Schema.string().default(""),
@@ -6157,6 +6160,7 @@ function apply(ctx) {
 	ctx.settings.register(settingsNamespace(APPEARANCE_SETTINGS_NAMESPACE), AppearanceSettingsSchema);
 	ctx.settings.register(PROVIDER_STASH_NAMESPACE, PROVIDER_STASH_SCHEMA);
 	ctx.settings.register(MODEL_PREFS_NAMESPACE_SETTINGS, MODEL_PREFS_SCHEMA);
+	ctx.settings.register(API_KEYS_NAMESPACE_SETTINGS, API_KEYS_SCHEMA);
 }
 //#endregion
 export { ChannelBridgeService, DataService, DesktopService, FileProcessingService, KnowledgeService, LocalModelsService, MODEL_PREFS_NAMESPACE_SETTINGS, McpService, ModelCheckService, PaintingService, ProvidersService, SkillsService, SystemService, TasksService, TranslationService, UpdateService, UsageService, WebSearchService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, cronMatches, inject, name };

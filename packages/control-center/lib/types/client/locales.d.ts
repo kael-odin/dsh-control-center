@@ -139,6 +139,18 @@ export declare const en: {
     providerDisabled: string;
     freeBadge: string;
     getApiKey: string;
+    keysTitle: string;
+    keysRotationNote: string;
+    keysActive: string;
+    keysConfigured: string;
+    keysMissing: string;
+    keysUnnamed: string;
+    keysEnable: string;
+    keysRename: string;
+    keysLabelPlaceholder: string;
+    keysNewPlaceholder: string;
+    keysEnabledSuffix: string;
+    keysEmpty: string;
     routeInfo: string;
     prefTitle: string;
     prefQuickModel: string;

@@ -62,6 +62,12 @@ const RETRY_FALLBACK_SCHEMA = z.object({
  * (enabled false, max attempts 3, backoff on, no fallbacks).
  */
 export const MODEL_PREFS_NAMESPACE_SETTINGS = settingsNamespace('control-center-model-prefs')
+/** Multi-key slot metadata per provider (values stay in DSH credentials). */
+const API_KEYS_NAMESPACE_SETTINGS = settingsNamespace('control-center-api-keys')
+const API_KEYS_SCHEMA = z.object({
+  providers: z.dict(z.any()).default({}),
+})
+
 const MODEL_PREFS_SCHEMA = z.object({
   translationProvider: z.string().default(''),
   translationModel: z.string().default(''),
@@ -185,6 +191,10 @@ export function apply(ctx: Context): void {
   ctx.settings.register(
     MODEL_PREFS_NAMESPACE_SETTINGS,
     MODEL_PREFS_SCHEMA,
+  )
+  ctx.settings.register(
+    API_KEYS_NAMESPACE_SETTINGS,
+    API_KEYS_SCHEMA,
   )
 }
 

@@ -986,3 +986,28 @@
 .fallbackItem input[type='checkbox'] {
   accent-color: var(--primary);
 }
+
+/* Multi-key drawer entry beside 检测 (Cherry KeyRound inputActionButton). */
+.keyListButton {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+
+.keyListButton:hover:not(:disabled) {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--muted) 40%, transparent);
+}
+
+.keyListButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -29,6 +29,8 @@ import {
   DeepSeekModelsEditor, modelDrafts, validateDeepSeekModels,
 } from './DeepSeekModelsEditor.tsx'
 import { apiKeyFailure } from './apiKey.ts'
+import { ApiKeysController } from './api-keys-store.ts'
+import { ApiKeyListDrawer } from './ApiKeyListDrawer.tsx'
 import { EditorFooter } from './EditorFooter.tsx'
 import { ModelListEditor } from './ModelListEditor.tsx'
 import { deriveKeyRef, messageOf, protocolChoices } from './store.ts'
@@ -208,6 +210,7 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
   const [busy, setBusy] = useState(false)
   const [failure, setFailure] = useState<string | undefined>(undefined)
   const [showKey, setShowKey] = useState(false)
+  const [keysOpen, setKeysOpen] = useState(false)
   const [checking, setChecking] = useState(false)
   const [checkResult, setCheckResult] = useState<{ ok: boolean; text: string } | undefined>(undefined)
   // A settings success advances both retry baselines immediately. Keeping the
@@ -520,6 +523,22 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
               </button>
             )
             : null}
+          {props.showCheck === true && namespace.ns === 'llm-pi-ai' && !props.readOnly
+            ? (
+              <button
+                type="button"
+                className={styles['keyListButton']}
+                aria-label={t('keysTitle')}
+                title={t('keysTitle')}
+                disabled={disabled}
+                onClick={() => { setKeysOpen(true) }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4" />
+                </svg>
+              </button>
+            )
+            : null}
         </div>
         {shownKeyFailure === undefined ? null : <p className={styles['error']}>{t(shownKeyFailure)}</p>}
         {checkResult === undefined
@@ -711,6 +730,20 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
         {...props.cancelLabel === undefined ? {} : { cancelLabel: props.cancelLabel }}
         onCancel={() => { props.onClose(false) }}
         onSubmit={() => { void apply() }}
+      />
+      <ApiKeyListDrawer
+        open={keysOpen}
+        onClose={() => { setKeysOpen(false) }}
+        buildController={() => new ApiKeysController({
+          api,
+          schema,
+          namespaceValue: namespace.value,
+          namespaceRevision: namespace.revision,
+          settingsPath,
+          baseRef: keyRef,
+          providerId: props.provider,
+        })}
+        t={t}
       />
     </div>
   )
