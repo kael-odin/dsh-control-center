@@ -201,6 +201,9 @@ export declare const en: {
     modelGroupUngrouped: string;
     expandAll: string;
     collapseAll: string;
+    typeChat: string;
+    typeVision: string;
+    typeReasoning: string;
 };
 /** The settings.models namespace key union. */
 export type ModelsKey = keyof typeof en;

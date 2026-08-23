@@ -274,6 +274,7 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
   // index, so a narrowed view never rewrites the wrong row.
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchText, setSearchText] = useState('')
+  const [typeFilter, setTypeFilter] = useState<'all' | 'text' | 'image' | 'reasoning'>('all')
   // Per-group collapse; a group not in the set is expanded. While the search
   // is active every group force-expands so matches stay visible.
   const [collapsedGroups, setCollapsedGroups] = useState<ReadonlySet<string>>(new Set())
@@ -415,7 +416,29 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
   // draft with neither has nothing to ask about.
   const askable = probe.provider !== undefined || (probe.baseURL !== undefined && probe.baseURL.length > 0)
   const keyword = searchText.trim().toLowerCase()
+  const typeCounts = { all: models.length, text: 0, image: 0, reasoning: 0 }
+  for (const m of models) {
+    const input = Array.isArray(m.input) ? m.input as unknown[] : []
+    const hasText = input.length === 0 || input.includes('text')
+    const hasImage = input.includes('image')
+    const hasReasoning = m.reasoningEfforts !== undefined && m.reasoningEfforts !== false
+    if (hasText) typeCounts.text += 1
+    if (hasImage) typeCounts.image += 1
+    if (hasReasoning) typeCounts.reasoning += 1
+  }
+  const typeFilterEnabled = (m: ModelDraft): boolean => {
+    if (typeFilter === 'all') return true
+    const input = Array.isArray(m.input) ? m.input as unknown[] : []
+    const hasText = input.length === 0 || input.includes('text')
+    const hasImage = input.includes('image')
+    const hasReasoning = m.reasoningEfforts !== undefined && m.reasoningEfforts !== false
+    if (typeFilter === 'text') return hasText
+    if (typeFilter === 'image') return hasImage
+    if (typeFilter === 'reasoning') return hasReasoning
+    return true
+  }
   const visibleRows = models
+    .filter((model) => typeFilterEnabled(model))
     .map((model, index) => ({ model, index }))
     .filter(({ model }) => keyword.length === 0
       || textOf(model, 'id').toLowerCase().includes(keyword)
@@ -550,6 +573,25 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
           </button>
         </div>
       </div>
+      {/* Cherry model type filter tabs: 全部 / 对话 / 视觉 / 推理 */}
+      {models.length > 3
+        ? (
+          <div className={styles['modelTypeTabsRow']}>
+            {(['all', 'text', 'image', 'reasoning'] as const).map(tab => (
+              <button
+                key={tab}
+                type="button"
+                className={`${styles['typeTab']} ${typeFilter === tab ? styles['typeTabActive'] : ''}`}
+                aria-pressed={typeFilter === tab}
+                onClick={() => { setTypeFilter(tab) }}
+              >
+                <span>{tab === 'all' ? t('filterAll') : tab === 'text' ? t('typeChat') : tab === 'image' ? t('typeVision') : t('typeReasoning')}</span>
+                <span className={styles['typeTabCount']}>{typeCounts[tab]}</span>
+              </button>
+            ))}
+          </div>
+        )
+        : null}
       {searchOpen && models.length > 4
         ? (
           <input

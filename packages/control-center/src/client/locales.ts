@@ -205,6 +205,9 @@ export const en = {
   modelGroupUngrouped: 'Ungrouped',
   expandAll: 'Expand all groups',
   collapseAll: 'Collapse all groups',
+  typeChat: 'Chat',
+  typeVision: 'Vision',
+  typeReasoning: 'Reasoning',
 }
 
 /** The settings.models namespace key union. */
@@ -413,4 +416,7 @@ export const zh: { [Key in keyof typeof en]: string } = {
   modelGroupUngrouped: '未分组',
   expandAll: '全部展开',
   collapseAll: '全部折叠',
+  typeChat: '对话',
+  typeVision: '视觉',
+  typeReasoning: '推理',
 }

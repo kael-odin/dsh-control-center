@@ -1011,3 +1011,41 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* Cherry manageTabsList: one quiet pill per model type filter. */
+.modelTypeTabsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 0 4px;
+}
+
+.typeTab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--muted) 40%, transparent);
+  color: var(--muted-foreground);
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.typeTab:hover {
+  color: var(--foreground);
+}
+
+.typeTabActive {
+  background: color-mix(in srgb, var(--muted) 80%, transparent);
+  color: var(--foreground);
+}
+
+.typeTabCount {
+  font-size: 11px;
+  color: var(--foreground-tertiary, var(--muted-foreground));
+}
