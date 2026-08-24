@@ -17,21 +17,24 @@ interface QuickPrefs {
   clickTrayToShow: boolean
   readClipboardAtStartup: boolean
   modelMode: 'assistant' | 'model'
+  /** Agent preset id used when modelMode === 'assistant' (Cherry agent picker parity). */
+  agentPresetId: string
 }
 
 function loadPrefs(): QuickPrefs {
   try {
     const raw = localStorage.getItem(QUICK_KEY)
-    if (raw === null) return { enabled: false, clickTrayToShow: false, readClipboardAtStartup: true, modelMode: 'model' }
+    if (raw === null) return { enabled: false, clickTrayToShow: false, readClipboardAtStartup: true, modelMode: 'model', agentPresetId: '' }
     const parsed = JSON.parse(raw) as Partial<QuickPrefs>
     return {
       enabled: parsed.enabled ?? false,
       clickTrayToShow: parsed.clickTrayToShow ?? false,
       readClipboardAtStartup: parsed.readClipboardAtStartup ?? true,
       modelMode: parsed.modelMode ?? 'model',
+      agentPresetId: typeof parsed.agentPresetId === 'string' ? parsed.agentPresetId : '',
     }
   } catch {
-    return { enabled: false, clickTrayToShow: false, readClipboardAtStartup: true, modelMode: 'model' }
+    return { enabled: false, clickTrayToShow: false, readClipboardAtStartup: true, modelMode: 'model', agentPresetId: '' }
   }
 }
 
@@ -103,6 +106,18 @@ export function QuickAssistantSection() {
                 </button>
               </div>
               {prefs.modelMode === 'model' && <span className={css.modelHint}>跟随当前对话选择的模型</span>}
+              {prefs.modelMode === 'assistant' && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span className={css.modelHint}>Agent 预设 ID</span>
+                  <input
+                    type="text"
+                    className={css.agentInput}
+                    value={prefs.agentPresetId}
+                    onChange={event => { update({ agentPresetId: event.target.value }) }}
+                    placeholder="例如 default"
+                  />
+                </div>
+              )}
             </div>
           </SettingRow>
         </SettingGroup>
