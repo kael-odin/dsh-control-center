@@ -9,6 +9,8 @@ import type { Transport } from '@modelcontextprotocol/sdk/shared/transport.js'
 import { getMcpConfigSampleFromReadme } from './mcp-readme-sample.ts'
 import type {
   CreateMcpServerDto,
+  McpDiscoverProvider,
+  McpHostedServer,
   McpNpxPackage,
   McpServerCapabilities,
   McpServerRecord,
@@ -773,6 +775,43 @@ export class McpService extends Service {
     return enriched.map((result, index) =>
       result.status === 'fulfilled' ? result.value : candidates[index]!,
     )
+  }
+
+  /** Discover hosted MCP servers from a provider API (Cherry McpProviderSettings parity). */
+  async discoverMcpServers(provider: McpDiscoverProvider, token: string): Promise<McpHostedServer[]> {
+    const trimmed = typeof token === 'string' ? token.trim() : ''
+    if (trimmed.length === 0) throw new Error('请输入 Token')
+    if (provider === 'bailian') {
+      const response = await fetch('https://dashscope.aliyuncs.com/api/v1/mcps/user/list?pageNo=1&pageSize=50', {
+        headers: { Authorization: `Bearer ${trimmed}`, 'Content-Type': 'application/json' },
+      })
+      if (response.status === 401 || response.status === 403) throw new Error('Token 认证失败，请检查百炼 API Token')
+      if (!response.ok) throw new Error(`百炼 API 响应异常 (${response.status})`)
+      const body = await response.json() as { success?: unknown; data?: Array<{ id?: unknown; name?: unknown; description?: unknown; operationalUrl?: unknown; type?: unknown }> }
+      if (body.success !== true) throw new Error('百炼 API 返回失败')
+      return (body.data ?? []).filter(s => typeof s.operationalUrl === 'string' && s.operationalUrl !== '').map(s => ({
+        id: String(s.id ?? s.name ?? ''),
+        name: String(s.name ?? ''),
+        ...(typeof s.description === 'string' ? { description: s.description } : {}),
+        operationalUrl: String(s.operationalUrl),
+        type: s.type === 'sse' ? 'sse' as const : 'streamableHttp' as const,
+      }))
+    }
+    // ModelScope
+    const response = await fetch('https://www.modelscope.cn/api/v1/mcp/services/operational', {
+      headers: { Authorization: `Bearer ${trimmed}`, 'Content-Type': 'application/json' },
+    })
+    if (response.status === 401 || response.status === 403) throw new Error('Token 认证失败，请检查 ModelScope Token')
+    if (!response.ok) throw new Error(`ModelScope API 响应异常 (${response.status})`)
+    const body = await response.json() as { success?: unknown; data?: Array<{ id?: unknown; name?: unknown; description?: unknown; operationalUrl?: unknown; type?: unknown }> }
+    if (body.success !== true) throw new Error('ModelScope API 返回失败')
+    return (body.data ?? []).filter(s => typeof s.operationalUrl === 'string' && s.operationalUrl !== '').map(s => ({
+      id: String(s.id ?? s.name ?? ''),
+      name: String(s.name ?? ''),
+      ...(typeof s.description === 'string' ? { description: s.description } : {}),
+      operationalUrl: String(s.operationalUrl),
+      type: s.type === 'sse' ? 'sse' as const : 'streamableHttp' as const,
+    }))
   }
 
   private addServerLog(serverId: string, message: string): void {

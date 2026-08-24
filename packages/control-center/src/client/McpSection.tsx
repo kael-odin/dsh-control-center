@@ -4,14 +4,14 @@
  */
 
 import { useCallback, useEffect, useState, useMemo } from 'react'
-import type { CreateMcpServerDto, McpNpxPackage, McpServerView, UpdateMcpServerDto, McpServerCapabilities } from '../mcp-types.ts'
+import type { CreateMcpServerDto, McpDiscoverProvider, McpHostedServer, McpNpxPackage, McpServerView, UpdateMcpServerDto, McpServerCapabilities } from '../mcp-types.ts'
 import { AddMcpServerDialog } from './AddMcpServerDialog.tsx'
-import { McpBuiltinView, McpMarketView } from './McpDiscoverViews.tsx'
+import { McpBuiltinView, McpMarketView, McpProviderSettingsView } from './McpDiscoverViews.tsx'
 import css from './McpSection.module.css'
 
 type TabKey = 'settings' | 'description' | 'logs' | 'tools' | 'prompts' | 'resources'
-/** Top-level MCP subnav — Cherry McpSettingsPage (servers/builtin/market) parity. */
-type McpView = 'servers' | 'builtin' | 'market'
+/** Top-level MCP subnav — Cherry McpSettingsPage (servers/builtin/market/providers) parity. */
+type McpView = 'servers' | 'builtin' | 'market' | 'providers'
 
 /** Wire envelope of a strict-mode Typert remote call (same shape as translation-types). */
 type RemoteResult<T> = { ok: true; value: T } | { ok: false; error: { code: string; message: string; details: object } }
@@ -26,6 +26,7 @@ interface McpService {
   getServerLogs(serverId: string, lines?: number): Promise<RemoteResult<string[]>>
   getCapabilities(serverId: string): Promise<RemoteResult<McpServerCapabilities | null>>
   searchNpxRegistry(scope: string): Promise<RemoteResult<Array<{ fullName: string; name: string; description: string; version: string; link: string }>>>
+  discoverMcpServers(provider: McpDiscoverProvider, token: string): Promise<RemoteResult<McpHostedServer[]>>
 }
 
 export interface McpSectionProps {
@@ -317,6 +318,13 @@ export function McpSection(props: McpSectionProps) {
         >
           市场
         </button>
+        <button
+          type="button"
+          className={view === 'providers' ? css.subnavItemActive : css.subnavItem}
+          onClick={() => setView('providers')}
+        >
+          提供商配置
+        </button>
       </nav>
       {view === 'builtin' ? (
         <McpBuiltinView onAdd={handleCreate} />
@@ -327,6 +335,17 @@ export function McpSection(props: McpSectionProps) {
             ? undefined
             : async (scope): Promise<McpNpxPackage[]> => {
               const result = await mcpService.searchNpxRegistry(scope)
+              if (!result.ok) throw new Error(result.error.message)
+              return result.value
+            }}
+        />
+      ) : view === 'providers' ? (
+        <McpProviderSettingsView
+          onAdd={handleCreate}
+          discover={mcpService === undefined
+            ? undefined
+            : async (provider, token): Promise<McpHostedServer[]> => {
+              const result = await mcpService.discoverMcpServers(provider, token)
               if (!result.ok) throw new Error(result.error.message)
               return result.value
             }}

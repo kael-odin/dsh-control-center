@@ -383,3 +383,30 @@
 .marketLink:hover {
   text-decoration: underline;
 }
+
+/* ── 提供商配置 page ────────────────────────────────────────── */
+
+.providerCard {
+  border: 1px solid var(--border, rgba(128, 128, 128, .25));
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+
+.providerHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.providerName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.providerDesc {
+  font-size: 12px;
+  color: var(--muted-foreground);
+}

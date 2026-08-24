@@ -7,7 +7,7 @@
  */
 
 import { useState } from 'react'
-import type { CreateMcpServerDto, McpNpxPackage } from '../mcp-types.ts'
+import type { CreateMcpServerDto, McpDiscoverProvider, McpHostedServer, McpNpxPackage } from '../mcp-types.ts'
 import { BUILTIN_MCP_PRESETS, MCP_MARKET_SITES } from './mcp-builtin.ts'
 import css from './AddMcpServerDialog.module.css'
 
@@ -15,6 +15,8 @@ interface DiscoverProps {
   onAdd: (dto: CreateMcpServerDto) => Promise<void>
   /** Host npx-market search; absent until the remote mounts. */
   searchNpx?: ((scope: string) => Promise<McpNpxPackage[]>) | undefined
+  /** Host hosted-MCP discovery; absent until the remote mounts. */
+  discover?: ((provider: McpDiscoverProvider, token: string) => Promise<McpHostedServer[]>) | undefined
 }
 
 /** 内置服务器 — wire-reachable presets from Cherry's mcpServers.ts. */
@@ -186,6 +188,117 @@ export function McpMarketView({ onAdd, searchNpx }: DiscoverProps) {
           </li>
         ))}
       </ul>
+    </div>
+  )
+}
+
+/** 提供商配置 — hosted-MCP discovery (Cherry McpProviderSettings parity). */
+const PROVIDERS: ReadonlyArray<{
+  key: McpDiscoverProvider
+  name: string
+  desc: string
+  tokenPlaceholder: string
+}> = [
+  { key: 'bailian', name: '阿里云百炼', desc: '发现并添加百炼（DashScope）托管的 MCP 服务器。Token 在阿里云百炼控制台获取。', tokenPlaceholder: '百炼 API Token（sk-…）' },
+  { key: 'modelscope', name: 'ModelScope 魔搭', desc: '发现并添加魔搭社区托管的 MCP 服务器。Token 在 ModelScope 设置页获取。', tokenPlaceholder: 'ModelScope Token' },
+]
+
+export function McpProviderSettingsView({ onAdd, discover }: DiscoverProps) {
+  const [tokens, setTokens] = useState<Record<McpDiscoverProvider, string>>({ bailian: '', modelscope: '' })
+  const [discovering, setDiscovering] = useState<McpDiscoverProvider | null>(null)
+  const [servers, setServers] = useState<Record<McpDiscoverProvider, McpHostedServer[]>>({ bailian: [], modelscope: [] })
+  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [busyName, setBusyName] = useState<string | null>(null)
+
+  const discoverNow = async (provider: McpDiscoverProvider): Promise<void> => {
+    if (discover === undefined || discovering !== null) return
+    setDiscovering(provider)
+    setErrors(current => ({ ...current, [provider]: '' }))
+    try {
+      const found = await discover(provider, tokens[provider] ?? '')
+      setServers(current => ({ ...current, [provider]: found }))
+      if (found.length === 0) setErrors(current => ({ ...current, [provider]: '没有发现可用的 MCP 服务器' }))
+    } catch (err) {
+      setErrors(current => ({ ...current, [provider]: err instanceof Error ? err.message : '发现失败' }))
+    } finally {
+      setDiscovering(null)
+    }
+  }
+
+  const add = async (server: McpHostedServer): Promise<void> => {
+    setBusyName(server.id)
+    try {
+      await onAdd({
+        name: server.name,
+        type: server.type,
+        ...(server.description !== undefined ? { description: server.description } : {}),
+        baseUrl: server.operationalUrl,
+      })
+    } catch (err) {
+      setErrors(current => ({ ...current, [server.id]: err instanceof Error ? err.message : '添加失败' }))
+    } finally {
+      setBusyName(null)
+    }
+  }
+
+  return (
+    <div className={css.marketPage}>
+      <h2 className={css.marketHeading}>提供商配置</h2>
+      <p className={css.marketIntro}>
+        发现并添加云服务商托管的 MCP 服务器（Cherry McpProviderSettings parity）。需要有效的平台 Token。
+      </p>
+      {PROVIDERS.map(provider => (
+        <div key={provider.key} className={css.providerCard}>
+          <div className={css.providerHeader}>
+            <span className={css.providerName}>{provider.name}</span>
+            <span className={css.providerDesc}>{provider.desc}</span>
+          </div>
+          <div className={css.marketSearchRow}>
+            <input
+              type="password"
+              className={css.marketSearchInput}
+              value={tokens[provider.key] ?? ''}
+              onChange={event => { setTokens(current => ({ ...current, [provider.key]: event.target.value })) }}
+              onKeyDown={event => { if (event.key === 'Enter') void discoverNow(provider.key) }}
+              placeholder={provider.tokenPlaceholder}
+            />
+            <button
+              type="button"
+              className={css.submitButton}
+              disabled={discovering !== null || discover === undefined}
+              onClick={() => void discoverNow(provider.key)}
+            >
+              {discovering === provider.key ? '发现中…' : '获取服务器列表'}
+            </button>
+          </div>
+          {errors[provider.key] !== undefined && errors[provider.key] !== '' && (
+            <p className={css.marketError}>{errors[provider.key]}</p>
+          )}
+          {servers[provider.key] !== undefined && servers[provider.key]!.length > 0 && (
+            <ul className={css.marketList}>
+              {servers[provider.key]!.map(server => (
+                <li key={server.id} className={css.marketItem}>
+                  <div className={css.marketMain}>
+                    <span className={css.marketName}>{server.name}</span>
+                    <span className={css.marketDesc}>
+                      {server.description ?? server.operationalUrl}
+                      {server.type === 'sse' ? ' · SSE' : ' · Streamable HTTP'}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    className={css.submitButton}
+                    disabled={busyName !== null}
+                    onClick={() => { void add(server) }}
+                  >
+                    {busyName === server.id ? '添加中…' : '添加'}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      ))}
     </div>
   )
 }

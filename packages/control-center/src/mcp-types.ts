@@ -129,8 +129,22 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
       getServerLogs(serverId: string, lines?: number): Promise<{ ok: true; value: string[] } | { ok: false; error: { code: string; message: string; details: object } }>
       getCapabilities(serverId: string): Promise<{ ok: true; value: McpServerCapabilities | null } | { ok: false; error: { code: string; message: string; details: object } }>
       searchNpxRegistry(scope: string): Promise<{ ok: true; value: { fullName: string; name: string; description: string; version: string; link: string }[] } | { ok: false; error: { code: string; message: string; details: object } }>
+      discoverMcpServers(provider: McpDiscoverProvider, token: string): Promise<{ ok: true; value: McpHostedServer[] } | { ok: false; error: { code: string; message: string; details: object } }>
     }
   }
+}
+
+/** Hosted-MCP discovery provider (Cherry McpProviderSettings parity). */
+export type McpDiscoverProvider = 'bailian' | 'modelscope'
+
+/** One hosted MCP server discovered from a provider API. */
+export interface McpHostedServer {
+  id: string
+  name: string
+  description?: string
+  operationalUrl: string
+  type: 'streamableHttp' | 'sse'
+  tags?: string[]
 }
 
 /** One npm-registry candidate from the Npx market search. */
