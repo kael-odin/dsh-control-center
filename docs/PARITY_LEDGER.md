@@ -61,7 +61,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | home（聊天主页） | ⛔ | DSH 原生会话/聊天即本体，不重复实现 |
 | agents（Agent 编排/助手） | ⚠️ | DSH 原生拥有 agent-presets 系统；但 Cherry 的助手市场、AgentChat 编排界面未迁移。快捷助手的"使用助手"档依赖此项补齐选择器 |
 | paintings（绘画） | ✅* | PaintingWorkspace 已挂载（Artboard/Composer/Showcase/Strip 四组件 + host painting.ts）。*组件级细节对账（参数表单/错误态）尚未逐项做过 |
-| translate（翻译） | ⚠️ | TranslationWorkspace 文本翻译可用（重试策略/fallback/历史面板）。**缺 PDF 翻译**（Cherry translate/pdf/PdfTranslationView.tsx） |
+| translate（翻译） | ✅* | TranslationWorkspace 文本翻译可用（重试策略/fallback/历史面板）+ **PDF 文本提取（客户端 pdfjs，上传 PDF 自动填入输入框，2026-08-24）**。*细节对账未逐项做 |
 | knowledge（知识库） | ✅* | KnowledgeWorkspace + knowledge host 模块/codec。*细节对账未逐项做 |
 | files（文件管理器） | ⛔/❌ | 文件存储浏览 UI 未迁移；文件处理设置已在 File Processing 覆盖。优先级低（DSH 原生文件能力可评估后标注） |
 | code（CodeCliPage） | ❌ | 未迁移。product-workspace-contract.ts 已预留 `'repo'` workspace id 但从未注册 —— 天然的挂载点 |
@@ -120,10 +120,9 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 页面 | 缺失项 | 备注 |
 |---|---|---|
 | Dependencies | FFmpeg/Tesseract/Node 环境检测 | 对应 Cherry binaryInstallPresets |
-| About | 自动更新安装、发布说明、诊断包导出（logs/system/traces）、外链组 | 检查更新已通 |
+| About | 自动更新安装、发布说明页（内嵌）、诊断日志包（logs/system/traces 三源） | 检查更新/诊断包/外链已通 |
 | Screenshot | OCR 模型状态指示 | 低 |
 | File Processing | PaddleOCR 模型选择、语言包、Tesseract 状态 | 低 |
-| Translation | PDF 翻译 | Cherry PdfTranslationView |
 
 ---
 
@@ -138,7 +137,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 ### P1 —— 中成本，需要 host 配合
 5. General 代理模式选择器（UI 先行）+ 上下文管理映射 DSH compaction
 6. Data S3 备份（host AWS 客户端）
-7. Translation PDF 翻译
+7. ~~Translation PDF 翻译~~ ✅ 2026-08-24（客户端 pdfjs-dist 提取，上传 PDF 直填输入框；CDN workerSrc，需在线）
 8. MCP 独立市场页 + 提供商配置子页
 9. About 发布说明 + 诊断包导出
 10. Channels permissionMode 逐频道生效接入（存储已支持，桥接路由待接）
