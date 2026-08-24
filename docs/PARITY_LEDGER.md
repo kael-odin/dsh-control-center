@@ -37,7 +37,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 能力 | File Processing | ⚠️ | 处理器目录+API Key+本地模型。缺：PaddleOCR 模型选择/语言包/Tesseract 运行时检测 |
 | 能力 | OCR | ✅ | 同 File Processing |
 | 个人 | General | ⚠️ | GeneralCherrySettings.tsx：启动组 3 行开关（launchOnBoot/trayEnabled/trayOnClose）真实可写；代理组/上下文管理为诚实 Note 占位。缺：代理模式选择器、上下文压缩映射、省电、硬件加速、开发者模式行 |
-| 个人 | Appearance | ⚠️ | 主题/颜色/语言/字体/缩放/CSS、**消息字体大小（12–18px stepper）**、**消息显示设置组（宽屏模式/衬线字体/消息样式平铺·气泡/消息轮廓，2026-08-24，经 `[data-chat-flow-kind]` 注入并持久化）** 已实现。**仍缺**：窗口样式、菜单呈现模式、系统标题栏、代码执行（Pyodide，DSH 无此运行时）、输入区快捷键（DSH composer 原生拥有） |
+| 个人 | Appearance | ⚠️ | 主题/颜色/语言/字体/缩放/CSS、**消息字体大小（12–18px stepper）**、**消息显示设置组（宽屏模式/衬线字体/消息样式平铺·气泡/消息轮廓，2026-08-24，经 `[data-chat-flow-kind]` 注入并持久化）**、**窗口组（窗口样式不透明·透明 + 系统标题栏，桌面偏好持久化，2026-08-24）** 已实现。**仍缺**：菜单呈现模式、代码执行（Pyodide，DSH 无此运行时）、输入区快捷键（DSH composer 原生拥有） |
 | 个人 | Notification | ✅ | 4 个开关完全对等 |
 | 个人 | Data | ⚠️ | IA 已重构为 Cherry 子菜单（13 项/5 组）。本地备份+轮转+恢复、WebDAV 云备份、**坚果云（WebDAV 厂商预设）**、**S3 兼容存储（AWS SigV4 手写签名，无 SDK，2026-08-24）**、Markdown 导出、备份/恢复、数据重置、应用数据路径 均可用。**仍缺**：ChatGPT/Claude 导入、导出菜单可见性、Notion/语雀/Joplin/Obsidian/思源笔记导出、日志路径、清除缓存、隐私模式 |
 | 个人 | Usage | ✅ | UsageSection：热力图/分布图/指标条/详情表 |
