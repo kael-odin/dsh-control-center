@@ -39,7 +39,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 个人 | General | ⚠️ | GeneralCherrySettings.tsx：启动组 3 行开关（launchOnBoot/trayEnabled/trayOnClose）真实可写；代理组/上下文管理为诚实 Note 占位。缺：代理模式选择器、上下文压缩映射、省电、硬件加速、开发者模式行 |
 | 个人 | Appearance | ⚠️ | 主题/颜色/语言/字体/缩放/CSS、**消息字体大小（12–18px stepper，经 `[data-chat-flow]` 容器注入，2026-08-24）** 已实现。**仍缺**：窗口样式、菜单呈现模式、系统标题栏、代码执行（Pyodide，DSH 无此运行时）、消息显示设置组 |
 | 个人 | Notification | ✅ | 4 个开关完全对等 |
-| 个人 | Data | ⚠️ | IA 已重构为 Cherry 子菜单（13 项/5 组）。本地备份+轮转+恢复、WebDAV 云备份、**坚果云（WebDAV 厂商预设，独立凭据命名空间，2026-08-24 上线）**、Markdown 导出、备份/恢复、数据重置、**应用数据路径（显示 DSH 主目录，2026-08-24）** 均可用。**仍缺**：S3、ChatGPT/Claude 导入、导出菜单可见性、Notion/语雀/Joplin/Obsidian/思源笔记导出、日志路径、清除缓存、隐私模式 |
+| 个人 | Data | ⚠️ | IA 已重构为 Cherry 子菜单（13 项/5 组）。本地备份+轮转+恢复、WebDAV 云备份、**坚果云（WebDAV 厂商预设）**、**S3 兼容存储（AWS SigV4 手写签名，无 SDK，2026-08-24）**、Markdown 导出、备份/恢复、数据重置、应用数据路径 均可用。**仍缺**：ChatGPT/Claude 导入、导出菜单可见性、Notion/语雀/Joplin/Obsidian/思源笔记导出、日志路径、清除缓存、隐私模式 |
 | 个人 | Usage | ✅ | UsageSection：热力图/分布图/指标条/详情表 |
 | 自动化 | Channels | ⚠️ | 六平台全部真实连通（TG/Discord/Slack/QQ/飞书/微信），共享回复管线 + 状态点 + 日志环。**Agent 绑定已上线（2026-08-24）**：每频道可配 `agentProvider`/`agentModel`/`agentSystemPrompt`，绑定后优先于共享默认模型并带自定义系统提示词（对应 Cherry ChannelData.agentId；DSH 无逐会话 agent 编排，故实现为模型+提示词覆盖而非完整 agent 组合）。**仍缺**：permissionMode 逐频道生效接入 |
 | 自动化 | Scheduled Tasks | ✅ | TasksSection 任务列表/调度/历史 |
@@ -99,7 +99,6 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 可用：本地备份+轮转+恢复、WebDAV（PUT/PROPFIND/连接测试/恢复/列表）、**坚果云（WebDAV 厂商预设端点 dav.jianguoyun.com + 应用密码提示 + 独立 `control-center-webdav-nutstore` 命名空间）**、Markdown 导出、快照备份/恢复、数据重置。
 
 仍缺：
-- S3：需 host 侧 AWS 客户端
 - ChatGPT / Claude 导入：需会话导入 API
 - 导出菜单可见性：各导出目标开关
 - 笔记导出五件套：Notion / 语雀 / Joplin / Obsidian / 思源（host 侧 API 集成）
@@ -136,7 +135,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 
 ### P1 —— 中成本，需要 host 配合
 5. General 代理模式选择器（UI 先行）+ 上下文管理映射 DSH compaction
-6. Data S3 备份（host AWS 客户端）
+6. ~~Data S3 备份~~ ✅ 2026-08-24（host SigV4 签名 + 客户端面板 + 测试）
 7. ~~Translation PDF 翻译~~ ✅ 2026-08-24（客户端 pdfjs-dist 提取，上传 PDF 直填输入框；CDN workerSrc，需在线）
 8. MCP 独立市场页 + 提供商配置子页
 9. About 发布说明 + 诊断包导出
