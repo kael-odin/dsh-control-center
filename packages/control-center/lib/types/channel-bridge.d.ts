@@ -107,6 +107,12 @@ export declare class ChannelBridgeService extends Service {
     private generateAndDeliver;
     /** One generation attempt over one route; throws on terminal error finish. */
     private generateReply;
+    /**
+     * Per-channel agent binding read from `config.agentProvider` /
+     * `config.agentModel` (route override) and `config.agentSystemPrompt`.
+     * Both provider and model must be present for a binding to apply.
+     */
+    private agentBinding;
     /** Abort signal of the channel's active loop, so replies die with it. */
     private signalFor;
     /**

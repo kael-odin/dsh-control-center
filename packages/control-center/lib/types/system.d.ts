@@ -4,7 +4,7 @@
  */
 import { Service } from '@deepseek-ai/cordis';
 import type { Context } from '@deepseek-ai/cordis';
-import type { PluginInventory, PluginOperation, PluginOperationResult } from './system-types.ts';
+import type { EnvCheckEntry, PluginInventory, PluginOperation, PluginOperationResult } from './system-types.ts';
 export interface SystemInfo {
     controlCenterVersion: string;
     dshSupportedVersion: string;
@@ -31,6 +31,7 @@ export declare class SystemService extends Service {
     });
     getInfo(): Promise<SystemInfo>;
     listDependencies(): Promise<DependencyEntry[]>;
+    checkDependencies(): Promise<EnvCheckEntry[]>;
     listPlugins(profile: string): Promise<PluginInventory>;
     managePlugin(profile: string, operation: PluginOperation, spec: string): Promise<PluginOperationResult>;
     private dshHarnessDir;

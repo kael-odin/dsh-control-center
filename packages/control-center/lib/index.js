@@ -7,7 +7,7 @@ import { installSettingsSection, settingsNamespace } from "@deepseek-ai/dsh-sett
 import { basename, dirname, join, relative, resolve, sep } from "node:path";
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, unlinkSync, writeFileSync } from "node:fs";
 import { resolveDshHome } from "@deepseek-ai/dsh-home-paths";
-import { createHash, randomUUID } from "node:crypto";
+import { createHash, createHmac, randomUUID } from "node:crypto";
 import { Service } from "@deepseek-ai/cordis";
 import { ReasoningEffortId, createUserMessage } from "@deepseek-ai/dsh-llm";
 import { Remote, bindTypertRemote } from "@deepseek-ai/dsh-typert-protocol";
@@ -4196,7 +4196,9 @@ var ChannelBridgeService = class extends Service {
 	* refused send.
 	*/
 	async generateAndDeliver(id, text, deliver) {
-		const route = this.defaultModelRoute();
+		const record = this.readInstances().find((entry) => entry.id === id);
+		const binding = this.agentBinding(record);
+		const route = binding?.route ?? this.defaultModelRoute();
 		if (route === null || this.llm === void 0) {
 			this.appendLog(id, "未解析默认模型（agent-default-model），跳过回复");
 			return;
@@ -4211,8 +4213,8 @@ var ChannelBridgeService = class extends Service {
 				if (this.signalFor(id).aborted) return;
 				if (attempt > 0) await abortableSleep(policy.backoff ? Math.min(500 * 2 ** (attempt - 1), 1e4) : 0);
 				try {
-					this.appendLog(id, attempt === 0 ? `生成回复（${candidate.provider}/${candidate.model}）…` : `重试（第 ${String(attempt + 1)} 次尝试，${candidate.provider}/${candidate.model}）…`);
-					reply = await this.generateReply(id, text, candidate);
+					this.appendLog(id, attempt === 0 ? `生成回复（${candidate.provider}/${candidate.model}${binding === void 0 ? "" : "，频道 Agent 绑定"}）…` : `重试（第 ${String(attempt + 1)} 次尝试，${candidate.provider}/${candidate.model}）…`);
+					reply = await this.generateReply(id, text, candidate, binding?.systemPrompt);
 					break search;
 				} catch (error) {
 					reply = null;
@@ -4231,7 +4233,7 @@ var ChannelBridgeService = class extends Service {
 		}
 	}
 	/** One generation attempt over one route; throws on terminal error finish. */
-	async generateReply(id, text, route) {
+	async generateReply(id, text, route, systemPrompt) {
 		const prepared = await this.llm.prepareCall({
 			provider: route.provider,
 			model: route.model
@@ -4243,17 +4245,38 @@ var ChannelBridgeService = class extends Service {
 				text
 			}]
 		});
+		const prompt = systemPrompt === void 0 ? void 0 : systemPrompt.trim();
 		let reply = "";
 		for await (const chunk of prepared.stream({
 			...prepared.config,
 			messages: [message],
-			system: "You are a helpful assistant replying inside a messaging channel. Be concise.",
+			system: prompt !== void 0 && prompt.length > 0 ? prompt : "You are a helpful assistant replying inside a messaging channel. Be concise.",
 			signal: this.signalFor(id)
 		})) {
 			if (chunk.type === "text-delta") reply += chunk.text;
 			if (chunk.type === "finish" && chunk.reason.kind === "error") throw new Error(chunk.reason.failure.message);
 		}
 		return reply.trim().length > 0 ? reply.trim() : "(空回复)";
+	}
+	/**
+	* Per-channel agent binding read from `config.agentProvider` /
+	* `config.agentModel` (route override) and `config.agentSystemPrompt`.
+	* Both provider and model must be present for a binding to apply.
+	*/
+	agentBinding(record) {
+		const config = record?.config;
+		if (typeof config !== "object" || config === null) return void 0;
+		const provider = typeof config.agentProvider === "string" ? config.agentProvider.trim() : "";
+		const model = typeof config.agentModel === "string" ? config.agentModel.trim() : "";
+		if (provider.length === 0 || model.length === 0) return void 0;
+		const systemPrompt = typeof config.agentSystemPrompt === "string" ? config.agentSystemPrompt : "";
+		return {
+			route: {
+				provider,
+				model
+			},
+			systemPrompt
+		};
 	}
 	/** Abort signal of the channel's active loop, so replies die with it. */
 	signalFor(id) {
@@ -6360,12 +6383,99 @@ const DATA_NAMESPACES = [
 	"control-center-local-models",
 	"control-center-appearance",
 	"control-center-notifications",
-	"control-center-webdav"
+	"control-center-webdav",
+	"control-center-webdav-nutstore",
+	"control-center-s3"
 ].map((name) => settingsNamespace(name));
 /** Regex matching a backup file produced by backupToDirectory. */
 const BACKUP_FILE_PATTERN = /^dsh-control-center-\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z\.json$/;
-/** WebDAV cloud-backup configuration stored in the settings namespace. */
+const S3_NS = settingsNamespace("control-center-s3");
+const S3_SCHEMA = Schema.object({
+	endpoint: Schema.string().default(""),
+	bucket: Schema.string().default(""),
+	region: Schema.string().default(""),
+	accessKeyId: Schema.string().default(""),
+	secretAccessKey: Schema.string().role("secret").default(""),
+	prefix: Schema.string().default("")
+});
+/** RFC 3986 encode a path segment / query component (AWS requires this form). */
+function awsEncode(value) {
+	return encodeURIComponent(value).replace(/[!'()*]/g, (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`);
+}
+/** Sign and perform one S3 request. Returns the raw fetch Response. */
+async function s3Request(config, method, key, query, body) {
+	const base = config.endpoint.replace(/\/+$/, "");
+	const prefix = config.prefix.replace(/^\/+|\/+$/g, "");
+	const keyPath = prefix === "" ? key : `${prefix}/${key}`;
+	const canonicalUri = `/${config.bucket}/${keyPath}`.split("/").map((seg) => awsEncode(seg)).join("/");
+	const payloadHash = createHash("sha256").update(body ?? Buffer.alloc(0)).digest("hex");
+	const host = new URL(base).host;
+	const amzDate = (/* @__PURE__ */ new Date()).toISOString().replace(/[:-]|\.\d{3}/g, "");
+	const dateStamp = amzDate.slice(0, 8);
+	const service = "s3";
+	const signedHeaders = [
+		"host",
+		"x-amz-content-sha256",
+		"x-amz-date"
+	];
+	const canonicalRequest = [
+		method,
+		canonicalUri,
+		query,
+		[
+			`host:${host}\n`,
+			`x-amz-content-sha256:${payloadHash}\n`,
+			`x-amz-date:${amzDate}\n`
+		].join(""),
+		signedHeaders.join(";"),
+		payloadHash
+	].join("\n");
+	const scope = `${dateStamp}/${config.region}/${service}/aws4_request`;
+	const stringToSign = [
+		"AWS4-HMAC-SHA256",
+		amzDate,
+		scope,
+		createHash("sha256").update(canonicalRequest).digest("hex")
+	].join("\n");
+	const hmac = (key, data) => createHmac("sha256", key).update(data).digest();
+	const signingKey = hmac(hmac(hmac(hmac(Buffer.from(`AWS4${config.secretAccessKey}`), dateStamp), config.region), service), "aws4_request");
+	const signature = createHmac("sha256", signingKey).update(stringToSign).digest("hex");
+	const url = `${base}${canonicalUri}${query === "" ? "" : `?${query}`}`;
+	const init = {
+		method,
+		headers: {
+			"x-amz-content-sha256": payloadHash,
+			"x-amz-date": amzDate,
+			"Authorization": `AWS4-HMAC-SHA256 Credential=${config.accessKeyId}/${scope}, SignedHeaders=${signedHeaders.join(";")}, Signature=${signature}`,
+			...body === void 0 ? {} : { "Content-Type": "application/json" }
+		}
+	};
+	if (body !== void 0) init.body = new Uint8Array(body);
+	return fetch(url, init);
+}
+/** Extract `.json` object keys from a ListObjectsV2 XML body. */
+function parseS3Keys(body) {
+	const keys = /* @__PURE__ */ new Set();
+	const pattern = /<Key>([^<]+)<\/Key>/gi;
+	let match;
+	while ((match = pattern.exec(body)) !== null) {
+		const key = match[1].trim();
+		if (key.endsWith(".json")) {
+			const name = key.split("/").filter(Boolean).pop();
+			if (name !== void 0 && BACKUP_FILE_PATTERN.test(name)) keys.add(name);
+		}
+	}
+	return [...keys].sort().reverse();
+}
+const WEBDAV_VENDORS = ["webdav", "nutstore"];
 const WEBDAV_NS = settingsNamespace("control-center-webdav");
+const WEBDAV_NS_BY_VENDOR = {
+	webdav: WEBDAV_NS,
+	nutstore: settingsNamespace("control-center-webdav-nutstore")
+};
+function webdavNsOf(vendor) {
+	return WEBDAV_NS_BY_VENDOR[vendor] ?? WEBDAV_NS;
+}
 const WEBDAV_SCHEMA = Schema.object({
 	host: Schema.string().default(""),
 	user: Schema.string().default(""),
@@ -6404,7 +6514,8 @@ var DataService = class extends Service {
 	typertRemote = bindTypertRemote(this, "controlCenterData");
 	constructor(ctx, _config) {
 		super(ctx, "controlCenterData");
-		ctx.settings.register(WEBDAV_NS, WEBDAV_SCHEMA);
+		for (const vendor of WEBDAV_VENDORS) ctx.settings.register(webdavNsOf(vendor), WEBDAV_SCHEMA);
+		ctx.settings.register(S3_NS, S3_SCHEMA);
 	}
 	async exportControlCenter() {
 		const namespaces = {};
@@ -6483,8 +6594,8 @@ var DataService = class extends Service {
 		return readdirSync(dir).filter((name) => BACKUP_FILE_PATTERN.test(name)).sort().reverse();
 	}
 	/** Read the stored WebDAV config (password omitted on the wire). */
-	async getWebdavConfig() {
-		const raw = this.ctx.settings.get(WEBDAV_NS);
+	async getWebdavConfig(vendor = "webdav") {
+		const raw = this.ctx.settings.get(webdavNsOf(vendor));
 		return {
 			host: typeof raw?.host === "string" ? raw.host : "",
 			user: typeof raw?.user === "string" ? raw.user : "",
@@ -6494,19 +6605,19 @@ var DataService = class extends Service {
 	}
 	/** Save the WebDAV config. `pass` is write-only: it replaces the stored
 	* secret only when provided and non-empty. */
-	async setWebdavConfig(config) {
-		const current = this.ctx.settings.get(WEBDAV_NS) ?? {};
+	async setWebdavConfig(config, vendor = "webdav") {
+		const current = this.ctx.settings.get(webdavNsOf(vendor)) ?? {};
 		const next = {
 			host: config.host,
 			user: config.user,
 			path: config.path,
 			pass: typeof config.pass === "string" && config.pass.length > 0 ? config.pass : current.pass ?? ""
 		};
-		await this.ctx.settings.update(WEBDAV_NS, next);
+		await this.ctx.settings.update(webdavNsOf(vendor), next);
 		return { absent: true };
 	}
-	async loadWebdavConfig() {
-		const raw = this.ctx.settings.get(WEBDAV_NS);
+	async loadWebdavConfig(vendor = "webdav") {
+		const raw = this.ctx.settings.get(webdavNsOf(vendor));
 		const config = {
 			host: typeof raw?.host === "string" ? raw.host : "",
 			user: typeof raw?.user === "string" ? raw.user : "",
@@ -6517,8 +6628,8 @@ var DataService = class extends Service {
 		return config;
 	}
 	/** PROPFIND the target collection to verify host + credentials. */
-	async testWebdavConnection() {
-		const config = await this.loadWebdavConfig();
+	async testWebdavConnection(vendor = "webdav") {
+		const config = await this.loadWebdavConfig(vendor);
 		try {
 			const url = webdavUrl(config, "");
 			const response = await fetch(url, {
@@ -6552,8 +6663,8 @@ var DataService = class extends Service {
 		}
 	}
 	/** PUT a timestamped snapshot to the WebDAV collection. Returns the remote file name. */
-	async webdavBackup() {
-		const config = await this.loadWebdavConfig();
+	async webdavBackup(vendor = "webdav") {
+		const config = await this.loadWebdavConfig(vendor);
 		const fileName = `dsh-control-center-${(/* @__PURE__ */ new Date()).toISOString().replace(/[:.]/g, "-").slice(0, 23) + "Z"}.json`;
 		const snapshot = await this.exportControlCenter();
 		const response = await fetch(webdavUrl(config, fileName), {
@@ -6569,8 +6680,8 @@ var DataService = class extends Service {
 		return fileName;
 	}
 	/** GET a snapshot from the WebDAV collection and import it. */
-	async webdavRestore(fileName) {
-		const config = await this.loadWebdavConfig();
+	async webdavRestore(fileName, vendor = "webdav") {
+		const config = await this.loadWebdavConfig(vendor);
 		const response = await fetch(webdavUrl(config, fileName), {
 			method: "GET",
 			headers: { Authorization: basicAuth(config) }
@@ -6581,8 +6692,8 @@ var DataService = class extends Service {
 		return { absent: true };
 	}
 	/** PROPFIND Depth:1 to list snapshot files in the WebDAV collection. */
-	async listWebdavBackups() {
-		const config = await this.loadWebdavConfig();
+	async listWebdavBackups(vendor = "webdav") {
+		const config = await this.loadWebdavConfig(vendor);
 		const response = await fetch(webdavUrl(config, ""), {
 			method: "PROPFIND",
 			headers: {
@@ -6594,6 +6705,98 @@ var DataService = class extends Service {
 		return parsePropfindFiles(await response.text());
 	}
 	[Symbol.dispose]() {}
+	/** Read the stored S3 config (secret omitted on the wire). */
+	async getS3Config() {
+		const raw = this.ctx.settings.get(S3_NS);
+		return {
+			endpoint: typeof raw?.endpoint === "string" ? raw.endpoint : "",
+			bucket: typeof raw?.bucket === "string" ? raw.bucket : "",
+			region: typeof raw?.region === "string" ? raw.region : "",
+			accessKeyId: typeof raw?.accessKeyId === "string" ? raw.accessKeyId : "",
+			prefix: typeof raw?.prefix === "string" ? raw.prefix : "",
+			secretSet: typeof raw?.secretAccessKey === "string" && raw.secretAccessKey.length > 0
+		};
+	}
+	/** Save the S3 config; `secret` is write-only (keeps the stored one when empty). */
+	async setS3Config(config) {
+		const current = this.ctx.settings.get(S3_NS) ?? {};
+		const next = {
+			endpoint: config.endpoint.trim(),
+			bucket: config.bucket.trim(),
+			region: config.region.trim(),
+			accessKeyId: config.accessKeyId.trim(),
+			prefix: config.prefix.trim(),
+			secretAccessKey: typeof config.secret === "string" && config.secret.length > 0 ? config.secret : current.secretAccessKey ?? ""
+		};
+		await this.ctx.settings.update(S3_NS, next);
+		return { absent: true };
+	}
+	async loadS3Config() {
+		const raw = this.ctx.settings.get(S3_NS);
+		const config = {
+			endpoint: typeof raw?.endpoint === "string" ? raw.endpoint : "",
+			bucket: typeof raw?.bucket === "string" ? raw.bucket : "",
+			region: typeof raw?.region === "string" ? raw.region : "",
+			accessKeyId: typeof raw?.accessKeyId === "string" ? raw.accessKeyId : "",
+			secretAccessKey: typeof raw?.secretAccessKey === "string" ? raw.secretAccessKey : "",
+			prefix: typeof raw?.prefix === "string" ? raw.prefix : ""
+		};
+		if (!config.endpoint || !config.bucket || !config.accessKeyId || !config.secretAccessKey) throw new Error("S3 配置不完整：请填写端点、存储桶、Access Key 和 Secret Key");
+		return config;
+	}
+	/** HEAD the bucket to verify endpoint + credentials. */
+	async testS3Connection() {
+		try {
+			const response = await s3Request(await this.loadS3Config(), "HEAD", "", "", void 0);
+			if (response.status === 401 || response.status === 403) return {
+				ok: false,
+				message: "认证失败：Access Key 或 Secret 不正确"
+			};
+			if (response.status === 404) return {
+				ok: false,
+				message: "存储桶不存在，请检查名称"
+			};
+			if (response.ok || response.status === 200) return {
+				ok: true,
+				message: "连接成功"
+			};
+			return {
+				ok: false,
+				message: `S3 请求失败 (${response.status}) ${response.statusText}`
+			};
+		} catch (error) {
+			return {
+				ok: false,
+				message: error instanceof Error ? error.message : String(error)
+			};
+		}
+	}
+	/** PUT a timestamped snapshot to the bucket. Returns the remote object name. */
+	async s3Backup() {
+		const config = await this.loadS3Config();
+		const fileName = `dsh-control-center-${(/* @__PURE__ */ new Date()).toISOString().replace(/[:.]/g, "-").slice(0, 23) + "Z"}.json`;
+		const snapshot = await this.exportControlCenter();
+		const response = await s3Request(config, "PUT", fileName, "", Buffer.from(JSON.stringify(snapshot, null, 2), "utf8"));
+		if (!response.ok && response.status !== 201 && response.status !== 204 && response.status !== 200) throw new Error(`S3 备份失败 (${response.status}) ${(await response.text()).slice(0, 200)}`);
+		this.ctx.logger.info("S3 backup created", { fileName });
+		return fileName;
+	}
+	/** GET a snapshot from the bucket and import it. */
+	async s3Restore(fileName) {
+		const response = await s3Request(await this.loadS3Config(), "GET", fileName, "", void 0);
+		if (!response.ok) throw new Error(`S3 恢复失败 (${response.status}) ${response.statusText}`);
+		const snapshot = await response.json();
+		await this.importControlCenter(snapshot);
+		return { absent: true };
+	}
+	/** ListObjectsV2 (prefix-scoped) to enumerate snapshot objects. */
+	async listS3Backups() {
+		const config = await this.loadS3Config();
+		const prefix = config.prefix.replace(/^\/+|\/+$/g, "");
+		const response = await s3Request(config, "GET", "", `list-type=2${prefix === "" ? "" : `&prefix=${encodeURIComponent(prefix)}`}`, void 0);
+		if (!response.ok && response.status !== 200) throw new Error(`S3 列表失败 (${response.status}) ${response.statusText}`);
+		return parseS3Keys(await response.text());
+	}
 };
 //#endregion
 //#region lib/types/data-remote-client.js
@@ -6631,26 +6834,50 @@ const dataRemote = {
 		},
 		{
 			method: "getWebdavConfig",
-			parameters: []
+			parameters: ["vendor"]
 		},
 		{
 			method: "setWebdavConfig",
-			parameters: ["config"]
+			parameters: ["config", "vendor"]
 		},
 		{
 			method: "testWebdavConnection",
-			parameters: []
+			parameters: ["vendor"]
 		},
 		{
 			method: "webdavBackup",
-			parameters: []
+			parameters: ["vendor"]
 		},
 		{
 			method: "webdavRestore",
-			parameters: ["fileName"]
+			parameters: ["fileName", "vendor"]
 		},
 		{
 			method: "listWebdavBackups",
+			parameters: ["vendor"]
+		},
+		{
+			method: "getS3Config",
+			parameters: []
+		},
+		{
+			method: "setS3Config",
+			parameters: ["config"]
+		},
+		{
+			method: "testS3Connection",
+			parameters: []
+		},
+		{
+			method: "s3Backup",
+			parameters: []
+		},
+		{
+			method: "s3Restore",
+			parameters: ["fileName"]
+		},
+		{
+			method: "listS3Backups",
 			parameters: []
 		}
 	].map(({ method, parameters }) => ({
@@ -6781,6 +7008,55 @@ var SystemService = class extends Service {
 		}
 		return entries;
 	}
+	async checkDependencies() {
+		const entries = [];
+		const whichCmd = platform() === "win32" ? "where" : "which";
+		for (const spec of [
+			{
+				name: "ffmpeg",
+				probe: ["-version"],
+				hint: "音频/视频处理、媒体消息"
+			},
+			{
+				name: "tesseract",
+				probe: ["--version"],
+				hint: "本地 OCR（图片转文字）"
+			},
+			{
+				name: "git",
+				probe: ["--version"],
+				hint: "仓库操作"
+			}
+		]) try {
+			if (spawnSync(whichCmd, [spec.name], {
+				encoding: "utf8",
+				timeout: 5e3
+			}).status === 0) {
+				const versionProbe = spawnSync(spec.name, spec.probe, {
+					encoding: "utf8",
+					timeout: 5e3
+				});
+				const version = versionProbe.status === 0 ? (versionProbe.stdout ?? "").split("\n")[0]?.trim() || void 0 : void 0;
+				entries.push({
+					name: spec.name,
+					present: true,
+					version,
+					hint: spec.hint
+				});
+			} else entries.push({
+				name: spec.name,
+				present: false,
+				hint: spec.hint
+			});
+		} catch {
+			entries.push({
+				name: spec.name,
+				present: false,
+				hint: spec.hint
+			});
+		}
+		return entries;
+	}
 	async listPlugins(profile) {
 		const profileDir = resolveProfileDir(profile);
 		if (!existsSync(join(profileDir, "package.json"))) return {
@@ -6873,6 +7149,10 @@ const systemRemote = {
 		},
 		{
 			method: "listDependencies",
+			parameters: []
+		},
+		{
+			method: "checkDependencies",
 			parameters: []
 		},
 		{

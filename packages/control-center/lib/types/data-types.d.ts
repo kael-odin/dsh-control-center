@@ -1,7 +1,7 @@
 /**
  * Data management types (shared between Host and Client).
  */
-import type { DataExport, WebDavConfigUpdate, WebDavConfigView } from './data.ts';
+import type { DataExport, S3ConfigUpdate, S3ConfigView, WebDavConfigUpdate, WebDavConfigView, WebDavVendor } from './data.ts';
 declare module '@deepseek-ai/dsh-typert-protocol' {
     interface TypertRemoteNamespaceMap {
         controlCenterData: {
@@ -90,7 +90,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            getWebdavConfig(): Promise<{
+            getWebdavConfig(vendor?: WebDavVendor): Promise<{
                 ok: true;
                 value: WebDavConfigView;
             } | {
@@ -101,7 +101,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            setWebdavConfig(config: WebDavConfigUpdate): Promise<{
+            setWebdavConfig(config: WebDavConfigUpdate, vendor?: WebDavVendor): Promise<{
                 ok: true;
                 value: {
                     absent: true;
@@ -114,7 +114,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            testWebdavConnection(): Promise<{
+            testWebdavConnection(vendor?: WebDavVendor): Promise<{
                 ok: true;
                 value: {
                     ok: boolean;
@@ -128,7 +128,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            webdavBackup(): Promise<{
+            webdavBackup(vendor?: WebDavVendor): Promise<{
                 ok: true;
                 value: string;
             } | {
@@ -139,7 +139,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            webdavRestore(fileName: string): Promise<{
+            webdavRestore(fileName: string, vendor?: WebDavVendor): Promise<{
                 ok: true;
                 value: {
                     absent: true;
@@ -152,7 +152,80 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
-            listWebdavBackups(): Promise<{
+            listWebdavBackups(vendor?: WebDavVendor): Promise<{
+                ok: true;
+                value: string[];
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            getS3Config(): Promise<{
+                ok: true;
+                value: S3ConfigView;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            setS3Config(config: S3ConfigUpdate): Promise<{
+                ok: true;
+                value: {
+                    absent: true;
+                };
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            testS3Connection(): Promise<{
+                ok: true;
+                value: {
+                    ok: boolean;
+                    message: string;
+                };
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            s3Backup(): Promise<{
+                ok: true;
+                value: string;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            s3Restore(fileName: string): Promise<{
+                ok: true;
+                value: {
+                    absent: true;
+                };
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            listS3Backups(): Promise<{
                 ok: true;
                 value: string[];
             } | {
@@ -166,5 +239,5 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
         };
     }
 }
-export type { DataExport, WebDavConfigUpdate, WebDavConfigView };
+export type { DataExport, S3ConfigUpdate, S3ConfigView, WebDavConfigUpdate, WebDavConfigView, WebDavVendor };
 //# sourceMappingURL=data-types.d.ts.map

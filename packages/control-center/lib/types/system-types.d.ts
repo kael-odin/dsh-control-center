@@ -15,6 +15,14 @@ export interface DependencyEntry {
     version: string;
     client: boolean;
 }
+/** Runtime environment check for a binary/tool the desktop edition can use. */
+export interface EnvCheckEntry {
+    /** Tool id, e.g. `ffmpeg`, `tesseract`. */
+    name: string;
+    present: boolean;
+    version?: string | undefined;
+    hint?: string | undefined;
+}
 export interface PluginInventory {
     profile: string;
     profileDir: string;
@@ -55,6 +63,17 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
             listDependencies(): Promise<{
                 ok: true;
                 value: DependencyEntry[];
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            checkDependencies(): Promise<{
+                ok: true;
+                value: EnvCheckEntry[];
             } | {
                 ok: false;
                 error: {

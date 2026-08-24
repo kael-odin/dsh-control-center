@@ -16,7 +16,39 @@ export interface DataExport {
     exportedAt: string;
     namespaces: Record<string, object>;
 }
-/** WebDAV cloud-backup configuration stored in the settings namespace. */
+export declare const S3_NS: import("@deepseek-ai/dsh-settings").SettingsNamespace;
+export interface S3Config {
+    endpoint: string;
+    bucket: string;
+    region: string;
+    accessKeyId: string;
+    secretAccessKey: string;
+    /** Optional prefix under the bucket (e.g. `backups/`). */
+    prefix: string;
+}
+export interface S3ConfigView {
+    endpoint: string;
+    bucket: string;
+    region: string;
+    accessKeyId: string;
+    prefix: string;
+    secretSet: boolean;
+}
+export interface S3ConfigUpdate {
+    endpoint: string;
+    bucket: string;
+    region: string;
+    accessKeyId: string;
+    prefix: string;
+    secret?: string;
+}
+/**
+ * WebDAV cloud-backup vendors. 坚果云 (nutstore) is plain WebDAV, but users
+ * keep separate accounts (and Nutstore requires an app-specific password), so
+ * each vendor owns an isolated config namespace under one shared schema.
+ */
+export type WebDavVendor = 'webdav' | 'nutstore';
+export declare const WEBDAV_VENDORS: readonly WebDavVendor[];
 export declare const WEBDAV_NS: import("@deepseek-ai/dsh-settings").SettingsNamespace;
 export interface WebDavConfig {
     host: string;
@@ -73,26 +105,46 @@ export declare class DataService extends Service {
      */
     listBackupFiles(dir: string): Promise<string[]>;
     /** Read the stored WebDAV config (password omitted on the wire). */
-    getWebdavConfig(): Promise<WebDavConfigView>;
+    getWebdavConfig(vendor?: WebDavVendor): Promise<WebDavConfigView>;
     /** Save the WebDAV config. `pass` is write-only: it replaces the stored
      * secret only when provided and non-empty. */
-    setWebdavConfig(config: WebDavConfigUpdate): Promise<{
+    setWebdavConfig(config: WebDavConfigUpdate, vendor?: WebDavVendor): Promise<{
         absent: true;
     }>;
     private loadWebdavConfig;
     /** PROPFIND the target collection to verify host + credentials. */
-    testWebdavConnection(): Promise<{
+    testWebdavConnection(vendor?: WebDavVendor): Promise<{
         ok: boolean;
         message: string;
     }>;
     /** PUT a timestamped snapshot to the WebDAV collection. Returns the remote file name. */
-    webdavBackup(): Promise<string>;
+    webdavBackup(vendor?: WebDavVendor): Promise<string>;
     /** GET a snapshot from the WebDAV collection and import it. */
-    webdavRestore(fileName: string): Promise<{
+    webdavRestore(fileName: string, vendor?: WebDavVendor): Promise<{
         absent: true;
     }>;
     /** PROPFIND Depth:1 to list snapshot files in the WebDAV collection. */
-    listWebdavBackups(): Promise<string[]>;
+    listWebdavBackups(vendor?: WebDavVendor): Promise<string[]>;
     [Symbol.dispose](): void;
+    /** Read the stored S3 config (secret omitted on the wire). */
+    getS3Config(): Promise<S3ConfigView>;
+    /** Save the S3 config; `secret` is write-only (keeps the stored one when empty). */
+    setS3Config(config: S3ConfigUpdate): Promise<{
+        absent: true;
+    }>;
+    private loadS3Config;
+    /** HEAD the bucket to verify endpoint + credentials. */
+    testS3Connection(): Promise<{
+        ok: boolean;
+        message: string;
+    }>;
+    /** PUT a timestamped snapshot to the bucket. Returns the remote object name. */
+    s3Backup(): Promise<string>;
+    /** GET a snapshot from the bucket and import it. */
+    s3Restore(fileName: string): Promise<{
+        absent: true;
+    }>;
+    /** ListObjectsV2 (prefix-scoped) to enumerate snapshot objects. */
+    listS3Backups(): Promise<string[]>;
 }
 //# sourceMappingURL=data.d.ts.map

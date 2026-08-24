@@ -215,6 +215,10 @@ export declare const en: {
     generalContext: string;
     generalContextNativeTitle: string;
     generalContextNativeBody: string;
+    generalTrayOnLaunch: string;
+    generalPreventSleep: string;
+    generalDeveloperMode: string;
+    generalDeveloperHint: string;
 };
 /** The settings.models namespace key union. */
 export type ModelsKey = keyof typeof en;

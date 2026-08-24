@@ -14,7 +14,9 @@ export interface GeneralPrefs {
     launchOnBoot: boolean;
     trayEnabled: boolean;
     trayOnClose: boolean;
+    trayOnLaunch: boolean;
     preventSleepWhenBusy: boolean;
+    developerMode: boolean;
 }
 export interface GeneralState {
     status: 'idle' | 'loading' | 'ready' | 'error';

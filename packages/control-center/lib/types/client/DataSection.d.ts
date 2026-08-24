@@ -13,11 +13,13 @@ import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client';
 export interface DataSectionInjected {
     getData: () => NonNullable<ClientRemote['controlCenterData']>;
     getDesktop: () => NonNullable<ClientRemote['controlCenterDesktop']>;
+    getSystem?: (() => NonNullable<ClientRemote['controlCenterSystem']>) | undefined;
     hooks: {
         dataReady: HostObservable<boolean>;
         desktopReady: HostObservable<boolean>;
+        systemReady: HostObservable<boolean>;
     };
 }
 export type DataSectionProps = PropsRuntime<'settings.section'> & InjectFace<DataSectionInjected>;
-export declare function DataSection({ getData, getDesktop, useDataReady, useDesktopReady }: DataSectionProps): import("react").JSX.Element;
+export declare function DataSection({ getData, getDesktop, getSystem, useDataReady, useDesktopReady, useSystemReady }: DataSectionProps): import("react").JSX.Element;
 //# sourceMappingURL=DataSection.d.ts.map

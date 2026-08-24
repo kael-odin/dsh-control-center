@@ -9,8 +9,12 @@ export interface ThemeOverrides {
     fontFamily: string;
     codeFontFamily: string;
     customCss: string;
+    /** Chat message base font size (px). Cherry `chat.message.font_size`. */
+    messageFontSize: number;
 }
 export declare const DEFAULT_THEME_OVERRIDES: ThemeOverrides;
+/** Cherry allows 12-18px; clamp anything else to the range. */
+export declare function clampMessageFontSize(value: unknown): number;
 export declare const THEME_COLOR_PRESETS: readonly string[];
 export declare function loadThemeOverrides(): ThemeOverrides;
 export declare function hasLegacyThemeOverrides(): boolean;
