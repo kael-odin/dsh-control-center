@@ -24,6 +24,10 @@ export interface ThemeOverrides {
   messageStyle: 'plain' | 'bubble'
   /** Cherry `settings.messages.show_message_outline`. */
   showMessageOutline: boolean
+  /** Cherry `app.use_system_title_bar` — desktop window chrome (persisted for the desktop companion). */
+  useSystemTitleBar: boolean
+  /** Cherry `ui.window_style` — transparent/opaque desktop window (persisted for the desktop companion). */
+  windowStyle: 'transparent' | 'opaque'
 }
 
 export const DEFAULT_THEME_OVERRIDES: ThemeOverrides = {
@@ -36,6 +40,8 @@ export const DEFAULT_THEME_OVERRIDES: ThemeOverrides = {
   useSerifFont: false,
   messageStyle: 'plain',
   showMessageOutline: false,
+  useSystemTitleBar: false,
+  windowStyle: 'opaque',
 }
 
 /** Cherry allows 12-18px; clamp anything else to the range. */
@@ -62,6 +68,8 @@ export function loadThemeOverrides(): ThemeOverrides {
       useSerifFont: parsed.useSerifFont === true,
       messageStyle: parsed.messageStyle === 'bubble' ? 'bubble' : 'plain',
       showMessageOutline: parsed.showMessageOutline === true,
+      useSystemTitleBar: parsed.useSystemTitleBar === true,
+      windowStyle: parsed.windowStyle === 'transparent' ? 'transparent' : 'opaque',
     }
   } catch {
     return { ...DEFAULT_THEME_OVERRIDES }

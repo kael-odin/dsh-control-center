@@ -234,6 +234,8 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
         useSerifFont: stored.useSerifFont === true,
         messageStyle: stored.messageStyle === 'bubble' ? 'bubble' as const : 'plain' as const,
         showMessageOutline: stored.showMessageOutline === true,
+        useSystemTitleBar: stored.useSystemTitleBar === true,
+        windowStyle: stored.windowStyle === 'transparent' ? 'transparent' as const : 'opaque' as const,
       }
       overridesRef.current = next
       revisionRef.current = namespace.revision
@@ -495,6 +497,29 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
           checked={overrides.showMessageOutline}
           disabled={!appearanceReady || appearanceSaving}
           onChange={next => { updateOverrides({ showMessageOutline: next }) }}
+        />
+      </SettingGroup>
+
+      <SettingGroup>
+        <div className={css.groupHeader}>窗口 <HelpTooltip text="桌面窗口外观偏好，保存后随桌面版生效（Cherry ui.window_style / app.use_system_title_bar）" /></div>
+        <SettingRow>
+          <SettingRowTitle>
+            窗口样式
+            <span className={css.desktopTag}>桌面</span>
+          </SettingRowTitle>
+          <div className={css.segmented}>
+            <button type="button" className={overrides.windowStyle === 'opaque' ? css.segActive : css.seg} disabled={!appearanceReady || appearanceSaving}
+              onClick={() => { updateOverrides({ windowStyle: 'opaque' }) }}>不透明</button>
+            <button type="button" className={overrides.windowStyle === 'transparent' ? css.segActive : css.seg} disabled={!appearanceReady || appearanceSaving}
+              onClick={() => { updateOverrides({ windowStyle: 'transparent' }) }}>透明</button>
+          </div>
+        </SettingRow>
+        <SettingDivider />
+        <SettingSwitch
+          label={<><span>使用系统标题栏</span><HelpTooltip text="使用操作系统原生标题栏替代应用内标题栏（桌面版重启后生效）" /></>}
+          checked={overrides.useSystemTitleBar}
+          disabled={!appearanceReady || appearanceSaving}
+          onChange={next => { updateOverrides({ useSystemTitleBar: next }) }}
         />
       </SettingGroup>
 
