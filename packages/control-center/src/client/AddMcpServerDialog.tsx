@@ -5,7 +5,7 @@
  * market search running host-side against the public npm registry
  * (controlCenterMcp.searchNpxRegistry).
  */
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { CreateMcpServerDto, McpNpxPackage } from '../mcp-types'
 import { parseServerSpec, type ParsedServerSpec } from './mcp-import'
 import { BUILTIN_MCP_PRESETS, MCP_MARKET_SITES } from './mcp-builtin'
@@ -17,9 +17,11 @@ interface AddMcpServerDialogProps {
   onSubmit: (dto: CreateMcpServerDto) => Promise<void>
   /** Host npx-market search; absent until the remote mounts. */
   searchNpx?: ((scope: string) => Promise<McpNpxPackage[]>) | undefined
+  /** Tab to open on next show (builtin/sites give direct market entry). */
+  initialTab?: 'manual' | 'market' | 'builtin' | 'sites'
 }
 
-export function AddMcpServerDialog({ visible, onClose, onSubmit, searchNpx }: AddMcpServerDialogProps) {
+export function AddMcpServerDialog({ visible, onClose, onSubmit, searchNpx, initialTab }: AddMcpServerDialogProps) {
   const [tab, setTab] = useState<'manual' | 'market' | 'builtin' | 'sites'>('manual')
   const [name, setName] = useState('')
   const [command, setCommand] = useState('')
@@ -41,6 +43,12 @@ export function AddMcpServerDialog({ visible, onClose, onSubmit, searchNpx }: Ad
   const [searchError, setSearchError] = useState('')
   const [results, setResults] = useState<McpNpxPackage[]>([])
   const [addedNames, setAddedNames] = useState<ReadonlySet<string>>(new Set())
+
+  // Opening the dialog (re)sets the tab to the requested entry point, so the
+  // builtin / market / sites shortcuts land where the caller intended.
+  useEffect(() => {
+    if (visible && initialTab !== undefined) setTab(initialTab)
+  }, [visible, initialTab])
 
   const resetForm = (): void => {
     setName('')

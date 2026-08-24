@@ -53,6 +53,8 @@ export function McpSection(props: McpSectionProps) {
   const [capabilities, setCapabilities] = useState<McpServerCapabilities | null>(null)
   const [isRefreshingTools, setIsRefreshingTools] = useState(false)
   const [showAddDialog, setShowAddDialog] = useState(false)
+  /** Tab the add dialog opens on (manual by default; shortcuts preset it). */
+  const [addTab, setAddTab] = useState<'manual' | 'market' | 'builtin' | 'sites'>('manual')
 
   const loadServers = useCallback(async () => {
     if (!mcpService) {
@@ -323,6 +325,19 @@ export function McpSection(props: McpSectionProps) {
           </div>
         </div>
 
+        {/* Quick links: open the add dialog directly at the builtins / market tab. */}
+        <div className={css.subnavRow}>
+          <button type="button" className={css.subnavBtn} onClick={() => { setAddTab('builtin'); setShowAddDialog(true) }}>
+            内置服务器
+          </button>
+          <button type="button" className={css.subnavBtn} onClick={() => { setAddTab('market'); setShowAddDialog(true) }}>
+            市场搜索
+          </button>
+          <button type="button" className={css.subnavBtn} onClick={() => { setAddTab('sites'); setShowAddDialog(true) }}>
+            更多市场
+          </button>
+        </div>
+
         {/* Server list scroller */}
         <div className={css.listScroller}>
           {filteredServers.length === 0 ? (
@@ -365,7 +380,7 @@ export function McpSection(props: McpSectionProps) {
           <button
             type="button"
             className={css.addButton}
-            onClick={() => setShowAddDialog(true)}
+            onClick={() => { setAddTab('manual'); setShowAddDialog(true) }}
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path
@@ -843,6 +858,7 @@ export function McpSection(props: McpSectionProps) {
 
       <AddMcpServerDialog
         visible={showAddDialog}
+        initialTab={addTab}
         onClose={() => setShowAddDialog(false)}
         onSubmit={handleCreate}
         searchNpx={mcpService === undefined

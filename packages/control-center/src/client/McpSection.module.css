@@ -687,3 +687,30 @@
   font-size: 14px;
   text-align: center;
 }
+
+.subnavRow {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.subnavBtn {
+  flex: 1 1 auto;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--border, rgba(128,128,128,.3));
+  border-radius: 7px;
+  background: transparent;
+  color: var(--foreground-secondary);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.subnavBtn:hover {
+  background: var(--cs-brand-500);
+  border-color: var(--cs-brand-500);
+  color: var(--primary-foreground);
+}
