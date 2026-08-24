@@ -31,7 +31,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 核心 | Model | ✅ | 默认模型/快捷模型/重试设置已实现；话题命名为 DSH 原生诚实卡（ModelsSection.tsx topicNamingCard）——DSH 会话标题是 loader-only 配置，自定义提示词无法运行时生效（见 harness rc.2 事实） |
 | 核心 | Local Models | ✅ | LocalModelsSection + LocalModelDownloads（Qwen3 Embedding / PaddleOCR 卡片） |
 | 核心 | API Gateway | ✅ | ApiGatewaySection：状态卡/端口/凭据/文档/启停 |
-| 能力 | MCP | ⚠️ | **真实子导航（Cherry McpSettingsPage parity，2026-08-24）**：服务器（分栏列表+详情 tab）/ 内置服务器（预设页，直接添加）/ 市场（npx scope 搜索 + 外部市场站点）/ **提供商配置（Bailian 百炼 + ModelScope 托管 MCP 发现，2026-08-24，Bearer token fetch + 单测 3 例）**。**仍缺**：协议安装向导、Cherry 9 个 inMemory 内置 server（memory/sequential-thinking/fetch/filesystem/brave-search/python/dify-knowledge/browser/didi，需 host 侧真实实现） |
+| 能力 | MCP | ⚠️ | **真实子导航（Cherry McpSettingsPage parity，2026-08-24）**：服务器（分栏列表+详情 tab）/ 内置服务器（预设页 + **内置运行时区，2026-08-24**）/ 市场（npx scope 搜索 + 外部市场站点）/ **提供商配置（Bailian 百炼 + ModelScope 托管 MCP 发现）** / **协议安装向导（批量安装确认）**。**内置服务器 9 个 inMemory 已落地 2 个**（sequential-thinking + memory 进程内 MCP 服务器，InMemoryTransport 无外部进程，2026-08-24）；fetch/filesystem/brave-search/python 映射 DSH 原生能力；dify-knowledge/browser/didi 待实现 |
 | 能力 | Skills | ✅ | SkillsSection 资源目录视图 |
 | 能力 | Web Search | ✅ | WebSearchSection：提供者配置/高级设置/黑名单 |
 | 能力 | File Processing | ⚠️ | 处理器目录+API Key+本地模型。缺：PaddleOCR 模型选择/语言包/Tesseract 运行时检测 |
