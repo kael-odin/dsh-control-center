@@ -187,6 +187,7 @@ export function DependenciesSection({ getSystem, useSystemReady }: SystemSection
   const system = systemReady ? getSystem() : undefined
   const [deps, setDeps] = useState<DependencyEntry[] | null>(null)
   const [env, setEnv] = useState<EnvCheckEntry[] | null>(null)
+  const [nodeVersion, setNodeVersion] = useState<string | undefined>(undefined)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -197,6 +198,9 @@ export function DependenciesSection({ getSystem, useSystemReady }: SystemSection
     void system.checkDependencies().then(result => {
       try { setEnv(unwrap(result)) } catch { /* env check is best-effort */ }
     }).catch(() => { /* env check is best-effort */ })
+    void system.getInfo().then(result => {
+      try { setNodeVersion(unwrap(result).nodeVersion) } catch { /* best-effort */ }
+    }).catch(() => { /* best-effort */ })
   }, [system !== undefined]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (error !== null) return <div className="cc-settings-column"><div className="cc-notice-error">{error}</div></div>
@@ -212,6 +216,12 @@ export function DependenciesSection({ getSystem, useSystemReady }: SystemSection
       {env !== null && env.length > 0 && (
         <div className={css.card}>
           <div className={css.cardTitle}>环境工具</div>
+          {nodeVersion !== undefined && (
+            <div className={css.infoRow}>
+              <span className={css.infoLabel}>node</span>
+              <span className={`${css.infoValue} ${css.envOk}`}>v{nodeVersion}</span>
+            </div>
+          )}
           {env.map(entry => (
             <div key={entry.name} className={css.infoRow}>
               <span className={css.infoLabel}>{entry.name}{entry.hint === undefined ? '' : ` · ${entry.hint}`}</span>
