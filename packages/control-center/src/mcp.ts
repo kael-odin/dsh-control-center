@@ -139,7 +139,9 @@ export class McpService extends Service {
 
   async list(): Promise<McpServerView[]> {
     const settings = this.scope.get()
-    return settings.servers
+    // Copy before sort: the settings layer hands out frozen arrays, and
+    // Array.prototype.sort mutates in place (throws on index 0 write).
+    return [...settings.servers]
       .sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999))
       .map(record => this.recordToView(record))
   }
