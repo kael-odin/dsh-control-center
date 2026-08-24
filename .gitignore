@@ -26,3 +26,4 @@ shots/
 .tmp/
 .reasonix/
 .playwright-mcp/
+graphify-out/
