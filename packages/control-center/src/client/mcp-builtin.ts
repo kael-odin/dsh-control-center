@@ -80,3 +80,31 @@ export const MCP_MARKET_SITES: readonly McpMarketSite[] = Object.freeze([
   { name: 'Smithery', url: 'https://smithery.ai/', description: 'MCP 服务器注册中心' },
   { name: 'Glama', url: 'https://glama.ai/mcp/servers', description: 'MCP 服务器索引' },
 ])
+
+/**
+ * Cherry's 9 inMemory built-in servers. Only descriptors live here (client
+ * bundle safe); the in-process runtimes live in `mcp-builtin-runtime.ts`
+ * (host side, pulls in the MCP SDK + zod). The four DSH-native ones (fetch /
+ * filesystem / brave-search / python) are honest "capability maps onto DSH"
+ * entries; the rest are listed until a runtime exists.
+ */
+export interface BuiltinMemoryServer {
+  name: string
+  description: string
+  /** True when an in-process runtime actually exists on the host. */
+  available: boolean
+  /** Protocol command key the host runtime dispatches on. */
+  runtimeKey: string
+}
+
+export const BUILTIN_MEMORY_SERVERS: readonly BuiltinMemoryServer[] = Object.freeze([
+  { name: 'sequential-thinking', description: '结构化思考推理（记录思考链）', available: true, runtimeKey: 'sequential-thinking' },
+  { name: 'memory', description: '知识图谱记忆（实体/关系/观察）', available: true, runtimeKey: 'memory' },
+  { name: 'fetch', description: 'HTTP 抓取 — DSH 工具原生拥有，未另设内置', available: false, runtimeKey: '' },
+  { name: 'filesystem', description: '文件系统访问 — DSH 工具原生拥有，未另设内置', available: false, runtimeKey: '' },
+  { name: 'brave-search', description: 'Brave 搜索 — 对应 DSH 网络搜索，未另设内置', available: false, runtimeKey: '' },
+  { name: 'python', description: 'Python 执行 — 对应 DSH code-runtime，未另设内置', available: false, runtimeKey: '' },
+  { name: 'dify-knowledge', description: 'Dify 知识库（待实现）', available: false, runtimeKey: '' },
+  { name: 'browser', description: '浏览器自动化（待实现）', available: false, runtimeKey: '' },
+  { name: 'didi', description: '滴滴出行（待实现）', available: false, runtimeKey: '' },
+])

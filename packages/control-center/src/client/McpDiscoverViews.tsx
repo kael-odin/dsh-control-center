@@ -8,7 +8,7 @@
 
 import { useState } from 'react'
 import type { CreateMcpServerDto, McpDiscoverProvider, McpHostedServer, McpNpxPackage } from '../mcp-types.ts'
-import { BUILTIN_MCP_PRESETS, MCP_MARKET_SITES } from './mcp-builtin.ts'
+import { BUILTIN_MCP_PRESETS, BUILTIN_MEMORY_SERVERS, MCP_MARKET_SITES } from './mcp-builtin.ts'
 import css from './AddMcpServerDialog.module.css'
 
 interface DiscoverProps {
@@ -40,10 +40,52 @@ export function McpBuiltinView({ onAdd }: DiscoverProps) {
     <div className={css.marketPage}>
       <h2 className={css.marketHeading}>内置服务器</h2>
       <p className={css.marketIntro}>
-        预设 MCP 服务器（移植自 Cherry mcpServers.ts），可直接安装。
-        Cherry 另有 9 个内置服务器运行在其自有运行时内（memory、fetch、filesystem 等），本宿主暂无对应实现，故未列出。
+        Cherry 预设与进程内内置服务器的集合：协议预设直接安装，内置运行时在本进程内运行。
       </p>
       {error !== null && <p className={css.marketError}>{error}</p>}
+      <h3 className={css.marketSectionTitle}>内置运行时</h3>
+      <p className={css.marketIntro}>
+        Cherry 的 9 个 inMemory 内置服务器中，运行在本进程内的实现（无需外部进程）。
+      </p>
+      <ul className={css.marketList}>
+        {BUILTIN_MEMORY_SERVERS.map(preset => (
+          <li key={preset.name} className={css.marketItem}>
+            <div className={css.marketMain}>
+              <span className={css.marketName}>{preset.name}</span>
+              <span className={css.marketDesc}>
+                {preset.description}
+                {preset.available ? '' : ' · 未内置'}
+              </span>
+            </div>
+            {preset.available ? (
+              <button
+                type="button"
+                className={css.submitButton}
+                disabled={busyName !== null}
+                onClick={() => {
+                  void add({
+                    name: preset.name,
+                    type: 'inMemory',
+                    description: preset.description,
+                    command: preset.runtimeKey,
+                    // Our own in-process runtime is inherently trusted; the
+                    // trust gate exists for third-party wire servers.
+                    isTrusted: true,
+                  })
+                }}
+              >
+                {busyName === preset.name ? '添加中…' : '添加'}
+              </button>
+            ) : (
+              <span className={css.marketUnavailable}>—</span>
+            )}
+          </li>
+        ))}
+      </ul>
+      <h3 className={css.marketSectionTitle}>协议预设</h3>
+      <p className={css.marketIntro}>
+        以下预设可通过外部协议直接安装（移植自 Cherry mcpServers.ts）。
+      </p>
       <ul className={css.marketList}>
         {BUILTIN_MCP_PRESETS.map(preset => (
           <li key={preset.name} className={css.marketItem}>

@@ -474,3 +474,10 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+.marketUnavailable {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+  padding: 0 8px;
+}

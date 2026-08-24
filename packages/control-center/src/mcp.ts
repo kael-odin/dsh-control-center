@@ -6,6 +6,7 @@ import Schema from '@deepseek-ai/schemastery'
 import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 import type { Transport } from '@modelcontextprotocol/sdk/shared/transport.js'
+import { createInMemoryServer } from './mcp-builtin-runtime.ts'
 import { getMcpConfigSampleFromReadme } from './mcp-readme-sample.ts'
 import type {
   CreateMcpServerDto,
@@ -361,6 +362,17 @@ export class McpService extends Service {
         ])
 
         this.addServerLog(serverId, 'Server connected')
+      } else if (record.type === 'inMemory') {
+        const runtimeName = record.command ?? record.name
+        this.ctx.logger.info('Starting in-process MCP server', { serverId, runtimeName })
+        const { clientTransport } = createInMemoryServer(runtimeName)
+        transport = clientTransport
+        client = new Client(
+          { name: 'dsh-control-center', version: '1.0.0' },
+          { capabilities: {} },
+        )
+        await client.connect(transport as Transport)
+        this.addServerLog(serverId, 'In-process server connected')
       } else if (record.type === 'sse') {
         if (!record.baseUrl) {
           throw new Error('Base URL is required for SSE transport')
