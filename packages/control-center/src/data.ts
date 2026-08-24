@@ -10,6 +10,7 @@ import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
 import { settingsNamespace } from '@deepseek-ai/dsh-settings'
 import Schema from '@deepseek-ai/schemastery'
 import { readdirSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs'
+import { createHash, createHmac } from 'node:crypto'
 import { join } from 'node:path'
 
 /**
@@ -34,6 +35,7 @@ export const DATA_NAMESPACES = [
   'control-center-notifications',
   'control-center-webdav',
   'control-center-webdav-nutstore',
+  'control-center-s3',
 ].map(name => settingsNamespace(name))
 
 export interface DataExport {
@@ -44,6 +46,131 @@ export interface DataExport {
 
 /** Regex matching a backup file produced by backupToDirectory. */
 const BACKUP_FILE_PATTERN = /^dsh-control-center-\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z\.json$/
+
+// ─── S3-compatible cloud backup (AWS Signature V4 over plain fetch) ────────
+
+export const S3_NS = settingsNamespace('control-center-s3')
+
+export interface S3Config {
+  endpoint: string
+  bucket: string
+  region: string
+  accessKeyId: string
+  secretAccessKey: string
+  /** Optional prefix under the bucket (e.g. `backups/`). */
+  prefix: string
+}
+
+export interface S3ConfigView {
+  endpoint: string
+  bucket: string
+  region: string
+  accessKeyId: string
+  prefix: string
+  secretSet: boolean
+}
+
+export interface S3ConfigUpdate {
+  endpoint: string
+  bucket: string
+  region: string
+  accessKeyId: string
+  prefix: string
+  secret?: string
+}
+
+const S3_SCHEMA = Schema.object({
+  endpoint: Schema.string().default(''),
+  bucket: Schema.string().default(''),
+  region: Schema.string().default(''),
+  accessKeyId: Schema.string().default(''),
+  secretAccessKey: Schema.string().role('secret').default(''),
+  prefix: Schema.string().default(''),
+})
+
+/** RFC 3986 encode a path segment / query component (AWS requires this form). */
+function awsEncode(value: string): string {
+  return encodeURIComponent(value).replace(/[!'()*]/g, c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`)
+}
+
+/** Sign and perform one S3 request. Returns the raw fetch Response. */
+async function s3Request(
+  config: S3Config,
+  method: 'GET' | 'PUT' | 'HEAD' | 'POST',
+  key: string,
+  query: string,
+  body: Buffer | undefined,
+): Promise<Response> {
+  const base = config.endpoint.replace(/\/+$/, '')
+  const prefix = config.prefix.replace(/^\/+|\/+$/g, '')
+  const keyPath = prefix === '' ? key : `${prefix}/${key}`
+  const canonicalUri = `/${config.bucket}/${keyPath}`.split('/').map(seg => awsEncode(seg)).join('/')
+  const payloadHash = createHash('sha256').update(body ?? Buffer.alloc(0)).digest('hex')
+
+  const host = new URL(base).host
+  const amzDate = new Date().toISOString().replace(/[:-]|\.\d{3}/g, '')
+  const dateStamp = amzDate.slice(0, 8)
+  const service = 's3'
+
+  const signedHeaders = ['host', 'x-amz-content-sha256', 'x-amz-date']
+  const canonicalHeaders = [
+    `host:${host}\n`,
+    `x-amz-content-sha256:${payloadHash}\n`,
+    `x-amz-date:${amzDate}\n`,
+  ].join('')
+
+  const canonicalRequest = [
+    method,
+    canonicalUri,
+    query,
+    canonicalHeaders,
+    signedHeaders.join(';'),
+    payloadHash,
+  ].join('\n')
+
+  const scope = `${dateStamp}/${config.region}/${service}/aws4_request`
+  const stringToSign = [
+    'AWS4-HMAC-SHA256',
+    amzDate,
+    scope,
+    createHash('sha256').update(canonicalRequest).digest('hex'),
+  ].join('\n')
+
+  const hmac = (key: Buffer, data: string): Buffer => createHmac('sha256', key).update(data).digest()
+  const dateKey = hmac(Buffer.from(`AWS4${config.secretAccessKey}`), dateStamp)
+  const regionKey = hmac(dateKey, config.region)
+  const serviceKey = hmac(regionKey, service)
+  const signingKey = hmac(serviceKey, 'aws4_request')
+  const signature = createHmac('sha256', signingKey).update(stringToSign).digest('hex')
+
+  const url = `${base}${canonicalUri}${query === '' ? '' : `?${query}`}`
+  const init: RequestInit = {
+    method,
+    headers: {
+      'x-amz-content-sha256': payloadHash,
+      'x-amz-date': amzDate,
+      'Authorization': `AWS4-HMAC-SHA256 Credential=${config.accessKeyId}/${scope}, SignedHeaders=${signedHeaders.join(';')}, Signature=${signature}`,
+      ...(body === undefined ? {} : { 'Content-Type': 'application/json' }),
+    },
+  }
+  if (body !== undefined) init.body = new Uint8Array(body)
+  return fetch(url, init)
+}
+
+/** Extract `.json` object keys from a ListObjectsV2 XML body. */
+function parseS3Keys(body: string): string[] {
+  const keys = new Set<string>()
+  const pattern = /<Key>([^<]+)<\/Key>/gi
+  let match: RegExpExecArray | null
+  while ((match = pattern.exec(body)) !== null) {
+    const key = match[1]!.trim()
+    if (key.endsWith('.json')) {
+      const name = key.split('/').filter(Boolean).pop()
+      if (name !== undefined && BACKUP_FILE_PATTERN.test(name)) keys.add(name)
+    }
+  }
+  return [...keys].sort().reverse()
+}
 
 /**
  * WebDAV cloud-backup vendors. 坚果云 (nutstore) is plain WebDAV, but users
@@ -132,6 +259,7 @@ export class DataService extends Service {
   constructor(ctx: Context, _config?: { logger?: Context['logger'] }) {
     super(ctx, 'controlCenterData')
     for (const vendor of WEBDAV_VENDORS) ctx.settings.register(webdavNsOf(vendor), WEBDAV_SCHEMA)
+    ctx.settings.register(S3_NS, S3_SCHEMA)
   }
 
   async exportControlCenter(): Promise<DataExport> {
@@ -342,5 +470,99 @@ export class DataService extends Service {
 
   [Symbol.dispose]() {
     // Nothing to release.
+  }
+
+  // ─── S3-compatible cloud backup ───────────────────────────────────────────
+
+  /** Read the stored S3 config (secret omitted on the wire). */
+  async getS3Config(): Promise<S3ConfigView> {
+    const raw = this.ctx.settings.get(S3_NS) as Partial<S3Config> | undefined
+    return {
+      endpoint: typeof raw?.endpoint === 'string' ? raw.endpoint : '',
+      bucket: typeof raw?.bucket === 'string' ? raw.bucket : '',
+      region: typeof raw?.region === 'string' ? raw.region : '',
+      accessKeyId: typeof raw?.accessKeyId === 'string' ? raw.accessKeyId : '',
+      prefix: typeof raw?.prefix === 'string' ? raw.prefix : '',
+      secretSet: typeof raw?.secretAccessKey === 'string' && raw.secretAccessKey.length > 0,
+    }
+  }
+
+  /** Save the S3 config; `secret` is write-only (keeps the stored one when empty). */
+  async setS3Config(config: S3ConfigUpdate): Promise<{ absent: true }> {
+    const current = (this.ctx.settings.get(S3_NS) ?? {}) as Partial<S3Config>
+    const next: S3Config = {
+      endpoint: config.endpoint.trim(),
+      bucket: config.bucket.trim(),
+      region: config.region.trim(),
+      accessKeyId: config.accessKeyId.trim(),
+      prefix: config.prefix.trim(),
+      secretAccessKey: typeof config.secret === 'string' && config.secret.length > 0 ? config.secret : (current.secretAccessKey ?? ''),
+    }
+    await this.ctx.settings.update(S3_NS, next)
+    return { absent: true }
+  }
+
+  private async loadS3Config(): Promise<S3Config> {
+    const raw = this.ctx.settings.get(S3_NS) as Partial<S3Config> | undefined
+    const config: S3Config = {
+      endpoint: typeof raw?.endpoint === 'string' ? raw.endpoint : '',
+      bucket: typeof raw?.bucket === 'string' ? raw.bucket : '',
+      region: typeof raw?.region === 'string' ? raw.region : '',
+      accessKeyId: typeof raw?.accessKeyId === 'string' ? raw.accessKeyId : '',
+      secretAccessKey: typeof raw?.secretAccessKey === 'string' ? raw.secretAccessKey : '',
+      prefix: typeof raw?.prefix === 'string' ? raw.prefix : '',
+    }
+    if (!config.endpoint || !config.bucket || !config.accessKeyId || !config.secretAccessKey) {
+      throw new Error('S3 配置不完整：请填写端点、存储桶、Access Key 和 Secret Key')
+    }
+    return config
+  }
+
+  /** HEAD the bucket to verify endpoint + credentials. */
+  async testS3Connection(): Promise<{ ok: boolean; message: string }> {
+    try {
+      const config = await this.loadS3Config()
+      const response = await s3Request(config, 'HEAD', '', '', undefined)
+      if (response.status === 401 || response.status === 403) return { ok: false, message: '认证失败：Access Key 或 Secret 不正确' }
+      if (response.status === 404) return { ok: false, message: '存储桶不存在，请检查名称' }
+      if (response.ok || response.status === 200) return { ok: true, message: '连接成功' }
+      return { ok: false, message: `S3 请求失败 (${response.status}) ${response.statusText}` }
+    } catch (error) {
+      return { ok: false, message: error instanceof Error ? error.message : String(error) }
+    }
+  }
+
+  /** PUT a timestamped snapshot to the bucket. Returns the remote object name. */
+  async s3Backup(): Promise<string> {
+    const config = await this.loadS3Config()
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 23) + 'Z'
+    const fileName = `dsh-control-center-${timestamp}.json`
+    const snapshot = await this.exportControlCenter()
+    const response = await s3Request(config, 'PUT', fileName, '', Buffer.from(JSON.stringify(snapshot, null, 2), 'utf8'))
+    if (!response.ok && response.status !== 201 && response.status !== 204 && response.status !== 200) {
+      throw new Error(`S3 备份失败 (${response.status}) ${(await response.text()).slice(0, 200)}`)
+    }
+    this.ctx.logger.info('S3 backup created', { fileName })
+    return fileName
+  }
+
+  /** GET a snapshot from the bucket and import it. */
+  async s3Restore(fileName: string): Promise<{ absent: true }> {
+    const config = await this.loadS3Config()
+    const response = await s3Request(config, 'GET', fileName, '', undefined)
+    if (!response.ok) throw new Error(`S3 恢复失败 (${response.status}) ${response.statusText}`)
+    const snapshot = await response.json() as DataExport
+    await this.importControlCenter(snapshot)
+    return { absent: true }
+  }
+
+  /** ListObjectsV2 (prefix-scoped) to enumerate snapshot objects. */
+  async listS3Backups(): Promise<string[]> {
+    const config = await this.loadS3Config()
+    const prefix = config.prefix.replace(/^\/+|\/+$/g, '')
+    const query = `list-type=2${prefix === '' ? '' : `&prefix=${encodeURIComponent(prefix)}`}`
+    const response = await s3Request(config, 'GET', '', query, undefined)
+    if (!response.ok && response.status !== 200) throw new Error(`S3 列表失败 (${response.status}) ${response.statusText}`)
+    return parseS3Keys(await response.text())
   }
 }

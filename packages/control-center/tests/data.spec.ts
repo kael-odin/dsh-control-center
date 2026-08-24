@@ -35,6 +35,7 @@ describe('DataService', () => {
       'control-center-provider-stash',
       'control-center-providers',
       'control-center-repos',
+      'control-center-s3',
       'control-center-skills',
       'control-center-tasks',
       'control-center-translation',
@@ -136,5 +137,44 @@ describe('DataService', () => {
     expect(await service.getWebdavConfig()).toEqual({ host: '', user: '', path: '', passSet: false })
     const view = await service.getWebdavConfig('nutstore')
     expect(view).toEqual({ host: 'https://dav.jianguoyun.com/dav/', user: 'nut@example.com', path: 'dsh', passSet: true })
+  })
+
+  it('round-trips S3 config without leaking the secret', async () => {
+    const { service } = setup()
+    await service.setS3Config({
+      endpoint: 'https://s3.example.com', bucket: 'backups', region: 'us-east-1',
+      accessKeyId: 'AKID', prefix: 'dsh', secret: 'top-secret',
+    })
+    const view = await service.getS3Config()
+    expect(view).toEqual({
+      endpoint: 'https://s3.example.com', bucket: 'backups', region: 'us-east-1',
+      accessKeyId: 'AKID', prefix: 'dsh', secretSet: true,
+    })
+    expect(JSON.stringify(view)).not.toContain('top-secret')
+    // Empty secret keeps the stored one.
+    await service.setS3Config({ endpoint: 'https://s3.example.com', bucket: 'backups', region: 'us-east-1', accessKeyId: 'AKID', prefix: 'dsh', secret: '' })
+    expect((await service.getS3Config()).secretSet).toBe(true)
+  })
+
+  it('signs S3 requests with AWS SigV4 and reports auth failures honestly', async () => {
+    const { service } = setup()
+    await service.setS3Config({
+      endpoint: 'https://s3.example.com', bucket: 'backups', region: 'us-east-1',
+      accessKeyId: 'AKIDEXAMPLE', prefix: '', secret: 'wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY',
+    })
+    const captured: Array<{ url: string; headers: Record<string, string>; method?: string }> = []
+    globalThis.fetch = (async (input: string | URL, init?: { method?: string; headers?: Record<string, string> }) => {
+      const url = String(input)
+      captured.push({ url, headers: (init?.headers ?? {}) as Record<string, string>, method: init?.method })
+      return { ok: true, status: 200, statusText: 'OK', text: async () => '', json: async () => ({}) } as Response
+    }) as unknown as typeof fetch
+
+    const result = await service.testS3Connection()
+    expect(result.ok).toBe(true)
+    expect(captured.length).toBe(1)
+    const auth = captured[0]!.headers.Authorization ?? ''
+    expect(auth.startsWith('AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/')).toBe(true)
+    expect(auth).toContain('/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=')
+    expect(captured[0]!.headers['x-amz-date']).toBeDefined()
   })
 })

@@ -292,6 +292,99 @@ export function DataSection({ getData, getDesktop, getSystem, useDataReady, useD
     } catch (err) { fail(err) } finally { setWebdavBusy(false) }
   }, [data, activeVendor])
 
+  // S3-compatible cloud backup state
+  const [s3, setS3] = useState({
+    endpoint: '', bucket: '', region: '', accessKeyId: '', prefix: '', secret: '',
+    secretSet: false, backups: [] as string[], testing: false, busy: false,
+  })
+
+  useEffect(() => {
+    if (data === undefined) return
+    void data.getS3Config().then(result => {
+      if (result.ok) {
+        setS3(current => ({
+          ...current,
+          endpoint: result.value.endpoint,
+          bucket: result.value.bucket,
+          region: result.value.region,
+          accessKeyId: result.value.accessKeyId,
+          prefix: result.value.prefix,
+          secretSet: result.value.secretSet,
+        }))
+      }
+    }).catch(() => {})
+  }, [data])
+
+  const s3Complete = s3.endpoint !== '' && s3.bucket !== '' && s3.accessKeyId !== '' && (s3.secretSet || s3.secret !== '')
+
+  const saveS3 = useCallback(async (): Promise<void> => {
+    if (data === undefined) return
+    const result = await data.setS3Config({
+      endpoint: s3.endpoint.trim(),
+      bucket: s3.bucket.trim(),
+      region: s3.region.trim() || 'us-east-1',
+      accessKeyId: s3.accessKeyId.trim(),
+      prefix: s3.prefix.trim(),
+      secret: s3.secret,
+    })
+    if (!result.ok) throw new Error(result.error.message)
+    setS3(current => ({ ...current, secret: '', secretSet: s3.secret !== '' || current.secretSet }))
+  }, [data, s3.endpoint, s3.bucket, s3.region, s3.accessKeyId, s3.prefix, s3.secret])
+
+  const testS3 = useCallback(async (): Promise<void> => {
+    if (data === undefined) return
+    setError(null)
+    setS3(current => ({ ...current, testing: true }))
+    try {
+      await saveS3()
+      const result = await data.testS3Connection()
+      if (!result.ok) throw new Error(result.error.message)
+      if (result.value.ok) report(result.value.message)
+      else setError(result.value.message)
+    } catch (err) { fail(err) } finally {
+      setS3(current => ({ ...current, testing: false }))
+    }
+  }, [data, saveS3])
+
+  const backupS3 = useCallback(async (): Promise<void> => {
+    if (data === undefined) return
+    setError(null)
+    setS3(current => ({ ...current, busy: true }))
+    setStatus('备份到 S3…')
+    try {
+      await saveS3()
+      const result = await data.s3Backup()
+      if (!result.ok) throw new Error(result.error.message)
+      report(`已备份到 S3: ${result.value}`)
+      void refreshS3Backups()
+    } catch (err) { fail(err) } finally {
+      setS3(current => ({ ...current, busy: false }))
+    }
+  }, [data, saveS3])
+
+  const refreshS3Backups = useCallback(async (): Promise<void> => {
+    if (data === undefined) return
+    try {
+      const result = await data.listS3Backups()
+      if (result.ok) setS3(current => ({ ...current, backups: result.value }))
+    } catch { /* keep current list */ }
+  }, [data])
+
+  const restoreS3 = useCallback(async (file: string): Promise<void> => {
+    if (data === undefined) return
+    if (!window.confirm(`确定要从 S3 备份 "${file}" 恢复吗？当前设置将被覆盖。`)) return
+    setError(null)
+    setS3(current => ({ ...current, busy: true }))
+    setStatus('从 S3 恢复…')
+    try {
+      const result = await data.s3Restore(file)
+      if (!result.ok) throw new Error(result.error.message)
+      report(`已从 ${file} 恢复`)
+    } catch (err) { fail(err) } finally {
+      setS3(current => ({ ...current, busy: false }))
+    }
+  }, [data])
+
   const handleMarkdownExport = useCallback(async (): Promise<void> => {
     if (data === undefined) return
     setError(null)
@@ -332,7 +425,7 @@ export function DataSection({ getData, getDesktop, getSystem, useDataReady, useD
       case 'local_backup': return <LocalBackupPanel />
       case 'webdav': return <WebDavPanel />
       case 'nutstore': return <WebDavPanel />
-      case 's3': return <CloudPanel title="S3 兼容存储" description="S3 协议备份需要在桌面版上集成 AWS SDK，目前平台暂不可用。" />
+      case 's3': return <S3Panel />
       case 'import_settings': return <ImportPanel />
       case 'markdown_export': return <MarkdownExportPanel />
       case 'notion': return <CloudPanel title="Notion" description="Notion 笔记导出需要 Notion API 集成，目前平台暂不可用。" />
@@ -635,6 +728,78 @@ export function DataSection({ getData, getDesktop, getSystem, useDataReady, useD
                   <button type="button" className="cc-btn cc-btn-secondary" style={{ fontSize: 12, padding: '4px 10px' }}
                     disabled={webdavBusy}
                     onClick={() => void restoreWebdav(file)}>
+                    恢复
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </SettingGroup>
+      </SettingsPageShell>
+    )
+  }
+
+  /** S3-compatible cloud backup (AWS SigV4 over plain fetch, no AWS SDK). */
+  function S3Panel() {
+    const input = (key: keyof typeof s3, placeholder: string, type: 'text' | 'password' = 'text') => (
+      <SettingRow>
+        <SettingRowTitle>{placeholder}</SettingRowTitle>
+        <input type={type} className={css.pathInput} value={s3[key] as string}
+          onChange={e => { setS3(current => ({ ...current, [key]: e.target.value })) }}
+          placeholder={placeholder} />
+      </SettingRow>
+    )
+    return (
+      <SettingsPageShell>
+        <SettingGroup>
+          <SettingTitle>S3 兼容存储备份</SettingTitle>
+          <SettingDivider />
+          <p style={{ marginTop: 8, marginBottom: 8, color: 'var(--foreground-tertiary)', fontSize: 12 }}>
+            备份到 S3 兼容存储（AWS S3、MinIO、Cloudflare R2、阿里云 OSS 等）。使用 AWS Signature V4 签名，凭据以写保护方式存储。
+          </p>
+          {input('endpoint', '端点 Endpoint', 'text')}
+          <SettingDivider />
+          {input('bucket', '存储桶 Bucket', 'text')}
+          <SettingDivider />
+          {input('region', '区域 Region（默认 us-east-1）', 'text')}
+          <SettingDivider />
+          {input('accessKeyId', 'Access Key ID', 'text')}
+          <SettingDivider />
+          <SettingRow>
+            <SettingRowTitle>Secret Access Key</SettingRowTitle>
+            <input type="password" className={css.pathInput} value={s3.secret}
+              onChange={e => { setS3(current => ({ ...current, secret: e.target.value })) }}
+              placeholder={s3.secretSet ? '••••••••（已保存，留空保持不变）' : '输入 Secret Key'} />
+          </SettingRow>
+          <SettingDivider />
+          {input('prefix', '对象前缀（可选，例如 backups/）', 'text')}
+          <SettingDivider />
+          <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+            <button type="button" className="cc-btn cc-btn-secondary"
+              disabled={!s3Complete || s3.testing}
+              onClick={() => void testS3()}>
+              {s3.testing ? '测试中…' : '测试连接'}
+            </button>
+            <button type="button" className="cc-btn cc-btn-primary"
+              disabled={!s3Complete || s3.busy}
+              onClick={() => void backupS3()}>
+              {s3.busy ? '备份中…' : '备份到 S3'}
+            </button>
+            <button type="button" className="cc-btn cc-btn-secondary"
+              disabled={s3.busy}
+              onClick={() => void refreshS3Backups()}>
+              刷新列表
+            </button>
+          </div>
+          {s3.backups.length > 0 && (
+            <div style={{ marginTop: 12 }}>
+              <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, color: 'var(--foreground)' }}>已有备份</div>
+              {s3.backups.map(file => (
+                <div key={file} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 0' }}>
+                  <span style={{ flex: 1, fontSize: 12, color: 'var(--foreground-tertiary)', fontFamily: 'monospace', overflow: 'hidden', textOverflow: 'ellipsis' }}>{file}</span>
+                  <button type="button" className="cc-btn cc-btn-secondary" style={{ fontSize: 12, padding: '4px 10px' }}
+                    disabled={s3.busy}
+                    onClick={() => void restoreS3(file)}>
                     恢复
                   </button>
                 </div>

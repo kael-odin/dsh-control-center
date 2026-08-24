@@ -14,7 +14,13 @@ const methods: ReadonlyArray<{ method: string; parameters: string[] }> = [
   { method: 'testWebdavConnection', parameters: ['vendor'] },
   { method: 'webdavBackup', parameters: ['vendor'] },
   { method: 'webdavRestore', parameters: ['fileName', 'vendor'] },
-  { method: 'listWebdavBackups', parameters: ['vendor'] }
+  { method: 'listWebdavBackups', parameters: ['vendor'] },
+  { method: 'getS3Config', parameters: [] },
+  { method: 'setS3Config', parameters: ['config'] },
+  { method: 'testS3Connection', parameters: [] },
+  { method: 's3Backup', parameters: [] },
+  { method: 's3Restore', parameters: ['fileName'] },
+  { method: 'listS3Backups', parameters: [] }
 ]
 
 /** Client descriptor contribution for the Control Center data service. */

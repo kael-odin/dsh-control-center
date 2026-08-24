@@ -2,7 +2,7 @@
  * Data management types (shared between Host and Client).
  */
 
-import type { DataExport, WebDavConfigUpdate, WebDavConfigView, WebDavVendor } from './data.ts'
+import type { DataExport, S3ConfigUpdate, S3ConfigView, WebDavConfigUpdate, WebDavConfigView, WebDavVendor } from './data.ts'
 
 declare module '@deepseek-ai/dsh-typert-protocol' {
   interface TypertRemoteNamespaceMap {
@@ -20,8 +20,14 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
       webdavBackup(vendor?: WebDavVendor): Promise<{ ok: true; value: string } | { ok: false; error: { code: string; message: string; details: object } }>
       webdavRestore(fileName: string, vendor?: WebDavVendor): Promise<{ ok: true; value: { absent: true } } | { ok: false; error: { code: string; message: string; details: object } }>
       listWebdavBackups(vendor?: WebDavVendor): Promise<{ ok: true; value: string[] } | { ok: false; error: { code: string; message: string; details: object } }>
+      getS3Config(): Promise<{ ok: true; value: S3ConfigView } | { ok: false; error: { code: string; message: string; details: object } }>
+      setS3Config(config: S3ConfigUpdate): Promise<{ ok: true; value: { absent: true } } | { ok: false; error: { code: string; message: string; details: object } }>
+      testS3Connection(): Promise<{ ok: true; value: { ok: boolean; message: string } } | { ok: false; error: { code: string; message: string; details: object } }>
+      s3Backup(): Promise<{ ok: true; value: string } | { ok: false; error: { code: string; message: string; details: object } }>
+      s3Restore(fileName: string): Promise<{ ok: true; value: { absent: true } } | { ok: false; error: { code: string; message: string; details: object } }>
+      listS3Backups(): Promise<{ ok: true; value: string[] } | { ok: false; error: { code: string; message: string; details: object } }>
     }
   }
 }
 
-export type { DataExport, WebDavConfigUpdate, WebDavConfigView, WebDavVendor }
+export type { DataExport, S3ConfigUpdate, S3ConfigView, WebDavConfigUpdate, WebDavConfigView, WebDavVendor }
