@@ -44,7 +44,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 自动化 | Channels | ⚠️ | 六平台全部真实连通（TG/Discord/Slack/QQ/飞书/微信），共享回复管线 + 状态点 + 日志环。**Agent 绑定已上线（2026-08-24）**：每频道可配 `agentProvider`/`agentModel`/`agentSystemPrompt`，绑定后优先于共享默认模型并带自定义系统提示词（对应 Cherry ChannelData.agentId；DSH 无逐会话 agent 编排，故实现为模型+提示词覆盖而非完整 agent 组合）。**仍缺**：permissionMode 逐频道生效接入 |
 | 自动化 | Scheduled Tasks | ✅ | TasksSection 任务列表/调度/历史 |
 | 自动化 | Shortcuts | ✅ | ShortcutSection 快捷键列表 |
-| 自动化 | Quick Assistant | ⚠️ | 启用/托盘点击/剪贴板/模型档位（默认模型 vs 使用助手）已实现。缺：**真实助手选择器**（modelMode='assistant' 时无处挑选具体助手） |
+| 自动化 | Quick Assistant | ⚠️ | 启用/托盘点击/剪贴板/模型档位（默认模型 vs 使用助手）已实现 + **「使用助手」模式下的 Agent 预设 ID 输入框（2026-08-24，可升级为真实选择器）**。缺：真实助手选择器（下拉列表） |
 | 自动化 | Selection Assistant | ✅ | 选择工具/快捷键/动作列表 |
 | 自动化 | Screenshot | ✅ | 启用/快捷键/OCR 开关 |
 | 系统 | Dependencies | ⚠️ | 契约包版本列表 + **环境工具检测（ffmpeg/tesseract/git 存在性+版本，host which/where 探测，2026-08-24）**。缺：Node 版本行（getInfo 已有 nodeVersion，可并入） |
