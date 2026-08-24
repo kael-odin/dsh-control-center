@@ -19,6 +19,7 @@ import {
 import { Combobox, type ComboboxOption } from './Combobox.tsx'
 import { ModelSelector, type ModelOption } from './ModelSelector.tsx'
 import { TRANSLATE_UPLOAD_ICONS, TRANSLATE_UPLOAD_LABELS } from './translate-upload-icons.ts'
+import { extractPdfText } from './pdf-extract.ts'
 import { useCopy } from './panel-ui.tsx'
 import { TranslationHistoryPanel } from './TranslationHistoryPanel.tsx'
 import { TranslationSettingsPanel, type TranslationSettingsState } from './TranslationSettingsPanel.tsx'
@@ -144,6 +145,8 @@ export function TranslationWorkspace({ getTranslation, listModels, useTranslatio
   const [prompt, setPrompt] = useState('')
   const [customLanguages, setCustomLanguages] = useState<TranslationLanguage[]>([])
   const [error, setError] = useState<string | null>(null)
+  const [pdfBusy, setPdfBusy] = useState(false)
+  const [pdfInfo, setPdfInfo] = useState<string | null>(null)
   const options = useMemo(() => modelOptions(models), [models])
   const inputRef = useRef<HTMLTextAreaElement | null>(null)
   const outputRef = useRef<HTMLDivElement | null>(null)
@@ -167,10 +170,36 @@ export function TranslationWorkspace({ getTranslation, listModels, useTranslatio
     icon: <span style={{ fontSize: 14 }}>{languageEmojiOf(item.id)}</span>,
   })), [languagesAll])
 
+  /** PDF: extract text in the browser (pdfjs fake-worker), then feed the
+   * extracted text straight into the input pane — Cherry translate page PDF
+   * import parity. */
+  const handlePdf = async (file: File): Promise<void> => {
+    setError(null)
+    setPdfBusy(true)
+    try {
+      const buf = await file.arrayBuffer()
+      const { text, pages } = await extractPdfText(buf)
+      if (text.trim().length === 0) {
+        setError('PDF 中未提取到可翻译的文本（可能是扫描件，请改用 OCR）')
+        return
+      }
+      setInput(text)
+      setPdfInfo(pages > 0 ? `已提取 ${pages} 页文本` : '已提取 PDF 文本')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'PDF 提取失败')
+    } finally {
+      setPdfBusy(false)
+    }
+  }
+
   const handleUpload = async (file: File): Promise<void> => {
+    if (/\.pdf$/i.test(file.name)) {
+      await handlePdf(file)
+      return
+    }
     const textish = /(txt|md|markdown|html?|csv|json|ya?ml|xml|tsx?|jsx?|py|go|rs|java|css|sh|log)$/i
     if (!file.type.startsWith('text/') && !textish.test(file.name)) {
-      setError(`「${file.name}」暂不支持直接翻译；请将内容复制到左侧输入框`)
+      setError(`「${file.name}」暂不支持直接翻译；请将内容复制到左侧输入框，或上传 PDF`)
       return
     }
     const text = await file.text()
@@ -470,7 +499,7 @@ export function TranslationWorkspace({ getTranslation, listModels, useTranslatio
                   <span key={name} className={css.uploadIcon} title={TRANSLATE_UPLOAD_LABELS[name]} dangerouslySetInnerHTML={{ __html: svg }} />
                 ))}
               </div>
-              <span>拖入或点击上传图片/文档</span>
+              <span>{pdfBusy ? '正在提取 PDF 文本…' : pdfInfo ?? '拖入或点击上传图片/文档/PDF'}</span>
             </div>
           )}
           <div className={css.paneCorner}>
@@ -534,6 +563,7 @@ export function TranslationWorkspace({ getTranslation, listModels, useTranslatio
       <input
         ref={fileRef}
         type="file"
+        accept=".txt,.md,.markdown,.html,.htm,.csv,.json,.yaml,.yml,.xml,.ts,.tsx,.js,.jsx,.py,.go,.rs,.java,.css,.sh,.log,.pdf,.PDF"
         style={{ display: 'none' }}
         onChange={(event) => {
           const file = event.target.files?.[0]
