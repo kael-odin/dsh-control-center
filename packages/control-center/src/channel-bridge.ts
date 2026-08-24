@@ -539,7 +539,12 @@ export class ChannelBridgeService extends Service {
     text: string,
     deliver: (reply: string) => Promise<void>,
   ): Promise<void> {
-    const route = this.defaultModelRoute()
+    // Per-channel agent binding: a channel may pin a provider/model and an
+    // optional system prompt (Cherry ChannelData.agentId parity). When set,
+    // it wins over the shared agent-default-model route.
+    const record = this.readInstances().find(entry => entry.id === id)
+    const binding = this.agentBinding(record)
+    const route = binding?.route ?? this.defaultModelRoute()
     if (route === null || this.llm === undefined) {
       this.appendLog(id, '未解析默认模型（agent-default-model），跳过回复')
       return
@@ -567,10 +572,10 @@ export class ChannelBridgeService extends Service {
             this.appendLog(
               id,
               attempt === 0
-                ? `生成回复（${candidate.provider}/${candidate.model}）…`
+                ? `生成回复（${candidate.provider}/${candidate.model}${binding === undefined ? '' : '，频道 Agent 绑定'}）…`
                 : `重试（第 ${String(attempt + 1)} 次尝试，${candidate.provider}/${candidate.model}）…`,
             )
-            reply = await this.generateReply(id, text, candidate)
+            reply = await this.generateReply(id, text, candidate, binding?.systemPrompt)
             break search
           } catch (error) {
             reply = null
@@ -591,14 +596,22 @@ export class ChannelBridgeService extends Service {
   }
 
   /** One generation attempt over one route; throws on terminal error finish. */
-  private async generateReply(id: string, text: string, route: { provider: string; model: string }): Promise<string> {
+  private async generateReply(
+    id: string,
+    text: string,
+    route: { provider: string; model: string },
+    systemPrompt?: string,
+  ): Promise<string> {
     const prepared = await this.llm!.prepareCall({ provider: route.provider, model: route.model })
     const message = createUserMessage({ source: { kind: 'user' }, content: [{ type: 'text', text }] })
+    const prompt = systemPrompt === undefined ? undefined : systemPrompt.trim()
     let reply = ''
     for await (const chunk of prepared.stream({
       ...prepared.config,
       messages: [message],
-      system: 'You are a helpful assistant replying inside a messaging channel. Be concise.',
+      system: prompt !== undefined && prompt.length > 0
+        ? prompt
+        : 'You are a helpful assistant replying inside a messaging channel. Be concise.',
       signal: this.signalFor(id),
     })) {
       if (chunk.type === 'text-delta') reply += chunk.text
@@ -607,6 +620,21 @@ export class ChannelBridgeService extends Service {
       }
     }
     return reply.trim().length > 0 ? reply.trim() : '(空回复)'
+  }
+
+  /**
+   * Per-channel agent binding read from `config.agentProvider` /
+   * `config.agentModel` (route override) and `config.agentSystemPrompt`.
+   * Both provider and model must be present for a binding to apply.
+   */
+  private agentBinding(record: ChannelRecord | undefined): { route: { provider: string; model: string }; systemPrompt: string } | undefined {
+    const config = record?.config
+    if (typeof config !== 'object' || config === null) return undefined
+    const provider = typeof config.agentProvider === 'string' ? config.agentProvider.trim() : ''
+    const model = typeof config.agentModel === 'string' ? config.agentModel.trim() : ''
+    if (provider.length === 0 || model.length === 0) return undefined
+    const systemPrompt = typeof config.agentSystemPrompt === 'string' ? config.agentSystemPrompt : ''
+    return { route: { provider, model }, systemPrompt }
   }
 
   /** Abort signal of the channel's active loop, so replies die with it. */

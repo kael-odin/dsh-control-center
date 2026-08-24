@@ -33,6 +33,7 @@ export const DATA_NAMESPACES = [
   'control-center-appearance',
   'control-center-notifications',
   'control-center-webdav',
+  'control-center-webdav-nutstore',
 ].map(name => settingsNamespace(name))
 
 export interface DataExport {
@@ -44,8 +45,23 @@ export interface DataExport {
 /** Regex matching a backup file produced by backupToDirectory. */
 const BACKUP_FILE_PATTERN = /^dsh-control-center-\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z\.json$/
 
-/** WebDAV cloud-backup configuration stored in the settings namespace. */
+/**
+ * WebDAV cloud-backup vendors. 坚果云 (nutstore) is plain WebDAV, but users
+ * keep separate accounts (and Nutstore requires an app-specific password), so
+ * each vendor owns an isolated config namespace under one shared schema.
+ */
+export type WebDavVendor = 'webdav' | 'nutstore'
+export const WEBDAV_VENDORS: readonly WebDavVendor[] = ['webdav', 'nutstore']
+
 export const WEBDAV_NS = settingsNamespace('control-center-webdav')
+const WEBDAV_NS_BY_VENDOR: Record<WebDavVendor, ReturnType<typeof settingsNamespace>> = {
+  webdav: WEBDAV_NS,
+  nutstore: settingsNamespace('control-center-webdav-nutstore'),
+}
+
+function webdavNsOf(vendor: WebDavVendor): ReturnType<typeof settingsNamespace> {
+  return WEBDAV_NS_BY_VENDOR[vendor] ?? WEBDAV_NS
+}
 
 export interface WebDavConfig {
   host: string
@@ -115,7 +131,7 @@ export class DataService extends Service {
 
   constructor(ctx: Context, _config?: { logger?: Context['logger'] }) {
     super(ctx, 'controlCenterData')
-    ctx.settings.register(WEBDAV_NS, WEBDAV_SCHEMA)
+    for (const vendor of WEBDAV_VENDORS) ctx.settings.register(webdavNsOf(vendor), WEBDAV_SCHEMA)
   }
 
   async exportControlCenter(): Promise<DataExport> {
@@ -217,8 +233,8 @@ export class DataService extends Service {
   }
 
   /** Read the stored WebDAV config (password omitted on the wire). */
-  async getWebdavConfig(): Promise<WebDavConfigView> {
-    const raw = this.ctx.settings.get(WEBDAV_NS) as Partial<WebDavConfig> | undefined
+  async getWebdavConfig(vendor: WebDavVendor = 'webdav'): Promise<WebDavConfigView> {
+    const raw = this.ctx.settings.get(webdavNsOf(vendor)) as Partial<WebDavConfig> | undefined
     return {
       host: typeof raw?.host === 'string' ? raw.host : '',
       user: typeof raw?.user === 'string' ? raw.user : '',
@@ -229,20 +245,20 @@ export class DataService extends Service {
 
   /** Save the WebDAV config. `pass` is write-only: it replaces the stored
    * secret only when provided and non-empty. */
-  async setWebdavConfig(config: WebDavConfigUpdate): Promise<{ absent: true }> {
-    const current = (this.ctx.settings.get(WEBDAV_NS) ?? {}) as Partial<WebDavConfig>
+  async setWebdavConfig(config: WebDavConfigUpdate, vendor: WebDavVendor = 'webdav'): Promise<{ absent: true }> {
+    const current = (this.ctx.settings.get(webdavNsOf(vendor)) ?? {}) as Partial<WebDavConfig>
     const next: WebDavConfig = {
       host: config.host,
       user: config.user,
       path: config.path,
       pass: typeof config.pass === 'string' && config.pass.length > 0 ? config.pass : (current.pass ?? ''),
     }
-    await this.ctx.settings.update(WEBDAV_NS, next)
+    await this.ctx.settings.update(webdavNsOf(vendor), next)
     return { absent: true }
   }
 
-  private async loadWebdavConfig(): Promise<WebDavConfig> {
-    const raw = this.ctx.settings.get(WEBDAV_NS) as Partial<WebDavConfig> | undefined
+  private async loadWebdavConfig(vendor: WebDavVendor = 'webdav'): Promise<WebDavConfig> {
+    const raw = this.ctx.settings.get(webdavNsOf(vendor)) as Partial<WebDavConfig> | undefined
     const config: WebDavConfig = {
       host: typeof raw?.host === 'string' ? raw.host : '',
       user: typeof raw?.user === 'string' ? raw.user : '',
@@ -256,8 +272,8 @@ export class DataService extends Service {
   }
 
   /** PROPFIND the target collection to verify host + credentials. */
-  async testWebdavConnection(): Promise<{ ok: boolean; message: string }> {
-    const config = await this.loadWebdavConfig()
+  async testWebdavConnection(vendor: WebDavVendor = 'webdav'): Promise<{ ok: boolean; message: string }> {
+    const config = await this.loadWebdavConfig(vendor)
     try {
       const url = webdavUrl(config, '')
       const response = await fetch(url, {
@@ -277,8 +293,8 @@ export class DataService extends Service {
   }
 
   /** PUT a timestamped snapshot to the WebDAV collection. Returns the remote file name. */
-  async webdavBackup(): Promise<string> {
-    const config = await this.loadWebdavConfig()
+  async webdavBackup(vendor: WebDavVendor = 'webdav'): Promise<string> {
+    const config = await this.loadWebdavConfig(vendor)
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 23) + 'Z'
     const fileName = `dsh-control-center-${timestamp}.json`
     const snapshot = await this.exportControlCenter()
@@ -298,8 +314,8 @@ export class DataService extends Service {
   }
 
   /** GET a snapshot from the WebDAV collection and import it. */
-  async webdavRestore(fileName: string): Promise<{ absent: true }> {
-    const config = await this.loadWebdavConfig()
+  async webdavRestore(fileName: string, vendor: WebDavVendor = 'webdav'): Promise<{ absent: true }> {
+    const config = await this.loadWebdavConfig(vendor)
     const response = await fetch(webdavUrl(config, fileName), {
       method: 'GET',
       headers: { Authorization: basicAuth(config) },
@@ -311,8 +327,8 @@ export class DataService extends Service {
   }
 
   /** PROPFIND Depth:1 to list snapshot files in the WebDAV collection. */
-  async listWebdavBackups(): Promise<string[]> {
-    const config = await this.loadWebdavConfig()
+  async listWebdavBackups(vendor: WebDavVendor = 'webdav'): Promise<string[]> {
+    const config = await this.loadWebdavConfig(vendor)
     const response = await fetch(webdavUrl(config, ''), {
       method: 'PROPFIND',
       headers: {

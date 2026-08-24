@@ -111,6 +111,30 @@ function Loaded({ controller, useSnapshot, t }: {
         label={t('generalTrayOnClose')}
         onChange={(next) => { setPref('trayOnClose', next) }}
       />
+      <PrefRow
+        title={t('generalTrayOnLaunch')}
+        hint={t('generalDesktopOnly')}
+        checked={prefs.trayOnLaunch}
+        disabled={disabled}
+        label={t('generalTrayOnLaunch')}
+        onChange={(next) => { setPref('trayOnLaunch', next) }}
+      />
+      <PrefRow
+        title={t('generalPreventSleep')}
+        hint={t('generalDesktopOnly')}
+        checked={prefs.preventSleepWhenBusy}
+        disabled={disabled}
+        label={t('generalPreventSleep')}
+        onChange={(next) => { setPref('preventSleepWhenBusy', next) }}
+      />
+      <PrefRow
+        title={t('generalDeveloperMode')}
+        hint={t('generalDeveloperHint')}
+        checked={prefs.developerMode}
+        disabled={disabled}
+        label={t('generalDeveloperMode')}
+        onChange={(next) => { setPref('developerMode', next) }}
+      />
       <div className={css['divider']} />
       <div className={css['groupTitle']}>{t('generalProxy')}</div>
       <Note

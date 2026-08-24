@@ -39,6 +39,7 @@ describe('DataService', () => {
       'control-center-tasks',
       'control-center-translation',
       'control-center-webdav',
+      'control-center-webdav-nutstore',
       'control-center-websearch',
     ])
     const snapshot = await service.exportControlCenter()
@@ -126,5 +127,14 @@ describe('DataService', () => {
     const snapshot = await service.exportControlCenter()
     const webdavNs = snapshot.namespaces['control-center-webdav'] as { host?: string }
     expect(webdavNs?.host).toBe('https://example.com')
+  })
+
+  it('keeps the nutstore vendor config isolated from generic WebDAV', async () => {
+    const { service } = setup()
+    await service.setWebdavConfig({ host: 'https://dav.jianguoyun.com/dav/', user: 'nut@example.com', path: 'dsh', pass: 'app-pass' }, 'nutstore')
+    // Generic WebDAV stays untouched.
+    expect(await service.getWebdavConfig()).toEqual({ host: '', user: '', path: '', passSet: false })
+    const view = await service.getWebdavConfig('nutstore')
+    expect(view).toEqual({ host: 'https://dav.jianguoyun.com/dav/', user: 'nut@example.com', path: 'dsh', passSet: true })
   })
 })

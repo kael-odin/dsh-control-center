@@ -219,6 +219,10 @@ export const en = {
   generalContext: 'Context management',
   generalContextNativeTitle: 'Automatic context compression is built in',
   generalContextNativeBody: 'DSH compacts sessions automatically based on the model’s context window. Cherry’s message-count limits and truncate thresholds are not configurable from this page.',
+  generalTrayOnLaunch: 'Launch to tray',
+  generalPreventSleep: 'Prevent sleep while busy',
+  generalDeveloperMode: 'Developer mode',
+  generalDeveloperHint: 'Exposes developer-only surfaces. Takes effect in the desktop edition.',
 
 }
 
@@ -442,5 +446,9 @@ export const zh: { [Key in keyof typeof en]: string } = {
   generalContext: '上下文管理',
   generalContextNativeTitle: '自动上下文压缩已内建',
   generalContextNativeBody: 'DSH 根据模型的上下文窗口自动压缩会话。Cherry 的消息数限制与截断阈值在此页不可配置。',
+  generalTrayOnLaunch: '启动到托盘',
+  generalPreventSleep: '省电模式（忙碌时防止休眠）',
+  generalDeveloperMode: '开发者模式',
+  generalDeveloperHint: '暴露仅开发者使用的界面，桌面版生效。',
 
 }

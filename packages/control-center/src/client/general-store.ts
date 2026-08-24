@@ -19,7 +19,9 @@ export interface GeneralPrefs {
   launchOnBoot: boolean
   trayEnabled: boolean
   trayOnClose: boolean
+  trayOnLaunch: boolean
   preventSleepWhenBusy: boolean
+  developerMode: boolean
 }
 
 export interface GeneralState {
@@ -36,7 +38,9 @@ const DEFAULT_PREFS: GeneralPrefs = {
   launchOnBoot: false,
   trayEnabled: true,
   trayOnClose: false,
+  trayOnLaunch: false,
   preventSleepWhenBusy: false,
+  developerMode: false,
 }
 
 function readPrefs(value: unknown, schema: SettingsSchemaOperations): GeneralPrefs {
@@ -48,7 +52,9 @@ function readPrefs(value: unknown, schema: SettingsSchemaOperations): GeneralPre
     launchOnBoot: flag('launchOnBoot', DEFAULT_PREFS.launchOnBoot),
     trayEnabled: flag('trayEnabled', DEFAULT_PREFS.trayEnabled),
     trayOnClose: flag('trayOnClose', DEFAULT_PREFS.trayOnClose),
+    trayOnLaunch: flag('trayOnLaunch', DEFAULT_PREFS.trayOnLaunch),
     preventSleepWhenBusy: flag('preventSleepWhenBusy', DEFAULT_PREFS.preventSleepWhenBusy),
+    developerMode: flag('developerMode', DEFAULT_PREFS.developerMode),
   }
 }
 

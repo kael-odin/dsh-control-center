@@ -17,6 +17,18 @@ class ReplyAdapter extends LlmAdapter {
   }
 }
 
+/** Adapter that records the stream options (including `system`) for assertions. */
+class RecordingAdapter extends LlmAdapter {
+  readonly seen: GenerateOptions[] = []
+  override async *stream(options: GenerateOptions): AsyncIterable<StreamChunk> {
+    this.seen.push(options)
+    yield { type: 'block-start', index: 0, blockType: 'text' }
+    yield { type: 'text-delta', index: 0, text: 'BOUND' }
+    yield { type: 'block-end', index: 0, block: { type: 'text', text: 'BOUND' } }
+    yield { type: 'finish', reason: { kind: 'stop' } }
+  }
+}
+
 describe('ChannelBridgeService reply pipe', () => {
   it('streams a reply through the default model and sends it back', async () => {
     const ctx = new Context()
@@ -62,6 +74,62 @@ describe('ChannelBridgeService reply pipe', () => {
     })
     expect(streamSpy).toHaveBeenCalledWith(expect.objectContaining({ provider: 'fixture', model: 'best' }))
     expect(sent[0]).toMatchObject({ chat_id: 42, text: 'PONG' })
+    service.getLog('tg1')
+  })
+
+  it('honors a per-channel agent binding (provider/model + system prompt) over the default route', async () => {
+    const ctx = new Context()
+    const llm = new LlmRuntime(ctx)
+    const prepareSpy = vi.spyOn(llm, 'prepareCall')
+    const adapter = new RecordingAdapter()
+    llm.registerAdapter(['fixture'], adapter)
+
+    const settings = {
+      describe: () => ([
+        // Default route exists but must be ignored for the bound channel.
+        { ns: 'agent-default-model', value: { provider: 'fixture', model: 'default-model' }, schema: {}, revision: 1 },
+      ]),
+      register: vi.fn(() => ({ get: () => ({ instances: [] }) })),
+    }
+    ;(ctx as unknown as { settings: unknown }).settings = settings
+
+    const sent: Array<{ chat_id: number; text: string }> = []
+    globalThis.fetch = (async (input: string | URL, init?: { method?: string; body?: string }) => {
+      const url = String(input)
+      if (url.includes('/getUpdates')) {
+        return { ok: true, status: 200, text: async () => '', json: async () => ({ ok: true, result: [{
+          update_id: 7,
+          message: { text: 'ping', chat: { id: 42 } },
+        }] }) }
+      }
+      if (url.includes('/sendMessage')) {
+        const body = JSON.parse(init?.body ?? '{}') as { chat_id: number; text: string }
+        sent.push(body)
+        return { ok: true, status: 200, text: async () => '', json: async () => ({ ok: true }) }
+      }
+      throw new Error(`unexpected ${url}`)
+    }) as unknown as typeof fetch
+
+    const service = new ChannelBridgeService(ctx)
+    ;(service as unknown as { source: () => unknown }).source = () => ({ instances: [
+      {
+        id: 'tg1', type: 'telegram', name: 'TG', isActive: true,
+        config: {
+          bot_token: 'tok', allowed_chat_ids: ['42'],
+          agentProvider: 'fixture', agentModel: 'special', agentSystemPrompt: 'You are a Chinese-to-English translator.',
+        },
+      },
+    ] })
+    ;(service as unknown as { reconcile: () => void }).reconcile()
+
+    await vi.waitFor(async () => {
+      expect(sent).toHaveLength(1)
+    })
+    expect(prepareSpy).toHaveBeenCalledWith(expect.objectContaining({ provider: 'fixture', model: 'special' }))
+    expect(prepareSpy).not.toHaveBeenCalledWith(expect.objectContaining({ model: 'default-model' }))
+    const seenSystem = adapter.seen.map(options => options.system)
+    expect(seenSystem).toContain('You are a Chinese-to-English translator.')
+    expect(sent[0]).toMatchObject({ chat_id: 42, text: 'BOUND' })
     service.getLog('tg1')
   })
 

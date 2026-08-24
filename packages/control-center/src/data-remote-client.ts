@@ -9,12 +9,12 @@ const methods: ReadonlyArray<{ method: string; parameters: string[] }> = [
   { method: 'importFromFile', parameters: ['path'] },
   { method: 'backupToDirectory', parameters: ['dir', 'maxBackups'] },
   { method: 'listBackupFiles', parameters: ['dir'] },
-  { method: 'getWebdavConfig', parameters: [] },
-  { method: 'setWebdavConfig', parameters: ['config'] },
-  { method: 'testWebdavConnection', parameters: [] },
-  { method: 'webdavBackup', parameters: [] },
-  { method: 'webdavRestore', parameters: ['fileName'] },
-  { method: 'listWebdavBackups', parameters: [] }
+  { method: 'getWebdavConfig', parameters: ['vendor'] },
+  { method: 'setWebdavConfig', parameters: ['config', 'vendor'] },
+  { method: 'testWebdavConnection', parameters: ['vendor'] },
+  { method: 'webdavBackup', parameters: ['vendor'] },
+  { method: 'webdavRestore', parameters: ['fileName', 'vendor'] },
+  { method: 'listWebdavBackups', parameters: ['vendor'] }
 ]
 
 /** Client descriptor contribution for the Control Center data service. */

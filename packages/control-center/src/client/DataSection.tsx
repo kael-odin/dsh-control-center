@@ -12,7 +12,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import type { HostObservable, InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
-import type { DataExport } from '../data-types.ts'
+import type { DataExport, WebDavVendor } from '../data-types.ts'
 import {
   SettingDivider, SettingGroup, SettingRow, SettingRowTitle, SettingsPageShell, SettingSwitch, SettingTitle,
 } from './SettingsPages.tsx'
@@ -70,6 +70,8 @@ export function DataSection({ getData, getDesktop, useDataReady, useDesktopReady
   const data = dataReady ? getData() : undefined
   const desktop = desktopReady ? getDesktop() : undefined
   const [activeMenu, setActiveMenu] = useState('data')
+  /** 坚果云 shares the WebDAV implementation over an isolated config namespace. */
+  const activeVendor: WebDavVendor = activeMenu === 'nutstore' ? 'nutstore' : 'webdav'
   const [status, setStatus] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
@@ -207,7 +209,7 @@ export function DataSection({ getData, getDesktop, useDataReady, useDesktopReady
 
   useEffect(() => {
     if (data === undefined) return
-    void data.getWebdavConfig().then(result => {
+    void data.getWebdavConfig(activeVendor).then(result => {
       if (result.ok) {
         setWebdavHost(result.value.host)
         setWebdavUser(result.value.user)
@@ -215,7 +217,7 @@ export function DataSection({ getData, getDesktop, useDataReady, useDesktopReady
         setWebdavPassSet(result.value.passSet)
       }
     }).catch(() => {})
-  }, [data])
+  }, [data, activeVendor])
 
   const webdavConfigComplete = webdavHost !== '' && webdavUser !== '' && (webdavPassSet || webdavPass !== '')
 
@@ -227,11 +229,11 @@ export function DataSection({ getData, getDesktop, useDataReady, useDesktopReady
       user: webdavUser.trim(),
       path: webdavPath.trim(),
       pass: webdavPass,
-    })
+    }, activeVendor)
     if (!result.ok) throw new Error(result.error.message)
     setWebdavPass('')
     setWebdavPassSet(webdavPass !== '' || webdavPassSet)
-  }, [data, webdavHost, webdavUser, webdavPath, webdavPass, webdavPassSet])
+  }, [data, activeVendor, webdavHost, webdavUser, webdavPath, webdavPass, webdavPassSet])
 
   const testWebdav = useCallback(async (): Promise<void> => {
     if (data === undefined) return
@@ -239,12 +241,12 @@ export function DataSection({ getData, getDesktop, useDataReady, useDesktopReady
     setWebdavTesting(true)
     try {
       await saveWebdav()
-      const result = await data.testWebdavConnection()
+      const result = await data.testWebdavConnection(activeVendor)
       if (!result.ok) throw new Error(result.error.message)
       if (result.value.ok) report(result.value.message)
       else setError(result.value.message)
     } catch (err) { fail(err) } finally { setWebdavTesting(false) }
-  }, [data, saveWebdav])
+  }, [data, activeVendor, saveWebdav])
 
   const backupWebdav = useCallback(async (): Promise<void> => {
     if (data === undefined) return
@@ -253,20 +255,20 @@ export function DataSection({ getData, getDesktop, useDataReady, useDesktopReady
     setStatus('备份到 WebDAV…')
     try {
       await saveWebdav()
-      const result = await data.webdavBackup()
+      const result = await data.webdavBackup(activeVendor)
       if (!result.ok) throw new Error(result.error.message)
       report(`已备份到 WebDAV: ${result.value}`)
       void refreshWebdavBackups()
     } catch (err) { fail(err) } finally { setWebdavBusy(false) }
-  }, [data, saveWebdav])
+  }, [data, activeVendor, saveWebdav])
 
   const refreshWebdavBackups = useCallback(async (): Promise<void> => {
     if (data === undefined) return
     try {
-      const result = await data.listWebdavBackups()
+      const result = await data.listWebdavBackups(activeVendor)
       if (result.ok) setWebdavBackups(result.value)
     } catch { /* keep current list */ }
-  }, [data])
+  }, [data, activeVendor])
 
   const restoreWebdav = useCallback(async (file: string): Promise<void> => {
     if (data === undefined) return
@@ -275,11 +277,11 @@ export function DataSection({ getData, getDesktop, useDataReady, useDesktopReady
     setWebdavBusy(true)
     setStatus('从 WebDAV 恢复…')
     try {
-      const result = await data.webdavRestore(file)
+      const result = await data.webdavRestore(file, activeVendor)
       if (!result.ok) throw new Error(result.error.message)
       report(`已从 ${file} 恢复`)
     } catch (err) { fail(err) } finally { setWebdavBusy(false) }
-  }, [data])
+  }, [data, activeVendor])
 
   const handleMarkdownExport = useCallback(async (): Promise<void> => {
     if (data === undefined) return
@@ -320,7 +322,7 @@ export function DataSection({ getData, getDesktop, useDataReady, useDesktopReady
       case 'data': return <BasicDataPanel />
       case 'local_backup': return <LocalBackupPanel />
       case 'webdav': return <WebDavPanel />
-      case 'nutstore': return <CloudPanel title="坚果云" description="坚果云基于 WebDAV 协议，需桌面版 HTTP 客户端支持，目前平台暂不可用。" />
+      case 'nutstore': return <WebDavPanel />
       case 's3': return <CloudPanel title="S3 兼容存储" description="S3 协议备份需要在桌面版上集成 AWS SDK，目前平台暂不可用。" />
       case 'import_settings': return <ImportPanel />
       case 'markdown_export': return <MarkdownExportPanel />
@@ -536,26 +538,41 @@ export function DataSection({ getData, getDesktop, useDataReady, useDesktopReady
 
   /** WebDAV 云备份面板 */
   function WebDavPanel() {
+    const vd = activeVendor === 'nutstore'
+      ? {
+          title: '坚果云备份',
+          desc: '坚果云提供 WebDAV 兼容端点，配置独立于通用 WebDAV。需在坚果云网页端「账户信息 → 安全选项」生成应用密码。',
+          hostPlaceholder: 'https://dav.jianguoyun.com/dav/',
+          userPlaceholder: '坚果云账户邮箱',
+          backupLabel: '备份到坚果云',
+        }
+      : {
+          title: 'WebDAV 备份',
+          desc: '将配置快照备份到 WebDAV 兼容的云存储（如 NextCloud、ownCloud 等）。',
+          hostPlaceholder: 'https://example.com/remote.php/dav/files/user/',
+          userPlaceholder: 'WebDAV 用户名',
+          backupLabel: '备份到 WebDAV',
+        }
     return (
       <SettingsPageShell>
         <SettingGroup>
-          <SettingTitle>WebDAV 备份</SettingTitle>
+          <SettingTitle>{vd.title}</SettingTitle>
           <SettingDivider />
           <p style={{ marginTop: 8, marginBottom: 8, color: 'var(--foreground-tertiary)', fontSize: 12 }}>
-            将配置快照备份到 WebDAV 兼容的云存储（如 坚果云、NextCloud、ownCloud 等）。
+            {vd.desc}
           </p>
           <SettingRow>
             <SettingRowTitle>服务器地址</SettingRowTitle>
             <input type="text" className={css.pathInput} value={webdavHost}
               onChange={e => setWebdavHost(e.target.value)}
-              placeholder="https://example.com/remote.php/dav/files/user/" />
+              placeholder={vd.hostPlaceholder} />
           </SettingRow>
           <SettingDivider />
           <SettingRow>
             <SettingRowTitle>用户名</SettingRowTitle>
             <input type="text" className={css.pathInput} value={webdavUser}
               onChange={e => setWebdavUser(e.target.value)}
-              placeholder="WebDAV 用户名" />
+              placeholder={vd.userPlaceholder} />
           </SettingRow>
           <SettingDivider />
           <SettingRow>
@@ -581,7 +598,7 @@ export function DataSection({ getData, getDesktop, useDataReady, useDesktopReady
             <button type="button" className="cc-btn cc-btn-primary"
               disabled={!webdavConfigComplete || webdavBusy}
               onClick={() => void backupWebdav()}>
-              {webdavBusy ? '备份中…' : '备份到 WebDAV'}
+              {webdavBusy ? '备份中…' : vd.backupLabel}
             </button>
             <button type="button" className="cc-btn cc-btn-secondary"
               disabled={webdavBusy}

@@ -159,7 +159,10 @@ function summaryOf(channel: ChannelInstance): string {
   // per-channel login strip below.
   if (channel.type === 'wechat') {
     const ids = channel.config.allowed_chat_ids
-    return Array.isArray(ids) && ids.length > 0 ? `${ids.length} 个允许会话` : 'iLink Bot · 凭据由扫码登录保存'
+    const agentProvider = typeof channel.config.agentProvider === 'string' ? channel.config.agentProvider : ''
+    const agentModel = typeof channel.config.agentModel === 'string' ? channel.config.agentModel : ''
+    const binding = agentProvider.length > 0 && agentModel.length > 0 ? ` · Agent: ${agentProvider}/${agentModel}` : ''
+    return Array.isArray(ids) && ids.length > 0 ? `${ids.length} 个允许会话${binding}` : `iLink Bot · 凭据由扫码登录保存${binding}`
   }
   const tokenKeys = def?.fields.filter(f => f.secret).map(f => f.key) ?? []
   const token = tokenKeys.map(key => typeof channel.config[key] === 'string' ? channel.config[key] as string : '').find(Boolean)
@@ -173,6 +176,11 @@ function summaryOf(channel: ChannelInstance): string {
   }
   if (typeof channel.config.domain === 'string' && channel.config.domain.length > 0) {
     parts.push(String(channel.config.domain))
+  }
+  const agentProvider = typeof channel.config.agentProvider === 'string' ? channel.config.agentProvider : ''
+  const agentModel = typeof channel.config.agentModel === 'string' ? channel.config.agentModel : ''
+  if (agentProvider.length > 0 && agentModel.length > 0) {
+    parts.push(`Agent: ${agentProvider}/${agentModel}`)
   }
   return parts.length === 0 ? '未配置凭证' : parts.join(' · ')
 }
@@ -204,6 +212,9 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
   const [formDomain, setFormDomain] = useState<'feishu' | 'lark'>('feishu')
   const [formMentionOnly, setFormMentionOnly] = useState(true)
   const [formPermission, setFormPermission] = useState('__inherit')
+  const [formAgentProvider, setFormAgentProvider] = useState('')
+  const [formAgentModel, setFormAgentModel] = useState('')
+  const [formAgentSystemPrompt, setFormAgentSystemPrompt] = useState('')
   const [logsFor, setLogsFor] = useState<ChannelInstance | null>(null)
   const [bridgeStatuses, setBridgeStatuses] = useState<readonly ChannelBridgeStatus[]>([])
   const [logLines, setLogLines] = useState<string[]>([])
@@ -331,6 +342,9 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
     setFormDomain('feishu')
     setFormMentionOnly(true)
     setFormPermission('__inherit')
+    setFormAgentProvider('')
+    setFormAgentModel('')
+    setFormAgentSystemPrompt('')
     setIsNew(true)
   }
 
@@ -344,6 +358,9 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
     setFormDomain(typeof channel.config.domain === 'string' && channel.config.domain === 'lark' ? 'lark' : 'feishu')
     setFormMentionOnly(channel.config.mention_only !== false)
     setFormPermission(channel.permissionMode)
+    setFormAgentProvider(typeof channel.config.agentProvider === 'string' ? channel.config.agentProvider : '')
+    setFormAgentModel(typeof channel.config.agentModel === 'string' ? channel.config.agentModel : '')
+    setFormAgentSystemPrompt(typeof channel.config.agentSystemPrompt === 'string' ? channel.config.agentSystemPrompt : '')
     setIsNew(false)
   }
 
@@ -353,6 +370,16 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
     if (typeDef.ids !== undefined) config[typeDef.ids.key] = parseAllowedIds(formIds)
     if (typeDef.domain === true) config.domain = formDomain
     if (typeDef.mentionOnly === true) config.mention_only = formMentionOnly
+    // Agent binding: empty provider/model means "no binding → use the shared default model".
+    const agentProvider = formAgentProvider.trim()
+    const agentModel = formAgentModel.trim()
+    if (agentProvider.length > 0) config.agentProvider = agentProvider
+    else delete config.agentProvider
+    if (agentModel.length > 0) config.agentModel = agentModel
+    else delete config.agentModel
+    const agentSystemPrompt = formAgentSystemPrompt.trim()
+    if (agentSystemPrompt.length > 0) config.agentSystemPrompt = agentSystemPrompt
+    else delete config.agentSystemPrompt
     const next = { ...editChannel, name: formName.trim() || editChannel.name, config, permissionMode: formPermission }
     persist(isNew ? [...(available ? state.instances : local), next] : (available ? state.instances : local).map(c => c.id === next.id ? next : c))
     setEditChannel(null)
@@ -539,6 +566,23 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
                   <div className={css.formHint}>{PERMISSION_MODES.find(m => m.value === formPermission)?.description}</div>
                 )}
               </div>
+              <details className={css.formFieldSpan2}>
+                <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: 13, marginBottom: 6 }}>Agent 绑定（可选）</summary>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <div className={css.formField}>
+                    <label>提供商</label>
+                    <input className={css.formInput} value={formAgentProvider} onChange={e => { setFormAgentProvider(e.target.value) }} placeholder="deepseek" />
+                  </div>
+                  <div className={css.formField}>
+                    <label>模型</label>
+                    <input className={css.formInput} value={formAgentModel} onChange={e => { setFormAgentModel(e.target.value) }} placeholder="deepseek-v4-flash" />
+                  </div>
+                  <div className={css.formField}>
+                    <label>系统提示词</label>
+                    <textarea className={css.formInput} style={{ minHeight: 60, resize: 'vertical' }} value={formAgentSystemPrompt} onChange={e => { setFormAgentSystemPrompt(e.target.value) }} placeholder="选填；留空使用默认系统提示词" />
+                  </div>
+                </div>
+              </details>
             </div>
             <div className={css.modalFooter}>
               <button type="button" className={css.btn} onClick={() => { setEditChannel(null) }}>取消</button>

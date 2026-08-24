@@ -1,7 +1,13 @@
 # 🎯 Parity Ledger: Cherry Studio v2.0.8 → DSH Control Center v0.1.0
 
-> 权威差异台账。Cherry 每一项设置能力的迁移状态。  
-> 基线：Cherry `0bb1725c638bf12d505e9baadaa69f8da47dd05e` (2.0.8), DSH `0.1.1-rc.2`
+> 权威差异台账。Cherry 每一项设置能力的迁移状态。
+> 基线：Cherry `0bb1725c638bf12d505e9baadaa69f8da47dd05e` (2.0.8) —— 本地仓库 HEAD 与基线一致，无漂移；DSH `0.1.1-rc.2`
+>
+> **复核方式（2026-08-24 更新）**：本版基于两份 graphify 代码知识图谱逐项核实，
+> 并对每条结论做了源码二次验证：
+> - 本项目：`graphify-out/graph.json`（5,886 节点 / 11,711 边）
+> - Cherry：`D:\Github_Open\cherry-studio\graphify-out\graph.json`（46,039 节点 / 118,538 边）
+> - 重建命令：`graphify extract <repo> --code-only --no-viz`（增量改用 `--update`）
 
 ## 颜色说明
 
@@ -15,226 +21,146 @@
 
 ---
 
-## 导航 (SettingsPage.tsx)
+## 一、设置导航对照 (SettingsPage.tsx ↔ SettingsRoot)
 
-Cherry 侧边栏 5 组 22 项。Control Center 导航已对齐，组顺序和成员一致。
+Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成员一致。
 
-| 组 | Cherry 项 | 状态 | 备注 |
+| 组 | Cherry 项 | 状态 | 备注（含证据路径） |
 |---|-----------|------|------|
-| 核心 | Provider | ✅ | 右键菜单/模型类型标签/多API Key/文档链接均已实现 |
-| 核心 | Model | ✅ | 默认模型/快捷模型/重试设置已实现 |
-| 核心 | Local Models | ✅ | 本地模型下载页面 |
-| 核心 | API Gateway | ✅ | 状态卡/端口/凭据/文档/启停 |
-| 能力 | MCP | ⚠️ | 服务器列表+详情+添加+Npx市场。缺少：内置服务器/市场页面/协议安装向导/提供商配置子页 |
-| 能力 | Skills | ✅ | 资源目录视图 |
-| 能力 | Web Search | ✅ | 提供者配置/高级设置/黑名单 |
-| 能力 | File Processing | ⚠️ | 处理器目录+API Key+本地模型。缺少：PaddleOCR模型选择/语言包/Tesseract |
+| 核心 | Provider | ✅ | 多 API Key 抽屉（ApiKeyListDrawer.tsx）、模型类型标签、文档链接均已实现 |
+| 核心 | Model | ✅ | 默认模型/快捷模型/重试设置已实现；话题命名为 DSH 原生诚实卡（ModelsSection.tsx topicNamingCard）——DSH 会话标题是 loader-only 配置，自定义提示词无法运行时生效（见 harness rc.2 事实） |
+| 核心 | Local Models | ✅ | LocalModelsSection + LocalModelDownloads（Qwen3 Embedding / PaddleOCR 卡片） |
+| 核心 | API Gateway | ✅ | ApiGatewaySection：状态卡/端口/凭据/文档/启停 |
+| 能力 | MCP | ⚠️ | 内置预设 4 个可线上达的 server（mcp-builtin.ts BUILTIN_MCP_PRESETS：flomo/QVeris/mcp-auto-install/nowledge-mem）+ 外部市场站点列表已进 Add 对话框。**仍缺**：独立市场页、提供商配置子页、协议安装向导、QuickCreate、以及 Cherry 的 9 个 inMemory 内置 server（memory/sequential-thinking/fetch/filesystem/brave-search/python/dify-knowledge/browser/didi —— 需 host 侧真实实现才能上架） |
+| 能力 | Skills | ✅ | SkillsSection 资源目录视图 |
+| 能力 | Web Search | ✅ | WebSearchSection：提供者配置/高级设置/黑名单 |
+| 能力 | File Processing | ⚠️ | 处理器目录+API Key+本地模型。缺：PaddleOCR 模型选择/语言包/Tesseract 运行时检测 |
 | 能力 | OCR | ✅ | 同 File Processing |
-| 个人 | General | ⚠️ | 启动/托盘已实现。代理/上下文管理/省电/硬件加速/开发者模式为占位说明 |
-| 个人 | Appearance | ⚠️ | 主题/颜色/语言/字体/缩放/CSS已实现。缺少：字体大小、窗口样式、菜单呈现模式、系统标题栏、代码执行、消息显示设置 |
+| 个人 | General | ⚠️ | GeneralCherrySettings.tsx：启动组 3 行开关（launchOnBoot/trayEnabled/trayOnClose）真实可写；代理组/上下文管理为诚实 Note 占位。缺：代理模式选择器、上下文压缩映射、省电、硬件加速、开发者模式行 |
+| 个人 | Appearance | ⚠️ | 主题/颜色/语言/字体/缩放/CSS 已实现。**仍缺**：消息字体大小、窗口样式、菜单呈现模式、系统标题栏、代码执行（Pyodide，DSH 无此运行时）、消息显示设置组 |
 | 个人 | Notification | ✅ | 4 个开关完全对等 |
-| 个人 | Data | 🔄 | 已重构为 Cherry 子菜单 IA（13 项/5 组），本地目录备份+轮转+Markdown 导出+WebDAV 云备份已可用。S3/坚果云/笔记导出待实现 |
-| 个人 | Usage | ✅ | 热力图/分布图/指标条/详情表 |
-| 自动化 | Channels | ✅ | 6 种频道全部真实桥接连通（TG/Discord/Slack/QQ/飞书/微信），共享默认模型回复管线 |
-| 自动化 | Scheduled Tasks | ✅ | 任务列表/调度/历史 |
-| 自动化 | Shortcuts | ✅ | 快捷键列表 |
-| 自动化 | Quick Assistant | ⚠️ | 启用/托盘/剪贴板/模型选择已实现。缺少：真实助手选择器、窗口预览（Web 限制） |
+| 个人 | Data | ⚠️ | IA 已重构为 Cherry 子菜单（13 项/5 组）。本地备份+轮转+恢复、WebDAV 云备份、**坚果云（WebDAV 厂商预设，独立凭据命名空间，2026-08-24 上线）**、Markdown 导出、备份/恢复、数据重置均可用。**仍缺**：S3、ChatGPT/Claude 导入、导出菜单可见性、Notion/语雀/Joplin/Obsidian/思源笔记导出、应用数据/日志路径、清除缓存、隐私模式 |
+| 个人 | Usage | ✅ | UsageSection：热力图/分布图/指标条/详情表 |
+| 自动化 | Channels | ⚠️ | 六平台全部真实连通（TG/Discord/Slack/QQ/飞书/微信），共享回复管线 + 状态点 + 日志环。**Agent 绑定已上线（2026-08-24）**：每频道可配 `agentProvider`/`agentModel`/`agentSystemPrompt`，绑定后优先于共享默认模型并带自定义系统提示词（对应 Cherry ChannelData.agentId；DSH 无逐会话 agent 编排，故实现为模型+提示词覆盖而非完整 agent 组合）。**仍缺**：permissionMode 逐频道生效接入 |
+| 自动化 | Scheduled Tasks | ✅ | TasksSection 任务列表/调度/历史 |
+| 自动化 | Shortcuts | ✅ | ShortcutSection 快捷键列表 |
+| 自动化 | Quick Assistant | ⚠️ | 启用/托盘点击/剪贴板/模型档位（默认模型 vs 使用助手）已实现。缺：**真实助手选择器**（modelMode='assistant' 时无处挑选具体助手） |
 | 自动化 | Selection Assistant | ✅ | 选择工具/快捷键/动作列表 |
 | 自动化 | Screenshot | ✅ | 启用/快捷键/OCR 开关 |
-| 系统 | Dependencies | ⚠️ | 契约包版本列表。缺少：环境依赖检查（FFmpeg/Tesseract 等） |
-| 系统 | About | ⚠️ | 版本/诊断。缺少：自动更新、测试计划、检查更新、发布说明、文档/网站/反馈/企业/联系/DevTools |
+| 系统 | Dependencies | ⚠️ | 契约包版本列表已有。缺：环境依赖检查（FFmpeg/Tesseract/Node 版本，对应 Cherry binaryInstallPresets + EnvironmentDependencies） |
+| 系统 | About | ⚠️ | 版本/兼容/环境/诊断复制已有（SystemSection.tsx）；**检查更新已实现**（UpdateSection 经 settings.section id='update' order=42 挂载，client/index.ts:802；host update.ts 轮询 GitHub releases + releaseUrl 外链）。缺：自动更新下载安装、发布说明页、诊断包导出（Cherry DiagnosticBundleDialog：logs/system/traces 三源）、网站/反馈/企业/联系外链组 |
 
 ---
 
-## 缺失页面详情
+## 二、顶层应用面对照（设置之外的 Cherry 页面）
+
+> 台账此前只覆盖设置页。以下按 Cherry 顶层路由逐一对照，避免"只迁设置不迁能力"。
+
+| Cherry 页面 | 状态 | 对照说明 |
+|---|---|---|
+| home（聊天主页） | ⛔ | DSH 原生会话/聊天即本体，不重复实现 |
+| agents（Agent 编排/助手） | ⚠️ | DSH 原生拥有 agent-presets 系统；但 Cherry 的助手市场、AgentChat 编排界面未迁移。快捷助手的"使用助手"档依赖此项补齐选择器 |
+| paintings（绘画） | ✅* | PaintingWorkspace 已挂载（Artboard/Composer/Showcase/Strip 四组件 + host painting.ts）。*组件级细节对账（参数表单/错误态）尚未逐项做过 |
+| translate（翻译） | ⚠️ | TranslationWorkspace 文本翻译可用（重试策略/fallback/历史面板）。**缺 PDF 翻译**（Cherry translate/pdf/PdfTranslationView.tsx） |
+| knowledge（知识库） | ✅* | KnowledgeWorkspace + knowledge host 模块/codec。*细节对账未逐项做 |
+| files（文件管理器） | ⛔/❌ | 文件存储浏览 UI 未迁移；文件处理设置已在 File Processing 覆盖。优先级低（DSH 原生文件能力可评估后标注） |
+| code（CodeCliPage） | ❌ | 未迁移。product-workspace-contract.ts 已预留 `'repo'` workspace id 但从未注册 —— 天然的挂载点 |
+| miniApps（小程序） | ❌ | 未迁移 |
+| launchpad | ❌ | 未迁移 |
+| releaseNotes | ❌ | 未迁移（About 页缺发布说明子项） |
+| notes（笔记） | ❌ | 未迁移 |
+
+---
+
+## 三、缺失项明细（按页）
 
 ### 1. General — 通用设置
 
-Cherry 的 `GeneralSettings.tsx` 有以下分组：
+已实现（GeneralCherrySettings.tsx + general-store.ts）：开机启动 / 显示托盘 / 关闭到托盘（3 行 Switch，经 generalController 真实写路径）；代理与上下文管理为诚实 Note。
 
-**启动组** (5 行)：
-| 行 | Cherry 存储键 | 状态 | 控制类型 |
-|---|-------------|------|---------|
-| 开机启动 | `app.launch_on_boot` | ✅ | Switch |
-| 启动到托盘 | `app.tray.on_launch` | ✅ | Switch |
-| 显示托盘 | `app.tray.enabled` | ✅ | Switch |
-| 关闭到托盘 | `app.tray.on_close` | ✅ | Switch |
-| 省电模式 | `app.power.prevent_sleep_when_busy` | ❌ | Switch |
+仍缺（Cherry 存储键 → 目标形态）：
 
-**代理组** (5 行)：
-| 行 | Cherry 存储键 | 状态 | 控制类型 |
-|---|-------------|------|---------|
-| 代理模式 | `app.proxy.mode` | ❌ | Selector (system/custom/none) |
-| 代理地址 | `app.proxy.url` | ❌ | Input (url, custom 模式) |
-| 代理绕过 | `app.proxy.bypass_rules` | ❌ | Input (custom 模式) |
-| 允许私有网络 | `app.fetch.allow_private_network` | ❌ | Switch + InfoTooltip |
-| 禁用硬件加速 | `BootConfig.app.disable_hardware_acceleration` | ❌ | Switch + 确认 → 重启 |
-
-**上下文管理组** (5 行)：
-| 行 | Cherry 存储键 | 控制类型 |
-|---|-------------|---------|
-| 最大消息数 | `chat.context_settings.max_messages` | EditableNumber |
-| 启用上下文压缩 | `chat.context_settings.enabled` | Switch |
-| 截断阈值 | `chat.context_settings.truncate_threshold` | EditableNumber |
-| 启用压缩 | `chat.context_settings.compress.enabled` | Switch |
-| 压缩模型 | `chat.context_settings.compress.model_id` | DefaultModelSelector |
-
-**开发者组** (2 行)：
-| 行 | Cherry 存储键 |
-|---|-------------|
-| 启用开发者模式 | `app.developer_mode.enabled` |
-| 客户端 ID | `app.user.id` |
-
-**迁移建议**：代理/上下文管理/省电/硬件加速/开发者模式可直接映射到 DSH 的 settings namespace。优先级：开发者模式（最简单）+ 省电 + 代理模式选择器（UI 先就位，DSH 侧后期接入）。
-
----
+| 行 | Cherry 键 | 说明 |
+|---|---|---|
+| 启动到托盘 | `app.tray.on_launch` | 与 trayEnabled/trayOnClose 同组，补一行即可 |
+| 省电模式 | `app.power.prevent_sleep_when_busy` | Switch，需 host 电源策略 |
+| 代理模式/地址/绕过 | `app.proxy.*` | Selector+Input；UI 先行，host 后接 |
+| 允许私有网络 | `app.fetch.allow_private_network` | Switch + InfoTooltip |
+| 禁用硬件加速 | `BootConfig.app.disable_hardware_acceleration` | Switch + 重启确认 |
+| 最大消息数/上下文压缩 | `chat.context_settings.*` | 映射到 DSH compaction 配置 |
+| 开发者模式/客户端 ID | `app.developer_mode.enabled` / `app.user.id` | 最简单的两行 |
 
 ### 2. Appearance — 外观设置
 
-Cherry 的 `AppearanceSettings.tsx` 有以下 Control Center 缺失的行：
+仍缺：消息字体大小（`chat.message.font_size`，CSS 覆盖即可，优先）、窗口样式、菜单呈现模式、系统标题栏、代码执行三行（⛔ DSH 无 Pyodide，保持诚实标注）、消息显示设置组（消息样式/时间戳等）。
 
-| 行 | Cherry 存储键 | 控制类型 |
-|---|-------------|---------|
-| 字体大小（消息） | `chat.message.font_size` | EditableNumber (12-18, 步长 1) |
-| 窗口样式 | `ui.window_style` | Switch (透明/不透明, Mac 仅) |
-| 菜单呈现模式 | `menu.presentation_mode` | Selector + 重启确认 |
-| 使用系统标题栏 | `app.use_system_title_bar` | Switch |
-| 代码执行启用 | `chat.code.execution.enabled` | Switch (Python/Pyodide) |
-| 代码执行超时 | `chat.code.execution.timeout_minutes` | EditableNumber (1-60) |
-| 代码图像工具 | `chat.code.image_tools` | Switch |
-| 消息显示设置 | (ChatPreferenceSections) | 多行（消息样式/时间戳等） |
+### 3. Data — 数据管理
 
-**迁移建议**：字体大小 → CSS 覆盖，优先实现。代码执行 → DSH 无 Pyodide，标注不可用。消息显示设置 → 嵌入 DSH 自有设置。
+可用：本地备份+轮转+恢复、WebDAV（PUT/PROPFIND/连接测试/恢复/列表）、**坚果云（WebDAV 厂商预设端点 dav.jianguoyun.com + 应用密码提示 + 独立 `control-center-webdav-nutstore` 命名空间）**、Markdown 导出、快照备份/恢复、数据重置。
 
----
+仍缺：
+- S3：需 host 侧 AWS 客户端
+- ChatGPT / Claude 导入：需会话导入 API
+- 导出菜单可见性：各导出目标开关
+- 笔记导出五件套：Notion / 语雀 / Joplin / Obsidian / 思源（host 侧 API 集成）
+- 应用数据路径 / 应用日志路径 / 清除缓存 / 隐私模式
 
-### 3. Model — 模型设置
+### 4. MCP — 服务器管理
 
-Cherry 的 `ModelSettings.tsx` 有 TopicNamingSettings 子组件：
+已有：服务器列表分栏布局、Add 对话框内内置预设（BUILTIN_MCP_PRESETS）+ Npx 搜索 + 外部市场站点（MCP_MARKET_SITES，移植自 Cherry 更多市场列表）。
 
-| 行 | Cherry 存储键 | 控制类型 |
-|---|-------------|---------|
-| 自动话题命名 | `topic.naming.enabled` | Switch |
-| 话题命名提示词 | `topic.naming_prompt` | Textarea + 重置按钮 + 变量提示 Popover |
+仍缺：独立市场页、提供商配置子页（Vercel/Cloudflare/Deno…）、协议安装向导（McpProtocolInstallDialog）、QuickCreate、9 个 inMemory 内置 server 的 host 实现。
 
-**迁移建议**：话题命名功能需要 DSH 会话标题生成支持。当前标注为不可用，等 DSH 暴露会话标题 API。
+### 5. Channels — 频道
 
----
+六平台协议层全部连通。唯一结构性缺口：**每频道 Agent 绑定**（Cherry `ChannelData{agentId, workspace, permissionMode}`）。落法：channel-bridge 配置加 agentId/workspace 可选字段，generateAndDeliver 在有绑定时改走指定 agent 的会话而非 agent-default-model 直连；UI 在 ChannelDetail 加选择器。
 
-### 4. Data — 数据管理 (最大缺口)
+### 6. 其他小缺口
 
-Cherry 的 `DataSettings.tsx` 有 13 个子菜单项，分为 5 组：
-
-**数据组 (BasicDataSettings)**：
-| 子项 | 状态 | 实现说明 |
-|------|------|---------|
-| 备份/恢复 | ✅ | 桌面桥 save/open dialog → 快照 JSON；host 侧 `exportControlCenter` 已修复 Typert 边界问题 |
-| 跳过文件数据 | ⚠️ | 开关已实现，但 skip 逻辑在 host 侧 |
-| 应用数据路径 | ❌ | 显示当前 appDataPath + 选择新路径 + 打开 |
-| 应用日志路径 | ❌ | 显示 logsPath + 打开按钮 |
-| 清除缓存 | ❌ | 缓存在 DSH 中由 host 管理 |
-| V1 重迁移 | ⛔ | 不适用（Cherry v1→v2 迁移，DSH 无此概念） |
-| 数据重置 | ✅ | 调用 clearControlCenter |
-| 隐私模式 | ❌ | 数据收集开关 |
-
-**云存储组**：
-| 子项 | 状态 | 实现说明 |
-|------|------|---------|
-| 本地备份 | ✅ | 目录选择 + 时间戳备份 + max_backups 轮转（host 侧 `backupToDirectory`/`listBackupFiles`）+ 备份列表恢复 |
-| WebDAV | ✅ | HTTP PUT 备份（host 侧 `fetch`）+ 连接测试 + 恢复 + 列表（schema 注册 + `role('secret')` 密码保护） |
-| 坚果云 | ❌ | 基于 WebDAV 的 OAuth |
-| S3 | ❌ | AWS SDK，需要 host 侧 AWS 客户端 |
-
-**导入设置组**：
-| 子项 | 状态 | 实现说明 |
-|------|------|---------|
-| ChatGPT 导入 | ❌ | 对话 JSON 导入，需 session API |
-| Claude 导入 | ❌ | 同上 |
-
-**导出设置组**：
-| 子项 | 状态 | 实现说明 |
-|------|------|---------|
-| 导出菜单可见性 | ❌ | 各导出目标开关（图片/Markdown/Notion/语雀等） |
-| Markdown 导出 | ✅ | 快照 → Markdown 文档下载 |
-
-**笔记导出组**：
-| 子项 | 状态 | 实现说明 |
-|------|------|---------|
-| Notion | ❌ | Notion API (database_id, page_name_key, api_key, export_reasoning) |
-| 语雀 | ❌ | Yuque API (url, token, repo_id) |
-| Joplin | ❌ | Joplin Web Clipper API (url, token, export_reasoning) |
-| Obsidian | ❌ | 本地 vault 选择 |
-| 思源 | ❌ | Siyuan API (api_url, token, box_id, root_path) |
-
----
-
-### 5. MCP — 服务器管理
-
-Cherry 的 `McpSettingsPage.tsx` 有子导航结构：
-
-| 子页 | 状态 | 说明 |
-|------|------|------|
-| 服务器列表 | ✅ | 分栏布局已实现 |
-| 内置服务器 | ❌ | 社区/官方预设服务器列表 |
-| 市场 | ❌ | 独立的市场页面（我们有 Npx 搜索但在 Add 对话框内） |
-| 提供商配置 | ❌ | 每个提供商（Vercel/Cloudflare/Deno 等）的子配置页 |
-| 协议安装向导 | ❌ | McpProtocolInstallDialog |
-| QuickCreate | ❌ | 快速创建对话框 |
-
----
-
-### 6. Channels — 频道
-
-| 频道 | 状态 | 说明 |
-|------|------|------|
-| 飞书 | ✅ | Lark 长连接 WebSocket（手写 pbbp2 protobuf 编解码 + ping/pong + 事件 ACK + im/v1 发送） |
-| Telegram | ✅ | 长轮询桥接在工作（allowlist + 默认模型回复 + 重试策略） |
-| QQ | ✅ | 开放平台网关 WebSocket（getAppAccessToken + 被动回复 msg_id 窗口） |
-| 微信 | ✅ | iLink Bot 协议（扫码登录 QR 渲染 + getupdates 长轮询 + context_token 回复；凭据存 DSH home） |
-| Discord | ✅ | 网关 WebSocket（heartbeat/identify/MESSAGE_CREATE + REST 发送） |
-| Slack | ✅ | Socket Mode（apps.connections.open + 信封 ACK + chat.postMessage） |
-
-**六平台全部真实连通。** 共享回复管线：allowlist → agent-default-model → Cherry 重试策略 → LlmRuntime 流式生成。
-| Agent 绑定 | ❌ | 每个频道可绑定一个 Agent + Workspace |
-| 连接状态 | ✅ | 实时状态点（connected/error/starting/disconnected）+ 状态轮询 |
-| 日志 | ✅ | 每频道日志环 + 实时日志对话框 |
-
----
-
-### 7. 其他小缺口
-
-| 页面 | 缺失项 | 优先级 |
-|------|--------|--------|
-| Dependencies | 环境依赖检查（FFmpeg/Tesseract/Node 版本） | 低 |
-| About | 自动更新/测试计划/检查更新/发布说明/文档链接/反馈/DevTools | 中 |
-| Screenshot | OCR 模型状态指示（下载中/就绪/不可用） | 低 |
+| 页面 | 缺失项 | 备注 |
+|---|---|---|
+| Dependencies | FFmpeg/Tesseract/Node 环境检测 | 对应 Cherry binaryInstallPresets |
+| About | 自动更新安装、发布说明、诊断包导出（logs/system/traces）、外链组 | 检查更新已通 |
+| Screenshot | OCR 模型状态指示 | 低 |
 | File Processing | PaddleOCR 模型选择、语言包、Tesseract 状态 | 低 |
+| Translation | PDF 翻译 | Cherry PdfTranslationView |
 
 ---
 
-## 优先级排序
+## 四、优先级排序（2026-08-24 重排）
 
-### P0 (高可见度，可行性高)
-1. **Data 页面重构** → Cherry 子菜单 IA + 本地目录备份 + Markdown 导出
-2. **General 页面** → 开发者模式 + 省电设置 + 代理模式选择器 UI
-3. **Appearance** → 字体大小设置
+### P0 —— 高价值 × 低成本
+1. ~~Channels Agent 绑定~~ ✅ 2026-08-24（模型/提示词覆盖 + 频道绑定 UI + 测试）
+2. ~~坚果云备份~~ ✅ 2026-08-24（WebDAV 厂商预设 + 独立命名空间 + 测试）
+3. Appearance 消息字体大小（CSS 覆盖；需先确认 DSH 消息容器选择器）
+4. General 开发者模式 + 省电 + 启动到托盘（三个简单行）
 
-### P1 (中等可见度，需要 host 能力)
-4. **Channels 增强** → 微信/飞书媒体消息（图片 CDN 加解密已有 helper）+ Agent 会话绑定（六平台文本桥已全部连通）
-5. **Data 云存储** → S3 备份（WebDAV 已完成）
-6. **General 上下文管理** → 映射到 DSH compaction 配置
+### P1 —— 中成本，需要 host 配合
+5. General 代理模式选择器（UI 先行）+ 上下文管理映射 DSH compaction
+6. Data S3 备份（host AWS 客户端）
+7. Translation PDF 翻译
+8. MCP 独立市场页 + 提供商配置子页
+9. About 发布说明 + 诊断包导出
+10. Channels permissionMode 逐频道生效接入（存储已支持，桥接路由待接）
 
-### P2 (低可见度，或需要 DSH 新能力)
-7. **MCP 子导航** → 内置服务器/市场/提供商配置
-8. **Data 笔记导出** → Notion/语雀/Joplin/Obsidian/思源
-9. **About 更新** → 自动更新 UI
-10. **Dependencies 环境检查** → FFmpeg/Tesseract 检测
+### P2 —— 低频或需新工作台
+10. Data 笔记导出五件套（Notion/语雀/Joplin/Obsidian/思源）
+11. ChatGPT/Claude 会话导入
+12. Dependencies 环境依赖检查
+13. `'repo'` 工作台挂载（对应 Cherry code 页）；notes / miniApps / launchpad 评估是否值得进 Control Center（部分属 DSH 本体范畴）
 
 ---
 
-## 迁移原则
+## 五、迁移原则（不变）
 
-1. **DSH 原生优先**：DSH 已拥有的能力（主题、会话、权限、预设、凭据、插件）不重复实现，用 `KNOWN_NATIVE` 集合管理。
+1. **DSH 原生优先**：DSH 已拥有的能力（主题、会话、权限、预设、凭据、插件）不重复实现。
 2. **诚实标签**：未实现的能力不展示假开关，用能力状态面板标明"当前平台不支持"。
 3. **快照备份**：所有设置数据通过 `controlCenterData` 服务统一导出/导入，凭据由 DSH 凭据库管理。
-4. **桌面桥**：文件对话框、本地文件读写通过 `controlCenterDesktop` 桥接，Web 版回退到浏览器下载/上传。
+4. **桌面桥**：文件对话框、本地文件读写通过 `controlCenterDesktop` 桥接，Web 版回退浏览器下载/上传。
+
+## 六、图谱复核方法
+
+- 回答架构/能力问题前先查图：`graphify query "<问题>" --graph <repo>/graphify-out/graph.json`
+- 定位两个概念间调用链：`graphify path "A" "B"`
+- 代码变更后增量刷新：`graphify extract <repo> --code-only --update`（无需 LLM）
+- 本台账每次批量更新前，先用图谱枚举 Cherry 对应页面的组件清单，再逐条到源码验证状态，最后回写本文件并注明日期。
