@@ -5,7 +5,7 @@
 import { useEffect, useState } from 'react'
 import type { HostObservable, InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
-import type { SystemInfo, DependencyEntry } from '../system-types.ts'
+import type { DependencyEntry, EnvCheckEntry, SystemInfo } from '../system-types.ts'
 import type { ChannelBridgeHandle } from './ChannelsSection.tsx'
 import css from './SystemSection.module.css'
 
@@ -186,6 +186,7 @@ export function DependenciesSection({ getSystem, useSystemReady }: SystemSection
   const systemReady = useSystemReady(value => value)
   const system = systemReady ? getSystem() : undefined
   const [deps, setDeps] = useState<DependencyEntry[] | null>(null)
+  const [env, setEnv] = useState<EnvCheckEntry[] | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -193,6 +194,9 @@ export function DependenciesSection({ getSystem, useSystemReady }: SystemSection
     void system.listDependencies().then(result => {
       try { setDeps(unwrap(result)) } catch (err) { setError(err instanceof Error ? err.message : String(err)) }
     }).catch(reason => setError(reason instanceof Error ? reason.message : String(reason)))
+    void system.checkDependencies().then(result => {
+      try { setEnv(unwrap(result)) } catch { /* env check is best-effort */ }
+    }).catch(() => { /* env check is best-effort */ })
   }, [system !== undefined]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (error !== null) return <div className="cc-settings-column"><div className="cc-notice-error">{error}</div></div>
@@ -204,6 +208,20 @@ export function DependenciesSection({ getSystem, useSystemReady }: SystemSection
         <h2 className={css.pageTitle}>依赖</h2>
         <p className={css.pageDescription}>DSH 兼容契约包的解析版本（必须匹配受支持版本，否则插件拒绝激活）</p>
       </div>
+
+      {env !== null && env.length > 0 && (
+        <div className={css.card}>
+          <div className={css.cardTitle}>环境工具</div>
+          {env.map(entry => (
+            <div key={entry.name} className={css.infoRow}>
+              <span className={css.infoLabel}>{entry.name}{entry.hint === undefined ? '' : ` · ${entry.hint}`}</span>
+              <span className={`${css.infoValue} ${entry.present ? css.envOk : css.envMissing}`}>
+                {entry.present ? `已安装${entry.version === undefined ? '' : ` · ${entry.version}`}` : '未检测到'}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
 
       <div className={css.card}>
         <div className={css.cardTitle}>契约包</div>

@@ -5,6 +5,7 @@ type SystemMethod = { method: string; parameters: string[] }
 const methods: ReadonlyArray<SystemMethod> = [
   { method: 'getInfo', parameters: [] },
   { method: 'listDependencies', parameters: [] },
+  { method: 'checkDependencies', parameters: [] },
   { method: 'listPlugins', parameters: ['profile'] },
   { method: 'managePlugin', parameters: ['profile', 'operation', 'spec'] },
 ]

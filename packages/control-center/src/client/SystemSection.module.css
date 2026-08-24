@@ -80,6 +80,14 @@
   text-decoration: underline;
 }
 
+.envOk {
+  color: var(--success, #16a34a) !important;
+}
+
+.envMissing {
+  color: var(--warning, #d97706) !important;
+}
+
 .badge {
   display: inline-flex;
   align-items: center;

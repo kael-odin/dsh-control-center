@@ -12,7 +12,7 @@ import { homedir, platform, release, arch } from 'node:os'
 import { spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
 import { resolveDshHome } from '@deepseek-ai/dsh-home-paths'
-import type { PluginInventory, PluginOperation, PluginOperationResult } from './system-types.ts'
+import type { EnvCheckEntry, PluginInventory, PluginOperation, PluginOperationResult } from './system-types.ts'
 
 function resolveProfileDir(profile: string): string {
   if (!/^[A-Za-z0-9._-]+$/.test(profile) || profile === '.' || profile === '..') throw new Error('invalid profile name')
@@ -108,6 +108,33 @@ export class SystemService extends Service {
         // Resolution failure is itself the diagnostic.
       }
       entries.push({ name: pkg.name, version, client: pkg.client })
+    }
+    return entries
+  }
+
+  async checkDependencies(): Promise<EnvCheckEntry[]> {
+    const entries: EnvCheckEntry[] = []
+    const whichCmd = platform() === 'win32' ? 'where' : 'which'
+    const toolSpecs: Array<{ name: string; probe: string[]; hint?: string }> = [
+      { name: 'ffmpeg', probe: ['-version'], hint: '音频/视频处理、媒体消息' },
+      { name: 'tesseract', probe: ['--version'], hint: '本地 OCR（图片转文字）' },
+      { name: 'git', probe: ['--version'], hint: '仓库操作' },
+    ]
+    for (const spec of toolSpecs) {
+      try {
+        const found = spawnSync(whichCmd, [spec.name], { encoding: 'utf8', timeout: 5_000 })
+        if (found.status === 0) {
+          const versionProbe = spawnSync(spec.name, spec.probe, { encoding: 'utf8', timeout: 5_000 })
+          const version = versionProbe.status === 0
+            ? (versionProbe.stdout ?? '').split('\n')[0]?.trim() || undefined
+            : undefined
+          entries.push({ name: spec.name, present: true, version, hint: spec.hint })
+        } else {
+          entries.push({ name: spec.name, present: false, hint: spec.hint })
+        }
+      } catch {
+        entries.push({ name: spec.name, present: false, hint: spec.hint })
+      }
     }
     return entries
   }
