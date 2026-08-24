@@ -21,6 +21,64 @@ export type ParseResult =
   | { ok: true; spec: ParsedServerSpec }
   | { ok: false; error: string }
 
+/**
+ * Parse a pasted multi-server config (JSON array of server definitions, or a
+ * `mcpServers` keyed object) into an install list — Cherry protocol install
+ * wizard parity. Returns `ok: false` when the text is not a batch config.
+ */
+export function parseProtocolServers(text: string): { ok: true; servers: ParsedServerSpec[] } | { ok: false; error: string } {
+  const trimmed = text.trim()
+  if (trimmed.length === 0) return { ok: false, error: '内容为空' }
+  let parsed: unknown
+  try {
+    parsed = JSON.parse(trimmed)
+  } catch {
+    return { ok: false, error: '不是 JSON 配置' }
+  }
+  const entries: Array<[string, unknown]> = []
+  if (Array.isArray(parsed)) {
+    parsed.forEach((item, index) => { if (item !== null && typeof item === 'object') entries.push([String((item as { name?: unknown }).name ?? `server-${index + 1}`), item]) })
+  } else if (parsed !== null && typeof parsed === 'object' && 'mcpServers' in parsed) {
+    const map = (parsed as { mcpServers: unknown }).mcpServers
+    if (map !== null && typeof map === 'object') {
+      for (const [key, value] of Object.entries(map as Record<string, unknown>)) {
+        if (value !== null && typeof value === 'object') entries.push([key, value])
+      }
+    }
+  } else {
+    return { ok: false, error: '不是批量配置（应为服务器数组或 mcpServers 对象）' }
+  }
+  if (entries.length === 0) return { ok: false, error: '未解析到任何服务器' }
+  const servers: ParsedServerSpec[] = entries
+    .map(([name, raw]) => parseServerJson(name, raw))
+    .filter((server): server is ParsedServerSpec => server !== null)
+  if (servers.length === 0) return { ok: false, error: '批量配置中的服务器均无法解析' }
+  return { ok: true, servers }
+}
+
+/** One keyed server definition → draft spec. `null` when unusable. */
+function parseServerJson(name: string, raw: unknown): ParsedServerSpec | null {
+  if (raw === null || typeof raw !== 'object') return null
+  const record = raw as Record<string, unknown>
+  const url = typeof record.url === 'string' ? record.url : typeof record.baseUrl === 'string' ? record.baseUrl : undefined
+  const command = typeof record.command === 'string' ? record.command : undefined
+  const args = Array.isArray(record.args) ? record.args.map(String) : undefined
+  const env: Record<string, string> | undefined =
+    record.env !== null && typeof record.env === 'object' && !Array.isArray(record.env)
+      ? Object.fromEntries(Object.entries(record.env as Record<string, unknown>).map(([k, v]) => [k, String(v)]))
+      : undefined
+  const spec: ParsedServerSpec = {
+    name: typeof record.name === 'string' ? record.name : name,
+    type: url !== undefined ? (record.type === 'sse' ? 'sse' : 'streamableHttp') : 'stdio',
+  }
+  if (url !== undefined) spec.baseUrl = url
+  if (command !== undefined) spec.command = command
+  if (args !== undefined && args.length > 0) spec.args = args
+  if (env !== undefined && Object.keys(env).length > 0) spec.env = env
+  if (url === undefined && command === undefined) return null
+  return spec
+}
+
 /** Split a command line respecting single/double quotes (no shell exec). */
 function splitCommandLine(text: string): string[] {
   const tokens: string[] = []

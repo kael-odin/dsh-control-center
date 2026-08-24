@@ -7,7 +7,8 @@
  */
 import { useEffect, useState } from 'react'
 import type { CreateMcpServerDto, McpNpxPackage } from '../mcp-types'
-import { parseServerSpec, type ParsedServerSpec } from './mcp-import'
+import { parseServerSpec, parseProtocolServers, type ParsedServerSpec } from './mcp-import'
+import { McpProtocolInstallDialog, specToDto } from './McpProtocolInstallDialog.tsx'
 import { BUILTIN_MCP_PRESETS, MCP_MARKET_SITES } from './mcp-builtin'
 import css from './AddMcpServerDialog.module.css'
 
@@ -36,6 +37,8 @@ export function AddMcpServerDialog({ visible, onClose, onSubmit, searchNpx, init
   const [pasteOpen, setPasteOpen] = useState(false)
   const [pasteText, setPasteText] = useState('')
   const [pasteError, setPasteError] = useState('')
+  /** Pending batch servers for the protocol install wizard. */
+  const [installServers, setInstallServers] = useState<ParsedServerSpec[] | null>(null)
 
   // Npx 市场
   const [scope, setScope] = useState('@modelcontextprotocol')
@@ -75,6 +78,20 @@ export function AddMcpServerDialog({ visible, onClose, onSubmit, searchNpx, init
 
   const handleParse = (): void => {
     setPasteError('')
+    // Batch config (JSON array / mcpServers object) → protocol install wizard.
+    const batch = parseProtocolServers(pasteText)
+    if (batch.ok) {
+      if (batch.servers.length > 1) {
+        setInstallServers(batch.servers)
+        setPasteText('')
+        return
+      }
+      if (batch.servers.length === 1 && batch.servers[0] !== undefined) {
+        applySpec(batch.servers[0])
+        setPasteText('')
+        return
+      }
+    }
     const result = parseServerSpec(pasteText)
     if (!result.ok) {
       setPasteError(result.error)
@@ -470,6 +487,16 @@ export function AddMcpServerDialog({ visible, onClose, onSubmit, searchNpx, init
               <button type="button" className={css.cancelButton} onClick={onClose}>关闭</button>
             </div>
           </div>
+        )}
+        {installServers !== null && (
+          <McpProtocolInstallDialog
+            servers={installServers}
+            onClose={() => setInstallServers(null)}
+            onInstall={async (server) => {
+              const dto = specToDto(server)
+              await onSubmit(dto)
+            }}
+          />
         )}
       </div>
     </div>

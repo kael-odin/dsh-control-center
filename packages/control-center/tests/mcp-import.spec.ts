@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { parseServerSpec } from '../src/client/mcp-import.ts'
+import { parseServerSpec, parseProtocolServers } from '../src/client/mcp-import.ts'
 
 describe('parseServerSpec', () => {
   it('parses an npx command line, dropping yes-flags', () => {
@@ -53,5 +53,39 @@ describe('parseServerSpec', () => {
     expect(result).toMatchObject({ ok: false, error: expect.stringContaining('无法识别') })
     expect(parseServerSpec('   ')).toMatchObject({ ok: false })
     expect(parseServerSpec('{broken')).toMatchObject({ ok: false, error: expect.stringContaining('JSON') })
+  })
+})
+
+describe('parseProtocolServers', () => {
+  it('parses a JSON array into multiple server installs', () => {
+    const result = parseProtocolServers(JSON.stringify([
+      { name: 'git', command: 'npx', args: ['-y', 'mcp-git'] },
+      { name: 'memory', url: 'https://mcp.example.com/memory' },
+    ]))
+    expect(result.ok).toBe(true)
+    if (!result.ok) return
+    expect(result.servers).toHaveLength(2)
+    expect(result.servers[0]).toMatchObject({ name: 'git', type: 'stdio', command: 'npx', args: ['-y', 'mcp-git'] })
+    expect(result.servers[1]).toMatchObject({ name: 'memory', type: 'streamableHttp', baseUrl: 'https://mcp.example.com/memory' })
+  })
+
+  it('parses a mcpServers keyed object', () => {
+    const result = parseProtocolServers(JSON.stringify({
+      mcpServers: {
+        serverA: { url: 'https://a.example.com/mcp', type: 'sse' },
+        serverB: { command: 'uvx', args: ['tool-b'] },
+      },
+    }))
+    expect(result.ok).toBe(true)
+    if (!result.ok) return
+    expect(result.servers).toHaveLength(2)
+    expect(result.servers.find(s => s.name === 'serverA')).toMatchObject({ type: 'sse' })
+    expect(result.servers.find(s => s.name === 'serverB')).toMatchObject({ type: 'stdio', command: 'uvx' })
+  })
+
+  it('refuses non-batch input', () => {
+    expect(parseProtocolServers('npx -y some-pkg')).toMatchObject({ ok: false })
+    expect(parseProtocolServers('')).toMatchObject({ ok: false })
+    expect(parseProtocolServers('42')).toMatchObject({ ok: false })
   })
 })
