@@ -1,7 +1,7 @@
 import { createRequire } from "node:module";
-import { basename, join, relative, resolve, sep } from "node:path";
+import { basename, dirname, join, relative, resolve, sep } from "node:path";
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, unlinkSync, writeFileSync } from "node:fs";
-import { appendFile, mkdir, rm, writeFile } from "node:fs/promises";
+import { appendFile, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { arch, homedir, platform, release, tmpdir } from "node:os";
 import { createHash, randomUUID } from "node:crypto";
 import { DatabaseSync } from "node:sqlite";
@@ -24869,7 +24869,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-en681rd_.js");
+				const { SSEClientTransport } = await import("./sse-CAiOs7E0.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -24891,7 +24891,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-CJyGXZEo.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-Bf6Rf30p.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -25528,6 +25528,296 @@ const webSearchRemote = {
 		result: STRICT_JSON_WEBSEARCH
 	}))
 };
+const DEFAULT_BASE_URL = "https://ilinkai.weixin.qq.com";
+const CHANNEL_VERSION = "1.0.0";
+const QR_POLL_INTERVAL_MS = 2e3;
+/** Maximum remembered context tokens (one per peer user id). */
+const MAX_CONTEXT_TOKENS = 1e3;
+/** message_state FINISH — replies are always complete texts. */
+const STATE_FINISH = 2;
+/** ApiError code the server returns when the bot token expired. */
+const SESSION_EXPIRED_CODE = -14;
+var WechatApiError = class extends Error {
+	status;
+	code;
+	constructor(message, options) {
+		super(message);
+		this.name = "WechatApiError";
+		this.status = options.status;
+		this.code = options.code;
+	}
+};
+/** True when the error means the bot token expired (server code -14). */
+function isWechatSessionExpired(error) {
+	return error instanceof WechatApiError && error.code === SESSION_EXPIRED_CODE;
+}
+function buildBaseInfo() {
+	return { channel_version: CHANNEL_VERSION };
+}
+function buildHeaders(token, uin) {
+	return {
+		"Content-Type": "application/json",
+		AuthorizationType: "ilink_bot_token",
+		Authorization: `Bearer ${token}`,
+		"X-WECHAT-UIN": uin
+	};
+}
+async function parseResponse(response, label) {
+	const text = await response.text();
+	let raw;
+	try {
+		raw = text.length > 0 ? JSON.parse(text) : {};
+	} catch {
+		throw new WechatApiError(`${label} 返回非 JSON（HTTP ${String(response.status)}）`, { status: response.status });
+	}
+	const body = raw;
+	if (!response.ok) {
+		await response.body?.cancel().catch(() => void 0);
+		throw new WechatApiError(typeof body.errmsg === "string" ? body.errmsg : `${label} 失败（HTTP ${String(response.status)}）`, {
+			status: response.status,
+			code: typeof body.errcode === "number" ? body.errcode : void 0
+		});
+	}
+	if (typeof body.ret === "number" && body.ret !== 0) throw new WechatApiError(typeof body.errmsg === "string" ? body.errmsg : `${label} 失败`, {
+		status: response.status,
+		code: typeof body.errcode === "number" ? body.errcode : body.ret
+	});
+	return raw;
+}
+async function apiPost(baseUrlOrigin, endpoint, payload, token, uin, timeoutMs = 4e4, signal) {
+	const timeout = AbortSignal.timeout(timeoutMs);
+	const signal2 = signal === void 0 ? timeout : AbortSignal.any([signal, timeout]);
+	return parseResponse(await fetch(`${baseUrlOrigin}${endpoint}`, {
+		method: "POST",
+		headers: buildHeaders(token, uin),
+		body: JSON.stringify(payload),
+		signal: signal2
+	}), endpoint);
+}
+async function apiGet(baseUrlOrigin, urlPath, extraHeaders = {}) {
+	return parseResponse(await fetch(`${baseUrlOrigin}${urlPath}`, {
+		method: "GET",
+		headers: extraHeaders
+	}), urlPath);
+}
+function sanitizeChannelId(channelId) {
+	const safe = channelId.replace(/[^a-zA-Z0-9_-]/g, "");
+	if (safe.length === 0 || safe !== channelId) throw new Error(`非法的频道 ID：${JSON.stringify(channelId)}`);
+	return safe;
+}
+/** Token-file path for one channel's WeChat credentials under the DSH home. */
+function wechatCredentialsPath(channelId) {
+	return `${`${resolveDshHome()}/control-center/wechat-bot`}/${sanitizeChannelId(channelId)}.json`;
+}
+async function loadWechatCredentials(channelId) {
+	try {
+		const raw = await readFile(wechatCredentialsPath(channelId), "utf8");
+		const parsed = JSON.parse(raw);
+		if (typeof parsed.token === "string" && parsed.token.length > 0 && typeof parsed.baseUrl === "string" && typeof parsed.accountId === "string" && typeof parsed.userId === "string") return parsed;
+		return;
+	} catch (error) {
+		if (error.code === "ENOENT") return void 0;
+		throw error;
+	}
+}
+async function saveWechatCredentials(credentials, tokenPath) {
+	await mkdir(dirname(tokenPath), {
+		recursive: true,
+		mode: 448
+	});
+	await writeFile(tokenPath, `${JSON.stringify(credentials, null, 2)}\n`, { mode: 384 });
+}
+async function clearWechatCredentials(channelId) {
+	await rm(wechatCredentialsPath(channelId), { force: true });
+}
+async function wechatFetchQrCode(baseUrlOrigin) {
+	const raw = await apiGet(baseUrlOrigin, "/ilink/bot/get_bot_qrcode?bot_type=3");
+	if (typeof raw.qrcode !== "string" || typeof raw.qrcode_img_content !== "string") throw new Error("二维码响应格式无效");
+	return {
+		qrcode: raw.qrcode,
+		imgContent: raw.qrcode_img_content
+	};
+}
+async function wechatPollQrStatus(baseUrlOrigin, qrcode) {
+	const raw = await apiGet(baseUrlOrigin, `/ilink/bot/get_qrcode_status?qrcode=${encodeURIComponent(qrcode)}`, { "iLink-App-ClientVersion": "1" });
+	const status = raw.status;
+	if (status !== "wait" && status !== "scaned" && status !== "confirmed" && status !== "expired") throw new Error(`二维码状态无效：${String(status)}`);
+	return {
+		status,
+		...typeof raw.bot_token === "string" ? { bot_token: raw.bot_token } : {},
+		...typeof raw.ilink_bot_id === "string" ? { ilink_bot_id: raw.ilink_bot_id } : {},
+		...typeof raw.ilink_user_id === "string" ? { ilink_user_id: raw.ilink_user_id } : {},
+		...typeof raw.baseurl === "string" ? { baseurl: raw.baseurl } : {}
+	};
+}
+function normalizeBaseUrl(baseUrl) {
+	return baseUrl.replace(/\/+$/, "");
+}
+async function getUpdates(baseUrl, token, uin, cursor, signal) {
+	const raw = await apiPost(baseUrl, "/ilink/bot/getupdates", {
+		get_updates_buf: cursor,
+		base_info: buildBaseInfo()
+	}, token, uin, 4e4, signal);
+	return {
+		msgs: Array.isArray(raw.msgs) ? raw.msgs : [],
+		cursor: typeof raw.get_updates_buf === "string" ? raw.get_updates_buf : cursor
+	};
+}
+async function sendTextMessage(baseUrl, token, uin, toUserId, contextToken, text) {
+	await apiPost(baseUrl, "/ilink/bot/sendmessage", {
+		msg: {
+			from_user_id: "",
+			to_user_id: toUserId,
+			client_id: crypto.randomUUID(),
+			message_type: 2,
+			message_state: STATE_FINISH,
+			context_token: contextToken,
+			item_list: [{
+				type: 1,
+				text_item: { text }
+			}]
+		},
+		base_info: buildBaseInfo()
+	}, token, uin, 15e3);
+}
+/** Extract the user-facing text of one inbound message's item list. */
+function extractText(items) {
+	return items.map((item) => {
+		if (item.type === 1) return item.text_item?.text ?? "";
+		if (item.type === 3) return item.voice_item?.text ?? "[语音]";
+		if (item.type === 2) return "[图片]";
+		if (item.type === 4) return "[文件]";
+		if (item.type === 5) return "[视频]";
+		return "";
+	}).filter((part) => part.length > 0).join("\n");
+}
+/**
+* One logged-in WeChat bot: long-polls getupdates, remembers per-peer context
+* tokens (mandatory for replies), and delivers inbound texts to a handler.
+* Session expiry (-14) surfaces through {@link onSessionExpired} so the owner
+* can drop the stored credentials and ask for a fresh QR login.
+*/
+var WeixinBotLite = class {
+	baseUrl;
+	uin;
+	credentials;
+	contextTokens = /* @__PURE__ */ new Map();
+	stopped = false;
+	constructor(options) {
+		this.credentials = options.credentials;
+		this.baseUrl = normalizeBaseUrl(options.credentials.baseUrl.length > 0 ? options.credentials.baseUrl : DEFAULT_BASE_URL);
+		const bytes = /* @__PURE__ */ new Uint8Array(4);
+		crypto.getRandomValues(bytes);
+		this.uin = Buffer.from(bytes).toString("base64");
+	}
+	get userId() {
+		return this.credentials.userId;
+	}
+	stop() {
+		this.stopped = true;
+	}
+	/**
+	* Long-poll until {@link stop}. `onMessage` receives every inbound user
+	* text; `onSessionExpired` fires once when the server rejects the token.
+	*/
+	async run(handlers) {
+		let cursor = "";
+		let retryDelayMs = 1e3;
+		while (!this.stopped && handlers.signal?.aborted !== true) try {
+			const updates = await getUpdates(this.baseUrl, this.credentials.token, this.uin, cursor, handlers.signal);
+			cursor = updates.cursor;
+			retryDelayMs = 1e3;
+			for (const message of updates.msgs) {
+				const peerId = message.message_type === 1 ? message.from_user_id : message.to_user_id;
+				if (peerId.length > 0 && message.context_token.length > 0) {
+					if (this.contextTokens.size >= MAX_CONTEXT_TOKENS && !this.contextTokens.has(peerId)) {
+						const oldest = this.contextTokens.keys().next().value;
+						if (oldest !== void 0) this.contextTokens.delete(oldest);
+					}
+					this.contextTokens.set(peerId, message.context_token);
+				}
+				if (message.message_type !== 1) continue;
+				const text = extractText(message.item_list ?? []);
+				if (text.length === 0) continue;
+				await handlers.onMessage({
+					userId: message.from_user_id,
+					text,
+					contextToken: message.context_token
+				});
+			}
+		} catch (error) {
+			if (this.stopped || handlers.signal?.aborted) break;
+			if (isAbortError(error)) break;
+			if (isWechatSessionExpired(error)) {
+				await handlers.onSessionExpired?.();
+				return;
+			}
+			handlers.onError?.(error);
+			await delay(retryDelayMs);
+			retryDelayMs = Math.min(retryDelayMs * 2, 1e4);
+		}
+	}
+	/** Reply to one inbound message (uses its context token directly). */
+	async reply(userId, contextToken, text) {
+		if (text.length === 0) throw new Error("消息文本不能为空");
+		await sendTextMessage(this.baseUrl, this.credentials.token, this.uin, userId, contextToken, text.slice(0, 2e3));
+	}
+};
+/**
+* Run one full QR login for a channel: fetch a code, poll until confirmed or
+* expired, persist credentials, and report every transition through `onUpdate`.
+* Resolves with the credentials on success; throws after three expired codes.
+*/
+async function runWechatLogin(options) {
+	let retries = 0;
+	while (retries < 3) {
+		if (options.signal.aborted) throw new Error("登录已取消");
+		const qr = await wechatFetchQrCode(DEFAULT_BASE_URL);
+		options.onUpdate({
+			phase: "pending",
+			qrContent: qr.imgContent
+		});
+		for (;;) {
+			if (options.signal.aborted) throw new Error("登录已取消");
+			const status = await wechatPollQrStatus(DEFAULT_BASE_URL, qr.qrcode);
+			if (status.status === "scaned") {
+				options.onUpdate({
+					phase: "scaned",
+					qrContent: qr.imgContent
+				});
+				continue;
+			}
+			if (status.status === "confirmed") {
+				if (status.bot_token === void 0 || status.ilink_bot_id === void 0 || status.ilink_user_id === void 0) throw new Error("扫码确认成功，但接口未返回机器人凭据");
+				const credentials = {
+					token: status.bot_token,
+					baseUrl: normalizeBaseUrl(status.baseurl ?? DEFAULT_BASE_URL),
+					accountId: status.ilink_bot_id,
+					userId: status.ilink_user_id
+				};
+				await saveWechatCredentials(credentials, wechatCredentialsPath(options.channelId));
+				options.onUpdate({
+					phase: "confirmed",
+					userId: credentials.userId
+				});
+				return credentials;
+			}
+			if (status.status === "expired") break;
+			await delay(QR_POLL_INTERVAL_MS);
+		}
+		retries += 1;
+		if (retries < 3) options.onUpdate({ phase: "expired" });
+	}
+	throw new Error("二维码连续三次过期，登录失败");
+}
+function delay(ms) {
+	return new Promise((resolve) => {
+		setTimeout(resolve, ms);
+	});
+}
+function isAbortError(error) {
+	return error instanceof Error && (error.name === "AbortError" || error.name === "TimeoutError");
+}
 /**
 * Channel bridge — the host-process service that watches `control-center-channels`
 * and drives live connections for active instances.
@@ -25741,7 +26031,13 @@ function abortableSleep(ms, signal) {
 const POLL_IDLE_MS = 1e3;
 function markChannelBridgeRemoteMethods(service) {
 	const initializers = [];
-	for (const [method, exportName] of [["status", "status"], ["getLog", "getLog"]]) {
+	for (const [method, exportName] of [
+		["status", "status"],
+		["getLog", "getLog"],
+		["wechatLoginState", "wechatLoginState"],
+		["wechatQrBegin", "wechatQrBegin"],
+		["wechatQrPoll", "wechatQrPoll"]
+	]) {
 		const implementation = Reflect.get(ChannelBridgeService.prototype, method);
 		Remote(exportName)(implementation, {
 			kind: "method",
@@ -25830,9 +26126,12 @@ var ChannelBridgeService = class extends Service {
 				case "feishu":
 					this.startFeishu(record);
 					break;
+				case "wechat":
+					this.startWechat(record);
+					break;
 				default: {
 					const existing = this.statuses.get(record.id);
-					if (existing === void 0 || existing.state !== "error") this.setStatus(record.id, "error", `平台「${record.type}」的实时桥接尚未实现（已支持 Telegram / Discord / Slack / QQ）`);
+					if (existing === void 0 || existing.state !== "error") this.setStatus(record.id, "error", `平台「${record.type}」的桥接类型无法识别`);
 				}
 			}
 		}
@@ -26478,6 +26777,137 @@ var ChannelBridgeService = class extends Service {
 			}
 		}
 	}
+	/** Per-channel QR login state machines (driven from the UI via RPC). */
+	wechatLogins = /* @__PURE__ */ new Map();
+	wechatLoginsView(id) {
+		return this.wechatLogins.get(id)?.state ?? { phase: "idle" };
+	}
+	/**
+	* Start one channel's runtime when credentials exist; otherwise surface an
+	* honest 未登录 error pointing at the 扫码登录 flow.
+	*/
+	async startWechat(record) {
+		const credentials = await loadWechatCredentials(record.id).catch(() => void 0);
+		if (credentials === void 0) {
+			this.names.set(record.id, record.name);
+			this.setStatus(record.id, "error", "未登录：请先在频道详情中扫码登录微信");
+			return;
+		}
+		const controller = new AbortController();
+		this.runtimes.set(record.id, {
+			controller,
+			log: []
+		});
+		this.setStatus(record.id, "starting");
+		this.runWechatLoop(record.id, record.name, credentials, controller.signal);
+	}
+	/**
+	* WeChat long-poll loop around {@link WeixinBotLite}: every inbound user
+	* text rides the shared reply pipeline with the message's context token;
+	* session expiry clears the stored credentials and demands a fresh login.
+	*/
+	async runWechatLoop(id, name, credentials, signal) {
+		this.appendLog(id, `频道「${name}」开始微信长轮询（iLink getupdates）`);
+		const bot = new WeixinBotLite({ credentials });
+		let sessionExpired = false;
+		while (!signal.aborted) try {
+			await bot.run({
+				signal,
+				onMessage: (message) => {
+					if (!this.isAllowed(this.wechatConfigFor(id), [message.userId])) {
+						this.appendLog(id, `忽略非允许用户 ${message.userId} 的消息`);
+						return;
+					}
+					this.appendLog(id, `收到消息：${message.text.slice(0, 80)}`);
+					this.generateAndDeliver(id, message.text, async (reply) => {
+						await bot.reply(message.userId, message.contextToken, reply);
+					});
+				},
+				onSessionExpired: () => {
+					(async () => {
+						this.appendLog(id, "会话已过期，凭据已清除，请重新扫码登录");
+						this.setStatus(id, "error", "会话已过期：请重新扫码登录");
+						await clearWechatCredentials(id);
+						bot.stop();
+						sessionExpired = true;
+					})();
+				},
+				onError: (error) => {
+					const messageText = error instanceof Error ? error.message : String(error);
+					this.setStatus(id, "error", messageText);
+					this.appendLog(id, `轮询失败：${messageText}`);
+				}
+			});
+			break;
+		} catch (error) {
+			if (signal.aborted || sessionExpired) break;
+			const messageText = error instanceof Error ? error.message : String(error);
+			this.setStatus(id, "error", messageText);
+			this.appendLog(id, `轮询失败：${messageText}`);
+			await abortableSleep(RETRY_MS, signal);
+		}
+		this.appendLog(id, "微信长轮询已停止");
+	}
+	/** The stored config of one channel instance (for allowlist checks). */
+	wechatConfigFor(id) {
+		for (const record of this.readInstances()) if (record.id === id) return record.config ?? {};
+		return {};
+	}
+	/**
+	* Kick off one background QR login for a channel. Any prior login attempt
+	* is aborted first; progress is observable through {@link wechatQrPoll}.
+	*/
+	wechatQrBegin(channelId) {
+		this.wechatLogins.get(channelId)?.controller?.abort();
+		const controller = new AbortController();
+		const entry = {
+			state: { phase: "pending" },
+			controller
+		};
+		this.wechatLogins.set(channelId, entry);
+		runWechatLogin({
+			channelId,
+			signal: controller.signal,
+			onUpdate: (state) => {
+				const current = this.wechatLogins.get(channelId);
+				if (current !== void 0 && current.controller === controller) current.state = state;
+			}
+		}).then((credentials) => {
+			const current = this.wechatLogins.get(channelId);
+			if (current !== void 0 && current.controller === controller) current.state = {
+				phase: "confirmed",
+				userId: credentials.userId
+			};
+			this.ctx.logger.info("WeChat login confirmed", {
+				channelId,
+				userId: credentials.userId
+			});
+		}).catch((error) => {
+			const current = this.wechatLogins.get(channelId);
+			if (current !== void 0 && current.controller === controller) current.state = controller.signal.aborted ? { phase: "idle" } : {
+				phase: "error",
+				error: error instanceof Error ? error.message : String(error)
+			};
+			this.ctx.logger.warn("WeChat login failed", {
+				channelId,
+				error: String(error)
+			});
+		});
+		return { absent: true };
+	}
+	/** Snapshot of a channel's login flow (the UI polls this). */
+	wechatQrPoll(channelId) {
+		return this.wechatLoginsView(channelId);
+	}
+	/** Whether a channel holds usable WeChat credentials on disk. */
+	async wechatLoginState(channelId) {
+		const credentials = await loadWechatCredentials(channelId).catch(() => void 0);
+		if (credentials === void 0) return { loggedIn: false };
+		return {
+			loggedIn: true,
+			userId: credentials.userId
+		};
+	}
 	feishuTokenCache = null;
 	feishuBotOpenId = null;
 	async feishuTenantToken(appId, appSecret) {
@@ -26813,13 +27243,28 @@ var ChannelBridgeService = class extends Service {
 /** Client descriptor contribution for the Control Center channel bridge. */
 const channelBridgeRemote = {
 	package: "@dsh-control-center/control-center",
-	descriptors: [{
-		method: "status",
-		parameters: []
-	}, {
-		method: "getLog",
-		parameters: ["channelId", "lines"]
-	}].map(({ method, parameters }) => ({
+	descriptors: [
+		{
+			method: "status",
+			parameters: []
+		},
+		{
+			method: "getLog",
+			parameters: ["channelId", "lines"]
+		},
+		{
+			method: "wechatLoginState",
+			parameters: ["channelId"]
+		},
+		{
+			method: "wechatQrBegin",
+			parameters: ["channelId"]
+		},
+		{
+			method: "wechatQrPoll",
+			parameters: ["channelId"]
+		}
+	].map(({ method, parameters }) => ({
 		id: `@dsh-control-center/control-center#controlCenterChannelBridge/${method}`,
 		service: "controlCenterChannelBridge",
 		namespace: "controlCenterChannelBridge",

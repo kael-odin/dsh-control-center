@@ -28,7 +28,52 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
+            wechatLoginState(channelId: string): Promise<{
+                ok: true;
+                value: {
+                    loggedIn: boolean;
+                    userId?: string | undefined;
+                };
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            wechatQrBegin(channelId: string): Promise<{
+                ok: true;
+                value: {
+                    absent: true;
+                };
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
+            wechatQrPoll(channelId: string): Promise<{
+                ok: true;
+                value: WechatLoginStateView;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
         };
     }
+}
+/** Wire shape of one channel's QR login flow. */
+export interface WechatLoginStateView {
+    phase: 'idle' | 'pending' | 'scaned' | 'confirmed' | 'expired' | 'error';
+    qrContent?: string | undefined;
+    userId?: string | undefined;
+    error?: string | undefined;
 }
 //# sourceMappingURL=channel-bridge-remote-client.d.ts.map

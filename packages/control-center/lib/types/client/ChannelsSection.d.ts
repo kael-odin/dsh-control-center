@@ -5,6 +5,12 @@ import type { ChannelsState } from './channels-store.ts';
 import type { ChannelBridgeStatus } from '../channel-bridge.ts';
 import { ChannelsStore } from './channels-store.ts';
 /** Bridge status slice injected alongside the settings store. */
+export interface WechatLoginStateView {
+    phase: 'idle' | 'pending' | 'scaned' | 'confirmed' | 'expired' | 'error';
+    qrContent?: string;
+    userId?: string;
+    error?: string;
+}
 export interface ChannelBridgeHandle {
     status(): Promise<{
         ok: true;
@@ -20,6 +26,44 @@ export interface ChannelBridgeHandle {
     getLog(channelId: string, lines?: number): Promise<{
         ok: true;
         value: string[];
+    } | {
+        ok: false;
+        error: {
+            code: string;
+            message: string;
+            details: object;
+        };
+    }>;
+    wechatLoginState(channelId: string): Promise<{
+        ok: true;
+        value: {
+            loggedIn: boolean;
+            userId?: string;
+        };
+    } | {
+        ok: false;
+        error: {
+            code: string;
+            message: string;
+            details: object;
+        };
+    }>;
+    wechatQrBegin(channelId: string): Promise<{
+        ok: true;
+        value: {
+            absent: true;
+        };
+    } | {
+        ok: false;
+        error: {
+            code: string;
+            message: string;
+            details: object;
+        };
+    }>;
+    wechatQrPoll(channelId: string): Promise<{
+        ok: true;
+        value: WechatLoginStateView;
     } | {
         ok: false;
         error: {

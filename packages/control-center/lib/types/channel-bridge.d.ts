@@ -21,6 +21,7 @@
  */
 import { Service } from '@deepseek-ai/cordis';
 import type { Context } from '@deepseek-ai/cordis';
+import { type WechatLoginState } from './wechat-bot.ts';
 export declare const CHANNELS_BRIDGE_NAMESPACE: import("@deepseek-ai/dsh-settings").SettingsNamespace;
 /** Per-instance runtime status exposed over the wire. */
 export interface ChannelBridgeStatus {
@@ -148,6 +149,36 @@ export declare class ChannelBridgeService extends Service {
     /** Route one QQ dispatch event to its chat-type handler. */
     private handleQqDispatch;
     private sendQqMessage;
+    /** Per-channel QR login state machines (driven from the UI via RPC). */
+    private readonly wechatLogins;
+    private wechatLoginsView;
+    /**
+     * Start one channel's runtime when credentials exist; otherwise surface an
+     * honest 未登录 error pointing at the 扫码登录 flow.
+     */
+    private startWechat;
+    /**
+     * WeChat long-poll loop around {@link WeixinBotLite}: every inbound user
+     * text rides the shared reply pipeline with the message's context token;
+     * session expiry clears the stored credentials and demands a fresh login.
+     */
+    private runWechatLoop;
+    /** The stored config of one channel instance (for allowlist checks). */
+    private wechatConfigFor;
+    /**
+     * Kick off one background QR login for a channel. Any prior login attempt
+     * is aborted first; progress is observable through {@link wechatQrPoll}.
+     */
+    wechatQrBegin(channelId: string): {
+        absent: true;
+    };
+    /** Snapshot of a channel's login flow (the UI polls this). */
+    wechatQrPoll(channelId: string): WechatLoginState;
+    /** Whether a channel holds usable WeChat credentials on disk. */
+    wechatLoginState(channelId: string): Promise<{
+        loggedIn: boolean;
+        userId?: string | undefined;
+    }>;
     private feishuTokenCache;
     private feishuBotOpenId;
     private feishuTenantToken;

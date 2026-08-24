@@ -28,6 +28,14 @@ import { installSettingsSection } from '@deepseek-ai/dsh-settings'
 import { bindTypertRemote, Remote } from '@deepseek-ai/dsh-typert-protocol'
 import { createUserMessage, type LlmRuntime } from '@deepseek-ai/dsh-llm'
 import { readHostRetryPolicy } from './retry-config.ts'
+import {
+  clearWechatCredentials,
+  loadWechatCredentials,
+  runWechatLogin,
+  WeixinBotLite,
+  type WechatIncomingText,
+  type WechatLoginState,
+} from './wechat-bot.ts'
 
 export const CHANNELS_BRIDGE_NAMESPACE = settingsNamespace('control-center-channels')
 
@@ -300,6 +308,9 @@ function markChannelBridgeRemoteMethods(service: ChannelBridgeService): void {
   for (const [method, exportName] of [
     ['status', 'status'],
     ['getLog', 'getLog'],
+    ['wechatLoginState', 'wechatLoginState'],
+    ['wechatQrBegin', 'wechatQrBegin'],
+    ['wechatQrPoll', 'wechatQrPoll'],
   ] as const) {
     const implementation = Reflect.get(ChannelBridgeService.prototype, method) as (this: ChannelBridgeService, ...args: never[]) => unknown
     const decorator = Remote(exportName)
@@ -386,12 +397,15 @@ export class ChannelBridgeService extends Service {
         case 'feishu':
           this.startFeishu(record)
           break
+        case 'wechat':
+          void this.startWechat(record)
+          break
         default: {
-          // WeChat needs the reverse-engineered iLink protocol port — stay
-          // honest instead of pretending.
+          // All six cherry platforms have real bridges; this branch only fires
+          // for unknown types stored by future UI versions.
           const existing = this.statuses.get(record.id)
           if (existing === undefined || existing.state !== 'error') {
-            this.setStatus(record.id, 'error', `平台「${record.type}」的实时桥接尚未实现（已支持 Telegram / Discord / Slack / QQ）`)
+            this.setStatus(record.id, 'error', `平台「${record.type}」的桥接类型无法识别`)
           }
         }
       }
@@ -1100,6 +1114,144 @@ export class ChannelBridgeService extends Service {
         throw new Error(`QQ 发送失败（HTTP ${String(response.status)}）：${errorText.slice(0, 200)}`)
       }
     }
+  }
+
+  // ─── WeChat: iLink bot — QR login + getupdates long-poll ───────────────────
+
+  /** Per-channel QR login state machines (driven from the UI via RPC). */
+  private readonly wechatLogins = new Map<string, {
+    state: WechatLoginState
+    controller: AbortController | null
+  }>()
+
+  private wechatLoginsView(id: string): WechatLoginState {
+    return this.wechatLogins.get(id)?.state ?? { phase: 'idle' }
+  }
+
+  /**
+   * Start one channel's runtime when credentials exist; otherwise surface an
+   * honest 未登录 error pointing at the 扫码登录 flow.
+   */
+  private async startWechat(record: ChannelRecord): Promise<void> {
+    const credentials = await loadWechatCredentials(record.id).catch(() => undefined)
+    if (credentials === undefined) {
+      this.names.set(record.id, record.name)
+      this.setStatus(record.id, 'error', '未登录：请先在频道详情中扫码登录微信')
+      return
+    }
+    const controller = new AbortController()
+    this.runtimes.set(record.id, { controller, log: [] })
+    this.setStatus(record.id, 'starting')
+    void this.runWechatLoop(record.id, record.name, credentials, controller.signal)
+  }
+
+  /**
+   * WeChat long-poll loop around {@link WeixinBotLite}: every inbound user
+   * text rides the shared reply pipeline with the message's context token;
+   * session expiry clears the stored credentials and demands a fresh login.
+   */
+  private async runWechatLoop(
+    id: string,
+    name: string,
+    credentials: { token: string; baseUrl: string; accountId: string; userId: string },
+    signal: AbortSignal,
+  ): Promise<void> {
+    this.appendLog(id, `频道「${name}」开始微信长轮询（iLink getupdates）`)
+    const bot = new WeixinBotLite({ credentials })
+    let sessionExpired = false
+    while (!signal.aborted) {
+      try {
+        await bot.run({
+          signal,
+          onMessage: (message: WechatIncomingText) => {
+            if (!this.isAllowed(this.wechatConfigFor(id), [message.userId])) {
+              this.appendLog(id, `忽略非允许用户 ${message.userId} 的消息`)
+              return
+            }
+            this.appendLog(id, `收到消息：${message.text.slice(0, 80)}`)
+            void this.generateAndDeliver(id, message.text, async reply => {
+              await bot.reply(message.userId, message.contextToken, reply)
+            })
+          },
+          onSessionExpired: () => {
+            void (async () => {
+              this.appendLog(id, '会话已过期，凭据已清除，请重新扫码登录')
+              this.setStatus(id, 'error', '会话已过期：请重新扫码登录')
+              await clearWechatCredentials(id)
+              bot.stop()
+              sessionExpired = true
+            })()
+          },
+          onError: error => {
+            const messageText = error instanceof Error ? error.message : String(error)
+            this.setStatus(id, 'error', messageText)
+            this.appendLog(id, `轮询失败：${messageText}`)
+          },
+        })
+        break
+      } catch (error) {
+        if (signal.aborted || sessionExpired) break
+        const messageText = error instanceof Error ? error.message : String(error)
+        this.setStatus(id, 'error', messageText)
+        this.appendLog(id, `轮询失败：${messageText}`)
+        await abortableSleep(RETRY_MS, signal)
+      }
+    }
+    this.appendLog(id, '微信长轮询已停止')
+  }
+
+  /** The stored config of one channel instance (for allowlist checks). */
+  private wechatConfigFor(id: string): Record<string, unknown> {
+    for (const record of this.readInstances()) {
+      if (record.id === id) return record.config ?? {}
+    }
+    return {}
+  }
+
+  /**
+   * Kick off one background QR login for a channel. Any prior login attempt
+   * is aborted first; progress is observable through {@link wechatQrPoll}.
+   */
+  wechatQrBegin(channelId: string): { absent: true } {
+    const previous = this.wechatLogins.get(channelId)
+    previous?.controller?.abort()
+    const controller = new AbortController()
+    const entry = { state: { phase: 'pending' } as WechatLoginState, controller }
+    this.wechatLogins.set(channelId, entry)
+    void runWechatLogin({
+      channelId,
+      signal: controller.signal,
+      onUpdate: state => {
+        const current = this.wechatLogins.get(channelId)
+        if (current !== undefined && current.controller === controller) current.state = state
+      },
+    }).then(credentials => {
+      const current = this.wechatLogins.get(channelId)
+      if (current !== undefined && current.controller === controller) {
+        current.state = { phase: 'confirmed', userId: credentials.userId }
+      }
+      this.ctx.logger.info('WeChat login confirmed', { channelId, userId: credentials.userId })
+    }).catch(error => {
+      const current = this.wechatLogins.get(channelId)
+      if (current !== undefined && current.controller === controller) {
+        const aborted = controller.signal.aborted
+        current.state = aborted ? { phase: 'idle' } : { phase: 'error', error: error instanceof Error ? error.message : String(error) }
+      }
+      this.ctx.logger.warn('WeChat login failed', { channelId, error: String(error) })
+    })
+    return { absent: true }
+  }
+
+  /** Snapshot of a channel's login flow (the UI polls this). */
+  wechatQrPoll(channelId: string): WechatLoginState {
+    return this.wechatLoginsView(channelId)
+  }
+
+  /** Whether a channel holds usable WeChat credentials on disk. */
+  async wechatLoginState(channelId: string): Promise<{ loggedIn: boolean; userId?: string | undefined }> {
+    const credentials = await loadWechatCredentials(channelId).catch(() => undefined)
+    if (credentials === undefined) return { loggedIn: false }
+    return { loggedIn: true, userId: credentials.userId }
   }
 
   // ─── Feishu: Lark long-connection WebSocket + im/v1 sends ──────────────────

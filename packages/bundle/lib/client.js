@@ -319,112 +319,112 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var PaintingWorkspace_module_css_default = {
-			"composer": "_-UrTq_composer",
-			"carouselCardImage": "_-UrTq_carouselCardImage",
-			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
-			"quickItemIcon": "_-UrTq_quickItemIcon",
-			"promptLibDelete": "_-UrTq_promptLibDelete",
-			"addPromptField": "_-UrTq_addPromptField",
-			"surface": "_-UrTq_surface",
-			"thumb": "_-UrTq_thumb",
-			"showcaseInner": "_-UrTq_showcaseInner",
-			"manageRowBtnDanger": "_-UrTq_manageRowBtnDanger",
-			"centerPane": "_-UrTq_centerPane",
-			"promptLibItemMain": "_-UrTq_promptLibItemMain",
-			"manageRowMain": "_-UrTq_manageRowMain",
-			"showcaseTitle": "_-UrTq_showcaseTitle",
-			"dialogActions": "_-UrTq_dialogActions",
-			"addImageButton": "_-UrTq_addImageButton",
-			"paramsSelect": "_-UrTq_paramsSelect",
-			"paramsField": "_-UrTq_paramsField",
-			"errorBanner": "_-UrTq_errorBanner",
-			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
-			"promptLibContent": "_-UrTq_promptLibContent",
-			"manageRowActions": "_-UrTq_manageRowActions",
+			"sizeGrid": "_-UrTq_sizeGrid",
+			"progressText": "_-UrTq_progressText",
 			"carouselCard": "_-UrTq_carouselCard",
-			"stripItem": "_-UrTq_stripItem",
-			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
-			"thumbEmpty": "_-UrTq_thumbEmpty",
-			"skeletonGrid": "_-UrTq_skeletonGrid",
-			"composerTextarea": "_-UrTq_composerTextarea",
-			"countRow": "_-UrTq_countRow",
-			"skeletonCell": "_-UrTq_skeletonCell",
-			"paramsPopover": "_-UrTq_paramsPopover",
-			"manageCard": "_-UrTq_manageCard",
-			"attachmentTile": "_-UrTq_attachmentTile",
-			"promptLibFooter": "_-UrTq_promptLibFooter",
-			"promptDock": "_-UrTq_promptDock",
-			"stripEnd": "_-UrTq_stripEnd",
-			"manageRowBtn": "_-UrTq_manageRowBtn",
-			"addPromptCard": "_-UrTq_addPromptCard",
-			"promptLibList": "_-UrTq_promptLibList",
-			"manageRowTitle": "_-UrTq_manageRowTitle",
-			"countInput": "_-UrTq_countInput",
-			"pillButton": "_-UrTq_pillButton",
-			"ratioThumb": "_-UrTq_ratioThumb",
-			"dragging": "_-UrTq_dragging",
-			"countSlider": "_-UrTq_countSlider",
-			"cc-cell-blink": "_-UrTq_cc-cell-blink",
-			"addPromptOverlay": "_-UrTq_addPromptOverlay",
-			"portalPanel": "_-UrTq_portalPanel",
-			"pauseButton": "_-UrTq_pauseButton",
-			"active": "_-UrTq_active",
-			"stripDelete": "_-UrTq_stripDelete",
-			"showcase": "_-UrTq_showcase",
-			"newButton": "_-UrTq_newButton",
-			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
-			"root": "_-UrTq_root",
-			"artboard": "_-UrTq_artboard",
-			"counterPill": "_-UrTq_counterPill",
+			"promptLibContent": "_-UrTq_promptLibContent",
 			"centerStage": "_-UrTq_centerStage",
-			"cc-strip-loading": "_-UrTq_cc-strip-loading",
-			"showcaseCarousel": "_-UrTq_showcaseCarousel",
-			"artboardEmpty": "_-UrTq_artboardEmpty",
-			"promptLibItem": "_-UrTq_promptLibItem",
-			"promptLibTitle": "_-UrTq_promptLibTitle",
-			"promptLibEmpty": "_-UrTq_promptLibEmpty",
+			"promptDock": "_-UrTq_promptDock",
+			"sendButton": "_-UrTq_sendButton",
 			"roundButton": "_-UrTq_roundButton",
 			"quickItem": "_-UrTq_quickItem",
-			"pillSummary": "_-UrTq_pillSummary",
-			"artboardStage": "_-UrTq_artboardStage",
+			"quickItemLabel": "_-UrTq_quickItemLabel",
+			"composerTextarea": "_-UrTq_composerTextarea",
 			"addPromptInput": "_-UrTq_addPromptInput",
-			"attachmentTray": "_-UrTq_attachmentTray",
-			"promptDockInner": "_-UrTq_promptDockInner",
-			"chevron": "_-UrTq_chevron",
+			"attachmentTile": "_-UrTq_attachmentTile",
+			"stripEnd": "_-UrTq_stripEnd",
+			"promptBar": "_-UrTq_promptBar",
 			"addPromptTextarea": "_-UrTq_addPromptTextarea",
-			"promptLib": "_-UrTq_promptLib",
-			"composerToolbar": "_-UrTq_composerToolbar",
 			"btn": "_-UrTq_btn",
-			"progressText": "_-UrTq_progressText",
-			"composerTextRow": "_-UrTq_composerTextRow",
-			"btnPrimary": "_-UrTq_btnPrimary",
-			"manageRowContent": "_-UrTq_manageRowContent",
+			"errorBanner": "_-UrTq_errorBanner",
 			"toolbarDivider": "_-UrTq_toolbarDivider",
-			"strip": "_-UrTq_strip",
-			"quickPanel": "_-UrTq_quickPanel",
+			"active": "_-UrTq_active",
+			"cc-strip-loading": "_-UrTq_cc-strip-loading",
+			"ratioThumb": "_-UrTq_ratioThumb",
+			"skeletonCell": "_-UrTq_skeletonCell",
+			"countRow": "_-UrTq_countRow",
+			"imageBox": "_-UrTq_imageBox",
+			"composerTextRow": "_-UrTq_composerTextRow",
+			"cc-cell-blink": "_-UrTq_cc-cell-blink",
+			"showcaseInner": "_-UrTq_showcaseInner",
+			"paramsPopover": "_-UrTq_paramsPopover",
+			"promptDockInner": "_-UrTq_promptDockInner",
+			"artboardEmpty": "_-UrTq_artboardEmpty",
+			"addImageButton": "_-UrTq_addImageButton",
+			"dragging": "_-UrTq_dragging",
+			"manageRowActions": "_-UrTq_manageRowActions",
+			"promptLibDelete": "_-UrTq_promptLibDelete",
+			"showcaseCaption": "_-UrTq_showcaseCaption",
+			"skeletonGrid": "_-UrTq_skeletonGrid",
+			"showcase": "_-UrTq_showcase",
+			"hidden": "_-UrTq_hidden",
+			"attachmentDelete": "_-UrTq_attachmentDelete",
+			"toolbarRail": "_-UrTq_toolbarRail",
+			"promptLibTitle": "_-UrTq_promptLibTitle",
+			"promptLibEmpty": "_-UrTq_promptLibEmpty",
+			"frame": "_-UrTq_frame",
+			"attachmentTray": "_-UrTq_attachmentTray",
+			"addPromptOverlay": "_-UrTq_addPromptOverlay",
+			"artboardEmptyLabel": "_-UrTq_artboardEmptyLabel",
+			"manageRowBtn": "_-UrTq_manageRowBtn",
+			"stripItem": "_-UrTq_stripItem",
+			"counterPill": "_-UrTq_counterPill",
+			"manageRowMain": "_-UrTq_manageRowMain",
+			"addPromptField": "_-UrTq_addPromptField",
+			"promptLib": "_-UrTq_promptLib",
+			"addPromptCard": "_-UrTq_addPromptCard",
+			"paramsSelect": "_-UrTq_paramsSelect",
+			"stripProgress": "_-UrTq_stripProgress",
+			"centerPane": "_-UrTq_centerPane",
+			"composerToolbarLeft": "_-UrTq_composerToolbarLeft",
+			"paramsFieldTitle": "_-UrTq_paramsFieldTitle",
+			"promptLibItemMain": "_-UrTq_promptLibItemMain",
+			"portalPanel": "_-UrTq_portalPanel",
+			"manageRowBtnDanger": "_-UrTq_manageRowBtnDanger",
+			"manageList": "_-UrTq_manageList",
+			"carouselLabel": "_-UrTq_carouselLabel",
+			"carouselCardImage": "_-UrTq_carouselCardImage",
+			"root": "_-UrTq_root",
+			"composer": "_-UrTq_composer",
+			"stripHeader": "_-UrTq_stripHeader",
+			"pillSummary": "_-UrTq_pillSummary",
+			"paramsField": "_-UrTq_paramsField",
+			"promptBarText": "_-UrTq_promptBarText",
+			"quickItemIcon": "_-UrTq_quickItemIcon",
+			"countSlider": "_-UrTq_countSlider",
+			"selected": "_-UrTq_selected",
+			"chevron": "_-UrTq_chevron",
+			"stripDelete": "_-UrTq_stripDelete",
+			"dialogActions": "_-UrTq_dialogActions",
+			"surface": "_-UrTq_surface",
+			"pauseButton": "_-UrTq_pauseButton",
+			"sizeLabel": "_-UrTq_sizeLabel",
+			"promptLibFooter": "_-UrTq_promptLibFooter",
+			"manageRowTitle": "_-UrTq_manageRowTitle",
+			"btnPrimary": "_-UrTq_btnPrimary",
+			"promptLibItem": "_-UrTq_promptLibItem",
+			"backButton": "_-UrTq_backButton",
+			"manageRow": "_-UrTq_manageRow",
+			"thumb": "_-UrTq_thumb",
+			"artboard": "_-UrTq_artboard",
+			"toolbarButton": "_-UrTq_toolbarButton",
+			"paramsSelectWrap": "_-UrTq_paramsSelectWrap",
+			"composerToolbar": "_-UrTq_composerToolbar",
+			"manageRowContent": "_-UrTq_manageRowContent",
+			"promptLibList": "_-UrTq_promptLibList",
+			"newButton": "_-UrTq_newButton",
+			"showcaseTitle": "_-UrTq_showcaseTitle",
+			"pillButton": "_-UrTq_pillButton",
 			"muted": "_-UrTq_muted",
 			"modelPill": "_-UrTq_modelPill",
-			"promptBarText": "_-UrTq_promptBarText",
-			"attachmentDelete": "_-UrTq_attachmentDelete",
-			"stripHeader": "_-UrTq_stripHeader",
-			"sizeChip": "_-UrTq_sizeChip",
-			"stripProgress": "_-UrTq_stripProgress",
-			"toolbarButton": "_-UrTq_toolbarButton",
-			"manageList": "_-UrTq_manageList",
-			"backButton": "_-UrTq_backButton",
-			"showcaseCaption": "_-UrTq_showcaseCaption",
-			"frame": "_-UrTq_frame",
-			"carouselLabel": "_-UrTq_carouselLabel",
-			"promptBar": "_-UrTq_promptBar",
-			"imageBox": "_-UrTq_imageBox",
-			"quickItemLabel": "_-UrTq_quickItemLabel",
-			"hidden": "_-UrTq_hidden",
-			"manageRow": "_-UrTq_manageRow",
-			"toolbarRail": "_-UrTq_toolbarRail",
-			"sizeGrid": "_-UrTq_sizeGrid",
-			"selected": "_-UrTq_selected",
-			"sizeLabel": "_-UrTq_sizeLabel",
-			"sendButton": "_-UrTq_sendButton"
+			"thumbEmpty": "_-UrTq_thumbEmpty",
+			"showcaseCarousel": "_-UrTq_showcaseCarousel",
+			"countInput": "_-UrTq_countInput",
+			"artboardStage": "_-UrTq_artboardStage",
+			"quickPanel": "_-UrTq_quickPanel",
+			"manageCard": "_-UrTq_manageCard",
+			"strip": "_-UrTq_strip",
+			"sizeChip": "_-UrTq_sizeChip"
 		};
 		//#endregion
 		//#region lib/types/client/painting-icons.js
@@ -1155,27 +1155,27 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var Combobox_module_css_default = {
-			"optionSub": "PJZ1pG_optionSub",
-			"triggerIcon": "PJZ1pG_triggerIcon",
-			"empty": "PJZ1pG_empty",
-			"footerButton": "PJZ1pG_footerButton",
-			"optionText": "PJZ1pG_optionText",
 			"group": "PJZ1pG_group",
-			"root": "PJZ1pG_root",
-			"footer": "PJZ1pG_footer",
-			"option": "PJZ1pG_option",
-			"list": "PJZ1pG_list",
-			"groupTitle": "PJZ1pG_groupTitle",
-			"popoverPortal": "PJZ1pG_popoverPortal",
-			"searchIcon": "PJZ1pG_searchIcon",
-			"trigger": "PJZ1pG_trigger",
-			"triggerLabel": "PJZ1pG_triggerLabel",
-			"optionActive": "PJZ1pG_optionActive",
-			"optionIcon": "PJZ1pG_optionIcon",
-			"triggerChevron": "PJZ1pG_triggerChevron",
 			"searchInput": "PJZ1pG_searchInput",
+			"optionIcon": "PJZ1pG_optionIcon",
+			"optionSub": "PJZ1pG_optionSub",
+			"root": "PJZ1pG_root",
+			"groupTitle": "PJZ1pG_groupTitle",
+			"empty": "PJZ1pG_empty",
+			"footer": "PJZ1pG_footer",
+			"footerButton": "PJZ1pG_footerButton",
+			"optionActive": "PJZ1pG_optionActive",
+			"triggerLabel": "PJZ1pG_triggerLabel",
+			"optionText": "PJZ1pG_optionText",
 			"searchWrap": "PJZ1pG_searchWrap",
-			"optionLabel": "PJZ1pG_optionLabel"
+			"triggerIcon": "PJZ1pG_triggerIcon",
+			"trigger": "PJZ1pG_trigger",
+			"searchIcon": "PJZ1pG_searchIcon",
+			"option": "PJZ1pG_option",
+			"popoverPortal": "PJZ1pG_popoverPortal",
+			"list": "PJZ1pG_list",
+			"optionLabel": "PJZ1pG_optionLabel",
+			"triggerChevron": "PJZ1pG_triggerChevron"
 		};
 		//#endregion
 		//#region lib/types/client/Combobox.js
@@ -3377,115 +3377,115 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var TranslationWorkspace_module_css_default = {
-			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
-			"langRowActions": "_8lesPa_langRowActions",
-			"chipTarget": "_8lesPa_chipTarget",
-			"confirmCard": "_8lesPa_confirmCard",
-			"settingRow": "_8lesPa_settingRow",
-			"langAdd": "_8lesPa_langAdd",
-			"langCode": "_8lesPa_langCode",
-			"iconBtn": "_8lesPa_iconBtn",
-			"langFormActions": "_8lesPa_langFormActions",
-			"smallIconBtn": "_8lesPa_smallIconBtn",
-			"historyList": "_8lesPa_historyList",
-			"rowSource": "_8lesPa_rowSource",
-			"spinner": "_8lesPa_spinner",
-			"countBadge": "_8lesPa_countBadge",
-			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
-			"topBar": "_8lesPa_topBar",
-			"panelHeader": "_8lesPa_panelHeader",
-			"modelSelectWrap": "_8lesPa_modelSelectWrap",
-			"sectionTitle": "_8lesPa_sectionTitle",
-			"historyRowMeta": "_8lesPa_historyRowMeta",
-			"spacer": "_8lesPa_spacer",
-			"panes": "_8lesPa_panes",
-			"detailBlockTarget": "_8lesPa_detailBlockTarget",
-			"detailActions": "_8lesPa_detailActions",
-			"cc-slide-in": "_8lesPa_cc-slide-in",
-			"langSelectWrap": "_8lesPa_langSelectWrap",
-			"panelTitle": "_8lesPa_panelTitle",
-			"settingsSection": "_8lesPa_settingsSection",
-			"swapBtn": "_8lesPa_swapBtn",
-			"modelSelect": "_8lesPa_modelSelect",
-			"copy": "_8lesPa_copy",
-			"switchRow": "_8lesPa_switchRow",
-			"pairChip": "_8lesPa_pairChip",
-			"errorBanner": "_8lesPa_errorBanner",
-			"active": "_8lesPa_active",
-			"uploadIcons": "_8lesPa_uploadIcons",
-			"historyRow": "_8lesPa_historyRow",
-			"count": "_8lesPa_count",
-			"rowTime": "_8lesPa_rowTime",
-			"helpBubble": "_8lesPa_helpBubble",
-			"inputArea": "_8lesPa_inputArea",
-			"paneFooter": "_8lesPa_paneFooter",
-			"loadMore": "_8lesPa_loadMore",
-			"reuse": "_8lesPa_reuse",
-			"langName": "_8lesPa_langName",
-			"success": "_8lesPa_success",
 			"on": "_8lesPa_on",
-			"detailBlockHeader": "_8lesPa_detailBlockHeader",
-			"translating": "_8lesPa_translating",
+			"rightCluster": "_8lesPa_rightCluster",
+			"loadMore": "_8lesPa_loadMore",
+			"langInput": "_8lesPa_langInput",
+			"uploadIcon": "_8lesPa_uploadIcon",
+			"stopBtn": "_8lesPa_stopBtn",
+			"langSelectWrap": "_8lesPa_langSelectWrap",
 			"starFill": "_8lesPa_starFill",
-			"textareaScroll": "_8lesPa_textareaScroll",
-			"resetLink": "_8lesPa_resetLink",
+			"pairRow": "_8lesPa_pairRow",
+			"panelBody": "_8lesPa_panelBody",
+			"historyEmpty": "_8lesPa_historyEmpty",
+			"segmented": "_8lesPa_segmented",
+			"outputPane": "_8lesPa_outputPane",
+			"chipTarget": "_8lesPa_chipTarget",
+			"chipArrow": "_8lesPa_chipArrow",
+			"visible": "_8lesPa_visible",
+			"switchTrack": "_8lesPa_switchTrack",
+			"pane": "_8lesPa_pane",
+			"confirmCard": "_8lesPa_confirmCard",
+			"iconBtn": "_8lesPa_iconBtn",
+			"helpBubble": "_8lesPa_helpBubble",
+			"segItem": "_8lesPa_segItem",
+			"langSelect": "_8lesPa_langSelect",
+			"backdrop": "_8lesPa_backdrop",
+			"panelHeader": "_8lesPa_panelHeader",
+			"detailBlockTarget": "_8lesPa_detailBlockTarget",
+			"backButton": "_8lesPa_backButton",
+			"cc-fade": "_8lesPa_cc-fade",
+			"inputArea": "_8lesPa_inputArea",
+			"historyList": "_8lesPa_historyList",
+			"rowTarget": "_8lesPa_rowTarget",
+			"paneCorner": "_8lesPa_paneCorner",
+			"detailBlockLabel": "_8lesPa_detailBlockLabel",
 			"detailText": "_8lesPa_detailText",
 			"langRow": "_8lesPa_langRow",
-			"confirmTitle": "_8lesPa_confirmTitle",
-			"uploadIcon": "_8lesPa_uploadIcon",
-			"uploadZone": "_8lesPa_uploadZone",
-			"sidePanel": "_8lesPa_sidePanel",
-			"confirmActions": "_8lesPa_confirmActions",
-			"rowTarget": "_8lesPa_rowTarget",
-			"root": "_8lesPa_root",
-			"detailBack": "_8lesPa_detailBack",
-			"rightCluster": "_8lesPa_rightCluster",
-			"outputArea": "_8lesPa_outputArea",
-			"outputPane": "_8lesPa_outputPane",
-			"detailAction": "_8lesPa_detailAction",
-			"langForm": "_8lesPa_langForm",
-			"langFormRow": "_8lesPa_langFormRow",
-			"destructive": "_8lesPa_destructive",
-			"translateBtn": "_8lesPa_translateBtn",
-			"pane": "_8lesPa_pane",
-			"visible": "_8lesPa_visible",
-			"settingHint": "_8lesPa_settingHint",
-			"segmented": "_8lesPa_segmented",
-			"langFormLabel": "_8lesPa_langFormLabel",
-			"pairRow": "_8lesPa_pairRow",
-			"confirmOverlay": "_8lesPa_confirmOverlay",
-			"detailBlock": "_8lesPa_detailBlock",
-			"stopBtn": "_8lesPa_stopBtn",
-			"historyEmpty": "_8lesPa_historyEmpty",
-			"switchTrack": "_8lesPa_switchTrack",
-			"langFormError": "_8lesPa_langFormError",
-			"backButton": "_8lesPa_backButton",
-			"md": "_8lesPa_md",
-			"helpWrap": "_8lesPa_helpWrap",
-			"switch": "_8lesPa_switch",
-			"cc-spin": "_8lesPa_cc-spin",
-			"panelBody": "_8lesPa_panelBody",
-			"chipArrow": "_8lesPa_chipArrow",
-			"segItem": "_8lesPa_segItem",
-			"langInput": "_8lesPa_langInput",
-			"btn": "_8lesPa_btn",
 			"settingsEmpty": "_8lesPa_settingsEmpty",
+			"langName": "_8lesPa_langName",
+			"destructive": "_8lesPa_destructive",
+			"sectionTitle": "_8lesPa_sectionTitle",
+			"errorBanner": "_8lesPa_errorBanner",
+			"uploadZone": "_8lesPa_uploadZone",
+			"uploadIcons": "_8lesPa_uploadIcons",
+			"detailBlockHeader": "_8lesPa_detailBlockHeader",
+			"detailActions": "_8lesPa_detailActions",
+			"md": "_8lesPa_md",
+			"outputArea": "_8lesPa_outputArea",
+			"sidePanel": "_8lesPa_sidePanel",
+			"langFormRow": "_8lesPa_langFormRow",
+			"paneFooter": "_8lesPa_paneFooter",
+			"spinner": "_8lesPa_spinner",
+			"historyEmptyIcon": "_8lesPa_historyEmptyIcon",
 			"confirmText": "_8lesPa_confirmText",
-			"paneCorner": "_8lesPa_paneCorner",
-			"detailMeta": "_8lesPa_detailMeta",
-			"langChevron": "_8lesPa_langChevron",
-			"panelBodyScroll": "_8lesPa_panelBodyScroll",
-			"settingsTextarea": "_8lesPa_settingsTextarea",
+			"rowSource": "_8lesPa_rowSource",
+			"panes": "_8lesPa_panes",
+			"historyRow": "_8lesPa_historyRow",
+			"translating": "_8lesPa_translating",
+			"historyRowMeta": "_8lesPa_historyRowMeta",
+			"active": "_8lesPa_active",
 			"btnPrimary": "_8lesPa_btnPrimary",
-			"starBtn": "_8lesPa_starBtn",
+			"count": "_8lesPa_count",
+			"helpWrap": "_8lesPa_helpWrap",
+			"detailMeta": "_8lesPa_detailMeta",
+			"langFormLabel": "_8lesPa_langFormLabel",
+			"modelSelect": "_8lesPa_modelSelect",
 			"helpIcon": "_8lesPa_helpIcon",
-			"settingLabel": "_8lesPa_settingLabel",
-			"cc-fade": "_8lesPa_cc-fade",
-			"chip": "_8lesPa_chip",
-			"langSelect": "_8lesPa_langSelect",
+			"settingHint": "_8lesPa_settingHint",
+			"reuse": "_8lesPa_reuse",
+			"settingsSection": "_8lesPa_settingsSection",
+			"countBadge": "_8lesPa_countBadge",
+			"switchRow": "_8lesPa_switchRow",
+			"confirmTitle": "_8lesPa_confirmTitle",
 			"clearBtn": "_8lesPa_clearBtn",
-			"backdrop": "_8lesPa_backdrop",
-			"detailBlockLabel": "_8lesPa_detailBlockLabel"
+			"spacer": "_8lesPa_spacer",
+			"topBar": "_8lesPa_topBar",
+			"langForm": "_8lesPa_langForm",
+			"copy": "_8lesPa_copy",
+			"smallIconBtn": "_8lesPa_smallIconBtn",
+			"success": "_8lesPa_success",
+			"modelSelectWrap": "_8lesPa_modelSelectWrap",
+			"panelTitle": "_8lesPa_panelTitle",
+			"confirmOverlay": "_8lesPa_confirmOverlay",
+			"smallIconBtnEmpty": "_8lesPa_smallIconBtnEmpty",
+			"swapBtn": "_8lesPa_swapBtn",
+			"langCode": "_8lesPa_langCode",
+			"pairChip": "_8lesPa_pairChip",
+			"translateBtn": "_8lesPa_translateBtn",
+			"detailBlock": "_8lesPa_detailBlock",
+			"detailAction": "_8lesPa_detailAction",
+			"panelBodyScroll": "_8lesPa_panelBodyScroll",
+			"root": "_8lesPa_root",
+			"settingRow": "_8lesPa_settingRow",
+			"langAdd": "_8lesPa_langAdd",
+			"chip": "_8lesPa_chip",
+			"btn": "_8lesPa_btn",
+			"confirmActions": "_8lesPa_confirmActions",
+			"langFormActions": "_8lesPa_langFormActions",
+			"textareaScroll": "_8lesPa_textareaScroll",
+			"switch": "_8lesPa_switch",
+			"resetLink": "_8lesPa_resetLink",
+			"langFormError": "_8lesPa_langFormError",
+			"settingsTextarea": "_8lesPa_settingsTextarea",
+			"langRowActions": "_8lesPa_langRowActions",
+			"starBtn": "_8lesPa_starBtn",
+			"detailBack": "_8lesPa_detailBack",
+			"settingLabel": "_8lesPa_settingLabel",
+			"langChevron": "_8lesPa_langChevron",
+			"cc-slide-in": "_8lesPa_cc-slide-in",
+			"rowTime": "_8lesPa_rowTime",
+			"cc-spin": "_8lesPa_cc-spin"
 		};
 		//#endregion
 		//#region lib/types/client/panel-ui.js
@@ -4180,103 +4180,103 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var KnowledgeWorkspace_module_css_default = {
-			"root": "uHDY1a_root",
-			"detailEmptyTitle": "uHDY1a_detailEmptyTitle",
-			"dialogField": "uHDY1a_dialogField",
-			"split": "uHDY1a_split",
-			"success": "uHDY1a_success",
-			"sourceType": "uHDY1a_sourceType",
-			"statusFailed": "uHDY1a_statusFailed",
-			"gridHeader": "uHDY1a_gridHeader",
-			"ragBody": "uHDY1a_ragBody",
-			"ragFieldRow": "uHDY1a_ragFieldRow",
-			"dialogSliderRow": "uHDY1a_dialogSliderRow",
-			"statusReady": "uHDY1a_statusReady",
-			"navRow": "uHDY1a_navRow",
-			"detailHeader": "uHDY1a_detailHeader",
-			"sourceTypeCards": "uHDY1a_sourceTypeCards",
 			"statusSpinner": "uHDY1a_statusSpinner",
-			"sourceIcon": "uHDY1a_sourceIcon",
-			"rowMenu": "uHDY1a_rowMenu",
-			"btnPrimary": "uHDY1a_btnPrimary",
-			"recallSource": "uHDY1a_recallSource",
-			"sourceTypeCard": "uHDY1a_sourceTypeCard",
-			"ragField": "uHDY1a_ragField",
-			"sourcesEmpty": "uHDY1a_sourcesEmpty",
-			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
-			"recallResults": "uHDY1a_recallResults",
-			"ragNumberFull": "uHDY1a_ragNumberFull",
-			"clamped": "uHDY1a_clamped",
-			"ragNumber": "uHDY1a_ragNumber",
-			"ragLabel": "uHDY1a_ragLabel",
-			"dialogSelect": "uHDY1a_dialogSelect",
-			"ragSelectWrap": "uHDY1a_ragSelectWrap",
-			"advancedBody": "uHDY1a_advancedBody",
-			"recallCardHeader": "uHDY1a_recallCardHeader",
-			"dataHeaderActions": "uHDY1a_dataHeaderActions",
-			"indexButton": "uHDY1a_indexButton",
-			"detailHeaderActions": "uHDY1a_detailHeaderActions",
-			"navRowName": "uHDY1a_navRowName",
-			"navigator": "uHDY1a_navigator",
-			"errorBanner": "uHDY1a_errorBanner",
-			"recallCopy": "uHDY1a_recallCopy",
-			"sourceName": "uHDY1a_sourceName",
-			"recallCard": "uHDY1a_recallCard",
-			"dialogHint": "uHDY1a_dialogHint",
-			"ragTitle": "uHDY1a_ragTitle",
-			"dataPanel": "uHDY1a_dataPanel",
-			"menuPopover": "uHDY1a_menuPopover",
-			"recallScore": "uHDY1a_recallScore",
-			"dialogFieldRow": "uHDY1a_dialogFieldRow",
-			"ragSlider": "uHDY1a_ragSlider",
-			"gridRow": "uHDY1a_gridRow",
-			"recallRank": "uHDY1a_recallRank",
-			"statusIndexing": "uHDY1a_statusIndexing",
-			"notice": "uHDY1a_notice",
-			"dialogOverlay": "uHDY1a_dialogOverlay",
-			"active": "uHDY1a_active",
-			"destructive": "uHDY1a_destructive",
-			"detail": "uHDY1a_detail",
-			"recallInputWrap": "uHDY1a_recallInputWrap",
-			"ragHint": "uHDY1a_ragHint",
-			"ragFooter": "uHDY1a_ragFooter",
-			"detailEmpty": "uHDY1a_detailEmpty",
-			"recallBar": "uHDY1a_recallBar",
-			"recallEmpty": "uHDY1a_recallEmpty",
-			"dialogTextarea": "uHDY1a_dialogTextarea",
-			"recallInput": "uHDY1a_recallInput",
-			"ragSection": "uHDY1a_ragSection",
-			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
-			"ragSliderRow": "uHDY1a_ragSliderRow",
-			"addSourceButton": "uHDY1a_addSourceButton",
-			"statusBadge": "uHDY1a_statusBadge",
+			"sourceUpdated": "uHDY1a_sourceUpdated",
+			"detailEmptyTitle": "uHDY1a_detailEmptyTitle",
 			"menuItem": "uHDY1a_menuItem",
 			"sourcesEmptyDesc": "uHDY1a_sourcesEmptyDesc",
+			"recallResults": "uHDY1a_recallResults",
+			"btn": "uHDY1a_btn",
+			"btnPrimary": "uHDY1a_btnPrimary",
+			"ragFooter": "uHDY1a_ragFooter",
+			"navScroll": "uHDY1a_navScroll",
+			"detailHeaderTitle": "uHDY1a_detailHeaderTitle",
+			"ragBody": "uHDY1a_ragBody",
+			"ragSliderRow": "uHDY1a_ragSliderRow",
+			"split": "uHDY1a_split",
+			"menuPopover": "uHDY1a_menuPopover",
+			"gridRow": "uHDY1a_gridRow",
+			"statusReady": "uHDY1a_statusReady",
+			"sourceTypeCards": "uHDY1a_sourceTypeCards",
+			"dataHeaderLeft": "uHDY1a_dataHeaderLeft",
+			"dialogSliderRow": "uHDY1a_dialogSliderRow",
+			"navEmpty": "uHDY1a_navEmpty",
+			"rowMenu": "uHDY1a_rowMenu",
+			"ragNumber": "uHDY1a_ragNumber",
+			"addSourceButton": "uHDY1a_addSourceButton",
+			"dataHeaderActions": "uHDY1a_dataHeaderActions",
+			"recallScore": "uHDY1a_recallScore",
+			"detailEmpty": "uHDY1a_detailEmpty",
+			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
+			"navRowName": "uHDY1a_navRowName",
+			"sourceIcon": "uHDY1a_sourceIcon",
+			"recallCopy": "uHDY1a_recallCopy",
+			"ragField": "uHDY1a_ragField",
+			"ragSection": "uHDY1a_ragSection",
+			"ragSlider": "uHDY1a_ragSlider",
+			"statusBadge": "uHDY1a_statusBadge",
+			"dialogSelect": "uHDY1a_dialogSelect",
+			"navigator": "uHDY1a_navigator",
+			"cc-spin": "uHDY1a_cc-spin",
+			"sourceType": "uHDY1a_sourceType",
+			"success": "uHDY1a_success",
+			"active": "uHDY1a_active",
+			"dataPanel": "uHDY1a_dataPanel",
+			"statusIndexing": "uHDY1a_statusIndexing",
+			"statusFailed": "uHDY1a_statusFailed",
+			"dataHeader": "uHDY1a_dataHeader",
+			"recallInputWrap": "uHDY1a_recallInputWrap",
+			"destructive": "uHDY1a_destructive",
+			"recallInput": "uHDY1a_recallInput",
+			"clamped": "uHDY1a_clamped",
+			"dialogField": "uHDY1a_dialogField",
+			"recallBody": "uHDY1a_recallBody",
+			"dialogActions": "uHDY1a_dialogActions",
+			"recallSummary": "uHDY1a_recallSummary",
+			"ragSelect": "uHDY1a_ragSelect",
+			"advancedBody": "uHDY1a_advancedBody",
+			"detail": "uHDY1a_detail",
+			"dialogHint": "uHDY1a_dialogHint",
+			"gridHeader": "uHDY1a_gridHeader",
+			"gridScroll": "uHDY1a_gridScroll",
+			"ragLabel": "uHDY1a_ragLabel",
+			"ragReadonly": "uHDY1a_ragReadonly",
+			"recallBar": "uHDY1a_recallBar",
+			"notice": "uHDY1a_notice",
+			"detailHeader": "uHDY1a_detailHeader",
+			"sourceName": "uHDY1a_sourceName",
+			"navRow": "uHDY1a_navRow",
+			"navRowMenu": "uHDY1a_navRowMenu",
+			"sourcesEmpty": "uHDY1a_sourcesEmpty",
+			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
+			"sourceTypeCard": "uHDY1a_sourceTypeCard",
 			"recallSubmit": "uHDY1a_recallSubmit",
 			"recallChunkIndex": "uHDY1a_recallChunkIndex",
-			"gridScroll": "uHDY1a_gridScroll",
-			"dialogActions": "uHDY1a_dialogActions",
-			"btn": "uHDY1a_btn",
-			"navScroll": "uHDY1a_navScroll",
-			"navCreate": "uHDY1a_navCreate",
-			"cc-spin": "uHDY1a_cc-spin",
+			"ragSelectWrap": "uHDY1a_ragSelectWrap",
+			"dialogTextarea": "uHDY1a_dialogTextarea",
+			"indexButton": "uHDY1a_indexButton",
 			"advancedChevronOpen": "uHDY1a_advancedChevronOpen",
 			"detailEmptyDescription": "uHDY1a_detailEmptyDescription",
-			"dialogCard": "uHDY1a_dialogCard",
-			"dialogInput": "uHDY1a_dialogInput",
-			"recallBody": "uHDY1a_recallBody",
-			"ragSelect": "uHDY1a_ragSelect",
-			"ragReadonly": "uHDY1a_ragReadonly",
-			"sourceUpdated": "uHDY1a_sourceUpdated",
-			"sourcesEmptyTitle": "uHDY1a_sourcesEmptyTitle",
-			"advancedToggle": "uHDY1a_advancedToggle",
 			"detailEmptyHint": "uHDY1a_detailEmptyHint",
-			"navRowMenu": "uHDY1a_navRowMenu",
+			"advancedToggle": "uHDY1a_advancedToggle",
 			"ghostButton": "uHDY1a_ghostButton",
-			"dataHeader": "uHDY1a_dataHeader",
-			"navEmpty": "uHDY1a_navEmpty",
-			"sourceTypeCardIcon": "uHDY1a_sourceTypeCardIcon",
-			"recallSummary": "uHDY1a_recallSummary"
+			"dialogOverlay": "uHDY1a_dialogOverlay",
+			"ragFieldRow": "uHDY1a_ragFieldRow",
+			"ragNumberFull": "uHDY1a_ragNumberFull",
+			"detailHeaderActions": "uHDY1a_detailHeaderActions",
+			"root": "uHDY1a_root",
+			"recallEmpty": "uHDY1a_recallEmpty",
+			"ragTitle": "uHDY1a_ragTitle",
+			"navCreate": "uHDY1a_navCreate",
+			"dialogInput": "uHDY1a_dialogInput",
+			"recallRank": "uHDY1a_recallRank",
+			"ragHint": "uHDY1a_ragHint",
+			"recallCard": "uHDY1a_recallCard",
+			"errorBanner": "uHDY1a_errorBanner",
+			"recallCardHeader": "uHDY1a_recallCardHeader",
+			"dialogFieldRow": "uHDY1a_dialogFieldRow",
+			"recallSource": "uHDY1a_recallSource",
+			"dialogCard": "uHDY1a_dialogCard"
 		};
 		//#endregion
 		//#region lib/types/client/KnowledgeWorkspace.js
@@ -5739,18 +5739,18 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var SkillsSection_module_css_default = {
-			"tag": "pyHmqW_tag",
-			"cardTags": "pyHmqW_cardTags",
-			"searchRow": "pyHmqW_searchRow",
-			"card": "pyHmqW_card",
-			"cardTitle": "pyHmqW_cardTitle",
-			"cardHeader": "pyHmqW_cardHeader",
-			"searchInput": "pyHmqW_searchInput",
-			"grid": "pyHmqW_grid",
 			"cardActions": "pyHmqW_cardActions",
+			"card": "pyHmqW_card",
+			"cardHeader": "pyHmqW_cardHeader",
 			"cardDescription": "pyHmqW_cardDescription",
+			"searchInput": "pyHmqW_searchInput",
+			"cardTags": "pyHmqW_cardTags",
+			"tag": "pyHmqW_tag",
+			"cardTitle": "pyHmqW_cardTitle",
 			"cardMeta": "pyHmqW_cardMeta",
+			"grid": "pyHmqW_grid",
 			"cardMetaItem": "pyHmqW_cardMetaItem",
+			"searchRow": "pyHmqW_searchRow",
 			"cardFooter": "pyHmqW_cardFooter"
 		};
 		//#endregion
@@ -6407,113 +6407,113 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ModelsSection_module_css_default = {
-			"linkButton": "tKsOKa_linkButton",
-			"inputRow": "tKsOKa_inputRow",
-			"modelAvatarBrand": "tKsOKa_modelAvatarBrand",
-			"fieldLabelRow": "tKsOKa_fieldLabelRow",
-			"modelAdvanced": "tKsOKa_modelAdvanced",
-			"error": "tKsOKa_error",
+			"savedNotice": "tKsOKa_savedNotice",
+			"fieldLabel": "tKsOKa_fieldLabel",
+			"credentialDot": "tKsOKa_credentialDot",
+			"deleteConfirm": "tKsOKa_deleteConfirm",
 			"modelListHead": "tKsOKa_modelListHead",
-			"candidateList": "tKsOKa_candidateList",
-			"fallbackDetails": "tKsOKa_fallbackDetails",
-			"typeTab": "tKsOKa_typeTab",
-			"rowTag": "tKsOKa_rowTag",
+			"prefsPanel": "tKsOKa_prefsPanel",
 			"modelGroup": "tKsOKa_modelGroup",
+			"setupCard": "tKsOKa_setupCard",
+			"gearButton": "tKsOKa_gearButton",
+			"rowHead": "tKsOKa_rowHead",
+			"field": "tKsOKa_field",
+			"typeTabActive": "tKsOKa_typeTabActive",
+			"modelRowDisabled": "tKsOKa_modelRowDisabled",
+			"iconButton": "tKsOKa_iconButton",
+			"rowTag": "tKsOKa_rowTag",
+			"healthFailText": "tKsOKa_healthFailText",
+			"endpointPreview": "tKsOKa_endpointPreview",
+			"healthOk": "tKsOKa_healthOk",
+			"healthChecking": "tKsOKa_healthChecking",
+			"checkResultFail": "tKsOKa_checkResultFail",
+			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
+			"defaultMarker": "tKsOKa_defaultMarker",
+			"headerRow": "tKsOKa_headerRow",
+			"healthPulse": "tKsOKa_healthPulse",
+			"fallbackDetails": "tKsOKa_fallbackDetails",
+			"modelToolbarActions": "tKsOKa_modelToolbarActions",
+			"fallbackList": "tKsOKa_fallbackList",
+			"typeTab": "tKsOKa_typeTab",
+			"secondaryButton": "tKsOKa_secondaryButton",
+			"dangerButton": "tKsOKa_dangerButton",
+			"fieldLabelRow": "tKsOKa_fieldLabelRow",
+			"panelBody": "tKsOKa_panelBody",
+			"modelGroupBody": "tKsOKa_modelGroupBody",
+			"modelFieldLabel": "tKsOKa_modelFieldLabel",
+			"modelGroupTitle": "tKsOKa_modelGroupTitle",
+			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
+			"modelGroupCount": "tKsOKa_modelGroupCount",
+			"credentialDotMissing": "tKsOKa_credentialDotMissing",
+			"modelField": "tKsOKa_modelField",
+			"rowActions": "tKsOKa_rowActions",
 			"section": "tKsOKa_section",
 			"modelAvatar": "tKsOKa_modelAvatar",
-			"input": "tKsOKa_input",
-			"iconButtonDanger": "tKsOKa_iconButtonDanger",
-			"inputGroup": "tKsOKa_inputGroup",
-			"defaultMarker": "tKsOKa_defaultMarker",
-			"typeTabActive": "tKsOKa_typeTabActive",
-			"eyeButton": "tKsOKa_eyeButton",
-			"modelSearchInput": "tKsOKa_modelSearchInput",
-			"selectInput": "tKsOKa_selectInput",
-			"deleteDialog": "tKsOKa_deleteDialog",
-			"healthFail": "tKsOKa_healthFail",
-			"healthPulse": "tKsOKa_healthPulse",
-			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
-			"modelEntry": "tKsOKa_modelEntry",
-			"fallbackCount": "tKsOKa_fallbackCount",
-			"iconButton": "tKsOKa_iconButton",
-			"modelTypeTabsRow": "tKsOKa_modelTypeTabsRow",
-			"dangerButton": "tKsOKa_dangerButton",
-			"rowCard": "tKsOKa_rowCard",
-			"checkButton": "tKsOKa_checkButton",
-			"rowActions": "tKsOKa_rowActions",
-			"healthChecking": "tKsOKa_healthChecking",
-			"modelGroupHeader": "tKsOKa_modelGroupHeader",
-			"notice": "tKsOKa_notice",
-			"headerRow": "tKsOKa_headerRow",
-			"healthMeta": "tKsOKa_healthMeta",
-			"modelCatalogMeta": "tKsOKa_modelCatalogMeta",
-			"addBlock": "tKsOKa_addBlock",
-			"healthOk": "tKsOKa_healthOk",
-			"checkResultOk": "tKsOKa_checkResultOk",
-			"modelRow": "tKsOKa_modelRow",
-			"credentialDot": "tKsOKa_credentialDot",
-			"modelIdInput": "tKsOKa_modelIdInput",
-			"candidateId": "tKsOKa_candidateId",
-			"modelGroupCount": "tKsOKa_modelGroupCount",
-			"prefsPanel": "tKsOKa_prefsPanel",
-			"rowIdentity": "tKsOKa_rowIdentity",
-			"panelBody": "tKsOKa_panelBody",
-			"monoInput": "tKsOKa_monoInput",
-			"modelCatalogHeading": "tKsOKa_modelCatalogHeading",
-			"fetchButton": "tKsOKa_fetchButton",
-			"helpLink": "tKsOKa_helpLink",
-			"modelRowDisabled": "tKsOKa_modelRowDisabled",
-			"fieldRow": "tKsOKa_fieldRow",
-			"deleteConfirm": "tKsOKa_deleteConfirm",
 			"modelSelectionPanel": "tKsOKa_modelSelectionPanel",
-			"addCard": "tKsOKa_addCard",
-			"advancedHint": "tKsOKa_advancedHint",
-			"checkResult": "tKsOKa_checkResult",
-			"modelEmpty": "tKsOKa_modelEmpty",
-			"rows": "tKsOKa_rows",
-			"healthDot": "tKsOKa_healthDot",
-			"secondaryButton": "tKsOKa_secondaryButton",
-			"fieldRowWithAction": "tKsOKa_fieldRowWithAction",
 			"topicNamingBody": "tKsOKa_topicNamingBody",
-			"modelCatalog": "tKsOKa_modelCatalog",
-			"fieldLabel": "tKsOKa_fieldLabel",
-			"retryGroup": "tKsOKa_retryGroup",
-			"healthFailText": "tKsOKa_healthFailText",
-			"addButton": "tKsOKa_addButton",
-			"savedNotice": "tKsOKa_savedNotice",
-			"credentialDotMissing": "tKsOKa_credentialDotMissing",
-			"topicNamingHeading": "tKsOKa_topicNamingHeading",
-			"modelList": "tKsOKa_modelList",
 			"title": "tKsOKa_title",
-			"addActions": "tKsOKa_addActions",
-			"candidateLabel": "tKsOKa_candidateLabel",
-			"topicNamingCard": "tKsOKa_topicNamingCard",
-			"retryRow": "tKsOKa_retryRow",
 			"attemptsInput": "tKsOKa_attemptsInput",
-			"modelField": "tKsOKa_modelField",
-			"fallbackList": "tKsOKa_fallbackList",
-			"modelGroupTitle": "tKsOKa_modelGroupTitle",
-			"rowName": "tKsOKa_rowName",
-			"modelGroupBody": "tKsOKa_modelGroupBody",
-			"intro": "tKsOKa_intro",
-			"setupCard": "tKsOKa_setupCard",
-			"keyListButton": "tKsOKa_keyListButton",
-			"typeTabCount": "tKsOKa_typeTabCount",
-			"modelFieldLabel": "tKsOKa_modelFieldLabel",
-			"field": "tKsOKa_field",
-			"modelCountBadge": "tKsOKa_modelCountBadge",
-			"modelSelectionTitle": "tKsOKa_modelSelectionTitle",
-			"gearButton": "tKsOKa_gearButton",
-			"addModelButton": "tKsOKa_addModelButton",
-			"topicNamingNote": "tKsOKa_topicNamingNote",
-			"rowHead": "tKsOKa_rowHead",
-			"fallbackSummary": "tKsOKa_fallbackSummary",
+			"eyeButton": "tKsOKa_eyeButton",
+			"healthDot": "tKsOKa_healthDot",
+			"helpLink": "tKsOKa_helpLink",
+			"inputGroup": "tKsOKa_inputGroup",
 			"modelDisabledId": "tKsOKa_modelDisabledId",
-			"checkResultFail": "tKsOKa_checkResultFail",
+			"fallbackCount": "tKsOKa_fallbackCount",
+			"fieldRow": "tKsOKa_fieldRow",
+			"typeTabCount": "tKsOKa_typeTabCount",
+			"rowName": "tKsOKa_rowName",
+			"modelSelectionTitle": "tKsOKa_modelSelectionTitle",
+			"iconButtonDanger": "tKsOKa_iconButtonDanger",
+			"fallbackSummary": "tKsOKa_fallbackSummary",
+			"modelAdvanced": "tKsOKa_modelAdvanced",
+			"checkButton": "tKsOKa_checkButton",
+			"modelCountBadge": "tKsOKa_modelCountBadge",
+			"modelRow": "tKsOKa_modelRow",
+			"advancedHint": "tKsOKa_advancedHint",
+			"monoInput": "tKsOKa_monoInput",
+			"modelEmpty": "tKsOKa_modelEmpty",
+			"checkResultOk": "tKsOKa_checkResultOk",
+			"modelEntry": "tKsOKa_modelEntry",
+			"rowIdentity": "tKsOKa_rowIdentity",
+			"modelCatalog": "tKsOKa_modelCatalog",
+			"modelSearchInput": "tKsOKa_modelSearchInput",
+			"healthMeta": "tKsOKa_healthMeta",
+			"fieldRowWithAction": "tKsOKa_fieldRowWithAction",
+			"error": "tKsOKa_error",
+			"checkResult": "tKsOKa_checkResult",
+			"topicNamingCard": "tKsOKa_topicNamingCard",
+			"healthFail": "tKsOKa_healthFail",
+			"candidateLabel": "tKsOKa_candidateLabel",
+			"topicNamingHeading": "tKsOKa_topicNamingHeading",
+			"candidateId": "tKsOKa_candidateId",
 			"fallbackItem": "tKsOKa_fallbackItem",
-			"modelToolbarActions": "tKsOKa_modelToolbarActions",
-			"endpointPreview": "tKsOKa_endpointPreview",
-			"modelCatalogTitle": "tKsOKa_modelCatalogTitle"
+			"fetchButton": "tKsOKa_fetchButton",
+			"rowCard": "tKsOKa_rowCard",
+			"rows": "tKsOKa_rows",
+			"credentialDotConfigured": "tKsOKa_credentialDotConfigured",
+			"topicNamingNote": "tKsOKa_topicNamingNote",
+			"addModelButton": "tKsOKa_addModelButton",
+			"selectInput": "tKsOKa_selectInput",
+			"intro": "tKsOKa_intro",
+			"inputRow": "tKsOKa_inputRow",
+			"retryRow": "tKsOKa_retryRow",
+			"deleteDialog": "tKsOKa_deleteDialog",
+			"modelList": "tKsOKa_modelList",
+			"retryGroup": "tKsOKa_retryGroup",
+			"notice": "tKsOKa_notice",
+			"modelGroupHeader": "tKsOKa_modelGroupHeader",
+			"addButton": "tKsOKa_addButton",
+			"addActions": "tKsOKa_addActions",
+			"addBlock": "tKsOKa_addBlock",
+			"modelCatalogTitle": "tKsOKa_modelCatalogTitle",
+			"modelIdInput": "tKsOKa_modelIdInput",
+			"addCard": "tKsOKa_addCard",
+			"modelTypeTabsRow": "tKsOKa_modelTypeTabsRow",
+			"modelAvatarBrand": "tKsOKa_modelAvatarBrand",
+			"keyListButton": "tKsOKa_keyListButton",
+			"linkButton": "tKsOKa_linkButton",
+			"input": "tKsOKa_input",
+			"candidateList": "tKsOKa_candidateList"
 		};
 		//#endregion
 		//#region lib/types/client/EditorFooter.js
@@ -9297,27 +9297,27 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ApiKeyListDrawer_module_css_default = {
-			"keyRow": "fY1kUq_keyRow",
-			"keyIcon": "fY1kUq_keyIcon",
-			"keyInput": "fY1kUq_keyInput",
-			"shell": "fY1kUq_shell",
-			"keyDraftRow": "fY1kUq_keyDraftRow",
-			"keyLabelInput": "fY1kUq_keyLabelInput",
-			"addButton": "fY1kUq_addButton",
-			"keyDanger": "fY1kUq_keyDanger",
-			"keyLabel": "fY1kUq_keyLabel",
-			"keyActions": "fY1kUq_keyActions",
-			"summaryMeta": "fY1kUq_summaryMeta",
-			"listScroller": "fY1kUq_listScroller",
-			"empty": "fY1kUq_empty",
-			"keyDraftInputs": "fY1kUq_keyDraftInputs",
 			"actionRow": "fY1kUq_actionRow",
-			"helper": "fY1kUq_helper",
-			"error": "fY1kUq_error",
+			"empty": "fY1kUq_empty",
 			"keyMeta": "fY1kUq_keyMeta",
+			"keyInput": "fY1kUq_keyInput",
+			"keyLabel": "fY1kUq_keyLabel",
+			"listScroller": "fY1kUq_listScroller",
+			"keyActions": "fY1kUq_keyActions",
+			"keyDanger": "fY1kUq_keyDanger",
+			"keyDraftInputs": "fY1kUq_keyDraftInputs",
+			"summaryMeta": "fY1kUq_summaryMeta",
+			"keyIcon": "fY1kUq_keyIcon",
+			"keySave": "fY1kUq_keySave",
+			"helper": "fY1kUq_helper",
+			"addButton": "fY1kUq_addButton",
+			"error": "fY1kUq_error",
 			"keyTextBlock": "fY1kUq_keyTextBlock",
+			"shell": "fY1kUq_shell",
 			"listWrap": "fY1kUq_listWrap",
-			"keySave": "fY1kUq_keySave"
+			"keyLabelInput": "fY1kUq_keyLabelInput",
+			"keyRow": "fY1kUq_keyRow",
+			"keyDraftRow": "fY1kUq_keyDraftRow"
 		};
 		//#endregion
 		//#region lib/types/client/ApiKeyListDrawer.js
@@ -12071,57 +12071,57 @@ window.__ModuleLoader__.load({
 			document.head.appendChild(tag);
 		}
 		var ProviderDirectorySection_module_css_default = {
-			"detail": "l38w4q_detail",
-			"boltButton": "l38w4q_boltButton",
-			"notice": "l38w4q_notice",
-			"listItem": "l38w4q_listItem",
-			"searchIcon": "l38w4q_searchIcon",
-			"error": "l38w4q_error",
-			"emptyDetail": "l38w4q_emptyDetail",
-			"listScroll": "l38w4q_listScroll",
-			"disabledTag": "l38w4q_disabledTag",
-			"switchOn": "l38w4q_switchOn",
 			"headerIconButton": "l38w4q_headerIconButton",
-			"listItemDropTarget": "l38w4q_listItemDropTarget",
-			"addCustomButton": "l38w4q_addCustomButton",
-			"searchClear": "l38w4q_searchClear",
-			"kebabSlot": "l38w4q_kebabSlot",
-			"searchRow": "l38w4q_searchRow",
 			"section": "l38w4q_section",
-			"detailHeaderMain": "l38w4q_detailHeaderMain",
-			"groupRows": "l38w4q_groupRows",
-			"emptyList": "l38w4q_emptyList",
-			"listFooter": "l38w4q_listFooter",
-			"emptyTitle": "l38w4q_emptyTitle",
-			"enabledDot": "l38w4q_enabledDot",
-			"listItemDragging": "l38w4q_listItemDragging",
-			"searchWrap": "l38w4q_searchWrap",
-			"kebabButton": "l38w4q_kebabButton",
-			"detailBody": "l38w4q_detailBody",
-			"switch": "l38w4q_switch",
-			"deleteDialog": "l38w4q_deleteDialog",
-			"emptyHint": "l38w4q_emptyHint",
-			"deleteConfirm": "l38w4q_deleteConfirm",
 			"split": "l38w4q_split",
-			"listItemName": "l38w4q_listItemName",
-			"listItemDisabled": "l38w4q_listItemDisabled",
-			"intro": "l38w4q_intro",
-			"switchThumb": "l38w4q_switchThumb",
+			"listScroll": "l38w4q_listScroll",
+			"detailHeader": "l38w4q_detailHeader",
+			"savedNotice": "l38w4q_savedNotice",
+			"avatar": "l38w4q_avatar",
+			"searchIcon": "l38w4q_searchIcon",
+			"disabledTag": "l38w4q_disabledTag",
+			"addCustomButton": "l38w4q_addCustomButton",
 			"detailScroll": "l38w4q_detailScroll",
-			"searchInput": "l38w4q_searchInput",
-			"infoDot": "l38w4q_infoDot",
-			"dragHandle": "l38w4q_dragHandle",
+			"emptyList": "l38w4q_emptyList",
+			"switchThumb": "l38w4q_switchThumb",
+			"emptyDetail": "l38w4q_emptyDetail",
+			"secondaryButton": "l38w4q_secondaryButton",
+			"intro": "l38w4q_intro",
+			"listItemDisabled": "l38w4q_listItemDisabled",
+			"switchOn": "l38w4q_switchOn",
+			"emptyTitle": "l38w4q_emptyTitle",
 			"listItemSelected": "l38w4q_listItemSelected",
 			"freeBadge": "l38w4q_freeBadge",
-			"customTag": "l38w4q_customTag",
-			"savedNotice": "l38w4q_savedNotice",
-			"secondaryButton": "l38w4q_secondaryButton",
+			"searchInput": "l38w4q_searchInput",
 			"listItemMain": "l38w4q_listItemMain",
+			"detailHeaderMain": "l38w4q_detailHeaderMain",
+			"switch": "l38w4q_switch",
+			"groupRows": "l38w4q_groupRows",
+			"emptyHint": "l38w4q_emptyHint",
+			"notice": "l38w4q_notice",
+			"searchWrap": "l38w4q_searchWrap",
+			"searchRow": "l38w4q_searchRow",
+			"searchClear": "l38w4q_searchClear",
 			"detailRoute": "l38w4q_detailRoute",
 			"list": "l38w4q_list",
-			"detailHeader": "l38w4q_detailHeader",
-			"avatar": "l38w4q_avatar",
-			"detailTitle": "l38w4q_detailTitle"
+			"detail": "l38w4q_detail",
+			"customTag": "l38w4q_customTag",
+			"dragHandle": "l38w4q_dragHandle",
+			"detailBody": "l38w4q_detailBody",
+			"listItem": "l38w4q_listItem",
+			"boltButton": "l38w4q_boltButton",
+			"listItemDragging": "l38w4q_listItemDragging",
+			"enabledDot": "l38w4q_enabledDot",
+			"listFooter": "l38w4q_listFooter",
+			"detailTitle": "l38w4q_detailTitle",
+			"deleteDialog": "l38w4q_deleteDialog",
+			"deleteConfirm": "l38w4q_deleteConfirm",
+			"listItemDropTarget": "l38w4q_listItemDropTarget",
+			"kebabSlot": "l38w4q_kebabSlot",
+			"kebabButton": "l38w4q_kebabButton",
+			"infoDot": "l38w4q_infoDot",
+			"error": "l38w4q_error",
+			"listItemName": "l38w4q_listItemName"
 		};
 		//#endregion
 		//#region lib/types/client/ProviderDirectorySection.js
@@ -13509,35 +13509,35 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var AddMcpServerDialog_module_css_default = {
-			"dialog": "uv_otq_dialog",
-			"footer": "uv_otq_footer",
-			"quickImport": "uv_otq_quickImport",
-			"marketRow": "uv_otq_marketRow",
+			"marketEmpty": "uv_otq_marketEmpty",
+			"tabActive": "uv_otq_tabActive",
+			"quickImportSummary": "uv_otq_quickImportSummary",
 			"marketDesc": "uv_otq_marketDesc",
+			"submitButton": "uv_otq_submitButton",
+			"header": "uv_otq_header",
+			"marketMain": "uv_otq_marketMain",
+			"cancelButton": "uv_otq_cancelButton",
+			"form": "uv_otq_form",
+			"error": "uv_otq_error",
+			"quickImportActions": "uv_otq_quickImportActions",
 			"closeButton": "uv_otq_closeButton",
 			"select": "uv_otq_select",
-			"form": "uv_otq_form",
 			"title": "uv_otq_title",
-			"marketMain": "uv_otq_marketMain",
+			"dialog": "uv_otq_dialog",
+			"field": "uv_otq_field",
 			"textarea": "uv_otq_textarea",
-			"marketList": "uv_otq_marketList",
-			"label": "uv_otq_label",
-			"marketVersion": "uv_otq_marketVersion",
-			"marketItem": "uv_otq_marketItem",
-			"error": "uv_otq_error",
-			"quickImportSummary": "uv_otq_quickImportSummary",
-			"tabActive": "uv_otq_tabActive",
-			"header": "uv_otq_header",
-			"quickImportActions": "uv_otq_quickImportActions",
-			"submitButton": "uv_otq_submitButton",
-			"cancelButton": "uv_otq_cancelButton",
-			"marketEmpty": "uv_otq_marketEmpty",
+			"marketName": "uv_otq_marketName",
 			"tabRow": "uv_otq_tabRow",
 			"tabButton": "uv_otq_tabButton",
+			"marketRow": "uv_otq_marketRow",
+			"marketVersion": "uv_otq_marketVersion",
+			"marketList": "uv_otq_marketList",
+			"overlay": "uv_otq_overlay",
 			"input": "uv_otq_input",
-			"field": "uv_otq_field",
-			"marketName": "uv_otq_marketName",
-			"overlay": "uv_otq_overlay"
+			"footer": "uv_otq_footer",
+			"marketItem": "uv_otq_marketItem",
+			"quickImport": "uv_otq_quickImport",
+			"label": "uv_otq_label"
 		};
 		//#endregion
 		//#region lib/types/client/AddMcpServerDialog.js
@@ -14126,76 +14126,76 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var McpSection_module_css_default = {
-			"dangerZoneText": "_0bBxiW_dangerZoneText",
-			"toolDescription": "_0bBxiW_toolDescription",
-			"emptyDescription": "_0bBxiW_emptyDescription",
-			"secondaryButton": "_0bBxiW_secondaryButton",
-			"addFooter": "_0bBxiW_addFooter",
-			"emptyDetailState": "_0bBxiW_emptyDetailState",
-			"tabActive": "_0bBxiW_tabActive",
-			"dangerButton": "_0bBxiW_dangerButton",
-			"listItemIdle": "_0bBxiW_listItemIdle",
-			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
-			"listItem": "_0bBxiW_listItem",
-			"addButton": "_0bBxiW_addButton",
-			"emptyState": "_0bBxiW_emptyState",
-			"errorBox": "_0bBxiW_errorBox",
-			"error": "_0bBxiW_error",
-			"searchWrap": "_0bBxiW_searchWrap",
-			"listItemLabel": "_0bBxiW_listItemLabel",
-			"logHeader": "_0bBxiW_logHeader",
-			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
-			"codeBlock": "_0bBxiW_codeBlock",
-			"sectionHeader": "_0bBxiW_sectionHeader",
-			"switchSlider": "_0bBxiW_switchSlider",
-			"switchInput": "_0bBxiW_switchInput",
-			"fieldHint": "_0bBxiW_fieldHint",
-			"tabBar": "_0bBxiW_tabBar",
-			"fieldGroup": "_0bBxiW_fieldGroup",
-			"toolsList": "_0bBxiW_toolsList",
-			"logInfo": "_0bBxiW_logInfo",
-			"dangerZone": "_0bBxiW_dangerZone",
-			"descriptionText": "_0bBxiW_descriptionText",
-			"switchWrapper": "_0bBxiW_switchWrapper",
 			"loading": "_0bBxiW_loading",
-			"activeDot": "_0bBxiW_activeDot",
-			"input": "_0bBxiW_input",
-			"detailScroll": "_0bBxiW_detailScroll",
-			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
-			"toolName": "_0bBxiW_toolName",
-			"listItemMain": "_0bBxiW_listItemMain",
-			"resourceUri": "_0bBxiW_resourceUri",
-			"emptyTitle": "_0bBxiW_emptyTitle",
-			"formActions": "_0bBxiW_formActions",
-			"codeLine": "_0bBxiW_codeLine",
+			"toolsList": "_0bBxiW_toolsList",
+			"detailMeta": "_0bBxiW_detailMeta",
+			"searchWrap": "_0bBxiW_searchWrap",
 			"detailHeader": "_0bBxiW_detailHeader",
-			"listItemSelected": "_0bBxiW_listItemSelected",
-			"fieldLabel": "_0bBxiW_fieldLabel",
-			"detailTitle": "_0bBxiW_detailTitle",
-			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
-			"emptyIcon": "_0bBxiW_emptyIcon",
-			"listScroller": "_0bBxiW_listScroller",
-			"section": "_0bBxiW_section",
-			"searchRow": "_0bBxiW_searchRow",
-			"fieldRow": "_0bBxiW_fieldRow",
-			"textarea": "_0bBxiW_textarea",
-			"searchIcon": "_0bBxiW_searchIcon",
-			"listItemAvatar": "_0bBxiW_listItemAvatar",
-			"primaryButton": "_0bBxiW_primaryButton",
+			"emptyTitle": "_0bBxiW_emptyTitle",
+			"input": "_0bBxiW_input",
+			"codeLine": "_0bBxiW_codeLine",
+			"dangerZoneDescription": "_0bBxiW_dangerZoneDescription",
 			"serverDetail": "_0bBxiW_serverDetail",
+			"dangerButton": "_0bBxiW_dangerButton",
+			"descriptionText": "_0bBxiW_descriptionText",
+			"toolItem": "_0bBxiW_toolItem",
+			"listItemSelected": "_0bBxiW_listItemSelected",
+			"sectionHeader": "_0bBxiW_sectionHeader",
+			"toolDescription": "_0bBxiW_toolDescription",
+			"addFooter": "_0bBxiW_addFooter",
+			"fieldRow": "_0bBxiW_fieldRow",
+			"dangerZoneText": "_0bBxiW_dangerZoneText",
+			"sectionHeading": "_0bBxiW_sectionHeading",
+			"searchIcon": "_0bBxiW_searchIcon",
+			"detailScroll": "_0bBxiW_detailScroll",
 			"serverList": "_0bBxiW_serverList",
+			"formActions": "_0bBxiW_formActions",
+			"section": "_0bBxiW_section",
+			"tab": "_0bBxiW_tab",
+			"detailMetaItem": "_0bBxiW_detailMetaItem",
+			"emptyDetailState": "_0bBxiW_emptyDetailState",
+			"listItemIdle": "_0bBxiW_listItemIdle",
+			"switchSlider": "_0bBxiW_switchSlider",
+			"listItemMain": "_0bBxiW_listItemMain",
+			"logHeader": "_0bBxiW_logHeader",
+			"detailTitle": "_0bBxiW_detailTitle",
+			"listItemLabel": "_0bBxiW_listItemLabel",
+			"listItemAvatar": "_0bBxiW_listItemAvatar",
+			"searchClearButton": "_0bBxiW_searchClearButton",
+			"primaryButton": "_0bBxiW_primaryButton",
+			"tabBar": "_0bBxiW_tabBar",
+			"toolHeader": "_0bBxiW_toolHeader",
+			"fieldLabel": "_0bBxiW_fieldLabel",
+			"resourceUri": "_0bBxiW_resourceUri",
+			"dangerZoneTitle": "_0bBxiW_dangerZoneTitle",
+			"dangerZone": "_0bBxiW_dangerZone",
+			"emptyState": "_0bBxiW_emptyState",
+			"fieldGroup": "_0bBxiW_fieldGroup",
+			"detailHeaderContent": "_0bBxiW_detailHeaderContent",
+			"tabActive": "_0bBxiW_tabActive",
+			"detailContentMaxWidth": "_0bBxiW_detailContentMaxWidth",
+			"secondaryButton": "_0bBxiW_secondaryButton",
+			"error": "_0bBxiW_error",
 			"searchInput": "_0bBxiW_searchInput",
+			"checkbox": "_0bBxiW_checkbox",
+			"toolName": "_0bBxiW_toolName",
+			"logInfo": "_0bBxiW_logInfo",
+			"addButton": "_0bBxiW_addButton",
+			"switchWrapper": "_0bBxiW_switchWrapper",
+			"searchRow": "_0bBxiW_searchRow",
 			"listItems": "_0bBxiW_listItems",
 			"splitRoot": "_0bBxiW_splitRoot",
-			"detailMetaItem": "_0bBxiW_detailMetaItem",
-			"detailMeta": "_0bBxiW_detailMeta",
-			"tab": "_0bBxiW_tab",
+			"listScroller": "_0bBxiW_listScroller",
+			"fieldHint": "_0bBxiW_fieldHint",
+			"codeBlock": "_0bBxiW_codeBlock",
+			"switchInput": "_0bBxiW_switchInput",
+			"activeDot": "_0bBxiW_activeDot",
+			"errorBox": "_0bBxiW_errorBox",
+			"emptyIcon": "_0bBxiW_emptyIcon",
+			"textarea": "_0bBxiW_textarea",
 			"sectionBody": "_0bBxiW_sectionBody",
-			"checkbox": "_0bBxiW_checkbox",
-			"sectionHeading": "_0bBxiW_sectionHeading",
-			"toolItem": "_0bBxiW_toolItem",
-			"toolHeader": "_0bBxiW_toolHeader",
-			"searchClearButton": "_0bBxiW_searchClearButton"
+			"emptyDescription": "_0bBxiW_emptyDescription",
+			"listItem": "_0bBxiW_listItem"
 		};
 		//#endregion
 		//#region lib/types/client/McpSection.js
@@ -15147,26 +15147,26 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var WebSearchSection_module_css_default = {
-			"cardDescription": "_0WjBOa_cardDescription",
-			"fieldLabel": "_0WjBOa_fieldLabel",
-			"fieldHint": "_0WjBOa_fieldHint",
-			"error": "_0WjBOa_error",
-			"providerDescription": "_0WjBOa_providerDescription",
-			"pageHeader": "_0WjBOa_pageHeader",
 			"card": "_0WjBOa_card",
-			"root": "_0WjBOa_root",
-			"select": "_0WjBOa_select",
-			"providerDetail": "_0WjBOa_providerDetail",
-			"pageDescription": "_0WjBOa_pageDescription",
-			"apiKeyRow": "_0WjBOa_apiKeyRow",
-			"loading": "_0WjBOa_loading",
+			"providerName": "_0WjBOa_providerName",
+			"providerDescription": "_0WjBOa_providerDescription",
+			"error": "_0WjBOa_error",
+			"pageHeader": "_0WjBOa_pageHeader",
+			"fieldHint": "_0WjBOa_fieldHint",
 			"input": "_0WjBOa_input",
-			"fieldRow": "_0WjBOa_fieldRow",
-			"iconButton": "_0WjBOa_iconButton",
-			"cardTitle": "_0WjBOa_cardTitle",
+			"loading": "_0WjBOa_loading",
+			"apiKeyRow": "_0WjBOa_apiKeyRow",
+			"fieldLabel": "_0WjBOa_fieldLabel",
+			"select": "_0WjBOa_select",
 			"pageTitle": "_0WjBOa_pageTitle",
+			"fieldRow": "_0WjBOa_fieldRow",
+			"cardDescription": "_0WjBOa_cardDescription",
+			"pageDescription": "_0WjBOa_pageDescription",
+			"providerDetail": "_0WjBOa_providerDetail",
+			"root": "_0WjBOa_root",
 			"checkbox": "_0WjBOa_checkbox",
-			"providerName": "_0WjBOa_providerName"
+			"iconButton": "_0WjBOa_iconButton",
+			"cardTitle": "_0WjBOa_cardTitle"
 		};
 		//#endregion
 		//#region lib/types/client/WebSearchSection.js
@@ -15583,23 +15583,23 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ProcessorSection_module_css_default = {
-			"apiKeyRow": "CL8zIa_apiKeyRow",
+			"select": "CL8zIa_select",
+			"cardDescription": "CL8zIa_cardDescription",
+			"providerDetail": "CL8zIa_providerDetail",
 			"cardTitle": "CL8zIa_cardTitle",
+			"pageTitle": "CL8zIa_pageTitle",
+			"iconButton": "CL8zIa_iconButton",
+			"pageDescription": "CL8zIa_pageDescription",
+			"providerName": "CL8zIa_providerName",
+			"input": "CL8zIa_input",
+			"loading": "CL8zIa_loading",
+			"fieldLabel": "CL8zIa_fieldLabel",
 			"card": "CL8zIa_card",
 			"fieldHint": "CL8zIa_fieldHint",
-			"loading": "CL8zIa_loading",
-			"pageTitle": "CL8zIa_pageTitle",
-			"root": "CL8zIa_root",
-			"select": "CL8zIa_select",
-			"fieldLabel": "CL8zIa_fieldLabel",
-			"providerDetail": "CL8zIa_providerDetail",
 			"providerDescription": "CL8zIa_providerDescription",
+			"apiKeyRow": "CL8zIa_apiKeyRow",
 			"fieldRow": "CL8zIa_fieldRow",
-			"cardDescription": "CL8zIa_cardDescription",
-			"iconButton": "CL8zIa_iconButton",
-			"input": "CL8zIa_input",
-			"providerName": "CL8zIa_providerName",
-			"pageDescription": "CL8zIa_pageDescription"
+			"root": "CL8zIa_root"
 		};
 		//#endregion
 		//#region lib/types/client/ProcessorSection.js
@@ -15884,61 +15884,61 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var UsageSection_module_css_default = {
-			"summaryLine": "ej6-VW_summaryLine",
-			"heatmapSection": "ej6-VW_heatmapSection",
-			"pageDescription": "ej6-VW_pageDescription",
-			"heatmapMonth": "ej6-VW_heatmapMonth",
-			"heatmapCell": "ej6-VW_heatmapCell",
-			"barSegment": "ej6-VW_barSegment",
-			"heatmapTitle": "ej6-VW_heatmapTitle",
-			"donutLegend": "ej6-VW_donutLegend",
-			"donutSwatch": "ej6-VW_donutSwatch",
-			"insightItem": "ej6-VW_insightItem",
-			"barColumn": "ej6-VW_barColumn",
-			"modelCell": "ej6-VW_modelCell",
-			"pageHeader": "ej6-VW_pageHeader",
-			"exploreCard": "ej6-VW_exploreCard",
-			"heatmapCol": "ej6-VW_heatmapCol",
-			"metricCell": "ej6-VW_metricCell",
-			"windowTabs": "ej6-VW_windowTabs",
-			"metricValue": "ej6-VW_metricValue",
-			"down": "ej6-VW_down",
-			"exploreHeader": "ej6-VW_exploreHeader",
-			"donutLegendKey": "ej6-VW_donutLegendKey",
-			"donutLegendValue": "ej6-VW_donutLegendValue",
-			"tableWrap": "ej6-VW_tableWrap",
-			"modelName": "ej6-VW_modelName",
-			"loadMoreBtn": "ej6-VW_loadMoreBtn",
-			"exploreTitle": "ej6-VW_exploreTitle",
-			"tableEmpty": "ej6-VW_tableEmpty",
-			"insightValue": "ej6-VW_insightValue",
 			"metricDelta": "ej6-VW_metricDelta",
-			"metricSparkline": "ej6-VW_metricSparkline",
-			"insightLabel": "ej6-VW_insightLabel",
-			"heatmap": "ej6-VW_heatmap",
-			"modelProvider": "ej6-VW_modelProvider",
+			"insightValue": "ej6-VW_insightValue",
+			"heatmapMonth": "ej6-VW_heatmapMonth",
+			"donutLegendRow": "ej6-VW_donutLegendRow",
+			"tableWrap": "ej6-VW_tableWrap",
+			"heatmapSection": "ej6-VW_heatmapSection",
+			"heatmapCell": "ej6-VW_heatmapCell",
+			"donutLegend": "ej6-VW_donutLegend",
+			"root": "ej6-VW_root",
+			"heatmapCol": "ej6-VW_heatmapCol",
 			"metricLabel": "ej6-VW_metricLabel",
-			"insightStrip": "ej6-VW_insightStrip",
-			"heatmapColCells": "ej6-VW_heatmapColCells",
-			"barAxis": "ej6-VW_barAxis",
+			"windowTabs": "ej6-VW_windowTabs",
+			"controlLabel": "ej6-VW_controlLabel",
+			"exploreBody": "ej6-VW_exploreBody",
+			"donutLegendValue": "ej6-VW_donutLegendValue",
+			"insightLabel": "ej6-VW_insightLabel",
 			"controlRow": "ej6-VW_controlRow",
 			"windowTab": "ej6-VW_windowTab",
-			"up": "ej6-VW_up",
-			"heatmapCellOutside": "ej6-VW_heatmapCellOutside",
+			"modelCell": "ej6-VW_modelCell",
 			"pageTitle": "ej6-VW_pageTitle",
-			"barChart": "ej6-VW_barChart",
-			"donutWrap": "ej6-VW_donutWrap",
-			"donutLegendRow": "ej6-VW_donutLegendRow",
+			"controlSelect": "ej6-VW_controlSelect",
+			"barSegment": "ej6-VW_barSegment",
+			"heatmapCellOutside": "ej6-VW_heatmapCellOutside",
+			"pageHeader": "ej6-VW_pageHeader",
+			"pageDescription": "ej6-VW_pageDescription",
+			"exploreTitle": "ej6-VW_exploreTitle",
+			"heatmap": "ej6-VW_heatmap",
+			"heatmapTitle": "ej6-VW_heatmapTitle",
+			"active": "ej6-VW_active",
+			"barColumn": "ej6-VW_barColumn",
+			"barAxis": "ej6-VW_barAxis",
+			"donutLegendKey": "ej6-VW_donutLegendKey",
 			"entriesTable": "ej6-VW_entriesTable",
 			"tdRight": "ej6-VW_tdRight",
-			"usageEmpty": "ej6-VW_usageEmpty",
-			"heatmapScroll": "ej6-VW_heatmapScroll",
-			"controlLabel": "ej6-VW_controlLabel",
-			"root": "ej6-VW_root",
+			"down": "ej6-VW_down",
+			"metricSparkline": "ej6-VW_metricSparkline",
+			"insightStrip": "ej6-VW_insightStrip",
 			"metricStrip": "ej6-VW_metricStrip",
-			"controlSelect": "ej6-VW_controlSelect",
-			"exploreBody": "ej6-VW_exploreBody",
-			"active": "ej6-VW_active"
+			"insightItem": "ej6-VW_insightItem",
+			"donutWrap": "ej6-VW_donutWrap",
+			"modelName": "ej6-VW_modelName",
+			"barChart": "ej6-VW_barChart",
+			"metricValue": "ej6-VW_metricValue",
+			"modelProvider": "ej6-VW_modelProvider",
+			"up": "ej6-VW_up",
+			"heatmapColCells": "ej6-VW_heatmapColCells",
+			"tableEmpty": "ej6-VW_tableEmpty",
+			"usageEmpty": "ej6-VW_usageEmpty",
+			"summaryLine": "ej6-VW_summaryLine",
+			"exploreHeader": "ej6-VW_exploreHeader",
+			"donutSwatch": "ej6-VW_donutSwatch",
+			"metricCell": "ej6-VW_metricCell",
+			"heatmapScroll": "ej6-VW_heatmapScroll",
+			"loadMoreBtn": "ej6-VW_loadMoreBtn",
+			"exploreCard": "ej6-VW_exploreCard"
 		};
 		//#endregion
 		//#region lib/types/client/UsageSection.js
@@ -16869,17 +16869,17 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var SettingsPages_module_css_default = {
+			"group": "_0spVW_group",
+			"groupDescription": "_0spVW_groupDescription",
 			"rowControl": "_0spVW_rowControl",
 			"shellInner": "_0spVW_shellInner",
-			"groupDescription": "_0spVW_groupDescription",
-			"row": "_0spVW_row",
-			"shell": "_0spVW_shell",
+			"rowDescription": "_0spVW_rowDescription",
 			"divider": "_0spVW_divider",
 			"rowTitle": "_0spVW_rowTitle",
-			"group": "_0spVW_group",
-			"rowDescription": "_0spVW_rowDescription",
 			"groupTitle": "_0spVW_groupTitle",
-			"switchLabel": "_0spVW_switchLabel"
+			"switchLabel": "_0spVW_switchLabel",
+			"row": "_0spVW_row",
+			"shell": "_0spVW_shell"
 		};
 		//#endregion
 		//#region lib/types/client/SettingsPages.js
@@ -16949,19 +16949,19 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var DataSection_module_css_default = {
-			"container": "I3a7dW_container",
-			"capabilityNoticeIcon": "I3a7dW_capabilityNoticeIcon",
-			"pathInput": "I3a7dW_pathInput",
-			"select": "I3a7dW_select",
-			"sidebarDivider": "I3a7dW_sidebarDivider",
 			"sidebar": "I3a7dW_sidebar",
 			"statusNotice": "I3a7dW_statusNotice",
-			"capabilityNoticeText": "I3a7dW_capabilityNoticeText",
-			"capabilityNotice": "I3a7dW_capabilityNotice",
+			"capabilityNoticeIcon": "I3a7dW_capabilityNoticeIcon",
+			"select": "I3a7dW_select",
+			"sidebarItem": "I3a7dW_sidebarItem",
 			"sidebarTitle": "I3a7dW_sidebarTitle",
+			"capabilityNoticeText": "I3a7dW_capabilityNoticeText",
+			"sidebarDivider": "I3a7dW_sidebarDivider",
 			"content": "I3a7dW_content",
+			"capabilityNotice": "I3a7dW_capabilityNotice",
+			"pathInput": "I3a7dW_pathInput",
 			"sidebarItemActive": "I3a7dW_sidebarItemActive",
-			"sidebarItem": "I3a7dW_sidebarItem"
+			"container": "I3a7dW_container"
 		};
 		//#endregion
 		//#region lib/types/client/DataSection.js
@@ -17922,16 +17922,16 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var SystemSection_module_css_default = {
-			"loading": "MzTzwq_loading",
-			"badge": "MzTzwq_badge",
-			"infoLabel": "MzTzwq_infoLabel",
 			"root": "MzTzwq_root",
 			"pageTitle": "MzTzwq_pageTitle",
-			"pageDescription": "MzTzwq_pageDescription",
-			"cardTitle": "MzTzwq_cardTitle",
+			"loading": "MzTzwq_loading",
 			"infoRow": "MzTzwq_infoRow",
+			"infoLabel": "MzTzwq_infoLabel",
+			"infoValue": "MzTzwq_infoValue",
+			"badge": "MzTzwq_badge",
+			"pageDescription": "MzTzwq_pageDescription",
 			"card": "MzTzwq_card",
-			"infoValue": "MzTzwq_infoValue"
+			"cardTitle": "MzTzwq_cardTitle"
 		};
 		//#endregion
 		//#region lib/types/client/SystemSection.js
@@ -18196,22 +18196,22 @@ ${editTarget.defaults.baseURL}`}`,
 		}
 		var TasksSection_module_css_default = {
 			"root": "_3yT94W_root",
-			"select": "_3yT94W_select",
-			"pageTitle": "_3yT94W_pageTitle",
+			"taskMain": "_3yT94W_taskMain",
+			"runRow": "_3yT94W_runRow",
 			"runOk": "_3yT94W_runOk",
+			"pageTitle": "_3yT94W_pageTitle",
+			"select": "_3yT94W_select",
+			"runFail": "_3yT94W_runFail",
+			"taskName": "_3yT94W_taskName",
 			"input": "_3yT94W_input",
 			"runDetail": "_3yT94W_runDetail",
-			"runTime": "_3yT94W_runTime",
-			"pageDescription": "_3yT94W_pageDescription",
-			"taskName": "_3yT94W_taskName",
-			"runFail": "_3yT94W_runFail",
-			"loading": "_3yT94W_loading",
 			"card": "_3yT94W_card",
-			"cardTitle": "_3yT94W_cardTitle",
 			"taskRow": "_3yT94W_taskRow",
-			"taskMain": "_3yT94W_taskMain",
-			"taskMeta": "_3yT94W_taskMeta",
-			"runRow": "_3yT94W_runRow"
+			"pageDescription": "_3yT94W_pageDescription",
+			"runTime": "_3yT94W_runTime",
+			"loading": "_3yT94W_loading",
+			"cardTitle": "_3yT94W_cardTitle",
+			"taskMeta": "_3yT94W_taskMeta"
 		};
 		//#endregion
 		//#region lib/types/client/TasksSection.js
@@ -18576,13 +18576,28 @@ ${editTarget.defaults.baseURL}`}`,
 		/** Client descriptor contribution for the Control Center channel bridge. */
 		const channelBridgeRemote = {
 			package: "@dsh-control-center/control-center",
-			descriptors: [{
-				method: "status",
-				parameters: []
-			}, {
-				method: "getLog",
-				parameters: ["channelId", "lines"]
-			}].map(({ method, parameters }) => ({
+			descriptors: [
+				{
+					method: "status",
+					parameters: []
+				},
+				{
+					method: "getLog",
+					parameters: ["channelId", "lines"]
+				},
+				{
+					method: "wechatLoginState",
+					parameters: ["channelId"]
+				},
+				{
+					method: "wechatQrBegin",
+					parameters: ["channelId"]
+				},
+				{
+					method: "wechatQrPoll",
+					parameters: ["channelId"]
+				}
+			].map(({ method, parameters }) => ({
 				id: `@dsh-control-center/control-center#controlCenterChannelBridge/${method}`,
 				service: "controlCenterChannelBridge",
 				namespace: "controlCenterChannelBridge",
@@ -18609,24 +18624,24 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var LocalModelDownloads_module_css_default = {
-			"noticeText": "_9apQa_noticeText",
-			"modelStatus": "_9apQa_modelStatus",
 			"modelSubtitle": "_9apQa_modelSubtitle",
-			"statusReady": "_9apQa_statusReady",
 			"modelName": "_9apQa_modelName",
-			"groupHeader": "_9apQa_groupHeader",
-			"groupDesc": "_9apQa_groupDesc",
-			"btnPrimary": "_9apQa_btnPrimary",
+			"modelIcon": "_9apQa_modelIcon",
+			"modelStatus": "_9apQa_modelStatus",
+			"noticeRow": "_9apQa_noticeRow",
 			"modelMain": "_9apQa_modelMain",
 			"statusIdle": "_9apQa_statusIdle",
-			"modelIcon": "_9apQa_modelIcon",
-			"btn": "_9apQa_btn",
-			"noticeTag": "_9apQa_noticeTag",
-			"statusDownloading": "_9apQa_statusDownloading",
+			"groupDesc": "_9apQa_groupDesc",
+			"groupHeader": "_9apQa_groupHeader",
+			"statusReady": "_9apQa_statusReady",
 			"modelOps": "_9apQa_modelOps",
+			"noticeText": "_9apQa_noticeText",
 			"btnDanger": "_9apQa_btnDanger",
 			"modelCard": "_9apQa_modelCard",
-			"noticeRow": "_9apQa_noticeRow"
+			"statusDownloading": "_9apQa_statusDownloading",
+			"noticeTag": "_9apQa_noticeTag",
+			"btn": "_9apQa_btn",
+			"btnPrimary": "_9apQa_btnPrimary"
 		};
 		//#endregion
 		//#region lib/types/client/LocalModelDownloads.js
@@ -19027,20 +19042,20 @@ ${editTarget.defaults.baseURL}`}`,
 		}
 		var ApiGatewaySection_module_css_default = {
 			"ghostBtn": "S156cG_ghostBtn",
-			"outlineBtn": "S156cG_outlineBtn",
-			"iconBtn": "S156cG_iconBtn",
-			"input": "S156cG_input",
-			"groupHeaderRow": "S156cG_groupHeaderRow",
-			"headerBox": "S156cG_headerBox",
-			"statusRow": "S156cG_statusRow",
-			"notice": "S156cG_notice",
-			"statusDot": "S156cG_statusDot",
-			"inputGroup": "S156cG_inputGroup",
 			"inputSmall": "S156cG_inputSmall",
-			"copied": "S156cG_copied",
-			"docLink": "S156cG_docLink",
 			"statusText": "S156cG_statusText",
-			"statusStopped": "S156cG_statusStopped"
+			"statusStopped": "S156cG_statusStopped",
+			"groupHeaderRow": "S156cG_groupHeaderRow",
+			"iconBtn": "S156cG_iconBtn",
+			"inputGroup": "S156cG_inputGroup",
+			"statusRow": "S156cG_statusRow",
+			"copied": "S156cG_copied",
+			"headerBox": "S156cG_headerBox",
+			"docLink": "S156cG_docLink",
+			"input": "S156cG_input",
+			"notice": "S156cG_notice",
+			"outlineBtn": "S156cG_outlineBtn",
+			"statusDot": "S156cG_statusDot"
 		};
 		//#endregion
 		//#region lib/types/client/ApiGatewaySection.js
@@ -19416,28 +19431,28 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var SettingsRoot_module_css_default = {
-			"trigger": "_4STY0G_trigger",
-			"active": "_4STY0G_active",
 			"navLabel": "_4STY0G_navLabel",
-			"content": "_4STY0G_content",
-			"overlay": "_4STY0G_overlay",
-			"close": "_4STY0G_close",
-			"navGroup": "_4STY0G_navGroup",
-			"navGroupTitle": "_4STY0G_navGroupTitle",
-			"navCell": "_4STY0G_navCell",
-			"navScroll": "_4STY0G_navScroll",
-			"nav": "_4STY0G_nav",
-			"rail": "_4STY0G_rail",
-			"navTitle": "_4STY0G_navTitle",
-			"options": "_4STY0G_options",
-			"header": "_4STY0G_header",
-			"mask": "_4STY0G_mask",
-			"navIcon": "_4STY0G_navIcon",
 			"actions": "_4STY0G_actions",
+			"active": "_4STY0G_active",
 			"triggerLabel": "_4STY0G_triggerLabel",
+			"mask": "_4STY0G_mask",
+			"navTitle": "_4STY0G_navTitle",
+			"rail": "_4STY0G_rail",
+			"trigger": "_4STY0G_trigger",
+			"navGroup": "_4STY0G_navGroup",
+			"nav": "_4STY0G_nav",
+			"navScroll": "_4STY0G_navScroll",
+			"overlay": "_4STY0G_overlay",
+			"navGroupTitle": "_4STY0G_navGroupTitle",
+			"content": "_4STY0G_content",
 			"panel": "_4STY0G_panel",
+			"options": "_4STY0G_options",
+			"close": "_4STY0G_close",
 			"navList": "_4STY0G_navList",
-			"hiddenLabel": "_4STY0G_hiddenLabel"
+			"navIcon": "_4STY0G_navIcon",
+			"header": "_4STY0G_header",
+			"hiddenLabel": "_4STY0G_hiddenLabel",
+			"navCell": "_4STY0G_navCell"
 		};
 		//#endregion
 		//#region \0dsh-control-center-plain-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\cherry-tokens.css.mjs
@@ -19781,24 +19796,24 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var GeneralSection_module_css_default = {
-			"noteBody": "DFoDHW_noteBody",
 			"groupTitle": "DFoDHW_groupTitle",
-			"group": "DFoDHW_group",
-			"nativeNoteBody": "DFoDHW_nativeNoteBody",
-			"divider": "DFoDHW_divider",
-			"prefRowControl": "DFoDHW_prefRowControl",
-			"section": "DFoDHW_section",
-			"prefRow": "DFoDHW_prefRow",
 			"note": "DFoDHW_note",
 			"groupBody": "DFoDHW_groupBody",
-			"nativeNote": "DFoDHW_nativeNote",
-			"error": "DFoDHW_error",
-			"errorTitle": "DFoDHW_errorTitle",
-			"nativeNoteTitle": "DFoDHW_nativeNoteTitle",
-			"prefRowTitle": "DFoDHW_prefRowTitle",
-			"prefRowHint": "DFoDHW_prefRowHint",
 			"noteTitle": "DFoDHW_noteTitle",
-			"errorDescription": "DFoDHW_errorDescription"
+			"nativeNote": "DFoDHW_nativeNote",
+			"prefRowHint": "DFoDHW_prefRowHint",
+			"prefRowControl": "DFoDHW_prefRowControl",
+			"errorDescription": "DFoDHW_errorDescription",
+			"group": "DFoDHW_group",
+			"nativeNoteBody": "DFoDHW_nativeNoteBody",
+			"error": "DFoDHW_error",
+			"prefRowTitle": "DFoDHW_prefRowTitle",
+			"divider": "DFoDHW_divider",
+			"section": "DFoDHW_section",
+			"nativeNoteTitle": "DFoDHW_nativeNoteTitle",
+			"prefRow": "DFoDHW_prefRow",
+			"errorTitle": "DFoDHW_errorTitle",
+			"noteBody": "DFoDHW_noteBody"
 		};
 		//#endregion
 		//#region lib/types/client/GeneralSection.js
@@ -20049,23 +20064,23 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var AppearanceSection_module_css_default = {
-			"fontSelect": "_-7MpG_fontSelect",
-			"hexInput": "_-7MpG_hexInput",
-			"previewFrame": "_-7MpG_previewFrame",
-			"themeOption": "_-7MpG_themeOption",
-			"themePreviewActive": "_-7MpG_themePreviewActive",
-			"colorRow": "_-7MpG_colorRow",
-			"themeGrid": "_-7MpG_themeGrid",
-			"swatch": "_-7MpG_swatch",
-			"themeLabel": "_-7MpG_themeLabel",
-			"nativePicker": "_-7MpG_nativePicker",
 			"cssEditor": "_-7MpG_cssEditor",
-			"nativeSwatch": "_-7MpG_nativeSwatch",
 			"staticValue": "_-7MpG_staticValue",
-			"desktopTag": "_-7MpG_desktopTag",
-			"zoomControls": "_-7MpG_zoomControls",
+			"nativePicker": "_-7MpG_nativePicker",
+			"colorRow": "_-7MpG_colorRow",
 			"groupHeader": "_-7MpG_groupHeader",
-			"swatchActive": "_-7MpG_swatchActive"
+			"themeLabel": "_-7MpG_themeLabel",
+			"themeOption": "_-7MpG_themeOption",
+			"swatch": "_-7MpG_swatch",
+			"zoomControls": "_-7MpG_zoomControls",
+			"fontSelect": "_-7MpG_fontSelect",
+			"themeGrid": "_-7MpG_themeGrid",
+			"swatchActive": "_-7MpG_swatchActive",
+			"hexInput": "_-7MpG_hexInput",
+			"themePreviewActive": "_-7MpG_themePreviewActive",
+			"previewFrame": "_-7MpG_previewFrame",
+			"nativeSwatch": "_-7MpG_nativeSwatch",
+			"desktopTag": "_-7MpG_desktopTag"
 		};
 		//#endregion
 		//#region lib/types/client/AppearanceSection.js
@@ -20887,36 +20902,36 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ShortcutSection_module_css_default = {
-			"headerControls": "-S_gJa_headerControls",
-			"menuPop": "-S_gJa_menuPop",
-			"rowSwitch": "-S_gJa_rowSwitch",
-			"groupLabel": "-S_gJa_groupLabel",
-			"menuCount": "-S_gJa_menuCount",
+			"row": "-S_gJa_row",
+			"searchInput": "-S_gJa_searchInput",
+			"desktopTag": "-S_gJa_desktopTag",
+			"kbd": "-S_gJa_kbd",
+			"header": "-S_gJa_header",
+			"filterButton": "-S_gJa_filterButton",
+			"groupBlock": "-S_gJa_groupBlock",
+			"rowDisabled": "-S_gJa_rowDisabled",
+			"menuItem": "-S_gJa_menuItem",
+			"emptyState": "-S_gJa_emptyState",
 			"menuItemActive": "-S_gJa_menuItemActive",
+			"rowSwitch": "-S_gJa_rowSwitch",
+			"bound": "-S_gJa_bound",
+			"moreButton": "-S_gJa_moreButton",
 			"listGroup": "-S_gJa_listGroup",
 			"keys": "-S_gJa_keys",
-			"headerTitle": "-S_gJa_headerTitle",
-			"searchWrap": "-S_gJa_searchWrap",
-			"header": "-S_gJa_header",
-			"moreButton": "-S_gJa_moreButton",
-			"rowLabel": "-S_gJa_rowLabel",
-			"groupBlock": "-S_gJa_groupBlock",
-			"emptyState": "-S_gJa_emptyState",
-			"menuSep": "-S_gJa_menuSep",
-			"searchInput": "-S_gJa_searchInput",
-			"menuItem": "-S_gJa_menuItem",
-			"row": "-S_gJa_row",
-			"rowDisabled": "-S_gJa_rowDisabled",
-			"filterButton": "-S_gJa_filterButton",
-			"unbound": "-S_gJa_unbound",
-			"kbd": "-S_gJa_kbd",
 			"recording": "-S_gJa_recording",
+			"menuCount": "-S_gJa_menuCount",
 			"menuItemDanger": "-S_gJa_menuItemDanger",
-			"searchIcon": "-S_gJa_searchIcon",
-			"desktopTag": "-S_gJa_desktopTag",
+			"menuPop": "-S_gJa_menuPop",
+			"unbound": "-S_gJa_unbound",
+			"headerControls": "-S_gJa_headerControls",
+			"searchWrap": "-S_gJa_searchWrap",
+			"groupLabel": "-S_gJa_groupLabel",
 			"rowShortcut": "-S_gJa_rowShortcut",
-			"bound": "-S_gJa_bound",
-			"undo": "-S_gJa_undo"
+			"undo": "-S_gJa_undo",
+			"headerTitle": "-S_gJa_headerTitle",
+			"searchIcon": "-S_gJa_searchIcon",
+			"menuSep": "-S_gJa_menuSep",
+			"rowLabel": "-S_gJa_rowLabel"
 		};
 		//#endregion
 		//#region lib/types/client/ShortcutSection.js
@@ -21517,43 +21532,43 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var SelectionAssistantSection_module_css_default = {
-			"modalCard": "_2Suf7W_modalCard",
-			"opacityRow": "_2Suf7W_opacityRow",
-			"enableBtnOn": "_2Suf7W_enableBtnOn",
-			"modalOverlay": "_2Suf7W_modalOverlay",
-			"radioItem": "_2Suf7W_radioItem",
-			"actionRowDisabled": "_2Suf7W_actionRowDisabled",
-			"btn": "_2Suf7W_btn",
 			"actionName": "_2Suf7W_actionName",
-			"enableBtn": "_2Suf7W_enableBtn",
-			"btnPrimary": "_2Suf7W_btnPrimary",
-			"actionIcon": "_2Suf7W_actionIcon",
-			"radioRow": "_2Suf7W_radioRow",
-			"formTextarea": "_2Suf7W_formTextarea",
-			"toolbarPreview": "_2Suf7W_toolbarPreview",
-			"formInput": "_2Suf7W_formInput",
-			"modalFooter": "_2Suf7W_modalFooter",
-			"outlineBtn": "_2Suf7W_outlineBtn",
-			"opacitySlider": "_2Suf7W_opacitySlider",
-			"actionRow": "_2Suf7W_actionRow",
-			"faqLink": "_2Suf7W_faqLink",
-			"groupTitle": "_2Suf7W_groupTitle",
-			"noticeText": "_2Suf7W_noticeText",
-			"actionOps": "_2Suf7W_actionOps",
+			"modalOverlay": "_2Suf7W_modalOverlay",
+			"btn": "_2Suf7W_btn",
 			"formHint": "_2Suf7W_formHint",
-			"groupHeaderRow": "_2Suf7W_groupHeaderRow",
+			"enableBtnOn": "_2Suf7W_enableBtnOn",
+			"groupTitle": "_2Suf7W_groupTitle",
+			"formField": "_2Suf7W_formField",
+			"modalCard": "_2Suf7W_modalCard",
+			"toolbarItem": "_2Suf7W_toolbarItem",
+			"modalFooter": "_2Suf7W_modalFooter",
+			"formInput": "_2Suf7W_formInput",
+			"enableBtn": "_2Suf7W_enableBtn",
+			"notice": "_2Suf7W_notice",
+			"btnPrimary": "_2Suf7W_btnPrimary",
+			"actionRow": "_2Suf7W_actionRow",
+			"actionRowDisabled": "_2Suf7W_actionRowDisabled",
+			"actionRowDragging": "_2Suf7W_actionRowDragging",
+			"opacityRow": "_2Suf7W_opacityRow",
+			"actionIcon": "_2Suf7W_actionIcon",
+			"opBtn": "_2Suf7W_opBtn",
+			"faqLink": "_2Suf7W_faqLink",
+			"toolbarPreview": "_2Suf7W_toolbarPreview",
+			"outlineBtn": "_2Suf7W_outlineBtn",
+			"formTextarea": "_2Suf7W_formTextarea",
+			"actionsHeaderBtns": "_2Suf7W_actionsHeaderBtns",
+			"engineChip": "_2Suf7W_engineChip",
+			"opBtnDanger": "_2Suf7W_opBtnDanger",
 			"ghostBtn": "_2Suf7W_ghostBtn",
 			"toolbarIcon": "_2Suf7W_toolbarIcon",
-			"actionRowDragging": "_2Suf7W_actionRowDragging",
-			"actionsHeaderBtns": "_2Suf7W_actionsHeaderBtns",
-			"toolbarItem": "_2Suf7W_toolbarItem",
-			"notice": "_2Suf7W_notice",
-			"dragHandle": "_2Suf7W_dragHandle",
-			"opBtnDanger": "_2Suf7W_opBtnDanger",
-			"formField": "_2Suf7W_formField",
+			"groupHeaderRow": "_2Suf7W_groupHeaderRow",
 			"actionsDivider": "_2Suf7W_actionsDivider",
-			"engineChip": "_2Suf7W_engineChip",
-			"opBtn": "_2Suf7W_opBtn"
+			"opacitySlider": "_2Suf7W_opacitySlider",
+			"dragHandle": "_2Suf7W_dragHandle",
+			"actionOps": "_2Suf7W_actionOps",
+			"radioRow": "_2Suf7W_radioRow",
+			"noticeText": "_2Suf7W_noticeText",
+			"radioItem": "_2Suf7W_radioItem"
 		};
 		//#endregion
 		//#region lib/types/client/SelectionAssistantSection.js
@@ -22247,19 +22262,19 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var QuickAssistantSection_module_css_default = {
-			"segmented": "AweFxa_segmented",
+			"notice": "AweFxa_notice",
 			"modelRow": "AweFxa_modelRow",
-			"previewWindow": "AweFxa_previewWindow",
-			"groupTitle": "AweFxa_groupTitle",
-			"previewChip": "AweFxa_previewChip",
-			"segItemActive": "AweFxa_segItemActive",
-			"modelHint": "AweFxa_modelHint",
 			"segItem": "AweFxa_segItem",
+			"segItemActive": "AweFxa_segItemActive",
 			"previewBar": "AweFxa_previewBar",
-			"previewLogo": "AweFxa_previewLogo",
 			"previewPlaceholder": "AweFxa_previewPlaceholder",
+			"groupTitle": "AweFxa_groupTitle",
+			"segmented": "AweFxa_segmented",
+			"previewWindow": "AweFxa_previewWindow",
+			"modelHint": "AweFxa_modelHint",
 			"previewFooter": "AweFxa_previewFooter",
-			"notice": "AweFxa_notice"
+			"previewChip": "AweFxa_previewChip",
+			"previewLogo": "AweFxa_previewLogo"
 		};
 		//#endregion
 		//#region lib/types/client/QuickAssistantSection.js
@@ -22418,15 +22433,15 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ScreenshotSection_module_css_default = {
-			"notice": "RXXS4a_notice",
 			"shortcutLabel": "RXXS4a_shortcutLabel",
 			"shortcutDesc": "RXXS4a_shortcutDesc",
-			"shortcutRight": "RXXS4a_shortcutRight",
-			"groupTitle": "RXXS4a_groupTitle",
-			"shortcutBadge": "RXXS4a_shortcutBadge",
-			"ocrStatus": "RXXS4a_ocrStatus",
 			"linkBtn": "RXXS4a_linkBtn",
-			"shortcutTitle": "RXXS4a_shortcutTitle"
+			"groupTitle": "RXXS4a_groupTitle",
+			"shortcutRight": "RXXS4a_shortcutRight",
+			"shortcutTitle": "RXXS4a_shortcutTitle",
+			"ocrStatus": "RXXS4a_ocrStatus",
+			"notice": "RXXS4a_notice",
+			"shortcutBadge": "RXXS4a_shortcutBadge"
 		};
 		//#endregion
 		//#region lib/types/client/ScreenshotSection.js
@@ -22542,6 +22557,2537 @@ ${editTarget.defaults.baseURL}`}`,
 				] })
 			] });
 		}
+		//#endregion
+		//#region ../../node_modules/.pnpm/qrcode-generator@2.0.4/node_modules/qrcode-generator/dist/qrcode.mjs
+		/**
+		* qrcode
+		* @param typeNumber 1 to 40
+		* @param errorCorrectionLevel 'L','M','Q','H'
+		*/
+		const qrcode = function(typeNumber, errorCorrectionLevel) {
+			const PAD0 = 236;
+			const PAD1 = 17;
+			let _typeNumber = typeNumber;
+			const _errorCorrectionLevel = QRErrorCorrectionLevel[errorCorrectionLevel];
+			let _modules = null;
+			let _moduleCount = 0;
+			let _dataCache = null;
+			const _dataList = [];
+			const _this = {};
+			const makeImpl = function(test, maskPattern) {
+				_moduleCount = _typeNumber * 4 + 17;
+				_modules = function(moduleCount) {
+					const modules = new Array(moduleCount);
+					for (let row = 0; row < moduleCount; row += 1) {
+						modules[row] = new Array(moduleCount);
+						for (let col = 0; col < moduleCount; col += 1) modules[row][col] = null;
+					}
+					return modules;
+				}(_moduleCount);
+				setupPositionProbePattern(0, 0);
+				setupPositionProbePattern(_moduleCount - 7, 0);
+				setupPositionProbePattern(0, _moduleCount - 7);
+				setupPositionAdjustPattern();
+				setupTimingPattern();
+				setupTypeInfo(test, maskPattern);
+				if (_typeNumber >= 7) setupTypeNumber(test);
+				if (_dataCache == null) _dataCache = createData(_typeNumber, _errorCorrectionLevel, _dataList);
+				mapData(_dataCache, maskPattern);
+			};
+			const setupPositionProbePattern = function(row, col) {
+				for (let r = -1; r <= 7; r += 1) {
+					if (row + r <= -1 || _moduleCount <= row + r) continue;
+					for (let c = -1; c <= 7; c += 1) {
+						if (col + c <= -1 || _moduleCount <= col + c) continue;
+						if (0 <= r && r <= 6 && (c == 0 || c == 6) || 0 <= c && c <= 6 && (r == 0 || r == 6) || 2 <= r && r <= 4 && 2 <= c && c <= 4) _modules[row + r][col + c] = true;
+						else _modules[row + r][col + c] = false;
+					}
+				}
+			};
+			const getBestMaskPattern = function() {
+				let minLostPoint = 0;
+				let pattern = 0;
+				for (let i = 0; i < 8; i += 1) {
+					makeImpl(true, i);
+					const lostPoint = QRUtil.getLostPoint(_this);
+					if (i == 0 || minLostPoint > lostPoint) {
+						minLostPoint = lostPoint;
+						pattern = i;
+					}
+				}
+				return pattern;
+			};
+			const setupTimingPattern = function() {
+				for (let r = 8; r < _moduleCount - 8; r += 1) {
+					if (_modules[r][6] != null) continue;
+					_modules[r][6] = r % 2 == 0;
+				}
+				for (let c = 8; c < _moduleCount - 8; c += 1) {
+					if (_modules[6][c] != null) continue;
+					_modules[6][c] = c % 2 == 0;
+				}
+			};
+			const setupPositionAdjustPattern = function() {
+				const pos = QRUtil.getPatternPosition(_typeNumber);
+				for (let i = 0; i < pos.length; i += 1) for (let j = 0; j < pos.length; j += 1) {
+					const row = pos[i];
+					const col = pos[j];
+					if (_modules[row][col] != null) continue;
+					for (let r = -2; r <= 2; r += 1) for (let c = -2; c <= 2; c += 1) if (r == -2 || r == 2 || c == -2 || c == 2 || r == 0 && c == 0) _modules[row + r][col + c] = true;
+					else _modules[row + r][col + c] = false;
+				}
+			};
+			const setupTypeNumber = function(test) {
+				const bits = QRUtil.getBCHTypeNumber(_typeNumber);
+				for (let i = 0; i < 18; i += 1) {
+					const mod = !test && (bits >> i & 1) == 1;
+					_modules[Math.floor(i / 3)][i % 3 + _moduleCount - 8 - 3] = mod;
+				}
+				for (let i = 0; i < 18; i += 1) {
+					const mod = !test && (bits >> i & 1) == 1;
+					_modules[i % 3 + _moduleCount - 8 - 3][Math.floor(i / 3)] = mod;
+				}
+			};
+			const setupTypeInfo = function(test, maskPattern) {
+				const data = _errorCorrectionLevel << 3 | maskPattern;
+				const bits = QRUtil.getBCHTypeInfo(data);
+				for (let i = 0; i < 15; i += 1) {
+					const mod = !test && (bits >> i & 1) == 1;
+					if (i < 6) _modules[i][8] = mod;
+					else if (i < 8) _modules[i + 1][8] = mod;
+					else _modules[_moduleCount - 15 + i][8] = mod;
+				}
+				for (let i = 0; i < 15; i += 1) {
+					const mod = !test && (bits >> i & 1) == 1;
+					if (i < 8) _modules[8][_moduleCount - i - 1] = mod;
+					else if (i < 9) _modules[8][15 - i - 1 + 1] = mod;
+					else _modules[8][15 - i - 1] = mod;
+				}
+				_modules[_moduleCount - 8][8] = !test;
+			};
+			const mapData = function(data, maskPattern) {
+				let inc = -1;
+				let row = _moduleCount - 1;
+				let bitIndex = 7;
+				let byteIndex = 0;
+				const maskFunc = QRUtil.getMaskFunction(maskPattern);
+				for (let col = _moduleCount - 1; col > 0; col -= 2) {
+					if (col == 6) col -= 1;
+					while (true) {
+						for (let c = 0; c < 2; c += 1) if (_modules[row][col - c] == null) {
+							let dark = false;
+							if (byteIndex < data.length) dark = (data[byteIndex] >>> bitIndex & 1) == 1;
+							if (maskFunc(row, col - c)) dark = !dark;
+							_modules[row][col - c] = dark;
+							bitIndex -= 1;
+							if (bitIndex == -1) {
+								byteIndex += 1;
+								bitIndex = 7;
+							}
+						}
+						row += inc;
+						if (row < 0 || _moduleCount <= row) {
+							row -= inc;
+							inc = -inc;
+							break;
+						}
+					}
+				}
+			};
+			const createBytes = function(buffer, rsBlocks) {
+				let offset = 0;
+				let maxDcCount = 0;
+				let maxEcCount = 0;
+				const dcdata = new Array(rsBlocks.length);
+				const ecdata = new Array(rsBlocks.length);
+				for (let r = 0; r < rsBlocks.length; r += 1) {
+					const dcCount = rsBlocks[r].dataCount;
+					const ecCount = rsBlocks[r].totalCount - dcCount;
+					maxDcCount = Math.max(maxDcCount, dcCount);
+					maxEcCount = Math.max(maxEcCount, ecCount);
+					dcdata[r] = new Array(dcCount);
+					for (let i = 0; i < dcdata[r].length; i += 1) dcdata[r][i] = 255 & buffer.getBuffer()[i + offset];
+					offset += dcCount;
+					const rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+					const modPoly = qrPolynomial(dcdata[r], rsPoly.getLength() - 1).mod(rsPoly);
+					ecdata[r] = new Array(rsPoly.getLength() - 1);
+					for (let i = 0; i < ecdata[r].length; i += 1) {
+						const modIndex = i + modPoly.getLength() - ecdata[r].length;
+						ecdata[r][i] = modIndex >= 0 ? modPoly.getAt(modIndex) : 0;
+					}
+				}
+				let totalCodeCount = 0;
+				for (let i = 0; i < rsBlocks.length; i += 1) totalCodeCount += rsBlocks[i].totalCount;
+				const data = new Array(totalCodeCount);
+				let index = 0;
+				for (let i = 0; i < maxDcCount; i += 1) for (let r = 0; r < rsBlocks.length; r += 1) if (i < dcdata[r].length) {
+					data[index] = dcdata[r][i];
+					index += 1;
+				}
+				for (let i = 0; i < maxEcCount; i += 1) for (let r = 0; r < rsBlocks.length; r += 1) if (i < ecdata[r].length) {
+					data[index] = ecdata[r][i];
+					index += 1;
+				}
+				return data;
+			};
+			const createData = function(typeNumber, errorCorrectionLevel, dataList) {
+				const rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectionLevel);
+				const buffer = qrBitBuffer();
+				for (let i = 0; i < dataList.length; i += 1) {
+					const data = dataList[i];
+					buffer.put(data.getMode(), 4);
+					buffer.put(data.getLength(), QRUtil.getLengthInBits(data.getMode(), typeNumber));
+					data.write(buffer);
+				}
+				let totalDataCount = 0;
+				for (let i = 0; i < rsBlocks.length; i += 1) totalDataCount += rsBlocks[i].dataCount;
+				if (buffer.getLengthInBits() > totalDataCount * 8) throw "code length overflow. (" + buffer.getLengthInBits() + ">" + totalDataCount * 8 + ")";
+				if (buffer.getLengthInBits() + 4 <= totalDataCount * 8) buffer.put(0, 4);
+				while (buffer.getLengthInBits() % 8 != 0) buffer.putBit(false);
+				while (true) {
+					if (buffer.getLengthInBits() >= totalDataCount * 8) break;
+					buffer.put(PAD0, 8);
+					if (buffer.getLengthInBits() >= totalDataCount * 8) break;
+					buffer.put(PAD1, 8);
+				}
+				return createBytes(buffer, rsBlocks);
+			};
+			_this.addData = function(data, mode) {
+				mode = mode || "Byte";
+				let newData = null;
+				switch (mode) {
+					case "Numeric":
+						newData = qrNumber(data);
+						break;
+					case "Alphanumeric":
+						newData = qrAlphaNum(data);
+						break;
+					case "Byte":
+						newData = qr8BitByte(data);
+						break;
+					case "Kanji":
+						newData = qrKanji(data);
+						break;
+					default: throw "mode:" + mode;
+				}
+				_dataList.push(newData);
+				_dataCache = null;
+			};
+			_this.isDark = function(row, col) {
+				if (row < 0 || _moduleCount <= row || col < 0 || _moduleCount <= col) throw row + "," + col;
+				return _modules[row][col];
+			};
+			_this.getModuleCount = function() {
+				return _moduleCount;
+			};
+			_this.make = function() {
+				if (_typeNumber < 1) {
+					let typeNumber = 1;
+					for (; typeNumber < 40; typeNumber++) {
+						const rsBlocks = QRRSBlock.getRSBlocks(typeNumber, _errorCorrectionLevel);
+						const buffer = qrBitBuffer();
+						for (let i = 0; i < _dataList.length; i++) {
+							const data = _dataList[i];
+							buffer.put(data.getMode(), 4);
+							buffer.put(data.getLength(), QRUtil.getLengthInBits(data.getMode(), typeNumber));
+							data.write(buffer);
+						}
+						let totalDataCount = 0;
+						for (let i = 0; i < rsBlocks.length; i++) totalDataCount += rsBlocks[i].dataCount;
+						if (buffer.getLengthInBits() <= totalDataCount * 8) break;
+					}
+					_typeNumber = typeNumber;
+				}
+				makeImpl(false, getBestMaskPattern());
+			};
+			_this.createTableTag = function(cellSize, margin) {
+				cellSize = cellSize || 2;
+				margin = typeof margin == "undefined" ? cellSize * 4 : margin;
+				let qrHtml = "";
+				qrHtml += "<table style=\"";
+				qrHtml += " border-width: 0px; border-style: none;";
+				qrHtml += " border-collapse: collapse;";
+				qrHtml += " padding: 0px; margin: " + margin + "px;";
+				qrHtml += "\">";
+				qrHtml += "<tbody>";
+				for (let r = 0; r < _this.getModuleCount(); r += 1) {
+					qrHtml += "<tr>";
+					for (let c = 0; c < _this.getModuleCount(); c += 1) {
+						qrHtml += "<td style=\"";
+						qrHtml += " border-width: 0px; border-style: none;";
+						qrHtml += " border-collapse: collapse;";
+						qrHtml += " padding: 0px; margin: 0px;";
+						qrHtml += " width: " + cellSize + "px;";
+						qrHtml += " height: " + cellSize + "px;";
+						qrHtml += " background-color: ";
+						qrHtml += _this.isDark(r, c) ? "#000000" : "#ffffff";
+						qrHtml += ";";
+						qrHtml += "\"/>";
+					}
+					qrHtml += "</tr>";
+				}
+				qrHtml += "</tbody>";
+				qrHtml += "</table>";
+				return qrHtml;
+			};
+			_this.createSvgTag = function(cellSize, margin, alt, title) {
+				let opts = {};
+				if (typeof arguments[0] == "object") {
+					opts = arguments[0];
+					cellSize = opts.cellSize;
+					margin = opts.margin;
+					alt = opts.alt;
+					title = opts.title;
+				}
+				cellSize = cellSize || 2;
+				margin = typeof margin == "undefined" ? cellSize * 4 : margin;
+				alt = typeof alt === "string" ? { text: alt } : alt || {};
+				alt.text = alt.text || null;
+				alt.id = alt.text ? alt.id || "qrcode-description" : null;
+				title = typeof title === "string" ? { text: title } : title || {};
+				title.text = title.text || null;
+				title.id = title.text ? title.id || "qrcode-title" : null;
+				const size = _this.getModuleCount() * cellSize + margin * 2;
+				let c, mc, r, mr, qrSvg = "", rect;
+				rect = "l" + cellSize + ",0 0," + cellSize + " -" + cellSize + ",0 0,-" + cellSize + "z ";
+				qrSvg += "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\"";
+				qrSvg += !opts.scalable ? " width=\"" + size + "px\" height=\"" + size + "px\"" : "";
+				qrSvg += " viewBox=\"0 0 " + size + " " + size + "\" ";
+				qrSvg += " preserveAspectRatio=\"xMinYMin meet\"";
+				qrSvg += title.text || alt.text ? " role=\"img\" aria-labelledby=\"" + escapeXml([title.id, alt.id].join(" ").trim()) + "\"" : "";
+				qrSvg += ">";
+				qrSvg += title.text ? "<title id=\"" + escapeXml(title.id) + "\">" + escapeXml(title.text) + "</title>" : "";
+				qrSvg += alt.text ? "<description id=\"" + escapeXml(alt.id) + "\">" + escapeXml(alt.text) + "</description>" : "";
+				qrSvg += "<rect width=\"100%\" height=\"100%\" fill=\"white\" cx=\"0\" cy=\"0\"/>";
+				qrSvg += "<path d=\"";
+				for (r = 0; r < _this.getModuleCount(); r += 1) {
+					mr = r * cellSize + margin;
+					for (c = 0; c < _this.getModuleCount(); c += 1) if (_this.isDark(r, c)) {
+						mc = c * cellSize + margin;
+						qrSvg += "M" + mc + "," + mr + rect;
+					}
+				}
+				qrSvg += "\" stroke=\"transparent\" fill=\"black\"/>";
+				qrSvg += "</svg>";
+				return qrSvg;
+			};
+			_this.createDataURL = function(cellSize, margin) {
+				cellSize = cellSize || 2;
+				margin = typeof margin == "undefined" ? cellSize * 4 : margin;
+				const size = _this.getModuleCount() * cellSize + margin * 2;
+				const min = margin;
+				const max = size - margin;
+				return createDataURL(size, size, function(x, y) {
+					if (min <= x && x < max && min <= y && y < max) {
+						const c = Math.floor((x - min) / cellSize);
+						const r = Math.floor((y - min) / cellSize);
+						return _this.isDark(r, c) ? 0 : 1;
+					} else return 1;
+				});
+			};
+			_this.createImgTag = function(cellSize, margin, alt) {
+				cellSize = cellSize || 2;
+				margin = typeof margin == "undefined" ? cellSize * 4 : margin;
+				const size = _this.getModuleCount() * cellSize + margin * 2;
+				let img = "";
+				img += "<img";
+				img += " src=\"";
+				img += _this.createDataURL(cellSize, margin);
+				img += "\"";
+				img += " width=\"";
+				img += size;
+				img += "\"";
+				img += " height=\"";
+				img += size;
+				img += "\"";
+				if (alt) {
+					img += " alt=\"";
+					img += escapeXml(alt);
+					img += "\"";
+				}
+				img += "/>";
+				return img;
+			};
+			const escapeXml = function(s) {
+				let escaped = "";
+				for (let i = 0; i < s.length; i += 1) {
+					const c = s.charAt(i);
+					switch (c) {
+						case "<":
+							escaped += "&lt;";
+							break;
+						case ">":
+							escaped += "&gt;";
+							break;
+						case "&":
+							escaped += "&amp;";
+							break;
+						case "\"":
+							escaped += "&quot;";
+							break;
+						default: escaped += c;
+					}
+				}
+				return escaped;
+			};
+			const _createHalfASCII = function(margin) {
+				const cellSize = 1;
+				margin = typeof margin == "undefined" ? 2 : margin;
+				const size = _this.getModuleCount() * cellSize + margin * 2;
+				const min = margin;
+				const max = size - margin;
+				let y, x, r1, r2, p;
+				const blocks = {
+					"██": "█",
+					"█ ": "▀",
+					" █": "▄",
+					"  ": " "
+				};
+				const blocksLastLineNoMargin = {
+					"██": "▀",
+					"█ ": "▀",
+					" █": " ",
+					"  ": " "
+				};
+				let ascii = "";
+				for (y = 0; y < size; y += 2) {
+					r1 = Math.floor((y - min) / cellSize);
+					r2 = Math.floor((y + 1 - min) / cellSize);
+					for (x = 0; x < size; x += 1) {
+						p = "█";
+						if (min <= x && x < max && min <= y && y < max && _this.isDark(r1, Math.floor((x - min) / cellSize))) p = " ";
+						if (min <= x && x < max && min <= y + 1 && y + 1 < max && _this.isDark(r2, Math.floor((x - min) / cellSize))) p += " ";
+						else p += "█";
+						ascii += margin < 1 && y + 1 >= max ? blocksLastLineNoMargin[p] : blocks[p];
+					}
+					ascii += "\n";
+				}
+				if (size % 2 && margin > 0) return ascii.substring(0, ascii.length - size - 1) + Array(size + 1).join("▀");
+				return ascii.substring(0, ascii.length - 1);
+			};
+			_this.createASCII = function(cellSize, margin) {
+				cellSize = cellSize || 1;
+				if (cellSize < 2) return _createHalfASCII(margin);
+				cellSize -= 1;
+				margin = typeof margin == "undefined" ? cellSize * 2 : margin;
+				const size = _this.getModuleCount() * cellSize + margin * 2;
+				const min = margin;
+				const max = size - margin;
+				let y, x, r, p;
+				const white = Array(cellSize + 1).join("██");
+				const black = Array(cellSize + 1).join("  ");
+				let ascii = "";
+				let line = "";
+				for (y = 0; y < size; y += 1) {
+					r = Math.floor((y - min) / cellSize);
+					line = "";
+					for (x = 0; x < size; x += 1) {
+						p = 1;
+						if (min <= x && x < max && min <= y && y < max && _this.isDark(r, Math.floor((x - min) / cellSize))) p = 0;
+						line += p ? white : black;
+					}
+					for (r = 0; r < cellSize; r += 1) ascii += line + "\n";
+				}
+				return ascii.substring(0, ascii.length - 1);
+			};
+			_this.renderTo2dContext = function(context, cellSize) {
+				cellSize = cellSize || 2;
+				const length = _this.getModuleCount();
+				for (let row = 0; row < length; row++) for (let col = 0; col < length; col++) {
+					context.fillStyle = _this.isDark(row, col) ? "black" : "white";
+					context.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+				}
+			};
+			return _this;
+		};
+		qrcode.stringToBytes = function(s) {
+			const bytes = [];
+			for (let i = 0; i < s.length; i += 1) {
+				const c = s.charCodeAt(i);
+				bytes.push(c & 255);
+			}
+			return bytes;
+		};
+		/**
+		* @param unicodeData base64 string of byte array.
+		* [16bit Unicode],[16bit Bytes], ...
+		* @param numChars
+		*/
+		qrcode.createStringToBytes = function(unicodeData, numChars) {
+			const unicodeMap = function() {
+				const bin = base64DecodeInputStream(unicodeData);
+				const read = function() {
+					const b = bin.read();
+					if (b == -1) throw "eof";
+					return b;
+				};
+				let count = 0;
+				const unicodeMap = {};
+				while (true) {
+					const b0 = bin.read();
+					if (b0 == -1) break;
+					const b1 = read();
+					const b2 = read();
+					const b3 = read();
+					const k = String.fromCharCode(b0 << 8 | b1);
+					unicodeMap[k] = b2 << 8 | b3;
+					count += 1;
+				}
+				if (count != numChars) throw count + " != " + numChars;
+				return unicodeMap;
+			}();
+			const unknownChar = "?".charCodeAt(0);
+			return function(s) {
+				const bytes = [];
+				for (let i = 0; i < s.length; i += 1) {
+					const c = s.charCodeAt(i);
+					if (c < 128) bytes.push(c);
+					else {
+						const b = unicodeMap[s.charAt(i)];
+						if (typeof b == "number") {
+							if ((b & 255) == b) bytes.push(b);
+							else {
+								bytes.push(b >>> 8);
+								bytes.push(b & 255);
+							}
+						} else bytes.push(unknownChar);
+					}
+				}
+				return bytes;
+			};
+		};
+		const QRMode = {
+			MODE_NUMBER: 1,
+			MODE_ALPHA_NUM: 2,
+			MODE_8BIT_BYTE: 4,
+			MODE_KANJI: 8
+		};
+		const QRErrorCorrectionLevel = {
+			L: 1,
+			M: 0,
+			Q: 3,
+			H: 2
+		};
+		const QRMaskPattern = {
+			PATTERN000: 0,
+			PATTERN001: 1,
+			PATTERN010: 2,
+			PATTERN011: 3,
+			PATTERN100: 4,
+			PATTERN101: 5,
+			PATTERN110: 6,
+			PATTERN111: 7
+		};
+		const QRUtil = function() {
+			const PATTERN_POSITION_TABLE = [
+				[],
+				[6, 18],
+				[6, 22],
+				[6, 26],
+				[6, 30],
+				[6, 34],
+				[
+					6,
+					22,
+					38
+				],
+				[
+					6,
+					24,
+					42
+				],
+				[
+					6,
+					26,
+					46
+				],
+				[
+					6,
+					28,
+					50
+				],
+				[
+					6,
+					30,
+					54
+				],
+				[
+					6,
+					32,
+					58
+				],
+				[
+					6,
+					34,
+					62
+				],
+				[
+					6,
+					26,
+					46,
+					66
+				],
+				[
+					6,
+					26,
+					48,
+					70
+				],
+				[
+					6,
+					26,
+					50,
+					74
+				],
+				[
+					6,
+					30,
+					54,
+					78
+				],
+				[
+					6,
+					30,
+					56,
+					82
+				],
+				[
+					6,
+					30,
+					58,
+					86
+				],
+				[
+					6,
+					34,
+					62,
+					90
+				],
+				[
+					6,
+					28,
+					50,
+					72,
+					94
+				],
+				[
+					6,
+					26,
+					50,
+					74,
+					98
+				],
+				[
+					6,
+					30,
+					54,
+					78,
+					102
+				],
+				[
+					6,
+					28,
+					54,
+					80,
+					106
+				],
+				[
+					6,
+					32,
+					58,
+					84,
+					110
+				],
+				[
+					6,
+					30,
+					58,
+					86,
+					114
+				],
+				[
+					6,
+					34,
+					62,
+					90,
+					118
+				],
+				[
+					6,
+					26,
+					50,
+					74,
+					98,
+					122
+				],
+				[
+					6,
+					30,
+					54,
+					78,
+					102,
+					126
+				],
+				[
+					6,
+					26,
+					52,
+					78,
+					104,
+					130
+				],
+				[
+					6,
+					30,
+					56,
+					82,
+					108,
+					134
+				],
+				[
+					6,
+					34,
+					60,
+					86,
+					112,
+					138
+				],
+				[
+					6,
+					30,
+					58,
+					86,
+					114,
+					142
+				],
+				[
+					6,
+					34,
+					62,
+					90,
+					118,
+					146
+				],
+				[
+					6,
+					30,
+					54,
+					78,
+					102,
+					126,
+					150
+				],
+				[
+					6,
+					24,
+					50,
+					76,
+					102,
+					128,
+					154
+				],
+				[
+					6,
+					28,
+					54,
+					80,
+					106,
+					132,
+					158
+				],
+				[
+					6,
+					32,
+					58,
+					84,
+					110,
+					136,
+					162
+				],
+				[
+					6,
+					26,
+					54,
+					82,
+					110,
+					138,
+					166
+				],
+				[
+					6,
+					30,
+					58,
+					86,
+					114,
+					142,
+					170
+				]
+			];
+			const G15 = 1335;
+			const G18 = 7973;
+			const G15_MASK = 21522;
+			const _this = {};
+			const getBCHDigit = function(data) {
+				let digit = 0;
+				while (data != 0) {
+					digit += 1;
+					data >>>= 1;
+				}
+				return digit;
+			};
+			_this.getBCHTypeInfo = function(data) {
+				let d = data << 10;
+				while (getBCHDigit(d) - getBCHDigit(G15) >= 0) d ^= G15 << getBCHDigit(d) - getBCHDigit(G15);
+				return (data << 10 | d) ^ G15_MASK;
+			};
+			_this.getBCHTypeNumber = function(data) {
+				let d = data << 12;
+				while (getBCHDigit(d) - getBCHDigit(G18) >= 0) d ^= G18 << getBCHDigit(d) - getBCHDigit(G18);
+				return data << 12 | d;
+			};
+			_this.getPatternPosition = function(typeNumber) {
+				return PATTERN_POSITION_TABLE[typeNumber - 1];
+			};
+			_this.getMaskFunction = function(maskPattern) {
+				switch (maskPattern) {
+					case QRMaskPattern.PATTERN000: return function(i, j) {
+						return (i + j) % 2 == 0;
+					};
+					case QRMaskPattern.PATTERN001: return function(i, j) {
+						return i % 2 == 0;
+					};
+					case QRMaskPattern.PATTERN010: return function(i, j) {
+						return j % 3 == 0;
+					};
+					case QRMaskPattern.PATTERN011: return function(i, j) {
+						return (i + j) % 3 == 0;
+					};
+					case QRMaskPattern.PATTERN100: return function(i, j) {
+						return (Math.floor(i / 2) + Math.floor(j / 3)) % 2 == 0;
+					};
+					case QRMaskPattern.PATTERN101: return function(i, j) {
+						return i * j % 2 + i * j % 3 == 0;
+					};
+					case QRMaskPattern.PATTERN110: return function(i, j) {
+						return (i * j % 2 + i * j % 3) % 2 == 0;
+					};
+					case QRMaskPattern.PATTERN111: return function(i, j) {
+						return (i * j % 3 + (i + j) % 2) % 2 == 0;
+					};
+					default: throw "bad maskPattern:" + maskPattern;
+				}
+			};
+			_this.getErrorCorrectPolynomial = function(errorCorrectLength) {
+				let a = qrPolynomial([1], 0);
+				for (let i = 0; i < errorCorrectLength; i += 1) a = a.multiply(qrPolynomial([1, QRMath.gexp(i)], 0));
+				return a;
+			};
+			_this.getLengthInBits = function(mode, type) {
+				if (1 <= type && type < 10) switch (mode) {
+					case QRMode.MODE_NUMBER: return 10;
+					case QRMode.MODE_ALPHA_NUM: return 9;
+					case QRMode.MODE_8BIT_BYTE: return 8;
+					case QRMode.MODE_KANJI: return 8;
+					default: throw "mode:" + mode;
+				}
+				else if (type < 27) switch (mode) {
+					case QRMode.MODE_NUMBER: return 12;
+					case QRMode.MODE_ALPHA_NUM: return 11;
+					case QRMode.MODE_8BIT_BYTE: return 16;
+					case QRMode.MODE_KANJI: return 10;
+					default: throw "mode:" + mode;
+				}
+				else if (type < 41) switch (mode) {
+					case QRMode.MODE_NUMBER: return 14;
+					case QRMode.MODE_ALPHA_NUM: return 13;
+					case QRMode.MODE_8BIT_BYTE: return 16;
+					case QRMode.MODE_KANJI: return 12;
+					default: throw "mode:" + mode;
+				}
+				else throw "type:" + type;
+			};
+			_this.getLostPoint = function(qrcode) {
+				const moduleCount = qrcode.getModuleCount();
+				let lostPoint = 0;
+				for (let row = 0; row < moduleCount; row += 1) for (let col = 0; col < moduleCount; col += 1) {
+					let sameCount = 0;
+					const dark = qrcode.isDark(row, col);
+					for (let r = -1; r <= 1; r += 1) {
+						if (row + r < 0 || moduleCount <= row + r) continue;
+						for (let c = -1; c <= 1; c += 1) {
+							if (col + c < 0 || moduleCount <= col + c) continue;
+							if (r == 0 && c == 0) continue;
+							if (dark == qrcode.isDark(row + r, col + c)) sameCount += 1;
+						}
+					}
+					if (sameCount > 5) lostPoint += 3 + sameCount - 5;
+				}
+				for (let row = 0; row < moduleCount - 1; row += 1) for (let col = 0; col < moduleCount - 1; col += 1) {
+					let count = 0;
+					if (qrcode.isDark(row, col)) count += 1;
+					if (qrcode.isDark(row + 1, col)) count += 1;
+					if (qrcode.isDark(row, col + 1)) count += 1;
+					if (qrcode.isDark(row + 1, col + 1)) count += 1;
+					if (count == 0 || count == 4) lostPoint += 3;
+				}
+				for (let row = 0; row < moduleCount; row += 1) for (let col = 0; col < moduleCount - 6; col += 1) if (qrcode.isDark(row, col) && !qrcode.isDark(row, col + 1) && qrcode.isDark(row, col + 2) && qrcode.isDark(row, col + 3) && qrcode.isDark(row, col + 4) && !qrcode.isDark(row, col + 5) && qrcode.isDark(row, col + 6)) lostPoint += 40;
+				for (let col = 0; col < moduleCount; col += 1) for (let row = 0; row < moduleCount - 6; row += 1) if (qrcode.isDark(row, col) && !qrcode.isDark(row + 1, col) && qrcode.isDark(row + 2, col) && qrcode.isDark(row + 3, col) && qrcode.isDark(row + 4, col) && !qrcode.isDark(row + 5, col) && qrcode.isDark(row + 6, col)) lostPoint += 40;
+				let darkCount = 0;
+				for (let col = 0; col < moduleCount; col += 1) for (let row = 0; row < moduleCount; row += 1) if (qrcode.isDark(row, col)) darkCount += 1;
+				const ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
+				lostPoint += ratio * 10;
+				return lostPoint;
+			};
+			return _this;
+		}();
+		const QRMath = function() {
+			const EXP_TABLE = new Array(256);
+			const LOG_TABLE = new Array(256);
+			for (let i = 0; i < 8; i += 1) EXP_TABLE[i] = 1 << i;
+			for (let i = 8; i < 256; i += 1) EXP_TABLE[i] = EXP_TABLE[i - 4] ^ EXP_TABLE[i - 5] ^ EXP_TABLE[i - 6] ^ EXP_TABLE[i - 8];
+			for (let i = 0; i < 255; i += 1) LOG_TABLE[EXP_TABLE[i]] = i;
+			const _this = {};
+			_this.glog = function(n) {
+				if (n < 1) throw "glog(" + n + ")";
+				return LOG_TABLE[n];
+			};
+			_this.gexp = function(n) {
+				while (n < 0) n += 255;
+				while (n >= 256) n -= 255;
+				return EXP_TABLE[n];
+			};
+			return _this;
+		}();
+		const qrPolynomial = function(num, shift) {
+			if (typeof num.length == "undefined") throw num.length + "/" + shift;
+			const _num = function() {
+				let offset = 0;
+				while (offset < num.length && num[offset] == 0) offset += 1;
+				const _num = new Array(num.length - offset + shift);
+				for (let i = 0; i < num.length - offset; i += 1) _num[i] = num[i + offset];
+				return _num;
+			}();
+			const _this = {};
+			_this.getAt = function(index) {
+				return _num[index];
+			};
+			_this.getLength = function() {
+				return _num.length;
+			};
+			_this.multiply = function(e) {
+				const num = new Array(_this.getLength() + e.getLength() - 1);
+				for (let i = 0; i < _this.getLength(); i += 1) for (let j = 0; j < e.getLength(); j += 1) num[i + j] ^= QRMath.gexp(QRMath.glog(_this.getAt(i)) + QRMath.glog(e.getAt(j)));
+				return qrPolynomial(num, 0);
+			};
+			_this.mod = function(e) {
+				if (_this.getLength() - e.getLength() < 0) return _this;
+				const ratio = QRMath.glog(_this.getAt(0)) - QRMath.glog(e.getAt(0));
+				const num = new Array(_this.getLength());
+				for (let i = 0; i < _this.getLength(); i += 1) num[i] = _this.getAt(i);
+				for (let i = 0; i < e.getLength(); i += 1) num[i] ^= QRMath.gexp(QRMath.glog(e.getAt(i)) + ratio);
+				return qrPolynomial(num, 0).mod(e);
+			};
+			return _this;
+		};
+		const QRRSBlock = function() {
+			const RS_BLOCK_TABLE = [
+				[
+					1,
+					26,
+					19
+				],
+				[
+					1,
+					26,
+					16
+				],
+				[
+					1,
+					26,
+					13
+				],
+				[
+					1,
+					26,
+					9
+				],
+				[
+					1,
+					44,
+					34
+				],
+				[
+					1,
+					44,
+					28
+				],
+				[
+					1,
+					44,
+					22
+				],
+				[
+					1,
+					44,
+					16
+				],
+				[
+					1,
+					70,
+					55
+				],
+				[
+					1,
+					70,
+					44
+				],
+				[
+					2,
+					35,
+					17
+				],
+				[
+					2,
+					35,
+					13
+				],
+				[
+					1,
+					100,
+					80
+				],
+				[
+					2,
+					50,
+					32
+				],
+				[
+					2,
+					50,
+					24
+				],
+				[
+					4,
+					25,
+					9
+				],
+				[
+					1,
+					134,
+					108
+				],
+				[
+					2,
+					67,
+					43
+				],
+				[
+					2,
+					33,
+					15,
+					2,
+					34,
+					16
+				],
+				[
+					2,
+					33,
+					11,
+					2,
+					34,
+					12
+				],
+				[
+					2,
+					86,
+					68
+				],
+				[
+					4,
+					43,
+					27
+				],
+				[
+					4,
+					43,
+					19
+				],
+				[
+					4,
+					43,
+					15
+				],
+				[
+					2,
+					98,
+					78
+				],
+				[
+					4,
+					49,
+					31
+				],
+				[
+					2,
+					32,
+					14,
+					4,
+					33,
+					15
+				],
+				[
+					4,
+					39,
+					13,
+					1,
+					40,
+					14
+				],
+				[
+					2,
+					121,
+					97
+				],
+				[
+					2,
+					60,
+					38,
+					2,
+					61,
+					39
+				],
+				[
+					4,
+					40,
+					18,
+					2,
+					41,
+					19
+				],
+				[
+					4,
+					40,
+					14,
+					2,
+					41,
+					15
+				],
+				[
+					2,
+					146,
+					116
+				],
+				[
+					3,
+					58,
+					36,
+					2,
+					59,
+					37
+				],
+				[
+					4,
+					36,
+					16,
+					4,
+					37,
+					17
+				],
+				[
+					4,
+					36,
+					12,
+					4,
+					37,
+					13
+				],
+				[
+					2,
+					86,
+					68,
+					2,
+					87,
+					69
+				],
+				[
+					4,
+					69,
+					43,
+					1,
+					70,
+					44
+				],
+				[
+					6,
+					43,
+					19,
+					2,
+					44,
+					20
+				],
+				[
+					6,
+					43,
+					15,
+					2,
+					44,
+					16
+				],
+				[
+					4,
+					101,
+					81
+				],
+				[
+					1,
+					80,
+					50,
+					4,
+					81,
+					51
+				],
+				[
+					4,
+					50,
+					22,
+					4,
+					51,
+					23
+				],
+				[
+					3,
+					36,
+					12,
+					8,
+					37,
+					13
+				],
+				[
+					2,
+					116,
+					92,
+					2,
+					117,
+					93
+				],
+				[
+					6,
+					58,
+					36,
+					2,
+					59,
+					37
+				],
+				[
+					4,
+					46,
+					20,
+					6,
+					47,
+					21
+				],
+				[
+					7,
+					42,
+					14,
+					4,
+					43,
+					15
+				],
+				[
+					4,
+					133,
+					107
+				],
+				[
+					8,
+					59,
+					37,
+					1,
+					60,
+					38
+				],
+				[
+					8,
+					44,
+					20,
+					4,
+					45,
+					21
+				],
+				[
+					12,
+					33,
+					11,
+					4,
+					34,
+					12
+				],
+				[
+					3,
+					145,
+					115,
+					1,
+					146,
+					116
+				],
+				[
+					4,
+					64,
+					40,
+					5,
+					65,
+					41
+				],
+				[
+					11,
+					36,
+					16,
+					5,
+					37,
+					17
+				],
+				[
+					11,
+					36,
+					12,
+					5,
+					37,
+					13
+				],
+				[
+					5,
+					109,
+					87,
+					1,
+					110,
+					88
+				],
+				[
+					5,
+					65,
+					41,
+					5,
+					66,
+					42
+				],
+				[
+					5,
+					54,
+					24,
+					7,
+					55,
+					25
+				],
+				[
+					11,
+					36,
+					12,
+					7,
+					37,
+					13
+				],
+				[
+					5,
+					122,
+					98,
+					1,
+					123,
+					99
+				],
+				[
+					7,
+					73,
+					45,
+					3,
+					74,
+					46
+				],
+				[
+					15,
+					43,
+					19,
+					2,
+					44,
+					20
+				],
+				[
+					3,
+					45,
+					15,
+					13,
+					46,
+					16
+				],
+				[
+					1,
+					135,
+					107,
+					5,
+					136,
+					108
+				],
+				[
+					10,
+					74,
+					46,
+					1,
+					75,
+					47
+				],
+				[
+					1,
+					50,
+					22,
+					15,
+					51,
+					23
+				],
+				[
+					2,
+					42,
+					14,
+					17,
+					43,
+					15
+				],
+				[
+					5,
+					150,
+					120,
+					1,
+					151,
+					121
+				],
+				[
+					9,
+					69,
+					43,
+					4,
+					70,
+					44
+				],
+				[
+					17,
+					50,
+					22,
+					1,
+					51,
+					23
+				],
+				[
+					2,
+					42,
+					14,
+					19,
+					43,
+					15
+				],
+				[
+					3,
+					141,
+					113,
+					4,
+					142,
+					114
+				],
+				[
+					3,
+					70,
+					44,
+					11,
+					71,
+					45
+				],
+				[
+					17,
+					47,
+					21,
+					4,
+					48,
+					22
+				],
+				[
+					9,
+					39,
+					13,
+					16,
+					40,
+					14
+				],
+				[
+					3,
+					135,
+					107,
+					5,
+					136,
+					108
+				],
+				[
+					3,
+					67,
+					41,
+					13,
+					68,
+					42
+				],
+				[
+					15,
+					54,
+					24,
+					5,
+					55,
+					25
+				],
+				[
+					15,
+					43,
+					15,
+					10,
+					44,
+					16
+				],
+				[
+					4,
+					144,
+					116,
+					4,
+					145,
+					117
+				],
+				[
+					17,
+					68,
+					42
+				],
+				[
+					17,
+					50,
+					22,
+					6,
+					51,
+					23
+				],
+				[
+					19,
+					46,
+					16,
+					6,
+					47,
+					17
+				],
+				[
+					2,
+					139,
+					111,
+					7,
+					140,
+					112
+				],
+				[
+					17,
+					74,
+					46
+				],
+				[
+					7,
+					54,
+					24,
+					16,
+					55,
+					25
+				],
+				[
+					34,
+					37,
+					13
+				],
+				[
+					4,
+					151,
+					121,
+					5,
+					152,
+					122
+				],
+				[
+					4,
+					75,
+					47,
+					14,
+					76,
+					48
+				],
+				[
+					11,
+					54,
+					24,
+					14,
+					55,
+					25
+				],
+				[
+					16,
+					45,
+					15,
+					14,
+					46,
+					16
+				],
+				[
+					6,
+					147,
+					117,
+					4,
+					148,
+					118
+				],
+				[
+					6,
+					73,
+					45,
+					14,
+					74,
+					46
+				],
+				[
+					11,
+					54,
+					24,
+					16,
+					55,
+					25
+				],
+				[
+					30,
+					46,
+					16,
+					2,
+					47,
+					17
+				],
+				[
+					8,
+					132,
+					106,
+					4,
+					133,
+					107
+				],
+				[
+					8,
+					75,
+					47,
+					13,
+					76,
+					48
+				],
+				[
+					7,
+					54,
+					24,
+					22,
+					55,
+					25
+				],
+				[
+					22,
+					45,
+					15,
+					13,
+					46,
+					16
+				],
+				[
+					10,
+					142,
+					114,
+					2,
+					143,
+					115
+				],
+				[
+					19,
+					74,
+					46,
+					4,
+					75,
+					47
+				],
+				[
+					28,
+					50,
+					22,
+					6,
+					51,
+					23
+				],
+				[
+					33,
+					46,
+					16,
+					4,
+					47,
+					17
+				],
+				[
+					8,
+					152,
+					122,
+					4,
+					153,
+					123
+				],
+				[
+					22,
+					73,
+					45,
+					3,
+					74,
+					46
+				],
+				[
+					8,
+					53,
+					23,
+					26,
+					54,
+					24
+				],
+				[
+					12,
+					45,
+					15,
+					28,
+					46,
+					16
+				],
+				[
+					3,
+					147,
+					117,
+					10,
+					148,
+					118
+				],
+				[
+					3,
+					73,
+					45,
+					23,
+					74,
+					46
+				],
+				[
+					4,
+					54,
+					24,
+					31,
+					55,
+					25
+				],
+				[
+					11,
+					45,
+					15,
+					31,
+					46,
+					16
+				],
+				[
+					7,
+					146,
+					116,
+					7,
+					147,
+					117
+				],
+				[
+					21,
+					73,
+					45,
+					7,
+					74,
+					46
+				],
+				[
+					1,
+					53,
+					23,
+					37,
+					54,
+					24
+				],
+				[
+					19,
+					45,
+					15,
+					26,
+					46,
+					16
+				],
+				[
+					5,
+					145,
+					115,
+					10,
+					146,
+					116
+				],
+				[
+					19,
+					75,
+					47,
+					10,
+					76,
+					48
+				],
+				[
+					15,
+					54,
+					24,
+					25,
+					55,
+					25
+				],
+				[
+					23,
+					45,
+					15,
+					25,
+					46,
+					16
+				],
+				[
+					13,
+					145,
+					115,
+					3,
+					146,
+					116
+				],
+				[
+					2,
+					74,
+					46,
+					29,
+					75,
+					47
+				],
+				[
+					42,
+					54,
+					24,
+					1,
+					55,
+					25
+				],
+				[
+					23,
+					45,
+					15,
+					28,
+					46,
+					16
+				],
+				[
+					17,
+					145,
+					115
+				],
+				[
+					10,
+					74,
+					46,
+					23,
+					75,
+					47
+				],
+				[
+					10,
+					54,
+					24,
+					35,
+					55,
+					25
+				],
+				[
+					19,
+					45,
+					15,
+					35,
+					46,
+					16
+				],
+				[
+					17,
+					145,
+					115,
+					1,
+					146,
+					116
+				],
+				[
+					14,
+					74,
+					46,
+					21,
+					75,
+					47
+				],
+				[
+					29,
+					54,
+					24,
+					19,
+					55,
+					25
+				],
+				[
+					11,
+					45,
+					15,
+					46,
+					46,
+					16
+				],
+				[
+					13,
+					145,
+					115,
+					6,
+					146,
+					116
+				],
+				[
+					14,
+					74,
+					46,
+					23,
+					75,
+					47
+				],
+				[
+					44,
+					54,
+					24,
+					7,
+					55,
+					25
+				],
+				[
+					59,
+					46,
+					16,
+					1,
+					47,
+					17
+				],
+				[
+					12,
+					151,
+					121,
+					7,
+					152,
+					122
+				],
+				[
+					12,
+					75,
+					47,
+					26,
+					76,
+					48
+				],
+				[
+					39,
+					54,
+					24,
+					14,
+					55,
+					25
+				],
+				[
+					22,
+					45,
+					15,
+					41,
+					46,
+					16
+				],
+				[
+					6,
+					151,
+					121,
+					14,
+					152,
+					122
+				],
+				[
+					6,
+					75,
+					47,
+					34,
+					76,
+					48
+				],
+				[
+					46,
+					54,
+					24,
+					10,
+					55,
+					25
+				],
+				[
+					2,
+					45,
+					15,
+					64,
+					46,
+					16
+				],
+				[
+					17,
+					152,
+					122,
+					4,
+					153,
+					123
+				],
+				[
+					29,
+					74,
+					46,
+					14,
+					75,
+					47
+				],
+				[
+					49,
+					54,
+					24,
+					10,
+					55,
+					25
+				],
+				[
+					24,
+					45,
+					15,
+					46,
+					46,
+					16
+				],
+				[
+					4,
+					152,
+					122,
+					18,
+					153,
+					123
+				],
+				[
+					13,
+					74,
+					46,
+					32,
+					75,
+					47
+				],
+				[
+					48,
+					54,
+					24,
+					14,
+					55,
+					25
+				],
+				[
+					42,
+					45,
+					15,
+					32,
+					46,
+					16
+				],
+				[
+					20,
+					147,
+					117,
+					4,
+					148,
+					118
+				],
+				[
+					40,
+					75,
+					47,
+					7,
+					76,
+					48
+				],
+				[
+					43,
+					54,
+					24,
+					22,
+					55,
+					25
+				],
+				[
+					10,
+					45,
+					15,
+					67,
+					46,
+					16
+				],
+				[
+					19,
+					148,
+					118,
+					6,
+					149,
+					119
+				],
+				[
+					18,
+					75,
+					47,
+					31,
+					76,
+					48
+				],
+				[
+					34,
+					54,
+					24,
+					34,
+					55,
+					25
+				],
+				[
+					20,
+					45,
+					15,
+					61,
+					46,
+					16
+				]
+			];
+			const qrRSBlock = function(totalCount, dataCount) {
+				const _this = {};
+				_this.totalCount = totalCount;
+				_this.dataCount = dataCount;
+				return _this;
+			};
+			const _this = {};
+			const getRsBlockTable = function(typeNumber, errorCorrectionLevel) {
+				switch (errorCorrectionLevel) {
+					case QRErrorCorrectionLevel.L: return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
+					case QRErrorCorrectionLevel.M: return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
+					case QRErrorCorrectionLevel.Q: return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
+					case QRErrorCorrectionLevel.H: return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
+					default: return;
+				}
+			};
+			_this.getRSBlocks = function(typeNumber, errorCorrectionLevel) {
+				const rsBlock = getRsBlockTable(typeNumber, errorCorrectionLevel);
+				if (typeof rsBlock == "undefined") throw "bad rs block @ typeNumber:" + typeNumber + "/errorCorrectionLevel:" + errorCorrectionLevel;
+				const length = rsBlock.length / 3;
+				const list = [];
+				for (let i = 0; i < length; i += 1) {
+					const count = rsBlock[i * 3 + 0];
+					const totalCount = rsBlock[i * 3 + 1];
+					const dataCount = rsBlock[i * 3 + 2];
+					for (let j = 0; j < count; j += 1) list.push(qrRSBlock(totalCount, dataCount));
+				}
+				return list;
+			};
+			return _this;
+		}();
+		const qrBitBuffer = function() {
+			const _buffer = [];
+			let _length = 0;
+			const _this = {};
+			_this.getBuffer = function() {
+				return _buffer;
+			};
+			_this.getAt = function(index) {
+				const bufIndex = Math.floor(index / 8);
+				return (_buffer[bufIndex] >>> 7 - index % 8 & 1) == 1;
+			};
+			_this.put = function(num, length) {
+				for (let i = 0; i < length; i += 1) _this.putBit((num >>> length - i - 1 & 1) == 1);
+			};
+			_this.getLengthInBits = function() {
+				return _length;
+			};
+			_this.putBit = function(bit) {
+				const bufIndex = Math.floor(_length / 8);
+				if (_buffer.length <= bufIndex) _buffer.push(0);
+				if (bit) _buffer[bufIndex] |= 128 >>> _length % 8;
+				_length += 1;
+			};
+			return _this;
+		};
+		const qrNumber = function(data) {
+			const _mode = QRMode.MODE_NUMBER;
+			const _data = data;
+			const _this = {};
+			_this.getMode = function() {
+				return _mode;
+			};
+			_this.getLength = function(buffer) {
+				return _data.length;
+			};
+			_this.write = function(buffer) {
+				const data = _data;
+				let i = 0;
+				while (i + 2 < data.length) {
+					buffer.put(strToNum(data.substring(i, i + 3)), 10);
+					i += 3;
+				}
+				if (i < data.length) {
+					if (data.length - i == 1) buffer.put(strToNum(data.substring(i, i + 1)), 4);
+					else if (data.length - i == 2) buffer.put(strToNum(data.substring(i, i + 2)), 7);
+				}
+			};
+			const strToNum = function(s) {
+				let num = 0;
+				for (let i = 0; i < s.length; i += 1) num = num * 10 + chatToNum(s.charAt(i));
+				return num;
+			};
+			const chatToNum = function(c) {
+				if ("0" <= c && c <= "9") return c.charCodeAt(0) - "0".charCodeAt(0);
+				throw "illegal char :" + c;
+			};
+			return _this;
+		};
+		const qrAlphaNum = function(data) {
+			const _mode = QRMode.MODE_ALPHA_NUM;
+			const _data = data;
+			const _this = {};
+			_this.getMode = function() {
+				return _mode;
+			};
+			_this.getLength = function(buffer) {
+				return _data.length;
+			};
+			_this.write = function(buffer) {
+				const s = _data;
+				let i = 0;
+				while (i + 1 < s.length) {
+					buffer.put(getCode(s.charAt(i)) * 45 + getCode(s.charAt(i + 1)), 11);
+					i += 2;
+				}
+				if (i < s.length) buffer.put(getCode(s.charAt(i)), 6);
+			};
+			const getCode = function(c) {
+				if ("0" <= c && c <= "9") return c.charCodeAt(0) - "0".charCodeAt(0);
+				else if ("A" <= c && c <= "Z") return c.charCodeAt(0) - "A".charCodeAt(0) + 10;
+				else switch (c) {
+					case " ": return 36;
+					case "$": return 37;
+					case "%": return 38;
+					case "*": return 39;
+					case "+": return 40;
+					case "-": return 41;
+					case ".": return 42;
+					case "/": return 43;
+					case ":": return 44;
+					default: throw "illegal char :" + c;
+				}
+			};
+			return _this;
+		};
+		const qr8BitByte = function(data) {
+			const _mode = QRMode.MODE_8BIT_BYTE;
+			const _bytes = qrcode.stringToBytes(data);
+			const _this = {};
+			_this.getMode = function() {
+				return _mode;
+			};
+			_this.getLength = function(buffer) {
+				return _bytes.length;
+			};
+			_this.write = function(buffer) {
+				for (let i = 0; i < _bytes.length; i += 1) buffer.put(_bytes[i], 8);
+			};
+			return _this;
+		};
+		const qrKanji = function(data) {
+			const _mode = QRMode.MODE_KANJI;
+			const stringToBytes = qrcode.stringToBytes;
+			(function(c, code) {
+				const test = stringToBytes(c);
+				if (test.length != 2 || (test[0] << 8 | test[1]) != code) throw "sjis not supported.";
+			})("友", 38726);
+			const _bytes = stringToBytes(data);
+			const _this = {};
+			_this.getMode = function() {
+				return _mode;
+			};
+			_this.getLength = function(buffer) {
+				return ~~(_bytes.length / 2);
+			};
+			_this.write = function(buffer) {
+				const data = _bytes;
+				let i = 0;
+				while (i + 1 < data.length) {
+					let c = (255 & data[i]) << 8 | 255 & data[i + 1];
+					if (33088 <= c && c <= 40956) c -= 33088;
+					else if (57408 <= c && c <= 60351) c -= 49472;
+					else throw "illegal char at " + (i + 1) + "/" + c;
+					c = (c >>> 8 & 255) * 192 + (c & 255);
+					buffer.put(c, 13);
+					i += 2;
+				}
+				if (i < data.length) throw "illegal char at " + (i + 1);
+			};
+			return _this;
+		};
+		const byteArrayOutputStream = function() {
+			const _bytes = [];
+			const _this = {};
+			_this.writeByte = function(b) {
+				_bytes.push(b & 255);
+			};
+			_this.writeShort = function(i) {
+				_this.writeByte(i);
+				_this.writeByte(i >>> 8);
+			};
+			_this.writeBytes = function(b, off, len) {
+				off = off || 0;
+				len = len || b.length;
+				for (let i = 0; i < len; i += 1) _this.writeByte(b[i + off]);
+			};
+			_this.writeString = function(s) {
+				for (let i = 0; i < s.length; i += 1) _this.writeByte(s.charCodeAt(i));
+			};
+			_this.toByteArray = function() {
+				return _bytes;
+			};
+			_this.toString = function() {
+				let s = "";
+				s += "[";
+				for (let i = 0; i < _bytes.length; i += 1) {
+					if (i > 0) s += ",";
+					s += _bytes[i];
+				}
+				s += "]";
+				return s;
+			};
+			return _this;
+		};
+		const base64EncodeOutputStream = function() {
+			let _buffer = 0;
+			let _buflen = 0;
+			let _length = 0;
+			let _base64 = "";
+			const _this = {};
+			const writeEncoded = function(b) {
+				_base64 += String.fromCharCode(encode(b & 63));
+			};
+			const encode = function(n) {
+				if (n < 0) throw "n:" + n;
+				else if (n < 26) return 65 + n;
+				else if (n < 52) return 97 + (n - 26);
+				else if (n < 62) return 48 + (n - 52);
+				else if (n == 62) return 43;
+				else if (n == 63) return 47;
+				else throw "n:" + n;
+			};
+			_this.writeByte = function(n) {
+				_buffer = _buffer << 8 | n & 255;
+				_buflen += 8;
+				_length += 1;
+				while (_buflen >= 6) {
+					writeEncoded(_buffer >>> _buflen - 6);
+					_buflen -= 6;
+				}
+			};
+			_this.flush = function() {
+				if (_buflen > 0) {
+					writeEncoded(_buffer << 6 - _buflen);
+					_buffer = 0;
+					_buflen = 0;
+				}
+				if (_length % 3 != 0) {
+					const padlen = 3 - _length % 3;
+					for (let i = 0; i < padlen; i += 1) _base64 += "=";
+				}
+			};
+			_this.toString = function() {
+				return _base64;
+			};
+			return _this;
+		};
+		const base64DecodeInputStream = function(str) {
+			const _str = str;
+			let _pos = 0;
+			let _buffer = 0;
+			let _buflen = 0;
+			const _this = {};
+			_this.read = function() {
+				while (_buflen < 8) {
+					if (_pos >= _str.length) {
+						if (_buflen == 0) return -1;
+						throw "unexpected end of file./" + _buflen;
+					}
+					const c = _str.charAt(_pos);
+					_pos += 1;
+					if (c == "=") {
+						_buflen = 0;
+						return -1;
+					} else if (c.match(/^\s$/)) continue;
+					_buffer = _buffer << 6 | decode(c.charCodeAt(0));
+					_buflen += 6;
+				}
+				const n = _buffer >>> _buflen - 8 & 255;
+				_buflen -= 8;
+				return n;
+			};
+			const decode = function(c) {
+				if (65 <= c && c <= 90) return c - 65;
+				else if (97 <= c && c <= 122) return c - 97 + 26;
+				else if (48 <= c && c <= 57) return c - 48 + 52;
+				else if (c == 43) return 62;
+				else if (c == 47) return 63;
+				else throw "c:" + c;
+			};
+			return _this;
+		};
+		const gifImage = function(width, height) {
+			const _width = width;
+			const _height = height;
+			const _data = new Array(width * height);
+			const _this = {};
+			_this.setPixel = function(x, y, pixel) {
+				_data[y * _width + x] = pixel;
+			};
+			_this.write = function(out) {
+				out.writeString("GIF87a");
+				out.writeShort(_width);
+				out.writeShort(_height);
+				out.writeByte(128);
+				out.writeByte(0);
+				out.writeByte(0);
+				out.writeByte(0);
+				out.writeByte(0);
+				out.writeByte(0);
+				out.writeByte(255);
+				out.writeByte(255);
+				out.writeByte(255);
+				out.writeString(",");
+				out.writeShort(0);
+				out.writeShort(0);
+				out.writeShort(_width);
+				out.writeShort(_height);
+				out.writeByte(0);
+				const lzwMinCodeSize = 2;
+				const raster = getLZWRaster(lzwMinCodeSize);
+				out.writeByte(lzwMinCodeSize);
+				let offset = 0;
+				while (raster.length - offset > 255) {
+					out.writeByte(255);
+					out.writeBytes(raster, offset, 255);
+					offset += 255;
+				}
+				out.writeByte(raster.length - offset);
+				out.writeBytes(raster, offset, raster.length - offset);
+				out.writeByte(0);
+				out.writeString(";");
+			};
+			const bitOutputStream = function(out) {
+				const _out = out;
+				let _bitLength = 0;
+				let _bitBuffer = 0;
+				const _this = {};
+				_this.write = function(data, length) {
+					if (data >>> length != 0) throw "length over";
+					while (_bitLength + length >= 8) {
+						_out.writeByte(255 & (data << _bitLength | _bitBuffer));
+						length -= 8 - _bitLength;
+						data >>>= 8 - _bitLength;
+						_bitBuffer = 0;
+						_bitLength = 0;
+					}
+					_bitBuffer = data << _bitLength | _bitBuffer;
+					_bitLength = _bitLength + length;
+				};
+				_this.flush = function() {
+					if (_bitLength > 0) _out.writeByte(_bitBuffer);
+				};
+				return _this;
+			};
+			const getLZWRaster = function(lzwMinCodeSize) {
+				const clearCode = 1 << lzwMinCodeSize;
+				const endCode = (1 << lzwMinCodeSize) + 1;
+				let bitLength = lzwMinCodeSize + 1;
+				const table = lzwTable();
+				for (let i = 0; i < clearCode; i += 1) table.add(String.fromCharCode(i));
+				table.add(String.fromCharCode(clearCode));
+				table.add(String.fromCharCode(endCode));
+				const byteOut = byteArrayOutputStream();
+				const bitOut = bitOutputStream(byteOut);
+				bitOut.write(clearCode, bitLength);
+				let dataIndex = 0;
+				let s = String.fromCharCode(_data[dataIndex]);
+				dataIndex += 1;
+				while (dataIndex < _data.length) {
+					const c = String.fromCharCode(_data[dataIndex]);
+					dataIndex += 1;
+					if (table.contains(s + c)) s = s + c;
+					else {
+						bitOut.write(table.indexOf(s), bitLength);
+						if (table.size() < 4095) {
+							if (table.size() == 1 << bitLength) bitLength += 1;
+							table.add(s + c);
+						}
+						s = c;
+					}
+				}
+				bitOut.write(table.indexOf(s), bitLength);
+				bitOut.write(endCode, bitLength);
+				bitOut.flush();
+				return byteOut.toByteArray();
+			};
+			const lzwTable = function() {
+				const _map = {};
+				let _size = 0;
+				const _this = {};
+				_this.add = function(key) {
+					if (_this.contains(key)) throw "dup key:" + key;
+					_map[key] = _size;
+					_size += 1;
+				};
+				_this.size = function() {
+					return _size;
+				};
+				_this.indexOf = function(key) {
+					return _map[key];
+				};
+				_this.contains = function(key) {
+					return typeof _map[key] != "undefined";
+				};
+				return _this;
+			};
+			return _this;
+		};
+		const createDataURL = function(width, height, getPixel) {
+			const gif = gifImage(width, height);
+			for (let y = 0; y < height; y += 1) for (let x = 0; x < width; x += 1) gif.setPixel(x, y, getPixel(x, y));
+			const b = byteArrayOutputStream();
+			gif.write(b);
+			const base64 = base64EncodeOutputStream();
+			const bytes = b.toByteArray();
+			for (let i = 0; i < bytes.length; i += 1) base64.writeByte(bytes[i]);
+			base64.flush();
+			return "data:image/gif;base64," + base64;
+		};
+		qrcode.stringToBytes;
 		//#endregion
 		//#region lib/types/client/channels-store.js
 		/**
@@ -22688,7 +25234,7 @@ ${editTarget.defaults.baseURL}`}`,
 		};
 		//#endregion
 		//#region \0dsh-control-center-css:D:\Github_Open\dsh-control-center\packages\control-center\src\client\ChannelsSection.module.css.mjs
-		const css$6 = ".bV1JOa_split{flex:1;min-width:0;min-height:0;display:flex}.bV1JOa_submenu{box-sizing:border-box;border-right:.5px solid var(--border);flex-direction:column;flex:none;width:250px;display:flex}.bV1JOa_submenuTitle{color:var(--foreground);padding:14px 20px 10px;font-size:16px;font-weight:500}.bV1JOa_submenuList{box-sizing:border-box;flex-direction:column;flex:1;gap:2px;min-height:0;padding:0 10px 10px;display:flex;overflow-y:auto}.bV1JOa_submenuItem{height:32px;color:var(--foreground);text-align:left;cursor:pointer;background:0 0;border:none;border-radius:10px;align-items:center;gap:8px;padding:0 10px;font-family:inherit;font-size:14px;display:flex}.bV1JOa_submenuItem:hover{background:var(--muted)}.bV1JOa_submenuItemActive{background:var(--muted);font-weight:500}.bV1JOa_typeIcon{flex:none;font-size:16px}.bV1JOa_detail{flex:1;min-width:0;min-height:0;display:flex;overflow-y:auto}.bV1JOa_detailBody{flex:1;width:100%;max-width:768px;margin:0 auto;padding:24px}.bV1JOa_detailHeader{justify-content:space-between;align-items:center;gap:12px;display:flex}.bV1JOa_detailTitleBlock{align-items:center;gap:8px;min-width:0;display:flex}.bV1JOa_typeIconLarge{border-radius:4px;justify-content:center;align-items:center;width:20px;height:20px;font-size:16px;display:inline-flex}.bV1JOa_detailTitle{color:var(--foreground);white-space:nowrap;text-overflow:ellipsis;font-size:15px;font-weight:600;overflow:hidden}.bV1JOa_addBtn{border:1px solid var(--border);height:32px;color:var(--foreground);cursor:pointer;background:0 0;border-radius:8px;flex:none;align-items:center;gap:6px;padding:0 12px;font-family:inherit;font-size:13px;display:inline-flex}.bV1JOa_addBtn:hover{background:var(--accent)}.bV1JOa_detailDesc{color:var(--muted-foreground);margin:6px 0 0;font-size:12px;line-height:1.6}.bV1JOa_divider{background:var(--border-subtle);height:1px;margin:16px 0}.bV1JOa_notice{border:1px solid var(--info-border,var(--border));background:var(--info-subtle,color-mix(in srgb, var(--muted) 30%, transparent));color:var(--info-subtle-foreground,var(--foreground));border-radius:10px;margin-bottom:16px;padding:10px 12px;font-size:13px;line-height:1.6}.bV1JOa_emptyState{text-align:center;color:var(--foreground-tertiary);padding:32px 16px;font-size:13px}.bV1JOa_instanceRow{border-bottom:.5px solid var(--border-subtle);align-items:center;gap:12px;padding:10px 4px;display:flex}.bV1JOa_instanceRow:last-child{border-bottom:none}.bV1JOa_statusDot{background:var(--muted-foreground);border-radius:50%;flex:none;width:8px;height:8px}.bV1JOa_statusDotActive{background:var(--success)}.bV1JOa_instanceMain{flex:1;min-width:0}.bV1JOa_instanceName{color:var(--foreground);align-items:center;gap:8px;font-size:14px;display:flex}.bV1JOa_connectedBadge{border:1px solid var(--success-border,var(--border));background:var(--success-subtle,transparent);color:var(--success);border-radius:4px;padding:1px 6px;font-size:10px;line-height:14px}.bV1JOa_instanceSummary{color:var(--foreground-tertiary);white-space:nowrap;text-overflow:ellipsis;margin-top:2px;font-size:12px;overflow:hidden}.bV1JOa_instanceOps{flex:none;align-items:center;gap:2px;display:flex}.bV1JOa_opBtn{width:28px;height:28px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;font-size:13px;display:inline-flex}.bV1JOa_opBtn:hover{background:var(--accent);color:var(--foreground)}.bV1JOa_opBtnDanger:hover{color:var(--destructive)}.bV1JOa_modalOverlay{z-index:400;background:#00000080;justify-content:center;align-items:center;display:flex;position:fixed;inset:0}.bV1JOa_modalCard{box-sizing:border-box;background:var(--card);width:min(500px,100vw - 48px);max-height:82vh;color:var(--card-foreground);border-radius:16px;padding:20px;overflow-y:auto;box-shadow:0 24px 48px #0000004d}.bV1JOa_modalCard h3{margin:0 0 14px;font-size:16px;font-weight:600}.bV1JOa_formGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;display:grid}.bV1JOa_formFieldSpan2{grid-column:span 2}.bV1JOa_formSwitchRow{align-items:center;gap:10px;display:flex}.bV1JOa_formField{flex-direction:column;gap:6px;margin-bottom:12px;display:flex}.bV1JOa_formField label{color:var(--foreground-tertiary);font-size:13px}.bV1JOa_formInput,.bV1JOa_formSelect{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 40%, transparent);height:36px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px}.bV1JOa_formSelect{cursor:pointer;background:var(--background);border-color:var(--border)}.bV1JOa_formInput:focus,.bV1JOa_formSelect:focus{border-color:var(--ring)}.bV1JOa_formHint{color:var(--foreground-tertiary);font-size:12px;line-height:1.6}.bV1JOa_modalFooter{justify-content:flex-end;gap:8px;margin-top:16px;display:flex}.bV1JOa_btn{border:1px solid var(--border);height:32px;color:var(--foreground);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.bV1JOa_btn:hover{background:var(--muted)}.bV1JOa_btnPrimary{background:var(--primary);color:var(--primary-foreground);border-color:#0000}.bV1JOa_btnPrimary:hover{background:var(--primary);opacity:.9}.bV1JOa_logsBody{background:var(--background-subtle);min-height:120px;color:var(--muted-foreground);text-align:center;border-radius:8px;justify-content:center;align-items:center;padding:10px;font-family:ui-monospace,Consolas,monospace;font-size:11px;line-height:1.6;display:flex}.bV1JOa_typeIconImg{object-fit:contain;border-radius:4px;flex:none;width:18px;height:18px}.bV1JOa_typeIconImgLarge{object-fit:contain;border-radius:4px;width:20px;height:20px}.bV1JOa_statusDotConnected{background:var(--success)}.bV1JOa_statusDotError{background:var(--destructive)}.bV1JOa_logLine{color:var(--foreground);white-space:pre-wrap;overflow-wrap:anywhere;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;line-height:1.7}";
+		const css$6 = ".bV1JOa_split{flex:1;min-width:0;min-height:0;display:flex}.bV1JOa_submenu{box-sizing:border-box;border-right:.5px solid var(--border);flex-direction:column;flex:none;width:250px;display:flex}.bV1JOa_submenuTitle{color:var(--foreground);padding:14px 20px 10px;font-size:16px;font-weight:500}.bV1JOa_submenuList{box-sizing:border-box;flex-direction:column;flex:1;gap:2px;min-height:0;padding:0 10px 10px;display:flex;overflow-y:auto}.bV1JOa_submenuItem{height:32px;color:var(--foreground);text-align:left;cursor:pointer;background:0 0;border:none;border-radius:10px;align-items:center;gap:8px;padding:0 10px;font-family:inherit;font-size:14px;display:flex}.bV1JOa_submenuItem:hover{background:var(--muted)}.bV1JOa_submenuItemActive{background:var(--muted);font-weight:500}.bV1JOa_typeIcon{flex:none;font-size:16px}.bV1JOa_detail{flex:1;min-width:0;min-height:0;display:flex;overflow-y:auto}.bV1JOa_detailBody{flex:1;width:100%;max-width:768px;margin:0 auto;padding:24px}.bV1JOa_detailHeader{justify-content:space-between;align-items:center;gap:12px;display:flex}.bV1JOa_detailTitleBlock{align-items:center;gap:8px;min-width:0;display:flex}.bV1JOa_typeIconLarge{border-radius:4px;justify-content:center;align-items:center;width:20px;height:20px;font-size:16px;display:inline-flex}.bV1JOa_detailTitle{color:var(--foreground);white-space:nowrap;text-overflow:ellipsis;font-size:15px;font-weight:600;overflow:hidden}.bV1JOa_addBtn{border:1px solid var(--border);height:32px;color:var(--foreground);cursor:pointer;background:0 0;border-radius:8px;flex:none;align-items:center;gap:6px;padding:0 12px;font-family:inherit;font-size:13px;display:inline-flex}.bV1JOa_addBtn:hover{background:var(--accent)}.bV1JOa_detailDesc{color:var(--muted-foreground);margin:6px 0 0;font-size:12px;line-height:1.6}.bV1JOa_divider{background:var(--border-subtle);height:1px;margin:16px 0}.bV1JOa_notice{border:1px solid var(--info-border,var(--border));background:var(--info-subtle,color-mix(in srgb, var(--muted) 30%, transparent));color:var(--info-subtle-foreground,var(--foreground));border-radius:10px;margin-bottom:16px;padding:10px 12px;font-size:13px;line-height:1.6}.bV1JOa_emptyState{text-align:center;color:var(--foreground-tertiary);padding:32px 16px;font-size:13px}.bV1JOa_instanceRow{border-bottom:.5px solid var(--border-subtle);align-items:center;gap:12px;padding:10px 4px;display:flex}.bV1JOa_instanceRow:last-child{border-bottom:none}.bV1JOa_statusDot{background:var(--muted-foreground);border-radius:50%;flex:none;width:8px;height:8px}.bV1JOa_statusDotActive{background:var(--success)}.bV1JOa_instanceMain{flex:1;min-width:0}.bV1JOa_instanceName{color:var(--foreground);align-items:center;gap:8px;font-size:14px;display:flex}.bV1JOa_connectedBadge{border:1px solid var(--success-border,var(--border));background:var(--success-subtle,transparent);color:var(--success);border-radius:4px;padding:1px 6px;font-size:10px;line-height:14px}.bV1JOa_instanceSummary{color:var(--foreground-tertiary);white-space:nowrap;text-overflow:ellipsis;margin-top:2px;font-size:12px;overflow:hidden}.bV1JOa_instanceOps{flex:none;align-items:center;gap:2px;display:flex}.bV1JOa_opBtn{width:28px;height:28px;color:var(--muted-foreground);cursor:pointer;background:0 0;border:none;border-radius:6px;justify-content:center;align-items:center;font-size:13px;display:inline-flex}.bV1JOa_opBtn:hover{background:var(--accent);color:var(--foreground)}.bV1JOa_opBtnDanger:hover{color:var(--destructive)}.bV1JOa_modalOverlay{z-index:400;background:#00000080;justify-content:center;align-items:center;display:flex;position:fixed;inset:0}.bV1JOa_modalCard{box-sizing:border-box;background:var(--card);width:min(500px,100vw - 48px);max-height:82vh;color:var(--card-foreground);border-radius:16px;padding:20px;overflow-y:auto;box-shadow:0 24px 48px #0000004d}.bV1JOa_modalCard h3{margin:0 0 14px;font-size:16px;font-weight:600}.bV1JOa_formGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;display:grid}.bV1JOa_formFieldSpan2{grid-column:span 2}.bV1JOa_formSwitchRow{align-items:center;gap:10px;display:flex}.bV1JOa_formField{flex-direction:column;gap:6px;margin-bottom:12px;display:flex}.bV1JOa_formField label{color:var(--foreground-tertiary);font-size:13px}.bV1JOa_formInput,.bV1JOa_formSelect{border:1px solid var(--border-subtle);background:color-mix(in srgb, var(--muted) 40%, transparent);height:36px;color:var(--foreground);box-sizing:border-box;border-radius:8px;outline:none;padding:0 10px;font-family:inherit;font-size:14px}.bV1JOa_formSelect{cursor:pointer;background:var(--background);border-color:var(--border)}.bV1JOa_formInput:focus,.bV1JOa_formSelect:focus{border-color:var(--ring)}.bV1JOa_formHint{color:var(--foreground-tertiary);font-size:12px;line-height:1.6}.bV1JOa_modalFooter{justify-content:flex-end;gap:8px;margin-top:16px;display:flex}.bV1JOa_btn{border:1px solid var(--border);height:32px;color:var(--foreground);cursor:pointer;background:0 0;border-radius:8px;justify-content:center;align-items:center;padding:0 14px;font-family:inherit;font-size:14px;display:inline-flex}.bV1JOa_btn:hover{background:var(--muted)}.bV1JOa_btnPrimary{background:var(--primary);color:var(--primary-foreground);border-color:#0000}.bV1JOa_btnPrimary:hover{background:var(--primary);opacity:.9}.bV1JOa_logsBody{background:var(--background-subtle);min-height:120px;color:var(--muted-foreground);text-align:center;border-radius:8px;justify-content:center;align-items:center;padding:10px;font-family:ui-monospace,Consolas,monospace;font-size:11px;line-height:1.6;display:flex}.bV1JOa_typeIconImg{object-fit:contain;border-radius:4px;flex:none;width:18px;height:18px}.bV1JOa_typeIconImgLarge{object-fit:contain;border-radius:4px;width:20px;height:20px}.bV1JOa_statusDotConnected{background:var(--success)}.bV1JOa_statusDotError{background:var(--destructive)}.bV1JOa_logLine{color:var(--foreground);white-space:pre-wrap;overflow-wrap:anywhere;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;line-height:1.7}.bV1JOa_wechatLoginRow{align-items:center;gap:8px;margin-top:6px;display:flex}.bV1JOa_wechatLoginDot{background:var(--muted-foreground);opacity:.6;border-radius:50%;width:8px;height:8px}.bV1JOa_wechatLoginDotOn{background:var(--success);opacity:1}.bV1JOa_wechatLoginText{color:var(--foreground-tertiary);font-size:12px}";
 		const tagId$6 = "@dsh-control-center/bundle/ChannelsSection.module.css";
 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId$6) + "]") === null) {
 			const tag = document.createElement("style");
@@ -22698,52 +25244,56 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ChannelsSection_module_css_default = {
-			"detailBody": "bV1JOa_detailBody",
-			"modalFooter": "bV1JOa_modalFooter",
-			"typeIconImgLarge": "bV1JOa_typeIconImgLarge",
-			"btn": "bV1JOa_btn",
-			"typeIcon": "bV1JOa_typeIcon",
-			"detailDesc": "bV1JOa_detailDesc",
-			"formSwitchRow": "bV1JOa_formSwitchRow",
-			"formSelect": "bV1JOa_formSelect",
-			"typeIconImg": "bV1JOa_typeIconImg",
-			"instanceSummary": "bV1JOa_instanceSummary",
-			"detailTitle": "bV1JOa_detailTitle",
-			"connectedBadge": "bV1JOa_connectedBadge",
-			"instanceOps": "bV1JOa_instanceOps",
-			"submenuList": "bV1JOa_submenuList",
-			"addBtn": "bV1JOa_addBtn",
-			"statusDotActive": "bV1JOa_statusDotActive",
-			"formGrid": "bV1JOa_formGrid",
-			"submenuItem": "bV1JOa_submenuItem",
-			"formField": "bV1JOa_formField",
-			"instanceMain": "bV1JOa_instanceMain",
-			"formInput": "bV1JOa_formInput",
-			"divider": "bV1JOa_divider",
-			"split": "bV1JOa_split",
-			"emptyState": "bV1JOa_emptyState",
-			"logsBody": "bV1JOa_logsBody",
-			"statusDot": "bV1JOa_statusDot",
-			"detailTitleBlock": "bV1JOa_detailTitleBlock",
-			"logLine": "bV1JOa_logLine",
-			"submenuTitle": "bV1JOa_submenuTitle",
-			"modalCard": "bV1JOa_modalCard",
-			"submenu": "bV1JOa_submenu",
-			"notice": "bV1JOa_notice",
-			"typeIconLarge": "bV1JOa_typeIconLarge",
-			"instanceRow": "bV1JOa_instanceRow",
+			"wechatLoginDotOn": "bV1JOa_wechatLoginDotOn",
 			"submenuItemActive": "bV1JOa_submenuItemActive",
-			"opBtn": "bV1JOa_opBtn",
-			"statusDotConnected": "bV1JOa_statusDotConnected",
+			"submenuItem": "bV1JOa_submenuItem",
 			"opBtnDanger": "bV1JOa_opBtnDanger",
-			"modalOverlay": "bV1JOa_modalOverlay",
-			"detailHeader": "bV1JOa_detailHeader",
-			"instanceName": "bV1JOa_instanceName",
-			"statusDotError": "bV1JOa_statusDotError",
-			"formFieldSpan2": "bV1JOa_formFieldSpan2",
+			"formInput": "bV1JOa_formInput",
+			"logLine": "bV1JOa_logLine",
+			"submenuList": "bV1JOa_submenuList",
+			"detailBody": "bV1JOa_detailBody",
+			"statusDotConnected": "bV1JOa_statusDotConnected",
+			"submenuTitle": "bV1JOa_submenuTitle",
 			"detail": "bV1JOa_detail",
+			"typeIcon": "bV1JOa_typeIcon",
+			"instanceName": "bV1JOa_instanceName",
+			"formField": "bV1JOa_formField",
+			"statusDotError": "bV1JOa_statusDotError",
+			"instanceRow": "bV1JOa_instanceRow",
+			"detailTitleBlock": "bV1JOa_detailTitleBlock",
+			"opBtn": "bV1JOa_opBtn",
+			"detailTitle": "bV1JOa_detailTitle",
+			"modalFooter": "bV1JOa_modalFooter",
+			"addBtn": "bV1JOa_addBtn",
+			"wechatLoginRow": "bV1JOa_wechatLoginRow",
+			"detailDesc": "bV1JOa_detailDesc",
+			"wechatLoginDot": "bV1JOa_wechatLoginDot",
 			"btnPrimary": "bV1JOa_btnPrimary",
-			"formHint": "bV1JOa_formHint"
+			"split": "bV1JOa_split",
+			"submenu": "bV1JOa_submenu",
+			"typeIconLarge": "bV1JOa_typeIconLarge",
+			"divider": "bV1JOa_divider",
+			"typeIconImgLarge": "bV1JOa_typeIconImgLarge",
+			"modalCard": "bV1JOa_modalCard",
+			"emptyState": "bV1JOa_emptyState",
+			"notice": "bV1JOa_notice",
+			"statusDotActive": "bV1JOa_statusDotActive",
+			"connectedBadge": "bV1JOa_connectedBadge",
+			"formSelect": "bV1JOa_formSelect",
+			"instanceMain": "bV1JOa_instanceMain",
+			"instanceSummary": "bV1JOa_instanceSummary",
+			"formFieldSpan2": "bV1JOa_formFieldSpan2",
+			"formSwitchRow": "bV1JOa_formSwitchRow",
+			"formHint": "bV1JOa_formHint",
+			"modalOverlay": "bV1JOa_modalOverlay",
+			"typeIconImg": "bV1JOa_typeIconImg",
+			"wechatLoginText": "bV1JOa_wechatLoginText",
+			"logsBody": "bV1JOa_logsBody",
+			"detailHeader": "bV1JOa_detailHeader",
+			"statusDot": "bV1JOa_statusDot",
+			"instanceOps": "bV1JOa_instanceOps",
+			"formGrid": "bV1JOa_formGrid",
+			"btn": "bV1JOa_btn"
 		};
 		//#endregion
 		//#region lib/types/client/ChannelsSection.js
@@ -22753,6 +25303,13 @@ ${editTarget.defaults.baseURL}`}`,
 		* add/edit/delete modals, permission mode. Instances persist locally; real
 		* platform connectivity needs the desktop build (noted honestly).
 		*/
+		/** Encode one login URL into a scannable QR data URI (GIF, cell=8, margin=4). */
+		function qrDataUri(content) {
+			const qr = qrcode(0, "M");
+			qr.addData(content);
+			qr.make();
+			return qr.createDataURL(8, 4);
+		}
 		const CHANNEL_TYPES = [
 			{
 				type: "feishu",
@@ -22839,13 +25396,8 @@ ${editTarget.defaults.baseURL}`}`,
 				name: "微信",
 				icon: "💬",
 				iconKey: "wechat",
-				description: "通过微信 iLink Bot API 接收和回复消息。",
-				fields: [{
-					key: "token_path",
-					label: "Token 路径",
-					fullWidth: true,
-					placeholder: "输入微信 iLink Bot 的 Token 路径"
-				}],
+				description: "通过微信 iLink Bot API 接收和回复消息。凭据由「扫码登录」自动保存到 DSH home，无需手动填写。",
+				fields: [],
 				ids: {
 					key: "allowed_chat_ids",
 					label: "允许的会话 ID",
@@ -22949,6 +25501,10 @@ ${editTarget.defaults.baseURL}`}`,
 		}
 		function summaryOf(channel) {
 			const def = CHANNEL_TYPES.find((t) => t.type === channel.type);
+			if (channel.type === "wechat") {
+				const ids = channel.config.allowed_chat_ids;
+				return Array.isArray(ids) && ids.length > 0 ? `${ids.length} 个允许会话` : "iLink Bot · 凭据由扫码登录保存";
+			}
 			const token = (def?.fields.filter((f) => f.secret).map((f) => f.key) ?? []).map((key) => typeof channel.config[key] === "string" ? channel.config[key] : "").find(Boolean);
 			const parts = [];
 			if (token !== void 0 && token.length > 0) parts.push(`Token: ${token.slice(0, 7)}...${token.slice(-3)}`);
@@ -22993,6 +25549,11 @@ ${editTarget.defaults.baseURL}`}`,
 			const [bridgeStatuses, setBridgeStatuses] = (0, react.useState)([]);
 			const [logLines, setLogLines] = (0, react.useState)([]);
 			const migratedRef = (0, react.useRef)(false);
+			/** Per-wechat-channel login state from the host (credentials on disk). */
+			const [wechatStates, setWechatStates] = (0, react.useState)({});
+			/** The QR login dialog target + live flow snapshot. */
+			const [qrFor, setQrFor] = (0, react.useState)(null);
+			const [qrState, setQrState] = (0, react.useState)({ phase: "idle" });
 			const available = state.available;
 			const instances = (0, react.useMemo)(() => (available ? state.instances : local).filter((channel) => channel.type === selectedType), [
 				available,
@@ -23045,6 +25606,57 @@ ${editTarget.defaults.baseURL}`}`,
 					window.clearInterval(timer);
 				};
 			}, [logsFor, getBridge]);
+			(0, react.useEffect)(() => {
+				if (selectedType !== "wechat" || getBridge === void 0) return;
+				let stopped = false;
+				const fetchStates = () => {
+					const bridge = getBridge();
+					if (bridge === void 0) return;
+					for (const channel of instances) bridge.wechatLoginState(channel.id).then((result) => {
+						if (!stopped && result.ok) setWechatStates((current) => ({
+							...current,
+							[channel.id]: result.value
+						}));
+					}, () => void 0);
+				};
+				fetchStates();
+				return () => {
+					stopped = true;
+				};
+			}, [
+				selectedType,
+				instances,
+				getBridge
+			]);
+			(0, react.useEffect)(() => {
+				if (qrFor === null || getBridge === void 0) return void 0;
+				let stopped = false;
+				const poll = () => {
+					const bridge = getBridge();
+					if (bridge === void 0) return;
+					bridge.wechatQrPoll(qrFor.id).then((result) => {
+						if (!stopped && result.ok) setQrState(result.value);
+					}, () => void 0);
+				};
+				poll();
+				const timer = window.setInterval(poll, 2e3);
+				return () => {
+					stopped = true;
+					window.clearInterval(timer);
+				};
+			}, [qrFor, getBridge]);
+			/** Start one channel's QR login and open the dialog. */
+			const beginWechatLogin = (channel) => {
+				const bridge = getBridge?.();
+				if (bridge === void 0) return;
+				setQrState({ phase: "pending" });
+				setQrFor(channel);
+				bridge.wechatQrBegin(channel.id).then(() => {
+					bridge.wechatQrPoll(channel.id).then((result) => {
+						if (result.ok) setQrState(result.value);
+					}, () => void 0);
+				}, () => void 0);
+			};
 			/** Write through the authority, or the browser mirror when unavailable. */
 			const persist = (next) => {
 				if (controller.store.getSnapshot().available) controller.save(next);
@@ -23169,7 +25781,7 @@ ${editTarget.defaults.baseURL}`}`,
 									(0, react_jsx_runtime.jsx)("div", { className: ChannelsSection_module_css_default.divider }),
 									(0, react_jsx_runtime.jsxs)("div", {
 										className: ChannelsSection_module_css_default.notice,
-										children: ["此处配置真实写入 DSH settings 并长期保留。宿主桥接进程会为启用中的频道建立连接： Telegram（长轮询）、Discord（网关 WebSocket）、Slack（Socket Mode）、QQ（开放平台网关）、 飞书（长连接 WebSocket）已支持接收消息并使用默认模型自动回复（受「允许的会话 ID / 频道 ID」约束）； 微信的协议桥接仍在实现中。", !available && " 当前部署未启用频道存储，更改仅保存在本浏览器；更新 Control Center 后可迁移。"]
+										children: ["此处配置真实写入 DSH settings 并长期保留。宿主桥接进程会为启用中的频道建立连接： Telegram（长轮询）、Discord（网关 WebSocket）、Slack（Socket Mode）、QQ（开放平台网关）、 飞书（长连接 WebSocket）、微信（iLink 扫码登录 + 长轮询）已支持接收消息并使用默认模型自动回复 （受「允许的会话 ID / 频道 ID」约束）。微信频道需先扫码登录。", !available && " 当前部署未启用频道存储，更改仅保存在本浏览器；更新 Control Center 后可迁移。"]
 									}),
 									instances.length === 0 ? (0, react_jsx_runtime.jsxs)("div", {
 										className: ChannelsSection_module_css_default.emptyState,
@@ -23192,16 +25804,48 @@ ${editTarget.defaults.baseURL}`}`,
 											}),
 											(0, react_jsx_runtime.jsxs)("div", {
 												className: ChannelsSection_module_css_default.instanceMain,
-												children: [(0, react_jsx_runtime.jsxs)("div", {
-													className: ChannelsSection_module_css_default.instanceName,
-													children: [channel.name, channel.isActive && (0, react_jsx_runtime.jsx)("span", {
-														className: ChannelsSection_module_css_default.connectedBadge,
-														children: "已启用"
-													})]
-												}), (0, react_jsx_runtime.jsx)("div", {
-													className: ChannelsSection_module_css_default.instanceSummary,
-													children: summaryOf(channel)
-												})]
+												children: [
+													(0, react_jsx_runtime.jsxs)("div", {
+														className: ChannelsSection_module_css_default.instanceName,
+														children: [channel.name, channel.isActive && (0, react_jsx_runtime.jsx)("span", {
+															className: ChannelsSection_module_css_default.connectedBadge,
+															children: "已启用"
+														})]
+													}),
+													(0, react_jsx_runtime.jsx)("div", {
+														className: ChannelsSection_module_css_default.instanceSummary,
+														children: summaryOf(channel)
+													}),
+													channel.type === "wechat" && (() => {
+														const loginState = qrFor?.id === channel.id ? qrState : void 0;
+														const credentialState = wechatStates[channel.id];
+														const loggedIn = loginState?.phase === "confirmed" || credentialState?.loggedIn === true;
+														const shownUser = loginState?.userId ?? credentialState?.userId;
+														return (0, react_jsx_runtime.jsxs)("div", {
+															className: ChannelsSection_module_css_default.wechatLoginRow,
+															children: [
+																(0, react_jsx_runtime.jsx)("span", { className: `${ChannelsSection_module_css_default.wechatLoginDot} ${loggedIn ? ChannelsSection_module_css_default.wechatLoginDotOn : ""}` }),
+																(0, react_jsx_runtime.jsx)("span", {
+																	className: ChannelsSection_module_css_default.wechatLoginText,
+																	children: loggedIn ? `已登录${shownUser === void 0 ? "" : `（${shownUser}）`}` : "未登录"
+																}),
+																(0, react_jsx_runtime.jsx)("button", {
+																	type: "button",
+																	className: "cc-btn cc-btn-secondary",
+																	style: {
+																		fontSize: 12,
+																		padding: "3px 10px"
+																	},
+																	disabled: !available || getBridge === void 0,
+																	onClick: () => {
+																		beginWechatLogin(channel);
+																	},
+																	children: loggedIn ? "重新扫码" : "扫码登录"
+																})
+															]
+														});
+													})()
+												]
 											}),
 											(0, react_jsx_runtime.jsxs)("div", {
 												className: ChannelsSection_module_css_default.instanceOps,
@@ -23412,6 +26056,99 @@ ${editTarget.defaults.baseURL}`}`,
 										className: ChannelsSection_module_css_default.btn,
 										onClick: () => {
 											setLogsFor(null);
+										},
+										children: "关闭"
+									})
+								})
+							]
+						})
+					}),
+					qrFor !== null && (0, react_jsx_runtime.jsx)("div", {
+						className: ChannelsSection_module_css_default.modalOverlay,
+						onMouseDown: (event) => {
+							if (event.target === event.currentTarget) setQrFor(null);
+						},
+						children: (0, react_jsx_runtime.jsxs)("div", {
+							className: ChannelsSection_module_css_default.modalCard,
+							role: "dialog",
+							"aria-modal": "true",
+							"aria-label": `${qrFor.name} — 微信扫码登录`,
+							children: [
+								(0, react_jsx_runtime.jsxs)("h3", { children: [qrFor.name, " — 微信扫码登录"] }),
+								(0, react_jsx_runtime.jsxs)("div", {
+									style: {
+										display: "flex",
+										flexDirection: "column",
+										alignItems: "center",
+										gap: 12,
+										padding: "8px 0"
+									},
+									children: [
+										(qrState.phase === "pending" || qrState.phase === "scaned") && qrState.qrContent !== void 0 && (0, react_jsx_runtime.jsx)("img", {
+											alt: "微信登录二维码",
+											style: {
+												width: 220,
+												height: 220,
+												borderRadius: 8,
+												background: "#fff",
+												padding: 8
+											},
+											src: qrState.qrContent.startsWith("data:") ? qrState.qrContent : qrState.qrContent.startsWith("http") ? qrDataUri(qrState.qrContent) : `data:image/png;base64,${qrState.qrContent}`
+										}),
+										qrState.phase === "scaned" && (0, react_jsx_runtime.jsx)("div", { children: "已扫描，请在手机上确认登录" }),
+										qrState.phase === "pending" && (0, react_jsx_runtime.jsx)("div", { children: "请使用微信扫描二维码登录 iLink 机器人" }),
+										qrState.phase === "expired" && (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsx)("div", {
+											style: { color: "var(--warning, #b45309)" },
+											children: "二维码已过期"
+										}), (0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: "cc-btn cc-btn-primary",
+											onClick: () => {
+												beginWechatLogin(qrFor);
+											},
+											children: "刷新二维码"
+										})] }),
+										qrState.phase === "confirmed" && (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsx)("div", {
+											style: { color: "var(--success-border, #15803d)" },
+											children: "登录成功"
+										}), qrState.userId !== void 0 && (0, react_jsx_runtime.jsx)("div", {
+											style: {
+												fontSize: 12,
+												color: "var(--muted-foreground)"
+											},
+											children: qrState.userId
+										})] }),
+										qrState.phase === "error" && (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsx)("div", {
+											className: "cc-notice-error",
+											children: qrState.error ?? "登录失败"
+										}), (0, react_jsx_runtime.jsx)("button", {
+											type: "button",
+											className: "cc-btn cc-btn-primary",
+											onClick: () => {
+												beginWechatLogin(qrFor);
+											},
+											children: "重试"
+										})] }),
+										qrState.phase === "idle" && (0, react_jsx_runtime.jsx)("div", { children: "正在启动登录…" })
+									]
+								}),
+								(0, react_jsx_runtime.jsx)("div", {
+									className: ChannelsSection_module_css_default.modalFooter,
+									children: (0, react_jsx_runtime.jsx)("button", {
+										type: "button",
+										className: ChannelsSection_module_css_default.btn,
+										onClick: () => {
+											setQrFor(null);
+											if (getBridge !== void 0) {
+												const bridge = getBridge();
+												if (bridge === void 0) return;
+												bridge.wechatLoginState(qrFor.id).then((result) => {
+													if (result.ok) setWechatStates((current) => ({
+														...current,
+														[qrFor.id]: result.value
+													}));
+												}, () => void 0);
+											}
 										},
 										children: "关闭"
 									})
@@ -23773,9 +26510,9 @@ ${editTarget.defaults.baseURL}`}`,
 		}
 		var OnboardingModal_module_css_default = {
 			"title": "C_CJ_a_title",
-			"dialog": "C_CJ_a_dialog",
+			"body": "C_CJ_a_body",
 			"content": "C_CJ_a_content",
-			"body": "C_CJ_a_body"
+			"dialog": "C_CJ_a_dialog"
 		};
 		//#endregion
 		//#region lib/types/client/OnboardingModal.js
@@ -23834,8 +26571,8 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var DeepSeekOnboardingDialog_module_css_default = {
-			"description": "oxcHWa_description",
-			"editor": "oxcHWa_editor"
+			"editor": "oxcHWa_editor",
+			"description": "oxcHWa_description"
 		};
 		//#endregion
 		//#region lib/types/client/DeepSeekOnboardingDialog.js
@@ -23927,9 +26664,9 @@ ${editTarget.defaults.baseURL}`}`,
 		}
 		var WelcomeNotice_module_css_default = {
 			"copy": "RFswhG_copy",
-			"actions": "RFswhG_actions",
+			"error": "RFswhG_error",
 			"primary": "RFswhG_primary",
-			"error": "RFswhG_error"
+			"actions": "RFswhG_actions"
 		};
 		//#endregion
 		//#region lib/types/client/WelcomeNotice.js
@@ -24912,13 +27649,13 @@ ${editTarget.defaults.baseURL}`}`,
 			document.head.appendChild(tag);
 		}
 		var ProductWorkspaceSurface_module_css_default = {
-			"identity": "mzcFbW_identity",
-			"body": "mzcFbW_body",
-			"root": "mzcFbW_root",
 			"icon": "mzcFbW_icon",
 			"header": "mzcFbW_header",
 			"eyebrow": "mzcFbW_eyebrow",
-			"close": "mzcFbW_close"
+			"close": "mzcFbW_close",
+			"body": "mzcFbW_body",
+			"identity": "mzcFbW_identity",
+			"root": "mzcFbW_root"
 		};
 		//#endregion
 		//#region lib/types/client/ProductWorkspaceSurface.js

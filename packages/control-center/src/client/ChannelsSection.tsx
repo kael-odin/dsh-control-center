@@ -12,12 +12,31 @@ import type { SnapshotSelectorHook } from '@deepseek-ai/dsh-client-ui-slots'
 import { ConfirmDialog, Switch } from './panel-ui.tsx'
 import type { ChannelsState } from './channels-store.ts'
 import type { ChannelBridgeStatus } from '../channel-bridge.ts'
+import qrcodeGenerator from 'qrcode-generator'
 import { importLegacyChannels, ChannelsStore, type ChannelInstance } from './channels-store.ts'
 
+/** Encode one login URL into a scannable QR data URI (GIF, cell=8, margin=4). */
+function qrDataUri(content: string): string {
+  const qr = qrcodeGenerator(0, 'M')
+  qr.addData(content)
+  qr.make()
+  return qr.createDataURL(8, 4)
+}
+
 /** Bridge status slice injected alongside the settings store. */
+export interface WechatLoginStateView {
+  phase: 'idle' | 'pending' | 'scaned' | 'confirmed' | 'expired' | 'error'
+  qrContent?: string
+  userId?: string
+  error?: string
+}
+
 export interface ChannelBridgeHandle {
   status(): Promise<{ ok: true; value: ChannelBridgeStatus[] } | { ok: false; error: { code: string; message: string; details: object } }>
   getLog(channelId: string, lines?: number): Promise<{ ok: true; value: string[] } | { ok: false; error: { code: string; message: string; details: object } }>
+  wechatLoginState(channelId: string): Promise<{ ok: true; value: { loggedIn: boolean; userId?: string } } | { ok: false; error: { code: string; message: string; details: object } }>
+  wechatQrBegin(channelId: string): Promise<{ ok: true; value: { absent: true } } | { ok: false; error: { code: string; message: string; details: object } }>
+  wechatQrPoll(channelId: string): Promise<{ ok: true; value: WechatLoginStateView } | { ok: false; error: { code: string; message: string; details: object } }>
 }
 import { CHANNEL_ICONS } from './channel-icons.ts'
 import css from './ChannelsSection.module.css'
@@ -82,10 +101,8 @@ const CHANNEL_TYPES: readonly ChannelTypeDef[] = [
   },
   {
     type: 'wechat', name: '微信', icon: '💬', iconKey: 'wechat',
-    description: '通过微信 iLink Bot API 接收和回复消息。',
-    fields: [
-      { key: 'token_path', label: 'Token 路径', fullWidth: true, placeholder: '输入微信 iLink Bot 的 Token 路径' },
-    ],
+    description: '通过微信 iLink Bot API 接收和回复消息。凭据由「扫码登录」自动保存到 DSH home，无需手动填写。',
+    fields: [],
     ids: { key: 'allowed_chat_ids', label: '允许的会话 ID', placeholder: '多个 ID 用英文逗号分隔，留空允许全部' },
   },
   {
@@ -138,6 +155,12 @@ function saveLegacy(channels: readonly ChannelInstance[]): void {
 
 function summaryOf(channel: ChannelInstance): string {
   const def = CHANNEL_TYPES.find(t => t.type === channel.type)
+  // WeChat keeps no form secrets — its credential status lives in the
+  // per-channel login strip below.
+  if (channel.type === 'wechat') {
+    const ids = channel.config.allowed_chat_ids
+    return Array.isArray(ids) && ids.length > 0 ? `${ids.length} 个允许会话` : 'iLink Bot · 凭据由扫码登录保存'
+  }
   const tokenKeys = def?.fields.filter(f => f.secret).map(f => f.key) ?? []
   const token = tokenKeys.map(key => typeof channel.config[key] === 'string' ? channel.config[key] as string : '').find(Boolean)
   const parts: string[] = []
@@ -185,6 +208,11 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
   const [bridgeStatuses, setBridgeStatuses] = useState<readonly ChannelBridgeStatus[]>([])
   const [logLines, setLogLines] = useState<string[]>([])
   const migratedRef = useRef(false)
+  /** Per-wechat-channel login state from the host (credentials on disk). */
+  const [wechatStates, setWechatStates] = useState<Record<string, { loggedIn: boolean; userId?: string }>>({})
+  /** The QR login dialog target + live flow snapshot. */
+  const [qrFor, setQrFor] = useState<ChannelInstance | null>(null)
+  const [qrState, setQrState] = useState<WechatLoginStateView>({ phase: 'idle' })
 
   const available = state.available
   const instances = useMemo(
@@ -232,6 +260,54 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
     const timer = window.setInterval(fetchLog, 2000)
     return () => { stopped = true; window.clearInterval(timer) }
   }, [logsFor, getBridge])
+
+  // WeChat credential states: refresh when the wechat view opens or instances change.
+  useEffect(() => {
+    if (selectedType !== 'wechat' || getBridge === undefined) return
+    let stopped = false
+    const fetchStates = (): void => {
+      const bridge = getBridge()
+      if (bridge === undefined) return
+      for (const channel of instances) {
+        void bridge.wechatLoginState(channel.id).then((result) => {
+          if (!stopped && result.ok) {
+            setWechatStates(current => ({ ...current, [channel.id]: result.value }))
+          }
+        }, () => undefined)
+      }
+    }
+    fetchStates()
+    return () => { stopped = true }
+  }, [selectedType, instances, getBridge])
+
+  // QR login dialog: poll the host flow while open until it settles.
+  useEffect(() => {
+    if (qrFor === null || getBridge === undefined) return undefined
+    let stopped = false
+    const poll = (): void => {
+      const bridge = getBridge()
+      if (bridge === undefined) return
+      void bridge.wechatQrPoll(qrFor.id).then((result) => {
+        if (!stopped && result.ok) setQrState(result.value)
+      }, () => undefined)
+    }
+    poll()
+    const timer = window.setInterval(poll, 2000)
+    return () => { stopped = true; window.clearInterval(timer) }
+  }, [qrFor, getBridge])
+
+  /** Start one channel's QR login and open the dialog. */
+  const beginWechatLogin = (channel: ChannelInstance): void => {
+    const bridge = getBridge?.()
+    if (bridge === undefined) return
+    setQrState({ phase: 'pending' })
+    setQrFor(channel)
+    void bridge.wechatQrBegin(channel.id).then(() => {
+      void bridge.wechatQrPoll(channel.id).then((result) => {
+        if (result.ok) setQrState(result.value)
+      }, () => undefined)
+    }, () => undefined)
+  }
 
   /** Write through the authority, or the browser mirror when unavailable. */
   const persist = (next: readonly ChannelInstance[]): void => {
@@ -330,8 +406,8 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
             <div className={css.notice}>
               此处配置真实写入 DSH settings 并长期保留。宿主桥接进程会为启用中的频道建立连接：
               Telegram（长轮询）、Discord（网关 WebSocket）、Slack（Socket Mode）、QQ（开放平台网关）、
-              飞书（长连接 WebSocket）已支持接收消息并使用默认模型自动回复（受「允许的会话 ID / 频道 ID」约束）；
-              微信的协议桥接仍在实现中。
+              飞书（长连接 WebSocket）、微信（iLink 扫码登录 + 长轮询）已支持接收消息并使用默认模型自动回复
+              （受「允许的会话 ID / 频道 ID」约束）。微信频道需先扫码登录。
               {!available && ' 当前部署未启用频道存储，更改仅保存在本浏览器；更新 Control Center 后可迁移。'}
             </div>
 
@@ -354,6 +430,25 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
                     {channel.isActive && <span className={css.connectedBadge}>已启用</span>}
                   </div>
                   <div className={css.instanceSummary}>{summaryOf(channel)}</div>
+                  {channel.type === 'wechat' && (() => {
+                    const loginState = qrFor?.id === channel.id ? qrState : undefined
+                    const credentialState = wechatStates[channel.id]
+                    const loggedIn = loginState?.phase === 'confirmed' || credentialState?.loggedIn === true
+                    const shownUser = loginState?.userId ?? credentialState?.userId
+                    return (
+                      <div className={css.wechatLoginRow}>
+                        <span className={`${css.wechatLoginDot} ${loggedIn ? css.wechatLoginDotOn : ''}`} />
+                        <span className={css.wechatLoginText}>
+                          {loggedIn ? `已登录${shownUser === undefined ? '' : `（${shownUser}）`}` : '未登录'}
+                        </span>
+                        <button type="button" className="cc-btn cc-btn-secondary" style={{ fontSize: 12, padding: '3px 10px' }}
+                          disabled={!available || getBridge === undefined}
+                          onClick={() => { beginWechatLogin(channel) }}>
+                          {loggedIn ? '重新扫码' : '扫码登录'}
+                        </button>
+                      </div>
+                    )
+                  })()}
                 </div>
                 <div className={css.instanceOps}>
                   <button type="button" className={css.opBtn} title="日志" onClick={() => { setLogsFor(channel) }}>📄</button>
@@ -464,6 +559,64 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
             </div>
             <div className={css.modalFooter}>
               <button type="button" className={css.btn} onClick={() => { setLogsFor(null) }}>关闭</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {qrFor !== null && (
+        <div className={css.modalOverlay} onMouseDown={(event) => { if (event.target === event.currentTarget) setQrFor(null) }}>
+          <div className={css.modalCard} role="dialog" aria-modal="true" aria-label={`${qrFor.name} — 微信扫码登录`}>
+            <h3>{qrFor.name} — 微信扫码登录</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, padding: '8px 0' }}>
+              {(qrState.phase === 'pending' || qrState.phase === 'scaned') && qrState.qrContent !== undefined && (
+                <img
+                  alt="微信登录二维码"
+                  style={{ width: 220, height: 220, borderRadius: 8, background: '#fff', padding: 8 }}
+                  src={qrState.qrContent.startsWith('data:')
+                    ? qrState.qrContent
+                    : qrState.qrContent.startsWith('http')
+                      ? qrDataUri(qrState.qrContent)
+                      : `data:image/png;base64,${qrState.qrContent}`}
+                />
+              )}
+              {qrState.phase === 'scaned' && <div>已扫描，请在手机上确认登录</div>}
+              {qrState.phase === 'pending' && <div>请使用微信扫描二维码登录 iLink 机器人</div>}
+              {qrState.phase === 'expired' && (
+                <>
+                  <div style={{ color: 'var(--warning, #b45309)' }}>二维码已过期</div>
+                  <button type="button" className="cc-btn cc-btn-primary" onClick={() => { beginWechatLogin(qrFor) }}>
+                    刷新二维码
+                  </button>
+                </>
+              )}
+              {qrState.phase === 'confirmed' && (
+                <>
+                  <div style={{ color: 'var(--success-border, #15803d)' }}>登录成功</div>
+                  {qrState.userId !== undefined && <div style={{ fontSize: 12, color: 'var(--muted-foreground)' }}>{qrState.userId}</div>}
+                </>
+              )}
+              {qrState.phase === 'error' && (
+                <>
+                  <div className="cc-notice-error">{qrState.error ?? '登录失败'}</div>
+                  <button type="button" className="cc-btn cc-btn-primary" onClick={() => { beginWechatLogin(qrFor) }}>
+                    重试
+                  </button>
+                </>
+              )}
+              {qrState.phase === 'idle' && <div>正在启动登录…</div>}
+            </div>
+            <div className={css.modalFooter}>
+              <button type="button" className={css.btn} onClick={() => {
+                setQrFor(null)
+                if (getBridge !== undefined) {
+                  const bridge = getBridge()
+                  if (bridge === undefined) return
+                  void bridge.wechatLoginState(qrFor.id).then((result) => {
+                    if (result.ok) setWechatStates(current => ({ ...current, [qrFor.id]: result.value }))
+                  }, () => undefined)
+                }
+              }}>关闭</button>
             </div>
           </div>
         </div>

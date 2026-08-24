@@ -149,19 +149,6 @@ describe('ChannelBridgeService', () => {
     expect(service.status()[0]).toMatchObject({ state: 'error', detail: '缺少 AppID 或 ClientSecret' })
   })
 
-  it('marks wechat activation as an honest unsupported error', async () => {
-    const fetchSpy = vi.fn()
-    globalThis.fetch = fetchSpy as unknown as typeof fetch
-    const { service } = makeService([
-      { id: 'wx1', type: 'wechat', name: 'WX', isActive: true, config: {} },
-    ])
-    reconcileNow(service)
-    await settle(20)
-    expect(fetchSpy).not.toHaveBeenCalled()
-    expect(service.status()[0]?.state).toBe('error')
-    expect(service.status()[0]?.detail).toContain('尚未实现')
-  })
-
   it('reports missing feishu credentials as error without starting a loop', async () => {
     const fetchSpy = vi.fn()
     globalThis.fetch = fetchSpy as unknown as typeof fetch
@@ -172,6 +159,21 @@ describe('ChannelBridgeService', () => {
     await settle(20)
     expect(fetchSpy).not.toHaveBeenCalled()
     expect(service.status()[0]).toMatchObject({ state: 'error', detail: '缺少 AppID 或 AppSecret' })
+  })
+
+  it('marks a wechat channel without stored credentials as 未登录 instead of connecting', async () => {
+    const fetchSpy = vi.fn()
+    globalThis.fetch = fetchSpy as unknown as typeof fetch
+    const { service } = makeService([
+      { id: 'wx-nocred-spec', type: 'wechat', name: 'WX', isActive: true, config: {} },
+    ])
+    reconcileNow(service)
+    // startWechat loads credentials asynchronously before deciding.
+    await settle(50)
+    expect(fetchSpy).not.toHaveBeenCalled()
+    const entry = service.status().find(status => status.channelId === 'wx-nocred-spec')
+    expect(entry?.state).toBe('error')
+    expect(entry?.detail).toContain('未登录')
   })
 })
 
