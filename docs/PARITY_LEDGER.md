@@ -31,7 +31,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 核心 | Model | ✅ | 默认模型/快捷模型/重试设置已实现；话题命名为 DSH 原生诚实卡（ModelsSection.tsx topicNamingCard）——DSH 会话标题是 loader-only 配置，自定义提示词无法运行时生效（见 harness rc.2 事实） |
 | 核心 | Local Models | ✅ | LocalModelsSection + LocalModelDownloads（Qwen3 Embedding / PaddleOCR 卡片） |
 | 核心 | API Gateway | ✅ | ApiGatewaySection：状态卡/端口/凭据/文档/启停 |
-| 能力 | MCP | ⚠️ | 内置预设 4 个可线上达的 server（mcp-builtin.ts BUILTIN_MCP_PRESETS：flomo/QVeris/mcp-auto-install/nowledge-mem）+ 外部市场站点列表已进 Add 对话框。**仍缺**：独立市场页、提供商配置子页、协议安装向导、QuickCreate、以及 Cherry 的 9 个 inMemory 内置 server（memory/sequential-thinking/fetch/filesystem/brave-search/python/dify-knowledge/browser/didi —— 需 host 侧真实实现才能上架） |
+| 能力 | MCP | ⚠️ | 服务器列表分栏 + 详情 tab；内置预设（BUILTIN_MCP_PRESETS 4 个可线上达 server）+ 外部市场站点 + Npx 搜索在 Add 对话框（**侧栏新增 内置服务器/市场搜索/更多市场 快捷入口直达对应 tab，2026-08-24**）。**仍缺**：独立市场页/提供商配置子页（Vercel/Cloudflare/Deno）、协议安装向导、QuickCreate、Cherry 9 个 inMemory 内置 server（memory/sequential-thinking/fetch/filesystem/brave-search/python/dify-knowledge/browser/didi，需 host 侧真实实现） |
 | 能力 | Skills | ✅ | SkillsSection 资源目录视图 |
 | 能力 | Web Search | ✅ | WebSearchSection：提供者配置/高级设置/黑名单 |
 | 能力 | File Processing | ⚠️ | 处理器目录+API Key+本地模型。缺：PaddleOCR 模型选择/语言包/Tesseract 运行时检测 |
