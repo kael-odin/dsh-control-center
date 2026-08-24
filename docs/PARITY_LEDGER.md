@@ -39,7 +39,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 个人 | General | ⚠️ | GeneralCherrySettings.tsx：启动组 3 行开关（launchOnBoot/trayEnabled/trayOnClose）真实可写；代理组/上下文管理为诚实 Note 占位。缺：代理模式选择器、上下文压缩映射、省电、硬件加速、开发者模式行 |
 | 个人 | Appearance | ⚠️ | 主题/颜色/语言/字体/缩放/CSS、**消息字体大小（12–18px stepper，经 `[data-chat-flow]` 容器注入，2026-08-24）** 已实现。**仍缺**：窗口样式、菜单呈现模式、系统标题栏、代码执行（Pyodide，DSH 无此运行时）、消息显示设置组 |
 | 个人 | Notification | ✅ | 4 个开关完全对等 |
-| 个人 | Data | ⚠️ | IA 已重构为 Cherry 子菜单（13 项/5 组）。本地备份+轮转+恢复、WebDAV 云备份、**坚果云（WebDAV 厂商预设，独立凭据命名空间，2026-08-24 上线）**、Markdown 导出、备份/恢复、数据重置均可用。**仍缺**：S3、ChatGPT/Claude 导入、导出菜单可见性、Notion/语雀/Joplin/Obsidian/思源笔记导出、应用数据/日志路径、清除缓存、隐私模式 |
+| 个人 | Data | ⚠️ | IA 已重构为 Cherry 子菜单（13 项/5 组）。本地备份+轮转+恢复、WebDAV 云备份、**坚果云（WebDAV 厂商预设，独立凭据命名空间，2026-08-24 上线）**、Markdown 导出、备份/恢复、数据重置、**应用数据路径（显示 DSH 主目录，2026-08-24）** 均可用。**仍缺**：S3、ChatGPT/Claude 导入、导出菜单可见性、Notion/语雀/Joplin/Obsidian/思源笔记导出、日志路径、清除缓存、隐私模式 |
 | 个人 | Usage | ✅ | UsageSection：热力图/分布图/指标条/详情表 |
 | 自动化 | Channels | ⚠️ | 六平台全部真实连通（TG/Discord/Slack/QQ/飞书/微信），共享回复管线 + 状态点 + 日志环。**Agent 绑定已上线（2026-08-24）**：每频道可配 `agentProvider`/`agentModel`/`agentSystemPrompt`，绑定后优先于共享默认模型并带自定义系统提示词（对应 Cherry ChannelData.agentId；DSH 无逐会话 agent 编排，故实现为模型+提示词覆盖而非完整 agent 组合）。**仍缺**：permissionMode 逐频道生效接入 |
 | 自动化 | Scheduled Tasks | ✅ | TasksSection 任务列表/调度/历史 |
@@ -48,7 +48,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 自动化 | Selection Assistant | ✅ | 选择工具/快捷键/动作列表 |
 | 自动化 | Screenshot | ✅ | 启用/快捷键/OCR 开关 |
 | 系统 | Dependencies | ⚠️ | 契约包版本列表已有。缺：环境依赖检查（FFmpeg/Tesseract/Node 版本，对应 Cherry binaryInstallPresets + EnvironmentDependencies） |
-| 系统 | About | ⚠️ | 版本/兼容/环境/诊断复制 + **诊断包导出（JSON bundle含系统信息+浏览器环境+频道状态/日志，2026-08-24）** + 检查更新（GitHub releases轮询+releaseUrl外链）。缺：自动更新下载安装、发布说明页、诊断日志包（Cherry DiagnosticBundleDialog logs/system/traces 三源）、网站/反馈/企业/联系外链组 |
+| 系统 | About | ⚠️ | 版本/兼容/环境/诊断复制 + **诊断包导出（JSON bundle含系统信息+浏览器环境+频道状态/日志，2026-08-24）** + 检查更新（GitHub releases轮询+releaseUrl外链）+ **链接组（发布说明/仓库/反馈，2026-08-24）**。缺：自动更新下载安装、发布说明页（内嵌）、诊断日志包（Cherry DiagnosticBundleDialog logs/system/traces 三源）、企业/联系外链 |
 
 ---
 
@@ -103,7 +103,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 - ChatGPT / Claude 导入：需会话导入 API
 - 导出菜单可见性：各导出目标开关
 - 笔记导出五件套：Notion / 语雀 / Joplin / Obsidian / 思源（host 侧 API 集成）
-- 应用数据路径 / 应用日志路径 / 清除缓存 / 隐私模式
+- 日志路径 / 清除缓存 / 隐私模式
 
 ### 4. MCP — 服务器管理
 
