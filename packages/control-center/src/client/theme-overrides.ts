@@ -16,6 +16,14 @@ export interface ThemeOverrides {
   customCss: string
   /** Chat message base font size (px). Cherry `chat.message.font_size`. */
   messageFontSize: number
+  /** Cherry `settings.messages.wide_mode` — widen the chat column. */
+  wideMode: boolean
+  /** Cherry `settings.messages.use_serif_font`. */
+  useSerifFont: boolean
+  /** Cherry `message.message.style` — plain | bubble. */
+  messageStyle: 'plain' | 'bubble'
+  /** Cherry `settings.messages.show_message_outline`. */
+  showMessageOutline: boolean
 }
 
 export const DEFAULT_THEME_OVERRIDES: ThemeOverrides = {
@@ -24,6 +32,10 @@ export const DEFAULT_THEME_OVERRIDES: ThemeOverrides = {
   codeFontFamily: '',
   customCss: '',
   messageFontSize: 14,
+  wideMode: false,
+  useSerifFont: false,
+  messageStyle: 'plain',
+  showMessageOutline: false,
 }
 
 /** Cherry allows 12-18px; clamp anything else to the range. */
@@ -46,6 +58,10 @@ export function loadThemeOverrides(): ThemeOverrides {
       codeFontFamily: typeof parsed.codeFontFamily === 'string' ? parsed.codeFontFamily : '',
       customCss: typeof parsed.customCss === 'string' ? parsed.customCss : '',
       messageFontSize: clampMessageFontSize(parsed.messageFontSize),
+      wideMode: parsed.wideMode === true,
+      useSerifFont: parsed.useSerifFont === true,
+      messageStyle: parsed.messageStyle === 'bubble' ? 'bubble' : 'plain',
+      showMessageOutline: parsed.showMessageOutline === true,
     }
   } catch {
     return { ...DEFAULT_THEME_OVERRIDES }
@@ -78,10 +94,27 @@ export function applyThemeOverrides(overrides: ThemeOverrides): void {
     css.push(`.cc-surface code, .cc-surface pre, .cc-surface .langCode { font-family: ${overrides.codeFontFamily}, ui-monospace, Consolas, monospace; }`)
   }
   // Chat message base font size. DSH message DOM uses CSS modules, but the
-  // chat-flow container carries a stable `data-chat-flow` attribute; set the
+  // chat-flow column carries a stable `data-chat-flow` attribute; set the
   // size there so descendants inherit it (Cherry `chat.message.font_size`).
   if (clampMessageFontSize(overrides.messageFontSize) !== DEFAULT_THEME_OVERRIDES.messageFontSize) {
     css.push(`[data-chat-flow] { font-size: ${clampMessageFontSize(overrides.messageFontSize)}px; }`)
+  }
+  // Cherry `settings.messages.wide_mode` — relax the chat column's max width.
+  if (overrides.wideMode) {
+    css.push(`[data-chat-flow] { max-width: 1200px; }`)
+  }
+  // Cherry `settings.messages.use_serif_font`.
+  if (overrides.useSerifFont) {
+    css.push(`[data-chat-flow] { font-family: Georgia, 'Times New Roman', serif; }`)
+  }
+  // Cherry `message.message.style` — bubble surfaces each node via the stable
+  // `data-chat-flow-kind` attribute that the DSH message seats carry.
+  if (overrides.messageStyle === 'bubble') {
+    css.push(`[data-chat-flow] [data-chat-flow-kind] { background: color-mix(in srgb, var(--cs-brand-500, #00b96b) 8%, transparent); border-radius: 12px; padding: 8px 12px; margin: 4px 0; }`)
+  }
+  // Cherry `settings.messages.show_message_outline`.
+  if (overrides.showMessageOutline) {
+    css.push(`[data-chat-flow] [data-chat-flow-kind] { outline: 1px solid color-mix(in srgb, var(--cs-brand-500, #00b96b) 35%, transparent); border-radius: 8px; }`)
   }
   if (overrides.customCss.trim() !== '') css.push(overrides.customCss)
   let style = document.getElementById(STYLE_ID) as HTMLStyleElement | null

@@ -16,7 +16,7 @@ import { isDesktopEnv } from './desktop-capabilities.ts'
 import type {} from '../desktop-types.ts'
 import { HelpTooltip } from './panel-ui.tsx'
 import {
-  SettingDivider, SettingGroup, SettingRow, SettingRowTitle, SettingsPageShell,
+  SettingDivider, SettingGroup, SettingRow, SettingRowTitle, SettingsPageShell, SettingSwitch,
 } from './SettingsPages.tsx'
 import css from './AppearanceSection.module.css'
 
@@ -230,6 +230,10 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
         codeFontFamily: typeof stored.codeFontFamily === 'string' ? stored.codeFontFamily : '',
         customCss: typeof stored.customCss === 'string' ? stored.customCss : '',
         messageFontSize: clampMessageFontSize(stored.messageFontSize),
+        wideMode: stored.wideMode === true,
+        useSerifFont: stored.useSerifFont === true,
+        messageStyle: stored.messageStyle === 'bubble' ? 'bubble' as const : 'plain' as const,
+        showMessageOutline: stored.showMessageOutline === true,
       }
       overridesRef.current = next
       revisionRef.current = namespace.revision
@@ -461,6 +465,37 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
             {messageFontSize !== 14 && <button type="button" disabled={!appearanceReady || appearanceSaving} onClick={() => { setMessageFontSize(14); updateOverrides({ messageFontSize: 14 }) }} aria-label="重置字号">↺</button>}
           </div>
         </SettingRow>
+        <SettingDivider />
+        <SettingSwitch
+          label={<><span>宽屏模式</span><HelpTooltip text="放宽聊天消息列的宽度（Cherry settings.messages.wide_mode）" /></>}
+          checked={overrides.wideMode}
+          disabled={!appearanceReady || appearanceSaving}
+          onChange={next => { updateOverrides({ wideMode: next }) }}
+        />
+        <SettingDivider />
+        <SettingSwitch
+          label={<><span>使用衬线字体</span><HelpTooltip text="聊天消息正文使用衬线字体（Cherry settings.messages.use_serif_font）" /></>}
+          checked={overrides.useSerifFont}
+          disabled={!appearanceReady || appearanceSaving}
+          onChange={next => { updateOverrides({ useSerifFont: next }) }}
+        />
+        <SettingDivider />
+        <SettingRow>
+          <SettingRowTitle>消息样式 <HelpTooltip text="气泡样式为每条消息添加底色与圆角（Cherry message.message.style）" /></SettingRowTitle>
+          <div className={css.segmented}>
+            <button type="button" className={overrides.messageStyle === 'plain' ? css.segActive : css.seg} disabled={!appearanceReady || appearanceSaving}
+              onClick={() => { updateOverrides({ messageStyle: 'plain' }) }}>平铺</button>
+            <button type="button" className={overrides.messageStyle === 'bubble' ? css.segActive : css.seg} disabled={!appearanceReady || appearanceSaving}
+              onClick={() => { updateOverrides({ messageStyle: 'bubble' }) }}>气泡</button>
+          </div>
+        </SettingRow>
+        <SettingDivider />
+        <SettingSwitch
+          label={<><span>显示消息轮廓</span><HelpTooltip text="为每条消息添加细边框（Cherry settings.messages.show_message_outline）" /></>}
+          checked={overrides.showMessageOutline}
+          disabled={!appearanceReady || appearanceSaving}
+          onChange={next => { updateOverrides({ showMessageOutline: next }) }}
+        />
       </SettingGroup>
 
       <SettingGroup>
