@@ -48,7 +48,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 自动化 | Selection Assistant | ✅ | 选择工具/快捷键/动作列表 |
 | 自动化 | Screenshot | ✅ | 启用/快捷键/OCR 开关 |
 | 系统 | Dependencies | ⚠️ | 契约包版本列表已有。缺：环境依赖检查（FFmpeg/Tesseract/Node 版本，对应 Cherry binaryInstallPresets + EnvironmentDependencies） |
-| 系统 | About | ⚠️ | 版本/兼容/环境/诊断复制已有（SystemSection.tsx）；**检查更新已实现**（UpdateSection 经 settings.section id='update' order=42 挂载，client/index.ts:802；host update.ts 轮询 GitHub releases + releaseUrl 外链）。缺：自动更新下载安装、发布说明页、诊断包导出（Cherry DiagnosticBundleDialog：logs/system/traces 三源）、网站/反馈/企业/联系外链组 |
+| 系统 | About | ⚠️ | 版本/兼容/环境/诊断复制 + **诊断包导出（JSON bundle含系统信息+浏览器环境+频道状态/日志，2026-08-24）** + 检查更新（GitHub releases轮询+releaseUrl外链）。缺：自动更新下载安装、发布说明页、诊断日志包（Cherry DiagnosticBundleDialog logs/system/traces 三源）、网站/反馈/企业/联系外链组 |
 
 ---
 
