@@ -10,7 +10,7 @@ import type { IApiClient } from '@deepseek-ai/dsh-client-connection/client'
 import type { LocaleRuntime, LocaleSnapshot } from '@deepseek-ai/dsh-client-locale/client'
 import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
 import {
-  applyThemeOverrides, hasLegacyThemeOverrides, loadThemeOverrides, markThemeOverridesMigrated, THEME_COLOR_PRESETS, APPEARANCE_SETTINGS_NAMESPACE, type ThemeOverrides,
+  applyThemeOverrides, clampMessageFontSize, hasLegacyThemeOverrides, loadThemeOverrides, markThemeOverridesMigrated, THEME_COLOR_PRESETS, APPEARANCE_SETTINGS_NAMESPACE, type ThemeOverrides,
 } from './theme-overrides.ts'
 import { isDesktopEnv } from './desktop-capabilities.ts'
 import type {} from '../desktop-types.ts'
@@ -112,6 +112,7 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
   const [fontDraft, setFontDraft] = useState(overrides.fontFamily)
   const [codeFontDraft, setCodeFontDraft] = useState(overrides.codeFontFamily)
   const [cssDraft, setCssDraft] = useState(overrides.customCss)
+  const [messageFontSize, setMessageFontSize] = useState(overrides.messageFontSize)
   // Real desktop-bridge status: desktopReady means the controlCenterDesktop
   // remote is mounted; bridgeSupported means its check() confirmed a reachable
   // native bridge (the shell's Electron service).
@@ -228,6 +229,7 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
         fontFamily: typeof stored.fontFamily === 'string' ? stored.fontFamily : '',
         codeFontFamily: typeof stored.codeFontFamily === 'string' ? stored.codeFontFamily : '',
         customCss: typeof stored.customCss === 'string' ? stored.customCss : '',
+        messageFontSize: clampMessageFontSize(stored.messageFontSize),
       }
       overridesRef.current = next
       revisionRef.current = namespace.revision
@@ -236,6 +238,7 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
       setFontDraft(next.fontFamily)
       setCodeFontDraft(next.codeFontFamily)
       setCssDraft(next.customCss)
+      setMessageFontSize(next.messageFontSize)
       setZoom(storedZoom)
       if (desktopReady && isDesktopEnv()) {
         void getDesktop().adjustZoom(0, true).then(() => getDesktop().adjustZoom(storedZoom - 1, false))
@@ -447,6 +450,16 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
               <option key={option.value} value={option.value}>{option.label}</option>
             ))}
           </select>
+        </SettingRow>
+        <SettingDivider />
+        <SettingRow>
+          <SettingRowTitle>消息字体大小 <HelpTooltip text="作用于聊天消息正文（12–18px，Cherry chat.message.font_size）" /></SettingRowTitle>
+          <div className={css.zoomControls}>
+            <button type="button" disabled={!appearanceReady || appearanceSaving || messageFontSize <= 12} onClick={() => { const next = clampMessageFontSize(messageFontSize - 1); setMessageFontSize(next); updateOverrides({ messageFontSize: next }) }} aria-label="缩小字号">−</button>
+            <span className={css.staticValue}>{messageFontSize}px</span>
+            <button type="button" disabled={!appearanceReady || appearanceSaving || messageFontSize >= 18} onClick={() => { const next = clampMessageFontSize(messageFontSize + 1); setMessageFontSize(next); updateOverrides({ messageFontSize: next }) }} aria-label="放大字号">＋</button>
+            {messageFontSize !== 14 && <button type="button" disabled={!appearanceReady || appearanceSaving} onClick={() => { setMessageFontSize(14); updateOverrides({ messageFontSize: 14 }) }} aria-label="重置字号">↺</button>}
+          </div>
         </SettingRow>
       </SettingGroup>
 

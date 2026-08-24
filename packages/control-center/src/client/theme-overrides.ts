@@ -14,6 +14,8 @@ export interface ThemeOverrides {
   fontFamily: string
   codeFontFamily: string
   customCss: string
+  /** Chat message base font size (px). Cherry `chat.message.font_size`. */
+  messageFontSize: number
 }
 
 export const DEFAULT_THEME_OVERRIDES: ThemeOverrides = {
@@ -21,6 +23,14 @@ export const DEFAULT_THEME_OVERRIDES: ThemeOverrides = {
   fontFamily: '',
   codeFontFamily: '',
   customCss: '',
+  messageFontSize: 14,
+}
+
+/** Cherry allows 12-18px; clamp anything else to the range. */
+export function clampMessageFontSize(value: unknown): number {
+  const raw = typeof value === 'number' ? value : Number(value)
+  if (!Number.isFinite(raw)) return DEFAULT_THEME_OVERRIDES.messageFontSize
+  return Math.min(18, Math.max(12, Math.round(raw)))
 }
 
 export const THEME_COLOR_PRESETS: readonly string[] = ['#00b96b', '#EF4444', '#F59E0B', '#3B82F6', '#8B5CF6']
@@ -35,6 +45,7 @@ export function loadThemeOverrides(): ThemeOverrides {
       fontFamily: typeof parsed.fontFamily === 'string' ? parsed.fontFamily : '',
       codeFontFamily: typeof parsed.codeFontFamily === 'string' ? parsed.codeFontFamily : '',
       customCss: typeof parsed.customCss === 'string' ? parsed.customCss : '',
+      messageFontSize: clampMessageFontSize(parsed.messageFontSize),
     }
   } catch {
     return { ...DEFAULT_THEME_OVERRIDES }
@@ -65,6 +76,12 @@ export function applyThemeOverrides(overrides: ThemeOverrides): void {
   }
   if (overrides.codeFontFamily !== '') {
     css.push(`.cc-surface code, .cc-surface pre, .cc-surface .langCode { font-family: ${overrides.codeFontFamily}, ui-monospace, Consolas, monospace; }`)
+  }
+  // Chat message base font size. DSH message DOM uses CSS modules, but the
+  // chat-flow container carries a stable `data-chat-flow` attribute; set the
+  // size there so descendants inherit it (Cherry `chat.message.font_size`).
+  if (clampMessageFontSize(overrides.messageFontSize) !== DEFAULT_THEME_OVERRIDES.messageFontSize) {
+    css.push(`[data-chat-flow] { font-size: ${clampMessageFontSize(overrides.messageFontSize)}px; }`)
   }
   if (overrides.customCss.trim() !== '') css.push(overrides.customCss)
   let style = document.getElementById(STYLE_ID) as HTMLStyleElement | null
