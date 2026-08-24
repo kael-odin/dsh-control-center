@@ -21,7 +21,8 @@ import css from './DataSection.module.css'
 export interface DataSectionInjected {
   getData: () => NonNullable<ClientRemote['controlCenterData']>
   getDesktop: () => NonNullable<ClientRemote['controlCenterDesktop']>
-  hooks: { dataReady: HostObservable<boolean>; desktopReady: HostObservable<boolean> }
+  getSystem?: (() => NonNullable<ClientRemote['controlCenterSystem']>) | undefined
+  hooks: { dataReady: HostObservable<boolean>; desktopReady: HostObservable<boolean>; systemReady: HostObservable<boolean> }
 }
 
 export type DataSectionProps = PropsRuntime<'settings.section'> & InjectFace<DataSectionInjected>
@@ -64,11 +65,19 @@ function base64ToText(base64: string): string {
   return new TextDecoder().decode(Uint8Array.from(atob(base64), character => character.charCodeAt(0)))
 }
 
-export function DataSection({ getData, getDesktop, useDataReady, useDesktopReady }: DataSectionProps) {
+export function DataSection({ getData, getDesktop, getSystem, useDataReady, useDesktopReady, useSystemReady }: DataSectionProps) {
   const dataReady = useDataReady(value => value)
   const desktopReady = useDesktopReady(value => value)
+  const systemReady = useSystemReady(value => value)
   const data = dataReady ? getData() : undefined
   const desktop = desktopReady ? getDesktop() : undefined
+  const [dshHome, setDshHome] = useState<string | null>(null)
+  useEffect(() => {
+    if (!systemReady || getSystem === undefined) return
+    void getSystem().getInfo().then(result => {
+      if (result.ok) setDshHome(result.value.dshHome)
+    }).catch(() => { /* data path row degrades to absent */ })
+  }, [systemReady, getSystem])
   const [activeMenu, setActiveMenu] = useState('data')
   /** 坚果云 shares the WebDAV implementation over an isolated config namespace. */
   const activeVendor: WebDavVendor = activeMenu === 'nutstore' ? 'nutstore' : 'webdav'
@@ -390,6 +399,17 @@ export function DataSection({ getData, getDesktop, useDataReady, useDesktopReady
             </p>
           )}
         </SettingGroup>
+
+        {dshHome !== null && (
+          <SettingGroup>
+            <SettingTitle>应用数据路径</SettingTitle>
+            <SettingDivider />
+            <SettingRow>
+              <SettingRowTitle>DSH 主目录</SettingRowTitle>
+              <span style={{ fontSize: 12, fontFamily: 'monospace', color: 'var(--foreground-tertiary)' }}>{dshHome}</span>
+            </SettingRow>
+          </SettingGroup>
+        )}
 
         <SettingGroup>
           <SettingTitle>快照导出</SettingTitle>

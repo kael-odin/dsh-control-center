@@ -711,7 +711,11 @@ export function apply(ctx: ClientContext): void {
         if (desktop === undefined) throw new Error('desktop Remote namespace is not mounted')
         return desktop
       },
-      hooks: { dataReady: dataReadySource, desktopReady: desktopReadySource },
+      getSystem: () => {
+        if (system === undefined) throw new Error('system Remote namespace is not mounted')
+        return system
+      },
+      hooks: { dataReady: dataReadySource, desktopReady: desktopReadySource, systemReady: systemReadySource },
     }),
   }, DataSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({

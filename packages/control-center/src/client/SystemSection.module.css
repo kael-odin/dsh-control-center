@@ -65,6 +65,21 @@
   max-width: 60%;
 }
 
+.infoLink {
+  font-size: 13px;
+  color: var(--primary, var(--link, inherit));
+  text-align: right;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 60%;
+}
+
+.infoLink:hover {
+  text-decoration: underline;
+}
+
 .badge {
   display: inline-flex;
   align-items: center;

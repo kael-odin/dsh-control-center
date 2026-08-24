@@ -139,6 +139,22 @@ export function AboutSection({ getSystem, getBridge, useSystemReady }: SystemSec
       </div>
 
       <div className={css.card}>
+        <div className={css.cardTitle}>链接</div>
+        <div className={css.infoRow}>
+          <span className={css.infoLabel}>发布说明</span>
+          <a className={css.infoLink} href="https://github.com/kael-odin/dsh-control-center/releases" target="_blank" rel="noreferrer">GitHub Releases</a>
+        </div>
+        <div className={css.infoRow}>
+          <span className={css.infoLabel}>文档</span>
+          <a className={css.infoLink} href="https://github.com/kael-odin/dsh-control-center" target="_blank" rel="noreferrer">GitHub 仓库</a>
+        </div>
+        <div className={css.infoRow}>
+          <span className={css.infoLabel}>反馈</span>
+          <a className={css.infoLink} href="https://github.com/kael-odin/dsh-control-center/issues" target="_blank" rel="noreferrer">提交 Issue</a>
+        </div>
+      </div>
+
+      <div className={css.card}>
         <div className={css.cardTitle}>诊断</div>
         <div className={css.infoRow}>
           <span className={css.infoLabel}>平台</span>
