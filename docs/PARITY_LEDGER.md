@@ -47,7 +47,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 自动化 | Quick Assistant | ⚠️ | 启用/托盘点击/剪贴板/模型档位（默认模型 vs 使用助手）已实现。缺：**真实助手选择器**（modelMode='assistant' 时无处挑选具体助手） |
 | 自动化 | Selection Assistant | ✅ | 选择工具/快捷键/动作列表 |
 | 自动化 | Screenshot | ✅ | 启用/快捷键/OCR 开关 |
-| 系统 | Dependencies | ⚠️ | 契约包版本列表已有。缺：环境依赖检查（FFmpeg/Tesseract/Node 版本，对应 Cherry binaryInstallPresets + EnvironmentDependencies） |
+| 系统 | Dependencies | ⚠️ | 契约包版本列表 + **环境工具检测（ffmpeg/tesseract/git 存在性+版本，host which/where 探测，2026-08-24）**。缺：Node 版本行（getInfo 已有 nodeVersion，可并入） |
 | 系统 | About | ⚠️ | 版本/兼容/环境/诊断复制 + **诊断包导出（JSON bundle含系统信息+浏览器环境+频道状态/日志，2026-08-24）** + 检查更新（GitHub releases轮询+releaseUrl外链）+ **链接组（发布说明/仓库/反馈，2026-08-24）**。缺：自动更新下载安装、发布说明页（内嵌）、诊断日志包（Cherry DiagnosticBundleDialog logs/system/traces 三源）、企业/联系外链 |
 
 ---
@@ -118,7 +118,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 
 | 页面 | 缺失项 | 备注 |
 |---|---|---|
-| Dependencies | FFmpeg/Tesseract/Node 环境检测 | 对应 Cherry binaryInstallPresets |
+| Dependencies | Node 版本并入环境工具卡 | ffmpeg/tesseract/git 检测已上线 |
 | About | 自动更新安装、发布说明页（内嵌）、诊断日志包（logs/system/traces 三源） | 检查更新/诊断包/外链已通 |
 | Screenshot | OCR 模型状态指示 | 低 |
 | File Processing | PaddleOCR 模型选择、语言包、Tesseract 状态 | 低 |
@@ -144,7 +144,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 ### P2 —— 低频或需新工作台
 10. Data 笔记导出五件套（Notion/语雀/Joplin/Obsidian/思源）
 11. ChatGPT/Claude 会话导入
-12. Dependencies 环境依赖检查
+12. ~~Dependencies 环境依赖检查~~ ✅ 2026-08-24（ffmpeg/tesseract/git 检测上线）
 13. `'repo'` 工作台挂载（对应 Cherry code 页）；notes / miniApps / launchpad 评估是否值得进 Control Center（部分属 DSH 本体范畴）
 
 ---
