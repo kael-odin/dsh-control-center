@@ -6,9 +6,12 @@
 import { useCallback, useEffect, useState, useMemo } from 'react'
 import type { CreateMcpServerDto, McpNpxPackage, McpServerView, UpdateMcpServerDto, McpServerCapabilities } from '../mcp-types.ts'
 import { AddMcpServerDialog } from './AddMcpServerDialog.tsx'
+import { McpBuiltinView, McpMarketView } from './McpDiscoverViews.tsx'
 import css from './McpSection.module.css'
 
 type TabKey = 'settings' | 'description' | 'logs' | 'tools' | 'prompts' | 'resources'
+/** Top-level MCP subnav — Cherry McpSettingsPage (servers/builtin/market) parity. */
+type McpView = 'servers' | 'builtin' | 'market'
 
 /** Wire envelope of a strict-mode Typert remote call (same shape as translation-types). */
 type RemoteResult<T> = { ok: true; value: T } | { ok: false; error: { code: string; message: string; details: object } }
@@ -55,6 +58,8 @@ export function McpSection(props: McpSectionProps) {
   const [showAddDialog, setShowAddDialog] = useState(false)
   /** Tab the add dialog opens on (manual by default; shortcuts preset it). */
   const [addTab, setAddTab] = useState<'manual' | 'market' | 'builtin' | 'sites'>('manual')
+  /** Active top-level MCP subnav view. */
+  const [view, setView] = useState<McpView>('servers')
 
   const loadServers = useCallback(async () => {
     if (!mcpService) {
@@ -288,7 +293,46 @@ export function McpSection(props: McpSectionProps) {
   }
 
   return (
-    <div className={css.splitRoot}>
+    <div className={css.root}>
+      {/* Top-level subnav — Cherry McpSettingsPage parity */}
+      <nav className={css.subnav} aria-label="MCP">
+        <button
+          type="button"
+          className={view === 'servers' ? css.subnavItemActive : css.subnavItem}
+          onClick={() => setView('servers')}
+        >
+          服务器
+        </button>
+        <button
+          type="button"
+          className={view === 'builtin' ? css.subnavItemActive : css.subnavItem}
+          onClick={() => setView('builtin')}
+        >
+          内置服务器
+        </button>
+        <button
+          type="button"
+          className={view === 'market' ? css.subnavItemActive : css.subnavItem}
+          onClick={() => setView('market')}
+        >
+          市场
+        </button>
+      </nav>
+      {view === 'builtin' ? (
+        <McpBuiltinView onAdd={handleCreate} />
+      ) : view === 'market' ? (
+        <McpMarketView
+          onAdd={handleCreate}
+          searchNpx={mcpService === undefined
+            ? undefined
+            : async (scope): Promise<McpNpxPackage[]> => {
+              const result = await mcpService.searchNpxRegistry(scope)
+              if (!result.ok) throw new Error(result.error.message)
+              return result.value
+            }}
+        />
+      ) : (
+      <div className={css.splitRoot}>
       {/* Left sidebar: server list */}
       <aside className={css.serverList}>
         {/* Search header */}
@@ -323,19 +367,6 @@ export function McpSection(props: McpSectionProps) {
               </button>
             )}
           </div>
-        </div>
-
-        {/* Quick links: open the add dialog directly at the builtins / market tab. */}
-        <div className={css.subnavRow}>
-          <button type="button" className={css.subnavBtn} onClick={() => { setAddTab('builtin'); setShowAddDialog(true) }}>
-            内置服务器
-          </button>
-          <button type="button" className={css.subnavBtn} onClick={() => { setAddTab('market'); setShowAddDialog(true) }}>
-            市场搜索
-          </button>
-          <button type="button" className={css.subnavBtn} onClick={() => { setAddTab('sites'); setShowAddDialog(true) }}>
-            更多市场
-          </button>
         </div>
 
         {/* Server list scroller */}
@@ -869,6 +900,8 @@ export function McpSection(props: McpSectionProps) {
             return result.value
           }}
       />
+    </div>
+      )}
     </div>
   )
 }

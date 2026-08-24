@@ -319,3 +319,67 @@
   font-size: 13px;
   color: var(--muted-foreground);
 }
+
+/* ── Discover pages (内置服务器 / 市场) ─────────────────────────── */
+
+.marketPage {
+  padding: 20px 24px;
+  max-width: 760px;
+}
+
+.marketHeading {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: var(--foreground);
+}
+
+.marketIntro {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  margin: 0 0 14px;
+  line-height: 1.6;
+}
+
+.marketError {
+  font-size: 12px;
+  color: var(--danger, #e5484d);
+  margin: 0 0 10px;
+}
+
+.marketSectionTitle {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 18px 0 8px;
+  color: var(--foreground);
+}
+
+.marketSearchRow {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.marketSearchInput {
+  flex: 1;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--border, rgba(128, 128, 128, .3));
+  border-radius: 8px;
+  background: var(--background, transparent);
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.marketLink {
+  font-size: 12px;
+  color: var(--primary, var(--link, inherit));
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 6px 10px;
+}
+
+.marketLink:hover {
+  text-decoration: underline;
+}
