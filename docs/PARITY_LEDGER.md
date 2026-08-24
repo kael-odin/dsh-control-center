@@ -37,7 +37,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 能力 | File Processing | ⚠️ | 处理器目录+API Key+本地模型。缺：PaddleOCR 模型选择/语言包/Tesseract 运行时检测 |
 | 能力 | OCR | ✅ | 同 File Processing |
 | 个人 | General | ⚠️ | GeneralCherrySettings.tsx：启动组 3 行开关（launchOnBoot/trayEnabled/trayOnClose）真实可写；代理组/上下文管理为诚实 Note 占位。缺：代理模式选择器、上下文压缩映射、省电、硬件加速、开发者模式行 |
-| 个人 | Appearance | ⚠️ | 主题/颜色/语言/字体/缩放/CSS 已实现。**仍缺**：消息字体大小、窗口样式、菜单呈现模式、系统标题栏、代码执行（Pyodide，DSH 无此运行时）、消息显示设置组 |
+| 个人 | Appearance | ⚠️ | 主题/颜色/语言/字体/缩放/CSS、**消息字体大小（12–18px stepper，经 `[data-chat-flow]` 容器注入，2026-08-24）** 已实现。**仍缺**：窗口样式、菜单呈现模式、系统标题栏、代码执行（Pyodide，DSH 无此运行时）、消息显示设置组 |
 | 个人 | Notification | ✅ | 4 个开关完全对等 |
 | 个人 | Data | ⚠️ | IA 已重构为 Cherry 子菜单（13 项/5 组）。本地备份+轮转+恢复、WebDAV 云备份、**坚果云（WebDAV 厂商预设，独立凭据命名空间，2026-08-24 上线）**、Markdown 导出、备份/恢复、数据重置均可用。**仍缺**：S3、ChatGPT/Claude 导入、导出菜单可见性、Notion/语雀/Joplin/Obsidian/思源笔记导出、应用数据/日志路径、清除缓存、隐私模式 |
 | 个人 | Usage | ✅ | UsageSection：热力图/分布图/指标条/详情表 |
@@ -92,7 +92,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 
 ### 2. Appearance — 外观设置
 
-仍缺：消息字体大小（`chat.message.font_size`，CSS 覆盖即可，优先）、窗口样式、菜单呈现模式、系统标题栏、代码执行三行（⛔ DSH 无 Pyodide，保持诚实标注）、消息显示设置组（消息样式/时间戳等）。
+仍缺：窗口样式、菜单呈现模式、系统标题栏、代码执行三行（⛔ DSH 无 Pyodide，保持诚实标注）、消息显示设置组（消息样式/时间戳等）。
 
 ### 3. Data — 数据管理
 
@@ -132,8 +132,8 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 ### P0 —— 高价值 × 低成本
 1. ~~Channels Agent 绑定~~ ✅ 2026-08-24（模型/提示词覆盖 + 频道绑定 UI + 测试）
 2. ~~坚果云备份~~ ✅ 2026-08-24（WebDAV 厂商预设 + 独立命名空间 + 测试）
-3. Appearance 消息字体大小（CSS 覆盖；需先确认 DSH 消息容器选择器）
-4. General 开发者模式 + 省电 + 启动到托盘（三个简单行）
+3. ~~Appearance 消息字体大小~~ ✅ 2026-08-24（`[data-chat-flow]` 容器注入 + 12–18px stepper；DSH 消息 DOM 部分内嵌样式可能覆盖，标记 best-effort）
+4. ~~General 开发者模式 + 省电 + 启动到托盘~~ ✅ 2026-08-24（三行开关 + store 持久化；桌面侧消费待补）
 
 ### P1 —— 中成本，需要 host 配合
 5. General 代理模式选择器（UI 先行）+ 上下文管理映射 DSH compaction

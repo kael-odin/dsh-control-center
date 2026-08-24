@@ -6,10 +6,14 @@ import { useEffect, useState } from 'react'
 import type { HostObservable, InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
 import type { SystemInfo, DependencyEntry } from '../system-types.ts'
+import type { ChannelBridgeHandle } from './ChannelsSection.tsx'
 import css from './SystemSection.module.css'
 
 export interface SystemSectionInjected {
   getSystem: () => NonNullable<ClientRemote['controlCenterSystem']>
+  /** Lazy handle to the host channel bridge, for including channel runtime
+   * status/logs in the diagnostic bundle (absent until the bridge mounts). */
+  getBridge?: (() => ChannelBridgeHandle | undefined) | undefined
   hooks: { systemReady: HostObservable<boolean> }
 }
 
@@ -21,12 +25,13 @@ function unwrap<T>(result: { ok: true; value: T } | { ok: false; error: { code: 
 }
 
 /** 关于: versions, compatibility, environment, diagnostics. */
-export function AboutSection({ getSystem, useSystemReady }: SystemSectionProps) {
+export function AboutSection({ getSystem, getBridge, useSystemReady }: SystemSectionProps) {
   const systemReady = useSystemReady(value => value)
   const system = systemReady ? getSystem() : undefined
   const [info, setInfo] = useState<SystemInfo | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
+  const [bundling, setBundling] = useState(false)
 
   useEffect(() => {
     if (system === undefined) return
@@ -51,6 +56,61 @@ export function AboutSection({ getSystem, useSystemReady }: SystemSectionProps) 
     await navigator.clipboard.writeText(diagnostic)
     setCopied(true)
     window.setTimeout(() => setCopied(false), 1500)
+  }
+
+  /** Assemble a downloadable diagnostic bundle: system info + browser env +
+   * channel runtime status/logs (no secrets: logs carry status/reply text). */
+  const downloadDiagnostics = async (): Promise<void> => {
+    if (info === null) return
+    setBundling(true)
+    const bridge = getBridge?.()
+    let channels: { status: Array<Record<string, unknown>>; logs: Record<string, string[]> } | undefined
+    if (bridge !== undefined) {
+      try {
+        const statusResult = await bridge.status()
+        const logsResult: Record<string, string[]> = {}
+        if (statusResult.ok) {
+          for (const entry of statusResult.value) {
+            const log = await bridge.getLog(entry.channelId, 50)
+            if (log.ok) logsResult[`${entry.type}/${entry.channelId}`] = log.value
+          }
+          channels = { status: statusResult.value.map(entry => ({ ...entry })), logs: logsResult }
+        }
+      } catch {
+        // Diagnostics are best-effort; a bridge hiccup must not fail the bundle.
+      }
+    }
+    const bundle = {
+      generatedAt: new Date().toISOString(),
+      app: {
+        controlCenterVersion: info.controlCenterVersion,
+        dshSupportedVersion: info.dshSupportedVersion,
+        dshSourceBaseline: info.dshSourceBaseline,
+      },
+      environment: {
+        platform: info.platform,
+        arch: info.arch,
+        release: info.release,
+        nodeVersion: info.nodeVersion,
+        dshHome: info.dshHome,
+      },
+      browser: {
+        userAgent: navigator.userAgent,
+        viewport: `${window.innerWidth}x${window.innerHeight}`,
+        devicePixelRatio: window.devicePixelRatio,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      },
+      channels,
+      diagnostic,
+    }
+    const blob = new Blob([JSON.stringify(bundle, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `dsh-control-center-diagnostics-${new Date().toISOString().slice(0, 10)}.json`
+    link.click()
+    URL.revokeObjectURL(url)
+    setBundling(false)
   }
 
   return (
@@ -95,6 +155,9 @@ export function AboutSection({ getSystem, useSystemReady }: SystemSectionProps) 
         <div>
           <button type="button" className="cc-btn cc-btn-secondary" onClick={() => void copyDiagnostics()}>
             {copied ? '已复制' : '复制诊断信息'}
+          </button>
+          <button type="button" className="cc-btn cc-btn-secondary" style={{ marginLeft: 8 }} disabled={bundling} onClick={() => void downloadDiagnostics()}>
+            {bundling ? '打包中…' : '导出诊断包'}
           </button>
         </div>
       </div>

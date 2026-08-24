@@ -759,6 +759,8 @@ export function apply(ctx: ClientContext): void {
         if (system === undefined) throw new Error('system Remote namespace is not mounted')
         return system
       },
+      getBridge: (): ChannelBridgeHandle | undefined =>
+        channelBridge === undefined ? undefined : channelBridge as unknown as ChannelBridgeHandle,
       hooks: { systemReady: systemReadySource },
     }),
   }, AboutSection))
