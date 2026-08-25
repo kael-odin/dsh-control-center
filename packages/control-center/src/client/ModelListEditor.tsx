@@ -332,6 +332,34 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
     }))
   }
 
+  /** Toggle the image input modality — writes the pi-ai profile's real
+   * `input` array (text is always implied; image is the opt-in). */
+  const editImageInput = (index: number, on: boolean): void => {
+    onChange(models.map((model, at) => {
+      if (at !== index) return model
+      const nextModel: Record<string, unknown> = { ...model }
+      const current = Array.isArray(model.input) ? model.input.map(String) : []
+      const next = on
+        ? [...new Set([...current, 'image'])]
+        : current.filter(mod => mod !== 'image')
+      if (next.length > 0) nextModel.input = next
+      else delete nextModel.input
+      return nextModel
+    }))
+  }
+
+  /** Toggle reasoning — writes the pi-ai profile's real `reasoningEfforts`
+   * dict (`off` + `medium`; the wire spelling matches the level). */
+  const editReasoning = (index: number, on: boolean): void => {
+    onChange(models.map((model, at) => {
+      if (at !== index) return model
+      const nextModel: Record<string, unknown> = { ...model }
+      if (on) nextModel.reasoningEfforts = { off: '', medium: 'medium' }
+      else delete nextModel.reasoningEfforts
+      return nextModel
+    }))
+  }
+
   const fetchModels = async (): Promise<void> => {
     setBusy(true)
     setFailure(undefined)
@@ -716,6 +744,31 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
                       onChange={(event) => { editCapacity(index, 'maxTokens', event.target.value) }}
                     />
                   </label>
+                  <div className={styles['modelField']}>
+                    <span className={styles['modelFieldLabel']}>{t('modelCapabilityRow')}</span>
+                    <div className={styles['modelTypeTabsRow']}>
+                      {(() => {
+                        const caps = (model.capabilities ?? {}) as Record<string, boolean>
+                        const reasoningOn = model.reasoningEfforts !== undefined || caps.reasoning === true
+                        const visionOn = Array.isArray(model.input) ? model.input.map(String).includes('image') : caps.vision === true
+                        return ([
+                          { key: 'reasoning', label: t('capReasoning'), on: reasoningOn, toggle: () => { editReasoning(index, !reasoningOn) } },
+                          { key: 'vision', label: t('capVision'), on: visionOn, toggle: () => { editImageInput(index, !visionOn) } },
+                        ]).map(chip => (
+                          <button
+                            key={chip.key}
+                            type="button"
+                            className={chip.on ? styles['typeTabActive'] : styles['typeTab']}
+                            aria-pressed={chip.on}
+                            disabled={disabled}
+                            onClick={chip.toggle}
+                          >
+                            {chip.label}
+                          </button>
+                        ))
+                      })()}
+                    </div>
+                  </div>
                 </div>
               )
               : null}

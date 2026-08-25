@@ -106,9 +106,9 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 
 ### 4. MCP — 服务器管理
 
-已有：服务器列表分栏布局、Add 对话框内内置预设（BUILTIN_MCP_PRESETS）+ Npx 搜索 + 外部市场站点（MCP_MARKET_SITES，移植自 Cherry 更多市场列表）。
+已有：服务器列表分栏布局、真实子导航（服务器/内置服务器[内置运行时+协议预设]/市场/提供商配置/协议安装向导）、Npx 搜索、外部市场站点、进程内内置服务器 2 个已落地。
 
-仍缺：独立市场页、提供商配置子页（Vercel/Cloudflare/Deno…）、协议安装向导（McpProtocolInstallDialog）、QuickCreate、9 个 inMemory 内置 server 的 host 实现。
+仍缺：inMemory 内置 server 3 个（dify-knowledge/browser/didi）；QuickCreate 独立对话框（快速导入已覆盖单服务器场景）。
 
 ### 5. Channels — 频道
 
@@ -156,7 +156,49 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 3. **快照备份**：所有设置数据通过 `controlCenterData` 服务统一导出/导入，凭据由 DSH 凭据库管理。
 4. **桌面桥**：文件对话框、本地文件读写通过 `controlCenterDesktop` 桥接，Web 版回退浏览器下载/上传。
 
-## 六、图谱复核方法
+## 六、深度集成矩阵（2026-08-24 逐条代码验证）
+
+> 「UI 完成」≠「能力可用」。本节记录每项能力**接入 DSH agent 运行时**的真实状态 —— 编程（会话）中 AI 能否真正使用。
+
+| 能力 | agent 接入 | 机制（代码证据） | 差距 |
+|---|---|---|---|
+| MCP | ✅ | 每工具注册 `mcp_<serverId>_<tool>` 进 DSH toolService | Cherry 逐工具自动批准无 DSH 对应物（权限是会话级旋钮 ask/never，无逐工具规则）—— 需上游能力 |
+| 知识库 | ✅ | `knowledge_retrieve` 工具进 toolService | Cherry 聊天自动引用（RAG 注入）vs 我们仅 agent 主动调工具 —— 需 DSH context-provider |
+| Skills | ✅ 间接 | 技能文件写 `~/.dsh/skills/`，DSH 原生技能运行时加载 | 无 |
+| 模型路由 | ✅ | provider 页写 DSH 原生 llm-pi-ai 路由（Luna 实测可用） | Cherry 模型精细配置（用途/协议/类型/能力/模态/增量输出/分档价格）我们只有容量字段 |
+| 网络搜索 | ❌ 仅存设置 | websearch.ts 无 tools.register | 需注册 web_search 工具把配置的提供方接到 agent |
+| 文档处理 | ❌ 仅存设置 | file-processing.ts 无 tools.register | 需注册文档解析工具 |
+| OCR | ❌ 仅存设置 | 同 file-processing | 同上 |
+| 频道 | ⚠️ | 六平台桥连通；回复是裸 LLM + 模型/提示词覆盖 | 频道回复不走 agent loop，**不能调 MCP 工具/知识库**（Cherry 频道有完整能力） |
+
+**结论**：设置面接近完成，**深度集成（能力→agent 运行时）是下一阶段主战场**。
+
+## 七、模型编辑器精细化方案
+
+Cherry 编辑模型含：用途（对话/图像生成/图像编辑）、对话协议、类型标签（文本/图片/嵌入/重排）、能力（推理/工具）、输入模态（视觉/音频/视频）、上下文窗口、最大输入/输出、增量输出、币种+分档价格（含缓存读写价）。我们仅有 ID/名称/分组+容量。
+
+**落地方案**：① schema 扩展 capabilities 增加 reasoning/audio/video，新增 usage/pricing/incrementalOutput 可选字段；② ModelListEditor 加「更多设置」折叠区（能力开关组+用途+价格分档）。
+
+## 八、完成度评估（2026-08-24 代码级核查）
+
+- **设置面 UI/UX**：~90%（22 项设置全有对应区+导航 IA 对齐；缺精细模型编辑、provider 目录树展开、部分桌面行）
+- **深度集成**：~60%（MCP/知识库/技能/模型四条通；搜索/文档/OCR 仅存设置；频道无工具调用）
+- **顶层工作台**：~40%（翻译/绘画/知识库可用；code/notes/miniApps/launchpad 未迁移）
+- **整体加权**：~75%。下一阶段主攻深度集成与顶层工作台，同时逐页打磨视觉与文案。
+
+## 九、打磨方向（按 Cherry 实际视觉逐页对照）
+
+1. Provider 目录树：Cherry 的智谱/MiniMax 可展开子选项 —— 我们平铺。需 registry children 结构 + 展开交互
+2. 模型编辑器精细化（第七节）
+3. 频道详情分组布局对照 Cherry ChannelDetail
+4. 逐页文案清理（已清 3 处，继续扫全库）
+5. 原生控件主题适配继续排查（checkbox/radio/progress）
+
+## 十、图谱复核方法
+
+- 回答架构/能力问题前先查图：`graphify query "<问题>" --graph <repo>/graphify-out/graph.json`
+- 代码变更后增量刷新：`graphify extract <repo> --code-only --update`
+
 
 - 回答架构/能力问题前先查图：`graphify query "<问题>" --graph <repo>/graphify-out/graph.json`
 - 定位两个概念间调用链：`graphify path "A" "B"`
