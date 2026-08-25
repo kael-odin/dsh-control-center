@@ -13,6 +13,8 @@ import type { Context } from '@deepseek-ai/cordis'
 import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
 import { settingsNamespace, type SettingsScope } from '@deepseek-ai/dsh-settings'
 import Schema from '@deepseek-ai/schemastery'
+import { defineTool } from '@deepseek-ai/dsh-tools'
+import type { ContentBlock } from '@deepseek-ai/dsh-llm/types'
 import { existsSync, readFileSync, statSync } from 'node:fs'
 import { basename, relative, resolve } from 'node:path'
 import { resolveDshHome } from '@deepseek-ai/dsh-home-paths'
@@ -128,9 +130,11 @@ interface FileProcessingSettings {
 }
 
 const TEXT_EXTENSIONS = new Set(['txt', 'md', 'json', 'ts', 'tsx', 'js', 'jsx', 'css', 'html', 'yaml', 'yml', 'toml', 'py', 'go', 'rs', 'c', 'cpp', 'h', 'sh', 'sql', 'xml', 'csv'])
+const IMAGE_EXTENSIONS = new Set(['png', 'jpg', 'jpeg', 'webp', 'gif', 'bmp'])
 
 export class FileProcessingService extends Service {
   static inject = ['settings'] as const
+  static optional = ['tools'] as const
 
   readonly typertRemote = bindTypertRemote(this, 'controlCenterFileProcessing')
   private scope: SettingsScope<FileProcessingSettings>
@@ -153,6 +157,60 @@ export class FileProcessingService extends Service {
         overrides: {}
       }
     })
+    this.registerTool()
+  }
+
+  /** Register the `read_document` agent tool — the configured document/OCR
+   * processors become a capability the DSH agent can invoke in sessions.
+   * Paths are not confined to the DSH home here: the agent's own permission
+   * gates govern which workspace files it may read. */
+  private registerTool(): void {
+    const tools = this.ctx.get('tools', false)
+    if (tools === undefined) return
+    const disposer = tools.register(defineTool({
+      name: 'read_document',
+      description: '读取并解析本地文档为纯文本。支持文本文件（txt/md/json/ts/py/go 等代码与文本）与图片 OCR（需在 设置 → 文档处理/OCR 配置 Mistral 视觉模型）。PDF/DOCX 等二进制文档需要云端解析器（MinerU/Doc2X，未配置时诚实报错）。',
+      parameters: {
+        path: { type: 'string', required: true, description: '文件的绝对路径' },
+      },
+      output: {
+        schema: {
+          type: 'object',
+          additionalProperties: false,
+          properties: {
+            path: { type: 'string', required: true },
+            processor: { type: 'string', required: true },
+            text: { type: 'string', required: true },
+          },
+        },
+        render: (_args, value): ContentBlock[] => {
+          const text = value.text as string
+          return [{ type: 'text', text: text.length === 0 ? '（文件为空）' : text }]
+        },
+      },
+      execute: async (args: { path: string }) => {
+        const path = resolve(args.path)
+        if (!existsSync(path)) throw new Error(`文件不存在: ${path}`)
+        const stat = statSync(path)
+        if (!stat.isFile()) throw new Error(`不是文件: ${path}`)
+        const ext = basename(path).split('.').pop()?.toLowerCase() ?? ''
+        const settings = this.scope.get()
+        if (IMAGE_EXTENSIONS.has(ext)) {
+          const processor = settings.defaultImageProcessor
+          if (processor !== 'mistral') {
+            throw new Error(`图片 OCR 需要视觉模型：请在 设置 → 文档处理 → OCR 中选择 Mistral 并配置 API Key（当前：${processor}）`)
+          }
+          const result = await this.ocrViaVision(path, stat.size, settings.overrides.mistral)
+          return { path, processor: result.processor, text: result.text }
+        }
+        if (ext === 'pdf' || ext === 'docx' || ext === 'doc' || ext === 'xlsx' || ext === 'pptx') {
+          throw new Error(`.${ext} 解析需要云端处理器（MinerU / Doc2X），请在 设置 → 文档处理 中配置对应 API Key；当前默认：${settings.defaultDocumentProcessor}`)
+        }
+        const result = this.extractText(path, stat.size)
+        return { path, processor: result.processor, text: result.text }
+      },
+    }))
+    this.ctx.effect(() => () => { disposer() })
   }
 
   async listProcessors(): Promise<FileProcessorEntry[]> {
