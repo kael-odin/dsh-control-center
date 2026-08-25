@@ -169,7 +169,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 网络搜索 | ✅ | `web_search` 工具注册进 toolService（websearch.ts，2026-08-24）：tavily/exa/zhipu/bocha/searxng 线上分发 + 压缩截断 + 诚实错误；会话实测 agent 真实调用 | jina/firecrawl/querit/exa-mcp 暂无线分发（诚实报错指引切换） |
 | 文档处理 | ✅ | `read_document` 工具进 toolService（file-processing.ts，2026-08-24）：文本提取 + Mistral 视觉 OCR 分发 + 云端处理器诚实报错 | PDF/DOCX 需配置 MinerU/Doc2X |
 | OCR | ✅ | 同 read_document（图片走 Mistral 视觉 OCR） | 需配置视觉模型 Key |
-| 频道 | ⚠️ | 六平台桥连通；回复是裸 LLM + 模型/提示词覆盖 | 频道回复不走 agent loop，**不能调 MCP 工具/知识库**（Cherry 频道有完整能力） |
+| 频道 | ⚠️ | 六平台桥连通；回复是裸 LLM + 模型/提示词覆盖 | 频道回复不走 agent loop，**不能调 MCP 工具/知识库**（Cherry 频道有完整能力）。**已勘察的接入路径**（2026-08-24）：host 侧消息入口 = `session.prompt` RPC → `api.sessions.prompt()`；进程内路径 = `ctx.sessions.create()` + AgentFactory(`ctx.agentLoop`)`.publish(source)`。实施要点：每频道会话生命周期、并发消息排队、流式收集、错误回退到裸 LLM。属独立工作量，需聚焦会话专项实施 |
 
 **结论**：设置面接近完成，**深度集成（能力→agent 运行时）是下一阶段主战场**。
 
