@@ -166,7 +166,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 知识库 | ✅ | `knowledge_retrieve` 工具进 toolService | Cherry 聊天自动引用（RAG 注入）vs 我们仅 agent 主动调工具 —— 需 DSH context-provider |
 | Skills | ✅ 间接 | 技能文件写 `~/.dsh/skills/`，DSH 原生技能运行时加载 | 无 |
 | 模型路由 | ✅ | provider 页写 DSH 原生 llm-pi-ai 路由（Luna 实测可用） | Cherry 模型精细配置（用途/协议/类型/能力/模态/增量输出/分档价格）我们只有容量字段 |
-| 网络搜索 | ❌ 仅存设置 | websearch.ts 无 tools.register | 需注册 web_search 工具把配置的提供方接到 agent |
+| 网络搜索 | ✅ | `web_search` 工具注册进 toolService（websearch.ts，2026-08-24）：tavily/exa/zhipu/bocha/searxng 线上分发 + 压缩截断 + 诚实错误；会话实测 agent 真实调用 | jina/firecrawl/querit/exa-mcp 暂无线分发（诚实报错指引切换） |
 | 文档处理 | ❌ 仅存设置 | file-processing.ts 无 tools.register | 需注册文档解析工具 |
 | OCR | ❌ 仅存设置 | 同 file-processing | 同上 |
 | 频道 | ⚠️ | 六平台桥连通；回复是裸 LLM + 模型/提示词覆盖 | 频道回复不走 agent loop，**不能调 MCP 工具/知识库**（Cherry 频道有完整能力） |
@@ -182,7 +182,7 @@ Cherry 编辑模型含：用途（对话/图像生成/图像编辑）、对话�
 ## 八、完成度评估（2026-08-24 代码级核查）
 
 - **设置面 UI/UX**：~90%（22 项设置全有对应区+导航 IA 对齐；缺精细模型编辑、provider 目录树展开、部分桌面行）
-- **深度集成**：~60%（MCP/知识库/技能/模型四条通；搜索/文档/OCR 仅存设置；频道无工具调用）
+- **深度集成**：~70%（MCP/知识库/技能/模型/网络搜索五条通；文档/OCR 仅存设置；频道无工具调用）
 - **顶层工作台**：~40%（翻译/绘画/知识库可用；code/notes/miniApps/launchpad 未迁移）
 - **整体加权**：~75%。下一阶段主攻深度集成与顶层工作台，同时逐页打磨视觉与文案。
 
