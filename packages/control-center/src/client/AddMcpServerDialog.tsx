@@ -366,7 +366,7 @@ export function AddMcpServerDialog({ visible, onClose, onSubmit, searchNpx, init
         {tab === 'builtin' && (
           <div className={css.form}>
             <p className={css.marketEmpty}>
-              以下预设可通过外部协议直接安装。Cherry 另有 9 个内置服务器运行在其自有运行时内（memory、fetch、filesystem 等），本宿主暂无对应实现，故未列出。
+              以下预设可通过外部协议直接安装（移植自 Cherry mcpServers.ts）。
             </p>
             <ul className={css.marketList}>
               {BUILTIN_MCP_PRESETS.map(preset => (

@@ -84,7 +84,7 @@ export function TasksSection({ getTasks, useTasksReady }: TasksSectionProps) {
     <div className={css.root}>
       <div>
         <h2 className={css.pageTitle}>定时任务</h2>
-        <p className={css.pageDescription}>按 cron 计划执行通知或命令。任务由宿主每分钟调度一次。</p>
+        <p className={css.pageDescription}>按 cron 计划执行通知或命令，任务每分钟自动调度。</p>
       </div>
 
       {error !== null && <div className="cc-notice-error">{error}</div>}

@@ -430,13 +430,14 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
             <p className={css.detailDesc}>{typeDef.description}</p>
             <div className={css.divider} />
 
-            <div className={css.notice}>
-              此处配置真实写入 DSH settings 并长期保留。宿主桥接进程会为启用中的频道建立连接：
-              Telegram（长轮询）、Discord（网关 WebSocket）、Slack（Socket Mode）、QQ（开放平台网关）、
-              飞书（长连接 WebSocket）、微信（iLink 扫码登录 + 长轮询）已支持接收消息并使用默认模型自动回复
-              （受「允许的会话 ID / 频道 ID」约束）。微信频道需先扫码登录。
-              {!available && ' 当前部署未启用频道存储，更改仅保存在本浏览器；更新 Control Center 后可迁移。'}
-            </div>
+            <p className={css.detailDesc}>{typeDef.description}</p>
+            <div className={css.divider} />
+
+            {!available && (
+              <div className={css.notice}>
+                当前部署未启用频道存储，更改仅保存在本浏览器；更新 Control Center 后可迁移。
+              </div>
+            )}
 
             {instances.length === 0 ? (
               <div className={css.emptyState}>暂无 {typeDef.name} 频道，点击「+ 添加」创建。</div>
@@ -598,7 +599,7 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
             <h3>{logsFor.name} — 日志</h3>
             <div className={css.logsBody}>
               {logLines.length === 0
-                ? '暂无运行时日志。启用频道后，宿主桥接进程会在这里写入连接与消息事件。'
+                ? '暂无运行时日志。启用频道并收到消息后，连接与消息事件会显示在这里。'
                 : logLines.map((line, index) => <div key={index} className={css.logLine}>{line}</div>)}
             </div>
             <div className={css.modalFooter}>
