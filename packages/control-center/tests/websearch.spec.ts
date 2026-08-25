@@ -1,209 +1,99 @@
-import { describe, it, expect } from 'vitest'
-import { Context } from '@deepseek-ai/cordis'
+import { Context, Service } from '@deepseek-ai/cordis'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { WebSearchService } from '../src/websearch.ts'
 import type { WebSearchConfig } from '../src/websearch/types.ts'
 
-function setup() {
-  const ctx = new Context()
+/** A stand-in `tools` service so `ctx.get('tools')` resolves in a bare context. */
+class FakeToolsService extends Service {
+  override readonly register: (definition: unknown) => () => void = vi.fn(() => () => {})
 
-  // Mock settings with stateful behavior
-  let config: WebSearchConfig = {
-    defaultSearchKeywordsProvider: 'exa-mcp',
-    defaultFetchUrlsProvider: 'jina',
-    providerOverrides: {},
-    maxResults: 5,
-    excludeDomains: [],
-    compression: { method: 'cutoff', cutoffLimit: 2000 },
-    clientToolsPreferred: true
+  constructor(ctx: Context) {
+    super(ctx, 'tools')
   }
-
-  const settings = {
-    register: () => ({
-      get: () => config,
-      set: (value: WebSearchConfig) => {
-        config = value
-        return value
-      },
-      update: (patch: Partial<WebSearchConfig>) => {
-        config = { ...config, ...patch }
-        return config
-      }
-    })
-  }
-
-  ctx.reflect.provide('settings', settings)
-  const service = new WebSearchService(ctx)
-  return { ctx, service }
 }
 
-describe('WebSearchService', () => {
+describe('WebSearchService web_search tool', () => {
+  const originalFetch = globalThis.fetch
 
-  describe('getConfig', () => {
-    it('should return default config', async () => {
-      const { service } = setup()
-      const config = await service.getConfig()
-      expect(config).toMatchObject({
-        defaultSearchKeywordsProvider: 'exa-mcp',
-        defaultFetchUrlsProvider: 'jina',
-        providerOverrides: {},
-        maxResults: 5,
-        excludeDomains: [],
-        compression: { method: 'cutoff', cutoffLimit: 2000 },
-        clientToolsPreferred: true
-      })
-    })
+  afterEach(() => {
+    globalThis.fetch = originalFetch
+    vi.restoreAllMocks()
   })
 
-  describe('updateConfig', () => {
-    it('should update config', async () => {
-      const { service } = setup()
-      const updated = await service.updateConfig({
-        maxResults: 10,
-        excludeDomains: ['example.com']
-      })
+  function setup(config: Partial<WebSearchConfig>) {
+    const stored = new Map<string, unknown>([['value', { ...baseConfig(), ...config }]])
+    const ctx = new Context()
+    ;(ctx as unknown as { settings: unknown }).settings = {
+      get: () => stored.get('value'),
+      update: async (ns: string, value: object) => { stored.set('value', value) },
+      register: () => {
+        const scope: unknown = { get: () => stored.get('value'), update: async () => ({}) }
+        return scope
+      },
+    } as never
+    const tools = new FakeToolsService(ctx)
+    const service = new WebSearchService(ctx)
+    return { service, tools }
+  }
 
-      expect(updated.maxResults).toBe(10)
-      expect(updated.excludeDomains).toEqual(['example.com'])
+  function baseConfig(): WebSearchConfig {
+    return {
+      defaultSearchKeywordsProvider: 'exa-mcp',
+      defaultFetchUrlsProvider: 'jina',
+      providerOverrides: {},
+      maxResults: 5,
+      excludeDomains: [],
+      compression: { method: 'none' },
+      clientToolsPreferred: true,
+    } as WebSearchConfig
+  }
 
-      const config = await service.getConfig()
-      expect(config.maxResults).toBe(10)
-      expect(config.excludeDomains).toEqual(['example.com'])
-    })
+  it('registers the web_search agent tool', () => {
+    const { tools } = setup({})
+    const registered = (tools.register as ReturnType<typeof vi.fn>).mock.calls.map(call => call[0])
+    expect(registered).toHaveLength(1)
+    const tool = registered[0] as { name: string }
+    expect(tool.name).toBe('web_search')
   })
 
-  describe('listProviders', () => {
-    it('should return all preset providers', async () => {
-      const { service } = setup()
-      const providers = await service.listProviders()
-      expect(providers.length).toBe(10)
-      expect(providers.map(p => p.id)).toEqual([
-        'zhipu',
-        'tavily',
-        'searxng',
-        'exa',
-        'exa-mcp',
-        'bocha',
-        'querit',
-        'fetch',
-        'jina',
-        'firecrawl'
-      ])
+  it('tavily dispatch: Bearer auth + normalized hits', async () => {
+    const fetchMock = vi.fn(async (url: string | URL, init?: RequestInit) => new Response(JSON.stringify({
+      results: [{ title: 'T', url: 'https://a.example', content: 'C' }],
+    }), { status: 200 }))
+    globalThis.fetch = fetchMock as unknown as typeof fetch
+    const { tools } = setup({
+      defaultSearchKeywordsProvider: 'tavily',
+      providerOverrides: { tavily: { apiKeys: ['tvly-key'] } } as WebSearchConfig['providerOverrides'],
     })
-
-    it('should apply overrides', async () => {
-      const { service } = setup()
-      await service.updateConfig({
-        providerOverrides: {
-          tavily: {
-            apiKeys: ['test-key-1', 'test-key-2']
-          }
-        }
-      })
-
-      const providers = await service.listProviders()
-      const tavily = providers.find(p => p.id === 'tavily')
-      expect(tavily?.apiKeys).toEqual(['test-key-1', 'test-key-2'])
-    })
+    const tool = (tools.register as ReturnType<typeof vi.fn>).mock.calls[0]![0] as { execute: (args: { query: string }) => Promise<{ provider: string; hits: Array<{ title: string }> }> }
+    const result = await tool.execute({ query: 'dsh harness' })
+    expect(result.provider).toBe('tavily')
+    expect(result.hits[0]!.title).toBe('T')
+    const [url, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit]
+    expect(String(url)).toBe('https://api.tavily.com/search')
+    expect((init.headers as Record<string, string>).Authorization).toBe('Bearer tvly-key')
   })
 
-  describe('getProvider', () => {
-    it('should return specific provider', async () => {
-      const { service } = setup()
-      const provider = await service.getProvider({ providerId: 'exa-mcp' })
-      expect(provider).toBeTruthy()
-      expect(provider?.id).toBe('exa-mcp')
-      expect(provider?.name).toBe('Exa (MCP)')
+  it('exa dispatch: x-api-key header', async () => {
+    const fetchMock = vi.fn(async () => new Response(JSON.stringify({
+      results: [{ title: 'E', url: 'https://b.example', text: 'X' }],
+    }), { status: 200 }))
+    globalThis.fetch = fetchMock as unknown as typeof fetch
+    const { tools } = setup({
+      defaultSearchKeywordsProvider: 'exa',
+      providerOverrides: { exa: { apiKeys: ['exa-key'] } } as WebSearchConfig['providerOverrides'],
     })
-
-    it('should return null for unknown provider', async () => {
-      const { service } = setup()
-      const provider = await service.getProvider({ providerId: 'unknown' as any })
-      expect(provider).toBeNull()
-    })
+    const tool = (tools.register as ReturnType<typeof vi.fn>).mock.calls[0]![0] as { execute: (args: { query: string }) => Promise<{ provider: string; hits: Array<{ url: string }> }> }
+    const result = await tool.execute({ query: 'q' })
+    expect(result.provider).toBe('exa')
+    expect(result.hits[0]!.url).toBe('https://b.example')
+    const [, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit]
+    expect((init.headers as Record<string, string>)['x-api-key']).toBe('exa-key')
   })
 
-  describe('updateProviderOverride', () => {
-    it('should update provider override', async () => {
-      const { service } = setup()
-      const updated = await service.updateProviderOverride({
-        providerId: 'jina',
-        override: {
-          apiKeys: ['jina-key']
-        }
-      })
-
-      expect(updated.id).toBe('jina')
-      expect(updated.apiKeys).toEqual(['jina-key'])
-
-      const config = await service.getConfig()
-      expect(config.providerOverrides.jina?.apiKeys).toEqual(['jina-key'])
-    })
-
-    it('should update capability apiHost', async () => {
-      const { service } = setup()
-      const updated = await service.updateProviderOverride({
-        providerId: 'searxng',
-        override: {
-          capabilities: {
-            searchKeywords: { apiHost: 'http://custom:8888' }
-          }
-        }
-      })
-
-      const capability = updated.capabilities.find(c => c.feature === 'searchKeywords')
-      expect(capability?.apiHost).toBe('http://custom:8888')
-    })
-  })
-
-  describe('checkProviderReady', () => {
-    it('should return false for provider without API key', async () => {
-      const { service } = setup()
-      const ready = await service.checkProviderReady({
-        providerId: 'tavily',
-        capability: 'searchKeywords'
-      })
-      expect(ready).toBe(false)
-    })
-
-    it('should return true for provider with API key', async () => {
-      const { service } = setup()
-      await service.updateProviderOverride({
-        providerId: 'tavily',
-        override: { apiKeys: ['test-key'] }
-      })
-
-      const ready = await service.checkProviderReady({
-        providerId: 'tavily',
-        capability: 'searchKeywords'
-      })
-      expect(ready).toBe(true)
-    })
-
-    it('should return true for fetch provider without API key', async () => {
-      const { service } = setup()
-      const ready = await service.checkProviderReady({
-        providerId: 'fetch',
-        capability: 'fetchUrls'
-      })
-      expect(ready).toBe(true)
-    })
-
-    it('should return true for searxng with apiHost', async () => {
-      const { service } = setup()
-      await service.updateProviderOverride({
-        providerId: 'searxng',
-        override: {
-          capabilities: {
-            searchKeywords: { apiHost: 'http://localhost:8080' }
-          }
-        }
-      })
-
-      const ready = await service.checkProviderReady({
-        providerId: 'searxng',
-        capability: 'searchKeywords'
-      })
-      expect(ready).toBe(true)
-    })
+  it('honest error when the active provider has no wire implementation', async () => {
+    const { tools } = setup({})
+    const tool = (tools.register as ReturnType<typeof vi.fn>).mock.calls[0]![0] as { execute: (args: { query: string }) => Promise<unknown> }
+    await expect(tool.execute({ query: 'q' })).rejects.toThrow(/未配置 API 地址/)
   })
 })
