@@ -27,6 +27,22 @@
      without it Chromium paints their light variants over our themed surface. */
   color-scheme: light;
 
+  /* Native <select> dropdowns: paint them explicitly from the theme tokens.
+     Several CSS-module .select classes still carry light fallbacks (#fff),
+     which renders white boxes with gray text in dark mode. One blanket rule
+     keyed to the surface fixes every select at once; the tokens flip with
+     the theme. */
+  .cc-surface select {
+    background-color: var(--card);
+    color: var(--foreground);
+    border-color: var(--border);
+  }
+  .cc-surface select option,
+  .cc-surface select optgroup {
+    background: var(--card);
+    color: var(--foreground);
+  }
+
   --cs-neutral-50: oklch(0.98 0 0);
   --cs-neutral-100: oklch(0.97 0 0);
   --cs-neutral-200: oklch(0.92 0 0);

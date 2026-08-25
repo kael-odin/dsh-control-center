@@ -713,8 +713,9 @@
 
 .subnavItemActive {
   composes: subnavItem;
+  /* Cherry tabs (underline variant): foreground text + primary indicator. */
   border-bottom-color: var(--primary);
-  color: var(--primary);
+  color: var(--foreground);
   font-weight: 600;
 }
 

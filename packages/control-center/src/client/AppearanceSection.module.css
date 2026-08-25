@@ -171,9 +171,11 @@
 
 .segActive {
   composes: seg;
-  background: var(--primary);
-  border-color: var(--primary);
-  color: var(--primary-foreground);
+  /* Cherry selected-item treatment: neutral accent wash + foreground text,
+     not a brand-color fill. */
+  background: var(--accent, color-mix(in srgb, var(--foreground) 8%, transparent));
+  border-color: transparent;
+  color: var(--foreground);
   font-weight: 600;
 }
 

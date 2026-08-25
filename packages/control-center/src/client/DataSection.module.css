@@ -51,8 +51,10 @@
 
 .sidebarItemActive,
 .sidebarItemActive:hover {
-  background: color-mix(in srgb, var(--primary, #00b96b) 14%, transparent);
-  color: var(--primary, #00b96b);
+  /* Cherry submenu selected treatment: neutral accent wash + foreground. */
+  background: var(--cs-accent, color-mix(in srgb, var(--foreground) 6%, transparent));
+  color: var(--foreground);
+  font-weight: 500;
 }
 
 .content {
