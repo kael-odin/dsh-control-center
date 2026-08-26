@@ -1,6 +1,6 @@
 import { createRequire } from "node:module";
 import { basename, dirname, extname, isAbsolute, join, relative, resolve, sep } from "node:path";
-import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, unlinkSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, statSync, unlinkSync, writeFileSync } from "node:fs";
 import { access, appendFile, chmod, constants, cp, mkdir, readFile, readdir, rename, rm, stat, writeFile } from "node:fs/promises";
 import { arch, homedir, platform, release, tmpdir } from "node:os";
 import { createHash, createHmac, randomBytes, randomUUID } from "node:crypto";
@@ -45160,7 +45160,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-Dzm5LqXJ.js");
+				const { SSEClientTransport } = await import("./sse-BkXNLdIP.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -45182,7 +45182,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-B7JwSjTc.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-CGbFmdkA.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -52761,6 +52761,231 @@ var CompatService = class extends Service {
 		};
 	}
 };
+/**
+* Notes host service — Cherry NotesPage parity, v1.
+*
+* Cherry stores notes as plain Markdown files on disk (a root directory plus
+* relative paths; SQLite only carries tree metadata). We keep that philosophy:
+* files live under `<dsh home>/notes/`, readable by any tool, and the tree
+* metadata (starred flags) rides a settings namespace. Editing surface v1 is
+* plain-text Markdown; a rich editor is a later layer on the same storage.
+*/
+const NOTES_NAMESPACE = settingsNamespace("control-center-notes");
+var NotesService = class extends Service {
+	static inject = ["settings"];
+	typertRemote = bindTypertRemote(this, "controlCenterNotes");
+	constructor(ctx) {
+		super(ctx, "controlCenterNotes");
+	}
+	notesRoot() {
+		const root = join(resolveDshHome(), "notes");
+		mkdirSync(root, { recursive: true });
+		return root;
+	}
+	/** Rejects traversal: the relative path must stay inside the notes root. */
+	safePath(relativePath) {
+		const normalized = relativePath.replaceAll("\\", "/").replace(/^\/+/, "");
+		const abs = join(this.notesRoot(), normalized);
+		const rel = relative(this.notesRoot(), abs);
+		if (rel.startsWith("..") || rel === "" || rel.split(sep).includes("..")) throw new Error(`笔记路径越界: ${relativePath}`);
+		return abs;
+	}
+	starredSet() {
+		try {
+			const value = this.ctx.settings.get(NOTES_NAMESPACE);
+			return Array.isArray(value?.starred) ? new Set(value.starred.map(String)) : /* @__PURE__ */ new Set();
+		} catch {
+			return /* @__PURE__ */ new Set();
+		}
+	}
+	async writeStarred(set) {
+		await this.ctx.settings.update(NOTES_NAMESPACE, { starred: [...set] });
+	}
+	/** One level of the tree (Cherry lists per root; v1 lists the whole root recursively, depth-capped). */
+	async tree() {
+		const root = this.notesRoot();
+		const starred = this.starredSet();
+		const entries = [];
+		const walk = (abs, depth) => {
+			if (depth > 8) return;
+			let names;
+			try {
+				names = readdirSync(abs);
+			} catch {
+				return;
+			}
+			for (const name of names.sort()) {
+				if (name.startsWith(".")) continue;
+				const childAbs = join(abs, name);
+				const rel = relative(root, childAbs).replaceAll("\\", "/");
+				let isDir;
+				try {
+					isDir = readdirSync(childAbs) !== void 0;
+				} catch {
+					isDir = false;
+				}
+				entries.push({
+					path: rel,
+					type: isDir ? "directory" : "file",
+					starred: starred.has(rel)
+				});
+				if (isDir) walk(childAbs, depth + 1);
+			}
+		};
+		walk(root, 0);
+		return {
+			ok: true,
+			value: {
+				root,
+				entries
+			}
+		};
+	}
+	async read(params) {
+		try {
+			const abs = this.safePath(params.path);
+			if (abs.endsWith(sep)) throw new Error("目录无法按笔记读取");
+			return {
+				ok: true,
+				value: { content: readFileSync(abs, "utf8") }
+			};
+		} catch (error) {
+			return {
+				ok: false,
+				error: error instanceof Error ? error.message : String(error)
+			};
+		}
+	}
+	async write(params) {
+		try {
+			const abs = this.safePath(params.path);
+			mkdirSync(join(abs, ".."), { recursive: true });
+			writeFileSync(abs, params.content, "utf8");
+			return {
+				ok: true,
+				value: { absent: true }
+			};
+		} catch (error) {
+			return {
+				ok: false,
+				error: error instanceof Error ? error.message : String(error)
+			};
+		}
+	}
+	async create(params) {
+		try {
+			const abs = this.safePath(params.path);
+			if (params.directory === true) mkdirSync(abs, { recursive: true });
+			else {
+				mkdirSync(join(abs, ".."), { recursive: true });
+				writeFileSync(abs, `# ${params.path.replace(/\.md$/i, "").split("/").pop() ?? "笔记"}\n\n`, "utf8");
+			}
+			return {
+				ok: true,
+				value: { absent: true }
+			};
+		} catch (error) {
+			return {
+				ok: false,
+				error: error instanceof Error ? error.message : String(error)
+			};
+		}
+	}
+	async rename(params) {
+		try {
+			const from = this.safePath(params.from);
+			const to = this.safePath(params.to);
+			mkdirSync(join(to, ".."), { recursive: true });
+			renameSync(from, to);
+			const starred = this.starredSet();
+			if (starred.delete(params.from)) starred.add(params.to);
+			await this.writeStarred(starred);
+			return {
+				ok: true,
+				value: { absent: true }
+			};
+		} catch (error) {
+			return {
+				ok: false,
+				error: error instanceof Error ? error.message : String(error)
+			};
+		}
+	}
+	async remove(params) {
+		try {
+			const abs = this.safePath(params.path);
+			rmSync(abs, { recursive: params.directory === true });
+			const starred = this.starredSet();
+			if (starred.delete(params.path)) await this.writeStarred(starred);
+			return {
+				ok: true,
+				value: { absent: true }
+			};
+		} catch (error) {
+			return {
+				ok: false,
+				error: error instanceof Error ? error.message : String(error)
+			};
+		}
+	}
+	async toggleStar(params) {
+		const starred = this.starredSet();
+		if (starred.has(params.path)) starred.delete(params.path);
+		else starred.add(params.path);
+		await this.writeStarred(starred);
+		return {
+			ok: true,
+			value: { starred: starred.has(params.path) }
+		};
+	}
+};
+/** Client descriptor contribution for the Control Center notes service. */
+const notesRemote = {
+	package: "@dsh-control-center/control-center",
+	descriptors: [
+		{
+			method: "tree",
+			parameters: []
+		},
+		{
+			method: "read",
+			parameters: ["params"]
+		},
+		{
+			method: "write",
+			parameters: ["params"]
+		},
+		{
+			method: "create",
+			parameters: ["params"]
+		},
+		{
+			method: "rename",
+			parameters: ["params"]
+		},
+		{
+			method: "remove",
+			parameters: ["params"]
+		},
+		{
+			method: "toggleStar",
+			parameters: ["params"]
+		}
+	].map(({ method, parameters }) => ({
+		id: `@dsh-control-center/control-center#controlCenterNotes/${method}`,
+		service: "controlCenterNotes",
+		namespace: "controlCenterNotes",
+		method,
+		invocation: { kind: "direct" },
+		parameters: parameters.map((name) => ({
+			name,
+			wire: name,
+			source: "json",
+			codec: STRICT_JSON
+		})),
+		result: STRICT_JSON
+	}))
+};
 const localModelsMethods = [
 	{
 		method: "listServers",
@@ -53727,6 +53952,8 @@ function apply(ctx) {
 	new DesktopService(ctx);
 	new AssistantService(ctx);
 	new CompatService(ctx);
+	new NotesService(ctx);
+	ctx.settings.register(settingsNamespace("control-center-notes"), Schema$1.object({ starred: Schema$1.array(Schema$1.string()).default([]) }));
 	const generalScope = ctx.settings.register(GENERAL_NAMESPACE_SETTINGS, GENERAL_SCHEMA);
 	installContextPolicy(ctx, () => generalScope.get());
 	const contributions = [{
@@ -53756,6 +53983,7 @@ function apply(ctx) {
 			...localModelsRemote.descriptors,
 			...updateRemote.descriptors,
 			...compatRemote.descriptors,
+			...notesRemote.descriptors,
 			...desktopRemote.descriptors,
 			...assistantRemote.descriptors
 		]

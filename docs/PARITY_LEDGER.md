@@ -68,7 +68,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | miniApps（小程序） | ❌ | 未迁移 |
 | launchpad | ❌ | 未迁移 |
 | releaseNotes | ✅ | **发布说明内嵌页已迁移（2026-08-26）**：About 页「发布说明」卡片，`controlCenterUpdate.listReleases()` 拉取 GitHub releases（最近 10 条，展示前 5），轻量 markdown 渲染（标题/列表/代码/粗体/链接）+ 预发布标注 + 外链 | Cherry 是独立顶层路由；我们挂在 About 下，信息架构等价 |
-| notes（笔记） | ❌ | 未迁移 |
+| notes（笔记） | ⚠️ | **v1 已迁移（2026-08-26）**：NotesWorkspace 挂顶层工作台——Markdown 文件树（新建/重命名/删除/收藏/自动保存），文件存 `<dsh home>/notes/`（Cherry「文件为真相」哲学对齐，SQLite 只存元数据）。*v2 待做：Tiptap 富文本编辑器（Cherry 用 Tiptap 3 + CodeMirror 双模式）、全文搜索、知识库 noteSnapshot 源、编辑器内 AI 续写 |
 
 ---
 

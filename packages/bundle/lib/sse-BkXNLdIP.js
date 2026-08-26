@@ -1,5 +1,5 @@
-import { a as normalizeHeaders, i as createFetchWithInit, n as auth, o as createParser, r as extractWWWAuthenticateParams, t as UnauthorizedError } from "./auth-CZLi2foX.js";
-import { n as JSONRPCMessageSchema } from "./lib-DRWE5RTb.js";
+import { a as normalizeHeaders, i as createFetchWithInit, n as auth, o as createParser, r as extractWWWAuthenticateParams, t as UnauthorizedError } from "./auth-Pqbpnew0.js";
+import { n as JSONRPCMessageSchema } from "./lib-C30zfXzX.js";
 //#region node_modules/.pnpm/eventsource@3.0.7/node_modules/eventsource/dist/index.js
 var ErrorEvent = class extends Event {
 	/**

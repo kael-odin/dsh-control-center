@@ -16,11 +16,13 @@ export declare const en: {
     workspacePainting: string;
     workspaceKnowledge: string;
     workspaceRepo: string;
+    workspaceNotes: string;
     workspaceBack: string;
     workspaceTranslationDescription: string;
     workspacePaintingDescription: string;
     workspaceKnowledgeDescription: string;
     workspaceRepoDescription: string;
+    workspaceNotesDescription: string;
     providersNav: string;
     webSearchNav: string;
     fileProcessingNav: string;

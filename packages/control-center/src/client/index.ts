@@ -23,6 +23,8 @@ import type {} from '../knowledge-types.ts'
 import knowledgeRemote from '../knowledge-remote-client.ts'
 import { KnowledgeWorkspace } from './KnowledgeWorkspace.tsx'
 import type { KnowledgeWorkspaceInjected } from './KnowledgeWorkspace.tsx'
+import { NotesWorkspace } from './NotesWorkspace.tsx'
+import type { NotesWorkspaceInjected } from './NotesWorkspace.tsx'
 import type {} from '../skills-types.ts'
 import skillsRemote from '../skills-remote-client.ts'
 import { SkillsSection } from './SkillsSection.tsx'
@@ -524,6 +526,7 @@ export function apply(ctx: ClientContext): void {
     { id: 'translation', order: 0, label: 'workspaceTranslation', description: 'workspaceTranslationDescription' },
     { id: 'painting', order: 10, label: 'workspacePainting', description: 'workspacePaintingDescription' },
     { id: 'knowledge', order: 20, label: 'workspaceKnowledge', description: 'workspaceKnowledgeDescription' },
+    { id: 'notes', order: 30, label: 'workspaceNotes', description: 'workspaceNotesDescription' },
     // 'repo' (Code CLI detection) was mounted once and deliberately withdrawn:
     // user feedback judged it noise for this product's scope.
   ]
@@ -587,6 +590,14 @@ export function apply(ctx: ClientContext): void {
           },
         }),
       }, KnowledgeWorkspace))
+    } else if (workspace.id === 'notes') {
+      ctx.slots.inject('application.surface', () => ctx.slots.register({
+        name: 'application.surface',
+        key: 'notes',
+        inject: (): NotesWorkspaceInjected => ({
+          notes: ctx.get('remote.controlCenterNotes') as NotesWorkspaceInjected['notes'],
+        }),
+      }, NotesWorkspace))
     } else {
       ctx.slots.inject('application.surface', () => ctx.slots.register({
         name: 'application.surface',
