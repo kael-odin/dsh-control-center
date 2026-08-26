@@ -115,7 +115,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 
 | 页面 | 缺失项 | 备注 |
 |---|---|---|
-| Dependencies | Node 版本并入环境工具卡 | ffmpeg/tesseract/git 检测已上线 |
+| ~~Dependencies~~ | ~~Node 版本并入环境工具卡~~ | ✅ 已实现（node 行 + ffmpeg/tesseract/git 检测同卡展示；2026-08-26 核查补记） |
 | About | 自动更新安装、发布说明页（内嵌）、诊断日志包（logs/system/traces 三源） | 检查更新/诊断包/外链已通 |
 | Screenshot | OCR 模型状态指示 | 低 |
 | ~~File Processing~~ | ~~PaddleOCR 模型选择、语言包、Tesseract 状态~~ | ✅ 2026-08-26（每 feature 模型/端点、语言多选、tesseract resolveExecutable 探测） |
