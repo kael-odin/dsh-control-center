@@ -52,10 +52,10 @@ jobs:
         run: pnpm run build
       - name: Prepare bundle artifacts for the shell
         run: |
+          mkdir -p apps/desktop/vendor
+          cp packages/bundle/dsh-control-center-bundle-*.tgz apps/desktop/vendor/
           cd apps/desktop/vendor
           TARBALL=$(ls dsh-control-center-bundle-*.tgz | head -1)
-          # The packed filename carries the version — stamp it for the shell's
-          # auto-sync version comparison.
           VERSION=$(echo "$TARBALL" | sed -E 's/.*-([0-9][^-]*)\.tgz/\1/')
           printf '{"version":"%s"}' "$VERSION" > bundle-version.json
           mv "$TARBALL" bundle.tgz
