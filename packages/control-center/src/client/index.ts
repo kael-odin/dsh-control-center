@@ -71,6 +71,7 @@ import desktopRemote from '../desktop-remote-client.ts'
 import channelBridgeRemote from '../channel-bridge-remote-client.ts'
 import { LocalModelsSection } from './LocalModelsSection.tsx'
 import { ApiGatewaySection } from './ApiGatewaySection.tsx'
+import type { ApiGatewaySectionInjected } from './ApiGatewaySection.tsx'
 import type { LocalModelsSectionInjected } from './LocalModelsSection.tsx'
 import { UpdateSection } from './UpdateSection.tsx'
 import type { UpdateSectionInjected } from './UpdateSection.tsx'
@@ -823,6 +824,10 @@ export function apply(ctx: ClientContext): void {
     id: 'api-gateway',
     order: 4,
     label: () => shellT('apiGatewayNav'),
+    inject: () => ({
+      gateway: ctx.get('remote.controlCenterGateway') as ApiGatewaySectionInjected['gateway'],
+      api: connection.api,
+    }),
   }, ApiGatewaySection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',

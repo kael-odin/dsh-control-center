@@ -157,3 +157,7 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
+.statusRunning {
+  background: var(--success, #34c77b);
+}

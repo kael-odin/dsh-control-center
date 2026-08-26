@@ -38,6 +38,8 @@ import { CompatService } from './compat-probe.ts'
 import { installLogRing } from './log-ring.ts'
 import { NotesService } from './notes.ts'
 import notesRemote from './notes-remote-client.ts'
+import { GatewayService } from './gateway.ts'
+import gatewayRemote from './gateway-remote-client.ts'
 import { localModelsRemote, updateRemote, compatRemote } from './local-models-remote-client.ts'
 import { DesktopService } from './desktop.ts'
 import desktopRemote from './desktop-remote-client.ts'
@@ -182,10 +184,16 @@ export function apply(ctx: Context): void {
   new AssistantService(ctx)
   new CompatService(ctx)
   new NotesService(ctx)
+  new GatewayService(ctx)
   // Notes tree metadata (starred flags) — registered so the service's
   // settings.update has a schema to merge into.
   ctx.settings.register(settingsNamespace('control-center-notes'), z.object({
     starred: z.array(z.string()).default([]),
+  }))
+  // Gateway config (port + API key) shared by the runtime and the settings page.
+  ctx.settings.register(settingsNamespace('control-center-gateway'), z.object({
+    port: z.number().step(1).min(1).max(65535).default(23333),
+    apiKey: z.string().default(''),
   }))
   const generalScope = ctx.settings.register(
     GENERAL_NAMESPACE_SETTINGS,
@@ -217,6 +225,7 @@ export function apply(ctx: Context): void {
         ...updateRemote.descriptors,
         ...compatRemote.descriptors,
         ...notesRemote.descriptors,
+        ...gatewayRemote.descriptors,
         ...desktopRemote.descriptors,
         ...assistantRemote.descriptors
       ]

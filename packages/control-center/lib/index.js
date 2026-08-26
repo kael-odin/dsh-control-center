@@ -27,6 +27,7 @@ import { Unzip, UnzipInflate, UnzipPassThrough } from "fflate";
 import { defineDomain, domainTable } from "@deepseek-ai/dsh-storage-domain";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { createServer } from "node:http";
 //#region lib/types/compatibility.js
 /** DSH package versions and exports required by the first Control Center release. */
 const SUPPORTED_DSH_VERSION = "0.1.1-rc.2";
@@ -11042,6 +11043,422 @@ const notesRemote = {
 	}))
 };
 //#endregion
+//#region lib/types/gateway.js
+/**
+* API gateway runtime — Cherry ApiGatewaySettings parity, real this time.
+*
+* A local loopback HTTP service that exposes the Control Center's configured
+* models through OpenAI- and Anthropic-compatible endpoints:
+*
+*   POST /v1/chat/completions   (OpenAI; stream and non-stream)
+*   POST /v1/messages           (Anthropic; stream and non-stream)
+*   GET  /v1/models             (OpenAI model list)
+*
+* Auth: `Authorization: Bearer <apiKey>` against the key persisted in the
+* `control-center-gateway` settings namespace (the same one the settings page
+* edits). Routing: the request `model` field is `provider/model`; when absent
+* or unknown, the host's agent-default-model route answers.
+*
+* The server binds 127.0.0.1 only — this gateway is for local apps, never a
+* network-exposed proxy.
+*/
+const GATEWAY_NAMESPACE = settingsNamespace("control-center-gateway");
+var GatewayService = class extends Service {
+	static inject = ["settings", "llm"];
+	typertRemote = bindTypertRemote(this, "controlCenterGateway");
+	llm;
+	server;
+	boundPort;
+	constructor(ctx) {
+		super(ctx, "controlCenterGateway");
+		try {
+			this.llm = ctx.get("llm");
+		} catch {
+			this.llm = void 0;
+		}
+		ctx.effect(() => () => {
+			try {
+				this.server?.close();
+			} catch {}
+		}, "control-center.gateway: close server");
+	}
+	config() {
+		try {
+			const value = this.ctx.settings.get(GATEWAY_NAMESPACE);
+			return {
+				port: typeof value?.port === "number" && value.port >= 0 ? value.port : 23333,
+				apiKey: typeof value?.apiKey === "string" ? value.apiKey : ""
+			};
+		} catch {
+			return {
+				port: 23333,
+				apiKey: ""
+			};
+		}
+	}
+	async status() {
+		const config = this.config();
+		return {
+			running: this.server !== void 0,
+			port: this.boundPort ?? config.port,
+			url: this.server !== void 0 ? `http://127.0.0.1:${String(this.boundPort ?? config.port)}/v1` : null
+		};
+	}
+	async start() {
+		if (this.server !== void 0) return {
+			ok: true,
+			value: await this.status()
+		};
+		const config = this.config();
+		if (config.apiKey === "") return {
+			ok: false,
+			error: "请先生成 API 密钥"
+		};
+		if (this.llm === void 0) return {
+			ok: false,
+			error: "宿主 LLM 运行时未挂载"
+		};
+		const server = createServer((req, res) => {
+			this.dispatch(req, res);
+		});
+		try {
+			await new Promise((resolve, reject) => {
+				const onError = (err) => {
+					reject(err);
+				};
+				server.once("error", onError);
+				server.listen(config.port, "127.0.0.1", () => {
+					server.off("error", onError);
+					resolve();
+				});
+			});
+		} catch (error) {
+			return {
+				ok: false,
+				error: `端口监听失败：${error instanceof Error ? error.message : String(error)}`
+			};
+		}
+		this.server = server;
+		const address = server.address();
+		this.boundPort = typeof address === "object" && address !== null ? address.port : config.port;
+		this.ctx.logger.info("gateway started", { port: this.boundPort });
+		return {
+			ok: true,
+			value: await this.status()
+		};
+	}
+	async stop() {
+		const server = this.server;
+		this.server = void 0;
+		this.boundPort = void 0;
+		if (server !== void 0) await new Promise((resolve) => {
+			server.close(() => {
+				resolve();
+			});
+		});
+		return {
+			ok: true,
+			value: await this.status()
+		};
+	}
+	async dispatch(req, res) {
+		try {
+			const config = this.config();
+			if ((req.headers.authorization ?? "") !== `Bearer ${config.apiKey}`) {
+				this.respondJson(res, 401, { error: {
+					message: "Invalid API key",
+					type: "auth_error"
+				} });
+				return;
+			}
+			if (req.method === "GET" && req.url === "/v1/models") {
+				await this.handleModels(res);
+				return;
+			}
+			if (req.method !== "POST") {
+				this.respondJson(res, 405, { error: {
+					message: "Method not allowed",
+					type: "invalid_request_error"
+				} });
+				return;
+			}
+			const body = await this.readBody(req);
+			if (req.url === "/v1/chat/completions") {
+				await this.handleOpenAi(body, res);
+				return;
+			}
+			if (req.url === "/v1/messages") {
+				await this.handleAnthropic(body, res);
+				return;
+			}
+			this.respondJson(res, 404, { error: {
+				message: `Unknown path ${req.url ?? ""}`,
+				type: "invalid_request_error"
+			} });
+		} catch (error) {
+			this.respondJson(res, 500, { error: {
+				message: error instanceof Error ? error.message : String(error),
+				type: "gateway_error"
+			} });
+		}
+	}
+	/** `model` is `provider/model`; fall back to the host default route. */
+	async resolveRoute(model) {
+		if (model !== void 0 && model.includes("/")) {
+			const [provider, ...rest] = model.split("/");
+			if (provider !== void 0 && provider.length > 0 && rest.join("/").length > 0) return {
+				provider,
+				model: rest.join("/")
+			};
+		}
+		const value = this.ctx.settings.describe().find((entry) => String(entry.ns) === "agent-default-model")?.value;
+		const provider = typeof value?.provider === "string" ? value.provider : "";
+		const fallbackModel = typeof value?.model === "string" ? value.model : "";
+		if (provider.length > 0 && fallbackModel.length > 0) return {
+			provider,
+			model: fallbackModel
+		};
+		throw new Error(`无法解析模型路由: ${model ?? "(未指定)"}，且未配置默认模型`);
+	}
+	async runTurn(route, messages, signal) {
+		const prepared = await this.llm.prepareCall({
+			provider: route.provider,
+			model: route.model
+		});
+		const system = messages.filter((m) => m.role === "system").map((m) => m.content).join("\n");
+		const chat = messages.filter((m) => m.role !== "system").map((m) => createUserMessage({
+			source: { kind: "user" },
+			content: [{
+				type: "text",
+				text: m.content
+			}]
+		}));
+		let reply = "";
+		for await (const chunk of prepared.stream({
+			...prepared.config,
+			...system.length > 0 ? { system } : {},
+			messages: chat,
+			signal
+		})) {
+			if (chunk.type === "text-delta") reply += chunk.text;
+			if (chunk.type === "finish" && chunk.reason.kind === "error") throw new Error(chunk.reason.failure.message);
+		}
+		return reply;
+	}
+	async streamTurn(route, messages, signal) {
+		const prepared = await this.llm.prepareCall({
+			provider: route.provider,
+			model: route.model
+		});
+		const system = messages.filter((m) => m.role === "system").map((m) => m.content).join("\n");
+		const chat = messages.filter((m) => m.role !== "system").map((m) => createUserMessage({
+			source: { kind: "user" },
+			content: [{
+				type: "text",
+				text: m.content
+			}]
+		}));
+		const stream = prepared.stream({
+			...prepared.config,
+			...system.length > 0 ? { system } : {},
+			messages: chat,
+			signal
+		});
+		return (async function* () {
+			for await (const chunk of stream) {
+				if (chunk.type === "text-delta") yield chunk.text;
+				if (chunk.type === "finish" && chunk.reason.kind === "error") throw new Error(chunk.reason.failure.message);
+			}
+		})();
+	}
+	async handleOpenAi(body, res) {
+		const request = JSON.parse(body);
+		const route = await this.resolveRoute(request.model);
+		const messages = (request.messages ?? []).map((m) => ({
+			role: m.role,
+			content: typeof m.content === "string" ? m.content : JSON.stringify(m.content)
+		}));
+		const id = `chatcmpl-${Date.now().toString(36)}`;
+		if (request.stream === true) {
+			res.writeHead(200, {
+				"content-type": "text/event-stream",
+				"cache-control": "no-cache",
+				connection: "keep-alive"
+			});
+			try {
+				for await (const delta of await this.streamTurn(route, messages, req_signal(res))) res.write(`data: ${JSON.stringify({
+					id,
+					object: "chat.completion.chunk",
+					choices: [{
+						index: 0,
+						delta: { content: delta },
+						finish_reason: null
+					}]
+				})}\n\n`);
+				res.write(`data: ${JSON.stringify({
+					id,
+					object: "chat.completion.chunk",
+					choices: [{
+						index: 0,
+						delta: {},
+						finish_reason: "stop"
+					}]
+				})}\n\ndata: [DONE]\n\n`);
+				res.end();
+			} catch (error) {
+				res.write(`data: ${JSON.stringify({ error: { message: error instanceof Error ? error.message : String(error) } })}\n\n`);
+				res.end();
+			}
+			return;
+		}
+		const reply = await this.runTurn(route, messages, req_signal(res));
+		this.respondJson(res, 200, {
+			id,
+			object: "chat.completion",
+			choices: [{
+				index: 0,
+				message: {
+					role: "assistant",
+					content: reply
+				},
+				finish_reason: "stop"
+			}]
+		});
+	}
+	async handleAnthropic(body, res) {
+		const request = JSON.parse(body);
+		const route = await this.resolveRoute(request.model);
+		const messages = (request.messages ?? []).map((m) => ({
+			role: m.role,
+			content: typeof m.content === "string" ? m.content : JSON.stringify(m.content)
+		}));
+		if (typeof request.system === "string") messages.unshift({
+			role: "system",
+			content: request.system
+		});
+		const id = `msg_${Date.now().toString(36)}`;
+		if (request.stream === true) {
+			res.writeHead(200, {
+				"content-type": "text/event-stream",
+				"cache-control": "no-cache",
+				connection: "keep-alive"
+			});
+			try {
+				res.write(`event: message_start\ndata: ${JSON.stringify({
+					type: "message_start",
+					message: {
+						id,
+						type: "message"
+					}
+				})}\n\n`);
+				for await (const delta of await this.streamTurn(route, messages, req_signal(res))) res.write(`event: content_block_delta\ndata: ${JSON.stringify({
+					type: "content_block_delta",
+					delta: {
+						type: "text_delta",
+						text: delta
+					}
+				})}\n\n`);
+				res.write(`event: message_stop\ndata: ${JSON.stringify({ type: "message_stop" })}\n\n`);
+				res.end();
+			} catch (error) {
+				res.write(`event: error\ndata: ${JSON.stringify({ error: { message: error instanceof Error ? error.message : String(error) } })}\n\n`);
+				res.end();
+			}
+			return;
+		}
+		const reply = await this.runTurn(route, messages, req_signal(res));
+		this.respondJson(res, 200, {
+			id,
+			type: "message",
+			role: "assistant",
+			content: [{
+				type: "text",
+				text: reply
+			}],
+			stop_reason: "end_turn"
+		});
+	}
+	async handleModels(res) {
+		const providers = this.ctx.settings.describe().filter((entry) => String(entry.ns).startsWith("control-center-providers"));
+		const models = [];
+		for (const entry of providers) {
+			const value = entry.value;
+			for (const [provider, profile] of Object.entries(value?.providers ?? {})) for (const model of profile.models ?? []) {
+				const id = typeof model === "string" ? model : String(model?.id ?? "");
+				if (id !== "") models.push({
+					id: `${provider}/${id}`,
+					object: "model"
+				});
+			}
+		}
+		this.respondJson(res, 200, {
+			object: "list",
+			data: models
+		});
+	}
+	readBody(req) {
+		return new Promise((resolve, reject) => {
+			let body = "";
+			req.on("data", (chunk) => {
+				body += String(chunk);
+				if (body.length > 16777216) {
+					reject(/* @__PURE__ */ new Error("请求体过大"));
+					req.destroy();
+				}
+			});
+			req.on("end", () => {
+				resolve(body);
+			});
+			req.on("error", reject);
+		});
+	}
+	respondJson(res, code, payload) {
+		res.writeHead(code, { "content-type": "application/json" });
+		res.end(JSON.stringify(payload));
+	}
+};
+/** Abort the model call when the client connection closes. */
+function req_signal(res) {
+	const controller = new AbortController();
+	res.on("close", () => {
+		controller.abort();
+	});
+	return controller.signal;
+}
+//#endregion
+//#region lib/types/gateway-remote-client.js
+/** Client descriptor contribution for the Control Center gateway service. */
+const gatewayRemote = {
+	package: "@dsh-control-center/control-center",
+	descriptors: [
+		{
+			method: "status",
+			parameters: []
+		},
+		{
+			method: "start",
+			parameters: []
+		},
+		{
+			method: "stop",
+			parameters: []
+		}
+	].map(({ method, parameters }) => ({
+		id: `@dsh-control-center/control-center#controlCenterGateway/${method}`,
+		service: "controlCenterGateway",
+		namespace: "controlCenterGateway",
+		method,
+		invocation: { kind: "direct" },
+		parameters: parameters.map((name) => ({
+			name,
+			wire: name,
+			source: "json",
+			codec: STRICT_JSON
+		})),
+		result: STRICT_JSON
+	}))
+};
+//#endregion
 //#region lib/types/local-models-remote-client.js
 const localModelsMethods = [
 	{
@@ -12022,7 +12439,12 @@ function apply(ctx) {
 	new AssistantService(ctx);
 	new CompatService(ctx);
 	new NotesService(ctx);
+	new GatewayService(ctx);
 	ctx.settings.register(settingsNamespace("control-center-notes"), Schema.object({ starred: Schema.array(Schema.string()).default([]) }));
+	ctx.settings.register(settingsNamespace("control-center-gateway"), Schema.object({
+		port: Schema.number().step(1).min(1).max(65535).default(23333),
+		apiKey: Schema.string().default("")
+	}));
 	const generalScope = ctx.settings.register(GENERAL_NAMESPACE_SETTINGS, GENERAL_SCHEMA);
 	installContextPolicy(ctx, () => generalScope.get());
 	const contributions = [{
@@ -12053,6 +12475,7 @@ function apply(ctx) {
 			...updateRemote.descriptors,
 			...compatRemote.descriptors,
 			...notesRemote.descriptors,
+			...gatewayRemote.descriptors,
 			...desktopRemote.descriptors,
 			...assistantRemote.descriptors
 		]
