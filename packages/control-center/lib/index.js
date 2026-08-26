@@ -5137,7 +5137,7 @@ var ChannelBridgeService = class extends Service {
 				}
 			}
 		}
-		for (const [id, runtime] of [...this.runtimes]) if (!wanted.has(id)) {
+		for (const [id, runtime] of Array.from(this.runtimes)) if (!wanted.has(id)) {
 			runtime.controller.abort();
 			runtime.cleanup?.();
 			this.runtimes.delete(id);
@@ -5903,7 +5903,7 @@ var ChannelBridgeService = class extends Service {
 				receivedAt: Date.now(),
 				seq: 0
 			});
-			for (const [key, entry] of [...passiveReplies]) if (Date.now() - entry.receivedAt > QQ_PASSIVE_REPLY_TTL_MS) passiveReplies.delete(key);
+			for (const [key, entry] of Array.from(passiveReplies)) if (Date.now() - entry.receivedAt > QQ_PASSIVE_REPLY_TTL_MS) passiveReplies.delete(key);
 		}
 		this.appendLog(id, `收到消息：${text.slice(0, 80)}`);
 		this.generateAndDeliver(id, text, async (reply) => {

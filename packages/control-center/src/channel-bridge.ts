@@ -466,7 +466,7 @@ export class ChannelBridgeService extends Service {
       }
     }
     // Stop loops whose instance disappeared or was disabled.
-    for (const [id, runtime] of [...this.runtimes]) {
+    for (const [id, runtime] of Array.from(this.runtimes)) {
       if (!wanted.has(id)) {
         runtime.controller.abort()
         runtime.cleanup?.()
@@ -1320,7 +1320,7 @@ export class ChannelBridgeService extends Service {
     if (msgId !== undefined) {
       passiveReplies.set(`${chatKey}:${msgId}`, { receivedAt: Date.now(), seq: 0 })
       // Prune stale entries so the map cannot grow without bound.
-      for (const [key, entry] of [...passiveReplies]) {
+      for (const [key, entry] of Array.from(passiveReplies)) {
         if (Date.now() - entry.receivedAt > QQ_PASSIVE_REPLY_TTL_MS) passiveReplies.delete(key)
       }
     }

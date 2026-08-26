@@ -25,7 +25,7 @@ function loadPrefs(): LocalModelPrefs {
   try {
     const raw = localStorage.getItem(LOCAL_MODELS_KEY)
     if (raw === null) return { hardwareAcceleration: false, embeddingReady: false, ocrReady: false, embeddingDownloading: false, ocrDownloading: false }
-    return { ...{ hardwareAcceleration: false, embeddingReady: false, ocrReady: false, embeddingDownloading: false, ocrDownloading: false }, ...JSON.parse(raw) as Partial<LocalModelPrefs> }
+    return Object.assign({ hardwareAcceleration: false, embeddingReady: false, ocrReady: false, embeddingDownloading: false, ocrDownloading: false }, JSON.parse(raw) as Partial<LocalModelPrefs>)
   } catch {
     return { hardwareAcceleration: false, embeddingReady: false, ocrReady: false, embeddingDownloading: false, ocrDownloading: false }
   }
