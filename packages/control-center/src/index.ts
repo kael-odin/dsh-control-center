@@ -76,6 +76,12 @@ const GENERAL_SCHEMA = z.object({
   trayOnLaunch: z.boolean().default(false),
   preventSleepWhenBusy: z.boolean().default(false),
   developerMode: z.boolean().default(false),
+  // Cherry app.proxy.* — stored here; the desktop shell consumes the snapshot.
+  proxyMode: z.string().default('off'),
+  proxyUrl: z.string().default(''),
+  proxyBypass: z.string().default(''),
+  // Cherry app.fetch.allow_private_network.
+  allowPrivateNetwork: z.boolean().default(false),
   // Cherry chat.context_settings.* projected onto DSH's compaction/pruning policy.
   contextEnabled: z.boolean().default(true),
   contextMaxMessages: z.any().default(null),

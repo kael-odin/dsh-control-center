@@ -8,6 +8,8 @@ import { messageOf } from './store.ts'
 
 export const GENERAL_NAMESPACE = 'control-center-general'
 
+export type ProxyMode = 'off' | 'system' | 'static'
+
 export interface GeneralPrefs {
   launchOnBoot: boolean
   trayEnabled: boolean
@@ -15,6 +17,10 @@ export interface GeneralPrefs {
   trayOnLaunch: boolean
   preventSleepWhenBusy: boolean
   developerMode: boolean
+  proxyMode: ProxyMode
+  proxyUrl: string
+  proxyBypass: string
+  allowPrivateNetwork: boolean
   contextEnabled: boolean
   contextMaxMessages: number | null
   contextToolOutputThreshold: number
@@ -40,6 +46,10 @@ const DEFAULT_PREFS: GeneralPrefs = {
   trayOnLaunch: false,
   preventSleepWhenBusy: false,
   developerMode: false,
+  proxyMode: 'off',
+  proxyUrl: '',
+  proxyBypass: '',
+  allowPrivateNetwork: false,
   contextEnabled: true,
   contextMaxMessages: null,
   contextToolOutputThreshold: 50_000,
@@ -65,6 +75,8 @@ function readPrefs(value: unknown, schema: SettingsSchemaOperations): GeneralPre
     const raw = schema.getPath(value, [key])
     return typeof raw === 'string' ? raw : fallback
   }
+  const proxyModeRaw = schema.getPath(value, ['proxyMode'])
+  const proxyMode: ProxyMode = proxyModeRaw === 'system' || proxyModeRaw === 'static' ? proxyModeRaw : 'off'
   return {
     launchOnBoot: flag('launchOnBoot', DEFAULT_PREFS.launchOnBoot),
     trayEnabled: flag('trayEnabled', DEFAULT_PREFS.trayEnabled),
@@ -72,6 +84,10 @@ function readPrefs(value: unknown, schema: SettingsSchemaOperations): GeneralPre
     trayOnLaunch: flag('trayOnLaunch', DEFAULT_PREFS.trayOnLaunch),
     preventSleepWhenBusy: flag('preventSleepWhenBusy', DEFAULT_PREFS.preventSleepWhenBusy),
     developerMode: flag('developerMode', DEFAULT_PREFS.developerMode),
+    proxyMode,
+    proxyUrl: text('proxyUrl', DEFAULT_PREFS.proxyUrl),
+    proxyBypass: text('proxyBypass', DEFAULT_PREFS.proxyBypass),
+    allowPrivateNetwork: flag('allowPrivateNetwork', DEFAULT_PREFS.allowPrivateNetwork),
     contextEnabled: flag('contextEnabled', DEFAULT_PREFS.contextEnabled),
     contextMaxMessages: integerOrNull('contextMaxMessages', DEFAULT_PREFS.contextMaxMessages),
     contextToolOutputThreshold: positiveInteger('contextToolOutputThreshold', DEFAULT_PREFS.contextToolOutputThreshold),

@@ -36,7 +36,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 能力 | Web Search | ✅ | WebSearchSection：提供者配置/高级设置/黑名单 |
 | 能力 | File Processing | ✅ | 6 种文档处理器真实分发（2026-08-26）：本地文本/PDF 提取、Mistral OCR（上传→签名 URL→OCR→清理）、Open MinerU 自托管、MinerU/Doc2X/PaddleOCR 文档走持久化远程任务（storage-domain 存储、30 分钟 deadline、重启恢复、取消）。API Key 只存 DSH credentials，settings/导出仅保留引用；每 feature 端点/模型/语言配置；provider 返回的 URL/头/响应体均经白名单与大小校验。缺：system/local-paddleocr 需桌面原生桥 |
 | 能力 | OCR | ✅ | 5 种选择同 File Processing：system/tesseract/paddleocr/local-paddleocr/mistral；tesseract 经 DSH subprocess 探测并执行，不可用时返回 needs-runtime 而非伪装成功 |
-| 个人 | General | ⚠️ | GeneralCherrySettings.tsx：启动/托盘/省电/开发者模式与 Context Management 均真实可写。Context Management 映射到 DSH：普通工具和 Code Mode 子调用按字符阈值 spill，最近消息窗口以可回放 checkpoint 收缩，自动压缩通过 agent-scoped compaction，压缩模型仅路由 `purpose: compaction` 请求；已由 packed Web profile 多轮会话验证。仍缺：代理模式/地址/绕过、允许私网、硬件加速。注意关闭该开关只关闭 Control Center 自定义策略，DSH 原生 overflow recovery 仍可能执行。 |
+| 个人 | General | ⚠️ | GeneralCherrySettings.tsx：启动/托盘/省电/开发者模式与 Context Management 均真实可写。**代理组已上线（2026-08-26）**：模式（关闭/系统/自定义）+ 自定义地址 + 绕过列表 + 允许私有网络，写入 `control-center-general`（Cherry app.proxy.* / app.fetch.allow_private_network 键位映射），桌面壳消费快照。Context Management 映射到 DSH：普通工具和 Code Mode 子调用按字符阈值 spill，最近消息窗口以可回放 checkpoint 收缩，自动压缩通过 agent-scoped compaction，压缩模型仅路由 `purpose: compaction` 请求；已由 packed Web profile 多轮会话验证。仍缺：硬件加速开关、客户端 ID。注意关闭该开关只关闭 Control Center 自定义策略，DSH 原生 overflow recovery 仍可能执行。 |
 | 个人 | Appearance | ⚠️ | 主题/颜色/语言/字体/缩放/CSS、**消息字体大小（12–18px stepper）**、**消息显示设置组（宽屏模式/衬线字体/消息样式平铺·气泡/消息轮廓，2026-08-24，经 `[data-chat-flow-kind]` 注入并持久化）**、**窗口组（窗口样式不透明·透明 + 系统标题栏，桌面偏好持久化，2026-08-24）** 已实现。**仍缺**：菜单呈现模式、代码执行（Pyodide，DSH 无此运行时）、输入区快捷键（DSH composer 原生拥有） |
 | 个人 | Notification | ✅ | 4 个开关完全对等 |
 | 个人 | Data | ⚠️ | IA 已重构为 Cherry 子菜单（13 项/5 组）。本地备份+轮转+恢复、WebDAV 云备份、**坚果云（WebDAV 厂商预设）**、**S3 兼容存储（AWS SigV4 手写签名，无 SDK，2026-08-24）**、Markdown 导出、备份/恢复、数据重置、应用数据路径 均可用。**仍缺**：ChatGPT/Claude 导入、导出菜单可见性、Notion/语雀/Joplin/Obsidian/思源笔记导出、日志路径、清除缓存、隐私模式 |
@@ -131,7 +131,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 4. ~~General 开发者模式 + 省电 + 启动到托盘~~ ✅ 2026-08-24（三行开关 + store 持久化；桌面侧消费待补）
 
 ### P1 —— 中成本，需要 host 配合
-5. General 代理模式选择器（UI 先行）+ 上下文管理映射 DSH compaction
+5. ~~General 代理模式选择器（UI 先行）+ 上下文管理映射 DSH compaction~~ ✅ 2026-08-26（代理组四行真实可写；上下文映射此前已通）
 6. ~~Data S3 备份~~ ✅ 2026-08-24（host SigV4 签名 + 客户端面板 + 测试）
 7. ~~Translation PDF 翻译~~ ✅ 2026-08-24（客户端 pdfjs-dist 提取，上传 PDF 直填输入框；CDN workerSrc，需在线）
 8. MCP 独立市场页 + 提供商配置子页

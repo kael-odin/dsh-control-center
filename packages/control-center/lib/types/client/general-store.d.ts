@@ -3,6 +3,7 @@ import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client';
 import type { SnapshotStore } from '@deepseek-ai/dsh-client-runtime/client';
 import type { SettingsSchemaOperations } from './schema-operations.ts';
 export declare const GENERAL_NAMESPACE = "control-center-general";
+export type ProxyMode = 'off' | 'system' | 'static';
 export interface GeneralPrefs {
     launchOnBoot: boolean;
     trayEnabled: boolean;
@@ -10,6 +11,10 @@ export interface GeneralPrefs {
     trayOnLaunch: boolean;
     preventSleepWhenBusy: boolean;
     developerMode: boolean;
+    proxyMode: ProxyMode;
+    proxyUrl: string;
+    proxyBypass: string;
+    allowPrivateNetwork: boolean;
     contextEnabled: boolean;
     contextMaxMessages: number | null;
     contextToolOutputThreshold: number;

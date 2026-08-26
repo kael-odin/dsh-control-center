@@ -215,8 +215,82 @@ function Loaded({ controller, useSnapshot, t }: {
       <div className={css['divider']} />
       <div className={css['groupTitle']}>{t('generalProxy')}</div>
       <Note
-        title={t('generalProxyUnsupportedTitle')}
-        body={t('generalProxyUnsupportedBody')}
+        title={t('generalDesktopOnly')}
+        body="代理偏好保存在 control-center-general 命名空间，桌面壳读取后应用到出站请求；Web 版仅保存。"
+      />
+      <div className={css['prefRow']}>
+        <label className={css['prefRowTitle']} htmlFor="cc-proxy-mode">
+          <span>{t('generalProxyMode')}</span>
+        </label>
+        <div className={css['prefRowControl']}>
+          <select
+            id="cc-proxy-mode"
+            className={css['prefInput']}
+            value={prefs.proxyMode}
+            disabled={disabled}
+            onChange={event => { void controller.save('proxyMode', event.target.value as GeneralPrefs['proxyMode']) }}
+          >
+            <option value="off">{t('generalProxyOff')}</option>
+            <option value="system">{t('generalProxySystem')}</option>
+            <option value="static">{t('generalProxyStatic')}</option>
+          </select>
+        </div>
+      </div>
+      {prefs.proxyMode === 'static' && (
+        <>
+          <div className={css['prefRow']}>
+            <label className={css['prefRowTitle']} htmlFor="cc-proxy-url">
+              <span>{t('generalProxyUrl')}</span>
+              <span className={css['prefRowHint']}>{t('generalProxyUrlHint')}</span>
+            </label>
+            <div className={css['prefRowControl']}>
+              <input
+                id="cc-proxy-url"
+                className={css['prefInput']}
+                type="text"
+                maxLength={300}
+                placeholder="http://127.0.0.1:7890"
+                defaultValue={prefs.proxyUrl}
+                disabled={disabled}
+                onBlur={event => {
+                  const next = event.target.value.trim()
+                  if (next !== prefs.proxyUrl) void controller.save('proxyUrl', next)
+                }}
+                onKeyDown={(event) => { if (event.key === 'Enter') event.currentTarget.blur() }}
+              />
+            </div>
+          </div>
+          <div className={css['prefRow']}>
+            <label className={css['prefRowTitle']} htmlFor="cc-proxy-bypass">
+              <span>{t('generalProxyBypass')}</span>
+              <span className={css['prefRowHint']}>{t('generalProxyBypassHint')}</span>
+            </label>
+            <div className={css['prefRowControl']}>
+              <input
+                id="cc-proxy-bypass"
+                className={css['prefInput']}
+                type="text"
+                maxLength={500}
+                placeholder="localhost, 192.168.*"
+                defaultValue={prefs.proxyBypass}
+                disabled={disabled}
+                onBlur={event => {
+                  const next = event.target.value.trim()
+                  if (next !== prefs.proxyBypass) void controller.save('proxyBypass', next)
+                }}
+                onKeyDown={(event) => { if (event.key === 'Enter') event.currentTarget.blur() }}
+              />
+            </div>
+          </div>
+        </>
+      )}
+      <PrefRow
+        title={t('generalAllowPrivateNetwork')}
+        hint={t('generalAllowPrivateNetworkHint')}
+        checked={prefs.allowPrivateNetwork}
+        disabled={disabled}
+        label={t('generalAllowPrivateNetwork')}
+        onChange={(next) => { setPref('allowPrivateNetwork', next) }}
       />
       <div className={css['divider']} />
       <div className={css['groupTitle']}>{t('generalContext')}</div>

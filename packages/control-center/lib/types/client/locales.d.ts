@@ -215,6 +215,16 @@ export declare const en: {
     generalProxy: string;
     generalProxyUnsupportedTitle: string;
     generalProxyUnsupportedBody: string;
+    generalProxyMode: string;
+    generalProxyOff: string;
+    generalProxySystem: string;
+    generalProxyStatic: string;
+    generalProxyUrl: string;
+    generalProxyUrlHint: string;
+    generalProxyBypass: string;
+    generalProxyBypassHint: string;
+    generalAllowPrivateNetwork: string;
+    generalAllowPrivateNetworkHint: string;
     generalContext: string;
     generalContextNativeTitle: string;
     generalContextNativeBody: string;
