@@ -5,6 +5,7 @@
   "license": "AGPL-3.0-only",
   "type": "module",
   "description": "DSH Control Center desktop shell — Electron runner that loads the DSH loopback Web surface and mounts the Control Center plugin surface.",
+  "homepage": "https://github.com/kael-odin/dsh-control-center",
   "author": { "name": "kael-odin" },
   "main": "bin/main.mjs",
   "bin": {
