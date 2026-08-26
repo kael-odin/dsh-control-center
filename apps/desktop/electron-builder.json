@@ -12,7 +12,9 @@
     "package.json"
   ],
   "extraResources": [
-    { "from": "vendor/node", "to": "vendor/node", "filter": ["**/*"] }
+    { "from": "vendor/node", "to": "vendor/node", "filter": ["**/*"] },
+    { "from": "vendor/bundle.tgz", "to": "vendor/bundle.tgz" },
+    { "from": "vendor/bundle-version.json", "to": "vendor/bundle-version.json" }
   ],
   "asar": true,
   "npmRebuild": false,

@@ -9,3 +9,7 @@ vendor/node/
 .materialize-test/
 # Full materialized harness deploy tree (large; not committed).
 .materialized/
+
+# Bundled Control Center plugin (packed at build time, not committed).
+vendor/bundle.tgz
+vendor/bundle-version.json

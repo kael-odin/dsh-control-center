@@ -20,7 +20,7 @@ import { randomBytes } from 'node:crypto'
 import { readFileSync, statSync, existsSync, writeFileSync, rmSync } from 'node:fs'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { homedir, tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { join, dirname } from 'node:path'
 
 const DEFAULT_LOOPBACK = 'http://127.0.0.1:3080/'
 const DEFAULT_HARNESS_DIR = process.env.DSH_HARNESS_DIR || 'D:\\Github_Open\\deepseek-harness'
@@ -142,6 +142,90 @@ function startSelfHost(native) {
 
 function resolveHarnessDir() {
   return process.env.DSH_HARNESS_DIR || DEFAULT_HARNESS_DIR
+}
+
+/**
+ * Plugin auto-sync: the shell carries the current Control Center bundle; when
+ * the target profile runs an older (or no) version, install ours through the
+ * harness CLI before boot — otherwise the surface renders with stale plugin
+ * features no matter how new the shell is. Best-effort: a failed sync logs and
+ * continues (the user can still update from the in-app 更新 page).
+ */
+async function ensurePluginSynced(homeDir) {
+  const bundledVersion = readBundledVersion()
+  if (bundledVersion === null) return
+  const profileDir = join(homeDir, 'profiles', 'default')
+  const installedVersion = readInstalledVersion(profileDir)
+  if (installedVersion === bundledVersion) {
+    console.log(`[desktop] plugin up to date (${bundledVersion})`)
+    return
+  }
+  const tgz = resolveBundledTgz()
+  if (tgz === undefined) {
+    console.warn('[desktop] plugin sync skipped: bundled bundle.tgz not found')
+    return
+  }
+  const harnessDir = resolveHarnessDir()
+  const cliEntry = join(harnessDir, 'apps', 'cli', 'src', 'bin.ts')
+  if (!existsSync(cliEntry)) {
+    console.warn(`[desktop] plugin sync skipped: harness CLI unavailable at ${cliEntry}`)
+    return
+  }
+  console.log(`[desktop] plugin sync ${installedVersion ?? 'absent'} -> ${bundledVersion} …`)
+  const result = spawn(
+    process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm',
+    ['exec', 'tsx', cliEntry, 'plugin', '--profile', 'default', 'add', `file:${tgz}`],
+    { cwd: harnessDir, env: { ...process.env, DSH_HOME: homeDir }, stdio: 'pipe', shell: false },
+  )
+  await new Promise((resolve) => {
+    let output = ''
+    const timer = setTimeout(() => { try { result.kill() } catch { /* already gone */ } resolve() }, 180_000)
+    result.stdout?.on('data', (chunk) => { output += String(chunk) })
+    result.stderr?.on('data', (chunk) => { output += String(chunk) })
+    result.on('exit', (code) => {
+      clearTimeout(timer)
+      const tail = output.length > 400 ? `…${output.slice(-400)}` : output
+      if (code === 0) console.log(`[desktop] plugin synced to ${bundledVersion}`)
+      else console.warn(`[desktop] plugin sync failed (code=${code}): ${tail}`)
+      resolve()
+    })
+    result.on('error', (err) => { clearTimeout(timer); console.warn(`[desktop] plugin sync error: ${String(err)}`); resolve() })
+  })
+}
+
+/** The version stamped next to the bundled tarball at build time. */
+function readBundledVersion() {
+  for (const candidate of bundledResourceCandidates('vendor/bundle-version.json')) {
+    try {
+      const parsed = JSON.parse(readFileSync(candidate, 'utf8'))
+      return typeof parsed.version === 'string' ? parsed.version : null
+    } catch { /* try next */ }
+  }
+  return null
+}
+
+function resolveBundledTgz() {
+  return bundledResourceCandidates('vendor/bundle.tgz').find((candidate) => existsSync(candidate)) ?? undefined
+}
+
+/** Packaged installs keep extraResources under process.resourcesPath; dev checkouts under the app dir. */
+function bundledResourceCandidates(relative) {
+  const candidates = []
+  if (process.resourcesPath !== undefined) {
+    try { candidates.push(fileURLToPath(new URL(relative, pathToFileURL(`${process.resourcesPath}/`)))) } catch { /* ignore */ }
+  }
+  candidates.push(fileURLToPath(new URL(relative, pathToFileURL(`${dirname(fileURLToPath(import.meta.url))}/`))))
+  return candidates
+}
+
+function readInstalledVersion(profileDir) {
+  try {
+    const manifest = join(profileDir, 'node_modules', '@dsh-control-center', 'bundle', 'package.json')
+    const parsed = JSON.parse(readFileSync(manifest, 'utf8'))
+    return typeof parsed.version === 'string' ? parsed.version : null
+  } catch {
+    return null
+  }
 }
 
 /** Build a temporary official DSH overlay selecting the browser fallback picker. */
@@ -880,6 +964,14 @@ async function boot() {
   } else {
     // No explicitly trusted external surface or explicit self-host mode: self-host a dedicated loopback one (free port via --port 0).
     console.log(`[desktop] no DSH surface at ${url}; self-hosting…`)
+    // Bring the profile's plugin up to the shell's bundled version first, so
+    // the surface renders current features instead of whatever was installed.
+    // Skipped under --e2e: the smoke run must stay fast and side-effect free
+    // (the CLI install can take minutes on a cold pnpm store).
+    if (!smoke) {
+      const syncHome = resolveSelfHome() ?? join(homedir(), '.dsh')
+      await ensurePluginSynced(syncHome)
+    }
     try {
       const { child, urlPromise } = startSelfHost(native)
       activeChild = child

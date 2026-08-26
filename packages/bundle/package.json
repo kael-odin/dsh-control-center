@@ -46,7 +46,7 @@
       "platform": "web"
     }
   },
-  "dependencies": {
+  "devDependencies": {
     "@dsh-control-center/control-center": "workspace:*"
   },
   "peerDependencies": {
