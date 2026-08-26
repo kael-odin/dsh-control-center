@@ -4,9 +4,10 @@
  * `inMemory` server type; these are the runtimes that make that type real.
  *
  * Currently implemented: sequential-thinking (structured reasoning), memory
- * (knowledge-graph memory). The rest of Cherry's set (fetch, filesystem,
- * brave-search, python, dify-knowledge, browser, didi) map onto DSH-native
- * capabilities and are listed but not yet provided in-process.
+ * (knowledge-graph memory), browser (web page fetch → readable text, SSRF
+ * guarded). The rest of Cherry's set (fetch, filesystem, brave-search,
+ * python, dify-knowledge, didi) map onto DSH-native capabilities and are
+ * listed but not yet provided in-process.
  */
 
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
@@ -20,7 +21,7 @@ export interface RunningInMemoryServer {
 }
 
 /** Runtime keys that have a real in-process implementation on the host. */
-export const AVAILABLE_INMEMORY_RUNTIMES: readonly string[] = Object.freeze(['sequential-thinking', 'memory'])
+export const AVAILABLE_INMEMORY_RUNTIMES: readonly string[] = Object.freeze(['sequential-thinking', 'memory', 'browser'])
 
 /**
  * Create one in-process MCP server for a builtin runtime, linked to a client
@@ -29,6 +30,7 @@ export const AVAILABLE_INMEMORY_RUNTIMES: readonly string[] = Object.freeze(['se
 export function createInMemoryServer(name: string): RunningInMemoryServer {
   if (name === 'sequential-thinking') return createSequentialThinking()
   if (name === 'memory') return createMemory()
+  if (name === 'browser') return createBrowser()
   throw new Error(`未实现的内置服务器: ${name}`)
 }
 
@@ -181,6 +183,115 @@ function createMemory(): RunningInMemoryServer {
     const matches = [...entities.values()].filter(e =>
       e.name.toLowerCase().includes(query) || e.entityType.toLowerCase().includes(query) || e.observations.some(o => o.toLowerCase().includes(query)))
     return { content: [{ type: 'text', text: JSON.stringify(matches.map(e => ({ name: e.name, entityType: e.entityType, observations: e.observations.slice(-10) }))) }] }
+  })
+
+  return { ...link(server), server }
+}
+
+/** Private / loopback ranges — the browser tool refuses to fetch them (SSRF). */
+function isPrivateHost(hostname: string): boolean {
+  if (hostname === 'localhost' || hostname.endsWith('.localhost') || hostname.endsWith('.local')) return true
+  // IPv6 loopback / link-local / unique-local.
+  if (hostname.includes(':')) {
+    const lower = hostname.toLowerCase()
+    return lower === '::1' || lower.startsWith('fc') || lower.startsWith('fd') || lower.startsWith('fe8')
+      || lower.startsWith('fe9') || lower.startsWith('fea') || lower.startsWith('feb')
+  }
+  const match = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/.exec(hostname)
+  if (match !== null) {
+    const [a, b] = [Number(match[1]), Number(match[2])]
+    if (a === 10 || a === 127 || a === 0) return true
+    if (a === 192 && b === 168) return true
+    if (a === 172 && b >= 16 && b <= 31) return true
+    if (a === 169 && b === 254) return true
+  }
+  return false
+}
+
+/** Strip tags and decode the few entities that survive a plain-text read. */
+function htmlToText(html: string): string {
+  const withoutScripts = html
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<!--[\s\S]*?-->/g, ' ')
+    // Block-level boundaries become line breaks so paragraphs survive.
+    .replace(/<\/(p|div|section|article|h[1-6]|li|tr|br)>/gi, '\n')
+    .replace(/<br\s*\/?>/gi, '\n')
+  const text = withoutScripts.replace(/<[^>]+>/g, '')
+  return text
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\n{3,}/g, '\n\n')
+    .trim()
+}
+
+/** browser — web page fetch rendered to readable text (Cherry browser parity). */
+function createBrowser(): RunningInMemoryServer {
+  const MAX_BYTES = 2 * 1024 * 1024
+
+  const server = new McpServer({ name: 'browser', version: '1.0.0' })
+  server.registerTool('fetch_page', {
+    title: 'Fetch Page',
+    description: '抓取一个网页并返回可读文本（标题 + 正文，HTML 已剥离）。拒绝私有网络地址。',
+    inputSchema: z.object({
+      url: z.string().describe('要抓取的 http(s) URL'),
+      maxChars: z.number().int().min(500).max(50_000).optional().describe('返回文本的最大字符数（默认 8000）'),
+    }),
+  }, async (args) => {
+    let url: URL
+    try {
+      url = new URL(String(args.url ?? ''))
+    } catch {
+      return { isError: true, content: [{ type: 'text', text: 'URL 无效' }] }
+    }
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+      return { isError: true, content: [{ type: 'text', text: `不支持的协议: ${url.protocol}` }] }
+    }
+    if (isPrivateHost(url.hostname)) {
+      return { isError: true, content: [{ type: 'text', text: '拒绝访问私有/回环网络地址' }] }
+    }
+    try {
+      const controller = new AbortController()
+      const timer = setTimeout(() => controller.abort(), 15_000)
+      let response: Response
+      try {
+        response = await fetch(url, {
+          headers: { 'User-Agent': 'Mozilla/5.0 (compatible; dsh-control-center-browser/1.0)' },
+          signal: controller.signal,
+          redirect: 'follow',
+        })
+      } finally {
+        clearTimeout(timer)
+      }
+      if (!response.ok) {
+        return { content: [{ type: 'text', text: `抓取失败：HTTP ${String(response.status)}` }] }
+      }
+      const contentType = response.headers.get('content-type') ?? ''
+      const buffer = await response.arrayBuffer()
+      if (buffer.byteLength > MAX_BYTES) {
+        return { isError: true, content: [{ type: 'text', text: `页面过大（${String(Math.round(buffer.byteLength / 1024))}KB），上限 2048KB` }] }
+      }
+      const body = new TextDecoder().decode(buffer)
+      const title = /<title[^>]*>([\s\S]*?)<\/title>/i.exec(body)?.[1]?.trim() ?? ''
+      const isHtml = contentType.includes('html') || /^\s*<(!doctype|html)/i.test(body)
+      const fullText = isHtml ? htmlToText(body) : body.trim()
+      if (fullText.length === 0) {
+        return { content: [{ type: 'text', text: '页面无可提取文本' }] }
+      }
+      const maxChars = typeof args.maxChars === 'number' ? args.maxChars : 8_000
+      const clipped = fullText.length > maxChars
+        ? `${fullText.slice(0, maxChars)}\n\n[已截断，全文 ${String(fullText.length)} 字符]`
+        : fullText
+      const header = title.length > 0 ? `# ${title}\n\n` : ''
+      return { content: [{ type: 'text', text: `${header}${clipped}` }] }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error)
+      return { isError: true, content: [{ type: 'text', text: `抓取失败：${message}` }] }
+    }
   })
 
   return { ...link(server), server }

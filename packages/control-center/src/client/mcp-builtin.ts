@@ -113,6 +113,6 @@ export const BUILTIN_MEMORY_SERVERS: readonly BuiltinMemoryServer[] = Object.fre
   { name: 'brave-search', description: 'Brave 搜索 — 对应 DSH 网络搜索，未另设内置', available: false, runtimeKey: '' },
   { name: 'python', description: 'Python 执行 — 对应 DSH code-runtime，未另设内置', available: false, runtimeKey: '' },
   { name: 'dify-knowledge', description: 'Dify 知识库（待实现）', available: false, runtimeKey: '' },
-  { name: 'browser', description: '浏览器自动化（待实现）', available: false, runtimeKey: '' },
+  { name: 'browser', description: '网页抓取（fetch_page：URL→可读文本，SSRF 防护）', available: true, runtimeKey: 'browser' },
   { name: 'didi', description: '滴滴出行（待实现）', available: false, runtimeKey: '' },
 ])

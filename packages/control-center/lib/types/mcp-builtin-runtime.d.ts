@@ -4,9 +4,10 @@
  * `inMemory` server type; these are the runtimes that make that type real.
  *
  * Currently implemented: sequential-thinking (structured reasoning), memory
- * (knowledge-graph memory). The rest of Cherry's set (fetch, filesystem,
- * brave-search, python, dify-knowledge, browser, didi) map onto DSH-native
- * capabilities and are listed but not yet provided in-process.
+ * (knowledge-graph memory), browser (web page fetch → readable text, SSRF
+ * guarded). The rest of Cherry's set (fetch, filesystem, brave-search,
+ * python, dify-knowledge, didi) map onto DSH-native capabilities and are
+ * listed but not yet provided in-process.
  */
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
