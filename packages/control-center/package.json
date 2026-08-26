@@ -1,6 +1,6 @@
 {
   "name": "@dsh-control-center/control-center",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Cherry-style settings, provider, and model control surface for DSH Web",
   "license": "AGPL-3.0-only",
   "type": "module",
