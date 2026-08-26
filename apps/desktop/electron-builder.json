@@ -1,6 +1,7 @@
 {
   "appId": "com.dshcontrolcontrolcenter.desktop",
   "productName": "DSH Control Center",
+  "executableName": "dsh-control-center",
   "copyright": "Copyright © 2026 kael-odin",
   "directories": {
     "output": "release"
