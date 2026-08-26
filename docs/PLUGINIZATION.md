@@ -51,8 +51,8 @@
 
 ## 实施顺序
 
-1. §1.1 能力探测表（小，纯收益）
-2. §2.A 引导式更新（中，Web/桌面双端受益）
+1. ~~§1.1 能力探测表~~ ✅ 2026-08-26（`controlCenterCompat.probe()`，结果随诊断包导出）
+2. §2.A 引导式更新 —— **下载半已落地（2026-08-26）**：`UpdateService.prepareUpdate()` 拉 latest release 的 `.tgz` asset（仅接受 control-center 命名，64MB 上限），base64 存入 storage-domain `control_center_update_bundles`；更新页有「下载更新包」按钮与状态反馈。**剩余：安装步骤自动化**（调宿主 plugin install RPC 或桌面壳直接替换 vendor 目录）
 3. §3 发布流水线（中，一次性搭建）
 4. §2.B 全自动更新（大，依赖 §3）
 5. §1.2/1.3 版本区间放宽（随首次适配新版 DSH 一起做）

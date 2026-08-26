@@ -1,11 +1,15 @@
 /**
  * Update Host service: check the GitHub release feed for a newer Control
- * Center version than the installed one.
+ * Center version than the installed one, and (PLUGINIZATION §2.A) download a
+ * release bundle into DSH storage so the operator can install it in one flow.
  */
 
 import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
 import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
+import { defineDomain, domainTable } from '@deepseek-ai/dsh-storage-domain'
+import type { DomainFacility, KvTable } from '@deepseek-ai/dsh-storage-domain'
+import { z } from 'zod'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
@@ -29,6 +33,32 @@ export interface ReleaseEntry {
   htmlUrl: string | null
   prerelease: boolean
 }
+
+/** Result of a successful prepareUpdate download. */
+export interface PreparedUpdate {
+  version: string
+  assetName: string
+  bytes: number
+}
+
+const DOWNLOAD_LIMIT_BYTES = 64 * 1024 * 1024
+
+const bundleSchema = z.object({
+  version: z.string().min(1),
+  assetName: z.string().min(1),
+  bytes: z.number().int().nonnegative(),
+  /** Base64 of the tarball — storage tables are JSON-shaped. */
+  dataBase64: z.string().min(1),
+  downloadedAt: z.string().min(1),
+})
+
+export type UpdateBundleRecord = z.infer<typeof bundleSchema>
+
+const updateBundleDomain = defineDomain({
+  name: 'control_center_update_bundles',
+  version: 1,
+  tables: { bundles: domainTable<string, UpdateBundleRecord>(bundleSchema) },
+})
 
 export class UpdateService extends Service {
   static inject = ['settings'] as const
@@ -105,6 +135,117 @@ export class UpdateService extends Service {
       }
     } catch (error) {
       return { ok: false, error: error instanceof Error ? error.message : String(error) }
+    }
+  }
+
+  /**
+   * PLUGINIZATION §2.A: download the latest release's bundle tarball into DSH
+   * storage so installation is a guided flow instead of a manual GitHub trip.
+   * The asset must be a `.tgz` whose name mentions the control-center package;
+   * anything else is refused (no blind execution of release attachments).
+   */
+  async prepareUpdate(): Promise<{ ok: true; value: PreparedUpdate } | { ok: false; error: string }> {
+    try {
+      const controller = new AbortController()
+      const timer = setTimeout(() => controller.abort(), 30_000)
+      let asset: { name: string; url: string; version: string } | undefined
+      try {
+        const response = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`, {
+          headers: { 'Accept': 'application/vnd.github+json', 'User-Agent': 'dsh-control-center' },
+          signal: controller.signal,
+        })
+        if (!response.ok) return { ok: false, error: `GitHub releases ${String(response.status)}` }
+        const payload = await response.json() as {
+          tag_name?: string
+          assets?: Array<{ name?: string; browser_download_url?: string }>
+        }
+        asset = this.pickBundleAsset(payload.tag_name ?? '', payload.assets ?? [])
+      } finally {
+        clearTimeout(timer)
+      }
+      if (asset === undefined) {
+        return { ok: false, error: '最新 Release 没有 Control Center 的 .tgz 安装包' }
+      }
+
+      const download = new AbortController()
+      const downloadTimer = setTimeout(() => download.abort(), 120_000)
+      let bytes: Uint8Array
+      try {
+        const response = await fetch(asset.url, {
+          headers: { 'User-Agent': 'dsh-control-center' },
+          signal: download.signal,
+        })
+        if (!response.ok) return { ok: false, error: `下载失败（HTTP ${String(response.status)}）` }
+        const buffer = await response.arrayBuffer()
+        if (buffer.byteLength > DOWNLOAD_LIMIT_BYTES) {
+          return { ok: false, error: `安装包超出大小上限（${String(Math.round(DOWNLOAD_LIMIT_BYTES / 1024 / 1024))}MB）` }
+        }
+        bytes = new Uint8Array(buffer)
+      } finally {
+        clearTimeout(downloadTimer)
+      }
+
+      const record: UpdateBundleRecord = {
+        version: asset.version,
+        assetName: asset.name,
+        bytes: bytes.byteLength,
+        dataBase64: Buffer.from(bytes).toString('base64'),
+        downloadedAt: new Date().toISOString(),
+      }
+      const store = await this.openBundleStore()
+      await store.put('latest', record)
+      return { ok: true, value: { version: record.version, assetName: record.assetName, bytes: record.bytes } }
+    } catch (error) {
+      return { ok: false, error: error instanceof Error ? error.message : String(error) }
+    }
+  }
+
+  /** The stored prepared update, if one has been downloaded. */
+  async getPreparedUpdate(): Promise<{ ok: true; value: PreparedUpdate | null }> {
+    try {
+      const store = await this.openBundleStore()
+      const record = store.get('latest') as unknown as UpdateBundleRecord | undefined
+      if (record === undefined || typeof record.version !== 'string') return { ok: true, value: null }
+      return {
+        ok: true,
+        value: { version: record.version, assetName: record.assetName, bytes: record.bytes },
+      }
+    } catch {
+      return { ok: true, value: null }
+    }
+  }
+
+  private async openBundleStore(): Promise<KvTable<string, UpdateBundleRecord>> {
+    if (this.bundleTable === undefined) {
+      const facility = (this.ctx as unknown as Record<string, unknown>).storageDomain as DomainFacility | undefined
+      if (facility === undefined) {
+        throw new Error('DSH storage-domain 未挂载，无法保存更新包')
+      }
+      const domain = await facility.open(updateBundleDomain)
+      this.bundleTable = domain.table('bundles')
+    }
+    return this.bundleTable
+  }
+
+  private bundleTable: KvTable<string, UpdateBundleRecord> | undefined
+
+  /**
+   * Pick the installable tarball from a release's assets: prefer a name that
+   * names the control-center package; refuse non-tgz attachments outright.
+   */
+  private pickBundleAsset(
+    tagName: string,
+    assets: Array<{ name?: string; browser_download_url?: string }>,
+  ): { name: string; url: string; version: string } | undefined {
+    const candidates = assets.filter(entry =>
+      typeof entry.name === 'string' && entry.name.endsWith('.tgz')
+      && typeof entry.browser_download_url === 'string')
+    const chosen = candidates.find(entry => (entry.name ?? '').includes('control-center')) ?? candidates[0]
+    if (chosen === undefined) return undefined
+    return {
+      name: chosen.name!,
+      url: chosen.browser_download_url!,
+      version: tagName.replace(/^v/, ''),
     }
   }
 

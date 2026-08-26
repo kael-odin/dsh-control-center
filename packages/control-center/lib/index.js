@@ -10119,9 +10119,24 @@ var LocalModelsService = class extends Service {
 //#region lib/types/update.js
 /**
 * Update Host service: check the GitHub release feed for a newer Control
-* Center version than the installed one.
+* Center version than the installed one, and (PLUGINIZATION §2.A) download a
+* release bundle into DSH storage so the operator can install it in one flow.
 */
 const REPO = "kael-odin/dsh-control-center";
+const DOWNLOAD_LIMIT_BYTES = 67108864;
+const bundleSchema = z.object({
+	version: z.string().min(1),
+	assetName: z.string().min(1),
+	bytes: z.number().int().nonnegative(),
+	/** Base64 of the tarball — storage tables are JSON-shaped. */
+	dataBase64: z.string().min(1),
+	downloadedAt: z.string().min(1)
+});
+const updateBundleDomain = defineDomain({
+	name: "control_center_update_bundles",
+	version: 1,
+	tables: { bundles: domainTable(bundleSchema) }
+});
 var UpdateService = class extends Service {
 	static inject = ["settings"];
 	typertRemote = bindTypertRemote(this, "controlCenterUpdate");
@@ -10214,6 +10229,129 @@ var UpdateService = class extends Service {
 				error: error instanceof Error ? error.message : String(error)
 			};
 		}
+	}
+	/**
+	* PLUGINIZATION §2.A: download the latest release's bundle tarball into DSH
+	* storage so installation is a guided flow instead of a manual GitHub trip.
+	* The asset must be a `.tgz` whose name mentions the control-center package;
+	* anything else is refused (no blind execution of release attachments).
+	*/
+	async prepareUpdate() {
+		try {
+			const controller = new AbortController();
+			const timer = setTimeout(() => controller.abort(), 3e4);
+			let asset;
+			try {
+				const response = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`, {
+					headers: {
+						"Accept": "application/vnd.github+json",
+						"User-Agent": "dsh-control-center"
+					},
+					signal: controller.signal
+				});
+				if (!response.ok) return {
+					ok: false,
+					error: `GitHub releases ${String(response.status)}`
+				};
+				const payload = await response.json();
+				asset = this.pickBundleAsset(payload.tag_name ?? "", payload.assets ?? []);
+			} finally {
+				clearTimeout(timer);
+			}
+			if (asset === void 0) return {
+				ok: false,
+				error: "最新 Release 没有 Control Center 的 .tgz 安装包"
+			};
+			const download = new AbortController();
+			const downloadTimer = setTimeout(() => download.abort(), 12e4);
+			let bytes;
+			try {
+				const response = await fetch(asset.url, {
+					headers: { "User-Agent": "dsh-control-center" },
+					signal: download.signal
+				});
+				if (!response.ok) return {
+					ok: false,
+					error: `下载失败（HTTP ${String(response.status)}）`
+				};
+				const buffer = await response.arrayBuffer();
+				if (buffer.byteLength > DOWNLOAD_LIMIT_BYTES) return {
+					ok: false,
+					error: `安装包超出大小上限（${String(Math.round(DOWNLOAD_LIMIT_BYTES / 1024 / 1024))}MB）`
+				};
+				bytes = new Uint8Array(buffer);
+			} finally {
+				clearTimeout(downloadTimer);
+			}
+			const record = {
+				version: asset.version,
+				assetName: asset.name,
+				bytes: bytes.byteLength,
+				dataBase64: Buffer.from(bytes).toString("base64"),
+				downloadedAt: (/* @__PURE__ */ new Date()).toISOString()
+			};
+			await (await this.openBundleStore()).put("latest", record);
+			return {
+				ok: true,
+				value: {
+					version: record.version,
+					assetName: record.assetName,
+					bytes: record.bytes
+				}
+			};
+		} catch (error) {
+			return {
+				ok: false,
+				error: error instanceof Error ? error.message : String(error)
+			};
+		}
+	}
+	/** The stored prepared update, if one has been downloaded. */
+	async getPreparedUpdate() {
+		try {
+			const record = (await this.openBundleStore()).get("latest");
+			if (record === void 0 || typeof record.version !== "string") return {
+				ok: true,
+				value: null
+			};
+			return {
+				ok: true,
+				value: {
+					version: record.version,
+					assetName: record.assetName,
+					bytes: record.bytes
+				}
+			};
+		} catch {
+			return {
+				ok: true,
+				value: null
+			};
+		}
+	}
+	async openBundleStore() {
+		if (this.bundleTable === void 0) {
+			const facility = this.ctx.storageDomain;
+			if (facility === void 0) throw new Error("DSH storage-domain 未挂载，无法保存更新包");
+			const domain = await facility.open(updateBundleDomain);
+			this.bundleTable = domain.table("bundles");
+		}
+		return this.bundleTable;
+	}
+	bundleTable;
+	/**
+	* Pick the installable tarball from a release's assets: prefer a name that
+	* names the control-center package; refuse non-tgz attachments outright.
+	*/
+	pickBundleAsset(tagName, assets) {
+		const candidates = assets.filter((entry) => typeof entry.name === "string" && entry.name.endsWith(".tgz") && typeof entry.browser_download_url === "string");
+		const chosen = candidates.find((entry) => (entry.name ?? "").includes("control-center")) ?? candidates[0];
+		if (chosen === void 0) return void 0;
+		return {
+			name: chosen.name,
+			url: chosen.browser_download_url,
+			version: tagName.replace(/^v/, "")
+		};
 	}
 	currentVersion() {
 		try {
@@ -10332,13 +10470,24 @@ const localModelsMethods = [
 		parameters: ["serverId"]
 	}
 ];
-const updateMethods = [{
-	method: "checkForUpdates",
-	parameters: []
-}, {
-	method: "listReleases",
-	parameters: []
-}];
+const updateMethods = [
+	{
+		method: "checkForUpdates",
+		parameters: []
+	},
+	{
+		method: "listReleases",
+		parameters: []
+	},
+	{
+		method: "prepareUpdate",
+		parameters: []
+	},
+	{
+		method: "getPreparedUpdate",
+		parameters: []
+	}
+];
 const compatMethods = [{
 	method: "probe",
 	parameters: []

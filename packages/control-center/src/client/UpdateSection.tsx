@@ -22,6 +22,9 @@ export function UpdateSection({ getUpdate, useUpdateReady }: UpdateSectionProps)
   const [info, setInfo] = useState<UpdateInfo | null>(null)
   const [checking, setChecking] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [preparing, setPreparing] = useState(false)
+  const [prepared, setPrepared] = useState<{ version: string; assetName: string; bytes: number } | null>(null)
+  const [prepareError, setPrepareError] = useState<string | null>(null)
 
   const check = async (): Promise<void> => {
     if (service === undefined) return
@@ -35,6 +38,22 @@ export function UpdateSection({ getUpdate, useUpdateReady }: UpdateSectionProps)
       setError(err instanceof Error ? err.message : String(err))
     } finally {
       setChecking(false)
+    }
+  }
+
+  /** PLUGINIZATION §2.A: pull the release tarball into DSH storage host-side. */
+  const prepare = async (): Promise<void> => {
+    if (service === undefined) return
+    setPreparing(true)
+    setPrepareError(null)
+    try {
+      const result = await service.prepareUpdate()
+      if (!result.ok) throw new Error(result.error)
+      setPrepared(result.value)
+    } catch (err) {
+      setPrepareError(err instanceof Error ? err.message : String(err))
+    } finally {
+      setPreparing(false)
     }
   }
 
@@ -88,7 +107,25 @@ export function UpdateSection({ getUpdate, useUpdateReady }: UpdateSectionProps)
           <button type="button" className="cc-btn cc-btn-secondary" disabled={checking} onClick={() => void check()}>
             {checking ? '检查中…' : '重新检查'}
           </button>
+          {info?.updateAvailable === true && (
+            <button
+              type="button"
+              className="cc-btn cc-btn-secondary"
+              style={{ marginLeft: 8 }}
+              disabled={preparing}
+              onClick={() => void prepare()}
+            >
+              {preparing ? '下载中…' : '下载更新包'}
+            </button>
+          )}
         </div>
+        {prepareError !== null && <div className="cc-notice-error">{prepareError}</div>}
+        {prepared !== null && (
+          <div className="cc-notice-error" style={{ borderColor: 'var(--success-border)', background: 'var(--success-subtle)', color: 'var(--success-subtle-foreground)' }}>
+            已下载 {prepared.assetName}（{String(Math.round(prepared.bytes / 1024))} KB）到 DSH 存储。
+            在宿主终端执行 <code>dsh plugin install</code> 指向该存储条目即可完成安装并重启宿主。
+          </div>
+        )}
       </div>
     </div>
   )

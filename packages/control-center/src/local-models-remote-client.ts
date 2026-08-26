@@ -11,6 +11,8 @@ const localModelsMethods: ReadonlyArray<{ method: string; parameters: string[] }
 const updateMethods: ReadonlyArray<{ method: string; parameters: string[] }> = [
   { method: 'checkForUpdates', parameters: [] },
   { method: 'listReleases', parameters: [] },
+  { method: 'prepareUpdate', parameters: [] },
+  { method: 'getPreparedUpdate', parameters: [] },
 ]
 
 const compatMethods: ReadonlyArray<{ method: string; parameters: string[] }> = [

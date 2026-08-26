@@ -2,7 +2,7 @@
  * Local Models + Update types (shared between Host and Client).
  */
 import type { LocalModelServer, LocalModelEntry } from './local-models.ts';
-import type { UpdateInfo, ReleaseEntry } from './update.ts';
+import type { UpdateInfo, ReleaseEntry, PreparedUpdate } from './update.ts';
 import type { CapabilityProbe } from './compat-probe.ts';
 declare module '@deepseek-ai/dsh-typert-protocol' {
     interface TypertRemoteNamespaceMap {
@@ -77,6 +77,17 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                 ok: false;
                 error: string;
             }>;
+            prepareUpdate(): Promise<{
+                ok: true;
+                value: PreparedUpdate;
+            } | {
+                ok: false;
+                error: string;
+            }>;
+            getPreparedUpdate(): Promise<{
+                ok: true;
+                value: PreparedUpdate | null;
+            }>;
         };
         controlCenterCompat: {
             probe(): Promise<{
@@ -86,5 +97,5 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
         };
     }
 }
-export type { LocalModelServer, LocalModelEntry, UpdateInfo, ReleaseEntry, CapabilityProbe };
+export type { LocalModelServer, LocalModelEntry, UpdateInfo, ReleaseEntry, PreparedUpdate, CapabilityProbe };
 //# sourceMappingURL=local-models-types.d.ts.map
