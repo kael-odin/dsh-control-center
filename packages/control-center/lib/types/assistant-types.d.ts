@@ -55,6 +55,13 @@ export type AssistantEnvelope<T> = {
         details: object;
     };
 };
+/** One deployment agent preset as surfaced to picker UIs. */
+export interface AgentPresetSummary {
+    id: string;
+    name: string;
+    trust: 'system' | 'user';
+    isDefault: boolean;
+}
 declare module '@deepseek-ai/dsh-typert-protocol' {
     interface TypertRemoteNamespaceMap {
         controlCenterAssistant: {
@@ -64,6 +71,10 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                 quick?: Partial<QuickPrefs>;
                 selection?: Partial<SelectionPrefs>;
             }): Promise<AssistantEnvelope<AssistantPrefs>>;
+            listAgentPresets(): Promise<AssistantEnvelope<AgentPresetSummary[]> | {
+                ok: false;
+                error: string;
+            }>;
         };
     }
 }

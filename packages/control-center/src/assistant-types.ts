@@ -52,11 +52,20 @@ export interface AssistantPrefs {
 /** Typert envelope shared by the assistant remote methods. */
 export type AssistantEnvelope<T> = { ok: true; value: T } | { ok: false; error: { code: string; message: string; details: object } }
 
+/** One deployment agent preset as surfaced to picker UIs. */
+export interface AgentPresetSummary {
+  id: string
+  name: string
+  trust: 'system' | 'user'
+  isDefault: boolean
+}
+
 declare module '@deepseek-ai/dsh-typert-protocol' {
   interface TypertRemoteNamespaceMap {
     controlCenterAssistant: {
       get(): Promise<AssistantEnvelope<AssistantPrefs>>
       set(params: { screenshot?: Partial<ScreenshotPrefs>; quick?: Partial<QuickPrefs>; selection?: Partial<SelectionPrefs> }): Promise<AssistantEnvelope<AssistantPrefs>>
+      listAgentPresets(): Promise<AssistantEnvelope<AgentPresetSummary[]> | { ok: false; error: string }>
     }
   }
 }

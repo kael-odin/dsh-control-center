@@ -11,6 +11,8 @@
 import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
 import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
+import { RpcId } from '@deepseek-ai/dsh-host-apiproxy'
+import type { ApiProxy } from '@deepseek-ai/dsh-host-apiproxy/api'
 import { settingsNamespace, type SettingsScope } from '@deepseek-ai/dsh-settings'
 import Schema from '@deepseek-ai/schemastery'
 import { markRemoteMethods } from './knowledge/remote-methods.ts'
@@ -61,6 +63,7 @@ export class AssistantService extends Service {
     markRemoteMethods(this, [
       ['get', 'get'],
       ['set', 'set'],
+      ['listAgentPresets', 'listAgentPresets'],
     ])
     this.scope = ctx.settings.register(ASSISTANT_NAMESPACE, Schema.object({
       screenshot: Schema.any().default({}),
@@ -71,6 +74,35 @@ export class AssistantService extends Service {
     // persisted prefs as soon as the host is up so a restart restores them.
     const desktop = ctx.controlCenterDesktop as DesktopService | undefined
     if (desktop !== undefined) void desktop.pushAssistantPrefs(this.read())
+  }
+
+  /**
+   * The deployment's agent presets for picker UIs (Quick Assistant 「使用助手」
+   * mode). Proxied host-side because the browser cannot reach ctx.apiProxy.
+   */
+  async listAgentPresets(): Promise<{
+    ok: true
+    value: Array<{ id: string; name: string; trust: 'system' | 'user'; isDefault: boolean }>
+  } | { ok: false; error: string }> {
+    try {
+      const api = this.ctx.get('apiProxy') as ApiProxy
+      const response = await api.agentPresets.list({
+        rpcId: RpcId(globalThis.crypto.randomUUID()),
+        payload: {},
+      })
+      if (!response.result.ok) return { ok: false, error: response.result.error.message }
+      return {
+        ok: true,
+        value: response.result.value.presets.map(preset => ({
+          id: preset.id,
+          name: preset.name ?? preset.id,
+          trust: preset.trust,
+          isDefault: preset.isDefault,
+        })),
+      }
+    } catch (error) {
+      return { ok: false, error: error instanceof Error ? error.message : String(error) }
+    }
   }
 
   private read(): AssistantPrefs {

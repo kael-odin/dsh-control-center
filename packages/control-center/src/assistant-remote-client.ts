@@ -4,6 +4,7 @@ import { STRICT_JSON } from './translation-codec.ts'
 const methods: ReadonlyArray<{ method: string; parameters: string[] }> = [
   { method: 'get', parameters: [] },
   { method: 'set', parameters: ['params'] },
+  { method: 'listAgentPresets', parameters: [] },
 ]
 
 /** Client descriptor contribution for the Control Center assistant-prefs service. */

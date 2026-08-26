@@ -26,6 +26,22 @@ export declare class AssistantService extends Service {
     readonly typertRemote: import("@deepseek-ai/dsh-typert-protocol").TypertGatewayBinding<this>;
     private scope;
     constructor(ctx: Context);
+    /**
+     * The deployment's agent presets for picker UIs (Quick Assistant 「使用助手」
+     * mode). Proxied host-side because the browser cannot reach ctx.apiProxy.
+     */
+    listAgentPresets(): Promise<{
+        ok: true;
+        value: Array<{
+            id: string;
+            name: string;
+            trust: 'system' | 'user';
+            isDefault: boolean;
+        }>;
+    } | {
+        ok: false;
+        error: string;
+    }>;
     private read;
     get(): Promise<{
         ok: true;

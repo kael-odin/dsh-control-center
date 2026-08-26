@@ -29,7 +29,7 @@ import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
 import z from '@deepseek-ai/schemastery'
 import { settingsNamespace } from '@deepseek-ai/dsh-settings'
-import { installSettingsSection } from '@deepseek-ai/dsh-settings'
+import type { SettingsScope } from '@deepseek-ai/dsh-settings'
 import { bindTypertRemote, Remote } from '@deepseek-ai/dsh-typert-protocol'
 import { RpcId } from '@deepseek-ai/dsh-host-apiproxy'
 import type { ApiProxy, HistoryEntry, SessionsApi } from '@deepseek-ai/dsh-host-apiproxy/api'
@@ -385,6 +385,7 @@ export class ChannelBridgeService extends Service {
   private readonly sessionPrimed = new Set<AgentSessionId>()
   /** Per-channel reply serialization: one turn at a time per connection. */
   private readonly replyChains = new Map<string, Promise<void>>()
+  private readonly scope: SettingsScope<ChannelsSection> | undefined
   private source: (() => ChannelsSection) | undefined
 
   constructor(ctx: Context) {
@@ -402,10 +403,18 @@ export class ChannelBridgeService extends Service {
       this.sessionRoutes.clear()
       this.sessionPrimed.clear()
     }, 'control-center.channel-bridge: abort loops')
-    installSettingsSection(ctx, CHANNELS_BRIDGE_NAMESPACE, ChannelsSchema, { instances: [] }, {
-      setSource: (current) => { this.source = current },
-      onChange: () => { try { this.reconcile() } catch (error) { this.ctx.logger.warn(error) } },
-    })
+    // Registered directly (not via installSettingsSection) because the bridge
+    // also writes back: created agent-session ids land in each channel's
+    // config so a restart resumes the conversation instead of forgetting it.
+    // Without a settings service the composition entry still drives the source.
+    try {
+      const scope = ctx.settings.register(CHANNELS_BRIDGE_NAMESPACE, ChannelsSchema, { base: { instances: [] } })
+      this.scope = scope
+      this.source = () => scope.get()
+      scope.watch(() => { try { this.reconcile() } catch (error) { this.ctx.logger.warn(error) } })
+    } catch {
+      this.scope = undefined
+    }
   }
 
   /** The instances array from the current settings source. */
@@ -754,7 +763,11 @@ export class ChannelBridgeService extends Service {
     throw new Error(`agent turn 超时（${String(Math.round(AGENT_TURN_TIMEOUT_MS / 1000))}s）`)
   }
 
-  /** Reuses this process's session for the channel or creates one. */
+  /**
+   * Reuses this channel's agent session: the persisted `agentSessionId` when
+   * the session still exists (context survives restarts), otherwise a fresh
+   * create whose id is written back to the channel config.
+   */
   private async ensureChannelSession(
     id: string,
     record: ChannelRecord | undefined,
@@ -763,6 +776,20 @@ export class ChannelBridgeService extends Service {
     const existing = this.channelSessions.get(id)
     if (existing !== undefined) return existing
     const config = record?.config
+    const stored = typeof config?.agentSessionId === 'string' && config.agentSessionId.trim().length > 0
+      ? config.agentSessionId.trim() as AgentSessionId
+      : undefined
+    if (stored !== undefined) {
+      // Probe before adopting: the session may have been deleted since.
+      const probe = await api.sessions.history({ rpcId: mintRpcId(), payload: { sessionId: stored } })
+      if (probe.result.ok) {
+        this.channelSessions.set(id, stored)
+        this.sessionPrimed.add(stored) // operator block already lives in its history
+        this.appendLog(id, `已恢复 Agent 会话（${stored}）`)
+        return stored
+      }
+      this.appendLog(id, '持久化的 Agent 会话已不存在，将创建新会话')
+    }
     const preset = typeof config?.agentPresetId === 'string' && config.agentPresetId.trim().length > 0
       ? config.agentPresetId.trim()
       : undefined
@@ -773,8 +800,24 @@ export class ChannelBridgeService extends Service {
     if (!response.result.ok) throw new Error(this.rpcErrorText('session create', response.result.error))
     const sessionId = response.result.value.sessionId
     this.channelSessions.set(id, sessionId)
-    this.appendLog(id, `已创建 Agent 会话（${sessionId}）`)
+    await this.persistChannelSession(id, String(sessionId))
+    this.appendLog(id, `已创建 Agent 会话（${String(sessionId)}）`)
     return sessionId
+  }
+
+  /** Writes the session id back into the channel's config so restarts resume. */
+  private async persistChannelSession(id: string, sessionId: string): Promise<void> {
+    if (this.scope === undefined) return
+    try {
+      const instances = this.readInstances()
+      const next = instances.map(entry => entry.id === id
+        ? { ...entry, config: { ...entry.config, agentSessionId: sessionId } }
+        : entry)
+      await this.scope.update({ instances: next as unknown as object[] })
+    } catch (error) {
+      this.ctx.logger.warn(error)
+      this.appendLog(id, '会话 ID 写回设置失败（重启后将新建会话）')
+    }
   }
 
   /** Seq of the newest event in the session tail, -1 for an empty log. */

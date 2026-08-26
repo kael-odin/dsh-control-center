@@ -5,6 +5,7 @@
  * focuses the main window; the floating assistant window is planned); the
  * notices reflect the live environment.
  */
+import { useEffect, useState } from 'react'
 import type { AssistantRemote, DesktopRemote } from './assistant-store.ts'
 import { useAssistantStore, useDesktopStatus } from './assistant-store.ts'
 import { HelpTooltip } from './panel-ui.tsx'
@@ -18,9 +19,31 @@ export interface QuickAssistantSectionInjected {
   desktop: DesktopRemote | undefined
 }
 
+interface AgentPresetOption {
+  id: string
+  name: string
+  trust: 'system' | 'user'
+  isDefault: boolean
+}
+
+/** Loads the deployment's agent presets once for the 「使用助手」 picker. */
+function useAgentPresets(assistant: AssistantRemote | undefined): AgentPresetOption[] {
+  const [presets, setPresets] = useState<AgentPresetOption[]>([])
+  useEffect(() => {
+    if (assistant === undefined) return
+    let active = true
+    void assistant.listAgentPresets().then((result) => {
+      if (active && result.ok) setPresets([...result.value])
+    }).catch(() => {})
+    return () => { active = false }
+  }, [assistant])
+  return presets
+}
+
 export function QuickAssistantSection({ assistant, desktop }: QuickAssistantSectionInjected) {
   const { prefs, update } = useAssistantStore(assistant, 'cc.settings.quickAssistant', 'quick')
   const status = useDesktopStatus(desktop)
+  const presets = useAgentPresets(assistant)
 
   if (prefs === null) return <SettingsPageShell><div className={css.loading}>加载中...</div></SettingsPageShell>
 
@@ -96,13 +119,12 @@ export function QuickAssistantSection({ assistant, desktop }: QuickAssistantSect
               {quick.modelMode === 'model' && <span className={css.modelHint}>跟随当前对话选择的模型</span>}
               {quick.modelMode === 'assistant' && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span className={css.modelHint}>Agent 预设 ID</span>
-                  <input
-                    type="text"
-                    className={css.agentInput}
+                  <span className={css.modelHint}>Agent 预设</span>
+                  <QuickPresetPicker
+                    assistant={assistant}
+                    presets={presets}
                     value={quick.agentPresetId}
-                    onChange={event => { patch({ agentPresetId: event.target.value }) }}
-                    placeholder="例如 default"
+                    onChange={id => { patch({ agentPresetId: id }) }}
                   />
                 </div>
               )}
@@ -127,5 +149,45 @@ export function QuickAssistantSection({ assistant, desktop }: QuickAssistantSect
         </div>
       </SettingGroup>
     </SettingsPageShell>
+  )
+}
+
+/**
+ * Preset picker for 「使用助手」 mode: a real dropdown over the deployment's
+ * presets (host-proxied), falling back to a manual id input when the roster
+ * cannot be read or is empty.
+ */
+function QuickPresetPicker({ assistant, presets, value, onChange }: {
+  assistant: AssistantRemote | undefined
+  presets: AgentPresetOption[]
+  value: string
+  onChange: (id: string) => void
+}): JSX.Element {
+  if (presets.length === 0) {
+    return (
+      <input
+        type="text"
+        className={css.agentInput}
+        value={value}
+        onChange={event => { onChange(event.target.value) }}
+        placeholder={assistant === undefined ? '宿主不可达，手动输入预设 ID' : '预设列表为空，手动输入预设 ID'}
+      />
+    )
+  }
+  const known = presets.some(preset => preset.id === value)
+  return (
+    <select
+      className={css.agentInput}
+      value={known ? value : ''}
+      onChange={event => { onChange(event.target.value) }}
+    >
+      <option value="" disabled>选择 Agent 预设…</option>
+      {presets.map(preset => (
+        <option key={preset.id} value={preset.id}>
+          {preset.name}{preset.isDefault ? '（默认）' : ''}{preset.trust === 'user' ? ' · 本地' : ''}
+        </option>
+      ))}
+      {value.length > 0 && !known && <option value={value}>{value}（当前保存值）</option>}
+    </select>
   )
 }

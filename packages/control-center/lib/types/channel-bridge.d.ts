@@ -92,6 +92,7 @@ export declare class ChannelBridgeService extends Service {
     private readonly sessionPrimed;
     /** Per-channel reply serialization: one turn at a time per connection. */
     private readonly replyChains;
+    private readonly scope;
     private source;
     constructor(ctx: Context);
     /** The instances array from the current settings source. */
@@ -129,8 +130,14 @@ export declare class ChannelBridgeService extends Service {
      * fall back to direct LLM.
      */
     private generateViaAgentLoop;
-    /** Reuses this process's session for the channel or creates one. */
+    /**
+     * Reuses this channel's agent session: the persisted `agentSessionId` when
+     * the session still exists (context survives restarts), otherwise a fresh
+     * create whose id is written back to the channel config.
+     */
     private ensureChannelSession;
+    /** Writes the session id back into the channel's config so restarts resume. */
+    private persistChannelSession;
     /** Seq of the newest event in the session tail, -1 for an empty log. */
     private historyTailSeq;
     private readHistoryTail;

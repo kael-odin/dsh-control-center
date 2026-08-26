@@ -53,7 +53,7 @@ describe('ChannelBridgeService reply pipe', () => {
       ]),
       register: vi.fn(() => ({ get: () => ({ instances: [
         { id: 'tg1', type: 'telegram', name: 'TG', isActive: true, config: { bot_token: 'tok', allowed_chat_ids: ['42'] } },
-      ] }) })),
+      ] }), watch: vi.fn(() => () => {}), update: vi.fn(async () => {}) })),
     }
     ;(ctx as unknown as { settings: unknown }).settings = settings
 
@@ -100,7 +100,7 @@ describe('ChannelBridgeService reply pipe', () => {
         // Default route exists but must be ignored for the bound channel.
         { ns: 'agent-default-model', value: { provider: 'fixture', model: 'default-model' }, schema: {}, revision: 1 },
       ]),
-      register: vi.fn(() => ({ get: () => ({ instances: [] }) })),
+      register: vi.fn(() => ({ get: () => ({ instances: [] }), watch: vi.fn(() => () => {}), update: vi.fn(async () => {}) })),
     }
     ;(ctx as unknown as { settings: unknown }).settings = settings
 
@@ -153,7 +153,7 @@ describe('ChannelBridgeService reply pipe', () => {
       describe: () => ([
         { ns: 'agent-default-model', value: { provider: 'fixture', model: 'best' }, schema: {}, revision: 1 },
       ]),
-      register: vi.fn(() => ({ get: () => ({ instances: [] }) })),
+      register: vi.fn(() => ({ get: () => ({ instances: [] }), watch: vi.fn(() => () => {}), update: vi.fn(async () => {}) })),
     }
     ;(ctx as unknown as { settings: unknown }).settings = settings
 
@@ -198,7 +198,7 @@ describe('ChannelBridgeService reply pipe', () => {
           schema: {}, revision: 2,
         },
       ]),
-      register: vi.fn(() => ({ get: () => ({ instances: [] }) })),
+      register: vi.fn(() => ({ get: () => ({ instances: [] }), watch: vi.fn(() => () => {}), update: vi.fn(async () => {}) })),
     }
     ;(ctx as unknown as { settings: unknown }).settings = settings
 
@@ -245,7 +245,7 @@ describe('ChannelBridgeService reply pipe', () => {
       describe: () => ([
         { ns: 'agent-default-model', value: { provider: 'fixture', model: 'default-model' }, schema: {}, revision: 1 },
       ]),
-      register: vi.fn(() => ({ get: () => ({ instances: [] }) })),
+      register: vi.fn(() => ({ get: () => ({ instances: [] }), watch: vi.fn(() => () => {}), update: vi.fn(async () => {}) })),
     }
     ;(ctx as unknown as { settings: unknown }).settings = settings
 
@@ -340,7 +340,7 @@ describe('ChannelBridgeService reply pipe', () => {
       describe: () => ([
         { ns: 'agent-default-model', value: { provider: 'fixture', model: 'best' }, schema: {}, revision: 1 },
       ]),
-      register: vi.fn(() => ({ get: () => ({ instances: [] }) })),
+      register: vi.fn(() => ({ get: () => ({ instances: [] }), watch: vi.fn(() => () => {}), update: vi.fn(async () => {}) })),
     }
     ;(ctx as unknown as { settings: unknown }).settings = settings
 
@@ -388,5 +388,173 @@ describe('ChannelBridgeService reply pipe', () => {
     expect(prepareSpy).toHaveBeenCalledWith(expect.objectContaining({ provider: 'fixture', model: 'special' }))
     expect(sent[0]).toMatchObject({ chat_id: 42, text: 'FALLBACK' })
     expect(service.getLog('tg-fb', 50).some(line => line.includes('回退直连模型'))).toBe(true)
+  })
+
+  it('persists the created agent session id back into the channel config', async () => {
+    const ctx = new Context()
+    const llm = new LlmRuntime(ctx)
+    llm.registerAdapter(['fixture'], new ReplyAdapter('UNUSED'))
+
+    let storedInstances: unknown[] = []
+    const updates: Array<{ instances?: unknown[] }> = []
+    const settings = {
+      describe: () => ([]),
+      register: vi.fn(() => ({
+        get: () => ({ instances: storedInstances }),
+        watch: vi.fn(() => () => {}),
+        update: async (patch: { instances?: unknown[] }) => {
+          updates.push(patch)
+          if (Array.isArray(patch.instances)) storedInstances = patch.instances
+        },
+      })),
+    }
+    ;(ctx as unknown as { settings: unknown }).settings = settings
+
+    let prompted = false
+    const ok = <T>(value: T) => ({ rpcId: 'test', result: { ok: true as const, value } })
+    const fakeApi = {
+      sessions: {
+        create: async () => ok({ sessionId: 'sess-persist' }),
+        selectModel: async () => ok({ selected: {} }),
+        prompt: async () => {
+          prompted = true
+          return ok({ accepted: true as const })
+        },
+        history: async () => {
+          if (!prompted) return ok({ events: [], hasMore: false })
+          return ok({
+            hasMore: false,
+            events: [
+              {
+                event: {
+                  type: 'assistant/message', seq: 1, time: 0,
+                  data: { turn: 0, step: 0, message: { role: 'assistant', content: [{ type: 'text', text: 'DONE' }] } },
+                },
+              },
+              { event: { type: 'turn/end', seq: 2, time: 0, data: { turn: 0, reason: { kind: 'completed' } } } },
+            ],
+          })
+        },
+      },
+    }
+    const realGet = ctx.get.bind(ctx)
+    ;(ctx as unknown as { get: unknown }).get = (name: string) => (name === 'apiProxy' ? fakeApi : realGet(name))
+
+    const sent: Array<{ chat_id: number; text: string }> = []
+    globalThis.fetch = (async (input: string | URL, init?: { method?: string; body?: string }) => {
+      const url = String(input)
+      if (url.includes('/getUpdates')) {
+        return { ok: true, status: 200, text: async () => '', json: async () => ({ ok: true, result: [{
+          update_id: 12,
+          message: { text: 'ping', chat: { id: 52 } },
+        }] }) }
+      }
+      if (url.includes('/sendMessage')) {
+        const body = JSON.parse(init?.body ?? '{}') as { chat_id: number; text: string }
+        sent.push(body)
+        return { ok: true, status: 200, text: async () => '', json: async () => ({ ok: true }) }
+      }
+      throw new Error(`unexpected ${url}`)
+    }) as unknown as typeof fetch
+
+    const service = activeServices[activeServices.push(new ChannelBridgeService(ctx)) - 1]
+    ;(service as unknown as { source: () => unknown }).source = () => ({ instances: [
+      {
+        id: 'tg-persist', type: 'telegram', name: 'TG', isActive: true,
+        config: { bot_token: 'tok', allowed_chat_ids: ['52'], agentProvider: 'fixture', agentModel: 'special' },
+      },
+    ] })
+    ;(service as unknown as { reconcile: () => void }).reconcile()
+
+    await vi.waitFor(async () => {
+      expect(sent).toHaveLength(1)
+    }, { timeout: 10_000 })
+    expect(updates).toHaveLength(1)
+    expect(updates[0]?.instances).toHaveLength(1)
+    expect((updates[0]?.instances?.[0] as { config?: { agentSessionId?: string } })?.config?.agentSessionId).toBe('sess-persist')
+  })
+
+  it('resumes a persisted agent session after restart without creating a new one', async () => {
+    const ctx = new Context()
+    const llm = new LlmRuntime(ctx)
+    llm.registerAdapter(['fixture'], new ReplyAdapter('UNUSED'))
+
+    const settings = {
+      describe: () => ([]),
+      register: vi.fn(() => ({ get: () => ({ instances: [] }), watch: vi.fn(() => () => {}), update: vi.fn(async () => {}) })),
+    }
+    ;(ctx as unknown as { settings: unknown }).settings = settings
+
+    const calls = { create: 0, prompts: [] as string[] }
+    let prompted = false
+    const ok = <T>(value: T) => ({ rpcId: 'test', result: { ok: true as const, value } })
+    const fakeApi = {
+      sessions: {
+        create: async () => {
+          calls.create++
+          return ok({ sessionId: 'should-not-be-created' })
+        },
+        selectModel: async () => ok({ selected: {} }),
+        prompt: async (request: { payload: { content: Array<{ type: string; text?: string }> } }) => {
+          calls.prompts.push(request.payload.content.find(part => part.type === 'text')?.text ?? '')
+          prompted = true
+          return ok({ accepted: true as const })
+        },
+        history: async () => {
+          if (!prompted) return ok({ events: [], hasMore: false })
+          return ok({
+            hasMore: false,
+            events: [
+              {
+                event: {
+                  type: 'assistant/message', seq: 9, time: 0,
+                  data: { turn: 3, step: 0, message: { role: 'assistant', content: [{ type: 'text', text: 'RESUMED' }] } },
+                },
+              },
+              { event: { type: 'turn/end', seq: 10, time: 0, data: { turn: 3, reason: { kind: 'completed' } } } },
+            ],
+          })
+        },
+      },
+    }
+    const realGet = ctx.get.bind(ctx)
+    ;(ctx as unknown as { get: unknown }).get = (name: string) => (name === 'apiProxy' ? fakeApi : realGet(name))
+
+    const sent: Array<{ chat_id: number; text: string }> = []
+    globalThis.fetch = (async (input: string | URL, init?: { method?: string; body?: string }) => {
+      const url = String(input)
+      if (url.includes('/getUpdates')) {
+        return { ok: true, status: 200, text: async () => '', json: async () => ({ ok: true, result: [{
+          update_id: 13,
+          message: { text: 'ping', chat: { id: 62 } },
+        }] }) }
+      }
+      if (url.includes('/sendMessage')) {
+        const body = JSON.parse(init?.body ?? '{}') as { chat_id: number; text: string }
+        sent.push(body)
+        return { ok: true, status: 200, text: async () => '', json: async () => ({ ok: true }) }
+      }
+      throw new Error(`unexpected ${url}`)
+    }) as unknown as typeof fetch
+
+    const service = activeServices[activeServices.push(new ChannelBridgeService(ctx)) - 1]
+    ;(service as unknown as { source: () => unknown }).source = () => ({ instances: [
+      {
+        id: 'tg-resume', type: 'telegram', name: 'TG', isActive: true,
+        config: {
+          bot_token: 'tok', allowed_chat_ids: ['62'],
+          agentProvider: 'fixture', agentModel: 'special', agentSessionId: 'old-sess',
+        },
+      },
+    ] })
+    ;(service as unknown as { reconcile: () => void }).reconcile()
+
+    await vi.waitFor(async () => {
+      expect(sent).toHaveLength(1)
+    }, { timeout: 10_000 })
+    expect(calls.create).toBe(0)
+    expect(calls.prompts).toHaveLength(1)
+    expect(sent[0]).toMatchObject({ chat_id: 62, text: 'RESUMED' })
+    expect(service.getLog('tg-resume', 50).some(line => line.includes('已恢复 Agent 会话'))).toBe(true)
   })
 })

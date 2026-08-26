@@ -44,7 +44,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 自动化 | Channels | ⚠️ | 六平台全部真实连通（TG/Discord/Slack/QQ/飞书/微信），共享回复管线 + 状态点 + 日志环。**Agent 绑定已上线（2026-08-24）**：每频道可配 `agentProvider`/`agentModel`/`agentSystemPrompt`，绑定后优先于共享默认模型并带自定义系统提示词（对应 Cherry ChannelData.agentId；DSH 无逐会话 agent 编排，故实现为模型+提示词覆盖而非完整 agent 组合）。**仍缺**：permissionMode 逐频道生效接入 |
 | 自动化 | Scheduled Tasks | ✅ | TasksSection 任务列表/调度/历史 |
 | 自动化 | Shortcuts | ✅ | ShortcutSection 快捷键列表 |
-| 自动化 | Quick Assistant | ⚠️ | 启用/托盘点击/剪贴板/模型档位（默认模型 vs 使用助手）已实现 + **「使用助手」模式下的 Agent 预设 ID 输入框（2026-08-24，可升级为真实选择器）**。缺：真实助手选择器（下拉列表） |
+| 自动化 | Quick Assistant | ⚠️ | 启用/托盘点击/剪贴板/模型档位（默认模型 vs 使用助手）已实现 + **「使用助手」模式真实 Agent 预设选择器（2026-08-26）**：`controlCenterAssistant.listAgentPresets()` host 代理 apiProxy.agentPresets，下拉含默认/本地信任标注，列表不可读时回退手输 ID |
 | 自动化 | Selection Assistant | ✅ | 选择工具/快捷键/动作列表 |
 | 自动化 | Screenshot | ✅ | 启用/快捷键/OCR 开关 |
 | 系统 | Dependencies | ⚠️ | 契约包版本列表 + **环境工具检测（ffmpeg/tesseract/git 存在性+版本，host which/where 探测，2026-08-24）**。缺：Node 版本行（getInfo 已有 nodeVersion，可并入） |
@@ -166,7 +166,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 网络搜索 | ✅ | `web_search` 工具注册进 toolService（websearch.ts，2026-08-24）：tavily/exa/zhipu/bocha/searxng 线上分发 + 压缩截断 + 诚实错误；会话实测 agent 真实调用 | jina/firecrawl/querit/exa-mcp 暂无线分发（诚实报错指引切换） |
 | 文档处理 | ✅ | `read_document` + `read_document_task` 工具进 toolService（file-processing.ts，2026-08-26）：统一 resolve→validate→dispatch；文本/PDF 本地提取、Tesseract、Mistral、PaddleOCR 图片同步完成；MinerU/Doc2X/PaddleOCR 文档返回持久任务 id，重启后从 storage-domain 恢复轮询并重新解析凭据 | system/local-paddleocr 需桌面运行时；远程任务依赖 storage-domain 就绪 |
 | OCR | ✅ | 同 read_document 统一分发：图片按 feature 走默认 OCR 处理器，不可用处理器返回准确 capability 状态 | 云端 OCR 需配置对应 Key |
-| 频道 | ✅ | 六平台桥连通。**绑定 Agent 的频道回复已走完整 DSH agent loop（2026-08-26）**：`ctx.apiProxy.sessions` 进程内路径 —— 每频道一个持久会话，绑定路由经 selectModel 应用一次，prompt 后轮询 history 收集 `turn/end`+`assistant/message` 文本；MCP 工具/知识库/web_search 在频道回复中真实可用（Cherry 频道完整能力对齐）。逐频道串行化、180s 超时、任何失败回退裸 LLM + Cherry 重试设置。系统提示词以首条消息运营者指令块注入并随会话记忆持续生效 | 无结构性缺口；剩余打磨：会话 ID 持久化（重启后延续上下文）、agentPresetId 传给 create 已支持但 UI 未暴露 |
+| 频道 | ✅ | 六平台桥连通。**绑定 Agent 的频道回复已走完整 DSH agent loop（2026-08-26）**：`ctx.apiProxy.sessions` 进程内路径 —— 每频道一个持久会话，绑定路由经 selectModel 应用一次，prompt 后轮询 history 收集 `turn/end`+`assistant/message` 文本；MCP 工具/知识库/web_search 在频道回复中真实可用（Cherry 频道完整能力对齐）。逐频道串行化、180s 超时、任何失败回退裸 LLM + Cherry 重试设置。系统提示词以首条消息运营者指令块注入并随会话记忆持续生效。**会话 ID 已持久化到频道 config（agentSessionId），重启探测恢复延续上下文（2026-08-26）** | 剩余打磨：会话被删后的静默重建已处理；agentPresetId 传给 create 已支持但 UI 未暴露 |
 
 **结论**：设置面接近完成，深度集成八条能力线全部打通（2026-08-26 频道 agent loop 落地）。下一阶段主攻顶层工作台与逐页视觉打磨。
 

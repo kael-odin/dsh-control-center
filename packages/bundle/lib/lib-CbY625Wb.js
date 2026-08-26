@@ -9475,50 +9475,6 @@ var SettingsConflictError = class extends Error {
 	}
 };
 Service.init;
-/**
-* Value mirror of the `FiberState` members {@link isUnloading} compares
-* against: a const enum has no runtime object to import, and the value is
-* needed at runtime (same rationale as the CLI boot driver's mirror).
-*/
-const FIBER_DISPOSED = 4;
-const FIBER_UNLOADING = 5;
-/** Whether the consumer's own fiber is tearing down (not just losing the settings service). */
-function isUnloading(ctx) {
-	const state = ctx.fiber.state;
-	return state === FIBER_UNLOADING || state === FIBER_DISPOSED;
-}
-/**
-* Install the canonical optional-settings consumer wiring: while a settings
-* service exists, register `ns` with the consumer's composition entry as the
-* `base` layer and point the source thunk at the resolved scope; when the
-* service goes away (disposal, provider reload), fall back to the entry so
-* the consumer keeps working exactly as composed. The registration rides the
-* scoped fiber, so no settings service ever mounted means none of this runs.
-* @param ctx - consumer plugin context owning the wiring.
-* @param ns - the consumer-owned settings namespace.
-* @param schema - schema resolving the namespace (typically the plugin Config).
-* @param entry - the consumer's composition entry config, used as `base`.
-* @param hooks - source sink and change notification.
-*/
-function installSettingsSection(ctx, ns, schema, entry, hooks) {
-	ctx.inject(["settings"], (sctx) => {
-		const scope = sctx.settings.register(ns, schema, {
-			base: entry,
-			...hooks.validate === void 0 ? {} : { validate: hooks.validate }
-		});
-		hooks.setSource(() => scope.get());
-		sctx.effect(() => () => {
-			if (isUnloading(ctx)) return;
-			hooks.setSource(() => entry);
-			hooks.onChange();
-		});
-		hooks.onChange();
-		scope.watch(() => {
-			if (isUnloading(ctx)) return;
-			hooks.onChange();
-		});
-	});
-}
 //#endregion
 //#region node_modules/.pnpm/@deepseek-ai+dsh-home-paths_260f8dde1d5adbe84fd51b779f4f83da/node_modules/@deepseek-ai/dsh-home-paths/lib/index.js
 /**
@@ -45072,7 +45028,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-CGtlYgDD.js");
+				const { SSEClientTransport } = await import("./sse-Dj0AQG2q.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -45094,7 +45050,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-Cm-ITiz-.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-FT1HPvxD.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -46967,6 +46923,7 @@ var ChannelBridgeService = class extends Service {
 	sessionPrimed = /* @__PURE__ */ new Set();
 	/** Per-channel reply serialization: one turn at a time per connection. */
 	replyChains = /* @__PURE__ */ new Map();
+	scope;
 	source;
 	constructor(ctx) {
 		super(ctx, "controlCenterChannelBridge");
@@ -46991,18 +46948,20 @@ var ChannelBridgeService = class extends Service {
 			this.sessionRoutes.clear();
 			this.sessionPrimed.clear();
 		}, "control-center.channel-bridge: abort loops");
-		installSettingsSection(ctx, CHANNELS_BRIDGE_NAMESPACE, ChannelsSchema, { instances: [] }, {
-			setSource: (current) => {
-				this.source = current;
-			},
-			onChange: () => {
+		try {
+			const scope = ctx.settings.register(CHANNELS_BRIDGE_NAMESPACE, ChannelsSchema, { base: { instances: [] } });
+			this.scope = scope;
+			this.source = () => scope.get();
+			scope.watch(() => {
 				try {
 					this.reconcile();
 				} catch (error) {
 					this.ctx.logger.warn(error);
 				}
-			}
-		});
+			});
+		} catch {
+			this.scope = void 0;
+		}
 	}
 	/** The instances array from the current settings source. */
 	readInstances() {
@@ -47281,11 +47240,28 @@ var ChannelBridgeService = class extends Service {
 		}
 		throw new Error(`agent turn 超时（${String(Math.round(AGENT_TURN_TIMEOUT_MS / 1e3))}s）`);
 	}
-	/** Reuses this process's session for the channel or creates one. */
+	/**
+	* Reuses this channel's agent session: the persisted `agentSessionId` when
+	* the session still exists (context survives restarts), otherwise a fresh
+	* create whose id is written back to the channel config.
+	*/
 	async ensureChannelSession(id, record, api) {
 		const existing = this.channelSessions.get(id);
 		if (existing !== void 0) return existing;
 		const config = record?.config;
+		const stored = typeof config?.agentSessionId === "string" && config.agentSessionId.trim().length > 0 ? config.agentSessionId.trim() : void 0;
+		if (stored !== void 0) {
+			if ((await api.sessions.history({
+				rpcId: mintRpcId(),
+				payload: { sessionId: stored }
+			})).result.ok) {
+				this.channelSessions.set(id, stored);
+				this.sessionPrimed.add(stored);
+				this.appendLog(id, `已恢复 Agent 会话（${stored}）`);
+				return stored;
+			}
+			this.appendLog(id, "持久化的 Agent 会话已不存在，将创建新会话");
+		}
 		const preset = typeof config?.agentPresetId === "string" && config.agentPresetId.trim().length > 0 ? config.agentPresetId.trim() : void 0;
 		const response = await api.sessions.create({
 			rpcId: mintRpcId(),
@@ -47294,8 +47270,26 @@ var ChannelBridgeService = class extends Service {
 		if (!response.result.ok) throw new Error(this.rpcErrorText("session create", response.result.error));
 		const sessionId = response.result.value.sessionId;
 		this.channelSessions.set(id, sessionId);
-		this.appendLog(id, `已创建 Agent 会话（${sessionId}）`);
+		await this.persistChannelSession(id, String(sessionId));
+		this.appendLog(id, `已创建 Agent 会话（${String(sessionId)}）`);
 		return sessionId;
+	}
+	/** Writes the session id back into the channel's config so restarts resume. */
+	async persistChannelSession(id, sessionId) {
+		if (this.scope === void 0) return;
+		try {
+			const next = this.readInstances().map((entry) => entry.id === id ? {
+				...entry,
+				config: {
+					...entry.config,
+					agentSessionId: sessionId
+				}
+			} : entry);
+			await this.scope.update({ instances: next });
+		} catch (error) {
+			this.ctx.logger.warn(error);
+			this.appendLog(id, "会话 ID 写回设置失败（重启后将新建会话）");
+		}
 	}
 	/** Seq of the newest event in the session tail, -1 for an empty log. */
 	async historyTailSeq(api, sessionId) {
@@ -52504,7 +52498,11 @@ var AssistantService = class extends Service {
 	scope;
 	constructor(ctx) {
 		super(ctx, "controlCenterAssistant");
-		markRemoteMethods(this, [["get", "get"], ["set", "set"]]);
+		markRemoteMethods(this, [
+			["get", "get"],
+			["set", "set"],
+			["listAgentPresets", "listAgentPresets"]
+		]);
 		this.scope = ctx.settings.register(ASSISTANT_NAMESPACE, Schema$1.object({
 			screenshot: Schema$1.any().default({}),
 			quick: Schema$1.any().default({}),
@@ -52516,6 +52514,36 @@ var AssistantService = class extends Service {
 		} });
 		const desktop = ctx.controlCenterDesktop;
 		if (desktop !== void 0) desktop.pushAssistantPrefs(this.read());
+	}
+	/**
+	* The deployment's agent presets for picker UIs (Quick Assistant 「使用助手」
+	* mode). Proxied host-side because the browser cannot reach ctx.apiProxy.
+	*/
+	async listAgentPresets() {
+		try {
+			const response = await this.ctx.get("apiProxy").agentPresets.list({
+				rpcId: RpcId(globalThis.crypto.randomUUID()),
+				payload: {}
+			});
+			if (!response.result.ok) return {
+				ok: false,
+				error: response.result.error.message
+			};
+			return {
+				ok: true,
+				value: response.result.value.presets.map((preset) => ({
+					id: preset.id,
+					name: preset.name ?? preset.id,
+					trust: preset.trust,
+					isDefault: preset.isDefault
+				}))
+			};
+		} catch (error) {
+			return {
+				ok: false,
+				error: error instanceof Error ? error.message : String(error)
+			};
+		}
 	}
 	read() {
 		return normalize(this.scope.get());
@@ -52554,13 +52582,20 @@ var AssistantService = class extends Service {
 /** Client descriptor contribution for the Control Center assistant-prefs service. */
 const assistantRemote = {
 	package: "@dsh-control-center/control-center",
-	descriptors: [{
-		method: "get",
-		parameters: []
-	}, {
-		method: "set",
-		parameters: ["params"]
-	}].map(({ method, parameters }) => ({
+	descriptors: [
+		{
+			method: "get",
+			parameters: []
+		},
+		{
+			method: "set",
+			parameters: ["params"]
+		},
+		{
+			method: "listAgentPresets",
+			parameters: []
+		}
+	].map(({ method, parameters }) => ({
 		id: `@dsh-control-center/control-center#controlCenterAssistant/${method}`,
 		service: "controlCenterAssistant",
 		namespace: "controlCenterAssistant",
