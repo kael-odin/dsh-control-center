@@ -168,7 +168,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | OCR | ✅ | 同 read_document 统一分发：图片按 feature 走默认 OCR 处理器，不可用处理器返回准确 capability 状态 | 云端 OCR 需配置对应 Key |
 | 频道 | ✅ | 六平台桥连通。**绑定 Agent 的频道回复已走完整 DSH agent loop（2026-08-26）**：`ctx.apiProxy.sessions` 进程内路径 —— 每频道一个持久会话，绑定路由经 selectModel 应用一次，prompt 后轮询 history 收集 `turn/end`+`assistant/message` 文本；MCP 工具/知识库/web_search 在频道回复中真实可用（Cherry 频道完整能力对齐）。逐频道串行化、180s 超时、任何失败回退裸 LLM + Cherry 重试设置。系统提示词以首条消息运营者指令块注入并随会话记忆持续生效。**会话 ID 已持久化到频道 config（agentSessionId），重启探测恢复延续上下文（2026-08-26）**。**绑定表单已暴露 Agent 预设选择器（2026-08-26）**，config.agentPresetId 直通 session create | 无结构性缺口 |
 
-**结论**：设置面接近完成，深度集成八条能力线全部打通（2026-08-26 频道 agent loop 落地）。下一阶段主攻顶层工作台与逐页视觉打磨。
+**结论**：设置面接近完成，深度集成八条能力线全部打通（2026-08-26 频道 agent loop 落地）。下一阶段主攻顶层工作台与逐页视觉打磨。插件化章程见 `docs/PLUGINIZATION.md`（§1.1 能力探测表已于 2026-08-26 落地：`controlCenterCompat.probe()`，探测结果随诊断包导出）。
 
 ## 六·补、Channels Agent 绑定实施记录（2026-08-26）
 

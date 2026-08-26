@@ -13,6 +13,10 @@ const updateMethods: ReadonlyArray<{ method: string; parameters: string[] }> = [
   { method: 'listReleases', parameters: [] },
 ]
 
+const compatMethods: ReadonlyArray<{ method: string; parameters: string[] }> = [
+  { method: 'probe', parameters: [] },
+]
+
 function descriptors(methods: ReadonlyArray<{ method: string; parameters: string[] }>, namespace: string): TypertRemoteContribution['descriptors'] {
   return methods.map(({ method, parameters }) => ({
     id: `@dsh-control-center/control-center#${namespace}/${method}`,
@@ -36,4 +40,9 @@ const updateRemote: TypertRemoteContribution = {
   descriptors: descriptors(updateMethods, 'controlCenterUpdate'),
 }
 
-export { localModelsRemote, updateRemote }
+const compatRemote: TypertRemoteContribution = {
+  package: '@dsh-control-center/control-center',
+  descriptors: descriptors(compatMethods, 'controlCenterCompat'),
+}
+
+export { localModelsRemote, updateRemote, compatRemote }

@@ -3,6 +3,7 @@
  */
 import type { LocalModelServer, LocalModelEntry } from './local-models.ts';
 import type { UpdateInfo, ReleaseEntry } from './update.ts';
+import type { CapabilityProbe } from './compat-probe.ts';
 declare module '@deepseek-ai/dsh-typert-protocol' {
     interface TypertRemoteNamespaceMap {
         controlCenterLocalModels: {
@@ -77,7 +78,13 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                 error: string;
             }>;
         };
+        controlCenterCompat: {
+            probe(): Promise<{
+                ok: true;
+                value: CapabilityProbe[];
+            }>;
+        };
     }
 }
-export type { LocalModelServer, LocalModelEntry, UpdateInfo, ReleaseEntry };
+export type { LocalModelServer, LocalModelEntry, UpdateInfo, ReleaseEntry, CapabilityProbe };
 //# sourceMappingURL=local-models-types.d.ts.map

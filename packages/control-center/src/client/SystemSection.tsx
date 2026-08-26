@@ -11,6 +11,7 @@ import type { TypertClientRemote } from '@deepseek-ai/dsh-typert-protocol'
 import css from './SystemSection.module.css'
 
 type UpdateRemote = NonNullable<TypertClientRemote['controlCenterUpdate']>
+type CompatRemote = NonNullable<TypertClientRemote['controlCenterCompat']>
 
 export interface SystemSectionInjected {
   getSystem: () => NonNullable<ClientRemote['controlCenterSystem']>
@@ -19,6 +20,8 @@ export interface SystemSectionInjected {
   getBridge?: (() => ChannelBridgeHandle | undefined) | undefined
   /** Lazy handle to the update remote — inline release notes source. */
   getUpdate?: (() => UpdateRemote | undefined) | undefined
+  /** Lazy handle to the capability-probe remote — diagnostic bundle source. */
+  getCompat?: (() => CompatRemote | undefined) | undefined
   hooks: { systemReady: HostObservable<boolean> }
 }
 
@@ -30,7 +33,7 @@ function unwrap<T>(result: { ok: true; value: T } | { ok: false; error: { code: 
 }
 
 /** 关于: versions, compatibility, environment, diagnostics, release notes. */
-export function AboutSection({ getSystem, getBridge, getUpdate, useSystemReady }: SystemSectionProps) {
+export function AboutSection({ getSystem, getBridge, getUpdate, getCompat, useSystemReady }: SystemSectionProps) {
   const systemReady = useSystemReady(value => value)
   const system = systemReady ? getSystem() : undefined
   const [info, setInfo] = useState<SystemInfo | null>(null)
@@ -68,6 +71,18 @@ export function AboutSection({ getSystem, getBridge, getUpdate, useSystemReady }
   const downloadDiagnostics = async (): Promise<void> => {
     if (info === null) return
     setBundling(true)
+    // Capability probes ride the bundle so a report shows exactly which host
+    // contract broke on an unfamiliar DSH version.
+    let capabilities: Array<{ name: string; available: boolean; detail?: string | undefined }> | undefined
+    try {
+      const compat = getCompat?.()
+      if (compat !== undefined) {
+        const probeResult = await compat.probe()
+        if (probeResult.ok) capabilities = probeResult.value.map(entry => ({ ...entry }))
+      }
+    } catch {
+      // best-effort
+    }
     const bridge = getBridge?.()
     let channels: { status: Array<Record<string, unknown>>; logs: Record<string, string[]> } | undefined
     if (bridge !== undefined) {
@@ -106,6 +121,7 @@ export function AboutSection({ getSystem, getBridge, getUpdate, useSystemReady }
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       },
       channels,
+      capabilities,
       diagnostic,
     }
     const blob = new Blob([JSON.stringify(bundle, null, 2)], { type: 'application/json' })

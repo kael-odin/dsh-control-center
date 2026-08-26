@@ -10228,6 +10228,91 @@ var UpdateService = class extends Service {
 	[Symbol.dispose]() {}
 };
 //#endregion
+//#region lib/types/compat-probe.js
+/**
+* Host capability probe (PLUGINIZATION.md §1.1): one startup-time survey of
+* every host surface the plugin depends on, so callers consult a single table
+* instead of scattering try/catch fallbacks — and the diagnostic bundle can
+* report exactly which contract broke on an unfamiliar DSH version.
+*/
+/** Presence check via the context property — the same access every plugin
+* service uses (`ctx.settings`, `ctx.llm`, …); missing services throw or read
+* undefined depending on how the host composes them, both count as absent. */
+function hasService(ctx, name) {
+	let service;
+	try {
+		service = ctx[name];
+	} catch {
+		return {
+			name,
+			available: false,
+			detail: "宿主未挂载该服务"
+		};
+	}
+	return service !== void 0 && service !== null ? {
+		name,
+		available: true
+	} : {
+		name,
+		available: false,
+		detail: "宿主未挂载该服务"
+	};
+}
+function rpcId(raw) {
+	return raw;
+}
+/** apiProxy.sessions is the channel agent-loop + presets gateway; probing it
+* means calling the cheapest read RPC, not just checking presence. */
+async function probeApiProxySessions(ctx) {
+	if (!hasService(ctx, "apiProxy").available) return {
+		name: "apiProxy.sessions",
+		available: false,
+		detail: "宿主未挂载 apiProxy"
+	};
+	try {
+		const response = await ctx.apiProxy.sessions.list({
+			rpcId: rpcId(crypto.randomUUID()),
+			payload: {}
+		});
+		return response.result.ok ? {
+			name: "apiProxy.sessions",
+			available: true
+		} : {
+			name: "apiProxy.sessions",
+			available: false,
+			detail: `${response.result.error.code}: ${response.result.error.message}`
+		};
+	} catch (error) {
+		return {
+			name: "apiProxy.sessions",
+			available: false,
+			detail: error instanceof Error ? error.message : String(error)
+		};
+	}
+}
+var CompatService = class extends Service {
+	static inject = ["settings"];
+	typertRemote = bindTypertRemote(this, "controlCenterCompat");
+	constructor(ctx) {
+		super(ctx, "controlCenterCompat");
+	}
+	/** Presence checks run synchronously; the sessions probe rides one RPC. */
+	async probe() {
+		const ctx = this.ctx;
+		return {
+			ok: true,
+			value: [
+				hasService(ctx, "settings"),
+				hasService(ctx, "storage"),
+				hasService(ctx, "llm"),
+				hasService(ctx, "apiProxy"),
+				hasService(ctx, "invariants"),
+				await probeApiProxySessions(ctx)
+			]
+		};
+	}
+};
+//#endregion
 //#region lib/types/local-models-remote-client.js
 const localModelsMethods = [
 	{
@@ -10254,6 +10339,10 @@ const updateMethods = [{
 	method: "listReleases",
 	parameters: []
 }];
+const compatMethods = [{
+	method: "probe",
+	parameters: []
+}];
 function descriptors(methods, namespace) {
 	return methods.map(({ method, parameters }) => ({
 		id: `@dsh-control-center/control-center#${namespace}/${method}`,
@@ -10278,6 +10367,10 @@ const localModelsRemote = {
 const updateRemote = {
 	package: "@dsh-control-center/control-center",
 	descriptors: descriptors(updateMethods, "controlCenterUpdate")
+};
+const compatRemote = {
+	package: "@dsh-control-center/control-center",
+	descriptors: descriptors(compatMethods, "controlCenterCompat")
 };
 //#endregion
 //#region lib/types/desktop.js
@@ -11182,6 +11275,7 @@ function apply(ctx) {
 	new UpdateService(ctx);
 	new DesktopService(ctx);
 	new AssistantService(ctx);
+	new CompatService(ctx);
 	const generalScope = ctx.settings.register(GENERAL_NAMESPACE_SETTINGS, GENERAL_SCHEMA);
 	installContextPolicy(ctx, () => generalScope.get());
 	const contributions = [{
@@ -11210,6 +11304,7 @@ function apply(ctx) {
 			...tasksRemote.descriptors,
 			...localModelsRemote.descriptors,
 			...updateRemote.descriptors,
+			...compatRemote.descriptors,
 			...desktopRemote.descriptors,
 			...assistantRemote.descriptors
 		]

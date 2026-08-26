@@ -34,7 +34,8 @@ import { TasksService } from './tasks.ts'
 import tasksRemote from './tasks-remote-client.ts'
 import { LocalModelsService } from './local-models.ts'
 import { UpdateService } from './update.ts'
-import { localModelsRemote, updateRemote } from './local-models-remote-client.ts'
+import { CompatService } from './compat-probe.ts'
+import { localModelsRemote, updateRemote, compatRemote } from './local-models-remote-client.ts'
 import { DesktopService } from './desktop.ts'
 import desktopRemote from './desktop-remote-client.ts'
 import { AssistantService } from './assistant.ts'
@@ -175,6 +176,7 @@ export function apply(ctx: Context): void {
   new UpdateService(ctx)
   new DesktopService(ctx)
   new AssistantService(ctx)
+  new CompatService(ctx)
   const generalScope = ctx.settings.register(
     GENERAL_NAMESPACE_SETTINGS,
     GENERAL_SCHEMA,
@@ -203,6 +205,7 @@ export function apply(ctx: Context): void {
         ...tasksRemote.descriptors,
         ...localModelsRemote.descriptors,
         ...updateRemote.descriptors,
+        ...compatRemote.descriptors,
         ...desktopRemote.descriptors,
         ...assistantRemote.descriptors
       ]
