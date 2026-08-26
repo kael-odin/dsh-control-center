@@ -10617,6 +10617,70 @@ var UpdateService = class extends Service {
 			};
 		}
 	}
+	/**
+	* PLUGINIZATION §2.B stage one — the install half of the loop. Materializes
+	* the stored tarball into `<dsh home>/updates/`, then runs the host's
+	* existing `dsh plugin add file:<path>` pipeline (the same CLI the 插件 page
+	* drives). The caller still restarts the profile; no silent self-replace.
+	*/
+	async installPreparedUpdate(profile = "default") {
+		let record;
+		try {
+			const stored = (await this.openBundleStore()).get("latest");
+			if (stored === void 0 || typeof stored.version !== "string" || typeof stored.dataBase64 !== "string") return {
+				ok: false,
+				error: "没有已下载的更新包，请先下载"
+			};
+			record = stored;
+		} catch (error) {
+			return {
+				ok: false,
+				error: error instanceof Error ? error.message : String(error)
+			};
+		}
+		const updatesDir = join(homedir(), ".dsh", "updates");
+		try {
+			mkdirSync(updatesDir, { recursive: true });
+			writeFileSync(join(updatesDir, record.assetName), Buffer.from(record.dataBase64, "base64"));
+		} catch (error) {
+			return {
+				ok: false,
+				error: `写入更新包失败：${error instanceof Error ? error.message : String(error)}`
+			};
+		}
+		const system = this.systemFace();
+		if (system === void 0) return {
+			ok: false,
+			error: "SystemService 未挂载，无法执行安装"
+		};
+		try {
+			const result = await system.managePlugin(profile, "add", `file:${join(updatesDir, record.assetName)}`);
+			const tail = (text) => text.length > 2e3 ? `…${text.slice(-2e3)}` : text;
+			return {
+				ok: true,
+				value: {
+					version: record.version,
+					assetName: record.assetName,
+					exitCode: result.exitCode,
+					stdoutTail: tail(result.stdout),
+					stderrTail: tail(result.stderr)
+				}
+			};
+		} catch (error) {
+			return {
+				ok: false,
+				error: error instanceof Error ? error.message : String(error)
+			};
+		}
+	}
+	/** Late-bound face to SystemService — avoids a hard service dependency. */
+	systemFace() {
+		try {
+			return this.ctx.get("controlCenterSystem");
+		} catch {
+			return;
+		}
+	}
 	async openBundleStore() {
 		if (this.bundleTable === void 0) {
 			const facility = this.ctx.storageDomain;
@@ -10774,6 +10838,10 @@ const updateMethods = [
 	{
 		method: "getPreparedUpdate",
 		parameters: []
+	},
+	{
+		method: "installPreparedUpdate",
+		parameters: ["profile"]
 	}
 ];
 const compatMethods = [{

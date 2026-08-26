@@ -88,4 +88,55 @@ describe('UpdateService prepareUpdate (§2.A)', () => {
     const result = await service.prepareUpdate()
     expect(result).toMatchObject({ ok: false, error: expect.stringContaining('storage-domain') })
   })
+
+  it('installs the prepared bundle through the host plugin-add pipeline', async () => {
+    const stored = new Map<string, unknown>()
+    const fakeStorage = {
+      open: async () => ({
+        table: () => ({
+          put: async (key: string, value: unknown) => { stored.set(key, value) },
+          get: (key: string) => stored.get(key),
+        }),
+      }),
+    }
+    let installSpec = ''
+    const manageCalls: Array<{ profile: string; operation: string; spec: string }> = []
+    const service = new UpdateService(makeCtx(fakeStorage))
+    // Seed a prepared bundle directly through prepareUpdate's storage path.
+    stored.set('latest', {
+      version: '0.9.9', assetName: 'dsh-control-center-control-center-0.9.9.tgz',
+      bytes: 3, dataBase64: Buffer.from('abc').toString('base64'), downloadedAt: new Date().toISOString(),
+    })
+    const realGet = (service as unknown as { ctx: Context }).ctx.get.bind((service as unknown as { ctx: Context }).ctx)
+    ;((service as unknown as { ctx: Context }).ctx as unknown as { get: unknown }).get = (name: string) => (
+      name === 'controlCenterSystem'
+        ? { managePlugin: async (profile: string, operation: 'add' | 'remove' | 'update', spec: string) => {
+            manageCalls.push({ profile, operation, spec })
+            installSpec = spec
+            return { exitCode: 0, stdout: 'installed', stderr: '' }
+          } }
+        : realGet(name)
+    )
+
+    const result = await service.installPreparedUpdate()
+    expect(result.ok).toBe(true)
+    if (!result.ok) return
+    expect(result.value.exitCode).toBe(0)
+    expect(result.value.version).toBe('0.9.9')
+    expect(manageCalls).toEqual([{ profile: 'default', operation: 'add', spec: installSpec }])
+    expect(installSpec).toContain('.dsh')
+    expect(installSpec).toContain('updates')
+    expect(installSpec).toContain('file:')
+  })
+
+  it('refuses installation when nothing was downloaded', async () => {
+    const fakeStorage = {
+      open: async () => ({
+        table: () => ({ put: async () => {}, get: () => undefined }),
+      }),
+    }
+    const service = new UpdateService(makeCtx(fakeStorage))
+    const result = await service.installPreparedUpdate()
+    expect(result).toMatchObject({ ok: false, error: expect.stringContaining('没有已下载的更新包') })
+  })
 })

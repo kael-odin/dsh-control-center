@@ -52,7 +52,7 @@
 ## 实施顺序
 
 1. ~~§1.1 能力探测表~~ ✅ 2026-08-26（`controlCenterCompat.probe()`，结果随诊断包导出）
-2. §2.A 引导式更新 —— **下载半已落地（2026-08-26）**：`UpdateService.prepareUpdate()` 拉 latest release 的 `.tgz` asset（仅接受 control-center 命名，64MB 上限），base64 存入 storage-domain `control_center_update_bundles`；更新页有「下载更新包」按钮与状态反馈。**剩余：安装步骤自动化**（调宿主 plugin install RPC 或桌面壳直接替换 vendor 目录）
+2. ~~§2.A/§2.B 引导式更新~~ ✅ 下载+安装闭环（2026-08-26）：`prepareUpdate()` 拉 latest release 的 `.tgz`（control-center 命名、64MB 上限）存 storage-domain → `installPreparedUpdate()` 落盘 `~/.dsh/updates/` → 复用宿主 `dsh plugin add file:<path>` 管线（system.ts managePlugin，单一代码路径拥有 CLI 调用与 inventory 上报）→ 更新页「一键安装」按钮 + exit code/stdout 反馈 + 重启生效提示。**§2.B 桌面壳内全自动替换 vendor 目录仍为可选增强（依赖真实 release 发布后验证）**
 3. ~~§3 发布流水线~~ ✅ 已存在（`.github/workflows/release.yml`：tag push → pnpm check → pack bundle tgz → draft GitHub release；asset 命名与 §2.A 的 pickBundleAsset 匹配）
 4. §2.B 全自动更新（大；产物源已就绪）
 5. ~~§1.2/1.3 版本区间放宽~~ ✅ 2026-08-26（compatibility.ts 支持 0.1.x 窗口 `/^0\.1\.\d+/`，peerDependencies/dependencies 放宽为 `>=0.1.1-rc.2 <0.2.0-0`；跨 minor 仍需显式适配评审后扩窗）

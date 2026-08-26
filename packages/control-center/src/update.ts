@@ -10,7 +10,8 @@ import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
 import { defineDomain, domainTable } from '@deepseek-ai/dsh-storage-domain'
 import type { DomainFacility, KvTable } from '@deepseek-ai/dsh-storage-domain'
 import { z } from 'zod'
-import { readFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { homedir } from 'node:os'
 import { join } from 'node:path'
 
 const REPO = 'kael-odin/dsh-control-center'
@@ -39,6 +40,14 @@ export interface PreparedUpdate {
   version: string
   assetName: string
   bytes: number
+}
+
+export interface UpdateInstallResult {
+  version: string
+  assetName: string
+  exitCode: number
+  stdoutTail: string
+  stderrTail: string
 }
 
 const DOWNLOAD_LIMIT_BYTES = 64 * 1024 * 1024
@@ -212,6 +221,65 @@ export class UpdateService extends Service {
       }
     } catch {
       return { ok: true, value: null }
+    }
+  }
+
+  /**
+   * PLUGINIZATION §2.B stage one — the install half of the loop. Materializes
+   * the stored tarball into `<dsh home>/updates/`, then runs the host's
+   * existing `dsh plugin add file:<path>` pipeline (the same CLI the 插件 page
+   * drives). The caller still restarts the profile; no silent self-replace.
+   */
+  async installPreparedUpdate(profile = 'default'): Promise<{ ok: true; value: UpdateInstallResult } | { ok: false; error: string }> {
+    let record: UpdateBundleRecord
+    try {
+      const store = await this.openBundleStore()
+      const stored = store.get('latest') as unknown as UpdateBundleRecord | undefined
+      if (stored === undefined || typeof stored.version !== 'string' || typeof stored.dataBase64 !== 'string') {
+        return { ok: false, error: '没有已下载的更新包，请先下载' }
+      }
+      record = stored
+    } catch (error) {
+      return { ok: false, error: error instanceof Error ? error.message : String(error) }
+    }
+
+    // Materialize the tarball under the DSH home; the path feeds a `file:` spec.
+    const updatesDir = join(homedir(), '.dsh', 'updates')
+    try {
+      mkdirSync(updatesDir, { recursive: true })
+      writeFileSync(join(updatesDir, record.assetName), Buffer.from(record.dataBase64, 'base64'))
+    } catch (error) {
+      return { ok: false, error: `写入更新包失败：${error instanceof Error ? error.message : String(error)}` }
+    }
+
+    // Reuse the plugin-management seam (system.ts) instead of spawning here:
+    // one code path owns DSH CLI invocation and inventory reporting.
+    const system = this.systemFace()
+    if (system === undefined) return { ok: false, error: 'SystemService 未挂载，无法执行安装' }
+    try {
+      const result = await system.managePlugin(profile, 'add', `file:${join(updatesDir, record.assetName)}`)
+      const tail = (text: string): string => text.length > 2_000 ? `…${text.slice(-2_000)}` : text
+      return {
+        ok: true,
+        value: {
+          version: record.version,
+          assetName: record.assetName,
+          exitCode: result.exitCode,
+          stdoutTail: tail(result.stdout),
+          stderrTail: tail(result.stderr),
+        },
+      }
+    } catch (error) {
+      return { ok: false, error: error instanceof Error ? error.message : String(error) }
+    }
+  }
+
+  /** Late-bound face to SystemService — avoids a hard service dependency. */
+  private systemFace(): { managePlugin(profile: string, operation: 'add' | 'remove' | 'update', spec: string): Promise<{ exitCode: number; stdout: string; stderr: string }> } | undefined {
+    try {
+      return this.ctx.get('controlCenterSystem') as unknown as { managePlugin(...args: never[]): Promise<{ exitCode: number; stdout: string; stderr: string }> } | undefined
+    } catch {
+      return undefined
     }
   }
 

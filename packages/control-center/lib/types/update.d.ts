@@ -29,6 +29,13 @@ export interface PreparedUpdate {
     assetName: string;
     bytes: number;
 }
+export interface UpdateInstallResult {
+    version: string;
+    assetName: string;
+    exitCode: number;
+    stdoutTail: string;
+    stderrTail: string;
+}
 declare const bundleSchema: z.ZodObject<{
     version: z.ZodString;
     assetName: z.ZodString;
@@ -73,6 +80,21 @@ export declare class UpdateService extends Service {
         ok: true;
         value: PreparedUpdate | null;
     }>;
+    /**
+     * PLUGINIZATION §2.B stage one — the install half of the loop. Materializes
+     * the stored tarball into `<dsh home>/updates/`, then runs the host's
+     * existing `dsh plugin add file:<path>` pipeline (the same CLI the 插件 page
+     * drives). The caller still restarts the profile; no silent self-replace.
+     */
+    installPreparedUpdate(profile?: string): Promise<{
+        ok: true;
+        value: UpdateInstallResult;
+    } | {
+        ok: false;
+        error: string;
+    }>;
+    /** Late-bound face to SystemService — avoids a hard service dependency. */
+    private systemFace;
     private openBundleStore;
     private bundleTable;
     /**

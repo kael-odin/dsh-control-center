@@ -13,6 +13,7 @@ const updateMethods: ReadonlyArray<{ method: string; parameters: string[] }> = [
   { method: 'listReleases', parameters: [] },
   { method: 'prepareUpdate', parameters: [] },
   { method: 'getPreparedUpdate', parameters: [] },
+  { method: 'installPreparedUpdate', parameters: ['profile'] },
 ]
 
 const compatMethods: ReadonlyArray<{ method: string; parameters: string[] }> = [

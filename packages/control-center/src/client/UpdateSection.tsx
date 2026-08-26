@@ -25,6 +25,8 @@ export function UpdateSection({ getUpdate, useUpdateReady }: UpdateSectionProps)
   const [preparing, setPreparing] = useState(false)
   const [prepared, setPrepared] = useState<{ version: string; assetName: string; bytes: number } | null>(null)
   const [prepareError, setPrepareError] = useState<string | null>(null)
+  const [installing, setInstalling] = useState(false)
+  const [installed, setInstalled] = useState<{ version: string; exitCode: number; ok: boolean; output: string } | null>(null)
 
   const check = async (): Promise<void> => {
     if (service === undefined) return
@@ -46,6 +48,7 @@ export function UpdateSection({ getUpdate, useUpdateReady }: UpdateSectionProps)
     if (service === undefined) return
     setPreparing(true)
     setPrepareError(null)
+    setInstalled(null)
     try {
       const result = await service.prepareUpdate()
       if (!result.ok) throw new Error(result.error)
@@ -54,6 +57,30 @@ export function UpdateSection({ getUpdate, useUpdateReady }: UpdateSectionProps)
       setPrepareError(err instanceof Error ? err.message : String(err))
     } finally {
       setPreparing(false)
+    }
+  }
+
+  /** PLUGINIZATION §2.B: materialize the stored tarball and run the host's
+   * plugin-add pipeline — the install half of the one-click loop. */
+  const install = async (): Promise<void> => {
+    if (service === undefined || prepared === null) return
+    setInstalling(true)
+    try {
+      const result = await service.installPreparedUpdate()
+      if (!result.ok) {
+        setPrepareError(result.error)
+        return
+      }
+      setInstalled({
+        version: result.value.version,
+        exitCode: result.value.exitCode,
+        ok: result.value.exitCode === 0,
+        output: `${result.value.stdoutTail}${result.value.stderrTail}`,
+      })
+    } catch (err) {
+      setPrepareError(err instanceof Error ? err.message : String(err))
+    } finally {
+      setInstalling(false)
     }
   }
 
@@ -120,10 +147,29 @@ export function UpdateSection({ getUpdate, useUpdateReady }: UpdateSectionProps)
           )}
         </div>
         {prepareError !== null && <div className="cc-notice-error">{prepareError}</div>}
-        {prepared !== null && (
-          <div className="cc-notice-error" style={{ borderColor: 'var(--success-border)', background: 'var(--success-subtle)', color: 'var(--success-subtle-foreground)' }}>
-            已下载 {prepared.assetName}（{String(Math.round(prepared.bytes / 1024))} KB）到 DSH 存储。
-            在宿主终端执行 <code>dsh plugin install</code> 指向该存储条目即可完成安装并重启宿主。
+        {prepared !== null && installed === null && (
+          <div style={{ marginTop: 8 }}>
+            <button type="button" className="cc-btn cc-btn-primary" disabled={installing} onClick={() => void install()}>
+              {installing ? '安装中…' : `一键安装 v${prepared.version}（重启宿主后生效）`}
+            </button>
+          </div>
+        )}
+        {installed !== null && (
+          <div
+            className="cc-notice-error"
+            style={{
+              marginTop: 8,
+              borderColor: installed.ok ? 'var(--success-border)' : 'var(--danger-border, var(--border))',
+              background: installed.ok ? 'var(--success-subtle)' : 'transparent',
+              color: installed.ok ? 'var(--success-subtle-foreground)' : undefined,
+            }}
+          >
+            {installed.ok
+              ? `v${installed.version} 安装完成。重启 DSH 宿主后生效。`
+              : `安装失败（exit ${String(installed.exitCode)}），输出见下。`}
+            {installed.output.trim().length > 0 && (
+              <pre style={{ maxHeight: 160, overflow: 'auto', fontSize: 11, whiteSpace: 'pre-wrap', marginTop: 6 }}>{installed.output}</pre>
+            )}
           </div>
         )}
       </div>

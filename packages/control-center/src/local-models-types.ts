@@ -3,7 +3,7 @@
  */
 
 import type { LocalModelServer, LocalModelEntry } from './local-models.ts'
-import type { UpdateInfo, ReleaseEntry, PreparedUpdate } from './update.ts'
+import type { UpdateInfo, ReleaseEntry, PreparedUpdate, UpdateInstallResult } from './update.ts'
 import type { CapabilityProbe } from './compat-probe.ts'
 
 declare module '@deepseek-ai/dsh-typert-protocol' {
@@ -19,6 +19,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
       listReleases(): Promise<{ ok: true; value: ReleaseEntry[] } | { ok: false; error: string }>
       prepareUpdate(): Promise<{ ok: true; value: PreparedUpdate } | { ok: false; error: string }>
       getPreparedUpdate(): Promise<{ ok: true; value: PreparedUpdate | null }>
+      installPreparedUpdate(profile?: string): Promise<{ ok: true; value: UpdateInstallResult } | { ok: false; error: string }>
     }
     controlCenterCompat: {
       probe(): Promise<{ ok: true; value: CapabilityProbe[] }>
@@ -26,4 +27,4 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
   }
 }
 
-export type { LocalModelServer, LocalModelEntry, UpdateInfo, ReleaseEntry, PreparedUpdate, CapabilityProbe }
+export type { LocalModelServer, LocalModelEntry, UpdateInfo, ReleaseEntry, PreparedUpdate, UpdateInstallResult, CapabilityProbe }
