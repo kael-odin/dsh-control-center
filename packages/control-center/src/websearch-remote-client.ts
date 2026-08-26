@@ -8,6 +8,7 @@ const methods: ReadonlyArray<{ method: string; implementation?: string; paramete
   { method: 'getProvider', parameters: ['params'] },
   { method: 'updateProviderOverride', parameters: ['params'] },
   { method: 'checkProviderReady', parameters: ['params'] },
+  { method: 'checkProvider', parameters: ['params'] },
 ]
 
 /** Client descriptor contribution for the Control Center web search service. */

@@ -69,6 +69,90 @@
   color: var(--foreground);
 }
 
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.providerMeta {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.providerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.providerLinks a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.providerLinks a:hover {
+  text-decoration: underline;
+}
+
+.ready,
+.notReady {
+  flex: none;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.ready {
+  background: var(--success-subtle);
+  color: var(--success-subtle-foreground);
+}
+
+.notReady {
+  background: var(--warning-subtle);
+  color: var(--warning-subtle-foreground);
+}
+
+.checkRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.checkSuccess,
+.checkFailure {
+  min-width: 0;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.checkSuccess {
+  color: var(--success-subtle-foreground);
+}
+
+.checkFailure {
+  color: var(--error-subtle-foreground);
+}
+
+@media (max-width: 560px) {
+  .cardHeader,
+  .providerMeta {
+    flex-direction: column;
+  }
+
+  .providerLinks {
+    justify-content: flex-start;
+  }
+}
+
 .cardDescription {
   margin-top: 2px;
   font-size: 12px;
@@ -207,4 +291,88 @@
   min-height: 200px;
   color: var(--muted-foreground);
   font-size: 14px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.providerMeta {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.providerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.providerLinks a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.providerLinks a:hover {
+  text-decoration: underline;
+}
+
+.ready,
+.notReady {
+  flex: none;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.ready {
+  background: var(--success-subtle);
+  color: var(--success-subtle-foreground);
+}
+
+.notReady {
+  background: var(--warning-subtle);
+  color: var(--warning-subtle-foreground);
+}
+
+.checkRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.checkSuccess,
+.checkFailure {
+  min-width: 0;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.checkSuccess {
+  color: var(--success-subtle-foreground);
+}
+
+.checkFailure {
+  color: var(--error-subtle-foreground);
+}
+
+@media (max-width: 560px) {
+  .cardHeader,
+  .providerMeta {
+    flex-direction: column;
+  }
+
+  .providerLinks {
+    justify-content: flex-start;
+  }
 }

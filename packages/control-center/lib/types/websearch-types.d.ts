@@ -33,6 +33,17 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                 providerId: import('./websearch/types.ts').WebSearchProviderId;
                 capability: import('./websearch/types.ts').WebSearchCapability;
             }): Promise<RemoteResult<boolean>>;
+            checkProvider(params: {
+                providerId: import('./websearch/types.ts').WebSearchProviderId;
+                capability: import('./websearch/types.ts').WebSearchCapability;
+            }): Promise<RemoteResult<{
+                ok: boolean;
+                providerId: import('./websearch/types.ts').WebSearchProviderId;
+                capability: import('./websearch/types.ts').WebSearchCapability;
+                latencyMs: number;
+                resultCount?: number;
+                message: string;
+            }>>;
         };
     }
 }

@@ -48,12 +48,10 @@ describe('WebSearchService web_search tool', () => {
     } as WebSearchConfig
   }
 
-  it('registers the web_search agent tool', () => {
+  it('registers keyword search and URL fetch agent tools', () => {
     const { tools } = setup({})
-    const registered = (tools.register as ReturnType<typeof vi.fn>).mock.calls.map(call => call[0])
-    expect(registered).toHaveLength(1)
-    const tool = registered[0] as { name: string }
-    expect(tool.name).toBe('web_search')
+    const registered = (tools.register as ReturnType<typeof vi.fn>).mock.calls.map(call => call[0] as { name: string })
+    expect(registered.map(tool => tool.name)).toEqual(['web_search', 'web_fetch'])
   })
 
   it('tavily dispatch: Bearer auth + normalized hits', async () => {
@@ -91,9 +89,35 @@ describe('WebSearchService web_search tool', () => {
     expect((init.headers as Record<string, string>)['x-api-key']).toBe('exa-key')
   })
 
-  it('honest error when the active provider has no wire implementation', async () => {
+  it('ExaMCP uses the hosted keyless endpoint', async () => {
+    const fetchMock = vi.fn(async (_url: string | URL, _init?: RequestInit) => new Response(
+      'data: {"result":{"content":[{"type":"text","text":"Title: Example\\nURL: https://example.com\\nText: Body"}]}}\n\n',
+      { status: 200 },
+    ))
+    globalThis.fetch = fetchMock as unknown as typeof fetch
     const { tools } = setup({})
+    const tool = (tools.register as ReturnType<typeof vi.fn>).mock.calls[0]![0] as { execute: (args: { query: string }) => Promise<{ provider: string; hits: Array<{ url: string }> }> }
+    const result = await tool.execute({ query: 'q' })
+    expect(result.provider).toBe('exa-mcp')
+    expect(result.hits[0]!.url).toBe('https://example.com')
+    const [url, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit]
+    expect(String(url)).toBe('https://mcp.exa.ai/mcp')
+    expect((init.headers as Record<string, string>)['x-api-key']).toBeUndefined()
+  })
+
+  it('web_fetch reads a URL without a key through Fetch', async () => {
+    const fetchMock = vi.fn(async () => new Response('<title>Page</title><p>Body</p>', { status: 200 }))
+    globalThis.fetch = fetchMock as unknown as typeof fetch
+    const { tools } = setup({ defaultFetchUrlsProvider: 'fetch' })
+    const tool = (tools.register as ReturnType<typeof vi.fn>).mock.calls[1]![0] as { execute: (args: { url: string }) => Promise<{ provider: string; hits: Array<{ content: string }> }> }
+    const result = await tool.execute({ url: 'https://example.com' })
+    expect(result.provider).toBe('fetch')
+    expect(result.hits[0]!.content).toContain('Body')
+  })
+
+  it('REST providers still fail clearly when a required key is missing', async () => {
+    const { tools } = setup({ defaultSearchKeywordsProvider: 'exa' })
     const tool = (tools.register as ReturnType<typeof vi.fn>).mock.calls[0]![0] as { execute: (args: { query: string }) => Promise<unknown> }
-    await expect(tool.execute({ query: 'q' })).rejects.toThrow(/未配置 API 地址/)
+    await expect(tool.execute({ query: 'q' })).rejects.toThrow(/尚未就绪|API Key/)
   })
 })
