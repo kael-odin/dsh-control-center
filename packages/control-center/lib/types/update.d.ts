@@ -12,6 +12,15 @@ export interface UpdateInfo {
     notes: string | null;
     checkedAt: string;
 }
+/** One published release as shown in the inline release-notes page. */
+export interface ReleaseEntry {
+    tagName: string;
+    name: string | null;
+    publishedAt: string | null;
+    body: string | null;
+    htmlUrl: string | null;
+    prerelease: boolean;
+}
 export declare class UpdateService extends Service {
     static inject: readonly ["settings"];
     readonly typertRemote: import("@deepseek-ai/dsh-typert-protocol").TypertGatewayBinding<this>;
@@ -19,6 +28,17 @@ export declare class UpdateService extends Service {
         logger?: Context['logger'];
     });
     checkForUpdates(): Promise<UpdateInfo>;
+    /**
+     * The deployment's recent releases (newest first) for the inline
+     * release-notes page — Cherry's releaseNotes top-level page parity.
+     */
+    listReleases(): Promise<{
+        ok: true;
+        value: ReleaseEntry[];
+    } | {
+        ok: false;
+        error: string;
+    }>;
     private currentVersion;
     private packageRoot;
     [Symbol.dispose](): void;

@@ -3,7 +3,7 @@
  */
 
 import type { LocalModelServer, LocalModelEntry } from './local-models.ts'
-import type { UpdateInfo } from './update.ts'
+import type { UpdateInfo, ReleaseEntry } from './update.ts'
 
 declare module '@deepseek-ai/dsh-typert-protocol' {
   interface TypertRemoteNamespaceMap {
@@ -15,8 +15,9 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
     }
     controlCenterUpdate: {
       checkForUpdates(): Promise<{ ok: true; value: UpdateInfo } | { ok: false; error: { code: string; message: string; details: object } }>
+      listReleases(): Promise<{ ok: true; value: ReleaseEntry[] } | { ok: false; error: string }>
     }
   }
 }
 
-export type { LocalModelServer, LocalModelEntry, UpdateInfo }
+export type { LocalModelServer, LocalModelEntry, UpdateInfo, ReleaseEntry }

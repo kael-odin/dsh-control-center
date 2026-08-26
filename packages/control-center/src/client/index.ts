@@ -773,6 +773,7 @@ export function apply(ctx: ClientContext): void {
       },
       getBridge: (): ChannelBridgeHandle | undefined =>
         channelBridge === undefined ? undefined : channelBridge as unknown as ChannelBridgeHandle,
+      getUpdate: (): NonNullable<typeof remote.controlCenterUpdate> | undefined => update,
       hooks: { systemReady: systemReadySource },
     }),
   }, AboutSection))

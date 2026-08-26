@@ -7,13 +7,18 @@ import type { HostObservable, InjectFace, PropsRuntime } from '@deepseek-ai/dsh-
 import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
 import type { DependencyEntry, EnvCheckEntry, SystemInfo } from '../system-types.ts'
 import type { ChannelBridgeHandle } from './ChannelsSection.tsx'
+import type { TypertClientRemote } from '@deepseek-ai/dsh-typert-protocol'
 import css from './SystemSection.module.css'
+
+type UpdateRemote = NonNullable<TypertClientRemote['controlCenterUpdate']>
 
 export interface SystemSectionInjected {
   getSystem: () => NonNullable<ClientRemote['controlCenterSystem']>
   /** Lazy handle to the host channel bridge, for including channel runtime
    * status/logs in the diagnostic bundle (absent until the bridge mounts). */
   getBridge?: (() => ChannelBridgeHandle | undefined) | undefined
+  /** Lazy handle to the update remote — inline release notes source. */
+  getUpdate?: (() => UpdateRemote | undefined) | undefined
   hooks: { systemReady: HostObservable<boolean> }
 }
 
@@ -24,8 +29,8 @@ function unwrap<T>(result: { ok: true; value: T } | { ok: false; error: { code: 
   return result.value
 }
 
-/** 关于: versions, compatibility, environment, diagnostics. */
-export function AboutSection({ getSystem, getBridge, useSystemReady }: SystemSectionProps) {
+/** 关于: versions, compatibility, environment, diagnostics, release notes. */
+export function AboutSection({ getSystem, getBridge, getUpdate, useSystemReady }: SystemSectionProps) {
   const systemReady = useSystemReady(value => value)
   const system = systemReady ? getSystem() : undefined
   const [info, setInfo] = useState<SystemInfo | null>(null)
@@ -177,8 +182,145 @@ export function AboutSection({ getSystem, getBridge, useSystemReady }: SystemSec
           </button>
         </div>
       </div>
+
+      <ReleaseNotesCard getUpdate={getUpdate} />
     </div>
   )
+}
+
+interface ReleaseEntryView {
+  tagName: string
+  name: string | null
+  publishedAt: string | null
+  body: string | null
+  htmlUrl: string | null
+  prerelease: boolean
+}
+
+/**
+ * Inline release notes (Cherry's releaseNotes page parity): lazily fetched
+ * from the host's listReleases on first expand; a small markdown subset is
+ * rendered — headings, lists, code spans, bold, links.
+ */
+function ReleaseNotesCard({ getUpdate }: { getUpdate?: (() => UpdateRemote | undefined) | undefined }): JSX.Element {
+  const [open, setOpen] = useState(false)
+  const [releases, setReleases] = useState<ReleaseEntryView[] | null>(null)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!open || releases !== null) return
+    const update = getUpdate?.()
+    if (update === undefined) {
+      setError('更新服务未挂载')
+      return
+    }
+    let stopped = false
+    void update.listReleases().then((result) => {
+      if (stopped) return
+      if (result.ok) setReleases([...result.value])
+      else setError(result.error)
+    }, (reason: unknown) => { if (!stopped) setError(reason instanceof Error ? reason.message : String(reason)) })
+    return () => { stopped = true }
+  }, [open, releases, getUpdate])
+
+  return (
+    <div className={css.card}>
+      <div className={css.cardTitle}>发布说明</div>
+      <button type="button" className="cc-btn cc-btn-secondary" onClick={() => { setOpen(previous => !previous) }}>
+        {open ? '收起' : '查看最近发布'}
+      </button>
+      {open && error !== null && <p className="cc-notice-error">{error}</p>}
+      {open && releases !== null && releases.length === 0 && <p className={css.loading}>暂无发布记录</p>}
+      {open && releases !== null && releases.slice(0, 5).map(release => (
+        <div key={release.tagName} className={css.releaseBlock}>
+          <div className={css.releaseTitle}>
+            {release.name ?? release.tagName}
+            <span className={css.badge}>{release.tagName}</span>
+            {release.prerelease && <span className={css.badge}>预发布</span>}
+            {release.publishedAt !== null && (
+              <span className={css.releaseDate}>{release.publishedAt.slice(0, 10)}</span>
+            )}
+          </div>
+          {release.body !== null && renderMarkdownLite(release.body)}
+          {release.htmlUrl !== null && (
+            <a className={css.infoLink} href={release.htmlUrl} target="_blank" rel="noreferrer">在 GitHub 查看</a>
+          )}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+/** Inline span renderer for `code`, **bold**, and [text](url). */
+function inlineSpans(text: string, keyPrefix: string): Array<string | JSX.Element> {
+  const parts: Array<string | JSX.Element> = []
+  const pattern = /(`[^`]+`)|(\*\*[^*]+\*\*)|(\[[^\]]+\]\([^)]+\))/g
+  let last = 0
+  let match: RegExpExecArray | null
+  while ((match = pattern.exec(text)) !== null) {
+    if (match.index > last) parts.push(text.slice(last, match.index))
+    const token = match[0]
+    const key = `${keyPrefix}-${String(match.index)}`
+    if (token.startsWith('`')) {
+      parts.push(<code key={key}>{token.slice(1, -1)}</code>)
+    } else if (token.startsWith('**')) {
+      parts.push(<strong key={key}>{token.slice(2, -2)}</strong>)
+    } else {
+      const split = token.indexOf('](')
+      const label = token.slice(1, split)
+      const href = token.slice(split + 2, -1)
+      parts.push(<a key={key} href={href} target="_blank" rel="noreferrer">{label}</a>)
+    }
+    last = match.index + token.length
+  }
+  if (last < text.length) parts.push(text.slice(last))
+  return parts
+}
+
+/** Block-level markdown subset: headings (#..####), bullets, numbered lists, paragraphs. */
+function renderMarkdownLite(source: string): JSX.Element {
+  const blocks: JSX.Element[] = []
+  const lines = source.split('\n')
+  let bullets: string[] = []
+  let numbers: string[] = []
+
+  const flushLists = (key: string): void => {
+    if (bullets.length > 0) {
+      blocks.push(<ul key={`${key}-ul`}>{bullets.map((item, index) => <li key={String(index)}>{inlineSpans(item, `${key}-ul-${String(index)}`)}</li>)}</ul>)
+      bullets = []
+    }
+    if (numbers.length > 0) {
+      blocks.push(<ol key={`${key}-ol`}>{numbers.map((item, index) => <li key={String(index)}>{inlineSpans(item, `${key}-ol-${String(index)}`)}</li>)}</ol>)
+      numbers = []
+    }
+  }
+
+  for (const [index, rawLine] of lines.entries()) {
+    const line = rawLine.trimEnd()
+    const key = String(index)
+    const heading = /^(#{1,4})\s+(.*)$/.exec(line)
+    const bullet = /^[-*]\s+(.*)$/.exec(line.trim())
+    const numbered = /^\d+[.)]\s+(.*)$/.exec(line.trim())
+    if (heading !== null) {
+      flushLists(key)
+      const level = heading[1]!.length
+      const content = inlineSpans(heading[2] ?? '', key)
+      blocks.push(level <= 2 ? <h3 key={key}>{content}</h3> : <h4 key={key}>{content}</h4>)
+    } else if (bullet !== null) {
+      if (numbers.length > 0) flushLists(key)
+      bullets.push(bullet[1] ?? '')
+    } else if (numbered !== null) {
+      if (bullets.length > 0) flushLists(key)
+      numbers.push(numbered[1] ?? '')
+    } else if (line.trim().length === 0) {
+      flushLists(key)
+    } else {
+      flushLists(key)
+      blocks.push(<p key={key}>{inlineSpans(line.trim(), key)}</p>)
+    }
+  }
+  flushLists('end')
+  return <div className={css.releaseBody}>{blocks}</div>
 }
 
 /** 依赖: resolved DSH contract package versions. */

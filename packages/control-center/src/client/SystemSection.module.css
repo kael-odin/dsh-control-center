@@ -107,3 +107,53 @@
   color: var(--muted-foreground);
   font-size: 14px;
 }
+
+.releaseBlock {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.releaseTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.releaseDate {
+  color: var(--muted-foreground);
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.releaseBody {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--foreground);
+}
+
+.releaseBody h3,
+.releaseBody h4 {
+  margin: 8px 0 4px;
+  font-size: 13px;
+}
+
+.releaseBody p {
+  margin: 4px 0;
+}
+
+.releaseBody ul,
+.releaseBody ol {
+  margin: 4px 0 4px 18px;
+  padding: 0;
+}
+
+.releaseBody code {
+  background: var(--muted);
+  border-radius: 3px;
+  padding: 1px 4px;
+  font-size: 12px;
+}

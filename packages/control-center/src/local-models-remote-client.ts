@@ -9,7 +9,8 @@ const localModelsMethods: ReadonlyArray<{ method: string; parameters: string[] }
 ]
 
 const updateMethods: ReadonlyArray<{ method: string; parameters: string[] }> = [
-  { method: 'checkForUpdates', parameters: [] }
+  { method: 'checkForUpdates', parameters: [] },
+  { method: 'listReleases', parameters: [] },
 ]
 
 function descriptors(methods: ReadonlyArray<{ method: string; parameters: string[] }>, namespace: string): TypertRemoteContribution['descriptors'] {
