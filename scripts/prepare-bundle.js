@@ -38,12 +38,12 @@ writeFileSync(join(destDir, 'bundle-version.json'), JSON.stringify({ version: ma
 console.log('bundled plugin version:', version)
 
 // 4. rename tarball to bundle.tgz
-const files = readdirSync(destDir).filter(f => f.startsWith('dsh-control-center-bundle-') && f.endsWith('.tgz'))
-if (files.length === 0) {
+const tarballFiles = readdirSync(destDir).filter(f => f.startsWith('dsh-control-center-bundle-') && f.endsWith('.tgz'))
+if (tarballFiles.length === 0) {
   console.error('No bundle tarball found in vendor dir')
   process.exit(1)
 }
-const tarball = files[0]
+const tarball = tarballFiles[0]
 const oldPath = join(destDir, tarball)
 const newPath = join(destDir, 'bundle.tgz')
 import { renameSync } from 'node:fs'
