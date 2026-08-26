@@ -1,10 +1,11 @@
 {
   "name": "@dsh-control-center/desktop",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "license": "AGPL-3.0-only",
   "type": "module",
   "description": "DSH Control Center desktop shell — Electron runner that loads the DSH loopback Web surface and mounts the Control Center plugin surface.",
+  "author": { "name": "kael-odin" },
   "main": "bin/main.mjs",
   "bin": {
     "dsh-control-desktop": "bin/main.mjs"
@@ -20,7 +21,11 @@
     "probe:v6synth": "node tests/v6-synth.mjs",
     "probe:selfcontained": "node tests/selfcontained-smoke.mjs",
     "pack:dir": "electron-builder --dir",
-    "pack:win": "electron-builder --win nsis"
+    "pack:win": "electron-builder --win nsis",
+    "dist": "electron-builder",
+    "dist:win": "electron-builder --win nsis --x64",
+    "dist:linux": "electron-builder --linux AppImage deb --x64",
+    "dist:mac": "electron-builder --mac dmg"
   },
   "engines": {
     "node": "^22.19.0 || >=24.0.0"

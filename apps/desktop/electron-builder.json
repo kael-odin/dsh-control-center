@@ -16,14 +16,25 @@
   "asar": true,
   "npmRebuild": false,
   "win": {
-    "target": ["dir"],
+    "target": [{ "target": "nsis", "arch": ["x64"] }],
     "icon": "build/icon.png"
   },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": true,
+    "artifactName": "${productName}-${version}-${arch}-setup.${ext}"
+  },
   "mac": {
-    "target": ["dir"],
-    "category": "public.app-category.productivity"
+    "target": [{ "target": "dmg" }],
+    "category": "public.app-category.productivity",
+    "identity": null,
+    "artifactName": "${productName}-${version}-${arch}.${ext}"
   },
   "linux": {
-    "target": ["dir"]
+    "target": ["AppImage", "deb"],
+    "maintainer": "kael-odin",
+    "category": "Utility",
+    "artifactName": "${productName}-${version}-${arch}.${ext}"
   }
 }

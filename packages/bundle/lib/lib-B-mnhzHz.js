@@ -45160,7 +45160,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-BHkW0qcO.js");
+				const { SSEClientTransport } = await import("./sse-BFggrd8r.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -45182,7 +45182,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-CVGHk0Cu.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-ymSVqXoj.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -47135,7 +47135,7 @@ var ChannelBridgeService = class extends Service {
 				}
 			}
 		}
-		for (const [id, runtime] of [...this.runtimes]) if (!wanted.has(id)) {
+		for (const [id, runtime] of Array.from(this.runtimes)) if (!wanted.has(id)) {
 			runtime.controller.abort();
 			runtime.cleanup?.();
 			this.runtimes.delete(id);
@@ -47901,7 +47901,7 @@ var ChannelBridgeService = class extends Service {
 				receivedAt: Date.now(),
 				seq: 0
 			});
-			for (const [key, entry] of [...passiveReplies]) if (Date.now() - entry.receivedAt > QQ_PASSIVE_REPLY_TTL_MS) passiveReplies.delete(key);
+			for (const [key, entry] of Array.from(passiveReplies)) if (Date.now() - entry.receivedAt > QQ_PASSIVE_REPLY_TTL_MS) passiveReplies.delete(key);
 		}
 		this.appendLog(id, `收到消息：${text.slice(0, 80)}`);
 		this.generateAndDeliver(id, text, async (reply) => {
@@ -51083,8 +51083,17 @@ const DATA_NAMESPACES = [
 	"control-center-webdav-nutstore",
 	"control-center-s3"
 ].map((name) => settingsNamespace(name));
-/** Regex matching a backup file produced by backupToDirectory. */
-const BACKUP_FILE_PATTERN = /^dsh-control-center-\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z\.json$/;
+/** Regex matching a backup file produced by backupToDirectory. The short hex
+* suffix is optional so backups from before it existed still restore. */
+const BACKUP_FILE_PATTERN = /^dsh-control-center-\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z(?:-[0-9a-f]{4})?\.json$/;
+/**
+* Collision-proof backup file name. Two backups can legitimately land in the
+* same millisecond (small payloads on a fast host), and a bare timestamp
+* would silently overwrite the first — so every name carries a random suffix.
+*/
+function backupFileName(now = /* @__PURE__ */ new Date()) {
+	return `dsh-control-center-${now.toISOString().replace(/[:.]/g, "-").slice(0, 23) + "Z"}-${Math.floor(Math.random() * 65536).toString(16).padStart(4, "0")}.json`;
+}
 const S3_NS = settingsNamespace("control-center-s3");
 const S3_SCHEMA = Schema$1.object({
 	endpoint: Schema$1.string().default(""),
@@ -51261,7 +51270,7 @@ var DataService = class extends Service {
 	*/
 	async backupToDirectory(dir, maxBackups) {
 		try {
-			const fileName = `dsh-control-center-${(/* @__PURE__ */ new Date()).toISOString().replace(/[:.]/g, "-").slice(0, 23) + "Z"}.json`;
+			const fileName = backupFileName();
 			const filePath = join(dir, fileName);
 			const snapshot = await this.exportControlCenter();
 			writeFileSync(filePath, JSON.stringify(snapshot, null, 2), "utf8");
@@ -51362,7 +51371,7 @@ var DataService = class extends Service {
 	/** PUT a timestamped snapshot to the WebDAV collection. Returns the remote file name. */
 	async webdavBackup(vendor = "webdav") {
 		const config = await this.loadWebdavConfig(vendor);
-		const fileName = `dsh-control-center-${(/* @__PURE__ */ new Date()).toISOString().replace(/[:.]/g, "-").slice(0, 23) + "Z"}.json`;
+		const fileName = backupFileName();
 		const snapshot = await this.exportControlCenter();
 		const response = await fetch(webdavUrl(config, fileName), {
 			method: "PUT",
@@ -51471,7 +51480,7 @@ var DataService = class extends Service {
 	/** PUT a timestamped snapshot to the bucket. Returns the remote object name. */
 	async s3Backup() {
 		const config = await this.loadS3Config();
-		const fileName = `dsh-control-center-${(/* @__PURE__ */ new Date()).toISOString().replace(/[:.]/g, "-").slice(0, 23) + "Z"}.json`;
+		const fileName = backupFileName();
 		const snapshot = await this.exportControlCenter();
 		const response = await s3Request(config, "PUT", fileName, "", Buffer.from(JSON.stringify(snapshot, null, 2), "utf8"));
 		if (!response.ok && response.status !== 201 && response.status !== 204 && response.status !== 200) throw new Error(`S3 备份失败 (${response.status}) ${(await response.text()).slice(0, 200)}`);
