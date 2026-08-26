@@ -27,6 +27,14 @@ export interface BuiltinMcpPreset {
 
 export const BUILTIN_MCP_PRESETS: readonly BuiltinMcpPreset[] = Object.freeze([
   {
+    name: 'ExaMCP',
+    description: 'Exa 官方免费 MCP 搜索端点，无需 API Key',
+    reference: 'https://exa.ai',
+    type: 'streamableHttp',
+    baseUrl: 'https://mcp.exa.ai/mcp',
+    provider: 'Exa',
+  },
+  {
     name: 'flomo',
     description: '写入笔记到 flomo（浮墨）',
     reference: 'https://flomoapp.com',

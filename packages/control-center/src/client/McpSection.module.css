@@ -341,6 +341,27 @@
   gap: 8px;
 }
 
+.checkRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.checkSuccess,
+.checkFailure {
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.checkSuccess {
+  color: var(--success-subtle-foreground);
+}
+
+.checkFailure {
+  color: var(--error-subtle-foreground);
+}
+
 .input {
   width: 100%;
   height: 32px;
@@ -711,8 +732,11 @@
   color: var(--foreground);
 }
 
+/* Modifier only — pair with .subnavItem in markup. (`composes` is silently
+   dropped by this build pipeline; relying on it left the active tab without
+   the base reset, so Chromium painted its default button border as a hard
+   box around the label.) */
 .subnavItemActive {
-  composes: subnavItem;
   /* Cherry tabs (underline variant): foreground text + primary indicator. */
   border-bottom-color: var(--primary);
   color: var(--foreground);

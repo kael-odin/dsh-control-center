@@ -4,7 +4,7 @@
  */
 
 import { useCallback, useEffect, useState, useMemo } from 'react'
-import type { CreateMcpServerDto, McpDiscoverProvider, McpHostedServer, McpNpxPackage, McpServerView, UpdateMcpServerDto, McpServerCapabilities } from '../mcp-types.ts'
+import type { CreateMcpServerDto, McpCheckResult, McpDiscoverProvider, McpHostedServer, McpNpxPackage, McpServerView, UpdateMcpServerDto, McpServerCapabilities } from '../mcp-types.ts'
 import { AddMcpServerDialog } from './AddMcpServerDialog.tsx'
 import { McpBuiltinView, McpMarketView, McpProviderSettingsView } from './McpDiscoverViews.tsx'
 import css from './McpSection.module.css'
@@ -25,6 +25,7 @@ interface McpService {
   refreshTools(serverId: string): Promise<RemoteResult<null>>
   getServerLogs(serverId: string, lines?: number): Promise<RemoteResult<string[]>>
   getCapabilities(serverId: string): Promise<RemoteResult<McpServerCapabilities | null>>
+  checkServer(serverId: string): Promise<RemoteResult<McpCheckResult>>
   searchNpxRegistry(scope: string): Promise<RemoteResult<Array<{ fullName: string; name: string; description: string; version: string; link: string }>>>
   discoverMcpServers(provider: McpDiscoverProvider, token: string): Promise<RemoteResult<McpHostedServer[]>>
 }
@@ -56,6 +57,8 @@ export function McpSection(props: McpSectionProps) {
   const [logs, setLogs] = useState<string[]>([])
   const [capabilities, setCapabilities] = useState<McpServerCapabilities | null>(null)
   const [isRefreshingTools, setIsRefreshingTools] = useState(false)
+  const [isCheckingServer, setIsCheckingServer] = useState(false)
+  const [checkResult, setCheckResult] = useState<McpCheckResult | null>(null)
   const [showAddDialog, setShowAddDialog] = useState(false)
   /** Tab the add dialog opens on (manual by default; shortcuts preset it). */
   const [addTab, setAddTab] = useState<'manual' | 'market' | 'builtin' | 'sites'>('manual')
@@ -132,6 +135,7 @@ export function McpSection(props: McpSectionProps) {
 
   // Fetch capabilities when selected server changes and is active
   useEffect(() => {
+    setCheckResult(null)
     if (selectedId && mcpService && selectedServer?.isActive) {
       void mcpService.getCapabilities(selectedId)
         .then((result) => { if (result.ok) setCapabilities(result.value) })
@@ -246,6 +250,29 @@ export function McpSection(props: McpSectionProps) {
     }
   }, [selectedServer])
 
+  const handleCheckServer = useCallback(async () => {
+    if (!mcpService || !selectedServer || isCheckingServer) return
+    setIsCheckingServer(true)
+    setCheckResult(null)
+    setError(null)
+    try {
+      const result = await mcpService.checkServer(selectedServer.id)
+      if (!result.ok) throw new Error(result.error.message)
+      setCheckResult(result.value)
+      await loadServers()
+      if (result.value.capabilities !== undefined) setCapabilities(result.value.capabilities)
+    } catch (err) {
+      setCheckResult({
+        ok: false,
+        latencyMs: 0,
+        state: 'error',
+        message: err instanceof Error ? err.message : String(err),
+      })
+    } finally {
+      setIsCheckingServer(false)
+    }
+  }, [isCheckingServer, loadServers, mcpService, selectedServer])
+
   const handleCreate = useCallback(async (dto: CreateMcpServerDto) => {
     if (!mcpService) return
 
@@ -299,28 +326,28 @@ export function McpSection(props: McpSectionProps) {
       <nav className={css.subnav} aria-label="MCP">
         <button
           type="button"
-          className={view === 'servers' ? css.subnavItemActive : css.subnavItem}
+          className={`${css.subnavItem} ${view === 'servers' ? css.subnavItemActive : ''}`}
           onClick={() => setView('servers')}
         >
           服务器
         </button>
         <button
           type="button"
-          className={view === 'builtin' ? css.subnavItemActive : css.subnavItem}
+          className={`${css.subnavItem} ${view === 'builtin' ? css.subnavItemActive : ''}`}
           onClick={() => setView('builtin')}
         >
           内置服务器
         </button>
         <button
           type="button"
-          className={view === 'market' ? css.subnavItemActive : css.subnavItem}
+          className={`${css.subnavItem} ${view === 'market' ? css.subnavItemActive : ''}`}
           onClick={() => setView('market')}
         >
           市场
         </button>
         <button
           type="button"
-          className={view === 'providers' ? css.subnavItemActive : css.subnavItem}
+          className={`${css.subnavItem} ${view === 'providers' ? css.subnavItemActive : ''}`}
           onClick={() => setView('providers')}
         >
           提供商配置
@@ -482,39 +509,39 @@ export function McpSection(props: McpSectionProps) {
           {/* Tab navigation */}
           <div className={css.tabBar}>
             <button
-              className={activeTab === 'settings' ? css.tabActive : css.tab}
+              className={`${css.tab} ${activeTab === 'settings' ? css.tabActive : ''}`}
               onClick={() => setActiveTab('settings')}>
               设置
             </button>
             {selectedServer.description && (
               <button
-                className={activeTab === 'description' ? css.tabActive : css.tab}
+                className={`${css.tab} ${activeTab === 'description' ? css.tabActive : ''}`}
                 onClick={() => setActiveTab('description')}>
                 描述
               </button>
             )}
             <button
-              className={activeTab === 'logs' ? css.tabActive : css.tab}
+              className={`${css.tab} ${activeTab === 'logs' ? css.tabActive : ''}`}
               onClick={() => setActiveTab('logs')}>
               日志
             </button>
             {selectedServer.isActive && capabilities?.tools && (
               <button
-                className={activeTab === 'tools' ? css.tabActive : css.tab}
+                className={`${css.tab} ${activeTab === 'tools' ? css.tabActive : ''}`}
                 onClick={() => setActiveTab('tools')}>
                 工具 {capabilities.tools.length > 0 ? `(${capabilities.tools.length})` : ''}
               </button>
             )}
             {selectedServer.isActive && capabilities?.prompts && (
               <button
-                className={activeTab === 'prompts' ? css.tabActive : css.tab}
+                className={`${css.tab} ${activeTab === 'prompts' ? css.tabActive : ''}`}
                 onClick={() => setActiveTab('prompts')}>
                 提示词 {capabilities.prompts.length > 0 ? `(${capabilities.prompts.length})` : ''}
               </button>
             )}
             {selectedServer.isActive && capabilities?.resources && (
               <button
-                className={activeTab === 'resources' ? css.tabActive : css.tab}
+                className={`${css.tab} ${activeTab === 'resources' ? css.tabActive : ''}`}
                 onClick={() => setActiveTab('resources')}>
                 资源 {capabilities.resources.length > 0 ? `(${capabilities.resources.length})` : ''}
               </button>
@@ -532,6 +559,13 @@ export function McpSection(props: McpSectionProps) {
                   <h3 className={css.sectionHeading}>状态</h3>
                 </div>
                 <div className={css.sectionBody}>
+                  <div className={css.checkRow}>
+                    <button type="button" className={css.secondaryButton} disabled={isCheckingServer || selectedServer.isTrusted !== true} onClick={() => { void handleCheckServer() }}>
+                      {isCheckingServer ? '检测中…' : '检测连接'}
+                    </button>
+                    {selectedServer.isTrusted !== true && <span className={css.fieldHint}>请先信任服务器</span>}
+                    {checkResult && <span className={checkResult.ok ? css.checkSuccess : css.checkFailure}>{checkResult.ok ? `连接成功 · ${checkResult.latencyMs}ms` : `连接失败 · ${checkResult.message}`}</span>}
+                  </div>
                   <div className={css.fieldRow}>
                     <label className={css.fieldLabel}>
                       <input

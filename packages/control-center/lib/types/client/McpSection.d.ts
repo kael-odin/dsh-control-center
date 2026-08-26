@@ -2,7 +2,7 @@
  * MCP Section - Split-pane layout matching Cherry Studio MCP management.
  * Left sidebar: server list with search/filter. Right detail: server settings + logs.
  */
-import type { CreateMcpServerDto, McpServerView, UpdateMcpServerDto, McpServerCapabilities } from '../mcp-types.ts';
+import type { CreateMcpServerDto, McpCheckResult, McpDiscoverProvider, McpHostedServer, McpServerView, UpdateMcpServerDto, McpServerCapabilities } from '../mcp-types.ts';
 /** Wire envelope of a strict-mode Typert remote call (same shape as translation-types). */
 type RemoteResult<T> = {
     ok: true;
@@ -24,6 +24,7 @@ interface McpService {
     refreshTools(serverId: string): Promise<RemoteResult<null>>;
     getServerLogs(serverId: string, lines?: number): Promise<RemoteResult<string[]>>;
     getCapabilities(serverId: string): Promise<RemoteResult<McpServerCapabilities | null>>;
+    checkServer(serverId: string): Promise<RemoteResult<McpCheckResult>>;
     searchNpxRegistry(scope: string): Promise<RemoteResult<Array<{
         fullName: string;
         name: string;
@@ -31,6 +32,7 @@ interface McpService {
         version: string;
         link: string;
     }>>>;
+    discoverMcpServers(provider: McpDiscoverProvider, token: string): Promise<RemoteResult<McpHostedServer[]>>;
 }
 export interface McpSectionProps {
     mcp?: McpService;

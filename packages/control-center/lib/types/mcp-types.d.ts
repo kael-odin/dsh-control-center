@@ -220,6 +220,17 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
+            checkServer(serverId: string): Promise<{
+                ok: true;
+                value: McpCheckResult;
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
             searchNpxRegistry(scope: string): Promise<{
                 ok: true;
                 value: {
@@ -237,8 +248,38 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
+            discoverMcpServers(provider: McpDiscoverProvider, token: string): Promise<{
+                ok: true;
+                value: McpHostedServer[];
+            } | {
+                ok: false;
+                error: {
+                    code: string;
+                    message: string;
+                    details: object;
+                };
+            }>;
         };
     }
+}
+/** Result of a real MCP connection probe. */
+export interface McpCheckResult {
+    ok: boolean;
+    latencyMs: number;
+    state: 'connected' | 'error';
+    message: string;
+    capabilities?: McpServerCapabilities;
+}
+/** Hosted-MCP discovery provider (Cherry McpProviderSettings parity). */
+export type McpDiscoverProvider = 'bailian' | 'modelscope';
+/** One hosted MCP server discovered from a provider API. */
+export interface McpHostedServer {
+    id: string;
+    name: string;
+    description?: string;
+    operationalUrl: string;
+    type: 'streamableHttp' | 'sse';
+    tags?: string[];
 }
 /** One npm-registry candidate from the Npx market search. */
 export interface McpNpxPackage {

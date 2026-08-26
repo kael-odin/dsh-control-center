@@ -12,6 +12,7 @@ const methods: ReadonlyArray<{ method: string; implementation?: string; paramete
   { method: 'refreshTools', parameters: ['serverId'] },
   { method: 'getServerLogs', parameters: ['serverId', 'lines'] },
   { method: 'getCapabilities', parameters: ['serverId'] },
+  { method: 'checkServer', parameters: ['serverId'] },
   { method: 'searchNpxRegistry', parameters: ['scope'] },
   { method: 'discoverMcpServers', parameters: ['provider', 'token'] }
 ]

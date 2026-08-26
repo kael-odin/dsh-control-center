@@ -1,6 +1,6 @@
 import { Service } from '@deepseek-ai/cordis';
 import type { Context } from '@deepseek-ai/cordis';
-import type { CreateMcpServerDto, McpNpxPackage, McpServerCapabilities, McpServerView, UpdateMcpServerDto } from './mcp-types';
+import type { CreateMcpServerDto, McpDiscoverProvider, McpHostedServer, McpNpxPackage, McpServerCapabilities, McpServerView, McpCheckResult, UpdateMcpServerDto } from './mcp-types';
 declare module '@deepseek-ai/dsh-api-remotes/client' {
     interface TypertClientRemote {
         controlCenterMcp?: {
@@ -156,12 +156,16 @@ export declare class McpService extends Service {
     refreshTools(serverId: string): Promise<void>;
     getServerLogs(serverId: string, lines?: number): Promise<string[]>;
     getCapabilities(serverId: string): Promise<McpServerCapabilities | null>;
+    /** Probe a trusted server without changing its persisted enabled state. */
+    checkServer(serverId: string): Promise<McpCheckResult>;
     /**
      * Search the public npm registry for MCP servers under one scope (Cherry's
      * Npx 市场列表). Runs on the host so browser CORS never gates it; results
      * are advisory candidates the user still has to add.
      */
     searchNpxRegistry(scope: string): Promise<McpNpxPackage[]>;
+    /** Discover hosted MCP servers from a provider API (Cherry McpProviderSettings parity). */
+    discoverMcpServers(provider: McpDiscoverProvider, token: string): Promise<McpHostedServer[]>;
     private addServerLog;
 }
 //# sourceMappingURL=mcp.d.ts.map

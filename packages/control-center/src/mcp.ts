@@ -16,6 +16,7 @@ import type {
   McpServerCapabilities,
   McpServerRecord,
   McpServerView,
+  McpCheckResult,
   UpdateMcpServerDto,
 } from './mcp-types'
 
@@ -181,6 +182,7 @@ export class McpService extends Service {
     record.sortOrder = settings.servers.length
     record.installSource = dto.installSource ?? 'manual'
     if (dto.isTrusted !== undefined) record.isTrusted = dto.isTrusted
+    else if (record.installSource === 'builtin') record.isTrusted = true
     record.installedAt = Date.now()
 
     await this.ctx.settings.update(MCP_NAMESPACE, {
@@ -742,6 +744,51 @@ export class McpService extends Service {
   async getCapabilities(serverId: string): Promise<McpServerCapabilities | null> {
     const state = this.runtimeStates.get(serverId)
     return state?.capabilities || null
+  }
+
+  /** Probe a trusted server without changing its persisted enabled state. */
+  async checkServer(serverId: string): Promise<McpCheckResult> {
+    const startedAt = Date.now()
+    const record = this.scope.get().servers.find(server => server.id === serverId)
+    if (record === undefined) {
+      return { ok: false, latencyMs: 0, state: 'error', message: `MCP server not found: ${serverId}` }
+    }
+    if (!record.isTrusted) {
+      return { ok: false, latencyMs: 0, state: 'error', message: '请先信任服务器，再执行连接检测' }
+    }
+
+    const existing = this.runtimeStates.get(serverId)
+    if (existing?.state === 'connected') {
+      return {
+        ok: true,
+        latencyMs: Date.now() - startedAt,
+        state: 'connected',
+        message: '服务器已连接',
+        ...(existing.capabilities === undefined ? {} : { capabilities: existing.capabilities }),
+      }
+    }
+
+    try {
+      await this.startServer(serverId)
+      const state = this.runtimeStates.get(serverId)
+      const result: McpCheckResult = {
+        ok: true,
+        latencyMs: Date.now() - startedAt,
+        state: 'connected',
+        message: '连接成功',
+        ...(state?.capabilities === undefined ? {} : { capabilities: state.capabilities }),
+      }
+      if (!record.isActive) await this.stopServer(serverId)
+      return result
+    } catch (error) {
+      if (!record.isActive) await this.stopServer(serverId)
+      return {
+        ok: false,
+        latencyMs: Date.now() - startedAt,
+        state: 'error',
+        message: error instanceof Error ? error.message : String(error),
+      }
+    }
   }
 
   /**

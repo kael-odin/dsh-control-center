@@ -128,10 +128,20 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
       refreshTools(serverId: string): Promise<{ ok: true; value: null } | { ok: false; error: { code: string; message: string; details: object } }>
       getServerLogs(serverId: string, lines?: number): Promise<{ ok: true; value: string[] } | { ok: false; error: { code: string; message: string; details: object } }>
       getCapabilities(serverId: string): Promise<{ ok: true; value: McpServerCapabilities | null } | { ok: false; error: { code: string; message: string; details: object } }>
+      checkServer(serverId: string): Promise<{ ok: true; value: McpCheckResult } | { ok: false; error: { code: string; message: string; details: object } }>
       searchNpxRegistry(scope: string): Promise<{ ok: true; value: { fullName: string; name: string; description: string; version: string; link: string }[] } | { ok: false; error: { code: string; message: string; details: object } }>
       discoverMcpServers(provider: McpDiscoverProvider, token: string): Promise<{ ok: true; value: McpHostedServer[] } | { ok: false; error: { code: string; message: string; details: object } }>
     }
   }
+}
+
+/** Result of a real MCP connection probe. */
+export interface McpCheckResult {
+  ok: boolean
+  latencyMs: number
+  state: 'connected' | 'error'
+  message: string
+  capabilities?: McpServerCapabilities
 }
 
 /** Hosted-MCP discovery provider (Cherry McpProviderSettings parity). */
