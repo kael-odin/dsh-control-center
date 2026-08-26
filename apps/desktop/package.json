@@ -25,7 +25,7 @@
     "dist": "electron-builder",
     "dist:win": "electron-builder --win nsis --x64",
     "dist:linux": "electron-builder --linux AppImage deb --x64",
-    "dist:mac": "electron-builder --mac dmg"
+    "dist:mac": "electron-builder --mac dmg --x64 --arm64"
   },
   "engines": {
     "node": "^22.19.0 || >=24.0.0"

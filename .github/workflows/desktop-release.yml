@@ -1,8 +1,9 @@
 name: desktop-release
 
 # Build the desktop installers for all three platforms and attach them to the
-# release for the pushed tag. macOS must run on macOS runners; Windows NSIS and
-# Linux AppImage/deb build on their native runners. `workflow_dispatch` allows
+# release for the pushed tag. macOS must run on macOS runners; it builds BOTH
+# architectures from one arm64 runner (unsigned, so cross-arch is fine) — the
+# retired macos-13 Intel label queues forever. `workflow_dispatch` allows
 # backfilling an existing tag's release (pass the tag as input).
 on:
   push:
@@ -27,15 +28,13 @@ jobs:
             script: dist:win
           - os: ubuntu-latest    # AppImage + deb (x64)
             script: dist:linux
-          - os: macos-latest     # dmg (Apple silicon)
-            script: dist:mac
-          - os: macos-13         # dmg (Intel x64)
+          - os: macos-latest     # dmg (x64 + arm64, unsigned cross-build)
             script: dist:mac
     runs-on: ${{ matrix.os }}
-    defaults:
-      run:
-        working-directory: apps/desktop
     steps:
+      # One root install: apps/desktop is a workspace member, so its devDeps
+      # (electron with the downloaded binary, electron-builder) land via the
+      # shared lockfile.
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
@@ -46,10 +45,11 @@ jobs:
         with:
           node-version: 24
 
-      - name: Install dependencies
+      - name: Install dependencies (workspace root)
         run: pnpm install --frozen-lockfile
 
       - name: Build installers
+        working-directory: apps/desktop
         run: pnpm run ${{ matrix.script }}
         env:
           # Unsigned builds: electron-builder skips signing cleanly on all OSes.
@@ -60,6 +60,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
         shell: bash
+        working-directory: apps/desktop
         run: |
           shopt -s nullglob
           files=(release/*.exe release/*.AppImage release/*.deb release/*.dmg)
