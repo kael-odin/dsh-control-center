@@ -48,6 +48,19 @@ jobs:
       - name: Install dependencies (workspace root)
         run: pnpm install --frozen-lockfile
 
+      - name: Bundle the Control Center plugin into the shell
+        run: |
+          pnpm run build
+          pnpm --filter @dsh-control-center/bundle pack --pack-destination ../../apps/desktop/vendor
+          cd apps/desktop/vendor
+          TARBALL=$(ls dsh-control-center-bundle-*.tgz | head -1)
+          # The packed filename carries the version — stamp it for the shell's
+          # auto-sync version comparison.
+          VERSION=$(echo "$TARBALL" | sed -E 's/.*-([0-9][^-]*)\.tgz/\1/')
+          printf '{"version":"%s"}' "$VERSION" > bundle-version.json
+          mv "$TARBALL" bundle.tgz
+          echo "bundled plugin version: $VERSION"
+
       - name: Build installers
         working-directory: apps/desktop
         run: pnpm run ${{ matrix.script }}

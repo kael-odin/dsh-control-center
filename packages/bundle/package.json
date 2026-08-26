@@ -1,6 +1,6 @@
 {
   "name": "@dsh-control-center/bundle",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Installable DSH Web profile layer for DSH Control Center Web Edition",
   "license": "AGPL-3.0-only",
   "type": "module",

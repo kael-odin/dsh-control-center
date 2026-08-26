@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.3.0 (2026-08-26)
+
+Notes, the real API gateway, and the desktop self-healing plugin sync.
+
+### New capabilities
+- **API gateway runtime**: a local loopback HTTP service (127.0.0.1 only) exposing OpenAI `/v1/chat/completions` (stream SSE + non-stream), Anthropic `/v1/messages`, and `GET /v1/models`, routed onto the host's configured models with Bearer auth. Settings page drives real start/stop with a live status card and copyable URL/key/auth header.
+- **Notes workspace** (Cherry NotesPage parity v1): Markdown files under `<dsh home>/notes/` are the source of truth — file tree with star/rename/delete, plain-text editor with debounced autosave. Rich editing, full-text search, and the knowledge-base snapshot source are v2 on the same storage.
+
+### Desktop
+- **Plugin auto-sync**: the shell carries the current bundle; at boot it compares the profile's installed version and silently installs through the harness CLI when stale — no more stale-plugin features behind a fresh shell.
+- Fix: the bundle tarball declared a runtime dependency on the control-center package, which made `file:` installs (one-click update) fail; the bundle is self-contained and the dependency moved out of `dependencies`.
+- Windows: `--no-open` (no more surprise browser tab), a branded loading page while the host boots, opaque icon backing, honest version reporting (`URL.pathname` broke manifest reads on Windows).
+
+### Fixes
+- Backup filenames are collision-proof (same-millisecond writes no longer overwrite each other).
+- oxlint clean under `--deny-warnings`; secret scan covers the e2e fixture files and skips nested worktrees.
+
 ## v0.2.0 (2026-08-26)
 
 Deep-integration release: channel replies through the real DSH agent loop,
