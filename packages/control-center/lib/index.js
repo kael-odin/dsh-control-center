@@ -27,6 +27,7 @@ import { Unzip, UnzipInflate, UnzipPassThrough } from "fflate";
 import { defineDomain, domainTable } from "@deepseek-ai/dsh-storage-domain";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { Index } from "flexsearch";
 import { createServer } from "node:http";
 //#region lib/types/compatibility.js
 /** DSH package versions and exports required by the first Control Center release. */
@@ -10816,20 +10817,42 @@ var CompatService = class extends Service {
 //#endregion
 //#region lib/types/notes.js
 /**
-* Notes host service — Cherry NotesPage parity, v1.
+* Notes host service — Cherry NotesPage parity, v2 (full-text search).
 *
 * Cherry stores notes as plain Markdown files on disk (a root directory plus
 * relative paths; SQLite only carries tree metadata). We keep that philosophy:
 * files live under `<dsh home>/notes/`, readable by any tool, and the tree
-* metadata (starred flags) rides a settings namespace. Editing surface v1 is
-* plain-text Markdown; a rich editor is a later layer on the same storage.
+* metadata (starred flags) rides a settings namespace.
+* v2 adds a FlexSearch full-text index, maintained incrementally on every
+* write/create/rename/remove so search never needs a full rebuild.
 */
 const NOTES_NAMESPACE = settingsNamespace("control-center-notes");
 var NotesService = class extends Service {
 	static inject = ["settings"];
 	typertRemote = bindTypertRemote(this, "controlCenterNotes");
+	/** FlexSearch index for full-text search over Markdown content. The default
+	* latin encoder leaves CJK text unsearchable, so a custom encoder emits
+	* latin words plus CJK unigrams and bigrams. */
+	searchIndex = new Index({
+		resolution: 9,
+		context: false,
+		encode: (str) => {
+			const cjk = str.match(/[一-鿿]/g) ?? [];
+			const latin = str.toLowerCase().match(/[a-z0-9]+/g) ?? [];
+			const grams = [];
+			for (let i = 0; i < cjk.length; i++) {
+				const current = cjk[i];
+				if (current === void 0) continue;
+				const previous = cjk[i - 1];
+				if (previous !== void 0) grams.push(previous + current);
+				grams.push(current);
+			}
+			return [...latin, ...grams];
+		}
+	});
 	constructor(ctx) {
 		super(ctx, "controlCenterNotes");
+		this.rebuildIndex().catch(() => {});
 	}
 	notesRoot() {
 		const root = join(resolveDshHome(), "notes");
@@ -10855,7 +10878,15 @@ var NotesService = class extends Service {
 	async writeStarred(set) {
 		await this.ctx.settings.update(NOTES_NAMESPACE, { starred: [...set] });
 	}
-	/** One level of the tree (Cherry lists per root; v1 lists the whole root recursively, depth-capped). */
+	isDirectory(abs) {
+		try {
+			readdirSync(abs);
+			return true;
+		} catch {
+			return false;
+		}
+	}
+	/** Whole tree, depth-capped, newest-file order per directory. */
 	async tree() {
 		const root = this.notesRoot();
 		const starred = this.starredSet();
@@ -10872,12 +10903,7 @@ var NotesService = class extends Service {
 				if (name.startsWith(".")) continue;
 				const childAbs = join(abs, name);
 				const rel = relative(root, childAbs).replaceAll("\\", "/");
-				let isDir;
-				try {
-					isDir = readdirSync(childAbs) !== void 0;
-				} catch {
-					isDir = false;
-				}
+				const isDir = this.isDirectory(childAbs);
 				entries.push({
 					path: rel,
 					type: isDir ? "directory" : "file",
@@ -10898,7 +10924,7 @@ var NotesService = class extends Service {
 	async read(params) {
 		try {
 			const abs = this.safePath(params.path);
-			if (abs.endsWith(sep)) throw new Error("目录无法按笔记读取");
+			if (this.isDirectory(abs)) throw new Error("目录无法按笔记读取");
 			return {
 				ok: true,
 				value: { content: readFileSync(abs, "utf8") }
@@ -10915,6 +10941,7 @@ var NotesService = class extends Service {
 			const abs = this.safePath(params.path);
 			mkdirSync(join(abs, ".."), { recursive: true });
 			writeFileSync(abs, params.content, "utf8");
+			this.indexNote(params.path, params.content);
 			return {
 				ok: true,
 				value: { absent: true }
@@ -10932,7 +10959,9 @@ var NotesService = class extends Service {
 			if (params.directory === true) mkdirSync(abs, { recursive: true });
 			else {
 				mkdirSync(join(abs, ".."), { recursive: true });
-				writeFileSync(abs, `# ${params.path.replace(/\.md$/i, "").split("/").pop() ?? "笔记"}\n\n`, "utf8");
+				const initialContent = `# ${params.path.replace(/\.md$/i, "").split("/").pop() ?? "笔记"}\n\n`;
+				writeFileSync(abs, initialContent, "utf8");
+				this.indexNote(params.path, initialContent);
 			}
 			return {
 				ok: true,
@@ -10954,6 +10983,10 @@ var NotesService = class extends Service {
 			const starred = this.starredSet();
 			if (starred.delete(params.from)) starred.add(params.to);
 			await this.writeStarred(starred);
+			if (!this.isDirectory(to)) {
+				this.searchIndex.remove(params.from);
+				this.indexNote(params.to, readFileSync(to, "utf8"));
+			}
 			return {
 				ok: true,
 				value: { absent: true }
@@ -10969,6 +11002,7 @@ var NotesService = class extends Service {
 		try {
 			const abs = this.safePath(params.path);
 			rmSync(abs, { recursive: params.directory === true });
+			if (params.directory !== true) this.searchIndex.remove(params.path);
 			const starred = this.starredSet();
 			if (starred.delete(params.path)) await this.writeStarred(starred);
 			return {
@@ -10991,6 +11025,59 @@ var NotesService = class extends Service {
 			ok: true,
 			value: { starred: starred.has(params.path) }
 		};
+	}
+	/** Full-text search over note content; returns paths with a matching-line snippet. */
+	async search(params) {
+		const query = params.query.trim();
+		if (query.length === 0) return {
+			ok: true,
+			value: []
+		};
+		const limit = params.limit ?? 20;
+		return {
+			ok: true,
+			value: this.searchIndex.search(query, { limit }).map((path) => ({
+				path,
+				snippet: this.extractSnippet(path, query)
+			}))
+		};
+	}
+	/** Rebuild the index from every .md file under the root. */
+	async rebuildIndex() {
+		this.searchIndex.clear();
+		const walk = (abs) => {
+			let names;
+			try {
+				names = readdirSync(abs);
+			} catch {
+				return;
+			}
+			for (const name of names) {
+				if (name.startsWith(".")) continue;
+				const childAbs = join(abs, name);
+				if (this.isDirectory(childAbs)) walk(childAbs);
+				else if (name.endsWith(".md")) {
+					const rel = relative(this.notesRoot(), childAbs).replaceAll("\\", "/");
+					try {
+						this.indexNote(rel, readFileSync(childAbs, "utf8"));
+					} catch {}
+				}
+			}
+		};
+		walk(this.notesRoot());
+	}
+	indexNote(path, content) {
+		this.searchIndex.add(path, content);
+	}
+	extractSnippet(path, query) {
+		try {
+			const content = readFileSync(this.safePath(path), "utf8");
+			const lowerQuery = query.toLowerCase();
+			for (const line of content.split("\n")) if (line.toLowerCase().includes(lowerQuery)) return line.trim().slice(0, 160);
+			return content.slice(0, 160);
+		} catch {
+			return "";
+		}
 	}
 };
 //#endregion
@@ -11025,6 +11112,10 @@ const notesRemote = {
 		},
 		{
 			method: "toggleStar",
+			parameters: ["params"]
+		},
+		{
+			method: "search",
 			parameters: ["params"]
 		}
 	].map(({ method, parameters }) => ({

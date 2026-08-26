@@ -1,6 +1,17 @@
-/** Notes types + typert namespace (shared between Host and Client). */
-import type { NotesEntry, NotesTree } from './notes.ts';
-export type { NotesEntry, NotesTree };
+/** Shared notes types between the host service and the client workspace. */
+export interface NotesEntry {
+    path: string;
+    type: 'file' | 'directory';
+    starred: boolean;
+}
+export interface NotesTree {
+    root: string;
+    entries: NotesEntry[];
+}
+export interface NoteSearchHit {
+    path: string;
+    snippet: string;
+}
 declare module '@deepseek-ai/dsh-typert-protocol' {
     interface TypertRemoteNamespaceMap {
         controlCenterNotes: {
@@ -74,6 +85,13 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                 value: {
                     starred: boolean;
                 };
+            }>;
+            search(params: {
+                query: string;
+                limit?: number;
+            }): Promise<{
+                ok: true;
+                value: NoteSearchHit[];
             }>;
         };
     }

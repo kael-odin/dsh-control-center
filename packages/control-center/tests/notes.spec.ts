@@ -83,3 +83,27 @@ describe('NotesService (v1)', () => {
     expect(existsSync(join(home, 'notes', 'dir'))).toBe(false)
   })
 })
+
+describe('NotesService full-text search (v2)', () => {
+  it('indexes content on write and returns matching paths with snippets', async () => {
+    const service = makeService()
+    await service.create({ path: 'alpha.md' })
+    await service.write({ path: 'alpha.md', content: '# Alpha\n\n量子计算入门笔记' })
+    await service.write({ path: 'beta.md', content: '# Beta\n\n关于量子的进一步思考' })
+
+    // FlexSearch tokenizes on word boundaries; give the index a tick.
+    await new Promise(resolve => setTimeout(resolve, 20))
+
+    const hits = await service.search({ query: '量子' })
+    expect(hits.ok).toBe(true)
+    if (!hits.ok) return
+    expect(hits.value.map(h => h.path).sort()).toEqual(['alpha.md', 'beta.md'])
+    expect(hits.value[0]?.snippet).toContain('量子')
+  })
+
+  it('returns empty for a blank query', async () => {
+    const service = makeService()
+    const hits = await service.search({ query: '   ' })
+    expect(hits).toEqual({ ok: true, value: [] })
+  })
+})

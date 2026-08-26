@@ -1,11 +1,12 @@
 /**
- * Notes host service — Cherry NotesPage parity, v1.
+ * Notes host service — Cherry NotesPage parity, v2 (full-text search).
  *
  * Cherry stores notes as plain Markdown files on disk (a root directory plus
  * relative paths; SQLite only carries tree metadata). We keep that philosophy:
  * files live under `<dsh home>/notes/`, readable by any tool, and the tree
- * metadata (starred flags) rides a settings namespace. Editing surface v1 is
- * plain-text Markdown; a rich editor is a later layer on the same storage.
+ * metadata (starred flags) rides a settings namespace.
+ * v2 adds a FlexSearch full-text index, maintained incrementally on every
+ * write/create/rename/remove so search never needs a full rebuild.
  */
 import { Service } from '@deepseek-ai/cordis';
 import type { Context } from '@deepseek-ai/cordis';
@@ -19,6 +20,10 @@ export interface NotesTree {
     root: string;
     entries: NotesEntry[];
 }
+export interface NoteSearchHit {
+    path: string;
+    snippet: string;
+}
 declare module '@deepseek-ai/cordis' {
     interface Context {
         controlCenterNotes: NotesService;
@@ -27,13 +32,18 @@ declare module '@deepseek-ai/cordis' {
 export declare class NotesService extends Service {
     static inject: readonly ["settings"];
     readonly typertRemote: import("@deepseek-ai/dsh-typert-protocol").TypertGatewayBinding<this>;
+    /** FlexSearch index for full-text search over Markdown content. The default
+     * latin encoder leaves CJK text unsearchable, so a custom encoder emits
+     * latin words plus CJK unigrams and bigrams. */
+    private readonly searchIndex;
     constructor(ctx: Context);
     private notesRoot;
     /** Rejects traversal: the relative path must stay inside the notes root. */
     private safePath;
     private starredSet;
     private writeStarred;
-    /** One level of the tree (Cherry lists per root; v1 lists the whole root recursively, depth-capped). */
+    private isDirectory;
+    /** Whole tree, depth-capped, newest-file order per directory. */
     tree(): Promise<{
         ok: true;
         value: NotesTree;
@@ -105,5 +115,17 @@ export declare class NotesService extends Service {
             starred: boolean;
         };
     }>;
+    /** Full-text search over note content; returns paths with a matching-line snippet. */
+    search(params: {
+        query: string;
+        limit?: number;
+    }): Promise<{
+        ok: true;
+        value: NoteSearchHit[];
+    }>;
+    /** Rebuild the index from every .md file under the root. */
+    private rebuildIndex;
+    private indexNote;
+    private extractSnippet;
 }
 //# sourceMappingURL=notes.d.ts.map

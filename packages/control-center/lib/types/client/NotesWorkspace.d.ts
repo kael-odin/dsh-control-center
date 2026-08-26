@@ -1,12 +1,12 @@
 /**
- * Notes workspace (Cherry NotesPage parity, v1): a Markdown file tree on the
- * left, a plain-text editor on the right with autosave. Files live on disk
- * under `<dsh home>/notes/` — the file IS the source of truth, exactly like
- * Cherry. The rich (Tiptap-style) editing layer is a later increment on the
- * same storage; v1 ships the full CRUD + star + autosave loop.
+ * Notes workspace (Cherry NotesPage parity, v2): Markdown file tree, full-text
+ * search, and a Tiptap rich-text editor that round-trips Markdown. Files stay
+ * on disk under `<dsh home>/notes/` — the file IS the source of truth, exactly
+ * like Cherry. The editor loads Markdown through a markdown Tiptap extension
+ * set and serializes back to Markdown on save.
  */
 import type { ReactNode } from 'react';
-import type { NotesTree } from '../notes-types.ts';
+import type { NotesTree, NoteSearchHit } from '../notes-types.ts';
 export interface NotesWorkspaceInjected {
     notes: {
         tree(): Promise<{
@@ -79,6 +79,13 @@ export interface NotesWorkspaceInjected {
             value: {
                 starred: boolean;
             };
+        }>;
+        search(params: {
+            query: string;
+            limit?: number;
+        }): Promise<{
+            ok: true;
+            value: NoteSearchHit[];
         }>;
     };
 }

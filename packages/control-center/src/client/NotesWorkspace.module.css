@@ -124,15 +124,142 @@
 
 .editor {
   flex: 1;
-  resize: none;
+  overflow-y: auto;
   border: none;
   outline: none;
   padding: 16px 18px;
   background: transparent;
   color: var(--foreground);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.editor :global(.tiptap) {
+  outline: none;
+  min-height: 100%;
+}
+
+.editor :global(.tiptap p.is-editor-empty:first-child::before) {
+  content: attr(data-placeholder);
+  float: left;
+  color: var(--muted-foreground);
+  pointer-events: none;
+  height: 0;
+}
+
+.editor :global(.tiptap h1),
+.editor :global(.tiptap h2),
+.editor :global(.tiptap h3) {
+  margin: 14px 0 8px;
+  font-weight: 600;
+}
+
+.editor :global(.tiptap h1) { font-size: 22px; }
+.editor :global(.tiptap h2) { font-size: 18px; }
+.editor :global(.tiptap h3) { font-size: 16px; }
+
+.editor :global(.tiptap ul),
+.editor :global(.tiptap ol) {
+  padding-left: 24px;
+  margin: 6px 0;
+}
+
+.editor :global(.tiptap code) {
+  background: var(--muted);
+  border-radius: 3px;
+  padding: 1px 4px;
   font-family: var(--ds-font-family-code, monospace);
   font-size: 13px;
-  line-height: 1.7;
+}
+
+.editor :global(.tiptap pre) {
+  background: var(--muted);
+  border-radius: 6px;
+  padding: 10px 12px;
+  overflow-x: auto;
+}
+
+.editor :global(.tiptap blockquote) {
+  border-left: 3px solid var(--border);
+  margin: 8px 0;
+  padding-left: 12px;
+  color: var(--muted-foreground);
+}
+
+.editor :global(.tiptap a) {
+  color: var(--link, var(--primary));
+  text-decoration: underline;
+}
+
+.editor :global(.tiptap table) {
+  border-collapse: collapse;
+  margin: 10px 0;
+  width: 100%;
+}
+
+.editor :global(.tiptap th),
+.editor :global(.tiptap td) {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+}
+
+.searchBox {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--foreground);
+  padding: 5px 8px;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.searchBox:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.searchHint {
+  font-size: 11px;
+  color: var(--muted-foreground);
+  padding: 4px 6px;
+}
+
+.searchResults {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.searchItem {
+  text-align: left;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  padding: 6px;
+  cursor: pointer;
+}
+
+.searchItem:hover {
+  background: var(--muted);
+}
+
+.searchTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--foreground);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.searchSnippet {
+  font-size: 11px;
+  color: var(--muted-foreground);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .empty {
