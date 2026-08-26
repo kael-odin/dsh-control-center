@@ -36,7 +36,10 @@ const expected = {
   shellHotkey: false,
 }
 
+// Drop ELECTRON_RUN_AS_NODE: shells spawned from an Electron host (agents,
+// VS Code terminals) leak it, and electron.exe would boot as plain node.
 const env = { ...process.env }
+delete env.ELECTRON_RUN_AS_NODE
 
 if (selfHost) {
   // Force the self-host path: the boot mode checks DSH_CONTROL_DESKTOP_SELF_HOST

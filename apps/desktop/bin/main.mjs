@@ -88,7 +88,9 @@ function startSelfHost(native) {
     env.DSH_DESKTOP_NATIVE_TOKEN = native.token
   }
   const dirPickerPatch = createDirectoryPickerPatch()
-  const args = ['web', ...(dirPickerPatch === undefined ? [] : ['--patch', dirPickerPatch]), '--port', '0']
+  // --no-open: the harness opens the system browser by default; the shell IS
+  // the browser surface, a second browser tab is pure noise.
+  const args = ['web', '--no-open', ...(dirPickerPatch === undefined ? [] : ['--patch', dirPickerPatch]), '--port', '0']
   const child = spawn(
     nodeBin,
     ['--import', 'tsx/esm', 'apps/cli/src/bin.ts', ...args],
@@ -864,6 +866,14 @@ async function boot() {
   let surfaceUrl = url
   const useExistingSurface = process.env.DSH_CONTROL_DESKTOP_SELF_HOST !== '1'
     && (process.env.DSH_CONTROL_DESKTOP_USE_EXISTING === '1' || process.env.DSH_CONTROL_DESKTOP_URL !== undefined)
+
+  // Window FIRST: the DSH boot takes seconds, and a taskbar-less wait reads as
+  // "启动非常慢". Show a local loading page immediately; the real surface URL
+  // swaps in below once the host reports ready.
+  const smoke = process.argv.includes('--e2e')
+  const showLoadingFirst = !smoke && !useExistingSurface
+  if (showLoadingFirst) createWindow(LOADING_PAGE_URL, native)
+
   if (useExistingSurface) {
     if (!(await isListening(url))) throw new Error(`configured DSH surface is unavailable: ${url}`)
     console.log(`[desktop] surface already listening at ${url}`)
@@ -890,7 +900,14 @@ async function boot() {
     }
   }
 
-  createWindow(surfaceUrl, native)
+  if (showLoadingFirst && mainWindow && !mainWindow.isDestroyed()) {
+    lastSurfaceUrl = surfaceUrl
+    mainWindow.loadURL(surfaceUrl).catch((error) => {
+      console.error(`[desktop] LOAD_URL_FAILED url=${surfaceUrl} error=${String(error && error.message)}`)
+    })
+  } else {
+    createWindow(surfaceUrl, native)
+  }
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow(surfaceUrl, native)
@@ -909,6 +926,20 @@ function withTimeout(promise, ms, message) {
     )
   })
 }
+
+/** Local branded loading page shown while the DSH host boots. */
+const LOADING_PAGE_URL = `data:text/html;charset=utf-8,${encodeURIComponent(`<!doctype html>
+<html><head><meta charset="utf-8"><title>DSH Control Center</title><style>
+  html,body{margin:0;height:100%;background:#0f1115;color:#9aa4b2;
+    font-family:"Segoe UI",system-ui,sans-serif;display:flex;align-items:center;justify-content:center}
+  .box{text-align:center}
+  .ring{width:42px;height:42px;margin:0 auto 18px;border-radius:50%;
+    border:3px solid #2a2f3a;border-top-color:#5b8cff;animation:spin 0.9s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .t{font-size:14px;letter-spacing:0.02em}
+  .s{font-size:12px;margin-top:8px;color:#5b6472}
+</style></head><body><div class="box"><div class="ring"></div>
+<div class="t">正在启动 DSH 服务…</div><div class="s">首次启动需要初始化运行环境</div></div></body></html>`)}`
 
 app.on('before-quit', () => {
   app.isQuiting = true

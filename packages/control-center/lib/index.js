@@ -26,6 +26,7 @@ import { PaddleOCRClient } from "@paddleocr/api-sdk";
 import { Unzip, UnzipInflate, UnzipPassThrough } from "fflate";
 import { defineDomain, domainTable } from "@deepseek-ai/dsh-storage-domain";
 import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 //#region lib/types/compatibility.js
 /** DSH package versions and exports required by the first Control Center release. */
 const SUPPORTED_DSH_VERSION = "0.1.1-rc.2";
@@ -10018,7 +10019,7 @@ var SystemService = class extends Service {
 		throw new Error("DSH_HARNESS_DIR is not configured; set it to the official deepseek-harness checkout");
 	}
 	packageRoot() {
-		return new URL("..", import.meta.url).pathname;
+		return fileURLToPath(new URL("..", import.meta.url));
 	}
 	[Symbol.dispose]() {}
 };
@@ -10722,7 +10723,7 @@ var UpdateService = class extends Service {
 		}
 	}
 	packageRoot() {
-		return new URL("..", import.meta.url).pathname;
+		return fileURLToPath(new URL("..", import.meta.url));
 	}
 	[Symbol.dispose]() {}
 };

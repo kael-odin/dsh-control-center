@@ -45160,7 +45160,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-BFggrd8r.js");
+				const { SSEClientTransport } = await import("./sse-Dzm5LqXJ.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -45182,7 +45182,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-ymSVqXoj.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-B7JwSjTc.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -51981,7 +51981,7 @@ var SystemService = class extends Service {
 		throw new Error("DSH_HARNESS_DIR is not configured; set it to the official deepseek-harness checkout");
 	}
 	packageRoot() {
-		return new URL("..", import.meta.url).pathname;
+		return fileURLToPath(new URL("..", import.meta.url));
 	}
 	[Symbol.dispose]() {}
 };
@@ -52674,7 +52674,7 @@ var UpdateService = class extends Service {
 		}
 	}
 	packageRoot() {
-		return new URL("..", import.meta.url).pathname;
+		return fileURLToPath(new URL("..", import.meta.url));
 	}
 	[Symbol.dispose]() {}
 };

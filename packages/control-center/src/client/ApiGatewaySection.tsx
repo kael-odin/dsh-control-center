@@ -1,7 +1,9 @@
 /**
- * API gateway settings — Cherry ApiGatewaySettings parity: status, start/stop
- * restart, URL/port/API key fields. The gateway is a local HTTP service; web
- * edition shows the full UI with honest desktop-only notices.
+ * API gateway settings — Cherry ApiGatewaySettings parity for the CONFIG
+ * half (port / API key / auth header, persisted locally so a future gateway
+ * process can consume them). The gateway RUNTIME itself is not implemented
+ * yet: no fake start/stop buttons — the status card says so honestly
+ * (migration principle 2: 未实现的能力不展示假开关).
  */
 import { useEffect, useState } from 'react'
 import { IconCopyOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
@@ -56,15 +58,11 @@ export function ApiGatewaySection() {
     update({ apiKey: key })
   }
 
-  const action = (): void => {
-    // Desktop build wires this to the gateway process; web notes it honestly.
-    window.alert('API 网关是本地 HTTP 服务，需要桌面版。')
-  }
-
   return (
     <SettingsPageShell>
       <div className={css.notice}>
-        通过 OpenAI 和 Anthropic 兼容的 HTTP API 暴露 Control Center 的 AI 功能——网关服务需要桌面版运行。
+        通过 OpenAI 和 Anthropic 兼容的 HTTP API 暴露 Control Center 的 AI 功能。
+        网关运行时尚未实装——下方端口与密钥为预存配置，实装后将直接生效。
       </div>
 
       <SettingGroup>
@@ -72,9 +70,7 @@ export function ApiGatewaySection() {
           <span>API 网关</span>
           <div className={css.statusRow}>
             <span className={`${css.statusDot} ${css.statusStopped}`} />
-            <span className={css.statusText}>已停止</span>
-            <button type="button" className={css.outlineBtn} onClick={action}>启动</button>
-            <button type="button" className={css.ghostBtn} onClick={action}>重启</button>
+            <span className={css.statusText}>未实装</span>
           </div>
         </div>
         <SettingDivider />
@@ -120,7 +116,7 @@ export function ApiGatewaySection() {
             {copied !== null && <span className={css.copied}>已复制</span>}
           </div>
         </SettingRow>
-        <div className={css.docLink}>API 文档</div>
+        {/* API 文档链接随网关实装一并提供 */}
       </SettingGroup>
     </SettingsPageShell>
   )

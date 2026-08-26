@@ -11,6 +11,7 @@ import { join } from 'node:path'
 import { homedir, platform, release, arch } from 'node:os'
 import { spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
+import { fileURLToPath } from 'node:url'
 import { resolveDshHome } from '@deepseek-ai/dsh-home-paths'
 import type { EnvCheckEntry, PluginInventory, PluginOperation, PluginOperationResult } from './system-types.ts'
 import { drainPluginLogs, type PluginLogEntry } from './log-ring.ts'
@@ -221,7 +222,8 @@ export class SystemService extends Service {
   }
 
   private packageRoot(): string {
-    return new URL('..', import.meta.url).pathname
+    // fileURLToPath, not URL.pathname — see update.ts for the Windows pitfall.
+    return fileURLToPath(new URL('..', import.meta.url))
   }
 
   [Symbol.dispose]() {

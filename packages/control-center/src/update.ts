@@ -11,6 +11,7 @@ import { defineDomain, domainTable } from '@deepseek-ai/dsh-storage-domain'
 import type { DomainFacility, KvTable } from '@deepseek-ai/dsh-storage-domain'
 import { z } from 'zod'
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import { homedir } from 'node:os'
 import { join } from 'node:path'
 
@@ -327,7 +328,10 @@ export class UpdateService extends Service {
   }
 
   private packageRoot(): string {
-    return new URL('..', import.meta.url).pathname
+    // fileURLToPath, not URL.pathname: on Windows the pathname keeps a leading
+    // slash (/D:/…) which readFileSync cannot open — the version then silently
+    // fell back to 0.1.0 and the update check always offered an upgrade.
+    return fileURLToPath(new URL('..', import.meta.url))
   }
 
   [Symbol.dispose]() {
