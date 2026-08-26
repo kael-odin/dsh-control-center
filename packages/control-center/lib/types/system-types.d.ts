@@ -104,6 +104,14 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     details: object;
                 };
             }>;
+            collectDiagnosticLogs(): Promise<{
+                ok: true;
+                value: Array<{
+                    time: string;
+                    level: string;
+                    message: string;
+                }>;
+            }>;
         };
     }
 }

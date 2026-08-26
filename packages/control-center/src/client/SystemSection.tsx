@@ -83,6 +83,14 @@ export function AboutSection({ getSystem, getBridge, getUpdate, getCompat, useSy
     } catch {
       // best-effort
     }
+    // Plugin log ring — the bundle's third source alongside system + browser.
+    let pluginLogs: Array<{ time: string; level: string; message: string }> | undefined
+    try {
+      const logResult = await system!.collectDiagnosticLogs()
+      if (logResult.ok) pluginLogs = logResult.value.slice(-200)
+    } catch {
+      // best-effort
+    }
     const bridge = getBridge?.()
     let channels: { status: Array<Record<string, unknown>>; logs: Record<string, string[]> } | undefined
     if (bridge !== undefined) {
@@ -122,6 +130,7 @@ export function AboutSection({ getSystem, getBridge, getUpdate, getCompat, useSy
       },
       channels,
       capabilities,
+      pluginLogs,
       diagnostic,
     }
     const blob = new Blob([JSON.stringify(bundle, null, 2)], { type: 'application/json' })

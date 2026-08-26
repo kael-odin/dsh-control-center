@@ -13,6 +13,7 @@ import { spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
 import { resolveDshHome } from '@deepseek-ai/dsh-home-paths'
 import type { EnvCheckEntry, PluginInventory, PluginOperation, PluginOperationResult } from './system-types.ts'
+import { drainPluginLogs, type PluginLogEntry } from './log-ring.ts'
 
 function resolveProfileDir(profile: string): string {
   if (!/^[A-Za-z0-9._-]+$/.test(profile) || profile === '.' || profile === '..') throw new Error('invalid profile name')
@@ -95,6 +96,11 @@ export class SystemService extends Service {
       dshHome: resolveDshHome(),
       hostname: homedir(),
     }
+  }
+
+  /** The plugin's own log ring — the diagnostic bundle's third source. */
+  async collectDiagnosticLogs(): Promise<{ ok: true; value: PluginLogEntry[] }> {
+    return { ok: true, value: drainPluginLogs() }
   }
 
   async listDependencies(): Promise<DependencyEntry[]> {

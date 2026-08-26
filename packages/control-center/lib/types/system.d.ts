@@ -5,6 +5,7 @@
 import { Service } from '@deepseek-ai/cordis';
 import type { Context } from '@deepseek-ai/cordis';
 import type { EnvCheckEntry, PluginInventory, PluginOperation, PluginOperationResult } from './system-types.ts';
+import { type PluginLogEntry } from './log-ring.ts';
 export interface SystemInfo {
     controlCenterVersion: string;
     dshSupportedVersion: string;
@@ -30,6 +31,11 @@ export declare class SystemService extends Service {
         logger?: Context['logger'];
     });
     getInfo(): Promise<SystemInfo>;
+    /** The plugin's own log ring — the diagnostic bundle's third source. */
+    collectDiagnosticLogs(): Promise<{
+        ok: true;
+        value: PluginLogEntry[];
+    }>;
     listDependencies(): Promise<DependencyEntry[]>;
     checkDependencies(): Promise<EnvCheckEntry[]>;
     listPlugins(profile: string): Promise<PluginInventory>;

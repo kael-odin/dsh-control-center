@@ -35,6 +35,7 @@ import tasksRemote from './tasks-remote-client.ts'
 import { LocalModelsService } from './local-models.ts'
 import { UpdateService } from './update.ts'
 import { CompatService } from './compat-probe.ts'
+import { installLogRing } from './log-ring.ts'
 import { localModelsRemote, updateRemote, compatRemote } from './local-models-remote-client.ts'
 import { DesktopService } from './desktop.ts'
 import desktopRemote from './desktop-remote-client.ts'
@@ -158,6 +159,7 @@ export const inject = ['typert', 'settings']
 /** Reject incompatible DSH packages, then restore the onboarding namespace. */
 export function apply(ctx: Context): void {
   assertCompatibleDsh()
+  installLogRing(ctx)
   new TranslationService(ctx)
   new PaintingService(ctx)
   new KnowledgeService(ctx)

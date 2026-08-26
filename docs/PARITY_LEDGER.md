@@ -48,7 +48,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 自动化 | Selection Assistant | ✅ | 选择工具/快捷键/动作列表 |
 | 自动化 | Screenshot | ✅ | 启用/快捷键/OCR 开关 |
 | 系统 | Dependencies | ⚠️ | 契约包版本列表 + **环境工具检测（ffmpeg/tesseract/git 存在性+版本，host which/where 探测，2026-08-24）**。缺：Node 版本行（getInfo 已有 nodeVersion，可并入） |
-| 系统 | About | ⚠️ | 版本/兼容/环境/诊断复制 + **诊断包导出（JSON bundle含系统信息+浏览器环境+频道状态/日志+能力探测表，2026-08-24/26）** + 检查更新 + **下载更新包（2026-08-26，§2.A 引导式：release tgz 校验后存 DSH storage-domain）** + **发布说明内嵌页（2026-08-26，见顶层对照表）** + **链接组**。缺：安装步骤自动化（当前引导 dsh plugin install）、诊断日志包（logs/system/traces 三源）、企业/联系外链 |
+| 系统 | About | ⚠️ | 版本/兼容/环境/诊断复制 + **诊断包导出（2026-08-26 起四源：系统信息+浏览器环境+频道状态/日志+能力探测表+插件日志环）** + 检查更新 + **下载更新包（§2.A）** + **发布说明内嵌页** + **链接组**。缺：安装步骤自动化（当前引导 dsh plugin install）、企业/联系外链。注：Cherry 的 traces 源对应为能力探测表；宿主 stdout 日志 DSH 不落盘，以插件日志环替代 |
 
 ---
 

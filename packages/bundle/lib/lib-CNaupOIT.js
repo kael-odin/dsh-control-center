@@ -29289,7 +29289,7 @@ var SessionQueryError = class extends HarnessError {
 	}
 };
 //#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-subagent@0_918ef845fac01ef52cc0c45788b6b11a/node_modules/@deepseek-ai/dsh-subagent/lib/index.js
+//#region node_modules/.pnpm/@deepseek-ai+dsh-subagent@0_be3687f9d9b308d6d46c070238231d06/node_modules/@deepseek-ai/dsh-subagent/lib/index.js
 /**
 * Typed failures shared by subagent service and provider operations.
 *
@@ -36821,7 +36821,7 @@ const runNativeCommand = (command, args, signal) => new Promise((resolve, reject
 	});
 });
 //#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-host-apipr_35d3e7778191a1b6dd4e64ff307314db/node_modules/@deepseek-ai/dsh-host-apiproxy/lib/index.js
+//#region node_modules/.pnpm/@deepseek-ai+dsh-host-apipr_a189c40db8dfe7dafe81e46787882204/node_modules/@deepseek-ai/dsh-host-apiproxy/lib/index.js
 /**
 * Host-side session-log download: streams one ZIP archive whose files are the
 * sessions' stored artifact text verbatim plus every referenced media object.
@@ -42074,6 +42074,17 @@ var lib_exports = /* @__PURE__ */ __exportAll({
 /** DSH package versions and exports required by the first Control Center release. */
 const SUPPORTED_DSH_VERSION = "0.1.1-rc.2";
 const DSH_SOURCE_BASELINE = "b150a551b8";
+/**
+* PLUGINIZATION §1.2: the supported DSH version window rather than one pinned
+* string. Any 0.1.x release (including later rcs) satisfies the contract
+* check; a new minor triggers a deliberate compatibility review before the
+* window widens. Keep this in lockstep with the peerDependencies range.
+*/
+const SUPPORTED_DSH_RANGE = /^0\.1\.\d+/;
+/** Whether a resolved DSH package version falls inside the support window. */
+function isSupportedDshVersion(version) {
+	return SUPPORTED_DSH_RANGE.test(version);
+}
 const REQUIRED_PACKAGES = [
 	{
 		name: "@deepseek-ai/dsh-api-remotes",
@@ -42170,8 +42181,8 @@ function assertCompatibleDsh(requireFrom = profileRequire()) {
 			continue;
 		}
 		const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
-		if (manifest.name !== required.name || manifest.version !== "0.1.1-rc.2") {
-			problems.push(`DSH Control Center is incompatible with ${required.name}: expected ${SUPPORTED_DSH_VERSION}, resolved ${String(manifest.version)}. Supported DSH source baseline: ${DSH_SOURCE_BASELINE}.`);
+		if (manifest.name !== required.name || typeof manifest.version !== "string" || !isSupportedDshVersion(manifest.version)) {
+			problems.push(`DSH Control Center is incompatible with ${required.name}: expected a version in the ${SUPPORTED_DSH_VERSION} window (0.1.x), resolved ${String(manifest.version)}. Supported DSH source baseline: ${DSH_SOURCE_BASELINE}.`);
 			continue;
 		}
 		if (typeof manifest.exports !== "object" || manifest.exports["./package.json"] === void 0) {
@@ -45028,7 +45039,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-CK-YdnLB.js");
+				const { SSEClientTransport } = await import("./sse-CUWncGwb.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -45050,7 +45061,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-C93T_qwC.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-D67nTl3z.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -51459,6 +51470,58 @@ const dataRemote = {
 	}))
 };
 /**
+* Plugin-side diagnostic log ring (About 诊断日志包 third source). The DSH
+* host logs to stdout only, so a support bundle cannot read host files; the
+* next best source is the plugin's own view of every logger call it makes.
+* A module-level ring keeps the last N entries; the system page drains it
+* into the downloadable diagnostic bundle.
+*/
+const RING_CAPACITY = 500;
+const ring = [];
+/** Mirror one logger call into the ring. Long payloads are truncated. */
+function recordPluginLog(level, parts) {
+	const message = parts.map((part) => {
+		if (typeof part === "string") return part;
+		try {
+			return JSON.stringify(part);
+		} catch {
+			return String(part);
+		}
+	}).join(" ").slice(0, 2e3);
+	ring.push({
+		time: (/* @__PURE__ */ new Date()).toISOString(),
+		level,
+		message
+	});
+	if (ring.length > RING_CAPACITY) ring.splice(0, ring.length - RING_CAPACITY);
+}
+/** Newest-last copy of the ring for the diagnostic bundle. */
+function drainPluginLogs() {
+	return [...ring];
+}
+/**
+* Wrap the context logger so every debug/info/warn/error the plugin emits is
+* mirrored into the ring. The original methods still run first — this is a
+* tap, never a replacement.
+*/
+function installLogRing(ctx) {
+	const logger = ctx.logger;
+	if (typeof logger !== "object" || logger === null) return;
+	for (const level of [
+		"debug",
+		"info",
+		"warn",
+		"error"
+	]) {
+		const original = logger[level];
+		if (typeof original !== "function") continue;
+		logger[level] = (...parts) => {
+			original.apply(logger, parts);
+			recordPluginLog(level, parts);
+		};
+	}
+}
+/**
 * System & Diagnostics Host service: versions, compatibility, dependencies,
 * and environment info for the About / Dependencies / Diagnostics pages.
 */
@@ -51551,6 +51614,13 @@ var SystemService = class extends Service {
 			nodeVersion: process.version,
 			dshHome: resolveDshHome(),
 			hostname: homedir()
+		};
+	}
+	/** The plugin's own log ring — the diagnostic bundle's third source. */
+	async collectDiagnosticLogs() {
+		return {
+			ok: true,
+			value: drainPluginLogs()
 		};
 	}
 	async listDependencies() {
@@ -51725,6 +51795,10 @@ const systemRemote = {
 				"operation",
 				"spec"
 			]
+		},
+		{
+			method: "collectDiagnosticLogs",
+			parameters: []
 		}
 	].map(({ method, parameters }) => ({
 		id: `@dsh-control-center/control-center#controlCenterSystem/${method}`,
@@ -53344,6 +53418,7 @@ const inject = ["typert", "settings"];
 /** Reject incompatible DSH packages, then restore the onboarding namespace. */
 function apply(ctx) {
 	assertCompatibleDsh();
+	installLogRing(ctx);
 	new TranslationService(ctx);
 	new PaintingService(ctx);
 	new KnowledgeService(ctx);

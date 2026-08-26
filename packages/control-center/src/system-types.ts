@@ -49,6 +49,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
       checkDependencies(): Promise<{ ok: true; value: EnvCheckEntry[] } | { ok: false; error: { code: string; message: string; details: object } }>
       listPlugins(profile: string): Promise<{ ok: true; value: PluginInventory } | { ok: false; error: { code: string; message: string; details: object } }>
       managePlugin(profile: string, operation: PluginOperation, spec: string): Promise<{ ok: true; value: PluginOperationResult } | { ok: false; error: { code: string; message: string; details: object } }>
+      collectDiagnosticLogs(): Promise<{ ok: true; value: Array<{ time: string; level: string; message: string }> }>
     }
   }
 }

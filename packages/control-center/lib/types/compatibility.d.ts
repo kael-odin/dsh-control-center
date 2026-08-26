@@ -1,5 +1,7 @@
 export declare const SUPPORTED_DSH_VERSION = "0.1.1-rc.2";
 export declare const DSH_SOURCE_BASELINE = "b150a551b8";
+/** Whether a resolved DSH package version falls inside the support window. */
+export declare function isSupportedDshVersion(version: string): boolean;
 /**
  * Resolve DSH contract packages from the profile dependency root.
  *
