@@ -9114,8 +9114,17 @@ const DATA_NAMESPACES = [
 	"control-center-webdav-nutstore",
 	"control-center-s3"
 ].map((name) => settingsNamespace(name));
-/** Regex matching a backup file produced by backupToDirectory. */
-const BACKUP_FILE_PATTERN = /^dsh-control-center-\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z\.json$/;
+/** Regex matching a backup file produced by backupToDirectory. The short hex
+* suffix is optional so backups from before it existed still restore. */
+const BACKUP_FILE_PATTERN = /^dsh-control-center-\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z(?:-[0-9a-f]{4})?\.json$/;
+/**
+* Collision-proof backup file name. Two backups can legitimately land in the
+* same millisecond (small payloads on a fast host), and a bare timestamp
+* would silently overwrite the first — so every name carries a random suffix.
+*/
+function backupFileName(now = /* @__PURE__ */ new Date()) {
+	return `dsh-control-center-${now.toISOString().replace(/[:.]/g, "-").slice(0, 23) + "Z"}-${Math.floor(Math.random() * 65536).toString(16).padStart(4, "0")}.json`;
+}
 const S3_NS = settingsNamespace("control-center-s3");
 const S3_SCHEMA = Schema.object({
 	endpoint: Schema.string().default(""),
@@ -9292,7 +9301,7 @@ var DataService = class extends Service {
 	*/
 	async backupToDirectory(dir, maxBackups) {
 		try {
-			const fileName = `dsh-control-center-${(/* @__PURE__ */ new Date()).toISOString().replace(/[:.]/g, "-").slice(0, 23) + "Z"}.json`;
+			const fileName = backupFileName();
 			const filePath = join(dir, fileName);
 			const snapshot = await this.exportControlCenter();
 			writeFileSync(filePath, JSON.stringify(snapshot, null, 2), "utf8");
@@ -9393,7 +9402,7 @@ var DataService = class extends Service {
 	/** PUT a timestamped snapshot to the WebDAV collection. Returns the remote file name. */
 	async webdavBackup(vendor = "webdav") {
 		const config = await this.loadWebdavConfig(vendor);
-		const fileName = `dsh-control-center-${(/* @__PURE__ */ new Date()).toISOString().replace(/[:.]/g, "-").slice(0, 23) + "Z"}.json`;
+		const fileName = backupFileName();
 		const snapshot = await this.exportControlCenter();
 		const response = await fetch(webdavUrl(config, fileName), {
 			method: "PUT",
@@ -9502,7 +9511,7 @@ var DataService = class extends Service {
 	/** PUT a timestamped snapshot to the bucket. Returns the remote object name. */
 	async s3Backup() {
 		const config = await this.loadS3Config();
-		const fileName = `dsh-control-center-${(/* @__PURE__ */ new Date()).toISOString().replace(/[:.]/g, "-").slice(0, 23) + "Z"}.json`;
+		const fileName = backupFileName();
 		const snapshot = await this.exportControlCenter();
 		const response = await s3Request(config, "PUT", fileName, "", Buffer.from(JSON.stringify(snapshot, null, 2), "utf8"));
 		if (!response.ok && response.status !== 201 && response.status !== 204 && response.status !== 200) throw new Error(`S3 备份失败 (${response.status}) ${(await response.text()).slice(0, 200)}`);
