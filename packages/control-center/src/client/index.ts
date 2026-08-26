@@ -89,10 +89,10 @@ import { SelectionAssistantSection } from './SelectionAssistantSection.tsx'
 import { QuickAssistantSection } from './QuickAssistantSection.tsx'
 import { ScreenshotSection } from './ScreenshotSection.tsx'
 import { ChannelsSection } from './ChannelsSection.tsx'
-import type { ChannelsSectionInjected } from './ChannelsSection.tsx'
+import type { ChannelsSectionInjected, ChannelBridgeHandle } from './ChannelsSection.tsx'
+import type { AssistantRemote } from './assistant-store.ts'
 import { ChannelsStore } from './channels-store.ts'
 import { GeneralSettingsStore } from './general-store.ts'
-import type { ChannelBridgeHandle } from './ChannelsSection.tsx'
 import { SettingsDocumentAction } from './SettingsDocumentAction.tsx'
 import type { SettingsDocumentActionInjected } from './SettingsDocumentAction.tsx'
 import { refreshDocumentIfLoaded, SettingsDocumentStore } from './settings-document-store.ts'
@@ -856,6 +856,9 @@ export function apply(ctx: ClientContext): void {
     // closure's first evaluation, so the value must be resolved per call.
     getBridge: (): ChannelBridgeHandle | undefined =>
       channelBridge === undefined ? undefined : channelBridge as unknown as ChannelBridgeHandle,
+    // Agent-preset roster for the per-channel binding picker (same remote as
+    // Quick Assistant; undefined until mounted).
+    getAssistant: (): AssistantRemote | undefined => assistant,
   })
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',

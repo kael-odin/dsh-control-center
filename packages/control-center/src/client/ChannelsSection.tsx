@@ -39,6 +39,7 @@ export interface ChannelBridgeHandle {
   wechatQrPoll(channelId: string): Promise<{ ok: true; value: WechatLoginStateView } | { ok: false; error: { code: string; message: string; details: object } }>
 }
 import { CHANNEL_ICONS } from './channel-icons.ts'
+import type { AssistantRemote } from './assistant-store.ts'
 import css from './ChannelsSection.module.css'
 
 /** Injected dependencies delivered by the settings shell. */
@@ -48,6 +49,8 @@ export interface ChannelsSectionInjected {
   controller: ChannelsStore
   /** Lazy handle to the host channel bridge (undefined until mounted). */
   getBridge?: (() => ChannelBridgeHandle | undefined) | undefined
+  /** Lazy handle to the assistant prefs remote — agent-preset roster source. */
+  getAssistant?: (() => AssistantRemote | undefined) | undefined
 }
 
 /** Props delivered by the slot outlet (partial until injected). */
@@ -192,9 +195,9 @@ function summaryOf(channel: ChannelInstance): string {
  * notice) when the running host predates the namespace.
  */
 export function ChannelsSection(props: ChannelsSectionProps): ReactNode {
-  const { api, useChannels, controller, getBridge } = props
+  const { api, useChannels, controller, getBridge, getAssistant } = props
   if (api === undefined || useChannels === undefined || controller === undefined) return null
-  return <Loaded injected={{ api, useChannels, controller, getBridge }} />
+  return <Loaded injected={{ api, useChannels, controller, getBridge, getAssistant }} />
 }
 
 function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode {
@@ -215,6 +218,8 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
   const [formAgentProvider, setFormAgentProvider] = useState('')
   const [formAgentModel, setFormAgentModel] = useState('')
   const [formAgentSystemPrompt, setFormAgentSystemPrompt] = useState('')
+  const [formAgentPresetId, setFormAgentPresetId] = useState('')
+  const [agentPresets, setAgentPresets] = useState<ReadonlyArray<{ id: string; name: string; trust: 'system' | 'user'; isDefault: boolean }>>([])
   const [logsFor, setLogsFor] = useState<ChannelInstance | null>(null)
   const [bridgeStatuses, setBridgeStatuses] = useState<readonly ChannelBridgeStatus[]>([])
   const [logLines, setLogLines] = useState<string[]>([])
@@ -239,6 +244,17 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
       if (imported) void controller.load()
     })
   }, [state.status, available, controller])
+
+  // Agent-preset roster for the binding picker; loaded once the remote mounts.
+  useEffect(() => {
+    const assistant = injected.getAssistant?.()
+    if (assistant === undefined) return undefined
+    let stopped = false
+    void assistant.listAgentPresets().then((result) => {
+      if (!stopped && result.ok) setAgentPresets(result.value)
+    }, () => undefined)
+    return () => { stopped = true }
+  }, [injected.getAssistant])
 
   // Bridge status polling: the dots are real runtime states from the host.
   useEffect(() => {
@@ -361,6 +377,7 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
     setFormAgentProvider(typeof channel.config.agentProvider === 'string' ? channel.config.agentProvider : '')
     setFormAgentModel(typeof channel.config.agentModel === 'string' ? channel.config.agentModel : '')
     setFormAgentSystemPrompt(typeof channel.config.agentSystemPrompt === 'string' ? channel.config.agentSystemPrompt : '')
+    setFormAgentPresetId(typeof channel.config.agentPresetId === 'string' ? channel.config.agentPresetId : '')
     setIsNew(false)
   }
 
@@ -380,6 +397,9 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
     const agentSystemPrompt = formAgentSystemPrompt.trim()
     if (agentSystemPrompt.length > 0) config.agentSystemPrompt = agentSystemPrompt
     else delete config.agentSystemPrompt
+    const agentPresetId = formAgentPresetId.trim()
+    if (agentPresetId.length > 0) config.agentPresetId = agentPresetId
+    else delete config.agentPresetId
     const next = { ...editChannel, name: formName.trim() || editChannel.name, config, permissionMode: formPermission }
     persist(isNew ? [...(available ? state.instances : local), next] : (available ? state.instances : local).map(c => c.id === next.id ? next : c))
     setEditChannel(null)
@@ -575,6 +595,24 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
                   <div className={css.formField}>
                     <label>模型</label>
                     <input className={css.formInput} value={formAgentModel} onChange={e => { setFormAgentModel(e.target.value) }} placeholder="deepseek-v4-flash" />
+                  </div>
+                  <div className={css.formField}>
+                    <label>Agent 预设</label>
+                    <select
+                      className={css.formInput}
+                      value={formAgentPresetId}
+                      onChange={e => { setFormAgentPresetId(e.target.value) }}
+                    >
+                      <option value="">不指定（宿主默认组合）</option>
+                      {agentPresets.map(preset => (
+                        <option key={preset.id} value={preset.id}>
+                          {preset.name}{preset.isDefault ? '（默认）' : ''}{preset.trust === 'user' ? ' · 本地' : ''}
+                        </option>
+                      ))}
+                      {formAgentPresetId.length > 0 && !agentPresets.some(p => p.id === formAgentPresetId) && (
+                        <option value={formAgentPresetId}>{formAgentPresetId}（当前保存值）</option>
+                      )}
+                    </select>
                   </div>
                   <div className={css.formField}>
                     <label>系统提示词</label>

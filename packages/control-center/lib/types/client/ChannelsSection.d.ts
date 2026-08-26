@@ -73,6 +73,7 @@ export interface ChannelBridgeHandle {
         };
     }>;
 }
+import type { AssistantRemote } from './assistant-store.ts';
 /** Injected dependencies delivered by the settings shell. */
 export interface ChannelsSectionInjected {
     api: Pick<IApiClient, 'settings'>;
@@ -80,6 +81,8 @@ export interface ChannelsSectionInjected {
     controller: ChannelsStore;
     /** Lazy handle to the host channel bridge (undefined until mounted). */
     getBridge?: (() => ChannelBridgeHandle | undefined) | undefined;
+    /** Lazy handle to the assistant prefs remote — agent-preset roster source. */
+    getAssistant?: (() => AssistantRemote | undefined) | undefined;
 }
 /** Props delivered by the slot outlet (partial until injected). */
 export type ChannelsSectionProps = Partial<ChannelsSectionInjected>;
