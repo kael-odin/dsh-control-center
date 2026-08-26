@@ -1,10 +1,4 @@
-/**
- * File Processing / OCR settings section.
- *
- * One page per feature (document_to_markdown / image_to_text) over the
- * controlCenterFileProcessing Remote service, composed like Cherry's
- * ProcessorPanel: default-processor select + per-processor config cards.
- */
+/** Cherry-style document processing and OCR provider settings. */
 import type { TypertClientRemote } from '@deepseek-ai/dsh-typert-protocol';
 import type { FileProcessorFeature } from '../file-processing-types.ts';
 export interface ProcessorSectionProps {

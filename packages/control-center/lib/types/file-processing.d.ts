@@ -1,48 +1,82 @@
 /**
- * File Processing Host service: document → markdown and OCR (image → text)
- * processor catalog + configuration + conversion.
+ * File processing Host service.
  *
- * Config lives in the `control-center-file-processing` settings namespace.
- * Conversion is capability-gated: processors without configured credentials
- * report a clear error instead of pretending (spec: unsupported integrations
- * are presented accurately through capability detection).
+ * The service owns the safe settings projection, credential references, host
+ * capability checks, and the single dispatch path used by both RPC and the
+ * model-facing `read_document` tool.
  */
 import { Service } from '@deepseek-ai/cordis';
 import type { Context } from '@deepseek-ai/cordis';
-import type { FileProcessorEntry, FileProcessorFeature, FileProcessorId, FileProcessorOverride, FileConvertRequest, FileConvertResult } from './file-processing-types.ts';
-interface FileProcessingSettings {
-    defaultDocumentProcessor: FileProcessorId;
-    defaultImageProcessor: FileProcessorId;
-    overrides: Partial<Record<FileProcessorId, FileProcessorOverride>>;
-}
+import type { FileConvertRequest, FileConvertResult, FileProcessingConfigView, FileProcessingTaskResult, FileProcessingTaskView, FileProcessorEntry, FileProcessorFeature, FileProcessorId, FileProcessorOverrideInput } from './file-processing-types.ts';
+/** File processing service mounted by the Control Center host plugin. */
 export declare class FileProcessingService extends Service {
-    static inject: readonly ["settings"];
     readonly typertRemote: import("@deepseek-ai/dsh-typert-protocol").TypertGatewayBinding<this>;
-    private scope;
+    private readonly scope;
+    private taskStore;
+    private readonly taskControllers;
+    private readonly taskRuns;
+    private readonly taskSubmissions;
     constructor(ctx: Context, _config?: {
         logger?: Context['logger'];
     });
+    private stopTaskRuns;
+    private startTaskStore;
+    private requireTaskStore;
+    private taskArtifactPath;
+    private readTaskArtifact;
+    private credentials;
+    private fileSystem;
+    private subprocess;
+    private credentialRef;
+    private refsFor;
+    private migrateLegacySecrets;
+    private credentialViews;
+    private resolveApiKeyRef;
+    private resolveApiKey;
+    private resolveTaskApiKey;
+    private statusFor;
+    private catalogView;
+    private registerTool;
     listProcessors(): Promise<FileProcessorEntry[]>;
-    getConfig(): Promise<FileProcessingSettings>;
+    getConfig(): Promise<FileProcessingConfigView>;
     setDefault(feature: FileProcessorFeature, processor: FileProcessorId): Promise<{
         absent: true;
     }>;
-    setOverride(processor: FileProcessorId, override: FileProcessorOverride): Promise<{
+    setOverride(processor: FileProcessorId, override: FileProcessorOverrideInput): Promise<{
         absent: true;
     }>;
-    /**
-     * Convert a file with the configured processor. Capability-gated: local
-     * text extraction and OpenAI-compatible vision work now; cloud processors
-     * require their own credentials and report a precise error otherwise.
-     */
+    setApiKey(processor: FileProcessorId, slot: number, value: string): Promise<{
+        absent: true;
+    }>;
+    clearApiKey(processor: FileProcessorId, slot: number): Promise<{
+        absent: true;
+    }>;
     convert(request: FileConvertRequest): Promise<FileConvertResult>;
-    /** Conversion is confined to the DSH home (attachments, knowledge files). */
-    private confine;
-    /** Plain-text extraction for text documents (txt/md/code). */
-    private extractText;
-    /** OCR through an OpenAI-compatible vision model (chat/completions). */
-    private ocrViaVision;
+    listTasks(): Promise<FileProcessingTaskView[]>;
+    getTask(taskId: string): Promise<FileProcessingTaskView>;
+    getTaskResult(taskId: string): Promise<FileProcessingTaskResult>;
+    cancelTask(taskId: string): Promise<FileProcessingTaskView>;
+    private convertPath;
+    private resolveInput;
+    private dispatch;
+    private startRemoteDocumentTask;
+    private submitAndRunTask;
+    private startTaskRun;
+    private resumeRemoteTask;
+    private markTaskFailed;
+    private completeTask;
+    private runRemoteTask;
+    private submitRemoteTask;
+    private pollRemoteTask;
+    private pollPaddleDocument;
+    private pollMineruDocument;
+    private pollDoc2xDocument;
+    private downloadMarkdownArchive;
+    private localDocument;
+    private tesseract;
+    private mistral;
+    private paddleOcr;
+    private openMineru;
     [Symbol.dispose](): void;
 }
-export {};
 //# sourceMappingURL=file-processing.d.ts.map

@@ -6,7 +6,13 @@ const methods: ReadonlyArray<{ method: string; parameters: string[] }> = [
   { method: 'getConfig', parameters: [] },
   { method: 'setDefault', parameters: ['feature', 'processor'] },
   { method: 'setOverride', parameters: ['processor', 'override'] },
-  { method: 'convert', parameters: ['request'] }
+  { method: 'setApiKey', parameters: ['processor', 'slot', 'value'] },
+  { method: 'clearApiKey', parameters: ['processor', 'slot'] },
+  { method: 'convert', parameters: ['request'] },
+  { method: 'listTasks', parameters: [] },
+  { method: 'getTask', parameters: ['taskId'] },
+  { method: 'getTaskResult', parameters: ['taskId'] },
+  { method: 'cancelTask', parameters: ['taskId'] },
 ]
 
 /** Client descriptor contribution for the Control Center file-processing service. */
