@@ -13,6 +13,7 @@ import { useCallback, useEffect, useState } from 'react'
 import type { HostObservable, InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
 import type { DataExport, WebDavVendor } from '../data-types.ts'
+import { parseVendorConversations, renderArchiveMarkdown } from './vendor-import.ts'
 import {
   SettingDivider, SettingGroup, SettingRow, SettingRowTitle, SettingsPageShell, SettingSwitch, SettingTitle,
 } from './SettingsPages.tsx'
@@ -827,8 +828,35 @@ export function DataSection({ getData, getDesktop, getSystem, useDataReady, useD
     )
   }
 
-  /** 导入面板 */
+  /** 导入面板 — ChatGPT/Claude 导出转 Markdown 归档（DSH 无会话导入 RPC，诚实归档） */
   function ImportPanel() {
+    const [importState, setImportState] = useState<{ name: string; conversations: number } | null>(null)
+    const [importError, setImportError] = useState<string | null>(null)
+
+    const handleVendorImport = (file: File | undefined): void => {
+      setImportError(null)
+      setImportState(null)
+      if (file === undefined) return
+      void file.text().then((text) => {
+        const parsed = parseVendorConversations(file.name, text)
+        if (!parsed.ok) {
+          setImportError(parsed.error)
+          return
+        }
+        const markdown = renderArchiveMarkdown(parsed.value)
+        const blob = new Blob([markdown], { type: 'text/markdown' })
+        const url = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = url
+        link.download = `${file.name.replace(/\.json$/i, '')}-archive.md`
+        link.click()
+        URL.revokeObjectURL(url)
+        setImportState({ name: file.name, conversations: parsed.value.length })
+      }).catch((reason: unknown) => {
+        setImportError(reason instanceof Error ? reason.message : String(reason))
+      })
+    }
+
     return (
       <SettingsPageShell>
         <SettingGroup>
@@ -837,18 +865,38 @@ export function DataSection({ getData, getDesktop, getSystem, useDataReady, useD
           <div className={css.capabilityNotice}>
             <div className={css.capabilityNoticeIcon}>📋</div>
             <div className={css.capabilityNoticeText}>
-              Cherry Studio 支持从 ChatGPT 和 Claude 导入对话 JSON。当前平台暂不支持对话导入功能。
-              你可以使用上方的快照导入功能恢复完整的 Control Center 设置。
+              DSH 没有会话导入接口，第三方对话无法成为可继续聊天的原生会话。这里把 ChatGPT / Claude
+              导出 JSON 解析成 Markdown 归档下载——完整保留问答内容，可读可搜索。
+              你也可以使用下方的快照导入恢复完整的 Control Center 设置。
             </div>
           </div>
           <SettingDivider />
-          <div style={{ display: 'flex', gap: 8, paddingTop: 8 }}>
+          <div style={{ display: 'flex', gap: 8, paddingTop: 8, flexWrap: 'wrap' }}>
+            <label className="cc-btn cc-btn-secondary" style={{ cursor: 'pointer' }}>
+              导入 ChatGPT 对话 JSON
+              <input type="file" accept="application/json,.json" style={{ display: 'none' }}
+                onChange={(e) => handleVendorImport(e.target.files?.[0])} />
+            </label>
+            <label className="cc-btn cc-btn-secondary" style={{ cursor: 'pointer' }}>
+              导入 Claude 对话 JSON
+              <input type="file" accept="application/json,.json" style={{ display: 'none' }}
+                onChange={(e) => handleVendorImport(e.target.files?.[0])} />
+            </label>
             <label className="cc-btn cc-btn-secondary" style={{ cursor: 'pointer' }}>
               导入快照
               <input type="file" accept="application/json,.json" style={{ display: 'none' }}
                 onChange={(e) => void handleImport(e.target.files?.[0])} />
             </label>
           </div>
+          {importError !== null && <div className="cc-notice-error" style={{ marginTop: 8 }}>{importError}</div>}
+          {importState !== null && (
+            <div className={css.capabilityNotice} style={{ marginTop: 8 }}>
+              <div className={css.capabilityNoticeIcon}>✅</div>
+              <div className={css.capabilityNoticeText}>
+                已解析 {importState.name}：{String(importState.conversations)} 个对话，Markdown 归档已开始下载。
+              </div>
+            </div>
+          )}
         </SettingGroup>
       </SettingsPageShell>
     )
