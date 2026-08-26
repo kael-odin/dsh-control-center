@@ -567,6 +567,7 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
               <details className={css.formFieldSpan2}>
                 <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: 13, marginBottom: 6 }}>Agent 绑定（可选）</summary>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <div className={css.formHint}>绑定后频道回复走完整 Agent 会话（可调用 MCP 工具、知识库、网络搜索等），失败时回退直连模型。</div>
                   <div className={css.formField}>
                     <label>提供商</label>
                     <input className={css.formInput} value={formAgentProvider} onChange={e => { setFormAgentProvider(e.target.value) }} placeholder="deepseek" />
@@ -577,7 +578,7 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
                   </div>
                   <div className={css.formField}>
                     <label>系统提示词</label>
-                    <textarea className={css.formInput} style={{ minHeight: 60, resize: 'vertical' }} value={formAgentSystemPrompt} onChange={e => { setFormAgentSystemPrompt(e.target.value) }} placeholder="选填；留空使用默认系统提示词" />
+                    <textarea className={css.formInput} style={{ minHeight: 60, resize: 'vertical' }} value={formAgentSystemPrompt} onChange={e => { setFormAgentSystemPrompt(e.target.value) }} placeholder="选填；作为会话首条消息的运营者指令，会话内持续生效" />
                   </div>
                 </div>
               </details>

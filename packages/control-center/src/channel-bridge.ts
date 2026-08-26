@@ -14,10 +14,15 @@
  * Feishu (Lark SDK long-connection protocol) and WeChat (reverse-engineered
  * iLink protocol) stay honest errors until their protocol ports land.
  *
- * Every platform shares one reply pipeline: allowlist → default model route
- * (Cherry 重试设置 honored: attempts + fallback routes) → LlmRuntime stream →
- * platform sender. A connected channel proves the credentials work; per-channel
- * status and a log ring feed the UI's 状态点 and 日志 dialog.
+ * Every platform shares one reply pipeline: allowlist → reply source. A channel
+ * with a per-channel Agent binding (agentProvider/agentModel) runs through the
+ * host's real agent loop via ctx.apiProxy sessions — a durable session per
+ * channel, so MCP tools / knowledge / web_search all work in replies (Cherry
+ * channels have full capability). The turn's assistant messages are collected
+ * from session history; any failure falls back to the direct LlmRuntime stream
+ * with the Cherry 重试设置 (attempts + fallback routes). A connected channel
+ * proves the credentials work; per-channel status and a log ring feed the UI's
+ * 状态点 and 日志 dialog.
  */
 
 import { Service } from '@deepseek-ai/cordis'
@@ -26,6 +31,8 @@ import z from '@deepseek-ai/schemastery'
 import { settingsNamespace } from '@deepseek-ai/dsh-settings'
 import { installSettingsSection } from '@deepseek-ai/dsh-settings'
 import { bindTypertRemote, Remote } from '@deepseek-ai/dsh-typert-protocol'
+import { RpcId } from '@deepseek-ai/dsh-host-apiproxy'
+import type { ApiProxy, HistoryEntry, SessionsApi } from '@deepseek-ai/dsh-host-apiproxy/api'
 import { createUserMessage, type LlmRuntime } from '@deepseek-ai/dsh-llm'
 import { readHostRetryPolicy } from './retry-config.ts'
 import {
@@ -303,6 +310,32 @@ function abortableSleep(ms: number, signal?: AbortSignal): Promise<void> {
  * every timer on the process. */
 const POLL_IDLE_MS = 1_000
 
+/** How often the agent path re-reads session history while a turn runs. */
+const AGENT_POLL_MS = 1_500
+/** Hard ceiling on one agent turn before the channel falls back to direct LLM. */
+const AGENT_TURN_TIMEOUT_MS = 180_000
+
+/** Pulls the text blocks out of an AssistantMessage-shaped value defensively —
+ * history entries cross the api surface as plain JSON. */
+function assistantTextOf(message: unknown): string {
+  const content = (message as { content?: unknown } | null | undefined)?.content
+  if (!Array.isArray(content)) return ''
+  return content
+    .map(block => {
+      if (typeof block !== 'object' || block === null) return ''
+      const record = block as { type?: unknown; text?: unknown }
+      return record.type === 'text' && typeof record.text === 'string' ? record.text : ''
+    })
+    .join('')
+}
+
+function mintRpcId(): RpcId {
+  return RpcId(globalThis.crypto.randomUUID())
+}
+
+/** The branded session id the sessions API mints and consumes. */
+type AgentSessionId = Parameters<SessionsApi['history']>[0]['payload']['sessionId']
+
 function markChannelBridgeRemoteMethods(service: ChannelBridgeService): void {
   const initializers: Array<(this: ChannelBridgeService) => void> = []
   for (const [method, exportName] of [
@@ -339,15 +372,25 @@ export class ChannelBridgeService extends Service {
   readonly typertRemote = bindTypertRemote(this, 'controlCenterChannelBridge')
 
   private readonly llm: LlmRuntime | undefined
+  private readonly api: ApiProxy | undefined
 
   private readonly statuses = new Map<string, ChannelBridgeStatus & { name: string; type: string }>()
   private readonly runtimes = new Map<string, Runtime>()
   private readonly names = new Map<string, string>()
+  /** channelId → durable agent-loop session backing its bound replies. */
+  private readonly channelSessions = new Map<string, AgentSessionId>()
+  /** sessionId → 'provider/model' last applied via selectModel. */
+  private readonly sessionRoutes = new Map<AgentSessionId, string>()
+  /** Sessions whose first message already carried the operator block. */
+  private readonly sessionPrimed = new Set<AgentSessionId>()
+  /** Per-channel reply serialization: one turn at a time per connection. */
+  private readonly replyChains = new Map<string, Promise<void>>()
   private source: (() => ChannelsSection) | undefined
 
   constructor(ctx: Context) {
     super(ctx, 'controlCenterChannelBridge')
     try { this.llm = ctx.get('llm') as LlmRuntime } catch { this.llm = undefined }
+    try { this.api = ctx.get('apiProxy') as ApiProxy } catch { this.api = undefined }
     markChannelBridgeRemoteMethods(this)
     ctx.effect(() => () => {
       for (const runtime of this.runtimes.values()) {
@@ -355,6 +398,9 @@ export class ChannelBridgeService extends Service {
         runtime.cleanup?.()
       }
       this.runtimes.clear()
+      this.channelSessions.clear()
+      this.sessionRoutes.clear()
+      this.sessionPrimed.clear()
     }, 'control-center.channel-bridge: abort loops')
     installSettingsSection(ctx, CHANNELS_BRIDGE_NAMESPACE, ChannelsSchema, { instances: [] }, {
       setSource: (current) => { this.source = current },
@@ -416,6 +462,12 @@ export class ChannelBridgeService extends Service {
         runtime.controller.abort()
         runtime.cleanup?.()
         this.runtimes.delete(id)
+        const session = this.channelSessions.get(id)
+        if (session !== undefined) {
+          this.channelSessions.delete(id)
+          this.sessionRoutes.delete(session)
+          this.sessionPrimed.delete(session)
+        }
         this.setStatus(id, 'disconnected')
       }
     }
@@ -528,22 +580,49 @@ export class ChannelBridgeService extends Service {
   }
 
   /**
-   * Shared reply pipeline behind every platform: resolve the host's default
-   * model, honor the Cherry 重试设置 (attempts + fallback routes), stream a
-   * reply through the LlmRuntime, then hand it to the platform's sender. Any
-   * failure is a log line — the connection loop must survive a bad model or a
-   * refused send.
+   * Shared reply pipeline behind every platform. Serialized per channel so two
+   * inbound messages cannot interleave turns on the same session. A channel
+   * with an Agent binding runs through the host's real agent loop first (tools,
+   * knowledge — Cherry channel capability); any failure falls back to the
+   * direct LlmRuntime stream with the Cherry 重试设置 (attempts + fallback
+   * routes). Any failure is a log line — the connection loop must survive a bad
+   * model or a refused send.
    */
   private async generateAndDeliver(
     id: string,
     text: string,
     deliver: (reply: string) => Promise<void>,
   ): Promise<void> {
-    // Per-channel agent binding: a channel may pin a provider/model and an
-    // optional system prompt (Cherry ChannelData.agentId parity). When set,
-    // it wins over the shared agent-default-model route.
+    const previous = this.replyChains.get(id) ?? Promise.resolve()
+    const run = previous.then(() => this.replyPipeline(id, text, deliver))
+    this.replyChains.set(id, run.then(() => { }, () => { }))
+    await run
+  }
+
+  private async replyPipeline(
+    id: string,
+    text: string,
+    deliver: (reply: string) => Promise<void>,
+  ): Promise<void> {
+    // Per-channel agent binding (Cherry ChannelData.agentId parity): when set,
+    // replies go through a durable agent-loop session so MCP tools / knowledge
+    // / web_search work; the binding's provider/model wins over the shared
+    // agent-default-model route.
     const record = this.readInstances().find(entry => entry.id === id)
     const binding = this.agentBinding(record)
+    if (binding !== undefined && this.api !== undefined) {
+      try {
+        const reply = await this.generateViaAgentLoop(id, text, binding)
+        await deliver(reply)
+        this.appendLog(id, `已回复（agent 会话）：${reply.slice(0, 80)}`)
+        return
+      } catch (error) {
+        const messageText = error instanceof Error ? error.message : String(error)
+        if (this.signalFor(id).aborted) return
+        this.appendLog(id, `Agent 会话回复失败，回退直连模型：${messageText}`)
+      }
+    }
+
     const route = binding?.route ?? this.defaultModelRoute()
     if (route === null || this.llm === undefined) {
       this.appendLog(id, '未解析默认模型（agent-default-model），跳过回复')
@@ -593,6 +672,125 @@ export class ChannelBridgeService extends Service {
       const messageText = error instanceof Error ? error.message : String(error)
       this.appendLog(id, `回复失败：${messageText}`)
     }
+  }
+
+  /**
+   * One bound reply through the host agent loop: a durable session per channel
+   * (fresh per process), the binding route applied once via selectModel, then
+   * prompt + history polling until the turn ends. Throws so the caller can
+   * fall back to direct LLM.
+   */
+  private async generateViaAgentLoop(
+    id: string,
+    text: string,
+    binding: { route: { provider: string; model: string }; systemPrompt: string },
+  ): Promise<string> {
+    const api = this.api!
+    const record = this.readInstances().find(entry => entry.id === id)
+    const sessionId = await this.ensureChannelSession(id, record, api)
+
+    const routeKey = `${binding.route.provider}/${binding.route.model}`
+    if (this.sessionRoutes.get(sessionId) !== routeKey) {
+      const response = await api.sessions.selectModel({
+        rpcId: mintRpcId(),
+        payload: { sessionId, provider: binding.route.provider, model: binding.route.model },
+      })
+      if (!response.result.ok) throw new Error(this.rpcErrorText('selectModel', response.result.error))
+      this.sessionRoutes.set(sessionId, routeKey)
+      this.appendLog(id, `Agent 会话模型已切换到 ${routeKey}`)
+    }
+
+    const baseline = await this.historyTailSeq(api, sessionId)
+
+    // No preset-level system prompt on this surface yet, so the operator block
+    // rides only the FIRST message of each fresh session; session memory keeps
+    // it in play for later turns without re-sending it every time.
+    let content = text
+    if (!this.sessionPrimed.has(sessionId)) {
+      const prompt = binding.systemPrompt.trim()
+      if (prompt.length > 0) {
+        content = `[频道运营者指令 — 全程遵守]\n${prompt}\n\n[用户消息]\n${text}`
+      }
+      this.sessionPrimed.add(sessionId)
+    }
+
+    const accepted = await api.sessions.prompt({
+      rpcId: mintRpcId(),
+      payload: { sessionId, mode: 'queue', content: [{ type: 'text', text: content }] },
+    })
+    if (!accepted.result.ok) throw new Error(this.rpcErrorText('prompt', accepted.result.error))
+
+    const signal = this.signalFor(id)
+    const deadline = Date.now() + AGENT_TURN_TIMEOUT_MS
+    while (Date.now() < deadline) {
+      if (signal.aborted) throw new Error('channel aborted')
+      await abortableSleep(AGENT_POLL_MS, signal)
+      const entries = await this.readHistoryTail(api, sessionId)
+      let end: { turn: number; reason: { kind: string; error?: { message?: string } } } | undefined
+      for (const entry of entries) {
+        if (entry.event.seq <= baseline) continue
+        if (entry.event.type === 'turn/end') {
+          end = entry.event.data
+          break
+        }
+      }
+      if (end === undefined) continue
+      const turn = end.turn
+      const reason = end.reason
+      const parts = entries
+        .filter(entry => entry.event.type === 'assistant/message'
+          && (entry.event.data as { turn?: number }).turn === turn)
+        .map(entry => assistantTextOf((entry.event.data as { message?: unknown }).message))
+        .filter(part => part.trim().length > 0)
+      const reply = parts.join('\n\n').trim()
+      if (reason.kind === 'completed') {
+        return reply.length > 0 ? reply : '(空回复)'
+      }
+      if (reason.kind === 'error') {
+        throw new Error(reason.error?.message ?? 'agent turn failed')
+      }
+      throw new Error(`agent turn ended early (${reason.kind})`)
+    }
+    throw new Error(`agent turn 超时（${String(Math.round(AGENT_TURN_TIMEOUT_MS / 1000))}s）`)
+  }
+
+  /** Reuses this process's session for the channel or creates one. */
+  private async ensureChannelSession(
+    id: string,
+    record: ChannelRecord | undefined,
+    api: ApiProxy,
+  ): Promise<AgentSessionId> {
+    const existing = this.channelSessions.get(id)
+    if (existing !== undefined) return existing
+    const config = record?.config
+    const preset = typeof config?.agentPresetId === 'string' && config.agentPresetId.trim().length > 0
+      ? config.agentPresetId.trim()
+      : undefined
+    const response = await api.sessions.create({
+      rpcId: mintRpcId(),
+      payload: preset === undefined ? {} : { agentPreset: preset },
+    })
+    if (!response.result.ok) throw new Error(this.rpcErrorText('session create', response.result.error))
+    const sessionId = response.result.value.sessionId
+    this.channelSessions.set(id, sessionId)
+    this.appendLog(id, `已创建 Agent 会话（${sessionId}）`)
+    return sessionId
+  }
+
+  /** Seq of the newest event in the session tail, -1 for an empty log. */
+  private async historyTailSeq(api: ApiProxy, sessionId: AgentSessionId): Promise<number> {
+    const entries = await this.readHistoryTail(api, sessionId)
+    return entries.reduce((max, entry) => Math.max(max, entry.event.seq), -1)
+  }
+
+  private async readHistoryTail(api: ApiProxy, sessionId: AgentSessionId): Promise<HistoryEntry[]> {
+    const response = await api.sessions.history({ rpcId: mintRpcId(), payload: { sessionId } })
+    if (!response.result.ok) throw new Error(this.rpcErrorText('history', response.result.error))
+    return response.result.value.events
+  }
+
+  private rpcErrorText(action: string, error: { code: string; message: string }): string {
+    return `${action} 失败（${error.code}）：${error.message}`
   }
 
   /** One generation attempt over one route; throws on terminal error finish. */

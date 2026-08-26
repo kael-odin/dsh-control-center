@@ -19,12 +19,12 @@ declare const taskSchema: z.ZodObject<{
     providerTaskId: z.ZodOptional<z.ZodString>;
     stage: z.ZodString;
     status: z.ZodEnum<{
+        cancelled: "cancelled";
+        completed: "completed";
+        interrupted: "interrupted";
         queued: "queued";
         running: "running";
-        completed: "completed";
         failed: "failed";
-        cancelled: "cancelled";
-        interrupted: "interrupted";
     }>;
     progress: z.ZodNumber;
     createdAt: z.ZodString;

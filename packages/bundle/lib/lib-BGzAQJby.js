@@ -1,16 +1,19 @@
 import { createRequire } from "node:module";
-import { basename, dirname, extname, join, relative, resolve, sep } from "node:path";
+import { basename, dirname, extname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, unlinkSync, writeFileSync } from "node:fs";
-import { appendFile, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { access, appendFile, chmod, constants, cp, mkdir, readFile, readdir, rename, rm, stat, writeFile } from "node:fs/promises";
 import { arch, homedir, platform, release, tmpdir } from "node:os";
-import { createHash, createHmac, randomUUID } from "node:crypto";
+import { createHash, createHmac, randomBytes, randomUUID } from "node:crypto";
 import { DatabaseSync } from "node:sqlite";
 import { basename as basename$1, dirname as dirname$1, extname as extname$1, join as join$1 } from "path";
 import process$1 from "node:process";
 import { PassThrough } from "node:stream";
-import { stat, writeFile as writeFile$1 } from "fs/promises";
+import { Buffer as Buffer$1 } from "node:buffer";
+import { setTimeout as setTimeout$1 } from "node:timers/promises";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { createRequire as createRequire$1 } from "module";
-import { spawnSync } from "node:child_process";
+import { execFile, spawnSync } from "node:child_process";
+import { stat as stat$1, writeFile as writeFile$1 } from "fs/promises";
 //#region \0rolldown/runtime.js
 var __create = Object.create;
 var __defProp$1 = Object.defineProperty;
@@ -312,7 +315,7 @@ function safeExtend(schema, shape) {
 		return _shape;
 	} }));
 }
-function merge$1(a, b) {
+function merge$2(a, b) {
 	if (a._zod.def.checks?.length) throw new Error(".merge() cannot be used on object schemas containing refinements. Use .safeExtend() instead.");
 	return clone$1(a, mergeDefs(a._zod.def, {
 		get shape() {
@@ -656,7 +659,7 @@ const string$1 = (params) => {
 const integer = /^-?\d+$/;
 const number$1 = /^-?\d+(?:\.\d+)?$/;
 const boolean$1 = /^(?:true|false)$/i;
-const _null$2 = /^null$/i;
+const _null$3 = /^null$/i;
 const lowercase = /^[^A-Z]*$/;
 const uppercase = /^[^a-z]*$/;
 //#endregion
@@ -1475,7 +1478,7 @@ const $ZodBoolean = /*@__PURE__*/ $constructor("$ZodBoolean", (inst, def) => {
 });
 const $ZodNull = /*@__PURE__*/ $constructor("$ZodNull", (inst, def) => {
 	$ZodType.init(inst, def);
-	inst._zod.pattern = _null$2;
+	inst._zod.pattern = _null$3;
 	inst._zod.values = /* @__PURE__ */ new Set([null]);
 	inst._zod.parse = (payload, _ctx) => {
 		const input = payload.value;
@@ -2342,6 +2345,21 @@ function handleReadonlyResult(payload) {
 	payload.value = Object.freeze(payload.value);
 	return payload;
 }
+const $ZodLazy = /*@__PURE__*/ $constructor("$ZodLazy", (inst, def) => {
+	$ZodType.init(inst, def);
+	defineLazy(inst._zod, "innerType", () => {
+		const d = def;
+		if (!d._cachedInner) d._cachedInner = def.getter();
+		return d._cachedInner;
+	});
+	defineLazy(inst._zod, "pattern", () => inst._zod.innerType?._zod?.pattern);
+	defineLazy(inst._zod, "propValues", () => inst._zod.innerType?._zod?.propValues);
+	defineLazy(inst._zod, "optin", () => inst._zod.innerType?._zod?.optin ?? void 0);
+	defineLazy(inst._zod, "optout", () => inst._zod.innerType?._zod?.optout ?? void 0);
+	inst._zod.parse = (payload, ctx) => {
+		return inst._zod.innerType._zod.run(payload, ctx);
+	};
+});
 const $ZodCustom = /*@__PURE__*/ $constructor("$ZodCustom", (inst, def) => {
 	$ZodCheck.init(inst, def);
 	$ZodType.init(inst, def);
@@ -2727,7 +2745,7 @@ function _boolean(Class, params) {
 	});
 }
 // @__NO_SIDE_EFFECTS__
-function _null$1(Class, params) {
+function _null$2(Class, params) {
 	return new Class({
 		type: "null",
 		...normalizeParams(params)
@@ -3888,7 +3906,7 @@ const ZodType$1 = /*@__PURE__*/ $constructor("ZodType", (inst, def) => {
 			return pipe(this, transform(tx));
 		},
 		default(d) {
-			return _default(this, d);
+			return _default$1(this, d);
 		},
 		prefault(d) {
 			return prefault(this, d);
@@ -4134,10 +4152,10 @@ const ZodNumber$1 = /*@__PURE__*/ $constructor("ZodNumber", (inst, def) => {
 			return this.check(/* @__PURE__ */ _lte(value, params));
 		},
 		int(params) {
-			return this.check(int(params));
+			return this.check(int$1(params));
 		},
 		safe(params) {
-			return this.check(int(params));
+			return this.check(int$1(params));
 		},
 		positive(params) {
 			return this.check(/* @__PURE__ */ _gt(0, params));
@@ -4175,7 +4193,7 @@ const ZodNumberFormat = /*@__PURE__*/ $constructor("ZodNumberFormat", (inst, def
 	$ZodNumberFormat.init(inst, def);
 	ZodNumber$1.init(inst, def);
 });
-function int(params) {
+function int$1(params) {
 	return /* @__PURE__ */ _int(ZodNumberFormat, params);
 }
 const ZodBoolean$1 = /*@__PURE__*/ $constructor("ZodBoolean", (inst, def) => {
@@ -4191,8 +4209,8 @@ const ZodNull$1 = /*@__PURE__*/ $constructor("ZodNull", (inst, def) => {
 	ZodType$1.init(inst, def);
 	inst._zod.processJSONSchema = (ctx, json, params) => nullProcessor(inst, ctx, json, params);
 });
-function _null(params) {
-	return /* @__PURE__ */ _null$1(ZodNull$1, params);
+function _null$1(params) {
+	return /* @__PURE__ */ _null$2(ZodNull$1, params);
 }
 const ZodAny$1 = /*@__PURE__*/ $constructor("ZodAny", (inst, def) => {
 	$ZodAny.init(inst, def);
@@ -4292,7 +4310,7 @@ const ZodObject$1 = /*@__PURE__*/ $constructor("ZodObject", (inst, def) => {
 			return safeExtend(this, incoming);
 		},
 		merge(other) {
-			return merge$1(this, other);
+			return merge$2(this, other);
 		},
 		pick(mask) {
 			return pick$1(this, mask);
@@ -4514,7 +4532,7 @@ const ZodDefault$1 = /*@__PURE__*/ $constructor("ZodDefault", (inst, def) => {
 	inst.unwrap = () => inst._zod.def.innerType;
 	inst.removeDefault = inst.unwrap;
 });
-function _default(innerType, defaultValue) {
+function _default$1(innerType, defaultValue) {
 	return new ZodDefault$1({
 		type: "default",
 		innerType,
@@ -4593,6 +4611,18 @@ function readonly(innerType) {
 	return new ZodReadonly$1({
 		type: "readonly",
 		innerType
+	});
+}
+const ZodLazy$1 = /*@__PURE__*/ $constructor("ZodLazy", (inst, def) => {
+	$ZodLazy.init(inst, def);
+	ZodType$1.init(inst, def);
+	inst._zod.processJSONSchema = (ctx, json, params) => lazyProcessor(inst, ctx, json, params);
+	inst.unwrap = () => inst._zod.def.getter();
+});
+function lazy(getter) {
+	return new ZodLazy$1({
+		type: "lazy",
+		getter
 	});
 }
 const ZodCustom = /*@__PURE__*/ $constructor("ZodCustom", (inst, def) => {
@@ -5170,7 +5200,7 @@ const TaskSchema = object$1({
 	* Time in milliseconds to keep task results available after completion.
 	* If null, the task has unlimited lifetime until manually cleaned up.
 	*/
-	ttl: union([number(), _null()]),
+	ttl: union([number(), _null$1()]),
 	/**
 	* ISO 8601 timestamp when the task was created.
 	*/
@@ -6764,6 +6794,10 @@ const knowledgeRemote = {
 function isNullable(value) {
 	return value === null || value === void 0;
 }
+/** Return true when a value is neither `null` nor `undefined`. */
+function isNonNullable(value) {
+	return !isNullable(value);
+}
 /** Return true for non-array object values. */
 function isPlainObject$2(data) {
 	return data && typeof data === "object" && !Array.isArray(data);
@@ -7016,12 +7050,12 @@ var ValidationError$1 = class extends TypeError {
 	}
 };
 Object.defineProperty(ValidationError$1.prototype, kValidationError$1, { value: true });
-const Schema = function(options) {
+const Schema$1 = function(options) {
 	const schema = function(data, options = {}) {
-		return Schema.resolve(data, schema, options)[0];
+		return Schema$1.resolve(data, schema, options)[0];
 	};
 	if (options.refs) {
-		const refs = mapValues(options.refs, (options) => new Schema(options));
+		const refs = mapValues(options.refs, (options) => new Schema$1(options));
 		const getRef = (uid) => refs[uid];
 		for (const key in refs) {
 			const options = refs[key];
@@ -7037,20 +7071,20 @@ const Schema = function(options) {
 		schema.callback = new Function("return " + schema.callback)();
 	} catch {}
 	Object.defineProperty(schema, "uid", { value: globalThis.__schemastery_index__++ });
-	Object.setPrototypeOf(schema, Schema.prototype);
+	Object.setPrototypeOf(schema, Schema$1.prototype);
 	schema.meta ||= {};
 	schema.toString = schema.toString.bind(schema);
 	return schema;
 };
-Schema.prototype = Object.create(Function.prototype);
-Schema.prototype[kSchema] = true;
-Object.defineProperty(Schema.prototype, "~standard", { get() {
+Schema$1.prototype = Object.create(Function.prototype);
+Schema$1.prototype[kSchema] = true;
+Object.defineProperty(Schema$1.prototype, "~standard", { get() {
 	return {
 		version: 1,
 		vendor: "schemastery",
 		validate: (value) => {
 			try {
-				return { value: Schema.resolve(value, this, {})[0] };
+				return { value: Schema$1.resolve(value, this, {})[0] };
 			} catch (error) {
 				if (ValidationError$1.is(error)) return { issues: [{
 					message: error.message,
@@ -7061,8 +7095,8 @@ Object.defineProperty(Schema.prototype, "~standard", { get() {
 		}
 	};
 } });
-Schema.ValidationError = ValidationError$1;
-Schema.prototype.toJSON = function toJSON() {
+Schema$1.ValidationError = ValidationError$1;
+Schema$1.prototype.toJSON = function toJSON() {
 	if (globalThis.__schemastery_refs__) {
 		globalThis.__schemastery_refs__[this.uid] ??= JSON.parse(JSON.stringify({ ...this }));
 		return this.uid;
@@ -7076,11 +7110,11 @@ Schema.prototype.toJSON = function toJSON() {
 	globalThis.__schemastery_refs__ = void 0;
 	return result;
 };
-Schema.prototype.set = function set(key, value) {
+Schema$1.prototype.set = function set(key, value) {
 	this.dict[key] = value;
 	return this;
 };
-Schema.prototype.push = function push(value) {
+Schema$1.prototype.push = function push(value) {
 	this.list.push(value);
 	return this;
 };
@@ -7099,8 +7133,8 @@ function getInner(value) {
 function extractKeys(data) {
 	return filterKeys(data ?? {}, (key) => !key.startsWith("$"));
 }
-Schema.prototype.i18n = function i18n(messages) {
-	const schema = Schema(this);
+Schema$1.prototype.i18n = function i18n(messages) {
+	const schema = Schema$1(this);
 	const desc = mergeDesc(schema.meta.description, messages);
 	if (Object.keys(desc).length) schema.meta.description = desc;
 	if (schema.dict) schema.dict = mapValues(schema.dict, (inner, key) => {
@@ -7120,8 +7154,8 @@ Schema.prototype.i18n = function i18n(messages) {
 	if (schema.sKey) schema.sKey = schema.sKey.i18n(mapValues(messages, (data) => data?.$key));
 	return schema;
 };
-Schema.prototype.extra = function extra(key, value) {
-	const schema = Schema(this);
+Schema$1.prototype.extra = function extra(key, value) {
+	const schema = Schema$1(this);
 	schema.meta = {
 		...schema.meta,
 		[key]: value
@@ -7134,16 +7168,16 @@ for (const key of [
 	"collapse",
 	"hidden",
 	"loose"
-]) Object.assign(Schema.prototype, { [key](value = true) {
-	const schema = Schema(this);
+]) Object.assign(Schema$1.prototype, { [key](value = true) {
+	const schema = Schema$1(this);
 	schema.meta = {
 		...schema.meta,
 		[key]: value
 	};
 	return schema;
 } });
-Schema.prototype.deprecated = function deprecated() {
-	const schema = Schema(this);
+Schema$1.prototype.deprecated = function deprecated() {
+	const schema = Schema$1(this);
 	schema.meta.badges ||= [];
 	schema.meta.badges.push({
 		text: "deprecated",
@@ -7151,8 +7185,8 @@ Schema.prototype.deprecated = function deprecated() {
 	});
 	return schema;
 };
-Schema.prototype.experimental = function experimental() {
-	const schema = Schema(this);
+Schema$1.prototype.experimental = function experimental() {
+	const schema = Schema$1(this);
 	schema.meta.badges ||= [];
 	schema.meta.badges.push({
 		text: "experimental",
@@ -7160,8 +7194,8 @@ Schema.prototype.experimental = function experimental() {
 	});
 	return schema;
 };
-Schema.prototype.pattern = function pattern(regexp) {
-	const schema = Schema(this);
+Schema$1.prototype.pattern = function pattern(regexp) {
+	const schema = Schema$1(this);
 	const pattern = pick(regexp, ["source", "flags"]);
 	schema.meta = {
 		...schema.meta,
@@ -7169,7 +7203,7 @@ Schema.prototype.pattern = function pattern(regexp) {
 	};
 	return schema;
 };
-Schema.prototype.simplify = function simplify(value) {
+Schema$1.prototype.simplify = function simplify(value) {
 	if (deepEqual(value, this.meta.default, this.type === "dict")) return null;
 	if (isNullable(value)) return value;
 	if (this.type === "object" || this.type === "dict") {
@@ -7193,16 +7227,16 @@ Schema.prototype.simplify = function simplify(value) {
 		for (const item of this.list) Object.assign(result, item.simplify(value));
 		return result;
 	} else if (this.type === "union") for (const schema of this.list) try {
-		Schema.resolve(value, schema, {});
+		Schema$1.resolve(value, schema, {});
 		return schema.simplify(value);
 	} catch {}
 	return value;
 };
-Schema.prototype.toString = function toString(inline) {
+Schema$1.prototype.toString = function toString(inline) {
 	return formatters[this.type]?.(this, inline) ?? `Schema<${this.type}>`;
 };
-Schema.prototype.role = function role(role, extra) {
-	const schema = Schema(this);
+Schema$1.prototype.role = function role(role, extra) {
+	const schema = Schema$1(this);
 	schema.meta = {
 		...schema.meta,
 		role,
@@ -7218,8 +7252,8 @@ for (const key of [
 	"max",
 	"min",
 	"step"
-]) Object.assign(Schema.prototype, { [key](value) {
-	const schema = Schema(this);
+]) Object.assign(Schema$1.prototype, { [key](value) {
+	const schema = Schema$1(this);
 	schema.meta = {
 		...schema.meta,
 		[key]: value
@@ -7227,10 +7261,10 @@ for (const key of [
 	return schema;
 } });
 const resolvers = {};
-Schema.extend = function extend(type, resolve) {
+Schema$1.extend = function extend(type, resolve) {
 	resolvers[type] = resolve;
 };
-Schema.resolve = function resolve(data, schema, options = {}, strict = false) {
+Schema$1.resolve = function resolve(data, schema, options = {}, strict = false) {
 	if (!schema) return [data];
 	if (options.ignore?.(data, schema)) return [data];
 	if (isNullable(data) && schema.type !== "lazy") {
@@ -7253,24 +7287,24 @@ Schema.resolve = function resolve(data, schema, options = {}, strict = false) {
 		return [schema.meta.default];
 	}
 };
-Schema.from = function from(source) {
-	if (isNullable(source)) return Schema.any();
+Schema$1.from = function from(source) {
+	if (isNullable(source)) return Schema$1.any();
 	else if ([
 		"string",
 		"number",
 		"boolean"
-	].includes(typeof source)) return Schema.const(source).required();
+	].includes(typeof source)) return Schema$1.const(source).required();
 	else if (source[kSchema]) return source;
 	else if (typeof source === "function") switch (source) {
-		case String: return Schema.string().required();
-		case Number: return Schema.number().required();
-		case Boolean: return Schema.boolean().required();
-		case Function: return Schema.function().required();
-		default: return Schema.is(source).required();
+		case String: return Schema$1.string().required();
+		case Number: return Schema$1.number().required();
+		case Boolean: return Schema$1.boolean().required();
+		case Function: return Schema$1.function().required();
+		default: return Schema$1.is(source).required();
 	}
 	else throw new TypeError(`cannot infer schema from ${source}`);
 };
-Schema.lazy = function lazy(builder) {
+Schema$1.lazy = function lazy(builder) {
 	const toJSON = () => {
 		if (!schema.inner[kSchema]) {
 			schema.inner = schema.builder();
@@ -7281,28 +7315,28 @@ Schema.lazy = function lazy(builder) {
 		}
 		return schema.inner.toJSON();
 	};
-	const schema = new Schema({
+	const schema = new Schema$1({
 		type: "lazy",
 		builder,
 		inner: { toJSON }
 	});
 	return schema;
 };
-Schema.natural = function natural() {
-	return Schema.number().step(1).min(0);
+Schema$1.natural = function natural() {
+	return Schema$1.number().step(1).min(0);
 };
-Schema.percent = function percent() {
-	return Schema.number().step(.01).min(0).max(1).role("slider");
+Schema$1.percent = function percent() {
+	return Schema$1.number().step(.01).min(0).max(1).role("slider");
 };
-Schema.date = function date() {
-	return Schema.union([Schema.is(Date), Schema.transform(Schema.string().role("datetime"), (value, options) => {
+Schema$1.date = function date() {
+	return Schema$1.union([Schema$1.is(Date), Schema$1.transform(Schema$1.string().role("datetime"), (value, options) => {
 		const date = new Date(value);
 		if (isNaN(+date)) throw new ValidationError$1(`invalid date "${value}"`, options);
 		return date;
 	}, true)]);
 };
-Schema.regExp = function regExp(flag = "") {
-	return Schema.union([Schema.is(RegExp), Schema.transform(Schema.string().role("regexp", { flag }), (value, options) => {
+Schema$1.regExp = function regExp(flag = "") {
+	return Schema$1.union([Schema$1.is(RegExp), Schema$1.transform(Schema$1.string().role("regexp", { flag }), (value, options) => {
 		try {
 			return new RegExp(value, flag);
 		} catch (e) {
@@ -7310,15 +7344,15 @@ Schema.regExp = function regExp(flag = "") {
 		}
 	}, true)]);
 };
-Schema.arrayBuffer = function arrayBuffer(encoding) {
-	return Schema.union([
-		Schema.is(ArrayBuffer),
-		Schema.is(SharedArrayBuffer),
-		Schema.transform(Schema.any(), (value, options) => {
+Schema$1.arrayBuffer = function arrayBuffer(encoding) {
+	return Schema$1.union([
+		Schema$1.is(ArrayBuffer),
+		Schema$1.is(SharedArrayBuffer),
+		Schema$1.transform(Schema$1.any(), (value, options) => {
 			if (Binary.isSource(value)) return Binary.fromSource(value);
 			throw new ValidationError$1(`expected ArrayBufferSource but got ${value}`, options);
 		}, true),
-		...encoding ? [Schema.transform(Schema.string(), (value, options) => {
+		...encoding ? [Schema$1.transform(Schema$1.string(), (value, options) => {
 			try {
 				return encoding === "base64" ? Binary.fromBase64(value) : Binary.fromHex(value);
 			} catch (e) {
@@ -7327,7 +7361,7 @@ Schema.arrayBuffer = function arrayBuffer(encoding) {
 		}, true)] : []
 	]);
 };
-Schema.extend("lazy", (data, schema, options, strict) => {
+Schema$1.extend("lazy", (data, schema, options, strict) => {
 	if (!schema.inner[kSchema]) {
 		schema.inner = schema.builder();
 		schema.inner.meta = {
@@ -7335,15 +7369,15 @@ Schema.extend("lazy", (data, schema, options, strict) => {
 			...schema.inner.meta
 		};
 	}
-	return Schema.resolve(data, schema.inner, options, strict);
+	return Schema$1.resolve(data, schema.inner, options, strict);
 });
-Schema.extend("any", (data) => {
+Schema$1.extend("any", (data) => {
 	return [data];
 });
-Schema.extend("never", (data, _, options) => {
+Schema$1.extend("never", (data, _, options) => {
 	throw new ValidationError$1(`expected nullable but got ${data}`, options);
 });
-Schema.extend("const", (data, { value }, options) => {
+Schema$1.extend("const", (data, { value }, options) => {
 	if (deepEqual(data, value)) return [value];
 	throw new ValidationError$1(`expected ${value} but got ${data}`, options);
 });
@@ -7352,7 +7386,7 @@ function checkWithinRange(data, meta, description, options, skipMin = false) {
 	if (data > max) throw new ValidationError$1(`expected ${description} <= ${max} but got ${data}`, options);
 	if (data < min && !skipMin) throw new ValidationError$1(`expected ${description} >= ${min} but got ${data}`, options);
 }
-Schema.extend("string", (data, { meta }, options) => {
+Schema$1.extend("string", (data, { meta }, options) => {
 	if (typeof data !== "string") throw new ValidationError$1(`expected string but got ${data}`, options);
 	if (meta.pattern) {
 		const regexp = new RegExp(meta.pattern.source, meta.pattern.flags);
@@ -7378,18 +7412,18 @@ function isMultipleOf(data, min, step) {
 	const digits = step.toString().slice(index + 1).length;
 	return Math.abs(decimalShift(data, digits) - decimalShift(min, digits)) % decimalShift(step, digits) === 0;
 }
-Schema.extend("number", (data, { meta }, options) => {
+Schema$1.extend("number", (data, { meta }, options) => {
 	if (typeof data !== "number") throw new ValidationError$1(`expected number but got ${data}`, options);
 	checkWithinRange(data, meta, "number", options);
 	const { step } = meta;
 	if (step && !isMultipleOf(data, meta.min ?? 0, step)) throw new ValidationError$1(`expected number multiple of ${step} but got ${data}`, options);
 	return [data];
 });
-Schema.extend("boolean", (data, _, options) => {
+Schema$1.extend("boolean", (data, _, options) => {
 	if (typeof data === "boolean") return [data];
 	throw new ValidationError$1(`expected boolean but got ${data}`, options);
 });
-Schema.extend("bitset", (data, { bits, meta }, options) => {
+Schema$1.extend("bitset", (data, { bits, meta }, options) => {
 	let value = 0, keys = [];
 	if (typeof data === "number") {
 		value = data;
@@ -7404,11 +7438,11 @@ Schema.extend("bitset", (data, { bits, meta }, options) => {
 	if (value === meta.default) return [value];
 	return [value, keys];
 });
-Schema.extend("function", (data, _, options) => {
+Schema$1.extend("function", (data, _, options) => {
 	if (typeof data === "function") return [data];
 	throw new ValidationError$1(`expected function but got ${data}`, options);
 });
-Schema.extend("is", (data, { constructor }, options) => {
+Schema$1.extend("is", (data, { constructor }, options) => {
 	if (typeof constructor === "function") {
 		if (data instanceof constructor) return [data];
 		throw new ValidationError$1(`expected ${constructor.name} but got ${data}`, options);
@@ -7424,7 +7458,7 @@ Schema.extend("is", (data, { constructor }, options) => {
 });
 function property(data, key, schema, options) {
 	try {
-		const [value, adapted] = Schema.resolve(data[key], schema, {
+		const [value, adapted] = Schema$1.resolve(data[key], schema, {
 			...options,
 			path: [...options.path || [], key]
 		});
@@ -7436,18 +7470,18 @@ function property(data, key, schema, options) {
 		return schema.meta.default;
 	}
 }
-Schema.extend("array", (data, { inner, meta }, options) => {
+Schema$1.extend("array", (data, { inner, meta }, options) => {
 	if (!Array.isArray(data)) throw new ValidationError$1(`expected array but got ${data}`, options);
 	checkWithinRange(data.length, meta, "array length", options, !isNullable(inner.meta.default));
 	return [data.map((_, index) => property(data, index, inner, options))];
 });
-Schema.extend("dict", (data, { inner, sKey }, options, strict) => {
+Schema$1.extend("dict", (data, { inner, sKey }, options, strict) => {
 	if (!isPlainObject$2(data)) throw new ValidationError$1(`expected object but got ${data}`, options);
 	const result = {};
 	for (const key in data) {
 		let rKey;
 		try {
-			rKey = Schema.resolve(key, sKey, options)[0];
+			rKey = Schema$1.resolve(key, sKey, options)[0];
 		} catch (error) {
 			if (strict) continue;
 			throw error;
@@ -7458,75 +7492,75 @@ Schema.extend("dict", (data, { inner, sKey }, options, strict) => {
 	}
 	return [result];
 });
-Schema.extend("tuple", (data, { list }, options, strict) => {
+Schema$1.extend("tuple", (data, { list }, options, strict) => {
 	if (!Array.isArray(data)) throw new ValidationError$1(`expected array but got ${data}`, options);
 	const result = list.map((inner, index) => property(data, index, inner, options));
 	if (strict) return [result];
 	result.push(...data.slice(list.length));
 	return [result];
 });
-function merge(result, data) {
+function merge$1(result, data) {
 	for (const key in data) {
 		if (key in result) continue;
 		result[key] = data[key];
 	}
 }
-Schema.extend("object", (data, { dict }, options, strict) => {
+Schema$1.extend("object", (data, { dict }, options, strict) => {
 	if (!isPlainObject$2(data)) throw new ValidationError$1(`expected object but got ${data}`, options);
 	const result = {};
 	for (const key in dict) {
 		const value = property(data, key, dict[key], options);
 		if (!isNullable(value) || key in data) result[key] = value;
 	}
-	if (!strict) merge(result, data);
+	if (!strict) merge$1(result, data);
 	return [result];
 });
-Schema.extend("union", (data, { list, toString }, options, strict) => {
+Schema$1.extend("union", (data, { list, toString }, options, strict) => {
 	const messages = [];
 	for (const inner of list) try {
-		return Schema.resolve(data, inner, options, strict);
+		return Schema$1.resolve(data, inner, options, strict);
 	} catch (error) {
 		messages.push(error);
 	}
 	throw new ValidationError$1(`expected ${toString()} but got ${JSON.stringify(data)}`, options);
 });
-Schema.extend("intersect", (data, { list, toString }, options, strict) => {
+Schema$1.extend("intersect", (data, { list, toString }, options, strict) => {
 	if (!list.length) return [data];
 	let result;
 	for (const inner of list) {
-		const value = Schema.resolve(data, inner, options, true)[0];
+		const value = Schema$1.resolve(data, inner, options, true)[0];
 		if (isNullable(value)) continue;
 		if (isNullable(result)) result = value;
 		else if (typeof result !== typeof value) throw new ValidationError$1(`expected ${toString()} but got ${JSON.stringify(data)}`, options);
-		else if (typeof value === "object") merge(result ??= {}, value);
+		else if (typeof value === "object") merge$1(result ??= {}, value);
 		else if (result !== value) throw new ValidationError$1(`expected ${toString()} but got ${JSON.stringify(data)}`, options);
 	}
-	if (!strict && isPlainObject$2(data)) merge(result, data);
+	if (!strict && isPlainObject$2(data)) merge$1(result, data);
 	return [result];
 });
-Schema.extend("transform", (data, { inner, callback, preserve }, options) => {
-	const [result, adapted = data] = Schema.resolve(data, inner, options, true);
+Schema$1.extend("transform", (data, { inner, callback, preserve }, options) => {
+	const [result, adapted = data] = Schema$1.resolve(data, inner, options, true);
 	if (preserve) return [callback(result)];
 	else return [callback(result), callback(adapted)];
 });
 const formatters = {};
 function defineMethod(name, keys, format) {
 	formatters[name] = format;
-	Object.assign(Schema, { [name](...args) {
-		const schema = new Schema({ type: name });
+	Object.assign(Schema$1, { [name](...args) {
+		const schema = new Schema$1({ type: name });
 		keys.forEach((key, index) => {
 			switch (key) {
 				case "sKey":
-					schema.sKey = args[index] ?? Schema.string();
+					schema.sKey = args[index] ?? Schema$1.string();
 					break;
 				case "inner":
-					schema.inner = Schema.from(args[index]);
+					schema.inner = Schema$1.from(args[index]);
 					break;
 				case "list":
-					schema.list = args[index].map(Schema.from);
+					schema.list = args[index].map(Schema$1.from);
 					break;
 				case "dict":
-					schema.dict = mapValues(args[index], Schema.from);
+					schema.dict = mapValues(args[index], Schema$1.from);
 					break;
 				case "bits":
 					schema.bits = {};
@@ -9416,6 +9450,30 @@ function settingsNamespace(value) {
 	if (!NAMESPACE_PATTERN.test(value)) throw new TypeError(`settings namespace "${value}" must match ${String(NAMESPACE_PATTERN)}`);
 	return value;
 }
+/**
+* A write refused because the namespace moved since the caller read it. The
+* Service Definition's serialized write queue orders writes; it cannot tell a fresh writer
+* from one holding a stale snapshot, which is what this reports.
+*/
+var SettingsConflictError = class extends Error {
+	/** Stable machine code for wire layers mapping this to their own taxonomy. */
+	code = "SETTINGS_CONFLICT";
+	/** The revision the write expected. */
+	expected;
+	/** The revision the namespace actually stands at. */
+	actual;
+	/**
+	* @param ns - the namespace whose write was refused.
+	* @param expected - the revision the caller sent.
+	* @param actual - the revision now stored.
+	*/
+	constructor(ns, expected, actual) {
+		super(`settings namespace "${ns}" changed since it was read (expected revision ${String(expected)}, now ${String(actual)})`);
+		this.name = "SettingsConflictError";
+		this.expected = expected;
+		this.actual = actual;
+	}
+};
 Service.init;
 /**
 * Value mirror of the `FiberState` members {@link isUnloading} compares
@@ -9504,6 +9562,14 @@ function resolveDshHome(configured, env = process.env) {
 	const fromEnv = env[DSH_HOME_ENV];
 	return resolve(expandHomePath(configured ?? (fromEnv !== void 0 && fromEnv.trim().length > 0 ? fromEnv : defaultDshHome())));
 }
+/**
+* Join path segments onto the resolved DeepSeek Harness home.
+* @param segments - path segments appended to the Harness home; an empty list returns the home itself.
+* @returns the normalized absolute joined path.
+*/
+function dshHomePath(...segments) {
+	return join(resolveDshHome(), ...segments);
+}
 //#endregion
 //#region node_modules/.pnpm/@deepseek-ai+dsh-timeout@0._13401da53fdd229a45877adbff64345d/node_modules/@deepseek-ai/dsh-timeout/lib/index.js
 /** Largest delay Node schedules without clamping it to one millisecond. */
@@ -9544,6 +9610,23 @@ function CallId(id) {
 */
 function ReasoningEffortId(id) {
 	return id;
+}
+/**
+* Conversation call configuration and freeze utilities. Provider routing,
+* model, reasoning effort, and sampling values are request-header state that
+* can affect cache reuse; request waterfalls replace them and the loop logs
+* changed snapshots instead of allowing silent per-call drift.
+* @module dsh-llm/call-config
+*/
+/** Process-local identities of request objects assembled by dsh-agent-loop. */
+const AGENT_LOOP_REQUESTS = /* @__PURE__ */ new WeakSet();
+/**
+* Test whether the exact request object was assembled by dsh-agent-loop.
+* @param request - request envelope observed at the LLM waterfall.
+* @returns whether {@link markAgentLoopRequest} recorded this object.
+*/
+function isAgentLoopRequest(request) {
+	return AGENT_LOOP_REQUESTS.has(request);
 }
 /**
 * Deep-freeze a value in place with an iterative traversal, guarding cycles,
@@ -9654,6 +9737,43 @@ new RegExp(String.raw`(?:^|[^a-z0-9])context[\s_-](?:length|window)[\s_-]` + Str
 new RegExp(String.raw`\b(?:request|prompt|input|messages?)\s+(?:is\s+|are\s+)?` + String.raw`too\s+(?:large|long)\s+for\s+(?:(?:this|the)\s+)?` + String.raw`(?:model(?:'s)?\s+)?context(?:\s+window)?\b`, "i");
 new RegExp(String.raw`\b(?:input|prompt|request|messages?)\b.{0,40}` + String.raw`\b(?:exceed(?:s|ed)?|overflows?|is\s+larger\s+than)\b.{0,40}` + String.raw`\b(?:the\s+)?(?:model(?:'s)?\s+)?context(?:\s+(?:length|window))?\b`, "i");
 /**
+* Render a thrown value with its full `cause` chain and AggregateError
+* members, so transport wrappers like undici's `TypeError: fetch failed`
+* surface the underlying failure instead of masking it. Plain structured
+* failures render their own data-backed `message`. Diagnostic-surface
+* rendering only (messages, notices, logs) — never parse the result; route on
+* {@link HarnessError.code}.
+* @param value - the caught value (`unknown` in catch clauses).
+* @returns the outermost message first, each cause appended with `: ` (skipped
+* when it repeats the wrapper message verbatim), and AggregateError members
+* bracketed and `; `-joined.
+*/
+function errorChain(value) {
+	const path = /* @__PURE__ */ new Set();
+	const render = (current) => {
+		if (path.has(current)) return "<circular cause>";
+		path.add(current);
+		try {
+			if (!(current instanceof Error)) {
+				if (typeof current === "object" && current !== null) {
+					const descriptor = Object.getOwnPropertyDescriptor(current, "message");
+					if (descriptor !== void 0 && "value" in descriptor && typeof descriptor.value === "string") return descriptor.value;
+				}
+				return String(current);
+			}
+			const message = current.message === "" ? current.name : current.message;
+			const members = current instanceof AggregateError && current.errors.length > 0 ? ` [${current.errors.map(render).join("; ")}]` : "";
+			const causeText = current.cause === void 0 || current.cause === null ? "" : render(current.cause);
+			return `${message}${members}${causeText === "" || causeText === message ? "" : `: ${causeText}`}`;
+		} catch {
+			return "<unrenderable value>";
+		} finally {
+			path.delete(current);
+		}
+	};
+	return render(value);
+}
+/**
 * Provider-owned request-retry policy configuration and resolution.
 *
 * Adapters expose one resolved policy per registered provider route; the
@@ -9672,22 +9792,22 @@ const DEFAULT_RETRYABLE_CODES = Object.freeze([
 	"TIMEOUT",
 	"TRANSPORT"
 ]);
-const backoffSchema = Schema.object({
-	initialDelayMs: Schema.number().max(MAX_TIMER_DELAY_MS).default(DEFAULT_INITIAL_DELAY_MS),
-	maxDelayMs: Schema.number().max(MAX_TIMER_DELAY_MS).default(DEFAULT_MAX_DELAY_MS),
-	jitterRatio: Schema.number().min(0).max(1).default(DEFAULT_JITTER_RATIO)
+const backoffSchema = Schema$1.object({
+	initialDelayMs: Schema$1.number().max(MAX_TIMER_DELAY_MS).default(DEFAULT_INITIAL_DELAY_MS),
+	maxDelayMs: Schema$1.number().max(MAX_TIMER_DELAY_MS).default(DEFAULT_MAX_DELAY_MS),
+	jitterRatio: Schema$1.number().min(0).max(1).default(DEFAULT_JITTER_RATIO)
 });
-const normalPolicySchema = Schema.object({
-	mode: Schema.const("normal").required(),
-	maxRetries: Schema.number().step(1).min(0).max(Number.MAX_SAFE_INTEGER).default(DEFAULT_MAX_RETRIES),
-	retryableCodes: Schema.array(Schema.string()).default([...DEFAULT_RETRYABLE_CODES]),
+const normalPolicySchema = Schema$1.object({
+	mode: Schema$1.const("normal").required(),
+	maxRetries: Schema$1.number().step(1).min(0).max(Number.MAX_SAFE_INTEGER).default(DEFAULT_MAX_RETRIES),
+	retryableCodes: Schema$1.array(Schema$1.string()).default([...DEFAULT_RETRYABLE_CODES]),
 	backoff: backoffSchema
 });
-const alwaysPolicySchema = Schema.object({
-	mode: Schema.const("always").required(),
+const alwaysPolicySchema = Schema$1.object({
+	mode: Schema$1.const("always").required(),
 	backoff: backoffSchema
 });
-Schema.union([normalPolicySchema, alwaysPolicySchema]);
+Schema$1.union([normalPolicySchema, alwaysPolicySchema]);
 /**
 * Centralize the non-secret product identity every provider request sends as `User-Agent`, keeping
 * adapters from drifting. See
@@ -9731,6 +9851,23 @@ const TYPERT_REMOTE_SEGMENT_PATTERN = /^[A-Za-z0-9_$.-]+$/;
 function isTypertRemoteSegment(value) {
 	return value !== "." && value !== ".." && TYPERT_REMOTE_SEGMENT_PATTERN.test(value);
 }
+/**
+* A lookup policy rejection whose typed payload belongs to the active boundary adapter.
+* Gateway adapters preserve this payload instead of collapsing it into an infrastructure failure.
+*/
+var TypertLookupFailure = class extends Error {
+	/** Adapter-owned failure returned to the caller. */
+	failure;
+	/**
+	* Wrap one adapter failure without exposing the rejected identity.
+	* @param failure - typed failure owned by the active boundary adapter.
+	*/
+	constructor(failure) {
+		super("Typert lookup policy rejected the requested identity");
+		this.name = "TypertLookupFailure";
+		this.failure = failure;
+	}
+};
 const markers = /* @__PURE__ */ new WeakMap();
 /**
 * Bind one visible Service field to a Cordis key and Remote namespace.
@@ -9749,6 +9886,21 @@ function bindTypertRemote(service, serviceKey, options = {}) {
 		namespace
 	});
 }
+/** Cordis Service base that exposes its registered name through Typert Gateway. */
+var TypertRemoteService = class extends Service {
+	/** Visible binding consumed by the Gateway's source-mode discovery. */
+	typertRemote;
+	/**
+	* Register the Service and bind the same key to Typert Gateway.
+	* @param ctx - owning Cordis Context.
+	* @param serviceKey - exact Cordis service key and default wire namespace.
+	* @param options - optional distinct wire namespace.
+	*/
+	constructor(ctx, serviceKey, options = {}) {
+		super(ctx, serviceKey);
+		this.typertRemote = bindTypertRemote(this, this.name, options);
+	}
+};
 function Remote(methodOrExportName, context) {
 	if (typeof methodOrExportName === "string") {
 		validateName("Remote export name", methodOrExportName);
@@ -10028,6 +10180,37 @@ const carrierKeys = /* @__PURE__ */ new WeakMap();
 * to a descendant key — {@link scopeTarget}).
 */
 const scopeParents = /* @__PURE__ */ new WeakMap();
+/** Cycle-checked write shared by the bind and every rebind. */
+function linkScopeParent(key, parent) {
+	for (let cursor = parent; cursor !== void 0; cursor = scopeParents.get(cursor)) if (cursor === key) throw new Error("dsh-scope: scope parent link would form a cycle");
+	scopeParents.set(key, parent);
+}
+/**
+* Bind `parent` as `key`'s enclosing scope, once.
+*
+* A key that already has a parent throws: there is no open re-link path, so a
+* scope's ancestry cannot be moved by anyone but the original binder, who
+* alone receives the {@link ScopeParentBinding}. A link that would close a
+* cycle is rejected, because every chain consumer walks parents to the root.
+* @param key - the child scope key.
+* @param parent - its enclosing scope key.
+* @returns the binding that alone may re-link this key.
+*/
+function bindScopeParent(key, parent) {
+	if (scopeParents.has(key)) throw new Error("dsh-scope: scope key is already bound to a parent; re-linking requires the binding returned by the original bind");
+	linkScopeParent(key, parent);
+	return { rebind(next) {
+		linkScopeParent(key, next);
+	} };
+}
+/**
+* Read one key's enclosing scope.
+* @param key - the scope key to inspect.
+* @returns its parent key, or `undefined` for a root scope.
+*/
+function scopeParentOf(key) {
+	return scopeParents.get(key);
+}
 /**
 * The chain from a key to its root ancestor.
 * @param key - the starting key, or `undefined` for the empty chain.
@@ -10037,6 +10220,32 @@ function scopeChainOf(key) {
 	const chain = [];
 	for (let cursor = key; cursor !== void 0; cursor = scopeParents.get(cursor)) chain.push(cursor);
 	return chain;
+}
+/** Follow a Cordis fiber through asynchronous teardown even if its raw disposer was already claimed. */
+async function quiesceFiber(fiber) {
+	await Promise.resolve(fiber.dispose());
+	while (fiber.inertia !== void 0) await fiber.inertia;
+}
+/** Shared no-op plugin used as the backing scope fiber. */
+function scope() {}
+/**
+* Mint a scope under `ctx`. The scoped context inherits the minting plugin's
+* dependency API and owns every registration made through it.
+* @param ctx - active context whose dependency API the scope inherits.
+* @param key - opaque identity used for listener routing.
+* @param options - optional scope-chain placement.
+* @returns the scoped context and exact/shared disposal boundaries.
+*/
+function createScope(ctx, key, options) {
+	if (options?.parent !== void 0) bindScopeParent(key, options.parent);
+	const fiber = ctx.plugin(scope);
+	const scoped = fiber.ctx.extend({ [kScope]: key });
+	let disposing;
+	return {
+		ctx: scoped,
+		rawDispose: fiber.dispose,
+		dispose: () => disposing ??= quiesceFiber(fiber)
+	};
 }
 /**
 * Read the nearest scope tag inherited by a context.
@@ -10072,6 +10281,14 @@ function scopeTarget(base, key) {
 }
 //#endregion
 //#region node_modules/.pnpm/@deepseek-ai+dsh-session@0._f3475d2e0abd209e639ed06267209bdd/node_modules/@deepseek-ai/dsh-session/lib/index.js
+/**
+* Brand a string as a {@link SessionId}.
+* @param id - the raw session id string.
+* @returns the same string, branded (a compile-time cast — no runtime cost).
+*/
+function SessionId(id) {
+	return id;
+}
 /** Lossless-JSON validation and detached snapshots for durable session data. @module @deepseek-ai/dsh-session/json */
 /** Whether a realm-owned intrinsic prototype is backed by its native constructor. */
 function hasIntrinsicConstructor$1(prototype, name) {
@@ -10238,6 +10455,44 @@ function snapshotJsonValue(value) {
 */
 function isJsonValue(value) {
 	return walkJsonValue(value, false) === true;
+}
+/**
+* Surface layer on top of the session event log: an ordered view of events
+* that produce LLM messages. The append-only log remains the source of truth.
+*
+* Browser-safe: web clients consume this subpath export, so it must stay free
+* of `node:` imports (they break the vite bundle).
+*
+* @module @deepseek-ai/dsh-session/surface
+*/
+/** Runtime counterpart of the message-producing event union. */
+const SURFACE_EVENT_TYPES = /* @__PURE__ */ new Set([
+	"user/message",
+	"assistant/message",
+	"tool/result"
+]);
+/**
+* Narrow an event to a surface-eligible event carrying its required marker.
+* @param event - event to test.
+* @returns true when both the type and marker identify a surface event.
+*/
+function isSurfaceEvent(event) {
+	if (!SURFACE_EVENT_TYPES.has(event.type)) return false;
+	return event.surfaceOp !== void 0;
+}
+/**
+* Narrow an event to an append-origin surface event: one that entered the
+* surface at its own log position and was never itself a replacement copy.
+*
+* The model-visible surface deliberately shadows replaced ranges, so it is the
+* wrong source for a human transcript — a landed replacement would erase
+* conversation the user already saw. Append-origin events are that transcript's
+* durable source material; replacement copies stay model-only.
+* @param event - event to test.
+* @returns true when the event appended to the surface tail.
+*/
+function isAppendSurfaceEvent(event) {
+	return isSurfaceEvent(event) && event.surfaceOp === "append";
 }
 //#endregion
 //#region node_modules/.pnpm/@deepseek-ai+dsh-tools@0.1._7117760508de0db46d4e3da5e4a645e6/node_modules/@deepseek-ai/dsh-tools/lib/index.js
@@ -12605,7 +12860,7 @@ var ToolOutputError = class extends HarnessError {
 };
 /** Convert one projector exception into the canonical invalid-output failure. */
 function projectionError(toolName, projector, error) {
-	return new ToolOutputError(toolName, [`output.${projector} failed: ${errorMessage(error)}`]);
+	return new ToolOutputError(toolName, [`output.${projector} failed: ${errorMessage$1(error)}`]);
 }
 /** Snapshot one projector result before later durable-result materialization. */
 function snapshotProjection(toolName, projector, candidate) {
@@ -12626,7 +12881,7 @@ function snapshotToolValue(toolName, candidate) {
 		return detached;
 	} catch (error) {
 		if (error instanceof ToolOutputError) throw error;
-		throw new ToolOutputError(toolName, [`value snapshot failed: ${errorMessage(error)}`]);
+		throw new ToolOutputError(toolName, [`value snapshot failed: ${errorMessage$1(error)}`]);
 	}
 }
 /**
@@ -12635,7 +12890,7 @@ function snapshotToolValue(toolName, candidate) {
 * property (e.g. `throw { message: 'denied' }`) use it too; everything else
 * is stringified.
 */
-function errorMessage(error) {
+function errorMessage$1(error) {
 	try {
 		if (error instanceof Error) return error.message;
 		if (typeof error === "object" && error !== null && "message" in error && typeof error.message === "string") return error.message;
@@ -12705,13 +12960,13 @@ function resolveMaxParallelSubCalls(value) {
 }
 (class extends Service {
 	static inject = ["systemPrompt"];
-	static Config = Schema.object({
-		mode: Schema.union([
+	static Config = Schema$1.object({
+		mode: Schema$1.union([
 			"native",
 			"code",
 			"both"
 		]).default("native"),
-		maxParallelSubCalls: Schema.natural().min(1).default(10)
+		maxParallelSubCalls: Schema$1.natural().min(1).default(10)
 	});
 	/** Internal staged view consumed by `dsh-agent-loop`'s parallel scheduler. */
 	[TOOL_RUNTIME_SCHEDULER] = {
@@ -13112,7 +13367,7 @@ function resolveMaxParallelSubCalls(value) {
 		try {
 			return await this.ctx.waterfall(scopeTarget(this, dispatch.agent), "tools/code-dispatch-log", dispatch, () => Promise.resolve(dispatch.content));
 		} catch (error) {
-			this.ctx.logger.warn(`tools: code-dispatch-log listener failed for ${dispatch.name}: ${errorMessage(error)}; logging the original settled content`);
+			this.ctx.logger.warn(`tools: code-dispatch-log listener failed for ${dispatch.name}: ${errorMessage$1(error)}; logging the original settled content`);
 			return dispatch.content;
 		}
 	}
@@ -13322,7 +13577,7 @@ function resolveMaxParallelSubCalls(value) {
 		const wrapperSignal = exec.signal;
 		const fused = fuseToolSignals(state.callerSignal, wrapperSignal);
 		const signal = fused.signal;
-		if (isAborted$1(signal)) {
+		if (isAborted$2(signal)) {
 			fused.dispose();
 			return toolAbortedBeforeDispatchResult();
 		}
@@ -13333,7 +13588,7 @@ function resolveMaxParallelSubCalls(value) {
 			state.bodyInvoked = true;
 			const returned = await tool.execute(exec.arguments, exec);
 			const result = this.createSuccessResult(exec, tool, returned);
-			return isAborted$1(signal) ? toolAbortedResult(result) : result;
+			return isAborted$2(signal) ? toolAbortedResult(result) : result;
 		} catch (error) {
 			return toolErrorResult(error);
 		} finally {
@@ -13427,7 +13682,7 @@ function resolveMaxParallelSubCalls(value) {
 		Object.freeze(exec);
 		const { name: toolName, callId } = exec;
 		const reportFailure = (error) => {
-			this.ctx.logger.warn(`tool "${toolName}" (${callId}): tools/result observer failed: ${errorMessage(error)}`);
+			this.ctx.logger.warn(`tool "${toolName}" (${callId}): tools/result observer failed: ${errorMessage$1(error)}`);
 		};
 		const callbacks = this.ctx.events.dispatch("emit", [
 			scopeTarget(this, exec.agent),
@@ -13631,7 +13886,7 @@ function createExecutionToken() {
 }
 function toolErrorResult(error) {
 	const info = errorInfo(error);
-	const message = errorMessage(error);
+	const message = errorMessage$1(error);
 	return {
 		content: [{
 			type: "text",
@@ -13645,7 +13900,7 @@ function toolErrorResult(error) {
 	};
 }
 /** Read live abort state across an await without treating it as synchronously immutable. */
-function isAborted$1(signal) {
+function isAborted$2(signal) {
 	return signal.aborted;
 }
 /**
@@ -14105,7 +14360,7 @@ const OK = (value) => ({
 	status: "valid",
 	value
 });
-const isAborted = (x) => x.status === "aborted";
+const isAborted$1 = (x) => x.status === "aborted";
 const isDirty = (x) => x.status === "dirty";
 const isValid = (x) => x.status === "valid";
 const isAsync = (x) => typeof Promise !== "undefined" && x instanceof Promise;
@@ -16277,7 +16532,7 @@ var ZodIntersection = class extends ZodType {
 	_parse(input) {
 		const { status, ctx } = this._processInputParams(input);
 		const handleParsed = (parsedLeft, parsedRight) => {
-			if (isAborted(parsedLeft) || isAborted(parsedRight)) return INVALID;
+			if (isAborted$1(parsedLeft) || isAborted$1(parsedRight)) return INVALID;
 			const merged = mergeValues(parsedLeft.value, parsedRight.value);
 			if (!merged.valid) {
 				addIssueToContext(ctx, { code: ZodIssueCode.invalid_intersection_types });
@@ -26797,18 +27052,18 @@ var require_enoent = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 //#endregion
 //#region node_modules/.pnpm/@modelcontextprotocol+sdk@1.30.0_zod@4.4.3/node_modules/@modelcontextprotocol/sdk/dist/esm/shared/stdio.js
 var import_cross_spawn = /* @__PURE__ */ __toESM((/* @__PURE__ */ __commonJSMin(((exports, module) => {
-	const cp = __require("child_process");
+	const cp$1 = __require("child_process");
 	const parse = require_parse();
 	const enoent = require_enoent();
 	function spawn(command, args, options) {
 		const parsed = parse(command, args, options);
-		const spawned = cp.spawn(parsed.command, parsed.args, parsed.options);
+		const spawned = cp$1.spawn(parsed.command, parsed.args, parsed.options);
 		enoent.hookChildProcess(spawned, parsed);
 		return spawned;
 	}
 	function spawnSync(command, args, options) {
 		const parsed = parse(command, args, options);
-		const result = cp.spawnSync(parsed.command, parsed.args, parsed.options);
+		const result = cp$1.spawnSync(parsed.command, parsed.args, parsed.options);
 		result.error = result.error || enoent.verifyENOENTSync(result.status, parsed);
 		return result;
 	}
@@ -28345,6 +28600,7991 @@ var InMemoryTransport = class InMemoryTransport {
 	}
 };
 //#endregion
+//#region node_modules/.pnpm/@deepseek-ai+dsh-agent@0.1._04c5725d286bf96cdb1e82a6efae06f1/node_modules/@deepseek-ai/dsh-agent/lib/index.js
+/**
+* Agent-scoped model selection shared by runtime entry points.
+* @module @deepseek-ai/dsh-agent/model-selection
+*/
+/**
+* Couple one mutable selection to Agent-scoped prompt assembly and request routing.
+* Prompt assembly snapshots the selected model before delegating, then applies
+* its provider/model pair and effort to request config so a
+* concurrent switch takes effect on a later step instead of splitting the two
+* surfaces. An absent selected effort clears any inherited effort, restoring
+* the selected model's provider/default behavior.
+*
+* @param agentCtx - The selected Agent's scoped context.
+* @param selection - Mutable selection owned by the calling entry point.
+* @returns Disposer for both scoped waterfall listeners.
+*/
+function installModelSelection(agentCtx, selection) {
+	const disposeAssembly = agentCtx.on("system-prompt/assemble", async (_assembly, _context, next) => {
+		const selected = selection.current;
+		const assembled = await next();
+		selection.assembled = selected;
+		if (selected === void 0) return assembled;
+		return {
+			...assembled,
+			variables: {
+				...assembled.variables,
+				provider: selected.provider,
+				model: selected.model
+			}
+		};
+	});
+	const disposeRequest = agentCtx.on("agent/request", async (_payload, next) => {
+		const resolved = await next();
+		const selected = selection.assembled;
+		if (selected === void 0) return resolved;
+		const { reasoningEffort: _inheritedEffort, ...withoutInheritedEffort } = resolved;
+		return {
+			...withoutInheritedEffort,
+			provider: selected.provider,
+			model: selected.model,
+			...selected.reasoningEffort === void 0 ? {} : { reasoningEffort: selected.reasoningEffort }
+		};
+	});
+	return () => {
+		disposeAssembly();
+		disposeRequest();
+	};
+}
+/**
+* Agent-scoped dispatch and prompt assembly helpers. The fused dispatcher
+* {@link agentEvents} couples the agent subject to its scope carrier, so the
+* scope key and the payload's `agent` cannot diverge; repeat dispatchers (the
+* loop driver) build it once in the agent's constructor and reuse it.
+* @module @deepseek-ai/dsh-agent/dispatch
+*/
+/**
+* Build the fused scope carrier for one agent subject.
+*
+* The carrier is a stateless routing object. {@link agentEvents} accepts an
+* existing carrier, so callers that dispatch repeatedly for the same agent
+* (the loop driver) build it once in the agent's constructor and reuse it,
+* keeping hot-path dispatches allocation-free.
+* @param agent - the subject agent and scope key.
+* @returns the carrier passed as the event dispatcher `this` value.
+*/
+function agentCarrier(agent) {
+	return scopeTarget(agent, agent);
+}
+/**
+* Build a dispatcher that couples the agent subject to its scope carrier.
+* @param ctx - the context to dispatch through (any context of the app).
+* @param agent - the subject agent; also the scope-carrier key.
+* @param carrier - the scope carrier to dispatch through; defaults to
+* {@link agentCarrier} for the agent. Pass a constructor-built carrier to
+* avoid rebuilding it for every dispatch.
+* @returns the fused dispatcher.
+*/
+function agentEvents(ctx, agent, carrier = agentCarrier(agent)) {
+	const fused = (payload) => ({
+		...payload,
+		agent
+	});
+	return {
+		emit(name, payload) {
+			const args = [
+				carrier,
+				name,
+				fused(payload)
+			];
+			const callbacks = ctx.events.dispatch("emit", args);
+			for (const callback of callbacks) try {
+				const returned = callback(...args);
+				Promise.resolve(returned).catch((error) => {
+					ctx.logger.warn(`agent event "${name}" listener rejected: ${String(error)}`);
+				});
+			} catch (error) {
+				ctx.logger.warn(`agent event "${name}" listener threw: ${String(error)}`);
+			}
+		},
+		async serial(name, payload) {
+			const serial = ctx.serial;
+			return await serial(carrier, name, fused(payload));
+		},
+		waterfall(name, payload, ...rest) {
+			const waterfall = ctx.waterfall;
+			return waterfall(carrier, name, fused(payload), ...rest);
+		}
+	};
+}
+//#endregion
+//#region node_modules/.pnpm/@deepseek-ai+dsh-attachment_196914f91d44cfdaf1ac8baf85d27e79/node_modules/@deepseek-ai/dsh-attachment/lib/index.js
+/**
+* Stable failures suitable for host RPC error mapping.
+*
+* Deliberately re-implements the `HarnessError` shape instead of extending it:
+* the base lives in `@deepseek-ai/dsh-llm`, which itself depends on this
+* package (`ImageBlock` references `ImageAttachmentRef`), so sharing the base
+* would create a dependency cycle. Consumers route on `code`, never on the
+* prototype chain, so the shapes stay interchangeable at the wire boundary.
+*/
+var AttachmentError = class extends Error {
+	/** Stable machine-routing failure code. */
+	code;
+	/**
+	* @param message - human-readable failure description without raw bytes or host paths.
+	* @param code - stable machine-routing code.
+	* @param options - optional chained cause.
+	*/
+	constructor(message, code, options) {
+		super(message, options);
+		this.name = "AttachmentError";
+		this.code = code;
+	}
+};
+/** Wire-form admission of base64-encoded image uploads. @module @deepseek-ai/dsh-attachment/admission */
+/** Decode one upload payload while rejecting non-canonical base64 forms. */
+function decodeBase64(data) {
+	const decoded = Buffer$1.from(data, "base64");
+	if (data.length === 0 || decoded.toString("base64") !== data) throw new AttachmentError("Image upload is not canonical base64.", "INVALID_IMAGE_BASE64");
+	return new Uint8Array(decoded);
+}
+/** Store input for one decoded upload. */
+function saveInput(image) {
+	return {
+		data: decodeBase64(image.data),
+		mediaType: image.mediaType,
+		...image.name === void 0 ? {} : { name: image.name }
+	};
+}
+/**
+* Admit one wire image batch: enforce canonical base64 on every member, then
+* delegate batch admission — count and aggregate-byte limits, media-type and
+* per-image validation, ordered commit — to {@link AttachmentStore.saveImages}.
+* The shared entry for every RPC endpoint accepting browser uploads.
+* @param attachments - the deployment attachment store owning batch policy.
+* @param images - base64-encoded uploads in caller order.
+* @returns durable references in the same order as `images`.
+* @throws AttachmentError on a non-canonical payload or a refused batch.
+*/
+async function admitEncodedImages(attachments, images) {
+	return attachments.saveImages(images.map(saveInput));
+}
+//#endregion
+//#region node_modules/.pnpm/@deepseek-ai+dsh-session-ti_f34fae49c9f2e47bf05d07c0d9cacfe8/node_modules/@deepseek-ai/dsh-session-title/lib/index.js
+/** Title text normalization and UTF-8-safe truncation. */
+/** Operating-system-command escape sequences, including unterminated tails. */
+const OSC_SEQUENCE = /(?:\u001B\]|\u009D)(?:(?!\u0007|\u001B\\)[\s\S])*(?:\u0007|\u001B\\|$)/gu;
+/** Control-sequence-introducer escapes such as SGR color codes. */
+const CSI_SEQUENCE = /(?:\u001B\[|\u009B)[0-?]*[ -/]*[@-~]/gu;
+/** Remaining two-byte ESC control sequences. */
+const ESC_SEQUENCE = /\u001B[@-_]/gu;
+/** Non-whitespace C0/C1 control characters. */
+const CONTROL_CHARACTER = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F]/gu;
+/** Directional and invisible controls that can make a displayed title deceptive. */
+const DIRECTIONAL_CONTROL = /[\u200B\u200E\u200F\u202A-\u202E\u2060-\u2064\u2066-\u206F\uFEFF]/gu;
+/** Reject an invalid public text limit. */
+function assertPositiveInteger$1(name, value) {
+	if (!Number.isInteger(value) || value <= 0) throw new Error(`${name} must be a positive integer`);
+}
+/** Remove controls and produce one trimmed, whitespace-normalized line. */
+function cleanTitleText(input) {
+	return input.replace(OSC_SEQUENCE, "").replace(CSI_SEQUENCE, "").replace(ESC_SEQUENCE, "").replace(CONTROL_CHARACTER, "").replace(DIRECTIONAL_CONTROL, "").replace(/\s+/gu, " ").trim();
+}
+/**
+* Truncate a string to a UTF-8 byte budget without splitting a Unicode code point.
+* @param input - normalized title text.
+* @param maxBytes - positive UTF-8 byte budget.
+* @returns the longest leading code-point prefix within the budget.
+*/
+function truncateTitleUtf8(input, maxBytes) {
+	assertPositiveInteger$1("maxBytes", maxBytes);
+	if (Buffer.byteLength(input, "utf8") <= maxBytes) return input;
+	let used = 0;
+	let output = "";
+	for (const character of input) {
+		const bytes = Buffer.byteLength(character, "utf8");
+		if (used + bytes > maxBytes) break;
+		output += character;
+		used += bytes;
+	}
+	return output;
+}
+/**
+* Normalize one accepted session title and enforce its UTF-8 byte budget.
+* @param input - untrusted title text.
+* @param maxBytes - positive maximum encoded size.
+* @returns a terminal-safe one-line title, possibly empty after sanitization.
+*/
+function normalizeSessionTitle(input, maxBytes) {
+	return truncateTitleUtf8(cleanTitleText(input), maxBytes).trimEnd();
+}
+/**
+* Derive the deterministic first-prompt fallback.
+* @param input - text from the first eligible human message.
+* @param maxWords - positive whitespace-delimited word cap.
+* @param maxBytes - positive UTF-8 byte cap.
+* @returns the normalized leading words within both limits.
+*/
+function fallbackSessionTitle(input, maxWords, maxBytes) {
+	assertPositiveInteger$1("maxWords", maxWords);
+	return truncateTitleUtf8(cleanTitleText(input).split(" ").filter(Boolean).slice(0, maxWords).join(" "), maxBytes).trimEnd();
+}
+/**
+* Rejection of an explicit user title whose text normalizes to empty — the
+* one {@link SessionTitleService.rename} failure that blames the input.
+* Callers translating rename failures onto a wire (`title-invalid`) narrow on
+* this class; liveness and disposal failures stay plain `Error`s.
+*/
+var SessionTitleInvalidError = class extends Error {
+	name = "SessionTitleInvalidError";
+};
+/**
+* Collect human text-bearing user messages in log order.
+* @param events - session log or persisted replay.
+* @param throughSeq - optional inclusive event boundary.
+* @returns eligible messages with exact source seqs.
+*/
+function collectSessionTitleMessages(events, throughSeq) {
+	const messages = [];
+	for (const event of events) {
+		if (throughSeq !== void 0 && event.seq > throughSeq) break;
+		if (event.type !== "user/message" || event.data.source.kind !== "user") continue;
+		const text = event.data.content.filter((block) => block.type === "text").map((block) => block.text).join("\n");
+		if (normalizeSessionTitle(text, Number.MAX_SAFE_INTEGER).length === 0) continue;
+		messages.push({
+			seq: event.seq,
+			text
+		});
+	}
+	return messages;
+}
+/**
+* Fold the latest logged title without consulting mutable metadata.
+* @param events - live or persisted session log.
+* @returns the latest immutable title snapshot, or `undefined`.
+*/
+function foldSessionTitle(events) {
+	const event = events.findLast((item) => item.type === "session/title");
+	if (event === void 0) return void 0;
+	return deepFreeze({
+		title: event.data.title,
+		messageSeqs: [...event.data.messageSeqs],
+		source: copySessionTitleSource(event.data.source),
+		eventSeq: event.seq,
+		updatedAt: event.time
+	});
+}
+/** Defensive copy of a logged title source (the snapshot must not alias log-owned objects). */
+function copySessionTitleSource(source) {
+	switch (source.kind) {
+		case "fallback": return { kind: "fallback" };
+		case "provider": return {
+			kind: "provider",
+			provider: source.provider,
+			...source.model === void 0 ? {} : { model: { ...source.model } }
+		};
+		case "user": return { kind: "user" };
+		/* v8 ignore next -- closed-union exhaustiveness guard */
+		default: return assertNever(source, "SessionTitleSource");
+	}
+}
+/** Validate one positive integer configuration field. */
+function assertPositiveInteger$2(name, value) {
+	if (!Number.isInteger(value) || value <= 0) throw new Error(`session-title: ${name} must be a positive integer`);
+}
+(class extends Service {
+	static inject = ["sessions"];
+	static Config = Schema$1.object({
+		fallbackMaxWords: Schema$1.number().step(1).min(1).required(),
+		fallbackMaxBytes: Schema$1.number().step(1).min(1).required(),
+		maxTitleBytes: Schema$1.number().step(1).min(1).required()
+	});
+	config;
+	ownerFiber;
+	registration;
+	work = /* @__PURE__ */ new Map();
+	lifetime = new AbortController();
+	inFlight = /* @__PURE__ */ new Set();
+	constructor(ctx, config) {
+		super(ctx, "sessionTitle");
+		this.ownerFiber = ctx.fiber;
+		const candidate = config;
+		if (candidate === null || typeof candidate !== "object") throw new Error("session-title: configuration is required");
+		const value = candidate;
+		assertPositiveInteger$2("fallbackMaxWords", value.fallbackMaxWords);
+		assertPositiveInteger$2("fallbackMaxBytes", value.fallbackMaxBytes);
+		assertPositiveInteger$2("maxTitleBytes", value.maxTitleBytes);
+		if (value.fallbackMaxBytes > value.maxTitleBytes) throw new Error("session-title: fallbackMaxBytes must not exceed maxTitleBytes");
+		this.config = deepFreeze({ ...value });
+		ctx.effect(() => async () => {
+			this.lifetime.abort(/* @__PURE__ */ new Error("session-title service disposed"));
+			if (this.registration !== void 0) this.registration.closing = true;
+			this.registration = void 0;
+			for (const state of this.work.values()) {
+				delete state.pending;
+				state.active?.controller.abort(/* @__PURE__ */ new Error("session-title service disposed"));
+			}
+			await this.drain(this.inFlight);
+			this.work.clear();
+		}, "sessionTitle lifecycle");
+		ctx.inject(["sessionProjections"], (projectionCtx) => {
+			const titleSchema = union([string().min(1), _null$1()]);
+			projectionCtx.sessionProjections.register({
+				key: "title",
+				stateSchema: titleSchema,
+				init: () => null,
+				apply: (state, event) => event.type === "session/title" ? event.data.title : state,
+				wire: {
+					viewSchema: titleSchema,
+					view: (state) => state
+				},
+				stateVersion: 1
+			});
+		});
+		ctx.on("session/event", (session, event) => {
+			switch (event.type) {
+				case "user/message":
+					this.onUserMessage(session, event);
+					break;
+				case "request/header": this.onRequestHeader(session, event);
+			}
+		});
+		ctx.on("llm/stream", (options, next) => {
+			this.onMainRequest(options);
+			return next();
+		}, {
+			global: true,
+			prepend: true
+		});
+		ctx.on("session/disposed", (session) => {
+			const state = this.work.get(session);
+			if (state === void 0) return;
+			state.active?.controller.abort(/* @__PURE__ */ new Error("session disposed during title generation"));
+			this.work.delete(session);
+		});
+	}
+	/**
+	* Read the latest folded title from one live or replayed session.
+	* @param session - session whose log is the title source of truth.
+	* @returns latest title snapshot, or `undefined` before eligible input.
+	*/
+	get(session) {
+		return foldSessionTitle(session.events);
+	}
+	/**
+	* Accept an explicit user title. Appends a `session/title` event with the
+	* `user` source, which pins the title: in-flight automatic generation is
+	* superseded and later user messages schedule none (an explicit
+	* {@link SessionTitleService.refresh} remains the deliberate unpin).
+	* @param session - exact live session to rename.
+	* @param title - raw user input; normalized before acceptance.
+	* @returns the accepted title snapshot.
+	* @throws {SessionTitleInvalidError} when the title normalizes to empty.
+	* @throws {Error} when the session is not live or the service is disposed.
+	*/
+	rename(session, title) {
+		this.assertServiceActive();
+		if (this.ctx.sessions.get(session.id) !== session) throw new Error(`session "${session.id}" is not live in this store`);
+		const normalized = normalizeSessionTitle(title, this.config.maxTitleBytes);
+		if (normalized.length === 0) throw new SessionTitleInvalidError("session title must contain visible characters");
+		const state = this.stateFor(session);
+		this.supersede(state, "user rename superseded automatic title generation");
+		session.append("session/title", {
+			title: normalized,
+			messageSeqs: [],
+			source: { kind: "user" }
+		});
+		const snapshot = this.get(session);
+		/* v8 ignore next -- unreachable: the append above just committed a session/title event. */
+		if (snapshot === void 0) throw new Error("renamed title failed to fold");
+		return snapshot;
+	}
+	/**
+	* Explicitly retry the registered provider, or materialize the built-in
+	* fallback when no provider is registered.
+	* @param session - exact live session to refresh.
+	* @param signal - optional caller cancellation.
+	* @returns latest accepted title, or `undefined` when no eligible text exists.
+	*/
+	async refresh(session, signal) {
+		signal?.throwIfAborted();
+		this.assertServiceActive();
+		if (this.ctx.sessions.get(session.id) !== session) throw new Error(`session "${session.id}" is not live in this store`);
+		const registration = this.registration;
+		const messages = collectSessionTitleMessages(session.events);
+		const latest = messages.at(-1);
+		if (registration === void 0 || registration.closing || latest === void 0) {
+			const current = this.get(session);
+			const [first] = messages;
+			if (current?.source.kind === "user" && first !== void 0) {
+				this.appendFallback(session, first);
+				signal?.throwIfAborted();
+				return this.get(session);
+			}
+			const fallback = await this.ensureFallback(session);
+			signal?.throwIfAborted();
+			return fallback;
+		}
+		const state = this.stateFor(session);
+		const revision = this.supersede(state, "explicit title refresh superseded older generation");
+		const work = this.activate({
+			registration,
+			revision,
+			throughSeq: latest.seq
+		}, state, signal);
+		const config = session.requestHeader()?.config;
+		const route = config === void 0 ? void 0 : {
+			provider: config.provider,
+			model: config.model
+		};
+		return this.startProvider(session, work, route);
+	}
+	/**
+	* Register the sole optional title provider. Disposal aborts its pending and
+	* active work before another provider may register.
+	* @param provider - provider identity, cadence, and generation function.
+	* @returns exact Cordis effect disposer, which settles after active calls quiesce.
+	*/
+	register(provider) {
+		this.validateProvider(provider);
+		if (this.registration !== void 0) throw new Error(`session-title provider "${this.registration.provider.id}" is already registered`);
+		const registration = {
+			provider,
+			active: /* @__PURE__ */ new Set(),
+			closing: false
+		};
+		return this.ctx.effect(function* () {
+			this.registration = registration;
+			yield async () => {
+				registration.closing = true;
+				for (const state of this.work.values()) {
+					if (state.pending?.registration === registration) delete state.pending;
+					if (state.active?.registration === registration) state.active.controller.abort(/* @__PURE__ */ new Error(`session-title provider "${provider.id}" was disposed`));
+				}
+				await this.drain(registration.active);
+				if (this.registration === registration) this.registration = void 0;
+			};
+		}.bind(this), "sessionTitle.register()");
+	}
+	/** Schedule fallback creation and any provider cadence for one eligible event. */
+	onUserMessage(session, event) {
+		if (!this.serviceActive()) return;
+		if (event.data.source.kind !== "user" || collectSessionTitleMessages([event]).length === 0) return;
+		if (this.get(session)?.source.kind === "user") return;
+		const registration = this.registration;
+		if (registration !== void 0 && !registration.closing) {
+			const messages = collectSessionTitleMessages(session.events, event.seq);
+			if (registration.provider.automatic === "all-prompts" || session.header.parentSession === void 0 && messages.length === 1 && this.get(session) === void 0) {
+				const state = this.stateFor(session);
+				state.pending = {
+					registration,
+					revision: this.supersede(state, "newer user message superseded title generation"),
+					throughSeq: event.seq
+				};
+			}
+		}
+		this.defer(async () => {
+			try {
+				await this.ensureFallback(session);
+			} catch (error) {
+				if (!this.serviceActive()) return;
+				this.ctx.logger.warn(`session "${session.id}": fallback title update failed: ${String(error)}`);
+			}
+		});
+	}
+	/** Start pending automatic work only after its exact main-request route is logged. */
+	onRequestHeader(session, event) {
+		if (!this.serviceActive()) return;
+		const state = this.work.get(session);
+		const pending = state?.pending;
+		if (state === void 0 || pending === void 0 || pending.throughSeq >= event.seq) return;
+		const route = {
+			provider: event.data.header.config.provider,
+			model: event.data.header.config.model
+		};
+		this.startPending(session, state, pending, route);
+	}
+	/** Start unchanged-route work from the marked loop request after its header fold is current. */
+	onMainRequest(options) {
+		if (!this.serviceActive() || options.sessionId === void 0 || !isAgentLoopRequest(options)) return;
+		const session = this.ctx.sessions.get(options.sessionId);
+		const state = session === void 0 ? void 0 : this.work.get(session);
+		const pending = state?.pending;
+		if (session === void 0 || state === void 0 || pending === void 0) return;
+		const boundary = session.events.findLast((event) => event.type === "step/start" || event.type === "step/end");
+		const route = session.requestHeader()?.config;
+		if (boundary?.type !== "step/start" || boundary.seq <= pending.throughSeq || route?.provider !== options.provider || route.model !== options.model) return;
+		this.startPending(session, state, pending, {
+			provider: options.provider,
+			model: options.model
+		});
+	}
+	/** Consume one pending revision and schedule its non-blocking provider call. */
+	startPending(session, state, pending, route) {
+		delete state.pending;
+		this.defer(async () => {
+			if (this.registration !== pending.registration || pending.registration.closing || this.work.get(session) !== state || state.revision !== pending.revision) return;
+			const work = this.activate(pending, state);
+			try {
+				await this.startProvider(session, work, route);
+			} catch (error) {
+				if (work.signal.aborted || !this.serviceActive()) return;
+				this.ctx.logger.warn(`session "${session.id}": automatic title generation failed: ${String(error)}`);
+			}
+		});
+	}
+	/** Start one tracked provider call after publishing its active revision. */
+	startProvider(session, work, route) {
+		const run = Promise.resolve().then(() => this.runProvider(session, work, route));
+		return this.track(run, work.registration);
+	}
+	/** Execute and accept one current provider revision. */
+	async runProvider(session, work, route) {
+		try {
+			this.assertCurrent(session, work);
+			await this.ensureFallback(session);
+			this.assertCurrent(session, work);
+			const messages = collectSessionTitleMessages(session.events, work.throughSeq);
+			const result = await work.registration.provider.generate({
+				session,
+				messages,
+				...route === void 0 ? {} : { route },
+				signal: work.signal
+			});
+			this.assertCurrent(session, work);
+			const accepted = this.validateResult(result, messages);
+			session.append("session/title", {
+				title: accepted.title,
+				messageSeqs: [...accepted.messageSeqs],
+				source: {
+					kind: "provider",
+					provider: work.registration.provider.id,
+					...accepted.model === void 0 ? {} : { model: accepted.model }
+				}
+			});
+			return this.get(session);
+		} finally {
+			const state = this.work.get(session);
+			if (state?.active === work) delete state.active;
+		}
+	}
+	/** Validate and normalize provider output against the supplied message snapshot. */
+	validateResult(result, messages) {
+		if (result === null || typeof result !== "object") throw new Error("session-title provider returned an invalid result");
+		const candidate = result;
+		if (typeof candidate.title !== "string") throw new Error("session-title provider title must be a string");
+		const title = normalizeSessionTitle(candidate.title, this.config.maxTitleBytes);
+		if (title.length === 0) throw new Error("session-title provider returned an empty title");
+		if (!Array.isArray(candidate.messageSeqs) || candidate.messageSeqs.length === 0) throw new Error("session-title provider must identify at least one source message seq");
+		const messageSeqs = [];
+		const order = new Map(messages.map((message, index) => [message.seq, index]));
+		let previous = -1;
+		for (const seq of candidate.messageSeqs) {
+			if (typeof seq !== "number") throw new Error("session-title provider messageSeqs must be unique, ordered seqs from the request");
+			const index = order.get(seq);
+			if (!Number.isSafeInteger(seq) || seq < 0 || index === void 0 || index <= previous) throw new Error("session-title provider messageSeqs must be unique, ordered seqs from the request");
+			messageSeqs.push(seq);
+			previous = index;
+		}
+		const modelCandidate = candidate.model;
+		let model;
+		if (modelCandidate !== void 0) {
+			if (modelCandidate === null || typeof modelCandidate !== "object") throw new Error("session-title provider result model must contain non-empty provider and model strings");
+			const record = modelCandidate;
+			if (typeof record.provider !== "string" || record.provider.length === 0 || typeof record.model !== "string" || record.model.length === 0) throw new Error("session-title provider result model must contain non-empty provider and model strings");
+			model = {
+				provider: record.provider,
+				model: record.model
+			};
+		}
+		return {
+			title,
+			messageSeqs,
+			...model === void 0 ? {} : { model }
+		};
+	}
+	/** Fail a completion whose provider, revision, session, or signal is stale. */
+	assertCurrent(session, work) {
+		this.assertServiceActive();
+		work.signal.throwIfAborted();
+		const state = this.work.get(session);
+		/* v8 ignore next -- every supported supersession, provider disposal, and session disposal aborts
+		* the work signal before changing this state. */
+		if (this.registration !== work.registration || state?.active !== work || state.revision !== work.revision || this.ctx.sessions.get(session.id) !== session) throw new Error("session title generation state changed without cancellation");
+	}
+	/** Create and publish an active provider call from one fixed revision. */
+	activate(pending, state, upstream) {
+		const controller = new AbortController();
+		const signal = upstream === void 0 ? AbortSignal.any([controller.signal, this.lifetime.signal]) : AbortSignal.any([
+			controller.signal,
+			this.lifetime.signal,
+			upstream
+		]);
+		const work = {
+			...pending,
+			controller,
+			signal
+		};
+		state.active = work;
+		return work;
+	}
+	/** Abort older active work and reserve the next session-local revision. */
+	supersede(state, reason) {
+		state.active?.controller.abort(new Error(reason));
+		delete state.pending;
+		state.revision += 1;
+		return state.revision;
+	}
+	/** Return mutable work state for one session. */
+	stateFor(session) {
+		let state = this.work.get(session);
+		if (state === void 0) {
+			state = { revision: 0 };
+			this.work.set(session, state);
+		}
+		return state;
+	}
+	/** Queue detached service work and retain it through service disposal. */
+	defer(task) {
+		const run = Promise.resolve().then(async () => {
+			if (!this.serviceActive()) return;
+			await task();
+		});
+		this.track(run);
+	}
+	/** Retain one promise until settlement for service and optional provider teardown. */
+	track(run, registration) {
+		this.inFlight.add(run);
+		registration?.active.add(run);
+		const settled = () => {
+			this.inFlight.delete(run);
+			registration?.active.delete(run);
+		};
+		run.then(settled, settled);
+		return run;
+	}
+	/** Await every current and settling promise in one lifecycle registry. */
+	async drain(active) {
+		while (active.size > 0) await Promise.allSettled([...active]);
+	}
+	/** Whether the owning plugin fiber can still start or commit title work. */
+	serviceActive() {
+		return !this.lifetime.signal.aborted && this.ownerFiber.uid !== null && this.ownerFiber.state === 2;
+	}
+	/** Reject work once the owning plugin fiber has begun unloading. */
+	assertServiceActive() {
+		if (!this.serviceActive()) throw new Error("session-title service disposed");
+	}
+	/** Reject malformed provider registrations before publishing an effect. */
+	validateProvider(provider) {
+		if (provider === null || typeof provider !== "object") throw new Error("session-title provider must be an object");
+		const candidate = provider;
+		if (typeof candidate.id !== "string" || candidate.id.length === 0) throw new Error("session-title provider id must be a non-empty string");
+		if (candidate.automatic !== "first-prompt" && candidate.automatic !== "all-prompts") throw new Error("session-title provider automatic mode is invalid");
+		if (typeof candidate.generate !== "function") throw new Error(`session-title provider "${candidate.id}" requires generate()`);
+	}
+	/**
+	* Derive and append the deterministic fallback title over whatever stands
+	* (the refresh unpin path: overwriting a pinned user title is the point).
+	* Synchronous on purpose — no await may separate derivation from append, so
+	* it needs neither ensureFallback's in-flight dedup nor its liveness
+	* re-check. An underivable fallback (empty after the caps) appends nothing.
+	*/
+	appendFallback(session, first) {
+		const title = fallbackSessionTitle(first.text, this.config.fallbackMaxWords, this.config.fallbackMaxBytes);
+		if (title.length === 0) return;
+		session.append("session/title", {
+			title,
+			messageSeqs: [first.seq],
+			source: { kind: "fallback" }
+		});
+	}
+	/** Create the first deterministic fallback if the session still lacks a title. */
+	async ensureFallback(session) {
+		this.assertServiceActive();
+		const current = this.get(session);
+		if (current !== void 0) return current;
+		const [first] = collectSessionTitleMessages(session.events);
+		if (first === void 0) return void 0;
+		const title = fallbackSessionTitle(first.text, this.config.fallbackMaxWords, this.config.fallbackMaxBytes);
+		if (title.length === 0) return void 0;
+		const state = this.stateFor(session);
+		if (state.fallback !== void 0) return state.fallback;
+		const fallback = Promise.resolve().then(() => {
+			this.assertServiceActive();
+			if (this.ctx.sessions.get(session.id) !== session) throw new Error(`session "${session.id}" is not live in this store`);
+			const accepted = this.get(session);
+			if (accepted !== void 0) return accepted;
+			session.append("session/title", {
+				title,
+				messageSeqs: [first.seq],
+				source: { kind: "fallback" }
+			});
+			return this.get(session);
+		});
+		state.fallback = fallback;
+		try {
+			return await fallback;
+		} finally {
+			delete state.fallback;
+		}
+	}
+});
+//#endregion
+//#region node_modules/.pnpm/@deepseek-ai+dsh-session-qu_8a2b8c407bbbce44a6c33b89d618a6d4/node_modules/@deepseek-ai/dsh-session-query/lib/index.js
+/** Typed session-query failure whose `code` is one closed taxonomy member. */
+var SessionQueryError = class extends HarnessError {
+	constructor(message, code, options) {
+		super(message, code, options);
+	}
+};
+//#endregion
+//#region node_modules/.pnpm/@deepseek-ai+dsh-subagent@0_918ef845fac01ef52cc0c45788b6b11a/node_modules/@deepseek-ai/dsh-subagent/lib/index.js
+/**
+* Typed failures shared by subagent service and provider operations.
+*
+* @module @deepseek-ai/dsh-subagent
+*/
+/** Typed failure for the subagent seam. */
+var SubagentError = class extends HarnessError {
+	constructor(message, code, options) {
+		super(message, code, options);
+		this.name = "SubagentError";
+	}
+};
+const DESCRIPTOR_BASE_KEYS = [
+	"version",
+	"mode",
+	"provider",
+	"label"
+];
+new Set(DESCRIPTOR_BASE_KEYS);
+[...DESCRIPTOR_BASE_KEYS];
+/**
+* Pure session projections for subagent identity (mode/label) and active-turn
+* duration.
+*
+* @module @deepseek-ai/dsh-subagent/projection
+*/
+const activeIntervalSchema = object$1({
+	since: number().int().nonnegative(),
+	through: number().int().nonnegative()
+}).strict();
+object$1({
+	settledMs: number().int().nonnegative(),
+	active: activeIntervalSchema.optional()
+}).strict().transform(({ settledMs, active }) => ({
+	settledMs,
+	...active === void 0 ? {} : { active }
+}));
+object$1({
+	settledMs: number().int().nonnegative(),
+	active: activeIntervalSchema.optional(),
+	pendingTurnStart: number().int().nonnegative().optional(),
+	descriptorSeen: boolean()
+}).strict();
+const identityValueSchema = discriminatedUnion("mode", [object$1({
+	mode: literal("one-shot"),
+	label: string().optional(),
+	seq: number().int().nonnegative()
+}).strict(), object$1({
+	mode: literal("continuable"),
+	label: string(),
+	seq: number().int().nonnegative()
+}).strict()]);
+identityValueSchema.nullable();
+object$1({ identity: identityValueSchema.optional() }).strict();
+new TextEncoder();
+new TextDecoder();
+Object.freeze({
+	outputSchema: false,
+	depthLimit: false,
+	toolFilter: false,
+	persona: false
+});
+//#endregion
+//#region node_modules/.pnpm/@deepseek-ai+dsh-skill@0.1._59a2d92d9f246f83337b4268751f40ea/node_modules/@deepseek-ai/dsh-skill/lib/index.js
+/**
+* Agent skill provider registry.
+*
+* This package owns the Service Definition role of the skill capability seam.
+* Concrete
+* providers such as `@deepseek-ai/dsh-skill-filesystem` decide where skills come
+* from; this service only merges provider catalogs, resolves the winning skill
+* for a name, and exposes the winning summaries and definitions to consumers.
+*
+* @module @deepseek-ai/dsh-skill
+*/
+const SKILL_NAME = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const DEFAULT_COLLECT_CACHE_ENTRIES = 128;
+const MAX_COLLECT_ATTEMPTS = 2;
+const RUNTIME_PROVIDER = "runtime";
+const RUNTIME_RANK = 250;
+/**
+* Return whether a string is a valid kebab-case skill name.
+* @param name - candidate skill name to validate.
+* @returns whether the name matches the public skill-name grammar.
+*/
+function isSkillName(name) {
+	return SKILL_NAME.test(name);
+}
+/**
+* Return whether a skill may be advertised to and loaded by a human-facing command.
+* @param skill - skill metadata carrying resolved invocation controls.
+* @returns whether the policy permits user invocation.
+*/
+function isUserInvocable(skill) {
+	return skill.invocation.userInvocable;
+}
+/** One scope's complete skill-registry contribution. */
+var SkillLayer = class {
+	/** Providers registered through contexts carrying this scope, insertion-ordered. */
+	providers;
+	/** Runtime skills registered through contexts carrying this scope. */
+	runtime = /* @__PURE__ */ new Map();
+	constructor(scope) {
+		this.providers = new NamedEntries((name) => /* @__PURE__ */ new Error(scope === void 0 ? `a skill provider named "${name}" is already registered` : `a skill provider named "${name}" is already registered in this scope`));
+	}
+	/** Whether every contribution table in this aggregate layer is empty. */
+	isEmpty() {
+		return this.providers.isEmpty() && this.runtime.size === 0;
+	}
+};
+(class extends Service {
+	static Config = Schema$1.object({ collectCacheMaxEntries: Schema$1.number().default(DEFAULT_COLLECT_CACHE_ENTRIES) });
+	collectCacheMaxEntries;
+	layers = new ScopedLayers((scope) => new SkillLayer(scope), () => {
+		this.invalidateCache();
+	});
+	collectCache = /* @__PURE__ */ new Map();
+	revision = 0;
+	nextProviderOrder = 0;
+	/** Stable identities for cache keys; scope keys are opaque identity-compared objects. */
+	scopeIds = /* @__PURE__ */ new WeakMap();
+	nextScopeId = 1;
+	constructor(ctx, config = {}) {
+		super(ctx, "skills");
+		this.collectCacheMaxEntries = config.collectCacheMaxEntries ?? DEFAULT_COLLECT_CACHE_ENTRIES;
+		assertPositiveInteger("collectCacheMaxEntries", this.collectCacheMaxEntries);
+	}
+	/**
+	* Register a borrowed same-process provider synchronously during plugin
+	* apply, into the calling context's layer: a scoped context (an agent
+	* preset's standing mount) registers for that scope alone, an unscoped
+	* context registers globally. Duplicate names within one layer and reserved
+	* names throw; remote initialization belongs in `list()`. Fiber disposal
+	* unregisters the provider and invalidates catalog caches.
+	* @param create - synchronous factory receiving this registration's lifecycle and invalidation control.
+	* @returns the exact Cordis effect disposer that unregisters this provider;
+	*   composite effects may yield it directly to preserve teardown ordering.
+	*/
+	registerProvider(create) {
+		const lifecycle = new AbortController();
+		let registration;
+		let provider;
+		const control = {
+			signal: lifecycle.signal,
+			invalidate: () => {
+				const active = registration;
+				if (active !== void 0 && active.layer.providers.get(active.name)?.provider === provider) this.invalidateCache();
+			}
+		};
+		try {
+			provider = create(control);
+			const name = provider.name;
+			if (name === RUNTIME_PROVIDER) throw new Error(`"${RUNTIME_PROVIDER}" is reserved for runtime skill registrations`);
+			const order = this.nextProviderOrder;
+			this.nextProviderOrder += 1;
+			return this.layers.effect(this.ctx, (layer) => {
+				const undo = layer.providers.insert(name, {
+					provider,
+					order
+				});
+				registration = {
+					layer,
+					name
+				};
+				return () => {
+					registration = void 0;
+					undo();
+					lifecycle.abort(/* @__PURE__ */ new Error(`skill provider "${name}" disposed`));
+				};
+			}, { label: "skills.registerProvider()" });
+		} catch (error) {
+			lifecycle.abort(error);
+			throw error;
+		}
+	}
+	/**
+	* Register a borrowed readonly runtime skill into the calling context's
+	* layer. Project entries outrank runtime entries, which outrank user
+	* entries, within one layer. Same-name runtime entries in one layer are
+	* first-wins; a duplicate logs a warning and receives a no-op disposer so
+	* it cannot remove the winner.
+	* @param skill - the skill definition input; omitted invocation and provider fields receive defaults.
+	* @returns the exact Cordis effect disposer, preserving composite teardown order and invalidating caches.
+	*/
+	register(skill) {
+		validateRuntimeSkill(skill);
+		const scope = scopeOf(this.ctx);
+		const existingLayer = scope === void 0 ? this.layers.global : this.layers.peek(scope);
+		if (existingLayer !== void 0 && existingLayer.runtime.has(skill.name)) {
+			this.ctx.logger.warn(`runtime skill "${skill.name}" ignored because it is already registered`);
+			return () => {};
+		}
+		const definition = {
+			...skill,
+			invocation: skill.invocation ?? {
+				modelInvocable: true,
+				userInvocable: true
+			},
+			provider: skill.provider ?? RUNTIME_PROVIDER
+		};
+		return this.layers.effect(this.ctx, (layer) => {
+			layer.runtime.set(definition.name, definition);
+			return () => {
+				layer.runtime.delete(definition.name);
+			};
+		}, { label: "skills.register()" });
+	}
+	/**
+	* List invocation-neutral skill summaries for a workspace. Consumers apply
+	* model or user invocation policy at their operational boundary. Lookup
+	* options and provider candidates are readonly same-process values borrowed
+	* throughout discovery.
+	* @param options - view options; `scope` selects the viewing agent's layers, `cwd` selects project roots, and `signal` cancels discovery.
+	* @returns all sorted winning summaries.
+	*/
+	async list(options = {}) {
+		return (await this.snapshot(options)).skills;
+	}
+	/**
+	* Observe the current invocation-neutral catalog and whether discovery completed within a stable revision.
+	* Incomplete observations are never cached, allowing consumers to retain last-good state and
+	* retry on their next request boundary.
+	* @param options - view options; `scope` selects the viewing agent's layers, `cwd` selects project roots, and `signal` cancels discovery.
+	* @returns sorted summaries plus discovery-completeness state.
+	*/
+	async snapshot(options = {}) {
+		const collected = await this.collect(options);
+		return {
+			skills: [...collected.entries.values()].map((entry) => toSummary(entry.candidate)).sort(compareSkillSummary),
+			complete: collected.cacheable
+		};
+	}
+	/**
+	* Load and validate the winning candidate, passing its opaque discovery locator back to the
+	* provider. Cancellation is rechecked after selection, including cache hits, and raced against
+	* loading so an uncooperative provider cannot hang the caller.
+	* @param name - kebab-case skill name.
+	* @param options - view options; `scope` selects the viewing agent's layers,
+	*   `cwd` selects workspace-sensitive skills, and `signal` cancels work.
+	* @returns the full skill, including body content, or `undefined`.
+	*/
+	async get(name, options = {}) {
+		if (!isSkillName(name)) return void 0;
+		const collected = await this.collect(options);
+		throwIfAborted$1(options.signal);
+		const match = collected.entries.get(name);
+		if (match === void 0) return void 0;
+		const definition = await waitWithAbort(match.provider.get(match.candidate, options), options.signal);
+		if (definition === void 0) return void 0;
+		validateDefinition(definition);
+		if (definition.name !== match.candidate.name) {
+			this.invalidateEntry(match);
+			return;
+		}
+		return definition;
+	}
+	async collect(options) {
+		throwIfAborted$1(options.signal);
+		let attempt = 1;
+		while (true) {
+			const revision = this.revision;
+			const key = this.collectCacheKey(options.cwd, scopeChainOf(options.scope), revision);
+			const cached = this.collectCache.get(key);
+			if (cached !== void 0) return {
+				entries: cached,
+				cacheable: true
+			};
+			const result = await this.collectFresh(options);
+			throwIfAborted$1(options.signal);
+			if (revision !== this.revision) {
+				if (attempt < MAX_COLLECT_ATTEMPTS) {
+					attempt += 1;
+					continue;
+				}
+				return {
+					entries: result.entries,
+					cacheable: false
+				};
+			}
+			if (result.cacheable) {
+				this.collectCache.set(key, result.entries);
+				if (this.collectCache.size > this.collectCacheMaxEntries) {
+					const oldest = this.collectCache.keys().next();
+					this.collectCache.delete(oldest.value);
+				}
+			}
+			return result;
+		}
+	}
+	async collectFresh(options) {
+		const layers = [this.layers.global, ...this.layers.chainLayers(options.scope)];
+		const merged = /* @__PURE__ */ new Map();
+		let cacheable = true;
+		for (const layer of layers) {
+			const collected = await this.collectLayer(layer, options);
+			if (!collected.cacheable) cacheable = false;
+			for (const entry of collected.entries) merged.set(entry.candidate.name, entry);
+		}
+		return {
+			entries: merged,
+			cacheable
+		};
+	}
+	async collectLayer(layer, options) {
+		const collected = await this.listLayerCandidates(layer, options);
+		collected.entries.sort(compareIndexedCandidates);
+		const seen = /* @__PURE__ */ new Set();
+		const result = [];
+		for (const entry of collected.entries) {
+			const skill = entry.candidate;
+			if (seen.has(skill.name)) {
+				this.ctx.logger.warn(`skill "${skill.name}" from ${skill.source} ignored because a higher-priority skill already exists`);
+				continue;
+			}
+			seen.add(skill.name);
+			result.push(entry);
+		}
+		return {
+			entries: result,
+			cacheable: collected.cacheable
+		};
+	}
+	async listLayerCandidates(layer, options) {
+		throwIfAborted$1(options.signal);
+		const candidates = [];
+		let cacheable = true;
+		let runtimeOrder = 0;
+		for (const skill of [...layer.runtime.values()].sort((a, b) => compareCodePoints(a.name, b.name))) {
+			candidates.push({
+				candidate: runtimeCandidate(skill),
+				provider: RUNTIME_SKILL_PROVIDER,
+				providerOrder: -1,
+				localOrder: runtimeOrder,
+				layer
+			});
+			runtimeOrder += 1;
+		}
+		for (const { provider, order } of [...layer.providers.values()]) {
+			let localOrder = 0;
+			let output;
+			try {
+				output = await waitWithAbort(provider.list(options), options.signal);
+			} catch (error) {
+				if (options.signal?.aborted === true) throw toError(options.signal.reason);
+				cacheable = false;
+				this.ctx.logger.warn(`skill provider "${provider.name}" skipped: ${errorMessage(error)}`);
+			}
+			if (output === void 0) continue;
+			const observation = normalizeProviderObservation(output, provider.name);
+			if (!observation.complete) cacheable = false;
+			for (const candidate of observation.candidates) {
+				validateCandidate(candidate, provider.name);
+				candidates.push({
+					candidate,
+					provider,
+					providerOrder: order,
+					localOrder,
+					layer
+				});
+				localOrder += 1;
+			}
+		}
+		return {
+			entries: candidates,
+			cacheable
+		};
+	}
+	invalidateCache() {
+		this.revision += 1;
+		this.collectCache.clear();
+		this.notifyChange();
+	}
+	/** Invalidate after a stale definition load, only while the exact registration that produced the entry is still live. */
+	invalidateEntry(entry) {
+		/* v8 ignore else -- A definition load can outlive the exact provider registration it selected. */
+		if (entry.layer.providers.get(entry.provider.name)?.provider === entry.provider) this.invalidateCache();
+	}
+	scopeId(key) {
+		let id = this.scopeIds.get(key);
+		if (id === void 0) {
+			id = this.nextScopeId;
+			this.nextScopeId += 1;
+			this.scopeIds.set(key, id);
+		}
+		return id;
+	}
+	collectCacheKey(cwd, chain, revision) {
+		return JSON.stringify({
+			cwd,
+			scopes: chain.map((key) => this.scopeId(key)),
+			revision
+		});
+	}
+	/** Notify catalog observers without making their refresh work load-bearing. */
+	notifyChange() {
+		for (const callback of this.ctx.events.dispatch("emit", ["skills/change"])) try {
+			const returned = callback();
+			Promise.resolve(returned).catch((error) => {
+				this.ctx.logger.warn(`skills/change listener rejected: ${errorMessage(error)}`);
+			});
+		} catch (error) {
+			this.ctx.logger.warn(`skills/change listener threw: ${errorMessage(error)}`);
+		}
+	}
+});
+function normalizeProviderObservation(output, providerName) {
+	if (Array.isArray(output)) return {
+		candidates: output,
+		complete: true
+	};
+	if (output === null || typeof output !== "object") throw invalidProviderObservation(providerName);
+	const observation = output;
+	if (!Array.isArray(observation.candidates) || typeof observation.complete !== "boolean") throw invalidProviderObservation(providerName);
+	return observation;
+}
+function invalidProviderObservation(providerName) {
+	return /* @__PURE__ */ new TypeError(`skill provider "${providerName}" list() must return an array or { candidates, complete } observation`);
+}
+const RUNTIME_SKILL_PROVIDER = {
+	name: RUNTIME_PROVIDER,
+	/* v8 ignore next -- Runtime skills are injected directly by the registry; this provider only owns `get()`. */
+	list() {
+		return Promise.resolve([]);
+	},
+	get(candidate) {
+		return Promise.resolve(candidate.locator);
+	}
+};
+function runtimeCandidate(skill) {
+	return {
+		name: skill.name,
+		description: skill.description,
+		...skill.whenToUse !== void 0 ? { whenToUse: skill.whenToUse } : {},
+		invocation: skill.invocation,
+		source: skill.source,
+		provider: skill.provider,
+		...skill.resourceBase !== void 0 ? { resourceBase: skill.resourceBase } : {},
+		rank: RUNTIME_RANK,
+		locator: skill,
+		...skill.path !== void 0 ? { path: skill.path } : {},
+		...skill.metadata !== void 0 ? { metadata: skill.metadata } : {}
+	};
+}
+function validateCandidate(candidate, providerName) {
+	if (typeof candidate.name !== "string") throw new TypeError(`skill provider "${providerName}" returned a non-string skill name`);
+	if (!SKILL_NAME.test(candidate.name)) throw new Error(`skill provider "${providerName}" returned invalid skill name "${candidate.name}"`);
+	if (typeof candidate.description !== "string") throw new TypeError(`skill provider "${providerName}" returned skill "${candidate.name}" with a non-string description`);
+	if (candidate.description.length === 0) throw new Error(`skill provider "${providerName}" returned skill "${candidate.name}" without a description`);
+	validateInvocation(candidate.invocation, `skill provider "${providerName}" returned skill "${candidate.name}"`);
+	if (candidate.whenToUse !== void 0 && typeof candidate.whenToUse !== "string") throw new TypeError(`skill provider "${providerName}" returned skill "${candidate.name}" with a non-string whenToUse`);
+	if (typeof candidate.source !== "string") throw new TypeError(`skill provider "${providerName}" returned skill "${candidate.name}" with a non-string source`);
+	if (typeof candidate.rank !== "number" || !Number.isFinite(candidate.rank)) throw new Error(`skill provider "${providerName}" returned skill "${candidate.name}" with an invalid rank`);
+	if (typeof candidate.provider !== "string") throw new TypeError(`skill provider "${providerName}" returned skill "${candidate.name}" with a non-string provider`);
+	if (candidate.provider !== providerName) throw new Error(`skill provider "${providerName}" returned skill "${candidate.name}" for provider "${candidate.provider}"`);
+	if (candidate.path !== void 0 && typeof candidate.path !== "string") throw new TypeError(`skill provider "${providerName}" returned skill "${candidate.name}" with a non-string path`);
+}
+function validateRuntimeSkill(skill) {
+	if (!SKILL_NAME.test(skill.name)) throw new Error(`invalid skill name "${skill.name}"`);
+	if (skill.description.length === 0) throw new Error(`skill "${skill.name}" requires a description`);
+	validateInvocation(skill.invocation, `runtime skill "${skill.name}"`);
+}
+/** Validate a definition loaded from a provider-controlled parser or remote source. */
+function validateDefinition(skill) {
+	const name = skill.name;
+	const description = skill.description;
+	const whenToUse = skill.whenToUse;
+	const invocation = skill.invocation;
+	const source = skill.source;
+	const provider = skill.provider;
+	const content = skill.content;
+	const path = skill.path;
+	if (typeof name !== "string") throw new TypeError("loaded skill name must be a string");
+	if (!SKILL_NAME.test(name)) throw new Error(`loaded skill has invalid name "${name}"`);
+	if (typeof description !== "string") throw new TypeError(`loaded skill "${name}" description must be a string`);
+	if (description.length === 0) throw new Error(`loaded skill "${name}" requires a description`);
+	validateInvocation(invocation, `loaded skill "${name}"`);
+	if (whenToUse !== void 0 && typeof whenToUse !== "string") throw new TypeError(`loaded skill "${name}" whenToUse must be a string`);
+	if (typeof source !== "string") throw new TypeError(`loaded skill "${name}" source must be a string`);
+	if (typeof provider !== "string") throw new TypeError(`loaded skill "${name}" provider must be a string`);
+	if (typeof content !== "string") throw new TypeError(`loaded skill "${name}" content must be a string`);
+	if (path !== void 0 && typeof path !== "string") throw new TypeError(`loaded skill "${name}" path must be a string`);
+}
+function toSummary(skill) {
+	const { name, description, whenToUse, invocation, source, provider, resourceBase } = skill;
+	return {
+		name,
+		description,
+		...whenToUse !== void 0 ? { whenToUse } : {},
+		invocation,
+		source,
+		provider,
+		...resourceBase !== void 0 ? { resourceBase } : {}
+	};
+}
+function validateInvocation(invocation, subject) {
+	if (invocation === void 0) return;
+	if (typeof invocation !== "object" || invocation === null || Array.isArray(invocation)) throw new TypeError(`${subject} with a non-object invocation policy`);
+	const policy = invocation;
+	if (typeof policy.modelInvocable !== "boolean") throw new TypeError(`${subject} with a non-boolean invocation.modelInvocable`);
+	if (typeof policy.userInvocable !== "boolean") throw new TypeError(`${subject} with a non-boolean invocation.userInvocable`);
+}
+function compareSkillSummary(left, right) {
+	return compareCodePoints(left.name, right.name);
+}
+function compareCodePoints(left, right) {
+	if (left < right) return -1;
+	if (left > right) return 1;
+	return 0;
+}
+function compareIndexedCandidates(left, right) {
+	return left.candidate.rank - right.candidate.rank || left.providerOrder - right.providerOrder || left.localOrder - right.localOrder;
+}
+function assertPositiveInteger(name, value, minimum = 1) {
+	if (!Number.isInteger(value) || value < minimum) throw new Error(`skill: ${name} must be an integer greater than or equal to ${minimum}`);
+}
+function waitWithAbort(promise, signal) {
+	if (signal === void 0) return promise;
+	throwIfAborted$1(signal);
+	return new Promise((resolve, reject) => {
+		const cleanup = () => {
+			signal.removeEventListener("abort", onAbort);
+		};
+		const onAbort = () => {
+			cleanup();
+			reject(toError(signal.reason));
+		};
+		signal.addEventListener("abort", onAbort, { once: true });
+		promise.then((value) => {
+			cleanup();
+			resolve(value);
+		}, (error) => {
+			cleanup();
+			reject(toError(error));
+		});
+	});
+}
+/** Throw a total Error for an already-aborted lookup. */
+function throwIfAborted$1(signal) {
+	if (signal?.aborted === true) throw toError(signal.reason);
+}
+/** Normalize an arbitrary abort or provider failure without trusting coercion. */
+function toError(error) {
+	try {
+		if (error instanceof Error) return error;
+	} catch {}
+	return new Error(errorMessage(error));
+}
+/** Render an arbitrary provider failure without letting coercion escape containment. */
+function errorMessage(error) {
+	try {
+		return String(error);
+	} catch {
+		return "[unrenderable thrown value]";
+	}
+}
+//#endregion
+//#region node_modules/.pnpm/@deepseek-ai+dsh-storage@0._f5e53957c14bb038caf53cfe7d1bc9aa/node_modules/@deepseek-ai/dsh-storage/lib/index.js
+/**
+* Backend-facing vocabulary of the storage hub: a backend owns one medium
+* (a file-tree root, a database file) and exposes operation groups over it.
+* This module defines the normative contract text for backend implementers; the shared
+* conformance suite in `tests/contract.ts` checks every rule.
+* @module @deepseek-ai/dsh-storage/src/backend
+*/
+/** Allowed format for unit and table names: safe as a file name and as a SQL identifier segment without escaping. */
+const UNIT_NAME_RE = /^[a-z][a-z0-9_]*$/;
+//#endregion
+//#region node_modules/.pnpm/@deepseek-ai+dsh-storage-do_1dd5e89577ac0f175d4162432caf3a24/node_modules/@deepseek-ai/dsh-storage-domain/lib/index.js
+/**
+* Domain declaration vocabulary. A spec object is the single source of a
+* domain's identity, layout, and record schemas: the owning package defines
+* it once with {@link defineDomain} and both the type surface and the runtime
+* (validation, descriptor projection) derive from it. Record schemas are zod
+* (`z.infer` keeps types un-duplicated and the same schemas later project to
+* RPC wire schemas); plugin `Config` stays schemastery.
+* @module @deepseek-ai/dsh-storage-domain/src/spec
+*/
+/**
+* Declare one table.
+* @param schema - zod schema validating every stored record of this table.
+* @returns the table declaration, key-typed by `K`.
+*/
+function domainTable(schema) {
+	return { valueSchema: schema };
+}
+/**
+* Identity helper that pins a spec's literal types and validates its fields.
+* Misconfiguration fails loud at the owning package's module load, before any
+* medium is touched: a domain or table name outside `UNIT_NAME_RE`, a version
+* that is not a non-negative integer, or a global schema that accepts `null`
+* all throw. The `null` rejection guards round-tripping: backends store the
+* global as opaque JSON with `null` as the "never written" sentinel, so a
+* nullable global would be indistinguishable from an absent one on reopen
+* (a stored `null` silently reverts to `initial`).
+* @param spec - The domain declaration.
+* @returns the same spec, narrowed to its literal type.
+*/
+function defineDomain(spec) {
+	if (!UNIT_NAME_RE.test(spec.name)) throw new Error(`domain name '${spec.name}' must match ${UNIT_NAME_RE}`);
+	if (!Number.isInteger(spec.version) || spec.version < 0) throw new Error(`domain '${spec.name}' version must be a non-negative integer, got ${spec.version}`);
+	for (const table of Object.keys(spec.tables)) if (!UNIT_NAME_RE.test(table)) throw new Error(`domain '${spec.name}' table name '${table}' must match ${UNIT_NAME_RE}`);
+	if (spec.global !== void 0 && spec.global.schema.safeParse(null).success) throw new Error(`domain '${spec.name}' global schema must not accept null: null is the medium's "never written" sentinel, so a stored null could not round-trip`);
+	return spec;
+}
+Schema$1.object({
+	backend: Schema$1.string().required(),
+	routes: Schema$1.dict(Schema$1.string()).default({})
+});
+/**
+* Package-private workspace entity: the single {@link Workspace}
+* implementation. Holds a record snapshot that is swapped in place after each
+* durable mutation; every write funnels through the private `mutate` so
+* `updatedAt` stamping and invalid-account pruning happen exactly once.
+* Not re-exported from the package entrypoint — consumers see only the
+* `Workspace` interface.
+* @module @deepseek-ai/dsh-workspace/src/entity
+*/
+/** An insertSessionBefore request named a session or anchor not on the account (storage failures stay plain errors). */
+var WorkspaceMoveInvalidError = class extends Error {
+	/**
+	* @param message - Which id was unaccounted and where.
+	*/
+	constructor(message) {
+		super(message);
+		this.name = "WorkspaceMoveInvalidError";
+	}
+};
+/**
+* The workspace domain declaration: record schema and the `defineDomain` spec
+* the registry opens. The zod schema is the durable-boundary validator today
+* and the direct source of the RPC wire projection in a later phase.
+* @module @deepseek-ai/dsh-workspace/src/spec
+*/
+/** Workspace id schema at the durable boundary; branding has no runtime representation. */
+const workspaceId = string().transform((value) => value);
+/**
+* Durable shape of one workspace record. `path` is the `fs.realpath` canon
+* stamped at create; `sessionIds` is the ordered ownership account (array
+* order is display order); timestamps are ISO-8601 strings.
+*/
+const workspaceRecord = object$1({
+	path: string(),
+	title: string(),
+	sessionIds: array(string().transform(SessionId)),
+	createdAt: string(),
+	updatedAt: string()
+});
+/**
+* Recoverable two-write mutation marker. The marker is persisted before the
+* record/order pair can diverge, so startup can distinguish an interrupted
+* registry operation from unexplained medium corruption.
+*/
+const workspacePendingMutation = discriminatedUnion("operation", [object$1({
+	operation: literal("create"),
+	workspaceId
+}), object$1({
+	operation: literal("delete"),
+	workspaceId
+})]);
+/**
+* Durable registry state. `initialized` distinguishes a valid empty registry
+* from one that still needs the header-only history bootstrap;
+* `workspaceIds` is the authoritative display order. `archivedSessionIds` is
+* the registry-global archive set layered over workspace accounting: an
+* archived session keeps its `sessionIds` slot (unarchiving must restore the
+* position), so the set never participates in the one-owner accounting
+* invariant. Defaulted so records written before the field parse unchanged.
+*/
+const workspaceDomainState = object$1({
+	initialized: boolean(),
+	workspaceIds: array(workspaceId),
+	archivedSessionIds: array(string().transform(SessionId)).default([]),
+	pendingMutation: workspacePendingMutation.optional()
+});
+defineDomain({
+	name: "workspace",
+	version: 2,
+	global: {
+		schema: workspaceDomainState,
+		initial: {
+			initialized: false,
+			workspaceIds: [],
+			archivedSessionIds: []
+		}
+	},
+	tables: { workspaces: domainTable(workspaceRecord) }
+});
+/**
+* Workspace entity registry (`ctx.workspaceRegistry`): durable workspace records,
+* stable registry order, and header-validated session membership over the
+* domain data form.
+* @module @deepseek-ai/dsh-workspace
+*/
+/**
+* Brand a string as a {@link WorkspaceId}.
+* @param id - Raw workspace id string.
+* @returns the same string, branded at compile time.
+*/
+function WorkspaceId(id) {
+	return id;
+}
+/**
+* An archiveSession request named a session neither live nor in session
+* persistence — a definite miss only; storage faults propagate as themselves.
+*/
+var WorkspaceUnknownSessionError = class extends Error {
+	sessionId;
+	/**
+	* @param sessionId - The unknown session id.
+	*/
+	constructor(sessionId) {
+		super(`cannot archive session '${sessionId}': live sessions and session persistence hold no such session`);
+		this.sessionId = sessionId;
+		this.name = "WorkspaceUnknownSessionError";
+	}
+};
+/** A workspace reorder named a source or anchor absent from the durable registry order. */
+var WorkspaceOrderInvalidError = class extends Error {
+	workspaceId;
+	/**
+	* @param workspaceId - Missing source or anchor id.
+	*/
+	constructor(workspaceId) {
+		super(`cannot reorder unknown workspace '${workspaceId}'`);
+		this.workspaceId = workspaceId;
+		this.name = "WorkspaceOrderInvalidError";
+	}
+};
+Service.init;
+//#endregion
+//#region node_modules/.pnpm/js-yaml@4.3.1/node_modules/js-yaml/dist/js-yaml.mjs
+function getDefaultExportFromCjs(x) {
+	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
+}
+var jsYaml = {};
+var loader = {};
+var common = {};
+var hasRequiredCommon;
+function requireCommon() {
+	if (hasRequiredCommon) return common;
+	hasRequiredCommon = 1;
+	function isNothing(subject) {
+		return typeof subject === "undefined" || subject === null;
+	}
+	function isObject(subject) {
+		return typeof subject === "object" && subject !== null;
+	}
+	function toArray(sequence) {
+		if (Array.isArray(sequence)) return sequence;
+		else if (isNothing(sequence)) return [];
+		return [sequence];
+	}
+	function extend(target, source) {
+		if (source) {
+			const sourceKeys = Object.keys(source);
+			for (let index = 0, length = sourceKeys.length; index < length; index += 1) {
+				const key = sourceKeys[index];
+				target[key] = source[key];
+			}
+		}
+		return target;
+	}
+	function repeat(string, count) {
+		let result = "";
+		for (let cycle = 0; cycle < count; cycle += 1) result += string;
+		return result;
+	}
+	function isNegativeZero(number) {
+		return number === 0 && Number.NEGATIVE_INFINITY === 1 / number;
+	}
+	common.isNothing = isNothing;
+	common.isObject = isObject;
+	common.toArray = toArray;
+	common.repeat = repeat;
+	common.isNegativeZero = isNegativeZero;
+	common.extend = extend;
+	return common;
+}
+var exception;
+var hasRequiredException;
+function requireException() {
+	if (hasRequiredException) return exception;
+	hasRequiredException = 1;
+	function formatError(exception2, compact) {
+		let where = "";
+		const message = exception2.reason || "(unknown reason)";
+		if (!exception2.mark) return message;
+		if (exception2.mark.name) where += "in \"" + exception2.mark.name + "\" ";
+		where += "(" + (exception2.mark.line + 1) + ":" + (exception2.mark.column + 1) + ")";
+		if (!compact && exception2.mark.snippet) where += "\n\n" + exception2.mark.snippet;
+		return message + " " + where;
+	}
+	function YAMLException2(reason, mark) {
+		Error.call(this);
+		this.name = "YAMLException";
+		this.reason = reason;
+		this.mark = mark;
+		this.message = formatError(this, false);
+		if (Error.captureStackTrace) Error.captureStackTrace(this, this.constructor);
+		else this.stack = (/* @__PURE__ */ new Error()).stack || "";
+	}
+	YAMLException2.prototype = Object.create(Error.prototype);
+	YAMLException2.prototype.constructor = YAMLException2;
+	YAMLException2.prototype.toString = function toString(compact) {
+		return this.name + ": " + formatError(this, compact);
+	};
+	exception = YAMLException2;
+	return exception;
+}
+var snippet;
+var hasRequiredSnippet;
+function requireSnippet() {
+	if (hasRequiredSnippet) return snippet;
+	hasRequiredSnippet = 1;
+	const common2 = requireCommon();
+	function getLine(buffer, lineStart, lineEnd, position, maxLineLength) {
+		let head = "";
+		let tail = "";
+		const maxHalfLength = Math.floor(maxLineLength / 2) - 1;
+		if (position - lineStart > maxHalfLength) {
+			head = " ... ";
+			lineStart = position - maxHalfLength + head.length;
+		}
+		if (lineEnd - position > maxHalfLength) {
+			tail = " ...";
+			lineEnd = position + maxHalfLength - tail.length;
+		}
+		return {
+			str: head + buffer.slice(lineStart, lineEnd).replace(/\t/g, "→") + tail,
+			pos: position - lineStart + head.length
+		};
+	}
+	function padStart(string, max) {
+		return common2.repeat(" ", max - string.length) + string;
+	}
+	function makeSnippet(mark, options) {
+		options = Object.create(options || null);
+		if (!mark.buffer) return null;
+		if (!options.maxLength) options.maxLength = 79;
+		if (typeof options.indent !== "number") options.indent = 1;
+		if (typeof options.linesBefore !== "number") options.linesBefore = 3;
+		if (typeof options.linesAfter !== "number") options.linesAfter = 2;
+		const re = /\r?\n|\r|\0/g;
+		const lineStarts = [0];
+		const lineEnds = [];
+		let match;
+		let foundLineNo = -1;
+		while (match = re.exec(mark.buffer)) {
+			lineEnds.push(match.index);
+			lineStarts.push(match.index + match[0].length);
+			if (mark.position <= match.index && foundLineNo < 0) foundLineNo = lineStarts.length - 2;
+		}
+		if (foundLineNo < 0) foundLineNo = lineStarts.length - 1;
+		let result = "";
+		const lineNoLength = Math.min(mark.line + options.linesAfter, lineEnds.length).toString().length;
+		const maxLineLength = options.maxLength - (options.indent + lineNoLength + 3);
+		for (let i = 1; i <= options.linesBefore; i++) {
+			if (foundLineNo - i < 0) break;
+			const line2 = getLine(mark.buffer, lineStarts[foundLineNo - i], lineEnds[foundLineNo - i], mark.position - (lineStarts[foundLineNo] - lineStarts[foundLineNo - i]), maxLineLength);
+			result = common2.repeat(" ", options.indent) + padStart((mark.line - i + 1).toString(), lineNoLength) + " | " + line2.str + "\n" + result;
+		}
+		const line = getLine(mark.buffer, lineStarts[foundLineNo], lineEnds[foundLineNo], mark.position, maxLineLength);
+		result += common2.repeat(" ", options.indent) + padStart((mark.line + 1).toString(), lineNoLength) + " | " + line.str + "\n";
+		result += common2.repeat("-", options.indent + lineNoLength + 3 + line.pos) + "^\n";
+		for (let i = 1; i <= options.linesAfter; i++) {
+			if (foundLineNo + i >= lineEnds.length) break;
+			const line2 = getLine(mark.buffer, lineStarts[foundLineNo + i], lineEnds[foundLineNo + i], mark.position - (lineStarts[foundLineNo] - lineStarts[foundLineNo + i]), maxLineLength);
+			result += common2.repeat(" ", options.indent) + padStart((mark.line + i + 1).toString(), lineNoLength) + " | " + line2.str + "\n";
+		}
+		return result.replace(/\n$/, "");
+	}
+	snippet = makeSnippet;
+	return snippet;
+}
+var type;
+var hasRequiredType;
+function requireType() {
+	if (hasRequiredType) return type;
+	hasRequiredType = 1;
+	const YAMLException2 = requireException();
+	const TYPE_CONSTRUCTOR_OPTIONS = [
+		"kind",
+		"multi",
+		"resolve",
+		"construct",
+		"instanceOf",
+		"predicate",
+		"represent",
+		"representName",
+		"defaultStyle",
+		"styleAliases"
+	];
+	const YAML_NODE_KINDS = [
+		"scalar",
+		"sequence",
+		"mapping"
+	];
+	function compileStyleAliases(map2) {
+		const result = {};
+		if (map2 !== null) Object.keys(map2).forEach(function(style) {
+			map2[style].forEach(function(alias) {
+				result[String(alias)] = style;
+			});
+		});
+		return result;
+	}
+	function Type2(tag, options) {
+		options = options || {};
+		Object.keys(options).forEach(function(name) {
+			if (TYPE_CONSTRUCTOR_OPTIONS.indexOf(name) === -1) throw new YAMLException2("Unknown option \"" + name + "\" is met in definition of \"" + tag + "\" YAML type.");
+		});
+		this.options = options;
+		this.tag = tag;
+		this.kind = options["kind"] || null;
+		this.resolve = options["resolve"] || function() {
+			return true;
+		};
+		this.construct = options["construct"] || function(data) {
+			return data;
+		};
+		this.instanceOf = options["instanceOf"] || null;
+		this.predicate = options["predicate"] || null;
+		this.represent = options["represent"] || null;
+		this.representName = options["representName"] || null;
+		this.defaultStyle = options["defaultStyle"] || null;
+		this.multi = options["multi"] || false;
+		this.styleAliases = compileStyleAliases(options["styleAliases"] || null);
+		if (YAML_NODE_KINDS.indexOf(this.kind) === -1) throw new YAMLException2("Unknown kind \"" + this.kind + "\" is specified for \"" + tag + "\" YAML type.");
+	}
+	type = Type2;
+	return type;
+}
+var schema$1;
+var hasRequiredSchema;
+function requireSchema() {
+	if (hasRequiredSchema) return schema$1;
+	hasRequiredSchema = 1;
+	const YAMLException2 = requireException();
+	const Type2 = requireType();
+	function compileList(schema2, name) {
+		const result = [];
+		schema2[name].forEach(function(currentType) {
+			let newIndex = result.length;
+			result.forEach(function(previousType, previousIndex) {
+				if (previousType.tag === currentType.tag && previousType.kind === currentType.kind && previousType.multi === currentType.multi) newIndex = previousIndex;
+			});
+			result[newIndex] = currentType;
+		});
+		return result;
+	}
+	function compileMap() {
+		const result = {
+			scalar: {},
+			sequence: {},
+			mapping: {},
+			fallback: {},
+			multi: {
+				scalar: [],
+				sequence: [],
+				mapping: [],
+				fallback: []
+			}
+		};
+		function collectType(type2) {
+			if (type2.multi) {
+				result.multi[type2.kind].push(type2);
+				result.multi["fallback"].push(type2);
+			} else result[type2.kind][type2.tag] = result["fallback"][type2.tag] = type2;
+		}
+		for (let index = 0, length = arguments.length; index < length; index += 1) arguments[index].forEach(collectType);
+		return result;
+	}
+	function Schema2(definition) {
+		return this.extend(definition);
+	}
+	Schema2.prototype.extend = function extend(definition) {
+		let implicit = [];
+		let explicit = [];
+		if (definition instanceof Type2) explicit.push(definition);
+		else if (Array.isArray(definition)) explicit = explicit.concat(definition);
+		else if (definition && (Array.isArray(definition.implicit) || Array.isArray(definition.explicit))) {
+			if (definition.implicit) implicit = implicit.concat(definition.implicit);
+			if (definition.explicit) explicit = explicit.concat(definition.explicit);
+		} else throw new YAMLException2("Schema.extend argument should be a Type, [ Type ], or a schema definition ({ implicit: [...], explicit: [...] })");
+		implicit.forEach(function(type2) {
+			if (!(type2 instanceof Type2)) throw new YAMLException2("Specified list of YAML types (or a single Type object) contains a non-Type object.");
+			if (type2.loadKind && type2.loadKind !== "scalar") throw new YAMLException2("There is a non-scalar type in the implicit list of a schema. Implicit resolving of such types is not supported.");
+			if (type2.multi) throw new YAMLException2("There is a multi type in the implicit list of a schema. Multi tags can only be listed as explicit.");
+		});
+		explicit.forEach(function(type2) {
+			if (!(type2 instanceof Type2)) throw new YAMLException2("Specified list of YAML types (or a single Type object) contains a non-Type object.");
+		});
+		const result = Object.create(Schema2.prototype);
+		result.implicit = (this.implicit || []).concat(implicit);
+		result.explicit = (this.explicit || []).concat(explicit);
+		result.compiledImplicit = compileList(result, "implicit");
+		result.compiledExplicit = compileList(result, "explicit");
+		result.compiledTypeMap = compileMap(result.compiledImplicit, result.compiledExplicit);
+		return result;
+	};
+	schema$1 = Schema2;
+	return schema$1;
+}
+var str$1;
+var hasRequiredStr;
+function requireStr() {
+	if (hasRequiredStr) return str$1;
+	hasRequiredStr = 1;
+	str$1 = new (requireType())("tag:yaml.org,2002:str", {
+		kind: "scalar",
+		construct: function(data) {
+			return data !== null ? data : "";
+		}
+	});
+	return str$1;
+}
+var seq;
+var hasRequiredSeq;
+function requireSeq() {
+	if (hasRequiredSeq) return seq;
+	hasRequiredSeq = 1;
+	seq = new (requireType())("tag:yaml.org,2002:seq", {
+		kind: "sequence",
+		construct: function(data) {
+			return data !== null ? data : [];
+		}
+	});
+	return seq;
+}
+var map;
+var hasRequiredMap;
+function requireMap() {
+	if (hasRequiredMap) return map;
+	hasRequiredMap = 1;
+	map = new (requireType())("tag:yaml.org,2002:map", {
+		kind: "mapping",
+		construct: function(data) {
+			return data !== null ? data : {};
+		}
+	});
+	return map;
+}
+var failsafe;
+var hasRequiredFailsafe;
+function requireFailsafe() {
+	if (hasRequiredFailsafe) return failsafe;
+	hasRequiredFailsafe = 1;
+	failsafe = new (requireSchema())({ explicit: [
+		requireStr(),
+		requireSeq(),
+		requireMap()
+	] });
+	return failsafe;
+}
+var _null;
+var hasRequired_null;
+function require_null() {
+	if (hasRequired_null) return _null;
+	hasRequired_null = 1;
+	const Type2 = requireType();
+	function resolveYamlNull(data) {
+		if (data === null) return true;
+		const max = data.length;
+		return max === 1 && data === "~" || max === 4 && (data === "null" || data === "Null" || data === "NULL");
+	}
+	function constructYamlNull() {
+		return null;
+	}
+	function isNull(object) {
+		return object === null;
+	}
+	_null = new Type2("tag:yaml.org,2002:null", {
+		kind: "scalar",
+		resolve: resolveYamlNull,
+		construct: constructYamlNull,
+		predicate: isNull,
+		represent: {
+			canonical: function() {
+				return "~";
+			},
+			lowercase: function() {
+				return "null";
+			},
+			uppercase: function() {
+				return "NULL";
+			},
+			camelcase: function() {
+				return "Null";
+			},
+			empty: function() {
+				return "";
+			}
+		},
+		defaultStyle: "lowercase"
+	});
+	return _null;
+}
+var bool;
+var hasRequiredBool;
+function requireBool() {
+	if (hasRequiredBool) return bool;
+	hasRequiredBool = 1;
+	const Type2 = requireType();
+	function resolveYamlBoolean(data) {
+		if (data === null) return false;
+		const max = data.length;
+		return max === 4 && (data === "true" || data === "True" || data === "TRUE") || max === 5 && (data === "false" || data === "False" || data === "FALSE");
+	}
+	function constructYamlBoolean(data) {
+		return data === "true" || data === "True" || data === "TRUE";
+	}
+	function isBoolean(object) {
+		return Object.prototype.toString.call(object) === "[object Boolean]";
+	}
+	bool = new Type2("tag:yaml.org,2002:bool", {
+		kind: "scalar",
+		resolve: resolveYamlBoolean,
+		construct: constructYamlBoolean,
+		predicate: isBoolean,
+		represent: {
+			lowercase: function(object) {
+				return object ? "true" : "false";
+			},
+			uppercase: function(object) {
+				return object ? "TRUE" : "FALSE";
+			},
+			camelcase: function(object) {
+				return object ? "True" : "False";
+			}
+		},
+		defaultStyle: "lowercase"
+	});
+	return bool;
+}
+var int;
+var hasRequiredInt;
+function requireInt() {
+	if (hasRequiredInt) return int;
+	hasRequiredInt = 1;
+	const common2 = requireCommon();
+	const Type2 = requireType();
+	function isHexCode(c) {
+		return c >= 48 && c <= 57 || c >= 65 && c <= 70 || c >= 97 && c <= 102;
+	}
+	function isOctCode(c) {
+		return c >= 48 && c <= 55;
+	}
+	function isDecCode(c) {
+		return c >= 48 && c <= 57;
+	}
+	function resolveYamlInteger(data) {
+		if (data === null) return false;
+		const max = data.length;
+		let index = 0;
+		let hasDigits = false;
+		if (!max) return false;
+		let ch = data[index];
+		if (ch === "-" || ch === "+") ch = data[++index];
+		if (ch === "0") {
+			if (index + 1 === max) return true;
+			ch = data[++index];
+			if (ch === "b") {
+				index++;
+				for (; index < max; index++) {
+					ch = data[index];
+					if (ch !== "0" && ch !== "1") return false;
+					hasDigits = true;
+				}
+				return hasDigits && isFinite(parseYamlInteger(data));
+			}
+			if (ch === "x") {
+				index++;
+				for (; index < max; index++) {
+					if (!isHexCode(data.charCodeAt(index))) return false;
+					hasDigits = true;
+				}
+				return hasDigits && isFinite(parseYamlInteger(data));
+			}
+			if (ch === "o") {
+				index++;
+				for (; index < max; index++) {
+					if (!isOctCode(data.charCodeAt(index))) return false;
+					hasDigits = true;
+				}
+				return hasDigits && isFinite(parseYamlInteger(data));
+			}
+		}
+		for (; index < max; index++) {
+			if (!isDecCode(data.charCodeAt(index))) return false;
+			hasDigits = true;
+		}
+		if (!hasDigits) return false;
+		return isFinite(parseYamlInteger(data));
+	}
+	function parseYamlInteger(data) {
+		let value = data;
+		let sign = 1;
+		let ch = value[0];
+		if (ch === "-" || ch === "+") {
+			if (ch === "-") sign = -1;
+			value = value.slice(1);
+			ch = value[0];
+		}
+		if (value === "0") return 0;
+		if (ch === "0") {
+			if (value[1] === "b") return sign * parseInt(value.slice(2), 2);
+			if (value[1] === "x") return sign * parseInt(value.slice(2), 16);
+			if (value[1] === "o") return sign * parseInt(value.slice(2), 8);
+		}
+		return sign * parseInt(value, 10);
+	}
+	function constructYamlInteger(data) {
+		return parseYamlInteger(data);
+	}
+	function isInteger(object) {
+		return Object.prototype.toString.call(object) === "[object Number]" && object % 1 === 0 && !common2.isNegativeZero(object);
+	}
+	int = new Type2("tag:yaml.org,2002:int", {
+		kind: "scalar",
+		resolve: resolveYamlInteger,
+		construct: constructYamlInteger,
+		predicate: isInteger,
+		represent: {
+			binary: function(obj) {
+				return obj >= 0 ? "0b" + obj.toString(2) : "-0b" + obj.toString(2).slice(1);
+			},
+			octal: function(obj) {
+				return obj >= 0 ? "0o" + obj.toString(8) : "-0o" + obj.toString(8).slice(1);
+			},
+			decimal: function(obj) {
+				return obj.toString(10);
+			},
+			hexadecimal: function(obj) {
+				return obj >= 0 ? "0x" + obj.toString(16).toUpperCase() : "-0x" + obj.toString(16).toUpperCase().slice(1);
+			}
+		},
+		defaultStyle: "decimal",
+		styleAliases: {
+			binary: [2, "bin"],
+			octal: [8, "oct"],
+			decimal: [10, "dec"],
+			hexadecimal: [16, "hex"]
+		}
+	});
+	return int;
+}
+var float;
+var hasRequiredFloat;
+function requireFloat() {
+	if (hasRequiredFloat) return float;
+	hasRequiredFloat = 1;
+	const common2 = requireCommon();
+	const Type2 = requireType();
+	const YAML_FLOAT_PATTERN = /* @__PURE__ */ new RegExp("^(?:[-+]?(?:[0-9]+)(?:\\.[0-9]*)?(?:[eE][-+]?[0-9]+)?|\\.[0-9]+(?:[eE][-+]?[0-9]+)?|[-+]?\\.(?:inf|Inf|INF)|\\.(?:nan|NaN|NAN))$");
+	const YAML_FLOAT_SPECIAL_PATTERN = /* @__PURE__ */ new RegExp("^(?:[-+]?\\.(?:inf|Inf|INF)|\\.(?:nan|NaN|NAN))$");
+	function resolveYamlFloat(data) {
+		if (data === null) return false;
+		if (!YAML_FLOAT_PATTERN.test(data)) return false;
+		if (isFinite(parseFloat(data, 10))) return true;
+		return YAML_FLOAT_SPECIAL_PATTERN.test(data);
+	}
+	function constructYamlFloat(data) {
+		let value = data.toLowerCase();
+		const sign = value[0] === "-" ? -1 : 1;
+		if ("+-".indexOf(value[0]) >= 0) value = value.slice(1);
+		if (value === ".inf") return sign === 1 ? Number.POSITIVE_INFINITY : Number.NEGATIVE_INFINITY;
+		else if (value === ".nan") return NaN;
+		return sign * parseFloat(value, 10);
+	}
+	const SCIENTIFIC_WITHOUT_DOT = /^[-+]?[0-9]+e/;
+	function representYamlFloat(object, style) {
+		if (isNaN(object)) switch (style) {
+			case "lowercase": return ".nan";
+			case "uppercase": return ".NAN";
+			case "camelcase": return ".NaN";
+		}
+		else if (Number.POSITIVE_INFINITY === object) switch (style) {
+			case "lowercase": return ".inf";
+			case "uppercase": return ".INF";
+			case "camelcase": return ".Inf";
+		}
+		else if (Number.NEGATIVE_INFINITY === object) switch (style) {
+			case "lowercase": return "-.inf";
+			case "uppercase": return "-.INF";
+			case "camelcase": return "-.Inf";
+		}
+		else if (common2.isNegativeZero(object)) return "-0.0";
+		const res = object.toString(10);
+		return SCIENTIFIC_WITHOUT_DOT.test(res) ? res.replace("e", ".e") : res;
+	}
+	function isFloat(object) {
+		return Object.prototype.toString.call(object) === "[object Number]" && (object % 1 !== 0 || common2.isNegativeZero(object));
+	}
+	float = new Type2("tag:yaml.org,2002:float", {
+		kind: "scalar",
+		resolve: resolveYamlFloat,
+		construct: constructYamlFloat,
+		predicate: isFloat,
+		represent: representYamlFloat,
+		defaultStyle: "lowercase"
+	});
+	return float;
+}
+var json;
+var hasRequiredJson;
+function requireJson() {
+	if (hasRequiredJson) return json;
+	hasRequiredJson = 1;
+	json = requireFailsafe().extend({ implicit: [
+		require_null(),
+		requireBool(),
+		requireInt(),
+		requireFloat()
+	] });
+	return json;
+}
+var core;
+var hasRequiredCore;
+function requireCore() {
+	if (hasRequiredCore) return core;
+	hasRequiredCore = 1;
+	core = requireJson();
+	return core;
+}
+var timestamp;
+var hasRequiredTimestamp;
+function requireTimestamp() {
+	if (hasRequiredTimestamp) return timestamp;
+	hasRequiredTimestamp = 1;
+	const Type2 = requireType();
+	const YAML_DATE_REGEXP = /* @__PURE__ */ new RegExp("^([0-9][0-9][0-9][0-9])-([0-9][0-9])-([0-9][0-9])$");
+	const YAML_TIMESTAMP_REGEXP = /* @__PURE__ */ new RegExp("^([0-9][0-9][0-9][0-9])-([0-9][0-9]?)-([0-9][0-9]?)(?:[Tt]|[ \\t]+)([0-9][0-9]?):([0-9][0-9]):([0-9][0-9])(?:\\.([0-9]*))?(?:[ \\t]*(Z|([-+])([0-9][0-9]?)(?::([0-9][0-9]))?))?$");
+	function resolveYamlTimestamp(data) {
+		if (data === null) return false;
+		if (YAML_DATE_REGEXP.exec(data) !== null) return true;
+		if (YAML_TIMESTAMP_REGEXP.exec(data) !== null) return true;
+		return false;
+	}
+	function constructYamlTimestamp(data) {
+		let fraction = 0;
+		let delta = null;
+		let match = YAML_DATE_REGEXP.exec(data);
+		if (match === null) match = YAML_TIMESTAMP_REGEXP.exec(data);
+		if (match === null) throw new Error("Date resolve error");
+		const year = +match[1];
+		const month = +match[2] - 1;
+		const day = +match[3];
+		if (!match[4]) return new Date(Date.UTC(year, month, day));
+		const hour = +match[4];
+		const minute = +match[5];
+		const second = +match[6];
+		if (match[7]) {
+			fraction = match[7].slice(0, 3);
+			while (fraction.length < 3) fraction += "0";
+			fraction = +fraction;
+		}
+		if (match[9]) {
+			const tzHour = +match[10];
+			const tzMinute = +(match[11] || 0);
+			delta = (tzHour * 60 + tzMinute) * 6e4;
+			if (match[9] === "-") delta = -delta;
+		}
+		const date = new Date(Date.UTC(year, month, day, hour, minute, second, fraction));
+		if (delta) date.setTime(date.getTime() - delta);
+		return date;
+	}
+	function representYamlTimestamp(object) {
+		return object.toISOString();
+	}
+	timestamp = new Type2("tag:yaml.org,2002:timestamp", {
+		kind: "scalar",
+		resolve: resolveYamlTimestamp,
+		construct: constructYamlTimestamp,
+		instanceOf: Date,
+		represent: representYamlTimestamp
+	});
+	return timestamp;
+}
+var merge;
+var hasRequiredMerge;
+function requireMerge() {
+	if (hasRequiredMerge) return merge;
+	hasRequiredMerge = 1;
+	const Type2 = requireType();
+	function resolveYamlMerge(data) {
+		return data === "<<" || data === null;
+	}
+	merge = new Type2("tag:yaml.org,2002:merge", {
+		kind: "scalar",
+		resolve: resolveYamlMerge
+	});
+	return merge;
+}
+var binary;
+var hasRequiredBinary;
+function requireBinary() {
+	if (hasRequiredBinary) return binary;
+	hasRequiredBinary = 1;
+	const Type2 = requireType();
+	const BASE64_MAP = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=\n\r";
+	function resolveYamlBinary(data) {
+		if (data === null) return false;
+		let bitlen = 0;
+		const max = data.length;
+		const map2 = BASE64_MAP;
+		for (let idx = 0; idx < max; idx++) {
+			const code = map2.indexOf(data.charAt(idx));
+			if (code > 64) continue;
+			if (code < 0) return false;
+			bitlen += 6;
+		}
+		return bitlen % 8 === 0;
+	}
+	function constructYamlBinary(data) {
+		const input = data.replace(/[\r\n=]/g, "");
+		const max = input.length;
+		const map2 = BASE64_MAP;
+		let bits = 0;
+		const result = [];
+		for (let idx = 0; idx < max; idx++) {
+			if (idx % 4 === 0 && idx) {
+				result.push(bits >> 16 & 255);
+				result.push(bits >> 8 & 255);
+				result.push(bits & 255);
+			}
+			bits = bits << 6 | map2.indexOf(input.charAt(idx));
+		}
+		const tailbits = max % 4 * 6;
+		if (tailbits === 0) {
+			result.push(bits >> 16 & 255);
+			result.push(bits >> 8 & 255);
+			result.push(bits & 255);
+		} else if (tailbits === 18) {
+			result.push(bits >> 10 & 255);
+			result.push(bits >> 2 & 255);
+		} else if (tailbits === 12) result.push(bits >> 4 & 255);
+		return new Uint8Array(result);
+	}
+	function representYamlBinary(object) {
+		let result = "";
+		let bits = 0;
+		const max = object.length;
+		const map2 = BASE64_MAP;
+		for (let idx = 0; idx < max; idx++) {
+			if (idx % 3 === 0 && idx) {
+				result += map2[bits >> 18 & 63];
+				result += map2[bits >> 12 & 63];
+				result += map2[bits >> 6 & 63];
+				result += map2[bits & 63];
+			}
+			bits = (bits << 8) + object[idx];
+		}
+		const tail = max % 3;
+		if (tail === 0) {
+			result += map2[bits >> 18 & 63];
+			result += map2[bits >> 12 & 63];
+			result += map2[bits >> 6 & 63];
+			result += map2[bits & 63];
+		} else if (tail === 2) {
+			result += map2[bits >> 10 & 63];
+			result += map2[bits >> 4 & 63];
+			result += map2[bits << 2 & 63];
+			result += map2[64];
+		} else if (tail === 1) {
+			result += map2[bits >> 2 & 63];
+			result += map2[bits << 4 & 63];
+			result += map2[64];
+			result += map2[64];
+		}
+		return result;
+	}
+	function isBinary(obj) {
+		return Object.prototype.toString.call(obj) === "[object Uint8Array]";
+	}
+	binary = new Type2("tag:yaml.org,2002:binary", {
+		kind: "scalar",
+		resolve: resolveYamlBinary,
+		construct: constructYamlBinary,
+		predicate: isBinary,
+		represent: representYamlBinary
+	});
+	return binary;
+}
+var omap;
+var hasRequiredOmap;
+function requireOmap() {
+	if (hasRequiredOmap) return omap;
+	hasRequiredOmap = 1;
+	const Type2 = requireType();
+	const _hasOwnProperty = Object.prototype.hasOwnProperty;
+	const _toString = Object.prototype.toString;
+	function resolveYamlOmap(data) {
+		if (data === null) return true;
+		const objectKeys = {};
+		const object = data;
+		for (let index = 0, length = object.length; index < length; index += 1) {
+			const pair = object[index];
+			let pairHasKey = false;
+			if (_toString.call(pair) !== "[object Object]") return false;
+			let pairKey;
+			for (pairKey in pair) if (_hasOwnProperty.call(pair, pairKey)) {
+				if (!pairHasKey) pairHasKey = true;
+				else return false;
+			}
+			if (!pairHasKey) return false;
+			if (_hasOwnProperty.call(objectKeys, pairKey)) return false;
+			Object.defineProperty(objectKeys, pairKey, { value: true });
+		}
+		return true;
+	}
+	function constructYamlOmap(data) {
+		return data !== null ? data : [];
+	}
+	omap = new Type2("tag:yaml.org,2002:omap", {
+		kind: "sequence",
+		resolve: resolveYamlOmap,
+		construct: constructYamlOmap
+	});
+	return omap;
+}
+var pairs;
+var hasRequiredPairs;
+function requirePairs() {
+	if (hasRequiredPairs) return pairs;
+	hasRequiredPairs = 1;
+	const Type2 = requireType();
+	const _toString = Object.prototype.toString;
+	function resolveYamlPairs(data) {
+		if (data === null) return true;
+		const object = data;
+		const result = new Array(object.length);
+		for (let index = 0, length = object.length; index < length; index += 1) {
+			const pair = object[index];
+			if (_toString.call(pair) !== "[object Object]") return false;
+			const keys = Object.keys(pair);
+			if (keys.length !== 1) return false;
+			result[index] = [keys[0], pair[keys[0]]];
+		}
+		return true;
+	}
+	function constructYamlPairs(data) {
+		if (data === null) return [];
+		const object = data;
+		const result = new Array(object.length);
+		for (let index = 0, length = object.length; index < length; index += 1) {
+			const pair = object[index];
+			const keys = Object.keys(pair);
+			result[index] = [keys[0], pair[keys[0]]];
+		}
+		return result;
+	}
+	pairs = new Type2("tag:yaml.org,2002:pairs", {
+		kind: "sequence",
+		resolve: resolveYamlPairs,
+		construct: constructYamlPairs
+	});
+	return pairs;
+}
+var set;
+var hasRequiredSet;
+function requireSet() {
+	if (hasRequiredSet) return set;
+	hasRequiredSet = 1;
+	const Type2 = requireType();
+	const _hasOwnProperty = Object.prototype.hasOwnProperty;
+	function resolveYamlSet(data) {
+		if (data === null) return true;
+		const object = data;
+		for (const key in object) if (_hasOwnProperty.call(object, key)) {
+			if (object[key] !== null) return false;
+		}
+		return true;
+	}
+	function constructYamlSet(data) {
+		return data !== null ? data : {};
+	}
+	set = new Type2("tag:yaml.org,2002:set", {
+		kind: "mapping",
+		resolve: resolveYamlSet,
+		construct: constructYamlSet
+	});
+	return set;
+}
+var _default;
+var hasRequired_default;
+function require_default() {
+	if (hasRequired_default) return _default;
+	hasRequired_default = 1;
+	_default = requireCore().extend({
+		implicit: [requireTimestamp(), requireMerge()],
+		explicit: [
+			requireBinary(),
+			requireOmap(),
+			requirePairs(),
+			requireSet()
+		]
+	});
+	return _default;
+}
+var hasRequiredLoader;
+function requireLoader() {
+	if (hasRequiredLoader) return loader;
+	hasRequiredLoader = 1;
+	const common2 = requireCommon();
+	const YAMLException2 = requireException();
+	const makeSnippet = requireSnippet();
+	const DEFAULT_SCHEMA2 = require_default();
+	const _hasOwnProperty = Object.prototype.hasOwnProperty;
+	const CONTEXT_FLOW_IN = 1;
+	const CONTEXT_FLOW_OUT = 2;
+	const CONTEXT_BLOCK_IN = 3;
+	const CONTEXT_BLOCK_OUT = 4;
+	const CHOMPING_CLIP = 1;
+	const CHOMPING_STRIP = 2;
+	const CHOMPING_KEEP = 3;
+	const PATTERN_NON_PRINTABLE = /[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x84\x86-\x9F\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/;
+	const PATTERN_NON_ASCII_LINE_BREAKS = /[\x85\u2028\u2029]/;
+	const PATTERN_FLOW_INDICATORS = /[,\[\]{}]/;
+	const PATTERN_TAG_HANDLE = /^(?:!|!!|![0-9A-Za-z-]+!)$/;
+	const PATTERN_TAG_URI = /^(?:!|[^,\[\]{}])(?:%[0-9a-f]{2}|[0-9a-z\-#;/?:@&=+$,_.!~*'()\[\]])*$/i;
+	function _class(obj) {
+		return Object.prototype.toString.call(obj);
+	}
+	function isEol(c) {
+		return c === 10 || c === 13;
+	}
+	function isWhiteSpace(c) {
+		return c === 9 || c === 32;
+	}
+	function isWsOrEol(c) {
+		return c === 9 || c === 32 || c === 10 || c === 13;
+	}
+	function isFlowIndicator(c) {
+		return c === 44 || c === 91 || c === 93 || c === 123 || c === 125;
+	}
+	function fromHexCode(c) {
+		if (c >= 48 && c <= 57) return c - 48;
+		const lc = c | 32;
+		if (lc >= 97 && lc <= 102) return lc - 97 + 10;
+		return -1;
+	}
+	function escapedHexLen(c) {
+		if (c === 120) return 2;
+		if (c === 117) return 4;
+		if (c === 85) return 8;
+		return 0;
+	}
+	function fromDecimalCode(c) {
+		if (c >= 48 && c <= 57) return c - 48;
+		return -1;
+	}
+	function simpleEscapeSequence(c) {
+		switch (c) {
+			case 48: return "\0";
+			case 97: return "\x07";
+			case 98: return "\b";
+			case 116: return "	";
+			case 9: return "	";
+			case 110: return "\n";
+			case 118: return "\v";
+			case 102: return "\f";
+			case 114: return "\r";
+			case 101: return "\x1B";
+			case 32: return " ";
+			case 34: return "\"";
+			case 47: return "/";
+			case 92: return "\\";
+			case 78: return "";
+			case 95: return "\xA0";
+			case 76: return "\u2028";
+			case 80: return "\u2029";
+			default: return "";
+		}
+	}
+	function charFromCodepoint(c) {
+		if (c <= 65535) return String.fromCharCode(c);
+		return String.fromCharCode((c - 65536 >> 10) + 55296, (c - 65536 & 1023) + 56320);
+	}
+	function setProperty(object, key, value) {
+		if (key === "__proto__") Object.defineProperty(object, key, {
+			configurable: true,
+			enumerable: true,
+			writable: true,
+			value
+		});
+		else object[key] = value;
+	}
+	const simpleEscapeCheck = new Array(256);
+	const simpleEscapeMap = new Array(256);
+	for (let i = 0; i < 256; i++) {
+		simpleEscapeCheck[i] = simpleEscapeSequence(i) ? 1 : 0;
+		simpleEscapeMap[i] = simpleEscapeSequence(i);
+	}
+	function State(input, options) {
+		this.input = input;
+		this.filename = options["filename"] || null;
+		this.schema = options["schema"] || DEFAULT_SCHEMA2;
+		this.onWarning = options["onWarning"] || null;
+		this.legacy = options["legacy"] || false;
+		this.json = options["json"] || false;
+		this.listener = options["listener"] || null;
+		this.maxDepth = typeof options["maxDepth"] === "number" ? options["maxDepth"] : 100;
+		this.maxTotalMergeKeys = typeof options["maxTotalMergeKeys"] === "number" ? options["maxTotalMergeKeys"] : 1e4;
+		this.implicitTypes = this.schema.compiledImplicit;
+		this.typeMap = this.schema.compiledTypeMap;
+		this.length = input.length;
+		this.position = 0;
+		this.line = 0;
+		this.lineStart = 0;
+		this.lineIndent = 0;
+		this.depth = 0;
+		this.totalMergeKeys = 0;
+		this.firstTabInLine = -1;
+		this.documents = [];
+		this.anchorMapTransactions = [];
+	}
+	function generateError(state, message) {
+		const mark = {
+			name: state.filename,
+			buffer: state.input.slice(0, -1),
+			position: state.position,
+			line: state.line,
+			column: state.position - state.lineStart
+		};
+		mark.snippet = makeSnippet(mark);
+		return new YAMLException2(message, mark);
+	}
+	function throwError(state, message) {
+		throw generateError(state, message);
+	}
+	function throwWarning(state, message) {
+		if (state.onWarning) state.onWarning.call(null, generateError(state, message));
+	}
+	function storeAnchor(state, name, value) {
+		const transactions = state.anchorMapTransactions;
+		if (transactions.length !== 0) {
+			const transaction = transactions[transactions.length - 1];
+			if (!_hasOwnProperty.call(transaction, name)) transaction[name] = {
+				existed: _hasOwnProperty.call(state.anchorMap, name),
+				value: state.anchorMap[name]
+			};
+		}
+		state.anchorMap[name] = value;
+	}
+	function beginAnchorTransaction(state) {
+		state.anchorMapTransactions.push(/* @__PURE__ */ Object.create(null));
+	}
+	function commitAnchorTransaction(state) {
+		const transaction = state.anchorMapTransactions.pop();
+		const transactions = state.anchorMapTransactions;
+		if (transactions.length === 0) return;
+		const parent = transactions[transactions.length - 1];
+		const names = Object.keys(transaction);
+		for (let index = 0, length = names.length; index < length; index += 1) {
+			const name = names[index];
+			if (!_hasOwnProperty.call(parent, name)) parent[name] = transaction[name];
+		}
+	}
+	function rollbackAnchorTransaction(state) {
+		const transaction = state.anchorMapTransactions.pop();
+		const names = Object.keys(transaction);
+		for (let index = names.length - 1; index >= 0; index -= 1) {
+			const entry = transaction[names[index]];
+			if (entry.existed) state.anchorMap[names[index]] = entry.value;
+			else delete state.anchorMap[names[index]];
+		}
+	}
+	function snapshotState(state) {
+		return {
+			position: state.position,
+			line: state.line,
+			lineStart: state.lineStart,
+			lineIndent: state.lineIndent,
+			firstTabInLine: state.firstTabInLine,
+			tag: state.tag,
+			anchor: state.anchor,
+			kind: state.kind,
+			result: state.result
+		};
+	}
+	function restoreState(state, snapshot) {
+		state.position = snapshot.position;
+		state.line = snapshot.line;
+		state.lineStart = snapshot.lineStart;
+		state.lineIndent = snapshot.lineIndent;
+		state.firstTabInLine = snapshot.firstTabInLine;
+		state.tag = snapshot.tag;
+		state.anchor = snapshot.anchor;
+		state.kind = snapshot.kind;
+		state.result = snapshot.result;
+	}
+	const directiveHandlers = {
+		YAML: function handleYamlDirective(state, name, args) {
+			if (state.version !== null) throwError(state, "duplication of %YAML directive");
+			if (args.length !== 1) throwError(state, "YAML directive accepts exactly one argument");
+			const match = /^([0-9]+)\.([0-9]+)$/.exec(args[0]);
+			if (match === null) throwError(state, "ill-formed argument of the YAML directive");
+			const major = parseInt(match[1], 10);
+			const minor = parseInt(match[2], 10);
+			if (major !== 1) throwError(state, "unacceptable YAML version of the document");
+			state.version = args[0];
+			state.checkLineBreaks = minor < 2;
+			if (minor !== 1 && minor !== 2) throwWarning(state, "unsupported YAML version of the document");
+		},
+		TAG: function handleTagDirective(state, name, args) {
+			let prefix;
+			if (args.length !== 2) throwError(state, "TAG directive accepts exactly two arguments");
+			const handle = args[0];
+			prefix = args[1];
+			if (!PATTERN_TAG_HANDLE.test(handle)) throwError(state, "ill-formed tag handle (first argument) of the TAG directive");
+			if (_hasOwnProperty.call(state.tagMap, handle)) throwError(state, "there is a previously declared suffix for \"" + handle + "\" tag handle");
+			if (!PATTERN_TAG_URI.test(prefix)) throwError(state, "ill-formed tag prefix (second argument) of the TAG directive");
+			try {
+				prefix = decodeURIComponent(prefix);
+			} catch (err) {
+				throwError(state, "tag prefix is malformed: " + prefix);
+			}
+			state.tagMap[handle] = prefix;
+		}
+	};
+	function captureSegment(state, start, end, checkJson) {
+		if (start < end) {
+			const _result = state.input.slice(start, end);
+			if (checkJson) for (let _position = 0, _length = _result.length; _position < _length; _position += 1) {
+				const _character = _result.charCodeAt(_position);
+				if (!(_character === 9 || _character >= 32 && _character <= 1114111)) throwError(state, "expected valid JSON character");
+			}
+			else if (PATTERN_NON_PRINTABLE.test(_result)) throwError(state, "the stream contains non-printable characters");
+			state.result += _result;
+		}
+	}
+	function mergeMappings(state, destination, source, overridableKeys) {
+		if (!common2.isObject(source)) throwError(state, "cannot merge mappings; the provided source object is unacceptable");
+		const sourceKeys = Object.keys(source);
+		for (let index = 0, quantity = sourceKeys.length; index < quantity; index += 1) {
+			const key = sourceKeys[index];
+			if (state.maxTotalMergeKeys !== -1 && ++state.totalMergeKeys > state.maxTotalMergeKeys) throwError(state, "merge keys exceeded maxTotalMergeKeys (" + state.maxTotalMergeKeys + ")");
+			if (!_hasOwnProperty.call(destination, key)) {
+				setProperty(destination, key, source[key]);
+				overridableKeys[key] = true;
+			}
+		}
+	}
+	function storeMappingPair(state, _result, overridableKeys, keyTag, keyNode, valueNode, startLine, startLineStart, startPos) {
+		if (Array.isArray(keyNode)) {
+			keyNode = Array.prototype.slice.call(keyNode);
+			for (let index = 0, quantity = keyNode.length; index < quantity; index += 1) {
+				if (Array.isArray(keyNode[index])) throwError(state, "nested arrays are not supported inside keys");
+				if (typeof keyNode === "object" && _class(keyNode[index]) === "[object Object]") keyNode[index] = "[object Object]";
+			}
+		}
+		if (typeof keyNode === "object" && _class(keyNode) === "[object Object]") keyNode = "[object Object]";
+		keyNode = String(keyNode);
+		if (_result === null) _result = {};
+		if (keyTag === "tag:yaml.org,2002:merge") {
+			if (Array.isArray(valueNode)) for (let index = 0, quantity = valueNode.length; index < quantity; index += 1) mergeMappings(state, _result, valueNode[index], overridableKeys);
+			else mergeMappings(state, _result, valueNode, overridableKeys);
+		} else {
+			if (!state.json && !_hasOwnProperty.call(overridableKeys, keyNode) && _hasOwnProperty.call(_result, keyNode)) {
+				state.line = startLine || state.line;
+				state.lineStart = startLineStart || state.lineStart;
+				state.position = startPos || state.position;
+				throwError(state, "duplicated mapping key");
+			}
+			setProperty(_result, keyNode, valueNode);
+			delete overridableKeys[keyNode];
+		}
+		return _result;
+	}
+	function readLineBreak(state) {
+		const ch = state.input.charCodeAt(state.position);
+		if (ch === 10) state.position++;
+		else if (ch === 13) {
+			state.position++;
+			if (state.input.charCodeAt(state.position) === 10) state.position++;
+		} else throwError(state, "a line break is expected");
+		state.line += 1;
+		state.lineStart = state.position;
+		state.firstTabInLine = -1;
+	}
+	function skipSeparationSpace(state, allowComments, checkIndent) {
+		let lineBreaks = 0;
+		let ch = state.input.charCodeAt(state.position);
+		while (ch !== 0) {
+			while (isWhiteSpace(ch)) {
+				if (ch === 9 && state.firstTabInLine === -1) state.firstTabInLine = state.position;
+				ch = state.input.charCodeAt(++state.position);
+			}
+			if (allowComments && ch === 35) do
+				ch = state.input.charCodeAt(++state.position);
+			while (ch !== 10 && ch !== 13 && ch !== 0);
+			if (isEol(ch)) {
+				readLineBreak(state);
+				ch = state.input.charCodeAt(state.position);
+				lineBreaks++;
+				state.lineIndent = 0;
+				while (ch === 32) {
+					state.lineIndent++;
+					ch = state.input.charCodeAt(++state.position);
+				}
+			} else break;
+		}
+		if (checkIndent !== -1 && lineBreaks !== 0 && state.lineIndent < checkIndent) throwWarning(state, "deficient indentation");
+		return lineBreaks;
+	}
+	function testDocumentSeparator(state) {
+		let _position = state.position;
+		let ch = state.input.charCodeAt(_position);
+		if ((ch === 45 || ch === 46) && ch === state.input.charCodeAt(_position + 1) && ch === state.input.charCodeAt(_position + 2)) {
+			_position += 3;
+			ch = state.input.charCodeAt(_position);
+			if (ch === 0 || isWsOrEol(ch)) return true;
+		}
+		return false;
+	}
+	function writeFoldedLines(state, count) {
+		if (count === 1) state.result += " ";
+		else if (count > 1) state.result += common2.repeat("\n", count - 1);
+	}
+	function readPlainScalar(state, nodeIndent, withinFlowCollection) {
+		let captureStart;
+		let captureEnd;
+		let hasPendingContent;
+		let _line;
+		let _lineStart;
+		let _lineIndent;
+		const _kind = state.kind;
+		const _result = state.result;
+		let ch = state.input.charCodeAt(state.position);
+		if (isWsOrEol(ch) || isFlowIndicator(ch) || ch === 35 || ch === 38 || ch === 42 || ch === 33 || ch === 124 || ch === 62 || ch === 39 || ch === 34 || ch === 37 || ch === 64 || ch === 96) return false;
+		if (ch === 63 || ch === 45) {
+			const following = state.input.charCodeAt(state.position + 1);
+			if (isWsOrEol(following) || withinFlowCollection && isFlowIndicator(following)) return false;
+		}
+		state.kind = "scalar";
+		state.result = "";
+		captureStart = captureEnd = state.position;
+		hasPendingContent = false;
+		while (ch !== 0) {
+			if (ch === 58) {
+				const following = state.input.charCodeAt(state.position + 1);
+				if (isWsOrEol(following) || withinFlowCollection && isFlowIndicator(following)) break;
+			} else if (ch === 35) {
+				if (isWsOrEol(state.input.charCodeAt(state.position - 1))) break;
+			} else if (state.position === state.lineStart && testDocumentSeparator(state) || withinFlowCollection && isFlowIndicator(ch)) break;
+			else if (isEol(ch)) {
+				_line = state.line;
+				_lineStart = state.lineStart;
+				_lineIndent = state.lineIndent;
+				skipSeparationSpace(state, false, -1);
+				if (state.lineIndent >= nodeIndent) {
+					hasPendingContent = true;
+					ch = state.input.charCodeAt(state.position);
+					continue;
+				} else {
+					state.position = captureEnd;
+					state.line = _line;
+					state.lineStart = _lineStart;
+					state.lineIndent = _lineIndent;
+					break;
+				}
+			}
+			if (hasPendingContent) {
+				captureSegment(state, captureStart, captureEnd, false);
+				writeFoldedLines(state, state.line - _line);
+				captureStart = captureEnd = state.position;
+				hasPendingContent = false;
+			}
+			if (!isWhiteSpace(ch)) captureEnd = state.position + 1;
+			ch = state.input.charCodeAt(++state.position);
+		}
+		captureSegment(state, captureStart, captureEnd, false);
+		if (state.result) return true;
+		state.kind = _kind;
+		state.result = _result;
+		return false;
+	}
+	function readSingleQuotedScalar(state, nodeIndent) {
+		let captureStart;
+		let captureEnd;
+		let ch = state.input.charCodeAt(state.position);
+		if (ch !== 39) return false;
+		state.kind = "scalar";
+		state.result = "";
+		state.position++;
+		captureStart = captureEnd = state.position;
+		while ((ch = state.input.charCodeAt(state.position)) !== 0) if (ch === 39) {
+			captureSegment(state, captureStart, state.position, true);
+			ch = state.input.charCodeAt(++state.position);
+			if (ch === 39) {
+				captureStart = state.position;
+				state.position++;
+				captureEnd = state.position;
+			} else return true;
+		} else if (isEol(ch)) {
+			captureSegment(state, captureStart, captureEnd, true);
+			writeFoldedLines(state, skipSeparationSpace(state, false, nodeIndent));
+			captureStart = captureEnd = state.position;
+		} else if (state.position === state.lineStart && testDocumentSeparator(state)) throwError(state, "unexpected end of the document within a single quoted scalar");
+		else {
+			state.position++;
+			if (!isWhiteSpace(ch)) captureEnd = state.position;
+		}
+		throwError(state, "unexpected end of the stream within a single quoted scalar");
+	}
+	function readDoubleQuotedScalar(state, nodeIndent) {
+		let captureStart;
+		let captureEnd;
+		let tmp;
+		let ch = state.input.charCodeAt(state.position);
+		if (ch !== 34) return false;
+		state.kind = "scalar";
+		state.result = "";
+		state.position++;
+		captureStart = captureEnd = state.position;
+		while ((ch = state.input.charCodeAt(state.position)) !== 0) if (ch === 34) {
+			captureSegment(state, captureStart, state.position, true);
+			state.position++;
+			return true;
+		} else if (ch === 92) {
+			captureSegment(state, captureStart, state.position, true);
+			ch = state.input.charCodeAt(++state.position);
+			if (isEol(ch)) skipSeparationSpace(state, false, nodeIndent);
+			else if (ch < 256 && simpleEscapeCheck[ch]) {
+				state.result += simpleEscapeMap[ch];
+				state.position++;
+			} else if ((tmp = escapedHexLen(ch)) > 0) {
+				let hexLength = tmp;
+				let hexResult = 0;
+				for (; hexLength > 0; hexLength--) {
+					ch = state.input.charCodeAt(++state.position);
+					if ((tmp = fromHexCode(ch)) >= 0) hexResult = (hexResult << 4) + tmp;
+					else throwError(state, "expected hexadecimal character");
+				}
+				state.result += charFromCodepoint(hexResult);
+				state.position++;
+			} else throwError(state, "unknown escape sequence");
+			captureStart = captureEnd = state.position;
+		} else if (isEol(ch)) {
+			captureSegment(state, captureStart, captureEnd, true);
+			writeFoldedLines(state, skipSeparationSpace(state, false, nodeIndent));
+			captureStart = captureEnd = state.position;
+		} else if (state.position === state.lineStart && testDocumentSeparator(state)) throwError(state, "unexpected end of the document within a double quoted scalar");
+		else {
+			state.position++;
+			if (!isWhiteSpace(ch)) captureEnd = state.position;
+		}
+		throwError(state, "unexpected end of the stream within a double quoted scalar");
+	}
+	function readFlowCollection(state, nodeIndent) {
+		let readNext = true;
+		let _line;
+		let _lineStart;
+		let _pos;
+		const _tag = state.tag;
+		let _result;
+		const _anchor = state.anchor;
+		let terminator;
+		let isPair;
+		let isExplicitPair;
+		let isMapping;
+		const overridableKeys = /* @__PURE__ */ Object.create(null);
+		let keyNode;
+		let keyTag;
+		let valueNode;
+		let ch = state.input.charCodeAt(state.position);
+		if (ch === 91) {
+			terminator = 93;
+			isMapping = false;
+			_result = [];
+		} else if (ch === 123) {
+			terminator = 125;
+			isMapping = true;
+			_result = {};
+		} else return false;
+		if (state.anchor !== null) storeAnchor(state, state.anchor, _result);
+		ch = state.input.charCodeAt(++state.position);
+		while (ch !== 0) {
+			skipSeparationSpace(state, true, nodeIndent);
+			ch = state.input.charCodeAt(state.position);
+			if (ch === terminator) {
+				state.position++;
+				state.tag = _tag;
+				state.anchor = _anchor;
+				state.kind = isMapping ? "mapping" : "sequence";
+				state.result = _result;
+				return true;
+			} else if (!readNext) throwError(state, "missed comma between flow collection entries");
+			else if (ch === 44) throwError(state, "expected the node content, but found ','");
+			keyTag = keyNode = valueNode = null;
+			isPair = isExplicitPair = false;
+			if (ch === 63) {
+				if (isWsOrEol(state.input.charCodeAt(state.position + 1))) {
+					isPair = isExplicitPair = true;
+					state.position++;
+					skipSeparationSpace(state, true, nodeIndent);
+				}
+			}
+			_line = state.line;
+			_lineStart = state.lineStart;
+			_pos = state.position;
+			composeNode(state, nodeIndent, CONTEXT_FLOW_IN, false, true);
+			keyTag = state.tag;
+			keyNode = state.result;
+			skipSeparationSpace(state, true, nodeIndent);
+			ch = state.input.charCodeAt(state.position);
+			if ((isExplicitPair || state.line === _line) && ch === 58) {
+				isPair = true;
+				ch = state.input.charCodeAt(++state.position);
+				skipSeparationSpace(state, true, nodeIndent);
+				composeNode(state, nodeIndent, CONTEXT_FLOW_IN, false, true);
+				valueNode = state.result;
+			}
+			if (isMapping) storeMappingPair(state, _result, overridableKeys, keyTag, keyNode, valueNode, _line, _lineStart, _pos);
+			else if (isPair) _result.push(storeMappingPair(state, null, overridableKeys, keyTag, keyNode, valueNode, _line, _lineStart, _pos));
+			else _result.push(keyNode);
+			skipSeparationSpace(state, true, nodeIndent);
+			ch = state.input.charCodeAt(state.position);
+			if (ch === 44) {
+				readNext = true;
+				ch = state.input.charCodeAt(++state.position);
+			} else readNext = false;
+		}
+		throwError(state, "unexpected end of the stream within a flow collection");
+	}
+	function readBlockScalar(state, nodeIndent) {
+		let folding;
+		let chomping = CHOMPING_CLIP;
+		let didReadContent = false;
+		let detectedIndent = false;
+		let textIndent = nodeIndent;
+		let emptyLines = 0;
+		let atMoreIndented = false;
+		let tmp;
+		let ch = state.input.charCodeAt(state.position);
+		if (ch === 124) folding = false;
+		else if (ch === 62) folding = true;
+		else return false;
+		state.kind = "scalar";
+		state.result = "";
+		while (ch !== 0) {
+			ch = state.input.charCodeAt(++state.position);
+			if (ch === 43 || ch === 45) {
+				if (CHOMPING_CLIP === chomping) chomping = ch === 43 ? CHOMPING_KEEP : CHOMPING_STRIP;
+				else throwError(state, "repeat of a chomping mode identifier");
+			} else if ((tmp = fromDecimalCode(ch)) >= 0) {
+				if (tmp === 0) throwError(state, "bad explicit indentation width of a block scalar; it cannot be less than one");
+				else if (!detectedIndent) {
+					textIndent = nodeIndent + tmp - 1;
+					detectedIndent = true;
+				} else throwError(state, "repeat of an indentation width identifier");
+			} else break;
+		}
+		if (isWhiteSpace(ch)) {
+			do
+				ch = state.input.charCodeAt(++state.position);
+			while (isWhiteSpace(ch));
+			if (ch === 35) do
+				ch = state.input.charCodeAt(++state.position);
+			while (!isEol(ch) && ch !== 0);
+		}
+		while (ch !== 0) {
+			readLineBreak(state);
+			state.lineIndent = 0;
+			ch = state.input.charCodeAt(state.position);
+			while ((!detectedIndent || state.lineIndent < textIndent) && ch === 32) {
+				state.lineIndent++;
+				ch = state.input.charCodeAt(++state.position);
+			}
+			if (!detectedIndent && state.lineIndent > textIndent) textIndent = state.lineIndent;
+			if (isEol(ch)) {
+				emptyLines++;
+				continue;
+			}
+			if (!detectedIndent && textIndent === 0) throwError(state, "missing indentation for block scalar");
+			if (state.lineIndent < textIndent) {
+				if (chomping === CHOMPING_KEEP) state.result += common2.repeat("\n", didReadContent ? 1 + emptyLines : emptyLines);
+				else if (chomping === CHOMPING_CLIP) {
+					if (didReadContent) state.result += "\n";
+				}
+				break;
+			}
+			if (folding) {
+				if (isWhiteSpace(ch)) {
+					atMoreIndented = true;
+					state.result += common2.repeat("\n", didReadContent ? 1 + emptyLines : emptyLines);
+				} else if (atMoreIndented) {
+					atMoreIndented = false;
+					state.result += common2.repeat("\n", emptyLines + 1);
+				} else if (emptyLines === 0) {
+					if (didReadContent) state.result += " ";
+				} else state.result += common2.repeat("\n", emptyLines);
+			} else state.result += common2.repeat("\n", didReadContent ? 1 + emptyLines : emptyLines);
+			didReadContent = true;
+			detectedIndent = true;
+			emptyLines = 0;
+			const captureStart = state.position;
+			while (!isEol(ch) && ch !== 0) ch = state.input.charCodeAt(++state.position);
+			captureSegment(state, captureStart, state.position, false);
+		}
+		return true;
+	}
+	function readBlockSequence(state, nodeIndent) {
+		const _tag = state.tag;
+		const _anchor = state.anchor;
+		const _result = [];
+		let detected = false;
+		if (state.firstTabInLine !== -1) return false;
+		if (state.anchor !== null) storeAnchor(state, state.anchor, _result);
+		let ch = state.input.charCodeAt(state.position);
+		while (ch !== 0) {
+			if (state.firstTabInLine !== -1) {
+				state.position = state.firstTabInLine;
+				throwError(state, "tab characters must not be used in indentation");
+			}
+			if (ch !== 45) break;
+			if (!isWsOrEol(state.input.charCodeAt(state.position + 1))) break;
+			detected = true;
+			state.position++;
+			if (skipSeparationSpace(state, true, -1)) {
+				if (state.lineIndent <= nodeIndent) {
+					_result.push(null);
+					ch = state.input.charCodeAt(state.position);
+					continue;
+				}
+			}
+			const _line = state.line;
+			composeNode(state, nodeIndent, CONTEXT_BLOCK_IN, false, true);
+			_result.push(state.result);
+			skipSeparationSpace(state, true, -1);
+			ch = state.input.charCodeAt(state.position);
+			if ((state.line === _line || state.lineIndent > nodeIndent) && ch !== 0) throwError(state, "bad indentation of a sequence entry");
+			else if (state.lineIndent < nodeIndent) break;
+		}
+		if (detected) {
+			state.tag = _tag;
+			state.anchor = _anchor;
+			state.kind = "sequence";
+			state.result = _result;
+			return true;
+		}
+		return false;
+	}
+	function readBlockMapping(state, nodeIndent, flowIndent) {
+		let allowCompact;
+		let _keyLine;
+		let _keyLineStart;
+		let _keyPos;
+		const _tag = state.tag;
+		const _anchor = state.anchor;
+		const _result = {};
+		const overridableKeys = /* @__PURE__ */ Object.create(null);
+		let keyTag = null;
+		let keyNode = null;
+		let valueNode = null;
+		let atExplicitKey = false;
+		let detected = false;
+		if (state.firstTabInLine !== -1) return false;
+		if (state.anchor !== null) storeAnchor(state, state.anchor, _result);
+		let ch = state.input.charCodeAt(state.position);
+		while (ch !== 0) {
+			if (!atExplicitKey && state.firstTabInLine !== -1) {
+				state.position = state.firstTabInLine;
+				throwError(state, "tab characters must not be used in indentation");
+			}
+			const following = state.input.charCodeAt(state.position + 1);
+			const _line = state.line;
+			if ((ch === 63 || ch === 58) && isWsOrEol(following)) {
+				if (ch === 63) {
+					if (atExplicitKey) {
+						storeMappingPair(state, _result, overridableKeys, keyTag, keyNode, null, _keyLine, _keyLineStart, _keyPos);
+						keyTag = keyNode = valueNode = null;
+					}
+					detected = true;
+					atExplicitKey = true;
+					allowCompact = true;
+				} else if (atExplicitKey) {
+					atExplicitKey = false;
+					allowCompact = true;
+				} else throwError(state, "incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line");
+				state.position += 1;
+				ch = following;
+			} else {
+				_keyLine = state.line;
+				_keyLineStart = state.lineStart;
+				_keyPos = state.position;
+				if (!composeNode(state, flowIndent, CONTEXT_FLOW_OUT, false, true)) break;
+				if (state.line === _line) {
+					ch = state.input.charCodeAt(state.position);
+					while (isWhiteSpace(ch)) ch = state.input.charCodeAt(++state.position);
+					if (ch === 58) {
+						ch = state.input.charCodeAt(++state.position);
+						if (!isWsOrEol(ch)) throwError(state, "a whitespace character is expected after the key-value separator within a block mapping");
+						if (atExplicitKey) {
+							storeMappingPair(state, _result, overridableKeys, keyTag, keyNode, null, _keyLine, _keyLineStart, _keyPos);
+							keyTag = keyNode = valueNode = null;
+						}
+						detected = true;
+						atExplicitKey = false;
+						allowCompact = false;
+						keyTag = state.tag;
+						keyNode = state.result;
+					} else if (detected) throwError(state, "can not read an implicit mapping pair; a colon is missed");
+					else {
+						state.tag = _tag;
+						state.anchor = _anchor;
+						return true;
+					}
+				} else if (detected) throwError(state, "can not read a block mapping entry; a multiline key may not be an implicit key");
+				else {
+					state.tag = _tag;
+					state.anchor = _anchor;
+					return true;
+				}
+			}
+			if (state.line === _line || state.lineIndent > nodeIndent) {
+				if (atExplicitKey) {
+					_keyLine = state.line;
+					_keyLineStart = state.lineStart;
+					_keyPos = state.position;
+				}
+				if (composeNode(state, nodeIndent, CONTEXT_BLOCK_OUT, true, allowCompact)) {
+					if (atExplicitKey) keyNode = state.result;
+					else valueNode = state.result;
+				}
+				if (!atExplicitKey) {
+					storeMappingPair(state, _result, overridableKeys, keyTag, keyNode, valueNode, _keyLine, _keyLineStart, _keyPos);
+					keyTag = keyNode = valueNode = null;
+				}
+				skipSeparationSpace(state, true, -1);
+				ch = state.input.charCodeAt(state.position);
+			}
+			if ((state.line === _line || state.lineIndent > nodeIndent) && ch !== 0) throwError(state, "bad indentation of a mapping entry");
+			else if (state.lineIndent < nodeIndent) break;
+		}
+		if (atExplicitKey) storeMappingPair(state, _result, overridableKeys, keyTag, keyNode, null, _keyLine, _keyLineStart, _keyPos);
+		if (detected) {
+			state.tag = _tag;
+			state.anchor = _anchor;
+			state.kind = "mapping";
+			state.result = _result;
+		}
+		return detected;
+	}
+	function readTagProperty(state) {
+		let isVerbatim = false;
+		let isNamed = false;
+		let tagHandle;
+		let tagName;
+		let ch = state.input.charCodeAt(state.position);
+		if (ch !== 33) return false;
+		if (state.tag !== null) throwError(state, "duplication of a tag property");
+		ch = state.input.charCodeAt(++state.position);
+		if (ch === 60) {
+			isVerbatim = true;
+			ch = state.input.charCodeAt(++state.position);
+		} else if (ch === 33) {
+			isNamed = true;
+			tagHandle = "!!";
+			ch = state.input.charCodeAt(++state.position);
+		} else tagHandle = "!";
+		let _position = state.position;
+		if (isVerbatim) {
+			do
+				ch = state.input.charCodeAt(++state.position);
+			while (ch !== 0 && ch !== 62);
+			if (state.position < state.length) {
+				tagName = state.input.slice(_position, state.position);
+				ch = state.input.charCodeAt(++state.position);
+			} else throwError(state, "unexpected end of the stream within a verbatim tag");
+		} else {
+			while (ch !== 0 && !isWsOrEol(ch)) {
+				if (ch === 33) {
+					if (!isNamed) {
+						tagHandle = state.input.slice(_position - 1, state.position + 1);
+						if (!PATTERN_TAG_HANDLE.test(tagHandle)) throwError(state, "named tag handle cannot contain such characters");
+						isNamed = true;
+						_position = state.position + 1;
+					} else throwError(state, "tag suffix cannot contain exclamation marks");
+				}
+				ch = state.input.charCodeAt(++state.position);
+			}
+			tagName = state.input.slice(_position, state.position);
+			if (PATTERN_FLOW_INDICATORS.test(tagName)) throwError(state, "tag suffix cannot contain flow indicator characters");
+		}
+		if (tagName && !PATTERN_TAG_URI.test(tagName)) throwError(state, "tag name cannot contain such characters: " + tagName);
+		try {
+			tagName = decodeURIComponent(tagName);
+		} catch (err) {
+			throwError(state, "tag name is malformed: " + tagName);
+		}
+		if (isVerbatim) state.tag = tagName;
+		else if (_hasOwnProperty.call(state.tagMap, tagHandle)) state.tag = state.tagMap[tagHandle] + tagName;
+		else if (tagHandle === "!") state.tag = "!" + tagName;
+		else if (tagHandle === "!!") state.tag = "tag:yaml.org,2002:" + tagName;
+		else throwError(state, "undeclared tag handle \"" + tagHandle + "\"");
+		return true;
+	}
+	function readAnchorProperty(state) {
+		let ch = state.input.charCodeAt(state.position);
+		if (ch !== 38) return false;
+		if (state.anchor !== null) throwError(state, "duplication of an anchor property");
+		ch = state.input.charCodeAt(++state.position);
+		const _position = state.position;
+		while (ch !== 0 && !isWsOrEol(ch) && !isFlowIndicator(ch)) ch = state.input.charCodeAt(++state.position);
+		if (state.position === _position) throwError(state, "name of an anchor node must contain at least one character");
+		state.anchor = state.input.slice(_position, state.position);
+		return true;
+	}
+	function readAlias(state) {
+		let ch = state.input.charCodeAt(state.position);
+		if (ch !== 42) return false;
+		ch = state.input.charCodeAt(++state.position);
+		const _position = state.position;
+		while (ch !== 0 && !isWsOrEol(ch) && !isFlowIndicator(ch)) ch = state.input.charCodeAt(++state.position);
+		if (state.position === _position) throwError(state, "name of an alias node must contain at least one character");
+		const alias = state.input.slice(_position, state.position);
+		if (!_hasOwnProperty.call(state.anchorMap, alias)) throwError(state, "unidentified alias \"" + alias + "\"");
+		state.result = state.anchorMap[alias];
+		skipSeparationSpace(state, true, -1);
+		return true;
+	}
+	function tryReadBlockMappingFromProperty(state, propertyStart, nodeIndent, flowIndent) {
+		const fallbackState = snapshotState(state);
+		beginAnchorTransaction(state);
+		restoreState(state, propertyStart);
+		state.tag = null;
+		state.anchor = null;
+		state.kind = null;
+		state.result = null;
+		if (readBlockMapping(state, nodeIndent, flowIndent) && state.kind === "mapping") {
+			commitAnchorTransaction(state);
+			return true;
+		}
+		rollbackAnchorTransaction(state);
+		restoreState(state, fallbackState);
+		return false;
+	}
+	function composeNode(state, parentIndent, nodeContext, allowToSeek, allowCompact) {
+		let allowBlockScalars;
+		let allowBlockCollections;
+		let indentStatus = 1;
+		let atNewLine = false;
+		let hasContent = false;
+		let propertyStart = null;
+		let type2;
+		let flowIndent;
+		let blockIndent;
+		if (state.depth >= state.maxDepth) throwError(state, "nesting exceeded maxDepth (" + state.maxDepth + ")");
+		state.depth += 1;
+		if (state.listener !== null) state.listener("open", state);
+		state.tag = null;
+		state.anchor = null;
+		state.kind = null;
+		state.result = null;
+		const allowBlockStyles = allowBlockScalars = allowBlockCollections = CONTEXT_BLOCK_OUT === nodeContext || CONTEXT_BLOCK_IN === nodeContext;
+		if (allowToSeek) {
+			if (skipSeparationSpace(state, true, -1)) {
+				atNewLine = true;
+				if (state.lineIndent > parentIndent) indentStatus = 1;
+				else if (state.lineIndent === parentIndent) indentStatus = 0;
+				else if (state.lineIndent < parentIndent) indentStatus = -1;
+			}
+		}
+		if (indentStatus === 1) while (true) {
+			const ch = state.input.charCodeAt(state.position);
+			const propertyState = snapshotState(state);
+			if (atNewLine && (ch === 33 && state.tag !== null || ch === 38 && state.anchor !== null)) break;
+			if (!readTagProperty(state) && !readAnchorProperty(state)) break;
+			if (propertyStart === null) propertyStart = propertyState;
+			if (skipSeparationSpace(state, true, -1)) {
+				atNewLine = true;
+				allowBlockCollections = allowBlockStyles;
+				if (state.lineIndent > parentIndent) indentStatus = 1;
+				else if (state.lineIndent === parentIndent) indentStatus = 0;
+				else if (state.lineIndent < parentIndent) indentStatus = -1;
+			} else allowBlockCollections = false;
+		}
+		if (allowBlockCollections) allowBlockCollections = atNewLine || allowCompact;
+		if (indentStatus === 1 || CONTEXT_BLOCK_OUT === nodeContext) {
+			if (CONTEXT_FLOW_IN === nodeContext || CONTEXT_FLOW_OUT === nodeContext) flowIndent = parentIndent;
+			else flowIndent = parentIndent + 1;
+			blockIndent = state.position - state.lineStart;
+			if (indentStatus === 1) {
+				if (allowBlockCollections && (readBlockSequence(state, blockIndent) || readBlockMapping(state, blockIndent, flowIndent)) || readFlowCollection(state, flowIndent)) hasContent = true;
+				else {
+					const ch = state.input.charCodeAt(state.position);
+					if (propertyStart !== null && allowBlockStyles && !allowBlockCollections && ch !== 124 && ch !== 62 && tryReadBlockMappingFromProperty(state, propertyStart, propertyStart.position - propertyStart.lineStart, flowIndent)) hasContent = true;
+					else if (allowBlockScalars && readBlockScalar(state, flowIndent) || readSingleQuotedScalar(state, flowIndent) || readDoubleQuotedScalar(state, flowIndent)) hasContent = true;
+					else if (readAlias(state)) {
+						hasContent = true;
+						if (state.tag !== null || state.anchor !== null) throwError(state, "alias node should not have any properties");
+					} else if (readPlainScalar(state, flowIndent, CONTEXT_FLOW_IN === nodeContext)) {
+						hasContent = true;
+						if (state.tag === null) state.tag = "?";
+					}
+					if (state.anchor !== null) storeAnchor(state, state.anchor, state.result);
+				}
+			} else if (indentStatus === 0) hasContent = allowBlockCollections && readBlockSequence(state, blockIndent);
+		}
+		if (state.tag === null) {
+			if (state.anchor !== null) storeAnchor(state, state.anchor, state.result);
+		} else if (state.tag === "?") {
+			if (state.result !== null && state.kind !== "scalar") throwError(state, "unacceptable node kind for !<?> tag; it should be \"scalar\", not \"" + state.kind + "\"");
+			for (let typeIndex = 0, typeQuantity = state.implicitTypes.length; typeIndex < typeQuantity; typeIndex += 1) {
+				type2 = state.implicitTypes[typeIndex];
+				if (type2.resolve(state.result)) {
+					state.result = type2.construct(state.result);
+					state.tag = type2.tag;
+					if (state.anchor !== null) storeAnchor(state, state.anchor, state.result);
+					break;
+				}
+			}
+		} else if (state.tag !== "!") {
+			if (_hasOwnProperty.call(state.typeMap[state.kind || "fallback"], state.tag)) type2 = state.typeMap[state.kind || "fallback"][state.tag];
+			else {
+				type2 = null;
+				const typeList = state.typeMap.multi[state.kind || "fallback"];
+				for (let typeIndex = 0, typeQuantity = typeList.length; typeIndex < typeQuantity; typeIndex += 1) if (state.tag.slice(0, typeList[typeIndex].tag.length) === typeList[typeIndex].tag) {
+					type2 = typeList[typeIndex];
+					break;
+				}
+			}
+			if (!type2) throwError(state, "unknown tag !<" + state.tag + ">");
+			if (state.result !== null && type2.kind !== state.kind) throwError(state, "unacceptable node kind for !<" + state.tag + "> tag; it should be \"" + type2.kind + "\", not \"" + state.kind + "\"");
+			if (!type2.resolve(state.result, state.tag)) throwError(state, "cannot resolve a node with !<" + state.tag + "> explicit tag");
+			else {
+				state.result = type2.construct(state.result, state.tag);
+				if (state.anchor !== null) storeAnchor(state, state.anchor, state.result);
+			}
+		}
+		if (state.listener !== null) state.listener("close", state);
+		state.depth -= 1;
+		return state.tag !== null || state.anchor !== null || hasContent;
+	}
+	function readDocument(state) {
+		const documentStart = state.position;
+		let hasDirectives = false;
+		let ch;
+		state.version = null;
+		state.checkLineBreaks = state.legacy;
+		state.tagMap = /* @__PURE__ */ Object.create(null);
+		state.anchorMap = /* @__PURE__ */ Object.create(null);
+		while ((ch = state.input.charCodeAt(state.position)) !== 0) {
+			skipSeparationSpace(state, true, -1);
+			ch = state.input.charCodeAt(state.position);
+			if (state.lineIndent > 0 || ch !== 37) break;
+			hasDirectives = true;
+			ch = state.input.charCodeAt(++state.position);
+			let _position = state.position;
+			while (ch !== 0 && !isWsOrEol(ch)) ch = state.input.charCodeAt(++state.position);
+			const directiveName = state.input.slice(_position, state.position);
+			const directiveArgs = [];
+			if (directiveName.length < 1) throwError(state, "directive name must not be less than one character in length");
+			while (ch !== 0) {
+				while (isWhiteSpace(ch)) ch = state.input.charCodeAt(++state.position);
+				if (ch === 35) {
+					do
+						ch = state.input.charCodeAt(++state.position);
+					while (ch !== 0 && !isEol(ch));
+					break;
+				}
+				if (isEol(ch)) break;
+				_position = state.position;
+				while (ch !== 0 && !isWsOrEol(ch)) ch = state.input.charCodeAt(++state.position);
+				directiveArgs.push(state.input.slice(_position, state.position));
+			}
+			if (ch !== 0) readLineBreak(state);
+			if (_hasOwnProperty.call(directiveHandlers, directiveName)) directiveHandlers[directiveName](state, directiveName, directiveArgs);
+			else throwWarning(state, "unknown document directive \"" + directiveName + "\"");
+		}
+		skipSeparationSpace(state, true, -1);
+		if (state.lineIndent === 0 && state.input.charCodeAt(state.position) === 45 && state.input.charCodeAt(state.position + 1) === 45 && state.input.charCodeAt(state.position + 2) === 45) {
+			state.position += 3;
+			skipSeparationSpace(state, true, -1);
+		} else if (hasDirectives) throwError(state, "directives end mark is expected");
+		composeNode(state, state.lineIndent - 1, CONTEXT_BLOCK_OUT, false, true);
+		skipSeparationSpace(state, true, -1);
+		if (state.checkLineBreaks && PATTERN_NON_ASCII_LINE_BREAKS.test(state.input.slice(documentStart, state.position))) throwWarning(state, "non-ASCII line breaks are interpreted as content");
+		state.documents.push(state.result);
+		if (state.position === state.lineStart && testDocumentSeparator(state)) {
+			if (state.input.charCodeAt(state.position) === 46) {
+				state.position += 3;
+				skipSeparationSpace(state, true, -1);
+			}
+			return;
+		}
+		if (state.position < state.length - 1) throwError(state, "end of the stream or a document separator is expected");
+	}
+	function loadDocuments(input, options) {
+		input = String(input);
+		options = options || {};
+		if (input.length !== 0) {
+			if (input.charCodeAt(input.length - 1) !== 10 && input.charCodeAt(input.length - 1) !== 13) input += "\n";
+			if (input.charCodeAt(0) === 65279) input = input.slice(1);
+		}
+		const state = new State(input, options);
+		const nullpos = input.indexOf("\0");
+		if (nullpos !== -1) {
+			state.position = nullpos;
+			throwError(state, "null byte is not allowed in input");
+		}
+		state.input += "\0";
+		while (state.input.charCodeAt(state.position) === 32) {
+			state.lineIndent += 1;
+			state.position += 1;
+		}
+		while (state.position < state.length - 1) readDocument(state);
+		return state.documents;
+	}
+	function loadAll2(input, iterator, options) {
+		if (iterator !== null && typeof iterator === "object" && typeof options === "undefined") {
+			options = iterator;
+			iterator = null;
+		}
+		const documents = loadDocuments(input, options);
+		if (typeof iterator !== "function") return documents;
+		for (let index = 0, length = documents.length; index < length; index += 1) iterator(documents[index]);
+	}
+	function load2(input, options) {
+		const documents = loadDocuments(input, options);
+		if (documents.length === 0) return;
+		else if (documents.length === 1) return documents[0];
+		throw new YAMLException2("expected a single document in the stream, but found more");
+	}
+	loader.loadAll = loadAll2;
+	loader.load = load2;
+	return loader;
+}
+var dumper = {};
+var hasRequiredDumper;
+function requireDumper() {
+	if (hasRequiredDumper) return dumper;
+	hasRequiredDumper = 1;
+	const common2 = requireCommon();
+	const YAMLException2 = requireException();
+	const DEFAULT_SCHEMA2 = require_default();
+	const _toString = Object.prototype.toString;
+	const _hasOwnProperty = Object.prototype.hasOwnProperty;
+	const CHAR_BOM = 65279;
+	const CHAR_TAB = 9;
+	const CHAR_LINE_FEED = 10;
+	const CHAR_CARRIAGE_RETURN = 13;
+	const CHAR_SPACE = 32;
+	const CHAR_EXCLAMATION = 33;
+	const CHAR_DOUBLE_QUOTE = 34;
+	const CHAR_SHARP = 35;
+	const CHAR_PERCENT = 37;
+	const CHAR_AMPERSAND = 38;
+	const CHAR_SINGLE_QUOTE = 39;
+	const CHAR_ASTERISK = 42;
+	const CHAR_COMMA = 44;
+	const CHAR_MINUS = 45;
+	const CHAR_COLON = 58;
+	const CHAR_EQUALS = 61;
+	const CHAR_GREATER_THAN = 62;
+	const CHAR_QUESTION = 63;
+	const CHAR_COMMERCIAL_AT = 64;
+	const CHAR_LEFT_SQUARE_BRACKET = 91;
+	const CHAR_RIGHT_SQUARE_BRACKET = 93;
+	const CHAR_GRAVE_ACCENT = 96;
+	const CHAR_LEFT_CURLY_BRACKET = 123;
+	const CHAR_VERTICAL_LINE = 124;
+	const CHAR_RIGHT_CURLY_BRACKET = 125;
+	const ESCAPE_SEQUENCES = {};
+	ESCAPE_SEQUENCES[0] = "\\0";
+	ESCAPE_SEQUENCES[7] = "\\a";
+	ESCAPE_SEQUENCES[8] = "\\b";
+	ESCAPE_SEQUENCES[9] = "\\t";
+	ESCAPE_SEQUENCES[10] = "\\n";
+	ESCAPE_SEQUENCES[11] = "\\v";
+	ESCAPE_SEQUENCES[12] = "\\f";
+	ESCAPE_SEQUENCES[13] = "\\r";
+	ESCAPE_SEQUENCES[27] = "\\e";
+	ESCAPE_SEQUENCES[34] = "\\\"";
+	ESCAPE_SEQUENCES[92] = "\\\\";
+	ESCAPE_SEQUENCES[133] = "\\N";
+	ESCAPE_SEQUENCES[160] = "\\_";
+	ESCAPE_SEQUENCES[8232] = "\\L";
+	ESCAPE_SEQUENCES[8233] = "\\P";
+	const DEPRECATED_BOOLEANS_SYNTAX = [
+		"y",
+		"Y",
+		"yes",
+		"Yes",
+		"YES",
+		"on",
+		"On",
+		"ON",
+		"n",
+		"N",
+		"no",
+		"No",
+		"NO",
+		"off",
+		"Off",
+		"OFF"
+	];
+	const DEPRECATED_BASE60_SYNTAX = /^[-+]?[0-9_]+(?::[0-9_]+)+(?:\.[0-9_]*)?$/;
+	function compileStyleMap(schema2, map2) {
+		if (map2 === null) return {};
+		const result = {};
+		const keys = Object.keys(map2);
+		for (let index = 0, length = keys.length; index < length; index += 1) {
+			let tag = keys[index];
+			let style = String(map2[tag]);
+			if (tag.slice(0, 2) === "!!") tag = "tag:yaml.org,2002:" + tag.slice(2);
+			const type2 = schema2.compiledTypeMap["fallback"][tag];
+			if (type2 && _hasOwnProperty.call(type2.styleAliases, style)) style = type2.styleAliases[style];
+			result[tag] = style;
+		}
+		return result;
+	}
+	function encodeHex(character) {
+		let handle;
+		let length;
+		const string = character.toString(16).toUpperCase();
+		if (character <= 255) {
+			handle = "x";
+			length = 2;
+		} else if (character <= 65535) {
+			handle = "u";
+			length = 4;
+		} else if (character <= 4294967295) {
+			handle = "U";
+			length = 8;
+		} else throw new YAMLException2("code point within a string may not be greater than 0xFFFFFFFF");
+		return "\\" + handle + common2.repeat("0", length - string.length) + string;
+	}
+	const QUOTING_TYPE_SINGLE = 1;
+	const QUOTING_TYPE_DOUBLE = 2;
+	function State(options) {
+		this.schema = options["schema"] || DEFAULT_SCHEMA2;
+		this.indent = Math.max(1, options["indent"] || 2);
+		this.noArrayIndent = options["noArrayIndent"] || false;
+		this.skipInvalid = options["skipInvalid"] || false;
+		this.flowLevel = common2.isNothing(options["flowLevel"]) ? -1 : options["flowLevel"];
+		this.styleMap = compileStyleMap(this.schema, options["styles"] || null);
+		this.sortKeys = options["sortKeys"] || false;
+		this.lineWidth = options["lineWidth"] || 80;
+		this.noRefs = options["noRefs"] || false;
+		this.noCompatMode = options["noCompatMode"] || false;
+		this.condenseFlow = options["condenseFlow"] || false;
+		this.quotingType = options["quotingType"] === "\"" ? QUOTING_TYPE_DOUBLE : QUOTING_TYPE_SINGLE;
+		this.forceQuotes = options["forceQuotes"] || false;
+		this.replacer = typeof options["replacer"] === "function" ? options["replacer"] : null;
+		this.implicitTypes = this.schema.compiledImplicit;
+		this.explicitTypes = this.schema.compiledExplicit;
+		this.tag = null;
+		this.result = "";
+		this.duplicates = [];
+		this.usedDuplicates = null;
+	}
+	function indentString(string, spaces) {
+		const ind = common2.repeat(" ", spaces);
+		let position = 0;
+		let result = "";
+		const length = string.length;
+		while (position < length) {
+			let line;
+			const next = string.indexOf("\n", position);
+			if (next === -1) {
+				line = string.slice(position);
+				position = length;
+			} else {
+				line = string.slice(position, next + 1);
+				position = next + 1;
+			}
+			if (line.length && line !== "\n") result += ind;
+			result += line;
+		}
+		return result;
+	}
+	function generateNextLine(state, level) {
+		return "\n" + common2.repeat(" ", state.indent * level);
+	}
+	function testImplicitResolving(state, str2) {
+		for (let index = 0, length = state.implicitTypes.length; index < length; index += 1) if (state.implicitTypes[index].resolve(str2)) return true;
+		return false;
+	}
+	function isWhitespace(c) {
+		return c === CHAR_SPACE || c === CHAR_TAB;
+	}
+	function isPrintable(c) {
+		return c >= 32 && c <= 126 || c >= 161 && c <= 55295 && c !== 8232 && c !== 8233 || c >= 57344 && c <= 65533 && c !== CHAR_BOM || c >= 65536 && c <= 1114111;
+	}
+	function isNsCharOrWhitespace(c) {
+		return isPrintable(c) && c !== CHAR_BOM && c !== CHAR_CARRIAGE_RETURN && c !== CHAR_LINE_FEED;
+	}
+	function isPlainSafe(c, prev, inblock) {
+		const cIsNsCharOrWhitespace = isNsCharOrWhitespace(c);
+		const cIsNsChar = cIsNsCharOrWhitespace && !isWhitespace(c);
+		return (inblock ? cIsNsCharOrWhitespace : cIsNsCharOrWhitespace && c !== CHAR_COMMA && c !== CHAR_LEFT_SQUARE_BRACKET && c !== CHAR_RIGHT_SQUARE_BRACKET && c !== CHAR_LEFT_CURLY_BRACKET && c !== CHAR_RIGHT_CURLY_BRACKET) && c !== CHAR_SHARP && !(prev === CHAR_COLON && !cIsNsChar) || isNsCharOrWhitespace(prev) && !isWhitespace(prev) && c === CHAR_SHARP || prev === CHAR_COLON && cIsNsChar;
+	}
+	function isPlainSafeFirst(c) {
+		return isPrintable(c) && c !== CHAR_BOM && !isWhitespace(c) && c !== CHAR_MINUS && c !== CHAR_QUESTION && c !== CHAR_COLON && c !== CHAR_COMMA && c !== CHAR_LEFT_SQUARE_BRACKET && c !== CHAR_RIGHT_SQUARE_BRACKET && c !== CHAR_LEFT_CURLY_BRACKET && c !== CHAR_RIGHT_CURLY_BRACKET && c !== CHAR_SHARP && c !== CHAR_AMPERSAND && c !== CHAR_ASTERISK && c !== CHAR_EXCLAMATION && c !== CHAR_VERTICAL_LINE && c !== CHAR_EQUALS && c !== CHAR_GREATER_THAN && c !== CHAR_SINGLE_QUOTE && c !== CHAR_DOUBLE_QUOTE && c !== CHAR_PERCENT && c !== CHAR_COMMERCIAL_AT && c !== CHAR_GRAVE_ACCENT;
+	}
+	function isPlainSafeLast(c) {
+		return !isWhitespace(c) && c !== CHAR_COLON;
+	}
+	function codePointAt(string, pos) {
+		const first = string.charCodeAt(pos);
+		let second;
+		if (first >= 55296 && first <= 56319 && pos + 1 < string.length) {
+			second = string.charCodeAt(pos + 1);
+			if (second >= 56320 && second <= 57343) return (first - 55296) * 1024 + second - 56320 + 65536;
+		}
+		return first;
+	}
+	function needIndentIndicator(string) {
+		return /^\n* /.test(string);
+	}
+	const STYLE_PLAIN = 1;
+	const STYLE_SINGLE = 2;
+	const STYLE_LITERAL = 3;
+	const STYLE_FOLDED = 4;
+	const STYLE_DOUBLE = 5;
+	function chooseScalarStyle(string, singleLineOnly, indentPerLevel, lineWidth, testAmbiguousType, quotingType, forceQuotes, inblock) {
+		let i;
+		let char = 0;
+		let prevChar = null;
+		let hasLineBreak = false;
+		let hasFoldableLine = false;
+		const shouldTrackWidth = lineWidth !== -1;
+		let previousLineBreak = -1;
+		let plain = isPlainSafeFirst(codePointAt(string, 0)) && isPlainSafeLast(codePointAt(string, string.length - 1));
+		if (singleLineOnly || forceQuotes) for (i = 0; i < string.length; char >= 65536 ? i += 2 : i++) {
+			char = codePointAt(string, i);
+			if (!isPrintable(char)) return STYLE_DOUBLE;
+			plain = plain && isPlainSafe(char, prevChar, inblock);
+			prevChar = char;
+		}
+		else {
+			for (i = 0; i < string.length; char >= 65536 ? i += 2 : i++) {
+				char = codePointAt(string, i);
+				if (char === CHAR_LINE_FEED) {
+					hasLineBreak = true;
+					if (shouldTrackWidth) {
+						hasFoldableLine = hasFoldableLine || i - previousLineBreak - 1 > lineWidth && string[previousLineBreak + 1] !== " ";
+						previousLineBreak = i;
+					}
+				} else if (!isPrintable(char)) return STYLE_DOUBLE;
+				plain = plain && isPlainSafe(char, prevChar, inblock);
+				prevChar = char;
+			}
+			hasFoldableLine = hasFoldableLine || shouldTrackWidth && i - previousLineBreak - 1 > lineWidth && string[previousLineBreak + 1] !== " ";
+		}
+		if (!hasLineBreak && !hasFoldableLine) {
+			if (plain && !forceQuotes && !testAmbiguousType(string)) return STYLE_PLAIN;
+			return quotingType === QUOTING_TYPE_DOUBLE ? STYLE_DOUBLE : STYLE_SINGLE;
+		}
+		if (indentPerLevel > 9 && needIndentIndicator(string)) return STYLE_DOUBLE;
+		if (!forceQuotes) return hasFoldableLine ? STYLE_FOLDED : STYLE_LITERAL;
+		return quotingType === QUOTING_TYPE_DOUBLE ? STYLE_DOUBLE : STYLE_SINGLE;
+	}
+	function writeScalar(state, string, level, iskey, inblock) {
+		state.dump = (function() {
+			if (string.length === 0) return state.quotingType === QUOTING_TYPE_DOUBLE ? "\"\"" : "''";
+			if (!state.noCompatMode) {
+				if (DEPRECATED_BOOLEANS_SYNTAX.indexOf(string) !== -1 || DEPRECATED_BASE60_SYNTAX.test(string)) return state.quotingType === QUOTING_TYPE_DOUBLE ? "\"" + string + "\"" : "'" + string + "'";
+			}
+			const indent = state.indent * Math.max(1, level);
+			const lineWidth = state.lineWidth === -1 ? -1 : Math.max(Math.min(state.lineWidth, 40), state.lineWidth - indent);
+			const singleLineOnly = iskey || state.flowLevel > -1 && level >= state.flowLevel;
+			function testAmbiguity(string2) {
+				return testImplicitResolving(state, string2);
+			}
+			switch (chooseScalarStyle(string, singleLineOnly, state.indent, lineWidth, testAmbiguity, state.quotingType, state.forceQuotes && !iskey, inblock)) {
+				case STYLE_PLAIN: return string;
+				case STYLE_SINGLE: return "'" + string.replace(/'/g, "''") + "'";
+				case STYLE_LITERAL: return "|" + blockHeader(string, state.indent) + dropEndingNewline(indentString(string, indent));
+				case STYLE_FOLDED: return ">" + blockHeader(string, state.indent) + dropEndingNewline(indentString(foldString(string, lineWidth), indent));
+				case STYLE_DOUBLE: return "\"" + escapeString(string) + "\"";
+				default: throw new YAMLException2("impossible error: invalid scalar style");
+			}
+		})();
+	}
+	function blockHeader(string, indentPerLevel) {
+		const indentIndicator = needIndentIndicator(string) ? String(indentPerLevel) : "";
+		const clip = string[string.length - 1] === "\n";
+		return indentIndicator + (clip && (string[string.length - 2] === "\n" || string === "\n") ? "+" : clip ? "" : "-") + "\n";
+	}
+	function dropEndingNewline(string) {
+		return string[string.length - 1] === "\n" ? string.slice(0, -1) : string;
+	}
+	function foldString(string, width) {
+		const lineRe = /(\n+)([^\n]*)/g;
+		let result = (function() {
+			let nextLF = string.indexOf("\n");
+			nextLF = nextLF !== -1 ? nextLF : string.length;
+			lineRe.lastIndex = nextLF;
+			return foldLine(string.slice(0, nextLF), width);
+		})();
+		let prevMoreIndented = string[0] === "\n" || string[0] === " ";
+		let moreIndented;
+		let match;
+		while (match = lineRe.exec(string)) {
+			const prefix = match[1];
+			const line = match[2];
+			moreIndented = line[0] === " ";
+			result += prefix + (!prevMoreIndented && !moreIndented && line !== "" ? "\n" : "") + foldLine(line, width);
+			prevMoreIndented = moreIndented;
+		}
+		return result;
+	}
+	function foldLine(line, width) {
+		if (line === "" || line[0] === " ") return line;
+		const breakRe = / [^ ]/g;
+		let match;
+		let start = 0;
+		let end;
+		let curr = 0;
+		let next = 0;
+		let result = "";
+		while (match = breakRe.exec(line)) {
+			next = match.index;
+			if (next - start > width) {
+				end = curr > start ? curr : next;
+				result += "\n" + line.slice(start, end);
+				start = end + 1;
+			}
+			curr = next;
+		}
+		result += "\n";
+		if (line.length - start > width && curr > start) result += line.slice(start, curr) + "\n" + line.slice(curr + 1);
+		else result += line.slice(start);
+		return result.slice(1);
+	}
+	function escapeString(string) {
+		let result = "";
+		let char = 0;
+		for (let i = 0; i < string.length; char >= 65536 ? i += 2 : i++) {
+			char = codePointAt(string, i);
+			const escapeSeq = ESCAPE_SEQUENCES[char];
+			if (!escapeSeq && isPrintable(char)) {
+				result += string[i];
+				if (char >= 65536) result += string[i + 1];
+			} else result += escapeSeq || encodeHex(char);
+		}
+		return result;
+	}
+	function writeFlowSequence(state, level, object) {
+		let _result = "";
+		const _tag = state.tag;
+		for (let index = 0, length = object.length; index < length; index += 1) {
+			let value = object[index];
+			if (state.replacer) value = state.replacer.call(object, String(index), value);
+			if (writeNode(state, level, value, false, false) || typeof value === "undefined" && writeNode(state, level, null, false, false)) {
+				if (_result !== "") _result += "," + (!state.condenseFlow ? " " : "");
+				_result += state.dump;
+			}
+		}
+		state.tag = _tag;
+		state.dump = "[" + _result + "]";
+	}
+	function writeBlockSequence(state, level, object, compact) {
+		let _result = "";
+		const _tag = state.tag;
+		for (let index = 0, length = object.length; index < length; index += 1) {
+			let value = object[index];
+			if (state.replacer) value = state.replacer.call(object, String(index), value);
+			if (writeNode(state, level + 1, value, true, true, false, true) || typeof value === "undefined" && writeNode(state, level + 1, null, true, true, false, true)) {
+				if (!compact || _result !== "") _result += generateNextLine(state, level);
+				if (state.dump && CHAR_LINE_FEED === state.dump.charCodeAt(0)) _result += "-";
+				else _result += "- ";
+				_result += state.dump;
+			}
+		}
+		state.tag = _tag;
+		state.dump = _result || "[]";
+	}
+	function writeFlowMapping(state, level, object) {
+		let _result = "";
+		const _tag = state.tag;
+		const objectKeyList = Object.keys(object);
+		for (let index = 0, length = objectKeyList.length; index < length; index += 1) {
+			let pairBuffer = "";
+			if (_result !== "") pairBuffer += ", ";
+			if (state.condenseFlow) pairBuffer += "\"";
+			const objectKey = objectKeyList[index];
+			let objectValue = object[objectKey];
+			if (state.replacer) objectValue = state.replacer.call(object, objectKey, objectValue);
+			if (!writeNode(state, level, objectKey, false, false)) continue;
+			if (state.dump.length > 1024) pairBuffer += "? ";
+			pairBuffer += state.dump + (state.condenseFlow ? "\"" : "") + ":" + (state.condenseFlow ? "" : " ");
+			if (!writeNode(state, level, objectValue, false, false)) continue;
+			pairBuffer += state.dump;
+			_result += pairBuffer;
+		}
+		state.tag = _tag;
+		state.dump = "{" + _result + "}";
+	}
+	function writeBlockMapping(state, level, object, compact) {
+		let _result = "";
+		const _tag = state.tag;
+		const objectKeyList = Object.keys(object);
+		if (state.sortKeys === true) objectKeyList.sort();
+		else if (typeof state.sortKeys === "function") objectKeyList.sort(state.sortKeys);
+		else if (state.sortKeys) throw new YAMLException2("sortKeys must be a boolean or a function");
+		for (let index = 0, length = objectKeyList.length; index < length; index += 1) {
+			let pairBuffer = "";
+			if (!compact || _result !== "") pairBuffer += generateNextLine(state, level);
+			const objectKey = objectKeyList[index];
+			let objectValue = object[objectKey];
+			if (state.replacer) objectValue = state.replacer.call(object, objectKey, objectValue);
+			if (!writeNode(state, level + 1, objectKey, true, true, true)) continue;
+			const explicitPair = state.tag !== null && state.tag !== "?" || state.dump && state.dump.length > 1024;
+			if (explicitPair) {
+				if (state.dump && CHAR_LINE_FEED === state.dump.charCodeAt(0)) pairBuffer += "?";
+				else pairBuffer += "? ";
+			}
+			pairBuffer += state.dump;
+			if (explicitPair) pairBuffer += generateNextLine(state, level);
+			if (!writeNode(state, level + 1, objectValue, true, explicitPair)) continue;
+			if (state.dump && CHAR_LINE_FEED === state.dump.charCodeAt(0)) pairBuffer += ":";
+			else pairBuffer += ": ";
+			pairBuffer += state.dump;
+			_result += pairBuffer;
+		}
+		state.tag = _tag;
+		state.dump = _result || "{}";
+	}
+	function detectType(state, object, explicit) {
+		const typeList = explicit ? state.explicitTypes : state.implicitTypes;
+		for (let index = 0, length = typeList.length; index < length; index += 1) {
+			const type2 = typeList[index];
+			if ((type2.instanceOf || type2.predicate) && (!type2.instanceOf || typeof object === "object" && object instanceof type2.instanceOf) && (!type2.predicate || type2.predicate(object))) {
+				if (explicit) {
+					if (type2.multi && type2.representName) state.tag = type2.representName(object);
+					else state.tag = type2.tag;
+				} else state.tag = "?";
+				if (type2.represent) {
+					const style = state.styleMap[type2.tag] || type2.defaultStyle;
+					let _result;
+					if (_toString.call(type2.represent) === "[object Function]") _result = type2.represent(object, style);
+					else if (_hasOwnProperty.call(type2.represent, style)) _result = type2.represent[style](object, style);
+					else throw new YAMLException2("!<" + type2.tag + "> tag resolver accepts not \"" + style + "\" style");
+					state.dump = _result;
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+	function writeNode(state, level, object, block, compact, iskey, isblockseq) {
+		state.tag = null;
+		state.dump = object;
+		if (!detectType(state, object, false)) detectType(state, object, true);
+		const type2 = _toString.call(state.dump);
+		const inblock = block;
+		if (block) block = state.flowLevel < 0 || state.flowLevel > level;
+		const objectOrArray = type2 === "[object Object]" || type2 === "[object Array]";
+		let duplicateIndex;
+		let duplicate;
+		if (objectOrArray) {
+			duplicateIndex = state.duplicates.indexOf(object);
+			duplicate = duplicateIndex !== -1;
+		}
+		if (state.tag !== null && state.tag !== "?" || duplicate || state.indent !== 2 && level > 0) compact = false;
+		if (duplicate && state.usedDuplicates[duplicateIndex]) state.dump = "*ref_" + duplicateIndex;
+		else {
+			if (objectOrArray && duplicate && !state.usedDuplicates[duplicateIndex]) state.usedDuplicates[duplicateIndex] = true;
+			if (type2 === "[object Object]") {
+				if (block && Object.keys(state.dump).length !== 0) {
+					writeBlockMapping(state, level, state.dump, compact);
+					if (duplicate) state.dump = "&ref_" + duplicateIndex + state.dump;
+				} else {
+					writeFlowMapping(state, level, state.dump);
+					if (duplicate) state.dump = "&ref_" + duplicateIndex + " " + state.dump;
+				}
+			} else if (type2 === "[object Array]") {
+				if (block && state.dump.length !== 0) {
+					if (state.noArrayIndent && !isblockseq && level > 0) writeBlockSequence(state, level - 1, state.dump, compact);
+					else writeBlockSequence(state, level, state.dump, compact);
+					if (duplicate) state.dump = "&ref_" + duplicateIndex + state.dump;
+				} else {
+					writeFlowSequence(state, level, state.dump);
+					if (duplicate) state.dump = "&ref_" + duplicateIndex + " " + state.dump;
+				}
+			} else if (type2 === "[object String]") {
+				if (state.tag !== "?") writeScalar(state, state.dump, level, iskey, inblock);
+			} else if (type2 === "[object Undefined]") return false;
+			else {
+				if (state.skipInvalid) return false;
+				throw new YAMLException2("unacceptable kind of an object to dump " + type2);
+			}
+			if (state.tag !== null && state.tag !== "?") {
+				let tagStr = encodeURI(state.tag[0] === "!" ? state.tag.slice(1) : state.tag).replace(/!/g, "%21");
+				if (state.tag[0] === "!") tagStr = "!" + tagStr;
+				else if (tagStr.slice(0, 18) === "tag:yaml.org,2002:") tagStr = "!!" + tagStr.slice(18);
+				else tagStr = "!<" + tagStr + ">";
+				state.dump = tagStr + " " + state.dump;
+			}
+		}
+		return true;
+	}
+	function getDuplicateReferences(object, state) {
+		const objects = [];
+		const duplicatesIndexes = [];
+		inspectNode(object, objects, duplicatesIndexes);
+		const length = duplicatesIndexes.length;
+		for (let index = 0; index < length; index += 1) state.duplicates.push(objects[duplicatesIndexes[index]]);
+		state.usedDuplicates = new Array(length);
+	}
+	function inspectNode(object, objects, duplicatesIndexes) {
+		if (object !== null && typeof object === "object") {
+			const index = objects.indexOf(object);
+			if (index !== -1) {
+				if (duplicatesIndexes.indexOf(index) === -1) duplicatesIndexes.push(index);
+			} else {
+				objects.push(object);
+				if (Array.isArray(object)) for (let i = 0, length = object.length; i < length; i += 1) inspectNode(object[i], objects, duplicatesIndexes);
+				else {
+					const objectKeyList = Object.keys(object);
+					for (let i = 0, length = objectKeyList.length; i < length; i += 1) inspectNode(object[objectKeyList[i]], objects, duplicatesIndexes);
+				}
+			}
+		}
+	}
+	function dump2(input, options) {
+		options = options || {};
+		const state = new State(options);
+		if (!state.noRefs) getDuplicateReferences(input, state);
+		let value = input;
+		if (state.replacer) value = state.replacer.call({ "": value }, "", value);
+		if (writeNode(state, 0, value, true, true)) return state.dump + "\n";
+		return "";
+	}
+	dumper.dump = dump2;
+	return dumper;
+}
+var hasRequiredJsYaml;
+function requireJsYaml() {
+	if (hasRequiredJsYaml) return jsYaml;
+	hasRequiredJsYaml = 1;
+	const loader2 = requireLoader();
+	const dumper2 = requireDumper();
+	function renamed(from, to) {
+		return function() {
+			throw new Error("Function yaml." + from + " is removed in js-yaml 4. Use yaml." + to + " instead, which is now safe by default.");
+		};
+	}
+	jsYaml.Type = requireType();
+	jsYaml.Schema = requireSchema();
+	jsYaml.FAILSAFE_SCHEMA = requireFailsafe();
+	jsYaml.JSON_SCHEMA = requireJson();
+	jsYaml.CORE_SCHEMA = requireCore();
+	jsYaml.DEFAULT_SCHEMA = require_default();
+	jsYaml.load = loader2.load;
+	jsYaml.loadAll = loader2.loadAll;
+	jsYaml.dump = dumper2.dump;
+	jsYaml.YAMLException = requireException();
+	jsYaml.types = {
+		binary: requireBinary(),
+		float: requireFloat(),
+		map: requireMap(),
+		null: require_null(),
+		pairs: requirePairs(),
+		set: requireSet(),
+		timestamp: requireTimestamp(),
+		bool: requireBool(),
+		int: requireInt(),
+		merge: requireMerge(),
+		omap: requireOmap(),
+		seq: requireSeq(),
+		str: requireStr()
+	};
+	jsYaml.safeLoad = renamed("safeLoad", "load");
+	jsYaml.safeLoadAll = renamed("safeLoadAll", "loadAll");
+	jsYaml.safeDump = renamed("safeDump", "dump");
+	return jsYaml;
+}
+const yaml = /* @__PURE__ */ getDefaultExportFromCjs(requireJsYaml());
+const { Type, Schema, FAILSAFE_SCHEMA, JSON_SCHEMA, CORE_SCHEMA, DEFAULT_SCHEMA, load, loadAll, dump, YAMLException, types, safeLoad, safeLoadAll, safeDump } = yaml;
+//#endregion
+//#region node_modules/.pnpm/@deepseek-ai+cordis-plugin-_bc36c904ec46027ac66b596a4006ca98/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js
+/** Helpers for locating the current Node internal module loader. */
+var ModuleLoader;
+(function(ModuleLoader) {
+	let _cachedLoader;
+	function requireInternal(id) {
+		const require = createRequire(import.meta.url);
+		if (process.execArgv.includes("--expose-internals")) try {
+			return require(id);
+		} catch {}
+		try {
+			return require("node-addon-require-builtin").requireBuiltin(id);
+		} catch {}
+	}
+	function fromInternal() {
+		if (_cachedLoader) return _cachedLoader;
+		const [major] = process.versions.node.split(".").map(Number);
+		if (major >= 24) {
+			const raw = requireInternal("internal/modules/esm/loader")?.getOrInitializeCascadedLoader();
+			if (raw) return _cachedLoader = Object.assign(raw, { version: "v2" });
+		} else if (major >= 22) {
+			const raw = requireInternal("internal/modules/esm/loader")?.getOrInitializeCascadedLoader();
+			if (raw) return _cachedLoader = Object.assign(raw, { version: "v1" });
+		}
+	}
+	ModuleLoader.fromInternal = fromInternal;
+})(ModuleLoader || (ModuleLoader = {}));
+/** Runtime owner for a list of child loader entries. */
+var EntryGroup = class {
+	ctx;
+	tree;
+	static key = Symbol.for("cordis.group");
+	data = [];
+	constructor(ctx, tree) {
+		this.ctx = ctx;
+		this.tree = tree;
+		const entry = ctx.fiber.entry;
+		if (entry) entry.subgroup = this;
+	}
+	get context() {
+		return this.ctx;
+	}
+	async create(options) {
+		const id = this.tree.ensureId(options);
+		const existing = this.tree.store[id];
+		const entry = existing ?? (this.tree.store[id] = new Entry(this.ctx.loader));
+		const previousParent = entry.parent;
+		entry.parent = this;
+		try {
+			await entry.update(options, true, true);
+		} catch (error) {
+			if (existing) entry.parent = previousParent;
+			else delete this.tree.store[id];
+			throw error;
+		}
+		return entry.id;
+	}
+	unlink(options) {
+		const config = this.data;
+		const index = config.indexOf(options);
+		if (index >= 0) config.splice(index, 1);
+	}
+	async remove(id, isDispose = false) {
+		const entry = this.tree.store[id];
+		if (!entry) return;
+		await entry._dispose();
+		if (!isDispose) this.unlink(entry.options);
+		delete this.tree.store[id];
+		this.context.emit("loader/partial-dispose", entry, entry.options, false);
+	}
+	async update(config) {
+		const oldConfig = this.data;
+		const seen = /* @__PURE__ */ new Set();
+		for (const options of config) {
+			const id = this.tree.ensureId(options);
+			if (seen.has(id)) throw new TypeError(`duplicate loader entry id: ${id}`);
+			seen.add(id);
+		}
+		const oldMap = Object.fromEntries(oldConfig.map((options) => [options.id, options]));
+		const newMap = Object.fromEntries(config.map((options) => [options.id, options]));
+		try {
+			const outcomes = await Promise.allSettled(config.map((options) => this.create(options)));
+			if (this.ctx.fiber.uid === null) return;
+			const failures = outcomes.filter((outcome) => outcome.status === "rejected").map((outcome) => outcome.reason);
+			if (failures.length === 1) throw failures[0];
+			if (failures.length > 1) throw new AggregateError(failures, "loader entries failed to apply");
+			for (const id of Object.keys(oldMap)) if (!newMap[id]) await this.remove(id, true);
+			this.data = config;
+		} catch (error) {
+			const rollbackErrors = [];
+			for (const id of Object.keys(newMap).reverse()) {
+				if (oldMap[id]) continue;
+				try {
+					await this.remove(id, true);
+				} catch (rollbackError) {
+					rollbackErrors.push(rollbackError);
+				}
+			}
+			for (const options of oldConfig) try {
+				await this.create(options);
+			} catch (rollbackError) {
+				rollbackErrors.push(rollbackError);
+			}
+			this.data = oldConfig;
+			if (rollbackErrors.length) throw new AggregateError([error, ...rollbackErrors], "loader entry rollback failed");
+			throw error;
+		}
+	}
+	async stop() {
+		for (const options of this.data) await this.remove(options.id, true);
+	}
+};
+EntryGroup.key, Service.init;
+var __rewriteRelativeImportExtension$1 = function(path, preserveJsx) {
+	if (typeof path === "string" && /^\.\.?\//.test(path)) return path.replace(/\.(tsx)$|((?:\.d)?)((?:\.[^./]+?)?)\.([cm]?)ts$/i, function(m, tsx, d, ext, cm) {
+		return tsx ? preserveJsx ? ".jsx" : ".js" : d && (!ext || !cm) ? m : d + ext + "." + cm.toLowerCase() + "js";
+	});
+	return path;
+};
+/** Mutable tree of loader entries. Persistence is supplied by subclasses. */
+var EntryTree = class EntryTree {
+	static sep = ":";
+	ctx;
+	enableLogs;
+	root;
+	store = Object.create(null);
+	constructor(ctx) {
+		this.ctx = ctx.extend({ baseUrl: ctx.baseUrl });
+		this.root = new EntryGroup(this.ctx, this);
+		const entry = this.ctx.fiber.entry;
+		if (entry) entry.subtree = this;
+	}
+	get context() {
+		return this.ctx;
+	}
+	/** Iterate entries in this tree and any nested subtrees. */
+	*entries() {
+		for (const entry of Object.values(this.store)) {
+			yield entry;
+			if (!entry.subtree) continue;
+			yield* entry.subtree.entries();
+		}
+	}
+	/** Return pending import and lifecycle tasks owned by this tree. */
+	getTasks() {
+		return [...this.entries()].map((entry) => entry._initTask || entry.fiber?.inertia).filter(isNonNullable);
+	}
+	/**
+	* Wait until this tree has no active import or lifecycle tasks.
+	* @throws a settled fiber failure, or an aggregate when several fibers failed.
+	*/
+	async await() {
+		while (true) {
+			const tasks = this.getTasks();
+			if (tasks.length) {
+				await Promise.allSettled(tasks);
+				continue;
+			}
+			const failures = (await Promise.allSettled([...this.entries()].map((entry) => entry._await()))).filter((outcome) => outcome.status === "rejected").map((outcome) => outcome.reason);
+			if (failures.length === 1) throw failures[0];
+			if (failures.length > 1) throw new AggregateError(failures, "loader fibers failed");
+			this.ctx.reflect.notify(["loader"]);
+			if (!this.getTasks().length) return;
+		}
+	}
+	ensureId(options) {
+		if (!options.id) do
+			options.id = Math.random().toString(16).slice(2, 10);
+		while (this.store[options.id]);
+		return options.id;
+	}
+	/** Resolve an entry by id, including nested ids separated by `EntryTree.sep`. */
+	resolve(id) {
+		const parts = id.split(EntryTree.sep);
+		let tree = this;
+		const final = parts.pop();
+		for (const part of parts) {
+			tree = tree.store[part]?.subtree;
+			if (!tree) throw new Error(`cannot resolve entry ${id}`);
+		}
+		const entry = tree.store[final];
+		if (!entry) throw new Error(`cannot resolve entry ${id}`);
+		return entry;
+	}
+	resolveGroup(id) {
+		if (!id) return this.root;
+		const entry = this.resolve(id);
+		if (!entry.subgroup) throw new Error(`entry ${id} is not a group`);
+		return entry.subgroup;
+	}
+	/** Create an entry in the root group or a nested group. */
+	async create(options, parent = null, position = Infinity) {
+		const group = this.resolveGroup(parent);
+		const id = await group.create(options);
+		const entry = this.resolve(id);
+		group.data.splice(position, 0, entry.options);
+		group.tree.write();
+		return id;
+	}
+	/** Stop and remove an entry from its parent group. */
+	async remove(id) {
+		const entry = this.resolve(id);
+		await entry.parent.remove(id);
+		entry.parent.tree.write();
+	}
+	/** Update an entry and optionally move it to another group. */
+	async update(id, options, parent, position) {
+		const entry = this.resolve(id);
+		const source = entry.parent;
+		const sourceIndex = source.data.indexOf(entry.options);
+		let target = source;
+		if (parent !== void 0) {
+			target = this.resolveGroup(parent);
+			source.unlink(entry.options);
+			target.data.splice(position ?? Infinity, 0, entry.options);
+			entry.parent = target;
+		}
+		try {
+			await entry.update(options, false, true);
+		} catch (error) {
+			if (parent !== void 0) {
+				target.unlink(entry.options);
+				source.data.splice(sourceIndex < 0 ? source.data.length : sourceIndex, 0, entry.options);
+				entry.parent = source;
+				try {
+					await entry.update({}, false, true);
+				} catch (rollbackError) {
+					throw new AggregateError([error, rollbackError], `failed to roll back loader entry move ${id}`);
+				}
+			}
+			throw error;
+		}
+		source.tree.write();
+		if (target !== source) target.tree.write();
+	}
+	/** Import a plugin module from a specifier or `cordis:` builtin. */
+	import(name, getOuterStack) {
+		if (name.startsWith("cordis:")) return this.ctx.loader.builtins[name.slice(7)];
+		return composeError(async (info) => {
+			info.offset += 3;
+			if (this.ctx.loader.internal) return await this.ctx.loader.internal.import(name, this.ctx.baseUrl, {});
+			else if (name.startsWith(".")) return await import(__rewriteRelativeImportExtension$1(
+				/* @vite-ignore */
+				new URL(name, this.ctx.baseUrl).href
+			));
+			else return await import(__rewriteRelativeImportExtension$1(
+				/* @vite-ignore */
+				name
+			));
+		}, getOuterStack);
+	}
+};
+/** Evaluate a JavaScript expression against a loader context scope. */
+const evaluate = new Function("ctx", "expr", `
+  with (ctx) {
+    return eval(expr)
+  }
+`);
+/** Return true when a value is a serialized loader JavaScript expression. */
+function isJsExpr(value) {
+	return value instanceof Object && "__jsExpr" in value;
+}
+function updateError(stage, options, cause) {
+	const detail = cause instanceof Error ? cause.message : String(cause);
+	return new Error(`failed to ${stage} loader entry ${options.id} (${options.name}): ${detail}`, { cause });
+}
+function takeEntries(object, keys) {
+	const result = [];
+	for (const key of keys) {
+		if (!(key in object)) continue;
+		result.push([key, object[key]]);
+		delete object[key];
+	}
+	return result;
+}
+function sortKeys(object, prepend = ["id", "name"], append = ["config"]) {
+	const part1 = takeEntries(object, prepend);
+	const part2 = takeEntries(object, append);
+	const rest = takeEntries(object, Object.keys(object)).sort(([a], [b]) => a.localeCompare(b));
+	return Object.assign(object, Object.fromEntries([
+		...part1,
+		...rest,
+		...part2
+	]));
+}
+function replaceKeys(target, source) {
+	for (const key of Object.keys(target)) Reflect.deleteProperty(target, key);
+	return Object.assign(target, source);
+}
+/** One configured plugin node inside an `EntryTree`. */
+var Entry = class Entry {
+	loader;
+	static key = Symbol.for("cordis.entry");
+	ctx;
+	fiber;
+	parent;
+	options = {};
+	subgroup;
+	subtree;
+	_initTask;
+	_disposing = 0;
+	constructor(loader) {
+		this.loader = loader;
+		this.ctx = loader.ctx.extend({ [Entry.key]: this });
+		this.context.emit("loader/entry-init", this);
+	}
+	get context() {
+		return this.ctx;
+	}
+	get id() {
+		let id = this.options.id;
+		if (this.parent.tree.ctx.fiber.entry) id = this.parent.tree.ctx.fiber.entry.id + EntryTree.sep + id;
+		return id;
+	}
+	/** True when this entry or any owning parent entry is disabled. */
+	get disabled() {
+		return this._disabled(this.options);
+	}
+	_disabled(options) {
+		if (options.group) return false;
+		if (this.disabledOf(options)) return true;
+		let entry = this.parent.ctx.fiber.entry;
+		while (entry) {
+			if (this.disabledOf(entry.options)) return true;
+			entry = entry.parent.ctx.fiber.entry;
+		}
+		return false;
+	}
+	/**
+	* Effective disabled state: a `!!js` expression evaluates against the loader
+	* context. The raw node stays in the options, so write-back keeps the form.
+	*/
+	disabledOf(options) {
+		return isJsExpr(options.disabled) ? Boolean(this.evaluate(options.disabled.__jsExpr)) : Boolean(options.disabled);
+	}
+	evaluate(expr) {
+		return evaluate(this.ctx, expr);
+	}
+	async _patchContext(diff) {
+		await this.context.waterfall("loader/patch-context", this, async () => {
+			Object.setPrototypeOf(this.ctx, this.parent.ctx);
+			if (this.fiber?.uid && (diff.includes("config") || this.options.group)) await this.fiber.update(this.options.config, true);
+		});
+	}
+	async refresh() {
+		if (this.fiber) return;
+		if (this.disabled) return;
+		await this.init();
+	}
+	async _dispose(fiber = this.fiber) {
+		if (!fiber) return;
+		if (this.fiber === fiber) this.fiber = void 0;
+		this._disposing += 1;
+		try {
+			await fiber.dispose();
+		} finally {
+			this._disposing -= 1;
+		}
+	}
+	/** Merge new options, restart as needed, and persist through the parent tree. */
+	async update(options, create = false, force = false) {
+		const previousOptions = this.options;
+		const legacy = { ...previousOptions };
+		const candidate = create ? options : { ...previousOptions };
+		if (!create) for (const [key, value] of Object.entries(options)) if (isNullable(value)) delete candidate[key];
+		else candidate[key] = value;
+		sortKeys(candidate);
+		const diff = Object.keys({
+			...candidate,
+			...legacy
+		}).filter((key) => !deepEqual(candidate[key], legacy[key]));
+		if (!diff.length && !force) return;
+		const commit = () => {
+			if (create) return;
+			this.options = replaceKeys(previousOptions, candidate);
+		};
+		const previous = this.fiber;
+		if (!previous?.uid) {
+			this.fiber = void 0;
+			this.options = candidate;
+			try {
+				if (!this._disabled(candidate)) await this.init();
+			} catch (error) {
+				this.options = previousOptions;
+				throw error;
+			}
+			commit();
+			return;
+		}
+		if (this._disabled(candidate)) {
+			this.options = candidate;
+			try {
+				await this._dispose(previous);
+			} catch (error) {
+				this.options = previousOptions;
+				throw updateError("dispose", candidate, error);
+			}
+			commit();
+			this.context.emit("loader/partial-dispose", this, legacy, true);
+			return;
+		}
+		if (!diff.some((key) => key === "name" || key === "inject" || key === "group")) {
+			this.options = candidate;
+			try {
+				await this._patchContext(diff);
+			} catch (error) {
+				this.options = previousOptions;
+				try {
+					await this._patchContext(diff);
+				} catch (rollbackError) {
+					throw updateError("rollback", legacy, new AggregateError([error, rollbackError]));
+				}
+				this.context.emit("loader/partial-dispose", this, candidate, true);
+				throw updateError("apply", candidate, error);
+			}
+			commit();
+			this.context.emit("loader/partial-dispose", this, legacy, true);
+			return;
+		}
+		let plugin;
+		try {
+			plugin = diff.includes("name") ? this.loader.unwrapExports(await this.parent.tree.import(candidate.name, this.getOuterStack)) : previous.runtime.callback;
+		} catch (error) {
+			throw updateError("import", candidate, error);
+		}
+		const previousPlugin = previous.runtime.callback;
+		this.options = candidate;
+		try {
+			await this._dispose(previous);
+		} catch (error) {
+			this.options = previousOptions;
+			throw updateError("dispose", candidate, error);
+		}
+		try {
+			await this._start(plugin);
+		} catch (error) {
+			this.options = previousOptions;
+			try {
+				await this._start(previousPlugin);
+			} catch (rollbackError) {
+				throw updateError("rollback", legacy, new AggregateError([error, rollbackError]));
+			}
+			this.context.emit("loader/partial-dispose", this, candidate, true);
+			throw updateError("apply", candidate, error);
+		}
+		commit();
+		this.context.emit("loader/partial-dispose", this, legacy, true);
+	}
+	getOuterStack = () => {
+		let entry = this;
+		const result = [];
+		do {
+			result.push(`    at ${entry.parent.tree.ctx.baseUrl}#${entry.options.id}`);
+			entry = entry.parent.ctx.fiber.entry;
+		} while (entry);
+		return result;
+	};
+	/** Import and start the configured plugin if it is not already running. */
+	async init() {
+		try {
+			await (this._initTask ??= this._init());
+		} finally {
+			this._initTask = void 0;
+			if (!this.loader.getTasks().length) this.ctx.reflect.notify(["loader"]);
+		}
+		await this._await();
+	}
+	async _await() {
+		try {
+			await this.fiber?.await();
+		} catch (error) {
+			throw updateError("apply", this.options, error);
+		}
+	}
+	async _init() {
+		let plugin;
+		try {
+			plugin = this.loader.unwrapExports(await this.parent.tree.import(this.options.name, this.getOuterStack));
+		} catch (error) {
+			throw updateError("import", this.options, error);
+		}
+		try {
+			await this._start(plugin);
+		} catch (error) {
+			throw updateError("apply", this.options, error);
+		}
+	}
+	async _start(plugin) {
+		let fiber;
+		try {
+			await this._patchContext([]);
+			this.loader.showLog(this, "apply");
+			fiber = this.fiber = this.ctx.registry.plugin(plugin, this.options.config, this.getOuterStack);
+			await fiber.await();
+		} catch (error) {
+			await this._dispose(fiber);
+			throw error;
+		}
+	}
+};
+Service.check;
+//#endregion
+//#region node_modules/.pnpm/@deepseek-ai+cordis-plugin-_f50878cb7591e67b1dc525966dbdf170/node_modules/@deepseek-ai/cordis-plugin-include/lib/index.js
+var __rewriteRelativeImportExtension = function(path, preserveJsx) {
+	if (typeof path === "string" && /^\.\.?\//.test(path)) return path.replace(/\.(tsx)$|((?:\.d)?)((?:\.[^./]+?)?)\.([cm]?)ts$/i, function(m, tsx, d, ext, cm) {
+		return tsx ? preserveJsx ? ".jsx" : ".js" : d && (!ext || !cm) ? m : d + ext + "." + cm.toLowerCase() + "js";
+	});
+	return path;
+};
+const JsExpr = new Type("tag:yaml.org,2002:js", {
+	kind: "scalar",
+	resolve: (data) => typeof data === "string",
+	construct: (data) => ({ __jsExpr: data }),
+	predicate: isJsExpr,
+	represent: (data) => data["__jsExpr"]
+});
+/**
+* The entry-list YAML dialect: `!!js` scalars round-trip as expression nodes
+* the Loader evaluates at entry activation. Exported so config tooling
+* (`dsh --dump-config`) parses and prints exactly the dialect this include
+* mounts.
+*/
+const entryListSchema = JSON_SCHEMA.extend(JsExpr);
+const schema = entryListSchema;
+const writable = {
+	".json": "application/json",
+	".yaml": "application/yaml",
+	".yml": "application/yaml"
+};
+const supported = new Set(Object.keys(writable));
+const WRITE_RETRY_LIMIT = 10;
+const WRITE_RETRY_DELAY_MS = 50;
+function retryableWriteError(error) {
+	const code = error?.code;
+	return code === "EACCES" || code === "EBUSY" || code === "EPERM";
+}
+/**
+* Apply patch lists to an entry list — THE patch semantics of this include,
+* shared by mounting (`applyPatches`) and offline config tooling
+* (`dsh --dump-config`) so a dump can never drift from what boots. The input
+* is never mutated and the result is always detached from it (even with no
+* patches): patching or mounting shared entry objects would bake earlier
+* values into the cached parse, so repeated application (config hot-reloads)
+* could never revert a removed or changed patch. Inserted entries are indexed
+* as they are added, so a later patch in the same list can target a row an
+* earlier patch inserted. A patch that matches nothing warns and is skipped.
+* @param data - the parsed entry list (JSON-safe plain data).
+* @param patches - the patch list to apply, in order.
+* @param warn - sink for skipped-patch diagnostics (printf-style, `%C` = code).
+* @returns a detached entry list with every applicable patch applied.
+*/
+function applyEntryPatches(data, patches, warn) {
+	data = structuredClone(data);
+	if (!patches?.length) return data;
+	const entryMap = /* @__PURE__ */ new Map();
+	const buildMap = (entries) => {
+		for (const entry of entries) {
+			if (entry.id) entryMap.set(entry.id, entry);
+			if (entry.group && Array.isArray(entry.config)) buildMap(entry.config);
+		}
+	};
+	buildMap(data);
+	for (const patch of patches) {
+		const { id, insert, name, ...overrides } = patch;
+		if (insert) {
+			if (id) {
+				const target = entryMap.get(id);
+				if (!target) {
+					warn("patch insert: entry %C not found", id);
+					continue;
+				}
+				if (!target.group) {
+					warn("patch insert: entry %C is not a group", id);
+					continue;
+				}
+				if (!Array.isArray(target.config)) target.config = [];
+				target.config.push(...insert);
+			} else data.push(...insert);
+			buildMap(insert);
+			continue;
+		}
+		if (!id) {
+			warn("patch: id is required for non-insert patches");
+			continue;
+		}
+		const target = entryMap.get(id);
+		if (!target) {
+			warn("patch: entry %C not found", id);
+			continue;
+		}
+		if (name && name !== target.name) {
+			warn("patch: name mismatch for %C (expected %C, got %C), skipping", id, target.name, name);
+			continue;
+		}
+		for (const [key, value] of Object.entries(overrides)) {
+			if (key === "id") continue;
+			target[key] = value;
+		}
+	}
+	return data;
+}
+var ConfigFileError = class extends Error {
+	stage;
+	constructor(stage, path, cause) {
+		super(`failed to ${stage} config file ${path}`, { cause });
+		this.stage = stage;
+		this.name = "ConfigFileError";
+	}
+};
+/** Loader entry tree backed by a YAML or JSON file. */
+var Include = class extends EntryTree {
+	config;
+	static inject = ["loader"];
+	static [EntryGroup.key] = true;
+	filename;
+	type;
+	readonly;
+	content;
+	data;
+	writeTask;
+	pendingWrite;
+	writeQueue = Promise.resolve();
+	applyQueue = Promise.resolve();
+	constructor(ctx, config) {
+		super(ctx);
+		this.config = config;
+		this.enableLogs = config.enableLogs ?? ctx.fiber.entry?.parent.tree.enableLogs ?? false;
+		this.filename = fileURLToPath(new URL(this.config.path, this.ctx.baseUrl));
+		const ext = extname(this.filename);
+		if (!supported.has(ext)) throw new Error(`extension "${ext}" not supported`);
+		this.type = writable[ext];
+		this.readonly = !this.type;
+		this.ctx.baseUrl = new URL(".", pathToFileURL(this.filename)).href;
+		ctx.on("internal/update", async (config, _, next) => {
+			if (config.path !== this.config.path) return next();
+			await this.enqueue(async () => {
+				const data = this.applyPatches(this.data, config.patches);
+				await this.root.update(data);
+				this.config = config;
+			});
+		});
+	}
+	/**
+	* Serialize one child-tree mutation behind every earlier one. The group's
+	* transactional `update` is not reentrant: two concurrent applies (the init
+	* apply racing an HMR-triggered refresh from the watcher's initial scan)
+	* interleave create and rollback on the same entries and strand the include
+	* fiber without settling, so every apply path funnels through this queue.
+	* A predecessor's failure is its own caller's outcome and never gates the
+	* next task.
+	*/
+	enqueue(task) {
+		const run = this.applyQueue.then(task, task);
+		this.applyQueue = run.then(() => {}, () => {});
+		return run;
+	}
+	async checkAccess() {
+		if (!this.type) return;
+		try {
+			await access(this.filename, constants.W_OK);
+		} catch {
+			this.readonly = true;
+		}
+	}
+	async read(forced = false) {
+		let content;
+		try {
+			content = await readFile(this.filename, "utf8");
+		} catch (error) {
+			throw new ConfigFileError("read", this.filename, error);
+		}
+		if (!forced && this.content === content) return;
+		let data;
+		try {
+			if (this.type === "application/yaml") data = load(content, { schema });
+			else if (this.type === "application/json") data = JSON.parse(content);
+			else {
+				const module = await import(__rewriteRelativeImportExtension(
+					/* @vite-ignore */
+					this.filename
+				));
+				data = module.default || module;
+			}
+		} catch (error) {
+			throw new ConfigFileError("parse", this.filename, error);
+		}
+		if (!Array.isArray(data)) throw new ConfigFileError("validate", this.filename, /* @__PURE__ */ new TypeError("config file must be a top-level array"));
+		return {
+			content,
+			data
+		};
+	}
+	applyPatches(data, patches) {
+		return applyEntryPatches(data, patches, (message, ...args) => {
+			this.ctx.root.logger?.("loader").warn(message, ...args);
+		});
+	}
+	async *[Service.init]() {
+		let candidate;
+		try {
+			candidate = await this.read(true);
+		} catch (error) {
+			if (!(error instanceof ConfigFileError) || error.stage !== "read" || error.cause?.code !== "ENOENT") throw error;
+			if (this.config.initial) {
+				await this._writeFile(this.config.initial);
+				candidate = await this.read(true);
+			} else throw new Error(`config file not found: ${this.filename}`);
+		}
+		yield () => this.stop();
+		await this.apply(candidate);
+	}
+	async stop() {
+		await this.root.stop();
+		await this.flushWrite();
+	}
+	/**
+	* Re-read the file and transactionally refresh child entries when content changed.
+	* @returns a promise resolving after the new tree commits, or immediately when unchanged.
+	* @throws when reading, parsing, validation, application, or rollback fails; the last good tree remains active when rollback succeeds.
+	*/
+	async refresh() {
+		await this.enqueue(async () => {
+			const candidate = await this.read();
+			if (!candidate) return;
+			await this._apply(candidate);
+		});
+	}
+	apply(candidate) {
+		return this.enqueue(() => this._apply(candidate));
+	}
+	async _apply(candidate) {
+		const data = this.applyPatches(candidate.data, this.config.patches);
+		await this.root.update(data);
+		this.content = candidate.content;
+		this.data = candidate.data;
+		await this.checkAccess();
+	}
+	async _writeFile(config) {
+		if (this.readonly) throw new Error(`cannot overwrite readonly config`);
+		if (this.type === "application/yaml") this.content = dump(config, { schema });
+		else if (this.type === "application/json") this.content = JSON.stringify(config, null, 2);
+		await writeFile(this.filename + ".tmp", this.content);
+		for (let retry = 0;; retry++) try {
+			await rename(this.filename + ".tmp", this.filename);
+			return;
+		} catch (error) {
+			if (!retryableWriteError(error) || retry >= WRITE_RETRY_LIMIT) throw error;
+			await setTimeout$1((retry + 1) * WRITE_RETRY_DELAY_MS);
+		}
+	}
+	writeFile(config) {
+		clearTimeout(this.writeTask);
+		this.pendingWrite = config;
+		this.writeTask = setTimeout(() => {
+			this.flushWrite();
+		}, 0);
+	}
+	flushWrite() {
+		clearTimeout(this.writeTask);
+		this.writeTask = void 0;
+		const config = this.pendingWrite;
+		this.pendingWrite = void 0;
+		if (config === void 0) return this.writeQueue;
+		const run = this.writeQueue.then(() => this._writeFile(config), () => this._writeFile(config));
+		this.writeQueue = run;
+		run.catch((error) => {
+			this.ctx.root.logger?.("loader").warn("failed to write config file %C", this.filename);
+			this.ctx.root.logger?.("loader").warn(error);
+		});
+		return run;
+	}
+	/** Schedule a write of the current root entry data. */
+	write() {
+		this.context.emit("loader/config-update");
+		return this.writeFile(this.root.data);
+	}
+};
+//#endregion
+//#region node_modules/.pnpm/@deepseek-ai+dsh-atomic-wri_762db61a27c1f9c9369d223d4c8b5b1f/node_modules/@deepseek-ai/dsh-atomic-write/lib/index.js
+/**
+* Zero-dependency atomic file replacement and writer coordination.
+* `writeFileAtomic` writes a random-suffix sibling with exclusive create and
+* the caller's permission bits, then renames it over the target, so readers
+* observe either the old or the new complete content and a replaced file ends
+* up with exactly the stated mode. `withFileLock` serializes cross-process
+* writers of one file through a `wx`-created `<file>.lock` sibling, so a
+* read-modify-write cycle can never resurrect a state another writer just
+* replaced; readers stay lock-free because the rename commit is atomic.
+* @module @deepseek-ai/dsh-atomic-write
+*/
+/**
+* Replace `filename` with `content` in one atomic step, creating parent
+* directories. The content is first written to a random-suffix sibling opened
+* with exclusive create (`wx`): the open refuses to follow a symlink planted
+* at the temp path, and the fresh inode carries `options.mode` through the
+* rename, so replacing a wider-permission file narrows it without a chmod
+* race. The rename also replaces a symlinked target itself instead of writing
+* through to its referent, and the same-directory sibling keeps the rename on
+* one filesystem. On any failure the temp file is removed and the failure
+* rethrown. Crash durability (fsync) is out of scope.
+* @param filename - final path receiving the content.
+* @param content - complete next file content.
+* @param options - permission bits for the replacement inode.
+*/
+async function writeFileAtomic(filename, content, options) {
+	await mkdir(dirname(filename), {
+		recursive: true,
+		...options.dirMode === void 0 ? {} : { mode: options.dirMode }
+	});
+	const temp = `${filename}.${randomBytes(6).toString("hex")}.tmp`;
+	try {
+		await writeFile(temp, content, {
+			mode: options.mode,
+			flag: "wx"
+		});
+		await rename(temp, filename);
+	} catch (error) {
+		await rm(temp, { force: true });
+		throw error;
+	}
+}
+//#endregion
+//#region node_modules/.pnpm/@deepseek-ai+dsh-agent-pres_f19758581ae3bc6323aafdf2315be584/node_modules/@deepseek-ai/dsh-agent-presets/lib/index.js
+/**
+* A preset's display metadata: the name and description a picker shows.
+*
+* It lives in its own file because the composition is a top-level list of
+* plugin rows — YAML cannot carry sibling keys beside it, and faking a
+* metadata row would hand the Loader something to load. Keeping it separate
+* also keeps the composition exactly what its name says: a Cordis file the
+* loader owns and the cordis preset can author.
+*
+* The file carries display text ONLY. `id` is the directory name and `trust`
+* comes from the root a preset was discovered under, so neither is writable
+* here — otherwise a locally authored preset could claim to be a shipped one.
+*
+* Every read failure degrades to no metadata. A preset whose display text is
+* missing, malformed, or unreadable still mounts: presentation is not a
+* capability, and a broken name must never become an agent that cannot start.
+* @module @deepseek-ai/dsh-agent-presets/metadata
+*/
+/** The optional display-metadata file beside a preset's composition. */
+const METADATA_FILE = "preset.yml";
+/** A non-empty trimmed string, or undefined for anything else. */
+function text(value) {
+	if (typeof value !== "string") return void 0;
+	const trimmed = value.trim();
+	return trimmed === "" ? void 0 : trimmed;
+}
+/**
+* Read one preset directory's display metadata.
+*
+* Absent, unparsable, and wrongly-shaped files are all the same answer —
+* empty metadata — because the caller renders a picker, not a diagnostic.
+* @param directory - the preset directory.
+* @returns the display text the preset published, possibly empty.
+*/
+async function readPresetMetadata(directory) {
+	let raw;
+	try {
+		raw = await readFile(join(directory, METADATA_FILE), "utf8");
+	} catch {
+		return {};
+	}
+	let parsed;
+	try {
+		parsed = yaml.load(raw);
+	} catch {
+		return {};
+	}
+	if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) return {};
+	const record = parsed;
+	const name = text(record.name);
+	const description = text(record.description);
+	const order = typeof record.order === "number" && Number.isFinite(record.order) ? record.order : void 0;
+	return {
+		...name === void 0 ? {} : { name },
+		...description === void 0 ? {} : { description },
+		...order === void 0 ? {} : { order }
+	};
+}
+/**
+* Render display metadata as the file's contents.
+*
+* Absent fields are omitted rather than written empty, so a preset with no
+* description does not ship a key that reads as an intentional blank.
+* @param metadata - the display text to store.
+* @returns the YAML document, or undefined when there is nothing to store.
+*/
+function renderPresetMetadata(metadata) {
+	const name = text(metadata.name);
+	const description = text(metadata.description);
+	const { order } = metadata;
+	if (name === void 0 && description === void 0 && order === void 0) return void 0;
+	return yaml.dump({
+		...name === void 0 ? {} : { name },
+		...description === void 0 ? {} : { description },
+		...order === void 0 ? {} : { order }
+	}, { lineWidth: -1 });
+}
+/** Agent-preset vocabulary shared by discovery, mounting, and consumers. */
+/**
+* Ids a preset directory may use.
+*
+* The id becomes a path segment, so this is a containment boundary rather than
+* a style rule: `..`, a separator, or an absolute-looking name would place the
+* composition outside the root the deployment authorised. Discovery shares it:
+* a directory whose name no copy could ever claim is not a preset slot.
+*/
+const PRESET_ID = /^[a-z0-9][a-z0-9-]*$/;
+/**
+* No configured root supplies the requested preset.
+*
+* Separate from a mount failure because the two mean different things to a
+* caller: an unknown id is a bad request, while an unusable composition is a
+* broken preset the deployment must fix.
+*/
+var UnknownPresetError = class extends Error {
+	presetId;
+	available;
+	constructor(presetId, available) {
+		super(`agent-presets: preset "${presetId}" not found (available: ${available.join(", ") || "none"})`);
+		this.presetId = presetId;
+		this.available = available;
+	}
+};
+/** A preset exists but its composition cannot be installed. */
+var PresetMountError = class extends Error {
+	presetId;
+	reason;
+	constructor(presetId, reason, options) {
+		super(`agent-presets: preset "${presetId}" failed to mount: ${reason}`, options);
+		this.presetId = presetId;
+		this.reason = reason;
+	}
+};
+/**
+* Filesystem discovery of agent presets. A preset is a directory holding
+* {@link COMPOSITION_FILE}, optionally beside a {@link METADATA_FILE} carrying
+* its display text; the directory name is the preset id. Discovery
+* re-reads the roots on every call so a preset authored while the process is
+* running is visible without a restart.
+*
+* Discovery also owns preset HEALTH: a directory whose composition is
+* missing or unloadable is reported as a broken roster row rather than
+* skipped. A skipped directory would still occupy its id on disk — the copy
+* path refuses the name while no surface shows anything to delete — and a
+* malformed composition would otherwise read as an ordinary preset until the
+* first session fails to mount it.
+* @module @deepseek-ai/dsh-agent-presets/discovery
+*/
+/** The composition file that makes a directory a preset. */
+const COMPOSITION_FILE = "agent.cordis.yml";
+/**
+* Harness-home directory holding locally authored presets.
+*
+* This package owns the writable root the way `dsh-skill-filesystem` owns
+* `<dshHome>/skills`. An app must assemble the SHIPPED root, whose path only
+* the installed app can resolve; where a person's own presets go is the same
+* place in every deployment that does not say otherwise, so a launcher that
+* forgets to configure one still finds them.
+*
+* Package-internal on purpose: no consumer outside this package addresses the
+* directory by name, and a test that imported it could not catch this value
+* being wrong — the expected segment is spelled out where it is asserted.
+*/
+const USER_PRESET_DIR = ".agent-presets";
+/**
+* Why `rows` cannot be an entry list, or undefined when it can.
+*
+* A shallow shape check, deliberately short of the loader's work: it does not
+* resolve plugin names or apply configs. What it catches is the hand-edit
+* that produces a file the loader cannot even begin with — and it must accept
+* everything the loader accepts, which is why rows are only required to be
+* maps carrying a plugin `name` (groups recurse into their own lists).
+* @param rows - the parsed composition document.
+* @param at - row-path prefix for nested diagnostics, empty at the top level.
+* @returns one human-readable reason, or undefined when the shape holds.
+*/
+function entryListProblem(rows, at = "") {
+	if (!Array.isArray(rows)) return at === "" ? "the composition must be a top-level list of plugin rows" : `group ${at} must hold a list of plugin rows`;
+	for (const [index, row] of rows.entries()) {
+		const label = at === "" ? `row ${String(index + 1)}` : `${at} row ${String(index + 1)}`;
+		if (typeof row !== "object" || row === null || Array.isArray(row)) return `${label} is not a plugin row (expected a map with a "name")`;
+		const { name, group, config } = row;
+		if (typeof name !== "string" || name === "") return `${label} names no plugin (a "name" string is required)`;
+		if (group === true) {
+			const nested = entryListProblem(config, label);
+			if (nested !== void 0) return nested;
+		}
+	}
+}
+/**
+* Why the composition at `path` cannot mount, or undefined when it looks
+* loadable. Parsed with the loader's own YAML dialect ({@link entryListSchema},
+* the one carrying `!!js`), so health can never call a composition broken
+* that the loader would accept.
+* @param path - absolute path of the composition file.
+* @returns one human-readable reason, or undefined when the file is loadable.
+*/
+async function compositionProblem(path) {
+	let content;
+	try {
+		content = await readFile(path, "utf8");
+	} catch {
+		return `the composition file ${COMPOSITION_FILE} cannot be read`;
+	}
+	let rows;
+	try {
+		rows = load(content, { schema: entryListSchema });
+	} catch (error) {
+		return `the composition is not valid YAML: ${(error instanceof Error ? error.message : String(error)).replace(/\n[\s\S]*$/, "")}`;
+	}
+	return entryListProblem(rows);
+}
+/**
+* Whether `path` names an existing regular file.
+* @param path - absolute path to test.
+* @returns true when the path resolves to a file.
+*/
+async function isFile(path) {
+	try {
+		return (await stat(path)).isFile();
+	} catch {
+		return false;
+	}
+}
+/**
+* Scan one root for preset directories.
+*
+* An absent root yields no presets rather than throwing: the user root does
+* not exist until the first locally authored preset, and naming a default
+* that no root supplies already fails loud at resolution.
+*
+* Every directory whose name is a usable preset id is a roster row — broken
+* when its composition is missing or unloadable. A directory named outside
+* {@link PRESET_ID} is skipped instead: no copy could ever claim that name,
+* so it blocks nothing, and reporting `.DS_Store`-grade residue as broken
+* presets would teach users to ignore the marker.
+* @param root - the directory and the trust its presets inherit.
+* @returns the root's presets ordered by id.
+*/
+async function scanRoot(root) {
+	const dir = resolve(expandHomePath(root.path));
+	let children;
+	try {
+		children = await readdir(dir, { withFileTypes: true });
+	} catch (error) {
+		if (error.code === "ENOENT") return [];
+		throw new Error(`agent-presets: cannot read preset root ${dir}: ${String(error)}`, { cause: error });
+	}
+	const found = [];
+	for (const child of children) {
+		if (!child.isDirectory() || !PRESET_ID.test(child.name)) continue;
+		const directory = join(dir, child.name);
+		const path = join(directory, COMPOSITION_FILE);
+		const broken = await isFile(path) ? await compositionProblem(path) : `the composition file ${COMPOSITION_FILE} is missing — the directory still occupies the id; delete it or restore the file`;
+		const metadata = await readPresetMetadata(directory);
+		found.push({
+			id: child.name,
+			trust: root.trust,
+			path,
+			...metadata,
+			...broken === void 0 ? {} : { broken }
+		});
+	}
+	return found.sort((left, right) => {
+		const byOrder = (left.order ?? Number.POSITIVE_INFINITY) - (right.order ?? Number.POSITIVE_INFINITY);
+		return byOrder === 0 ? left.id.localeCompare(right.id) : byOrder;
+	});
+}
+/**
+* Scan every root in precedence order.
+* @param roots - roots in precedence order; an earlier root wins a duplicate id.
+* @returns every discovered preset, first-root-wins per id.
+*/
+async function discoverPresets(roots) {
+	const byId = /* @__PURE__ */ new Map();
+	for (const root of roots) for (const preset of await scanRoot(root)) {
+		if (byId.has(preset.id)) continue;
+		byId.set(preset.id, preset);
+	}
+	return [...byId.values()];
+}
+/**
+* Copying, reading, and deleting locally authored presets.
+*
+* Authoring is confined to a `user` root: the shipped `.system` set is part of
+* the deployment, and letting a browser rewrite it would turn "reset to a known
+* preset" into something the same caller could have broken first.
+*
+* The only authoring write is a whole-directory copy of an existing preset.
+* No caller supplies composition text: the inputs are ids the host resolves
+* against its own roots plus an optional display name, so authoring grants no
+* capability the copied preset did not already carry.
+* @module @deepseek-ai/dsh-agent-presets/authoring
+*/
+/** A preset id that cannot be used as a directory name under a root. */
+var InvalidPresetIdError = class extends Error {
+	presetId;
+	constructor(presetId) {
+		super(`agent-presets: preset id ${JSON.stringify(presetId)} must match ${String(PRESET_ID)} — the id is a directory name, so anything else could escape the preset root`);
+		this.presetId = presetId;
+	}
+};
+/** A copy target that is already occupied — a copy never overwrites. */
+var PresetExistsError = class extends Error {
+	presetId;
+	constructor(presetId) {
+		super(`agent-presets: preset "${presetId}" already exists — a copy never overwrites; delete the existing preset first or choose another id`);
+		this.presetId = presetId;
+	}
+};
+/** Authoring was attempted where the deployment allows none. */
+var PresetNotWritableError = class extends Error {
+	presetId;
+	constructor(presetId, reason) {
+		super(`agent-presets: preset "${presetId}" cannot be written: ${reason}`);
+		this.presetId = presetId;
+	}
+};
+/**
+* The root locally authored presets are written to.
+* @param roots - the configured roots in precedence order.
+* @returns the absolute path of the first `user` root.
+* @throws when the deployment configured no writable root.
+*/
+function writableRoot(roots) {
+	const root = roots.find((candidate) => candidate.trust === "user");
+	if (root === void 0) throw new PresetNotWritableError("", "this deployment configures no user-writable preset root");
+	return resolve(expandHomePath(root.path));
+}
+/**
+* Read one preset's composition text.
+* @param preset - the resolved preset.
+* @returns the file's contents.
+*/
+async function readComposition(preset) {
+	return await readFile(preset.path, "utf8");
+}
+/** Whether anything occupies the path (cp's own errorOnExist backstops races). */
+async function occupied(path) {
+	let present = true;
+	try {
+		await stat(path);
+	} catch {
+		present = false;
+	}
+	return present;
+}
+/**
+* Re-tighten a copied tree to owner-only. A shipped preset is world-readable
+* in its install and `cp` preserves that; the copy carries the same weight as
+* the settings document beside it, so group/other access is stripped. A
+* file's owner-execute bit survives — a preset may ship runnable helpers.
+*/
+async function tightenModes(dir) {
+	await chmod(dir, 448);
+	for (const entry of await readdir(dir, { withFileTypes: true })) {
+		const target = join(dir, entry.name);
+		if (entry.isDirectory()) await tightenModes(target);
+		else
+ /* v8 ignore next -- Windows exposes no POSIX owner-execute bit; the POSIX lane covers both file modes. */
+		await chmod(target, ((await stat(target)).mode & 64) === 0 ? 384 : 448);
+	}
+}
+/**
+* Create a preset by copying an existing one's whole directory.
+*
+* The copy carries everything the source directory holds — composition,
+* metadata, skill directories, assets — because a preset is its directory,
+* not one file. Symlinks are dereferenced so the copy is self-contained
+* rather than a set of links back into the install it was copied from.
+*
+* The copied metadata is then rewritten: the source's description is kept
+* (the file is the author's to edit afterwards), but its name and roster
+* `order` are not — a copy presenting itself identically to its source, or
+* sorted into the shipped set's declared order, would make the roster stop
+* distinguishing them. With no name given and no description to keep, the
+* file is removed so the copy publishes nothing rather than a blank.
+* @param roots - the configured roots; the first `user` one receives the copy.
+* @param source - the resolved preset the copy starts from.
+* @param id - the new preset's id, which becomes its directory name.
+* @param name - display name for the copy; omitted falls back to the id.
+* @returns the absolute path of the new preset directory.
+* @throws when the id is unusable or already occupied on disk, or the
+* deployment configures no writable root.
+*/
+async function copyComposition(roots, source, id, name) {
+	if (!PRESET_ID.test(id)) throw new InvalidPresetIdError(id);
+	const dir = join(writableRoot(roots), id);
+	if (await occupied(dir)) throw new PresetExistsError(id);
+	try {
+		await cp(dirname(source.path), dir, {
+			recursive: true,
+			dereference: true,
+			force: false,
+			errorOnExist: true
+		});
+		await tightenModes(dir);
+		const rendered = renderPresetMetadata({
+			...name === void 0 ? {} : { name },
+			...source.description === void 0 ? {} : { description: source.description }
+		});
+		const metadataPath = join(dir, METADATA_FILE);
+		if (rendered === void 0) await rm(metadataPath, { force: true });
+		else await writeFileAtomic(metadataPath, rendered, {
+			mode: 384,
+			dirMode: 448
+		});
+	} catch (error) {
+		await rm(dir, {
+			recursive: true,
+			force: true
+		});
+		throw error;
+	}
+	return dir;
+}
+/**
+* Delete a locally authored preset.
+*
+* A shipped preset is refused: it belongs to the deployment. A preset a live
+* session mounted is NOT refused — the composition was read at creation and is
+* never re-read, so that session keeps running exactly as it was.
+* @param roots - the configured roots.
+* @param preset - the resolved preset to remove.
+* @throws when the preset ships with the deployment or lies outside the writable root.
+*/
+async function deleteComposition(roots, preset) {
+	if (preset.trust !== "user") throw new PresetNotWritableError(preset.id, "it ships with the deployment");
+	const dir = join(writableRoot(roots), preset.id);
+	if (!isAbsolute(preset.path) || !preset.path.startsWith(dir)) throw new PresetNotWritableError(preset.id, "it does not live under the writable preset root");
+	await rm(dir, {
+		recursive: true,
+		force: true
+	});
+}
+/**
+* Mount one preset composition under an agent's scope context, then prove the
+* result is usable before the agent is published.
+*
+* The scope context is what makes the composition per-session: entry contexts
+* chain to the context the subtree was plugged into, so every `ctx.tools`
+* and `ctx.systemPrompt` registration inside the preset files into that
+* agent's layer and unwinds with it. Two guards make that safe. A row that
+* never reached a usable state is rejected, because a directly-plugged subtree
+* is absent from `ctx.loader.entries()` and no boot audit covers it. A row that
+* published a service into the ROOT realm is rejected, because such a service
+* is process-global rather than per-session and the second session mounting the
+* same preset collides with the first.
+* @module @deepseek-ai/dsh-agent-presets/mount
+*/
+/**
+* Subtrees captured by config identity. A subtree plugged directly (rather than
+* created as a loader entry) never links itself to an `Entry`, so this is the
+* only handle to the rows it created; config objects are minted per mount, so
+* concurrent mounts cannot collide.
+*/
+const mounted = /* @__PURE__ */ new WeakMap();
+/**
+* The base URL bare specifiers resolve against, per pending mount, keyed by the
+* same config object. Recorded before the subtree is plugged, because `Include`
+* rewrites its own context's `baseUrl` to the composition's directory and the
+* pre-mount value is the only handle on where the harness itself lives.
+*/
+const harnessBase = /* @__PURE__ */ new WeakMap();
+/**
+* Include subclass that publishes its tree and fiber for the audit, and never
+* writes to the file it read.
+*/
+var PresetTree = class extends Include {
+	constructor(ctx, config) {
+		super(ctx, config);
+		mounted.set(config, {
+			tree: this,
+			fiber: ctx.fiber
+		});
+	}
+	/**
+	* Resolve a bare specifier from the harness rather than from the preset.
+	*
+	* `EntryTree.import()` resolves against the tree's own `baseUrl`, which
+	* `Include` sets to the composition's directory. That is right for a
+	* relative specifier — a preset's own files travel with it — and wrong for
+	* a package name: a locally authored preset lives under the user's home,
+	* where Node's upward `node_modules` walk never reaches the harness's own
+	* dependencies, so every `@deepseek-ai/dsh-*` row would fail to import. The
+	* mount records the host composition's base instead, which is inside the
+	* installed harness, and bare names resolve from there. An absolute
+	* filesystem path names neither base and becomes a file URL before Node's
+	* ESM loader receives it, which is required for drive-letter paths on
+	* Windows.
+	* @param name - the module specifier from the row.
+	* @param getOuterStack - the loader's stack composer for import diagnostics.
+	* @returns the imported module, or the `cordis:` builtin.
+	*/
+	import(name, getOuterStack) {
+		const specifier = isAbsolute(name) ? pathToFileURL(name).href : name;
+		const base = harnessBase.get(this.config);
+		/* v8 ignore next -- every PresetTree is constructed by `mountPreset`, which records the base first */
+		if (base === void 0) return super.import(specifier, getOuterStack);
+		if (name.startsWith(".") || name.startsWith("cordis:")) return super.import(name, getOuterStack);
+		const internal = this.ctx.loader.internal;
+		/* v8 ignore next -- Node always supplies the internal module loader; the branch keeps a
+		hypothetical embedder from losing the row's name in a resolution error. */
+		if (internal === void 0) return super.import(specifier, getOuterStack);
+		return internal.import(specifier, base, {});
+	}
+	/**
+	* A preset is an input, never a persistence target.
+	*
+	* The Loader writes a tree back through this method whenever it decides the
+	* config changed — a plugin self-disposing is enough, and tearing an agent
+	* down disposes its whole subtree. Inherited, that rewrites the preset file
+	* with whatever the dying tree held, which in practice means truncating a
+	* shipped composition to `[]` the first time a session ends. Persisting a
+	* preset is also meaningless: nothing here is user state, and the same file
+	* backs every session that names it.
+	*
+	* Dropping the write drops the `loader/config-update` the inherited method
+	* emits with it. Nothing observes one for a preset subtree today, and a
+	* future "edit your preset while it runs" flow needs a deliberate
+	* persistence path rather than this method's return.
+	*/
+	write() {}
+};
+const mounts = /* @__PURE__ */ new Set();
+/**
+* Drop every record whose subtree is gone.
+*
+* Records are pruned by observation rather than through a disposal hook
+* because a subtree can be torn down by its owning agent, by a failed mount, or
+* by the whole tree unloading, and a cleared `uid` is what all three share.
+*
+* Pruning therefore has to happen on a path this module owns. Reading is one
+* such path, but not a reliable one: the only production reader is the
+* invariant companion's service listener, and `dsh-invariants` is a
+* development composition — a shipped host never loads it. Mounting is the
+* other, and it is the one every session takes, which bounds the set at one
+* generation of dead records rather than one per session ever composed. Each
+* record would otherwise retain its whole disposed subtree: the fiber holds
+* its config, and that config is the key its `EntryTree` is stored under.
+*/
+function pruneDisposedMounts() {
+	for (const mount of mounts) if (mount.fiber.uid === null) mounts.delete(mount);
+}
+/**
+* Every preset composition still installed, pruning fibers disposed since the
+* last read.
+* @returns the live mounts.
+*/
+function livePresetMounts() {
+	pruneDisposedMounts();
+	return [...mounts];
+}
+/**
+* Whether `fiber` is `root` itself or is mounted anywhere inside its subtree.
+*
+* Membership is object identity. `uid` looks like a cheaper key but is a
+* per-registry counter, so fibers in two different roots collide on it and a
+* subtree in one runtime would be blamed for a service published in another.
+* @param fiber - the fiber to locate.
+* @param root - the subtree root to test membership against.
+* @returns true when `fiber` belongs to `root`'s subtree.
+*/
+function withinFiber(fiber, root) {
+	let current = fiber;
+	while (true) {
+		if (current === root) return true;
+		const parent = current.parent.fiber;
+		if (parent === current) return false;
+		current = parent;
+	}
+}
+/**
+* Service names the mounted subtree published into the root realm.
+*
+* A provider without an `isolate` realm stores its implementation under the
+* root's symbol for that name, which is exactly the comparison below; a
+* provider inside an `isolate` realm stores under a realm-private symbol and
+* is correctly absent here.
+* @param ctx - any context of the runtime whose service store is inspected.
+* @param mount - the mounted subtree's fiber.
+* @returns the leaked service names in lexical order.
+*/
+function leakedServices(ctx, mount) {
+	const store = ctx.reflect.store;
+	const rootIsolate = ctx.root[Context.isolate];
+	const leaked = [];
+	for (const key of Object.getOwnPropertySymbols(store)) {
+		const impl = store[key];
+		/* v8 ignore next -- cordis deletes a store slot on disposal rather than
+		clearing it, so an own symbol always resolves; the guard exists only
+		because the store's index signature is optional. */
+		if (impl === void 0) continue;
+		if (!withinFiber(impl.fiber, mount)) continue;
+		if (rootIsolate[impl.name] === key) leaked.push(impl.name);
+	}
+	return leaked.sort((left, right) => left.localeCompare(right));
+}
+/**
+* The standing composition one agent is joined to.
+*
+* The agent's own key is parented to its preset's standing key, so the mount
+* is found by matching that parent rather than by walking up from the agent —
+* the mount is not under the agent's fiber. An agent that joined no preset —
+* a deployment composing no roster, or a child agent before its join — has no
+* parent link and resolves to undefined.
+* @param agentCtx - the agent's scope context.
+* @returns the mount the agent joined, or undefined when it joined none.
+*/
+function standingMountFor(agentCtx) {
+	const agentKey = scopeOf(agentCtx);
+	if (agentKey === void 0) return void 0;
+	const standingKey = scopeParentOf(agentKey);
+	if (standingKey === void 0) return void 0;
+	return livePresetMounts().find((candidate) => candidate.key === standingKey);
+}
+/**
+* One agent's instance of a service its preset mounted.
+*
+* A preset publishes a service behind an `isolate` realm so two sessions
+* cannot collide, and an entry-local realm is invisible to everything outside
+* the group — including the agent's own scope context and the host. That is
+* right for the rows inside the group and wrong for one caller: a request that
+* is ABOUT a session but arrives from outside it, which is every browser RPC
+* the api-proxy serves.
+*
+* Ownership is the same relation {@link leakedServices} reads, inverted: there
+* it names implementations a subtree published into the ROOT realm, here it
+* names the one this subtree published anywhere. Fiber membership is object
+* identity for the reason stated on {@link withinFiber}.
+*
+* This is READ addressing for a caller that already holds the agent. It is not
+* a general host handle on a session's internals: a host row that `inject`s a
+* service cannot use it, because injection resolves before any session exists
+* and has no agent to key by — such a service belongs on the host plane.
+* @param ctx - any context of the runtime whose service store is inspected.
+* @param agent - the agent whose mounted composition to look inside.
+* @param name - the service name as the preset's rows resolve it.
+* @returns the agent's instance, or undefined when its preset mounts none.
+*/
+function serviceForAgent(ctx, agent, name) {
+	const mount = standingMountFor(agent.ctx);
+	if (mount === void 0) return void 0;
+	const store = ctx.reflect.store;
+	for (const key of Object.getOwnPropertySymbols(store)) {
+		const impl = store[key];
+		/* v8 ignore next -- cordis deletes a store slot on disposal rather than clearing it */
+		if (impl === void 0) continue;
+		if (impl.name !== name) continue;
+		if (withinFiber(impl.fiber, mount.fiber)) return impl.value;
+	}
+}
+/**
+* Rows that did not reach a usable state, each rendered as one diagnostic line.
+*
+* A row whose module failed to import or whose plugin threw already rejects the
+* mount through the loader; what remains observable here is a row still waiting
+* for a service the composition never supplies.
+* @param tree - the mounted subtree.
+* @returns one line per unusable row, empty when every enabled row is usable.
+*/
+function inactiveRows(tree) {
+	const lines = [];
+	for (const entry of tree.entries()) {
+		if (entry.disabled) continue;
+		const fiber = entry.fiber;
+		/* v8 ignore next 4 -- the loader rejects an entry whose module or plugin failed,
+		so a settled tree never holds an enabled fiber-less entry; the branch exists
+		only because `Entry.fiber` is declared optional. */
+		if (fiber === void 0) {
+			lines.push(`${entry.options.id} (${entry.options.name}): never started`);
+			continue;
+		}
+		const missing = Object.keys(fiber.inject).filter((name) => fiber.ctx.get(name) === void 0);
+		if (missing.length > 0) lines.push(`${entry.options.id} (${entry.options.name}): waiting for ${missing.join(", ")}`);
+	}
+	return lines;
+}
+/**
+* The reportable text of a mount failure.
+*
+* The loader reports several failed rows as one `AggregateError`, whose own
+* message names none of them; without flattening, a composition that fails on
+* two rows says only "loader entries failed to apply" and the operator has
+* nothing to act on.
+* @param error - the value the mount rejected with.
+* @returns a single-line-per-cause description.
+*/
+function mountDetail(error) {
+	/* v8 ignore next -- every path into the mount's catch throws an Error: the loader
+	wraps a row's thrown value before it propagates, and this module's own
+	rejections are Errors. The fallback keeps a hostile value readable. */
+	if (!(error instanceof Error)) return String(error);
+	if (!(error instanceof AggregateError)) return error.message;
+	return [error.message, ...error.errors.map((cause) => `- ${mountDetail(cause)}`)].join("\n");
+}
+/**
+* Mount `preset` under `agentCtx` and return only once every row is usable.
+*
+* The subtree is owned by `agentCtx`'s fiber, so it unwinds with the agent and
+* the caller receives no disposer. A rejection leaves nothing mounted.
+* @param agentCtx - the agent's scope context, from the agent factory's `setup`.
+* @param preset - the resolved preset to compose the agent from.
+* @throws when `agentCtx` carries no scope, a row is unusable, or a row
+* published a service into the root realm.
+*/
+async function mountPreset(agentCtx, preset) {
+	if (scopeOf(agentCtx) === void 0) throw new Error(`agent-presets: refusing to mount preset "${preset.id}" into an unscoped context; its registrations would apply to every agent in the process`);
+	const config = { path: pathToFileURL(preset.path).href };
+	/* v8 ignore next -- the Loader sets `baseUrl` on the root before any scoped context derives from it */
+	if (agentCtx.baseUrl !== void 0) harnessBase.set(config, agentCtx.baseUrl);
+	pruneDisposedMounts();
+	const handle = agentCtx.plugin(PresetTree, config);
+	try {
+		await handle.await();
+		const subtree = mounted.get(config);
+		/* v8 ignore next -- the subclass constructor runs before `await()` settles for every mounted tree */
+		if (subtree === void 0) throw new Error("mounted subtree did not publish its entry tree");
+		const { tree, fiber } = subtree;
+		const unusable = inactiveRows(tree);
+		if (unusable.length > 0) throw new Error(`${String(unusable.length)} row(s) did not activate:\n${unusable.join("\n")}`);
+		const leaked = leakedServices(agentCtx, fiber);
+		if (leaked.length > 0) throw new Error(`row(s) published process-global service(s) [${leaked.join(", ")}]; a preset service must sit behind an \`isolate\` realm or move to the host composition`);
+		mounts.add({
+			presetId: preset.id,
+			fiber,
+			key: scopeOf(agentCtx)
+		});
+	} catch (error) {
+		try {
+			await handle.dispose();
+		} catch {}
+		throw new PresetMountError(preset.id, `${mountDetail(error)} (${preset.path})`, { cause: error });
+	}
+}
+/**
+* The session-log record of which preset a session actually runs.
+*
+* The creation header names the preset a session STARTED with, and it is
+* deep-frozen because that is a creation fact. A session may still change
+* preset while it is blank, and the effect of that change outlives the blank
+* window: the first turn — and every turn after it — runs under the newly
+* mounted composition. Recording the change is what keeps the log honest, and
+* it is required outright by the repo's model-visible ⟺ logged rule, since the
+* preset decides the tool schemas and prompt sections the model sees.
+*
+* Reconstruction reads {@link resolveSessionPreset}, never the header alone.
+* @module @deepseek-ai/dsh-agent-presets/session
+*/
+/**
+* The preset a session actually runs, newest selection winning.
+*
+* The header supplies the creation-time value; every later selection is a
+* logged event, so the last one is the answer. Reading the header alone
+* rebuilds a switched session under the composition it was created with, not
+* the one its history was produced under.
+* @param session - the session's header and event log.
+* @returns the preset id, or `undefined` when the deployment composes none.
+*/
+function resolveSessionPreset(session) {
+	for (let index = session.events.length - 1; index >= 0; index -= 1) {
+		const event = session.events[index];
+		if (event?.type === "agent-preset/selected") return event.data.agentPreset;
+	}
+	return session.header.agentPreset;
+}
+/**
+* Agent presets: each session composes its model-facing plugin set from one
+* preset `cordis.yml`, mounted ONCE per preset under a standing scope and
+* joined by every agent that names it.
+*
+* The standing mount is what makes a preset one composition rather than one
+* per session: its plugin instances, tool registrations, prompt sections, and
+* projection units exist exactly once, keyed per session inside the plugins
+* themselves (they predate presets and were written for a shared world). An
+* agent joins by having its scope key parented to the mount's
+* ({@link bindScopeParent}), which makes the mount's registrations visible to
+* that agent's views and the mount's listeners receive that agent's events —
+* and a host reader with no agent at all (a cold transcript read) resolves
+* the same standing registrations by preset id.
+*
+* This package owns the preset vocabulary, filesystem discovery, and the
+* guarded standing mount. It does not decide when an agent is created — the
+* agent factory's `setup(agentCtx)` hook is the one supported call site,
+* because only there is the join installed while the agent is still
+* unpublished, so a rejected composition rolls the whole creation back.
+* @module @deepseek-ai/dsh-agent-presets
+*/
+/** Settings namespace carrying the user's chosen default preset. */
+const SETTINGS_NAMESPACE = "agent-presets";
+/** Runtime schema for the user-writable slice. */
+const AgentPresetSettingsSchema = Schema$1.object({ default: Schema$1.string() });
+(class extends Service {
+	config;
+	static inject = ["loader"];
+	/** Runtime schema for the preset roster. */
+	static Config = Schema$1.object({
+		default: Schema$1.string().required(),
+		roots: Schema$1.array(Schema$1.object({
+			path: Schema$1.string().required(),
+			trust: Schema$1.union(["system", "user"]).default("user")
+		})).default([]),
+		includeUserRoot: Schema$1.boolean().default(true)
+	});
+	/**
+	* The roots discovery and authoring actually scan: every configured root in
+	* order, then the harness-home user root unless `includeUserRoot` is false.
+	*
+	* Derived once, because a root set that changed between `list()` and the
+	* `copy()` acting on its answer would author into a directory the caller
+	* never saw. Appending rather than prepending keeps an earlier configured
+	* root winning a duplicate id, so a shipped preset still shadows a
+	* locally authored directory that claimed its name.
+	*/
+	resolvedRoots;
+	/**
+	* The user layer over `config.default`, present only while a settings
+	* provider is composed. Held rather than snapshotted so a hot-reloaded
+	* document takes effect without a restart.
+	*/
+	settings;
+	/**
+	* The settings service behind {@link settings}, held for the one write this
+	* service makes: clearing a user default it has just deleted.
+	*/
+	settingsService;
+	/**
+	* The service's own untraced context. Methods invoked through the traceable
+	* proxy see `this.ctx` rebound to the CALLER's context, which carries a
+	* shadow; a subtree minted from it resolves every service through that
+	* shadow's fiber instead of each entry's own inject store, so preset rows
+	* would fail on the very services they declare. Standing mounts must hang
+	* off the untraced original (the `jobs-local` selfCtx precedent).
+	*/
+	selfCtx;
+	constructor(ctx, config) {
+		super(ctx, "agentPresets");
+		this.config = config;
+		this.selfCtx = ctx;
+		this.resolvedRoots = config.includeUserRoot ? [...config.roots, {
+			path: dshHomePath(USER_PRESET_DIR),
+			trust: "user"
+		}] : [...config.roots];
+		ctx.inject(["settings"], (settingsCtx) => {
+			this.settings = settingsCtx.settings.register(settingsNamespace(SETTINGS_NAMESPACE), AgentPresetSettingsSchema, { base: { default: config.default } });
+			this.settingsService = settingsCtx.settings;
+			settingsCtx.effect(() => () => {
+				this.settings = void 0;
+				this.settingsService = void 0;
+			}, "agentPresets.settings()");
+		});
+		ctx.on("agent/created", ({ agent }) => {
+			if (this.resolvedRoots.length === 0) return;
+			if (this.composedPreset(agent.ctx) !== void 0) return;
+			ctx.logger.warn(`agent "${agent.id}" was published without joining an agent preset; its tools, prompt sections, and skill catalog resolve against the empty global layer (join through AgentPresets.mount() or composeFrom() in the agent factory setup)`);
+		});
+		ctx.on("session/event", (session, event) => {
+			if (event.type !== "agent-preset/selected") return;
+			ctx.emit("agent-preset/selected", session.id, event.data.agentPreset);
+		});
+	}
+	/**
+	* The preset id mounted when a caller names none.
+	*
+	* Read per call rather than cached: the settings document is hot-reloaded, so
+	* changing the default takes effect on the next session created and leaves
+	* every running session on the preset it was composed from.
+	*/
+	get defaultId() {
+		return this.settings?.get().default ?? this.config.default;
+	}
+	/**
+	* Every preset the configured roots currently supply.
+	* @returns the presets, first-root-wins per id.
+	*/
+	async list() {
+		return await discoverPresets(this.resolvedRoots);
+	}
+	/**
+	* Resolve one preset by id.
+	*
+	* A broken preset resolves — deleting one, reading one, and reporting one
+	* all need the row — and the mounting paths refuse it AFTER resolution
+	* through {@link resolveMountable}.
+	* @param id - the preset id, or `undefined` for {@link defaultId}.
+	* @returns the resolved preset.
+	* @throws when no configured root supplies that id.
+	*/
+	async resolve(id) {
+		const wanted = id ?? this.defaultId;
+		const presets = await this.list();
+		const found = presets.find((preset) => preset.id === wanted);
+		if (found === void 0) throw new UnknownPresetError(wanted, presets.map((preset) => preset.id));
+		return found;
+	}
+	/**
+	* Resolve one preset that is about to compose an agent, refusing a broken
+	* one with its discovery-reported reason. Failing here rather than inside
+	* the loader keeps the answer the same for every unloadable shape — ghost
+	* directory, unparsable YAML, rowless list — and spends no mount attempt
+	* on a composition discovery already read as unusable.
+	* @param id - the preset id, or `undefined` for {@link defaultId}.
+	* @returns the resolved, mountable preset.
+	* @throws when the preset is unknown or discovery reports it broken.
+	*/
+	async resolveMountable(id) {
+		const preset = await this.resolve(id);
+		if (preset.broken !== void 0) throw new PresetMountError(preset.id, preset.broken);
+		return preset;
+	}
+	/**
+	* Standing mounts by preset id, single-flight so two agents racing the
+	* first use of one preset share one composition. A settled failure is
+	* removed so a later session retries a preset whose file has been fixed; a
+	* settled success serves until the composition FILE visibly changes — each
+	* generation records its file stamp, and a stale stamp starts the next
+	* generation for sessions created afterwards. Sessions already joined keep
+	* the generation they run on; a superseded one is never disposed while the
+	* process lives (reclaimed only by whole-tree teardown), so editing files
+	* is bounded by how often compositions change, not by session count.
+	*/
+	standing = /* @__PURE__ */ new Map();
+	/**
+	* Parent bindings of the agents this roster composed, keyed by the agent's
+	* scope key. The binding is dsh-scope's only re-link capability; holding it
+	* here makes this service the sole authority that can move an agent between
+	* standing compositions. WeakMap: entries die with their agents.
+	*/
+	bindings = /* @__PURE__ */ new WeakMap();
+	/**
+	* Compose one agent from a preset: ensure the preset's standing mount, then
+	* parent the agent's scope key to it so the mount's registrations and
+	* listeners cover this agent.
+	*
+	* Call from the agent factory's `setup(agentCtx)`; a rejection there rolls
+	* the agent creation back, so a broken preset never yields a half-composed
+	* session.
+	* @param agentCtx - the agent's scope context.
+	* @param id - the preset id, or `undefined` for {@link defaultId}.
+	* @returns the preset that was composed, for the caller to record.
+	* @throws when the preset is unknown or its composition is unusable.
+	*/
+	async mount(agentCtx, id) {
+		const agentKey = scopeOf(agentCtx);
+		if (agentKey === void 0) throw new Error("agent-presets: refusing to compose an unscoped context; the scope key is what joins an agent to its preset");
+		const preset = await this.resolveMountable(id);
+		const standing = await this.ensureStanding(preset);
+		this.bindings.set(agentKey, bindScopeParent(agentKey, standing.key));
+		return preset;
+	}
+	/**
+	* Join one agent to the SAME standing composition another already runs on.
+	*
+	* This is how a child agent inherits its parent's capabilities. It is a bind,
+	* not a mount: the parent's generation is already composed, so the child gets
+	* that exact instance — the same plugin objects, the same tool registrations,
+	* the same prompt sections. Re-resolving the parent's preset by id instead
+	* would re-read the roster, and a composition file edited since the parent
+	* started would hand the child a DIFFERENT generation than the one its
+	* parent's history was produced under (and a preset deleted since would fail
+	* the child outright while its parent keeps running).
+	*
+	* Synchronous, and with no composition failure mode of its own — it reads no
+	* roster, mounts nothing, and touches no file — which is what lets a child
+	* creation window use it: the two in-process subagent drivers compose their
+	* children inside a synchronous `setup`. It still rejects a caller error, as
+	* the `@throws` below record.
+	*
+	* A parent that joined no preset — a rosterless deployment — yields no join
+	* and no error: there, the model-facing rows sit in the host composition and
+	* the child already sees them through the global layer.
+	* @param agentCtx - the joining agent's scope context.
+	* @param parentCtx - the scope context of the agent whose composition to join.
+	* @returns the preset id joined, or undefined when the parent joined none.
+	* @throws when `agentCtx` carries no scope, or has already joined a preset.
+	*/
+	composeFrom(agentCtx, parentCtx) {
+		const agentKey = scopeOf(agentCtx);
+		if (agentKey === void 0) throw new Error("agent-presets: refusing to compose an unscoped context; the scope key is what joins an agent to its preset");
+		const standing = standingMountFor(parentCtx);
+		if (standing === void 0) return void 0;
+		this.bindings.set(agentKey, bindScopeParent(agentKey, standing.key));
+		return standing.presetId;
+	}
+	/**
+	* The preset one live agent runs on.
+	*
+	* Read from the live scope chain rather than from the session, so it answers
+	* for an agent whose session has not recorded a preset yet — a child agent
+	* whose durable header is being built from its parent's composition.
+	* @param agentCtx - the agent's scope context.
+	* @returns the preset id, or undefined when the agent joined none.
+	*/
+	composedPreset(agentCtx) {
+		return standingMountFor(agentCtx)?.presetId;
+	}
+	/**
+	* The roots this roster scans, which is not `config.roots`: it is every
+	* configured root in order, then the harness-home user root unless
+	* `includeUserRoot` is false. Read this — not the config field — to answer
+	* whether a roster is composed at all, so one derivation decides it.
+	*/
+	get roots() {
+		return this.resolvedRoots;
+	}
+	/** Whether this deployment has a root locally authored presets go to. */
+	get authorable() {
+		return this.resolvedRoots.some((root) => root.trust === "user");
+	}
+	/**
+	* Read one preset's composition text.
+	* @param id - the preset id.
+	* @returns the composition exactly as stored.
+	* @throws when no configured root supplies that id.
+	*/
+	async read(id) {
+		return await readComposition(await this.resolve(id));
+	}
+	/**
+	* Create a locally authored preset by copying an existing one whole.
+	*
+	* Copy is the only authoring write. Composition text never crosses this
+	* seam: the source is named by id and its directory is copied as it stands,
+	* so the copy is exactly as loadable as its source and authoring grants no
+	* capability the roster did not already carry. The copy is NOT mounted to
+	* validate — a source that mounts today yields a copy that mounts today.
+	* @param from - the preset the copy starts from; shipped presets are the
+	* primary source, so any trust is accepted.
+	* @param id - the new preset's id, which becomes its directory name.
+	* @param name - display name for the copy; absent falls back to the id.
+	* @throws when the source is unknown, the id is unusable or already taken,
+	* or the deployment configures no writable root.
+	*/
+	async copy(from, id, name) {
+		const source = await this.resolve(from);
+		if ((await this.list()).some((preset) => preset.id === id)) throw new PresetExistsError(id);
+		await copyComposition(this.resolvedRoots, source, id, name);
+		this.standing.delete(id);
+	}
+	/**
+	* Delete a locally authored preset.
+	* @param id - the preset id.
+	* @throws when the preset is unknown or ships with the deployment.
+	*/
+	async remove(id) {
+		await deleteComposition(this.resolvedRoots, await this.resolve(id));
+		this.standing.delete(id);
+		if (this.settings?.get().default !== id) return;
+		await this.settingsService?.mutate(settingsNamespace(SETTINGS_NAMESPACE), [{
+			op: "unset",
+			path: ["default"]
+		}]);
+	}
+	/**
+	* One agent's instance of a service its preset mounted.
+	*
+	* A preset publishes services behind `isolate` realms, which are invisible
+	* outside the group that declares them — including to the host. This is how a
+	* caller holding the agent reads one anyway: a request that is ABOUT a
+	* session but arrives from outside it, which is every browser RPC.
+	*
+	* Read addressing only. A host row that `inject`s a service cannot use this,
+	* because injection resolves before any session exists and has no agent to
+	* key by; such a service belongs on the host plane instead.
+	* @param agent - the agent whose composition to look inside.
+	* @param name - the service name as the preset's rows resolve it.
+	* @returns the agent's instance, or undefined when its preset mounts none.
+	*/
+	serviceFor(agent, name) {
+		return serviceForAgent(this.ctx, agent, name);
+	}
+	/**
+	* Re-link one agent to a different preset's standing composition.
+	*
+	* Only valid while the agent has produced nothing: swapping tools mid
+	* conversation would leave logged tool calls the new composition cannot
+	* make. The CALLER owns that check — this method does not read session
+	* history.
+	*
+	* The swap is a parent re-link, not an unmount: standing mounts are shared
+	* and permanent, so the old composition stays for its other agents and the
+	* new one is ensured BEFORE the link moves. An unknown or unusable preset
+	* therefore throws with the agent exactly as it was — there is no torn-down
+	* state to restore. The re-link runs through the binding this roster kept
+	* from the agent's mount — dsh-scope's only re-link authority. An agent
+	* that never composed one has nothing to re-link: the switch is then the
+	* agent's first bind, exactly a mount.
+	* @param agentCtx - the agent's scope context.
+	* @param id - the preset to compose the agent from instead.
+	* @returns the preset now installed.
+	* @throws when the preset is unknown or its composition is unusable.
+	*/
+	async recompose(agentCtx, id) {
+		const agentKey = scopeOf(agentCtx);
+		if (agentKey === void 0) throw new Error("agent-presets: refusing to recompose an unscoped context");
+		const preset = await this.resolveMountable(id);
+		const standing = await this.ensureStanding(preset);
+		const binding = this.bindings.get(agentKey);
+		if (binding === void 0) this.bindings.set(agentKey, bindScopeParent(agentKey, standing.key));
+		else binding.rebind(standing.key);
+		return preset;
+	}
+	/**
+	* The standing scope key of one preset, for a host reader with no agent.
+	*
+	* A cold transcript read resolves tool presenters against the composition
+	* the session recorded, and the standing mount makes that possible without
+	* resuming anything: ensuring the mount composes plugins but starts no
+	* agent, no session, and no turn.
+	* @param id - the preset id, or `undefined` for {@link defaultId}.
+	* @returns the standing scope key readers pass as a registry view scope.
+	* @throws when the preset is unknown or its composition is unusable.
+	*/
+	async standingKeyFor(id) {
+		const preset = await this.resolveMountable(id);
+		return (await this.ensureStanding(preset)).key;
+	}
+	/** Resolve (or create, single-flight) the standing mount of one preset. */
+	async ensureStanding(preset) {
+		const pending = this.standing.get(preset.id);
+		if (pending !== void 0) {
+			const mounted = await pending;
+			const current = await compositionStamp(preset.path);
+			if (current === void 0 || sameStamp(mounted.stamp, current)) return mounted;
+			if (this.standing.get(preset.id) === pending) this.standing.delete(preset.id);
+			return this.ensureStanding(preset);
+		}
+		const created = (async () => {
+			const key = { agentPreset: preset.id };
+			const scope = createScope(this.selfCtx, key);
+			try {
+				const stamp = await compositionStamp(preset.path);
+				if (stamp === void 0) throw new PresetMountError(preset.id, `composition file is unreadable: ${preset.path}`);
+				await mountPreset(scope.ctx, preset);
+				return {
+					key,
+					scope,
+					stamp
+				};
+			} catch (error) {
+				this.standing.delete(preset.id);
+				await scope.dispose();
+				throw error;
+			}
+		})();
+		this.standing.set(preset.id, created);
+		return created;
+	}
+});
+/** Read one composition file's stamp, or undefined when it cannot be statted. */
+async function compositionStamp(path) {
+	try {
+		const { mtimeMs, size } = await stat(path);
+		return {
+			mtimeMs,
+			size
+		};
+	} catch {
+		return;
+	}
+}
+/** Whether two stamps name the same file state. */
+function sameStamp(a, b) {
+	return a.mtimeMs === b.mtimeMs && a.size === b.size;
+}
+//#endregion
+//#region node_modules/.pnpm/fflate@0.8.3/node_modules/fflate/esm/index.mjs
+var require$1 = createRequire$1("/");
+var _a;
+try {
+	_a = require$1("worker_threads"), _a.Worker, _a.isMarkedAsUntransferable;
+} catch (e) {}
+var u8 = Uint8Array;
+var u16 = Uint16Array;
+var i32 = Int32Array;
+var fleb = new u8([
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	1,
+	1,
+	1,
+	1,
+	2,
+	2,
+	2,
+	2,
+	3,
+	3,
+	3,
+	3,
+	4,
+	4,
+	4,
+	4,
+	5,
+	5,
+	5,
+	5,
+	0,
+	0,
+	0,
+	0
+]);
+var fdeb = new u8([
+	0,
+	0,
+	0,
+	0,
+	1,
+	1,
+	2,
+	2,
+	3,
+	3,
+	4,
+	4,
+	5,
+	5,
+	6,
+	6,
+	7,
+	7,
+	8,
+	8,
+	9,
+	9,
+	10,
+	10,
+	11,
+	11,
+	12,
+	12,
+	13,
+	13,
+	0,
+	0
+]);
+var clim = new u8([
+	16,
+	17,
+	18,
+	0,
+	8,
+	7,
+	9,
+	6,
+	10,
+	5,
+	11,
+	4,
+	12,
+	3,
+	13,
+	2,
+	14,
+	1,
+	15
+]);
+var freb = function(eb, start) {
+	var b = new u16(31);
+	for (var i = 0; i < 31; ++i) b[i] = start += 1 << eb[i - 1];
+	var r = new i32(b[30]);
+	for (var i = 1; i < 30; ++i) for (var j = b[i]; j < b[i + 1]; ++j) r[j] = j - b[i] << 5 | i;
+	return {
+		b,
+		r
+	};
+};
+var _a = freb(fleb, 2);
+var fl = _a.b;
+var revfl = _a.r;
+fl[28] = 258, revfl[258] = 28;
+var _b = freb(fdeb, 0);
+var fd = _b.b;
+var revfd = _b.r;
+var rev = new u16(32768);
+for (var i = 0; i < 32768; ++i) {
+	var x = (i & 43690) >> 1 | (i & 21845) << 1;
+	x = (x & 52428) >> 2 | (x & 13107) << 2;
+	x = (x & 61680) >> 4 | (x & 3855) << 4;
+	rev[i] = ((x & 65280) >> 8 | (x & 255) << 8) >> 1;
+}
+var hMap = (function(cd, mb, r) {
+	var s = cd.length;
+	var i = 0;
+	var l = new u16(mb);
+	for (; i < s; ++i) if (cd[i]) ++l[cd[i] - 1];
+	var le = new u16(mb);
+	for (i = 1; i < mb; ++i) le[i] = le[i - 1] + l[i - 1] << 1;
+	var co;
+	if (r) {
+		co = new u16(1 << mb);
+		var rvb = 15 - mb;
+		for (i = 0; i < s; ++i) if (cd[i]) {
+			var sv = i << 4 | cd[i];
+			var r_1 = mb - cd[i];
+			var v = le[cd[i] - 1]++ << r_1;
+			for (var m = v | (1 << r_1) - 1; v <= m; ++v) co[rev[v] >> rvb] = sv;
+		}
+	} else {
+		co = new u16(s);
+		for (i = 0; i < s; ++i) if (cd[i]) co[i] = rev[le[cd[i] - 1]++] >> 15 - cd[i];
+	}
+	return co;
+});
+var flt = new u8(288);
+for (var i = 0; i < 144; ++i) flt[i] = 8;
+for (var i = 144; i < 256; ++i) flt[i] = 9;
+for (var i = 256; i < 280; ++i) flt[i] = 7;
+for (var i = 280; i < 288; ++i) flt[i] = 8;
+var fdt = new u8(32);
+for (var i = 0; i < 32; ++i) fdt[i] = 5;
+var flm = /*#__PURE__*/ hMap(flt, 9, 0);
+var flrm = /*#__PURE__*/ hMap(flt, 9, 1);
+var fdm = /*#__PURE__*/ hMap(fdt, 5, 0);
+var fdrm = /*#__PURE__*/ hMap(fdt, 5, 1);
+var max = function(a) {
+	var m = a[0];
+	for (var i = 1; i < a.length; ++i) if (a[i] > m) m = a[i];
+	return m;
+};
+var bits = function(d, p, m) {
+	var o = p / 8 | 0;
+	return (d[o] | d[o + 1] << 8) >> (p & 7) & m;
+};
+var bits16 = function(d, p) {
+	var o = p / 8 | 0;
+	return (d[o] | d[o + 1] << 8 | d[o + 2] << 16) >> (p & 7);
+};
+var shft = function(p) {
+	return (p + 7) / 8 | 0;
+};
+var slc = function(v, s, e) {
+	if (s == null || s < 0) s = 0;
+	if (e == null || e > v.length) e = v.length;
+	return new u8(v.subarray(s, e));
+};
+var ec = [
+	"unexpected EOF",
+	"invalid block type",
+	"invalid length/literal",
+	"invalid distance",
+	"stream finished",
+	"no stream handler",
+	,
+	"no callback",
+	"invalid UTF-8 data",
+	"extra field too long",
+	"date not in range 1980-2099",
+	"filename too long",
+	"stream finishing",
+	"invalid zip data"
+];
+var err$1 = function(ind, msg, nt) {
+	var e = new Error(msg || ec[ind]);
+	e.code = ind;
+	if (Error.captureStackTrace) Error.captureStackTrace(e, err$1);
+	if (!nt) throw e;
+	return e;
+};
+var inflt = function(dat, st, buf, dict) {
+	var sl = dat.length, dl = dict ? dict.length : 0;
+	if (!sl || st.f && !st.l) return buf || new u8(0);
+	var noBuf = !buf;
+	var resize = noBuf || st.i != 2;
+	var noSt = st.i;
+	if (noBuf) buf = new u8(sl * 3);
+	var cbuf = function(l) {
+		var bl = buf.length;
+		if (l > bl) {
+			var nbuf = new u8(Math.max(bl * 2, l));
+			nbuf.set(buf);
+			buf = nbuf;
+		}
+	};
+	var final = st.f || 0, pos = st.p || 0, bt = st.b || 0, lm = st.l, dm = st.d, lbt = st.m, dbt = st.n;
+	var tbts = sl * 8;
+	do {
+		if (!lm) {
+			final = bits(dat, pos, 1);
+			var type = bits(dat, pos + 1, 3);
+			pos += 3;
+			if (!type) {
+				var s = shft(pos) + 4, l = dat[s - 4] | dat[s - 3] << 8, t = s + l;
+				if (t > sl) {
+					if (noSt) err$1(0);
+					break;
+				}
+				if (resize) cbuf(bt + l);
+				buf.set(dat.subarray(s, t), bt);
+				st.b = bt += l, st.p = pos = t * 8, st.f = final;
+				continue;
+			} else if (type == 1) lm = flrm, dm = fdrm, lbt = 9, dbt = 5;
+			else if (type == 2) {
+				var hLit = bits(dat, pos, 31) + 257, hcLen = bits(dat, pos + 10, 15) + 4;
+				var tl = hLit + bits(dat, pos + 5, 31) + 1;
+				pos += 14;
+				var ldt = new u8(tl);
+				var clt = new u8(19);
+				for (var i = 0; i < hcLen; ++i) clt[clim[i]] = bits(dat, pos + i * 3, 7);
+				pos += hcLen * 3;
+				var clb = max(clt), clbmsk = (1 << clb) - 1;
+				var clm = hMap(clt, clb, 1);
+				for (var i = 0; i < tl;) {
+					var r = clm[bits(dat, pos, clbmsk)];
+					pos += r & 15;
+					var s = r >> 4;
+					if (s < 16) ldt[i++] = s;
+					else {
+						var c = 0, n = 0;
+						if (s == 16) n = 3 + bits(dat, pos, 3), pos += 2, c = ldt[i - 1];
+						else if (s == 17) n = 3 + bits(dat, pos, 7), pos += 3;
+						else if (s == 18) n = 11 + bits(dat, pos, 127), pos += 7;
+						while (n--) ldt[i++] = c;
+					}
+				}
+				var lt = ldt.subarray(0, hLit), dt = ldt.subarray(hLit);
+				lbt = max(lt);
+				dbt = max(dt);
+				lm = hMap(lt, lbt, 1);
+				dm = hMap(dt, dbt, 1);
+			} else err$1(1);
+			if (pos > tbts) {
+				if (noSt) err$1(0);
+				break;
+			}
+		}
+		if (resize) cbuf(bt + 131072);
+		var lms = (1 << lbt) - 1, dms = (1 << dbt) - 1;
+		var lpos = pos;
+		for (;; lpos = pos) {
+			var c = lm[bits16(dat, pos) & lms], sym = c >> 4;
+			pos += c & 15;
+			if (pos > tbts) {
+				if (noSt) err$1(0);
+				break;
+			}
+			if (!c) err$1(2);
+			if (sym < 256) buf[bt++] = sym;
+			else if (sym == 256) {
+				lpos = pos, lm = null;
+				break;
+			} else {
+				var add = sym - 254;
+				if (sym > 264) {
+					var i = sym - 257, b = fleb[i];
+					add = bits(dat, pos, (1 << b) - 1) + fl[i];
+					pos += b;
+				}
+				var d = dm[bits16(dat, pos) & dms], dsym = d >> 4;
+				if (!d) err$1(3);
+				pos += d & 15;
+				var dt = fd[dsym];
+				if (dsym > 3) {
+					var b = fdeb[dsym];
+					dt += bits16(dat, pos) & (1 << b) - 1, pos += b;
+				}
+				if (pos > tbts) {
+					if (noSt) err$1(0);
+					break;
+				}
+				if (resize) cbuf(bt + 131072);
+				var end = bt + add;
+				if (bt < dt) {
+					var shift = dl - dt, dend = Math.min(dt, end);
+					if (shift + bt < 0) err$1(3);
+					for (; bt < dend; ++bt) buf[bt] = dict[shift + bt];
+				}
+				for (; bt < end; ++bt) buf[bt] = buf[bt - dt];
+			}
+		}
+		st.l = lm, st.p = lpos, st.b = bt, st.f = final;
+		if (lm) final = 1, st.m = lbt, st.d = dm, st.n = dbt;
+	} while (!final);
+	return bt != buf.length && noBuf ? slc(buf, 0, bt) : buf.subarray(0, bt);
+};
+var wbits = function(d, p, v) {
+	v <<= p & 7;
+	var o = p / 8 | 0;
+	d[o] |= v;
+	d[o + 1] |= v >> 8;
+};
+var wbits16 = function(d, p, v) {
+	v <<= p & 7;
+	var o = p / 8 | 0;
+	d[o] |= v;
+	d[o + 1] |= v >> 8;
+	d[o + 2] |= v >> 16;
+};
+var hTree = function(d, mb) {
+	var t = [];
+	for (var i = 0; i < d.length; ++i) if (d[i]) t.push({
+		s: i,
+		f: d[i]
+	});
+	var s = t.length;
+	var t2 = t.slice();
+	if (!s) return {
+		t: et,
+		l: 0
+	};
+	if (s == 1) {
+		var v = new u8(t[0].s + 1);
+		v[t[0].s] = 1;
+		return {
+			t: v,
+			l: 1
+		};
+	}
+	t.sort(function(a, b) {
+		return a.f - b.f;
+	});
+	t.push({
+		s: -1,
+		f: 25001
+	});
+	var l = t[0], r = t[1], i0 = 0, i1 = 1, i2 = 2;
+	t[0] = {
+		s: -1,
+		f: l.f + r.f,
+		l,
+		r
+	};
+	while (i1 != s - 1) {
+		l = t[t[i0].f < t[i2].f ? i0++ : i2++];
+		r = t[i0 != i1 && t[i0].f < t[i2].f ? i0++ : i2++];
+		t[i1++] = {
+			s: -1,
+			f: l.f + r.f,
+			l,
+			r
+		};
+	}
+	var maxSym = t2[0].s;
+	for (var i = 1; i < s; ++i) if (t2[i].s > maxSym) maxSym = t2[i].s;
+	var tr = new u16(maxSym + 1);
+	var mbt = ln(t[i1 - 1], tr, 0);
+	if (mbt > mb) {
+		var i = 0, dt = 0;
+		var lft = mbt - mb, cst = 1 << lft;
+		t2.sort(function(a, b) {
+			return tr[b.s] - tr[a.s] || a.f - b.f;
+		});
+		for (; i < s; ++i) {
+			var i2_1 = t2[i].s;
+			if (tr[i2_1] > mb) {
+				dt += cst - (1 << mbt - tr[i2_1]);
+				tr[i2_1] = mb;
+			} else break;
+		}
+		dt >>= lft;
+		while (dt > 0) {
+			var i2_2 = t2[i].s;
+			if (tr[i2_2] < mb) dt -= 1 << mb - tr[i2_2]++ - 1;
+			else ++i;
+		}
+		for (; i >= 0 && dt; --i) {
+			var i2_3 = t2[i].s;
+			if (tr[i2_3] == mb) {
+				--tr[i2_3];
+				++dt;
+			}
+		}
+		mbt = mb;
+	}
+	return {
+		t: new u8(tr),
+		l: mbt
+	};
+};
+var ln = function(n, l, d) {
+	return n.s == -1 ? Math.max(ln(n.l, l, d + 1), ln(n.r, l, d + 1)) : l[n.s] = d;
+};
+var lc = function(c) {
+	var s = c.length;
+	while (s && !c[--s]);
+	var cl = new u16(++s);
+	var cli = 0, cln = c[0], cls = 1;
+	var w = function(v) {
+		cl[cli++] = v;
+	};
+	for (var i = 1; i <= s; ++i) if (c[i] == cln && i != s) ++cls;
+	else {
+		if (!cln && cls > 2) {
+			for (; cls > 138; cls -= 138) w(32754);
+			if (cls > 2) {
+				w(cls > 10 ? cls - 11 << 5 | 28690 : cls - 3 << 5 | 12305);
+				cls = 0;
+			}
+		} else if (cls > 3) {
+			w(cln), --cls;
+			for (; cls > 6; cls -= 6) w(8304);
+			if (cls > 2) w(cls - 3 << 5 | 8208), cls = 0;
+		}
+		while (cls--) w(cln);
+		cls = 1;
+		cln = c[i];
+	}
+	return {
+		c: cl.subarray(0, cli),
+		n: s
+	};
+};
+var clen = function(cf, cl) {
+	var l = 0;
+	for (var i = 0; i < cl.length; ++i) l += cf[i] * cl[i];
+	return l;
+};
+var wfblk = function(out, pos, dat) {
+	var s = dat.length;
+	var o = shft(pos + 2);
+	out[o] = s & 255;
+	out[o + 1] = s >> 8;
+	out[o + 2] = out[o] ^ 255;
+	out[o + 3] = out[o + 1] ^ 255;
+	for (var i = 0; i < s; ++i) out[o + i + 4] = dat[i];
+	return (o + 4 + s) * 8;
+};
+var wblk = function(dat, out, final, syms, lf, df, eb, li, bs, bl, p) {
+	wbits(out, p++, final);
+	++lf[256];
+	var _a = hTree(lf, 15), dlt = _a.t, mlb = _a.l;
+	var _b = hTree(df, 15), ddt = _b.t, mdb = _b.l;
+	var _c = lc(dlt), lclt = _c.c, nlc = _c.n;
+	var _d = lc(ddt), lcdt = _d.c, ndc = _d.n;
+	var lcfreq = new u16(19);
+	for (var i = 0; i < lclt.length; ++i) ++lcfreq[lclt[i] & 31];
+	for (var i = 0; i < lcdt.length; ++i) ++lcfreq[lcdt[i] & 31];
+	var _e = hTree(lcfreq, 7), lct = _e.t, mlcb = _e.l;
+	var nlcc = 19;
+	for (; nlcc > 4 && !lct[clim[nlcc - 1]]; --nlcc);
+	var flen = bl + 5 << 3;
+	var ftlen = clen(lf, flt) + clen(df, fdt) + eb;
+	var dtlen = clen(lf, dlt) + clen(df, ddt) + eb + 14 + 3 * nlcc + clen(lcfreq, lct) + 2 * lcfreq[16] + 3 * lcfreq[17] + 7 * lcfreq[18];
+	if (bs >= 0 && flen <= ftlen && flen <= dtlen) return wfblk(out, p, dat.subarray(bs, bs + bl));
+	var lm, ll, dm, dl;
+	wbits(out, p, 1 + (dtlen < ftlen)), p += 2;
+	if (dtlen < ftlen) {
+		lm = hMap(dlt, mlb, 0), ll = dlt, dm = hMap(ddt, mdb, 0), dl = ddt;
+		var llm = hMap(lct, mlcb, 0);
+		wbits(out, p, nlc - 257);
+		wbits(out, p + 5, ndc - 1);
+		wbits(out, p + 10, nlcc - 4);
+		p += 14;
+		for (var i = 0; i < nlcc; ++i) wbits(out, p + 3 * i, lct[clim[i]]);
+		p += 3 * nlcc;
+		var lcts = [lclt, lcdt];
+		for (var it = 0; it < 2; ++it) {
+			var clct = lcts[it];
+			for (var i = 0; i < clct.length; ++i) {
+				var len = clct[i] & 31;
+				wbits(out, p, llm[len]), p += lct[len];
+				if (len > 15) wbits(out, p, clct[i] >> 5 & 127), p += clct[i] >> 12;
+			}
+		}
+	} else lm = flm, ll = flt, dm = fdm, dl = fdt;
+	for (var i = 0; i < li; ++i) {
+		var sym = syms[i];
+		if (sym > 255) {
+			var len = sym >> 18 & 31;
+			wbits16(out, p, lm[len + 257]), p += ll[len + 257];
+			if (len > 7) wbits(out, p, sym >> 23 & 31), p += fleb[len];
+			var dst = sym & 31;
+			wbits16(out, p, dm[dst]), p += dl[dst];
+			if (dst > 3) wbits16(out, p, sym >> 5 & 8191), p += fdeb[dst];
+		} else wbits16(out, p, lm[sym]), p += ll[sym];
+	}
+	wbits16(out, p, lm[256]);
+	return p + ll[256];
+};
+var deo = /*#__PURE__*/ new i32([
+	65540,
+	131080,
+	131088,
+	131104,
+	262176,
+	1048704,
+	1048832,
+	2114560,
+	2117632
+]);
+var et = /*#__PURE__*/ new u8(0);
+var dflt = function(dat, lvl, plvl, pre, post, st) {
+	var s = st.z || dat.length;
+	var o = new u8(pre + s + 5 * (1 + Math.ceil(s / 7e3)) + post);
+	var w = o.subarray(pre, o.length - post);
+	var lst = st.l;
+	var pos = (st.r || 0) & 7;
+	if (lvl) {
+		if (pos) w[0] = st.r >> 3;
+		var opt = deo[lvl - 1];
+		var n = opt >> 13, c = opt & 8191;
+		var msk_1 = (1 << plvl) - 1;
+		var prev = st.p || new u16(32768), head = st.h || new u16(msk_1 + 1);
+		var bs1_1 = Math.ceil(plvl / 3), bs2_1 = 2 * bs1_1;
+		var hsh = function(i) {
+			return (dat[i] ^ dat[i + 1] << bs1_1 ^ dat[i + 2] << bs2_1) & msk_1;
+		};
+		var syms = new i32(25e3);
+		var lf = new u16(288), df = new u16(32);
+		var lc_1 = 0, eb = 0, i = st.i || 0, li = 0, wi = st.w || 0, bs = 0;
+		for (; i + 2 < s; ++i) {
+			var hv = hsh(i);
+			var imod = i & 32767, pimod = head[hv];
+			prev[imod] = pimod;
+			head[hv] = imod;
+			if (wi <= i) {
+				var rem = s - i;
+				if ((lc_1 > 7e3 || li > 24576) && (rem > 423 || !lst)) {
+					pos = wblk(dat, w, 0, syms, lf, df, eb, li, bs, i - bs, pos);
+					li = lc_1 = eb = 0, bs = i;
+					for (var j = 0; j < 286; ++j) lf[j] = 0;
+					for (var j = 0; j < 30; ++j) df[j] = 0;
+				}
+				var l = 2, d = 0, ch_1 = c, dif = imod - pimod & 32767;
+				if (rem > 2 && hv == hsh(i - dif)) {
+					var maxn = Math.min(n, rem) - 1;
+					var maxd = Math.min(32767, i);
+					var ml = Math.min(258, rem);
+					while (dif <= maxd && --ch_1 && imod != pimod) {
+						if (dat[i + l] == dat[i + l - dif]) {
+							var nl = 0;
+							for (; nl < ml && dat[i + nl] == dat[i + nl - dif]; ++nl);
+							if (nl > l) {
+								l = nl, d = dif;
+								if (nl > maxn) break;
+								var mmd = Math.min(dif, nl - 2);
+								var md = 0;
+								for (var j = 0; j < mmd; ++j) {
+									var ti = i - dif + j & 32767;
+									var cd = ti - prev[ti] & 32767;
+									if (cd > md) md = cd, pimod = ti;
+								}
+							}
+						}
+						imod = pimod, pimod = prev[imod];
+						dif += imod - pimod & 32767;
+					}
+				}
+				if (d) {
+					syms[li++] = 268435456 | revfl[l] << 18 | revfd[d];
+					var lin = revfl[l] & 31, din = revfd[d] & 31;
+					eb += fleb[lin] + fdeb[din];
+					++lf[257 + lin];
+					++df[din];
+					wi = i + l;
+					++lc_1;
+				} else {
+					syms[li++] = dat[i];
+					++lf[dat[i]];
+				}
+			}
+		}
+		for (i = Math.max(i, wi); i < s; ++i) {
+			syms[li++] = dat[i];
+			++lf[dat[i]];
+		}
+		pos = wblk(dat, w, lst, syms, lf, df, eb, li, bs, i - bs, pos);
+		if (!lst) {
+			st.r = pos & 7 | w[pos / 8 | 0] << 3;
+			pos -= 7;
+			st.h = head, st.p = prev, st.i = i, st.w = wi;
+		}
+	} else {
+		for (var i = st.w || 0; i < s + lst; i += 65535) {
+			var e = i + 65535;
+			if (e >= s) {
+				w[pos / 8 | 0] = lst;
+				e = s;
+			}
+			pos = wfblk(w, pos + 1, dat.subarray(i, e));
+		}
+		st.i = s;
+	}
+	return slc(o, 0, pre + shft(pos) + post);
+};
+var crct = /*#__PURE__*/ (function() {
+	var t = /* @__PURE__ */ new Int32Array(256);
+	for (var i = 0; i < 256; ++i) {
+		var c = i, k = 9;
+		while (--k) c = (c & 1 && -306674912) ^ c >>> 1;
+		t[i] = c;
+	}
+	return t;
+})();
+var crc = function() {
+	var c = -1;
+	return {
+		p: function(d) {
+			var cr = c;
+			for (var i = 0; i < d.length; ++i) cr = crct[cr & 255 ^ d[i]] ^ cr >>> 8;
+			c = cr;
+		},
+		d: function() {
+			return ~c;
+		}
+	};
+};
+var dopt = function(dat, opt, pre, post, st) {
+	if (!st) {
+		st = { l: 1 };
+		if (opt.dictionary) {
+			var dict = opt.dictionary.subarray(-32768);
+			var newDat = new u8(dict.length + dat.length);
+			newDat.set(dict);
+			newDat.set(dat, dict.length);
+			dat = newDat;
+			st.w = dict.length;
+		}
+	}
+	return dflt(dat, opt.level == null ? 6 : opt.level, opt.mem == null ? st.l ? Math.ceil(Math.max(8, Math.min(13, Math.log(dat.length))) * 1.5) : 20 : 12 + opt.mem, pre, post, st);
+};
+var mrg = function(a, b) {
+	var o = {};
+	for (var k in a) o[k] = a[k];
+	for (var k in b) o[k] = b[k];
+	return o;
+};
+var b2 = function(d, b) {
+	return d[b] | d[b + 1] << 8;
+};
+var b4 = function(d, b) {
+	return (d[b] | d[b + 1] << 8 | d[b + 2] << 16 | d[b + 3] << 24) >>> 0;
+};
+var b8 = function(d, b) {
+	return b4(d, b) + b4(d, b + 4) * 4294967296;
+};
+var wbytes = function(d, b, v) {
+	for (; v; ++b) d[b] = v, v >>>= 8;
+};
+/**
+* Streaming DEFLATE compression
+*/
+var Deflate = /* @__PURE__ */ function() {
+	function Deflate(opts, cb) {
+		if (typeof opts == "function") cb = opts, opts = {};
+		this.ondata = cb;
+		this.o = opts || {};
+		this.s = {
+			l: 0,
+			i: 32768,
+			w: 32768,
+			z: 32768
+		};
+		this.b = new u8(98304);
+		if (this.o.dictionary) {
+			var dict = this.o.dictionary.subarray(-32768);
+			this.b.set(dict, 32768 - dict.length);
+			this.s.i = 32768 - dict.length;
+		}
+	}
+	Deflate.prototype.p = function(c, f) {
+		this.ondata(dopt(c, this.o, 0, 0, this.s), f);
+	};
+	/**
+	* Pushes a chunk to be deflated
+	* @param chunk The chunk to push
+	* @param final Whether this is the last chunk
+	*/
+	Deflate.prototype.push = function(chunk, final) {
+		if (!this.ondata) err$1(5);
+		if (this.s.l) err$1(4);
+		var endLen = chunk.length + this.s.z;
+		if (endLen > this.b.length) {
+			if (endLen > 2 * this.b.length - 32768) {
+				var newBuf = new u8(endLen & -32768);
+				newBuf.set(this.b.subarray(0, this.s.z));
+				this.b = newBuf;
+			}
+			var split = this.b.length - this.s.z;
+			this.b.set(chunk.subarray(0, split), this.s.z);
+			this.s.z = this.b.length;
+			this.p(this.b, false);
+			this.b.set(this.b.subarray(-32768));
+			this.b.set(chunk.subarray(split), 32768);
+			this.s.z = chunk.length - split + 32768;
+			this.s.i = 32766, this.s.w = 32768;
+		} else {
+			this.b.set(chunk, this.s.z);
+			this.s.z += chunk.length;
+		}
+		this.s.l = final & 1;
+		if (this.s.z > this.s.w + 8191 || final) {
+			this.p(this.b, final || false);
+			this.s.w = this.s.i, this.s.i -= 2;
+		}
+		if (final) {
+			this.s = this.o = {};
+			this.b = et;
+		}
+	};
+	/**
+	* Flushes buffered uncompressed data. Useful to immediately retrieve the
+	* deflated output for small inputs.
+	* @param sync Whether to flush to a byte boundary. A sync flush takes 4-5
+	*             extra bytes, but guarantees all pushed data is immediately
+	*             decompressible. A separate DEFLATE stream may be concatenated
+	*             with the current output after a sync flush.
+	*/
+	Deflate.prototype.flush = function(sync) {
+		if (!this.ondata) err$1(5);
+		if (this.s.l) err$1(4);
+		this.p(this.b, false);
+		this.s.w = this.s.i, this.s.i -= 2;
+		if (sync) {
+			var c = new u8(6);
+			c[0] = this.s.r >> 3;
+			var ep = wfblk(c, this.s.r, et);
+			this.s.r = 0;
+			this.ondata(c.subarray(0, ep >> 3), false);
+		}
+	};
+	return Deflate;
+}();
+/**
+* Streaming DEFLATE decompression
+*/
+var Inflate = /* @__PURE__ */ function() {
+	function Inflate(opts, cb) {
+		if (typeof opts == "function") cb = opts, opts = {};
+		this.ondata = cb;
+		var dict = opts && opts.dictionary && opts.dictionary.subarray(-32768);
+		this.s = {
+			i: 0,
+			b: dict ? dict.length : 0
+		};
+		this.o = new u8(32768);
+		this.p = new u8(0);
+		if (dict) this.o.set(dict);
+	}
+	Inflate.prototype.e = function(c) {
+		if (!this.ondata) err$1(5);
+		if (this.d) err$1(4);
+		if (!this.p.length) this.p = c;
+		else if (c.length) {
+			var n = new u8(this.p.length + c.length);
+			n.set(this.p), n.set(c, this.p.length), this.p = n;
+		}
+	};
+	Inflate.prototype.c = function(final) {
+		this.s.i = +(this.d = final || false);
+		var bts = this.s.b;
+		var dt = inflt(this.p, this.s, this.o);
+		this.ondata(slc(dt, bts, this.s.b), this.d);
+		this.o = slc(dt, this.s.b - 32768), this.s.b = this.o.length;
+		this.p = slc(this.p, this.s.p / 8 | 0), this.s.p &= 7;
+	};
+	/**
+	* Pushes a chunk to be inflated
+	* @param chunk The chunk to push
+	* @param final Whether this is the final chunk
+	*/
+	Inflate.prototype.push = function(chunk, final) {
+		this.e(chunk), this.c(final);
+	};
+	return Inflate;
+}();
+var te = typeof TextEncoder != "undefined" && /*#__PURE__*/ new TextEncoder();
+var td = typeof TextDecoder != "undefined" && /*#__PURE__*/ new TextDecoder();
+try {
+	td.decode(et, { stream: true });
+} catch (e) {}
+var dutf8 = function(d) {
+	for (var r = "", i = 0;;) {
+		var c = d[i++];
+		var eb = (c > 127) + (c > 223) + (c > 239);
+		if (i + eb > d.length) return {
+			s: r,
+			r: slc(d, i - 1)
+		};
+		if (!eb) r += String.fromCharCode(c);
+		else if (eb == 3) c = ((c & 15) << 18 | (d[i++] & 63) << 12 | (d[i++] & 63) << 6 | d[i++] & 63) - 65536, r += String.fromCharCode(55296 | c >> 10, 56320 | c & 1023);
+		else if (eb & 1) r += String.fromCharCode((c & 31) << 6 | d[i++] & 63);
+		else r += String.fromCharCode((c & 15) << 12 | (d[i++] & 63) << 6 | d[i++] & 63);
+	}
+};
+/**
+* Converts a string into a Uint8Array for use with compression/decompression methods
+* @param str The string to encode
+* @param latin1 Whether or not to interpret the data as Latin-1. This should
+*               not need to be true unless decoding a binary string.
+* @returns The string encoded in UTF-8/Latin-1 binary
+*/
+function strToU8(str, latin1) {
+	if (latin1) {
+		var ar_1 = new u8(str.length);
+		for (var i = 0; i < str.length; ++i) ar_1[i] = str.charCodeAt(i);
+		return ar_1;
+	}
+	if (te) return te.encode(str);
+	var l = str.length;
+	var ar = new u8(str.length + (str.length >> 1));
+	var ai = 0;
+	var w = function(v) {
+		ar[ai++] = v;
+	};
+	for (var i = 0; i < l; ++i) {
+		if (ai + 5 > ar.length) {
+			var n = new u8(ai + 8 + (l - i << 1));
+			n.set(ar);
+			ar = n;
+		}
+		var c = str.charCodeAt(i);
+		if (c < 128 || latin1) w(c);
+		else if (c < 2048) w(192 | c >> 6), w(128 | c & 63);
+		else if (c > 55295 && c < 57344) c = 65536 + (c & 1047552) | str.charCodeAt(++i) & 1023, w(240 | c >> 18), w(128 | c >> 12 & 63), w(128 | c >> 6 & 63), w(128 | c & 63);
+		else w(224 | c >> 12), w(128 | c >> 6 & 63), w(128 | c & 63);
+	}
+	return slc(ar, 0, ai);
+}
+/**
+* Converts a Uint8Array to a string
+* @param dat The data to decode to string
+* @param latin1 Whether or not to interpret the data as Latin-1. This should
+*               not need to be true unless encoding to binary string.
+* @returns The original UTF-8/Latin-1 string
+*/
+function strFromU8(dat, latin1) {
+	if (latin1) {
+		var r = "";
+		for (var i = 0; i < dat.length; i += 16384) r += String.fromCharCode.apply(null, dat.subarray(i, i + 16384));
+		return r;
+	} else if (td) return td.decode(dat);
+	else {
+		var _a = dutf8(dat), s = _a.s, r = _a.r;
+		if (r.length) err$1(8);
+		return s;
+	}
+}
+var dbf = function(l) {
+	return l == 1 ? 3 : l < 6 ? 2 : l == 9 ? 1 : 0;
+};
+var z64hs = function(d, b, l, z, sc, su, off) {
+	var nsc = sc == 4294967295, nsu = su == 4294967295, noff = off == 4294967295, e = b + l;
+	var nf = nsc + nsu + noff;
+	if (z && nf) {
+		for (; b + 4 < e; b += 4 + b2(d, b + 2)) if (b2(d, b) == 1) return [
+			nsc ? b8(d, b + 4 + 8 * nsu) : sc,
+			nsu ? b8(d, b + 4) : su,
+			noff ? b8(d, b + 4 + 8 * (nsu + nsc)) : off,
+			1
+		];
+		if (z < 2) err$1(13);
+	}
+	return [
+		sc,
+		su,
+		off,
+		0
+	];
+};
+var exfl = function(ex) {
+	var le = 0;
+	if (ex) for (var k in ex) {
+		var l = ex[k].length;
+		if (l > 65535) err$1(9);
+		le += l + 4;
+	}
+	return le;
+};
+var wzh = function(d, b, f, fn, u, c, ce, co) {
+	var fl = fn.length, ex = f.extra, col = co && co.length;
+	var exl = exfl(ex);
+	wbytes(d, b, ce != null ? 33639248 : 67324752), b += 4;
+	if (ce != null) d[b++] = 20, d[b++] = f.os;
+	d[b] = 20, b += 2;
+	d[b++] = f.flag << 1 | (c < 0 && 8), d[b++] = u && 8;
+	d[b++] = f.compression & 255, d[b++] = f.compression >> 8;
+	var dt = new Date(f.mtime == null ? Date.now() : f.mtime), y = dt.getFullYear() - 1980;
+	if (y < 0 || y > 119) err$1(10);
+	wbytes(d, b, y << 25 | dt.getMonth() + 1 << 21 | dt.getDate() << 16 | dt.getHours() << 11 | dt.getMinutes() << 5 | dt.getSeconds() >> 1), b += 4;
+	if (c != -1) {
+		wbytes(d, b, f.crc);
+		wbytes(d, b + 4, c < 0 ? -c - 2 : c);
+		wbytes(d, b + 8, f.size);
+	}
+	wbytes(d, b + 12, fl);
+	wbytes(d, b + 14, exl), b += 16;
+	if (ce != null) {
+		wbytes(d, b, col);
+		wbytes(d, b + 6, f.attrs);
+		wbytes(d, b + 10, ce), b += 14;
+	}
+	d.set(fn, b);
+	b += fl;
+	if (exl) for (var k in ex) {
+		var exf = ex[k], l = exf.length;
+		wbytes(d, b, +k);
+		wbytes(d, b + 2, l);
+		d.set(exf, b + 4), b += 4 + l;
+	}
+	if (col) d.set(co, b), b += col;
+	return b;
+};
+var wzf = function(o, b, c, d, e) {
+	wbytes(o, b, 101010256);
+	wbytes(o, b + 8, c);
+	wbytes(o, b + 10, c);
+	wbytes(o, b + 12, d);
+	wbytes(o, b + 16, e);
+};
+/**
+* A pass-through stream to keep data uncompressed in a ZIP archive.
+*/
+var ZipPassThrough = /* @__PURE__ */ function() {
+	/**
+	* Creates a pass-through stream that can be added to ZIP archives
+	* @param filename The filename to associate with this data stream
+	*/
+	function ZipPassThrough(filename) {
+		this.filename = filename;
+		this.c = crc();
+		this.size = 0;
+		this.compression = 0;
+	}
+	/**
+	* Processes a chunk and pushes to the output stream. You can override this
+	* method in a subclass for custom behavior, but by default this passes
+	* the data through. You must call this.ondata(err, chunk, final) at some
+	* point in this method.
+	* @param chunk The chunk to process
+	* @param final Whether this is the last chunk
+	*/
+	ZipPassThrough.prototype.process = function(chunk, final) {
+		this.ondata(null, chunk, final);
+	};
+	/**
+	* Pushes a chunk to be added. If you are subclassing this with a custom
+	* compression algorithm, note that you must push data from the source
+	* file only, pre-compression.
+	* @param chunk The chunk to push
+	* @param final Whether this is the last chunk
+	*/
+	ZipPassThrough.prototype.push = function(chunk, final) {
+		if (!this.ondata) err$1(5);
+		this.c.p(chunk);
+		this.size += chunk.length;
+		if (final) this.crc = this.c.d();
+		this.process(chunk, final || false);
+	};
+	return ZipPassThrough;
+}();
+/**
+* Streaming DEFLATE compression for ZIP archives. Prefer using AsyncZipDeflate
+* for better performance
+*/
+var ZipDeflate = /* @__PURE__ */ function() {
+	/**
+	* Creates a DEFLATE stream that can be added to ZIP archives
+	* @param filename The filename to associate with this data stream
+	* @param opts The compression options
+	*/
+	function ZipDeflate(filename, opts) {
+		var _this = this;
+		if (!opts) opts = {};
+		ZipPassThrough.call(this, filename);
+		this.d = new Deflate(opts, function(dat, final) {
+			_this.ondata(null, dat, final);
+		});
+		this.compression = 8;
+		this.flag = dbf(opts.level);
+	}
+	ZipDeflate.prototype.process = function(chunk, final) {
+		try {
+			this.d.push(chunk, final);
+		} catch (e) {
+			this.ondata(e, null, final);
+		}
+	};
+	/**
+	* Pushes a chunk to be deflated
+	* @param chunk The chunk to push
+	* @param final Whether this is the last chunk
+	*/
+	ZipDeflate.prototype.push = function(chunk, final) {
+		ZipPassThrough.prototype.push.call(this, chunk, final);
+	};
+	return ZipDeflate;
+}();
+/**
+* A zippable archive to which files can incrementally be added
+*/
+var Zip = /* @__PURE__ */ function() {
+	/**
+	* Creates an empty ZIP archive to which files can be added
+	* @param cb The callback to call whenever data for the generated ZIP archive
+	*           is available
+	*/
+	function Zip(cb) {
+		this.ondata = cb;
+		this.u = [];
+		this.d = 1;
+	}
+	/**
+	* Adds a file to the ZIP archive
+	* @param file The file stream to add
+	*/
+	Zip.prototype.add = function(file) {
+		var _this = this;
+		if (!this.ondata) err$1(5);
+		if (this.d & 2) this.ondata(err$1(4 + (this.d & 1) * 8, 0, 1), null, false);
+		else {
+			var f = strToU8(file.filename), fl_1 = f.length;
+			var com = file.comment, o = com && strToU8(com);
+			var u = fl_1 != file.filename.length || o && com.length != o.length;
+			var hl_1 = fl_1 + exfl(file.extra) + 30;
+			if (fl_1 > 65535) this.ondata(err$1(11, 0, 1), null, false);
+			var header = new u8(hl_1);
+			wzh(header, 0, file, f, u, -1);
+			var chks_1 = [header];
+			var pAll_1 = function() {
+				for (var _i = 0, chks_2 = chks_1; _i < chks_2.length; _i++) {
+					var chk = chks_2[_i];
+					_this.ondata(null, chk, false);
+				}
+				chks_1 = [];
+			};
+			var tr_1 = this.d;
+			this.d = 0;
+			var ind_1 = this.u.length;
+			var uf_1 = mrg(file, {
+				f,
+				u,
+				o,
+				t: function() {
+					if (file.terminate) file.terminate();
+				},
+				r: function() {
+					pAll_1();
+					if (tr_1) {
+						var nxt = _this.u[ind_1 + 1];
+						if (nxt) nxt.r();
+						else _this.d = 1;
+					}
+					tr_1 = 1;
+				}
+			});
+			var cl_1 = 0;
+			file.ondata = function(err, dat, final) {
+				if (err) {
+					_this.ondata(err, dat, final);
+					_this.terminate();
+				} else {
+					cl_1 += dat.length;
+					chks_1.push(dat);
+					if (final) {
+						var dd = new u8(16);
+						wbytes(dd, 0, 134695760);
+						wbytes(dd, 4, file.crc);
+						wbytes(dd, 8, cl_1);
+						wbytes(dd, 12, file.size);
+						chks_1.push(dd);
+						uf_1.c = cl_1, uf_1.b = hl_1 + cl_1 + 16, uf_1.crc = file.crc, uf_1.size = file.size;
+						if (tr_1) uf_1.r();
+						tr_1 = 1;
+					} else if (tr_1) pAll_1();
+				}
+			};
+			this.u.push(uf_1);
+		}
+	};
+	/**
+	* Ends the process of adding files and prepares to emit the final chunks.
+	* This *must* be called after adding all desired files for the resulting
+	* ZIP file to work properly.
+	*/
+	Zip.prototype.end = function() {
+		var _this = this;
+		if (this.d & 2) {
+			this.ondata(err$1(4 + (this.d & 1) * 8, 0, 1), null, true);
+			return;
+		}
+		if (this.d) this.e();
+		else this.u.push({
+			r: function() {
+				if (!(_this.d & 1)) return;
+				_this.u.splice(-1, 1);
+				_this.e();
+			},
+			t: function() {}
+		});
+		this.d = 3;
+	};
+	Zip.prototype.e = function() {
+		var bt = 0, l = 0, tl = 0;
+		for (var _i = 0, _a = this.u; _i < _a.length; _i++) {
+			var f = _a[_i];
+			tl += 46 + f.f.length + exfl(f.extra) + (f.o ? f.o.length : 0);
+		}
+		var out = new u8(tl + 22);
+		for (var _b = 0, _c = this.u; _b < _c.length; _b++) {
+			var f = _c[_b];
+			wzh(out, bt, f, f.f, f.u, -f.c - 2, l, f.o);
+			bt += 46 + f.f.length + exfl(f.extra) + (f.o ? f.o.length : 0), l += f.b;
+		}
+		wzf(out, bt, this.u.length, tl, l);
+		this.ondata(null, out, true);
+		this.d = 2;
+	};
+	/**
+	* A method to terminate any internal workers used by the stream. Subsequent
+	* calls to add() will fail.
+	*/
+	Zip.prototype.terminate = function() {
+		for (var _i = 0, _a = this.u; _i < _a.length; _i++) _a[_i].t();
+		this.d = 2;
+	};
+	return Zip;
+}();
+/**
+* Streaming pass-through decompression for ZIP archives
+*/
+var UnzipPassThrough = /* @__PURE__ */ function() {
+	function UnzipPassThrough() {}
+	UnzipPassThrough.prototype.push = function(chunk, final) {
+		this.ondata(null, chunk, final);
+	};
+	UnzipPassThrough.compression = 0;
+	return UnzipPassThrough;
+}();
+/**
+* Streaming DEFLATE decompression for ZIP archives. Prefer AsyncZipInflate for
+* better performance.
+*/
+var UnzipInflate = /* @__PURE__ */ function() {
+	/**
+	* Creates a DEFLATE decompression that can be used in ZIP archives
+	*/
+	function UnzipInflate() {
+		var _this = this;
+		this.i = new Inflate(function(dat, final) {
+			_this.ondata(null, dat, final);
+		});
+	}
+	UnzipInflate.prototype.push = function(chunk, final) {
+		try {
+			this.i.push(chunk, final);
+		} catch (e) {
+			this.ondata(e, null, final);
+		}
+	};
+	UnzipInflate.compression = 8;
+	return UnzipInflate;
+}();
+/**
+* A ZIP archive decompression stream that emits files as they are discovered
+*/
+var Unzip = /* @__PURE__ */ function() {
+	/**
+	* Creates a ZIP decompression stream
+	* @param cb The callback to call whenever a file in the ZIP archive is found
+	*/
+	function Unzip(cb) {
+		this.onfile = cb;
+		this.k = [];
+		this.o = { 0: UnzipPassThrough };
+		this.p = et;
+	}
+	/**
+	* Pushes a chunk to be unzipped
+	* @param chunk The chunk to push
+	* @param final Whether this is the last chunk
+	*/
+	Unzip.prototype.push = function(chunk, final) {
+		var _this = this;
+		if (!this.onfile) err$1(5);
+		if (!this.p) err$1(4);
+		if (this.c > 0) {
+			var len = Math.min(this.c, chunk.length);
+			var toAdd = chunk.subarray(0, len);
+			this.c -= len;
+			if (this.d) this.d.push(toAdd, !this.c);
+			else this.k[0].push(toAdd);
+			chunk = chunk.subarray(len);
+			if (chunk.length) return this.push(chunk, final);
+		} else {
+			var f = 0, i = 0, is = void 0, buf = void 0;
+			if (!this.p.length) buf = chunk;
+			else if (!chunk.length) buf = this.p;
+			else {
+				buf = new u8(this.p.length + chunk.length);
+				buf.set(this.p), buf.set(chunk, this.p.length);
+			}
+			var l = buf.length, oc = this.c, add = oc && this.d;
+			var _loop_2 = function() {
+				var sig = b4(buf, i);
+				if (sig == 67324752) {
+					f = 1, is = i;
+					this_1.d = null;
+					this_1.c = 0;
+					var bf = b2(buf, i + 6), cmp_1 = b2(buf, i + 8), u = bf & 2048, dd = bf & 8, fnl = b2(buf, i + 26), es = b2(buf, i + 28);
+					if (l > i + 30 + fnl + es) {
+						var chks_3 = [];
+						this_1.k.unshift(chks_3);
+						f = 2;
+						var lsc = b4(buf, i + 18), lsu = b4(buf, i + 22);
+						var fn_1 = strFromU8(buf.subarray(i + 30, i += 30 + fnl), !u);
+						var _a = z64hs(buf, i, es, 2, lsc, lsu, 0), sc_1 = _a[0], su_1 = _a[1], z64 = _a[3];
+						if (dd) sc_1 = -1 - z64;
+						i += es;
+						this_1.c = sc_1;
+						var d_1;
+						var file_1 = {
+							name: fn_1,
+							compression: cmp_1,
+							start: function() {
+								if (!file_1.ondata) err$1(5);
+								if (!sc_1) file_1.ondata(null, et, true);
+								else {
+									var ctr = _this.o[cmp_1];
+									if (!ctr) file_1.ondata(err$1(14, "unknown compression type " + cmp_1, 1), null, false);
+									d_1 = sc_1 < 0 ? new ctr(fn_1) : new ctr(fn_1, sc_1, su_1);
+									d_1.ondata = function(err, dat, final) {
+										file_1.ondata(err, dat, final);
+									};
+									for (var _i = 0, chks_4 = chks_3; _i < chks_4.length; _i++) {
+										var dat = chks_4[_i];
+										d_1.push(dat, false);
+									}
+									if (_this.k[0] == chks_3 && _this.c) _this.d = d_1;
+									else d_1.push(et, true);
+								}
+							},
+							terminate: function() {
+								if (d_1 && d_1.terminate) d_1.terminate();
+							}
+						};
+						if (sc_1 >= 0) file_1.size = sc_1, file_1.originalSize = su_1;
+						this_1.onfile(file_1);
+					}
+					return "break";
+				} else if (oc) {
+					if (sig == 134695760) {
+						is = i += 12 + (oc == -2 && 8), f = 3, this_1.c = 0;
+						return "break";
+					} else if (sig == 33639248) {
+						is = i -= 4, f = 3, this_1.c = 0;
+						return "break";
+					}
+				}
+			};
+			var this_1 = this;
+			for (; i < l - 4; ++i) if (_loop_2() === "break") break;
+			this.p = et;
+			if (oc < 0) {
+				var dat = f ? buf.subarray(0, is - 12 - (oc == -2 && 8) - (b4(buf, is - 16) == 134695760 && 4)) : buf.subarray(0, i);
+				if (add) add.push(dat, !!f);
+				else this.k[+(f == 2)].push(dat);
+			}
+			if (f & 2) return this.push(buf.subarray(i), final);
+			this.p = buf.subarray(i);
+		}
+		if (final) {
+			if (this.c) err$1(13);
+			this.p = null;
+		}
+	};
+	/**
+	* Registers a decoder with the stream, allowing for files compressed with
+	* the compression type provided to be expanded correctly
+	* @param decoder The decoder constructor
+	*/
+	Unzip.prototype.register = function(decoder) {
+		this.o[decoder.compression] = decoder;
+	};
+	return Unzip;
+}();
+//#endregion
+//#region node_modules/.pnpm/@deepseek-ai+dsh-goal@0.1.1_a127609a0c25e7ae1be4784467a67c29/node_modules/@deepseek-ai/dsh-goal/lib/index.js
+/**
+* Brand a string as a goal id.
+* @param id - raw goal identifier.
+* @returns the same string with the compile-time brand.
+*/
+function GoalId(id) {
+	return id;
+}
+/** Error returned by the goal domain boundary. */
+var GoalError = class extends HarnessError {
+	/**
+	* @param message - human-readable rejection reason.
+	* @param code - stable machine-routable classification.
+	*/
+	constructor(message, code) {
+		super(message, code);
+	}
+};
+/** Pure replay fold and strict decoder for durable goal changes. */
+const SNAPSHOT_OPERATIONS = /* @__PURE__ */ new Set([
+	"create",
+	"edit",
+	"pause",
+	"resume",
+	"complete",
+	"block"
+]);
+const PHASES = /* @__PURE__ */ new Set([
+	"active",
+	"paused",
+	"blocked",
+	"complete"
+]);
+/**
+* Build an empty replay accumulator.
+* @returns mutable state with no current goal or prior ref.
+*/
+function emptyGoalFoldState() {
+	return {
+		goal: void 0,
+		roundsStarted: 0,
+		createdAt: void 0,
+		updatedAt: void 0,
+		lastRef: void 0,
+		seenGoalIds: /* @__PURE__ */ new Set()
+	};
+}
+/** Whether a value is a JSON record rather than an array. */
+function isRecord$1(value) {
+	return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+/** Require one positive safe integer. */
+function positiveInteger(value, field) {
+	if (typeof value !== "number" || !Number.isSafeInteger(value) || value < 1) throw new Error(`goal change ${field} must be a positive safe integer`);
+	return value;
+}
+/** Require one non-negative safe integer. */
+function nonNegativeInteger(value, field) {
+	if (typeof value !== "number" || !Number.isSafeInteger(value) || value < 0) throw new Error(`goal change ${field} must be a non-negative safe integer`);
+	return value;
+}
+/** Decode one canonical blocker explanation. */
+function decodeBlockReason(value) {
+	if (!isRecord$1(value) || Object.keys(value).sort().join(",") !== "code,message") throw new Error("goal change goal.blockedReason must have exactly code and message fields");
+	if (typeof value["code"] !== "string" || !/^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/.test(value["code"])) throw new Error("goal change goal.blockedReason.code must be lower-kebab-case");
+	if (typeof value["message"] !== "string" || value["message"].trim().length === 0 || value["message"] !== value["message"].trim()) throw new Error("goal change goal.blockedReason.message must be non-empty and normalized");
+	return {
+		code: value["code"],
+		message: value["message"]
+	};
+}
+/** Decode and validate one snapshot. */
+function decodeSnapshot(value) {
+	if (!isRecord$1(value)) throw new Error("goal change goal must be a record");
+	if (typeof value["id"] !== "string" || value["id"].length === 0) throw new Error("goal change goal.id must be a non-empty string");
+	if (typeof value["objective"] !== "string" || value["objective"].trim().length === 0 || value["objective"] !== value["objective"].trim()) throw new Error("goal change goal.objective must be non-empty and normalized");
+	if (typeof value["phase"] !== "string" || !PHASES.has(value["phase"])) throw new Error("goal change goal.phase is invalid");
+	const phase = value["phase"];
+	const expectedKeys = phase === "blocked" ? "blockedReason,id,maxGoalRounds,objective,phase,revision" : "id,maxGoalRounds,objective,phase,revision";
+	if (Object.keys(value).sort().join(",") !== expectedKeys) throw new Error(`goal change goal for phase ${phase} must have exactly ${expectedKeys} fields`);
+	return {
+		id: GoalId(value["id"]),
+		revision: positiveInteger(value["revision"], "goal.revision"),
+		objective: value["objective"],
+		phase,
+		maxGoalRounds: positiveInteger(value["maxGoalRounds"], "goal.maxGoalRounds"),
+		...phase === "blocked" ? { blockedReason: decodeBlockReason(value["blockedReason"]) } : {}
+	};
+}
+/** Decode and validate one ref. */
+function decodeRef(value) {
+	if (!isRecord$1(value) || Object.keys(value).sort().join(",") !== "id,revision") throw new Error("goal clear tombstone must have exactly id and revision fields");
+	if (typeof value["id"] !== "string" || value["id"].length === 0) throw new Error("goal clear tombstone id must be a non-empty string");
+	return {
+		id: GoalId(value["id"]),
+		revision: positiveInteger(value["revision"], "cleared.revision")
+	};
+}
+/**
+* Decode a value that declares itself as a goal change. Unrelated values
+* return `undefined`; malformed goal changes fail replay loudly.
+* @param value - candidate source change.
+* @returns validated goal change or `undefined` for another value kind.
+*/
+function decodeGoalChange(value) {
+	if (!isRecord$1(value) || value["kind"] !== "goal/change") return void 0;
+	if (value["version"] !== 1) throw new Error(`unsupported goal change version ${String(value["version"])}`);
+	if (value["operation"] === "clear") {
+		const allowed = [
+			"cleared",
+			"clearedAt",
+			"kind",
+			"operation",
+			"version"
+		];
+		if (Object.keys(value).sort().join(",") !== allowed.sort().join(",")) throw new Error(`goal clear change must have exactly ${allowed.sort().join(",")} fields`);
+		return {
+			kind: "goal/change",
+			version: 1,
+			operation: "clear",
+			cleared: decodeRef(value["cleared"]),
+			clearedAt: nonNegativeInteger(value["clearedAt"], "clearedAt")
+		};
+	}
+	if (typeof value["operation"] !== "string" || !SNAPSHOT_OPERATIONS.has(value["operation"])) throw new Error("goal change operation is invalid");
+	const allowed = [
+		"createdAt",
+		"goal",
+		"kind",
+		"operation",
+		"roundsStarted",
+		"updatedAt",
+		"version"
+	];
+	if (Object.keys(value).sort().join(",") !== allowed.sort().join(",")) throw new Error(`goal snapshot change must have exactly ${allowed.sort().join(",")} fields`);
+	const createdAt = nonNegativeInteger(value["createdAt"], "createdAt");
+	const updatedAt = nonNegativeInteger(value["updatedAt"], "updatedAt");
+	if (updatedAt < createdAt) throw new Error("goal change updatedAt cannot precede createdAt");
+	return {
+		kind: "goal/change",
+		version: 1,
+		operation: value["operation"],
+		goal: decodeSnapshot(value["goal"]),
+		roundsStarted: nonNegativeInteger(value["roundsStarted"], "roundsStarted"),
+		createdAt,
+		updatedAt
+	};
+}
+/** Narrow model attribution to a valid goal source. */
+function goalSource(source) {
+	if (source.kind !== "goal") return void 0;
+	if (typeof source.goalId !== "string" || source.goalId.length === 0 || !Number.isSafeInteger(source.revision) || source.revision < 1 || !Number.isSafeInteger(source.round) || source.round < 1) throw new Error("goal message source is invalid");
+	return source;
+}
+/** Require two snapshots to retain fields that only `edit` may replace. */
+function requireSameDefinition(current, next, operation) {
+	if (next.objective !== current.objective || next.maxGoalRounds !== current.maxGoalRounds) throw new Error(`goal ${operation} cannot change objective or maxGoalRounds`);
+}
+/** Require one exact next revision of the current goal. */
+function requireNextRevision(current, next, operation) {
+	if (next.id !== current.id || next.revision !== current.revision + 1) throw new Error(`goal ${operation} must advance the current goal by one revision`);
+}
+/** Validate one non-create snapshot operation against the preceding projection. */
+function validateSnapshotTransition(state, change, current) {
+	const next = change.goal;
+	requireNextRevision(current, next, change.operation);
+	/* v8 ignore next -- a current goal established by this fold always has an updatedAt */
+	if (state.updatedAt === void 0) throw new Error("current goal fold lacks updatedAt");
+	if (change.createdAt !== state.createdAt || change.updatedAt < state.updatedAt || change.roundsStarted !== state.roundsStarted) throw new Error(`goal ${change.operation} does not preserve the current counters and timestamps`);
+	switch (change.operation) {
+		case "edit":
+			if (next.phase !== current.phase || JSON.stringify(next.blockedReason) !== JSON.stringify(current.blockedReason)) throw new Error("goal edit cannot change phase or blocked reason");
+			break;
+		case "pause":
+			requireSameDefinition(current, next, change.operation);
+			if (current.phase !== "active" || next.phase !== "paused") throw new Error("goal pause has an invalid phase transition");
+			break;
+		case "resume":
+			requireSameDefinition(current, next, change.operation);
+			if (!(/* @__PURE__ */ new Set([
+				"active",
+				"paused",
+				"blocked"
+			])).has(current.phase) || next.phase !== "active" || state.roundsStarted >= next.maxGoalRounds) throw new Error("goal resume has an invalid phase transition or exhausted round budget");
+			break;
+		case "complete":
+			requireSameDefinition(current, next, change.operation);
+			if (current.phase === "complete" || next.phase !== "complete") throw new Error("goal complete has an invalid phase transition");
+			break;
+		case "block":
+			requireSameDefinition(current, next, change.operation);
+			if (current.phase !== "active" || next.phase !== "blocked") throw new Error("goal block has an invalid phase transition");
+			break;
+		/* v8 ignore start -- the caller excludes create and GoalOperation is closed; these arms retain fail-loud exhaustiveness */
+		case "create": throw new Error("goal create cannot be validated as a current-goal transition");
+		default:
+			change.operation;
+			throw new Error("unknown goal snapshot operation");
+	}
+}
+/**
+* Return the revision identity carried by a snapshot or tombstone.
+* @param change - decoded goal mutation.
+* @returns stable identity used to reconcile a deferred change with its log event.
+*/
+function goalChangeRef(change) {
+	return change.operation === "clear" ? change.cleared : {
+		id: change.goal.id,
+		revision: change.goal.revision
+	};
+}
+/**
+* Validate and apply one decoded change to a mutable accumulator.
+* @param state - preceding durable goal projection.
+* @param change - decoded full snapshot or clear tombstone.
+*/
+function applyGoalChange(state, change) {
+	const ref = goalChangeRef(change);
+	if (change.operation === "clear") {
+		const current = state.goal;
+		if (current === void 0) throw new Error("goal clear requires a current goal");
+		requireNextRevision(current, change.cleared, change.operation);
+		/* v8 ignore next -- a current goal established by this fold always has an updatedAt */
+		if (state.updatedAt === void 0) throw new Error("current goal fold lacks updatedAt");
+		if (change.clearedAt < state.updatedAt) throw new Error("goal clear timestamp cannot precede the current goal update");
+		state.goal = void 0;
+		state.roundsStarted = 0;
+		state.createdAt = void 0;
+		state.updatedAt = void 0;
+		state.lastRef = ref;
+		return;
+	}
+	if (change.operation === "create") {
+		if (change.goal.revision !== 1 || change.goal.phase !== "active" || change.roundsStarted !== 0 || state.goal !== void 0 && state.goal.phase !== "complete" || state.seenGoalIds.has(change.goal.id)) throw new Error("goal create requires a fresh active revision-one goal with zero rounds");
+		state.seenGoalIds.add(change.goal.id);
+	} else {
+		const current = state.goal;
+		if (current === void 0) throw new Error(`goal ${change.operation} requires a current goal`);
+		validateSnapshotTransition(state, change, current);
+	}
+	state.goal = change.goal;
+	state.roundsStarted = change.roundsStarted;
+	state.createdAt = change.createdAt;
+	state.updatedAt = change.updatedAt;
+	state.lastRef = ref;
+}
+/**
+* Apply one session event to the strict durable goal fold.
+* @param state - mutable fold accumulator.
+* @param event - next event in sequence order.
+*/
+function applyGoalEvent(state, event) {
+	if (event.type === "goal/change") {
+		const change = decodeGoalChange(event.data);
+		/* v8 ignore next -- the event's declared payload always identifies itself as a goal change. */
+		if (change === void 0) throw new Error(`goal change at session event ${event.seq} has an invalid kind`);
+		applyGoalChange(state, change);
+		return;
+	}
+	if (event.type === "user/message") {
+		const source = goalSource(event.data.source);
+		if (source === void 0) return;
+		const current = state.goal;
+		if (current === void 0 || current.phase !== "active" || source.goalId !== current.id || source.revision !== current.revision || source.round !== state.roundsStarted + 1 || source.round > current.maxGoalRounds) throw new Error(`goal round at session event ${event.seq} is not the next admitted round of the active goal`);
+		state.roundsStarted = source.round;
+	}
+}
+/**
+* Same-session goal domain: event-sourced state, compare-and-set mutations,
+* and process-local continuation activation.
+* @module @deepseek-ai/dsh-goal
+*/
+var __runInitializers = function(thisArg, initializers, value) {
+	var useValue = arguments.length > 2;
+	for (var i = 0; i < initializers.length; i++) value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
+	return useValue ? value : void 0;
+};
+var __esDecorate = function(ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
+	function accept(f) {
+		if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected");
+		return f;
+	}
+	var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
+	var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
+	var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
+	var _, done = false;
+	for (var i = decorators.length - 1; i >= 0; i--) {
+		var context = {};
+		for (var p in contextIn) context[p] = p === "access" ? {} : contextIn[p];
+		for (var p in contextIn.access) context.access[p] = contextIn.access[p];
+		context.addInitializer = function(f) {
+			if (done) throw new TypeError("Cannot add initializers after decoration has completed");
+			extraInitializers.push(accept(f || null));
+		};
+		var result = (0, decorators[i])(kind === "accessor" ? {
+			get: descriptor.get,
+			set: descriptor.set
+		} : descriptor[key], context);
+		if (kind === "accessor") {
+			if (result === void 0) continue;
+			if (result === null || typeof result !== "object") throw new TypeError("Object expected");
+			if (_ = accept(result.get)) descriptor.get = _;
+			if (_ = accept(result.set)) descriptor.set = _;
+			if (_ = accept(result.init)) initializers.unshift(_);
+		} else if (_ = accept(result)) if (kind === "field") initializers.unshift(_);
+		else descriptor[key] = _;
+	}
+	if (target) Object.defineProperty(target, contextIn.name, descriptor);
+	done = true;
+};
+/** Wire payload schema of the `goal` projection (whole current goal or pre-create/cleared null). */
+const goalProjectionSchema = union([object$1({
+	goal: object$1({
+		id: string().min(1),
+		revision: number().int().positive(),
+		objective: string().min(1),
+		phase: union([
+			literal("active"),
+			literal("paused"),
+			literal("blocked"),
+			literal("complete")
+		]),
+		blockedReason: object$1({
+			code: string(),
+			message: string()
+		}).optional(),
+		maxGoalRounds: number().int().positive()
+	}),
+	roundsStarted: number().int().nonnegative(),
+	createdAt: number(),
+	updatedAt: number()
+}), _null$1()]);
+/**
+* Light last-wins fold of the `goal` projection unit. Unlike the strict
+* replay fold (fold.ts: transition validation, fail-loud on malformed
+* changes, Set-typed state), this transition is projection-grade: the state
+* is plain JSON (persisted-cache precondition), any non-goal or malformed
+* event returns the same reference (the registry's Object.is gate — the
+* title/todos posture), and correctness of the written change is the write
+* side's job (GoalService validated it before appending; the package
+* invariant rejects a violating stream fail-loud where it is installed).
+* @param state - the projection covering all prior events.
+* @param event - the next committed session event.
+* @returns the next projection (same reference when the event is not a goal change).
+*/
+function applyGoalProjection(state, event) {
+	if (event.type !== "goal/change") return state;
+	let change;
+	try {
+		change = decodeGoalChange(event.data);
+	} catch (_invalidPersistedGoalChange) {
+		return state;
+	}
+	if (change === void 0) return state;
+	return change.operation === "clear" ? null : {
+		goal: change.goal,
+		roundsStarted: change.roundsStarted,
+		createdAt: change.createdAt,
+		updatedAt: change.updatedAt
+	};
+}
+/** Validate a caller-visible positive safe-integer round cap. */
+function resolveMaxGoalRounds(value) {
+	if (!Number.isSafeInteger(value) || value < 1) throw new GoalError("maxGoalRounds must be a positive safe integer", "GOAL_INVALID_MAX_ROUNDS");
+	return value;
+}
+/** Validate and normalize an objective at the domain boundary. */
+function resolveObjective(value) {
+	if (typeof value !== "string" || value.trim().length === 0) throw new GoalError("goal objective must be a non-empty string", "GOAL_INVALID_OBJECTIVE");
+	return value.trim();
+}
+/** Materialize deployment defaults and validate one create request. */
+function resolveCreateGoal(request, defaultMaxGoalRounds) {
+	return {
+		objective: resolveObjective(request.objective),
+		maxGoalRounds: resolveMaxGoalRounds(request.maxGoalRounds ?? defaultMaxGoalRounds)
+	};
+}
+/** Validate and detach one policy-owned blocker explanation. */
+function resolveBlockReason(reason) {
+	const record = typeof reason === "object" && reason !== null && !Array.isArray(reason) ? reason : void 0;
+	const code = record?.["code"];
+	const message = record?.["message"];
+	if (typeof code !== "string" || !/^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/.test(code) || typeof message !== "string" || message.trim().length === 0) throw new GoalError("goal block reason requires a lower-kebab-case code and a non-empty message", "GOAL_INVALID_BLOCK_REASON");
+	return {
+		code,
+		message: message.trim()
+	};
+}
+(() => {
+	let _classSuper = TypertRemoteService;
+	let _instanceExtraInitializers = [];
+	let _edit_decorators;
+	let _pause_decorators;
+	let _resume_decorators;
+	let _complete_decorators;
+	let _clear_decorators;
+	let _remoteExportCreate_decorators;
+	return class GoalService extends _classSuper {
+		static {
+			const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(_classSuper[Symbol.metadata] ?? null) : void 0;
+			_edit_decorators = [Remote("edit")];
+			_pause_decorators = [Remote("pause")];
+			_resume_decorators = [Remote("resume")];
+			_complete_decorators = [Remote("complete")];
+			_clear_decorators = [Remote("clear")];
+			_remoteExportCreate_decorators = [Remote("create")];
+			__esDecorate(this, null, _edit_decorators, {
+				kind: "method",
+				name: "edit",
+				static: false,
+				private: false,
+				access: {
+					has: (obj) => "edit" in obj,
+					get: (obj) => obj.edit
+				},
+				metadata: _metadata
+			}, null, _instanceExtraInitializers);
+			__esDecorate(this, null, _pause_decorators, {
+				kind: "method",
+				name: "pause",
+				static: false,
+				private: false,
+				access: {
+					has: (obj) => "pause" in obj,
+					get: (obj) => obj.pause
+				},
+				metadata: _metadata
+			}, null, _instanceExtraInitializers);
+			__esDecorate(this, null, _resume_decorators, {
+				kind: "method",
+				name: "resume",
+				static: false,
+				private: false,
+				access: {
+					has: (obj) => "resume" in obj,
+					get: (obj) => obj.resume
+				},
+				metadata: _metadata
+			}, null, _instanceExtraInitializers);
+			__esDecorate(this, null, _complete_decorators, {
+				kind: "method",
+				name: "complete",
+				static: false,
+				private: false,
+				access: {
+					has: (obj) => "complete" in obj,
+					get: (obj) => obj.complete
+				},
+				metadata: _metadata
+			}, null, _instanceExtraInitializers);
+			__esDecorate(this, null, _clear_decorators, {
+				kind: "method",
+				name: "clear",
+				static: false,
+				private: false,
+				access: {
+					has: (obj) => "clear" in obj,
+					get: (obj) => obj.clear
+				},
+				metadata: _metadata
+			}, null, _instanceExtraInitializers);
+			__esDecorate(this, null, _remoteExportCreate_decorators, {
+				kind: "method",
+				name: "remoteExportCreate",
+				static: false,
+				private: false,
+				access: {
+					has: (obj) => "remoteExportCreate" in obj,
+					get: (obj) => obj.remoteExportCreate
+				},
+				metadata: _metadata
+			}, null, _instanceExtraInitializers);
+			if (_metadata) Object.defineProperty(this, Symbol.metadata, {
+				enumerable: true,
+				configurable: true,
+				writable: true,
+				value: _metadata
+			});
+		}
+		static inject = ["agents"];
+		static Config = Schema$1.object({ defaultMaxGoalRounds: Schema$1.number().default(256) });
+		resolved = __runInitializers(this, _instanceExtraInitializers);
+		caches = /* @__PURE__ */ new WeakMap();
+		constructor(ctx, config = {}) {
+			super(ctx, "goals");
+			this.resolved = { defaultMaxGoalRounds: resolveMaxGoalRounds(config.defaultMaxGoalRounds ?? 256) };
+			ctx.on("agent/session-start", ({ agent }) => {
+				this.cache(agent.session).activation = "disarmed";
+			});
+			ctx.inject(["sessionProjections"], (projectionCtx) => {
+				projectionCtx.sessionProjections.register({
+					key: "goal",
+					stateSchema: goalProjectionSchema,
+					init: () => null,
+					apply: applyGoalProjection,
+					wire: {
+						viewSchema: goalProjectionSchema,
+						view: (state) => state
+					},
+					stateVersion: 4
+				});
+			});
+		}
+		/**
+		* Read the current goal for one exact live agent.
+		* @param agent - owning live agent.
+		* @returns a fresh view or `undefined` when no goal is current.
+		* @throws {@link GoalError} when the agent is not the registry's live instance.
+		*/
+		get(agent) {
+			this.assertLive(agent);
+			const cache = this.cache(agent.session);
+			this.sync(agent.session, cache);
+			return this.view(cache);
+		}
+		/**
+		* Remove process-local continuation authority without changing durable goal
+		* phase or revision. Lifecycle owners use this before unloading a driver;
+		* a later human-authorized {@link resume} records the new activation edge.
+		* @param agent - owning live agent.
+		* @returns a fresh disarmed view, or `undefined` when no goal is current.
+		*/
+		disarm(agent) {
+			this.assertLive(agent);
+			const cache = this.cache(agent.session);
+			this.sync(agent.session, cache);
+			cache.activation = "disarmed";
+			return this.view(cache);
+		}
+		/**
+		* Create and arm a goal. A completed goal may be replaced; every other
+		* current phase must be cleared or resumed instead.
+		* @param agent - owning live agent.
+		* @param request - objective and optional round cap.
+		* @returns the created live view.
+		*/
+		create(agent, request) {
+			const spec = resolveCreateGoal(request, this.resolved.defaultMaxGoalRounds);
+			const cache = this.prepareMutation(agent);
+			const current = cache.state.goal;
+			if (current !== void 0 && current.phase !== "complete") throw new GoalError(`goal "${current.id}" already exists with phase "${current.phase}"`, "GOAL_ALREADY_EXISTS");
+			const now = Date.now();
+			const goal = {
+				id: GoalId(`goal-${randomUUID()}`),
+				revision: 1,
+				objective: spec.objective,
+				phase: "active",
+				maxGoalRounds: spec.maxGoalRounds
+			};
+			return this.commitSnapshot(agent, cache, "create", goal, 0, now, now, "armed");
+		}
+		/**
+		* Edit objective and/or round cap without changing phase.
+		* @param agent - owning live agent.
+		* @param ref - expected current revision.
+		* @param request - at least one replacement field.
+		* @returns the edited view.
+		*/
+		edit(agent, ref, request) {
+			const cache = this.prepareMutation(agent);
+			const current = this.expectCurrent(cache, ref);
+			if (request.objective === void 0 && request.maxGoalRounds === void 0) throw new GoalError("goal edit requires objective and/or maxGoalRounds", "GOAL_INVALID_EDIT");
+			const goal = {
+				...current,
+				revision: current.revision + 1,
+				...request.objective === void 0 ? {} : { objective: resolveObjective(request.objective) },
+				...request.maxGoalRounds === void 0 ? {} : { maxGoalRounds: resolveMaxGoalRounds(request.maxGoalRounds) }
+			};
+			return this.commitCurrent(agent, cache, "edit", goal, cache.activation);
+		}
+		/**
+		* Pause an active goal and disarm automatic continuation.
+		* @param agent - owning live agent.
+		* @param ref - expected current revision.
+		* @returns the paused view.
+		*/
+		pause(agent, ref) {
+			return this.transition(agent, ref, "pause", ["active"], "paused", "disarmed");
+		}
+		/**
+		* Resume and arm a stopped goal, or rearm an active goal after a
+		* session-start edge, while its round budget still has capacity.
+		* @param agent - owning live agent.
+		* @param ref - expected current revision.
+		* @returns the active view.
+		*/
+		resume(agent, ref) {
+			const cache = this.prepareMutation(agent);
+			const current = this.expectCurrent(cache, ref);
+			const resumable = [
+				"active",
+				"paused",
+				"blocked"
+			];
+			if (!resumable.includes(current.phase)) throw this.transitionError(current, "resume", resumable);
+			if (current.phase === "active" && cache.activation === "armed") throw new GoalError(`goal "${current.id}" is already active and armed`, "GOAL_INVALID_TRANSITION");
+			if (cache.state.roundsStarted >= current.maxGoalRounds) throw new GoalError(`goal "${current.id}" exhausted ${current.maxGoalRounds} goal rounds; increase maxGoalRounds before resuming`, "GOAL_INVALID_TRANSITION");
+			return this.commitCurrent(agent, cache, "resume", this.withPhase(current, "active"), "armed");
+		}
+		/**
+		* Mark a current non-complete goal complete and disarm it.
+		* @param agent - owning live agent.
+		* @param ref - expected current revision.
+		* @returns the completed view.
+		*/
+		complete(agent, ref) {
+			return this.transition(agent, ref, "complete", [
+				"active",
+				"paused",
+				"blocked"
+			], "complete", "disarmed");
+		}
+		/**
+		* Mark an active goal blocked and disarm it.
+		* @param agent - owning live agent.
+		* @param ref - expected current revision.
+		* @param reason - policy-owned stable code and human-readable explanation.
+		* @returns the blocked view with its durable reason.
+		*/
+		block(agent, ref, reason) {
+			const cache = this.prepareMutation(agent);
+			const current = this.expectCurrent(cache, ref);
+			if (current.phase !== "active") throw this.transitionError(current, "block", ["active"]);
+			return this.commitCurrent(agent, cache, "block", {
+				...this.withPhase(current, "blocked"),
+				blockedReason: resolveBlockReason(reason)
+			}, "disarmed");
+		}
+		/**
+		* Clear the current goal while retaining a durable tombstone and history.
+		* @param agent - owning live agent.
+		* @param ref - expected current revision.
+		* @returns the tombstone ref whose revision is one past the cleared snapshot.
+		*/
+		clear(agent, ref) {
+			const cache = this.prepareMutation(agent);
+			const current = this.expectCurrent(cache, ref);
+			const tombstone = {
+				id: current.id,
+				revision: current.revision + 1
+			};
+			const change = {
+				kind: "goal/change",
+				version: 1,
+				operation: "clear",
+				cleared: tombstone,
+				clearedAt: this.nextMutationTime(cache)
+			};
+			this.commit(agent, cache, change, "disarmed");
+			return { ...tombstone };
+		}
+		/** Resolve and validate the cache used by a mutation. */
+		prepareMutation(agent) {
+			this.assertLive(agent);
+			const cache = this.cache(agent.session);
+			this.sync(agent.session, cache);
+			return cache;
+		}
+		/** Reject stale or missing current-state refs. */
+		expectCurrent(cache, ref) {
+			const current = cache.state.goal;
+			if (current === void 0) throw new GoalError("no current goal", "GOAL_NOT_FOUND");
+			if (ref.id !== current.id || ref.revision !== current.revision) throw new GoalError(`stale goal ref "${ref.id}" revision ${ref.revision}; current is "${current.id}" revision ${current.revision}`, "GOAL_STALE_REVISION");
+			return current;
+		}
+		/** Enforce exact live-agent identity rather than trusting a matching id. */
+		assertLive(agent) {
+			if (this.ctx.agents.get(agent.id) !== agent) throw new GoalError(`agent "${agent.id}" is not live in this registry`, "GOAL_AGENT_NOT_LIVE");
+		}
+		/** Return the per-session cache, folding a seed once with activation disarmed. */
+		cache(session) {
+			let cache = this.caches.get(session);
+			if (cache !== void 0) return cache;
+			const state = emptyGoalFoldState();
+			for (const event of session.events) applyGoalEvent(state, event);
+			cache = {
+				state,
+				activation: "disarmed",
+				observedSeq: session.seq,
+				pendingActivation: void 0
+			};
+			this.caches.set(session, cache);
+			return cache;
+		}
+		/** Incrementally observe durable events and reconcile local activation intent. */
+		sync(session, cache) {
+			for (const event of session.events.slice(cache.observedSeq)) {
+				applyGoalEvent(cache.state, event);
+				if (event.type === "goal/change") cache.activation = cache.pendingActivation?.seq === event.seq ? cache.pendingActivation.activation : "disarmed";
+				cache.observedSeq += 1;
+			}
+		}
+		/** Build a new revision with one replacement phase. */
+		withPhase(current, phase) {
+			return {
+				id: current.id,
+				revision: current.revision + 1,
+				objective: current.objective,
+				phase,
+				maxGoalRounds: current.maxGoalRounds
+			};
+		}
+		/** Shared validated phase transition. */
+		transition(agent, ref, operation, allowed, phase, activation) {
+			const cache = this.prepareMutation(agent);
+			const current = this.expectCurrent(cache, ref);
+			if (!allowed.includes(current.phase)) throw this.transitionError(current, operation, allowed);
+			return this.commitCurrent(agent, cache, operation, this.withPhase(current, phase), activation);
+		}
+		/** Render a stable invalid-transition error. */
+		transitionError(current, operation, allowed) {
+			return new GoalError(`cannot ${operation} goal "${current.id}" from phase "${current.phase}"; expected ${allowed.join(" or ")}`, "GOAL_INVALID_TRANSITION");
+		}
+		/** Commit a mutation that retains the current goal's derived counters/times. */
+		commitCurrent(agent, cache, operation, goal, activation) {
+			const createdAt = cache.state.createdAt;
+			/* v8 ignore next -- strict replay and every snapshot commit set createdAt whenever a current goal exists */
+			if (createdAt === void 0) throw new Error("current goal cache lacks createdAt");
+			return this.commitSnapshot(agent, cache, operation, goal, cache.state.roundsStarted, createdAt, this.nextMutationTime(cache), activation);
+		}
+		/** Clamp a current goal's next timestamp across backward wall-clock movement. */
+		nextMutationTime(cache) {
+			const updatedAt = cache.state.updatedAt;
+			/* v8 ignore next -- strict replay and every snapshot commit set updatedAt whenever a current goal exists */
+			if (updatedAt === void 0) throw new Error("current goal cache lacks updatedAt");
+			return Math.max(Date.now(), updatedAt);
+		}
+		/** Build and commit one full-snapshot mutation. */
+		commitSnapshot(agent, cache, operation, goal, roundsStarted, createdAt, updatedAt, activation) {
+			const change = {
+				kind: "goal/change",
+				version: 1,
+				operation,
+				goal,
+				roundsStarted,
+				createdAt,
+				updatedAt
+			};
+			this.commit(agent, cache, change, activation);
+			const view = this.view(cache);
+			/* v8 ignore next -- the durable goal event installs the snapshot before this read */
+			if (view === void 0) throw new Error("snapshot commit cleared the goal unexpectedly");
+			return view;
+		}
+		/** Commit one mutation into the goal log, cache, and live event stream. */
+		commit(agent, cache, change, activation) {
+			const ref = goalChangeRef(change);
+			cache.pendingActivation = {
+				seq: agent.session.seq,
+				activation
+			};
+			try {
+				agent.session.append("goal/change", change);
+				this.sync(agent.session, cache);
+			} finally {
+				cache.pendingActivation = void 0;
+			}
+			const goal = this.view(cache);
+			const notification = {
+				operation: change.operation,
+				ref: { ...ref },
+				...goal === void 0 ? {} : { goal }
+			};
+			agentEvents(this.ctx, agent).emit("goal/changed", { change: notification });
+		}
+		/** Build a detached current view. */
+		view(cache) {
+			const goal = cache.state.goal;
+			const createdAt = cache.state.createdAt;
+			const updatedAt = cache.state.updatedAt;
+			if (goal === void 0) return void 0;
+			/* v8 ignore next 3 -- strict replay and snapshot commits establish both timestamps with every current goal */
+			if (createdAt === void 0 || updatedAt === void 0) throw new Error(`goal "${goal.id}" cache lacks timestamps`);
+			return {
+				...goal,
+				roundsStarted: cache.state.roundsStarted,
+				createdAt,
+				updatedAt,
+				activation: cache.activation
+			};
+		}
+		/**
+		* Create one Goal through the remote boundary.
+		* @param agent - exact live Agent resolved from the wire identity.
+		* @param request - objective and optional round cap.
+		* @returns the created Goal identity.
+		*/
+		remoteExportCreate(agent, request) {
+			const view = this.create(agent, request);
+			return { ref: {
+				id: view.id,
+				revision: view.revision
+			} };
+		}
+	};
+})();
+//#endregion
 //#region node_modules/.pnpm/@deepseek-ai+dsh-credential_07859f6f9ce036fd17600077e6a695b1/node_modules/@deepseek-ai/dsh-credentials/lib/index.js
 /**
 * Service Definition for the credential-reference capability seam (`ctx.credentials`). Settings and composition files carry
@@ -28377,6 +36617,4841 @@ function credentialRef(value) {
 function isCredentialRefName(value) {
 	return REF_PATTERN.test(value);
 }
+//#endregion
+//#region node_modules/.pnpm/@deepseek-ai+dsh-user-quest_9496e3517a011928bde30d12c6838841/node_modules/@deepseek-ai/dsh-user-questions/lib/index.js
+/**
+* Service Definition for the user-questions capability seam (`ctx.userQuestions`): a UI-backed service for
+* pausing an agent tool call until the human answers a question. The model-
+* facing tool lives in `@deepseek-ai/dsh-tool-ask-user`; UI packages provide
+* the single active provider.
+*
+* @module @deepseek-ai/dsh-user-questions
+*/
+/** Stable error taxonomy for user-questions failures. */
+var UserQuestionError = class extends HarnessError {
+	constructor(message, code, options) {
+		super(message, code, options);
+		this.name = "UserQuestionError";
+	}
+};
+//#endregion
+//#region node_modules/.pnpm/@deepseek-ai+dsh-host-direc_fba090338bb10135393386d2e8710363/node_modules/@deepseek-ai/dsh-host-directory-picker/lib/index.js
+/**
+* Service Definition for the `ctx.directoryPicker` capability seam: how the web-GUI host lets an operator
+* select a workspace directory. Backends differ in interaction shape, not
+* just mechanism, so the service exposes a discriminated capability instead
+* of one method set: a `native` backend opens one OS chooser on the
+* host's display, while a `browse` backend serves listing/creation primitives
+* for an in-app browser (and thereby works for remote clients no OS dialog
+* can reach). Consumers switch on `capability().kind`; the union is
+* merge-extensible, and the documented default for an unknown kind is to
+* hide the picking affordance rather than fail.
+* @module @deepseek-ai/dsh-host-directory-picker
+*/
+/** Typed failure thrown by browse primitives so consumers can map business codes without string matching. */
+var DirectoryPickerError = class extends Error {
+	code;
+	path;
+	/**
+	* @param code - closed business code of the failure.
+	* @param path - the absolute path the failure is about.
+	* @param message - operator-facing description.
+	*/
+	constructor(code, path, message) {
+		super(message);
+		this.code = code;
+		this.path = path;
+		this.name = "DirectoryPickerError";
+	}
+};
+//#endregion
+//#region node_modules/.pnpm/@deepseek-ai+dsh-api-remote_8562fa5dfeab0527fbd5a5b76559c38c/node_modules/@deepseek-ai/dsh-api-remotes/lib/index.js
+/**
+* The one home of this application's forwarded-Host-event allowlist. Both
+* compiler faces list this file, so the Host forwarding loop and the consumer
+* `ctx.remote.$on` key face read one declaration instead of two copies that
+* could drift; `./types.ts` derives the type projection from it and stays
+* type-only.
+*/
+/**
+* Host events this application forwards to consumers verbatim: no projection,
+* no redaction, no renaming. The wire name is the Host cordis event name and
+* the payload is its argument list, so this array is simultaneously the whole
+* control point over what a consumer can receive and the legal key set of
+* `ctx.remote.$on`. Forwarding one more event is an entry here and nothing
+* else.
+*/
+const API_REMOTE_FORWARDED_EVENTS = [
+	"agent-preset/selected",
+	"commands/change",
+	"credentials/reference-updated",
+	"cordis/request-run",
+	"cordis/request-run-resolved",
+	"cordis/dynamic-package",
+	"cordis/dynamic-retract",
+	"cordis/inspect-query",
+	"cordis/inspect-query-resolved",
+	"llm/adapters-updated",
+	"settings/document-updated"
+];
+/** Host BFF policy for resolving Remote Agent and Session identities. */
+/** Cold identity absent from the durable session store. */
+var ApiRemoteSessionNotFound = class extends Error {};
+/** Session identity whose lifecycle belongs to subagent routing. */
+var ApiRemoteSubagentSessionOwnership = class extends Error {
+	sessionId;
+	/**
+	* Construct the ownership fence.
+	* @param sessionId - identity reserved to subagent routing.
+	*/
+	constructor(sessionId) {
+		super(`session "${sessionId}" is a subagent session; use subagent delivery`);
+		this.sessionId = sessionId;
+	}
+};
+/**
+* Test whether generic Host routing must leave an identity to subagent routing.
+* @param ctx - Host Context carrying the live Agent registry.
+* @param session - attached or live Session metadata.
+* @param agent - live Agent when one is registered.
+* @returns whether generic Remote and legacy API calls must reject the identity.
+*/
+function hasApiRemoteSubagentOwner(ctx, session, agent) {
+	if (session.header.origin === "subagent") return true;
+	const parentId = session.header.parentSession;
+	if (parentId === void 0 || agent === void 0) return false;
+	const parent = ctx.agents.get(parentId);
+	return parent !== void 0 && ctx.agents.isOwnedBy(agent.id, parent);
+}
+/**
+* Build the stable caller-facing ownership rejection.
+* @param sessionId - identity reserved to subagent routing.
+* @returns the existing `agent-busy` RPC shape.
+*/
+function apiRemoteSubagentOwnershipError(sessionId) {
+	return {
+		code: "agent-busy",
+		message: `session "${sessionId}" is owned by subagent routing`,
+		details: { reason: "use subagent delivery for this child session" }
+	};
+}
+/**
+* Inspect one cold served session without repairing, resuming, or publishing it.
+* @param ctx - Host Context carrying the optional persistence provider.
+* @param sessionId - durable identity to inspect.
+* @returns detached metadata and events for a servable session.
+* @throws {@link ApiRemoteSessionNotFound} when the identity has no project-backed session.
+*/
+async function inspectApiRemoteSession(ctx, sessionId) {
+	const persistence = ctx.get("sessionPersistence");
+	if (persistence === void 0) throw new Error("session persistence is not configured (load a dsh-session-persistence backend)");
+	const meta = (await persistence.list()).find((candidate) => candidate.id === sessionId);
+	if (meta === void 0 || meta.cwd === void 0) throw new ApiRemoteSessionNotFound(`session "${sessionId}" not found`);
+	const inspected = await persistence.inspect(sessionId);
+	if (inspected.meta.cwd === void 0) throw new ApiRemoteSessionNotFound(`session "${sessionId}" not found`);
+	return {
+		meta: inspected.meta,
+		events: [...inspected.events]
+	};
+}
+/**
+* Create the Host's shared Agent resolver and configure Agent/Session Typert lookups.
+* Live Agents are reused, ordinary cold sessions resume once per identity, and
+* subagent-owned identities retain the legacy `agent-busy` fence.
+* @param ctx - owning Host Context.
+* @param options - defaults and Agent-scope setup used only for cold resume.
+* @returns resolver shared by legacy API Proxy methods and Typert lookups.
+*/
+function createApiRemoteAgentResolver(ctx, options) {
+	const resumes = /* @__PURE__ */ new Map();
+	const fencedLiveAgent = (sessionId) => {
+		const live = ctx.agents.get(sessionId);
+		if (live === void 0) return void 0;
+		if (hasApiRemoteSubagentOwner(ctx, live.session, live)) return { error: apiRemoteSubagentOwnershipError(sessionId) };
+		return { agent: live };
+	};
+	const agentFor = async (sessionId) => {
+		const fenced = fencedLiveAgent(sessionId);
+		if (fenced !== void 0) return fenced;
+		const attached = ctx.sessions.get(sessionId);
+		if (attached !== void 0 && hasApiRemoteSubagentOwner(ctx, attached, void 0)) return { error: apiRemoteSubagentOwnershipError(sessionId) };
+		let resume = resumes.get(sessionId);
+		if (resume === void 0) {
+			resume = (async () => {
+				try {
+					const inspected = await inspectApiRemoteSession(ctx, sessionId);
+					if (hasApiRemoteSubagentOwner(ctx, { header: inspected.meta }, void 0)) throw new ApiRemoteSubagentSessionOwnership(sessionId);
+					const setup = options.setup === void 0 ? void 0 : await options.setup(inspected);
+					const publishedSession = ctx.sessions.get(sessionId);
+					const publishedAgent = ctx.agents.get(sessionId);
+					if (publishedSession !== void 0 && hasApiRemoteSubagentOwner(ctx, publishedSession, publishedAgent)) throw new ApiRemoteSubagentSessionOwnership(sessionId);
+					return (await ctx.agents.resume({
+						resumeSessionId: sessionId,
+						...options.agentOptions === void 0 ? {} : { agentOptions: options.agentOptions() },
+						...setup === void 0 ? {} : { setup }
+					})).agent;
+				} finally {
+					resumes.delete(sessionId);
+				}
+			})();
+			resumes.set(sessionId, resume);
+		}
+		try {
+			return { agent: await resume };
+		} catch (error) {
+			if (error instanceof ApiRemoteSessionNotFound) return { error: {
+				code: "session-not-found",
+				message: error.message,
+				details: { sessionId }
+			} };
+			if (error instanceof ApiRemoteSubagentSessionOwnership) return { error: apiRemoteSubagentOwnershipError(error.sessionId) };
+			const fenced = fencedLiveAgent(sessionId);
+			if (fenced !== void 0) return fenced;
+			const attached = ctx.sessions.get(sessionId);
+			if (attached !== void 0 && hasApiRemoteSubagentOwner(ctx, attached, void 0)) return { error: apiRemoteSubagentOwnershipError(sessionId) };
+			return { error: {
+				code: "internal",
+				message: `resume failed for session "${sessionId}": ${String(error)}`,
+				details: {}
+			} };
+		}
+	};
+	ctx.inject(["typert"], (typeCtx) => {
+		const resolveAgent = async (sessionId) => {
+			const found = await agentFor(sessionId);
+			if ("error" in found) throw new TypertLookupFailure(found.error);
+			return found.agent;
+		};
+		typeCtx.typert.lookups.configure("agent", resolveAgent);
+		typeCtx.typert.lookups.configure("session", async (sessionId) => (await resolveAgent(sessionId)).session);
+		typeCtx.typert.contexts.configureHost("agent", async (sessionId) => (await resolveAgent(sessionId)).ctx);
+	});
+	return agentFor;
+}
+//#endregion
+//#region node_modules/.pnpm/@deepseek-ai+dsh-native-com_40b6b2acf96f13491119084cff73030e/node_modules/@deepseek-ai/dsh-native-command/lib/index.js
+/**
+* Shared no-shell `execFile` runner for host-native OS integrations (the
+* native directory chooser, the open-with-default-application hand-off):
+* utf8 stdio capture, abort propagation, Windows console hide. A library,
+* not a plugin — no ctx, no state, no events.
+* @module @deepseek-ai/dsh-native-command
+*/
+/**
+* Run a host command with utf8 stdio, abort propagation, and Windows hide.
+* @param command - executable path or PATH name.
+* @param args - argv (never a shell string).
+* @param signal - caller/connection lifetime; abort terminates the child.
+* @returns captured stdout/stderr on exit 0.
+*/
+const runNativeCommand = (command, args, signal) => new Promise((resolve, reject) => {
+	execFile(command, [...args], {
+		encoding: "utf8",
+		signal,
+		windowsHide: true
+	}, (error, stdout, stderr) => {
+		if (error !== null) {
+			reject(Object.assign(new Error(error.message, { cause: error }), {
+				code: error.code,
+				stdout,
+				stderr
+			}));
+			return;
+		}
+		resolve({
+			stdout,
+			stderr
+		});
+	});
+});
+//#endregion
+//#region node_modules/.pnpm/@deepseek-ai+dsh-host-apipr_35d3e7778191a1b6dd4e64ff307314db/node_modules/@deepseek-ai/dsh-host-apiproxy/lib/index.js
+/**
+* Host-side session-log download: streams one ZIP archive whose files are the
+* sessions' stored artifact text verbatim plus every referenced media object.
+* The root artifact sits under its original base name (`session.jsonl`); each
+* subagent descendant under `subagents/<id>/<filename>`; each image referenced
+* by any included log under `media/<attachmentId>.<ext>` (content-addressed,
+* so one archive never duplicates a shared image). No manifest is written —
+* every file is byte-identical to the backend's durable artifact or attachment
+* store and self-describing through its own header line or media type. Before
+* each live session's artifact read, the SessionStore flush barrier makes the
+* current in-memory log durable; cold sessions need no barrier. Request abort
+* and response-consumer cancellation share one producer signal and terminate
+* the active compressor.
+* Compression runs on the host with fflate's streaming Zip API, so the archive
+* bytes are produced incrementally and the host never holds the whole archive
+* in one buffer; production waits for consumer pull whenever the response queue
+* reaches its byte high-water mark, so a slow consumer bounds accumulation to
+* the fixed 64 KiB response queue plus one synchronous fflate push.
+* @module
+*/
+/**
+* Resolve the persistence, session-query, and attachment services a log export needs.
+* @param ctx - the composed host context.
+* @returns the export services (absent when the deployment does not mount them).
+*/
+function sessionLogExportDeps(ctx) {
+	return {
+		sessionQuery: ctx.get("sessionQuery"),
+		sessionPersistence: ctx.get("sessionPersistence"),
+		attachments: ctx.get("attachments"),
+		sessions: ctx.get("sessions")
+	};
+}
+/**
+* Flush one currently live session through the store's authoritative durability
+* barrier immediately before its raw artifact is read. A cold or absent id has
+* no in-memory work to flush.
+* @param deps - export services, including the optional live-session store.
+* @param id - the session whose artifact is about to be read.
+* @param signal - optional cancellation observed around the flush barrier.
+*/
+async function flushLiveSessionLog(deps, id, signal) {
+	signal?.throwIfAborted();
+	const sessions = deps.sessions;
+	if (sessions === void 0) return;
+	const session = sessions.get(id);
+	if (session === void 0) return;
+	await sessions.flush(session);
+	signal?.throwIfAborted();
+}
+/** Zip extension for each accepted raster media type. */
+const MEDIA_TYPE_EXTENSIONS = {
+	"image/png": "png",
+	"image/jpeg": "jpg",
+	"image/webp": "webp",
+	"image/gif": "gif"
+};
+/**
+* The zip path for one media object: content-addressed by the opaque
+* attachment id so shared images land once and the id in the log maps back to
+* the archive entry without a manifest.
+* @param ref - the durable reference from a session log.
+* @returns the archive path.
+*/
+function mediaEntryPath(ref) {
+	return `media/${String(ref.attachmentId)}.${MEDIA_TYPE_EXTENSIONS[ref.mediaType]}`;
+}
+/**
+* Collect every image reference inside one content array, descending into
+* nested tool results the way the live attachment route does.
+* @param content - an event content array (or nested tool-result content).
+* @param refs - the dedupe map being filled (keyed by attachment id).
+*/
+function collectImageRefs(content, refs) {
+	if (!Array.isArray(content)) return;
+	const pending = [];
+	for (const item of content) pending.push(item);
+	while (pending.length > 0) {
+		const value = pending.pop();
+		if (typeof value !== "object" || value === null || Array.isArray(value)) continue;
+		const block = value;
+		if (block.type === "image" && typeof block.attachment === "object" && block.attachment !== null) {
+			const ref = block.attachment;
+			refs.set(String(ref.attachmentId), ref);
+		}
+		if (Array.isArray(block.content)) for (const item of block.content) pending.push(item);
+	}
+}
+/**
+* Collect every image reference one session event carries, across the same
+* carriers the live attachment route scans (direct content, message content,
+* inserted messages, and completed assistant chunk blocks).
+* @param event - one parsed JSONL event object.
+* @param refs - the dedupe map being filled (keyed by attachment id).
+*/
+function collectEventImageRefs(event, refs) {
+	const data = event.data;
+	if (typeof data !== "object" || data === null) return;
+	const carrier = data;
+	collectImageRefs(carrier.content, refs);
+	if (carrier.message !== void 0) collectImageRefs(carrier.message.content, refs);
+	if (carrier.inserted !== void 0) for (const message of carrier.inserted) collectImageRefs(message.content, refs);
+	if (carrier.chunk?.type === "block-end") collectImageRefs([carrier.chunk.block], refs);
+}
+/**
+* Collect the distinct media references one stored artifact text names.
+* Lines that fail to parse cannot reference media and are skipped (the
+* artifact text itself is exported verbatim regardless).
+* @param content - the stored artifact text.
+* @returns the dedupe map keyed by attachment id.
+*/
+function imageRefsInArtifact(content) {
+	const refs = /* @__PURE__ */ new Map();
+	for (const line of content.split("\n")) {
+		if (line === "") continue;
+		let event;
+		try {
+			event = JSON.parse(line);
+		} catch {
+			continue;
+		}
+		collectEventImageRefs(event, refs);
+	}
+	return refs;
+}
+/**
+* One safe zip path segment from an untrusted session id. Session ids are
+* host-controlled, but the brand allows any non-empty string, so `../`, dot
+* segments, and separator characters are neutralized before they can shape
+* archive entries. Distinct ids may collapse onto one segment (id collision
+* is impossible for the host-minted UUIDs, so no uniqueness suffix is kept).
+* @param id - the raw session id.
+* @returns a filesystem-safe single path segment.
+*/
+function safeSessionIdSegment(id) {
+	return id.replace(/[^A-Za-z0-9_-]/g, "_");
+}
+/**
+* The export archive filename for one root session.
+* @param sessionId - the root session id (sanitized to one safe path segment).
+* @returns the attachment filename for the session's export archive.
+*/
+function sessionLogZipFilename(sessionId) {
+	return `dsh-session-${safeSessionIdSegment(sessionId)}.zip`;
+}
+/**
+* Yield the export entries in zip order: the preloaded root artifact first,
+* then every subagent descendant in lineage order (each flushed when live,
+* read from the persistence backend right before it is yielded, and dropped
+* after the consumer moves on), then every distinct media object referenced by any of
+* the included logs (read and verified from the attachment store, one archive
+* entry per attachment id). The host holds at most one descendant's artifact
+* text and one media object at a time beyond the root.
+* @param deps - the mounted export services (the caller answered 500 before this runs).
+* @param root - the already-read root artifact (read by the caller so the
+* missing-session path can answer cleanly before streaming starts).
+* @param sessionId - the root session id.
+* @param includeDescendants - whether to include every subagent descendant.
+* @param signal - optional cancellation forwarded to lineage, persistence, and attachment reads.
+* @returns the export entries in zip order.
+*/
+async function* sessionLogZipEntries(deps, root, sessionId, includeDescendants, signal) {
+	const media = /* @__PURE__ */ new Map();
+	const rememberMedia = (content) => {
+		for (const [id, ref] of imageRefsInArtifact(content)) media.set(id, ref);
+	};
+	rememberMedia(root.content);
+	yield {
+		path: root.filename,
+		content: root.content
+	};
+	if (includeDescendants) {
+		const seen = /* @__PURE__ */ new Set([sessionId]);
+		const collect = async function* (nodes) {
+			for (const node of nodes) {
+				signal?.throwIfAborted();
+				const id = node.session.header.id;
+				if (seen.has(id)) continue;
+				seen.add(id);
+				await flushLiveSessionLog(deps, id, signal);
+				const raw = await deps.sessionPersistence.readRaw(id, signal);
+				signal?.throwIfAborted();
+				if (raw === void 0) throw new Error(`subagent "${id}" has no stored log artifact`);
+				rememberMedia(raw.content);
+				yield {
+					path: `subagents/${safeSessionIdSegment(id)}/${raw.filename}`,
+					content: raw.content
+				};
+				yield* collect(node.descendants);
+			}
+		};
+		const lineage = await deps.sessionQuery.traceSession(sessionId, signal);
+		signal?.throwIfAborted();
+		yield* collect(lineage.descendants);
+	}
+	for (const ref of media.values()) {
+		signal?.throwIfAborted();
+		const stored = await deps.attachments.readImage(ref, signal);
+		signal?.throwIfAborted();
+		yield {
+			path: mediaEntryPath(ref),
+			data: stored.data
+		};
+	}
+}
+/** How many code units of artifact text one zip push carries (bounded encode memory). */
+const PUSH_CHUNK_CODE_UNITS = 65536;
+/** How many bytes of media one zip push carries (bounded memory; images are already size-capped). */
+const PUSH_CHUNK_BYTES = 65536;
+/** Byte capacity retained by the response stream before ZIP production waits for pull. */
+const RESPONSE_HIGH_WATER_MARK_BYTES = 65536;
+/** One producer waiter released only when ReadableStream pull restores capacity. */
+var ResponseCapacityGate = class {
+	releasePending;
+	/**
+	* Wait until the response queue has positive byte capacity or cancellation wins.
+	* @param controller - response controller whose desired size owns capacity.
+	* @param signal - combined request/consumer cancellation.
+	*/
+	async wait(controller, signal) {
+		signal.throwIfAborted();
+		if (controller.desiredSize === null || controller.desiredSize > 0) return;
+		await new Promise((resolve) => {
+			const release = () => {
+				this.releasePending = void 0;
+				signal.removeEventListener("abort", release);
+				resolve();
+			};
+			this.releasePending = release;
+			signal.addEventListener("abort", release, { once: true });
+		});
+		signal.throwIfAborted();
+	}
+	/** Release the current producer waiter after a consumer pull. */
+	pulled() {
+		this.releasePending?.();
+	}
+};
+/**
+* Push one media object's bytes into a deflate stream in bounded chunks,
+* waiting for consumer capacity between chunks like the artifact path does.
+* @param deflate - the zip entry's deflate stream.
+* @param data - the stored image bytes.
+* @param controller - response queue controller.
+* @param capacity - pull-driven response-capacity gate.
+* @param signal - cancellation; throws when aborted.
+*/
+async function pushBinaryChunks(deflate, data, controller, capacity, signal) {
+	let offset = 0;
+	do {
+		signal.throwIfAborted();
+		const end = Math.min(offset + PUSH_CHUNK_BYTES, data.byteLength);
+		const finalChunk = end >= data.byteLength;
+		deflate.push(data.subarray(offset, end), finalChunk);
+		offset = end;
+		await capacity.wait(controller, signal);
+	} while (offset < data.byteLength);
+}
+/**
+* Push one artifact's text into a deflate stream in bounded chunks, never
+* splitting a surrogate pair across a chunk boundary (a lone high surrogate
+* re-encodes as U+FFFD and would silently corrupt the exported artifact).
+* @param deflate - the zip entry's deflate stream.
+* @param content - the artifact text verbatim.
+* @param controller - response queue controller.
+* @param capacity - pull-driven response-capacity gate.
+* @param signal - cancellation; throws when aborted.
+*/
+async function pushArtifactChunks(deflate, content, controller, capacity, signal) {
+	const encoder = new TextEncoder();
+	let offset = 0;
+	let finalChunk;
+	do {
+		signal.throwIfAborted();
+		let end = Math.min(offset + PUSH_CHUNK_CODE_UNITS, content.length);
+		if (end < content.length && end - offset > 1) {
+			const last = content.charCodeAt(end - 1);
+			if (last >= 55296 && last <= 56319) end -= 1;
+		}
+		finalChunk = end >= content.length;
+		deflate.push(encoder.encode(content.slice(offset, end)), finalChunk);
+		offset = end;
+		await capacity.wait(controller, signal);
+	} while (!finalChunk);
+}
+/**
+* Stream one session-log ZIP as a WHATWG ReadableStream. The root artifact is
+* read and validated by the caller before this is called (missing root or
+* missing services answer cleanly before any byte is produced); each entry is
+* then encoded and deflated in bounded chunks as it is produced, so the
+* archive bytes arrive incrementally. A descendant that fails to read errors
+* the stream (fail-loud, never silent under-export).
+* @param deps - the mounted export services (the caller answered 500 before this runs).
+* @param root - the already-read root artifact (first zip entry).
+* @param sessionId - the root session id.
+* @param includeDescendants - whether to include every subagent descendant.
+* @param compressionLevel - validated fflate DEFLATE level for every ZIP entry.
+* @param signal - request cancellation combined with response-consumer cancellation.
+* @returns the zip byte stream.
+*/
+function streamSessionLogZip(deps, root, sessionId, includeDescendants, compressionLevel, signal) {
+	const consumerAbort = new AbortController();
+	const producerSignal = AbortSignal.any([signal, consumerAbort.signal]);
+	let zip;
+	let zipTerminated = false;
+	const capacity = new ResponseCapacityGate();
+	const terminateZip = () => {
+		if (zip === void 0 || zipTerminated) return;
+		zipTerminated = true;
+		zip.terminate();
+	};
+	return new ReadableStream({
+		start(controller) {
+			const archive = new Zip((error, data, final) => {
+				/* v8 ignore next 3 -- fflate reports only internal zip failures, unreachable for valid inputs */
+				if (error) {
+					controller.error(error);
+					return;
+				}
+				/* v8 ignore next -- fflate may emit empty chunks; not controllable from tests */
+				if (data.byteLength > 0) controller.enqueue(data);
+				if (final) controller.close();
+			});
+			zip = archive;
+			(async () => {
+				try {
+					for await (const entry of sessionLogZipEntries(deps, root, sessionId, includeDescendants, producerSignal)) {
+						const deflate = new ZipDeflate(entry.path, { level: compressionLevel });
+						archive.add(deflate);
+						if ("content" in entry) await pushArtifactChunks(deflate, entry.content, controller, capacity, producerSignal);
+						else await pushBinaryChunks(deflate, entry.data, controller, capacity, producerSignal);
+					}
+					archive.end();
+				} catch (error) {
+					/* v8 ignore next -- typed backends reject with Error, and DOMException is one in Node */
+					terminateZip();
+					controller.error(error instanceof Error ? error : new Error(String(error)));
+				}
+			})();
+		},
+		pull() {
+			capacity.pulled();
+		},
+		cancel(reason) {
+			consumerAbort.abort(reason instanceof Error ? reason : /* @__PURE__ */ new Error("session log export stream cancelled"));
+			terminateZip();
+		}
+	}, {
+		highWaterMark: RESPONSE_HIGH_WATER_MARK_BYTES,
+		size: (chunk) => chunk.byteLength
+	});
+}
+/**
+* Return the longest prefix containing at most `maximum` Unicode code points.
+* @param value - text to bound.
+* @param maximum - non-negative code-point limit.
+* @returns `value` unchanged when it fits, otherwise a code-point-safe prefix.
+*/
+function truncateUnicodeCodePoints(value, maximum) {
+	let count = 0;
+	let end = 0;
+	for (const codePoint of value) {
+		if (count === maximum) return value.slice(0, end);
+		count++;
+		end += codePoint.length;
+	}
+	return value;
+}
+/**
+* sessions domain zod schemas (names derived from map keys: sessionListRequestSchema /
+* sessionListValueSchema). SessionEvent passthrough = strict envelope (type/seq/time) + wide
+* data: the merge-extensible event API keeps an unknown-type branch at the union level,
+* with no field-level passthrough. SessionId brand cast point: sessionIdSchema, and only there.
+*/
+/** SessionId: one brand cast after schema validation (the only cast point in this domain). */
+const sessionIdSchema = string().min(1);
+/** MessageId: one brand cast after non-empty string validation. */
+const messageIdSchema$1 = string().min(1);
+/**
+* WorkspaceId: the workspace domain's one brand cast. Hosted here rather
+* than in workspace.schema because session.create references it while
+* workspace.schema references sessionIdSchema — schema modules must stay a
+* DAG (both casts used at module top level; a cycle is a load-time TDZ).
+*/
+const workspaceIdSchema = string().min(1);
+/** SessionEvent passthrough: strict envelope, wide data (the client fold handles unknown types via its documented default). */
+const sessionEventSchema = object$1({
+	type: string(),
+	seq: number().int().nonnegative(),
+	time: number(),
+	data: unknown(),
+	sourceEventSeqs: array(number()).optional(),
+	surfaceOp: unknown().optional(),
+	ignorable: literal(true).optional()
+});
+/** SessionSummary row of session.list (`projections` reuses the history block's shape and schema). */
+const sessionSummarySchema = object$1({
+	sessionId: sessionIdSchema,
+	updatedAt: number(),
+	running: boolean(),
+	blank: boolean(),
+	parentSessionId: sessionIdSchema.optional(),
+	origin: literal("subagent").optional(),
+	cwd: string().optional(),
+	agentPreset: string().optional(),
+	projections: lazy(() => sessionProjectionsBlockSchema).optional()
+});
+object$1({ cursor: string().optional() });
+object$1({ items: array(sessionSummarySchema) });
+object$1({ query: string().trim().min(1).max(500).refine((query) => !query.includes("\0"), { message: "search query must not contain NUL" }) });
+object$1({
+	items: array(object$1({
+		sessionId: sessionIdSchema,
+		snippet: string().refine((snippet) => truncateUnicodeCodePoints(snippet, 240) === snippet, { message: `search snippet must contain at most 240 Unicode code points` })
+	})).max(20),
+	hasMore: boolean()
+});
+object$1({
+	workspaceId: workspaceIdSchema.optional(),
+	cwd: string().optional(),
+	sessionId: sessionIdSchema.optional(),
+	agentPreset: string().optional()
+}).refine((payload) => payload.workspaceId === void 0 || payload.cwd === void 0, { message: "session.create accepts workspaceId or cwd, not both" });
+object$1({
+	sessionId: sessionIdSchema,
+	agentPreset: string().optional()
+});
+object$1({
+	sessionId: sessionIdSchema,
+	title: string()
+});
+object$1({
+	title: string().min(1),
+	seq: number().int().nonnegative()
+});
+object$1({
+	sessionId: sessionIdSchema,
+	atSeq: number().int().nonnegative().optional()
+});
+object$1({ sessionId: sessionIdSchema });
+object$1({
+	sessionId: sessionIdSchema,
+	beforeSeq: number().int().nonnegative().optional(),
+	maxMessages: number().int().positive().optional()
+});
+/** Complete provider/model selection. */
+const modelSelectionSchema = object$1({
+	provider: string().min(1),
+	model: string().min(1),
+	reasoningEffort: string().min(1).optional()
+});
+/** Exact-model reasoning metadata. */
+const modelReasoningSchema = object$1({
+	efforts: array(object$1({
+		id: string().min(1),
+		name: string().min(1),
+		description: string().optional()
+	})).min(1),
+	defaultEffort: string().min(1).optional()
+});
+/** One advisory model entry inside a provider group. */
+const modelCatalogModelSchema = object$1({
+	id: string().min(1),
+	name: string().min(1),
+	description: string().optional(),
+	reasoning: modelReasoningSchema.optional()
+});
+/** One successfully loaded provider group. */
+const modelProviderGroupSchema = object$1({
+	id: string().min(1),
+	name: string().min(1),
+	models: array(modelCatalogModelSchema)
+});
+/** One provider-local catalog failure. */
+const modelCatalogFailureSchema = object$1({
+	id: string().min(1),
+	name: string().min(1),
+	message: string()
+});
+/**
+* ToolEventView passthrough: lock only the `for` discriminant and the presence
+* of a card-tagged `view` object. The view interior is a host-computed product
+* the client reads without echoing back; deep-validating it would hand-copy
+* the dsh-tools vocabulary into this schema and drift with it.
+*/
+const toolEventViewSchema = discriminatedUnion("for", [object$1({
+	for: literal("call"),
+	view: looseObject({ card: string() })
+}), object$1({
+	for: literal("result"),
+	view: looseObject({ card: string() })
+})]);
+/** One session.history item: the session event plus its optional host-computed tool view. */
+const historyEntrySchema = object$1({
+	event: sessionEventSchema,
+	view: toolEventViewSchema.optional()
+});
+/**
+* Projection baseline passthrough: `values` stays a wide record — each value
+* was already parsed by its provider's own schema on the host side, and
+* deep-validating here would import every domain's schema into the carrier.
+*/
+const sessionProjectionsBlockSchema = object$1({
+	asOfSeq: number().int().min(-1),
+	values: record$1(string(), unknown())
+});
+/** Host-side validation for the persisted Session-list projection. */
+const sessionListMetadataProjectionSchema = object$1({
+	blank: boolean(),
+	lastPromptAt: number().nullable()
+});
+/**
+* imageLimits projection unit schema (host-side view validation). zod widens
+* `readonly ImageMediaType[]` to `string[]`; on the JSON wire the two
+* serialize identically, so the cast records exactly that widening.
+*/
+const imageLimitsProjectionSchema = object$1({
+	maxImageBytes: number().int().positive(),
+	maxImagesPerMessage: number().int().positive(),
+	maxMessageImageBytes: number().int().positive(),
+	maxImagePixels: number().int().positive(),
+	maxImageDimension: number().int().positive(),
+	mediaTypes: array(string())
+});
+object$1({
+	events: array(historyEntrySchema),
+	hasMore: boolean(),
+	projections: sessionProjectionsBlockSchema.optional()
+});
+object$1({ sessionId: sessionIdSchema });
+object$1({
+	current: modelSelectionSchema,
+	routable: boolean(),
+	groups: array(modelProviderGroupSchema),
+	failures: array(modelCatalogFailureSchema)
+});
+object$1({
+	sessionId: sessionIdSchema,
+	provider: string().min(1),
+	model: string().min(1),
+	reasoningEffort: string().min(1).optional()
+});
+object$1({ selected: modelSelectionSchema });
+/** ContentBlock passthrough: core is merge-extensible — the type discriminant envelope is strict, the rest stays wide. */
+const contentBlockSchema = looseObject({ type: string() });
+/** Raster image media types accepted by the version-one browser wire. */
+const imageMediaTypeSchema = union([
+	literal("image/png"),
+	literal("image/jpeg"),
+	literal("image/webp"),
+	literal("image/gif")
+]);
+/** Prompt wire content is intentionally narrower than merge-extensible durable core content. */
+const promptContentPartSchema = discriminatedUnion("type", [object$1({
+	type: literal("text"),
+	text: string()
+}), object$1({
+	type: literal("image"),
+	mediaType: imageMediaTypeSchema,
+	data: string(),
+	name: string().optional()
+})]);
+object$1({
+	sessionId: sessionIdSchema,
+	mode: union([literal("queue"), literal("steer")]),
+	content: array(promptContentPartSchema),
+	clientTimeZone: string().optional()
+});
+object$1({
+	accepted: literal(true),
+	command: object$1({
+		kind: literal("success"),
+		text: string().optional()
+	}).optional()
+});
+/** Opaque attachment id after string-shape validation. */
+const attachmentIdSchema = string().min(1);
+/** Durable image reference returned from the authenticated session lookup. */
+const imageAttachmentRefSchema = object$1({
+	attachmentId: attachmentIdSchema,
+	mediaType: imageMediaTypeSchema,
+	bytes: number().int().positive(),
+	width: number().int().positive(),
+	height: number().int().positive(),
+	name: string().optional()
+});
+object$1({
+	sessionId: sessionIdSchema,
+	attachmentId: attachmentIdSchema
+});
+object$1({
+	attachment: imageAttachmentRefSchema,
+	data: string()
+});
+object$1({
+	sessionId: sessionIdSchema,
+	itemId: messageIdSchema$1,
+	action: discriminatedUnion("kind", [
+		object$1({
+			kind: literal("edit"),
+			content: array(contentBlockSchema)
+		}),
+		object$1({ kind: literal("remove") }),
+		object$1({ kind: literal("steer") })
+	])
+});
+object$1({ accepted: literal(true) });
+object$1({ sessionId: sessionIdSchema });
+object$1({ accepted: literal(true) });
+/**
+* approvals domain zod schemas (respond is a client-response; the payload schema serves
+* the /api/respond endpoint's second parse after routing via the pending table).
+* ApprovalRequestId brand cast point: one.
+*/
+/** ApprovalRequestId: one brand cast after schema validation (the only cast point in this domain). */
+const approvalRequestIdSchema = string().min(1);
+/** Approval answer payload (the result.value slot of a client-response). */
+const approvalResponsePayloadSchema = object$1({
+	sessionId: sessionIdSchema,
+	approvalId: approvalRequestIdSchema,
+	outcome: union([literal("allowed-once"), literal("rejected")])
+});
+/** Question answer payload (the result.value slot of a client-response). */
+const questionResponsePayloadSchema = object$1({
+	sessionId: sessionIdSchema,
+	answer: object$1({ answers: array(object$1({
+		id: string(),
+		selected: array(string()),
+		custom: string().optional()
+	})) })
+});
+/**
+* Four-quadrant RPC message model. Channels and messages are decoupled: HTTP,
+* WebSocket, and in-process SSE are physical carriers, while logical messages
+* are channel-independent and form a four-member discriminated union.
+* api/ contract layer: zero Node dependencies, importable from the browser.
+*/
+/**
+* Brands a string as RpcId (same precedent as core `SessionId()`). Minted by the initiator:
+* client-request → client mints; server-request → host mints (answerable frames get a stable
+* logical id, pure pushes mint a fresh one each time).
+* @param id - Raw id string (implementations mint UUIDs; tests may pass fixtures).
+* @returns The same string, branded (compile-time cast, zero runtime cost).
+*/
+function RpcId(id) {
+	return id;
+}
+/**
+* Cross-platform native path and text-document openers used by the local GUI
+* carrier.
+*
+* The default intent prefers the default browser for documents it renders when
+* the platform can name one, then falls back to the default application. WSL
+* translates every path for the Windows desktop instead of assuming a Linux
+* GUI. The text-editor intent never consults the browser.
+*/
+/** Documents a browser renders, as opposed to ones an editor merely edits. */
+const BROWSER_DOCUMENTS = /* @__PURE__ */ new Set([
+	".html",
+	".htm",
+	".xhtml",
+	".svg"
+]);
+/**
+* The macOS bundle registered for `https` — the default browser, as
+* LaunchServices records it. The nested version dict is stripped first
+* because it carries its own `LSHandlerRoleAll`.
+*/
+function macBundleForHttps(plist) {
+	const stripped = plist.replace(/LSHandlerPreferredVersions\s*=\s*\{[^}]*\};/g, "");
+	const block = /\{[^{}]*LSHandlerURLScheme\s*=\s*"?https"?;[^{}]*\}/.exec(stripped)?.[0];
+	if (block === void 0) return void 0;
+	return /LSHandlerRoleAll\s*=\s*"?([\w.-]+)"?;/.exec(block)?.[1];
+}
+/**
+* Open one browser-renderable document with the default browser.
+* @returns true when a browser took it; false when this platform cannot name
+* one, or naming it failed — the caller then uses the default application.
+*/
+async function openInBrowser(path, signal, platform, run, env) {
+	if (platform === "darwin") {
+		let bundle;
+		try {
+			const { stdout } = await run("defaults", ["read", "com.apple.LaunchServices/com.apple.launchservices.secure"], signal);
+			bundle = macBundleForHttps(stdout);
+		} catch {
+			return false;
+		}
+		if (bundle === void 0) return false;
+		await run("open", [
+			"-b",
+			bundle,
+			path
+		], signal);
+		return true;
+	}
+	if (platform === "linux") {
+		const browser = env.BROWSER;
+		if (browser === void 0 || browser === "") return false;
+		await run(browser, [path], signal);
+		return true;
+	}
+	return false;
+}
+/** PowerShell single-quoted literal (doubles embedded quotes). */
+function powershellLiteral(path) {
+	return `'${path.replace(/'/g, "''")}'`;
+}
+/** Whether one environment marker is set to a non-empty value. */
+function present(value) {
+	return value !== void 0 && value !== "";
+}
+/** Distinguish WSL from desktop Linux using its process and kernel markers. */
+function isWsl(internals) {
+	const env = internals.env ?? process.env;
+	if (present(env.WSL_DISTRO_NAME) || present(env.WSL_INTEROP)) return true;
+	return (internals.osRelease ?? release()).toLowerCase().includes("microsoft");
+}
+/** Open one Windows-resolvable path through its registered desktop application. */
+async function openWindowsPath(path, signal, run) {
+	await run("powershell.exe", [
+		"-NoProfile",
+		"-Command",
+		`Invoke-Item -LiteralPath ${powershellLiteral(path)}`
+	], signal);
+}
+/** Translate a WSL path before handing it to the Windows desktop. */
+async function openWslPath(path, signal, run) {
+	const translated = await run("wslpath", ["-w", path], signal);
+	signal.throwIfAborted();
+	const windowsPath = translated.stdout.replace(/[\r\n]+$/, "");
+	if (windowsPath === "") throw new Error("wslpath returned no Windows path");
+	await openWindowsPath(windowsPath, signal, run);
+}
+/** Dispatch one shell-free platform command for the requested open intent. */
+async function openNativePathWithIntent(path, signal, intent, internals = {}) {
+	const platform = internals.platform ?? process.platform;
+	const run = internals.run ?? runNativeCommand;
+	const env = internals.env ?? process.env;
+	const wsl = platform === "linux" && isWsl(internals);
+	if (!wsl && intent === "default" && BROWSER_DOCUMENTS.has(extname(path).toLowerCase()) && await openInBrowser(path, signal, platform, run, env)) return;
+	if (platform === "darwin") {
+		await run("open", intent === "text-editor" ? ["-t", path] : [path], signal);
+		return;
+	}
+	if (platform === "win32") {
+		await openWindowsPath(path, signal, run);
+		return;
+	}
+	if (platform === "linux") {
+		if (wsl) {
+			await openWslPath(path, signal, run);
+			return;
+		}
+		await run("xdg-open", [path], signal);
+		return;
+	}
+	throw new Error(`native path opener is unsupported on ${platform}`);
+}
+/**
+* Whether {@link openNativePath} plausibly reaches a desktop on this host.
+*
+* macOS and Windows always carry a desktop opener; Linux does when it is WSL
+* (the Windows desktop takes the path) or a display server is announced.
+* A headless or containerised Linux host answers false, which is what lets a
+* surface show a path as text instead of offering a button that would spawn
+* `xdg-open` into nothing.
+* @param internals - platform and environment seam for deterministic tests.
+* @returns true when handing a path to the native opener can work at all.
+*/
+function canOpenNativePath(internals = {}) {
+	const platform = internals.platform ?? process.platform;
+	if (platform === "darwin" || platform === "win32") return true;
+	if (platform !== "linux") return false;
+	const env = internals.env ?? process.env;
+	return isWsl(internals) || present(env.DISPLAY) || present(env.WAYLAND_DISPLAY);
+}
+/**
+* Open a filesystem path with the operating system's default application, or
+* with the default browser when the path names a document a browser renders.
+* @param path - absolute or host-resolvable path (caller owns resolution).
+* @param signal - caller/connection lifetime; abort terminates the native command.
+* @param internals - Platform, environment, and runner hooks for deterministic tests.
+*/
+function openNativePath(path, signal, internals = {}) {
+	return openNativePathWithIntent(path, signal, "default", internals);
+}
+/**
+* Open a text document for editing; macOS bypasses the file-type association
+* so a YAML association with a browser cannot consume the gesture.
+* @param path - absolute or host-resolvable text-document path.
+* @param signal - caller/connection lifetime; abort terminates the native command.
+* @param internals - Platform and runner hooks for deterministic tests.
+*/
+function openNativeTextFile(path, signal, internals = {}) {
+	return openNativePathWithIntent(path, signal, "text-editor", internals);
+}
+/**
+* Host-side ApiProxy implementation. Signature discipline: unary takes the
+* narrow RpcRequest<P> and echoes request.rpcId on the RpcResponse<T>.
+*/
+/** Page size when history is called without maxMessages. */
+const DEFAULT_MAX_MESSAGES = 50;
+/** Provider work budget: at most 100 calls and 2,000 inspected hits. */
+const SESSION_SEARCH_PROVIDER_CALL_LIMIT = 100;
+/** Bound cold-log stat fan-out and settle each started batch before cancellation returns. */
+const COLD_SUMMARY_BATCH_SIZE = 16;
+/** Default maximum artifact size eligible for one cold blankness read. */
+const DEFAULT_COLD_BLANK_PROBE_MAX_BYTES = 1024;
+/** Conversation message event types (the pagination counting unit). */
+const MESSAGE_TYPES = /* @__PURE__ */ new Set(["user/message", "assistant/message"]);
+/** Validate one prompt as a batch before publishing any durable image object. */
+async function durablePromptContent(ctx, content) {
+	if (content.every((part) => part.type === "text")) return content.map((part) => ({
+		type: "text",
+		text: part.text
+	}));
+	const refs = await admitEncodedImages(ctx.attachments, content.filter((part) => part.type === "image"));
+	let next = 0;
+	return content.map((part) => part.type === "text" ? {
+		type: "text",
+		text: part.text
+	} : {
+		type: "image",
+		attachment: refs[next++]
+	});
+}
+/** Search durable content for an image reference, including nested tool results. */
+function imageBlockIn(content, match) {
+	if (!Array.isArray(content)) return void 0;
+	for (const value of content) {
+		if (typeof value !== "object" || value === null || Array.isArray(value)) continue;
+		const block = value;
+		if (block.type === "image" && typeof block.attachment === "object" && block.attachment !== null) {
+			const ref = block.attachment;
+			if (match(ref)) return ref;
+		}
+		if (block.type === "tool-result") {
+			const nested = imageBlockIn(block.content, match);
+			if (nested !== void 0) return nested;
+		}
+	}
+}
+/** Search every durable event carrier that can own model-visible content. */
+function imageInEvent(event, match) {
+	const data = event.data;
+	const direct = imageBlockIn(data.content, match);
+	if (direct !== void 0) return direct;
+	if (data.message !== void 0) {
+		const wrapped = imageBlockIn(data.message.content, match);
+		if (wrapped !== void 0) return wrapped;
+	}
+	if (data.inserted !== void 0) for (const message of data.inserted) {
+		const inserted = imageBlockIn(message.content, match);
+		if (inserted !== void 0) return inserted;
+	}
+	if (event.type === "assistant/chunk" && data.chunk?.type === "block-end") return imageBlockIn([data.chunk.block], match);
+}
+/** Resolve the first reference matching one opaque id. */
+function referencedImage(events, attachmentId) {
+	for (const event of events) {
+		const found = imageInEvent(event, (ref) => String(ref.attachmentId) === attachmentId);
+		if (found !== void 0) return found;
+	}
+}
+/** Strict browser-zone profile: UTC or an IANA Area/Location-style identifier. */
+const IANA_TIME_ZONE = /^[A-Za-z][A-Za-z0-9_+.-]*(?:\/[A-Za-z0-9_+.-]+)+$/;
+/** Validate and canonicalize one browser-supplied IANA zone at the wire boundary. */
+function canonicalClientTimeZone(value) {
+	if (value.length === 0 || value.trim() !== value || value !== "UTC" && !IANA_TIME_ZONE.test(value)) return void 0;
+	try {
+		const canonical = new Intl.DateTimeFormat("en-US", { timeZone: value }).resolvedOptions().timeZone;
+		/* v8 ignore next -- Intl returns UTC or a canonical IANA Area/Location for accepted input. */
+		if (canonical !== "UTC" && !IANA_TIME_ZONE.test(canonical)) return void 0;
+		return canonical;
+	} catch {
+		return;
+	}
+}
+/** Read live abort state across awaits without treating it as synchronously immutable. */
+function isAborted(signal) {
+	return signal.aborted;
+}
+/**
+* Message-boundary pagination: count maxMessages append-origin messages
+* backwards from the window tail. Replacement copies never entered the
+* conversation a reader sees — they restate a shadowed range for the model
+* alone — so they consume no quota; the page stays one contiguous raw range,
+* which keeps a compaction's log-only `compaction/summary` record on the same page as its
+* replacement. The cut is the starting seq of the oldest message group (chunks
+* group via sourceEventSeqs — never cut mid-message). The tail page naturally
+* includes the in-progress partial.
+*/
+function paginate(events, beforeSeq, maxMessages) {
+	const window = beforeSeq === void 0 ? [...events] : events.filter((event) => event.seq < beforeSeq);
+	let count = 0;
+	let cut = 0;
+	for (let i = window.length - 1; i >= 0; i--) {
+		const event = window[i];
+		if (!MESSAGE_TYPES.has(event.type) || !isAppendSurfaceEvent(event)) continue;
+		count++;
+		const sources = event.sourceEventSeqs;
+		let groupStart = event.seq;
+		if (sources !== void 0) {
+			for (const source of sources) if (source < groupStart) groupStart = source;
+		}
+		if (count >= maxMessages) {
+			cut = groupStart;
+			break;
+		}
+	}
+	return {
+		events: window.filter((event) => event.seq >= cut),
+		hasMore: cut > 0
+	};
+}
+/** Wrap an ok result echoing the request's rpcId. */
+function ok(request, value) {
+	return {
+		rpcId: request.rpcId,
+		result: {
+			ok: true,
+			value
+		}
+	};
+}
+/**
+* Build the provider/model catalog over every registered route. Shared by the
+* session-scoped `session.models` and host-scoped `llm.models`. Catalog
+* membership stays advisory: an unlisted session selection remains valid for
+* provider dispatch, but is not injected back into the selector after its
+* owning catalog stops advertising it. Per-provider failures ride `failures`
+* without failing the sound groups; groups that advertise nothing are dropped.
+*/
+async function buildModelCatalog(ctx) {
+	const catalog = await Promise.all(ctx.llm.listProviders().map(async (provider) => {
+		try {
+			const models = await ctx.llm.listModels(provider.id);
+			const entries = await Promise.all(models.map(async (model) => {
+				const resolved = await ctx.llm.resolveModelInfo(provider.id, model.id);
+				const reasoning = resolved.reasoning === void 0 ? void 0 : {
+					efforts: resolved.reasoning.efforts.map((effort) => ({
+						id: effort.id,
+						name: effort.name,
+						...effort.description === void 0 ? {} : { description: effort.description }
+					})),
+					...resolved.reasoning.defaultEffort === void 0 ? {} : { defaultEffort: resolved.reasoning.defaultEffort }
+				};
+				return {
+					id: model.id,
+					name: model.name,
+					...model.description === void 0 ? {} : { description: model.description },
+					...reasoning === void 0 ? {} : { reasoning }
+				};
+			}));
+			return {
+				kind: "group",
+				group: {
+					id: provider.id,
+					name: provider.name,
+					models: entries
+				}
+			};
+		} catch (error) {
+			return {
+				kind: "failure",
+				failure: {
+					id: provider.id,
+					name: provider.name,
+					message: error instanceof Error ? error.message : String(error)
+				}
+			};
+		}
+	}));
+	return {
+		groups: catalog.flatMap((item) => item.kind === "group" ? [item.group] : []).filter((group) => group.models.length > 0),
+		failures: catalog.flatMap((item) => item.kind === "failure" ? [item.failure] : [])
+	};
+}
+/** Wrap an error result echoing the request's rpcId. */
+function err(request, error) {
+	return {
+		rpcId: request.rpcId,
+		result: {
+			ok: false,
+			error
+		}
+	};
+}
+/**
+* The RPC refusal a preset failure becomes, or undefined when the failure is
+* about something else.
+*
+* Both the session-create path and the switch path can be handed the same two
+* failures, and a client that has to branch on the code needs them worded the
+* same from either.
+* @param request - the request being answered.
+* @param error - the thrown value.
+* @returns the refusal, or undefined when the caller should keep handling.
+*/
+function presetFailure(request, error) {
+	if (error instanceof UnknownPresetError) return err(request, {
+		code: "agent-preset-not-found",
+		message: error.message,
+		details: {
+			agentPreset: error.presetId,
+			available: [...error.available]
+		}
+	});
+	if (error instanceof PresetMountError) return err(request, {
+		code: "agent-preset-invalid",
+		message: error.message,
+		details: {
+			agentPreset: error.presetId,
+			reason: error.reason
+		}
+	});
+}
+/** Simple async queue: core callbacks push, the AsyncIterable pulls; abort/return cleans up. */
+var FrameQueue = class {
+	buffer = [];
+	waiter;
+	done = false;
+	push(item) {
+		if (this.done) return;
+		this.buffer.push(item);
+		this.waiter?.();
+	}
+	end() {
+		this.done = true;
+		this.waiter?.();
+	}
+	async *iterate(signal, cleanup) {
+		const onAbort = () => {
+			this.end();
+		};
+		signal.addEventListener("abort", onAbort, { once: true });
+		try {
+			while (true) {
+				while (this.buffer.length > 0) yield this.buffer.shift();
+				if (this.done || signal.aborted) return;
+				await new Promise((resolve) => {
+					this.waiter = resolve;
+				});
+				this.waiter = void 0;
+			}
+		} finally {
+			signal.removeEventListener("abort", onAbort);
+			cleanup();
+		}
+	}
+};
+/**
+* Server-side frame mint: pure pushes get a fresh rpcId per frame (answerable
+* frames — approval/question requested — mint their stable id in their
+* pending registries instead).
+*/
+function frame(payload) {
+	return {
+		rpcId: RpcId(randomUUID()),
+		payload
+	};
+}
+/**
+* Narrow one allowlisted host event's argument list to the JSON values the
+* wrapper frame carries. A rejected argument is an allowlist mistake (the
+* forwarded path applies no projection), not hostile input, so it throws rather
+* than degrading to a lossy frame. The throw surfaces where the forwarding
+* listener runs, so the emitter's own listener containment logs it and drops
+* that frame — loud in the Host log, not at load or at the emit. Exported for
+* the test that owns this decision: every currently allowlisted event has a
+* statically JSON-safe payload, so a type-legal `ctx.emit` cannot reach the
+* rejection branch.
+* @param event - forwarded host event name, named in the failure.
+* @param args - the emitter's argument list.
+* @returns the same arguments typed as JSON values.
+*/
+function assertJsonArgs(event, args) {
+	for (const [index, arg] of args.entries()) if (!isJsonValue(arg)) throw new Error(`forwarded host event "${event}" argument ${index} is not lossless JSON data`);
+	return args;
+}
+/** Queue the subscription baseline frame. */
+function subscribeSession(queue, session) {
+	queue.push(frame({
+		type: "session/subscribed",
+		sessionId: session.id,
+		lastSeq: session.seq - 1
+	}));
+}
+/**
+* Project registry snapshots onto the wire view, dropping the three internal
+* fields {@link JobView} documents as absent.
+*/
+function jobViews(snapshots) {
+	return snapshots.map((job) => ({
+		id: job.id,
+		kind: job.kind,
+		label: job.label,
+		status: job.status,
+		...job.detail === void 0 ? {} : { detail: job.detail },
+		startedAt: job.startedAt,
+		...job.finishedAt === void 0 ? {} : { finishedAt: job.finishedAt }
+	}));
+}
+/**
+* Whether the session's conversation has started: no turn has run yet (a
+* turn is one model-loop execution). Standalone plugin events — command
+* lifecycle records, plan/mode, titles, goals — never open a turn, so
+* running `/plan` or `/goal` on a fresh session keeps it blank
+* (list-hidden, reusable).
+*/
+function sessionBlank(session) {
+	return !session.events.some((event) => event.type === "turn/start");
+}
+/** Advance the Session-list hint projection by one committed event. */
+function applySessionListMetadata(state, event) {
+	const blank = state.blank && event.type !== "turn/start";
+	const lastPromptAt = event.type === "user/message" && event.data.source.kind === "user" ? event.time : state.lastPromptAt;
+	return blank === state.blank && lastPromptAt === state.lastPromptAt ? state : {
+		blank,
+		lastPromptAt
+	};
+}
+/** Fold exact list metadata for an attached Session. */
+function sessionListMetadata(events) {
+	let state = {
+		blank: true,
+		lastPromptAt: null
+	};
+	for (const event of events) state = applySessionListMetadata(state, event);
+	return state;
+}
+/** Sort by creation or latest human prompt, whichever is newer. */
+function sessionListUpdatedAt(header, metadata) {
+	return Math.max(header.createdAt, metadata?.lastPromptAt ?? 0);
+}
+/** Shared Session-header projection for list baselines and creation frames. */
+function sessionListFields(header, events = []) {
+	const agentPreset = resolveSessionPreset({
+		header,
+		events
+	});
+	return {
+		...header.parentSession === void 0 ? {} : { parentSessionId: header.parentSession },
+		...header.origin === void 0 ? {} : { origin: header.origin },
+		...header.cwd === void 0 ? {} : { cwd: header.cwd },
+		...agentPreset === void 0 ? {} : { agentPreset }
+	};
+}
+/** SessionSummary projection for attached (in-memory) sessions. */
+function summarize(session, running) {
+	const metadata = sessionListMetadata(session.events);
+	return {
+		sessionId: session.id,
+		updatedAt: sessionListUpdatedAt(session.header, metadata),
+		running,
+		blank: metadata.blank,
+		...sessionListFields(session.header, session.events)
+	};
+}
+/**
+* Verify a possibly blank cold Session only when its physical artifact passes
+* the configured per-Session size check. A stale `blank: true`, an
+* absent cache row, a large or location-less artifact, and read failures all
+* resolve to visible (`false`); listing must never hide a conversation on a
+* cache hint or an unavailable optimization.
+*/
+async function probeColdSessionMetadata(ctx, persistence, meta, maxBytes, signal) {
+	if (maxBytes === 0) return void 0;
+	signal?.throwIfAborted();
+	const location = persistence.locate(meta);
+	if (location === void 0) return void 0;
+	signal?.throwIfAborted();
+	let size;
+	try {
+		size = (await stat(location.path)).size;
+	} catch {
+		signal?.throwIfAborted();
+		return;
+	}
+	if (size > maxBytes) return void 0;
+	try {
+		const { events } = await persistence.readFrom(meta.id, 0, signal);
+		signal?.throwIfAborted();
+		return sessionListMetadata(events);
+	} catch (error) {
+		signal?.throwIfAborted();
+		ctx.logger.warn(`session.list: blank probe for "${meta.id}" failed (serving it as visible): ${String(error)}`);
+		return;
+	}
+}
+/** SessionSummary projection for a cold persisted Session. */
+async function summarizeCold(ctx, persistence, meta, metadata, blankProbeMaxBytes, signal) {
+	const probed = metadata?.blank === false ? void 0 : await probeColdSessionMetadata(ctx, persistence, meta, blankProbeMaxBytes, signal);
+	return {
+		sessionId: meta.id,
+		updatedAt: sessionListUpdatedAt(meta, probed ?? metadata),
+		running: false,
+		blank: metadata?.blank === false ? false : probed?.blank ?? false,
+		...sessionListFields(meta)
+	};
+}
+/** Map a browse-primitive failure onto the wire error vocabulary (unknown throws stay internal). */
+function directoryError(error) {
+	if (error instanceof DirectoryPickerError) return {
+		code: error.code,
+		message: error.message,
+		details: { path: error.path }
+	};
+	return {
+		code: "internal",
+		message: error instanceof Error ? error.message : String(error),
+		details: {}
+	};
+}
+/** Project a pending entry into its answerable mux frame (initial push and mux-open replay share it). */
+function requestedFrame(pending) {
+	return {
+		rpcId: pending.rpcId,
+		payload: {
+			type: "approval/requested",
+			sessionId: pending.sessionId,
+			approvalId: pending.approvalId,
+			toolName: pending.toolName,
+			...pending.callId === void 0 ? {} : { callId: pending.callId },
+			...pending.reason === void 0 ? {} : { reason: pending.reason }
+		}
+	};
+}
+/** Validate one answer batch against the exact question request it resolves. */
+function matchesQuestions(payload, pending) {
+	if (payload.sessionId !== pending.sessionId) return false;
+	const answers = payload.answer.answers;
+	if (answers.length !== pending.questions.length) return false;
+	return answers.every((answer, index) => {
+		const question = pending.questions[index];
+		if (answer.id !== question.id) return false;
+		if (new Set(answer.selected).size !== answer.selected.length) return false;
+		const custom = answer.custom?.trim();
+		if (custom !== void 0 && custom === "") return false;
+		if (question.multiSelect !== true) {
+			if (custom !== void 0 && answer.selected.length > 0) return false;
+			if (answer.selected.length > 1) return false;
+		}
+		const labels = new Set(question.options?.map((option) => option.label) ?? []);
+		return answer.selected.every((label) => labels.has(label));
+	});
+}
+/**
+* Compute the render intent for a tool/call or tool/result event through the
+* presenters registered at this moment; every other event type gets none. A
+* result's presenter needs its call's parsed args — `argsFor` supplies them
+* (live: the per-session call table; history: an in-page backscan), returning
+* undefined when the pairing is unavailable (e.g. the call fell off the page),
+* which soft-falls to no view. Presenter or JSON.parse throws also soft-fall:
+* the client's documented default (generic JSON card) covers every miss.
+*/
+function viewFor(ctx, event, argsFor, scope) {
+	try {
+		if (event.type === "tool/call") {
+			const { name, arguments: raw } = event.data;
+			const view = ctx.tools.get(name, scope)?.presentCall?.(JSON.parse(raw));
+			return view === void 0 ? void 0 : {
+				for: "call",
+				view
+			};
+		}
+		if (event.type === "tool/result") {
+			const { message, meta } = event.data;
+			const [result] = message.content;
+			const callId = message.source.callId;
+			const call = argsFor(callId);
+			if (call === void 0) return void 0;
+			const view = ctx.tools.get(call.name, scope)?.presentResult?.(call.args, {
+				content: result.content,
+				isError: result.isError === true,
+				...meta === void 0 ? {} : { meta }
+			});
+			return view === void 0 ? void 0 : {
+				for: "result",
+				view
+			};
+		}
+	} catch (error) {
+		console.error(`api-proxy: presenter failed for ${event.type}, falling back to generic: ${String(error)}`);
+	}
+}
+/**
+* Resolve a tool/result's call pairing by scanning a window of events backwards
+* for the matching tool/call. Used by the history path (the page is the
+* window — a cross-page pairing soft-falls to no view) and by live-path table
+* misses after a reconnect-eviction.
+*/
+function backscanArgs(events, callId) {
+	for (let i = events.length - 1; i >= 0; i--) {
+		const event = events[i];
+		if (event.type !== "tool/call") continue;
+		const data = event.data;
+		if (data.callId !== callId) continue;
+		try {
+			return {
+				name: data.name,
+				args: JSON.parse(data.arguments)
+			};
+		} catch {
+			return;
+		}
+	}
+}
+/** Render one detached history page through the same presenter path as ordinary history. */
+function historyPage(ctx, events, beforeSeq, maxMessages, scope) {
+	const page = paginate(events, beforeSeq, maxMessages ?? DEFAULT_MAX_MESSAGES);
+	return {
+		events: page.events.map((event) => {
+			const view = viewFor(ctx, event, (callId) => backscanArgs(page.events, callId), scope);
+			return {
+				event,
+				...view === void 0 ? {} : { view }
+			};
+		}),
+		hasMore: page.hasMore
+	};
+}
+function projectionsFor(ctx, session) {
+	const registry = ctx.get("sessionProjections");
+	if (registry === void 0) return void 0;
+	return registry.snapshot(session);
+}
+/**
+* The projection baseline of one session.list row, fail-soft: attached
+* sessions cut the registry's live watermark cache; cold sessions view the
+* persisted projection cache's identity-checked stored rows (zero log loads
+* either way — the listing use case the cache exists for). The block shape
+* (values + asOfSeq) matches the history tail's, so a client seeds its
+* value store under the same higher-seq-wins rule. Any failure — and an
+* empty value set — yields an absent block: a listing without projections
+* is degraded, never broken.
+*/
+function listProjectionsFor(ctx, meta, session) {
+	try {
+		const block = session !== void 0 ? ctx.get("sessionProjections")?.snapshot(session) : ctx.get("sessionProjectionCache")?.cachedSnapshot(meta);
+		return block !== void 0 && Object.keys(block.values).length > 0 ? block : void 0;
+	} catch (error) {
+		ctx.logger.warn(`session.list: projection column for "${meta.id}" failed (serving the row without it): ${String(error)}`);
+		return;
+	}
+}
+/** Projection baseline for a detached history tail without Agent activation. */
+function detachedProjectionsFor(ctx, events) {
+	const registry = ctx.get("sessionProjections");
+	if (registry === void 0) return void 0;
+	return registry.restore({}, events, 0).snapshot;
+}
+/**
+* Best-effort projections for one subagent history page, fail-soft like
+* {@link listProjectionsFor}: a registered unit throwing on a corrupt payload
+* never blocks transcript reading — the page is served without the block.
+* @param ctx - context carrying the logger for the degradation warning.
+* @param childSessionId - the child whose page is being decorated.
+* @param compute - the arm-specific fold (live watermark or detached restore).
+* @returns the projections block, or undefined when the fold failed.
+*/
+function subagentHistoryProjections(ctx, childSessionId, compute) {
+	try {
+		return compute();
+	} catch (error) {
+		ctx.logger.warn(`subagent.history: projections for "${childSessionId}" failed (serving the page without them): ${String(error)}`);
+		return;
+	}
+}
+/** Map continuation admission failures without exposing provider details. */
+function subagentPromptError(request, error, signal) {
+	const childSessionId = request.payload.childSessionId;
+	if (signal.aborted) return err(request, {
+		code: "cancelled",
+		message: "subagent prompt was cancelled",
+		details: {}
+	});
+	if (error instanceof SubagentError) switch (error.code) {
+		case "NOT_RESUMABLE": return err(request, {
+			code: "subagent-not-resumable",
+			message: "subagent cannot be resumed",
+			details: { childSessionId }
+		});
+		case "UNAUTHORIZED": return err(request, {
+			code: "subagent-unauthorized",
+			message: "subagent does not belong to this parent",
+			details: { childSessionId }
+		});
+		case "DRAINING":
+		case "ACTIVATION_CLOSING":
+		case "CONTINUATION_UNAVAILABLE":
+		case "PERSISTENCE_UNAVAILABLE": return err(request, {
+			code: "subagent-delivery-unavailable",
+			message: "subagent follow-up is temporarily unavailable",
+			details: { childSessionId }
+		});
+		default: break;
+	}
+	return err(request, {
+		code: "internal",
+		message: "subagent prompt failed",
+		details: {}
+	});
+}
+/** Stable RPC face of the missing projections capability, shared by every catalog read path. */
+function projectionsUnavailableError() {
+	return {
+		code: "internal",
+		message: "subagent catalog is unavailable: this deployment does not mount the sessionProjections registry (load @deepseek-ai/dsh-session-projection)",
+		details: {}
+	};
+}
+/** Verify one address and mode against the complete direct-child catalog. */
+async function catalogChild(ctx, address, signal) {
+	const { parentSessionId, childSessionId, mode } = address;
+	try {
+		const entry = (await ctx.subagents.listChildren(parentSessionId, signal)).find((candidate) => candidate.id === childSessionId);
+		if (entry === void 0 || entry.kind === "child" && entry.mode !== mode) return { error: {
+			code: "subagent-not-found",
+			message: `session "${childSessionId}" is not a ${mode} direct child of "${parentSessionId}"`,
+			details: {
+				parentSessionId,
+				childSessionId
+			}
+		} };
+		if (entry.kind === "diagnostic") return { error: {
+			code: "subagent-catalog-diagnostic",
+			message: `subagent "${childSessionId}" is ${entry.reason}`,
+			details: {
+				parentSessionId,
+				childSessionId,
+				reason: entry.reason
+			}
+		} };
+		return { entry };
+	} catch (error) {
+		if (signal?.aborted || error instanceof SubagentError && error.code === "CANCELLED") return { error: {
+			code: "cancelled",
+			message: "subagent catalog read was cancelled",
+			details: {}
+		} };
+		if (error instanceof SubagentError && error.code === "SUBAGENT_CONTROL_PROJECTIONS_UNAVAILABLE") return { error: projectionsUnavailableError() };
+		return { error: {
+			code: "internal",
+			message: "subagent catalog read failed",
+			details: {}
+		} };
+	}
+}
+/**
+* The requested preset differs from the one this session already runs.
+*
+* A session's composition is fixed at creation: its history was produced under
+* that preset's tools, so adopting the identity under a different one would
+* replay tool calls the rebuilt agent cannot make. Naming a different preset
+* is therefore a caller error rather than a switch.
+*/
+/** The roster is absent: this deployment composes no agent presets at all. */
+function noRoster(agentPreset) {
+	return {
+		code: "agent-preset-not-found",
+		message: "this deployment composes no agent presets",
+		details: {
+			agentPreset,
+			available: []
+		}
+	};
+}
+/** Map one authoring/roster failure onto its wire code. */
+function presetError(agentPreset, error) {
+	if (error instanceof UnknownPresetError) return {
+		code: "agent-preset-not-found",
+		message: error.message,
+		details: {
+			agentPreset: error.presetId,
+			available: [...error.available]
+		}
+	};
+	if (error instanceof PresetNotWritableError) return {
+		code: "agent-preset-read-only",
+		message: error.message,
+		details: {
+			agentPreset,
+			reason: error.message
+		}
+	};
+	if (error instanceof InvalidPresetIdError || error instanceof PresetExistsError) return {
+		code: "agent-preset-invalid",
+		message: error.message,
+		details: {
+			agentPreset,
+			reason: error.message
+		}
+	};
+	return {
+		code: "internal",
+		message: `agent preset "${agentPreset}": ${String(error)}`,
+		details: {}
+	};
+}
+var AgentPresetConflict = class extends Error {
+	sessionId;
+	requestedPreset;
+	existingPreset;
+	constructor(sessionId, requestedPreset, existingPreset) {
+		super(existingPreset === void 0 ? `session "${sessionId}" records no agent preset, so it cannot be adopted under one; a deployment composing no roster records none on any session — ` : `session "${sessionId}" already runs agent preset ${JSON.stringify(existingPreset)}; requested ${JSON.stringify(requestedPreset)}. A session's preset is fixed at creation.`);
+		this.sessionId = sessionId;
+		this.requestedPreset = requestedPreset;
+		this.existingPreset = existingPreset;
+	}
+};
+/** Requested identity already belongs to a session with another project cwd. */
+var SessionCwdConflict = class extends Error {
+	sessionId;
+	requestedCwd;
+	existingCwd;
+	constructor(sessionId, requestedCwd, existingCwd) {
+		super(`session "${sessionId}" already exists with cwd ${JSON.stringify(existingCwd)}; requested ${JSON.stringify(requestedCwd)}`);
+		this.sessionId = sessionId;
+		this.requestedCwd = requestedCwd;
+		this.existingCwd = existingCwd;
+	}
+};
+/** An explicit Host naming operation would duplicate another Workspace title. */
+var WorkspaceNameConflictError = class extends Error {
+	workspaceName;
+	constructor(workspaceName) {
+		super(`workspace name '${workspaceName}' is already in use`);
+		this.workspaceName = workspaceName;
+		this.name = "WorkspaceNameConflictError";
+	}
+};
+/** Shared workspace-not-found error response of the workspace.* mutation rows. */
+function workspaceNotFound(request, workspaceId) {
+	return err(request, {
+		code: "workspace-not-found",
+		message: `workspace "${workspaceId}" not found`,
+		details: { workspaceId }
+	});
+}
+/** Wire projection of one workspace entity (the workspace.* value row). */
+function workspaceView(workspace) {
+	return {
+		workspaceId: workspace.id,
+		path: workspace.path,
+		title: workspace.title,
+		sessionIds: [...workspace.sessionIds],
+		createdAt: workspace.createdAt,
+		updatedAt: workspace.updatedAt
+	};
+}
+/** Wire projection of the durable record carried by `domain/changed`. */
+function changedWorkspaceView(workspaceId, value) {
+	const record = workspaceRecord.parse(value);
+	return {
+		workspaceId,
+		path: record.path,
+		title: record.title,
+		sessionIds: [...record.sessionIds],
+		createdAt: record.createdAt,
+		updatedAt: record.updatedAt
+	};
+}
+/**
+* Implement ApiProxy over a composed host context.
+* @param ctx - a context with the Host spine and Workspace registry mounted.
+* @param defaults - host routing and project-directory defaults.
+* @returns the ApiProxy implementation.
+*/
+function createApiProxy(ctx, defaults) {
+	const sessionExportCompressionLevel = defaults.sessionExportCompressionLevel ?? 6;
+	const coldBlankProbeMaxBytes = defaults.coldBlankProbeMaxBytes ?? 1024;
+	/** The seed model each create/resume declares; re-read so it never goes stale. */
+	const agentOptions = () => {
+		const { provider, model } = defaults.defaultModelSelection();
+		return {
+			provider,
+			model
+		};
+	};
+	const selections = /* @__PURE__ */ new WeakMap();
+	/**
+	* Serializes `agentPreset.select` per session. Two concurrent selects both
+	* pass the blank check, and the second `unmountPresetFor` then finds nothing
+	* to unmount because the first already removed the record — leaving two
+	* compositions registered into one agent layer. The client's `busy` flag is
+	* not enforcement: the wire is reachable directly.
+	*/
+	const presetSwitches = /* @__PURE__ */ new Map();
+	/** Client-chosen identity creation/resume, deduplicated across concurrent retries. */
+	const sessionCreations = /* @__PURE__ */ new Map();
+	/** Serializes path ownership and explicit title checks with Workspace mutations. */
+	let workspaceCreationChain = Promise.resolve();
+	const pendingQuestions = /* @__PURE__ */ new Map();
+	const pendingApprovals = /* @__PURE__ */ new Map();
+	const muxQueues = /* @__PURE__ */ new Set();
+	const imageAdmissionChains = /* @__PURE__ */ new WeakMap();
+	/** Serialize image admission with model selection for one agent. */
+	function serializeImageAdmission(agent, operation) {
+		const result = (imageAdmissionChains.get(agent) ?? Promise.resolve()).then(operation);
+		imageAdmissionChains.set(agent, result.then(() => void 0, () => void 0));
+		return result;
+	}
+	/**
+	* Install or return the session-local model selection that prompt assembly snapshots.
+	*
+	* Precedence, resolved on EVERY read rather than seeded once: a selection
+	* made in this process, else the session's own latest logged request/header,
+	* else the live Agent default. Re-reading keeps the two tiers exact in both
+	* directions: a session with a recorded request derives its selection from
+	* its log, while a blank session (New Session reuses one rather than minting
+	* another) reads any default saved after it was created. There is no create-time
+	* per-session override tier on this wire — if one returns (a create-options
+	* contribution), it must fold in between the selection and the log.
+	*/
+	function selectionFor(agent) {
+		const installed = selections.get(agent);
+		if (installed !== void 0) return installed;
+		let picked;
+		const selection = {
+			get current() {
+				if (picked !== void 0) return picked;
+				const logged = agent.session.requestHeader()?.config;
+				if (logged === void 0) return defaults.defaultModelSelection();
+				return {
+					provider: logged.provider,
+					model: logged.model,
+					...logged.reasoningEffort === void 0 ? {} : { reasoningEffort: logged.reasoningEffort }
+				};
+			},
+			set current(next) {
+				picked = next;
+			},
+			assembled: void 0
+		};
+		installModelSelection(agent.ctx, selection);
+		selections.set(agent, selection);
+		return selection;
+	}
+	/** Pre-publication setup used by both fresh and resumed Web agents. */
+	function installSelection(agentCtx) {
+		const agent = agentCtx.agent;
+		if (agent === void 0) throw new Error("api-proxy: agent setup has no scoped agent");
+		selectionFor(agent);
+	}
+	/**
+	* Reject an attempt to run an existing session under a different preset.
+	*
+	* A caller that names no preset always adopts the session as it is, so the
+	* common paths — reconnecting, resuming, retrying a create — are unaffected.
+	* @param sessionId - the identity being adopted.
+	* @param requested - the preset the request named, if any.
+	* @param existing - the preset the session RUNS, if any; both callers resolve
+	* it from the log, which differs from the creation header once a blank
+	* session has switched.
+	* @throws when both are present and differ.
+	*/
+	function assertPresetUnchanged(sessionId, requested, existing) {
+		if (requested === void 0 || requested === existing) return;
+		throw new AgentPresetConflict(sessionId, requested, existing);
+	}
+	/**
+	* Resolve the preset an agent will be composed from, and the setup that
+	* installs it.
+	*
+	* The id is resolved BEFORE the session exists because the session boundary
+	* snapshots `meta` before asynchronous setup begins — a preset discovered
+	* during setup could never reach the header. Mounting still happens in
+	* setup, where a failure rolls the whole creation back rather than leaving a
+	* published session whose capabilities are half-installed.
+	*
+	* A deployment with no preset roster composes nothing and every session
+	* shares the host composition, which is the behavior before presets existed.
+	* @param presetId - the requested preset, or `undefined` for the default.
+	* @returns the id to record on the header (absent without a roster) and the setup callback.
+	* @throws when the roster supplies no such preset.
+	*/
+	async function composeAgent(presetId) {
+		const presets = ctx.get("agentPresets");
+		if (presets === void 0) return { setup: (agentCtx) => {
+			installSelection(agentCtx);
+			return Promise.resolve();
+		} };
+		const resolvedId = (await presets.resolve(presetId)).id;
+		return {
+			agentPreset: resolvedId,
+			setup: async (agentCtx) => {
+				installSelection(agentCtx);
+				await presets.mount(agentCtx, resolvedId);
+			}
+		};
+	}
+	const hasSubagentOwner = (session, agent) => hasApiRemoteSubagentOwner(ctx, session, agent);
+	const subagentOwnershipError = (sessionId) => apiRemoteSubagentOwnershipError(sessionId);
+	const inspectServable = (sessionId) => inspectApiRemoteSession(ctx, sessionId);
+	const agentFor = createApiRemoteAgentResolver(ctx, {
+		agentOptions,
+		setup: async ({ meta, events }) => (await composeAgent(resolveSessionPreset({
+			header: meta,
+			events
+		}))).setup
+	});
+	/** Send one transient frame to every connected mux consumer. */
+	function broadcast(payload) {
+		const envelope = frame(payload);
+		for (const queue of muxQueues) queue.push(envelope);
+	}
+	ctx.inject(["sessionProjections"], (projectionCtx) => {
+		projectionCtx.sessionProjections.onChanged((session, key, value, seq) => {
+			broadcast({
+				type: "session/projection",
+				sessionId: session.id,
+				key,
+				value,
+				seq
+			});
+		});
+	});
+	ctx.inject(["sessionProjections"], (projectionCtx) => {
+		projectionCtx.sessionProjections.register({
+			key: "sessionListMetadata",
+			stateSchema: sessionListMetadataProjectionSchema,
+			init: () => ({
+				blank: true,
+				lastPromptAt: null
+			}),
+			apply: applySessionListMetadata,
+			wire: {
+				viewSchema: sessionListMetadataProjectionSchema,
+				view: (state) => state
+			},
+			stateVersion: 1
+		});
+	});
+	ctx.inject(["sessionProjections", "attachments"], (projectionCtx) => {
+		projectionCtx.sessionProjections.register({
+			key: "imageLimits",
+			stateSchema: _null$1(),
+			init: () => null,
+			apply: (state) => state,
+			wire: {
+				viewSchema: imageLimitsProjectionSchema,
+				view: () => projectionCtx.attachments.imageLimits
+			},
+			stateVersion: 1
+		});
+	});
+	/** Project both durable inbox lists, optionally including the splice currently being emitted. */
+	const queueItems = (agent, splice) => {
+		const project = (target) => {
+			const messages = target === "next-turn" ? agent.inbox.nextTurn : agent.inbox.nextStep;
+			return splice?.target === target ? messages.toSpliced(splice.start, splice.removedCount ?? 0, ...splice.inserted) : messages;
+		};
+		return [...project("next-turn").map((message) => ({
+			id: message.id,
+			placement: "queued",
+			message
+		})), ...project("next-step").map((message) => ({
+			id: message.id,
+			placement: message.source.kind === "user" ? "steering" : "context",
+			message
+		}))];
+	};
+	ctx.on("session/event", (session, event) => {
+		if (event.type !== "agent/inbox/spliced") return;
+		const agent = ctx.agents.get(session.id);
+		if (agent?.session !== session) return;
+		broadcast({
+			type: "session/queue",
+			sessionId: session.id,
+			items: queueItems(agent, event.data)
+		});
+	});
+	/** Remove a wait before settling it: synchronous deletion makes the first claimant win. */
+	function claimQuestion(pending, outcome) {
+		pendingQuestions.delete(pending.rpcId);
+		if (pending.signal !== void 0 && pending.onAbort !== void 0) pending.signal.removeEventListener("abort", pending.onAbort);
+		broadcast({
+			type: "question/resolved",
+			sessionId: pending.sessionId,
+			questionRpcId: pending.rpcId,
+			outcome
+		});
+	}
+	const disposeProvider = ctx.userQuestions.registerProvider({ ask(request) {
+		const sessionId = request.agent?.id;
+		if (sessionId === void 0) return Promise.reject(new UserQuestionError("web user interaction requires an agent-owned session", "ASK_MISSING_AGENT"));
+		return new Promise((resolve, reject) => {
+			const rpcId = RpcId(randomUUID());
+			const pending = {
+				rpcId,
+				sessionId,
+				questions: request.questions,
+				resolve,
+				reject,
+				...request.signal === void 0 ? {} : { signal: request.signal }
+			};
+			const onAbort = () => {
+				claimQuestion(pending, "cancelled");
+				reject(new UserQuestionError("ask_user_question was aborted before the user answered", "ASK_ABORTED"));
+			};
+			pending.onAbort = onAbort;
+			pendingQuestions.set(rpcId, pending);
+			request.signal?.addEventListener("abort", onAbort, { once: true });
+			const envelope = {
+				rpcId,
+				payload: {
+					type: "question/requested",
+					sessionId,
+					questions: request.questions
+				}
+			};
+			for (const queue of muxQueues) queue.push(envelope);
+		});
+	} });
+	ctx.effect(() => () => {
+		disposeProvider();
+		for (const pending of [...pendingQuestions.values()]) {
+			claimQuestion(pending, "cancelled");
+			pending.reject(new UserQuestionError("web user-questions provider was disposed", "ASK_ABORTED"));
+		}
+	}, "api-proxy: user-questions provider");
+	if (ctx.get("approval") !== void 0) {
+		ctx.effect(() => () => {
+			for (const pending of [...pendingApprovals.values()]) pending.resolve("cancelled");
+		}, "api-proxy: approval registry teardown");
+		ctx.on("approval/request", (req, next) => {
+			if (req.signal?.aborted === true) return Promise.resolve("cancelled");
+			const events = req.agent.session.events;
+			const claimed = /* @__PURE__ */ new Set();
+			for (const entry of pendingApprovals.values()) claimed.add(entry.approvalId);
+			const decided = /* @__PURE__ */ new Set();
+			let approvalId;
+			for (let i = events.length - 1; i >= 0; i -= 1) {
+				const event = events[i];
+				if (event.type === "approval/decided") decided.add(event.data.id);
+				else if (event.type === "approval/asked") {
+					if (decided.has(event.data.id) || claimed.has(event.data.id)) continue;
+					if ((req.callId ?? null) !== (event.data.callId ?? null)) continue;
+					approvalId = event.data.id;
+					break;
+				}
+			}
+			if (approvalId === void 0) return next();
+			const id = approvalId;
+			return new Promise((resolve) => {
+				const settle = (outcome) => {
+					/* v8 ignore next 3 -- defensive double-settle guard: respond() routes
+					through the pending table (a settled id is not-pending before it can
+					re-settle) and the first settle removes the abort listener, so no
+					reachable path settles twice; kept against future settle callers. */
+					if (!pendingApprovals.delete(pending.rpcId)) return;
+					req.signal?.removeEventListener("abort", onAbort);
+					broadcast({
+						type: "approval/resolved",
+						sessionId: pending.sessionId,
+						approvalId: id,
+						outcome
+					});
+					resolve(outcome);
+				};
+				const onAbort = () => {
+					settle("cancelled");
+				};
+				const pending = {
+					rpcId: RpcId(randomUUID()),
+					sessionId: req.agent.session.id,
+					approvalId: id,
+					toolName: req.toolName,
+					...req.callId === void 0 ? {} : { callId: req.callId },
+					...req.reason === void 0 ? {} : { reason: req.reason },
+					resolve: settle
+				};
+				pendingApprovals.set(pending.rpcId, pending);
+				req.signal?.addEventListener("abort", onAbort, { once: true });
+				const envelope = requestedFrame(pending);
+				for (const queue of muxQueues) queue.push(envelope);
+			});
+		});
+	}
+	/** Read one stable session prefix without acquiring an Agent owner. */
+	async function readSessionState(sessionId) {
+		const attached = ctx.sessions.get(sessionId);
+		if (attached !== void 0) return {
+			id: attached.id,
+			header: attached.header,
+			events: [...attached.events]
+		};
+		const inspected = await inspectServable(sessionId);
+		return {
+			id: inspected.meta.id,
+			header: inspected.meta,
+			events: inspected.events
+		};
+	}
+	/** Resolve the Workspace inherited by a fork without making ordinary loose lineage grouped. */
+	async function forkWorkspace(source) {
+		const workspaces = ctx.workspaceRegistry.list();
+		const direct = workspaces.find((workspace) => workspace.sessionIds.includes(source.id));
+		if (direct !== void 0 || source.header.origin !== "subagent") return direct;
+		const lineage = await ctx.sessionQuery.traceSession(source.id);
+		for (const ancestor of lineage.ancestors) {
+			const workspace = workspaces.find((candidate) => candidate.sessionIds.includes(ancestor.header.id));
+			if (workspace !== void 0) return workspace;
+		}
+	}
+	/**
+	* Resolve which session one transcript read is served from, without
+	* acquiring an Agent owner. This is the read's only asynchronous step
+	* besides ensuring the composition; {@link historyCutOf} takes the cut.
+	* @param sessionId - the transcript being read.
+	* @returns the attached session, or the inspected detached header and events.
+	* @throws {@link ApiRemoteSessionNotFound} when no project-backed session has that identity.
+	*/
+	async function historySourceFor(sessionId) {
+		const attached = ctx.sessions.get(sessionId);
+		if (attached !== void 0) return {
+			kind: "attached",
+			session: attached
+		};
+		const inspected = await inspectServable(sessionId);
+		return {
+			kind: "detached",
+			header: inspected.meta,
+			events: inspected.events
+		};
+	}
+	/**
+	* The header and events {@link presenterScopeFor} reads to decide which
+	* composition a transcript ran under.
+	* @param source - the live or detached session this read is served from.
+	* @returns that session's creation header and its events.
+	*/
+	function sourceSession(source) {
+		if (source.kind === "detached") return {
+			header: source.header,
+			events: source.events
+		};
+		return {
+			header: source.session.header,
+			events: source.session.events
+		};
+	}
+	/**
+	* One transcript cut: the events and the projection baseline that describe
+	* the SAME log position.
+	*
+	* Synchronous, and the two reads sit next to each other, because an attached
+	* session keeps appending: an `await` between them would serve events cut at
+	* N beside a baseline folded to N+1, which is one response describing two
+	* moments. The caller does its awaiting before this call.
+	* @param source - the live or detached session this read is served from.
+	* @param includeProjections - whether the caller asked for the baseline (a tail page does).
+	* @returns the events and, when asked, the baseline for that same position.
+	*/
+	function historyCutOf(source, includeProjections) {
+		if (source.kind === "detached") {
+			const projections = includeProjections ? detachedProjectionsFor(ctx, source.events) : void 0;
+			return {
+				events: source.events,
+				...projections === void 0 ? {} : { projections }
+			};
+		}
+		const events = [...source.session.events];
+		const projections = includeProjections ? projectionsFor(ctx, source.session) : void 0;
+		return {
+			events,
+			...projections === void 0 ? {} : { projections }
+		};
+	}
+	/**
+	* The registry view scope a transcript's presenters resolve in.
+	*
+	* A live agent is that scope itself (its chain passes through its preset's
+	* standing layer). A cold session resolves its preset from the LOG, and the
+	* preset's STANDING key serves without resuming anything — ensuring the
+	* mount composes plugins but starts no agent, session, or turn. No roster,
+	* no recorded preset, or a preset the roster no longer supplies all fall
+	* back to the global layer: the transcript still serves, with the generic
+	* cards a viewless entry renders.
+	*
+	* Reading the header alone would render a session that switched while blank
+	* through the composition it was CREATED with. Every tool only the newer
+	* preset registers resolves to no presenter there, and the transcript
+	* silently degrades to generic cards for exactly the calls its history is
+	* made of.
+	* @param sessionId - the transcript being read.
+	* @param session - that session's header and log (attached or inspected).
+	* @returns the scope to pass to presenter lookups, or undefined for global.
+	*/
+	async function presenterScopeFor(sessionId, session) {
+		const live = ctx.get("agents")?.get(sessionId);
+		if (live !== void 0) return live;
+		const presets = ctx.get("agentPresets");
+		if (presets === void 0) return void 0;
+		try {
+			return await presets.standingKeyFor(resolveSessionPreset(session));
+		} catch {
+			return;
+		}
+	}
+	/** Resolve one requested identity to a live agent, creating or resuming it once. */
+	async function ensureSession(sessionId, cwd, checkPersistedIdentity, presetId) {
+		let creation = sessionCreations.get(sessionId);
+		if (creation === void 0) {
+			creation = (async () => {
+				const attached = ctx.sessions.get(sessionId);
+				const live = ctx.agents.get(sessionId);
+				if (attached !== void 0 && hasSubagentOwner(attached, live)) throw new ApiRemoteSubagentSessionOwnership(sessionId);
+				if (live !== void 0) return live;
+				const persistence = checkPersistedIdentity ? ctx.get("sessionPersistence") : void 0;
+				const stored = persistence === void 0 ? void 0 : (await persistence.list()).find((header) => header.id === sessionId);
+				if (persistence !== void 0 && stored !== void 0) {
+					const inspected = await persistence.inspect(sessionId);
+					if (hasSubagentOwner({ header: inspected.meta }, void 0)) throw new ApiRemoteSubagentSessionOwnership(sessionId);
+					if (inspected.meta.cwd !== cwd) throw new SessionCwdConflict(sessionId, cwd, inspected.meta.cwd);
+					const storedPreset = resolveSessionPreset({
+						header: inspected.meta,
+						events: inspected.events
+					});
+					assertPresetUnchanged(sessionId, presetId, storedPreset);
+					return (await ctx.agents.resume({
+						resumeSessionId: sessionId,
+						agentOptions: agentOptions(),
+						setup: (await composeAgent(storedPreset)).setup
+					})).agent;
+				}
+				try {
+					await mkdir(cwd, { recursive: true });
+				} catch (error) {
+					throw new Error(`failed to ensure project directory "${cwd}": ${String(error)}`, { cause: error });
+				}
+				const composition = await composeAgent(presetId);
+				return (await ctx.agents.create({
+					sessionId,
+					agentOptions: agentOptions(),
+					meta: {
+						cwd,
+						...composition.agentPreset === void 0 ? {} : { agentPreset: composition.agentPreset }
+					},
+					setup: composition.setup
+				})).agent;
+			})().catch((error) => {
+				const live = ctx.agents.get(sessionId);
+				if (live !== void 0) {
+					if (hasSubagentOwner(live.session, live)) throw new ApiRemoteSubagentSessionOwnership(sessionId);
+					return live;
+				}
+				const attached = ctx.sessions.get(sessionId);
+				if (attached !== void 0 && hasSubagentOwner(attached, void 0)) throw new ApiRemoteSubagentSessionOwnership(sessionId);
+				throw error;
+			}).finally(() => {
+				sessionCreations.delete(sessionId);
+			});
+			sessionCreations.set(sessionId, creation);
+		}
+		const agent = await creation;
+		if (hasSubagentOwner(agent.session, agent)) throw new ApiRemoteSubagentSessionOwnership(sessionId);
+		assertPresetUnchanged(sessionId, presetId, resolveSessionPreset(agent.session));
+		if (agent.session.header.cwd !== cwd) throw new SessionCwdConflict(sessionId, cwd, agent.session.header.cwd);
+		return agent;
+	}
+	/** Resolve or create one path while holding the Host's workspace-create chain. */
+	function ensureWorkspace(path) {
+		const operation = workspaceCreationChain.then(async () => {
+			const existing = await ctx.workspaceRegistry.resolveByPath(path);
+			if (existing !== void 0) return {
+				workspace: existing,
+				created: false
+			};
+			return {
+				workspace: await ctx.workspaceRegistry.create(path),
+				created: true
+			};
+		});
+		workspaceCreationChain = operation.then(() => void 0, () => void 0);
+		return operation;
+	}
+	/**
+	* Build the session.list baseline shared by listing and search visibility.
+	* Attached sessions come from memory; servable cold sessions merge from
+	* persistence, and the final order is newest-first.
+	*/
+	async function listVisibleSessionSummaries(signal) {
+		signal?.throwIfAborted();
+		const summarizeAttached = (session) => {
+			const agent = ctx.agents.get(session.id);
+			const projections = listProjectionsFor(ctx, session.header, session);
+			return {
+				...summarize(session, agent?.status === "running"),
+				...projections === void 0 ? {} : { projections }
+			};
+		};
+		const items = ctx.sessions.list().map(summarizeAttached);
+		signal?.throwIfAborted();
+		const attached = new Set(items.map((item) => item.sessionId));
+		const persistence = ctx.get("sessionPersistence");
+		if (persistence !== void 0) {
+			const cold = (await persistence.list(signal)).filter((meta) => !attached.has(meta.id) && meta.cwd !== void 0);
+			signal?.throwIfAborted();
+			for (let offset = 0; offset < cold.length; offset += COLD_SUMMARY_BATCH_SIZE) {
+				signal?.throwIfAborted();
+				const batch = cold.slice(offset, offset + COLD_SUMMARY_BATCH_SIZE);
+				const settled = await Promise.allSettled(batch.map(async (meta) => {
+					const projections = listProjectionsFor(ctx, meta, void 0);
+					const summary = await summarizeCold(ctx, persistence, meta, projections?.values.sessionListMetadata, coldBlankProbeMaxBytes, signal);
+					const attachedSession = ctx.sessions.get(meta.id);
+					if (attachedSession !== void 0) return summarizeAttached(attachedSession);
+					return {
+						...summary,
+						...projections === void 0 ? {} : { projections }
+					};
+				}));
+				const summaries = [];
+				let rejected = false;
+				let failure;
+				for (const result of settled) if (result.status === "fulfilled") summaries.push(result.value);
+				else if (!rejected) {
+					rejected = true;
+					failure = result.reason;
+				}
+				if (rejected) throw failure;
+				signal?.throwIfAborted();
+				items.push(...summaries);
+			}
+		}
+		items.sort((a, b) => b.updatedAt - a.updatedAt);
+		return items;
+	}
+	/**
+	* Resolve the goal service THIS agent runs.
+	*
+	* The service is per session: an agent preset mounts it behind an `isolate`
+	* realm, which no host context resolves. Reading it from the root would
+	* answer "absent" for a session whose composition mounts it — so the lookup
+	* is keyed by the agent, and only a deployment composing it nowhere is
+	* genuinely absent.
+	*/
+	function goalServiceFor(agent) {
+		const goals = ctx.get("agentPresets")?.serviceFor(agent, "goals") ?? ctx.get("goals");
+		if (goals === void 0) return { error: {
+			code: "internal",
+			message: "goal service is absent: neither this session's agent preset nor the host composition mounts @deepseek-ai/dsh-goal",
+			details: {}
+		} };
+		return goals;
+	}
+	/** Map one goal-domain rejection to the wire error (stable GoalError codes ride in details). */
+	function goalError(request, error) {
+		const details = error instanceof GoalError ? { goalCode: error.code } : {};
+		return err(request, {
+			code: "internal",
+			message: String(error),
+			details
+		});
+	}
+	/** Resolve a session's agent, apply one goal mutation, and acknowledge with the new CAS ref. */
+	async function mutateGoal(request, mutation) {
+		const found = await agentFor(request.payload.sessionId);
+		if ("error" in found) return err(request, found.error);
+		const goals = goalServiceFor(found.agent);
+		if ("error" in goals) return err(request, goals.error);
+		try {
+			const ref = mutation(goals, found.agent);
+			return ok(request, { ref: {
+				id: ref.id,
+				revision: ref.revision
+			} });
+		} catch (error) {
+			return goalError(request, error);
+		}
+	}
+	/**
+	* Whether an adapter currently serves this provider, and therefore whether
+	* a session selecting it can start a turn. Catalog membership cannot answer
+	* it: an adapter may serve a model its own catalog stopped advertising, so
+	* a provider missing from the groups is not the same as one nothing serves.
+	* A composition with no llm registry at all cannot judge and says yes —
+	* the dispatch it would have refused fails on its own terms.
+	*/
+	function routeServed(provider) {
+		const llm = ctx.get("llm");
+		return llm === void 0 || llm.listProviders().some((entry) => entry.id === provider);
+	}
+	/**
+	* Resolve the addressed agent for a turn-starting method and refuse when no
+	* adapter serves its current selection: a provider nothing serves cannot start a
+	* turn, and letting it try spends the whole pre-step path to fail inside
+	* the adapter with a message about registration. Refusing here names the
+	* model the session is pointed at while the draft is still in the composer.
+	* This is `session.prompt`'s enforcement boundary: a client that disables
+	* its input is an affordance, and the method stays callable regardless.
+	*/
+	async function turnAgentFor(request, sessionId) {
+		const found = await agentFor(sessionId);
+		if ("error" in found) return { refused: err(request, found.error) };
+		const agent = found.agent;
+		const selection = selectionFor(agent).current;
+		if (!routeServed(selection.provider)) return { refused: err(request, {
+			code: "model-unavailable",
+			message: `no adapter serves provider "${selection.provider}"; select a model for this session`,
+			details: {
+				provider: selection.provider,
+				model: selection.model
+			}
+		}) };
+		return { agent };
+	}
+	/** Missing-service report shared by the settings domain (skills-domain stance). */
+	function settingsAbsent() {
+		return {
+			code: "internal",
+			message: "settings service is absent: this deployment does not mount a settings provider (e.g. @deepseek-ai/dsh-settings-file) in its composition",
+			details: {}
+		};
+	}
+	/** Open one Host-resolved target and map native failures onto the wire vocabulary. */
+	async function openTarget(request, path, signal, open) {
+		try {
+			await open(path, signal);
+			return ok(request, { opened: true });
+		} catch (error) {
+			if (signal.aborted) return err(request, {
+				code: "cancelled",
+				message: "path open was aborted",
+				details: {}
+			});
+			return err(request, {
+				code: "internal",
+				message: `path open failed: ${error instanceof Error ? error.message : String(error)}`,
+				details: {}
+			});
+		}
+	}
+	/** Open one Host-resolved path with its default application. */
+	function openPath(request, path, signal) {
+		return openTarget(request, path, signal, defaults.openPath ?? ((target, openSignal) => openNativePath(target, openSignal)));
+	}
+	/** Open one Host-resolved text document in a native editor. */
+	function openTextFile(request, path, signal) {
+		return openTarget(request, path, signal, defaults.openTextFile ?? ((target, openSignal) => openNativeTextFile(target, openSignal)));
+	}
+	/** Whether this deployment can hand a path to a native opener at all. */
+	function canOpenPaths() {
+		if (defaults.canOpenPath !== void 0) return defaults.canOpenPath();
+		return defaults.openPath !== void 0 || canOpenNativePath();
+	}
+	/** Missing-service report shared by the credentials domain. */
+	function credentialsAbsent() {
+		return {
+			code: "internal",
+			message: "credentials service is absent: this deployment does not mount a credential provider (e.g. @deepseek-ai/dsh-credentials-local) in its composition",
+			details: {}
+		};
+	}
+	/** Map one redacted settings descriptor to its wire view. */
+	function namespaceView(descriptor) {
+		return {
+			ns: String(descriptor.ns),
+			schema: descriptor.schema,
+			value: descriptor.value,
+			...descriptor.base === void 0 ? {} : { base: descriptor.base },
+			...descriptor.user === void 0 ? {} : { user: descriptor.user },
+			applies: descriptor.applies,
+			secrets: (descriptor.secrets ?? []).map((secret) => ({
+				path: [...secret.path],
+				set: secret.set
+			})),
+			revision: descriptor.revision
+		};
+	}
+	/**
+	* Run one settings write (merge or wholesale replace) and acknowledge with
+	* the namespace's new redacted view. Every seam refusal — unknown or invalid
+	* namespace, read-only provider, schema validation, storage — becomes one
+	* `settings-rejected` carrying the seam's own message.
+	*/
+	async function settingsWrite(request, ns, mode, section, expectedRevision) {
+		const settings = ctx.get("settings");
+		if (settings === void 0) return err(request, settingsAbsent());
+		const rejected = (error) => {
+			if (error instanceof SettingsConflictError) return err(request, {
+				code: "settings-conflict",
+				message: error.message,
+				details: {
+					ns,
+					expected: error.expected,
+					actual: error.actual
+				}
+			});
+			return err(request, {
+				code: "settings-rejected",
+				message: error instanceof Error ? error.message : String(error),
+				details: { ns }
+			});
+		};
+		let branded;
+		try {
+			branded = settingsNamespace(ns);
+		} catch (error) {
+			return rejected(error);
+		}
+		try {
+			if (mode === "update") await settings.update(branded, section, expectedRevision);
+			else if (mode === "replace") await settings.replace(branded, section, expectedRevision);
+			else await settings.mutate(branded, section, expectedRevision);
+		} catch (error) {
+			return rejected(error);
+		}
+		const descriptor = settings.describe({ redactSecrets: true }).find((candidate) => candidate.ns === branded);
+		if (descriptor === void 0) return err(request, {
+			code: "internal",
+			message: `settings namespace "${ns}" was disposed after the ${mode}`,
+			details: {}
+		});
+		return ok(request, namespaceView(descriptor));
+	}
+	return {
+		sessions: {
+			async list(request) {
+				return ok(request, { items: await listVisibleSessionSummaries() });
+			},
+			async search(request, signal) {
+				const cancelled = () => err(request, {
+					code: "cancelled",
+					message: "session search was aborted",
+					details: {}
+				});
+				if (isAborted(signal)) return cancelled();
+				const sessionQuery = ctx.get("sessionQuery");
+				if (sessionQuery === void 0) return err(request, {
+					code: "internal",
+					message: "session search is unavailable: this deployment does not mount @deepseek-ai/dsh-session-query",
+					details: {}
+				});
+				try {
+					const visible = await listVisibleSessionSummaries(signal);
+					if (isAborted(signal)) return cancelled();
+					if (visible.length === 0) return ok(request, {
+						items: [],
+						hasMore: false
+					});
+					const visibleIds = new Set(visible.map((item) => item.sessionId));
+					const authorized = [];
+					const acceptedIds = /* @__PURE__ */ new Set();
+					const seenCursors = /* @__PURE__ */ new Set();
+					let cursor;
+					let providerCallCount = 0;
+					let providerPageLimit = 20;
+					while (authorized.length <= 20) {
+						if (isAborted(signal)) return cancelled();
+						if (providerCallCount >= SESSION_SEARCH_PROVIDER_CALL_LIMIT) throw new Error(`session search provider exceeded the ${SESSION_SEARCH_PROVIDER_CALL_LIMIT}-call work budget`);
+						providerCallCount++;
+						const requestedCursor = cursor;
+						const requestedPageLimit = providerPageLimit;
+						let page;
+						try {
+							page = await sessionQuery.searchSessions({
+								query: request.payload.query,
+								eventFilters: [{
+									kind: "type",
+									values: ["user/message", "assistant/message"]
+								}, {
+									kind: "surface",
+									values: ["current"]
+								}],
+								limit: requestedPageLimit,
+								...requestedCursor === void 0 ? {} : { cursor: requestedCursor }
+							}, { signal });
+						} catch (error) {
+							if (isAborted(signal)) return cancelled();
+							if (requestedCursor === void 0 && error instanceof SessionQueryError && error.code === "SESSION_QUERY_INVALID_LIMIT" && requestedPageLimit > 1) {
+								providerPageLimit = Math.max(1, Math.floor(requestedPageLimit / 2));
+								continue;
+							}
+							if (requestedCursor !== void 0 && error instanceof SessionQueryError && error.code === "SESSION_QUERY_STALE_CURSOR") {
+								authorized.length = 0;
+								acceptedIds.clear();
+								seenCursors.clear();
+								cursor = void 0;
+								continue;
+							}
+							throw error;
+						}
+						if (isAborted(signal)) return cancelled();
+						const providerItemCount = page.items.length;
+						if (providerItemCount > requestedPageLimit) throw new Error(`session search provider returned ${providerItemCount} items; maximum is ${requestedPageLimit}`);
+						for (const hit of page.items) {
+							if (authorized.length > 20) continue;
+							if (!visibleIds.has(hit.header.id) || hit.bestMatch.sessionId !== hit.header.id || hit.bestMatch.surface !== "current" || !MESSAGE_TYPES.has(hit.bestMatch.type) || acceptedIds.has(hit.header.id)) continue;
+							const snippet = truncateUnicodeCodePoints(hit.bestMatch.snippet, 240);
+							acceptedIds.add(hit.header.id);
+							authorized.push({
+								sessionId: hit.header.id,
+								snippet
+							});
+						}
+						const nextCursor = page.nextCursor;
+						if (nextCursor !== void 0) {
+							if (seenCursors.has(nextCursor)) throw new Error("session search provider repeated a continuation cursor");
+							seenCursors.add(nextCursor);
+						}
+						if (authorized.length > 20 || nextCursor === void 0) break;
+						cursor = nextCursor;
+					}
+					return ok(request, {
+						items: authorized.slice(0, 20),
+						hasMore: authorized.length > 20
+					});
+				} catch (error) {
+					if (isAborted(signal) || error instanceof SessionQueryError && error.code === "SESSION_QUERY_ABORTED") return cancelled();
+					return err(request, {
+						code: "internal",
+						message: `session search failed: ${String(error)}`,
+						details: {}
+					});
+				}
+			},
+			async create(request) {
+				const sessionId = request.payload.sessionId ?? `session-${randomUUID()}`;
+				let workspace;
+				if (request.payload.workspaceId !== void 0) {
+					workspace = ctx.workspaceRegistry.get(WorkspaceId(request.payload.workspaceId));
+					if (workspace === void 0) return err(request, {
+						code: "workspace-not-found",
+						message: `workspace "${request.payload.workspaceId}" not found`,
+						details: { workspaceId: request.payload.workspaceId }
+					});
+				}
+				const cwd = workspace?.path ?? request.payload.cwd ?? defaults.cwd;
+				const requestedPreset = request.payload.agentPreset;
+				try {
+					await ensureSession(sessionId, cwd, request.payload.sessionId !== void 0, requestedPreset);
+				} catch (error) {
+					if (error instanceof AgentPresetConflict) return err(request, {
+						code: "agent-preset-conflict",
+						message: error.message,
+						details: {
+							sessionId: error.sessionId,
+							requestedPreset: error.requestedPreset,
+							...error.existingPreset === void 0 ? {} : { existingPreset: error.existingPreset }
+						}
+					});
+					const refused = presetFailure(request, error);
+					if (refused !== void 0) return refused;
+					if (error instanceof SessionCwdConflict) return err(request, {
+						code: "session-conflict",
+						message: error.message,
+						details: {
+							sessionId: error.sessionId,
+							requestedCwd: error.requestedCwd,
+							...error.existingCwd === void 0 ? {} : { existingCwd: error.existingCwd }
+						}
+					});
+					if (error instanceof ApiRemoteSubagentSessionOwnership) return err(request, subagentOwnershipError(error.sessionId));
+					return err(request, {
+						code: "internal",
+						message: `failed to create session "${sessionId}": ${String(error)}`,
+						details: {}
+					});
+				}
+				if (workspace !== void 0) try {
+					await workspace.attachSession(sessionId);
+				} catch (error) {
+					return err(request, {
+						code: "workspace-attach-failed",
+						message: `session "${sessionId}" was created but could not attach to workspace "${workspace.id}": ${String(error)}`,
+						details: {
+							sessionId,
+							workspaceId: workspace.id
+						}
+					});
+				}
+				const created = ctx.agents.get(sessionId);
+				const createdPreset = created === void 0 ? void 0 : resolveSessionPreset(created.session);
+				return ok(request, {
+					sessionId,
+					...createdPreset === void 0 ? {} : { agentPreset: createdPreset }
+				});
+			},
+			async history(request) {
+				const { sessionId, beforeSeq, maxMessages } = request.payload;
+				try {
+					const source = await historySourceFor(sessionId);
+					const scope = await presenterScopeFor(sessionId, sourceSession(source));
+					const cut = historyCutOf(source, beforeSeq === void 0);
+					const page = historyPage(ctx, cut.events, beforeSeq, maxMessages, scope);
+					return ok(request, {
+						events: page.events,
+						hasMore: page.hasMore,
+						...cut.projections === void 0 ? {} : { projections: cut.projections }
+					});
+				} catch (error) {
+					if (error instanceof ApiRemoteSessionNotFound) return err(request, {
+						code: "session-not-found",
+						message: error.message,
+						details: { sessionId }
+					});
+					return err(request, {
+						code: "internal",
+						message: `history unavailable for session "${sessionId}": ${String(error)}`,
+						details: {}
+					});
+				}
+			},
+			async models(request) {
+				const { sessionId } = request.payload;
+				const found = await agentFor(sessionId);
+				if ("error" in found) return err(request, found.error);
+				const current = selectionFor(found.agent).current;
+				const { groups, failures } = await buildModelCatalog(ctx);
+				const routable = routeServed(current.provider);
+				return ok(request, {
+					current: { ...current },
+					routable,
+					groups,
+					failures
+				});
+			},
+			async selectModel(request) {
+				const { sessionId, provider, model, reasoningEffort } = request.payload;
+				const found = await agentFor(sessionId);
+				if ("error" in found) return err(request, found.error);
+				return serializeImageAdmission(found.agent, async () => {
+					try {
+						const resolved = await ctx.llm.resolveCallConfig({
+							provider,
+							model,
+							...reasoningEffort === void 0 ? {} : { reasoningEffort: ReasoningEffortId(reasoningEffort) }
+						});
+						const selected = {
+							provider: resolved.provider,
+							model: resolved.model,
+							...resolved.reasoningEffort === void 0 ? {} : { reasoningEffort: resolved.reasoningEffort }
+						};
+						selectionFor(found.agent).current = selected;
+						try {
+							await defaults.saveDefaultModelSelection?.(selected);
+						} catch (error) {
+							ctx.logger.warn(`api-proxy: the model switch applies to this session but was not saved as the default: ${String(error)}`);
+						}
+						return ok(request, { selected: { ...selected } });
+					} catch (error) {
+						return err(request, {
+							code: "model-unavailable",
+							message: error instanceof Error ? error.message : String(error),
+							details: {
+								provider,
+								model
+							}
+						});
+					}
+				});
+			},
+			async rename(request) {
+				const { sessionId, title } = request.payload;
+				const found = await agentFor(sessionId);
+				if ("error" in found) return err(request, found.error);
+				const titles = ctx.get("sessionTitle");
+				if (titles === void 0) return err(request, {
+					code: "internal",
+					message: "renaming is unavailable: this deployment mounts no session-title service",
+					details: {}
+				});
+				try {
+					const accepted = titles.rename(found.agent.session, title);
+					return ok(request, {
+						title: accepted.title,
+						seq: accepted.eventSeq
+					});
+				} catch (error) {
+					if (error instanceof SessionTitleInvalidError) return err(request, {
+						code: "title-invalid",
+						message: error.message,
+						details: { sessionId }
+					});
+					return err(request, {
+						code: "internal",
+						message: `failed to rename session "${sessionId}": ${String(error)}`,
+						details: {}
+					});
+				}
+			},
+			async fork(request) {
+				const { sessionId, atSeq } = request.payload;
+				let source;
+				try {
+					source = await readSessionState(sessionId);
+				} catch (error) {
+					if (error instanceof ApiRemoteSessionNotFound) return err(request, {
+						code: "session-not-found",
+						message: error.message,
+						details: { sessionId }
+					});
+					return err(request, {
+						code: "internal",
+						message: `fork source unavailable for session "${sessionId}": ${String(error)}`,
+						details: {}
+					});
+				}
+				const events = source.events;
+				const lastSeq = events.at(-1)?.seq ?? -1;
+				const boundary = (atSeq === void 0 ? void 0 : events.find((e) => e.type === "turn/end" && e.seq >= atSeq)) ?? (atSeq === void 0 || atSeq > lastSeq ? events.findLast((e) => e.type === "turn/end") : void 0);
+				if (boundary === void 0) return err(request, {
+					code: "fork-unavailable",
+					message: atSeq !== void 0 && atSeq <= lastSeq ? `session "${sessionId}" has not completed the turn containing event ${String(atSeq)}` : `session "${sessionId}" has no completed turn to fork from`,
+					details: { sessionId }
+				});
+				let cut = boundary.seq + 1;
+				while (cut < events.length && events[cut]?.type !== "turn/start") cut++;
+				let workspace;
+				try {
+					workspace = await forkWorkspace(source);
+				} catch (error) {
+					return err(request, {
+						code: "internal",
+						message: `failed to resolve fork workspace for session "${sessionId}": ${String(error)}`,
+						details: {}
+					});
+				}
+				const childId = `session-${randomUUID()}`;
+				const forkComposition = await composeAgent(resolveSessionPreset(source));
+				try {
+					await ctx.agents.create({
+						sessionId: childId,
+						seed: events.slice(0, cut),
+						meta: {
+							...source.header.cwd === void 0 ? {} : { cwd: source.header.cwd },
+							parentSession: source.id,
+							seedLength: cut,
+							...forkComposition.agentPreset === void 0 ? {} : { agentPreset: forkComposition.agentPreset }
+						},
+						agentOptions: agentOptions(),
+						setup: forkComposition.setup
+					});
+				} catch (error) {
+					return err(request, {
+						code: "internal",
+						message: `failed to fork session "${sessionId}": ${String(error)}`,
+						details: {}
+					});
+				}
+				if (workspace !== void 0) try {
+					await workspace.attachSession(childId);
+				} catch (error) {
+					return err(request, {
+						code: "workspace-attach-failed",
+						message: `session "${childId}" was forked but could not attach to workspace "${workspace.id}": ${String(error)}`,
+						details: {
+							sessionId: childId,
+							workspaceId: workspace.id
+						}
+					});
+				}
+				return ok(request, { sessionId: childId });
+			},
+			async prompt(request) {
+				const { sessionId, mode, content, clientTimeZone } = request.payload;
+				const canonicalTimeZone = clientTimeZone === void 0 ? void 0 : canonicalClientTimeZone(clientTimeZone);
+				if (clientTimeZone !== void 0 && canonicalTimeZone === void 0) return err(request, {
+					code: "invalid-time-zone",
+					message: "clientTimeZone must be UTC or a valid IANA Area/Location name",
+					details: { value: clientTimeZone }
+				});
+				const resolved = await turnAgentFor(request, sessionId);
+				if ("refused" in resolved) return resolved.refused;
+				const agent = resolved.agent;
+				const source = {
+					kind: "user",
+					rpcId: request.rpcId,
+					...canonicalTimeZone === void 0 ? {} : { clientTimeZone: canonicalTimeZone }
+				};
+				const hasImage = content.some((part) => part.type === "image");
+				const admit = async () => {
+					try {
+						if (hasImage) {
+							const current = selectionFor(agent).current;
+							const modelInfo = await ctx.llm.resolveModelInfo(current.provider, current.model);
+							if (modelInfo.inputModalities !== void 0 && !modelInfo.inputModalities.includes("image")) return err(request, {
+								code: "attachment-error",
+								message: `Model "${current.model}" does not support image input.`,
+								details: { reason: "MODEL_DOES_NOT_SUPPORT_IMAGES" }
+							});
+						}
+						const message = createUserMessage({
+							content: await durablePromptContent(ctx, content),
+							source
+						});
+						if (mode === "steer") agent.steer(message);
+						else agent.followup(message);
+					} catch (error) {
+						if (error instanceof AttachmentError) return err(request, {
+							code: "attachment-error",
+							message: error.message,
+							details: { reason: error.code }
+						});
+						return err(request, {
+							code: "agent-busy",
+							message: "prompt rejected",
+							details: { reason: String(error) }
+						});
+					}
+					return ok(request, { accepted: true });
+				};
+				return hasImage ? serializeImageAdmission(agent, admit) : admit();
+			},
+			async attachment(request) {
+				const { sessionId, attachmentId } = request.payload;
+				let state;
+				try {
+					state = await readSessionState(sessionId);
+				} catch (error) {
+					if (error instanceof ApiRemoteSessionNotFound) return err(request, {
+						code: "session-not-found",
+						message: error.message,
+						details: { sessionId }
+					});
+					return err(request, {
+						code: "internal",
+						message: `attachment authorization unavailable for session "${sessionId}": ${String(error)}`,
+						details: {}
+					});
+				}
+				const ref = referencedImage(state.events, String(attachmentId));
+				if (ref === void 0) return err(request, {
+					code: "attachment-error",
+					message: "Image is not referenced by this session.",
+					details: { reason: "ATTACHMENT_NOT_REFERENCED" }
+				});
+				try {
+					const stored = await ctx.attachments.readImage(ref);
+					return ok(request, {
+						attachment: stored.ref,
+						data: Buffer.from(stored.data).toString("base64")
+					});
+				} catch (error) {
+					if (error instanceof AttachmentError) return err(request, {
+						code: "attachment-error",
+						message: error.message,
+						details: { reason: error.code }
+					});
+					return err(request, {
+						code: "internal",
+						message: "Unable to read image attachment.",
+						details: {}
+					});
+				}
+			},
+			updateQueue(request) {
+				const { sessionId, itemId, action } = request.payload;
+				if (action.kind === "edit" && action.content.some((block) => block.type !== "text")) return Promise.resolve(err(request, {
+					code: "attachment-error",
+					message: "queue edits accept text content only",
+					details: { reason: "QUEUE_EDIT_NON_TEXT" }
+				}));
+				const agent = ctx.agents.get(sessionId);
+				if (agent !== void 0 && hasSubagentOwner(agent.session, agent)) return Promise.resolve(err(request, subagentOwnershipError(sessionId)));
+				if (agent === void 0) return Promise.resolve(err(request, {
+					code: "queue-item-not-found",
+					message: "queued item is no longer pending",
+					details: { itemId }
+				}));
+				const target = agent.inbox.nextTurn.some((message) => message.id === itemId) ? "next-turn" : agent.inbox.nextStep.some((message) => message.id === itemId) ? "next-step" : void 0;
+				const message = target === void 0 ? void 0 : (target === "next-turn" ? agent.inbox.nextTurn : agent.inbox.nextStep).find((candidate) => candidate.id === itemId);
+				if (target === void 0 || message === void 0) return Promise.resolve(err(request, {
+					code: "queue-item-not-found",
+					message: "queued item is no longer pending",
+					details: { itemId }
+				}));
+				if (action.kind === "steer" && (target !== "next-turn" || agent.status !== "running")) return Promise.resolve(err(request, {
+					code: "steer-unavailable",
+					message: "current turn no longer accepts steering",
+					details: { itemId }
+				}));
+				if (action.kind === "edit") agent.inbox.replace(itemId, freezeMessage({
+					...message,
+					content: action.content
+				}));
+				else {
+					agent.inbox.remove(itemId);
+					if (action.kind === "steer") agent.steer(message);
+				}
+				return Promise.resolve(ok(request, { accepted: true }));
+			},
+			cancel(request) {
+				const { sessionId } = request.payload;
+				const agent = ctx.agents.get(sessionId);
+				if (agent === void 0) return Promise.resolve(err(request, {
+					code: "session-not-found",
+					message: `session "${sessionId}" not found (not attached)`,
+					details: { sessionId }
+				}));
+				if (hasSubagentOwner(agent.session, agent)) return Promise.resolve(err(request, subagentOwnershipError(sessionId)));
+				agent.cancel({ kind: "user" }, { keepInbox: true });
+				return Promise.resolve(ok(request, { accepted: true }));
+			}
+		},
+		subagents: {
+			async list(request, signal) {
+				try {
+					return ok(request, {
+						entries: (await ctx.subagents.listChildren(request.payload.parentSessionId, signal)).map((entry) => entry.kind === "child" ? {
+							...entry,
+							activity: ctx.agents.get(entry.id)?.status === "running" ? "running" : "inactive"
+						} : entry),
+						parentAvailable: ctx.agents.get(request.payload.parentSessionId) !== void 0
+					});
+				} catch (error) {
+					if (signal?.aborted || error instanceof SubagentError && error.code === "CANCELLED") return err(request, {
+						code: "cancelled",
+						message: "subagent catalog read was cancelled",
+						details: {}
+					});
+					if (error instanceof SubagentError && error.code === "SUBAGENT_CONTROL_PROJECTIONS_UNAVAILABLE") return err(request, projectionsUnavailableError());
+					return err(request, {
+						code: "internal",
+						message: "subagent catalog read failed",
+						details: {}
+					});
+				}
+			},
+			async history(request, signal) {
+				const { parentSessionId, childSessionId, mode, beforeSeq, maxMessages } = request.payload;
+				const verified = await catalogChild(ctx, {
+					parentSessionId,
+					childSessionId,
+					mode
+				}, signal);
+				if (verified.error !== void 0) return err(request, verified.error);
+				let header;
+				let events;
+				let projections;
+				const attached = ctx.sessions.get(childSessionId);
+				if (attached !== void 0) {
+					header = attached.header;
+					events = [...attached.events];
+					projections = beforeSeq === void 0 ? subagentHistoryProjections(ctx, childSessionId, () => projectionsFor(ctx, attached)) : void 0;
+				} else try {
+					const inspected = await inspectServable(childSessionId);
+					header = inspected.meta;
+					events = inspected.events;
+					projections = beforeSeq === void 0 ? subagentHistoryProjections(ctx, childSessionId, () => detachedProjectionsFor(ctx, inspected.events)) : void 0;
+				} catch (error) {
+					if (signal?.aborted) return err(request, {
+						code: "cancelled",
+						message: "subagent history read was cancelled",
+						details: {}
+					});
+					if (error instanceof ApiRemoteSessionNotFound) return err(request, {
+						code: "subagent-not-found",
+						message: "subagent disappeared during history read",
+						details: {
+							parentSessionId,
+							childSessionId
+						}
+					});
+					return err(request, {
+						code: "internal",
+						message: "subagent history read failed",
+						details: {}
+					});
+				}
+				if (signal?.aborted) return err(request, {
+					code: "cancelled",
+					message: "subagent history read was cancelled",
+					details: {}
+				});
+				if (header.parentSession !== parentSessionId) return err(request, {
+					code: "subagent-unauthorized",
+					message: "subagent parent changed during history read",
+					details: { childSessionId }
+				});
+				return ok(request, {
+					...historyPage(ctx, events, beforeSeq, maxMessages),
+					...projections === void 0 ? {} : { projections }
+				});
+			},
+			async prompt(request, signal) {
+				const { parentSessionId, childSessionId, content, clientTimeZone } = request.payload;
+				const canonicalTimeZone = clientTimeZone === void 0 ? void 0 : canonicalClientTimeZone(clientTimeZone);
+				if (clientTimeZone !== void 0 && canonicalTimeZone === void 0) return err(request, {
+					code: "invalid-time-zone",
+					message: "clientTimeZone must be UTC or a valid IANA Area/Location name",
+					details: { value: clientTimeZone }
+				});
+				const parent = ctx.agents.get(parentSessionId);
+				if (parent === void 0) return err(request, {
+					code: "subagent-parent-unavailable",
+					message: `parent session "${parentSessionId}" is not live`,
+					details: { parentSessionId }
+				});
+				const verified = await catalogChild(ctx, {
+					parentSessionId,
+					childSessionId,
+					mode: "continuable"
+				}, signal);
+				if (verified.error !== void 0) return err(request, verified.error);
+				try {
+					return ok(request, { messageId: await ctx.subagents.followup(parent, childSessionId, content, {
+						source: {
+							kind: "user",
+							rpcId: request.rpcId,
+							...canonicalTimeZone === void 0 ? {} : { clientTimeZone: canonicalTimeZone }
+						},
+						signal
+					}) });
+				} catch (error) {
+					return subagentPromptError(request, error, signal);
+				}
+			},
+			interrupt(request) {
+				const { parentSessionId, childSessionId } = request.payload;
+				try {
+					ctx.subagents.interrupt(childSessionId, {
+						kind: "user",
+						parentSessionId
+					});
+				} catch (error) {
+					if (error instanceof SubagentError && error.code === "UNAUTHORIZED") return Promise.resolve(err(request, {
+						code: "subagent-unauthorized",
+						message: "subagent does not belong to this parent",
+						details: { childSessionId }
+					}));
+					return Promise.resolve(err(request, {
+						code: "internal",
+						message: "subagent interrupt failed",
+						details: {}
+					}));
+				}
+				return Promise.resolve(ok(request, { accepted: true }));
+			}
+		},
+		workspace: {
+			list(request) {
+				return Promise.resolve(ok(request, {
+					items: ctx.workspaceRegistry.list().map(workspaceView),
+					archivedSessionIds: [...ctx.workspaceRegistry.archivedSessionIds]
+				}));
+			},
+			async create(request) {
+				const { path } = request.payload;
+				try {
+					const { workspace, created } = await ensureWorkspace(path);
+					return ok(request, {
+						workspace: workspaceView(workspace),
+						created
+					});
+				} catch (error) {
+					return err(request, {
+						code: "workspace-invalid-path",
+						message: `cannot create a workspace at "${path}": ${error instanceof Error ? error.message : String(error)}`,
+						details: { path }
+					});
+				}
+			},
+			async rename(request) {
+				const { payload } = request;
+				const workspace = ctx.workspaceRegistry.get(WorkspaceId(payload.workspaceId));
+				if (workspace === void 0) return workspaceNotFound(request, payload.workspaceId);
+				const title = payload.title.trim();
+				const operation = workspaceCreationChain.then(async () => {
+					if (title === workspace.title) return;
+					if (ctx.workspaceRegistry.list().some((other) => other.id !== workspace.id && other.title === title)) throw new WorkspaceNameConflictError(title);
+					await workspace.setTitle(title);
+				});
+				workspaceCreationChain = operation.then(() => void 0, () => void 0);
+				try {
+					await operation;
+				} catch (error) {
+					if (error instanceof WorkspaceNameConflictError) return err(request, {
+						code: "workspace-name-conflict",
+						message: error.message,
+						details: { name: error.workspaceName }
+					});
+					throw error;
+				}
+				return ok(request, { workspace: workspaceView(workspace) });
+			},
+			async delete(request) {
+				const { workspaceId } = request.payload;
+				const operation = workspaceCreationChain.then(() => ctx.workspaceRegistry.delete(WorkspaceId(workspaceId)));
+				workspaceCreationChain = operation.then(() => void 0, () => void 0);
+				if (!await operation) return workspaceNotFound(request, workspaceId);
+				return ok(request, { deleted: true });
+			},
+			async insertBefore(request) {
+				const { workspaceId, beforeWorkspaceId } = request.payload;
+				try {
+					return ok(request, { workspaceIds: [...await ctx.workspaceRegistry.insertBefore(WorkspaceId(workspaceId), beforeWorkspaceId === void 0 ? void 0 : WorkspaceId(beforeWorkspaceId))] });
+				} catch (error) {
+					if (!(error instanceof WorkspaceOrderInvalidError)) throw error;
+					return workspaceNotFound(request, error.workspaceId);
+				}
+			},
+			async insertSessionBefore(request) {
+				const { payload } = request;
+				const workspace = ctx.workspaceRegistry.get(WorkspaceId(payload.workspaceId));
+				if (workspace === void 0) return workspaceNotFound(request, payload.workspaceId);
+				try {
+					await workspace.insertSessionBefore(payload.sessionId, payload.beforeSessionId);
+				} catch (error) {
+					if (!(error instanceof WorkspaceMoveInvalidError)) throw error;
+					return err(request, {
+						code: "workspace-move-invalid",
+						message: error.message,
+						details: {
+							workspaceId: payload.workspaceId,
+							sessionId: payload.sessionId,
+							...payload.beforeSessionId === void 0 ? {} : { beforeSessionId: payload.beforeSessionId }
+						}
+					});
+				}
+				return ok(request, { workspace: workspaceView(workspace) });
+			},
+			async archiveSession(request) {
+				const { sessionId } = request.payload;
+				try {
+					await ctx.workspaceRegistry.archiveSession(sessionId);
+				} catch (error) {
+					if (!(error instanceof WorkspaceUnknownSessionError)) throw error;
+					return err(request, {
+						code: "session-not-found",
+						message: error.message,
+						details: { sessionId }
+					});
+				}
+				return ok(request, { archivedSessionIds: [...ctx.workspaceRegistry.archivedSessionIds] });
+			}
+		},
+		host: {
+			describe(request) {
+				const selection = defaults.defaultModelSelection();
+				return Promise.resolve(ok(request, {
+					version: "0.0.1",
+					cwd: defaults.cwd,
+					provider: selection.provider,
+					model: selection.model,
+					attachedSessions: ctx.agents.list().length,
+					home: homedir(),
+					canOpenPath: canOpenPaths()
+				}));
+			},
+			async pickDirectory(request, signal) {
+				const capability = ctx.directoryPicker.capability();
+				if (capability.kind !== "native") return err(request, {
+					code: "directory-picker-unavailable",
+					message: `host.pickDirectory needs the native capability; the composed picker serves "${capability.kind}"`,
+					details: { capability: capability.kind }
+				});
+				try {
+					return ok(request, { path: await capability.pick(signal) });
+				} catch (error) {
+					if (signal.aborted) return err(request, {
+						code: "cancelled",
+						message: "directory picker was aborted",
+						details: {}
+					});
+					return err(request, {
+						code: "internal",
+						message: `directory picker failed: ${error instanceof Error ? error.message : String(error)}`,
+						details: {}
+					});
+				}
+			},
+			async listDirectory(request, signal) {
+				const capability = ctx.directoryPicker.capability();
+				if (capability.kind !== "browse") return err(request, {
+					code: "directory-picker-unavailable",
+					message: `host.listDirectory needs the browse capability; the composed picker serves "${capability.kind}"`,
+					details: { capability: capability.kind }
+				});
+				try {
+					return ok(request, await capability.list(request.payload.path, signal));
+				} catch (error) {
+					if (signal.aborted) return err(request, {
+						code: "cancelled",
+						message: "directory listing was aborted",
+						details: {}
+					});
+					return err(request, directoryError(error));
+				}
+			},
+			async createDirectory(request) {
+				const capability = ctx.directoryPicker.capability();
+				if (capability.kind !== "browse") return err(request, {
+					code: "directory-picker-unavailable",
+					message: `host.createDirectory needs the browse capability; the composed picker serves "${capability.kind}"`,
+					details: { capability: capability.kind }
+				});
+				try {
+					return ok(request, { path: await capability.createDirectory(request.payload.path, request.payload.name) });
+				} catch (error) {
+					return err(request, directoryError(error));
+				}
+			},
+			async openPath(request, signal) {
+				return openPath(request, request.payload.path, signal);
+			}
+		},
+		goals: {
+			async create(request) {
+				const { objective, maxGoalRounds } = request.payload;
+				return mutateGoal(request, (goals, agent) => goals.create(agent, {
+					objective,
+					...maxGoalRounds !== void 0 ? { maxGoalRounds } : {}
+				}));
+			},
+			async edit(request) {
+				const { ref, objective, maxGoalRounds } = request.payload;
+				return mutateGoal(request, (goals, agent) => goals.edit(agent, ref, {
+					...objective !== void 0 ? { objective } : {},
+					...maxGoalRounds !== void 0 ? { maxGoalRounds } : {}
+				}));
+			},
+			async pause(request) {
+				return mutateGoal(request, (goals, agent) => goals.pause(agent, request.payload.ref));
+			},
+			async resume(request) {
+				return mutateGoal(request, (goals, agent) => goals.resume(agent, request.payload.ref));
+			},
+			async complete(request) {
+				return mutateGoal(request, (goals, agent) => goals.complete(agent, request.payload.ref));
+			},
+			async clear(request) {
+				const found = await agentFor(request.payload.sessionId);
+				if ("error" in found) return err(request, found.error);
+				const goals = goalServiceFor(found.agent);
+				if ("error" in goals) return err(request, goals.error);
+				try {
+					goals.clear(found.agent, request.payload.ref);
+					return ok(request, { cleared: true });
+				} catch (error) {
+					return goalError(request, error);
+				}
+			}
+		},
+		agentPresets: {
+			async list(request) {
+				const presets = ctx.get("agentPresets");
+				if (presets === void 0) return ok(request, {
+					presets: [],
+					authorable: false,
+					hasDocument: false
+				});
+				const defaultId = presets.defaultId;
+				return ok(request, {
+					presets: (await presets.list()).map((preset) => ({
+						id: preset.id,
+						trust: preset.trust,
+						isDefault: preset.id === defaultId,
+						...preset.name === void 0 ? {} : { name: preset.name },
+						...preset.description === void 0 ? {} : { description: preset.description },
+						...preset.broken === void 0 ? {} : { broken: preset.broken }
+					})),
+					authorable: presets.authorable,
+					hasDocument: canOpenPaths()
+				});
+			},
+			async select(request) {
+				const { sessionId, agentPreset } = request.payload;
+				const presets = ctx.get("agentPresets");
+				if (presets === void 0) return err(request, {
+					code: "agent-preset-not-found",
+					message: "this deployment composes no agent presets",
+					details: {
+						agentPreset,
+						available: []
+					}
+				});
+				const found = await agentFor(sessionId);
+				if ("error" in found) return err(request, found.error);
+				const { agent } = found;
+				const swap = async () => {
+					if (!sessionBlank(agent.session)) return err(request, {
+						code: "agent-preset-locked",
+						message: `session "${sessionId}" has already started; its agent preset is fixed`,
+						details: {
+							sessionId,
+							agentPreset
+						}
+					});
+					try {
+						const preset = await presets.recompose(agent.ctx, agentPreset);
+						agent.session.append("agent-preset/selected", { agentPreset: preset.id });
+						return ok(request, { agentPreset: preset.id });
+					} catch (error) {
+						const refused = presetFailure(request, error);
+						if (refused !== void 0) return refused;
+						return err(request, {
+							code: "internal",
+							message: `failed to select agent preset "${agentPreset}": ${String(error)}`,
+							details: {}
+						});
+					}
+				};
+				const turn = (presetSwitches.get(sessionId) ?? Promise.resolve()).then(swap);
+				presetSwitches.set(sessionId, turn.catch(() => void 0));
+				try {
+					return await turn;
+				} finally {
+					if (presetSwitches.get(sessionId) === turn) presetSwitches.delete(sessionId);
+				}
+			},
+			async read(request) {
+				const { agentPreset } = request.payload;
+				const presets = ctx.get("agentPresets");
+				if (presets === void 0) return err(request, noRoster(agentPreset));
+				try {
+					const preset = await presets.resolve(agentPreset);
+					return ok(request, {
+						agentPreset: preset.id,
+						trust: preset.trust,
+						content: await presets.read(preset.id),
+						...preset.name === void 0 ? {} : { name: preset.name },
+						...preset.description === void 0 ? {} : { description: preset.description }
+					});
+				} catch (error) {
+					return err(request, presetError(agentPreset, error));
+				}
+			},
+			async copy(request) {
+				const { from, agentPreset, name } = request.payload;
+				const presets = ctx.get("agentPresets");
+				if (presets === void 0) return err(request, noRoster(agentPreset));
+				try {
+					await presets.copy(from, agentPreset, name);
+					return ok(request, { agentPreset });
+				} catch (error) {
+					return err(request, presetError(agentPreset, error));
+				}
+			},
+			async openDocument(request, signal) {
+				const { agentPreset } = request.payload;
+				const presets = ctx.get("agentPresets");
+				if (presets === void 0) return err(request, noRoster(agentPreset));
+				try {
+					const preset = await presets.resolve(agentPreset);
+					if (preset.trust !== "user") throw new PresetNotWritableError(preset.id, "it ships with the deployment");
+					const directory = dirname(preset.path);
+					if (!canOpenPaths()) return ok(request, {
+						opened: false,
+						path: directory
+					});
+					return await openPath(request, directory, signal);
+				} catch (error) {
+					return err(request, presetError(agentPreset, error));
+				}
+			},
+			async remove(request) {
+				const { agentPreset } = request.payload;
+				const presets = ctx.get("agentPresets");
+				if (presets === void 0) return err(request, noRoster(agentPreset));
+				try {
+					await presets.remove(agentPreset);
+					return ok(request, {});
+				} catch (error) {
+					return err(request, presetError(agentPreset, error));
+				}
+			}
+		},
+		skills: { async list(request) {
+			const { sessionId } = request.payload;
+			const session = ctx.sessions.get(sessionId);
+			if (session === void 0) return err(request, {
+				code: "session-not-found",
+				message: `session "${sessionId}" not found (not attached)`,
+				details: { sessionId }
+			});
+			if (session.header.cwd === void 0) return err(request, {
+				code: "internal",
+				message: `session "${sessionId}" has no project cwd`,
+				details: {}
+			});
+			const cwd = session.header.cwd;
+			const live = ctx.agents.get(sessionId);
+			const presets = ctx.get("agentPresets");
+			const skillRegistry = (live === void 0 ? void 0 : presets?.serviceFor(live, "skills")) ?? ctx.get("skills");
+			if (skillRegistry === void 0) return err(request, {
+				code: "internal",
+				message: "skill registry is absent: neither this session's agent preset nor the host composition mounts @deepseek-ai/dsh-skill",
+				details: {}
+			});
+			const scope = await presenterScopeFor(sessionId, session);
+			try {
+				return ok(request, { skills: (await skillRegistry.list({
+					cwd,
+					scope
+				})).filter(isUserInvocable).map((skill) => ({
+					name: skill.name,
+					description: skill.description,
+					...skill.whenToUse === void 0 ? {} : { whenToUse: skill.whenToUse },
+					modelInvocable: skill.invocation.modelInvocable
+				})) });
+			} catch (error) {
+				return err(request, {
+					code: "internal",
+					message: `skill listing failed: ${String(error)}`,
+					details: {}
+				});
+			}
+		} },
+		settings: {
+			describe(request) {
+				const settings = ctx.get("settings");
+				if (settings === void 0) return Promise.resolve(err(request, settingsAbsent()));
+				return Promise.resolve(ok(request, {
+					writable: settings.writable,
+					hasDocument: settings.documentPath !== void 0,
+					namespaces: settings.describe({ redactSecrets: true }).map(namespaceView)
+				}));
+			},
+			async openDocument(request, signal) {
+				const settings = ctx.get("settings");
+				if (settings === void 0) return err(request, settingsAbsent());
+				if (isAborted(signal)) return err(request, {
+					code: "cancelled",
+					message: "settings document open was aborted",
+					details: {}
+				});
+				let path;
+				try {
+					path = await settings.prepareDocument();
+				} catch (error) {
+					if (isAborted(signal)) return err(request, {
+						code: "cancelled",
+						message: "settings document preparation was aborted",
+						details: {}
+					});
+					return err(request, {
+						code: "internal",
+						message: `settings document preparation failed: ${error instanceof Error ? error.message : String(error)}`,
+						details: {}
+					});
+				}
+				if (path === void 0) return err(request, {
+					code: "internal",
+					message: "settings provider has no local document to open",
+					details: {}
+				});
+				if (isAborted(signal)) return err(request, {
+					code: "cancelled",
+					message: "settings document open was aborted",
+					details: {}
+				});
+				return openTextFile(request, path, signal);
+			},
+			update: (request) => settingsWrite(request, request.payload.ns, "update", request.payload.patch, request.payload.expectedRevision),
+			replace: (request) => settingsWrite(request, request.payload.ns, "replace", request.payload.section, request.payload.expectedRevision),
+			mutate: (request) => settingsWrite(request, request.payload.ns, "mutate", request.payload.ops, request.payload.expectedRevision)
+		},
+		credentials: {
+			async describe(request) {
+				const credentials = ctx.get("credentials");
+				if (credentials === void 0) return err(request, credentialsAbsent());
+				const entries = await Promise.all(request.payload.refs.map(async (ref) => {
+					const info = await credentials.describe(credentialRef(ref));
+					return [ref, {
+						configured: info.configured,
+						...info.source === void 0 ? {} : { source: info.source },
+						writable: info.writable
+					}];
+				}));
+				return ok(request, { credentials: Object.fromEntries(entries) });
+			},
+			async set(request) {
+				const credentials = ctx.get("credentials");
+				if (credentials === void 0) return err(request, credentialsAbsent());
+				const { ref, value } = request.payload;
+				try {
+					await credentials.set(credentialRef(ref), value);
+				} catch (error) {
+					return err(request, {
+						code: "credential-rejected",
+						message: error instanceof Error ? error.message : String(error),
+						details: { ref }
+					});
+				}
+				return ok(request, {});
+			},
+			async unset(request) {
+				const credentials = ctx.get("credentials");
+				if (credentials === void 0) return err(request, credentialsAbsent());
+				const { ref } = request.payload;
+				try {
+					await credentials.unset(credentialRef(ref));
+				} catch (error) {
+					return err(request, {
+						code: "credential-rejected",
+						message: error instanceof Error ? error.message : String(error),
+						details: { ref }
+					});
+				}
+				return ok(request, {});
+			}
+		},
+		llm: {
+			providers(request) {
+				const registered = ctx.llm.listProviders();
+				const active = new Set(registered.map((provider) => provider.id));
+				const directory = ctx.llm.listConfigurableProviders();
+				const declared = new Set(directory.map((entry) => entry.provider));
+				const views = directory.map((entry) => ({
+					provider: entry.provider,
+					displayName: entry.displayName,
+					settingsNs: entry.settingsNs,
+					settingsPath: [...entry.settingsPath],
+					active: active.has(entry.provider),
+					...entry.declared === void 0 ? {} : { declared: entry.declared }
+				}));
+				for (const provider of registered) {
+					if (declared.has(provider.id)) continue;
+					views.push({
+						provider: provider.id,
+						displayName: provider.name,
+						settingsNs: "",
+						settingsPath: [],
+						active: true
+					});
+				}
+				return Promise.resolve(ok(request, { providers: views }));
+			},
+			async models(request) {
+				return ok(request, await buildModelCatalog(ctx));
+			},
+			async discoverModels(request, signal) {
+				const { settingsNs, provider, baseURL, api, apiKey } = request.payload;
+				try {
+					return ok(request, { models: await ctx.llm.discoverModels(settingsNs, {
+						...provider === void 0 ? {} : { provider },
+						...baseURL === void 0 ? {} : { baseURL },
+						...api === void 0 ? {} : { api },
+						...apiKey === void 0 ? {} : { apiKey },
+						...signal === void 0 ? {} : { signal }
+					}) });
+				} catch (error) {
+					return err(request, {
+						code: "model-discovery-failed",
+						message: error instanceof Error ? error.message : String(error),
+						details: {
+							settingsNs,
+							...baseURL === void 0 ? {} : { baseURL }
+						}
+					});
+				}
+			}
+		},
+		events: {
+			mux(_request, signal) {
+				const queue = new FrameQueue();
+				muxQueues.add(queue);
+				for (const session of ctx.sessions.list()) subscribeSession(queue, session);
+				for (const pending of pendingQuestions.values()) queue.push({
+					rpcId: pending.rpcId,
+					payload: {
+						type: "question/requested",
+						sessionId: pending.sessionId,
+						questions: pending.questions
+					}
+				});
+				for (const pending of pendingApprovals.values()) queue.push(requestedFrame(pending));
+				for (const session of ctx.sessions.list()) {
+					const agent = ctx.agents.get(session.id);
+					if (agent?.session === session && agent.inbox.hasPending) queue.push(frame({
+						type: "session/queue",
+						sessionId: session.id,
+						items: queueItems(agent)
+					}));
+				}
+				const jobs = ctx.get("jobs");
+				if (jobs !== void 0) for (const session of ctx.sessions.list()) {
+					const views = jobViews(jobs.list(ctx.agents.get(session.id)));
+					if (views.length > 0) queue.push(frame({
+						type: "session/jobs",
+						sessionId: session.id,
+						jobs: views
+					}));
+				}
+				const openCalls = /* @__PURE__ */ new Map();
+				const disposers = [
+					ctx.on("session/event", (session, event) => {
+						if (event.type === "tool/call") {
+							const data = event.data;
+							try {
+								let table = openCalls.get(session.id);
+								if (table === void 0) openCalls.set(session.id, table = /* @__PURE__ */ new Map());
+								table.set(data.callId, {
+									name: data.name,
+									args: JSON.parse(data.arguments)
+								});
+							} catch {}
+						} else if (event.type === "turn/end") openCalls.delete(session.id);
+						const view = viewFor(ctx, event, (callId) => openCalls.get(session.id)?.get(callId) ?? backscanArgs(session.events, callId), ctx.agents.get(session.id));
+						queue.push(frame({
+							type: "session/event",
+							sessionId: session.id,
+							event,
+							...view === void 0 ? {} : { view }
+						}));
+					}),
+					ctx.on("session/created", (session) => {
+						subscribeSession(queue, session);
+						const views = jobs === void 0 ? [] : jobViews(jobs.list(ctx.agents.get(session.id)));
+						if (views.length > 0) queue.push(frame({
+							type: "session/jobs",
+							sessionId: session.id,
+							jobs: views
+						}));
+					}),
+					ctx.on("session/disposed", (session) => {
+						openCalls.delete(session.id);
+					}),
+					...jobs === void 0 ? [] : [jobs.onJobsChanged((owner) => {
+						if (owner !== void 0) {
+							queue.push(frame({
+								type: "session/jobs",
+								sessionId: owner.id,
+								jobs: jobViews(jobs.list(owner))
+							}));
+							return;
+						}
+						for (const session of ctx.sessions.list()) queue.push(frame({
+							type: "session/jobs",
+							sessionId: session.id,
+							jobs: jobViews(jobs.list(ctx.agents.get(session.id)))
+						}));
+					})]
+				];
+				return queue.iterate(signal, () => {
+					muxQueues.delete(queue);
+					for (const dispose of disposers) dispose();
+				});
+			},
+			host(_request, signal) {
+				const queue = new FrameQueue();
+				const committedWorkspaces = ctx.workspaceRegistry.list();
+				const committedWorkspaceIds = new Set(committedWorkspaces.map((workspace) => String(workspace.id)));
+				let committedWorkspaceOrder = committedWorkspaces.map((workspace) => workspace.id);
+				let archivedSessionIds = ctx.workspaceRegistry.archivedSessionIds;
+				const disposers = [
+					ctx.on("session/created", (session) => {
+						queue.push(frame({
+							type: "host/session-added",
+							sessionId: session.id,
+							blank: sessionBlank(session),
+							...sessionListFields(session.header, session.events)
+						}));
+					}),
+					ctx.on("session/disposed", (session) => {
+						queue.push(frame({
+							type: "host/session-removed",
+							sessionId: session.id
+						}));
+					}),
+					ctx.on("agent/status", ({ agent, status }) => {
+						queue.push(frame({
+							type: "host/session-status",
+							sessionId: agent.id,
+							running: status === "running"
+						}));
+					}),
+					ctx.on("agent/error", ({ agent, error }) => {
+						queue.push(frame({
+							type: "host/agent-error",
+							sessionId: agent.id,
+							message: errorChain(error)
+						}));
+					}),
+					ctx.on("domain/changed", (change) => {
+						if (change.domain !== "workspace") return;
+						if (change.table === "") {
+							if (change.operation !== "put") return;
+							const state = workspaceDomainState.parse(change.value);
+							const orderChanged = state.workspaceIds.length === committedWorkspaceOrder.length && state.workspaceIds.every((workspaceId) => committedWorkspaceIds.has(String(workspaceId))) && state.workspaceIds.some((workspaceId, index) => workspaceId !== committedWorkspaceOrder[index]);
+							for (const workspaceId of state.workspaceIds) {
+								if (committedWorkspaceIds.has(workspaceId)) continue;
+								const workspace = ctx.workspaceRegistry.get(workspaceId);
+								if (workspace === void 0) throw new Error(`committed workspace registry references missing workspace "${workspaceId}"`);
+								committedWorkspaceIds.add(workspaceId);
+								queue.push(frame({
+									type: "host/workspace-changed",
+									workspace: workspaceView(workspace)
+								}));
+							}
+							committedWorkspaceOrder = [...state.workspaceIds];
+							if (orderChanged) queue.push(frame({
+								type: "host/workspace-order-changed",
+								workspaceIds: [...state.workspaceIds]
+							}));
+							if (state.archivedSessionIds.length !== archivedSessionIds.length || state.archivedSessionIds.some((id, index) => id !== archivedSessionIds[index])) {
+								archivedSessionIds = state.archivedSessionIds;
+								queue.push(frame({
+									type: "host/archived-sessions-changed",
+									archivedSessionIds: [...state.archivedSessionIds]
+								}));
+							}
+							return;
+						}
+						if (change.table !== "workspaces") return;
+						if (change.operation === "deleted") {
+							if (!committedWorkspaceIds.delete(change.key)) return;
+							queue.push(frame({
+								type: "host/workspace-removed",
+								workspaceId: change.key
+							}));
+							return;
+						}
+						if (!committedWorkspaceIds.has(change.key)) return;
+						queue.push(frame({
+							type: "host/workspace-changed",
+							workspace: changedWorkspaceView(change.key, change.value)
+						}));
+					}),
+					...API_REMOTE_FORWARDED_EVENTS.map((name) => ctx.on(name, ((...args) => {
+						queue.push(frame({
+							type: "host/remote-event",
+							event: name,
+							args: assertJsonArgs(name, args)
+						}));
+					})))
+				];
+				return queue.iterate(signal, () => {
+					for (const dispose of disposers) dispose();
+				});
+			}
+		},
+		downloads: { async sessionLog(request, signal) {
+			const deps = sessionLogExportDeps(ctx);
+			if (deps.sessionQuery === void 0 || deps.sessionPersistence === void 0 || deps.attachments === void 0) return new Response("session log export is unavailable: missing session-query, session-persistence, or attachments service", { status: 500 });
+			if (!deps.sessionPersistence.supportsRawArtifacts) return new Response("session log export is unavailable: the persistence backend does not expose per-session raw artifacts", { status: 501 });
+			const ready = {
+				sessionQuery: deps.sessionQuery,
+				sessionPersistence: deps.sessionPersistence,
+				attachments: deps.attachments,
+				sessions: deps.sessions
+			};
+			let root;
+			try {
+				await flushLiveSessionLog(deps, request.sessionId, signal);
+				root = await deps.sessionPersistence.readRaw(request.sessionId, signal);
+				signal.throwIfAborted();
+			} catch {
+				signal.throwIfAborted();
+				return new Response("session log export failed to prepare the stored artifact", { status: 500 });
+			}
+			if (root === void 0) return new Response("session not found", { status: 404 });
+			return new Response(streamSessionLogZip(ready, root, request.sessionId, request.includeDescendants === true, sessionExportCompressionLevel, signal), { headers: {
+				"content-type": "application/zip",
+				"content-disposition": `attachment; filename="${sessionLogZipFilename(request.sessionId)}"`
+			} });
+		} },
+		respond(message) {
+			const approval = pendingApprovals.get(message.rpcId);
+			if (approval !== void 0) {
+				if (!message.result.ok) return Promise.resolve({
+					accepted: false,
+					reason: "bad-response"
+				});
+				const parsed = approvalResponsePayloadSchema.safeParse(message.result.value);
+				if (!parsed.success || parsed.data.approvalId !== approval.approvalId || parsed.data.sessionId !== approval.sessionId) return Promise.resolve({
+					accepted: false,
+					reason: "bad-response"
+				});
+				approval.resolve(parsed.data.outcome);
+				return Promise.resolve({ accepted: true });
+			}
+			const pending = pendingQuestions.get(message.rpcId);
+			if (pending === void 0) return Promise.resolve({
+				accepted: false,
+				reason: "not-pending"
+			});
+			if (!message.result.ok) {
+				if (message.result.error.code !== "cancelled") return Promise.resolve({
+					accepted: false,
+					reason: "bad-response"
+				});
+				claimQuestion(pending, "cancelled");
+				pending.reject(new UserQuestionError("the user cancelled ask_user_question", "ASK_CANCELLED"));
+				return Promise.resolve({ accepted: true });
+			}
+			const parsed = questionResponsePayloadSchema.safeParse(message.result.value);
+			if (!parsed.success) return Promise.resolve({
+				accepted: false,
+				reason: "bad-response"
+			});
+			const payload = {
+				sessionId: parsed.data.sessionId,
+				answer: { answers: parsed.data.answer.answers.map((answer) => ({
+					id: answer.id,
+					selected: answer.selected,
+					...answer.custom === void 0 ? {} : { custom: answer.custom }
+				})) }
+			};
+			if (!matchesQuestions(payload, pending)) return Promise.resolve({
+				accepted: false,
+				reason: "bad-response"
+			});
+			claimQuestion(pending, "answered");
+			pending.resolve(payload.answer);
+			return Promise.resolve({ accepted: true });
+		}
+	};
+}
+object$1({
+	sessionId: sessionIdSchema,
+	includeDescendants: union([literal("true"), literal("false")]).optional()
+}).transform((query) => ({
+	sessionId: query.sessionId,
+	...query.includeDescendants === "true" ? { includeDescendants: true } : {}
+}));
+/**
+* Message-layer zod schemas: the four wire full forms + error body +
+* carrier receipt. The payload slot is unknown in the full-form schemas — business payloads
+* get a second parse dispatched by method (two-level parse discipline).
+* Brand cast point: rpcIdSchema, and only there.
+*/
+/**
+* RpcId: one brand cast after schema validation (the only cast point in this
+* file). No min-length: the id is an opaque echo token, and rejecting values
+* here would only turn a correlatable error report into a client-side parse
+* failure (the handler substitutes a sentinel when a request's id is unreadable).
+*/
+const rpcIdSchema = string();
+/** Error body: discriminated by code, per-branch details aligned to RpcErrorDetailsMap; details is required. */
+const rpcErrorSchema = discriminatedUnion("code", [
+	object$1({
+		code: literal("bad-request"),
+		message: string(),
+		details: object$1({ issues: array(custom()) })
+	}),
+	object$1({
+		code: literal("cancelled"),
+		message: string(),
+		details: object$1({})
+	}),
+	object$1({
+		code: literal("session-not-found"),
+		message: string(),
+		details: object$1({ sessionId: string() })
+	}),
+	object$1({
+		code: literal("model-unavailable"),
+		message: string(),
+		details: object$1({
+			provider: string(),
+			model: string()
+		})
+	}),
+	object$1({
+		code: literal("session-conflict"),
+		message: string(),
+		details: object$1({
+			sessionId: string(),
+			requestedCwd: string(),
+			existingCwd: string().optional()
+		})
+	}),
+	object$1({
+		code: literal("invalid-time-zone"),
+		message: string(),
+		details: object$1({ value: string() })
+	}),
+	object$1({
+		code: literal("workspace-attach-failed"),
+		message: string(),
+		details: object$1({
+			sessionId: string(),
+			workspaceId: string()
+		})
+	}),
+	object$1({
+		code: literal("workspace-not-found"),
+		message: string(),
+		details: object$1({ workspaceId: string() })
+	}),
+	object$1({
+		code: literal("workspace-invalid-path"),
+		message: string(),
+		details: object$1({ path: string() })
+	}),
+	object$1({
+		code: literal("workspace-name-conflict"),
+		message: string(),
+		details: object$1({ name: string() })
+	}),
+	object$1({
+		code: literal("workspace-move-invalid"),
+		message: string(),
+		details: object$1({
+			workspaceId: string(),
+			sessionId: string(),
+			beforeSessionId: string().optional()
+		})
+	}),
+	object$1({
+		code: literal("directory-unreadable"),
+		message: string(),
+		details: object$1({ path: string() })
+	}),
+	object$1({
+		code: literal("directory-exists"),
+		message: string(),
+		details: object$1({ path: string() })
+	}),
+	object$1({
+		code: literal("directory-create-failed"),
+		message: string(),
+		details: object$1({ path: string() })
+	}),
+	object$1({
+		code: literal("directory-picker-unavailable"),
+		message: string(),
+		details: object$1({ capability: string() })
+	}),
+	object$1({
+		code: literal("agent-preset-read-only"),
+		message: string(),
+		details: object$1({
+			agentPreset: string(),
+			reason: string()
+		})
+	}),
+	object$1({
+		code: literal("agent-preset-locked"),
+		message: string(),
+		details: object$1({
+			sessionId: string(),
+			agentPreset: string()
+		})
+	}),
+	object$1({
+		code: literal("agent-preset-conflict"),
+		message: string(),
+		details: object$1({
+			sessionId: string(),
+			requestedPreset: string(),
+			existingPreset: string().optional()
+		})
+	}),
+	object$1({
+		code: literal("agent-preset-not-found"),
+		message: string(),
+		details: object$1({
+			agentPreset: string(),
+			available: array(string())
+		})
+	}),
+	object$1({
+		code: literal("agent-preset-invalid"),
+		message: string(),
+		details: object$1({
+			agentPreset: string(),
+			reason: string()
+		})
+	}),
+	object$1({
+		code: literal("agent-busy"),
+		message: string(),
+		details: object$1({ reason: string() })
+	}),
+	object$1({
+		code: literal("attachment-error"),
+		message: string(),
+		details: object$1({ reason: string() })
+	}),
+	object$1({
+		code: literal("queue-item-not-found"),
+		message: string(),
+		details: object$1({ itemId: string() })
+	}),
+	object$1({
+		code: literal("steer-unavailable"),
+		message: string(),
+		details: object$1({ itemId: string() })
+	}),
+	object$1({
+		code: literal("command-error"),
+		message: string(),
+		details: object$1({})
+	}),
+	object$1({
+		code: literal("unknown-command"),
+		message: string(),
+		details: object$1({})
+	}),
+	object$1({
+		code: literal("settings-rejected"),
+		message: string(),
+		details: object$1({ ns: string() })
+	}),
+	object$1({
+		code: literal("settings-conflict"),
+		message: string(),
+		details: object$1({
+			ns: string(),
+			expected: number(),
+			actual: number()
+		})
+	}),
+	object$1({
+		code: literal("credential-rejected"),
+		message: string(),
+		details: object$1({ ref: string() })
+	}),
+	object$1({
+		code: literal("model-discovery-failed"),
+		message: string(),
+		details: object$1({
+			settingsNs: string(),
+			baseURL: string().optional()
+		})
+	}),
+	object$1({
+		code: literal("title-invalid"),
+		message: string(),
+		details: object$1({ sessionId: string() })
+	}),
+	object$1({
+		code: literal("fork-unavailable"),
+		message: string(),
+		details: object$1({ sessionId: string() })
+	}),
+	object$1({
+		code: literal("subagent-parent-unavailable"),
+		message: string(),
+		details: object$1({ parentSessionId: string() })
+	}),
+	object$1({
+		code: literal("subagent-not-found"),
+		message: string(),
+		details: object$1({
+			parentSessionId: string(),
+			childSessionId: string()
+		})
+	}),
+	object$1({
+		code: literal("subagent-catalog-diagnostic"),
+		message: string(),
+		details: object$1({
+			parentSessionId: string(),
+			childSessionId: string(),
+			reason: union([
+				literal("corrupt"),
+				literal("unsupported"),
+				literal("unavailable")
+			])
+		})
+	}),
+	object$1({
+		code: literal("subagent-not-resumable"),
+		message: string(),
+		details: object$1({ childSessionId: string() })
+	}),
+	object$1({
+		code: literal("subagent-unauthorized"),
+		message: string(),
+		details: object$1({ childSessionId: string() })
+	}),
+	object$1({
+		code: literal("subagent-delivery-unavailable"),
+		message: string(),
+		details: object$1({ childSessionId: string() })
+	}),
+	object$1({
+		code: literal("internal"),
+		message: string(),
+		details: object$1({})
+	})
+]);
+/**
+* Business success/failure result schema (generic, reusable).
+* @param value - Schema for the business value.
+* @returns Schema for RpcResult<T>.
+*/
+function rpcResultSchema(value) {
+	return union([object$1({
+		ok: literal(true),
+		value
+	}), object$1({
+		ok: literal(false),
+		error: rpcErrorSchema
+	})]);
+}
+discriminatedUnion("type", [
+	object$1({
+		type: literal("client-request"),
+		rpcId: rpcIdSchema,
+		method: string(),
+		payload: unknown()
+	}),
+	object$1({
+		type: literal("server-response"),
+		rpcId: rpcIdSchema,
+		result: rpcResultSchema(unknown().optional())
+	}),
+	object$1({
+		type: literal("server-request"),
+		rpcId: rpcIdSchema,
+		method: string(),
+		payload: unknown()
+	}),
+	object$1({
+		type: literal("client-response"),
+		rpcId: rpcIdSchema,
+		result: rpcResultSchema(unknown().optional())
+	})
+]);
+union([object$1({ accepted: literal(true) }), object$1({
+	accepted: literal(false),
+	reason: union([literal("not-pending"), literal("bad-response")])
+})]);
+object$1({});
+object$1({
+	version: string(),
+	cwd: string(),
+	provider: string().optional(),
+	model: string().optional(),
+	attachedSessions: number().int().nonnegative(),
+	home: string(),
+	canOpenPath: boolean()
+});
+object$1({});
+object$1({ path: string().nullable() });
+/** Directory row shared by listing entries and breadcrumb crumbs. */
+const directoryEntrySchema = object$1({
+	name: string(),
+	path: string(),
+	hidden: boolean()
+});
+object$1({ path: string().optional() });
+object$1({
+	path: string(),
+	home: string(),
+	crumbs: array(directoryEntrySchema),
+	entries: array(directoryEntrySchema),
+	truncated: boolean()
+});
+object$1({
+	path: string(),
+	name: string()
+}).refine((payload) => payload.name.trim() !== "" && payload.name !== "." && payload.name !== ".." && !/[/\\]/.test(payload.name), { message: "host.createDirectory requires a single non-blank path segment name" });
+object$1({ path: string() });
+object$1({ path: string().min(1) });
+object$1({ opened: literal(true) });
+/**
+* workspace domain zod schemas (names derived from map keys). The
+* WorkspaceId brand cast lives in sessions.schema (see the note there) and
+* is re-exported here as the domain-local name.
+*/
+/** WorkspaceView row of every workspace.* response. */
+const workspaceViewSchema = object$1({
+	workspaceId: workspaceIdSchema,
+	path: string(),
+	title: string(),
+	sessionIds: array(sessionIdSchema),
+	createdAt: string(),
+	updatedAt: string()
+});
+object$1({});
+object$1({
+	items: array(workspaceViewSchema),
+	archivedSessionIds: array(sessionIdSchema)
+});
+object$1({ path: string() });
+object$1({
+	workspace: workspaceViewSchema,
+	created: boolean()
+});
+object$1({
+	workspaceId: workspaceIdSchema,
+	title: string()
+}).refine((payload) => payload.title.trim() !== "", { message: "workspace.rename requires a non-blank title" });
+object$1({ workspace: workspaceViewSchema });
+object$1({ workspaceId: workspaceIdSchema });
+object$1({ deleted: literal(true) });
+object$1({
+	workspaceId: workspaceIdSchema,
+	beforeWorkspaceId: workspaceIdSchema.optional()
+});
+object$1({ workspaceIds: array(workspaceIdSchema) });
+object$1({
+	workspaceId: workspaceIdSchema,
+	sessionId: sessionIdSchema,
+	beforeSessionId: sessionIdSchema.optional()
+});
+object$1({ workspace: workspaceViewSchema });
+object$1({ sessionId: sessionIdSchema });
+object$1({ archivedSessionIds: array(sessionIdSchema) });
+/**
+* skills domain zod schemas (names derived from map keys: skillListRequestSchema /
+* skillListValueSchema).
+*/
+/** SkillEntry row of skill.list. */
+const skillEntrySchema = object$1({
+	name: string().min(1),
+	description: string(),
+	whenToUse: string().optional(),
+	modelInvocable: boolean()
+});
+object$1({ sessionId: sessionIdSchema });
+object$1({ skills: array(skillEntrySchema) });
+/**
+* agent-presets domain zod schemas (names derived from map keys:
+* agentPresetListRequestSchema / agentPresetListValueSchema).
+*/
+/** AgentPresetEntry row of agentPreset.list. */
+const agentPresetEntrySchema = object$1({
+	id: string().min(1),
+	trust: union([literal("system"), literal("user")]),
+	isDefault: boolean(),
+	name: string().optional(),
+	description: string().optional(),
+	broken: string().min(1).optional()
+});
+object$1({});
+object$1({
+	presets: array(agentPresetEntrySchema),
+	authorable: boolean(),
+	hasDocument: boolean()
+});
+object$1({
+	sessionId: sessionIdSchema,
+	agentPreset: string().min(1)
+});
+object$1({ agentPreset: string() });
+object$1({ agentPreset: string().min(1) });
+object$1({
+	agentPreset: string(),
+	trust: union([literal("system"), literal("user")]),
+	content: string(),
+	name: string().optional(),
+	description: string().optional()
+});
+object$1({
+	from: string().min(1),
+	agentPreset: string().min(1),
+	name: string().optional()
+});
+object$1({ agentPreset: string() });
+object$1({ agentPreset: string().min(1) });
+union([object$1({ opened: literal(true) }), object$1({
+	opened: literal(false),
+	path: string()
+})]);
+object$1({ agentPreset: string().min(1) });
+object$1({});
+/**
+* goals domain zod schemas. Mutation-only shapes: every value schema is a
+* `{ ref }` acknowledgement (clear: `{ cleared }`) — the current goal state
+* travels exclusively on the 'goal' session projection.
+*/
+/** GoalRef schema. */
+const goalRefSchema = object$1({
+	id: string(),
+	revision: number().int().positive()
+});
+object$1({ ref: goalRefSchema });
+object$1({
+	sessionId: string(),
+	objective: string().min(1),
+	maxGoalRounds: number().int().positive().optional()
+});
+object$1({
+	sessionId: string(),
+	ref: goalRefSchema,
+	objective: string().min(1).optional(),
+	maxGoalRounds: number().int().positive().optional()
+}).refine((value) => value.objective !== void 0 || value.maxGoalRounds !== void 0, { message: "goal.edit requires objective or maxGoalRounds" });
+object$1({
+	sessionId: string(),
+	ref: goalRefSchema
+});
+object$1({
+	sessionId: string(),
+	ref: goalRefSchema
+});
+object$1({
+	sessionId: string(),
+	ref: goalRefSchema
+});
+object$1({
+	sessionId: string(),
+	ref: goalRefSchema
+});
+object$1({ cleared: literal(true) });
+/**
+* settings domain zod schemas (names derived from map keys: settingsDescribeRequestSchema /
+* settingsDescribeValueSchema / settingsUpdate* / settingsReplace*).
+*/
+/** One redacted secret slot. */
+const settingsSecretViewSchema = object$1({
+	path: array(string()),
+	set: boolean()
+});
+/** SettingsNamespaceView row of settings.describe and the write responses. */
+const settingsNamespaceViewSchema = object$1({
+	ns: string().min(1),
+	schema: unknown(),
+	value: unknown(),
+	base: unknown().optional(),
+	user: unknown().optional(),
+	applies: union([literal("live"), literal("restart")]),
+	secrets: array(settingsSecretViewSchema),
+	revision: number()
+});
+object$1({});
+object$1({
+	writable: boolean(),
+	hasDocument: boolean(),
+	namespaces: array(settingsNamespaceViewSchema)
+});
+object$1({});
+object$1({ opened: literal(true) });
+object$1({
+	ns: string().min(1),
+	patch: record$1(string(), unknown()),
+	expectedRevision: number().optional()
+});
+object$1({
+	ns: string().min(1),
+	section: record$1(string(), unknown()),
+	expectedRevision: number().optional()
+});
+/** One path-addressed edit of settings.mutate. */
+const settingsPathOpSchema = discriminatedUnion("op", [object$1({
+	op: literal("set"),
+	path: array(string()),
+	value: unknown()
+}), object$1({
+	op: literal("unset"),
+	path: array(string())
+})]);
+object$1({
+	ns: string().min(1),
+	ops: array(settingsPathOpSchema),
+	expectedRevision: number().optional()
+});
+/**
+* credentials domain zod schemas (names derived from map keys:
+* credentialsDescribeRequestSchema / credentialsDescribeValueSchema / …).
+* The reference-name pattern mirrors the seam's `credentialRef` guard so an
+* invalid name fails as `bad-request` before reaching the service.
+*/
+/** POSIX-portable environment-variable name (the seam's `credentialRef` pattern). */
+const credentialRefNameSchema = string().regex(/^[A-Za-z_][A-Za-z0-9_]*$/);
+/** CredentialView entry of credentials.describe. */
+const credentialViewSchema = object$1({
+	configured: boolean(),
+	source: string().optional(),
+	writable: boolean()
+});
+object$1({ refs: array(credentialRefNameSchema).max(64) });
+object$1({ credentials: record$1(string(), credentialViewSchema) });
+object$1({
+	ref: credentialRefNameSchema,
+	value: string().min(1)
+});
+object$1({});
+object$1({ ref: credentialRefNameSchema });
+object$1({});
+/**
+* llm domain zod schemas (names derived from map keys: llmProvidersRequestSchema /
+* llmProvidersValueSchema / llmModelsRequestSchema / llmModelsValueSchema).
+*/
+/** ConfigurableProviderView row of llm.providers. */
+const configurableProviderViewSchema = object$1({
+	provider: string().min(1),
+	displayName: string().min(1),
+	settingsNs: string(),
+	settingsPath: array(string()),
+	active: boolean(),
+	declared: boolean().optional()
+});
+object$1({});
+object$1({ providers: array(configurableProviderViewSchema) });
+object$1({});
+object$1({
+	groups: array(modelProviderGroupSchema),
+	failures: array(modelCatalogFailureSchema)
+});
+/** DiscoveredModelView row of llm.discoverModels. */
+const discoveredModelViewSchema = object$1({
+	id: string().min(1),
+	name: string().min(1).optional(),
+	contextWindow: number().int().positive().optional(),
+	maxTokens: number().int().positive().optional()
+});
+object$1({
+	settingsNs: string().min(1),
+	provider: string().min(1).optional(),
+	baseURL: string().min(1).optional(),
+	api: string().min(1).optional(),
+	apiKey: string().min(1).optional()
+});
+object$1({ models: array(discoveredModelViewSchema) });
+/** Zod schemas for the browser-safe subagent domain. */
+/** Healthy and diagnostic durable catalog rows. */
+const subagentListEntrySchema = union([
+	object$1({
+		kind: literal("child"),
+		id: sessionIdSchema,
+		mode: literal("one-shot"),
+		activity: union([literal("running"), literal("inactive")]),
+		hasChildren: boolean(),
+		label: string().optional()
+	}),
+	object$1({
+		kind: literal("child"),
+		id: sessionIdSchema,
+		mode: literal("continuable"),
+		activity: union([literal("running"), literal("inactive")]),
+		hasChildren: boolean(),
+		label: string()
+	}),
+	object$1({
+		kind: literal("diagnostic"),
+		id: sessionIdSchema,
+		reason: union([
+			literal("corrupt"),
+			literal("unsupported"),
+			literal("unavailable")
+		])
+	})
+]);
+object$1({ parentSessionId: sessionIdSchema });
+object$1({
+	entries: array(subagentListEntrySchema),
+	parentAvailable: boolean()
+});
+object$1({
+	parentSessionId: sessionIdSchema,
+	childSessionId: sessionIdSchema,
+	mode: union([literal("one-shot"), literal("continuable")]),
+	beforeSeq: number().int().nonnegative().optional(),
+	maxMessages: number().int().positive().optional()
+});
+object$1({
+	events: array(historyEntrySchema),
+	hasMore: boolean(),
+	projections: sessionProjectionsBlockSchema.optional()
+});
+object$1({
+	parentSessionId: sessionIdSchema,
+	childSessionId: sessionIdSchema,
+	mode: literal("continuable"),
+	content: array(contentBlockSchema),
+	clientTimeZone: string().optional()
+});
+object$1({
+	parentSessionId: sessionIdSchema,
+	childSessionId: sessionIdSchema,
+	mode: literal("continuable")
+});
+object$1({ accepted: literal(true) });
+object$1({ messageId: string() });
+/**
+* One wire task view. `kind` stays an open string because producer plugins
+* extend the registry's kind map by declaration merging, so the closed set is
+* not knowable at this boundary.
+*/
+const taskViewSchema = object$1({
+	id: string().min(1),
+	kind: string().min(1),
+	label: string().min(1),
+	status: union([
+		literal("running"),
+		literal("stopping"),
+		literal("completed"),
+		literal("killed"),
+		literal("failed")
+	]),
+	detail: string().optional(),
+	startedAt: number().int().nonnegative(),
+	finishedAt: number().int().nonnegative().optional()
+});
+/**
+* events domain zod schemas: MuxFrame / HostFrame unions (discriminatedUnion('type')).
+* A frame is the payload slot of the ServerRequest full form; the SessionEvent inside
+* a session/event frame reuses sessions.schema's strict-envelope + wide-data passthrough branch.
+*/
+/** Question fields validated strictly against core dsh-user-questions. */
+const askUserQuestionItemSchema = object$1({
+	id: string(),
+	question: string(),
+	header: string().optional(),
+	detail: string().optional(),
+	options: array(object$1({
+		label: string(),
+		description: string().optional()
+	})).optional(),
+	multiSelect: boolean().optional(),
+	intent: discriminatedUnion("kind", [object$1({
+		kind: literal("plan-review"),
+		approve: string()
+	})]).optional()
+});
+/** Unified message envelope carried by transient queue frames. */
+const messageSchema = object$1({
+	id: string().min(1),
+	role: union([
+		literal("system"),
+		literal("user"),
+		literal("assistant")
+	]),
+	content: array(contentBlockSchema),
+	source: looseObject({ kind: string() })
+});
+discriminatedUnion("type", [
+	object$1({
+		type: literal("session/event"),
+		sessionId: sessionIdSchema,
+		event: sessionEventSchema,
+		view: toolEventViewSchema.optional()
+	}),
+	object$1({
+		type: literal("session/subscribed"),
+		sessionId: sessionIdSchema,
+		lastSeq: number().int()
+	}),
+	object$1({
+		type: literal("approval/requested"),
+		sessionId: sessionIdSchema,
+		approvalId: approvalRequestIdSchema,
+		toolName: string(),
+		callId: string().optional(),
+		reason: string().optional()
+	}),
+	object$1({
+		type: literal("approval/resolved"),
+		sessionId: sessionIdSchema,
+		approvalId: approvalRequestIdSchema,
+		outcome: union([
+			literal("allowed-once"),
+			literal("rejected"),
+			literal("cancelled"),
+			literal("unavailable")
+		])
+	}),
+	object$1({
+		type: literal("question/requested"),
+		sessionId: sessionIdSchema,
+		questions: array(askUserQuestionItemSchema).min(1)
+	}),
+	object$1({
+		type: literal("question/resolved"),
+		sessionId: sessionIdSchema,
+		questionRpcId: rpcIdSchema,
+		outcome: union([literal("answered"), literal("cancelled")])
+	}),
+	object$1({
+		type: literal("session/queue"),
+		sessionId: sessionIdSchema,
+		items: array(object$1({
+			id: messageIdSchema$1,
+			placement: union([
+				literal("queued"),
+				literal("steering"),
+				literal("context")
+			]),
+			message: messageSchema
+		}))
+	}),
+	object$1({
+		type: literal("session/jobs"),
+		sessionId: sessionIdSchema,
+		jobs: array(taskViewSchema)
+	}),
+	object$1({
+		type: literal("session/projection"),
+		sessionId: sessionIdSchema,
+		key: string().min(1),
+		value: unknown(),
+		seq: number().int().nonnegative()
+	}),
+	object$1({
+		type: literal("stream/error"),
+		error: rpcErrorSchema
+	})
+]);
+discriminatedUnion("type", [
+	object$1({
+		type: literal("host/session-added"),
+		sessionId: sessionIdSchema,
+		blank: boolean(),
+		parentSessionId: sessionIdSchema.optional(),
+		origin: literal("subagent").optional(),
+		cwd: string().optional(),
+		agentPreset: string().optional()
+	}),
+	object$1({
+		type: literal("host/session-removed"),
+		sessionId: sessionIdSchema
+	}),
+	object$1({
+		type: literal("host/session-status"),
+		sessionId: sessionIdSchema,
+		running: boolean()
+	}),
+	object$1({
+		type: literal("host/agent-error"),
+		sessionId: sessionIdSchema,
+		message: string()
+	}),
+	object$1({
+		type: literal("host/workspace-changed"),
+		workspace: workspaceViewSchema
+	}),
+	object$1({
+		type: literal("host/workspace-removed"),
+		workspaceId: workspaceIdSchema
+	}),
+	object$1({
+		type: literal("host/workspace-order-changed"),
+		workspaceIds: array(workspaceIdSchema)
+	}),
+	object$1({
+		type: literal("host/archived-sessions-changed"),
+		archivedSessionIds: array(sessionIdSchema)
+	}),
+	object$1({
+		type: literal("host/remote-event"),
+		event: string().min(1),
+		args: array(unknown())
+	}),
+	object$1({
+		type: literal("stream/error"),
+		error: rpcErrorSchema
+	})
+]);
+(class extends Service {
+	static inject = [
+		"agentDefaultModel",
+		"agents",
+		"attachments",
+		"directoryPicker",
+		"llm",
+		"sessions",
+		"subagents",
+		"sessionQuery",
+		"tools",
+		"userQuestions",
+		"workspaceRegistry"
+	];
+	static Config = Schema$1.object({
+		nativeOpen: Schema$1.boolean(),
+		sessionExportCompressionLevel: Schema$1.number().step(1).min(0).max(9).default(6),
+		coldBlankProbeMaxBytes: Schema$1.natural().default(DEFAULT_COLD_BLANK_PROBE_MAX_BYTES)
+	});
+	sessions;
+	subagents;
+	workspace;
+	host;
+	goals;
+	skills;
+	agentPresets;
+	settings;
+	credentials;
+	llm;
+	events;
+	downloads;
+	respond;
+	constructor(ctx, config) {
+		super(ctx, "apiProxy");
+		const api = createApiProxy(ctx, {
+			defaultModelSelection: () => ctx.agentDefaultModel.currentSelection(),
+			saveDefaultModelSelection: (selection) => ctx.agentDefaultModel.saveSelection(selection),
+			cwd: process.cwd(),
+			...config.nativeOpen === void 0 ? {} : { canOpenPath: () => config.nativeOpen },
+			...config.sessionExportCompressionLevel === void 0 ? {} : { sessionExportCompressionLevel: config.sessionExportCompressionLevel },
+			...config.coldBlankProbeMaxBytes === void 0 ? {} : { coldBlankProbeMaxBytes: config.coldBlankProbeMaxBytes }
+		});
+		this.sessions = api.sessions;
+		this.subagents = api.subagents;
+		this.workspace = api.workspace;
+		this.host = api.host;
+		this.goals = api.goals;
+		this.skills = api.skills;
+		this.agentPresets = api.agentPresets;
+		this.settings = api.settings;
+		this.credentials = api.credentials;
+		this.llm = api.llm;
+		this.events = api.events;
+		this.downloads = api.downloads;
+		this.respond = api.respond.bind(api);
+	}
+});
 //#endregion
 //#region node_modules/.pnpm/@paddleocr+api-sdk@0.2.0/node_modules/@paddleocr/api-sdk/dist/index.js
 var __defProp = Object.defineProperty;
@@ -28879,7 +41954,7 @@ var PaddleOCRClient = class {
 	async requireExistingDirectory(destination) {
 		let destinationStat;
 		try {
-			destinationStat = await stat(destination);
+			destinationStat = await stat$1(destination);
 		} catch {
 			throw new FileNotFoundError(destination);
 		}
@@ -28887,7 +41962,7 @@ var PaddleOCRClient = class {
 	}
 	async requireWritableTarget(target, options) {
 		try {
-			await stat(target);
+			await stat$1(target);
 		} catch {
 			return;
 		}
@@ -28904,7 +41979,7 @@ var PaddleOCRClient = class {
 	async resolveDestination(url, destination, options) {
 		let destinationStat;
 		try {
-			destinationStat = await stat(destination);
+			destinationStat = await stat$1(destination);
 		} catch {
 			destinationStat = void 0;
 		}
@@ -28912,7 +41987,7 @@ var PaddleOCRClient = class {
 		await this.requireWritableTarget(target, options);
 		const parent = dirname$1(target);
 		try {
-			if (!(await stat(parent)).isDirectory()) throw new InvalidRequestError(`Destination parent must be a directory: ${parent}`);
+			if (!(await stat$1(parent)).isDirectory()) throw new InvalidRequestError(`Destination parent must be a directory: ${parent}`);
 		} catch (error) {
 			if (error instanceof InvalidRequestError) throw error;
 			throw new FileNotFoundError(parent, { cause: error });
@@ -29011,641 +42086,6 @@ function resourceExtension(resourceUrl) {
 	}
 }
 init_errors();
-//#endregion
-//#region node_modules/.pnpm/fflate@0.8.3/node_modules/fflate/esm/index.mjs
-var require$1 = createRequire$1("/");
-var _a;
-try {
-	_a = require$1("worker_threads"), _a.Worker, _a.isMarkedAsUntransferable;
-} catch (e) {}
-var u8 = Uint8Array;
-var u16 = Uint16Array;
-var i32 = Int32Array;
-var fleb = new u8([
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	1,
-	1,
-	1,
-	1,
-	2,
-	2,
-	2,
-	2,
-	3,
-	3,
-	3,
-	3,
-	4,
-	4,
-	4,
-	4,
-	5,
-	5,
-	5,
-	5,
-	0,
-	0,
-	0,
-	0
-]);
-var fdeb = new u8([
-	0,
-	0,
-	0,
-	0,
-	1,
-	1,
-	2,
-	2,
-	3,
-	3,
-	4,
-	4,
-	5,
-	5,
-	6,
-	6,
-	7,
-	7,
-	8,
-	8,
-	9,
-	9,
-	10,
-	10,
-	11,
-	11,
-	12,
-	12,
-	13,
-	13,
-	0,
-	0
-]);
-var clim = new u8([
-	16,
-	17,
-	18,
-	0,
-	8,
-	7,
-	9,
-	6,
-	10,
-	5,
-	11,
-	4,
-	12,
-	3,
-	13,
-	2,
-	14,
-	1,
-	15
-]);
-var freb = function(eb, start) {
-	var b = new u16(31);
-	for (var i = 0; i < 31; ++i) b[i] = start += 1 << eb[i - 1];
-	var r = new i32(b[30]);
-	for (var i = 1; i < 30; ++i) for (var j = b[i]; j < b[i + 1]; ++j) r[j] = j - b[i] << 5 | i;
-	return {
-		b,
-		r
-	};
-};
-var _a = freb(fleb, 2);
-var fl = _a.b;
-var revfl = _a.r;
-fl[28] = 258, revfl[258] = 28;
-var _b = freb(fdeb, 0);
-var fd = _b.b;
-_b.r;
-var rev = new u16(32768);
-for (var i = 0; i < 32768; ++i) {
-	var x = (i & 43690) >> 1 | (i & 21845) << 1;
-	x = (x & 52428) >> 2 | (x & 13107) << 2;
-	x = (x & 61680) >> 4 | (x & 3855) << 4;
-	rev[i] = ((x & 65280) >> 8 | (x & 255) << 8) >> 1;
-}
-var hMap = (function(cd, mb, r) {
-	var s = cd.length;
-	var i = 0;
-	var l = new u16(mb);
-	for (; i < s; ++i) if (cd[i]) ++l[cd[i] - 1];
-	var le = new u16(mb);
-	for (i = 1; i < mb; ++i) le[i] = le[i - 1] + l[i - 1] << 1;
-	var co;
-	if (r) {
-		co = new u16(1 << mb);
-		var rvb = 15 - mb;
-		for (i = 0; i < s; ++i) if (cd[i]) {
-			var sv = i << 4 | cd[i];
-			var r_1 = mb - cd[i];
-			var v = le[cd[i] - 1]++ << r_1;
-			for (var m = v | (1 << r_1) - 1; v <= m; ++v) co[rev[v] >> rvb] = sv;
-		}
-	} else {
-		co = new u16(s);
-		for (i = 0; i < s; ++i) if (cd[i]) co[i] = rev[le[cd[i] - 1]++] >> 15 - cd[i];
-	}
-	return co;
-});
-var flt = new u8(288);
-for (var i = 0; i < 144; ++i) flt[i] = 8;
-for (var i = 144; i < 256; ++i) flt[i] = 9;
-for (var i = 256; i < 280; ++i) flt[i] = 7;
-for (var i = 280; i < 288; ++i) flt[i] = 8;
-var fdt = new u8(32);
-for (var i = 0; i < 32; ++i) fdt[i] = 5;
-var flrm = /*#__PURE__*/ hMap(flt, 9, 1);
-var fdrm = /*#__PURE__*/ hMap(fdt, 5, 1);
-var max = function(a) {
-	var m = a[0];
-	for (var i = 1; i < a.length; ++i) if (a[i] > m) m = a[i];
-	return m;
-};
-var bits = function(d, p, m) {
-	var o = p / 8 | 0;
-	return (d[o] | d[o + 1] << 8) >> (p & 7) & m;
-};
-var bits16 = function(d, p) {
-	var o = p / 8 | 0;
-	return (d[o] | d[o + 1] << 8 | d[o + 2] << 16) >> (p & 7);
-};
-var shft = function(p) {
-	return (p + 7) / 8 | 0;
-};
-var slc = function(v, s, e) {
-	if (s == null || s < 0) s = 0;
-	if (e == null || e > v.length) e = v.length;
-	return new u8(v.subarray(s, e));
-};
-var ec = [
-	"unexpected EOF",
-	"invalid block type",
-	"invalid length/literal",
-	"invalid distance",
-	"stream finished",
-	"no stream handler",
-	,
-	"no callback",
-	"invalid UTF-8 data",
-	"extra field too long",
-	"date not in range 1980-2099",
-	"filename too long",
-	"stream finishing",
-	"invalid zip data"
-];
-var err = function(ind, msg, nt) {
-	var e = new Error(msg || ec[ind]);
-	e.code = ind;
-	if (Error.captureStackTrace) Error.captureStackTrace(e, err);
-	if (!nt) throw e;
-	return e;
-};
-var inflt = function(dat, st, buf, dict) {
-	var sl = dat.length, dl = dict ? dict.length : 0;
-	if (!sl || st.f && !st.l) return buf || new u8(0);
-	var noBuf = !buf;
-	var resize = noBuf || st.i != 2;
-	var noSt = st.i;
-	if (noBuf) buf = new u8(sl * 3);
-	var cbuf = function(l) {
-		var bl = buf.length;
-		if (l > bl) {
-			var nbuf = new u8(Math.max(bl * 2, l));
-			nbuf.set(buf);
-			buf = nbuf;
-		}
-	};
-	var final = st.f || 0, pos = st.p || 0, bt = st.b || 0, lm = st.l, dm = st.d, lbt = st.m, dbt = st.n;
-	var tbts = sl * 8;
-	do {
-		if (!lm) {
-			final = bits(dat, pos, 1);
-			var type = bits(dat, pos + 1, 3);
-			pos += 3;
-			if (!type) {
-				var s = shft(pos) + 4, l = dat[s - 4] | dat[s - 3] << 8, t = s + l;
-				if (t > sl) {
-					if (noSt) err(0);
-					break;
-				}
-				if (resize) cbuf(bt + l);
-				buf.set(dat.subarray(s, t), bt);
-				st.b = bt += l, st.p = pos = t * 8, st.f = final;
-				continue;
-			} else if (type == 1) lm = flrm, dm = fdrm, lbt = 9, dbt = 5;
-			else if (type == 2) {
-				var hLit = bits(dat, pos, 31) + 257, hcLen = bits(dat, pos + 10, 15) + 4;
-				var tl = hLit + bits(dat, pos + 5, 31) + 1;
-				pos += 14;
-				var ldt = new u8(tl);
-				var clt = new u8(19);
-				for (var i = 0; i < hcLen; ++i) clt[clim[i]] = bits(dat, pos + i * 3, 7);
-				pos += hcLen * 3;
-				var clb = max(clt), clbmsk = (1 << clb) - 1;
-				var clm = hMap(clt, clb, 1);
-				for (var i = 0; i < tl;) {
-					var r = clm[bits(dat, pos, clbmsk)];
-					pos += r & 15;
-					var s = r >> 4;
-					if (s < 16) ldt[i++] = s;
-					else {
-						var c = 0, n = 0;
-						if (s == 16) n = 3 + bits(dat, pos, 3), pos += 2, c = ldt[i - 1];
-						else if (s == 17) n = 3 + bits(dat, pos, 7), pos += 3;
-						else if (s == 18) n = 11 + bits(dat, pos, 127), pos += 7;
-						while (n--) ldt[i++] = c;
-					}
-				}
-				var lt = ldt.subarray(0, hLit), dt = ldt.subarray(hLit);
-				lbt = max(lt);
-				dbt = max(dt);
-				lm = hMap(lt, lbt, 1);
-				dm = hMap(dt, dbt, 1);
-			} else err(1);
-			if (pos > tbts) {
-				if (noSt) err(0);
-				break;
-			}
-		}
-		if (resize) cbuf(bt + 131072);
-		var lms = (1 << lbt) - 1, dms = (1 << dbt) - 1;
-		var lpos = pos;
-		for (;; lpos = pos) {
-			var c = lm[bits16(dat, pos) & lms], sym = c >> 4;
-			pos += c & 15;
-			if (pos > tbts) {
-				if (noSt) err(0);
-				break;
-			}
-			if (!c) err(2);
-			if (sym < 256) buf[bt++] = sym;
-			else if (sym == 256) {
-				lpos = pos, lm = null;
-				break;
-			} else {
-				var add = sym - 254;
-				if (sym > 264) {
-					var i = sym - 257, b = fleb[i];
-					add = bits(dat, pos, (1 << b) - 1) + fl[i];
-					pos += b;
-				}
-				var d = dm[bits16(dat, pos) & dms], dsym = d >> 4;
-				if (!d) err(3);
-				pos += d & 15;
-				var dt = fd[dsym];
-				if (dsym > 3) {
-					var b = fdeb[dsym];
-					dt += bits16(dat, pos) & (1 << b) - 1, pos += b;
-				}
-				if (pos > tbts) {
-					if (noSt) err(0);
-					break;
-				}
-				if (resize) cbuf(bt + 131072);
-				var end = bt + add;
-				if (bt < dt) {
-					var shift = dl - dt, dend = Math.min(dt, end);
-					if (shift + bt < 0) err(3);
-					for (; bt < dend; ++bt) buf[bt] = dict[shift + bt];
-				}
-				for (; bt < end; ++bt) buf[bt] = buf[bt - dt];
-			}
-		}
-		st.l = lm, st.p = lpos, st.b = bt, st.f = final;
-		if (lm) final = 1, st.m = lbt, st.d = dm, st.n = dbt;
-	} while (!final);
-	return bt != buf.length && noBuf ? slc(buf, 0, bt) : buf.subarray(0, bt);
-};
-var et = /*#__PURE__*/ new u8(0);
-var b2 = function(d, b) {
-	return d[b] | d[b + 1] << 8;
-};
-var b4 = function(d, b) {
-	return (d[b] | d[b + 1] << 8 | d[b + 2] << 16 | d[b + 3] << 24) >>> 0;
-};
-var b8 = function(d, b) {
-	return b4(d, b) + b4(d, b + 4) * 4294967296;
-};
-/**
-* Streaming DEFLATE decompression
-*/
-var Inflate = /* @__PURE__ */ function() {
-	function Inflate(opts, cb) {
-		if (typeof opts == "function") cb = opts, opts = {};
-		this.ondata = cb;
-		var dict = opts && opts.dictionary && opts.dictionary.subarray(-32768);
-		this.s = {
-			i: 0,
-			b: dict ? dict.length : 0
-		};
-		this.o = new u8(32768);
-		this.p = new u8(0);
-		if (dict) this.o.set(dict);
-	}
-	Inflate.prototype.e = function(c) {
-		if (!this.ondata) err(5);
-		if (this.d) err(4);
-		if (!this.p.length) this.p = c;
-		else if (c.length) {
-			var n = new u8(this.p.length + c.length);
-			n.set(this.p), n.set(c, this.p.length), this.p = n;
-		}
-	};
-	Inflate.prototype.c = function(final) {
-		this.s.i = +(this.d = final || false);
-		var bts = this.s.b;
-		var dt = inflt(this.p, this.s, this.o);
-		this.ondata(slc(dt, bts, this.s.b), this.d);
-		this.o = slc(dt, this.s.b - 32768), this.s.b = this.o.length;
-		this.p = slc(this.p, this.s.p / 8 | 0), this.s.p &= 7;
-	};
-	/**
-	* Pushes a chunk to be inflated
-	* @param chunk The chunk to push
-	* @param final Whether this is the final chunk
-	*/
-	Inflate.prototype.push = function(chunk, final) {
-		this.e(chunk), this.c(final);
-	};
-	return Inflate;
-}();
-var td = typeof TextDecoder != "undefined" && /*#__PURE__*/ new TextDecoder();
-try {
-	td.decode(et, { stream: true });
-} catch (e) {}
-var dutf8 = function(d) {
-	for (var r = "", i = 0;;) {
-		var c = d[i++];
-		var eb = (c > 127) + (c > 223) + (c > 239);
-		if (i + eb > d.length) return {
-			s: r,
-			r: slc(d, i - 1)
-		};
-		if (!eb) r += String.fromCharCode(c);
-		else if (eb == 3) c = ((c & 15) << 18 | (d[i++] & 63) << 12 | (d[i++] & 63) << 6 | d[i++] & 63) - 65536, r += String.fromCharCode(55296 | c >> 10, 56320 | c & 1023);
-		else if (eb & 1) r += String.fromCharCode((c & 31) << 6 | d[i++] & 63);
-		else r += String.fromCharCode((c & 15) << 12 | (d[i++] & 63) << 6 | d[i++] & 63);
-	}
-};
-/**
-* Converts a Uint8Array to a string
-* @param dat The data to decode to string
-* @param latin1 Whether or not to interpret the data as Latin-1. This should
-*               not need to be true unless encoding to binary string.
-* @returns The original UTF-8/Latin-1 string
-*/
-function strFromU8(dat, latin1) {
-	if (latin1) {
-		var r = "";
-		for (var i = 0; i < dat.length; i += 16384) r += String.fromCharCode.apply(null, dat.subarray(i, i + 16384));
-		return r;
-	} else if (td) return td.decode(dat);
-	else {
-		var _a = dutf8(dat), s = _a.s, r = _a.r;
-		if (r.length) err(8);
-		return s;
-	}
-}
-var z64hs = function(d, b, l, z, sc, su, off) {
-	var nsc = sc == 4294967295, nsu = su == 4294967295, noff = off == 4294967295, e = b + l;
-	var nf = nsc + nsu + noff;
-	if (z && nf) {
-		for (; b + 4 < e; b += 4 + b2(d, b + 2)) if (b2(d, b) == 1) return [
-			nsc ? b8(d, b + 4 + 8 * nsu) : sc,
-			nsu ? b8(d, b + 4) : su,
-			noff ? b8(d, b + 4 + 8 * (nsu + nsc)) : off,
-			1
-		];
-		if (z < 2) err(13);
-	}
-	return [
-		sc,
-		su,
-		off,
-		0
-	];
-};
-/**
-* Streaming pass-through decompression for ZIP archives
-*/
-var UnzipPassThrough = /* @__PURE__ */ function() {
-	function UnzipPassThrough() {}
-	UnzipPassThrough.prototype.push = function(chunk, final) {
-		this.ondata(null, chunk, final);
-	};
-	UnzipPassThrough.compression = 0;
-	return UnzipPassThrough;
-}();
-/**
-* Streaming DEFLATE decompression for ZIP archives. Prefer AsyncZipInflate for
-* better performance.
-*/
-var UnzipInflate = /* @__PURE__ */ function() {
-	/**
-	* Creates a DEFLATE decompression that can be used in ZIP archives
-	*/
-	function UnzipInflate() {
-		var _this = this;
-		this.i = new Inflate(function(dat, final) {
-			_this.ondata(null, dat, final);
-		});
-	}
-	UnzipInflate.prototype.push = function(chunk, final) {
-		try {
-			this.i.push(chunk, final);
-		} catch (e) {
-			this.ondata(e, null, final);
-		}
-	};
-	UnzipInflate.compression = 8;
-	return UnzipInflate;
-}();
-/**
-* A ZIP archive decompression stream that emits files as they are discovered
-*/
-var Unzip = /* @__PURE__ */ function() {
-	/**
-	* Creates a ZIP decompression stream
-	* @param cb The callback to call whenever a file in the ZIP archive is found
-	*/
-	function Unzip(cb) {
-		this.onfile = cb;
-		this.k = [];
-		this.o = { 0: UnzipPassThrough };
-		this.p = et;
-	}
-	/**
-	* Pushes a chunk to be unzipped
-	* @param chunk The chunk to push
-	* @param final Whether this is the last chunk
-	*/
-	Unzip.prototype.push = function(chunk, final) {
-		var _this = this;
-		if (!this.onfile) err(5);
-		if (!this.p) err(4);
-		if (this.c > 0) {
-			var len = Math.min(this.c, chunk.length);
-			var toAdd = chunk.subarray(0, len);
-			this.c -= len;
-			if (this.d) this.d.push(toAdd, !this.c);
-			else this.k[0].push(toAdd);
-			chunk = chunk.subarray(len);
-			if (chunk.length) return this.push(chunk, final);
-		} else {
-			var f = 0, i = 0, is = void 0, buf = void 0;
-			if (!this.p.length) buf = chunk;
-			else if (!chunk.length) buf = this.p;
-			else {
-				buf = new u8(this.p.length + chunk.length);
-				buf.set(this.p), buf.set(chunk, this.p.length);
-			}
-			var l = buf.length, oc = this.c, add = oc && this.d;
-			var _loop_2 = function() {
-				var sig = b4(buf, i);
-				if (sig == 67324752) {
-					f = 1, is = i;
-					this_1.d = null;
-					this_1.c = 0;
-					var bf = b2(buf, i + 6), cmp_1 = b2(buf, i + 8), u = bf & 2048, dd = bf & 8, fnl = b2(buf, i + 26), es = b2(buf, i + 28);
-					if (l > i + 30 + fnl + es) {
-						var chks_3 = [];
-						this_1.k.unshift(chks_3);
-						f = 2;
-						var lsc = b4(buf, i + 18), lsu = b4(buf, i + 22);
-						var fn_1 = strFromU8(buf.subarray(i + 30, i += 30 + fnl), !u);
-						var _a = z64hs(buf, i, es, 2, lsc, lsu, 0), sc_1 = _a[0], su_1 = _a[1], z64 = _a[3];
-						if (dd) sc_1 = -1 - z64;
-						i += es;
-						this_1.c = sc_1;
-						var d_1;
-						var file_1 = {
-							name: fn_1,
-							compression: cmp_1,
-							start: function() {
-								if (!file_1.ondata) err(5);
-								if (!sc_1) file_1.ondata(null, et, true);
-								else {
-									var ctr = _this.o[cmp_1];
-									if (!ctr) file_1.ondata(err(14, "unknown compression type " + cmp_1, 1), null, false);
-									d_1 = sc_1 < 0 ? new ctr(fn_1) : new ctr(fn_1, sc_1, su_1);
-									d_1.ondata = function(err, dat, final) {
-										file_1.ondata(err, dat, final);
-									};
-									for (var _i = 0, chks_4 = chks_3; _i < chks_4.length; _i++) {
-										var dat = chks_4[_i];
-										d_1.push(dat, false);
-									}
-									if (_this.k[0] == chks_3 && _this.c) _this.d = d_1;
-									else d_1.push(et, true);
-								}
-							},
-							terminate: function() {
-								if (d_1 && d_1.terminate) d_1.terminate();
-							}
-						};
-						if (sc_1 >= 0) file_1.size = sc_1, file_1.originalSize = su_1;
-						this_1.onfile(file_1);
-					}
-					return "break";
-				} else if (oc) {
-					if (sig == 134695760) {
-						is = i += 12 + (oc == -2 && 8), f = 3, this_1.c = 0;
-						return "break";
-					} else if (sig == 33639248) {
-						is = i -= 4, f = 3, this_1.c = 0;
-						return "break";
-					}
-				}
-			};
-			var this_1 = this;
-			for (; i < l - 4; ++i) if (_loop_2() === "break") break;
-			this.p = et;
-			if (oc < 0) {
-				var dat = f ? buf.subarray(0, is - 12 - (oc == -2 && 8) - (b4(buf, is - 16) == 134695760 && 4)) : buf.subarray(0, i);
-				if (add) add.push(dat, !!f);
-				else this.k[+(f == 2)].push(dat);
-			}
-			if (f & 2) return this.push(buf.subarray(i), final);
-			this.p = buf.subarray(i);
-		}
-		if (final) {
-			if (this.c) err(13);
-			this.p = null;
-		}
-	};
-	/**
-	* Registers a decoder with the stream, allowing for files compressed with
-	* the compression type provided to be expanded correctly
-	* @param decoder The decoder constructor
-	*/
-	Unzip.prototype.register = function(decoder) {
-		this.o[decoder.compression] = decoder;
-	};
-	return Unzip;
-}();
-//#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-storage@0._f5e53957c14bb038caf53cfe7d1bc9aa/node_modules/@deepseek-ai/dsh-storage/lib/index.js
-/**
-* Backend-facing vocabulary of the storage hub: a backend owns one medium
-* (a file-tree root, a database file) and exposes operation groups over it.
-* This module defines the normative contract text for backend implementers; the shared
-* conformance suite in `tests/contract.ts` checks every rule.
-* @module @deepseek-ai/dsh-storage/src/backend
-*/
-/** Allowed format for unit and table names: safe as a file name and as a SQL identifier segment without escaping. */
-const UNIT_NAME_RE = /^[a-z][a-z0-9_]*$/;
-//#endregion
-//#region node_modules/.pnpm/@deepseek-ai+dsh-storage-do_1dd5e89577ac0f175d4162432caf3a24/node_modules/@deepseek-ai/dsh-storage-domain/lib/index.js
-/**
-* Domain declaration vocabulary. A spec object is the single source of a
-* domain's identity, layout, and record schemas: the owning package defines
-* it once with {@link defineDomain} and both the type surface and the runtime
-* (validation, descriptor projection) derive from it. Record schemas are zod
-* (`z.infer` keeps types un-duplicated and the same schemas later project to
-* RPC wire schemas); plugin `Config` stays schemastery.
-* @module @deepseek-ai/dsh-storage-domain/src/spec
-*/
-/**
-* Declare one table.
-* @param schema - zod schema validating every stored record of this table.
-* @returns the table declaration, key-typed by `K`.
-*/
-function domainTable(schema) {
-	return { valueSchema: schema };
-}
-/**
-* Identity helper that pins a spec's literal types and validates its fields.
-* Misconfiguration fails loud at the owning package's module load, before any
-* medium is touched: a domain or table name outside `UNIT_NAME_RE`, a version
-* that is not a non-negative integer, or a global schema that accepts `null`
-* all throw. The `null` rejection guards round-tripping: backends store the
-* global as opaque JSON with `null` as the "never written" sentinel, so a
-* nullable global would be indistinguishable from an absent one on reopen
-* (a stored `null` silently reverts to `initial`).
-* @param spec - The domain declaration.
-* @returns the same spec, narrowed to its literal type.
-*/
-function defineDomain(spec) {
-	if (!UNIT_NAME_RE.test(spec.name)) throw new Error(`domain name '${spec.name}' must match ${UNIT_NAME_RE}`);
-	if (!Number.isInteger(spec.version) || spec.version < 0) throw new Error(`domain '${spec.name}' version must be a non-negative integer, got ${spec.version}`);
-	for (const table of Object.keys(spec.tables)) if (!UNIT_NAME_RE.test(table)) throw new Error(`domain '${spec.name}' table name '${table}' must match ${UNIT_NAME_RE}`);
-	if (spec.global !== void 0 && spec.global.schema.safeParse(null).success) throw new Error(`domain '${spec.name}' global schema must not accept null: null is the medium's "never written" sentinel, so a stored null could not round-trip`);
-	return spec;
-}
-Schema.object({
-	backend: Schema.string().required(),
-	routes: Schema.dict(Schema.string()).default({})
-});
 //#endregion
 //#region packages/control-center/lib/index.js
 var lib_exports = /* @__PURE__ */ __exportAll({
@@ -29995,7 +42435,7 @@ var TranslationService = class extends Service {
 	constructor(ctx, _config) {
 		super(ctx, "controlCenterTranslation");
 		this.llm = ctx.get("llm");
-		if (ctx.settings !== void 0) this.scope = ctx.settings.register(TRANSLATION_NAMESPACE, Schema.object({ prompt: Schema.string().default("") }), { base: { prompt: "" } });
+		if (ctx.settings !== void 0) this.scope = ctx.settings.register(TRANSLATION_NAMESPACE, Schema$1.object({ prompt: Schema$1.string().default("") }), { base: { prompt: "" } });
 		markTranslationRemoteMethods(this);
 		ctx.effect(() => async () => {
 			this.accepting = false;
@@ -32396,48 +44836,48 @@ var McpService = class extends Service {
 	runtimeStates = /* @__PURE__ */ new Map();
 	constructor(ctx) {
 		super(ctx, "controlCenterMcp");
-		this.scope = ctx.settings.register(MCP_NAMESPACE, Schema.object({ servers: Schema.array(Schema.object({
-			id: Schema.string(),
-			name: Schema.string(),
-			type: Schema.union([
+		this.scope = ctx.settings.register(MCP_NAMESPACE, Schema$1.object({ servers: Schema$1.array(Schema$1.object({
+			id: Schema$1.string(),
+			name: Schema$1.string(),
+			type: Schema$1.union([
 				"stdio",
 				"sse",
 				"streamableHttp",
 				"inMemory"
 			]),
-			description: Schema.string(),
-			baseUrl: Schema.string(),
-			command: Schema.string(),
-			registryUrl: Schema.string(),
-			args: Schema.array(Schema.string()),
-			env: Schema.dict(Schema.string()),
-			headers: Schema.dict(Schema.string()),
-			provider: Schema.string(),
-			providerUrl: Schema.string(),
-			logoUrl: Schema.string(),
-			tags: Schema.array(Schema.string()),
-			longRunning: Schema.boolean(),
-			timeout: Schema.number(),
-			dxtVersion: Schema.string(),
-			dxtPath: Schema.string(),
-			reference: Schema.string(),
-			searchKey: Schema.string(),
-			disabledTools: Schema.array(Schema.string()),
-			disabledAutoApproveTools: Schema.array(Schema.string()),
-			shouldConfig: Schema.boolean(),
-			sortOrder: Schema.number(),
-			isActive: Schema.boolean(),
-			installSource: Schema.union([
+			description: Schema$1.string(),
+			baseUrl: Schema$1.string(),
+			command: Schema$1.string(),
+			registryUrl: Schema$1.string(),
+			args: Schema$1.array(Schema$1.string()),
+			env: Schema$1.dict(Schema$1.string()),
+			headers: Schema$1.dict(Schema$1.string()),
+			provider: Schema$1.string(),
+			providerUrl: Schema$1.string(),
+			logoUrl: Schema$1.string(),
+			tags: Schema$1.array(Schema$1.string()),
+			longRunning: Schema$1.boolean(),
+			timeout: Schema$1.number(),
+			dxtVersion: Schema$1.string(),
+			dxtPath: Schema$1.string(),
+			reference: Schema$1.string(),
+			searchKey: Schema$1.string(),
+			disabledTools: Schema$1.array(Schema$1.string()),
+			disabledAutoApproveTools: Schema$1.array(Schema$1.string()),
+			shouldConfig: Schema$1.boolean(),
+			sortOrder: Schema$1.number(),
+			isActive: Schema$1.boolean(),
+			installSource: Schema$1.union([
 				"builtin",
 				"manual",
 				"protocol",
 				"unknown"
 			]),
-			isTrusted: Schema.boolean(),
-			trustedAt: Schema.number(),
-			installedAt: Schema.number(),
-			createdAt: Schema.string(),
-			updatedAt: Schema.string()
+			isTrusted: Schema$1.boolean(),
+			trustedAt: Schema$1.number(),
+			installedAt: Schema$1.number(),
+			createdAt: Schema$1.string(),
+			updatedAt: Schema$1.string()
 		})).default([]) }), { base: { servers: [] } });
 	}
 	recordToView(record) {
@@ -32632,7 +45072,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-JkU1MmUe.js");
+				const { SSEClientTransport } = await import("./sse-CGtlYgDD.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -32654,7 +45094,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-o5aLy48u.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-Cm-ITiz-.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -33667,8 +46107,8 @@ var WebSearchService = class extends Service {
 	scope;
 	constructor(ctx, _config) {
 		super(ctx, "controlCenterWebSearch");
-		this.scope = ctx.settings.register(WEBSEARCH_NAMESPACE, Schema.object({
-			defaultSearchKeywordsProvider: Schema.union([
+		this.scope = ctx.settings.register(WEBSEARCH_NAMESPACE, Schema$1.object({
+			defaultSearchKeywordsProvider: Schema$1.union([
 				"zhipu",
 				"tavily",
 				"searxng",
@@ -33679,33 +46119,33 @@ var WebSearchService = class extends Service {
 				"jina",
 				"firecrawl"
 			]).default("exa-mcp"),
-			defaultFetchUrlsProvider: Schema.union([
+			defaultFetchUrlsProvider: Schema$1.union([
 				"searxng",
 				"querit",
 				"fetch",
 				"jina",
 				"firecrawl"
 			]).default("jina"),
-			providerOverrides: Schema.dict(Schema.object({
-				apiKeys: Schema.array(Schema.string().role("secret")),
-				capabilities: Schema.object({
-					searchKeywords: Schema.object({ apiHost: Schema.string() }),
-					fetchUrls: Schema.object({ apiHost: Schema.string() })
+			providerOverrides: Schema$1.dict(Schema$1.object({
+				apiKeys: Schema$1.array(Schema$1.string().role("secret")),
+				capabilities: Schema$1.object({
+					searchKeywords: Schema$1.object({ apiHost: Schema$1.string() }),
+					fetchUrls: Schema$1.object({ apiHost: Schema$1.string() })
 				}),
-				engines: Schema.array(Schema.string()),
-				basicAuthUsername: Schema.string(),
-				basicAuthPassword: Schema.string().role("secret")
+				engines: Schema$1.array(Schema$1.string()),
+				basicAuthUsername: Schema$1.string(),
+				basicAuthPassword: Schema$1.string().role("secret")
 			})).default({}),
-			maxResults: Schema.number().min(1).max(50).default(5),
-			excludeDomains: Schema.array(Schema.string()).default([]),
-			compression: Schema.object({
-				method: Schema.union(["none", "cutoff"]).default("cutoff"),
-				cutoffLimit: Schema.number().min(100).max(1e4).default(2e3)
+			maxResults: Schema$1.number().min(1).max(50).default(5),
+			excludeDomains: Schema$1.array(Schema$1.string()).default([]),
+			compression: Schema$1.object({
+				method: Schema$1.union(["none", "cutoff"]).default("cutoff"),
+				cutoffLimit: Schema$1.number().min(100).max(1e4).default(2e3)
 			}).default({
 				method: "cutoff",
 				cutoffLimit: 2e3
 			}),
-			clientToolsPreferred: Schema.boolean().default(true)
+			clientToolsPreferred: Schema$1.boolean().default(true)
 		}), { base: {
 			defaultSearchKeywordsProvider: "exa-mcp",
 			defaultFetchUrlsProvider: "jina",
@@ -34263,13 +46703,18 @@ function isAbortError(error) {
 * Feishu (Lark SDK long-connection protocol) and WeChat (reverse-engineered
 * iLink protocol) stay honest errors until their protocol ports land.
 *
-* Every platform shares one reply pipeline: allowlist → default model route
-* (Cherry 重试设置 honored: attempts + fallback routes) → LlmRuntime stream →
-* platform sender. A connected channel proves the credentials work; per-channel
-* status and a log ring feed the UI's 状态点 and 日志 dialog.
+* Every platform shares one reply pipeline: allowlist → reply source. A channel
+* with a per-channel Agent binding (agentProvider/agentModel) runs through the
+* host's real agent loop via ctx.apiProxy sessions — a durable session per
+* channel, so MCP tools / knowledge / web_search all work in replies (Cherry
+* channels have full capability). The turn's assistant messages are collected
+* from session history; any failure falls back to the direct LlmRuntime stream
+* with the Cherry 重试设置 (attempts + fallback routes). A connected channel
+* proves the credentials work; per-channel status and a log ring feed the UI's
+* 状态点 and 日志 dialog.
 */
 const CHANNELS_BRIDGE_NAMESPACE = settingsNamespace("control-center-channels");
-const ChannelsSchema = Schema.object({ instances: Schema.array(Schema.any()).default([]) });
+const ChannelsSchema = Schema$1.object({ instances: Schema$1.array(Schema$1.any()).default([]) });
 const LOG_LIMIT = 200;
 const POLL_TIMEOUT_S = 25;
 const RETRY_MS = 5e3;
@@ -34458,6 +46903,24 @@ function abortableSleep(ms, signal) {
 * without it a fast endpoint spins the loop as pure microtasks and starves
 * every timer on the process. */
 const POLL_IDLE_MS = 1e3;
+/** How often the agent path re-reads session history while a turn runs. */
+const AGENT_POLL_MS = 1500;
+/** Hard ceiling on one agent turn before the channel falls back to direct LLM. */
+const AGENT_TURN_TIMEOUT_MS = 18e4;
+/** Pulls the text blocks out of an AssistantMessage-shaped value defensively —
+* history entries cross the api surface as plain JSON. */
+function assistantTextOf(message) {
+	const content = message?.content;
+	if (!Array.isArray(content)) return "";
+	return content.map((block) => {
+		if (typeof block !== "object" || block === null) return "";
+		const record = block;
+		return record.type === "text" && typeof record.text === "string" ? record.text : "";
+	}).join("");
+}
+function mintRpcId() {
+	return RpcId(globalThis.crypto.randomUUID());
+}
 function markChannelBridgeRemoteMethods(service) {
 	const initializers = [];
 	for (const [method, exportName] of [
@@ -34492,9 +46955,18 @@ var ChannelBridgeService = class extends Service {
 	static inject = ["settings", "llm"];
 	typertRemote = bindTypertRemote(this, "controlCenterChannelBridge");
 	llm;
+	api;
 	statuses = /* @__PURE__ */ new Map();
 	runtimes = /* @__PURE__ */ new Map();
 	names = /* @__PURE__ */ new Map();
+	/** channelId → durable agent-loop session backing its bound replies. */
+	channelSessions = /* @__PURE__ */ new Map();
+	/** sessionId → 'provider/model' last applied via selectModel. */
+	sessionRoutes = /* @__PURE__ */ new Map();
+	/** Sessions whose first message already carried the operator block. */
+	sessionPrimed = /* @__PURE__ */ new Set();
+	/** Per-channel reply serialization: one turn at a time per connection. */
+	replyChains = /* @__PURE__ */ new Map();
 	source;
 	constructor(ctx) {
 		super(ctx, "controlCenterChannelBridge");
@@ -34503,6 +46975,11 @@ var ChannelBridgeService = class extends Service {
 		} catch {
 			this.llm = void 0;
 		}
+		try {
+			this.api = ctx.get("apiProxy");
+		} catch {
+			this.api = void 0;
+		}
 		markChannelBridgeRemoteMethods(this);
 		ctx.effect(() => () => {
 			for (const runtime of this.runtimes.values()) {
@@ -34510,6 +46987,9 @@ var ChannelBridgeService = class extends Service {
 				runtime.cleanup?.();
 			}
 			this.runtimes.clear();
+			this.channelSessions.clear();
+			this.sessionRoutes.clear();
+			this.sessionPrimed.clear();
 		}, "control-center.channel-bridge: abort loops");
 		installSettingsSection(ctx, CHANNELS_BRIDGE_NAMESPACE, ChannelsSchema, { instances: [] }, {
 			setSource: (current) => {
@@ -34568,6 +47048,12 @@ var ChannelBridgeService = class extends Service {
 			runtime.controller.abort();
 			runtime.cleanup?.();
 			this.runtimes.delete(id);
+			const session = this.channelSessions.get(id);
+			if (session !== void 0) {
+				this.channelSessions.delete(id);
+				this.sessionRoutes.delete(session);
+				this.sessionPrimed.delete(session);
+			}
 			this.setStatus(id, "disconnected");
 		}
 	}
@@ -34668,15 +47154,32 @@ var ChannelBridgeService = class extends Service {
 		return candidates.some((candidate) => allowed.includes(candidate));
 	}
 	/**
-	* Shared reply pipeline behind every platform: resolve the host's default
-	* model, honor the Cherry 重试设置 (attempts + fallback routes), stream a
-	* reply through the LlmRuntime, then hand it to the platform's sender. Any
-	* failure is a log line — the connection loop must survive a bad model or a
-	* refused send.
+	* Shared reply pipeline behind every platform. Serialized per channel so two
+	* inbound messages cannot interleave turns on the same session. A channel
+	* with an Agent binding runs through the host's real agent loop first (tools,
+	* knowledge — Cherry channel capability); any failure falls back to the
+	* direct LlmRuntime stream with the Cherry 重试设置 (attempts + fallback
+	* routes). Any failure is a log line — the connection loop must survive a bad
+	* model or a refused send.
 	*/
 	async generateAndDeliver(id, text, deliver) {
+		const run = (this.replyChains.get(id) ?? Promise.resolve()).then(() => this.replyPipeline(id, text, deliver));
+		this.replyChains.set(id, run.then(() => {}, () => {}));
+		await run;
+	}
+	async replyPipeline(id, text, deliver) {
 		const record = this.readInstances().find((entry) => entry.id === id);
 		const binding = this.agentBinding(record);
+		if (binding !== void 0 && this.api !== void 0) try {
+			const reply = await this.generateViaAgentLoop(id, text, binding);
+			await deliver(reply);
+			this.appendLog(id, `已回复（agent 会话）：${reply.slice(0, 80)}`);
+			return;
+		} catch (error) {
+			const messageText = error instanceof Error ? error.message : String(error);
+			if (this.signalFor(id).aborted) return;
+			this.appendLog(id, `Agent 会话回复失败，回退直连模型：${messageText}`);
+		}
 		const route = binding?.route ?? this.defaultModelRoute();
 		if (route === null || this.llm === void 0) {
 			this.appendLog(id, "未解析默认模型（agent-default-model），跳过回复");
@@ -34710,6 +47213,104 @@ var ChannelBridgeService = class extends Service {
 			const messageText = error instanceof Error ? error.message : String(error);
 			this.appendLog(id, `回复失败：${messageText}`);
 		}
+	}
+	/**
+	* One bound reply through the host agent loop: a durable session per channel
+	* (fresh per process), the binding route applied once via selectModel, then
+	* prompt + history polling until the turn ends. Throws so the caller can
+	* fall back to direct LLM.
+	*/
+	async generateViaAgentLoop(id, text, binding) {
+		const api = this.api;
+		const record = this.readInstances().find((entry) => entry.id === id);
+		const sessionId = await this.ensureChannelSession(id, record, api);
+		const routeKey = `${binding.route.provider}/${binding.route.model}`;
+		if (this.sessionRoutes.get(sessionId) !== routeKey) {
+			const response = await api.sessions.selectModel({
+				rpcId: mintRpcId(),
+				payload: {
+					sessionId,
+					provider: binding.route.provider,
+					model: binding.route.model
+				}
+			});
+			if (!response.result.ok) throw new Error(this.rpcErrorText("selectModel", response.result.error));
+			this.sessionRoutes.set(sessionId, routeKey);
+			this.appendLog(id, `Agent 会话模型已切换到 ${routeKey}`);
+		}
+		const baseline = await this.historyTailSeq(api, sessionId);
+		let content = text;
+		if (!this.sessionPrimed.has(sessionId)) {
+			const prompt = binding.systemPrompt.trim();
+			if (prompt.length > 0) content = `[频道运营者指令 — 全程遵守]\n${prompt}\n\n[用户消息]\n${text}`;
+			this.sessionPrimed.add(sessionId);
+		}
+		const accepted = await api.sessions.prompt({
+			rpcId: mintRpcId(),
+			payload: {
+				sessionId,
+				mode: "queue",
+				content: [{
+					type: "text",
+					text: content
+				}]
+			}
+		});
+		if (!accepted.result.ok) throw new Error(this.rpcErrorText("prompt", accepted.result.error));
+		const signal = this.signalFor(id);
+		const deadline = Date.now() + AGENT_TURN_TIMEOUT_MS;
+		while (Date.now() < deadline) {
+			if (signal.aborted) throw new Error("channel aborted");
+			await abortableSleep(AGENT_POLL_MS, signal);
+			const entries = await this.readHistoryTail(api, sessionId);
+			let end;
+			for (const entry of entries) {
+				if (entry.event.seq <= baseline) continue;
+				if (entry.event.type === "turn/end") {
+					end = entry.event.data;
+					break;
+				}
+			}
+			if (end === void 0) continue;
+			const turn = end.turn;
+			const reason = end.reason;
+			const reply = entries.filter((entry) => entry.event.type === "assistant/message" && entry.event.data.turn === turn).map((entry) => assistantTextOf(entry.event.data.message)).filter((part) => part.trim().length > 0).join("\n\n").trim();
+			if (reason.kind === "completed") return reply.length > 0 ? reply : "(空回复)";
+			if (reason.kind === "error") throw new Error(reason.error?.message ?? "agent turn failed");
+			throw new Error(`agent turn ended early (${reason.kind})`);
+		}
+		throw new Error(`agent turn 超时（${String(Math.round(AGENT_TURN_TIMEOUT_MS / 1e3))}s）`);
+	}
+	/** Reuses this process's session for the channel or creates one. */
+	async ensureChannelSession(id, record, api) {
+		const existing = this.channelSessions.get(id);
+		if (existing !== void 0) return existing;
+		const config = record?.config;
+		const preset = typeof config?.agentPresetId === "string" && config.agentPresetId.trim().length > 0 ? config.agentPresetId.trim() : void 0;
+		const response = await api.sessions.create({
+			rpcId: mintRpcId(),
+			payload: preset === void 0 ? {} : { agentPreset: preset }
+		});
+		if (!response.result.ok) throw new Error(this.rpcErrorText("session create", response.result.error));
+		const sessionId = response.result.value.sessionId;
+		this.channelSessions.set(id, sessionId);
+		this.appendLog(id, `已创建 Agent 会话（${sessionId}）`);
+		return sessionId;
+	}
+	/** Seq of the newest event in the session tail, -1 for an empty log. */
+	async historyTailSeq(api, sessionId) {
+		return (await this.readHistoryTail(api, sessionId)).reduce((max, entry) => Math.max(max, entry.event.seq), -1);
+	}
+	async readHistoryTail(api, sessionId) {
+		const response = await api.sessions.history({
+			rpcId: mintRpcId(),
+			payload: { sessionId }
+		});
+		if (!response.result.ok) throw new Error(this.rpcErrorText("history", response.result.error));
+		return response.result.value.events;
+	}
+	rpcErrorText(action, error) {
+		return `${action} 失败（${error.code}）：${error.message}`;
 	}
 	/** One generation attempt over one route; throws on terminal error finish. */
 	async generateReply(id, text, route, systemPrompt) {
@@ -35849,19 +48450,19 @@ var ProvidersService = class extends Service {
 	credentials;
 	constructor(ctx, _config) {
 		super(ctx, "controlCenterProviders");
-		this.scope = ctx.settings.register(PROVIDERS_NAMESPACE, Schema.object({ providers: Schema.array(Schema.object({
-			id: Schema.string(),
-			name: Schema.string(),
-			type: Schema.string(),
-			baseURL: Schema.string(),
-			enabled: Schema.boolean().default(true),
-			apiKeyRef: Schema.string().role("secret"),
-			customHeaders: Schema.dict(String),
-			models: Schema.array(Schema.any()),
-			lastTestedAt: Schema.string(),
-			lastDiscoveredAt: Schema.string(),
-			createdAt: Schema.string(),
-			updatedAt: Schema.string()
+		this.scope = ctx.settings.register(PROVIDERS_NAMESPACE, Schema$1.object({ providers: Schema$1.array(Schema$1.object({
+			id: Schema$1.string(),
+			name: Schema$1.string(),
+			type: Schema$1.string(),
+			baseURL: Schema$1.string(),
+			enabled: Schema$1.boolean().default(true),
+			apiKeyRef: Schema$1.string().role("secret"),
+			customHeaders: Schema$1.dict(String),
+			models: Schema$1.array(Schema$1.any()),
+			lastTestedAt: Schema$1.string(),
+			lastDiscoveredAt: Schema$1.string(),
+			createdAt: Schema$1.string(),
+			updatedAt: Schema$1.string()
 		})).default([]) }), { base: { providers: [] } });
 	}
 	creds() {
@@ -36815,8 +49416,8 @@ var FileProcessingService = class extends Service {
 	taskSubmissions = /* @__PURE__ */ new Map();
 	constructor(ctx, _config) {
 		super(ctx, "controlCenterFileProcessing");
-		this.scope = ctx.settings.register(FP_NAMESPACE, Schema.object({
-			defaultDocumentProcessor: Schema.union([
+		this.scope = ctx.settings.register(FP_NAMESPACE, Schema$1.object({
+			defaultDocumentProcessor: Schema$1.union([
 				"local-document",
 				"mineru",
 				"paddleocr",
@@ -36824,7 +49425,7 @@ var FileProcessingService = class extends Service {
 				"mistral",
 				"open-mineru"
 			]).default("local-document"),
-			defaultImageProcessor: Schema.union([
+			defaultImageProcessor: Schema$1.union([
 				"system",
 				"tesseract",
 				"paddleocr",
@@ -36832,7 +49433,7 @@ var FileProcessingService = class extends Service {
 				"ovocr",
 				"mistral"
 			]).default("tesseract"),
-			overrides: Schema.dict(Schema.any()).default({})
+			overrides: Schema$1.dict(Schema$1.any()).default({})
 		}), { base: {
 			defaultDocumentProcessor: "local-document",
 			defaultImageProcessor: "tesseract",
@@ -38359,13 +50960,13 @@ const DATA_NAMESPACES = [
 /** Regex matching a backup file produced by backupToDirectory. */
 const BACKUP_FILE_PATTERN = /^dsh-control-center-\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z\.json$/;
 const S3_NS = settingsNamespace("control-center-s3");
-const S3_SCHEMA = Schema.object({
-	endpoint: Schema.string().default(""),
-	bucket: Schema.string().default(""),
-	region: Schema.string().default(""),
-	accessKeyId: Schema.string().default(""),
-	secretAccessKey: Schema.string().role("secret").default(""),
-	prefix: Schema.string().default("")
+const S3_SCHEMA = Schema$1.object({
+	endpoint: Schema$1.string().default(""),
+	bucket: Schema$1.string().default(""),
+	region: Schema$1.string().default(""),
+	accessKeyId: Schema$1.string().default(""),
+	secretAccessKey: Schema$1.string().role("secret").default(""),
+	prefix: Schema$1.string().default("")
 });
 /** RFC 3986 encode a path segment / query component (AWS requires this form). */
 function awsEncode(value) {
@@ -38445,11 +51046,11 @@ const WEBDAV_NS_BY_VENDOR = {
 function webdavNsOf(vendor) {
 	return WEBDAV_NS_BY_VENDOR[vendor] ?? WEBDAV_NS;
 }
-const WEBDAV_SCHEMA = Schema.object({
-	host: Schema.string().default(""),
-	user: Schema.string().default(""),
-	pass: Schema.string().role("secret").default(""),
-	path: Schema.string().default("")
+const WEBDAV_SCHEMA = Schema$1.object({
+	host: Schema$1.string().default(""),
+	user: Schema$1.string().default(""),
+	pass: Schema$1.string().role("secret").default(""),
+	path: Schema$1.string().default("")
 });
 /** Append a path segment to a WebDAV server URL, both trailing-slash tolerant. */
 function webdavUrl(config, segment) {
@@ -39167,27 +51768,27 @@ var TasksService = class extends Service {
 	lastTickMinute;
 	constructor(ctx, _config) {
 		super(ctx, "controlCenterTasks");
-		this.scope = ctx.settings.register(TASKS_NAMESPACE, Schema.object({
-			tasks: Schema.array(Schema.object({
-				id: Schema.string(),
-				name: Schema.string(),
-				schedule: Schema.string(),
-				action: Schema.union([Schema.object({
-					kind: Schema.const("command"),
-					command: Schema.string()
-				}), Schema.object({
-					kind: Schema.const("notification"),
-					message: Schema.string()
+		this.scope = ctx.settings.register(TASKS_NAMESPACE, Schema$1.object({
+			tasks: Schema$1.array(Schema$1.object({
+				id: Schema$1.string(),
+				name: Schema$1.string(),
+				schedule: Schema$1.string(),
+				action: Schema$1.union([Schema$1.object({
+					kind: Schema$1.const("command"),
+					command: Schema$1.string()
+				}), Schema$1.object({
+					kind: Schema$1.const("notification"),
+					message: Schema$1.string()
 				})]),
-				enabled: Schema.boolean().default(true),
-				lastRunAt: Schema.string(),
-				createdAt: Schema.string()
+				enabled: Schema$1.boolean().default(true),
+				lastRunAt: Schema$1.string(),
+				createdAt: Schema$1.string()
 			})).default([]),
-			history: Schema.array(Schema.object({
-				taskId: Schema.string(),
-				ranAt: Schema.string(),
-				ok: Schema.boolean(),
-				detail: Schema.string()
+			history: Schema$1.array(Schema$1.object({
+				taskId: Schema$1.string(),
+				ranAt: Schema$1.string(),
+				ok: Schema$1.boolean(),
+				detail: Schema$1.string()
 			})).default([])
 		}), { base: {
 			tasks: [],
@@ -39416,16 +52017,16 @@ var LocalModelsService = class extends Service {
 	scope;
 	constructor(ctx, _config) {
 		super(ctx, "controlCenterLocalModels");
-		this.scope = ctx.settings.register(LOCAL_MODELS_NAMESPACE, Schema.object({ servers: Schema.array(Schema.object({
-			id: Schema.string(),
-			name: Schema.string(),
-			baseUrl: Schema.string(),
-			kind: Schema.union([
+		this.scope = ctx.settings.register(LOCAL_MODELS_NAMESPACE, Schema$1.object({ servers: Schema$1.array(Schema$1.object({
+			id: Schema$1.string(),
+			name: Schema$1.string(),
+			baseUrl: Schema$1.string(),
+			kind: Schema$1.union([
 				"ollama",
 				"llamacpp",
 				"openai-compatible"
 			]),
-			addedAt: Schema.string()
+			addedAt: Schema$1.string()
 		})).default([]) }), { base: { servers: [] } });
 	}
 	async listServers() {
@@ -39904,10 +52505,10 @@ var AssistantService = class extends Service {
 	constructor(ctx) {
 		super(ctx, "controlCenterAssistant");
 		markRemoteMethods(this, [["get", "get"], ["set", "set"]]);
-		this.scope = ctx.settings.register(ASSISTANT_NAMESPACE, Schema.object({
-			screenshot: Schema.any().default({}),
-			quick: Schema.any().default({}),
-			selection: Schema.any().default({})
+		this.scope = ctx.settings.register(ASSISTANT_NAMESPACE, Schema$1.object({
+			screenshot: Schema$1.any().default({}),
+			quick: Schema$1.any().default({}),
+			selection: Schema$1.any().default({})
 		}), { base: {
 			screenshot: {},
 			quick: {},
@@ -40357,11 +52958,11 @@ const APPEARANCE_SETTINGS_NAMESPACE = "control-center-appearance";
 * their `llm-pi-ai` route is unset, so a re-enable restores them verbatim.
 */
 const PROVIDER_STASH_NAMESPACE = settingsNamespace("control-center-provider-stash");
-const PROVIDER_STASH_SCHEMA = Schema.object({ providers: Schema.dict(Schema.any()).default({}) });
+const PROVIDER_STASH_SCHEMA = Schema$1.object({ providers: Schema$1.dict(Schema$1.any()).default({}) });
 /** One fallback route (Cherry `chat.retry.fallback_model_ids`, provider/model split). */
-const RETRY_FALLBACK_SCHEMA = Schema.object({
-	provider: Schema.string().default(""),
-	model: Schema.string().default("")
+const RETRY_FALLBACK_SCHEMA = Schema$1.object({
+	provider: Schema$1.string().default(""),
+	model: Schema$1.string().default("")
 });
 /**
 * Per-purpose model preferences (快捷/翻译/绘画) plus the Cherry 重试设置 for
@@ -40373,47 +52974,47 @@ const MODEL_PREFS_NAMESPACE_SETTINGS = settingsNamespace("control-center-model-p
 const API_KEYS_NAMESPACE_SETTINGS = settingsNamespace("control-center-api-keys");
 /** Desktop general settings (launch, tray, proxy) — Cherry GeneralSettings parity. */
 const GENERAL_NAMESPACE_SETTINGS = settingsNamespace("control-center-general");
-const GENERAL_SCHEMA = Schema.object({
-	launchOnBoot: Schema.boolean().default(false),
-	trayEnabled: Schema.boolean().default(true),
-	trayOnClose: Schema.boolean().default(false),
-	trayOnLaunch: Schema.boolean().default(false),
-	preventSleepWhenBusy: Schema.boolean().default(false),
-	developerMode: Schema.boolean().default(false),
-	contextEnabled: Schema.boolean().default(true),
-	contextMaxMessages: Schema.any().default(null),
-	contextToolOutputThreshold: Schema.number().step(1).min(2e3).default(5e4),
-	contextAutoCompress: Schema.boolean().default(true),
-	contextCompressionProvider: Schema.string().default(""),
-	contextCompressionModel: Schema.string().default("")
+const GENERAL_SCHEMA = Schema$1.object({
+	launchOnBoot: Schema$1.boolean().default(false),
+	trayEnabled: Schema$1.boolean().default(true),
+	trayOnClose: Schema$1.boolean().default(false),
+	trayOnLaunch: Schema$1.boolean().default(false),
+	preventSleepWhenBusy: Schema$1.boolean().default(false),
+	developerMode: Schema$1.boolean().default(false),
+	contextEnabled: Schema$1.boolean().default(true),
+	contextMaxMessages: Schema$1.any().default(null),
+	contextToolOutputThreshold: Schema$1.number().step(1).min(2e3).default(5e4),
+	contextAutoCompress: Schema$1.boolean().default(true),
+	contextCompressionProvider: Schema$1.string().default(""),
+	contextCompressionModel: Schema$1.string().default("")
 });
-const API_KEYS_SCHEMA = Schema.object({ providers: Schema.dict(Schema.any()).default({}) });
-const MODEL_PREFS_SCHEMA = Schema.object({
-	translationProvider: Schema.string().default(""),
-	translationModel: Schema.string().default(""),
-	paintingProvider: Schema.string().default(""),
-	paintingModel: Schema.string().default(""),
-	quickProvider: Schema.string().default(""),
-	quickModel: Schema.string().default(""),
-	retryEnabled: Schema.boolean().default(false),
-	retryMaxAttempts: Schema.number().step(1).min(1).max(10).default(3),
-	retryBackoff: Schema.boolean().default(true),
-	retryFallbacks: Schema.array(RETRY_FALLBACK_SCHEMA).default([])
+const API_KEYS_SCHEMA = Schema$1.object({ providers: Schema$1.dict(Schema$1.any()).default({}) });
+const MODEL_PREFS_SCHEMA = Schema$1.object({
+	translationProvider: Schema$1.string().default(""),
+	translationModel: Schema$1.string().default(""),
+	paintingProvider: Schema$1.string().default(""),
+	paintingModel: Schema$1.string().default(""),
+	quickProvider: Schema$1.string().default(""),
+	quickModel: Schema$1.string().default(""),
+	retryEnabled: Schema$1.boolean().default(false),
+	retryMaxAttempts: Schema$1.number().step(1).min(1).max(10).default(3),
+	retryBackoff: Schema$1.boolean().default(true),
+	retryFallbacks: Schema$1.array(RETRY_FALLBACK_SCHEMA).default([])
 });
-const AppearanceSettingsSchema = Schema.object({
-	colorPrimary: Schema.string().default("#00b96b"),
-	fontFamily: Schema.string().default(""),
-	codeFontFamily: Schema.string().default(""),
-	customCss: Schema.string().default(""),
-	desktopZoom: Schema.number().min(.5).max(2).default(1)
+const AppearanceSettingsSchema = Schema$1.object({
+	colorPrimary: Schema$1.string().default("#00b96b"),
+	fontFamily: Schema$1.string().default(""),
+	codeFontFamily: Schema$1.string().default(""),
+	customCss: Schema$1.string().default(""),
+	desktopZoom: Schema$1.number().min(.5).max(2).default(1)
 });
-const NotificationSettingsSchema = Schema.object({
-	assistant: Schema.boolean().default(false),
-	backup: Schema.boolean().default(false),
-	knowledge: Schema.boolean().default(false),
-	update: Schema.boolean().default(false)
+const NotificationSettingsSchema = Schema$1.object({
+	assistant: Schema$1.boolean().default(false),
+	backup: Schema$1.boolean().default(false),
+	knowledge: Schema$1.boolean().default(false),
+	update: Schema$1.boolean().default(false)
 });
-const OnboardingSettingsSchema = Schema.object({ welcomeNoticeVersion: Schema.string() });
+const OnboardingSettingsSchema = Schema$1.object({ welcomeNoticeVersion: Schema$1.string() });
 /** Cordis plugin name. */
 const name = "dsh-control-center";
 const inject = ["typert", "settings"];

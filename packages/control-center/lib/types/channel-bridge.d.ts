@@ -14,10 +14,15 @@
  * Feishu (Lark SDK long-connection protocol) and WeChat (reverse-engineered
  * iLink protocol) stay honest errors until their protocol ports land.
  *
- * Every platform shares one reply pipeline: allowlist → default model route
- * (Cherry 重试设置 honored: attempts + fallback routes) → LlmRuntime stream →
- * platform sender. A connected channel proves the credentials work; per-channel
- * status and a log ring feed the UI's 状态点 and 日志 dialog.
+ * Every platform shares one reply pipeline: allowlist → reply source. A channel
+ * with a per-channel Agent binding (agentProvider/agentModel) runs through the
+ * host's real agent loop via ctx.apiProxy sessions — a durable session per
+ * channel, so MCP tools / knowledge / web_search all work in replies (Cherry
+ * channels have full capability). The turn's assistant messages are collected
+ * from session history; any failure falls back to the direct LlmRuntime stream
+ * with the Cherry 重试设置 (attempts + fallback routes). A connected channel
+ * proves the credentials work; per-channel status and a log ring feed the UI's
+ * 状态点 and 日志 dialog.
  */
 import { Service } from '@deepseek-ai/cordis';
 import type { Context } from '@deepseek-ai/cordis';
@@ -75,9 +80,18 @@ export declare class ChannelBridgeService extends Service {
     static inject: readonly ["settings", "llm"];
     readonly typertRemote: import("@deepseek-ai/dsh-typert-protocol").TypertGatewayBinding<this>;
     private readonly llm;
+    private readonly api;
     private readonly statuses;
     private readonly runtimes;
     private readonly names;
+    /** channelId → durable agent-loop session backing its bound replies. */
+    private readonly channelSessions;
+    /** sessionId → 'provider/model' last applied via selectModel. */
+    private readonly sessionRoutes;
+    /** Sessions whose first message already carried the operator block. */
+    private readonly sessionPrimed;
+    /** Per-channel reply serialization: one turn at a time per connection. */
+    private readonly replyChains;
     private source;
     constructor(ctx: Context);
     /** The instances array from the current settings source. */
@@ -98,13 +112,29 @@ export declare class ChannelBridgeService extends Service {
      */
     private isAllowed;
     /**
-     * Shared reply pipeline behind every platform: resolve the host's default
-     * model, honor the Cherry 重试设置 (attempts + fallback routes), stream a
-     * reply through the LlmRuntime, then hand it to the platform's sender. Any
-     * failure is a log line — the connection loop must survive a bad model or a
-     * refused send.
+     * Shared reply pipeline behind every platform. Serialized per channel so two
+     * inbound messages cannot interleave turns on the same session. A channel
+     * with an Agent binding runs through the host's real agent loop first (tools,
+     * knowledge — Cherry channel capability); any failure falls back to the
+     * direct LlmRuntime stream with the Cherry 重试设置 (attempts + fallback
+     * routes). Any failure is a log line — the connection loop must survive a bad
+     * model or a refused send.
      */
     private generateAndDeliver;
+    private replyPipeline;
+    /**
+     * One bound reply through the host agent loop: a durable session per channel
+     * (fresh per process), the binding route applied once via selectModel, then
+     * prompt + history polling until the turn ends. Throws so the caller can
+     * fall back to direct LLM.
+     */
+    private generateViaAgentLoop;
+    /** Reuses this process's session for the channel or creates one. */
+    private ensureChannelSession;
+    /** Seq of the newest event in the session tail, -1 for an empty log. */
+    private historyTailSeq;
+    private readHistoryTail;
+    private rpcErrorText;
     /** One generation attempt over one route; throws on terminal error finish. */
     private generateReply;
     /**

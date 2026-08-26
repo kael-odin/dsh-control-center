@@ -166,9 +166,18 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 网络搜索 | ✅ | `web_search` 工具注册进 toolService（websearch.ts，2026-08-24）：tavily/exa/zhipu/bocha/searxng 线上分发 + 压缩截断 + 诚实错误；会话实测 agent 真实调用 | jina/firecrawl/querit/exa-mcp 暂无线分发（诚实报错指引切换） |
 | 文档处理 | ✅ | `read_document` + `read_document_task` 工具进 toolService（file-processing.ts，2026-08-26）：统一 resolve→validate→dispatch；文本/PDF 本地提取、Tesseract、Mistral、PaddleOCR 图片同步完成；MinerU/Doc2X/PaddleOCR 文档返回持久任务 id，重启后从 storage-domain 恢复轮询并重新解析凭据 | system/local-paddleocr 需桌面运行时；远程任务依赖 storage-domain 就绪 |
 | OCR | ✅ | 同 read_document 统一分发：图片按 feature 走默认 OCR 处理器，不可用处理器返回准确 capability 状态 | 云端 OCR 需配置对应 Key |
-| 频道 | ⚠️ | 六平台桥连通；回复是裸 LLM + 模型/提示词覆盖 | 频道回复不走 agent loop，**不能调 MCP 工具/知识库**（Cherry 频道有完整能力）。**已勘察的接入路径**（2026-08-24）：host 侧消息入口 = `session.prompt` RPC → `api.sessions.prompt()`；进程内路径 = `ctx.sessions.create()` + AgentFactory(`ctx.agentLoop`)`.publish(source)`。实施要点：每频道会话生命周期、并发消息排队、流式收集、错误回退到裸 LLM。属独立工作量，需聚焦会话专项实施 |
+| 频道 | ✅ | 六平台桥连通。**绑定 Agent 的频道回复已走完整 DSH agent loop（2026-08-26）**：`ctx.apiProxy.sessions` 进程内路径 —— 每频道一个持久会话，绑定路由经 selectModel 应用一次，prompt 后轮询 history 收集 `turn/end`+`assistant/message` 文本；MCP 工具/知识库/web_search 在频道回复中真实可用（Cherry 频道完整能力对齐）。逐频道串行化、180s 超时、任何失败回退裸 LLM + Cherry 重试设置。系统提示词以首条消息运营者指令块注入并随会话记忆持续生效 | 无结构性缺口；剩余打磨：会话 ID 持久化（重启后延续上下文）、agentPresetId 传给 create 已支持但 UI 未暴露 |
 
-**结论**：设置面接近完成，**深度集成（能力→agent 运行时）是下一阶段主战场**。
+**结论**：设置面接近完成，深度集成八条能力线全部打通（2026-08-26 频道 agent loop 落地）。下一阶段主攻顶层工作台与逐页视觉打磨。
+
+## 六·补、Channels Agent 绑定实施记录（2026-08-26）
+
+- **入口**：`ChannelBridgeService.replyPipeline`（channel-bridge.ts）—— 有 `agentProvider`/`agentModel` 绑定且宿主挂载了 apiProxy 时走 `generateViaAgentLoop`，否则原裸 LLM 管线。
+- **会话生命周期**：每频道每进程一个 durable session（`sessions.create({ agentPreset? })`），断开频道时清理映射；重启后新建（上下文延续待做）。
+- **模型路由**：绑定路由经 `selectModel` 每 session 应用一次，缓存在 `sessionRoutes`。
+- **回复采集**：prompt 前记 history 尾 seq 为 baseline；每 1.5s 读 tail，见 `turn/end(seq>baseline)` 后收集该 turn 的 `assistant/message` 文本；completed 返回、error 抛出消息、aborted/blocked 视为失败。
+- **健壮性**：逐频道 Promise 链串行化；180s 超时；channel abort 即刻退出；任何失败回退裸 LLM（绑定路由仍优先于共享默认路由）+ Cherry 重试设置。
+- **测试**：channel-reply.spec.ts 新增两条 —— agent 会话端到端采集（selectModel/prompt/history 断言 + 直连 LLM 未被调用）、session create 失败回退直连。
 
 ## 七、模型编辑器精细化方案
 
@@ -179,9 +188,9 @@ Cherry 编辑模型含：用途（对话/图像生成/图像编辑）、对话�
 ## 八、完成度评估（2026-08-24 代码级核查）
 
 - **设置面 UI/UX**：~90%（22 项设置全有对应区+导航 IA 对齐；缺精细模型编辑、provider 目录树展开、部分桌面行）
-- **深度集成**：~85%（MCP/知识库/技能/模型/网络搜索/文档处理/OCR 七条全通；频道回复仍为裸 LLM）
+- **深度集成**：~95%（MCP/知识库/技能/模型/网络搜索/文档处理/OCR/频道 八条全通；频道回复 2026-08-26 起走完整 agent loop）
 - **顶层工作台**：~40%（翻译/绘画/知识库可用；code/notes/miniApps/launchpad 未迁移）
-- **整体加权**：~75%。下一阶段主攻深度集成与顶层工作台，同时逐页打磨视觉与文案。
+- **整体加权**：~80%。深度集成已收尾，下一阶段主攻顶层工作台与逐页视觉打磨。
 
 ## 九、打磨方向（按 Cherry 实际视觉逐页对照）
 
