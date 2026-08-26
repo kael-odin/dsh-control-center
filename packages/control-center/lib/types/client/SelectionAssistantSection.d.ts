@@ -1,11 +1,7 @@
-export interface SelectionAction {
-    id: string;
-    name: string;
-    icon: string;
-    enabled: boolean;
-    builtin: boolean;
-    prompt?: string;
-    searchEngine?: string;
+import type { AssistantRemote, DesktopRemote } from './assistant-store.ts';
+export interface SelectionAssistantSectionInjected {
+    assistant: AssistantRemote | undefined;
+    desktop: DesktopRemote | undefined;
 }
-export declare function SelectionAssistantSection(): import("react").JSX.Element;
+export declare function SelectionAssistantSection({ assistant, desktop }: SelectionAssistantSectionInjected): import("react").JSX.Element;
 //# sourceMappingURL=SelectionAssistantSection.d.ts.map

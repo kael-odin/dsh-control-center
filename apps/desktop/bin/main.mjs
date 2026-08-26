@@ -13,7 +13,7 @@
  *
  * @module
  */
-import { app, BrowserWindow, dialog, Notification, Tray, Menu, globalShortcut, nativeImage } from 'electron'
+import { app, BrowserWindow, clipboard, desktopCapturer, dialog, Notification, screen, Tray, Menu, globalShortcut, nativeImage } from 'electron'
 import { spawn } from 'node:child_process'
 import { createServer } from 'node:http'
 import { randomBytes } from 'node:crypto'
@@ -201,6 +201,10 @@ function startNativeService() {
             trayActive: tray !== null && !tray.isDestroyed(),
             hotkey: GLOBAL_HOTKEY,
             hotkeyRegistered,
+            screenshotHotkey: SCREENSHOT_HOTKEY,
+            screenshotHotkeyRegistered,
+            quickHotkey: QUICK_HOTKEY,
+            quickHotkeyRegistered,
           })
         }
         if (req.method === 'POST' && url.pathname === '/dsh-native/fonts') {
@@ -253,6 +257,31 @@ function startNativeService() {
           return writeGrantedFile(raw && raw.path, raw && typeof raw.contentBase64 === 'string' ? raw.contentBase64 : '')
             .then((r) => send(200, r))
             .catch((err) => send(500, { ok: false, error: String((err && err.message) || err) }))
+        }
+        if (req.method === 'POST' && url.pathname === '/dsh-native/assistantPrefs') {
+          const raw = await readBody(req)
+          if (raw && typeof raw === 'object') {
+            assistantPrefs = {
+              screenshot: { ...assistantPrefs.screenshot, ...(raw.screenshot && typeof raw.screenshot === 'object' ? raw.screenshot : {}) },
+              quick: { ...assistantPrefs.quick, ...(raw.quick && typeof raw.quick === 'object' ? raw.quick : {}) },
+              selection: { ...assistantPrefs.selection, ...(raw.selection && typeof raw.selection === 'object' ? raw.selection : {}) },
+            }
+            applyAssistantHotkeys()
+          }
+          return send(200, { ok: true })
+        }
+        if (req.method === 'POST' && url.pathname === '/dsh-native/clipboardWriteImage') {
+          const raw = await readBody(req)
+          if (typeof raw.dataUrl === 'string') clipboard.writeImage(nativeImage.createFromDataURL(raw.dataUrl))
+          return send(200, { ok: true })
+        }
+        if (req.method === 'POST' && url.pathname === '/dsh-native/saveImage') {
+          const raw = await readBody(req)
+          if (typeof raw.dataUrl !== 'string') return send(400, { ok: false, error: 'dataUrl missing' })
+          const result = await dialog.showSaveDialog({ defaultPath: 'screenshot.png' })
+          if (result.canceled || !result.filePath) return send(200, { ok: true, canceled: true })
+          writeFileSync(result.filePath, Buffer.from(raw.dataUrl.split(',')[1] || '', 'base64'))
+          return send(200, { ok: true })
         }
         if (req.method === 'POST' && url.pathname === '/dsh-native/notify') {
           const raw = await readBody(req)
@@ -498,6 +527,113 @@ function applyGeneralPrefs() {
   console.log(`[desktop] GENERAL_PREFS launchOnBoot=${generalPrefs.launchOnBoot} tray=${generalPrefs.trayEnabled} trayOnClose=${generalPrefs.trayOnClose}`)
 }
 
+/**
+ * Assistant prefs snapshot pushed by the host (control-center-assistant
+ * settings namespace, written by the 快捷助手 / 截图 settings pages). The
+ * shell registers the system-level hotkeys from it; web profiles never push.
+ */
+let assistantPrefs = {
+  screenshot: { enabled: false, autoOcr: true },
+  quick: { enabled: false, clickTrayToShow: false, readClipboardAtStartup: true, modelMode: 'model', agentPresetId: '' },
+  selection: { enabled: false },
+}
+const SCREENSHOT_HOTKEY = 'CommandOrControl+Shift+A'
+const QUICK_HOTKEY = 'CommandOrControl+Shift+U'
+let screenshotHotkeyRegistered = false
+let quickHotkeyRegistered = false
+
+function applyAssistantHotkeys() {
+  if (!app.isReady()) return
+  if (screenshotHotkeyRegistered) { globalShortcut.unregister(SCREENSHOT_HOTKEY); screenshotHotkeyRegistered = false }
+  if (quickHotkeyRegistered) { globalShortcut.unregister(QUICK_HOTKEY); quickHotkeyRegistered = false }
+  if (assistantPrefs.screenshot && assistantPrefs.screenshot.enabled === true) {
+    try {
+      screenshotHotkeyRegistered = globalShortcut.register(SCREENSHOT_HOTKEY, () => { void startScreenshot() })
+    } catch (err) {
+      console.warn(`[desktop] screenshot hotkey register failed: ${String(err && err.message)}`)
+    }
+  }
+  if (assistantPrefs.quick && assistantPrefs.quick.enabled === true) {
+    try {
+      quickHotkeyRegistered = globalShortcut.register(QUICK_HOTKEY, () => {
+        if (!mainWindow) return
+        mainWindow.show()
+        mainWindow.focus()
+        const readClipboard = assistantPrefs.quick.readClipboardAtStartup !== false
+        mainWindow.webContents.executeJavaScript(
+          `window.dispatchEvent(new CustomEvent('cc-quick-assist', { detail: { readClipboard: ${String(readClipboard)} } }))`,
+        ).catch(() => {})
+      })
+    } catch (err) {
+      console.warn(`[desktop] quick hotkey register failed: ${String(err && err.message)}`)
+    }
+  }
+  console.log(`[desktop] ASSISTANT_HOTKEYS screenshot=${String(screenshotHotkeyRegistered)} quick=${String(quickHotkeyRegistered)}`)
+}
+
+/** Capture the primary display as PNG base64 for the crop window. */
+async function capturePrimaryScreen() {
+  const primary = screen.getPrimaryDisplay()
+  const sources = await desktopCapturer.getSources({
+    types: ['screen'],
+    thumbnailSize: {
+      width: Math.round(primary.size.width * primary.scaleFactor),
+      height: Math.round(primary.size.height * primary.scaleFactor),
+    },
+  })
+  const source = sources.find((s) => s.display_id === String(primary.id)) || sources[0]
+  if (!source || source.thumbnail.isEmpty()) return null
+  return source.thumbnail.toPNG().toString('base64')
+}
+
+/** Fullscreen crop window over the captured frame; copy/save go back over the bridge. */
+async function startScreenshot() {
+  try {
+    const pngBase64 = await capturePrimaryScreen()
+    if (pngBase64 === null) return
+    const crop = new BrowserWindow({
+      fullscreen: true, frame: false, alwaysOnTop: true, skipTaskbar: true,
+      webPreferences: { contextIsolation: true, nodeIntegration: false },
+    })
+    crop.setMenuBarVisibility(false)
+    const bridgeUrl = nativeInfo && typeof nativeInfo.url === 'string' ? nativeInfo.url : ''
+    const bridgeToken = nativeInfo && typeof nativeInfo.token === 'string' ? nativeInfo.token : ''
+    const html = CROP_PAGE
+      .replace('__IMG__', pngBase64)
+      .replace('__URL__', bridgeUrl)
+      .replace('__TOKEN__', bridgeToken)
+    crop.loadURL('data:text/html;charset=utf-8,' + encodeURIComponent(html))
+  } catch (err) {
+    console.warn(`[desktop] screenshot failed: ${String(err && err.message)}`)
+  }
+}
+
+/** Minimal region-select crop page (no template literals inside; placeholders only). */
+const CROP_PAGE = `<!doctype html><html><head><meta charset="utf-8"><style>
+html,body{margin:0;height:100%;overflow:hidden;cursor:crosshair;user-select:none}
+#img{position:absolute;left:0;top:0;width:100%;height:100%}
+#sel{position:absolute;border:2px solid #00b96b;box-shadow:0 0 0 9999px rgba(0,0,0,.35);display:none}
+#bar{position:absolute;display:none;gap:8px;bottom:24px;left:50%;transform:translateX(-50%)}
+#bar button{padding:8px 18px;border:none;border-radius:6px;font-size:14px;cursor:pointer}
+#copy{background:#00b96b;color:#fff}#save{background:#fff;color:#222}#cancel{background:#555;color:#fff}
+</style></head><body>
+<img id="img" src="data:image/png;base64,__IMG__">
+<div id="sel"></div>
+<div id="bar"><button id="copy">复制</button><button id="save">保存</button><button id="cancel">取消</button></div>
+<script>
+var img=document.getElementById('img'),sel=document.getElementById('sel'),bar=document.getElementById('bar')
+var sx=0,sy=0,dragging=false,rect=null
+function post(path,body){return fetch('__URL__'+path,{method:'POST',headers:{'content-type':'application/json','authorization':'Bearer __TOKEN__'},body:JSON.stringify(body)})}
+addEventListener('mousedown',function(e){dragging=true;sx=e.clientX;sy=e.clientY;rect={x:sx,y:sy,w:0,h:0};sel.style.display='block';bar.style.display='none'})
+addEventListener('mousemove',function(e){if(!dragging)return;var x=Math.min(sx,e.clientX),y=Math.min(sy,e.clientY),w=Math.abs(e.clientX-sx),h=Math.abs(e.clientY-sy);rect={x:x,y:y,w:w,h:h};sel.style.left=x+'px';sel.style.top=y+'px';sel.style.width=w+'px';sel.style.height=h+'px'})
+addEventListener('mouseup',function(){dragging=false;if(rect&&rect.w>4&&rect.h>4){bar.style.display='flex'}else{sel.style.display='none';bar.style.display='none'}})
+function cropDataUrl(){var scale=img.naturalWidth/innerWidth;var c=document.createElement('canvas');c.width=Math.max(1,Math.round(rect.w*scale));c.height=Math.max(1,Math.round(rect.h*scale));var g=c.getContext('2d');g.drawImage(img,Math.round(rect.x*scale),Math.round(rect.y*scale),c.width,c.height,0,0,c.width,c.height);return c.toDataURL('image/png')}
+document.getElementById('copy').onclick=function(){post('/dsh-native/clipboardWriteImage',{dataUrl:cropDataUrl()}).then(function(){close()})}
+document.getElementById('save').onclick=function(){post('/dsh-native/saveImage',{dataUrl:cropDataUrl()}).then(function(){close()})}
+document.getElementById('cancel').onclick=function(){close()}
+addEventListener('keydown',function(e){if(e.key==='Escape')close()})
+</script></body></html>`
+
 function createWindow(url, native) {
   lastSurfaceUrl = url
   nativeInfo = native
@@ -701,6 +837,8 @@ async function boot() {
 
   // System tray + global shortcut (focus/reopen window).
   setupTrayAndShortcut()
+  // Assistant hotkeys (screenshot capture / quick assist) from host-pushed prefs.
+  applyAssistantHotkeys()
 
   // Native bridge: token-protected loopback service in this Electron main
   // process so the renderer can reach Electron dialog/Notification over HTTP.

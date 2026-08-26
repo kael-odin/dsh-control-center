@@ -15,6 +15,10 @@ export interface DesktopStatus {
   trayActive?: boolean
   hotkey?: string
   hotkeyRegistered?: boolean
+  screenshotHotkey?: string
+  screenshotHotkeyRegistered?: boolean
+  quickHotkey?: string
+  quickHotkeyRegistered?: boolean
   error?: string
 }
 
@@ -94,6 +98,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
       readFile(path: string): Promise<TypertEnvelope<DesktopFileReadResult>>
       writeFile(path: string, contentBase64: string): Promise<TypertEnvelope<DesktopFileWriteResult>>
       notify(title: string, body: string): Promise<TypertEnvelope<DesktopNotifyResult>>
+      pushAssistantPrefs(prefs: unknown): Promise<{ ok: boolean }>
     }
   }
 }

@@ -4,23 +4,16 @@
  * list (built-in 7 + custom, drag to reorder/enable), app filter. Persisted
  * locally; system-level capture needs the desktop build (noted honestly).
  */
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
+import type { SelectionAction, SelectionPrefs } from '../assistant-types.ts'
+import type { AssistantRemote, DesktopRemote } from './assistant-store.ts'
+import { useAssistantStore, useDesktopStatus } from './assistant-store.ts'
 import { IconMoreHorizontal, IconPlus, IconRefreshCw, IconTrash2 } from './cherry-icons.tsx'
 import { ConfirmDialog, HelpTooltip } from './panel-ui.tsx'
 import {
   SettingDivider, SettingGroup, SettingRow, SettingRowTitle, SettingsPageShell, SettingSwitch,
 } from './SettingsPages.tsx'
 import css from './SelectionAssistantSection.module.css'
-
-export interface SelectionAction {
-  id: string
-  name: string
-  icon: string
-  enabled: boolean
-  builtin: boolean
-  prompt?: string
-  searchEngine?: string
-}
 
 const DEFAULT_ACTIONS: readonly SelectionAction[] = [
   { id: 'translate', name: '翻译', icon: 'languages', enabled: true, builtin: true },
@@ -37,47 +30,18 @@ const MAX_CUSTOM = 10
 
 const SELECTION_KEY = 'cc.settings.selection'
 
-interface SelectionPrefs {
-  enabled: boolean
-  triggerMode: 'selected' | 'ctrlkey' | 'shortcut'
-  compact: boolean
-  followToolbar: boolean
-  rememberWinSize: boolean
-  autoClose: boolean
-  autoPin: boolean
-  opacity: number
-  filterMode: 'default' | 'whitelist' | 'blacklist'
-  filterList: string[]
-  actions: SelectionAction[]
+export interface SelectionAssistantSectionInjected {
+  assistant: AssistantRemote | undefined
+  desktop: DesktopRemote | undefined
 }
 
-function loadPrefs(): SelectionPrefs {
-  try {
-    const raw = localStorage.getItem(SELECTION_KEY)
-    if (raw === null) {
-      return { enabled: false, triggerMode: 'selected', compact: false, followToolbar: true, rememberWinSize: false, autoClose: false, autoPin: false, opacity: 100, filterMode: 'default', filterList: [], actions: [...DEFAULT_ACTIONS] }
-    }
-    const parsed = JSON.parse(raw) as Partial<SelectionPrefs>
-    return {
-      enabled: parsed.enabled ?? false,
-      triggerMode: parsed.triggerMode ?? 'selected',
-      compact: parsed.compact ?? false,
-      followToolbar: parsed.followToolbar ?? true,
-      rememberWinSize: parsed.rememberWinSize ?? false,
-      autoClose: parsed.autoClose ?? false,
-      autoPin: parsed.autoPin ?? false,
-      opacity: parsed.opacity ?? 100,
-      filterMode: parsed.filterMode ?? 'default',
-      filterList: parsed.filterList ?? [],
-      actions: parsed.actions ?? [...DEFAULT_ACTIONS],
-    }
-  } catch {
-    return { enabled: false, triggerMode: 'selected', compact: false, followToolbar: true, rememberWinSize: false, autoClose: false, autoPin: false, opacity: 100, filterMode: 'default', filterList: [], actions: [...DEFAULT_ACTIONS] }
-  }
-}
-
-export function SelectionAssistantSection() {
-  const [prefs, setPrefs] = useState<SelectionPrefs>(loadPrefs)
+export function SelectionAssistantSection({ assistant, desktop }: SelectionAssistantSectionInjected) {
+  const store = useAssistantStore(assistant, SELECTION_KEY, 'selection')
+  const status = useDesktopStatus(desktop)
+  const loaded = store.prefs === null ? null : store.prefs.selection
+  const prefs: SelectionPrefs | null = loaded === null
+    ? null
+    : (loaded.actions.length > 0 ? loaded : { ...loaded, actions: DEFAULT_ACTIONS.map(action => ({ ...action })) })
   const [customOpen, setCustomOpen] = useState(false)
   const [editAction, setEditAction] = useState<SelectionAction | null>(null)
   const [deleteAction, setDeleteAction] = useState<SelectionAction | null>(null)
@@ -89,16 +53,20 @@ export function SelectionAssistantSection() {
   const [dragId, setDragId] = useState<string | null>(null)
   const [confirmReset, setConfirmReset] = useState(false)
 
-  useEffect(() => {
-    try { localStorage.setItem(SELECTION_KEY, JSON.stringify(prefs)) } catch { /* best effort */ }
-  }, [prefs])
+  /** Apply a mutation to the selection slice and persist via the host. */
+  const setPrefs = (mutate: (current: SelectionPrefs) => SelectionPrefs): void => {
+    if (prefs !== null) void store.update({ selection: mutate(prefs) })
+  }
 
   const update = (patch: Partial<SelectionPrefs>): void => {
     setPrefs(current => ({ ...current, ...patch }))
   }
 
-  const enabledActions = useMemo(() => prefs.actions.filter(a => a.enabled), [prefs.actions])
-  const disabledActions = useMemo(() => prefs.actions.filter(a => !a.enabled), [prefs.actions])
+  const enabledActions = useMemo(() => (prefs?.actions ?? []).filter(a => a.enabled), [prefs?.actions])
+  const disabledActions = useMemo(() => (prefs?.actions ?? []).filter(a => !a.enabled), [prefs?.actions])
+
+  if (prefs === null) return <SettingsPageShell><div className={css.loading}>加载中...</div></SettingsPageShell>
+  const desktopLive = status !== null && status.supported
 
   const moveAction = (id: string, direction: -1 | 1): void => {
     setPrefs(current => {
@@ -200,9 +168,13 @@ export function SelectionAssistantSection() {
 
   return (
     <SettingsPageShell>
-      <div className={css.notice}>
-        划词助手依赖系统级选中事件与悬浮窗，Web 版不可用；以下配置将随桌面版直接生效。
-      </div>
+      {!desktopLive ? (
+        <div className={css.notice}>
+          划词助手依赖系统级选中事件与悬浮窗，Web 版不可用；配置已保存，将在桌面版集成后生效。
+        </div>
+      ) : (
+        <div className={css.notice}>桌面版已连接；选中事件捕获能力集成中，配置已先保存。</div>
+      )}
 
       <SettingGroup>
         <div className={css.groupHeaderRow}>

@@ -73,3 +73,21 @@
   color: var(--muted-foreground);
   font-size: 12px;
 }
+
+.loading {
+  padding: 24px 0;
+  color: var(--muted-foreground);
+  font-size: 13px;
+}
+
+/* Desktop capability confirmed live (hotkey registered in the shell). */
+.liveBadge {
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border: 1px solid var(--success-border, var(--border));
+  border-radius: 10px;
+  background: var(--success-subtle, color-mix(in srgb, var(--muted) 30%, transparent));
+  color: var(--success-subtle-foreground, var(--foreground));
+  font-size: 13px;
+  line-height: 1.6;
+}

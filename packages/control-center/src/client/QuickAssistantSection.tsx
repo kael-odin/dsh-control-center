@@ -1,87 +1,75 @@
 /**
  * Quick assistant settings — Cherry QuickAssistantSettings parity: enable
- * switch, tray/clipboard rows, model row, window preview. Web edition cannot
- * host the floating window (noted honestly); preferences persist for desktop.
+ * switch, tray/clipboard rows, model row, window preview. The desktop shell
+ * registers the global quick-assist hotkey from the host-pushed prefs (v1
+ * focuses the main window; the floating assistant window is planned); the
+ * notices reflect the live environment.
  */
-import { useEffect, useState } from 'react'
+import type { AssistantRemote, DesktopRemote } from './assistant-store.ts'
+import { useAssistantStore, useDesktopStatus } from './assistant-store.ts'
 import { HelpTooltip } from './panel-ui.tsx'
 import {
   SettingDivider, SettingGroup, SettingRow, SettingRowTitle, SettingsPageShell, SettingSwitch,
 } from './SettingsPages.tsx'
 import css from './QuickAssistantSection.module.css'
 
-const QUICK_KEY = 'cc.settings.quickAssistant'
-
-interface QuickPrefs {
-  enabled: boolean
-  clickTrayToShow: boolean
-  readClipboardAtStartup: boolean
-  modelMode: 'assistant' | 'model'
-  /** Agent preset id used when modelMode === 'assistant' (Cherry agent picker parity). */
-  agentPresetId: string
+export interface QuickAssistantSectionInjected {
+  assistant: AssistantRemote | undefined
+  desktop: DesktopRemote | undefined
 }
 
-function loadPrefs(): QuickPrefs {
-  try {
-    const raw = localStorage.getItem(QUICK_KEY)
-    if (raw === null) return { enabled: false, clickTrayToShow: false, readClipboardAtStartup: true, modelMode: 'model', agentPresetId: '' }
-    const parsed = JSON.parse(raw) as Partial<QuickPrefs>
-    return {
-      enabled: parsed.enabled ?? false,
-      clickTrayToShow: parsed.clickTrayToShow ?? false,
-      readClipboardAtStartup: parsed.readClipboardAtStartup ?? true,
-      modelMode: parsed.modelMode ?? 'model',
-      agentPresetId: typeof parsed.agentPresetId === 'string' ? parsed.agentPresetId : '',
-    }
-  } catch {
-    return { enabled: false, clickTrayToShow: false, readClipboardAtStartup: true, modelMode: 'model', agentPresetId: '' }
-  }
-}
+export function QuickAssistantSection({ assistant, desktop }: QuickAssistantSectionInjected) {
+  const { prefs, update } = useAssistantStore(assistant, 'cc.settings.quickAssistant', 'quick')
+  const status = useDesktopStatus(desktop)
 
-export function QuickAssistantSection() {
-  const [prefs, setPrefs] = useState<QuickPrefs>(loadPrefs)
+  if (prefs === null) return <SettingsPageShell><div className={css.loading}>加载中...</div></SettingsPageShell>
 
-  useEffect(() => {
-    try { localStorage.setItem(QUICK_KEY, JSON.stringify(prefs)) } catch { /* best effort */ }
-  }, [prefs])
-
-  const update = (patch: Partial<QuickPrefs>): void => {
-    setPrefs(current => ({ ...current, ...patch }))
-  }
+  const quick = prefs.quick
+  const patch = (p: Partial<typeof quick>): void => { void update({ quick: { ...quick, ...p } }) }
+  const desktopLive = status !== null && status.supported
+  const hotkeyLabel = (status?.quickHotkey ?? 'Ctrl+Shift+U')
+    .replace('CommandOrControl', 'Ctrl')
+    .replace(/\+/g, ' + ')
 
   return (
     <SettingsPageShell>
-      <div className={css.notice}>
-        快捷助手的全局唤起依赖系统级热键与悬浮窗，Web 版不可用；以下配置将随桌面版直接生效。
-      </div>
+      {!desktopLive ? (
+        <div className={css.notice}>
+          快捷助手的全局唤起依赖系统级热键与悬浮窗，Web 版不可用；配置已保存，将在桌面版直接生效。
+        </div>
+      ) : status.quickHotkeyRegistered === true ? (
+        <div className={css.liveBadge}>桌面版已就绪：全局快捷键 {hotkeyLabel} 已注册，唤起主窗口。</div>
+      ) : (
+        <div className={css.notice}>桌面版已连接；启用开关打开后自动注册全局快捷键（独立悬浮窗集成中）。</div>
+      )}
 
       <SettingGroup>
         <div className={css.groupTitle}>快捷助手</div>
         <SettingDivider />
         <SettingSwitch
           label={<><span>启用快捷助手</span><HelpTooltip text="右键点击托盘图标或使用快捷键启动" /></>}
-          checked={prefs.enabled}
-          onChange={next => { update({ enabled: next }) }}
+          checked={quick.enabled}
+          onChange={next => { patch({ enabled: next }) }}
         />
-        {prefs.enabled && (
+        {quick.enabled && (
           <>
             <SettingDivider />
             <SettingSwitch
               label="点击托盘图标启动"
-              checked={prefs.clickTrayToShow}
-              onChange={next => { update({ clickTrayToShow: next }) }}
+              checked={quick.clickTrayToShow}
+              onChange={next => { patch({ clickTrayToShow: next }) }}
             />
             <SettingDivider />
             <SettingSwitch
               label="启动时读取剪贴板"
-              checked={prefs.readClipboardAtStartup}
-              onChange={next => { update({ readClipboardAtStartup: next }) }}
+              checked={quick.readClipboardAtStartup}
+              onChange={next => { patch({ readClipboardAtStartup: next }) }}
             />
           </>
         )}
       </SettingGroup>
 
-      {prefs.enabled && (
+      {quick.enabled && (
         <SettingGroup>
           <SettingRow>
             <SettingRowTitle>
@@ -92,28 +80,28 @@ export function QuickAssistantSection() {
               <div className={css.segmented}>
                 <button
                   type="button"
-                  className={`${css.segItem} ${prefs.modelMode === 'model' ? css.segItemActive : ''}`}
-                  onClick={() => { update({ modelMode: 'model' }) }}
+                  className={`${css.segItem} ${quick.modelMode === 'model' ? css.segItemActive : ''}`}
+                  onClick={() => { patch({ modelMode: 'model' }) }}
                 >
                   默认模型
                 </button>
                 <button
                   type="button"
-                  className={`${css.segItem} ${prefs.modelMode === 'assistant' ? css.segItemActive : ''}`}
-                  onClick={() => { update({ modelMode: 'assistant' }) }}
+                  className={`${css.segItem} ${quick.modelMode === 'assistant' ? css.segItemActive : ''}`}
+                  onClick={() => { patch({ modelMode: 'assistant' }) }}
                 >
                   使用助手
                 </button>
               </div>
-              {prefs.modelMode === 'model' && <span className={css.modelHint}>跟随当前对话选择的模型</span>}
-              {prefs.modelMode === 'assistant' && (
+              {quick.modelMode === 'model' && <span className={css.modelHint}>跟随当前对话选择的模型</span>}
+              {quick.modelMode === 'assistant' && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span className={css.modelHint}>Agent 预设 ID</span>
                   <input
                     type="text"
                     className={css.agentInput}
-                    value={prefs.agentPresetId}
-                    onChange={event => { update({ agentPresetId: event.target.value }) }}
+                    value={quick.agentPresetId}
+                    onChange={event => { patch({ agentPresetId: event.target.value }) }}
                     placeholder="例如 default"
                   />
                 </div>

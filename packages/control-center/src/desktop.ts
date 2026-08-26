@@ -43,6 +43,10 @@ interface NativeStatusPayload {
   trayActive?: boolean
   hotkey?: string
   hotkeyRegistered?: boolean
+  screenshotHotkey?: string
+  screenshotHotkeyRegistered?: boolean
+  quickHotkey?: string
+  quickHotkeyRegistered?: boolean
 }
 
 export class DesktopService extends Service {
@@ -108,7 +112,17 @@ export class DesktopService extends Service {
       ...(result.trayActive !== undefined ? { trayActive: result.trayActive } : {}),
       ...(result.hotkey !== undefined ? { hotkey: result.hotkey } : {}),
       ...(result.hotkeyRegistered !== undefined ? { hotkeyRegistered: result.hotkeyRegistered } : {}),
+      ...(result.screenshotHotkey !== undefined ? { screenshotHotkey: result.screenshotHotkey } : {}),
+      ...(result.screenshotHotkeyRegistered !== undefined ? { screenshotHotkeyRegistered: result.screenshotHotkeyRegistered } : {}),
+      ...(result.quickHotkey !== undefined ? { quickHotkey: result.quickHotkey } : {}),
+      ...(result.quickHotkeyRegistered !== undefined ? { quickHotkeyRegistered: result.quickHotkeyRegistered } : {}),
     }
+  }
+
+  /** Push the assistant prefs snapshot so the shell (re)registers hotkeys. */
+  async pushAssistantPrefs(prefs: unknown): Promise<{ ok: boolean }> {
+    const result = await this.bridgeFetch<{ ok: boolean }>('/dsh-native/assistantPrefs', { method: 'POST', body: prefs }, 5000)
+    return result === undefined ? { ok: false } : result
   }
 
   async fonts(): Promise<DesktopFontsResult> {

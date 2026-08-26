@@ -12,6 +12,7 @@ const methods: ReadonlyArray<{ method: string; parameters: string[] }> = [
   { method: 'readFile', parameters: ['path'] },
   { method: 'writeFile', parameters: ['path', 'contentBase64'] },
   { method: 'notify', parameters: ['title', 'body'] },
+  { method: 'pushAssistantPrefs', parameters: ['prefs'] },
 ]
 
 /** Client descriptor contribution for the Control Center desktop service. */

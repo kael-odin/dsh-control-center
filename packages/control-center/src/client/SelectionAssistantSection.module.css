@@ -426,3 +426,9 @@
   color: var(--foreground-tertiary);
   font-size: 12px;
 }
+
+.loading {
+  padding: 24px 0;
+  color: var(--muted-foreground);
+  font-size: 13px;
+}
