@@ -15,6 +15,7 @@ export interface GeneralPrefs {
     proxyUrl: string;
     proxyBypass: string;
     allowPrivateNetwork: boolean;
+    disableHardwareAcceleration: boolean;
     contextEnabled: boolean;
     contextMaxMessages: number | null;
     contextToolOutputThreshold: number;

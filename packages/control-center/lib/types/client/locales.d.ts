@@ -225,6 +225,8 @@ export declare const en: {
     generalProxyBypassHint: string;
     generalAllowPrivateNetwork: string;
     generalAllowPrivateNetworkHint: string;
+    generalDisableHardwareAcceleration: string;
+    generalDisableHardwareAccelerationHint: string;
     generalContext: string;
     generalContextNativeTitle: string;
     generalContextNativeBody: string;

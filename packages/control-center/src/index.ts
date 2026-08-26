@@ -82,6 +82,9 @@ const GENERAL_SCHEMA = z.object({
   proxyBypass: z.string().default(''),
   // Cherry app.fetch.allow_private_network.
   allowPrivateNetwork: z.boolean().default(false),
+  // Cherry BootConfig.app.disable_hardware_acceleration — the desktop shell
+  // reads it at boot; takes effect after a restart.
+  disableHardwareAcceleration: z.boolean().default(false),
   // Cherry chat.context_settings.* projected onto DSH's compaction/pruning policy.
   contextEnabled: z.boolean().default(true),
   contextMaxMessages: z.any().default(null),

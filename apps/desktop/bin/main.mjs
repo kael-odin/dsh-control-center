@@ -495,7 +495,7 @@ function setupTrayAndShortcut() {
  * the `control-center-general:` section the 通用 page writes. The companion
  * applies them at startup so the settings page's switches are real.
  */
-let generalPrefs = { launchOnBoot: false, trayEnabled: true, trayOnClose: false }
+let generalPrefs = { launchOnBoot: false, trayEnabled: true, trayOnClose: false, disableHardwareAcceleration: false }
 
 
 function readGeneralPrefs() {
@@ -518,6 +518,9 @@ let inSection = false
     const v = bool('launchOnBoot'); if (v !== undefined) generalPrefs.launchOnBoot = v
     const t = bool('trayEnabled'); if (t !== undefined) generalPrefs.trayEnabled = t
     const c = bool('trayOnClose'); if (c !== undefined) generalPrefs.trayOnClose = c
+    // Cherry BootConfig.app.disable_hardware_acceleration parity. Must run
+    // before app ready — readGeneralPrefs is also invoked pre-Ready for this.
+    const h = bool('disableHardwareAcceleration'); if (h !== undefined) generalPrefs.disableHardwareAcceleration = h
   }
 }
 
@@ -820,6 +823,14 @@ async function boot() {
     return
   }
 
+  // Hardware acceleration must be toggled before the ready event — read the
+  // persisted general prefs synchronously and apply the switch now.
+  readGeneralPrefs()
+  if (generalPrefs.disableHardwareAcceleration === true) {
+    app.disableHardwareAcceleration()
+    console.log('[desktop] hardware acceleration disabled by control-center-general')
+  }
+
   const url = resolveUrl()
 
   // Second-instance focus the existing window.
@@ -834,6 +845,7 @@ async function boot() {
 
   // Desktop general preferences (launch on boot, tray behavior).
   applyGeneralPrefs()
+  console.log(`[desktop] GENERAL_PREFS hwAccelDisabled=${generalPrefs.disableHardwareAcceleration}`)
 
   // System tray + global shortcut (focus/reopen window).
   setupTrayAndShortcut()

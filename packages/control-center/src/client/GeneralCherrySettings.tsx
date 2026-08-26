@@ -292,6 +292,14 @@ function Loaded({ controller, useSnapshot, t }: {
         label={t('generalAllowPrivateNetwork')}
         onChange={(next) => { setPref('allowPrivateNetwork', next) }}
       />
+      <PrefRow
+        title={t('generalDisableHardwareAcceleration')}
+        hint={t('generalDisableHardwareAccelerationHint')}
+        checked={prefs.disableHardwareAcceleration}
+        disabled={disabled}
+        label={t('generalDisableHardwareAcceleration')}
+        onChange={(next) => { setPref('disableHardwareAcceleration', next) }}
+      />
       <div className={css['divider']} />
       <div className={css['groupTitle']}>{t('generalContext')}</div>
       <Note

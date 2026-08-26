@@ -11123,6 +11123,7 @@ const GENERAL_SCHEMA = Schema.object({
 	proxyUrl: Schema.string().default(""),
 	proxyBypass: Schema.string().default(""),
 	allowPrivateNetwork: Schema.boolean().default(false),
+	disableHardwareAcceleration: Schema.boolean().default(false),
 	contextEnabled: Schema.boolean().default(true),
 	contextMaxMessages: Schema.any().default(null),
 	contextToolOutputThreshold: Schema.number().step(1).min(2e3).default(5e4),

@@ -21,6 +21,7 @@ export interface GeneralPrefs {
   proxyUrl: string
   proxyBypass: string
   allowPrivateNetwork: boolean
+  disableHardwareAcceleration: boolean
   contextEnabled: boolean
   contextMaxMessages: number | null
   contextToolOutputThreshold: number
@@ -50,6 +51,7 @@ const DEFAULT_PREFS: GeneralPrefs = {
   proxyUrl: '',
   proxyBypass: '',
   allowPrivateNetwork: false,
+  disableHardwareAcceleration: false,
   contextEnabled: true,
   contextMaxMessages: null,
   contextToolOutputThreshold: 50_000,
@@ -88,6 +90,7 @@ function readPrefs(value: unknown, schema: SettingsSchemaOperations): GeneralPre
     proxyUrl: text('proxyUrl', DEFAULT_PREFS.proxyUrl),
     proxyBypass: text('proxyBypass', DEFAULT_PREFS.proxyBypass),
     allowPrivateNetwork: flag('allowPrivateNetwork', DEFAULT_PREFS.allowPrivateNetwork),
+    disableHardwareAcceleration: flag('disableHardwareAcceleration', DEFAULT_PREFS.disableHardwareAcceleration),
     contextEnabled: flag('contextEnabled', DEFAULT_PREFS.contextEnabled),
     contextMaxMessages: integerOrNull('contextMaxMessages', DEFAULT_PREFS.contextMaxMessages),
     contextToolOutputThreshold: positiveInteger('contextToolOutputThreshold', DEFAULT_PREFS.contextToolOutputThreshold),

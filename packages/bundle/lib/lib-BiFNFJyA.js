@@ -45028,7 +45028,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { SSEClientTransport } = await import("./sse-BAiuLNTe.js");
+				const { SSEClientTransport } = await import("./sse-BK-09UiU.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new SSEClientTransport(new URL(record.baseUrl), {
@@ -45050,7 +45050,7 @@ var McpService = class extends Service {
 					serverId,
 					baseUrl: record.baseUrl
 				});
-				const { StreamableHTTPClientTransport } = await import("./streamableHttp-DeB9bIQw.js");
+				const { StreamableHTTPClientTransport } = await import("./streamableHttp-BbLYmcCb.js");
 				const headers = {};
 				if (record.headers) Object.assign(headers, record.headers);
 				transport = new StreamableHTTPClientTransport(new URL(record.baseUrl), {
@@ -53064,6 +53064,7 @@ const GENERAL_SCHEMA = Schema$1.object({
 	proxyUrl: Schema$1.string().default(""),
 	proxyBypass: Schema$1.string().default(""),
 	allowPrivateNetwork: Schema$1.boolean().default(false),
+	disableHardwareAcceleration: Schema$1.boolean().default(false),
 	contextEnabled: Schema$1.boolean().default(true),
 	contextMaxMessages: Schema$1.any().default(null),
 	contextToolOutputThreshold: Schema$1.number().step(1).min(2e3).default(5e4),
