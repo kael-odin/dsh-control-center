@@ -33,7 +33,7 @@ if (!match) {
 const version = match[1]
 
 // 3. write bundle-version.json
-const vendorDir = join(process.cwd(), 'apps', 'desktop', 'vendor')
+const vendorDir2 = join(process.cwd(), 'apps', 'desktop', 'vendor')
 writeFileSync(join(destDir, 'bundle-version.json'), JSON.stringify({ version: match[1] }))
 console.log('bundled plugin version:', version)
 
