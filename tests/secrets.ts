@@ -5,14 +5,16 @@ import { fileURLToPath } from 'node:url'
 const ROOT = new URL('../', import.meta.url)
 const ROOT_PATH = dirname(fileURLToPath(new URL('package.json', ROOT)))
 const IGNORED_DIRECTORIES = new Set([
-  '.git', '.materialized', '.pack-bundle', '.packs', 'lib', 'node_modules', 'playwright-report', 'test-results',
+  // `.claude` covers nested agent worktrees (`.claude/worktrees/*`) — they are
+  // full repo copies whose paths can never match the fixture whitelist.
+  '.claude', '.git', '.materialized', '.pack-bundle', '.packs', 'lib', 'node_modules', 'playwright-report', 'test-results',
 ])
 const TEXT_EXTENSIONS = new Set([
   '', '.cjs', '.css', '.js', '.json', '.jsx', '.md', '.mjs', '.ts', '.tsx', '.txt', '.yaml', '.yml',
 ])
 const SYNTHETIC_CREDENTIAL = ['local', 'fixture', 'key'].join('-')
 /** Test fixtures that materialize the documented synthetic credential. */
-const ALLOWED_FIXTURE_FILES = new Set(['tests/packed-browser-e2e.ts', 'tests/visual-probe.ts'])
+const ALLOWED_FIXTURE_FILES = new Set(['tests/packed-browser-e2e.ts', 'tests/visual-probe.ts', 'tests/context-policy-profile-e2e.ts', 'tests/probe-mcp-tabs.ts'])
 const SCANNER_FILE = 'tests/secrets.ts'
 const SECRET_PATTERNS: Array<{ name: string; pattern: RegExp }> = [
   { name: 'OpenAI-style secret key', pattern: /\bsk-[A-Za-z0-9_-]{20,}\b/g },
