@@ -7,6 +7,19 @@ import { resolveDshHome } from '@deepseek-ai/dsh-home-paths'
 export const SUPPORTED_DSH_VERSION = '0.1.1-rc.2'
 export const DSH_SOURCE_BASELINE = 'b150a551b8'
 
+/**
+ * PLUGINIZATION §1.2: the supported DSH version window rather than one pinned
+ * string. Any 0.1.x release (including later rcs) satisfies the contract
+ * check; a new minor triggers a deliberate compatibility review before the
+ * window widens. Keep this in lockstep with the peerDependencies range.
+ */
+const SUPPORTED_DSH_RANGE = /^0\.1\.\d+/
+
+/** Whether a resolved DSH package version falls inside the support window. */
+export function isSupportedDshVersion(version: string): boolean {
+  return SUPPORTED_DSH_RANGE.test(version)
+}
+
 interface RequiredPackage {
   name: string
   client: boolean
@@ -105,10 +118,13 @@ export function assertCompatibleDsh(requireFrom: NodeJS.Require = profileRequire
       continue
     }
     const manifest = JSON.parse(readFileSync(manifestPath, 'utf8')) as PackageManifest
-    if (manifest.name !== required.name || manifest.version !== SUPPORTED_DSH_VERSION) {
+    if (manifest.name !== required.name
+      || typeof manifest.version !== 'string'
+      || !isSupportedDshVersion(manifest.version)) {
       problems.push(
-        `DSH Control Center is incompatible with ${required.name}: expected ${SUPPORTED_DSH_VERSION}, `
-        + `resolved ${String(manifest.version)}. Supported DSH source baseline: ${DSH_SOURCE_BASELINE}.`,
+        `DSH Control Center is incompatible with ${required.name}: expected a version in the `
+        + `${SUPPORTED_DSH_VERSION} window (0.1.x), resolved ${String(manifest.version)}. `
+        + `Supported DSH source baseline: ${DSH_SOURCE_BASELINE}.`,
       )
       continue
     }

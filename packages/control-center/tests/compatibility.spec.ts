@@ -43,9 +43,14 @@ describe('DSH compatibility preflight', () => {
     expect(() => assertCompatibleDsh(fixture())).not.toThrow()
   })
 
-  it('fails before activation when one resolved package version drifts', () => {
-    expect(() => assertCompatibleDsh(fixture('0.1.1-rc.1')))
-      .toThrow('expected 0.1.1-rc.2, resolved 0.1.1-rc.1')
+  it('accepts later 0.1.x releases inside the support window (§1.2)', () => {
+    expect(() => assertCompatibleDsh(fixture('0.1.1-rc.7'))).not.toThrow()
+    expect(() => assertCompatibleDsh(fixture('0.1.4'))).not.toThrow()
+  })
+
+  it('fails before activation when the resolved version leaves the window', () => {
+    expect(() => assertCompatibleDsh(fixture('0.2.0')))
+      .toThrow('expected a version in the 0.1.1-rc.2 window')
   })
 
   it('accepts a bundled deployment where only the host contract is on the graph', () => {
