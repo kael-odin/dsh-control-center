@@ -51,15 +51,7 @@ jobs:
       - name: Build and bundle the Control Center plugin
         run: pnpm run build
       - name: Prepare bundle artifacts for the shell
-        run: |
-          mkdir -p apps/desktop/vendor
-          cp packages/bundle/dsh-control-center-bundle-*.tgz apps/desktop/vendor/
-          cd apps/desktop/vendor
-          TARBALL=$(ls dsh-control-center-bundle-*.tgz | head -1)
-          VERSION=$(echo "$TARBALL" | sed -E 's/.*-([0-9][^-]*)\.tgz/\1/')
-          printf '{"version":"%s"}' "$VERSION" > bundle-version.json
-          mv "$TARBALL" bundle.tgz
-          echo "bundled plugin version: $VERSION"
+        run: node scripts/prepare-bundle.js
 
       - name: Build installers
         working-directory: apps/desktop
