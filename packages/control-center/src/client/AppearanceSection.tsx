@@ -485,9 +485,9 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
         <SettingRow>
           <SettingRowTitle>消息样式 <HelpTooltip text="气泡样式为每条消息添加底色与圆角（Cherry message.message.style）" /></SettingRowTitle>
           <div className={css.segmented}>
-            <button type="button" className={overrides.messageStyle === 'plain' ? css.segActive : css.seg} disabled={!appearanceReady || appearanceSaving}
+            <button type="button" className={`${css.seg} ${overrides.messageStyle === 'plain' ? css.segActive : ''}`} disabled={!appearanceReady || appearanceSaving}
               onClick={() => { updateOverrides({ messageStyle: 'plain' }) }}>平铺</button>
-            <button type="button" className={overrides.messageStyle === 'bubble' ? css.segActive : css.seg} disabled={!appearanceReady || appearanceSaving}
+            <button type="button" className={`${css.seg} ${overrides.messageStyle === 'bubble' ? css.segActive : ''}`} disabled={!appearanceReady || appearanceSaving}
               onClick={() => { updateOverrides({ messageStyle: 'bubble' }) }}>气泡</button>
           </div>
         </SettingRow>
@@ -508,9 +508,9 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
             <span className={css.desktopTag}>桌面</span>
           </SettingRowTitle>
           <div className={css.segmented}>
-            <button type="button" className={overrides.windowStyle === 'opaque' ? css.segActive : css.seg} disabled={!appearanceReady || appearanceSaving}
+            <button type="button" className={`${css.seg} ${overrides.windowStyle === 'opaque' ? css.segActive : ''}`} disabled={!appearanceReady || appearanceSaving}
               onClick={() => { updateOverrides({ windowStyle: 'opaque' }) }}>不透明</button>
-            <button type="button" className={overrides.windowStyle === 'transparent' ? css.segActive : css.seg} disabled={!appearanceReady || appearanceSaving}
+            <button type="button" className={`${css.seg} ${overrides.windowStyle === 'transparent' ? css.segActive : ''}`} disabled={!appearanceReady || appearanceSaving}
               onClick={() => { updateOverrides({ windowStyle: 'transparent' }) }}>透明</button>
           </div>
         </SettingRow>

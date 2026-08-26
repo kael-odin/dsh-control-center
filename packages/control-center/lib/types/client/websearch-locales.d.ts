@@ -29,6 +29,18 @@ export declare const en: {
     apiHostPlaceholder: string;
     basicAuthUsername: string;
     basicAuthPassword: string;
+    engines: string;
+    enginesHint: string;
+    check: string;
+    checking: string;
+    ready: string;
+    notReady: string;
+    checkSuccess: string;
+    checkFailed: string;
+    checkLatency: string;
+    officialWebsite: string;
+    apiKeyWebsite: string;
+    optionalApiKey: string;
     loading: string;
     unavailable: string;
     noConfig: string;

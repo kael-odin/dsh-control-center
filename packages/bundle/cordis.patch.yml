@@ -4,6 +4,12 @@
 - id: ui-settings-models
   disabled: true
 
+# Control Center reads the user's General context threshold at every tool result.
+# The base policy has a static 50,000-byte cap, so leaving it mounted would make
+# this page's per-user character limit ineffective for smaller or larger values.
+- id: spill-policy
+  disabled: true
+
 - insert:
     - id: dsh-control-center
       name: '@dsh-control-center/bundle'

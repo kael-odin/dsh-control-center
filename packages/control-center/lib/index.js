@@ -4,7 +4,7 @@ import { t as knowledgeRemote } from "./knowledge-remote-client-z0vloa3L.js";
 import { createRequire } from "node:module";
 import Schema from "@deepseek-ai/schemastery";
 import { installSettingsSection, settingsNamespace } from "@deepseek-ai/dsh-settings";
-import { basename, dirname, join, relative, resolve, sep } from "node:path";
+import { basename, dirname, extname, join, relative, resolve, sep } from "node:path";
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, unlinkSync, writeFileSync } from "node:fs";
 import { resolveDshHome } from "@deepseek-ai/dsh-home-paths";
 import { createHash, createHmac, randomUUID } from "node:crypto";
@@ -17,7 +17,13 @@ import { defineTool } from "@deepseek-ai/dsh-tools";
 import { arch, homedir, platform, release, tmpdir } from "node:os";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { credentialRef } from "@deepseek-ai/dsh-credentials";
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
+import { z } from "zod";
+import { credentialRef, isCredentialRefName } from "@deepseek-ai/dsh-credentials";
+import { PaddleOCRClient } from "@paddleocr/api-sdk";
+import { Unzip, UnzipInflate, UnzipPassThrough } from "fflate";
+import { defineDomain, domainTable } from "@deepseek-ai/dsh-storage-domain";
 import { spawnSync } from "node:child_process";
 //#region lib/types/compatibility.js
 /** DSH package versions and exports required by the first Control Center release. */
@@ -2548,6 +2554,191 @@ const skillsRemote = {
 		result: STRICT_JSON
 	}))
 };
+Object.freeze(["sequential-thinking", "memory"]);
+/**
+* Create one in-process MCP server for a builtin runtime, linked to a client
+* transport. The caller connects the client to `clientTransport`.
+*/
+function createInMemoryServer(name) {
+	if (name === "sequential-thinking") return createSequentialThinking();
+	if (name === "memory") return createMemory();
+	throw new Error(`未实现的内置服务器: ${name}`);
+}
+function link(server) {
+	const [client, serverTransport] = InMemoryTransport.createLinkedPair();
+	server.connect(serverTransport);
+	return { clientTransport: client };
+}
+/** sequential-thinking — modelcontextprotocol/servers reference implementation. */
+function createSequentialThinking() {
+	const sessions = /* @__PURE__ */ new Map();
+	const server = new McpServer({
+		name: "sequential-thinking",
+		version: "1.0.0"
+	});
+	server.registerTool("sequentialthinking", {
+		title: "Sequential Thinking",
+		description: "按顺序记录思考链，供多步推理使用。每次调用追加一条思考。",
+		inputSchema: z.object({
+			thought: z.string().describe("当前的思考内容"),
+			thoughtNumber: z.number().int().optional().describe("当前思考编号（从 1 开始）"),
+			totalThoughts: z.number().int().optional().describe("预计思考总数"),
+			nextThoughtNeeded: z.boolean().describe("是否需要继续思考"),
+			isRevision: z.boolean().optional().describe("是否修订之前某条思考"),
+			revisesThought: z.number().int().optional().describe("被修订的思考编号"),
+			branchFromThought: z.number().int().optional().describe("从此思考分叉"),
+			branchId: z.string().optional().describe("分叉标识"),
+			needsMoreThoughts: z.boolean().optional().describe("是否还需要更多思考")
+		})
+	}, async (args, extra) => {
+		const sessionId = extra.sessionId ?? "default";
+		const list = sessions.get(sessionId) ?? [];
+		const thought = {
+			thought: String(args.thought ?? ""),
+			thoughtNumber: typeof args.thoughtNumber === "number" ? args.thoughtNumber : list.length + 1,
+			totalThoughts: typeof args.totalThoughts === "number" ? args.totalThoughts : list.length + 1,
+			nextThoughtNeeded: args.nextThoughtNeeded === true,
+			...args.isRevision === true ? { isRevision: true } : {},
+			...typeof args.revisesThought === "number" ? { revisesThought: args.revisesThought } : {},
+			...typeof args.branchFromThought === "number" ? { branchFromThought: args.branchFromThought } : {},
+			...typeof args.branchId === "string" ? { branchId: args.branchId } : {},
+			...args.needsMoreThoughts === true ? { needsMoreThoughts: true } : {}
+		};
+		list.push(thought);
+		sessions.set(sessionId, list);
+		return { content: [{
+			type: "text",
+			text: JSON.stringify({ thoughtList: list }, null, 2)
+		}] };
+	});
+	return {
+		...link(server),
+		server
+	};
+}
+/** memory — knowledge-graph memory server (entities / relations / observations). */
+function createMemory() {
+	const entities = /* @__PURE__ */ new Map();
+	const relations = [];
+	const server = new McpServer({
+		name: "memory",
+		version: "1.0.0"
+	});
+	server.registerTool("create_entities", {
+		title: "Create Entities",
+		description: "创建知识图谱实体。",
+		inputSchema: z.object({ entities: z.array(z.object({
+			name: z.string(),
+			entityType: z.string(),
+			observations: z.array(z.string())
+		})) })
+	}, async (args) => {
+		const created = [];
+		for (const raw of args.entities ?? []) {
+			const name = String(raw.name ?? "");
+			if (name === "") continue;
+			entities.set(name, {
+				name,
+				entityType: String(raw.entityType ?? ""),
+				observations: Array.isArray(raw.observations) ? raw.observations.map(String) : []
+			});
+			created.push({ name });
+		}
+		return { content: [{
+			type: "text",
+			text: JSON.stringify(created)
+		}] };
+	});
+	server.registerTool("create_relations", {
+		title: "Create Relations",
+		description: "在两个实体之间创建关系。",
+		inputSchema: z.object({ relations: z.array(z.object({
+			from: z.string(),
+			to: z.string(),
+			relationType: z.string()
+		})) })
+	}, async (args) => {
+		const created = [];
+		for (const raw of args.relations ?? []) {
+			const relation = {
+				from: String(raw.from ?? ""),
+				to: String(raw.to ?? ""),
+				relationType: String(raw.relationType ?? "")
+			};
+			relations.push(relation);
+			created.push(relation);
+		}
+		return { content: [{
+			type: "text",
+			text: JSON.stringify(created)
+		}] };
+	});
+	server.registerTool("add_observations", {
+		title: "Add Observations",
+		description: "向已有实体追加观察。",
+		inputSchema: z.object({ observations: z.array(z.object({
+			entityName: z.string(),
+			contents: z.array(z.string())
+		})) })
+	}, async (args) => {
+		const added = [];
+		for (const raw of args.observations ?? []) {
+			const name = String(raw.entityName ?? "");
+			const entity = entities.get(name);
+			const contents = Array.isArray(raw.contents) ? raw.contents.map(String) : [];
+			if (entity === void 0) return {
+				isError: true,
+				content: [{
+					type: "text",
+					text: `实体不存在: ${name}`
+				}]
+			};
+			entity.observations.push(...contents);
+			added.push({
+				entityName: name,
+				addedObservations: contents
+			});
+		}
+		return { content: [{
+			type: "text",
+			text: JSON.stringify(added)
+		}] };
+	});
+	server.registerTool("read_graph", {
+		title: "Read Graph",
+		description: "读取整个知识图谱（实体与关系）。",
+		inputSchema: z.object({})
+	}, async () => {
+		const graph = {
+			entities: [...entities.values()],
+			relations
+		};
+		return { content: [{
+			type: "text",
+			text: JSON.stringify(graph, null, 2)
+		}] };
+	});
+	server.registerTool("search_nodes", {
+		title: "Search Nodes",
+		description: "按名称模糊搜索实体。",
+		inputSchema: z.object({ query: z.string().describe("搜索关键词") })
+	}, async (args) => {
+		const query = String(args.query ?? "").toLowerCase();
+		const matches = [...entities.values()].filter((e) => e.name.toLowerCase().includes(query) || e.entityType.toLowerCase().includes(query) || e.observations.some((o) => o.toLowerCase().includes(query)));
+		return { content: [{
+			type: "text",
+			text: JSON.stringify(matches.map((e) => ({
+				name: e.name,
+				entityType: e.entityType,
+				observations: e.observations.slice(-10)
+			})))
+		}] };
+	});
+	return {
+		...link(server),
+		server
+	};
+}
 //#endregion
 //#region lib/types/mcp-readme-sample.js
 /**
@@ -2664,7 +2855,7 @@ var McpService = class extends Service {
 		return view;
 	}
 	async list() {
-		return this.scope.get().servers.sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999)).map((record) => this.recordToView(record));
+		return [...this.scope.get().servers].sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999)).map((record) => this.recordToView(record));
 	}
 	async getById(serverId) {
 		const record = this.scope.get().servers.find((s) => s.id === serverId);
@@ -2696,6 +2887,7 @@ var McpService = class extends Service {
 		record.sortOrder = settings.servers.length;
 		record.installSource = dto.installSource ?? "manual";
 		if (dto.isTrusted !== void 0) record.isTrusted = dto.isTrusted;
+		else if (record.installSource === "builtin") record.isTrusted = true;
 		record.installedAt = Date.now();
 		await this.ctx.settings.update(MCP_NAMESPACE, { servers: [...settings.servers, record] });
 		return this.recordToView(record);
@@ -2801,6 +2993,20 @@ var McpService = class extends Service {
 				const timeout = (record.timeout || 30) * 1e3;
 				await Promise.race([client.connect(transport), new Promise((_, reject) => setTimeout(() => reject(/* @__PURE__ */ new Error("Connection timeout")), timeout))]);
 				this.addServerLog(serverId, "Server connected");
+			} else if (record.type === "inMemory") {
+				const runtimeName = record.command ?? record.name;
+				this.ctx.logger.info("Starting in-process MCP server", {
+					serverId,
+					runtimeName
+				});
+				const { clientTransport } = createInMemoryServer(runtimeName);
+				transport = clientTransport;
+				client = new Client({
+					name: "dsh-control-center",
+					version: "1.0.0"
+				}, { capabilities: {} });
+				await client.connect(transport);
+				this.addServerLog(serverId, "In-process server connected");
 			} else if (record.type === "sse") {
 				if (!record.baseUrl) throw new Error("Base URL is required for SSE transport");
 				this.ctx.logger.info(`Starting MCP server via SSE`, {
@@ -3052,6 +3258,52 @@ var McpService = class extends Service {
 	async getCapabilities(serverId) {
 		return this.runtimeStates.get(serverId)?.capabilities || null;
 	}
+	/** Probe a trusted server without changing its persisted enabled state. */
+	async checkServer(serverId) {
+		const startedAt = Date.now();
+		const record = this.scope.get().servers.find((server) => server.id === serverId);
+		if (record === void 0) return {
+			ok: false,
+			latencyMs: 0,
+			state: "error",
+			message: `MCP server not found: ${serverId}`
+		};
+		if (!record.isTrusted) return {
+			ok: false,
+			latencyMs: 0,
+			state: "error",
+			message: "请先信任服务器，再执行连接检测"
+		};
+		const existing = this.runtimeStates.get(serverId);
+		if (existing?.state === "connected") return {
+			ok: true,
+			latencyMs: Date.now() - startedAt,
+			state: "connected",
+			message: "服务器已连接",
+			...existing.capabilities === void 0 ? {} : { capabilities: existing.capabilities }
+		};
+		try {
+			await this.startServer(serverId);
+			const state = this.runtimeStates.get(serverId);
+			const result = {
+				ok: true,
+				latencyMs: Date.now() - startedAt,
+				state: "connected",
+				message: "连接成功",
+				...state?.capabilities === void 0 ? {} : { capabilities: state.capabilities }
+			};
+			if (!record.isActive) await this.stopServer(serverId);
+			return result;
+		} catch (error) {
+			if (!record.isActive) await this.stopServer(serverId);
+			return {
+				ok: false,
+				latencyMs: Date.now() - startedAt,
+				state: "error",
+				message: error instanceof Error ? error.message : String(error)
+			};
+		}
+	}
 	/**
 	* Search the public npm registry for MCP servers under one scope (Cherry's
 	* Npx 市场列表). Runs on the host so browser CORS never gates it; results
@@ -3085,6 +3337,43 @@ var McpService = class extends Service {
 				return pkg;
 			}
 		}))).map((result, index) => result.status === "fulfilled" ? result.value : candidates[index]);
+	}
+	/** Discover hosted MCP servers from a provider API (Cherry McpProviderSettings parity). */
+	async discoverMcpServers(provider, token) {
+		const trimmed = typeof token === "string" ? token.trim() : "";
+		if (trimmed.length === 0) throw new Error("请输入 Token");
+		if (provider === "bailian") {
+			const response = await fetch("https://dashscope.aliyuncs.com/api/v1/mcps/user/list?pageNo=1&pageSize=50", { headers: {
+				Authorization: `Bearer ${trimmed}`,
+				"Content-Type": "application/json"
+			} });
+			if (response.status === 401 || response.status === 403) throw new Error("Token 认证失败，请检查百炼 API Token");
+			if (!response.ok) throw new Error(`百炼 API 响应异常 (${response.status})`);
+			const body = await response.json();
+			if (body.success !== true) throw new Error("百炼 API 返回失败");
+			return (body.data ?? []).filter((s) => typeof s.operationalUrl === "string" && s.operationalUrl !== "").map((s) => ({
+				id: String(s.id ?? s.name ?? ""),
+				name: String(s.name ?? ""),
+				...typeof s.description === "string" ? { description: s.description } : {},
+				operationalUrl: String(s.operationalUrl),
+				type: s.type === "sse" ? "sse" : "streamableHttp"
+			}));
+		}
+		const response = await fetch("https://www.modelscope.cn/api/v1/mcp/services/operational", { headers: {
+			Authorization: `Bearer ${trimmed}`,
+			"Content-Type": "application/json"
+		} });
+		if (response.status === 401 || response.status === 403) throw new Error("Token 认证失败，请检查 ModelScope Token");
+		if (!response.ok) throw new Error(`ModelScope API 响应异常 (${response.status})`);
+		const body = await response.json();
+		if (body.success !== true) throw new Error("ModelScope API 返回失败");
+		return (body.data ?? []).filter((s) => typeof s.operationalUrl === "string" && s.operationalUrl !== "").map((s) => ({
+			id: String(s.id ?? s.name ?? ""),
+			name: String(s.name ?? ""),
+			...typeof s.description === "string" ? { description: s.description } : {},
+			operationalUrl: String(s.operationalUrl),
+			type: s.type === "sse" ? "sse" : "streamableHttp"
+		}));
 	}
 	addServerLog(serverId, message) {
 		const state = this.runtimeStates.get(serverId);
@@ -3146,8 +3435,16 @@ const mcpRemote = {
 			parameters: ["serverId"]
 		},
 		{
+			method: "checkServer",
+			parameters: ["serverId"]
+		},
+		{
 			method: "searchNpxRegistry",
 			parameters: ["scope"]
+		},
+		{
+			method: "discoverMcpServers",
+			parameters: ["provider", "token"]
 		}
 	].map(({ method, implementation, parameters }) => ({
 		id: `@dsh-control-center/control-center#controlCenterMcp/${method}`,
@@ -3166,170 +3463,597 @@ const mcpRemote = {
 	}))
 };
 //#endregion
-//#region lib/types/websearch/utils.js
-/**
-* Web Search provider utilities - resolver and readiness checks.
-*/
-const PRESET_PROVIDERS = [
-	{
-		id: "zhipu",
-		name: "ZhipuAI",
-		description: "ZhipuAI web search",
-		capabilities: [{
-			feature: "searchKeywords",
-			apiHost: "https://open.bigmodel.cn/api/paas/v4"
-		}],
-		officialWebsite: "https://www.zhipuai.cn",
+//#region lib/types/websearch/presets.js
+/** Cherry 2.0.8 provider matrix; capability-level auth is intentional. */
+const WEB_SEARCH_PROVIDER_PRESET_MAP = {
+	zhipu: {
+		name: "智谱",
+		type: "api",
+		description: "智谱 Web Search",
+		officialWebsite: "https://www.bigmodel.cn",
 		apiKeyWebsite: "https://open.bigmodel.cn/usercenter/apikeys",
-		requiresApiKey: true
-	},
-	{
-		id: "tavily",
-		name: "Tavily",
-		description: "Tavily search API",
 		capabilities: [{
 			feature: "searchKeywords",
-			apiHost: "https://api.tavily.com"
-		}],
+			requiresApiHost: true,
+			requiresApiKey: true,
+			apiHost: "https://open.bigmodel.cn/api/paas/v4/web_search"
+		}]
+	},
+	tavily: {
+		name: "Tavily",
+		type: "api",
+		description: "Tavily Search API",
 		officialWebsite: "https://tavily.com",
 		apiKeyWebsite: "https://app.tavily.com",
-		requiresApiKey: true
+		capabilities: [{
+			feature: "searchKeywords",
+			requiresApiHost: true,
+			requiresApiKey: true,
+			apiHost: "https://api.tavily.com"
+		}]
 	},
-	{
-		id: "searxng",
+	searxng: {
 		name: "SearXNG",
-		description: "Self-hosted meta search engine",
-		capabilities: [{
-			feature: "searchKeywords",
-			apiHost: "http://localhost:8080"
-		}, {
-			feature: "fetchUrls",
-			apiHost: "http://localhost:8080"
-		}],
+		type: "api",
+		description: "自托管元搜索引擎",
 		officialWebsite: "https://docs.searxng.org",
-		requiresApiKey: false
+		capabilities: [{
+			feature: "searchKeywords",
+			requiresApiHost: true,
+			requiresApiKey: false,
+			apiHost: "http://localhost:8080"
+		}, {
+			feature: "fetchUrls",
+			requiresApiHost: true,
+			requiresApiKey: false,
+			apiHost: "http://localhost:8080"
+		}]
 	},
-	{
-		id: "exa",
+	exa: {
 		name: "Exa",
-		description: "Exa search for AI",
-		capabilities: [{
-			feature: "searchKeywords",
-			apiHost: "https://api.exa.ai"
-		}],
+		type: "api",
+		description: "Exa AI Search",
 		officialWebsite: "https://exa.ai",
 		apiKeyWebsite: "https://dashboard.exa.ai/api-keys",
-		requiresApiKey: true
-	},
-	{
-		id: "exa-mcp",
-		name: "Exa (MCP)",
-		description: "Exa search via MCP protocol",
 		capabilities: [{
 			feature: "searchKeywords",
+			requiresApiHost: true,
+			requiresApiKey: true,
 			apiHost: "https://api.exa.ai"
-		}],
-		officialWebsite: "https://exa.ai",
-		apiKeyWebsite: "https://dashboard.exa.ai/api-keys",
-		requiresApiKey: true
+		}]
 	},
-	{
-		id: "bocha",
+	"exa-mcp": {
+		name: "ExaMCP",
+		type: "mcp",
+		description: "通过官方 MCP 端点使用 Exa，免密可用",
+		officialWebsite: "https://exa.ai",
+		capabilities: [{
+			feature: "searchKeywords",
+			requiresApiHost: true,
+			requiresApiKey: false,
+			apiHost: "https://mcp.exa.ai/mcp"
+		}]
+	},
+	bocha: {
 		name: "Bocha",
-		description: "Bocha search API",
+		type: "api",
+		description: "博查 Web Search",
+		officialWebsite: "https://bochaai.com",
+		apiKeyWebsite: "https://open.bochaai.com",
 		capabilities: [{
 			feature: "searchKeywords",
+			requiresApiHost: true,
+			requiresApiKey: true,
 			apiHost: "https://api.bochaai.com"
-		}],
-		officialWebsite: "https://www.bochaai.com",
-		apiKeyWebsite: "https://www.bochaai.com/integration",
-		requiresApiKey: true
+		}]
 	},
-	{
-		id: "querit",
+	querit: {
 		name: "Querit",
-		description: "Querit search and fetch",
-		capabilities: [{
-			feature: "searchKeywords",
-			apiHost: "https://api.querit.ai"
-		}, {
-			feature: "fetchUrls",
-			apiHost: "https://api.querit.ai"
-		}],
+		type: "api",
+		description: "Querit Search + Contents",
 		officialWebsite: "https://querit.ai",
-		requiresApiKey: false
-	},
-	{
-		id: "fetch",
-		name: "Fetch",
-		description: "Simple HTTP fetch",
-		capabilities: [{ feature: "fetchUrls" }],
-		requiresApiKey: false
-	},
-	{
-		id: "jina",
-		name: "Jina Reader",
-		description: "Jina AI Reader API",
-		capabilities: [{
-			feature: "fetchUrls",
-			apiHost: "https://r.jina.ai"
-		}],
-		officialWebsite: "https://jina.ai/reader",
-		apiKeyWebsite: "https://jina.ai/reader/#apiform",
-		requiresApiKey: false
-	},
-	{
-		id: "firecrawl",
-		name: "Firecrawl",
-		description: "Firecrawl web scraping",
 		capabilities: [{
 			feature: "searchKeywords",
-			apiHost: "https://api.firecrawl.dev"
+			requiresApiHost: true,
+			requiresApiKey: true,
+			apiHost: "https://api.querit.ai"
 		}, {
 			feature: "fetchUrls",
-			apiHost: "https://api.firecrawl.dev"
-		}],
+			requiresApiHost: true,
+			requiresApiKey: true,
+			apiHost: "https://api.querit.ai"
+		}]
+	},
+	fetch: {
+		name: "Fetch",
+		type: "api",
+		description: "直接读取网页内容，无需密钥",
+		capabilities: [{
+			feature: "fetchUrls",
+			requiresApiHost: false,
+			requiresApiKey: false
+		}]
+	},
+	jina: {
+		name: "Jina",
+		type: "api",
+		description: "Jina Search / Reader",
+		officialWebsite: "https://jina.ai",
+		apiKeyWebsite: "https://jina.ai/api-key",
+		capabilities: [{
+			feature: "searchKeywords",
+			requiresApiHost: true,
+			requiresApiKey: false,
+			apiHost: "https://s.jina.ai"
+		}, {
+			feature: "fetchUrls",
+			requiresApiHost: true,
+			requiresApiKey: false,
+			apiHost: "https://r.jina.ai"
+		}]
+	},
+	firecrawl: {
+		name: "Firecrawl",
+		type: "api",
+		description: "Firecrawl Search + Scrape",
 		officialWebsite: "https://www.firecrawl.dev",
 		apiKeyWebsite: "https://www.firecrawl.dev/app/api-keys",
-		requiresApiKey: true
+		capabilities: [{
+			feature: "searchKeywords",
+			requiresApiHost: true,
+			requiresApiKey: false,
+			apiHost: "https://api.firecrawl.dev"
+		}, {
+			feature: "fetchUrls",
+			requiresApiHost: true,
+			requiresApiKey: false,
+			apiHost: "https://api.firecrawl.dev"
+		}]
 	}
-];
+};
+const PRESETS_WEB_SEARCH_PROVIDERS = Object.keys(WEB_SEARCH_PROVIDER_PRESET_MAP).map((id) => ({
+	id,
+	...WEB_SEARCH_PROVIDER_PRESET_MAP[id]
+}));
+//#endregion
+//#region lib/types/websearch/utils.js
+/** Provider resolution and capability-level readiness checks. */
 function resolveProviders(overrides) {
-	return PRESET_PROVIDERS.map((preset) => {
+	return PRESETS_WEB_SEARCH_PROVIDERS.map((preset) => {
 		const override = overrides[preset.id];
-		const apiKeys = (override?.apiKeys ?? []).map((s) => s.trim()).filter(Boolean);
+		const apiKeys = (override?.apiKeys ?? []).map((value) => value.trim()).filter(Boolean);
+		const capabilities = preset.capabilities.map((presetCapability) => {
+			const hostOverride = override?.capabilities?.[presetCapability.feature]?.apiHost;
+			const apiHost = hostOverride === void 0 ? presetCapability.apiHost : hostOverride.trim();
+			return {
+				feature: presetCapability.feature,
+				...apiHost === void 0 ? {} : { apiHost },
+				requiresApiHost: presetCapability.requiresApiHost,
+				requiresApiKey: presetCapability.requiresApiKey,
+				...preset.id === "searxng" ? { auth: { type: "basic" } } : {}
+			};
+		});
 		return {
-			...preset,
+			id: preset.id,
+			name: preset.name,
+			type: preset.type,
+			...preset.description === void 0 ? {} : { description: preset.description },
+			...preset.officialWebsite === void 0 ? {} : { officialWebsite: preset.officialWebsite },
+			...preset.apiKeyWebsite === void 0 ? {} : { apiKeyWebsite: preset.apiKeyWebsite },
+			capabilities,
 			apiKeys,
-			capabilities: preset.capabilities.map((capability) => {
-				const capabilityOverride = override?.capabilities?.[capability.feature];
-				return {
-					...capability,
-					..."apiHost" in capability && capabilityOverride?.apiHost !== void 0 ? { apiHost: capabilityOverride.apiHost.trim() } : {}
-				};
-			}),
-			engines: (override?.engines ?? []).map((s) => s.trim()).filter(Boolean),
-			basicAuthUsername: (override?.basicAuthUsername ?? "").trim(),
-			basicAuthPassword: (override?.basicAuthPassword ?? "").trim()
+			engines: (override?.engines ?? []).map((value) => value.trim()).filter(Boolean),
+			basicAuthUsername: override?.basicAuthUsername?.trim() ?? "",
+			basicAuthPassword: override?.basicAuthPassword?.trim() ?? "",
+			requiresApiKey: capabilities.some((item) => item.requiresApiKey === true)
 		};
 	});
 }
 function isWebSearchProviderReady(provider, capability) {
-	if (!provider) return false;
-	const providerCapability = provider.capabilities.find((c) => c.feature === capability);
-	if (!providerCapability) return false;
-	if (provider.id === "fetch") return true;
-	if (provider.id === "searxng" || provider.id === "querit") return !!providerCapability.apiHost && providerCapability.apiHost.length > 0;
-	return provider.apiKeys.length > 0;
+	if (provider === null) return false;
+	const selected = provider.capabilities.find((item) => item.feature === capability);
+	if (selected === void 0) return false;
+	if (selected.requiresApiHost === true && (selected.apiHost?.trim() ?? "") === "") return false;
+	if (selected.requiresApiKey === true && provider.apiKeys.length === 0) return false;
+	return true;
+}
+//#endregion
+//#region lib/types/websearch/runtime.js
+/** Runtime dispatch for Cherry-compatible web-search providers. */
+function capability(provider, feature) {
+	return provider.capabilities.find((item) => item.feature === feature);
+}
+function hostFor(provider, feature) {
+	return capability(provider, feature)?.apiHost?.trim() ?? "";
+}
+function keyFor(provider) {
+	return provider.apiKeys[0]?.trim() ?? "";
+}
+function requireHost(provider, feature) {
+	const host = hostFor(provider, feature);
+	if (host === "") throw new Error(`${provider.name} 未配置 API 地址`);
+	return host;
+}
+function requireKey(provider) {
+	const key = keyFor(provider);
+	if (key === "") throw new Error(`${provider.name} 未配置 API Key`);
+	return key;
+}
+function appendPath(host, path) {
+	if (path === "") return host;
+	return `${host.replace(/\/+$/, "")}/${path.replace(/^\/+/, "")}`;
+}
+function basicAuth$1(provider) {
+	const username = provider.basicAuthUsername?.trim() ?? "";
+	if (username === "") return {};
+	const password = provider.basicAuthPassword?.trim() ?? "";
+	return { Authorization: `Basic ${Buffer.from(`${username}:${password}`).toString("base64")}` };
+}
+async function requestJson(url, init) {
+	const response = await fetch(url, init);
+	if (!response.ok) {
+		const detail = (await response.text()).trim().slice(0, 300);
+		throw new Error(`${response.status} ${detail}`.trim());
+	}
+	return response.json();
+}
+async function requestText(url, init) {
+	const response = await fetch(url, init);
+	if (!response.ok) {
+		const detail = (await response.text()).trim().slice(0, 300);
+		throw new Error(`${response.status} ${detail}`.trim());
+	}
+	return response.text();
+}
+function jsonHeaders(extra = {}) {
+	return {
+		"Content-Type": "application/json",
+		...extra
+	};
+}
+function asString(value) {
+	return typeof value === "string" ? value : value == null ? "" : String(value);
+}
+function records(value) {
+	return value !== null && typeof value === "object" ? value : {};
+}
+function resultList(value) {
+	return Array.isArray(value) ? value.map((item) => {
+		const row = records(item);
+		return {
+			title: asString(row.title ?? row.name),
+			url: asString(row.url ?? row.link),
+			content: asString(row.content ?? row.text ?? row.summary ?? row.snippet ?? row.description)
+		};
+	}) : [];
+}
+function responseHits(body, maxResults) {
+	const root = records(body);
+	const data = records(root.data);
+	const web = records(data.web);
+	const pages = records(data.webPages);
+	return resultList(root.results ?? root.search_result ?? data.result ?? web.value ?? pages.value ?? root.data).slice(0, maxResults);
+}
+function parseExaMcpText(text) {
+	const hits = [];
+	for (const block of text.split(/\n\s*\n/)) {
+		const title = block.match(/^Title:\s*(.*)$/m)?.[1]?.trim() ?? "";
+		const url = block.match(/^URL:\s*(.*)$/m)?.[1]?.trim() ?? "";
+		const textStart = block.match(/^Text:\s*([\s\S]*)$/m)?.[1]?.trim() ?? "";
+		if (title || url || textStart) hits.push({
+			title,
+			url,
+			content: textStart
+		});
+	}
+	return hits;
+}
+function parseExaMcpResponse(raw) {
+	const texts = [];
+	for (const line of raw.split("\n")) {
+		const payload = line.startsWith("data: ") ? line.slice(6).trim() : line.trim();
+		if (payload === "" || payload === "[DONE]") continue;
+		try {
+			const parsed = records(JSON.parse(payload));
+			const result = records(parsed.result);
+			const content = Array.isArray(result.content) ? result.content : [];
+			for (const item of content) {
+				const text = asString(records(item).text).trim();
+				if (text) texts.push(text);
+			}
+			const direct = resultList(parsed.results);
+			if (direct.length > 0) return direct;
+		} catch {}
+	}
+	if (texts.length === 0 && raw.includes("Title:")) texts.push(raw);
+	return parseExaMcpText(texts.join("\n\n"));
+}
+function titleFromHtml(html, fallback) {
+	return html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]?.replace(/\s+/g, " ").trim() ?? fallback;
+}
+async function fetchPlainUrl(url, signal) {
+	const parsed = new URL(url);
+	if (parsed.protocol !== "http:" && parsed.protocol !== "https:") throw new Error("网页地址必须使用 http 或 https");
+	const content = await requestText(url, {
+		method: "GET",
+		headers: { Accept: "text/html, text/plain, text/markdown" },
+		signal: signal ?? null
+	});
+	return {
+		title: titleFromHtml(content, url),
+		url,
+		content
+	};
+}
+async function searchExaMcp(provider, query, config, signal) {
+	const host = requireHost(provider, "searchKeywords");
+	const key = keyFor(provider);
+	const body = {
+		jsonrpc: "2.0",
+		id: 1,
+		method: "tools/call",
+		params: {
+			name: "web_search_exa",
+			arguments: {
+				query,
+				type: "auto",
+				numResults: config.maxResults,
+				livecrawl: "fallback"
+			}
+		}
+	};
+	const headers = jsonHeaders({ Accept: "application/json, text/event-stream" });
+	if (key) headers["x-api-key"] = key;
+	return parseExaMcpResponse(await requestText(host, {
+		method: "POST",
+		headers,
+		body: JSON.stringify(body),
+		signal: signal ?? null
+	})).slice(0, config.maxResults);
+}
+async function searchViaProvider(provider, query, config, signal) {
+	const normalized = query.trim();
+	if (normalized === "") throw new Error("搜索关键词不能为空");
+	if (provider.id === "exa-mcp") return searchExaMcp(provider, normalized, config, signal);
+	switch (provider.id) {
+		case "tavily": {
+			const key = requireKey(provider);
+			const body = {
+				query: normalized,
+				max_results: config.maxResults,
+				...config.excludeDomains.length > 0 ? { exclude_domains: config.excludeDomains } : {}
+			};
+			return responseHits(await requestJson(appendPath(requireHost(provider, "searchKeywords"), "/search"), {
+				method: "POST",
+				headers: jsonHeaders({ Authorization: `Bearer ${key}` }),
+				body: JSON.stringify(body),
+				signal: signal ?? null
+			}), config.maxResults);
+		}
+		case "exa": {
+			const key = requireKey(provider);
+			return responseHits(await requestJson(appendPath(requireHost(provider, "searchKeywords"), "/search"), {
+				method: "POST",
+				headers: jsonHeaders({ "x-api-key": key }),
+				body: JSON.stringify({
+					query: normalized,
+					numResults: config.maxResults,
+					contents: { text: true }
+				}),
+				signal: signal ?? null
+			}), config.maxResults);
+		}
+		case "zhipu": {
+			const key = requireKey(provider);
+			return responseHits(await requestJson(requireHost(provider, "searchKeywords"), {
+				method: "POST",
+				headers: jsonHeaders({ Authorization: `Bearer ${key}` }),
+				body: JSON.stringify({
+					search_query: normalized,
+					search_engine: "search_std",
+					search_intent: false
+				}),
+				signal: signal ?? null
+			}), config.maxResults);
+		}
+		case "bocha": {
+			const key = requireKey(provider);
+			return responseHits(records(records(await requestJson(appendPath(requireHost(provider, "searchKeywords"), "/v1/web-search"), {
+				method: "POST",
+				headers: jsonHeaders({ Authorization: `Bearer ${key}` }),
+				body: JSON.stringify({
+					query: normalized,
+					count: config.maxResults,
+					exclude: config.excludeDomains.join(","),
+					summary: true
+				}),
+				signal: signal ?? null
+			})).data).webPages, config.maxResults);
+		}
+		case "searxng": {
+			const url = new URL(appendPath(requireHost(provider, "searchKeywords"), "/search"));
+			url.searchParams.set("q", normalized);
+			url.searchParams.set("format", "json");
+			const engines = provider.engines?.map((item) => item.trim()).filter(Boolean) ?? [];
+			if (engines.length > 0) url.searchParams.set("engines", engines.join(","));
+			return responseHits(await requestJson(url.toString(), {
+				method: "GET",
+				headers: basicAuth$1(provider),
+				signal: signal ?? null
+			}), config.maxResults);
+		}
+		case "querit": {
+			const key = requireKey(provider);
+			return responseHits(records(records(await requestJson(appendPath(requireHost(provider, "searchKeywords"), "/v1/search"), {
+				method: "POST",
+				headers: jsonHeaders({ Authorization: `Bearer ${key}` }),
+				body: JSON.stringify({
+					query: normalized,
+					count: config.maxResults,
+					...config.excludeDomains.length > 0 ? { filters: { sites: { exclude: config.excludeDomains } } } : {}
+				}),
+				signal: signal ?? null
+			})).results).result, config.maxResults);
+		}
+		case "jina": {
+			const host = requireHost(provider, "searchKeywords");
+			const headers = { Accept: "application/json" };
+			const key = keyFor(provider);
+			if (key) headers.Authorization = `Bearer ${key}`;
+			const root = records(await requestJson(appendPath(host, encodeURIComponent(normalized)), {
+				method: "GET",
+				headers,
+				signal: signal ?? null
+			}));
+			return responseHits(root.data ?? root.results, config.maxResults);
+		}
+		case "firecrawl": {
+			const host = requireHost(provider, "searchKeywords");
+			const headers = {};
+			const key = keyFor(provider);
+			if (key) headers.Authorization = `Bearer ${key}`;
+			return responseHits(await requestJson(appendPath(host, "/v2/search"), {
+				method: "POST",
+				headers: jsonHeaders(headers),
+				body: JSON.stringify({
+					query: normalized,
+					limit: config.maxResults,
+					scrapeOptions: { formats: ["markdown"] }
+				}),
+				signal: signal ?? null
+			}), config.maxResults);
+		}
+		case "fetch": throw new Error("Fetch 仅支持网页读取，不支持关键词搜索");
+		default: throw new Error(`暂不支持 ${provider.name} 的关键词搜索`);
+	}
+}
+async function fetchViaProvider(provider, url, _config, signal) {
+	const normalized = url.trim();
+	if (normalized === "") throw new Error("网页地址不能为空");
+	if (provider.id === "fetch") return [await fetchPlainUrl(normalized, signal)];
+	switch (provider.id) {
+		case "jina": {
+			const host = requireHost(provider, "fetchUrls");
+			const headers = {
+				Accept: "application/json",
+				"X-Retain-Images": "none"
+			};
+			const key = keyFor(provider);
+			if (key) headers.Authorization = `Bearer ${key}`;
+			const root = records(await requestJson(appendPath(host, normalized), {
+				method: "GET",
+				headers,
+				signal: signal ?? null
+			}));
+			const data = records(root.data ?? root);
+			return [{
+				title: asString(data.title) || normalized,
+				url: asString(data.url) || normalized,
+				content: asString(data.content ?? data.text)
+			}];
+		}
+		case "querit": {
+			const key = requireKey(provider);
+			const resultValues = records(await requestJson(appendPath(requireHost(provider, "fetchUrls"), "/v1/contents"), {
+				method: "POST",
+				headers: jsonHeaders({ Authorization: `Bearer ${key}` }),
+				body: JSON.stringify({
+					urls: [normalized],
+					format: "markdown",
+					extrasMeta: true
+				}),
+				signal: signal ?? null
+			})).results;
+			const page = records(Array.isArray(resultValues) ? resultValues[0] : void 0);
+			return [{
+				title: asString(records(page.extrasMeta).title) || normalized,
+				url: asString(page.url) || normalized,
+				content: asString(page.content)
+			}];
+		}
+		case "firecrawl": {
+			const host = requireHost(provider, "fetchUrls");
+			const headers = {};
+			const key = keyFor(provider);
+			if (key) headers.Authorization = `Bearer ${key}`;
+			const data = records(records(await requestJson(appendPath(host, "/v2/scrape"), {
+				method: "POST",
+				headers: jsonHeaders(headers),
+				body: JSON.stringify({
+					url: normalized,
+					formats: ["markdown"]
+				}),
+				signal: signal ?? null
+			})).data);
+			const metadata = records(data.metadata);
+			return [{
+				title: asString(metadata.title) || normalized,
+				url: asString(metadata.sourceURL) || normalized,
+				content: asString(data.markdown)
+			}];
+		}
+		case "searxng": return [await fetchPlainUrl(normalized, signal)];
+		default: throw new Error(`${provider.name} 暂不支持网页读取`);
+	}
+}
+async function checkProvider(provider, capability, config) {
+	const started = Date.now();
+	try {
+		const hits = capability === "searchKeywords" ? await searchViaProvider(provider, "Cherry Studio", {
+			...config,
+			maxResults: 1
+		}) : await fetchViaProvider(provider, "https://example.com", {
+			...config,
+			maxResults: 1
+		});
+		return {
+			ok: true,
+			providerId: provider.id,
+			capability,
+			latencyMs: Date.now() - started,
+			resultCount: hits.length,
+			message: `连接成功，返回 ${hits.length} 条结果`
+		};
+	} catch (error) {
+		return {
+			ok: false,
+			providerId: provider.id,
+			capability,
+			latencyMs: Date.now() - started,
+			message: error instanceof Error ? error.message : String(error)
+		};
+	}
 }
 //#endregion
 //#region lib/types/websearch.js
-/**
-* Control Center Web Search Service - Host side web search configuration management.
-*/
+/** Host-side Cherry-compatible web-search settings and agent tools. */
 const WEBSEARCH_NAMESPACE = settingsNamespace("control-center-websearch");
+function mergeOverride$1(current, patch) {
+	return {
+		...current,
+		...patch,
+		...patch.capabilities === void 0 ? {} : { capabilities: {
+			...current?.capabilities,
+			...patch.capabilities
+		} }
+	};
+}
+function truncateHits(hits, cutoff) {
+	return hits.map((hit) => ({
+		...hit,
+		content: cutoff === void 0 ? hit.content : hit.content.slice(0, cutoff)
+	}));
+}
+function renderHits(value) {
+	const lines = value.hits.map((hit, index) => `[${index + 1}] ${hit.title}\n${hit.url}\n${hit.content.slice(0, 300)}`);
+	return [{
+		type: "text",
+		text: lines.length === 0 ? "没有搜索结果。" : lines.join("\n\n")
+	}];
+}
 var WebSearchService = class extends Service {
 	static inject = ["settings"];
+	static optional = ["tools"];
 	typertRemote = bindTypertRemote(this, "controlCenterWebSearch");
 	scope;
 	constructor(ctx, _config) {
@@ -3347,6 +4071,7 @@ var WebSearchService = class extends Service {
 				"firecrawl"
 			]).default("exa-mcp"),
 			defaultFetchUrlsProvider: Schema.union([
+				"searxng",
 				"querit",
 				"fetch",
 				"jina",
@@ -3384,40 +4109,187 @@ var WebSearchService = class extends Service {
 			},
 			clientToolsPreferred: true
 		} });
+		this.registerTools();
 	}
 	async getConfig() {
 		return this.scope.get();
 	}
+	registerTools() {
+		const tools = this.ctx.get("tools", false);
+		if (tools === void 0) return;
+		const searchDisposer = tools.register(defineTool({
+			name: "web_search",
+			description: "搜索互联网。使用设置中选择的搜索提供方，返回标题、链接和摘要；需要最新信息、新闻、资料或文档时使用。",
+			parameters: {
+				query: {
+					type: "string",
+					required: true,
+					description: "搜索关键词"
+				},
+				max_results: {
+					type: "integer",
+					description: "返回结果数上限"
+				}
+			},
+			output: {
+				schema: {
+					type: "object",
+					additionalProperties: false,
+					properties: {
+						query: {
+							type: "string",
+							required: true
+						},
+						provider: {
+							type: "string",
+							required: true
+						},
+						hits: {
+							type: "array",
+							required: true,
+							items: {
+								type: "object",
+								additionalProperties: false,
+								properties: {
+									title: {
+										type: "string",
+										required: true
+									},
+									url: {
+										type: "string",
+										required: true
+									},
+									content: {
+										type: "string",
+										required: true
+									}
+								}
+							}
+						}
+					}
+				},
+				render: (_args, value) => renderHits(value)
+			},
+			timeoutMs: 3e4,
+			execute: async (args, exec) => {
+				const config = this.scope.get();
+				const providerId = config.defaultSearchKeywordsProvider;
+				const provider = resolveProviders(config.providerOverrides).find((item) => item.id === providerId) ?? null;
+				if (!isWebSearchProviderReady(provider, "searchKeywords")) throw new Error(`搜索提供方 ${providerId} 尚未就绪，请在设置 → 网络搜索中配置 API 地址或 API Key`);
+				const requestConfig = {
+					...config,
+					maxResults: args.max_results ?? config.maxResults
+				};
+				const hits = await searchViaProvider(provider, args.query, requestConfig, exec?.signal);
+				const cutoff = config.compression.method === "cutoff" ? config.compression.cutoffLimit : void 0;
+				return {
+					query: args.query,
+					provider: providerId,
+					hits: truncateHits(hits, cutoff)
+				};
+			}
+		}));
+		const fetchDisposer = tools.register(defineTool({
+			name: "web_fetch",
+			description: "读取指定网页并提取正文。需要阅读搜索结果页面、文档或 URL 内容时使用。",
+			parameters: { url: {
+				type: "string",
+				required: true,
+				description: "要读取的 http/https URL"
+			} },
+			output: {
+				schema: {
+					type: "object",
+					additionalProperties: false,
+					properties: {
+						query: {
+							type: "string",
+							required: true
+						},
+						provider: {
+							type: "string",
+							required: true
+						},
+						hits: {
+							type: "array",
+							required: true,
+							items: {
+								type: "object",
+								additionalProperties: false,
+								properties: {
+									title: {
+										type: "string",
+										required: true
+									},
+									url: {
+										type: "string",
+										required: true
+									},
+									content: {
+										type: "string",
+										required: true
+									}
+								}
+							}
+						}
+					}
+				},
+				render: (_args, value) => renderHits(value)
+			},
+			timeoutMs: 3e4,
+			execute: async (args, exec) => {
+				const config = this.scope.get();
+				const providerId = config.defaultFetchUrlsProvider;
+				const provider = resolveProviders(config.providerOverrides).find((item) => item.id === providerId) ?? null;
+				if (!isWebSearchProviderReady(provider, "fetchUrls")) throw new Error(`网页读取提供方 ${providerId} 尚未就绪，请在设置 → 网络搜索中配置 API 地址或 API Key`);
+				const hits = await fetchViaProvider(provider, args.url, config, exec?.signal);
+				const cutoff = config.compression.method === "cutoff" ? config.compression.cutoffLimit : void 0;
+				return {
+					query: args.url,
+					provider: providerId,
+					hits: truncateHits(hits, cutoff)
+				};
+			}
+		}));
+		this.ctx.effect(() => () => {
+			searchDisposer();
+			fetchDisposer();
+		});
+	}
 	async updateConfig(params) {
-		const updated = {
-			...this.scope.get(),
-			...params
-		};
 		await this.scope.update(params);
-		return updated;
+		return this.scope.get();
 	}
 	async listProviders() {
 		return resolveProviders(this.scope.get().providerOverrides);
 	}
 	async getProvider(params) {
-		return (await this.listProviders()).find((p) => p.id === params.providerId) || null;
+		return (await this.listProviders()).find((provider) => provider.id === params.providerId) ?? null;
 	}
 	async updateProviderOverride(params) {
-		const config = this.scope.get();
-		const updated = {
-			...config,
-			providerOverrides: {
-				...config.providerOverrides,
-				[params.providerId]: params.override
-			}
-		};
-		await this.scope.update({ providerOverrides: updated.providerOverrides });
-		const provider = resolveProviders(updated.providerOverrides).find((p) => p.id === params.providerId);
-		if (!provider) throw new Error(`Provider ${params.providerId} not found after update`);
+		const current = this.scope.get();
+		const merged = mergeOverride$1(current.providerOverrides[params.providerId], params.override);
+		await this.scope.update({ providerOverrides: {
+			...current.providerOverrides,
+			[params.providerId]: merged
+		} });
+		const provider = (await this.listProviders()).find((item) => item.id === params.providerId);
+		if (provider === void 0) throw new Error(`Provider ${params.providerId} not found after update`);
 		return provider;
 	}
 	async checkProviderReady(params) {
 		return isWebSearchProviderReady(await this.getProvider({ providerId: params.providerId }), params.capability);
+	}
+	async checkProvider(params) {
+		const provider = await this.getProvider({ providerId: params.providerId });
+		if (provider === null) return {
+			ok: false,
+			providerId: params.providerId,
+			capability: params.capability,
+			latencyMs: 0,
+			message: "提供方不存在"
+		};
+		return checkProvider(provider, params.capability, this.scope.get());
 	}
 };
 const STRICT_JSON_WEBSEARCH = {
@@ -3456,6 +4328,10 @@ const webSearchRemote = {
 		},
 		{
 			method: "checkProviderReady",
+			parameters: ["params"]
+		},
+		{
+			method: "checkProvider",
 			parameters: ["params"]
 		}
 	].map(({ method, implementation, parameters }) => ({
@@ -5756,147 +6632,270 @@ const modelCheckRemote = {
 	}))
 };
 //#endregion
+//#region lib/types/file-processing-settings.js
+/** Safe projections for file-processing settings and legacy secret cleanup. */
+/** Remove legacy API key values from one processor override. */
+function stripProcessorSecrets(override) {
+	if (override === void 0) return void 0;
+	const { apiKeys: _apiKeys, ...safe } = override;
+	return safe;
+}
+/** Remove every legacy API key array from a file-processing settings record. */
+function stripFileProcessingSecrets(value) {
+	if (typeof value !== "object" || value === null || Array.isArray(value)) return {};
+	const input = value;
+	const rawOverrides = input.overrides;
+	const overrides = typeof rawOverrides === "object" && rawOverrides !== null && !Array.isArray(rawOverrides) ? Object.fromEntries(Object.entries(rawOverrides).map(([processor, raw]) => {
+		if (typeof raw !== "object" || raw === null || Array.isArray(raw)) return [processor, {}];
+		return [processor, stripProcessorSecrets(raw) ?? {}];
+	})) : {};
+	return {
+		...input,
+		overrides
+	};
+}
+//#endregion
+//#region lib/types/file-processing-url-policy.js
+/** Narrow network policy for provider-issued document upload and result URLs. */
+const MAX_REMOTE_URL_LENGTH = 16384;
+const MAX_SIGNED_HEADER_LENGTH = 8192;
+const CLOUD_STORAGE_HOSTS = {
+	mineru: {
+		upload: ["mineru.oss-cn-shanghai.aliyuncs.com"],
+		download: ["cdn-mineru.openxlab.org.cn"]
+	},
+	doc2x: {
+		upload: ["doc2x-pdf.oss-cn-beijing.aliyuncs.com"],
+		download: ["doc2x-backend.s3.cn-north-1.amazonaws.com.cn"]
+	}
+};
+const SIGNED_HEADER_NAME = /^[!#$%&'*+.^_`|~0-9A-Za-z-]+$/u;
+const FORBIDDEN_SIGNED_HEADERS = /* @__PURE__ */ new Set([
+	"authorization",
+	"connection",
+	"content-length",
+	"cookie",
+	"host",
+	"keep-alive",
+	"proxy-authenticate",
+	"proxy-authorization",
+	"te",
+	"trailer",
+	"transfer-encoding",
+	"upgrade"
+]);
+function parseHttpUrl(rawUrl, label) {
+	if (rawUrl.length === 0 || rawUrl.length > MAX_REMOTE_URL_LENGTH) throw new Error(`${label} is invalid`);
+	let url;
+	try {
+		url = new URL(rawUrl);
+	} catch {
+		throw new Error(`${label} is invalid`);
+	}
+	if (url.protocol !== "http:" && url.protocol !== "https:") throw new Error(`${label} must use HTTP or HTTPS`);
+	if (url.username !== "" || url.password !== "" || url.hash !== "") throw new Error(`${label} is unsafe`);
+	return url;
+}
+function normalizedPort(url) {
+	if (url.port !== "") return url.port;
+	return url.protocol === "https:" ? "443" : "80";
+}
+function sameOrigin(left, right) {
+	return left.protocol === right.protocol && left.hostname.toLowerCase() === right.hostname.toLowerCase() && normalizedPort(left) === normalizedPort(right);
+}
+function isKnownCloudHost(url, provider, kind) {
+	return url.protocol === "https:" && normalizedPort(url) === "443" && CLOUD_STORAGE_HOSTS[provider][kind].includes(url.hostname.toLowerCase());
+}
+/**
+* Validate a URL returned by MinerU or Doc2X before the host sends data to it.
+* Self-hosted providers may use their configured origin; cloud providers may use
+* only the documented object-storage/CDN hosts for the operation.
+*/
+function sanitizeRemoteStorageUrl(rawUrl, options) {
+	const candidate = parseHttpUrl(rawUrl, "Remote provider URL");
+	if (sameOrigin(candidate, parseHttpUrl(options.apiHost, "Configured provider endpoint")) || isKnownCloudHost(candidate, options.provider, options.kind)) return candidate;
+	throw new Error("Remote provider URL is not an allowed storage endpoint");
+}
+/** Restrict provider-returned signed headers to storage-request-safe fields. */
+function sanitizeSignedUploadHeaders(rawHeaders) {
+	if (rawHeaders === void 0) return void 0;
+	if (typeof rawHeaders !== "object" || rawHeaders === null || Array.isArray(rawHeaders)) throw new Error("Remote provider upload headers are invalid");
+	const safe = {};
+	for (const [name, value] of Object.entries(rawHeaders)) {
+		const normalizedName = name.toLowerCase();
+		if (!SIGNED_HEADER_NAME.test(name) || FORBIDDEN_SIGNED_HEADERS.has(normalizedName)) throw new Error("Remote provider returned an unsafe upload header");
+		if (typeof value !== "string" || value.length > MAX_SIGNED_HEADER_LENGTH || /[\r\n]/u.test(value)) throw new Error("Remote provider returned an invalid upload header");
+		if (normalizedName !== "content-type" && normalizedName !== "content-md5" && !normalizedName.startsWith("x-amz-") && !normalizedName.startsWith("x-ms-") && !normalizedName.startsWith("x-oss-")) throw new Error("Remote provider returned an unsupported upload header");
+		safe[name] = value;
+	}
+	return safe;
+}
+/** Read a response without allowing an unbounded body into memory. */
+async function readBoundedResponseBytes(response, maxBytes, signal) {
+	const rawLength = response.headers.get("content-length");
+	if (rawLength !== null) {
+		const contentLength = Number(rawLength);
+		if (!Number.isSafeInteger(contentLength) || contentLength < 0 || contentLength > maxBytes) throw new Error("Remote provider response exceeds the size limit");
+	}
+	if (response.body === null) throw new Error("Remote provider response has no body");
+	const reader = response.body.getReader();
+	const chunks = [];
+	let total = 0;
+	try {
+		while (true) {
+			if (signal?.aborted) throw signal.reason instanceof Error ? signal.reason : new DOMException("Aborted", "AbortError");
+			const { done, value } = await reader.read();
+			if (done) break;
+			total += value.byteLength;
+			if (total > maxBytes) {
+				await reader.cancel().catch(() => void 0);
+				throw new Error("Remote provider response exceeds the size limit");
+			}
+			chunks.push(value);
+		}
+	} finally {
+		reader.releaseLock();
+	}
+	const merged = new Uint8Array(total);
+	let offset = 0;
+	for (const chunk of chunks) {
+		merged.set(chunk, offset);
+		offset += chunk.byteLength;
+	}
+	return merged;
+}
+/** Parse a provider JSON body only after enforcing the same response budget. */
+async function readBoundedResponseJson(response, maxBytes, signal) {
+	const bytes = await readBoundedResponseBytes(response, maxBytes, signal);
+	let text;
+	try {
+		text = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+	} catch {
+		throw new Error("Remote provider response is not valid UTF-8");
+	}
+	try {
+		return JSON.parse(text);
+	} catch {
+		throw new Error("Remote provider response is not valid JSON");
+	}
+}
+/** A ZIP response may carry parameters, but not a different media type. */
+function isZipContentType(contentType) {
+	return contentType?.split(";", 1)[0]?.trim().toLowerCase() === "application/zip";
+}
+//#endregion
+//#region lib/types/file-processing-tasks.js
+/** Durable public state for remote document-processing tasks. */
+const processorSchema = z.enum([
+	"paddleocr",
+	"mineru",
+	"doc2x"
+]);
+const statusSchema = z.enum([
+	"queued",
+	"running",
+	"completed",
+	"failed",
+	"cancelled",
+	"interrupted"
+]);
+const taskSchema = z.object({
+	id: z.string().min(1),
+	processor: processorSchema,
+	feature: z.literal("document_to_markdown"),
+	sourcePath: z.string().min(1),
+	sourceName: z.string().min(1),
+	sourceBytes: z.number().int().nonnegative(),
+	apiHost: z.string().min(1),
+	modelId: z.string().default(""),
+	credentialRef: z.string().min(1).optional(),
+	providerTaskId: z.string().min(1).optional(),
+	stage: z.string().min(1),
+	status: statusSchema,
+	progress: z.number().int().min(0).max(100),
+	createdAt: z.string().min(1),
+	updatedAt: z.string().min(1),
+	deadlineAt: z.string().min(1),
+	attempts: z.number().int().nonnegative(),
+	artifactPath: z.string().min(1).optional(),
+	error: z.string().min(1).max(500).optional()
+}).strict();
+const taskDomain = defineDomain({
+	name: "control_center_file_processing_tasks",
+	version: 1,
+	tables: { tasks: domainTable(taskSchema) }
+});
+/** Convert one internal record to the wire-safe task view. */
+function taskView(record) {
+	return {
+		taskId: record.id,
+		processor: record.processor,
+		feature: record.feature,
+		status: record.status,
+		progress: record.progress,
+		createdAt: record.createdAt,
+		updatedAt: record.updatedAt,
+		...record.error === void 0 ? {} : { detail: record.error },
+		resultAvailable: record.artifactPath !== void 0
+	};
+}
+/** Small durable task table over the DSH storage-domain seam. */
+var FileProcessingTaskStore = class FileProcessingTaskStore {
+	domain;
+	tasks;
+	constructor(domain, tasks) {
+		this.domain = domain;
+		this.tasks = tasks;
+	}
+	static async open(ctx) {
+		const facility = ctx.get("storageDomain");
+		if (facility === void 0) throw new Error("Remote document processing requires the DSH storage-domain runtime");
+		const domain = await facility.open(taskDomain);
+		return new FileProcessingTaskStore(domain, domain.table("tasks"));
+	}
+	list() {
+		return [...this.tasks.entries()].map(([, record]) => record).sort((left, right) => right.updatedAt.localeCompare(left.updatedAt));
+	}
+	get(taskId) {
+		return this.tasks.get(taskId);
+	}
+	async put(record) {
+		await this.tasks.put(record.id, record);
+	}
+	async update(taskId, mutate) {
+		return this.tasks.update(taskId, mutate);
+	}
+	close() {
+		return this.domain.close();
+	}
+};
+/** Whether a record has a remote provider task that can safely be polled again. */
+function canResumeRemoteTask(record) {
+	return record.status === "running" && record.providerTaskId !== void 0;
+}
+//#endregion
 //#region lib/types/file-processing.js
 /**
-* File Processing Host service: document → markdown and OCR (image → text)
-* processor catalog + configuration + conversion.
+* File processing Host service.
 *
-* Config lives in the `control-center-file-processing` settings namespace.
-* Conversion is capability-gated: processors without configured credentials
-* report a clear error instead of pretending (spec: unsupported integrations
-* are presented accurately through capability detection).
+* The service owns the safe settings projection, credential references, host
+* capability checks, and the single dispatch path used by both RPC and the
+* model-facing `read_document` tool.
 */
 const FP_NAMESPACE = settingsNamespace("control-center-file-processing");
-/** Processor catalog (adapted from Cherry fileProcessingMeta). */
-const CATALOG = [
-	{
-		id: "system",
-		name: "System OCR",
-		description: "原生操作系统 OCR 引擎。",
-		apiKeyWebsite: null,
-		features: ["image_to_text"],
-		requiresApiKey: false,
-		languageOptions: [
-			"auto",
-			"en",
-			"zh-Hans",
-			"ja",
-			"ko",
-			"fr",
-			"de",
-			"es"
-		]
-	},
-	{
-		id: "tesseract",
-		name: "Tesseract",
-		description: "Google 开源的光学字符识别引擎，完全本地运行。",
-		apiKeyWebsite: null,
-		features: ["image_to_text"],
-		requiresApiKey: false,
-		languageOptions: [
-			"auto",
-			"eng",
-			"chi_sim",
-			"jpn",
-			"kor",
-			"fra",
-			"deu",
-			"spa"
-		]
-	},
-	{
-		id: "paddleocr",
-		name: "PaddleOCR (Baidu)",
-		description: "百度飞桨 OCR 识别系统。",
-		apiKeyWebsite: "https://aistudio.baidu.com/paddleocr/",
-		features: ["image_to_text"],
-		requiresApiKey: true,
-		languageOptions: [
-			"auto",
-			"ch",
-			"en",
-			"japan",
-			"korean",
-			"france",
-			"german",
-			"spanish"
-		]
-	},
-	{
-		id: "local-paddleocr",
-		name: "Local PaddleOCR",
-		description: "在本地运行的 PaddleOCR（PP-OCRv6 中等模型），完全离线、无需 API Key，识别在后台线程进行不阻塞界面。",
-		apiKeyWebsite: null,
-		features: ["image_to_text"],
-		requiresApiKey: false,
-		languageOptions: [
-			"auto",
-			"ch",
-			"en",
-			"japan",
-			"korean"
-		]
-	},
-	{
-		id: "ovocr",
-		name: "OpenVINO OCR",
-		description: "使用 Intel OpenVINO 在本地运行的 OCR 引擎，支持 NPU 加速。",
-		apiKeyWebsite: null,
-		features: ["image_to_text"],
-		requiresApiKey: false,
-		languageOptions: [
-			"auto",
-			"en",
-			"ch"
-		]
-	},
-	{
-		id: "mistral",
-		name: "Mistral (Vision)",
-		description: "文件解析与理解服务。",
-		apiKeyWebsite: "https://mistral.ai/api-keys",
-		features: ["image_to_text", "document_to_markdown"],
-		requiresApiKey: true,
-		languageOptions: ["auto"]
-	},
-	{
-		id: "local-document",
-		name: "Local Document",
-		description: "在本机从纯文本文档提取文字（txt、md、json、代码）。",
-		apiKeyWebsite: null,
-		features: ["document_to_markdown"],
-		requiresApiKey: false,
-		languageOptions: []
-	},
-	{
-		id: "mineru",
-		name: "MinerU",
-		description: "OpenDataLab 开源的高质量 PDF 提取工具。",
-		apiKeyWebsite: "https://mineru.net/apiManage",
-		features: ["document_to_markdown"],
-		requiresApiKey: true,
-		languageOptions: []
-	},
-	{
-		id: "doc2x",
-		name: "Doc2X",
-		description: "高级文件还原引擎。",
-		apiKeyWebsite: "https://open.noedgeai.com/apiKeys",
-		features: ["document_to_markdown"],
-		requiresApiKey: true,
-		languageOptions: []
-	},
-	{
-		id: "open-mineru",
-		name: "Open MinerU",
-		description: "可自部署的 MinerU 服务，适合希望自行控制处理链路的团队。",
-		apiKeyWebsite: "https://github.com/opendatalab/MinerU/",
-		features: ["document_to_markdown"],
-		requiresApiKey: false,
-		languageOptions: []
-	}
-];
+const MAX_TEXT_BYTES = 8388608;
+const MAX_IMAGE_BYTES = 52428800;
+const MAX_DOCUMENT_BYTES = 209715200;
+const MAX_ZIP_BYTES = 209715200;
+const MAX_ZIP_ENTRIES = 2e3;
+const MAX_MARKDOWN_BYTES = 20971520;
+const MAX_PROVIDER_JSON_BYTES = 1048576;
+const TESSERACT_GRACE_MS = 3e3;
+const REMOTE_DOCUMENT_PROCESSORS = /* @__PURE__ */ new Set([
+	"paddleocr",
+	"mineru",
+	"doc2x"
+]);
 const TEXT_EXTENSIONS = /* @__PURE__ */ new Set([
 	"txt",
 	"md",
@@ -5921,16 +6920,322 @@ const TEXT_EXTENSIONS = /* @__PURE__ */ new Set([
 	"xml",
 	"csv"
 ]);
+const IMAGE_MEDIA_TYPES = {
+	png: "image/png",
+	jpg: "image/jpeg",
+	jpeg: "image/jpeg",
+	webp: "image/webp",
+	gif: "image/gif",
+	bmp: "image/bmp",
+	tif: "image/tiff",
+	tiff: "image/tiff"
+};
+const CATALOG = [
+	{
+		id: "system",
+		name: "System OCR",
+		description: "Uses the operating system OCR runtime when the desktop bridge supplies one.",
+		apiKeyWebsite: null,
+		features: ["image_to_text"],
+		requiresApiKey: false,
+		languageOptions: [
+			"auto",
+			"en",
+			"zh-Hans",
+			"ja",
+			"ko",
+			"fr",
+			"de",
+			"es"
+		]
+	},
+	{
+		id: "tesseract",
+		name: "Tesseract",
+		description: "Runs the locally installed Tesseract executable.",
+		apiKeyWebsite: null,
+		features: ["image_to_text"],
+		requiresApiKey: false,
+		languageOptions: [
+			"auto",
+			"eng",
+			"chi_sim",
+			"jpn",
+			"kor",
+			"fra",
+			"deu",
+			"spa"
+		]
+	},
+	{
+		id: "paddleocr",
+		name: "PaddleOCR",
+		description: "PaddleOCR cloud OCR and document parsing service.",
+		apiKeyWebsite: "https://aistudio.baidu.com/paddleocr/",
+		features: ["image_to_text", "document_to_markdown"],
+		requiresApiKey: true,
+		apiHostDefaults: {
+			image_to_text: "https://paddleocr.aistudio-app.com/",
+			document_to_markdown: "https://paddleocr.aistudio-app.com/"
+		},
+		modelDefaults: {
+			image_to_text: "PP-OCRv6",
+			document_to_markdown: "PaddleOCR-VL-1.6"
+		},
+		languageOptions: [
+			"auto",
+			"ch",
+			"en",
+			"japan",
+			"korean",
+			"france",
+			"german",
+			"spanish"
+		]
+	},
+	{
+		id: "local-paddleocr",
+		name: "Local PaddleOCR",
+		description: "Requires the desktop-local PaddleOCR model runtime.",
+		apiKeyWebsite: null,
+		features: ["image_to_text"],
+		requiresApiKey: false,
+		requiresLocalModel: true,
+		languageOptions: [
+			"auto",
+			"ch",
+			"en",
+			"japan",
+			"korean"
+		]
+	},
+	{
+		id: "ovocr",
+		name: "OpenVINO OCR",
+		description: "Legacy OpenVINO OCR selection. It remains readable but has no DSH runtime adapter yet.",
+		apiKeyWebsite: null,
+		features: ["image_to_text"],
+		requiresApiKey: false,
+		languageOptions: [
+			"auto",
+			"en",
+			"ch"
+		]
+	},
+	{
+		id: "mistral",
+		name: "Mistral OCR",
+		description: "Mistral OCR for images and documents.",
+		apiKeyWebsite: "https://mistral.ai/api-keys",
+		features: ["image_to_text", "document_to_markdown"],
+		requiresApiKey: true,
+		apiHostDefaults: {
+			image_to_text: "https://api.mistral.ai",
+			document_to_markdown: "https://api.mistral.ai"
+		},
+		modelDefaults: {
+			image_to_text: "mistral-ocr-latest",
+			document_to_markdown: "mistral-ocr-latest"
+		},
+		languageOptions: ["auto"]
+	},
+	{
+		id: "local-document",
+		name: "Local Document",
+		description: "Reads text files and extracts the text layer from PDF documents locally.",
+		apiKeyWebsite: null,
+		features: ["document_to_markdown"],
+		requiresApiKey: false,
+		languageOptions: []
+	},
+	{
+		id: "mineru",
+		name: "MinerU",
+		description: "OpenDataLab document extraction service.",
+		apiKeyWebsite: "https://mineru.net/apiManage",
+		features: ["document_to_markdown"],
+		requiresApiKey: true,
+		apiHostDefaults: { document_to_markdown: "https://mineru.net" },
+		modelDefaults: { document_to_markdown: "pipeline" },
+		languageOptions: []
+	},
+	{
+		id: "doc2x",
+		name: "Doc2X",
+		description: "Document restoration and Markdown conversion service.",
+		apiKeyWebsite: "https://open.noedgeai.com/apiKeys",
+		features: ["document_to_markdown"],
+		requiresApiKey: true,
+		apiHostDefaults: { document_to_markdown: "https://v2.doc2x.noedgeai.com" },
+		modelDefaults: { document_to_markdown: "v3-2026" },
+		languageOptions: []
+	},
+	{
+		id: "open-mineru",
+		name: "Open MinerU",
+		description: "Self-hosted MinerU document parser.",
+		apiKeyWebsite: "https://github.com/opendatalab/MinerU/",
+		features: ["document_to_markdown"],
+		requiresApiKey: false,
+		apiHostDefaults: { document_to_markdown: "http://127.0.0.1:8000" },
+		languageOptions: []
+	}
+];
+function mergeOverride(current, patch) {
+	return {
+		...current,
+		...patch,
+		...patch.capabilities === void 0 ? {} : { capabilities: {
+			...current?.capabilities,
+			...patch.capabilities
+		} },
+		...patch.options === void 0 ? {} : { options: {
+			...current?.options,
+			...patch.options
+		} }
+	};
+}
+function capabilityConfig(entry, override, feature) {
+	const current = override?.capabilities?.[feature];
+	return {
+		apiHost: (current?.apiHost ?? override?.apiHost ?? entry.apiHostDefaults?.[feature] ?? "").trim(),
+		modelId: (current?.modelId ?? override?.model ?? entry.modelDefaults?.[feature] ?? "").trim()
+	};
+}
+function featureForExtension(extension) {
+	return IMAGE_MEDIA_TYPES[extension] === void 0 ? "document_to_markdown" : "image_to_text";
+}
+function isSupported(entry, feature) {
+	return entry.features.includes(feature);
+}
+function entryFor(id) {
+	const entry = CATALOG.find((candidate) => candidate.id === id);
+	if (entry === void 0) throw new Error(`Unknown file processor: ${id}`);
+	return entry;
+}
+function safeError(error) {
+	return (error instanceof Error ? error.message : String(error)).replace(/Bearer\s+[^\s,;]+/giu, "Bearer [redacted]").replace(/https?:\/\/[^\s,;]+/giu, "[redacted-url]").slice(0, 500);
+}
+function mimeFor(extension) {
+	const mime = IMAGE_MEDIA_TYPES[extension];
+	if (mime === void 0) throw new Error(`Unsupported image type: .${extension}`);
+	return mime;
+}
+function parseMistralPages(payload) {
+	const pages = typeof payload === "object" && payload !== null ? payload.pages : void 0;
+	if (!Array.isArray(pages)) throw new Error("Mistral OCR response does not contain pages");
+	const text = pages.flatMap((page) => typeof page === "object" && page !== null && typeof page.markdown === "string" ? [page.markdown.trim()] : []).filter(Boolean).join("\n\n").trim();
+	if (text === "") throw new Error("Mistral OCR returned no text");
+	return text;
+}
+function blobOf(bytes) {
+	const copy = new Uint8Array(bytes.byteLength);
+	copy.set(bytes);
+	return new Blob([copy.buffer]);
+}
+function isTerminalTaskStatus(status) {
+	return status === "completed" || status === "failed" || status === "cancelled" || status === "interrupted";
+}
+function taskArtifactFileName(taskId) {
+	if (!/^file-processing-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/iu.test(taskId)) throw new Error("Invalid file processing task id");
+	return `${taskId}.md`;
+}
+function deadlineSignal(record, signal) {
+	const remainingMs = Date.parse(record.deadlineAt) - Date.now();
+	if (!Number.isFinite(remainingMs) || remainingMs <= 0) throw new Error("Remote document task exceeded its deadline.");
+	return AbortSignal.any([signal, AbortSignal.timeout(remainingMs)]);
+}
+function waitWithSignal(delayMs, signal) {
+	return new Promise((resolve, reject) => {
+		if (signal.aborted) {
+			reject(signal.reason instanceof Error ? signal.reason : new DOMException("Aborted", "AbortError"));
+			return;
+		}
+		const timer = setTimeout(() => {
+			signal.removeEventListener("abort", onAbort);
+			resolve();
+		}, delayMs);
+		const onAbort = () => {
+			clearTimeout(timer);
+			signal.removeEventListener("abort", onAbort);
+			reject(signal.reason instanceof Error ? signal.reason : new DOMException("Aborted", "AbortError"));
+		};
+		signal.addEventListener("abort", onAbort, { once: true });
+	});
+}
+function safeZipMarkdown(bytes) {
+	if (bytes.byteLength > MAX_ZIP_BYTES) throw new Error("Document archive exceeds the compressed size limit");
+	let entries = 0;
+	let selected;
+	let selectedError;
+	const unzipper = new Unzip((file) => {
+		entries += 1;
+		if (entries > MAX_ZIP_ENTRIES) {
+			selectedError = /* @__PURE__ */ new Error("Document archive has too many entries");
+			file.terminate();
+			return;
+		}
+		const name = file.name;
+		if (name.startsWith("/") || name.includes("\\") || name.split("/").some((segment) => segment === "..")) {
+			selectedError = /* @__PURE__ */ new Error("Document archive contains an unsafe entry path");
+			file.terminate();
+			return;
+		}
+		if (!name.toLowerCase().endsWith(".md") || selected !== void 0) return;
+		if (file.originalSize !== void 0 && file.originalSize > MAX_MARKDOWN_BYTES) {
+			selectedError = /* @__PURE__ */ new Error("Document Markdown exceeds the output size limit");
+			file.terminate();
+			return;
+		}
+		const chunks = [];
+		let total = 0;
+		file.ondata = (error, chunk, final) => {
+			if (error !== null) {
+				selectedError = error;
+				return;
+			}
+			total += chunk.byteLength;
+			if (total > MAX_MARKDOWN_BYTES) {
+				selectedError = /* @__PURE__ */ new Error("Document Markdown exceeds the output size limit");
+				file.terminate();
+				return;
+			}
+			chunks.push(chunk);
+			if (!final) return;
+			const merged = new Uint8Array(total);
+			let offset = 0;
+			for (const part of chunks) {
+				merged.set(part, offset);
+				offset += part.byteLength;
+			}
+			selected = merged;
+		};
+		file.start();
+	});
+	unzipper.register(UnzipPassThrough);
+	unzipper.register(UnzipInflate);
+	unzipper.push(bytes, true);
+	if (selectedError !== void 0) throw selectedError;
+	if (selected === void 0) throw new Error("Document archive does not contain a Markdown file");
+	const text = new TextDecoder("utf-8", { fatal: true }).decode(selected).trim();
+	if (text === "") throw new Error("Document archive contains empty Markdown output");
+	return text;
+}
+/** File processing service mounted by the Control Center host plugin. */
 var FileProcessingService = class extends Service {
-	static inject = ["settings"];
 	typertRemote = bindTypertRemote(this, "controlCenterFileProcessing");
 	scope;
+	taskStore;
+	taskControllers = /* @__PURE__ */ new Map();
+	taskRuns = /* @__PURE__ */ new Map();
+	taskSubmissions = /* @__PURE__ */ new Map();
 	constructor(ctx, _config) {
 		super(ctx, "controlCenterFileProcessing");
 		this.scope = ctx.settings.register(FP_NAMESPACE, Schema.object({
 			defaultDocumentProcessor: Schema.union([
 				"local-document",
 				"mineru",
+				"paddleocr",
 				"doc2x",
 				"mistral",
 				"open-mineru"
@@ -5942,111 +7247,1172 @@ var FileProcessingService = class extends Service {
 				"local-paddleocr",
 				"ovocr",
 				"mistral"
-			]).default("system"),
-			overrides: Schema.dict(Schema.object({
-				apiKeys: Schema.array(Schema.string().role("secret")),
-				languages: Schema.array(Schema.string()),
-				apiHost: Schema.string(),
-				model: Schema.string()
-			})).default({})
+			]).default("tesseract"),
+			overrides: Schema.dict(Schema.any()).default({})
 		}), { base: {
 			defaultDocumentProcessor: "local-document",
-			defaultImageProcessor: "system",
+			defaultImageProcessor: "tesseract",
 			overrides: {}
 		} });
+		this.migrateLegacySecrets();
+		this.registerTool();
+		const taskStoreFiber = ctx.inject(["storageDomain"], (storageCtx) => {
+			const opening = this.startTaskStore(storageCtx).catch((error) => {
+				this.ctx.logger.warn(`File processing task store failed to start: ${safeError(error)}`);
+			});
+			storageCtx.effect(() => async () => {
+				const store = await opening;
+				if (store === void 0 || this.taskStore !== store) return;
+				await this.stopTaskRuns();
+				this.taskStore = void 0;
+				await store.close();
+			}, "control-center.file-processing: close task store binding");
+		});
+		ctx.effect(() => () => taskStoreFiber.dispose(), "control-center.file-processing: dispose task store binding");
+		ctx.effect(() => async () => {
+			await this.stopTaskRuns();
+			await taskStoreFiber.dispose();
+			const store = this.taskStore;
+			this.taskStore = void 0;
+			await store?.close();
+		}, "control-center.file-processing: settle tasks");
+	}
+	async stopTaskRuns() {
+		for (const controller of this.taskControllers.values()) controller.abort();
+		await Promise.allSettled([...this.taskRuns.values(), ...this.taskSubmissions.values()]);
+		this.taskControllers.clear();
+		this.taskRuns.clear();
+		this.taskSubmissions.clear();
+	}
+	async startTaskStore(ctx) {
+		if (this.taskStore !== void 0) return this.taskStore;
+		const store = await FileProcessingTaskStore.open(ctx);
+		this.taskStore = store;
+		for (const record of store.list()) {
+			if (record.status === "queued" || record.status === "running" && record.providerTaskId === void 0) {
+				await store.update(record.id, (current) => ({
+					...current,
+					status: "interrupted",
+					updatedAt: (/* @__PURE__ */ new Date()).toISOString(),
+					error: "The host restarted while this remote provider request was being submitted. Start a new document task."
+				}));
+				continue;
+			}
+			if (canResumeRemoteTask(record)) this.resumeRemoteTask(record);
+		}
+		return store;
+	}
+	requireTaskStore() {
+		if (this.taskStore === void 0) throw new Error("Remote document processing is unavailable until the DSH storage-domain runtime is ready");
+		return this.taskStore;
+	}
+	taskArtifactPath(taskId) {
+		return join(resolveDshHome(), "file-processing", "results", taskArtifactFileName(taskId));
+	}
+	async readTaskArtifact(record) {
+		const expectedPath = this.taskArtifactPath(record.id);
+		if (record.status !== "completed" || record.artifactPath !== expectedPath) return void 0;
+		try {
+			return await readFile(expectedPath, "utf8");
+		} catch (error) {
+			if (error.code === "ENOENT") return void 0;
+			throw error;
+		}
+	}
+	credentials() {
+		const credentials = this.ctx.get("credentials");
+		if (credentials === void 0) throw new Error("File processing credentials are unavailable in this runtime");
+		return credentials;
+	}
+	fileSystem() {
+		const fs = this.ctx.get("fs");
+		if (fs === void 0) throw new Error("File processing requires the DSH filesystem service");
+		return fs;
+	}
+	subprocess() {
+		return this.ctx.get("subprocess");
+	}
+	credentialRef(processor, slot) {
+		return `CC_FILE_PROCESSING_${processor.toUpperCase().replace(/-/g, "_")}_API_KEY_${slot + 1}`;
+	}
+	refsFor(processor, override) {
+		if (override?.credentialRefs !== void 0) return override.credentialRefs.filter((ref) => typeof ref === "string" && isCredentialRefName(ref));
+		return [this.credentialRef(processor, 0)];
+	}
+	async migrateLegacySecrets() {
+		if (this.ctx.get("credentials") === void 0) return;
+		const current = this.scope.get();
+		let changed = false;
+		const overrides = { ...current.overrides };
+		for (const [rawProcessor, rawOverride] of Object.entries(current.overrides)) {
+			const processor = rawProcessor;
+			const legacy = rawOverride?.apiKeys?.filter((value) => typeof value === "string" && value.trim() !== "") ?? [];
+			if (legacy.length === 0) continue;
+			const refs = legacy.map((_, index) => this.credentialRef(processor, index));
+			for (const [index, value] of legacy.entries()) await this.credentials().set(credentialRef(refs[index]), value.trim());
+			const { apiKeys: _apiKeys, ...safe } = rawOverride;
+			overrides[processor] = {
+				...safe,
+				credentialRefs: refs
+			};
+			changed = true;
+		}
+		if (changed) await this.scope.update({ overrides });
+	}
+	async credentialViews(processor, override) {
+		if (!entryFor(processor).requiresApiKey) return [];
+		const credentials = this.ctx.get("credentials");
+		if (credentials === void 0) return this.refsFor(processor, override).map((ref) => ({
+			ref,
+			configured: false,
+			writable: false
+		}));
+		return Promise.all(this.refsFor(processor, override).map(async (ref) => {
+			const info = await credentials.describe(credentialRef(ref));
+			return {
+				ref,
+				configured: info.configured,
+				writable: info.writable,
+				...info.source === void 0 ? {} : { source: info.source }
+			};
+		}));
+	}
+	async resolveApiKeyRef(processor, override) {
+		for (const ref of this.refsFor(processor, override)) {
+			const resolved = await this.credentials().resolve(credentialRef(ref));
+			if (resolved?.value.trim()) return {
+				ref,
+				value: resolved.value.trim()
+			};
+		}
+		throw new Error(`${entryFor(processor).name} requires an API key in Settings > Document Processing / OCR`);
+	}
+	async resolveApiKey(processor, override) {
+		return (await this.resolveApiKeyRef(processor, override)).value;
+	}
+	async resolveTaskApiKey(record) {
+		if (record.credentialRef === void 0) throw new Error(`${entryFor(record.processor).name} task has no credential reference; start a new task`);
+		const resolved = await this.credentials().resolve(credentialRef(record.credentialRef));
+		if (resolved?.value.trim()) return resolved.value.trim();
+		throw new Error(`${entryFor(record.processor).name} task credential is no longer configured`);
+	}
+	async statusFor(entry, feature) {
+		if (!isSupported(entry, feature)) return {
+			code: "unavailable",
+			message: "This processor does not support the selected feature."
+		};
+		if (entry.id === "ovocr") return {
+			code: "unavailable",
+			message: "OpenVINO OCR has no DSH runtime adapter yet."
+		};
+		if (entry.id === "system") return {
+			code: "needs-runtime",
+			message: "System OCR requires the desktop native OCR bridge."
+		};
+		if (entry.id === "local-paddleocr") return {
+			code: "needs-runtime",
+			message: "Local PaddleOCR requires the desktop model runtime."
+		};
+		if (entry.id === "tesseract") {
+			const subprocess = this.subprocess();
+			if (subprocess === void 0) return {
+				code: "needs-runtime",
+				message: "Tesseract requires the DSH subprocess service."
+			};
+			try {
+				await subprocess.resolveExecutable("tesseract");
+				return {
+					code: "ready",
+					message: "Tesseract is available."
+				};
+			} catch {
+				return {
+					code: "needs-runtime",
+					message: "Install Tesseract and make it available on PATH."
+				};
+			}
+		}
+		if (entry.requiresApiKey) {
+			const override = this.scope.get().overrides[entry.id];
+			if (!(await this.credentialViews(entry.id, override)).some((view) => view.configured)) return {
+				code: "needs-credential",
+				message: "Add an API key to enable this processor."
+			};
+			if (REMOTE_DOCUMENT_PROCESSORS.has(entry.id) && this.taskStore === void 0) return {
+				code: "needs-runtime",
+				message: "The durable document task runtime is still starting."
+			};
+			return {
+				code: "ready",
+				message: "Credential configured."
+			};
+		}
+		if (entry.id === "open-mineru") return {
+			code: "ready",
+			message: "Self-hosted endpoint will be checked when processing starts."
+		};
+		return {
+			code: "ready",
+			message: "Available."
+		};
+	}
+	async catalogView() {
+		return Promise.all(CATALOG.map(async (entry) => {
+			const statuses = await Promise.all(entry.features.map(async (feature) => [feature, await this.statusFor(entry, feature)]));
+			return {
+				...entry,
+				status: Object.fromEntries(statuses)
+			};
+		}));
+	}
+	registerTool() {
+		const tools = this.ctx.get("tools");
+		if (tools === void 0) return;
+		const readDisposer = tools.register(defineTool({
+			name: "read_document",
+			description: "Read a local text document, extract a PDF text layer, or OCR an image using the configured document-processing provider. Some remote document parsers return a task id; then use read_document_task to collect the result.",
+			parameters: { path: {
+				type: "string",
+				required: true,
+				description: "Path to the file to process."
+			} },
+			output: {
+				schema: {
+					type: "object",
+					additionalProperties: false,
+					properties: {
+						path: {
+							type: "string",
+							required: true
+						},
+						processor: {
+							type: "string",
+							required: true
+						},
+						text: {
+							type: "string",
+							required: true
+						},
+						taskId: { type: "string" }
+					}
+				},
+				render: (_args, value) => [{
+					type: "text",
+					text: value.text || "(empty file)"
+				}]
+			},
+			execute: async (args, exec) => {
+				const result = await this.convertPath(args.path, void 0, exec);
+				return {
+					path: result.path,
+					processor: result.processor,
+					text: result.text,
+					...result.taskId === void 0 ? {} : { taskId: result.taskId }
+				};
+			}
+		}));
+		const taskDisposer = tools.register(defineTool({
+			name: "read_document_task",
+			description: "Read the status or completed Markdown output of a remote document-processing task returned by read_document.",
+			parameters: { task_id: {
+				type: "string",
+				required: true,
+				description: "Task id returned by read_document."
+			} },
+			output: {
+				schema: {
+					type: "object",
+					additionalProperties: false,
+					properties: {
+						taskId: {
+							type: "string",
+							required: true
+						},
+						status: {
+							type: "string",
+							required: true
+						},
+						text: {
+							type: "string",
+							required: true
+						}
+					}
+				},
+				render: (_args, value) => [{
+					type: "text",
+					text: value.text
+				}]
+			},
+			execute: async (args) => {
+				const result = await this.getTaskResult(args.task_id);
+				const text = result.text ?? `[document task ${result.task.taskId}: ${result.task.status}${result.task.detail === void 0 ? "" : `, ${result.task.detail}`}]`;
+				return {
+					taskId: result.task.taskId,
+					status: result.task.status,
+					text
+				};
+			}
+		}));
+		this.ctx.effect(() => () => {
+			readDisposer();
+			taskDisposer();
+		});
 	}
 	async listProcessors() {
-		return CATALOG.map((entry) => ({ ...entry }));
+		return this.catalogView();
 	}
 	async getConfig() {
-		return this.scope.get();
+		const current = this.scope.get();
+		const overrides = {};
+		const credentials = {};
+		for (const entry of CATALOG) {
+			const override = current.overrides[entry.id];
+			const safe = stripProcessorSecrets(override);
+			if (safe !== void 0) overrides[entry.id] = safe;
+			const views = await this.credentialViews(entry.id, override);
+			if (views.length > 0) credentials[entry.id] = views;
+		}
+		return {
+			defaultDocumentProcessor: current.defaultDocumentProcessor,
+			defaultImageProcessor: current.defaultImageProcessor,
+			overrides,
+			credentials
+		};
 	}
 	async setDefault(feature, processor) {
-		const update = feature === "image_to_text" ? { defaultImageProcessor: processor } : { defaultDocumentProcessor: processor };
-		await this.scope.update(update);
+		const entry = entryFor(processor);
+		if (!isSupported(entry, feature)) throw new Error(`${entry.name} does not support ${feature}`);
+		const status = await this.statusFor(entry, feature);
+		if (status.code !== "ready") throw new Error(status.message);
+		await this.scope.update(feature === "image_to_text" ? { defaultImageProcessor: processor } : { defaultDocumentProcessor: processor });
 		return { absent: true };
 	}
 	async setOverride(processor, override) {
+		entryFor(processor);
 		const current = this.scope.get();
 		await this.scope.update({ overrides: {
 			...current.overrides,
-			[processor]: override
+			[processor]: mergeOverride(current.overrides[processor], override)
 		} });
 		return { absent: true };
 	}
-	/**
-	* Convert a file with the configured processor. Capability-gated: local
-	* text extraction and OpenAI-compatible vision work now; cloud processors
-	* require their own credentials and report a precise error otherwise.
-	*/
+	async setApiKey(processor, slot, value) {
+		if (!Number.isSafeInteger(slot) || slot < 0) throw new Error("API key slot must be a non-negative integer");
+		if (value.trim() === "") throw new Error("API key cannot be empty");
+		if (!entryFor(processor).requiresApiKey) throw new Error(`${processor} does not use an API key`);
+		const current = this.scope.get();
+		const refs = [...this.refsFor(processor, current.overrides[processor])];
+		while (refs.length <= slot) refs.push(this.credentialRef(processor, refs.length));
+		await this.credentials().set(credentialRef(refs[slot]), value.trim());
+		const { apiKeys: _apiKeys, ...safe } = current.overrides[processor] ?? {};
+		await this.scope.update({ overrides: {
+			...current.overrides,
+			[processor]: {
+				...safe,
+				credentialRefs: refs
+			}
+		} });
+		return { absent: true };
+	}
+	async clearApiKey(processor, slot) {
+		if (!Number.isSafeInteger(slot) || slot < 0) throw new Error("API key slot must be a non-negative integer");
+		const current = this.scope.get();
+		const ref = this.refsFor(processor, current.overrides[processor])[slot];
+		if (ref === void 0) return { absent: true };
+		await this.credentials().unset(credentialRef(ref));
+		return { absent: true };
+	}
 	async convert(request) {
-		const path = resolve(request.path);
-		this.confine(path);
-		if (!existsSync(path)) throw new Error(`File not found: ${path}`);
-		const stat = statSync(path);
-		if (!stat.isFile()) throw new Error(`Not a file: ${path}`);
-		const override = this.scope.get().overrides[request.processor];
-		switch (request.processor) {
-			case "local-document":
-			case "system": return this.extractText(path, stat.size);
-			case "mistral": return this.ocrViaVision(path, stat.size, override);
-			default: throw new Error(`Processor "${request.processor}" is not configured: add its API key in Settings → 文档处理 / OCR`);
-		}
-	}
-	/** Conversion is confined to the DSH home (attachments, knowledge files). */
-	confine(path) {
-		const home = resolve(resolveDshHome());
-		const rel = relative(home, path);
-		if (rel.startsWith("..") || rel.includes("..")) throw new Error("File path is outside the DSH home");
-	}
-	/** Plain-text extraction for text documents (txt/md/code). */
-	extractText(path, bytes) {
-		const ext = basename(path).split(".").pop()?.toLowerCase() ?? "";
-		if (!TEXT_EXTENSIONS.has(ext)) throw new Error(`Local extraction does not support .${ext} files yet`);
+		const result = await this.convertPath(request.path, request.processor);
 		return {
-			processor: "local-document",
-			text: readFileSync(path, "utf8"),
-			bytes
+			processor: result.processor,
+			feature: result.feature,
+			text: result.text,
+			bytes: result.bytes,
+			...result.taskId === void 0 ? {} : { taskId: result.taskId }
 		};
 	}
-	/** OCR through an OpenAI-compatible vision model (chat/completions). */
-	async ocrViaVision(path, bytes, override) {
-		const apiKey = override?.apiKeys?.[0];
-		if (apiKey === void 0) throw new Error("Mistral (Vision) is not configured: add an API key in Settings → OCR");
-		const apiHost = override?.apiHost ?? "https://api.mistral.ai/v1";
-		const model = override?.model ?? "pixtral-12b-2409";
-		const data = readFileSync(path).toString("base64");
-		const response = await fetch(`${apiHost}/chat/completions`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				"Authorization": `Bearer ${apiKey}`
-			},
-			body: JSON.stringify({
-				model,
-				messages: [{
-					role: "user",
-					content: [{
-						type: "text",
-						text: "Extract all text from this image. Respond with the raw extracted text only."
-					}, {
-						type: "image_url",
-						image_url: { url: `data:image/png;base64,${data}` }
-					}]
-				}]
-			})
+	async listTasks() {
+		return this.requireTaskStore().list().map(taskView);
+	}
+	async getTask(taskId) {
+		const record = this.requireTaskStore().get(taskId);
+		if (record === void 0) throw new Error(`Unknown file processing task: ${taskId}`);
+		return taskView(record);
+	}
+	async getTaskResult(taskId) {
+		const record = this.requireTaskStore().get(taskId);
+		if (record === void 0) throw new Error(`Unknown file processing task: ${taskId}`);
+		if (record.artifactPath === void 0) return { task: taskView(record) };
+		const text = await this.readTaskArtifact(record);
+		return text === void 0 ? { task: taskView(record) } : {
+			task: taskView(record),
+			text
+		};
+	}
+	async cancelTask(taskId) {
+		const store = this.requireTaskStore();
+		if (store.get(taskId) === void 0) throw new Error(`Unknown file processing task: ${taskId}`);
+		const updated = await store.update(taskId, (task) => {
+			if (isTerminalTaskStatus(task.status)) return task;
+			return {
+				...task,
+				status: "cancelled",
+				updatedAt: (/* @__PURE__ */ new Date()).toISOString(),
+				error: "Cancelled by user"
+			};
 		});
-		if (!response.ok) throw new Error(`Vision OCR failed: HTTP ${response.status} ${(await response.text()).slice(0, 200)}`);
-		const text = (await response.json()).choices?.[0]?.message?.content ?? "";
-		if (text === "") throw new Error("Vision OCR returned no text");
+		if (updated.status === "cancelled") this.taskControllers.get(taskId)?.abort(new DOMException("Task cancelled", "AbortError"));
+		return taskView(updated);
+	}
+	async convertPath(path, requestedProcessor, exec) {
+		const input = await this.resolveInput(path, exec);
+		const settings = this.scope.get();
+		const processor = requestedProcessor ?? (input.feature === "image_to_text" ? settings.defaultImageProcessor : settings.defaultDocumentProcessor);
+		const entry = entryFor(processor);
+		if (!isSupported(entry, input.feature)) throw new Error(`${entry.name} does not support .${input.extension} files`);
+		const status = await this.statusFor(entry, input.feature);
+		if (status.code !== "ready") throw new Error(status.message);
+		const result = await this.dispatch(input, processor, settings.overrides[processor], exec?.signal);
 		return {
-			processor: "mistral",
+			...input,
+			...result
+		};
+	}
+	async resolveInput(path, exec) {
+		const fs = this.fileSystem();
+		const cwd = exec?.agent?.session.header.cwd;
+		const target = await fs.resolve(path, exec === void 0 ? void 0 : {
+			...cwd === void 0 ? {} : { cwd },
+			signal: exec.signal
+		});
+		if (exec === void 0) {
+			const home = await fs.resolve(resolveDshHome());
+			if (!fs.contains(home, target)) throw new Error("File processing RPC only accepts files inside the DSH home");
+		}
+		const info = await fs.stat(target, exec?.signal);
+		if (info === void 0) throw new Error(`File not found: ${target.displayPath}`);
+		if (info.type !== "file") throw new Error(`Not a regular file: ${target.displayPath}`);
+		const extension = extname(target.displayPath).slice(1).toLowerCase();
+		if (extension === "") throw new Error("File type cannot be determined from its extension");
+		const feature = featureForExtension(extension);
+		const maxBytes = feature === "image_to_text" ? MAX_IMAGE_BYTES : MAX_DOCUMENT_BYTES;
+		if (info.size !== void 0 && info.size > maxBytes) throw new Error(`File exceeds the ${maxBytes}-byte processing limit`);
+		return {
+			target,
+			path: target.displayPath,
+			bytes: info.size ?? 0,
+			extension,
+			feature
+		};
+	}
+	async dispatch(input, processor, override, signal) {
+		switch (processor) {
+			case "local-document": return this.localDocument(input, signal);
+			case "tesseract": return this.tesseract(input, override, signal);
+			case "mistral": return this.mistral(input, override, signal);
+			case "paddleocr":
+				if (input.feature === "document_to_markdown") return this.startRemoteDocumentTask(input, processor, override, signal);
+				return this.paddleOcr(input, override, signal);
+			case "open-mineru": return this.openMineru(input, override, signal);
+			case "mineru":
+			case "doc2x": return this.startRemoteDocumentTask(input, processor, override, signal);
+			case "system":
+			case "local-paddleocr":
+			case "ovocr": throw new Error((await this.statusFor(entryFor(processor), input.feature)).message);
+		}
+	}
+	async startRemoteDocumentTask(input, processor, override, signal) {
+		const store = this.requireTaskStore();
+		const config = capabilityConfig(entryFor(processor), override, "document_to_markdown");
+		if (config.apiHost === "") throw new Error(`${entryFor(processor).name} requires an API endpoint`);
+		const credential = await this.resolveApiKeyRef(processor, override);
+		const createdAt = (/* @__PURE__ */ new Date()).toISOString();
+		const taskId = `file-processing-${randomUUID()}`;
+		const record = {
+			id: taskId,
+			processor,
+			feature: "document_to_markdown",
+			sourcePath: input.path,
+			sourceName: basename(input.path),
+			sourceBytes: input.bytes,
+			apiHost: config.apiHost,
+			modelId: config.modelId,
+			credentialRef: credential.ref,
+			stage: "submitting",
+			status: "queued",
+			progress: 0,
+			createdAt,
+			updatedAt: createdAt,
+			deadlineAt: new Date(Date.now() + 18e5).toISOString(),
+			attempts: 0
+		};
+		await store.put(record);
+		const controller = new AbortController();
+		if (signal?.aborted) {
+			controller.abort(signal.reason);
+			await store.update(taskId, (current) => ({
+				...current,
+				status: "cancelled",
+				updatedAt: (/* @__PURE__ */ new Date()).toISOString(),
+				error: "Cancelled before remote submission started"
+			}));
+		}
+		this.taskControllers.set(taskId, controller);
+		const run = this.submitAndRunTask(taskId, input.target, credential.value, store, controller.signal).finally(() => {
+			this.taskControllers.delete(taskId);
+			this.taskRuns.delete(taskId);
+			this.taskSubmissions.delete(taskId);
+		});
+		this.taskSubmissions.set(taskId, run);
+		return {
+			processor,
+			feature: input.feature,
+			text: `[document processing task started: ${taskId}]`,
+			bytes: input.bytes,
+			taskId
+		};
+	}
+	async submitAndRunTask(taskId, source, key, store, signal) {
+		try {
+			const current = store.get(taskId);
+			if (current === void 0 || isTerminalTaskStatus(current.status)) return;
+			const submitting = await store.update(taskId, (record) => {
+				if (isTerminalTaskStatus(record.status)) return record;
+				return {
+					...record,
+					status: "running",
+					stage: "submitting",
+					attempts: record.attempts + 1,
+					updatedAt: (/* @__PURE__ */ new Date()).toISOString(),
+					error: void 0
+				};
+			});
+			if (isTerminalTaskStatus(submitting.status)) return;
+			const operationSignal = deadlineSignal(submitting, signal);
+			const submitted = await this.submitRemoteTask(submitting, source, key, operationSignal);
+			const running = await store.update(taskId, (record) => {
+				if (isTerminalTaskStatus(record.status)) return record;
+				return {
+					...record,
+					providerTaskId: submitted.providerTaskId,
+					stage: submitted.stage,
+					status: "running",
+					updatedAt: (/* @__PURE__ */ new Date()).toISOString(),
+					error: void 0
+				};
+			});
+			if (running.status !== "running" || running.providerTaskId === void 0) return;
+			await this.runRemoteTask(taskId, store, signal);
+		} catch (error) {
+			if (signal.aborted) {
+				const current = store.get(taskId);
+				if (current !== void 0 && current.status === "cancelled") return;
+			}
+			await this.markTaskFailed(store, taskId, safeError(error));
+		}
+	}
+	startTaskRun(taskId) {
+		if (this.taskRuns.has(taskId) || this.taskSubmissions.has(taskId)) return;
+		const store = this.requireTaskStore();
+		const record = store.get(taskId);
+		if (record === void 0 || isTerminalTaskStatus(record.status)) return;
+		const controller = new AbortController();
+		this.taskControllers.set(taskId, controller);
+		const run = this.runRemoteTask(taskId, store, controller.signal).finally(() => {
+			this.taskControllers.delete(taskId);
+			this.taskRuns.delete(taskId);
+		});
+		this.taskRuns.set(taskId, run);
+	}
+	resumeRemoteTask(record) {
+		if (canResumeRemoteTask(record)) this.startTaskRun(record.id);
+	}
+	async markTaskFailed(store, taskId, error) {
+		await store.update(taskId, (current) => {
+			if (isTerminalTaskStatus(current.status)) return current;
+			return {
+				...current,
+				status: "failed",
+				updatedAt: (/* @__PURE__ */ new Date()).toISOString(),
+				error: error.slice(0, 500)
+			};
+		});
+	}
+	async completeTask(store, record, text) {
+		if (Date.parse(record.deadlineAt) <= Date.now()) {
+			await this.markTaskFailed(store, record.id, "Remote document task exceeded its deadline.");
+			return;
+		}
+		const artifactPath = this.taskArtifactPath(record.id);
+		const beforeCommit = store.get(record.id);
+		if (beforeCommit === void 0 || isTerminalTaskStatus(beforeCommit.status)) return;
+		await mkdir(dirname(artifactPath), { recursive: true });
+		try {
+			await writeFile(artifactPath, text, {
+				encoding: "utf8",
+				flag: "wx"
+			});
+		} catch (error) {
+			if (error.code !== "EEXIST") throw error;
+		}
+		const committed = await store.update(record.id, (current) => {
+			if (isTerminalTaskStatus(current.status) || Date.parse(current.deadlineAt) <= Date.now()) return current;
+			return {
+				...current,
+				status: "completed",
+				progress: 100,
+				updatedAt: (/* @__PURE__ */ new Date()).toISOString(),
+				stage: "completed",
+				artifactPath,
+				error: void 0
+			};
+		});
+		if (committed.status !== "completed") {
+			await rm(artifactPath, { force: true }).catch(() => void 0);
+			if (Date.parse(committed.deadlineAt) <= Date.now()) await this.markTaskFailed(store, record.id, "Remote document task exceeded its deadline.");
+		}
+	}
+	async runRemoteTask(taskId, store, signal) {
+		let record = store.get(taskId);
+		if (record === void 0 || isTerminalTaskStatus(record.status)) return;
+		try {
+			if (record.providerTaskId === void 0) return;
+			while (!signal.aborted) {
+				const latest = store.get(taskId);
+				if (latest === void 0 || isTerminalTaskStatus(latest.status)) return;
+				const operationSignal = deadlineSignal(latest, signal);
+				const outcome = await this.pollRemoteTask(latest, store, operationSignal);
+				if (outcome.kind === "pending") {
+					const updated = await store.update(taskId, (current) => {
+						if (isTerminalTaskStatus(current.status)) return current;
+						return {
+							...current,
+							status: "running",
+							stage: outcome.stage ?? current.stage,
+							progress: outcome.progress,
+							updatedAt: (/* @__PURE__ */ new Date()).toISOString()
+						};
+					});
+					if (isTerminalTaskStatus(updated.status)) return;
+					await waitWithSignal(Math.min(1500, Math.max(1, Date.parse(updated.deadlineAt) - Date.now())), deadlineSignal(updated, signal));
+					continue;
+				}
+				if (outcome.kind === "failed") {
+					await this.markTaskFailed(store, taskId, outcome.error);
+					return;
+				}
+				await this.completeTask(store, latest, outcome.text);
+				return;
+			}
+		} catch (error) {
+			if (signal.aborted) return;
+			const latest = store.get(taskId);
+			const message = latest !== void 0 && Date.parse(latest.deadlineAt) <= Date.now() ? "Remote document task exceeded its deadline." : safeError(error);
+			await this.markTaskFailed(store, taskId, message);
+		}
+	}
+	async submitRemoteTask(record, source, key, signal) {
+		const submitting = record;
+		let providerTaskId;
+		let stage;
+		switch (submitting.processor) {
+			case "paddleocr":
+				providerTaskId = (await new PaddleOCRClient({
+					token: key,
+					baseUrl: submitting.apiHost,
+					pollTimeout: Math.max(1, Date.parse(submitting.deadlineAt) - Date.now()),
+					fetch
+				}).submitDocumentParsing({
+					filePath: this.fileSystem().processPath(source),
+					...submitting.modelId === "" ? {} : { model: submitting.modelId }
+				}, { signal })).jobId;
+				stage = "polling";
+				break;
+			case "mineru": {
+				const bytes = await this.fileSystem().readBytes(source, signal, MAX_DOCUMENT_BYTES);
+				const response = await fetch(`${submitting.apiHost.replace(/\/+$/, "")}/api/v4/file-urls/batch`, {
+					method: "POST",
+					headers: {
+						Authorization: `Bearer ${key}`,
+						"Content-Type": "application/json",
+						Accept: "*/*"
+					},
+					body: JSON.stringify({
+						files: [{
+							name: submitting.sourceName,
+							data_id: submitting.id
+						}],
+						...submitting.modelId === "" ? {} : { model_version: submitting.modelId }
+					}),
+					signal
+				});
+				if (!response.ok) throw new Error(`MinerU upload URL request failed: HTTP ${response.status}`);
+				const payload = await readBoundedResponseJson(response, MAX_PROVIDER_JSON_BYTES, signal);
+				const batchId = payload.data?.batch_id;
+				const rawUploadUrl = Array.isArray(payload.data?.file_urls) ? payload.data.file_urls[0] : void 0;
+				if (payload.code !== 0 || typeof batchId !== "string" || typeof rawUploadUrl !== "string") throw new Error("MinerU upload URL response is invalid");
+				const uploadUrl = sanitizeRemoteStorageUrl(rawUploadUrl, {
+					provider: "mineru",
+					apiHost: submitting.apiHost,
+					kind: "upload"
+				});
+				const uploadHeaders = sanitizeSignedUploadHeaders(Array.isArray(payload.data?.headers) ? payload.data.headers[0] : void 0);
+				const upload = await fetch(uploadUrl, {
+					method: "PUT",
+					...uploadHeaders === void 0 ? {} : { headers: uploadHeaders },
+					body: blobOf(bytes),
+					signal,
+					redirect: "error"
+				});
+				if (!upload.ok) throw new Error(`MinerU upload failed: HTTP ${upload.status}`);
+				providerTaskId = batchId;
+				stage = "polling";
+				break;
+			}
+			case "doc2x": {
+				const bytes = await this.fileSystem().readBytes(source, signal, MAX_DOCUMENT_BYTES);
+				const preupload = await fetch(`${submitting.apiHost.replace(/\/+$/, "")}/api/v2/parse/preupload`, {
+					method: "POST",
+					headers: {
+						Authorization: `Bearer ${key}`,
+						"Content-Type": "application/json",
+						Accept: "application/json"
+					},
+					body: JSON.stringify(submitting.modelId === "" ? {} : { model: submitting.modelId }),
+					signal
+				});
+				if (!preupload.ok) throw new Error(`Doc2X preupload request failed: HTTP ${preupload.status}`);
+				const payload = await readBoundedResponseJson(preupload, MAX_PROVIDER_JSON_BYTES, signal);
+				const uid = payload.data?.uid;
+				const rawUploadUrl = payload.data?.url;
+				if (payload.code !== "success" || typeof uid !== "string" || typeof rawUploadUrl !== "string") throw new Error(typeof payload.msg === "string" ? safeError(payload.msg) : typeof payload.message === "string" ? safeError(payload.message) : "Doc2X preupload response is invalid");
+				const uploadUrl = sanitizeRemoteStorageUrl(rawUploadUrl, {
+					provider: "doc2x",
+					apiHost: submitting.apiHost,
+					kind: "upload"
+				});
+				const upload = await fetch(uploadUrl, {
+					method: "PUT",
+					body: blobOf(bytes),
+					signal,
+					redirect: "error"
+				});
+				if (!upload.ok) throw new Error(`Doc2X upload failed: HTTP ${upload.status}`);
+				providerTaskId = uid;
+				stage = "parsing";
+				break;
+			}
+		}
+		return {
+			providerTaskId,
+			stage
+		};
+	}
+	async pollRemoteTask(record, store, signal) {
+		if (record.providerTaskId === void 0) return {
+			kind: "failed",
+			error: "Remote task has no provider task id."
+		};
+		const key = await this.resolveTaskApiKey(record);
+		switch (record.processor) {
+			case "paddleocr": return this.pollPaddleDocument(record, key, signal);
+			case "mineru": return this.pollMineruDocument(record, key, signal);
+			case "doc2x": return this.pollDoc2xDocument(record, store, key, signal);
+		}
+	}
+	async pollPaddleDocument(record, key, signal) {
+		const client = new PaddleOCRClient({
+			token: key,
+			baseUrl: record.apiHost,
+			pollTimeout: Math.max(1, Date.parse(record.deadlineAt) - Date.now()),
+			fetch
+		});
+		const status = await client.getStatus(record.providerTaskId, { signal });
+		if (status.state === "failed") return {
+			kind: "failed",
+			error: status.errorMsg === "" ? "PaddleOCR document parsing failed." : safeError(status.errorMsg)
+		};
+		if (status.state !== "done") return {
+			kind: "pending",
+			progress: status.progress?.totalPages ? Math.min(99, Math.round(status.progress.extractedPages / status.progress.totalPages * 100)) : 0,
+			stage: "polling"
+		};
+		const text = (await client.waitDocumentParsingResult(record.providerTaskId, { signal })).pages.map((page) => page.markdownText).filter(Boolean).join("\n\n").trim();
+		return text === "" ? {
+			kind: "failed",
+			error: "PaddleOCR completed without Markdown output."
+		} : {
+			kind: "completed",
+			text
+		};
+	}
+	async pollMineruDocument(record, key, signal) {
+		const response = await fetch(`${record.apiHost.replace(/\/+$/, "")}/api/v4/extract-results/batch/${encodeURIComponent(record.providerTaskId)}`, {
+			headers: {
+				Authorization: `Bearer ${key}`,
+				Accept: "*/*"
+			},
+			signal
+		});
+		if (!response.ok) return {
+			kind: "failed",
+			error: `MinerU status request failed: HTTP ${response.status}`
+		};
+		const payload = await readBoundedResponseJson(response, MAX_PROVIDER_JSON_BYTES, signal);
+		const result = payload.data?.extract_result?.[0];
+		if (payload.code !== 0) return {
+			kind: "failed",
+			error: typeof payload.msg === "string" ? safeError(payload.msg) : "MinerU status response is invalid."
+		};
+		if (result === void 0) return {
+			kind: "pending",
+			progress: 0,
+			stage: "polling"
+		};
+		if (result.state === "failed") return {
+			kind: "failed",
+			error: typeof result.err_msg === "string" ? safeError(result.err_msg) : "MinerU document parsing failed."
+		};
+		if (result.state !== "done") {
+			const done = typeof result.extract_progress?.extracted_pages === "number" ? result.extract_progress.extracted_pages : 0;
+			const total = typeof result.extract_progress?.total_pages === "number" ? result.extract_progress.total_pages : 0;
+			return {
+				kind: "pending",
+				progress: total > 0 ? Math.min(99, Math.round(done / total * 100)) : 0,
+				stage: "polling"
+			};
+		}
+		if (typeof result.full_zip_url !== "string") return {
+			kind: "failed",
+			error: "MinerU completed without a result archive URL."
+		};
+		return {
+			kind: "completed",
+			text: await this.downloadMarkdownArchive("mineru", result.full_zip_url, record.apiHost, signal)
+		};
+	}
+	async pollDoc2xDocument(record, store, key, signal) {
+		const base = record.apiHost.replace(/\/+$/, "");
+		if (record.stage === "parsing" || record.stage === "export-submitting") {
+			const statusResponse = await fetch(`${base}/api/v2/parse/status?uid=${encodeURIComponent(record.providerTaskId)}`, {
+				headers: {
+					Authorization: `Bearer ${key}`,
+					Accept: "application/json"
+				},
+				signal
+			});
+			if (!statusResponse.ok) return {
+				kind: "failed",
+				error: `Doc2X parse status failed: HTTP ${statusResponse.status}`
+			};
+			const payload = await readBoundedResponseJson(statusResponse, MAX_PROVIDER_JSON_BYTES, signal);
+			const status = payload.data?.status;
+			if (payload.code !== "success") return {
+				kind: "failed",
+				error: typeof payload.msg === "string" ? safeError(payload.msg) : typeof payload.message === "string" ? safeError(payload.message) : "Doc2X status response is invalid."
+			};
+			if (status === "failed") return {
+				kind: "failed",
+				error: typeof payload.data?.detail === "string" ? safeError(payload.data.detail) : "Doc2X document parsing failed."
+			};
+			if (status !== "success") return {
+				kind: "pending",
+				progress: typeof payload.data?.progress === "number" ? Math.min(98, payload.data.progress) : 0,
+				stage: "parsing"
+			};
+			const exporting = await store.update(record.id, (current) => {
+				if (isTerminalTaskStatus(current.status)) return current;
+				return {
+					...current,
+					stage: "export-submitting",
+					progress: 99,
+					updatedAt: (/* @__PURE__ */ new Date()).toISOString()
+				};
+			});
+			if (isTerminalTaskStatus(exporting.status)) return {
+				kind: "pending",
+				progress: exporting.progress,
+				stage: exporting.stage
+			};
+			const exportResponse = await fetch(`${base}/api/v2/convert/parse`, {
+				method: "POST",
+				headers: {
+					Authorization: `Bearer ${key}`,
+					"Content-Type": "application/json",
+					Accept: "application/json"
+				},
+				body: JSON.stringify({
+					uid: record.providerTaskId,
+					to: "md",
+					formula_mode: "normal",
+					formula_level: 0
+				}),
+				signal
+			});
+			if (!exportResponse.ok) return {
+				kind: "failed",
+				error: `Doc2X export request failed: HTTP ${exportResponse.status}`
+			};
+			const exportPayload = await readBoundedResponseJson(exportResponse, MAX_PROVIDER_JSON_BYTES, signal);
+			if (exportPayload.code !== "success" || exportPayload.data?.status === "failed") return {
+				kind: "failed",
+				error: typeof exportPayload.msg === "string" ? safeError(exportPayload.msg) : typeof exportPayload.message === "string" ? safeError(exportPayload.message) : "Doc2X export request failed."
+			};
+			await store.update(record.id, (current) => {
+				if (isTerminalTaskStatus(current.status)) return current;
+				return {
+					...current,
+					stage: "exporting",
+					progress: 99,
+					updatedAt: (/* @__PURE__ */ new Date()).toISOString()
+				};
+			});
+			return {
+				kind: "pending",
+				progress: 99,
+				stage: "exporting"
+			};
+		}
+		const resultResponse = await fetch(`${base}/api/v2/convert/parse/result?uid=${encodeURIComponent(record.providerTaskId)}`, {
+			headers: {
+				Authorization: `Bearer ${key}`,
+				Accept: "application/json"
+			},
+			signal
+		});
+		if (!resultResponse.ok) return {
+			kind: "failed",
+			error: `Doc2X export status failed: HTTP ${resultResponse.status}`
+		};
+		const payload = await readBoundedResponseJson(resultResponse, MAX_PROVIDER_JSON_BYTES, signal);
+		if (payload.code !== "success") return {
+			kind: "failed",
+			error: typeof payload.msg === "string" ? safeError(payload.msg) : typeof payload.message === "string" ? safeError(payload.message) : "Doc2X export status is invalid."
+		};
+		if (payload.data?.status === "failed") return {
+			kind: "failed",
+			error: "Doc2X Markdown export failed."
+		};
+		if (payload.data?.status !== "success" || typeof payload.data?.url !== "string") return {
+			kind: "pending",
+			progress: 99,
+			stage: "exporting"
+		};
+		return {
+			kind: "completed",
+			text: await this.downloadMarkdownArchive("doc2x", payload.data.url, record.apiHost, signal)
+		};
+	}
+	async downloadMarkdownArchive(provider, url, apiHost, signal) {
+		const candidate = sanitizeRemoteStorageUrl(url, {
+			provider,
+			apiHost,
+			kind: "download"
+		});
+		const response = await fetch(candidate, {
+			signal,
+			redirect: "error"
+		});
+		if (!response.ok) throw new Error(`Remote result archive download failed: HTTP ${response.status}`);
+		if (!isZipContentType(response.headers.get("content-type"))) throw new Error("Remote result archive returned an unexpected content type");
+		return safeZipMarkdown(await readBoundedResponseBytes(response, MAX_ZIP_BYTES, signal));
+	}
+	async localDocument(input, signal) {
+		if (input.feature === "image_to_text") throw new Error("Local document processing does not support images");
+		if (TEXT_EXTENSIONS.has(input.extension)) {
+			const bytes = await this.fileSystem().readBytes(input.target, signal, MAX_TEXT_BYTES);
+			const text = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+			return {
+				processor: "local-document",
+				feature: input.feature,
+				text,
+				bytes: bytes.byteLength
+			};
+		}
+		if (input.extension !== "pdf") throw new Error(`Local document processing does not support .${input.extension} files`);
+		const bytes = await this.fileSystem().readBytes(input.target, signal, MAX_DOCUMENT_BYTES);
+		const text = await extractPdfText(bytes);
+		if (text === "") throw new Error("This PDF has no extractable text layer; choose an OCR or cloud document processor");
+		return {
+			processor: "local-document",
+			feature: input.feature,
 			text,
-			bytes
+			bytes: bytes.byteLength
+		};
+	}
+	async tesseract(input, override, signal) {
+		if (input.feature !== "image_to_text") throw new Error("Tesseract only supports images");
+		const subprocess = this.subprocess();
+		if (subprocess === void 0) throw new Error("Tesseract requires the DSH subprocess service");
+		const executable = await subprocess.resolveExecutable("tesseract", void 0, signal);
+		const configured = (override?.options?.langs ?? override?.languages ?? []).filter((language) => language !== "auto");
+		const argv = [
+			executable,
+			this.fileSystem().processPath(input.target),
+			"stdout",
+			...configured.length === 0 ? [] : ["-l", configured.join("+")]
+		];
+		const handle = subprocess.spawn({
+			argv,
+			cwd: dirname(this.fileSystem().processPath(input.target)),
+			stdio: {
+				stdin: "ignore",
+				stdout: { maxBytes: MAX_TEXT_BYTES },
+				stderr: { maxBytes: 65536 }
+			},
+			graceMs: TESSERACT_GRACE_MS,
+			...signal === void 0 ? {} : { signal }
+		});
+		const outcome = await handle.done;
+		const stdout = handle.collected.stdout?.readFrom(0).text ?? "";
+		const stderr = handle.collected.stderr?.readFrom(0).text.trim() ?? "";
+		if (outcome.exitCode !== 0) throw new Error(`Tesseract failed${stderr === "" ? "" : `: ${stderr.slice(0, 500)}`}`);
+		const text = stdout.trim();
+		if (text === "") throw new Error("Tesseract returned no text");
+		return {
+			processor: "tesseract",
+			feature: input.feature,
+			text,
+			bytes: input.bytes
+		};
+	}
+	async mistral(input, override, signal) {
+		const key = await this.resolveApiKey("mistral", override);
+		const config = capabilityConfig(entryFor("mistral"), override, input.feature);
+		const host = (config.apiHost || "https://api.mistral.ai").replace(/\/+$/, "");
+		const model = config.modelId || "mistral-ocr-latest";
+		let uploadedFileId;
+		try {
+			let document;
+			if (input.feature === "image_to_text") {
+				const bytes = await this.fileSystem().readBytes(input.target, signal, MAX_IMAGE_BYTES);
+				document = {
+					type: "image_url",
+					image_url: `data:${mimeFor(input.extension)};base64,${Buffer.from(bytes).toString("base64")}`
+				};
+			} else {
+				const bytes = await this.fileSystem().readBytes(input.target, signal, MAX_DOCUMENT_BYTES);
+				const form = new FormData();
+				form.set("purpose", "ocr");
+				form.set("file", blobOf(bytes), basename(input.path));
+				const upload = await fetch(`${host}/v1/files`, {
+					method: "POST",
+					headers: { Authorization: `Bearer ${key}` },
+					body: form,
+					...signal === void 0 ? {} : { signal }
+				});
+				if (!upload.ok) throw new Error(`Mistral file upload failed: HTTP ${upload.status}`);
+				const uploaded = await readBoundedResponseJson(upload, MAX_PROVIDER_JSON_BYTES, signal);
+				if (typeof uploaded.id !== "string" || uploaded.id === "") throw new Error("Mistral file upload returned no file id");
+				uploadedFileId = uploaded.id;
+				const signed = await fetch(`${host}/v1/files/${encodeURIComponent(uploadedFileId)}/url`, {
+					headers: { Authorization: `Bearer ${key}` },
+					...signal === void 0 ? {} : { signal }
+				});
+				if (!signed.ok) throw new Error(`Mistral signed URL request failed: HTTP ${signed.status}`);
+				const signedPayload = await readBoundedResponseJson(signed, MAX_PROVIDER_JSON_BYTES, signal);
+				if (typeof signedPayload.url !== "string" || signedPayload.url === "") throw new Error("Mistral signed URL response is invalid");
+				const signedUrl = new URL(signedPayload.url);
+				if (signedUrl.protocol !== "https:" || signedUrl.username !== "" || signedUrl.password !== "" || signedUrl.hash !== "") throw new Error("Mistral signed URL response is invalid");
+				document = {
+					type: "document_url",
+					document_url: signedPayload.url,
+					document_name: basename(input.path)
+				};
+			}
+			const response = await fetch(`${host}/v1/ocr`, {
+				method: "POST",
+				headers: {
+					Authorization: `Bearer ${key}`,
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					model,
+					document,
+					...input.feature === "document_to_markdown" ? { table_format: "html" } : {},
+					include_image_base64: false
+				}),
+				...signal === void 0 ? {} : { signal }
+			});
+			if (!response.ok) throw new Error(`Mistral OCR failed: HTTP ${response.status}`);
+			return {
+				processor: "mistral",
+				feature: input.feature,
+				text: parseMistralPages(await readBoundedResponseJson(response, MAX_PROVIDER_JSON_BYTES, signal)),
+				bytes: input.bytes
+			};
+		} finally {
+			if (uploadedFileId !== void 0) await fetch(`${host}/v1/files/${encodeURIComponent(uploadedFileId)}`, {
+				method: "DELETE",
+				headers: { Authorization: `Bearer ${key}` }
+			}).catch((error) => this.ctx.logger.warn(`Mistral OCR cleanup failed: ${safeError(error)}`));
+		}
+	}
+	async paddleOcr(input, override, signal) {
+		if (input.feature !== "image_to_text") throw new Error("PaddleOCR document parsing requires the durable task runtime");
+		const key = await this.resolveApiKey("paddleocr", override);
+		const config = capabilityConfig(entryFor("paddleocr"), override, input.feature);
+		const text = (await new PaddleOCRClient({
+			token: key,
+			...config.apiHost === "" ? {} : { baseUrl: config.apiHost },
+			fetch
+		}).ocr({
+			filePath: this.fileSystem().processPath(input.target),
+			...config.modelId === "" ? {} : { model: config.modelId }
+		}, signal === void 0 ? void 0 : { signal })).pages.flatMap((page) => {
+			const values = page.prunedResult?.rec_texts;
+			return Array.isArray(values) ? values.filter((value) => typeof value === "string") : [];
+		}).join("\n").trim();
+		if (text === "") throw new Error("PaddleOCR returned no text");
+		return {
+			processor: "paddleocr",
+			feature: input.feature,
+			text,
+			bytes: input.bytes
+		};
+	}
+	async openMineru(input, override, signal) {
+		if (input.feature !== "document_to_markdown") throw new Error("Open MinerU only supports documents");
+		const config = capabilityConfig(entryFor("open-mineru"), override, input.feature);
+		if (config.apiHost === "") throw new Error("Open MinerU requires an API endpoint");
+		const bytes = await this.fileSystem().readBytes(input.target, signal, MAX_DOCUMENT_BYTES);
+		const form = new FormData();
+		form.set("return_md", "true");
+		form.set("response_format_zip", "true");
+		form.set("files", blobOf(bytes), basename(input.path));
+		const response = await fetch(`${config.apiHost.replace(/\/+$/, "")}/file_parse`, {
+			method: "POST",
+			body: form,
+			...signal === void 0 ? {} : { signal }
+		});
+		if (!response.ok) throw new Error(`Open MinerU request failed: HTTP ${response.status}`);
+		if (response.headers.get("content-type")?.split(";")[0]?.trim().toLowerCase() !== "application/zip") throw new Error("Open MinerU returned an unexpected content type");
+		return {
+			processor: "open-mineru",
+			feature: input.feature,
+			text: safeZipMarkdown(await readBoundedResponseBytes(response, MAX_ZIP_BYTES, signal)),
+			bytes: input.bytes
 		};
 	}
 	[Symbol.dispose]() {}
 };
+/** Extract the text layer of a PDF in the Node host. */
+async function extractPdfText(bytes) {
+	const { getDocument } = await import("pdfjs-dist");
+	const task = getDocument({ data: bytes });
+	const document = await task.promise;
+	try {
+		const pages = [];
+		for (let pageNumber = 1; pageNumber <= document.numPages; pageNumber++) {
+			const text = (await (await document.getPage(pageNumber)).getTextContent()).items.map((item) => "str" in item ? item.str : "").join(" ").replace(/\s+/gu, " ").trim();
+			if (text !== "") pages.push(text);
+		}
+		return pages.join("\n\n");
+	} finally {
+		await task.destroy();
+	}
+}
 //#endregion
 //#region lib/types/file-processing-remote-client.js
 /** Client descriptor contribution for the Control Center file-processing service. */
@@ -6070,8 +8436,36 @@ const fileProcessingRemote = {
 			parameters: ["processor", "override"]
 		},
 		{
+			method: "setApiKey",
+			parameters: [
+				"processor",
+				"slot",
+				"value"
+			]
+		},
+		{
+			method: "clearApiKey",
+			parameters: ["processor", "slot"]
+		},
+		{
 			method: "convert",
 			parameters: ["request"]
+		},
+		{
+			method: "listTasks",
+			parameters: []
+		},
+		{
+			method: "getTask",
+			parameters: ["taskId"]
+		},
+		{
+			method: "getTaskResult",
+			parameters: ["taskId"]
+		},
+		{
+			method: "cancelTask",
+			parameters: ["taskId"]
 		}
 	].map(({ method, parameters }) => ({
 		id: `@dsh-control-center/control-center#controlCenterFileProcessing/${method}`,
@@ -6363,6 +8757,7 @@ const usageRemote = {
 * settings namespaces as one JSON snapshot (credentials stay in the DSH
 * credentials store and are never part of the export).
 */
+const FILE_PROCESSING_NAMESPACE = settingsNamespace("control-center-file-processing");
 /**
 * Every settings namespace the Control Center plugin owns — the full backup
 * surface. Credentials stay in the DSH credentials store and are never part of
@@ -6521,7 +8916,8 @@ var DataService = class extends Service {
 		const namespaces = {};
 		for (const ns of DATA_NAMESPACES) {
 			const value = this.ctx.settings.get(ns);
-			namespaces[ns] = typeof value === "object" && value !== null ? JSON.parse(JSON.stringify(value)) : {};
+			const snapshotValue = ns === FILE_PROCESSING_NAMESPACE ? stripFileProcessingSecrets(value) : value;
+			namespaces[ns] = typeof snapshotValue === "object" && snapshotValue !== null ? JSON.parse(JSON.stringify(snapshotValue)) : {};
 		}
 		return {
 			version: 1,
@@ -6533,7 +8929,7 @@ var DataService = class extends Service {
 		if (snapshot?.version !== 1 || typeof snapshot.namespaces !== "object" || snapshot.namespaces === null) throw new Error("Invalid Control Center data snapshot");
 		for (const ns of DATA_NAMESPACES) {
 			const value = snapshot.namespaces[ns];
-			if (value !== void 0 && typeof value === "object" && value !== null) await this.ctx.settings.update(ns, value);
+			if (value !== void 0 && typeof value === "object" && value !== null) await this.ctx.settings.update(ns, ns === FILE_PROCESSING_NAMESPACE ? stripFileProcessingSecrets(value) : value);
 		}
 		this.ctx.logger.info("Imported Control Center data snapshot", { namespaces: Object.keys(snapshot.namespaces).length });
 		return { absent: true };
@@ -7716,8 +10112,20 @@ var DesktopService = class extends Service {
 			...result.node !== void 0 ? { node: result.node } : {},
 			...result.trayActive !== void 0 ? { trayActive: result.trayActive } : {},
 			...result.hotkey !== void 0 ? { hotkey: result.hotkey } : {},
-			...result.hotkeyRegistered !== void 0 ? { hotkeyRegistered: result.hotkeyRegistered } : {}
+			...result.hotkeyRegistered !== void 0 ? { hotkeyRegistered: result.hotkeyRegistered } : {},
+			...result.screenshotHotkey !== void 0 ? { screenshotHotkey: result.screenshotHotkey } : {},
+			...result.screenshotHotkeyRegistered !== void 0 ? { screenshotHotkeyRegistered: result.screenshotHotkeyRegistered } : {},
+			...result.quickHotkey !== void 0 ? { quickHotkey: result.quickHotkey } : {},
+			...result.quickHotkeyRegistered !== void 0 ? { quickHotkeyRegistered: result.quickHotkeyRegistered } : {}
 		};
+	}
+	/** Push the assistant prefs snapshot so the shell (re)registers hotkeys. */
+	async pushAssistantPrefs(prefs) {
+		const result = await this.bridgeFetch("/dsh-native/assistantPrefs", {
+			method: "POST",
+			body: prefs
+		}, 5e3);
+		return result === void 0 ? { ok: false } : result;
 	}
 	async fonts() {
 		const result = await this.bridgeFetch("/dsh-native/fonts", {
@@ -7865,6 +10273,10 @@ const desktopRemote = {
 		{
 			method: "notify",
 			parameters: ["title", "body"]
+		},
+		{
+			method: "pushAssistantPrefs",
+			parameters: ["prefs"]
 		}
 	].map(({ method, parameters }) => ({
 		id: `@dsh-control-center/control-center#controlCenterDesktop/${method}`,
@@ -7881,6 +10293,435 @@ const desktopRemote = {
 		result: STRICT_JSON
 	}))
 };
+//#endregion
+//#region lib/types/assistant.js
+/**
+* Quick assistant / selection assistant / screenshot preferences service.
+*
+* Cherry parity for the three system-level assistant pages. Preferences live
+* in a DSH settings namespace (not renderer localStorage) so the desktop
+* shell consumes them — the host pushes the snapshot to the native bridge on
+* every write, and the Electron main registers/unregisters global hotkeys
+* (screenshot capture, quick-assist focus) accordingly.
+*/
+const ASSISTANT_NAMESPACE = settingsNamespace("control-center-assistant");
+const DEFAULT_SCREENSHOT = {
+	enabled: false,
+	autoOcr: true
+};
+const DEFAULT_QUICK = {
+	enabled: false,
+	clickTrayToShow: false,
+	readClipboardAtStartup: true,
+	modelMode: "model",
+	agentPresetId: ""
+};
+const DEFAULT_SELECTION = {
+	enabled: false,
+	triggerMode: "selected",
+	compact: false,
+	followToolbar: true,
+	rememberWinSize: false,
+	autoClose: false,
+	autoPin: false,
+	opacity: 100,
+	filterMode: "default",
+	filterList: [],
+	actions: []
+};
+function normalize(raw) {
+	return {
+		screenshot: {
+			...DEFAULT_SCREENSHOT,
+			...raw?.screenshot
+		},
+		quick: {
+			...DEFAULT_QUICK,
+			...raw?.quick
+		},
+		selection: {
+			...DEFAULT_SELECTION,
+			...raw?.selection
+		}
+	};
+}
+var AssistantService = class extends Service {
+	static inject = ["settings"];
+	typertRemote = bindTypertRemote(this, "controlCenterAssistant");
+	scope;
+	constructor(ctx) {
+		super(ctx, "controlCenterAssistant");
+		markRemoteMethods(this, [["get", "get"], ["set", "set"]]);
+		this.scope = ctx.settings.register(ASSISTANT_NAMESPACE, Schema.object({
+			screenshot: Schema.any().default({}),
+			quick: Schema.any().default({}),
+			selection: Schema.any().default({})
+		}), { base: {
+			screenshot: {},
+			quick: {},
+			selection: {}
+		} });
+		const desktop = ctx.controlCenterDesktop;
+		if (desktop !== void 0) desktop.pushAssistantPrefs(this.read());
+	}
+	read() {
+		return normalize(this.scope.get());
+	}
+	async get() {
+		return {
+			ok: true,
+			value: this.read()
+		};
+	}
+	async set(params) {
+		const current = this.read();
+		const next = normalize({
+			screenshot: {
+				...current.screenshot,
+				...params.screenshot
+			},
+			quick: {
+				...current.quick,
+				...params.quick
+			},
+			selection: {
+				...current.selection,
+				...params.selection
+			}
+		});
+		await this.scope.update(() => next);
+		const desktop = this.ctx.controlCenterDesktop;
+		if (desktop !== void 0) desktop.pushAssistantPrefs(next);
+		return {
+			ok: true,
+			value: next
+		};
+	}
+};
+//#endregion
+//#region lib/types/assistant-remote-client.js
+/** Client descriptor contribution for the Control Center assistant-prefs service. */
+const assistantRemote = {
+	package: "@dsh-control-center/control-center",
+	descriptors: [{
+		method: "get",
+		parameters: []
+	}, {
+		method: "set",
+		parameters: ["params"]
+	}].map(({ method, parameters }) => ({
+		id: `@dsh-control-center/control-center#controlCenterAssistant/${method}`,
+		service: "controlCenterAssistant",
+		namespace: "controlCenterAssistant",
+		method,
+		invocation: { kind: "direct" },
+		parameters: parameters.map((name) => ({
+			name,
+			wire: name,
+			source: "json",
+			codec: STRICT_JSON
+		})),
+		result: STRICT_JSON
+	}))
+};
+const CONTEXT_TOOL_OUTPUT_TAIL_CHARS = 1e3;
+const CONTEXT_WINDOW_PLUGIN = "control-center-context-policy";
+const CONTEXT_WINDOW_SUMMARY = "Earlier history omitted by the configured message window.";
+const CONTEXT_WINDOW_CONTENT = "Earlier conversation history was omitted by the configured recent-message window. Use the retained messages as the active context.";
+/** Count Unicode code points so a retained boundary cannot split a surrogate pair. */
+function contextCodePointLength(text) {
+	return Array.from(text).length;
+}
+/** Normalize persisted values the settings document may contain outside the UI. */
+function normalizeContextMaxMessages(value) {
+	return typeof value === "number" && Number.isSafeInteger(value) && value >= 1 ? value : null;
+}
+function countLines(text) {
+	let lines = 1;
+	for (const char of text) if (char === "\n") lines++;
+	return lines;
+}
+function record(value) {
+	return typeof value === "object" && value !== null && !Array.isArray(value) ? value : void 0;
+}
+function eventType(event) {
+	const type = record(event)?.type;
+	return typeof type === "string" ? type : void 0;
+}
+function eventSource(event) {
+	return record(record(record(event)?.data)?.source);
+}
+function isContextCheckpoint(event) {
+	const source = eventSource(event);
+	return eventType(event) === "user/message" && source?.kind === "plugin" && (source.plugin === CONTEXT_WINDOW_PLUGIN || source.plugin === "compact");
+}
+function toolCallDelta(event) {
+	switch (eventType(event)) {
+		case "assistant/message": {
+			const message = record(record(record(event)?.data)?.message);
+			const content = Array.isArray(message?.content) ? message.content : void 0;
+			if (content === void 0) return void 0;
+			return content.filter((block) => record(block)?.type === "tool-call").length;
+		}
+		case "tool/result": return -1;
+		case "user/message": return 0;
+		default: return;
+	}
+}
+/** Whether the cut before `index` leaves no assistant tool call unpaired. */
+function isToolPairingBalancedAt(session, nodes, index) {
+	let openCalls = 0;
+	for (const seq of nodes.slice(0, index)) {
+		const event = session.events[seq];
+		const delta = toolCallDelta(event);
+		if (delta === void 0) return false;
+		openCalls += delta;
+		if (openCalls < 0) return false;
+	}
+	return openCalls === 0;
+}
+/** Whether a retained tail begins with coherent user-facing context. */
+function isHistoryBoundary(session, event) {
+	if (isContextCheckpoint(event)) return true;
+	const message = session.deriveEventMessage(event);
+	return message !== null && message.role === "user" && message.source.kind !== "tool";
+}
+/**
+* Select an old surface prefix that can be compacted without splitting tool
+* calls from their results. Generated compaction checkpoints are not charged
+* against the configured count, so a stable checkpoint plus N recent messages
+* does not compact again on every request.
+*/
+function selectContextWindow(session, maxMessages) {
+	const limit = normalizeContextMaxMessages(maxMessages);
+	if (limit === null) return void 0;
+	const nodes = [...session.surface.nodes];
+	let modelMessages = 0;
+	let keepFrom;
+	for (let index = nodes.length - 1; index >= 0; index--) {
+		const seq = nodes[index];
+		if (seq === void 0) return void 0;
+		const event = session.events[seq];
+		if (event === void 0) return void 0;
+		if (isContextCheckpoint(event)) continue;
+		if (session.deriveEventMessage(event) === null) continue;
+		modelMessages++;
+		if (modelMessages > limit) {
+			keepFrom = index + 1;
+			break;
+		}
+	}
+	if (keepFrom === void 0) return void 0;
+	while (keepFrom > 0) {
+		const firstRetained = nodes[keepFrom];
+		if (firstRetained === void 0) return void 0;
+		const firstEvent = session.events[firstRetained];
+		if (firstEvent === void 0) return void 0;
+		if (isToolPairingBalancedAt(session, nodes, keepFrom) && isHistoryBoundary(session, firstEvent)) break;
+		keepFrom--;
+	}
+	if (keepFrom === 0 || !isToolPairingBalancedAt(session, nodes, keepFrom)) return void 0;
+	const shadowedSeqs = nodes.slice(0, keepFrom);
+	const start = shadowedSeqs[0];
+	const end = shadowedSeqs.at(-1);
+	if (start === void 0 || end === void 0) return void 0;
+	return {
+		start,
+		end,
+		shadowedSeqs
+	};
+}
+/** Replace an old range with a truthful model-visible omission checkpoint. */
+function omitContextWindow(session, selection, tokenMeter) {
+	let shadowedTokenCount = 0;
+	for (const seq of selection.shadowedSeqs) {
+		const event = session.events[seq];
+		if (event === void 0) throw new Error(`context policy: missing surface event ${String(seq)}`);
+		const message = session.deriveEventMessage(event);
+		if (message !== null) shadowedTokenCount += tokenMeter.estimateMessage(message);
+	}
+	if (!Number.isSafeInteger(shadowedTokenCount) || shadowedTokenCount < 0) throw new Error("context policy: invalid shadowed token count");
+	const checkpoint = createUserMessage({
+		content: [{
+			type: "text",
+			text: CONTEXT_WINDOW_CONTENT
+		}],
+		source: {
+			kind: "plugin",
+			plugin: CONTEXT_WINDOW_PLUGIN,
+			form: "notice",
+			summary: CONTEXT_WINDOW_SUMMARY
+		}
+	});
+	session.append("compaction/prune", {
+		shadowedRange: {
+			start: selection.start,
+			end: selection.end
+		},
+		shadowedSeqs: selection.shadowedSeqs,
+		shadowedTokenCount
+	});
+	session.append("user/message", checkpoint, {
+		surfaceOp: {
+			op: "replace",
+			start: selection.start,
+			end: selection.end
+		},
+		sourceEventSeqs: selection.shadowedSeqs
+	});
+}
+/** Flatten all-text output, or preserve a result whose rich block layout matters. */
+function flattenContextToolOutput(content) {
+	let text = "";
+	for (const block of content) {
+		if (block.type !== "text") return void 0;
+		text += block.text;
+	}
+	return text;
+}
+/**
+* Build a bounded Cherry-style preview for a spilled result.
+*
+* The notice is reserved before head/tail allocation so the result stays within
+* the configured character threshold even when a locator is long.
+*/
+function createContextToolOutputPreview(text, threshold, spill) {
+	if (!Number.isSafeInteger(threshold) || threshold < 1) return void 0;
+	const points = Array.from(text);
+	const totalChars = points.length;
+	if (totalChars <= threshold) return void 0;
+	const marker = `\n--- truncated (${String(countLines(text))} lines, ${String(totalChars)} chars total) ---\n`;
+	const previewBudget = threshold - (contextCodePointLength(marker) + contextCodePointLength(`(Omitted ${String(totalChars)} chars. Full formatted result stored at: ${spill.locator}. ${spill.retrievalHint})`) + 2);
+	if (previewBudget < 0) return void 0;
+	const headChars = Math.min(500, previewBudget);
+	const tailChars = Math.min(CONTEXT_TOOL_OUTPUT_TAIL_CHARS, previewBudget - headChars);
+	const omittedChars = totalChars - headChars - tailChars;
+	const resolvedNotice = `(Omitted ${String(omittedChars)} chars. Full formatted result stored at: ${spill.locator}. ${spill.retrievalHint})`;
+	const preview = headChars + tailChars === 0 ? "" : `${points.slice(0, headChars).join("")}${marker}${points.slice(totalChars - tailChars).join("")}`;
+	const output = preview === "" ? resolvedNotice : `${preview}\n\n${resolvedNotice}`;
+	return contextCodePointLength(output) <= threshold ? output : void 0;
+}
+/** Return an explicit summary route only when the user supplied a complete pair. */
+function resolveContextCompressionTarget(settings) {
+	if (!settings.contextEnabled || !settings.contextAutoCompress) return void 0;
+	const provider = settings.contextCompressionProvider.trim();
+	const model = settings.contextCompressionModel.trim();
+	return provider === "" || model === "" ? void 0 : {
+		provider,
+		model
+	};
+}
+function ownerSessionId(exec) {
+	return exec.agent?.session.header.id;
+}
+/** Save one oversized plain-text result and return its bounded model/log projection. */
+async function spillContextToolOutput(ctx, exec, toolName, callId, label, content, threshold) {
+	const text = flattenContextToolOutput(content);
+	if (text === void 0 || contextCodePointLength(text) <= threshold) return void 0;
+	const sessionId = ownerSessionId(exec);
+	const spillStore = ctx.get("spillStore", false);
+	if (sessionId === void 0 || spillStore === void 0) return void 0;
+	let spill;
+	try {
+		spill = await spillStore.saveText({
+			owner: { sessionId },
+			source: {
+				toolName,
+				callId,
+				label
+			},
+			suggestedName: `${toolName}.txt`,
+			content: text
+		});
+	} catch (error) {
+		ctx.logger.warn(`context policy: spill failed for ${toolName} ${label}; keeping the inline result: ${String(error)}`);
+		return;
+	}
+	const preview = createContextToolOutputPreview(text, threshold, spill);
+	return preview === void 0 ? void 0 : [{
+		type: "text",
+		text: preview
+	}];
+}
+function warningKey(error) {
+	return error instanceof Error ? error.message : String(error);
+}
+/**
+* Register live context controls. Settings are read at every execution boundary,
+* so the next tool result, compaction request, or model step sees the latest
+* saved values without a host restart.
+*/
+function installContextPolicy(ctx, readSettings) {
+	const warned = /* @__PURE__ */ new Set();
+	const warnOnce = (key, message) => {
+		if (warned.has(key)) return;
+		warned.add(key);
+		ctx.logger.warn(message);
+	};
+	ctx.on("tools/post-execute", async (exec, result, next) => {
+		const decision = await next();
+		if (decision.kind !== "accept" || Object.hasOwn(decision, "value") || exec.parent !== void 0 || exec.name === "read") return decision;
+		const settings = readSettings();
+		if (!settings.contextEnabled) return decision;
+		const content = decision.content ?? result.content;
+		const replaced = await spillContextToolOutput(ctx, exec, exec.name, exec.callId, "result", content, settings.contextToolOutputThreshold);
+		if (replaced === void 0) return decision;
+		return {
+			kind: "accept",
+			content: replaced,
+			...decision.additionalContexts === void 0 ? {} : { additionalContexts: decision.additionalContexts }
+		};
+	}, {
+		global: true,
+		prepend: true
+	});
+	ctx.on("tools/code-dispatch-log", async (dispatch, next) => {
+		const content = await next();
+		const settings = readSettings();
+		if (!settings.contextEnabled) return content;
+		return await spillContextToolOutput(ctx, dispatch.exec, dispatch.name, dispatch.subCallId, "dispatch", content, settings.contextToolOutputThreshold) ?? content;
+	}, {
+		global: true,
+		prepend: true
+	});
+	ctx.on("llm/stream", (options, next) => {
+		if (options.purpose !== "compaction") return next();
+		const target = resolveContextCompressionTarget(readSettings());
+		if (target === void 0 || Object.isFrozen(options)) return next();
+		options.provider = target.provider;
+		options.model = target.model;
+		return next();
+	}, { prepend: true });
+	ctx.on("agent/pre-step", async ({ agent, signal }, next) => {
+		if (!signal.aborted) {
+			const settings = readSettings();
+			const selection = settings.contextEnabled ? selectContextWindow(agent.session, settings.contextMaxMessages) : void 0;
+			if (selection !== void 0) {
+				if (settings.contextAutoCompress) {
+					const engine = ctx.get("agentPresets", false)?.serviceFor(agent, "compaction");
+					if (engine === void 0) warnOnce("missing-compaction", "context policy: no agent-scoped compaction service is available; keeping the full history");
+					else try {
+						await engine.compactRegion(selection.start, selection.end, agent, signal);
+					} catch (error) {
+						warnOnce(`compaction:${warningKey(error)}`, `context policy: recent-message compaction failed; keeping the full history: ${warningKey(error)}`);
+					}
+				} else {
+					const tokenMeter = ctx.get("tokenMeter", false);
+					if (tokenMeter === void 0) warnOnce("missing-token-meter", "context policy: no token meter is available for the recent-message window");
+					else try {
+						omitContextWindow(agent.session, selection, tokenMeter);
+					} catch (error) {
+						warnOnce(`omission:${warningKey(error)}`, `context policy: recent-message omission failed; keeping the full history: ${warningKey(error)}`);
+					}
+				}
+			}
+		}
+		return await next();
+	}, {
+		global: true,
+		prepend: true
+	});
+}
 //#endregion
 //#region lib/types/secret-schema.js
 /** Fail-closed audit for settings schemas that contain secret-role nodes. */
@@ -7990,7 +10831,15 @@ const GENERAL_SCHEMA = Schema.object({
 	launchOnBoot: Schema.boolean().default(false),
 	trayEnabled: Schema.boolean().default(true),
 	trayOnClose: Schema.boolean().default(false),
-	preventSleepWhenBusy: Schema.boolean().default(false)
+	trayOnLaunch: Schema.boolean().default(false),
+	preventSleepWhenBusy: Schema.boolean().default(false),
+	developerMode: Schema.boolean().default(false),
+	contextEnabled: Schema.boolean().default(true),
+	contextMaxMessages: Schema.any().default(null),
+	contextToolOutputThreshold: Schema.number().step(1).min(2e3).default(5e4),
+	contextAutoCompress: Schema.boolean().default(true),
+	contextCompressionProvider: Schema.string().default(""),
+	contextCompressionModel: Schema.string().default("")
 });
 const API_KEYS_SCHEMA = Schema.object({ providers: Schema.dict(Schema.any()).default({}) });
 const MODEL_PREFS_SCHEMA = Schema.object({
@@ -8042,6 +10891,9 @@ function apply(ctx) {
 	new LocalModelsService(ctx);
 	new UpdateService(ctx);
 	new DesktopService(ctx);
+	new AssistantService(ctx);
+	const generalScope = ctx.settings.register(GENERAL_NAMESPACE_SETTINGS, GENERAL_SCHEMA);
+	installContextPolicy(ctx, () => generalScope.get());
 	const contributions = [{
 		package: "@dsh-control-center/control-center",
 		face: "host",
@@ -8068,7 +10920,8 @@ function apply(ctx) {
 			...tasksRemote.descriptors,
 			...localModelsRemote.descriptors,
 			...updateRemote.descriptors,
-			...desktopRemote.descriptors
+			...desktopRemote.descriptors,
+			...assistantRemote.descriptors
 		]
 	}];
 	for (const contribution of contributions) ctx.typert.register(contribution);
@@ -8078,7 +10931,6 @@ function apply(ctx) {
 	ctx.settings.register(PROVIDER_STASH_NAMESPACE, PROVIDER_STASH_SCHEMA);
 	ctx.settings.register(MODEL_PREFS_NAMESPACE_SETTINGS, MODEL_PREFS_SCHEMA);
 	ctx.settings.register(API_KEYS_NAMESPACE_SETTINGS, API_KEYS_SCHEMA);
-	ctx.settings.register(GENERAL_NAMESPACE_SETTINGS, GENERAL_SCHEMA);
 }
 //#endregion
 export { ChannelBridgeService, DataService, DesktopService, FileProcessingService, KnowledgeService, LocalModelsService, MODEL_PREFS_NAMESPACE_SETTINGS, McpService, ModelCheckService, PaintingService, ProvidersService, SkillsService, SystemService, TasksService, TranslationService, UpdateService, UsageService, WebSearchService, apply, assertCompatibleDsh, assertSecretSchemaSafe, auditSecretSchema, cronMatches, inject, name };

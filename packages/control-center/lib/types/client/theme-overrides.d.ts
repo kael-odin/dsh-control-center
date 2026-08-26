@@ -11,6 +11,18 @@ export interface ThemeOverrides {
     customCss: string;
     /** Chat message base font size (px). Cherry `chat.message.font_size`. */
     messageFontSize: number;
+    /** Cherry `settings.messages.wide_mode` — widen the chat column. */
+    wideMode: boolean;
+    /** Cherry `settings.messages.use_serif_font`. */
+    useSerifFont: boolean;
+    /** Cherry `message.message.style` — plain | bubble. */
+    messageStyle: 'plain' | 'bubble';
+    /** Cherry `settings.messages.show_message_outline`. */
+    showMessageOutline: boolean;
+    /** Cherry `app.use_system_title_bar` — desktop window chrome (persisted for the desktop companion). */
+    useSystemTitleBar: boolean;
+    /** Cherry `ui.window_style` — transparent/opaque desktop window (persisted for the desktop companion). */
+    windowStyle: 'transparent' | 'opaque';
 }
 export declare const DEFAULT_THEME_OVERRIDES: ThemeOverrides;
 /** Cherry allows 12-18px; clamp anything else to the range. */

@@ -47,6 +47,9 @@ export declare const en: {
     maxTokens: string;
     maxTokensPlaceholder: string;
     modelAdvanced: string;
+    modelCapabilityRow: string;
+    capReasoning: string;
+    capVision: string;
     addModel: string;
     removeModel: string;
     modelsEmpty: string;
@@ -215,6 +218,15 @@ export declare const en: {
     generalContext: string;
     generalContextNativeTitle: string;
     generalContextNativeBody: string;
+    generalContextEnabled: string;
+    generalContextMaxMessages: string;
+    generalContextMaxMessagesHint: string;
+    generalContextThreshold: string;
+    generalContextThresholdHint: string;
+    generalContextAutoCompress: string;
+    generalContextCompressionProvider: string;
+    generalContextCompressionModel: string;
+    generalContextFollowModel: string;
     generalTrayOnLaunch: string;
     generalPreventSleep: string;
     generalDeveloperMode: string;

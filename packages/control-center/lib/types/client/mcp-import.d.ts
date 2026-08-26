@@ -22,6 +22,18 @@ export type ParseResult = {
     error: string;
 };
 /**
+ * Parse a pasted multi-server config (JSON array of server definitions, or a
+ * `mcpServers` keyed object) into an install list — Cherry protocol install
+ * wizard parity. Returns `ok: false` when the text is not a batch config.
+ */
+export declare function parseProtocolServers(text: string): {
+    ok: true;
+    servers: ParsedServerSpec[];
+} | {
+    ok: false;
+    error: string;
+};
+/**
  * Parse one pasted snippet into a server draft.
  * @param text - raw clipboard text: npx line, JSON def, mcpServers wrapper,
  *   or a URL.

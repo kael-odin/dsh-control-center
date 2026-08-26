@@ -40,6 +40,9 @@ import type {} from '../websearch-types.ts'
 import websearchRemote from '../websearch-remote-client.ts'
 import { WebSearchSection } from './WebSearchSection.tsx'
 import type { WebSearchSectionInjected } from './WebSearchSection.tsx'
+import type { QuickAssistantSectionInjected } from './QuickAssistantSection.tsx'
+import type { SelectionAssistantSectionInjected } from './SelectionAssistantSection.tsx'
+import type { ScreenshotSectionInjected } from './ScreenshotSection.tsx'
 import type {} from '../file-processing-types.ts'
 import fileProcessingRemote from '../file-processing-remote-client.ts'
 import { ProcessorSection } from './ProcessorSection.tsx'
@@ -196,6 +199,7 @@ export function apply(ctx: ClientContext): void {
   let localModels: NonNullable<typeof remote.controlCenterLocalModels> | undefined
   let update: NonNullable<typeof remote.controlCenterUpdate> | undefined
   let desktop: NonNullable<typeof remote.controlCenterDesktop> | undefined
+  let assistant: NonNullable<typeof remote.controlCenterAssistant> | undefined
   const localModelsReadySource: HostObservable<boolean> = {
     getSnapshot: () => localModels !== undefined,
     subscribe: (listener) => {
@@ -318,6 +322,7 @@ export function apply(ctx: ClientContext): void {
     localModels = ctx.get('remote.controlCenterLocalModels') as NonNullable<typeof remote.controlCenterLocalModels>
     update = ctx.get('remote.controlCenterUpdate') as NonNullable<typeof remote.controlCenterUpdate>
     desktop = ctx.get('remote.controlCenterDesktop') as NonNullable<typeof remote.controlCenterDesktop>
+    assistant = ctx.get('remote.controlCenterAssistant') as NonNullable<typeof remote.controlCenterAssistant>
     channelBridge = ctx.get('remote.controlCenterChannelBridge') as NonNullable<typeof remote.controlCenterChannelBridge>
     return dispose
   }, 'control-center: control-center Remote namespaces')
@@ -470,6 +475,9 @@ export function apply(ctx: ClientContext): void {
     websearch: websearch!,
     t: websearchT,
   })
+  const quickAssistantInjected = (): QuickAssistantSectionInjected => ({ assistant, desktop })
+  const selectionAssistantInjected = (): SelectionAssistantSectionInjected => ({ assistant, desktop })
+  const screenshotInjected = (): ScreenshotSectionInjected => ({ assistant, desktop })
   const deepSeekOnboardingInjected = (): DeepSeekOnboardingInjected => ({
     controller: modelsController,
     hooks: { models: modelsController.store },
@@ -824,18 +832,21 @@ export function apply(ctx: ClientContext): void {
     id: 'selection-assistant',
     order: 34,
     label: () => shellT('selectionAssistantNav'),
+    inject: selectionAssistantInjected,
   }, SelectionAssistantSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'quick-assistant',
     order: 33,
     label: () => shellT('quickAssistantNav'),
+    inject: quickAssistantInjected,
   }, QuickAssistantSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
     id: 'screenshot',
     order: 35,
     label: () => shellT('screenshotNav'),
+    inject: screenshotInjected,
   }, ScreenshotSection))
   const channelsInjected = (): ChannelsSectionInjected => ({
     api: connection.api,

@@ -1,14 +1,14 @@
 /**
  * One 通用 preference block contributed to the native General settings page —
- * Cherry GeneralSettings parity for the parts DSH can honor (启动行为 / 托盘),
- * plus honest platform notes for 代理 / 上下文管理.
+ * Cherry GeneralSettings parity for desktop behavior and context management,
+ * plus an honest platform note for proxy settings.
  *
  * The native General page renders every `settings.general.item` row; this
  * component owns its own copy, store, and write path through the injected
  * `generalController`.
  */
 
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { SnapshotSelectorHook } from '@deepseek-ai/dsh-client-ui-slots'
 import { Switch } from './panel-ui.tsx'
@@ -56,6 +56,22 @@ function Note({ title, body }: { title: string; body: string }): ReactNode {
   )
 }
 
+interface ContextDraft {
+  maxMessages: string
+  threshold: string
+  compressionProvider: string
+  compressionModel: string
+}
+
+function contextDraftFrom(prefs: GeneralPrefs): ContextDraft {
+  return {
+    maxMessages: prefs.contextMaxMessages === null ? '' : String(prefs.contextMaxMessages),
+    threshold: String(prefs.contextToolOutputThreshold),
+    compressionProvider: prefs.contextCompressionProvider,
+    compressionModel: prefs.contextCompressionModel,
+  }
+}
+
 export function GeneralCherrySettings(props: GeneralCherrySettingsProps): ReactNode {
   const { controller, useSnapshot, t } = props
   if (controller === undefined || useSnapshot === undefined || t === undefined) return null
@@ -68,10 +84,28 @@ function Loaded({ controller, useSnapshot, t }: {
   t: (key: keyof typeof en) => string
 }): ReactNode {
   const state = useSnapshot(snapshot => snapshot)
+  const prefs = state.prefs
+  const [contextDraft, setContextDraft] = useState<ContextDraft>(() => contextDraftFrom(prefs))
+  const initialContextPrefs = useRef(prefs)
 
   useEffect(() => {
     if (state.status === 'idle') void controller.load()
   }, [state.status, controller])
+
+  useEffect(() => {
+    const previous = initialContextPrefs.current
+    const changed = previous.contextMaxMessages !== prefs.contextMaxMessages
+      || previous.contextToolOutputThreshold !== prefs.contextToolOutputThreshold
+      || previous.contextCompressionProvider !== prefs.contextCompressionProvider
+      || previous.contextCompressionModel !== prefs.contextCompressionModel
+    initialContextPrefs.current = prefs
+    if (changed) setContextDraft(contextDraftFrom(prefs))
+  }, [
+    prefs.contextMaxMessages,
+    prefs.contextToolOutputThreshold,
+    prefs.contextCompressionProvider,
+    prefs.contextCompressionModel,
+  ])
 
   if (state.status === 'error') {
     /* v8 ignore next -- an error status always carries text */
@@ -82,7 +116,50 @@ function Loaded({ controller, useSnapshot, t }: {
     void controller.save(key, value)
   }
   const disabled = state.status !== 'ready' || !state.available || !state.writable
-  const prefs = state.prefs
+
+  const saveMaxMessages = (rawValue: string): void => {
+    const raw = rawValue.trim()
+    if (raw === '') {
+      void controller.save('contextMaxMessages', null)
+      return
+    }
+    const value = Number(raw)
+    if (!Number.isSafeInteger(value) || value < 1) {
+      setContextDraft(current => ({
+        ...current,
+        maxMessages: prefs.contextMaxMessages === null ? '' : String(prefs.contextMaxMessages),
+      }))
+      return
+    }
+    setContextDraft(current => ({ ...current, maxMessages: String(value) }))
+    void controller.save('contextMaxMessages', value)
+  }
+
+  const saveThreshold = (rawValue: string): void => {
+    const value = Number(rawValue.trim())
+    if (!Number.isSafeInteger(value) || value < 2_000) {
+      setContextDraft(current => ({ ...current, threshold: String(prefs.contextToolOutputThreshold) }))
+      return
+    }
+    setContextDraft(current => ({ ...current, threshold: String(value) }))
+    void controller.save('contextToolOutputThreshold', value)
+  }
+
+  const saveCompressionProvider = (rawValue: string): void => {
+    const value = rawValue.trim()
+    setContextDraft(current => ({ ...current, compressionProvider: value }))
+    void controller.save('contextCompressionProvider', value)
+  }
+
+  const saveCompressionModel = (rawValue: string): void => {
+    const value = rawValue.trim()
+    setContextDraft(current => ({ ...current, compressionModel: value }))
+    void controller.save('contextCompressionModel', value)
+  }
+
+  const blurOnEnter = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (event.key === 'Enter') event.currentTarget.blur()
+  }
 
   return (
     <div className={css['groupBody']}>
@@ -147,6 +224,101 @@ function Loaded({ controller, useSnapshot, t }: {
         title={t('generalContextNativeTitle')}
         body={t('generalContextNativeBody')}
       />
+      <PrefRow
+        title={t('generalContextEnabled')}
+        checked={prefs.contextEnabled}
+        disabled={disabled}
+        label={t('generalContextEnabled')}
+        onChange={(next) => { setPref('contextEnabled', next) }}
+      />
+      <div className={css['prefRow']}>
+        <label className={css['prefRowTitle']} htmlFor="cc-context-max-messages">
+          <span>{t('generalContextMaxMessages')}</span>
+          <span className={css['prefRowHint']}>{t('generalContextMaxMessagesHint')}</span>
+        </label>
+        <div className={css['prefRowControl']}>
+          <input
+            id="cc-context-max-messages"
+            className={`${css['prefInput']} ${css['prefNumber']}`}
+            type="number"
+            inputMode="numeric"
+            min={1}
+            step={1}
+            value={contextDraft.maxMessages}
+            disabled={disabled || !prefs.contextEnabled}
+            onChange={event => { setContextDraft(current => ({ ...current, maxMessages: event.target.value })) }}
+            onBlur={event => { saveMaxMessages(event.target.value) }}
+            onKeyDown={blurOnEnter}
+          />
+        </div>
+      </div>
+      <div className={css['prefRow']}>
+        <label className={css['prefRowTitle']} htmlFor="cc-context-tool-threshold">
+          <span>{t('generalContextThreshold')}</span>
+          <span className={css['prefRowHint']}>{t('generalContextThresholdHint')}</span>
+        </label>
+        <div className={css['prefRowControl']}>
+          <input
+            id="cc-context-tool-threshold"
+            className={`${css['prefInput']} ${css['prefNumber']}`}
+            type="number"
+            inputMode="numeric"
+            min={2_000}
+            step={1_000}
+            value={contextDraft.threshold}
+            disabled={disabled || !prefs.contextEnabled}
+            onChange={event => { setContextDraft(current => ({ ...current, threshold: event.target.value })) }}
+            onBlur={event => { saveThreshold(event.target.value) }}
+            onKeyDown={blurOnEnter}
+          />
+        </div>
+      </div>
+      <PrefRow
+        title={t('generalContextAutoCompress')}
+        checked={prefs.contextAutoCompress}
+        disabled={disabled || !prefs.contextEnabled}
+        label={t('generalContextAutoCompress')}
+        onChange={(next) => { setPref('contextAutoCompress', next) }}
+      />
+      <div className={css['prefRow']}>
+        <label className={css['prefRowTitle']} htmlFor="cc-context-compression-provider">
+          <span>{t('generalContextCompressionProvider')}</span>
+          <span className={css['prefRowHint']}>{t('generalContextFollowModel')}</span>
+        </label>
+        <div className={css['prefRowControl']}>
+          <input
+            id="cc-context-compression-provider"
+            className={css['prefInput']}
+            type="text"
+            maxLength={160}
+            value={contextDraft.compressionProvider}
+            disabled={disabled || !prefs.contextEnabled || !prefs.contextAutoCompress}
+            onChange={event => { setContextDraft(current => ({ ...current, compressionProvider: event.target.value })) }}
+            onBlur={event => { saveCompressionProvider(event.target.value) }}
+            onKeyDown={blurOnEnter}
+          />
+        </div>
+      </div>
+      <div className={css['prefRow']}>
+        <label className={css['prefRowTitle']} htmlFor="cc-context-compression-model">
+          <span>{t('generalContextCompressionModel')}</span>
+          <span className={css['prefRowHint']}>{t('generalContextFollowModel')}</span>
+        </label>
+        <div className={css['prefRowControl']}>
+          <input
+            id="cc-context-compression-model"
+            className={css['prefInput']}
+            type="text"
+            maxLength={200}
+            value={contextDraft.compressionModel}
+            disabled={disabled || !prefs.contextEnabled || !prefs.contextAutoCompress}
+            onChange={event => { setContextDraft(current => ({ ...current, compressionModel: event.target.value })) }}
+            onBlur={event => { saveCompressionModel(event.target.value) }}
+            onKeyDown={blurOnEnter}
+          />
+        </div>
+      </div>
+      {state.writeError === null ? null : <p className={css['error']} role="alert">{state.writeError}</p>}
     </div>
   )
 }

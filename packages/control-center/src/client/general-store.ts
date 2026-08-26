@@ -1,11 +1,4 @@
-/**
- * Desktop general preferences (启动行为 / 托盘) behind the 通用 page — Cherry
- * GeneralSettings parity for the parts DSH can honor: the preferences persist
- * in the shared `control-center-general` settings namespace, and the desktop
- * companion reads the same document at startup to apply 开机自启 and
- * 关闭到托盘. Proxy / context management / hardware acceleration are honest
- * platform notes on the page, not fake switches.
- */
+/** General settings store for desktop behavior and Cherry-compatible context preferences. */
 
 import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client'
 import type { SnapshotStore } from '@deepseek-ai/dsh-client-runtime/client'
@@ -22,6 +15,12 @@ export interface GeneralPrefs {
   trayOnLaunch: boolean
   preventSleepWhenBusy: boolean
   developerMode: boolean
+  contextEnabled: boolean
+  contextMaxMessages: number | null
+  contextToolOutputThreshold: number
+  contextAutoCompress: boolean
+  contextCompressionProvider: string
+  contextCompressionModel: string
 }
 
 export interface GeneralState {
@@ -41,12 +40,30 @@ const DEFAULT_PREFS: GeneralPrefs = {
   trayOnLaunch: false,
   preventSleepWhenBusy: false,
   developerMode: false,
+  contextEnabled: true,
+  contextMaxMessages: null,
+  contextToolOutputThreshold: 50_000,
+  contextAutoCompress: true,
+  contextCompressionProvider: '',
+  contextCompressionModel: '',
 }
 
 function readPrefs(value: unknown, schema: SettingsSchemaOperations): GeneralPrefs {
   const flag = (key: string, fallback: boolean): boolean => {
     const raw = schema.getPath(value, [key])
     return typeof raw === 'boolean' ? raw : fallback
+  }
+  const integerOrNull = (key: string, fallback: number | null): number | null => {
+    const raw = schema.getPath(value, [key])
+    return raw === null ? null : typeof raw === 'number' && Number.isSafeInteger(raw) && raw > 0 ? raw : fallback
+  }
+  const positiveInteger = (key: string, fallback: number): number => {
+    const raw = schema.getPath(value, [key])
+    return typeof raw === 'number' && Number.isInteger(raw) && raw >= 2_000 ? raw : fallback
+  }
+  const text = (key: string, fallback: string): string => {
+    const raw = schema.getPath(value, [key])
+    return typeof raw === 'string' ? raw : fallback
   }
   return {
     launchOnBoot: flag('launchOnBoot', DEFAULT_PREFS.launchOnBoot),
@@ -55,6 +72,12 @@ function readPrefs(value: unknown, schema: SettingsSchemaOperations): GeneralPre
     trayOnLaunch: flag('trayOnLaunch', DEFAULT_PREFS.trayOnLaunch),
     preventSleepWhenBusy: flag('preventSleepWhenBusy', DEFAULT_PREFS.preventSleepWhenBusy),
     developerMode: flag('developerMode', DEFAULT_PREFS.developerMode),
+    contextEnabled: flag('contextEnabled', DEFAULT_PREFS.contextEnabled),
+    contextMaxMessages: integerOrNull('contextMaxMessages', DEFAULT_PREFS.contextMaxMessages),
+    contextToolOutputThreshold: positiveInteger('contextToolOutputThreshold', DEFAULT_PREFS.contextToolOutputThreshold),
+    contextAutoCompress: flag('contextAutoCompress', DEFAULT_PREFS.contextAutoCompress),
+    contextCompressionProvider: text('contextCompressionProvider', DEFAULT_PREFS.contextCompressionProvider),
+    contextCompressionModel: text('contextCompressionModel', DEFAULT_PREFS.contextCompressionModel),
   }
 }
 
@@ -93,8 +116,8 @@ export class GeneralSettingsStore {
     }
   }
 
-  /** Persist one preference; keeps the others untouched. */
-  async save(key: keyof GeneralPrefs, value: boolean): Promise<boolean> {
+  /** Persist one preference; keeps every other setting unchanged. */
+  async save<K extends keyof GeneralPrefs>(key: K, value: GeneralPrefs[K]): Promise<boolean> {
     const snapshot = this.store.getSnapshot()
     if (snapshot.revision === null || !snapshot.available) return false
     this.store.update((state) => { state.writeError = null })
@@ -103,9 +126,9 @@ export class GeneralSettingsStore {
       expectedRevision: snapshot.revision,
       ops: [{ op: 'set', path: [key], value }],
     })
-    if (!response.result.ok) {
-      const failure = response.result
-      this.store.update((state) => { state.writeError = failure.error.message })
+    const result = response.result
+    if (!result.ok) {
+      this.store.update((state) => { state.writeError = result.error.message })
       return false
     }
     await this.load()

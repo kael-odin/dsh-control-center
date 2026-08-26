@@ -430,9 +430,6 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
             <p className={css.detailDesc}>{typeDef.description}</p>
             <div className={css.divider} />
 
-            <p className={css.detailDesc}>{typeDef.description}</p>
-            <div className={css.divider} />
-
             {!available && (
               <div className={css.notice}>
                 当前部署未启用频道存储，更改仅保存在本浏览器；更新 Control Center 后可迁移。

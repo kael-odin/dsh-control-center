@@ -51,8 +51,14 @@ async function startHost(home: string, port: number): Promise<{ child: ChildProc
 
 async function stopHost(child: ChildProcess): Promise<void> {
   if (child.exitCode !== null) return
-  child.kill('SIGTERM')
-  await new Promise<void>(resolveStop => child.once('exit', () => { resolveStop() }))
+  const exited = await new Promise<boolean>((resolveExit) => {
+    const timeout = setTimeout(() => resolveExit(false), 10_000)
+    child.once('exit', () => { clearTimeout(timeout); resolveExit(true) })
+    child.kill('SIGTERM')
+  })
+  if (exited || child.exitCode !== null) return
+  child.kill('SIGKILL')
+  await new Promise<void>(resolveExit => { child.once('exit', () => { resolveExit() }) })
 }
 
 async function expectPoll<T>(read: () => Promise<T>, expected: T, timeoutMs: number): Promise<void> {

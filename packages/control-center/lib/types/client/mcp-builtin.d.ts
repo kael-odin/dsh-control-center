@@ -31,4 +31,20 @@ export interface McpMarketSite {
     description: string;
 }
 export declare const MCP_MARKET_SITES: readonly McpMarketSite[];
+/**
+ * Cherry's 9 inMemory built-in servers. Only descriptors live here (client
+ * bundle safe); the in-process runtimes live in `mcp-builtin-runtime.ts`
+ * (host side, pulls in the MCP SDK + zod). The four DSH-native ones (fetch /
+ * filesystem / brave-search / python) are honest "capability maps onto DSH"
+ * entries; the rest are listed until a runtime exists.
+ */
+export interface BuiltinMemoryServer {
+    name: string;
+    description: string;
+    /** True when an in-process runtime actually exists on the host. */
+    available: boolean;
+    /** Protocol command key the host runtime dispatches on. */
+    runtimeKey: string;
+}
+export declare const BUILTIN_MEMORY_SERVERS: readonly BuiltinMemoryServer[];
 //# sourceMappingURL=mcp-builtin.d.ts.map

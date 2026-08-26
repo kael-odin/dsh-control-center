@@ -169,8 +169,9 @@
   cursor: pointer;
 }
 
+/* Modifier only — pair with .seg in markup (composes is dropped by the
+   build pipeline). */
 .segActive {
-  composes: seg;
   /* Cherry selected-item treatment: neutral accent wash + foreground text,
      not a brand-color fill. */
   background: var(--accent, color-mix(in srgb, var(--foreground) 8%, transparent));

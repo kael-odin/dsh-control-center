@@ -37,6 +37,9 @@ import { UpdateService } from './update.ts'
 import { localModelsRemote, updateRemote } from './local-models-remote-client.ts'
 import { DesktopService } from './desktop.ts'
 import desktopRemote from './desktop-remote-client.ts'
+import { AssistantService } from './assistant.ts'
+import assistantRemote from './assistant-remote-client.ts'
+import { installContextPolicy, type ContextPolicySettings } from './context-policy.ts'
 
 const ONBOARDING_SETTINGS_NAMESPACE = 'ui-onboarding'
 const NOTIFICATION_SETTINGS_NAMESPACE = 'control-center-notifications'
@@ -70,7 +73,16 @@ const GENERAL_SCHEMA = z.object({
   launchOnBoot: z.boolean().default(false),
   trayEnabled: z.boolean().default(true),
   trayOnClose: z.boolean().default(false),
+  trayOnLaunch: z.boolean().default(false),
   preventSleepWhenBusy: z.boolean().default(false),
+  developerMode: z.boolean().default(false),
+  // Cherry chat.context_settings.* projected onto DSH's compaction/pruning policy.
+  contextEnabled: z.boolean().default(true),
+  contextMaxMessages: z.any().default(null),
+  contextToolOutputThreshold: z.number().step(1).min(2_000).default(50_000),
+  contextAutoCompress: z.boolean().default(true),
+  contextCompressionProvider: z.string().default(''),
+  contextCompressionModel: z.string().default(''),
 })
 
 const API_KEYS_SCHEMA = z.object({
@@ -153,6 +165,12 @@ export function apply(ctx: Context): void {
   new LocalModelsService(ctx)
   new UpdateService(ctx)
   new DesktopService(ctx)
+  new AssistantService(ctx)
+  const generalScope = ctx.settings.register(
+    GENERAL_NAMESPACE_SETTINGS,
+    GENERAL_SCHEMA,
+  )
+  installContextPolicy(ctx, () => generalScope.get() as ContextPolicySettings)
   const contributions: readonly TypertContribution[] = [
     {
       package: '@dsh-control-center/control-center',
@@ -176,7 +194,8 @@ export function apply(ctx: Context): void {
         ...tasksRemote.descriptors,
         ...localModelsRemote.descriptors,
         ...updateRemote.descriptors,
-        ...desktopRemote.descriptors
+        ...desktopRemote.descriptors,
+        ...assistantRemote.descriptors
       ]
     }
   ]
@@ -204,10 +223,6 @@ export function apply(ctx: Context): void {
   ctx.settings.register(
     API_KEYS_NAMESPACE_SETTINGS,
     API_KEYS_SCHEMA,
-  )
-  ctx.settings.register(
-    GENERAL_NAMESPACE_SETTINGS,
-    GENERAL_SCHEMA,
   )
 }
 

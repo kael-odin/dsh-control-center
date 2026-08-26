@@ -12,6 +12,9 @@ import Schema from '@deepseek-ai/schemastery'
 import { readdirSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs'
 import { createHash, createHmac } from 'node:crypto'
 import { join } from 'node:path'
+import { stripFileProcessingSecrets } from './file-processing-settings.ts'
+
+const FILE_PROCESSING_NAMESPACE = settingsNamespace('control-center-file-processing')
 
 /**
  * Every settings namespace the Control Center plugin owns — the full backup
@@ -269,8 +272,11 @@ export class DataService extends Service {
       // JSON round-trip: guarantees every exported value is JSON-safe at the
       // Typert boundary (drops Date/Map/undefined). Uninitialized namespaces
       // export as `{}` so the key is always present in a backup.
-      namespaces[ns] = typeof value === 'object' && value !== null
-        ? JSON.parse(JSON.stringify(value)) as object
+      const snapshotValue = ns === FILE_PROCESSING_NAMESPACE
+        ? stripFileProcessingSecrets(value)
+        : value
+      namespaces[ns] = typeof snapshotValue === 'object' && snapshotValue !== null
+        ? JSON.parse(JSON.stringify(snapshotValue)) as object
         : {}
     }
     return {
@@ -287,7 +293,10 @@ export class DataService extends Service {
     for (const ns of DATA_NAMESPACES) {
       const value = snapshot.namespaces[ns]
       if (value !== undefined && typeof value === 'object' && value !== null) {
-        await this.ctx.settings.update(ns, value as object)
+        await this.ctx.settings.update(
+          ns,
+          ns === FILE_PROCESSING_NAMESPACE ? stripFileProcessingSecrets(value) : value as object,
+        )
       }
     }
     this.ctx.logger.info('Imported Control Center data snapshot', { namespaces: Object.keys(snapshot.namespaces).length })

@@ -34,9 +34,9 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 能力 | MCP | ⚠️ | **真实子导航（Cherry McpSettingsPage parity，2026-08-24）**：服务器（分栏列表+详情 tab）/ 内置服务器（预设页 + **内置运行时区，2026-08-24**）/ 市场（npx scope 搜索 + 外部市场站点）/ **提供商配置（Bailian 百炼 + ModelScope 托管 MCP 发现）** / **协议安装向导（批量安装确认）**。**内置服务器 9 个 inMemory 已落地 2 个**（sequential-thinking + memory 进程内 MCP 服务器，InMemoryTransport 无外部进程，2026-08-24）；fetch/filesystem/brave-search/python 映射 DSH 原生能力；dify-knowledge/browser/didi 待实现 |
 | 能力 | Skills | ✅ | SkillsSection 资源目录视图 |
 | 能力 | Web Search | ✅ | WebSearchSection：提供者配置/高级设置/黑名单 |
-| 能力 | File Processing | ⚠️ | 处理器目录+API Key+本地模型。缺：PaddleOCR 模型选择/语言包/Tesseract 运行时检测 |
-| 能力 | OCR | ✅ | 同 File Processing |
-| 个人 | General | ⚠️ | GeneralCherrySettings.tsx：启动组 3 行开关（launchOnBoot/trayEnabled/trayOnClose）真实可写；代理组/上下文管理为诚实 Note 占位。缺：代理模式选择器、上下文压缩映射、省电、硬件加速、开发者模式行 |
+| 能力 | File Processing | ✅ | 6 种文档处理器真实分发（2026-08-26）：本地文本/PDF 提取、Mistral OCR（上传→签名 URL→OCR→清理）、Open MinerU 自托管、MinerU/Doc2X/PaddleOCR 文档走持久化远程任务（storage-domain 存储、30 分钟 deadline、重启恢复、取消）。API Key 只存 DSH credentials，settings/导出仅保留引用；每 feature 端点/模型/语言配置；provider 返回的 URL/头/响应体均经白名单与大小校验。缺：system/local-paddleocr 需桌面原生桥 |
+| 能力 | OCR | ✅ | 5 种选择同 File Processing：system/tesseract/paddleocr/local-paddleocr/mistral；tesseract 经 DSH subprocess 探测并执行，不可用时返回 needs-runtime 而非伪装成功 |
+| 个人 | General | ⚠️ | GeneralCherrySettings.tsx：启动/托盘/省电/开发者模式与 Context Management 均真实可写。Context Management 映射到 DSH：普通工具和 Code Mode 子调用按字符阈值 spill，最近消息窗口以可回放 checkpoint 收缩，自动压缩通过 agent-scoped compaction，压缩模型仅路由 `purpose: compaction` 请求；已由 packed Web profile 多轮会话验证。仍缺：代理模式/地址/绕过、允许私网、硬件加速。注意关闭该开关只关闭 Control Center 自定义策略，DSH 原生 overflow recovery 仍可能执行。 |
 | 个人 | Appearance | ⚠️ | 主题/颜色/语言/字体/缩放/CSS、**消息字体大小（12–18px stepper）**、**消息显示设置组（宽屏模式/衬线字体/消息样式平铺·气泡/消息轮廓，2026-08-24，经 `[data-chat-flow-kind]` 注入并持久化）**、**窗口组（窗口样式不透明·透明 + 系统标题栏，桌面偏好持久化，2026-08-24）** 已实现。**仍缺**：菜单呈现模式、代码执行（Pyodide，DSH 无此运行时）、输入区快捷键（DSH composer 原生拥有） |
 | 个人 | Notification | ✅ | 4 个开关完全对等 |
 | 个人 | Data | ⚠️ | IA 已重构为 Cherry 子菜单（13 项/5 组）。本地备份+轮转+恢复、WebDAV 云备份、**坚果云（WebDAV 厂商预设）**、**S3 兼容存储（AWS SigV4 手写签名，无 SDK，2026-08-24）**、Markdown 导出、备份/恢复、数据重置、应用数据路径 均可用。**仍缺**：ChatGPT/Claude 导入、导出菜单可见性、Notion/语雀/Joplin/Obsidian/思源笔记导出、日志路径、清除缓存、隐私模式 |
@@ -76,19 +76,16 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 
 ### 1. General — 通用设置
 
-已实现（GeneralCherrySettings.tsx + general-store.ts）：开机启动 / 显示托盘 / 关闭到托盘（3 行 Switch，经 generalController 真实写路径）；代理与上下文管理为诚实 Note。
+已实现（GeneralCherrySettings.tsx + general-store.ts + context-policy.ts）：开机启动 / 显示托盘 / 关闭到托盘 / 启动到托盘 / 省电模式 / 开发者模式均经 `generalController` 真实写入；Context Management 的启用开关、最近消息数、工具输出字符阈值、自动压缩与压缩模型已映射至 DSH 运行时。顶层和 Code Mode 子工具结果会 spill 为完整结果+有界预览；最近消息窗口保留 tool pair 边界，自动压缩使用 preset-isolated compaction，关闭自动压缩时写入可回放 omission checkpoint。打包 Web profile 的多轮会话测试已验证 summary 与 omission 两条路径。
 
 仍缺（Cherry 存储键 → 目标形态）：
 
 | 行 | Cherry 键 | 说明 |
 |---|---|---|
-| 启动到托盘 | `app.tray.on_launch` | 与 trayEnabled/trayOnClose 同组，补一行即可 |
-| 省电模式 | `app.power.prevent_sleep_when_busy` | Switch，需 host 电源策略 |
 | 代理模式/地址/绕过 | `app.proxy.*` | Selector+Input；UI 先行，host 后接 |
 | 允许私有网络 | `app.fetch.allow_private_network` | Switch + InfoTooltip |
 | 禁用硬件加速 | `BootConfig.app.disable_hardware_acceleration` | Switch + 重启确认 |
-| 最大消息数/上下文压缩 | `chat.context_settings.*` | 映射到 DSH compaction 配置 |
-| 开发者模式/客户端 ID | `app.developer_mode.enabled` / `app.user.id` | 最简单的两行 |
+| 客户端 ID | `app.user.id` | DSH 暂无同等的用户标识设置面 |
 
 ### 2. Appearance — 外观设置
 
@@ -121,7 +118,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | Dependencies | Node 版本并入环境工具卡 | ffmpeg/tesseract/git 检测已上线 |
 | About | 自动更新安装、发布说明页（内嵌）、诊断日志包（logs/system/traces 三源） | 检查更新/诊断包/外链已通 |
 | Screenshot | OCR 模型状态指示 | 低 |
-| File Processing | PaddleOCR 模型选择、语言包、Tesseract 状态 | 低 |
+| ~~File Processing~~ | ~~PaddleOCR 模型选择、语言包、Tesseract 状态~~ | ✅ 2026-08-26（每 feature 模型/端点、语言多选、tesseract resolveExecutable 探测） |
 
 ---
 
@@ -167,8 +164,8 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | Skills | ✅ 间接 | 技能文件写 `~/.dsh/skills/`，DSH 原生技能运行时加载 | 无 |
 | 模型路由 | ✅ | provider 页写 DSH 原生 llm-pi-ai 路由（Luna 实测可用） | Cherry 模型精细配置（用途/协议/类型/能力/模态/增量输出/分档价格）我们只有容量字段 |
 | 网络搜索 | ✅ | `web_search` 工具注册进 toolService（websearch.ts，2026-08-24）：tavily/exa/zhipu/bocha/searxng 线上分发 + 压缩截断 + 诚实错误；会话实测 agent 真实调用 | jina/firecrawl/querit/exa-mcp 暂无线分发（诚实报错指引切换） |
-| 文档处理 | ✅ | `read_document` 工具进 toolService（file-processing.ts，2026-08-24）：文本提取 + Mistral 视觉 OCR 分发 + 云端处理器诚实报错 | PDF/DOCX 需配置 MinerU/Doc2X |
-| OCR | ✅ | 同 read_document（图片走 Mistral 视觉 OCR） | 需配置视觉模型 Key |
+| 文档处理 | ✅ | `read_document` + `read_document_task` 工具进 toolService（file-processing.ts，2026-08-26）：统一 resolve→validate→dispatch；文本/PDF 本地提取、Tesseract、Mistral、PaddleOCR 图片同步完成；MinerU/Doc2X/PaddleOCR 文档返回持久任务 id，重启后从 storage-domain 恢复轮询并重新解析凭据 | system/local-paddleocr 需桌面运行时；远程任务依赖 storage-domain 就绪 |
+| OCR | ✅ | 同 read_document 统一分发：图片按 feature 走默认 OCR 处理器，不可用处理器返回准确 capability 状态 | 云端 OCR 需配置对应 Key |
 | 频道 | ⚠️ | 六平台桥连通；回复是裸 LLM + 模型/提示词覆盖 | 频道回复不走 agent loop，**不能调 MCP 工具/知识库**（Cherry 频道有完整能力）。**已勘察的接入路径**（2026-08-24）：host 侧消息入口 = `session.prompt` RPC → `api.sessions.prompt()`；进程内路径 = `ctx.sessions.create()` + AgentFactory(`ctx.agentLoop`)`.publish(source)`。实施要点：每频道会话生命周期、并发消息排队、流式收集、错误回退到裸 LLM。属独立工作量，需聚焦会话专项实施 |
 
 **结论**：设置面接近完成，**深度集成（能力→agent 运行时）是下一阶段主战场**。

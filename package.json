@@ -13,7 +13,7 @@
     "clean": "node -e \"require('node:fs').rmSync('packages/bundle/lib',{recursive:true,force:true});require('node:fs').rmSync('packages/control-center/lib',{recursive:true,force:true});require('node:fs').rmSync('.pack-bundle',{recursive:true,force:true})\"",
     "typecheck": "tsc -b --pretty false",
     "test": "vitest run",
-    "test:browser": "pnpm run pack:check && tsx tests/packed-browser-e2e.ts",
+    "test:browser": "pnpm run pack:check && tsx tests/context-policy-profile-e2e.ts && tsx tests/packed-browser-e2e.ts",
     "smoke:desktop": "pnpm --dir apps/desktop smoke",
     "smoke:desktop:selfhost": "pnpm --dir apps/desktop smoke:selfhost",
     "lint": "oxlint packages/*/src build tests --deny-warnings",

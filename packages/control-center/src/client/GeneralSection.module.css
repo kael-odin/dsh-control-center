@@ -11,6 +11,16 @@
   border-bottom: none;
 }
 
+/* DSH's native theme-preference row (light/dark/system cubes, slot entry id
+ * "appearance") duplicates the Appearance page's theme controls. Cherry puts
+ * theme switching only under Appearance, so the General page hides the native
+ * row. The selector keys off the cubes' aria-pressed attribute — no other
+ * General row markup carries it. Degrades to "duplicate returns" if a future
+ * DSH changes that markup, never to "row lost". */
+.section > :global([data-slot='settings.general.item']) > div:has(> div > button[aria-pressed]) {
+  display: none;
+}
+
 .errorTitle {
   color: var(--cc-text-primary);
   font-size: 14px;
@@ -185,4 +195,31 @@
   color: var(--error-subtle-foreground);
   font-size: 13px;
   margin: 8px 0;
+}
+
+.prefInput {
+  width: min(200px, 44vw);
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  box-sizing: border-box;
+  background: color-mix(in srgb, var(--muted) 30%, transparent);
+  color: var(--foreground);
+  font: inherit;
+  font-size: 13px;
+  outline: none;
+}
+
+.prefNumber {
+  width: 116px;
+}
+
+.prefInput:focus-visible {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--ring) 35%, transparent);
+}
+
+.prefInput:disabled {
+  cursor: not-allowed;
+  opacity: 0.56;
 }

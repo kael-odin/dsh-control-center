@@ -35,6 +35,10 @@ export declare class DesktopService extends Service {
     private bridgeFetch;
     /** Capability probe: is the native bridge reachable, and what does it report? */
     check(): Promise<DesktopStatus>;
+    /** Push the assistant prefs snapshot so the shell (re)registers hotkeys. */
+    pushAssistantPrefs(prefs: unknown): Promise<{
+        ok: boolean;
+    }>;
     fonts(): Promise<DesktopFontsResult>;
     menu(model: unknown): Promise<DesktopMenuResult>;
     adjustZoom(delta: number, reset: boolean): Promise<DesktopZoomResult>;

@@ -1,7 +1,7 @@
 /**
  * One 通用 preference block contributed to the native General settings page —
- * Cherry GeneralSettings parity for the parts DSH can honor (启动行为 / 托盘),
- * plus honest platform notes for 代理 / 上下文管理.
+ * Cherry GeneralSettings parity for desktop behavior and context management,
+ * plus an honest platform note for proxy settings.
  *
  * The native General page renders every `settings.general.item` row; this
  * component owns its own copy, store, and write path through the injected
