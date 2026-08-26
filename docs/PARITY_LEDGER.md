@@ -64,7 +64,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | translate（翻译） | ✅* | TranslationWorkspace 文本翻译可用（重试策略/fallback/历史面板）+ **PDF 文本提取（客户端 pdfjs，上传 PDF 自动填入输入框，2026-08-24）**。*细节对账未逐项做 |
 | knowledge（知识库） | ✅* | KnowledgeWorkspace + knowledge host 模块/codec。*细节对账未逐项做 |
 | files（文件管理器） | ⛔/❌ | 文件存储浏览 UI 未迁移；文件处理设置已在 File Processing 覆盖。优先级低（DSH 原生文件能力可评估后标注） |
-| code（CodeCliPage） | ❌ | 未迁移。product-workspace-contract.ts 已预留 `'repo'` workspace id 但从未注册 —— 天然的挂载点 |
+| code（CodeCliPage） | ✅* | **repo 工作台已挂载（2026-08-26）**：`application.navigation` + `application.surface` 双槽，`system.listCodeClis()` 探测 PATH 上 9 种 AI 编程 CLI（claude/codex/gemini/qwen/kimi/opencode/copilot/dsh/pi）含版本；已检测/未检测分组展示。*Cherry 还有安装/启动管理（mise/npm），我们保持检测优先——安装归操作者的包管理器 |
 | miniApps（小程序） | ❌ | 未迁移 |
 | launchpad | ❌ | 未迁移 |
 | releaseNotes | ✅ | **发布说明内嵌页已迁移（2026-08-26）**：About 页「发布说明」卡片，`controlCenterUpdate.listReleases()` 拉取 GitHub releases（最近 10 条，展示前 5），轻量 markdown 渲染（标题/列表/代码/粗体/链接）+ 预发布标注 + 外链 | Cherry 是独立顶层路由；我们挂在 About 下，信息架构等价 |
@@ -189,8 +189,8 @@ Cherry 编辑模型含：用途（对话/图像生成/图像编辑）、对话�
 
 - **设置面 UI/UX**：~90%（22 项设置全有对应区+导航 IA 对齐；缺精细模型编辑、provider 目录树展开、部分桌面行）
 - **深度集成**：~95%（MCP/知识库/技能/模型/网络搜索/文档处理/OCR/频道 八条全通；频道回复 2026-08-26 起走完整 agent loop）
-- **顶层工作台**：~40%（翻译/绘画/知识库可用；code/notes/miniApps/launchpad 未迁移）
-- **整体加权**：~80%。深度集成已收尾，下一阶段主攻顶层工作台与逐页视觉打磨。
+- **顶层工作台**：~60%（翻译/绘画/知识库可用 + code CLI 探测工作台 2026-08-26 挂载；notes/miniApps/launchpad 未迁移）
+- **整体加权**：~85%。深度集成与插件化章程收口后，剩余为顶层工作台补齐与逐页视觉打磨。
 
 ## 九、打磨方向（按 Cherry 实际视觉逐页对照）
 

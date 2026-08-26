@@ -9781,6 +9781,93 @@ var SystemService = class extends Service {
 			value: drainPluginLogs()
 		};
 	}
+	/**
+	* Detect AI coding CLIs on PATH (Cherry CodeCliPage roster parity). Pure
+	* detection — install/launch stays with the operator's package manager.
+	*/
+	async listCodeClis() {
+		const whichCmd = platform() === "win32" ? "where" : "which";
+		const clis = [
+			{
+				name: "claude",
+				probe: ["--version"],
+				hint: "Claude Code（Anthropic）"
+			},
+			{
+				name: "codex",
+				probe: ["--version"],
+				hint: "OpenAI Codex CLI"
+			},
+			{
+				name: "gemini",
+				probe: ["--version"],
+				hint: "Gemini CLI（Google）"
+			},
+			{
+				name: "qwen",
+				probe: ["--version"],
+				hint: "Qwen Code"
+			},
+			{
+				name: "kimi",
+				probe: ["--version"],
+				hint: "Kimi Code（Moonshot）"
+			},
+			{
+				name: "opencode",
+				probe: ["--version"],
+				hint: "OpenCode"
+			},
+			{
+				name: "copilot",
+				probe: ["--version"],
+				hint: "GitHub Copilot CLI"
+			},
+			{
+				name: "dsh",
+				probe: ["--version"],
+				hint: "DeepSeek Harness CLI"
+			},
+			{
+				name: "pi",
+				probe: ["--version"],
+				hint: "Pi Coding Agent"
+			}
+		];
+		const entries = [];
+		for (const cli of clis) try {
+			if (spawnSync(whichCmd, [cli.name], {
+				encoding: "utf8",
+				timeout: 5e3
+			}).status === 0) {
+				const versionProbe = spawnSync(cli.name, cli.probe, {
+					encoding: "utf8",
+					timeout: 5e3
+				});
+				const version = versionProbe.status === 0 ? (versionProbe.stdout ?? "").split("\n")[0]?.trim() || void 0 : void 0;
+				entries.push({
+					name: cli.name,
+					present: true,
+					version,
+					hint: cli.hint
+				});
+			} else entries.push({
+				name: cli.name,
+				present: false,
+				hint: cli.hint
+			});
+		} catch {
+			entries.push({
+				name: cli.name,
+				present: false,
+				hint: cli.hint
+			});
+		}
+		return {
+			ok: true,
+			value: entries
+		};
+	}
 	async listDependencies() {
 		const entries = [];
 		for (const pkg of CONTRACT_PACKAGES) {
@@ -9958,6 +10045,10 @@ const systemRemote = {
 		},
 		{
 			method: "collectDiagnosticLogs",
+			parameters: []
+		},
+		{
+			method: "listCodeClis",
 			parameters: []
 		}
 	].map(({ method, parameters }) => ({

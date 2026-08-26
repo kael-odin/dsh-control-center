@@ -103,6 +103,43 @@ export class SystemService extends Service {
     return { ok: true, value: drainPluginLogs() }
   }
 
+  /**
+   * Detect AI coding CLIs on PATH (Cherry CodeCliPage roster parity). Pure
+   * detection — install/launch stays with the operator's package manager.
+   */
+  async listCodeClis(): Promise<{ ok: true; value: EnvCheckEntry[] }> {
+    const whichCmd = platform() === 'win32' ? 'where' : 'which'
+    const clis: ReadonlyArray<{ name: string; probe: string[]; hint: string }> = [
+      { name: 'claude', probe: ['--version'], hint: 'Claude Code（Anthropic）' },
+      { name: 'codex', probe: ['--version'], hint: 'OpenAI Codex CLI' },
+      { name: 'gemini', probe: ['--version'], hint: 'Gemini CLI（Google）' },
+      { name: 'qwen', probe: ['--version'], hint: 'Qwen Code' },
+      { name: 'kimi', probe: ['--version'], hint: 'Kimi Code（Moonshot）' },
+      { name: 'opencode', probe: ['--version'], hint: 'OpenCode' },
+      { name: 'copilot', probe: ['--version'], hint: 'GitHub Copilot CLI' },
+      { name: 'dsh', probe: ['--version'], hint: 'DeepSeek Harness CLI' },
+      { name: 'pi', probe: ['--version'], hint: 'Pi Coding Agent' },
+    ]
+    const entries: EnvCheckEntry[] = []
+    for (const cli of clis) {
+      try {
+        const found = spawnSync(whichCmd, [cli.name], { encoding: 'utf8', timeout: 5_000 })
+        if (found.status === 0) {
+          const versionProbe = spawnSync(cli.name, cli.probe, { encoding: 'utf8', timeout: 5_000 })
+          const version = versionProbe.status === 0
+            ? (versionProbe.stdout ?? '').split('\n')[0]?.trim() || undefined
+            : undefined
+          entries.push({ name: cli.name, present: true, version, hint: cli.hint })
+        } else {
+          entries.push({ name: cli.name, present: false, hint: cli.hint })
+        }
+      } catch {
+        entries.push({ name: cli.name, present: false, hint: cli.hint })
+      }
+    }
+    return { ok: true, value: entries }
+  }
+
   async listDependencies(): Promise<DependencyEntry[]> {
     const entries: DependencyEntry[] = []
     for (const pkg of CONTRACT_PACKAGES) {

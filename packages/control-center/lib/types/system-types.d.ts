@@ -112,6 +112,10 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
                     message: string;
                 }>;
             }>;
+            listCodeClis(): Promise<{
+                ok: true;
+                value: EnvCheckEntry[];
+            }>;
         };
     }
 }

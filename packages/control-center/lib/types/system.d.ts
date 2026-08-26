@@ -36,6 +36,14 @@ export declare class SystemService extends Service {
         ok: true;
         value: PluginLogEntry[];
     }>;
+    /**
+     * Detect AI coding CLIs on PATH (Cherry CodeCliPage roster parity). Pure
+     * detection — install/launch stays with the operator's package manager.
+     */
+    listCodeClis(): Promise<{
+        ok: true;
+        value: EnvCheckEntry[];
+    }>;
     listDependencies(): Promise<DependencyEntry[]>;
     checkDependencies(): Promise<EnvCheckEntry[]>;
     listPlugins(profile: string): Promise<PluginInventory>;

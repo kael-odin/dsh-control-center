@@ -9,6 +9,7 @@ const methods: ReadonlyArray<SystemMethod> = [
   { method: 'listPlugins', parameters: ['profile'] },
   { method: 'managePlugin', parameters: ['profile', 'operation', 'spec'] },
   { method: 'collectDiagnosticLogs', parameters: [] },
+  { method: 'listCodeClis', parameters: [] },
 ]
 
 /** Client descriptor contribution for the Control Center system service. */
