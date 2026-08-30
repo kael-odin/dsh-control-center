@@ -111,6 +111,9 @@ const MODEL_PREFS_SCHEMA = z.object({
   paintingModel: z.string().default(''),
   quickProvider: z.string().default(''),
   quickModel: z.string().default(''),
+  // Notes editor AI continuation; empty falls back to the host's agent-default route.
+  notesProvider: z.string().default(''),
+  notesModel: z.string().default(''),
   retryEnabled: z.boolean().default(false),
   retryMaxAttempts: z.number().step(1).min(1).max(10).default(3),
   retryBackoff: z.boolean().default(true),
@@ -126,7 +129,10 @@ interface AppearanceSettings {
 }
 
 const AppearanceSettingsSchema: z<AppearanceSettings> = z.object({
-  colorPrimary: z.string().default('#00b96b'),
+  // Keep in sync with DEFAULT_THEME_OVERRIDES.colorPrimary in
+  // client/theme-overrides.ts — the host half never imports client code, so
+  // design-tokens.spec.ts asserts the two literals match instead.
+  colorPrimary: z.string().default('#8B5CF6'),
   fontFamily: z.string().default(''),
   codeFontFamily: z.string().default(''),
   customCss: z.string().default(''),
