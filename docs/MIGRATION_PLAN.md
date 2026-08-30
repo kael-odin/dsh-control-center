@@ -99,11 +99,16 @@ Cherry 侧动作系统核心（actionRegistry 310 行零耦合 + MessageListActi
 - [ ] 消息内搜索 + 锚点导航 + 分支 SiblingNavigator
 - [ ] 数据源走 `ctx.remote.session` 历史流与 live 控制状态
 
-### 1.4 Composer token 化输入 ❌
-- [ ] 移植 `composer/` 架构：ComposerCore/Surface + token 化输入（附件/引用/链接/文件夹/提示词变量）
-- [ ] 工具面板注册表：附件、@知识库、@MCP 资源/提示词、笔记引用、生成图片、网页搜索、快捷短语、斜杠命令、permissionMode
-- [ ] 输入历史 + 草稿 + 粘贴处理 + 后续消息队列（QueuedFollowupsDock）
-- [ ] 挂 `conversation.composer` / `conversation.composer.bar/dock` slot
+### 1.4 Composer 集成 🔄（2026-08-30 侦察+首批上线）
+> 侦察结论：DSH composer 的插件面 = `conversation.input.left/right`（list，owner InputZone 只读）+
+> session 标准装备 `useInput`/`inputActions`（**setDraft 可用**）；`composer.bar` 是 single slot
+> （挂了会替换宿主输入条，不可用）；草稿 spans 有 span-CAS 保护，引用 chips 经 setDraft 会摊平为文本。
+- [x] **快捷短语（2026-08-30）**：`QuickPhrasesButton` 挂 `conversation.input.right` ——
+      ⚡ 弹层列出/新增/删除短语（`control-center-composer` namespace，revision 守卫 mutate），
+      选取即经 inputActions.setDraft 追加进草稿；6 个组件测试
+- [ ] @知识库 chip：插入知识库引用标注（复用 knowledge.listBases；chips 存在时同样需诚实降级）
+- [ ] Cherry `composer/` 全架构移植（token 化输入/输入历史/后续消息队列）——评估成本后决定是否值得替代宿主输入条
+- [ ] 输入历史 + 草稿持久化（宿主 persisted-draft 已有，评估增量）
 
 ### 1.5 话题/会话管理 ❌
 - [ ] AI 自动命名、pin、清空、跨助手移动（DSH 无逐会话 agent 编排时按 channel-bridge 先例做模型+提示词覆盖）
@@ -168,3 +173,4 @@ Cherry 侧动作系统核心（actionRegistry 310 行零耦合 + MessageListActi
 | 2026-08-30 | Phase 1.1 首批上线：assistant-actions slot 挂存笔记/存知识库动作 | 侦察确认 DSH 会话 slot 契约与 Cherry 动作注册表移植成本；240/240 全绿 |
 | 2026-08-30 | Phase 1.1b：翻译动作（job 轮询 + CJK 启发 + 悬浮译文面板） | 243/243 全绿；下一步：动作注册表移植 / user 消息动作位 / composer |
 | 2026-08-30 | Phase 1.1c：actionRegistry 移植 + more-menu（复制原文/导出 Markdown） | 252/252 全绿；注册表成为后续全部消息动作的扩展点 |
+| 2026-08-30 | Phase 1.4a：快捷短语 composer 增量（input.right slot + inputActions.setDraft） | 侦察确认 ui-conversation 的 session 标准装备暴露 useInput/inputActions；258/258 全绿 |
