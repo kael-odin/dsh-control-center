@@ -75,7 +75,10 @@ Cherry 侧动作系统核心（actionRegistry 310 行零耦合 + MessageListActi
 ### 1.1 消息动作 🔄（已接入 slot 体系）
 - [x] **首批动作上线（2026-08-30）**：`AssistantMessageActions` 挂 `assistant-actions` slot ——
       存为笔记（notes.write → 会话/标题-时间戳.md）、存入知识库（listBases 选择 → addText），
-      带 ok/saving/error 瞬态与内联 base picker；5 个组件测试
+      带 ok/saving/error 瞬态与内联 base picker；组件测试
+- [x] **翻译动作（2026-08-30）**：translation.start/get 全生命周期 + mountedRef 守卫轮询；
+      模型路由 model-prefs 翻译模型 → agent-default-model 回退；目标语言本地 CJK 启发（零模型调用）；
+      译文悬浮面板可开合；3 个新测试（全套 243/243）
 - [ ] 移植 `actionRegistry.ts` 模式（可扩展、availability/分组/子菜单/快捷键标签）
 - [ ] 其余动作：复制（宿主已有）/编辑/重新生成/@模型回答/翻译/点赞收藏/删除/新分支/多选/导出子菜单
 - [ ] user 消息侧动作位（DSH 暂无 user-actions slot → 评估 turnTail chain 或上游贡献）
@@ -158,3 +161,4 @@ Cherry 侧动作系统核心（actionRegistry 310 行零耦合 + MessageListActi
 | 2026-08-30 | 0.3 计划外发现：dsh-client-runtime 整包删除（上游 be531688f3） | client 侧 store/slots/remote 三类消费面全部改道；构建预设按上游 platform.ts 重写 |
 | 2026-08-30 | Phase 0 全部完成（0.5 轮询 → readyGate 收尾） | 测试 235/235、typecheck/lint/build 全绿；下一步进入 Phase 1 聊天主界面 |
 | 2026-08-30 | Phase 1.1 首批上线：assistant-actions slot 挂存笔记/存知识库动作 | 侦察确认 DSH 会话 slot 契约与 Cherry 动作注册表移植成本；240/240 全绿 |
+| 2026-08-30 | Phase 1.1b：翻译动作（job 轮询 + CJK 启发 + 悬浮译文面板） | 243/243 全绿；下一步：动作注册表移植 / user 消息动作位 / composer |
