@@ -154,45 +154,43 @@ declare module '@deepseek-ai/dsh-client-ui-slots' {
 
 export const inject = ['slots', 'locale', 'connection', 'remote', 'sessions', 'settingsScope', 'settingsSchema']
 
+
+/**
+ * One-shot readiness gate for the Remote namespaces. All controlCenter*
+ * contributions mount in a single effect, so every per-remote ready source
+ * flips at the same instant; the gate replaces the previous 25ms polling
+ * probes with direct subscription on the settle event.
+ */
+function readyGate(): { source: HostObservable<boolean>; settle: () => void } {
+  let settled = false
+  const listeners = new Set<() => void>()
+  return {
+    source: {
+      getSnapshot: () => settled,
+      subscribe: (listener) => {
+        if (settled) { queueMicrotask(listener); return () => {} }
+        listeners.add(listener)
+        return () => { listeners.delete(listener) }
+      },
+    },
+    settle: () => {
+      if (settled) return
+      settled = true
+      for (const listener of [...listeners]) listener()
+    },
+  }
+}
+
+  const remoteReadyGate = readyGate()
 /** Register the settings shell, Provider/Model page, and onboarding steps. */
 export function apply(ctx: ClientContext): void {
   const remote = ctx.remote
   let translation: NonNullable<typeof remote.controlCenterTranslation> | undefined
-  const translationReadySource: HostObservable<boolean> = {
-    getSnapshot: () => translation !== undefined,
-    subscribe: (listener) => {
-      const timer = window.setInterval(() => {
-        if (translation === undefined) return
-        window.clearInterval(timer)
-        listener()
-      }, 25)
-      return () => { window.clearInterval(timer) }
-    },
-  }
+  const translationReadySource = remoteReadyGate.source
   let painting: NonNullable<typeof remote.controlCenterPainting> | undefined
-  const paintingReadySource: HostObservable<boolean> = {
-    getSnapshot: () => painting !== undefined,
-    subscribe: (listener) => {
-      const timer = window.setInterval(() => {
-        if (painting === undefined) return
-        window.clearInterval(timer)
-        listener()
-      }, 25)
-      return () => { window.clearInterval(timer) }
-    },
-  }
+  const paintingReadySource = remoteReadyGate.source
   let knowledge: NonNullable<typeof remote.controlCenterKnowledge> | undefined
-  const knowledgeReadySource: HostObservable<boolean> = {
-    getSnapshot: () => knowledge !== undefined,
-    subscribe: (listener) => {
-      const timer = window.setInterval(() => {
-        if (knowledge === undefined) return
-        window.clearInterval(timer)
-        listener()
-      }, 25)
-      return () => { window.clearInterval(timer) }
-    },
-  }
+  const knowledgeReadySource = remoteReadyGate.source
   let modelCheck: NonNullable<typeof remote.controlCenterModelCheck> | undefined
   let skills: NonNullable<typeof remote.controlCenterSkills> | undefined
   let mcp: NonNullable<typeof remote.controlCenterMcp> | undefined
@@ -206,87 +204,17 @@ export function apply(ctx: ClientContext): void {
   let update: NonNullable<typeof remote.controlCenterUpdate> | undefined
   let desktop: NonNullable<typeof remote.controlCenterDesktop> | undefined
   let assistant: NonNullable<typeof remote.controlCenterAssistant> | undefined
-  const localModelsReadySource: HostObservable<boolean> = {
-    getSnapshot: () => localModels !== undefined,
-    subscribe: (listener) => {
-      const timer = window.setInterval(() => {
-        if (localModels === undefined) return
-        window.clearInterval(timer)
-        listener()
-      }, 25)
-      return () => { window.clearInterval(timer) }
-    },
-  }
-  const updateReadySource: HostObservable<boolean> = {
-    getSnapshot: () => update !== undefined,
-    subscribe: (listener) => {
-      const timer = window.setInterval(() => {
-        if (update === undefined) return
-        window.clearInterval(timer)
-        listener()
-      }, 25)
-      return () => { window.clearInterval(timer) }
-    },
-  }
-  const desktopReadySource: HostObservable<boolean> = {
-    getSnapshot: () => desktop !== undefined,
-    subscribe: (listener) => {
-      const timer = window.setInterval(() => {
-        if (desktop === undefined) return
-        window.clearInterval(timer)
-        listener()
-      }, 25)
-      return () => { window.clearInterval(timer) }
-    },
-  }
+  const localModelsReadySource = remoteReadyGate.source
+  const updateReadySource = remoteReadyGate.source
+  const desktopReadySource = remoteReadyGate.source
   const alwaysReadySource: HostObservable<boolean> = {
     getSnapshot: () => true,
     subscribe: () => () => {},
   }
-  const tasksReadySource: HostObservable<boolean> = {
-    getSnapshot: () => tasks !== undefined,
-    subscribe: (listener) => {
-      const timer = window.setInterval(() => {
-        if (tasks === undefined) return
-        window.clearInterval(timer)
-        listener()
-      }, 25)
-      return () => { window.clearInterval(timer) }
-    },
-  }
-  const systemReadySource: HostObservable<boolean> = {
-    getSnapshot: () => system !== undefined,
-    subscribe: (listener) => {
-      const timer = window.setInterval(() => {
-        if (system === undefined) return
-        window.clearInterval(timer)
-        listener()
-      }, 25)
-      return () => { window.clearInterval(timer) }
-    },
-  }
-  const usageReadySource: HostObservable<boolean> = {
-    getSnapshot: () => usage !== undefined,
-    subscribe: (listener) => {
-      const timer = window.setInterval(() => {
-        if (usage === undefined) return
-        window.clearInterval(timer)
-        listener()
-      }, 25)
-      return () => { window.clearInterval(timer) }
-    },
-  }
-  const dataReadySource: HostObservable<boolean> = {
-    getSnapshot: () => data !== undefined,
-    subscribe: (listener) => {
-      const timer = window.setInterval(() => {
-        if (data === undefined) return
-        window.clearInterval(timer)
-        listener()
-      }, 25)
-      return () => { window.clearInterval(timer) }
-    },
-  }
+  const tasksReadySource = remoteReadyGate.source
+  const systemReadySource = remoteReadyGate.source
+  const usageReadySource = remoteReadyGate.source
+  const dataReadySource = remoteReadyGate.source
   ctx.effect(async () => {
     // The client Remote registry keys contributions by package, so every
     // namespace must be mounted through one merged contribution.
@@ -330,6 +258,7 @@ export function apply(ctx: ClientContext): void {
     desktop = ctx.get('remote.controlCenterDesktop') as NonNullable<typeof remote.controlCenterDesktop>
     assistant = ctx.get('remote.controlCenterAssistant') as NonNullable<typeof remote.controlCenterAssistant>
     channelBridge = ctx.get('remote.controlCenterChannelBridge') as NonNullable<typeof remote.controlCenterChannelBridge>
+    remoteReadyGate.settle()
     return dispose
   }, 'control-center: control-center Remote namespaces')
   ctx.effect(() => ctx.locale.register(SHELL_NS, { zh: shellZh, en: shellEn }), 'control-center: shell dictionaries')
