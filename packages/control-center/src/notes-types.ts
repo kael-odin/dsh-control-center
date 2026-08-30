@@ -16,6 +16,18 @@ export interface NoteSearchHit {
   snippet: string
 }
 
+/** Editor AI continuation request: current note content, optionally the trailing context. */
+export interface NoteContinueRequest {
+  path: string
+  content: string
+  maxTokens?: number
+}
+
+export interface NoteContinueResult {
+  text: string
+  model: string
+}
+
 declare module '@deepseek-ai/dsh-typert-protocol' {
   interface TypertRemoteNamespaceMap {
     controlCenterNotes: {
@@ -27,6 +39,7 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
       remove(params: { path: string; directory?: boolean }): Promise<{ ok: true; value: { absent: true } } | { ok: false; error: string }>
       toggleStar(params: { path: string }): Promise<{ ok: true; value: { starred: boolean } }>
       search(params: { query: string; limit?: number }): Promise<{ ok: true; value: NoteSearchHit[] }>
+      continueText(params: NoteContinueRequest): Promise<{ ok: true; value: NoteContinueResult } | { ok: false; error: { code: string; message: string; details: object } }>
     }
   }
 }

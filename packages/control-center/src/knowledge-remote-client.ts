@@ -13,6 +13,8 @@ const methods: ReadonlyArray<{ method: string; implementation?: string; paramete
   { method: 'addUrl', parameters: ['request'] },
   { method: 'addFile', parameters: ['request'] },
   { method: 'addDirectory', parameters: ['request'] },
+  { method: 'addNotesSource', parameters: ['request'] },
+  { method: 'syncNotesSource', parameters: ['request'] },
   { method: 'listSources', parameters: ['baseId'] },
   { method: 'deleteSource', parameters: ['baseId', 'sourceId'] },
   { method: 'indexBase', parameters: ['baseId'] },

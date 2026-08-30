@@ -1,4 +1,4 @@
-import { mkdtempSync, rmSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { Context } from '@deepseek-ai/cordis'
@@ -98,6 +98,54 @@ describe('KnowledgeService', () => {
       expect(indexed.sourcesIndexed).toBe(1)
       const hits = await service.retrieve({ baseId, query: '发布流程' })
       expect(hits.hits.length).toBeGreaterThan(0)
+    } finally {
+      cleanup(service, home)
+    }
+  })
+
+  it('syncs the notes directory as a notes source, then re-syncs on content change', async () => {
+    const { service, home } = setup()
+    try {
+      // Seed ~/.dsh/notes with a couple of Markdown notes (nested included).
+      const notesRoot = join(home, 'notes')
+      mkdirSync(join(notesRoot, 'sub'), { recursive: true })
+      writeFileSync(join(notesRoot, 'meeting.md'), '# 例会\n\n下周二发布 1.3 版本。\n')
+      writeFileSync(join(notesRoot, 'sub', 'ideas.md'), '# 想法\n\n笔记应该能被知识库检索到。\n')
+
+      const baseId = service.createBase({ name: '笔记库' }).id
+      const source = service.addNotesSource({ baseId })
+      expect(source.kind).toBe('notes')
+      expect(source.ref).toBe(join(home, 'notes'))
+      expect(source.tokens).toBeGreaterThan(0)
+
+      const indexed = await service.indexBase(baseId)
+      expect(indexed.sourcesIndexed).toBe(1)
+      expect(indexed.chunksWritten).toBeGreaterThan(0)
+
+      // Retrieval sees the seeded note content.
+      const hits = await service.retrieve({ baseId, query: '发布' })
+      expect(hits.hits.length).toBeGreaterThan(0)
+      expect(hits.hits[0]!.kind).toBe('notes')
+
+      // Editing a note + re-sync refreshes the snapshot content.
+      writeFileSync(join(notesRoot, 'meeting.md'), '# 例会\n\n下周二发布 2.0 版本。\n')
+      const synced = service.syncNotesSource({ sourceId: source.id })
+      expect(synced.updatedAt).toBeGreaterThanOrEqual(source.updatedAt)
+      // Chunks are dropped so the next indexBase re-embeds from scratch.
+      expect(service.listChunks(baseId, null, 10).chunks).toEqual([])
+
+      const reindexed = await service.indexBase(baseId)
+      expect(reindexed.chunksWritten).toBeGreaterThan(0)
+      const hits2 = await service.retrieve({ baseId, query: '2.0' })
+      expect(hits2.hits.length).toBeGreaterThan(0)
+
+      // Non-notes sources refuse to re-sync.
+      const textSource = service.addText({ baseId, name: 't', text: '普通文本' })
+      expect(() => service.syncNotesSource({ sourceId: textSource.id })).toThrow(/笔记源/)
+
+      // Deleting the notes directory makes a fresh add fail honestly.
+      rmSync(notesRoot, { recursive: true, force: true })
+      expect(() => service.addNotesSource({ baseId })).toThrow(/为空/)
     } finally {
       cleanup(service, home)
     }

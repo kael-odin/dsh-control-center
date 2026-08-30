@@ -10,6 +10,7 @@ const methods: ReadonlyArray<{ method: string; parameters: string[] }> = [
   { method: 'remove', parameters: ['params'] },
   { method: 'toggleStar', parameters: ['params'] },
   { method: 'search', parameters: ['params'] },
+  { method: 'continueText', parameters: ['params'] },
 ]
 
 /** Client descriptor contribution for the Control Center notes service. */

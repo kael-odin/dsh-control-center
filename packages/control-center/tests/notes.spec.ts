@@ -19,7 +19,17 @@ function makeService(): NotesService {
     update: async (_ns: unknown, patch: { starred?: string[] }) => {
       if (Array.isArray(patch.starred)) starredStore = new Set(patch.starred)
     },
+    describe: () => [{ ns: 'agent-default-model', value: { provider: 'deepseek', model: 'deepseek-chat' } }],
   }
+  ctx.reflect.provide('llm', {
+    prepareCall: async (config: { provider: string; model: string }) => ({
+      config,
+      stream: async function* () {
+        yield { type: 'text-delta', text: '继续写下去的正文。' }
+        yield { type: 'done' }
+      },
+    }),
+  } as never)
   return new NotesService(ctx)
 }
 
@@ -105,5 +115,24 @@ describe('NotesService full-text search (v2)', () => {
     const service = makeService()
     const hits = await service.search({ query: '   ' })
     expect(hits).toEqual({ ok: true, value: [] })
+  })
+})
+
+describe('NotesService AI continuation (v3)', () => {
+  it('continues a note through the configured default model route', async () => {
+    const service = makeService()
+    await service.create({ path: 'idea.md' })
+    await service.write({ path: 'idea.md', content: '# 想法\n\n我们需要一个更好的发布流程。' })
+    const result = await service.continueText({ path: 'idea.md', content: '# 想法\n\n我们需要一个更好的发布流程。' })
+    expect(result.ok).toBe(true)
+    if (!result.ok) return
+    expect(result.value.text.length).toBeGreaterThan(0)
+    expect(result.value.model).toBe('deepseek-chat')
+  })
+
+  it('refuses to continue an empty note', async () => {
+    const service = makeService()
+    const result = await service.continueText({ path: 'x.md', content: '   ' })
+    expect(result.ok).toBe(false)
   })
 })

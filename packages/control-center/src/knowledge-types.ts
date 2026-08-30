@@ -4,7 +4,7 @@ export type KnowledgeBaseId = string
 export type KnowledgeSourceId = string
 export type KnowledgeChunkId = string
 
-export type KnowledgeSourceKind = 'text' | 'file' | 'directory' | 'url'
+export type KnowledgeSourceKind = 'text' | 'file' | 'directory' | 'url' | 'notes'
 
 /** Per-base RAG tuning (chunking + retrieval defaults). */
 export interface KnowledgeBaseConfig {
@@ -134,6 +134,16 @@ export interface KnowledgeAddDirectoryRequest {
   files: KnowledgeDirectoryFile[]
 }
 
+/** Scan the notes directory (~/.dsh/notes/) and ingest every .md file as a source. */
+export interface KnowledgeAddNotesRequest {
+  baseId: KnowledgeBaseId
+}
+
+/** Re-scan the notes directory and update an existing notes source's content + chunks. */
+export interface KnowledgeSyncNotesRequest {
+  sourceId: KnowledgeSourceId
+}
+
 export interface KnowledgeRetrieveRequest {
   baseId: KnowledgeBaseId
   query: string
@@ -160,6 +170,8 @@ declare module '@deepseek-ai/dsh-typert-protocol' {
       addUrl(request: KnowledgeAddUrlRequest): Promise<{ ok: true; value: KnowledgeSourceView } | { ok: false; error: { code: string; message: string; details: object } }>
       addFile(request: KnowledgeAddFileRequest): Promise<{ ok: true; value: KnowledgeSourceView } | { ok: false; error: { code: string; message: string; details: object } }>
       addDirectory(request: KnowledgeAddDirectoryRequest): Promise<{ ok: true; value: KnowledgeSourceView } | { ok: false; error: { code: string; message: string; details: object } }>
+	  addNotesSource(request: KnowledgeAddNotesRequest): Promise<{ ok: true; value: KnowledgeSourceView } | { ok: false; error: { code: string; message: string; details: object } }>
+	  syncNotesSource(request: KnowledgeSyncNotesRequest): Promise<{ ok: true; value: KnowledgeSourceView } | { ok: false; error: { code: string; message: string; details: object } }>
       renameBase(baseId: KnowledgeBaseId, name: string): Promise<{ ok: true; value: KnowledgeBaseView } | { ok: false; error: { code: string; message: string; details: object } }>
       getBaseConfig(baseId: KnowledgeBaseId): Promise<{ ok: true; value: KnowledgeBaseConfig } | { ok: false; error: { code: string; message: string; details: object } }>
       setBaseConfig(baseId: KnowledgeBaseId, config: KnowledgeBaseConfigUpdate): Promise<{ ok: true; value: KnowledgeBaseConfig } | { ok: false; error: { code: string; message: string; details: object } }>

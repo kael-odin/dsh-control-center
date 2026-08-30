@@ -35,6 +35,9 @@ export interface NotesWorkspaceInjected {
     remove(params: { path: string; directory?: boolean }): Promise<{ ok: true; value: { absent: true } } | { ok: false; error: string }>
     toggleStar(params: { path: string }): Promise<{ ok: true; value: { starred: boolean } }>
     search(params: { query: string; limit?: number }): Promise<{ ok: true; value: NoteSearchHit[] }>
+    continueText(params: { path: string; content: string; maxTokens?: number }): Promise<
+      { ok: true; value: { text: string; model: string } } | { ok: false; error: { code: string; message: string; details: object } }
+    >
   }
 }
 
@@ -99,6 +102,7 @@ export function NotesWorkspace({ notes }: NotesWorkspaceInjected): ReactNode {
   })
 
   const [dirty, setDirty] = useState(false)
+  const [continuing, setContinuing] = useState(false)
 
   const openNote = async (path: string): Promise<void> => {
     setError(null)
@@ -119,6 +123,30 @@ export function NotesWorkspace({ notes }: NotesWorkspaceInjected): ReactNode {
     if (result.ok) setDirty(false)
     else setError(result.error)
   }, [notes])
+
+  /** AI 续写：把当前笔记交给模型续写，结果插入光标处并立即保存。 */
+  const continueNote = async (): Promise<void> => {
+    if (editor === null || active === null) return
+    setContinuing(true)
+    setError(null)
+    try {
+      // Flush any pending autosave so disk matches the editor before we continue.
+      if (saveTimer.current !== null) { window.clearTimeout(saveTimer.current); saveTimer.current = null }
+      const content = markdownRef.current
+      await save(active)
+      const result = await notes.continueText({ path: active, content })
+      if (!result.ok) { setError(result.error.message); return }
+      const text = result.value.text
+      if (text.trim().length === 0) { setError('模型未生成任何内容，请重试'); return }
+      editor.commands.insertContent(text)
+      markdownRef.current = getMarkdown(editor)
+      setDirty(true)
+      if (saveTimer.current !== null) window.clearTimeout(saveTimer.current)
+      saveTimer.current = window.setTimeout(() => { void save(active) }, 800)
+    } finally {
+      setContinuing(false)
+    }
+  }
 
   const createNote = async (): Promise<void> => {
     const name = window.prompt('新笔记名称', '未命名.md')
@@ -167,7 +195,11 @@ export function NotesWorkspace({ notes }: NotesWorkspaceInjected): ReactNode {
   const starred = files.filter(entry => entry.starred)
 
   return (
-    <SettingsPageShell>
+    // Notes is a standalone application.surface, so it must establish the
+    // Cherry token scope itself the way the sibling workspaces do — the shell
+    // alone only carries layout, and the host never supplies the unprefixed
+    // contract this stylesheet consumes.
+    <SettingsPageShell className="cc-surface">
       <div className={css.layout}>
         <aside className={css.sidebar}>
           <div className={css.sidebarHeader}>
@@ -227,6 +259,9 @@ export function NotesWorkspace({ notes }: NotesWorkspaceInjected): ReactNode {
               <div className={css.editorHeader}>
                 <span className={css.activePath}>{active}</span>
                 <span className={css.dirtyHint}>{dirty ? '编辑中…（自动保存）' : '已保存'}</span>
+                <button type="button" className={css.miniBtn} disabled={continuing} onClick={() => { void continueNote() }}>
+                  {continuing ? '续写中…' : 'AI 续写'}
+                </button>
                 <button type="button" className={css.miniBtn} onClick={() => { if (active !== null) void save(active) }}>立即保存</button>
               </div>
               <EditorContent editor={editor} className={css.editor} />

@@ -187,7 +187,7 @@
 }
 
 .editor :global(.tiptap a) {
-  color: var(--link, var(--primary));
+  color: var(--primary);
   text-decoration: underline;
 }
 

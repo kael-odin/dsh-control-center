@@ -1,9 +1,9 @@
 /** Host Knowledge Base service: SQLite catalogs, source ingestion, chunk+embed indexing, retrieval, and a coding-agent tool. */
 import { randomUUID } from 'node:crypto'
-import { mkdirSync } from 'node:fs'
+import { existsSync, mkdirSync, readdirSync, readFileSync } from 'node:fs'
 import { mkdir, rm, writeFile } from 'node:fs/promises'
 import { DatabaseSync } from 'node:sqlite'
-import { join } from 'node:path'
+import { join, relative } from 'node:path'
 import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
 import type { SettingsProvider } from '@deepseek-ai/dsh-settings'
@@ -22,10 +22,10 @@ import {
 import { resolveKey, resolveProvider } from './knowledge/provider-resolve.ts'
 import { markRemoteMethods } from './knowledge/remote-methods.ts'
 import type {
-  KnowledgeAddDirectoryRequest, KnowledgeAddFileRequest, KnowledgeAddTextRequest, KnowledgeAddUrlRequest,
-  KnowledgeBaseConfigUpdate, KnowledgeBaseView, KnowledgeChunkView, KnowledgeCreateBaseRequest,
+  KnowledgeAddDirectoryRequest, KnowledgeAddFileRequest, KnowledgeAddNotesRequest, KnowledgeAddTextRequest,
+  KnowledgeAddUrlRequest, KnowledgeBaseConfigUpdate, KnowledgeBaseView, KnowledgeChunkView, KnowledgeCreateBaseRequest,
   KnowledgeEmbeddingConfig, KnowledgeIndexResult, KnowledgeRetrievalHit, KnowledgeRetrievalResult,
-  KnowledgeRetrieveRequest, KnowledgeBaseConfig, KnowledgeSourceKind, KnowledgeSourceView,
+  KnowledgeRetrieveRequest, KnowledgeBaseConfig, KnowledgeSourceKind, KnowledgeSourceView, KnowledgeSyncNotesRequest,
 } from './knowledge-types.ts'
 
 const MAX_TEXT_CHARS = 200_000
@@ -179,6 +179,7 @@ export class KnowledgeService extends Service {
       ['renameBase', 'renameBase'],
       ['getBaseConfig', 'getBaseConfig'], ['setBaseConfig', 'setBaseConfig'],
       ['addText', 'addText'], ['addUrl', 'addUrl'], ['addFile', 'addFile'], ['addDirectory', 'addDirectory'],
+      ['addNotesSource', 'addNotesSource'], ['syncNotesSource', 'syncNotesSource'],
       ['listSources', 'listSources'], ['deleteSource', 'deleteSource'],
       ['indexBase', 'indexBase'], ['listChunks', 'listChunks'], ['retrieve', 'retrieve'],
     ])
@@ -512,6 +513,64 @@ export class KnowledgeService extends Service {
     ).run(id, baseId, 'directory', name, name, content, 'ready', null, timestamp, timestamp)
     this.updateBaseStamp(baseId)
     return this.sourceFromRow(this.requireSource(id), 0)
+  }
+
+  /** Ingest the notes directory (~/.dsh/notes/) as one live 'notes' source. */
+  addNotesSource(request: KnowledgeAddNotesRequest): KnowledgeSourceView {
+    const baseId = assertBaseId(request.baseId)
+    const notes = this.scanNotes()
+    if (notes.length === 0) throw new Error('笔记目录为空，没有可同步的内容')
+    const content = this.renderNotesContent(notes)
+    return this.insertSource({ baseId, kind: 'notes', name: '笔记', ref: join(this.home, 'notes'), content })
+  }
+
+  /** Re-scan the notes directory and refresh a notes source's content + chunks. */
+  syncNotesSource(request: KnowledgeSyncNotesRequest): KnowledgeSourceView {
+    const source = this.requireSource(request.sourceId)
+    if (source.kind !== 'notes') throw new Error('只有笔记源可以重新同步')
+    const content = this.renderNotesContent(this.scanNotes())
+    const timestamp = now()
+    this.db.prepare('UPDATE knowledge_sources SET content = ?, status = ?, updated_at = ? WHERE id = ?').run(content, 'ready', timestamp, source.id)
+    // Content changed ⇒ existing chunks are stale; drop them so the next
+    // indexBase re-embeds the whole snapshot from scratch.
+    this.db.prepare('DELETE FROM knowledge_chunks WHERE source_id = ?').run(source.id)
+    this.updateBaseStamp(source.base_id)
+    return this.sourceFromRow(this.requireSource(source.id), 0)
+  }
+
+  /** Recursively list every Markdown note under the notes root with its relative path + content. */
+  private scanNotes(): Array<{ path: string; content: string }> {
+    const root = join(this.home, 'notes')
+    if (!existsSync(root)) return []
+    const entries: Array<{ path: string; content: string }> = []
+    const walk = (abs: string): void => {
+      let names: string[]
+      try { names = readdirSync(abs) } catch { return }
+      for (const name of names.sort()) {
+        if (name.startsWith('.')) continue
+        const childAbs = join(abs, name)
+        let isDir: boolean
+        try { isDir = readdirSync(childAbs) !== undefined } catch { isDir = false }
+        if (isDir) {
+          walk(childAbs)
+        } else if (name.endsWith('.md')) {
+          const rel = relative(root, childAbs).replaceAll('\\', '/')
+          const content = readFileSync(childAbs, 'utf8')
+          if (content.length > MAX_TEXT_CHARS) continue
+          entries.push({ path: rel, content })
+        }
+      }
+    }
+    walk(root)
+    return entries
+  }
+
+  /** Project each note into a `# <path>` section so retrieval citations stay readable. */
+  private renderNotesContent(notes: Array<{ path: string; content: string }>): string {
+    return notes
+      // Strip a UTF-8 BOM if the note file carries one (regex char = U+FEFF).
+      .map(note => `# ${note.path}\n\n${note.content.replace(/^﻿/, '')}`)
+      .join('\n\n---\n\n')
   }
 
   addFile(request: KnowledgeAddFileRequest): KnowledgeSourceView {

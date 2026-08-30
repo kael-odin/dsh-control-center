@@ -30,9 +30,9 @@ export interface KnowledgeWorkspaceInjected {
 
 export type KnowledgeWorkspaceProps = PropsRuntime<'application.surface', 'knowledge'> & InjectFace<KnowledgeWorkspaceInjected>
 
-type AddSourceType = 'file' | 'note' | 'directory' | 'url'
+type AddSourceType = 'file' | 'text' | 'note' | 'directory' | 'url'
 
-const SOURCE_TYPE_LABELS: Record<AddSourceType, string> = { file: '文件', note: '笔记', directory: '目录', url: '链接' }
+const SOURCE_TYPE_LABELS: Record<AddSourceType, string> = { file: '文件', text: '文本', note: '笔记目录', directory: '目录', url: '链接' }
 
 function relativeTime(timestamp: number): string {
   const minutes = Math.floor((Date.now() - timestamp) / 60_000)
@@ -52,12 +52,13 @@ function sourceIcon(kind: KnowledgeSourceView['kind']): { icon: React.ReactNode;
     case 'file': return { icon: <IconFileText size={14} />, color: '#3b82f6' }
     case 'directory': return { icon: <IconFolder size={14} />, color: '#8b5cf6' }
     case 'url': return { icon: <IconLink2 size={14} />, color: '#06b6d4' }
+    case 'notes': return { icon: <IconStickyNote size={14} />, color: '#10b981' }
     default: return { icon: <IconStickyNote size={14} />, color: '#f59e0b' }
   }
 }
 
 function kindLabel(kind: KnowledgeSourceView['kind']): string {
-  return kind === 'file' ? '文件' : kind === 'text' ? '笔记' : kind === 'directory' ? '目录' : '链接'
+  return kind === 'file' ? '文件' : kind === 'notes' ? '笔记' : kind === 'text' ? '文本' : kind === 'directory' ? '目录' : '链接'
 }
 
 interface DirectoryFile {
@@ -258,6 +259,31 @@ export function KnowledgeWorkspace({ getKnowledge, getDesktop, useKnowledgeReady
     reloadSources()
   }
 
+  /** 把 ~/.dsh/notes/ 目录快照同步成一个 'notes' 数据源。 */
+  const syncNotesSource = async (): Promise<void> => {
+    if (knowledge === undefined || selectedId === '') return
+    setError(null)
+    const result = await knowledge.addNotesSource({ baseId: selectedId })
+    if (!result.ok) { setError(result.error.message); return }
+    setNotice('已从笔记目录同步，正在建立索引…')
+    reloadSources()
+  }
+
+  /** 重新扫描笔记目录并刷新现有笔记源（内容变更后需重新建立索引）。 */
+  const resyncNotesSource = async (sourceId: string): Promise<void> => {
+    if (knowledge === undefined) return
+    setError(null)
+    const result = await knowledge.syncNotesSource({ sourceId })
+    if (!result.ok) { setError(result.error.message); return }
+    setNotice('笔记源已重新同步，正在重建索引…')
+    await reloadSources()
+    await knowledge.indexBase(selectedId).then(index => {
+      if (index.ok && index.value.chunksWritten > 0) {
+        setNotice(`笔记源已重新同步：写入 ${index.value.chunksWritten} 个分块`)
+      }
+    }).catch(() => {})
+  }
+
   const addUrl = async (): Promise<void> => {
     if (knowledge === undefined || selectedId === '' || urlText.trim() === '') return
     setError(null)
@@ -380,6 +406,12 @@ export function KnowledgeWorkspace({ getKnowledge, getDesktop, useKnowledgeReady
       void addDirectory()
       return
     }
+    if (type === 'note') {
+      // 笔记目录源：直接把 ~/.dsh/notes/ 的快照同步进当前知识库，无对话框。
+      setAddDialog(null)
+      void syncNotesSource()
+      return
+    }
     setAddDialog(type)
   }
 
@@ -490,8 +522,8 @@ export function KnowledgeWorkspace({ getKnowledge, getDesktop, useKnowledgeReady
                         <div className={css.menuPopover} style={{ top: 'calc(100% + 4px)', right: 0 }}>
                           {(Object.keys(SOURCE_TYPE_LABELS) as AddSourceType[]).map(type => (
                             <button key={type} type="button" className={css.menuItem} onClick={() => { openAdd(type) }}>
-                              <span style={{ color: sourceIcon(type === 'note' ? 'text' : type).color, display: 'inline-flex' }}>
-                                {sourceIcon(type === 'note' ? 'text' : type).icon}
+                              <span style={{ color: sourceIcon(type === 'note' ? 'notes' : type).color, display: 'inline-flex' }}>
+                                {sourceIcon(type === 'note' ? 'notes' : type).icon}
                               </span>
                               <span>{SOURCE_TYPE_LABELS[type]}</span>
                             </button>
@@ -509,8 +541,8 @@ export function KnowledgeWorkspace({ getKnowledge, getDesktop, useKnowledgeReady
                     <div className={css.sourceTypeCards}>
                       {(Object.keys(SOURCE_TYPE_LABELS) as AddSourceType[]).map(type => (
                         <button key={type} type="button" className={css.sourceTypeCard} onClick={() => { openAdd(type) }}>
-                          <span className={css.sourceTypeCardIcon} style={{ color: sourceIcon(type === 'note' ? 'text' : type).color }}>
-                            {sourceIcon(type === 'note' ? 'text' : type).icon}
+                          <span className={css.sourceTypeCardIcon} style={{ color: sourceIcon(type === 'note' ? 'notes' : type).color }}>
+                            {sourceIcon(type === 'note' ? 'notes' : type).icon}
                           </span>
                           <span>{SOURCE_TYPE_LABELS[type]}</span>
                         </button>
@@ -553,6 +585,16 @@ export function KnowledgeWorkspace({ getKnowledge, getDesktop, useKnowledgeReady
                               </button>
                               {rowMenuFor === source.id && (
                                 <div className={css.menuPopover} style={{ top: 'calc(100% + 2px)', right: 0 }}>
+                                  {source.kind === 'notes' && (
+                                    <button
+                                      type="button"
+                                      className={css.menuItem}
+                                      onClick={() => { setRowMenuFor(null); void resyncNotesSource(source.id) }}
+                                    >
+                                      <IconRefreshCw size={13} />
+                                      <span>重新同步</span>
+                                    </button>
+                                  )}
                                   <button
                                     type="button"
                                     className={css.menuItem}
@@ -871,10 +913,10 @@ export function KnowledgeWorkspace({ getKnowledge, getDesktop, useKnowledgeReady
         </div>
       )}
 
-      {addDialog === 'note' && (
+      {addDialog === 'text' && (
         <div className={css.dialogOverlay} onMouseDown={(event) => { if (event.target === event.currentTarget) setAddDialog(null) }}>
-          <div className={css.dialogCard} role="dialog" aria-modal="true" aria-label="添加笔记">
-            <h3>添加笔记</h3>
+          <div className={css.dialogCard} role="dialog" aria-modal="true" aria-label="添加文本">
+            <h3>添加文本</h3>
             <div className={css.dialogField}>
               <label htmlFor="cc-note-name">名称</label>
               <input

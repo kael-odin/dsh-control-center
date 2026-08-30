@@ -14,6 +14,8 @@ import type { Context } from '@deepseek-ai/cordis'
 import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
 import { settingsNamespace } from '@deepseek-ai/dsh-settings'
 import { resolveDshHome } from '@deepseek-ai/dsh-home-paths'
+import type { LlmRuntime } from '@deepseek-ai/dsh-llm'
+import { createUserMessage } from '@deepseek-ai/dsh-llm'
 import { mkdirSync, readdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { join, relative, sep } from 'node:path'
 import { Index } from 'flexsearch'
@@ -36,6 +38,9 @@ export interface NoteSearchHit {
 }
 
 const NOTES_NAMESPACE = settingsNamespace('control-center-notes')
+/** Per-purpose model prefs (control-center-model-prefs); notes empty ⇒ host agent-default route. */
+const MODEL_PREFS_NAMESPACE = settingsNamespace('control-center-model-prefs')
+const MAX_CONTINUE_CHARS = 20_000
 
 declare module '@deepseek-ai/cordis' {
   interface Context {
@@ -44,9 +49,11 @@ declare module '@deepseek-ai/cordis' {
 }
 
 export class NotesService extends Service {
-  static inject = ['settings'] as const
+  static inject = ['settings', 'llm'] as const
 
   readonly typertRemote = bindTypertRemote(this, 'controlCenterNotes')
+
+  private readonly llm: LlmRuntime
 
   /** FlexSearch index for full-text search over Markdown content. The default
    * latin encoder leaves CJK text unsearchable, so a custom encoder emits
@@ -71,6 +78,7 @@ export class NotesService extends Service {
 
   constructor(ctx: Context) {
     super(ctx, 'controlCenterNotes')
+    this.llm = ctx.get('llm') as LlmRuntime
     // Build once at mount: the index is in-memory and must reflect the tree.
     // Subsequent mutations stay in sync via indexNote/removeFromIndex.
     void this.rebuildIndex().catch(() => { /* best effort; search degrades to empty */ })
@@ -222,6 +230,62 @@ export class NotesService extends Service {
     return {
       ok: true,
       value: ids.map(path => ({ path, snippet: this.extractSnippet(path, query) })),
+    }
+  }
+
+  /**
+   * Editor AI continuation: ask the configured model to continue a note in the
+   * same style and language, returning only the generated text. Model comes from
+   * control-center-model-prefs (notesProvider/notesModel); empty falls back to
+   * the host's agent-default route.
+   */
+  async continueText(params: { path: string; content: string; maxTokens?: number }): Promise<
+    { ok: true; value: { text: string; model: string } } | { ok: false; error: string }
+  > {
+    const content = typeof params.content === 'string' ? params.content.slice(0, MAX_CONTINUE_CHARS) : ''
+    if (content.trim().length === 0) return { ok: false, error: '笔记内容为空，无法续写' }
+    try {
+      const prefs = (() => {
+        try {
+          return this.ctx.settings.get(MODEL_PREFS_NAMESPACE) as { notesProvider?: string; notesModel?: string }
+        } catch {
+          return {}
+        }
+      })()
+      // Explicit notes model wins; otherwise fall back to the host's
+      // agent-default-model route (channel-bridge's defaultModelRoute pattern).
+      let provider = prefs.notesProvider ?? ''
+      let model = prefs.notesModel ?? ''
+      if (provider.length === 0 || model.length === 0) {
+        const described = this.ctx.settings.describe() as unknown as Array<{ ns?: unknown; value?: unknown }>
+        const found = described.find(entry => String(entry.ns) === 'agent-default-model')
+        const record = found?.value as Record<string, unknown> | undefined
+        if (record !== undefined && typeof record === 'object') {
+          if (typeof record.provider === 'string') provider = provider.length > 0 ? provider : record.provider
+          if (typeof record.model === 'string') model = model.length > 0 ? model : record.model
+        }
+      }
+      if (provider.length === 0 || model.length === 0) {
+        return { ok: false, error: '未配置默认模型，请在「默认模型」或笔记模型偏好中选择一个模型' }
+      }
+      const callConfig = { provider, model }
+      const prepared = await this.llm.prepareCall(callConfig, new AbortController().signal)
+      const message = createUserMessage({
+        source: { kind: 'user' },
+        content: [{ type: 'text', text: `Continue the text below naturally, preserving its language, tone, and style. Output only the continuation without repeating the input.\n\n${content}` }],
+      })
+      let output = ''
+      for await (const chunk of prepared.stream({
+        ...prepared.config,
+        messages: [message],
+        system: 'You are a note-taking assistant. Continue the note naturally. Output only the continuation text.',
+        signal: new AbortController().signal,
+      })) {
+        if (chunk.type === 'text-delta') output += chunk.text
+      }
+      return { ok: true, value: { text: output.trim(), model } }
+    } catch (error) {
+      return { ok: false, error: error instanceof Error ? error.message : String(error) }
     }
   }
 
