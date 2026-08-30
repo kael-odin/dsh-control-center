@@ -63,14 +63,22 @@ MCP 市场、知识库管线、备份矩阵）。DSH 的本质价值 = **运行�
 
 ---
 
-## Phase 1 — 迁移聊天主界面 ❌（主战役）
+## Phase 1 — 迁移聊天主界面 🔄（主战役）
 
-home/chat 完全未迁移，是 Cherry 的灵魂。照搬 Cherry 成熟架构，消息流 UI 挂进 DSH `conversation.*` slot 体系。
+home/chat 是 Cherry 的灵魂。侦察结论（2026-08-30）：DSH 会话面的挂载点为
+`conversation.chat.assistant-actions`（list/session，owner 只有 messageId，文本经一次
+follow 快照读最新 assistant 消息）、`conversation.chat.turnTail`（chain）、
+`conversation.chat.node`（keyed，ChatNodeKind 分发）、`conversation.details.tool`、
+composer 系列 slot。插件注册式：`ctx.slots.inject(slot, () => ctx.slots.register({name, id, locale, inject}, C))`。
+Cherry 侧动作系统核心（actionRegistry 310 行零耦合 + MessageListActions 能力袋）可低成本移植。
 
-### 1.1 消息动作注册表 ❌
-- [ ] 移植 `chat/actions/actionRegistry.ts` 模式（可扩展、availability/分组/子菜单/快捷键标签）
-- [ ] 消息菜单全动作：复制/编辑/重新生成/@模型回答/翻译/点赞收藏/存笔记/存知识库/删除/新分支/多选/导出
-- [ ] 挂 `conversation.chat.assistant-actions` / 对应 DSH slot
+### 1.1 消息动作 🔄（已接入 slot 体系）
+- [x] **首批动作上线（2026-08-30）**：`AssistantMessageActions` 挂 `assistant-actions` slot ——
+      存为笔记（notes.write → 会话/标题-时间戳.md）、存入知识库（listBases 选择 → addText），
+      带 ok/saving/error 瞬态与内联 base picker；5 个组件测试
+- [ ] 移植 `actionRegistry.ts` 模式（可扩展、availability/分组/子菜单/快捷键标签）
+- [ ] 其余动作：复制（宿主已有）/编辑/重新生成/@模型回答/翻译/点赞收藏/删除/新分支/多选/导出子菜单
+- [ ] user 消息侧动作位（DSH 暂无 user-actions slot → 评估 turnTail chain 或上游贡献）
 
 ### 1.2 消息块渲染器 ❌
 - [ ] ThinkingBlock（思考链动画+预览+最小展示时长）
@@ -149,3 +157,4 @@ home/chat 完全未迁移，是 Cherry 的灵魂。照搬 Cherry 成熟架构，
 | 2026-08-30 | Phase 0.1/0.2/0.3 完成；typecheck+build+lint 全绿 | 8 批提交落库；lib 出库；0.1.2 契约升级含 ApiProxy 与 client-runtime 两条破坏性迁移、vendored tarball + 本地 verdaccio 通道 |
 | 2026-08-30 | 0.3 计划外发现：dsh-client-runtime 整包删除（上游 be531688f3） | client 侧 store/slots/remote 三类消费面全部改道；构建预设按上游 platform.ts 重写 |
 | 2026-08-30 | Phase 0 全部完成（0.5 轮询 → readyGate 收尾） | 测试 235/235、typecheck/lint/build 全绿；下一步进入 Phase 1 聊天主界面 |
+| 2026-08-30 | Phase 1.1 首批上线：assistant-actions slot 挂存笔记/存知识库动作 | 侦察确认 DSH 会话 slot 契约与 Cherry 动作注册表移植成本；240/240 全绿 |
