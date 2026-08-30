@@ -28,6 +28,8 @@ interface MsgActionsDict {
   phraseLabel: string
   phraseText: string
   deletePhrase: string
+  knowledgeChip: string
+  chipsBlock: string
 }
 
 export const msgActionsZh: MsgActionsDict = {
@@ -56,6 +58,8 @@ export const msgActionsZh: MsgActionsDict = {
   phraseLabel: '名称',
   phraseText: '内容',
   deletePhrase: '删除短语',
+  knowledgeChip: '引用知识库',
+  chipsBlock: '草稿含引用 chips，追加会摊平它们；请先清空后再插入',
 }
 
 export const msgActionsEn: MsgActionsDict = {
@@ -84,4 +88,6 @@ export const msgActionsEn: MsgActionsDict = {
   phraseLabel: 'Name',
   phraseText: 'Content',
   deletePhrase: 'Delete phrase',
+  knowledgeChip: 'Reference knowledge base',
+  chipsBlock: 'Draft contains reference chips; appending would flatten them — clear the draft first',
 }

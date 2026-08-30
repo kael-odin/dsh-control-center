@@ -37,6 +37,7 @@ import type {} from '@deepseek-ai/dsh-client-ui-session/client'
 import type {} from '@deepseek-ai/dsh-client-ui-conversation/client'
 import { AssistantMessageActions, type AssistantMessageActionsServices } from './AssistantMessageActions.tsx'
 import { QuickPhrasesButton, type ComposerSettingsFace } from './QuickPhrasesButton.tsx'
+import { KnowledgeChipButton, type KnowledgeChipKnowledgeFace } from './KnowledgeChipButton.tsx'
 import { msgActionsZh, msgActionsEn, type MsgActionsKey } from './msgactions-locales.ts'
 import type {} from '../skills-types.ts'
 import skillsRemote from '../skills-remote-client.ts'
@@ -623,6 +624,16 @@ export function apply(ctx: ClientContext): void {
   // 快捷短语: Cherry composer parity, first increment — an ⚡ entry in the
   // composer's right zone listing user phrases (control-center-composer
   // namespace) that append to the draft through inputActions.setDraft.
+  // @知识库 chip: list the deployment's knowledge bases and insert an
+  // annotation naming the base plus the knowledge_retrieve tool call.
+  ctx.slots.inject('conversation.input.right', () => ctx.slots.register({
+    name: 'conversation.input.right',
+    id: 'control-center.knowledge-chip',
+    locale: MSGACTIONS_NS,
+    inject: () => ({
+      getKnowledge: () => ctx.get('remote.controlCenterKnowledge') as unknown as KnowledgeChipKnowledgeFace,
+    }),
+  }, KnowledgeChipButton))
   ctx.slots.inject('conversation.input.right', () => ctx.slots.register({
     name: 'conversation.input.right',
     id: 'control-center.quick-phrases',
