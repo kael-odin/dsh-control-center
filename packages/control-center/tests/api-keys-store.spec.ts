@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
 import type { SettingsSchemaOperations } from '../src/client/schema-operations.ts'
 import { ApiKeysController, firstEnabledRef, nextSlotNumber, readSlots, slotRefOf } from '../src/client/api-keys-store.ts'
 
@@ -21,7 +21,7 @@ const schema: SettingsSchemaOperations = {
 }
 
 function ok<T>(value: T) {
-  return { rpcId: 'test' as never, result: { ok: true as const, value } }
+  return { ok: true as const, value }
 }
 
 describe('slotRefOf', () => {
@@ -104,9 +104,9 @@ describe('ApiKeysController', () => {
         mutate: vi.fn(),
       },
       credentials: {
-        describe: vi.fn(async () => ok({ credentials: { A: { configured: true, writable: true } } })),
+        describe: vi.fn(async () => ok({ A: { configured: true, writable: true } })),
       },
-    } as unknown as Pick<IApiClient, 'settings' | 'credentials'>
+    } as unknown as Pick<ClientRemote, 'settings' | 'credentials'>
     const controller = new ApiKeysController({
       api, schema,
       namespaceValue: { providers: { acme: { apiKeyEnv: 'A', models: [] } } },
@@ -135,9 +135,9 @@ describe('ApiKeysController', () => {
         mutate: vi.fn(),
       },
       credentials: {
-        describe: vi.fn(async () => ok({ credentials: { DEMO_API_KEY: { configured: true, writable: true } } })),
+        describe: vi.fn(async () => ok({ DEMO_API_KEY: { configured: true, writable: true } })),
       },
-    } as unknown as Pick<IApiClient, 'settings' | 'credentials'>
+    } as unknown as Pick<ClientRemote, 'settings' | 'credentials'>
     const controller = new ApiKeysController({
       api, schema,
       namespaceValue: { providers: { demo: { apiKeyEnv: 'DEMO_API_KEY', models: [] } } },

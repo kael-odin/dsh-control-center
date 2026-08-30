@@ -394,9 +394,9 @@ export function installContextPolicy(
     }
   }, { global: true, prepend: true })
 
-  // Code Mode receives complete nested values before this waterfall runs. Only
-  // the durable tool/code-dispatch projection is replaced, never the program value.
-  ctx.on('tools/code-dispatch-log', async (dispatch, next): Promise<ContentBlock[]> => {
+  // PTC (code-mode) receives complete nested values before this waterfall runs. Only
+  // the durable tool/ptc-dispatch projection is replaced, never the program value.
+  ctx.on('tools/ptc-dispatch-log', async (dispatch, next): Promise<ContentBlock[]> => {
     const content = await next()
     const settings = readSettings()
     if (!settings.contextEnabled) return content

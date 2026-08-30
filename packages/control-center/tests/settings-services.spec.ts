@@ -4,7 +4,7 @@ import { createSettingsSchemaOperations } from '../src/client/schema-operations.
 import { ModelsSettingsStore } from '../src/client/store.ts'
 
 function ok<T>(value: T) {
-  return { rpcId: 'test' as never, result: { ok: true as const, value } }
+  return { ok: true as const, value }
 }
 
 const schemaService = {
@@ -45,8 +45,8 @@ describe('latest settings services integration', () => {
     }
     const api = {
       settings: { describe: settingsDescribe },
-      llm: { providers: vi.fn(async () => ok({ providers: [] })) },
-      credentials: { describe: vi.fn(async () => ok({ credentials: {} })) },
+      llm: { listConfigurableProviders: vi.fn(async () => ok([])), listProviders: vi.fn(async () => ok([])) },
+      credentials: { describe: vi.fn(async () => ok({})) },
     }
     const store = new ModelsSettingsStore(api as never, createSettingsSchemaOperations(schemaService), mirror)
     await store.load()
@@ -63,8 +63,8 @@ describe('latest settings services integration', () => {
     }
     const api = {
       settings: { describe: vi.fn() },
-      llm: { providers: vi.fn(async () => ok({ providers: [] })) },
-      credentials: { describe: vi.fn(async () => ok({ credentials: {} })) },
+      llm: { listConfigurableProviders: vi.fn(async () => ok([])), listProviders: vi.fn(async () => ok([])) },
+      credentials: { describe: vi.fn(async () => ok({})) },
     }
     const store = new ModelsSettingsStore(api as never, createSettingsSchemaOperations(schemaService), mirror)
     await store.load()

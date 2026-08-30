@@ -1,8 +1,8 @@
 /** General settings store for desktop behavior and Cherry-compatible context preferences. */
 
-import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client'
-import type { SnapshotStore } from '@deepseek-ai/dsh-client-runtime/client'
-import { createSnapshotStore } from '@deepseek-ai/dsh-client-runtime/client'
+import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
+import type { SnapshotStore } from '@deepseek-ai/dsh-client-store'
+import { createSnapshotStore } from '@deepseek-ai/dsh-client-store'
 import type { SettingsSchemaOperations } from './schema-operations.ts'
 import { messageOf } from './store.ts'
 
@@ -109,7 +109,7 @@ export class GeneralSettingsStore {
   private generation = 0
 
   constructor(
-    private readonly api: Pick<IApiClient, 'settings'>,
+    private readonly api: Pick<ClientRemote, 'settings'>,
     private readonly schema: SettingsSchemaOperations,
   ) {}
 
@@ -117,8 +117,8 @@ export class GeneralSettingsStore {
     const generation = ++this.generation
     this.store.update((state) => { state.status = 'loading'; state.error = null })
     try {
-      const response = await this.api.settings.describe({})
-      const described = response.result
+      const response = await this.api.settings.describe()
+      const described = response
       if (!described.ok) throw new Error(described.error.message)
       if (generation !== this.generation) return
       const namespace = described.value.namespaces.find(view => view.ns === GENERAL_NAMESPACE)
@@ -140,12 +140,8 @@ export class GeneralSettingsStore {
     const snapshot = this.store.getSnapshot()
     if (snapshot.revision === null || !snapshot.available) return false
     this.store.update((state) => { state.writeError = null })
-    const response = await this.api.settings.mutate({
-      ns: GENERAL_NAMESPACE,
-      expectedRevision: snapshot.revision,
-      ops: [{ op: 'set', path: [key], value }],
-    })
-    const result = response.result
+    const response = await this.api.settings.mutate(GENERAL_NAMESPACE, [{ op: 'set', path: [key], value }], snapshot.revision)
+    const result = response
     if (!result.ok) {
       this.store.update((state) => { state.writeError = result.error.message })
       return false

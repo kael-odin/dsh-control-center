@@ -27,7 +27,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
-import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ClientRemote,JsonValue } from '@deepseek-ai/dsh-api-remotes/client'
 import type { SnapshotSelectorHook } from '@deepseek-ai/dsh-client-ui-slots'
 import { Button, Menu, Modal } from '@deepseek-ai/dsh-client-ui-primitives'
 import { CustomProviderCard } from './CustomProviderCard.tsx'
@@ -94,7 +94,7 @@ export interface ProviderDirectorySectionInjected {
   } | undefined
   controller: ModelsSettingsStore
   useSnapshot: SnapshotSelectorHook<ModelsSettingsState>
-  api: Pick<IApiClient, 'settings' | 'credentials' | 'llm'>
+  api: Pick<ClientRemote, 'settings' | 'credentials' | 'llm' | 'session'>
   schema: SettingsSchemaOperations
   t: (key: keyof typeof en) => string
 }
@@ -343,31 +343,23 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
     let stale = false
     setProviderCatalog([])
     if (selectedProviderId === undefined) return undefined
-    void api.llm.models({}).then((response) => {
-      if (stale || !response.result.ok) return
-      const group = response.result.value.groups.find(candidate => candidate.id === selectedProviderId)
+    void api.session.modelCatalog().then((response) => {
+      if (stale || !response.ok) return
+      const group = response.value.groups.find(candidate => candidate.id === selectedProviderId)
       setProviderCatalog(group === undefined
         ? []
         : group.models.map(model => ({ id: model.id, ...(model.name === undefined ? {} : { name: model.name }) })))
     }, () => undefined)
     return () => { stale = true }
-  }, [api.llm.models, selectedProviderId])
+  }, [api.session.modelCatalog, selectedProviderId])
 
   /** Point the future-session default at one of this provider's models. */
   const setDefaultModel = async (providerId: string, modelId: string): Promise<void> => {
     if (defaultNsView === undefined || !state.writable) return
     try {
-      const response = await api.settings.mutate({
-        ns: 'agent-default-model',
-        expectedRevision: defaultNsView.revision,
-        ops: [
-          { op: 'set', path: ['provider'], value: providerId },
-          { op: 'set', path: ['model'], value: modelId },
-          { op: 'unset', path: ['reasoningEffort'] },
-        ],
-      })
-      if (!response.result.ok) {
-        setToggleFailure(response.result.error.message)
+      const response = await api.settings.mutate('agent-default-model', [ { op: 'set', path: ['provider'], value: providerId }, { op: 'set', path: ['model'], value: modelId }, { op: 'unset', path: ['reasoningEffort'] }, ], defaultNsView.revision)
+      if (!response.ok) {
+        setToggleFailure(response.error.message)
         return
       }
       setDefaultSaved({ provider: providerId, model: modelId })
@@ -400,54 +392,34 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
       const stashedValue = schema.getPath(stashView.value, path)
       if (!next) {
         if (liveValue === undefined) return
-        const stashed = await api.settings.mutate({
-          ns: STASH_NS,
-          expectedRevision: stashView.revision,
-          ops: [{ op: 'set', path, value: structuredClone(liveValue) }],
-        })
-        if (!stashed.result.ok) {
-          setToggleFailure(stashed.result.error.message)
+        const stashed = await api.settings.mutate(STASH_NS, [{ op: 'set', path, value: structuredClone(liveValue) as unknown as JsonValue }], stashView.revision)
+        if (!stashed.ok) {
+          setToggleFailure(stashed.error.message)
           return
         }
-        const unset = await api.settings.mutate({
-          ns: NS,
-          expectedRevision: stashed.result.value.revision,
-          ops: [{ op: 'unset', path }],
-        })
-        if (!unset.result.ok) {
-          setToggleFailure(unset.result.error.message)
+        const unset = await api.settings.mutate(NS, [{ op: 'unset', path }], stashed.value.revision)
+        if (!unset.ok) {
+          setToggleFailure(unset.error.message)
           return
         }
       } else {
         if (stashedValue === undefined) {
           // A shipped catalog route enables bare: pi-ai serves its own
           // installed catalog for an empty profile.
-          const created = await api.settings.mutate({
-            ns: NS,
-            expectedRevision: namespace.revision,
-            ops: [{ op: 'set', path, value: {} }],
-          })
-          if (!created.result.ok) {
-            setToggleFailure(created.result.error.message)
+          const created = await api.settings.mutate(NS, [{ op: 'set', path, value: {} as unknown as JsonValue }], namespace.revision)
+          if (!created.ok) {
+            setToggleFailure(created.error.message)
             return
           }
         } else {
-          const restored = await api.settings.mutate({
-            ns: NS,
-            expectedRevision: namespace.revision,
-            ops: [{ op: 'set', path, value: structuredClone(stashedValue) }],
-          })
-          if (!restored.result.ok) {
-            setToggleFailure(restored.result.error.message)
+          const restored = await api.settings.mutate(NS, [{ op: 'set', path, value: structuredClone(stashedValue) as unknown as JsonValue }], namespace.revision)
+          if (!restored.ok) {
+            setToggleFailure(restored.error.message)
             return
           }
-          const cleared = await api.settings.mutate({
-            ns: STASH_NS,
-            expectedRevision: restored.result.value.revision,
-            ops: [{ op: 'unset', path }],
-          })
-          if (!cleared.result.ok) {
-            setToggleFailure(cleared.result.error.message)
+          const cleared = await api.settings.mutate(STASH_NS, [{ op: 'unset', path }], restored.value.revision)
+          if (!cleared.ok) {
+            setToggleFailure(cleared.error.message)
             return
           }
         }
@@ -485,13 +457,9 @@ function Loaded({ injected }: { injected: ProviderDirectorySectionInjected }): R
         return
       }
       if (stashView !== undefined) {
-        const cleared = await api.settings.mutate({
-          ns: STASH_NS,
-          expectedRevision: stashView.revision,
-          ops: [{ op: 'unset', path: ['providers', entry.provider] }],
-        })
-        if (!cleared.result.ok) {
-          setToggleFailure(cleared.result.error.message)
+        const cleared = await api.settings.mutate(STASH_NS, [{ op: 'unset', path: ['providers', entry.provider] }], stashView.revision)
+        if (!cleared.ok) {
+          setToggleFailure(cleared.error.message)
           return
         }
       }

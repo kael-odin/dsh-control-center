@@ -58,12 +58,12 @@ export interface DependencyEntry {
 
 const CONTRACT_PACKAGES: ReadonlyArray<{ name: string; client: boolean }> = [
   { name: '@deepseek-ai/dsh-api-remotes', client: true },
-  { name: '@deepseek-ai/dsh-client-runtime', client: true },
+  { name: '@deepseek-ai/dsh-client-store', client: false },
   { name: '@deepseek-ai/dsh-client-ui-settings', client: true },
   { name: '@deepseek-ai/dsh-client-ui-layout', client: true },
   { name: '@deepseek-ai/dsh-client-ui-slots', client: false },
   { name: '@deepseek-ai/dsh-client-modules', client: true },
-  { name: '@deepseek-ai/dsh-host-apiproxy', client: true },
+  { name: '@deepseek-ai/dsh-api-session-controller', client: false },
   { name: '@deepseek-ai/dsh-settings', client: false },
 ]
 

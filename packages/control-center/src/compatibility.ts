@@ -4,8 +4,8 @@ import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolveDshHome } from '@deepseek-ai/dsh-home-paths'
 
-export const SUPPORTED_DSH_VERSION = '0.1.1-rc.2'
-export const DSH_SOURCE_BASELINE = 'b150a551b8'
+export const SUPPORTED_DSH_VERSION = '0.1.2'
+export const DSH_SOURCE_BASELINE = 'cd5ef81481'
 
 /**
  * PLUGINIZATION §1.2: the supported DSH version window rather than one pinned
@@ -27,12 +27,15 @@ interface RequiredPackage {
 
 const REQUIRED_PACKAGES: readonly RequiredPackage[] = [
   { name: '@deepseek-ai/dsh-api-remotes', client: true },
-  { name: '@deepseek-ai/dsh-client-runtime', client: true },
+  // Platform seed since 0.1.2 (dsh-client-runtime was removed upstream).
+  { name: '@deepseek-ai/dsh-client-store', client: false },
   { name: '@deepseek-ai/dsh-client-ui-settings', client: true },
   { name: '@deepseek-ai/dsh-client-ui-layout', client: true },
   { name: '@deepseek-ai/dsh-client-ui-slots', client: false },
   { name: '@deepseek-ai/dsh-client-modules', client: true },
-  { name: '@deepseek-ai/dsh-host-apiproxy', client: true },
+  // Host-side session remote (apiProxy was removed upstream in 0.1.2).
+  { name: '@deepseek-ai/dsh-api-session-controller', client: false },
+  { name: '@deepseek-ai/dsh-agent-presets', client: false },
   { name: '@deepseek-ai/dsh-settings', client: false },
 ]
 

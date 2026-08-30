@@ -6,9 +6,8 @@
  */
 import { useEffect, useRef, useState } from 'react'
 import type { HostObservable, InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
-import type { IApiClient } from '@deepseek-ai/dsh-client-connection/client'
-import type { LocaleRuntime, LocaleSnapshot } from '@deepseek-ai/dsh-client-locale/client'
 import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
+import type { LocaleRuntime, LocaleSnapshot } from '@deepseek-ai/dsh-client-locale/client'
 import {
   applyThemeOverrides, clampMessageFontSize, DEFAULT_THEME_OVERRIDES, hasLegacyThemeOverrides, loadThemeOverrides, markThemeOverridesMigrated, THEME_COLOR_PRESETS, APPEARANCE_SETTINGS_NAMESPACE, type ThemeOverrides,
 } from './theme-overrides.ts'
@@ -21,7 +20,7 @@ import {
 import css from './AppearanceSection.module.css'
 
 export interface AppearanceSectionInjected {
-  api: IApiClient
+  api: ClientRemote
   locale?: LocaleRuntime
   getDesktop: () => NonNullable<ClientRemote['controlCenterDesktop']>
   hooks: { desktopReady: HostObservable<boolean> }
@@ -146,7 +145,7 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
     void getDesktop().fonts().then(result => {
       if (!active) return
       if (result.ok && result.value.ok && result.value.fonts !== undefined && result.value.fonts.length > 0) {
-        setFontOptions([{ label: '默认', value: '' }, ...result.value.fonts.map(font => ({ label: font, value: font }))])
+        setFontOptions([{ label: '默认', value: '' }, ...result.value.fonts.map((font: string) => ({ label: font, value: font }))])
       }
     }).finally(() => { if (active) setFontLoading(false) })
     return () => { active = false }
@@ -171,9 +170,9 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
   // Read the current theme mode from the DSH theme namespace.
   useEffect(() => {
     let active = true
-    void api.settings.describe({}).then(response => {
-      if (!active || !response.result.ok) return
-      const themeNs = response.result.value.namespaces.find(ns => ns.ns === THEME_NS)
+    void api.settings.describe().then(response => {
+      if (!active || !response.ok) return
+      const themeNs = response.value.namespaces.find(ns => ns.ns === THEME_NS)
       const preference = (themeNs?.value as { preference?: string } | undefined)?.preference
       if (preference === 'light' || preference === 'dark' || preference === 'system') setThemeMode(preference)
     }).catch(() => {})
@@ -189,13 +188,9 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
         throw new Error(result.ok ? result.value.error ?? '缩放设置失败' : result.error.message)
       }
       setZoom(result.value.zoom)
-      return api.settings.mutate({
-        ns: APPEARANCE_SETTINGS_NAMESPACE,
-        ops: [{ op: 'set', path: ['desktopZoom'], value: result.value.zoom }],
-        expectedRevision: revisionRef.current!,
-      }).then(response => {
-        if (!response.result.ok) throw new Error(response.result.error.message)
-        revisionRef.current = response.result.value.revision
+      return api.settings.mutate(APPEARANCE_SETTINGS_NAMESPACE, [{ op: 'set', path: ['desktopZoom'], value: result.value.zoom }], revisionRef.current!).then(response => {
+        if (!response.ok) throw new Error(response.error.message)
+        revisionRef.current = response.value.revision
       })
     }).catch(error => {
       setZoom(previous)
@@ -208,13 +203,13 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
   // migrated only when the namespace is still at its schema defaults.
   useEffect(() => {
     let active = true
-    void api.settings.describe({}).then(response => {
+    void api.settings.describe().then(response => {
       if (!active) return
-      if (!response.result.ok) {
+      if (!response.ok) {
         setAppearanceError('外观设置加载失败，请重试。')
         return
       }
-      const namespace = response.result.value.namespaces.find(view => view.ns === APPEARANCE_SETTINGS_NAMESPACE)
+      const namespace = response.value.namespaces.find(view => view.ns === APPEARANCE_SETTINGS_NAMESPACE)
       if (namespace === undefined) {
         setAppearanceError('外观设置不可用，请重试。')
         return
@@ -254,18 +249,9 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
       setAppearanceError('')
       if (!hasStoredValues && hasLegacyThemeOverrides()) {
         writeQueueRef.current = writeQueueRef.current.then(async () => {
-          const migrated = await api.settings.mutate({
-            ns: APPEARANCE_SETTINGS_NAMESPACE,
-            ops: [
-              { op: 'set', path: ['colorPrimary'], value: next.colorPrimary },
-              { op: 'set', path: ['fontFamily'], value: next.fontFamily },
-              { op: 'set', path: ['codeFontFamily'], value: next.codeFontFamily },
-              { op: 'set', path: ['customCss'], value: next.customCss },
-            ],
-            expectedRevision: namespace.revision,
-          })
-          if (migrated.result.ok) {
-            revisionRef.current = migrated.result.value.revision
+          const migrated = await api.settings.mutate(APPEARANCE_SETTINGS_NAMESPACE, [ { op: 'set', path: ['colorPrimary'], value: next.colorPrimary }, { op: 'set', path: ['fontFamily'], value: next.fontFamily }, { op: 'set', path: ['codeFontFamily'], value: next.codeFontFamily }, { op: 'set', path: ['customCss'], value: next.customCss }, ], namespace.revision)
+          if (migrated.ok) {
+            revisionRef.current = migrated.value.revision
             markThemeOverridesMigrated()
           }
         }).catch(() => { setAppearanceError('旧版外观设置迁移失败，请重试。') })
@@ -289,13 +275,9 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
       value,
     }))
     writeQueueRef.current = writeQueueRef.current.then(async () => {
-      const response = await api.settings.mutate({
-        ns: APPEARANCE_SETTINGS_NAMESPACE,
-        ops,
-        expectedRevision: revisionRef.current!,
-      })
-      if (!response.result.ok) throw new Error(response.result.error.message)
-      revisionRef.current = response.result.value.revision
+      const response = await api.settings.mutate(APPEARANCE_SETTINGS_NAMESPACE, ops, revisionRef.current!)
+      if (!response.ok) throw new Error(response.error.message)
+      revisionRef.current = response.value.revision
     }).catch(error => {
       overridesRef.current = previous
       setOverrides(previous)
@@ -310,10 +292,7 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
 
   const setMode = (mode: ThemeMode): void => {
     setThemeMode(mode)
-    void api.settings.mutate({
-      ns: THEME_NS,
-      ops: [{ op: 'set', path: ['preference'], value: mode }],
-    }).then(() => { applyThemeOverrides(overridesRef.current) }).catch(() => {})
+    void api.settings.mutate(THEME_NS, [{ op: 'set', path: ['preference'], value: mode }], undefined).then(() => { applyThemeOverrides(overridesRef.current) }).catch(() => {})
   }
 
   const setColor = (color: string): void => {

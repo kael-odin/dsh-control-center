@@ -15,7 +15,7 @@
  * (`control-center-api-keys`) carries labels and enable flags alone.
  */
 
-import type { CredentialView, IApiClient } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ClientRemote, CredentialInfo, JsonValue } from '@deepseek-ai/dsh-api-remotes/client'
 import type { SettingsPathOpView } from '@deepseek-ai/dsh-api-remotes/client'
 import type { SettingsSchemaOperations } from './schema-operations.ts'
 
@@ -94,7 +94,7 @@ export function firstEnabledRef(slots: readonly ApiKeySlot[]): string | undefine
 
 /** Wire faces the controller needs — what the provider editor page holds. */
 export interface ApiKeysDeps {
-  api: Pick<IApiClient, 'settings' | 'credentials'>
+  api: Pick<ClientRemote, 'settings' | 'credentials'>
   schema: Pick<SettingsSchemaOperations, 'getPath'>
   /** Live view of the profile namespace (value + revision). */
   namespaceValue: unknown
@@ -130,18 +130,18 @@ export class ApiKeysController {
   /** Load slots joined with credential state and the active binding. */
   async load(): Promise<ApiKeysState> {
     const { api, schema, namespaceValue, settingsPath, providerId } = this.deps
-    const describe = await api.settings.describe({})
-    if (!describe.result.ok) throw new Error(describe.result.error.message)
-    const namespaces = describe.result.value.namespaces
+    const describe = await api.settings.describe()
+    if (!describe.ok) throw new Error(describe.error.message)
+    const namespaces = describe.value.namespaces
     const keysNs = namespaces.find(view => view.ns === API_KEYS_NAMESPACE)
     const slots = readSlots(keysNs === undefined ? undefined : keysNs.value, schema, providerId)
     const boundRaw = schema.getPath(namespaceValue, [...settingsPath, 'apiKeyEnv'])
     const boundRef = typeof boundRaw === 'string' ? boundRaw : ''
     const knownRefs = [...new Set([...slots.map(slot => slot.ref), ...(boundRef === '' ? [] : [boundRef])])]
-    let credentials: Record<string, CredentialView> = {}
+    let credentials: Record<string, CredentialInfo> = {}
     if (knownRefs.length > 0) {
-      const response = await api.credentials.describe({ refs: knownRefs })
-      if (response.result.ok) credentials = response.result.value.credentials
+      const response = await api.credentials.describe(knownRefs)
+      if (response.ok) credentials = response.value
     }
     const stateOf = (ref: string): { configured: boolean; writable: boolean } => {
       const info = credentials[ref]
@@ -174,19 +174,15 @@ export class ApiKeysController {
     const ops: SettingsPathOpView[] = target === ''
       ? [{ op: 'unset', path: [...this.deps.settingsPath, 'apiKeyEnv'] }]
       : [{ op: 'set', path: [...this.deps.settingsPath, 'apiKeyEnv'], value: target }]
-    const response = await this.deps.api.settings.mutate({ ns: 'llm-pi-ai', expectedRevision: profileRevision, ops })
-    return response.result.ok ? undefined : response.result.error.message
+    const response = await this.deps.api.settings.mutate('llm-pi-ai', ops, profileRevision)
+    return response.ok ? undefined : response.error.message
   }
 
   /** Persist the metadata section. */
   private async saveSlots(keysRevision: number | null, slots: readonly ApiKeySlot[]): Promise<string | undefined> {
     if (keysRevision === null) return API_KEYS_NAMESPACE + ' namespace is unavailable'
-    const response = await this.deps.api.settings.mutate({
-      ns: API_KEYS_NAMESPACE,
-      expectedRevision: keysRevision,
-      ops: [{ op: 'set', path: ['providers', this.deps.providerId], value: sectionOf(slots) }],
-    })
-    return response.result.ok ? undefined : response.result.error.message
+    const response = await this.deps.api.settings.mutate(API_KEYS_NAMESPACE, [{ op: 'set', path: ['providers', this.deps.providerId], value: sectionOf(slots) as unknown as JsonValue }], keysRevision)
+    return response.ok ? undefined : response.error.message
   }
 
   /** Shared shape: load fresh state, hand plain slots to the step. */
@@ -205,8 +201,8 @@ export class ApiKeysController {
   async add(key: string, label: string): Promise<string | undefined> {
     return this.run(async (state, slots) => {
       const ref = slotRefOf(this.deps.baseRef, nextSlotNumber(slots))
-      const setResponse = await this.deps.api.credentials.set({ ref, value: key })
-      if (!setResponse.result.ok) return setResponse.result.error.message
+      const setResponse = await this.deps.api.credentials.set(ref, key)
+      if (!setResponse.ok) return setResponse.error.message
       const next = [...slots, { ref, label, isEnabled: true }]
       const metaError = await this.saveSlots(state.keysRevision, next)
       if (metaError !== undefined) return metaError
@@ -234,15 +230,15 @@ export class ApiKeysController {
 
   /** Replace one slot's stored key value. */
   async replaceValue(ref: string, key: string): Promise<string | undefined> {
-    const setResponse = await this.deps.api.credentials.set({ ref, value: key })
-    return setResponse.result.ok ? undefined : setResponse.result.error.message
+    const setResponse = await this.deps.api.credentials.set(ref, key)
+    return setResponse.ok ? undefined : setResponse.error.message
   }
 
   /** Remove one slot: credential first (retryable), then metadata, then rebind. */
   async remove(ref: string): Promise<string | undefined> {
     return this.run(async (state, slots) => {
-      const unsetResponse = await this.deps.api.credentials.unset({ ref })
-      if (!unsetResponse.result.ok) return unsetResponse.result.error.message
+      const unsetResponse = await this.deps.api.credentials.unset(ref)
+      if (!unsetResponse.ok) return unsetResponse.error.message
       const next = slots.filter(slot => slot.ref !== ref)
       const metaError = await this.saveSlots(state.keysRevision, next)
       if (metaError !== undefined) return metaError

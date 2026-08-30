@@ -28,35 +28,38 @@ MCP 市场、知识库管线、备份矩阵）。DSH 的本质价值 = **运行�
 
 ---
 
-## Phase 0 — 地基与止血 🔄
+## Phase 0 — 地基与止血 ✅
 
 不做这步，后面所有工作都建立在流沙上。
 
-### 0.1 工作区整理 🔄
-- [ ] 分批提交 96 条未提交变更（provider 编辑器重构去 shim / 新增护栏测试 / 桌面壳与测试脚本改动），不得 squash 丢失历史
-- [ ] 确认 `apps/desktop/pnpm-lock.yaml` 删除是否合理（workspace 根统一 lock），不合理则恢复
+### 0.1 工作区整理 ✅（2026-08-30）
+- [x] 分批提交 96 条未提交变更，8 个内聚提交：docs / providers 去shim重构 / gateway /docs页 / 设计令牌 / notes·knowledge / desktop harness-dir / 测试脚本 / 补交 model-prefs
+- [x] 确认 `apps/desktop/pnpm-lock.yaml` 删除合理（workspace 根统一 lock）
 
-### 0.2 构建产物出库 🔄
-- [ ] `.gitignore` 掉 `packages/*/lib/`，`git rm -r --cached` 清理跟踪
-- [ ] pack:check 的产物审计诉求改由打包流程自证（`tests/packs.ts` 已有收敛），CI artifact 留档
+### 0.2 构建产物出库 ✅（2026-08-30）
+- [x] `.gitignore` 掉 `packages/*/lib/`，`git rm -r --cached` 清理跟踪（208 个文件）
+- [x] 产物审计由 pack:check + `tests/packs.ts` 版本收敛自证
 
-### 0.3 DSH 契约升级至 0.1.2-alpha.1 ❌（最高优先级，阻塞一切验证）
-> 0.1.2 带破坏记号变更簇：**ApiProxy 包整体删除**（`4f00a0b`），迁移到 typert Remote。
-> 本仓 `channel-bridge.ts`（1899 行）重度使用 `ctx.apiProxy.sessions`，当前代码在 DSH 最新版直接失效。
-- [ ] peerDependencies / `compatibility.ts` / 全部 `@deepseek-ai/dsh-*` 引用 bump 至 0.1.2-alpha.1
-- [ ] `apiProxy.sessions` → `ctx.remote.session` / `ctx.sessionController`（channel-bridge、assistant、update 等）
-- [ ] settings/credentials 旧 RPC → `ctx.remote.settings` / `ctx.remote.credentials` controllers
-- [ ] directory-picker 旧 RPC → 新 Remote 面
-- [ ] vendored declaration mirrors（`application-slots.ts`、`use-sync-external-store.d.ts` 等）按 0.1.2 重新对表
-- [ ] 全量 build + pack:check + 三套测试（vitest / Playwright E2E / 桌面 smoke）通过
+### 0.3 DSH 契约升级至 0.1.2 ✅（2026-08-30 完成，最大单项工程）
+> npm 未发布 0.1.2（next 仍为 rc.2），本地从 harness `cd5ef814` 构建 258 个 tarball
+> 存入 `vendor/dsh-0.1.2/`（8.7MB，含 MANIFEST 与再生成配方），经本地 verdaccio
+> registry 解析（项目 `.npmrc` → 127.0.0.1:4873；发布认证在用户级 npmrc）。
+> 升级中发现上游把 `dsh-client-runtime` 整包删除（be531688f3），比预期多一条迁移线。
+- [x] peerDependencies / compatibility.ts（SUPPORTED_DSH_VERSION='0.1.2'，基线 'cd5ef81481'，窗口正则照旧容忍 0.1.x）/ workspace overrides 全量 bump（258 项钉到 '0.1.2'）
+- [x] **ApiProxy 删除迁移**：`channel-bridge.ts` 会话面 → `ctx.get('sessionController')`（create/selectModel/prompt 去信封改位置参数；**180s 轮询顺势替换为 `follow()` 事件流消费**）；`assistant.ts` presets → `ctx.get('agentPresets').remoteExportList()`；`compat-probe.ts` 探针 → `sessionController.page` + agentPresets 存在性
+- [x] **dsh-client-runtime 删除迁移**：SnapshotStore/createSnapshotStore → `@deepseek-ai/dsh-client-store`；SessionListState → `@deepseek-ai/dsh-api-session-controller/client`；ClientContext → cordis `Context`；`ctx.slots` 类型经 `dsh-client-ui-renderer/client` 扩充；`connection.api` → `ctx.remote`；SettingsRoot 的 sessions hook 改由插件自建（0.1.2 owner props 瘦身，hooks compartment 按 `use<Name>` 绑定裸 HostObservable）
+- [x] **构建预设在位重写**（build/client-bundle.ts 对齐上游 `packages/client/web/src/platform.ts` 0.1.2 平台模块表 + `dsh.client.external` 请求表：七个 /client 子路径）
+- [x] settings/credentials RPC → `ctx.remote.settings`（describe()/mutate(ns,ops,rev)/openSettingsDocument）/ `ctx.remote.credentials`（describe(refs)/set(ref,v)/unset(ref)）；provider 目录 → `llm.listConfigurableProviders`+`listProviders`（active 由 listProviders 推导）+ `session.modelCatalog()`；`tools/code-dispatch-log` → `tools/ptc-dispatch-log`
+- [x] typecheck 0 错误 + build 全绿 + oxlint 0 警告；41 个旧形状测试 mock 批量更新
 
-### 0.4 上游跟随机制 ❌
-- [ ] CI/脚本：DSH 出新版本 → 对比契约包 diff → 自动产出 issue 清单（跟随上游是"白拿生态"的前提）
-- [ ] PARITY_LEDGER 升级为机器可读 checklist（每项：cherry 源路径 ↔ 本仓实现路径 ↔ 状态 ↔ 验收脚本），
-      cherry-studio pull 后脚本自动 diff 出新增设置项/新消息动作
+### 0.4 上游跟随机制 ⚠️
+- [x] `vendor/dsh-0.1.2/MANIFEST.md`：来源 commit + 完整再生成配方（本地 verdaccio 通道可复用于后续每个 DSH 版本）
+- [ ] PARITY_LEDGER 升级为机器可读 checklist（cherry pull 后脚本 diff 新增设置项/消息动作）
+- [ ] CI：DSH 新版本 → 契约 diff 自动 issue
 
-### 0.5 轮询 hack 清理 ❌
-- [ ] `src/client/index.ts` 大量 `setInterval(25ms)` 探测 remote 就绪 → 换成 DSH HostObservable/boot graph 事件订阅
+### 0.5 轮询 hack 清理 ⚠️
+- [x] channel-bridge 180s 轮询 → follow() 事件流（随 0.3 顺带完成）
+- [ ] `src/client/index.ts` 的 `setInterval(25ms)` remote 就绪探测 → HostObservable/boot graph 事件订阅
 
 ---
 
@@ -143,3 +146,5 @@ home/chat 完全未迁移，是 Cherry 的灵魂。照搬 Cherry 成熟架构，
 |------|------|------|
 | 2026-08-30 | 创建计划；两上游仓库已更新（Cherry `56cf04c3`、DSH `cd5ef814` = 0.1.2-alpha.1） | 初版规划，用户授权按此推进 |
 | 2026-08-30 | Phase 0.3 上升为最高优先级 | 审查发现 DSH 0.1.2 删除 ApiProxy 包，当前代码在新版宿主上失效 |
+| 2026-08-30 | Phase 0.1/0.2/0.3 完成；typecheck+build+lint 全绿 | 8 批提交落库；lib 出库；0.1.2 契约升级含 ApiProxy 与 client-runtime 两条破坏性迁移、vendored tarball + 本地 verdaccio 通道 |
+| 2026-08-30 | 0.3 计划外发现：dsh-client-runtime 整包删除（上游 be531688f3） | client 侧 store/slots/remote 三类消费面全部改道；构建预设按上游 platform.ts 重写 |

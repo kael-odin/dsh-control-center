@@ -1,7 +1,7 @@
 /** State owner for the optional local settings-document action. */
 
-import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client'
-import { createSnapshotStore, type SnapshotStore } from '@deepseek-ai/dsh-client-runtime/client'
+import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
+import { createSnapshotStore, type SnapshotStore } from '@deepseek-ai/dsh-client-store'
 
 /** Browser state of the Host-owned settings document. */
 export interface SettingsDocumentState {
@@ -29,7 +29,7 @@ export class SettingsDocumentStore {
   /**
    * @param api - loopback settings wire face that reports and opens the provider document.
    */
-  constructor(private readonly api: Pick<IApiClient, 'settings'>) {}
+  constructor(private readonly api: Pick<ClientRemote, 'settings'>) {}
 
   /**
    * Load whether the current provider owns a local document.
@@ -42,7 +42,7 @@ export class SettingsDocumentStore {
       state.error = null
     })
     try {
-      const { result } = await this.api.settings.describe({})
+      const result = await this.api.settings.openSettingsDocument()
       if (generation !== this.generation) return
       if (!result.ok) {
         this.store.update((state) => {
@@ -52,7 +52,7 @@ export class SettingsDocumentStore {
         return
       }
       this.store.update((state) => {
-        state.status = result.value.hasDocument ? 'ready' : 'unavailable'
+        state.status = result.value.opened ? 'ready' : 'unavailable'
         state.error = null
       })
     } catch (error) {
@@ -76,8 +76,8 @@ export class SettingsDocumentStore {
       state.error = null
     })
     try {
-      const response = await this.api.settings.openDocument({})
-      if (!response.result.ok) throw new Error(response.result.error.message)
+      const response = await this.api.settings.openSettingsDocument()
+      if (!response.ok) throw new Error(response.error.message)
     } catch (error) {
       this.store.update((state) => { state.error = messageOf(error) })
     } finally {

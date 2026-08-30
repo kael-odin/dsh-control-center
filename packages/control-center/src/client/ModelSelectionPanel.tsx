@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
 import type { ReactNode } from 'react'
-import type { IApiClient, ModelProviderGroup, ModelSelection } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ClientRemote, ModelProviderGroup, ModelSelection } from '@deepseek-ai/dsh-api-remotes/client'
 import type { SessionId } from '@deepseek-ai/dsh-api-remotes/client'
 import type { SnapshotSelectorHook } from '@deepseek-ai/dsh-client-ui-slots'
-import type { SessionListState, SnapshotStore } from '@deepseek-ai/dsh-client-runtime/client'
-import { createSnapshotStore } from '@deepseek-ai/dsh-client-runtime/client'
+import type { SessionListState } from '@deepseek-ai/dsh-api-session-controller/client'
+import type { SnapshotStore } from '@deepseek-ai/dsh-client-store'
+import { createSnapshotStore } from '@deepseek-ai/dsh-client-store'
 import type { ModelsKey } from './locales.ts'
 import { assertProviderSchemasSafe } from './schema-safety.ts'
 import type { SettingsSchemaOperations } from './schema-operations.ts'
@@ -30,7 +31,7 @@ export class ModelSelectionStore {
   private generation = 0
 
   constructor(
-    private readonly api: Pick<IApiClient, 'settings' | 'sessions' | 'llm'>,
+    private readonly api: Pick<ClientRemote, 'settings' | 'session'>,
     private readonly schema: SettingsSchemaOperations,
   ) {
     this.store = createSnapshotStore({
@@ -50,26 +51,26 @@ export class ModelSelectionStore {
       state.currentResult = 'idle'
     })
     try {
-      const [settingsResponse, modelsResponse, catalogResponse] = await Promise.all([
-        this.api.settings.describe({}),
-        sessionId === undefined || addressed ? Promise.resolve(undefined) : this.api.sessions.models({ sessionId }),
-        sessionId === undefined || addressed ? this.api.llm.models({}) : Promise.resolve(undefined),
+      // 0.1.2: the live session projection rides the control stream; the
+      // catalog is host-wide and comes from session.modelCatalog().
+      const [settingsResponse, catalogResponse, current] = await Promise.all([
+        this.api.settings.describe(),
+        sessionId === undefined || addressed ? this.api.session.modelCatalog() : Promise.resolve(undefined),
+        sessionId === undefined || addressed ? Promise.resolve(undefined) : this.readProjection(sessionId),
       ])
-      if (!settingsResponse.result.ok) throw new Error(settingsResponse.result.error.message)
-      if (modelsResponse !== undefined && !modelsResponse.result.ok) throw new Error(modelsResponse.result.error.message)
-      if (catalogResponse !== undefined && !catalogResponse.result.ok) throw new Error(catalogResponse.result.error.message)
-      assertProviderSchemasSafe(settingsResponse.result.value.namespaces)
-      const namespace = settingsResponse.result.value.namespaces.find(view => view.ns === DEFAULT_NAMESPACE)
+      if (!settingsResponse.ok) throw new Error(settingsResponse.error.message)
+      if (catalogResponse !== undefined && !catalogResponse.ok) throw new Error(catalogResponse.error.message)
+      assertProviderSchemasSafe(settingsResponse.value.namespaces)
+      const namespace = settingsResponse.value.namespaces.find(view => view.ns === DEFAULT_NAMESPACE)
       if (namespace === undefined) throw new Error('agent-default-model settings are unavailable')
-      const current = modelsResponse?.result.ok === true ? modelsResponse.result.value : undefined
       if (generation !== this.generation) return
       this.store.update((state) => {
         state.status = 'ready'
         state.defaultSelection = selectionOf(namespace.value, this.schema)
         state.defaultRevision = namespace.revision
-        state.currentSelection = current?.current ?? null
+        state.currentSelection = current?.selection ?? null
         state.currentRoutable = current?.routable ?? null
-        state.groups = current?.groups ?? (catalogResponse?.result.ok === true ? catalogResponse.result.value.groups : [])
+        state.groups = catalogResponse?.ok === true ? catalogResponse.value.groups : []
       })
     } catch (error) {
       if (generation !== this.generation) return
@@ -80,22 +81,34 @@ export class ModelSelectionStore {
     }
   }
 
+  /**
+   * One-shot read of the session's model-selection projection from the
+   * control stream's opening baseline (pending ?? lastUsed), plus whether the
+   * selected route is currently routable per the host catalog.
+   */
+  private async readProjection(
+    sessionId: SessionId,
+  ): Promise<{ selection: ModelSelection | null; routable: boolean } | undefined> {
+    for await (const frame of this.api.session.control(AbortSignal.timeout(10_000))) {
+      if (frame.type !== 'baseline') break // one-shot: the opening baseline is enough
+      const projection = frame.value.projections[sessionId]?.values.modelSelection
+      const selection = projection?.next ?? projection?.lastUsed ?? null
+      let routable = false
+      if (selection !== null) {
+        const catalog = await this.api.session.modelCatalog()
+        routable = catalog.ok && catalog.value.routableProviders.includes(selection.provider)
+      }
+      return { selection, routable }
+    }
+    return undefined
+  }
+
   async saveDefault(selection: ModelSelection): Promise<boolean> {
     const revision = this.store.getSnapshot().defaultRevision
     if (revision === null) return false
     this.store.update((state) => { state.status = 'saving'; state.error = null })
-    const response = await this.api.settings.mutate({
-      ns: DEFAULT_NAMESPACE,
-      expectedRevision: revision,
-      ops: [
-        { op: 'set', path: ['provider'], value: selection.provider },
-        { op: 'set', path: ['model'], value: selection.model },
-        ...(selection.reasoningEffort === undefined
-          ? [{ op: 'unset' as const, path: ['reasoningEffort'] }]
-          : [{ op: 'set' as const, path: ['reasoningEffort'], value: selection.reasoningEffort }]),
-      ],
-    })
-    const result = response.result
+    const response = await this.api.settings.mutate(DEFAULT_NAMESPACE, [ { op: 'set', path: ['provider'], value: selection.provider }, { op: 'set', path: ['model'], value: selection.model }, ...(selection.reasoningEffort === undefined ? [{ op: 'unset' as const, path: ['reasoningEffort'] }] : [{ op: 'set' as const, path: ['reasoningEffort'], value: selection.reasoningEffort }]), ], revision)
+    const result = response
     if (!result.ok) {
       this.store.update((state) => {
         state.status = 'error'
@@ -115,15 +128,15 @@ export class ModelSelectionStore {
     const sessionId = this.store.getSnapshot().currentSessionId
     if (sessionId === undefined || this.store.getSnapshot().currentAddressed) return false
     this.store.update((state) => { state.status = 'saving'; state.error = null; state.currentResult = 'idle' })
-    const selected = await this.api.sessions.selectModel({ sessionId, ...selection })
-    const selectedResult = selected.result
+    const selected = await this.api.session.selectModel({ sessionId, ...selection })
+    const selectedResult = selected
     if (!selectedResult.ok) {
       this.store.update((state) => { state.status = 'error'; state.error = selectedResult.error.message })
       return false
     }
-    const described = await this.api.settings.describe({})
-    const defaultSelection = described.result.ok
-      ? selectionOf(described.result.value.namespaces.find(view => view.ns === DEFAULT_NAMESPACE)?.value, this.schema)
+    const described = await this.api.settings.describe()
+    const defaultSelection = described.ok
+      ? selectionOf(described.value.namespaces.find(view => view.ns === DEFAULT_NAMESPACE)?.value, this.schema)
       : null
     const both = sameSelection(defaultSelection, selectedResult.value.selected)
     this.store.update((state) => {
@@ -131,8 +144,8 @@ export class ModelSelectionStore {
       state.currentSelection = selectedResult.value.selected
       state.currentRoutable = true
       state.currentResult = both ? 'both-updated' : 'current-only'
-      if (described.result.ok) {
-        const namespace = described.result.value.namespaces.find(view => view.ns === DEFAULT_NAMESPACE)
+      if (described.ok) {
+        const namespace = described.value.namespaces.find(view => view.ns === DEFAULT_NAMESPACE)
         state.defaultSelection = defaultSelection
         state.defaultRevision = namespace?.revision ?? state.defaultRevision
       }

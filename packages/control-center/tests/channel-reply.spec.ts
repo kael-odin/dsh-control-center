@@ -28,6 +28,56 @@ class ReplyAdapter extends LlmAdapter {
   }
 }
 
+const selectRoutes: Array<{ sessionId: string; provider: string; model: string }> = []
+
+/**
+ * 0.1.2 sessionController fake: bare RemoteResult calls plus a `follow()`
+ * stream that yields the opening snapshot frame and, once the prompt has been
+ * admitted, the completed turn's events.
+ */
+function fakeSessionController(options: {
+  create?: () => Promise<{ sessionId: string }>
+  reply?: { text: string; turn?: number }
+  failCreate?: string
+} = {}) {
+  const calls = { create: 0, prompts: [] as string[], follows: 0 }
+  let prompted = false
+  const controller = {
+    create: async () => {
+      calls.create++
+      if (options.failCreate !== undefined) throw new Error(options.failCreate)
+      return options.create ? options.create() : { sessionId: 'sess-1' }
+    },
+    selectModel: async (request: { sessionId: string; provider: string; model: string }) => {
+      selectRoutes.push(request)
+      return { selected: { provider: request.provider, model: request.model } }
+    },
+    prompt: async (request: { content: Array<{ type: string; text?: string }> }) => {
+      calls.prompts.push(request.content.find(part => part.type === 'text')?.text ?? '')
+      prompted = true
+      return { accepted: true as const }
+    },
+    page: async () => ({ records: [], hasMore: false }),
+    list: async () => ({ items: [] }),
+    follow: async function* (_request: unknown, _signal?: AbortSignal) {
+      calls.follows++
+      yield { type: 'snapshot' as const, header: {}, cursor: 0, records: [], hasMore: false, projections: {} }
+      if (prompted && options.reply !== undefined) {
+        const turn = options.reply.turn ?? 0
+        yield {
+          type: 'event' as const,
+          event: {
+            type: 'assistant/message', seq: 1, time: 0,
+            data: { turn, step: 0, message: { role: 'assistant', content: [{ type: 'text', text: options.reply.text }] } },
+          },
+        }
+        yield { type: 'event' as const, event: { type: 'turn/end', seq: 2, time: 0, data: { turn, reason: { kind: 'completed' } } } }
+      }
+    },
+  }
+  return { controller, calls }
+}
+
 /** Adapter that records the stream options (including `system`) for assertions. */
 class RecordingAdapter extends LlmAdapter {
   readonly seen: GenerateOptions[] = []
@@ -249,48 +299,10 @@ describe('ChannelBridgeService reply pipe', () => {
     }
     ;(ctx as unknown as { settings: unknown }).settings = settings
 
-    const calls = { create: 0, prompts: [] as string[], historyReads: 0 }
-    const selectRoutes: Array<{ provider: string; model: string }> = []
-    let prompted = false
-    const ok = <T>(value: T) => ({ rpcId: 'test', result: { ok: true as const, value } })
-    const fakeApi = {
-      sessions: {
-        create: async () => {
-          calls.create++
-          return ok({ sessionId: 'sess-1' })
-        },
-        selectModel: async (request: { payload: { provider: string; model: string } }) => {
-          selectRoutes.push(request.payload)
-          return ok({ selected: {} })
-        },
-        prompt: async (request: { payload: { content: Array<{ type: string; text?: string }> } }) => {
-          const text = request.payload.content.find(part => part.type === 'text')?.text ?? ''
-          calls.prompts.push(text)
-          prompted = true
-          return ok({ accepted: true as const })
-        },
-        history: async () => {
-          calls.historyReads++
-          // Before the prompt there is no log; afterwards one finished turn.
-          if (!prompted) return ok({ events: [], hasMore: false })
-          return ok({
-            hasMore: false,
-            events: [
-              { event: { type: 'user/message', seq: 0, time: 0, data: { content: [{ type: 'text', text: 'ping' }] } } },
-              {
-                event: {
-                  type: 'assistant/message', seq: 1, time: 0,
-                  data: { turn: 0, step: 0, message: { role: 'assistant', content: [{ type: 'text', text: 'AGENT REPLY' }] } },
-                },
-              },
-              { event: { type: 'turn/end', seq: 2, time: 0, data: { turn: 0, reason: { kind: 'completed' } } } },
-            ],
-          })
-        },
-      },
-    }
+    selectRoutes.length = 0
+    const { controller, calls } = fakeSessionController({ reply: { text: 'AGENT REPLY' } })
     const realGet = ctx.get.bind(ctx)
-    ;(ctx as unknown as { get: unknown }).get = (name: string) => (name === 'apiProxy' ? fakeApi : realGet(name))
+    ;(ctx as unknown as { get: unknown }).get = (name: string) => (name === 'sessionController' ? controller : realGet(name))
 
     const sent: Array<{ chat_id: number; text: string }> = []
     globalThis.fetch = (async (input: string | URL, init?: { method?: string; body?: string }) => {
@@ -323,11 +335,11 @@ describe('ChannelBridgeService reply pipe', () => {
     }, { timeout: 10_000 })
     expect(calls.create).toBe(1)
     expect(calls.prompts).toHaveLength(1)
-    expect(calls.historyReads).toBeGreaterThanOrEqual(2)
+    expect(calls.follows).toBe(1)
     expect(prepareSpy).not.toHaveBeenCalled()
     expect(selectRoutes).toEqual([{ sessionId: 'sess-1', provider: 'fixture', model: 'special' }])
     expect(sent[0]).toMatchObject({ chat_id: 42, text: 'AGENT REPLY' })
-    service.getLog('tg-agent')
+    console.log('DEBUG LOG:', JSON.stringify(service.getLog('tg-agent', 50), null, 1))
   })
 
   it('falls back to direct LLM when the agent-loop session fails', async () => {
@@ -344,16 +356,9 @@ describe('ChannelBridgeService reply pipe', () => {
     }
     ;(ctx as unknown as { settings: unknown }).settings = settings
 
-    const fakeApi = {
-      sessions: {
-        create: async () => ({
-          rpcId: 'test',
-          result: { ok: false as const, error: { code: 'internal', message: 'session store down', details: {} } },
-        }),
-      },
-    }
+    const { controller } = fakeSessionController({ failCreate: 'session store down' })
     const realGet = ctx.get.bind(ctx)
-    ;(ctx as unknown as { get: unknown }).get = (name: string) => (name === 'apiProxy' ? fakeApi : realGet(name))
+    ;(ctx as unknown as { get: unknown }).get = (name: string) => (name === 'sessionController' ? controller : realGet(name))
 
     const sent: Array<{ chat_id: number; text: string }> = []
     globalThis.fetch = (async (input: string | URL, init?: { method?: string; body?: string }) => {
@@ -410,35 +415,9 @@ describe('ChannelBridgeService reply pipe', () => {
     }
     ;(ctx as unknown as { settings: unknown }).settings = settings
 
-    let prompted = false
-    const ok = <T>(value: T) => ({ rpcId: 'test', result: { ok: true as const, value } })
-    const fakeApi = {
-      sessions: {
-        create: async () => ok({ sessionId: 'sess-persist' }),
-        selectModel: async () => ok({ selected: {} }),
-        prompt: async () => {
-          prompted = true
-          return ok({ accepted: true as const })
-        },
-        history: async () => {
-          if (!prompted) return ok({ events: [], hasMore: false })
-          return ok({
-            hasMore: false,
-            events: [
-              {
-                event: {
-                  type: 'assistant/message', seq: 1, time: 0,
-                  data: { turn: 0, step: 0, message: { role: 'assistant', content: [{ type: 'text', text: 'DONE' }] } },
-                },
-              },
-              { event: { type: 'turn/end', seq: 2, time: 0, data: { turn: 0, reason: { kind: 'completed' } } } },
-            ],
-          })
-        },
-      },
-    }
+    const { controller } = fakeSessionController({ create: async () => ({ sessionId: 'sess-persist' }), reply: { text: 'DONE' } })
     const realGet = ctx.get.bind(ctx)
-    ;(ctx as unknown as { get: unknown }).get = (name: string) => (name === 'apiProxy' ? fakeApi : realGet(name))
+    ;(ctx as unknown as { get: unknown }).get = (name: string) => (name === 'sessionController' ? controller : realGet(name))
 
     const sent: Array<{ chat_id: number; text: string }> = []
     globalThis.fetch = (async (input: string | URL, init?: { method?: string; body?: string }) => {
@@ -485,40 +464,9 @@ describe('ChannelBridgeService reply pipe', () => {
     }
     ;(ctx as unknown as { settings: unknown }).settings = settings
 
-    const calls = { create: 0, prompts: [] as string[] }
-    let prompted = false
-    const ok = <T>(value: T) => ({ rpcId: 'test', result: { ok: true as const, value } })
-    const fakeApi = {
-      sessions: {
-        create: async () => {
-          calls.create++
-          return ok({ sessionId: 'should-not-be-created' })
-        },
-        selectModel: async () => ok({ selected: {} }),
-        prompt: async (request: { payload: { content: Array<{ type: string; text?: string }> } }) => {
-          calls.prompts.push(request.payload.content.find(part => part.type === 'text')?.text ?? '')
-          prompted = true
-          return ok({ accepted: true as const })
-        },
-        history: async () => {
-          if (!prompted) return ok({ events: [], hasMore: false })
-          return ok({
-            hasMore: false,
-            events: [
-              {
-                event: {
-                  type: 'assistant/message', seq: 9, time: 0,
-                  data: { turn: 3, step: 0, message: { role: 'assistant', content: [{ type: 'text', text: 'RESUMED' }] } },
-                },
-              },
-              { event: { type: 'turn/end', seq: 10, time: 0, data: { turn: 3, reason: { kind: 'completed' } } } },
-            ],
-          })
-        },
-      },
-    }
+    const { controller, calls } = fakeSessionController({ reply: { text: 'RESUMED', turn: 3 } })
     const realGet = ctx.get.bind(ctx)
-    ;(ctx as unknown as { get: unknown }).get = (name: string) => (name === 'apiProxy' ? fakeApi : realGet(name))
+    ;(ctx as unknown as { get: unknown }).get = (name: string) => (name === 'sessionController' ? controller : realGet(name))
 
     const sent: Array<{ chat_id: number; text: string }> = []
     globalThis.fetch = (async (input: string | URL, init?: { method?: string; body?: string }) => {

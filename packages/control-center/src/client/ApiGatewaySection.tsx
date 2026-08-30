@@ -7,7 +7,7 @@
  */
 import { useCallback, useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
-import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
 import { IconCopyOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
 import {
   SettingDivider, SettingGroup, SettingRow, SettingRowTitle, SettingsPageShell,
@@ -22,7 +22,7 @@ export interface ApiGatewaySectionInjected {
     start(): Promise<{ ok: true; value: { running: boolean; port: number; url: string | null } } | { ok: false; error: string }>
     stop(): Promise<{ ok: true; value: { running: boolean; port: number; url: string | null } }>
   }
-  api: Pick<IApiClient, 'settings'>
+  api: Pick<ClientRemote, 'settings'>
 }
 
 export type ApiGatewaySectionProps = Partial<ApiGatewaySectionInjected>
@@ -47,8 +47,8 @@ function Loaded({ gateway, api }: { gateway: NonNullable<ApiGatewaySectionInject
 
   const loadPrefs = useCallback(async (): Promise<void> => {
     try {
-      const described = await api.settings.describe({})
-      const result = described.result
+      const described = await api.settings.describe()
+      const result = described
       if (!result.ok) return
       const namespace = result.value.namespaces.find(view => view.ns === GATEWAY_NAMESPACE)
       const value = (namespace?.value ?? {}) as Record<string, unknown>
@@ -62,16 +62,12 @@ function Loaded({ gateway, api }: { gateway: NonNullable<ApiGatewaySectionInject
   const savePrefs = useCallback(async (next: GatewayPrefs): Promise<void> => {
     setPrefs(next)
     try {
-      const described = await api.settings.describe({})
-      const result = described.result
+      const described = await api.settings.describe()
+      const result = described
       if (!result.ok) return
       const namespace = result.value.namespaces.find(view => view.ns === GATEWAY_NAMESPACE)
       if (namespace === undefined) return
-      await api.settings.mutate({
-        ns: GATEWAY_NAMESPACE,
-        expectedRevision: namespace.revision,
-        ops: [{ op: 'set', path: ['port'], value: next.port }, { op: 'set', path: ['apiKey'], value: next.apiKey }],
-      })
+      await api.settings.mutate(GATEWAY_NAMESPACE, [{ op: 'set', path: ['port'], value: next.port }, { op: 'set', path: ['apiKey'], value: next.apiKey }], namespace.revision)
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err))
     }

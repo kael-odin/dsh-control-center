@@ -12,7 +12,7 @@
 
 import { useState } from 'react'
 import type { ReactNode } from 'react'
-import type { IApiClient, SettingsNamespaceView } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ClientRemote, SettingsNamespaceView } from '@deepseek-ai/dsh-api-remotes/client'
 import { Button, Modal } from '@deepseek-ai/dsh-client-ui-primitives'
 import type { SettingsSchemaOperations } from './schema-operations.ts'
 import { messageOf } from './store.ts'
@@ -31,7 +31,7 @@ export interface RequestOptionsPanelProps {
   namespace: SettingsNamespaceView
   /** Path to the provider profile inside the section. */
   settingsPath: readonly string[]
-  api: Pick<IApiClient, 'settings'>
+  api: Pick<ClientRemote, 'settings'>
   schema: SettingsSchemaOperations
   t: (key: keyof typeof en) => string
   readOnly: boolean
@@ -75,9 +75,9 @@ export function RequestOptionsPanel(props: RequestOptionsPanelProps): ReactNode 
       const op = cleaned.length === 0
         ? { op: 'unset' as const, path: [...settingsPath, 'headers'] }
         : { op: 'set' as const, path: [...settingsPath, 'headers'], value: dict }
-      const response = await api.settings.mutate({ ns: namespace.ns, expectedRevision: openedAt, ops: [op] })
-      if (!response.result.ok) {
-        setFailure(response.result.error.message)
+      const response = await api.settings.mutate(namespace.ns, [op], openedAt)
+      if (!response.ok) {
+        setFailure(response.error.message)
         return
       }
       props.onSaved()

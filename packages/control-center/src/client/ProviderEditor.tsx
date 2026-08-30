@@ -23,7 +23,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
-import type { CredentialView, IApiClient, SettingsNamespaceView, SettingsPathOpView } from '@deepseek-ai/dsh-api-remotes/client'
+import type { CredentialInfo, ClientRemote, SettingsNamespaceView, SettingsPathOpView,JsonValue } from '@deepseek-ai/dsh-api-remotes/client'
 import type { SettingsSchemaOperations } from './schema-operations.ts'
 import {
   DeepSeekModelsEditor, modelDrafts, validateDeepSeekModels,
@@ -100,7 +100,7 @@ export interface ProviderEditorProps {
   /** Path from the section root to this provider's profile. */
   settingsPath: readonly string[]
   /** Wire faces for writes and for interrogating a provider endpoint. */
-  api: Pick<IApiClient, 'settings' | 'credentials' | 'llm'>
+  api: Pick<ClientRemote, 'settings' | 'credentials' | 'llm'>
   /** Bound schema callbacks for namespace introspection and draft edits. */
   schema: SettingsSchemaOperations
   /** Section copy. */
@@ -163,7 +163,7 @@ export function pathOps(
   const ops: SettingsPathOpView[] = []
   for (const [key, value] of Object.entries(after)) {
     if (JSON.stringify(previous[key]) === JSON.stringify(value)) continue
-    ops.push({ op: 'set', path: [...base, key], value })
+    ops.push({ op: 'set', path: [...base, key], value: value as JsonValue })
   }
   for (const key of Object.keys(previous)) {
     if (!(key in after)) ops.push({ op: 'unset', path: [...base, key] })
@@ -206,7 +206,7 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
     () => draftAt(namespace, settingsPath, schema, props.defaults),
   )
   const [keyDraft, setKeyDraft] = useState('')
-  const [keyState, setKeyState] = useState<CredentialView | undefined>(undefined)
+  const [keyState, setKeyState] = useState<CredentialInfo | undefined>(undefined)
   const [busy, setBusy] = useState(false)
   const [failure, setFailure] = useState<string | undefined>(undefined)
   const [showKey, setShowKey] = useState(false)
@@ -242,10 +242,10 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
     // neither a business rejection nor a transport failure may reach the
     // browser as an unhandled rejection, so the card simply renders without
     // the "already configured" hint.
-    void api.credentials.describe({ refs: [keyRef] }).then(
+    void api.credentials.describe([keyRef]).then(
       (response) => {
-        if (stale || !response.result.ok) return
-        setKeyState(response.result.value.credentials[keyRef])
+        if (stale || !response.ok) return
+        setKeyState(response.value[keyRef])
       },
       () => undefined,
     )
@@ -286,10 +286,10 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
   // an edited-but-unsaved endpoint, and a key typed but not yet stored.
   const probeApi = stringAt(draft, 'api') ?? stringAt(fallback, 'api')
   const probeBaseURL = stringAt(draft, 'baseURL') ?? stringAt(fallback, 'baseURL')
+  // Naming the route lets an adapter that already describes it answer from
+  // its own registry — better metadata, no network call, no endpoint needed.
   const probe = {
     settingsNs: namespace.ns,
-    // Naming the route lets an adapter that already describes it answer from
-    // its own registry — better metadata, no network call, no endpoint needed.
     provider: props.provider,
     ...probeBaseURL === undefined ? {} : { baseURL: probeBaseURL },
     ...probeApi === undefined ? {} : { api: probeApi },
@@ -307,13 +307,13 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
     setCheckResult(undefined)
     const startedAt = Date.now()
     try {
-      const response = await api.llm.discoverModels(probe)
-      if (!response.result.ok) {
-        setCheckResult({ ok: false, text: response.result.error.message })
+      const response = await api.llm.discoverModels(namespace.ns, probe)
+      if (!response.ok) {
+        setCheckResult({ ok: false, text: response.error.message })
         return
       }
       const ms = Math.max(1, Date.now() - startedAt)
-      const count = String(response.result.value.models.length)
+      const count = String(response.value.length)
       setCheckResult({ ok: true, text: t('checkSuccess').replace('{count}', count).replace('{ms}', String(ms)) })
     } catch (error) {
       setCheckResult({ ok: false, text: messageOf(error) })
@@ -369,19 +369,19 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
         ? [{ op: 'set', path: [...settingsPath], value: {} }]
         : pathOps([...settingsPath], committedOriginal, next)
     if (ops.length > 0) {
-      const response = await api.settings.mutate({ ns, ops, expectedRevision })
-      if (!response.result.ok) {
-        return response.result.error.code === 'settings-conflict'
+      const response = await api.settings.mutate(ns, ops, expectedRevision)
+      if (!response.ok) {
+        return response.error.code === 'settings-conflict'
           ? t('conflict')
-          : response.result.error.message
+          : response.error.message
       }
-      setCommittedOriginal(getPath(response.result.value.user, [...settingsPath]))
-      setExpectedRevision(response.result.value.revision)
+      setCommittedOriginal(getPath(response.value.user, [...settingsPath]))
+      setExpectedRevision(response.value.revision)
       setDraft(next as Record<string, unknown>)
     }
     if (keyValue.length > 0) {
-      const stored = await api.credentials.set({ ref: keyRef, value: keyValue })
-      if (!stored.result.ok) return stored.result.error.message
+      const stored = await api.credentials.set(keyRef, keyValue )
+      if (!stored.ok) return stored.error.message
     }
     setKeyDraft('')
     return undefined

@@ -1,10 +1,10 @@
 // @vitest-environment jsdom
 import { describe, expect, it, vi } from 'vitest'
-import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
 import { ChannelsStore, importLegacyChannels, type ChannelInstance } from '../src/client/channels-store.ts'
 
 function ok<T>(value: T) {
-  return { rpcId: 'test' as never, result: { ok: true as const, value } }
+  return { ok: true as const, value }
 }
 
 function instance(id: string): ChannelInstance {
@@ -13,8 +13,8 @@ function instance(id: string): ChannelInstance {
 
 function makeApi(namespaces: unknown[]) {
   return {
-    settings: { describe: vi.fn(async () => ok({ writable: true, hasDocument: true, namespaces })) },
-  } as unknown as Pick<IApiClient, 'settings'>
+    settings: { describe: vi.fn(async () => ok({ writable: true, namespaces })) },
+  } as unknown as Pick<ClientRemote, 'settings'>
 }
 
 describe('ChannelsStore', () => {
@@ -43,20 +43,20 @@ describe('ChannelsStore', () => {
     const api = {
       settings: {
         describe: vi.fn(async () => ok({
-          writable: true, hasDocument: true,
+          writable: true,
           namespaces: [{ ns: 'control-center-channels', schema: {}, revision: 4, value: { instances: [] } }],
         })),
         mutate,
       },
-    } as unknown as Pick<IApiClient, 'settings'>
+    } as unknown as Pick<ClientRemote, 'settings'>
     const store = new ChannelsStore(api)
     await store.load()
     await expect(store.save([instance('b')])).resolves.toBe(true)
-    expect(mutate).toHaveBeenCalledWith({
-      ns: 'control-center-channels',
-      expectedRevision: 4,
-      ops: [{ op: 'set', path: ['instances'], value: [expect.objectContaining({ id: 'b' })] }],
-    })
+    expect(mutate).toHaveBeenCalledWith(
+      'control-center-channels',
+      [{ op: 'set', path: ['instances'], value: [expect.objectContaining({ id: 'b' })] }],
+      4,
+    )
     expect(store.store.getSnapshot().revision).toBe(9)
   })
 })

@@ -70,22 +70,23 @@ const schema = createSettingsSchemaOperations(schemaService)
 function apiMock() {
   let revision = 10
   const describe = vi.fn(async () => ({
-    rpcId: 't',
-    result: { ok: true as const, value: { writable: true, namespaces: [modelsNamespace, stashNamespace()] } },
+    ok: true as const,
+    value: { writable: true, namespaces: [modelsNamespace, stashNamespace()] },
   }))
-  const mutate = vi.fn(async () => ({ rpcId: 't', result: { ok: true as const, value: { revision: ++revision, user: {} } } }))
+  const mutate = vi.fn(async () => ({ ok: true as const, value: { revision: ++revision, user: {} } }))
   return {
     settings: { describe, mutate },
     credentials: {
-      describe: vi.fn(async () => ({ rpcId: 't', result: { ok: true as const, value: { credentials: {} } } })),
-      set: vi.fn(async () => ({ rpcId: 't', result: { ok: true as const, value: {} } })),
-      unset: vi.fn(async () => ({ rpcId: 't', result: { ok: true as const, value: {} } })),
+      describe: vi.fn(async () => ({ ok: true as const, value: {} })),
+      set: vi.fn(async () => ({ ok: true as const, value: {} })),
+      unset: vi.fn(async () => ({ ok: true as const, value: {} })),
     },
     llm: {
-      providers: vi.fn(),
-      models: vi.fn(async () => ({ rpcId: 't', result: { ok: true as const, value: { groups: [], failures: [] } } })),
+      listConfigurableProviders: vi.fn(async () => ({ ok: true as const, value: [] })),
+      listProviders: vi.fn(async () => ({ ok: true as const, value: [] })),
       discoverModels: vi.fn(),
     },
+    session: { modelCatalog: vi.fn(async () => ({ ok: true as const, value: { groups: [], failures: [] } })) },
   }
 }
 
@@ -218,7 +219,7 @@ describe('ProviderDirectorySection enable switch', () => {
     await waitFor(() => {
       expect(api.settings.mutate).toHaveBeenCalledTimes(2)
     })
-    const [first, second] = api.settings.mutate.mock.calls.map(call => call[0])
+    const [first, second] = api.settings.mutate.mock.calls.map(([ns, ops, expectedRevision]) => ({ ns, ops, expectedRevision }))
     // Stash first so a crash between the writes leaves both copies.
     expect(first).toMatchObject({
       ns: STASH_NS,
@@ -242,7 +243,7 @@ describe('ProviderDirectorySection enable switch', () => {
     await waitFor(() => {
       expect(api.settings.mutate).toHaveBeenCalledTimes(2)
     })
-    const [first, second] = api.settings.mutate.mock.calls.map(call => call[0])
+    const [first, second] = api.settings.mutate.mock.calls.map(([ns, ops, expectedRevision]) => ({ ns, ops, expectedRevision }))
     expect(first).toMatchObject({
       ns: 'llm-pi-ai',
       ops: [{ op: 'set', path: ['providers', 'deepseek'], value: { baseURL: 'https://x', models: [] } }],
@@ -285,12 +286,12 @@ describe('ProviderDirectorySection kebab menu', () => {
     const dialog = within(screen.getByRole('dialog'))
     fireEvent.click(dialog.getAllByRole('button', { name: /Delete 深度求索/ })[0])
     await waitFor(() => {
-      expect(api.credentials.unset).toHaveBeenCalledWith({ ref: 'DEEPSEEK_API_KEY' })
+      expect(api.credentials.unset).toHaveBeenCalledWith('DEEPSEEK_API_KEY')
       expect(api.settings.mutate).toHaveBeenCalledWith(
-        expect.objectContaining({ ns: 'llm-pi-ai', ops: [{ op: 'unset', path: ['providers', 'deepseek'] }] }),
+        'llm-pi-ai', [{ op: 'unset', path: ['providers', 'deepseek'] }], undefined,
       )
       expect(api.settings.mutate).toHaveBeenCalledWith(
-        expect.objectContaining({ ns: STASH_NS, ops: [{ op: 'unset', path: ['providers', 'deepseek'] }] }),
+        STASH_NS, [{ op: 'unset', path: ['providers', 'deepseek'] }], 7,
       )
     })
   })
@@ -346,11 +347,11 @@ describe('RequestOptionsPanel', () => {
     fireEvent.change(dialog.getByLabelText('Value 1'), { target: { value: 'v1' } })
     fireEvent.click(dialog.getByRole('button', { name: 'Apply' }))
     await waitFor(() => {
-      expect(api.settings.mutate).toHaveBeenCalledWith({
-        ns: 'llm-pi-ai',
-        expectedRevision: 0,
-        ops: [{ op: 'set', path: ['providers', 'deepseek', 'headers'], value: { 'X-Test': 'v1' } }],
-      })
+      expect(api.settings.mutate).toHaveBeenCalledWith(
+        'llm-pi-ai',
+        [{ op: 'set', path: ['providers', 'deepseek', 'headers'], value: { 'X-Test': 'v1' } }],
+        0,
+      )
     })
   })
 })
@@ -397,14 +398,11 @@ describe('ModelHealthDialog', () => {
 describe('ProviderDirectorySection eye toggle', () => {
   it('merges the served catalog: re-enable appends, disable removes, apply persists', async () => {
     const api = apiMock()
-    api.llm.models.mockImplementation(async () => ({
-      rpcId: 't',
-      result: {
-        ok: true as const,
-        value: {
-          groups: [{ id: 'deepseek', name: 'DeepSeek', models: [{ id: 'm1', name: 'M1' }, { id: 'm2', name: 'M2' }] }],
-          failures: [],
-        },
+    api.session.modelCatalog.mockImplementation(async () => ({
+      ok: true as const,
+      value: {
+        groups: [{ id: 'deepseek', name: 'DeepSeek', models: [{ id: 'm1', name: 'M1' }, { id: 'm2', name: 'M2' }] }],
+        failures: [],
       },
     }))
     renderSection([row('deepseek', '深度求索 (DeepSeek)', true)], { api })
@@ -424,12 +422,9 @@ describe('ProviderDirectorySection eye toggle', () => {
     expect(firstRow.value).toBe('m2')
     fireEvent.click(screen.getByRole('button', { name: 'Apply' }))
     await waitFor(() => {
-      expect(api.settings.mutate).toHaveBeenCalledWith(expect.objectContaining({
-        ns: 'llm-pi-ai',
-        ops: expect.arrayContaining([
-          { op: 'set', path: ['providers', 'deepseek', 'models'], value: [{ id: 'm2', name: 'M2' }] },
-        ]),
-      }))
+      expect(api.settings.mutate).toHaveBeenCalledWith('llm-pi-ai', expect.arrayContaining([
+        { op: 'set', path: ['providers', 'deepseek', 'models'], value: [{ id: 'm2', name: 'M2' }] },
+      ]), expect.anything())
     })
   })
 })
@@ -461,15 +456,15 @@ describe('ProviderDirectorySection default marker', () => {
     expect(brush.getAttribute('aria-pressed')).toBe('true')
     fireEvent.click(brush)
     await waitFor(() => {
-      expect(api.settings.mutate).toHaveBeenCalledWith({
-        ns: 'agent-default-model',
-        expectedRevision: 3,
-        ops: [
+      expect(api.settings.mutate).toHaveBeenCalledWith(
+        'agent-default-model',
+        [
           { op: 'set', path: ['provider'], value: 'deepseek' },
           { op: 'set', path: ['model'], value: 'm1' },
           { op: 'unset', path: ['reasoningEffort'] },
         ],
-      })
+        3,
+      )
     })
     expect(await screen.findByText(/Default model set/)).toBeTruthy()
   })
@@ -494,16 +489,16 @@ describe('ProviderDirectorySection editor', () => {
     fireEvent.change(screen.getByLabelText('API key'), { target: { value: 'sk-test' } })
     fireEvent.click(screen.getByRole('button', { name: 'Apply' }))
     await waitFor(() => {
-      expect(api.settings.mutate).toHaveBeenCalledWith({
-        ns: 'llm-pi-ai',
-        expectedRevision: expect.any(Number),
-        ops: expect.arrayContaining([
+      expect(api.settings.mutate).toHaveBeenCalledWith(
+        'llm-pi-ai',
+        expect.arrayContaining([
           { op: 'set', path: ['providers', 'silicon', 'api'], value: 'openai-completions' },
           { op: 'set', path: ['providers', 'silicon', 'baseURL'], value: 'https://api.siliconflow.cn/v1' },
           { op: 'set', path: ['providers', 'silicon', 'apiKeyEnv'], value: 'SILICON_API_KEY' },
         ]),
-      })
+        expect.any(Number),
+      )
     })
-    expect(api.credentials.set).toHaveBeenCalledWith({ ref: 'SILICON_API_KEY', value: 'sk-test' })
+    expect(api.credentials.set).toHaveBeenCalledWith('SILICON_API_KEY', 'sk-test')
   })
 })

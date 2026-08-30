@@ -1,10 +1,10 @@
 import { describe, expect, it, vi } from 'vitest'
-import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
 import type { SettingsSchemaOperations } from '../src/client/schema-operations.ts'
 import { readRetryConfig, ModelPrefsStore } from '../src/client/model-prefs-store.ts'
 
 function ok<T>(value: T) {
-  return { rpcId: 'test' as never, result: { ok: true as const, value } }
+  return { ok: true as const, value }
 }
 
 const schema: SettingsSchemaOperations = {
@@ -29,15 +29,15 @@ describe('ModelPrefsStore', () => {
     const api = {
       settings: {
         describe: vi.fn(async () => ok({
-          writable: true, hasDocument: true,
+          writable: true,
           namespaces: [{
             ns: 'control-center-model-prefs', schema: {}, revision: 2,
             value: { translationProvider: 'acme', translationModel: 't1', paintingProvider: '', paintingModel: '' },
           }],
         })),
       },
-      llm: { models: vi.fn(async () => ok({ groups: [{ id: 'acme', name: 'Acme', models: [{ id: 't1', name: 'T1' }] }], failures: [] })) },
-    } as unknown as Pick<IApiClient, 'settings' | 'llm'>
+      session: { modelCatalog: vi.fn(async () => ok({ groups: [{ id: 'acme', name: 'Acme', models: [{ id: 't1', name: 'T1' }] }], failures: [] })) },
+    } as unknown as Pick<ClientRemote, 'settings' | 'session'>
     const store = new ModelPrefsStore(api, schema)
     await store.load()
     const state = store.store.getSnapshot()
@@ -53,7 +53,7 @@ describe('ModelPrefsStore', () => {
     const api = {
       settings: {
         describe: vi.fn(async () => ok({
-          writable: true, hasDocument: true,
+          writable: true,
           namespaces: [{
             ns: 'control-center-model-prefs', schema: {}, revision: 2,
             value: { translationProvider: 'acme', translationModel: 't1', paintingProvider: '', paintingModel: '' },
@@ -61,26 +61,26 @@ describe('ModelPrefsStore', () => {
         })),
         mutate,
       },
-      llm: { models: vi.fn(async () => ok({ groups: [], failures: [] })) },
-    } as unknown as Pick<IApiClient, 'settings' | 'llm'>
+      session: { modelCatalog: vi.fn(async () => ok({ groups: [], failures: [] })) },
+    } as unknown as Pick<ClientRemote, 'settings' | 'session'>
     const store = new ModelPrefsStore(api, schema)
     await store.load()
     await expect(store.save('painting', { provider: 'p', model: 'm' })).resolves.toBe(true)
-    expect(mutate).toHaveBeenCalledWith({
-      ns: 'control-center-model-prefs',
-      expectedRevision: 2,
-      ops: [
+    expect(mutate).toHaveBeenCalledWith(
+      'control-center-model-prefs',
+      [
         { op: 'set', path: ['paintingProvider'], value: 'p' },
         { op: 'set', path: ['paintingModel'], value: 'm' },
       ],
-    })
+      2,
+    )
   })
 
   it('degrades to an unavailable-but-ready state when the namespace is missing', async () => {
     const api = {
-      settings: { describe: vi.fn(async () => ok({ writable: true, hasDocument: true, namespaces: [] })) },
-      llm: { models: vi.fn(async () => ok({ groups: [{ id: 'acme', name: 'Acme', models: [] }], failures: [] })) },
-    } as unknown as Pick<IApiClient, 'settings' | 'llm'>
+      settings: { describe: vi.fn(async () => ok({ writable: true, namespaces: [] })) },
+      session: { modelCatalog: vi.fn(async () => ok({ groups: [{ id: 'acme', name: 'Acme', models: [] }], failures: [] })) },
+    } as unknown as Pick<ClientRemote, 'settings' | 'session'>
     const store = new ModelPrefsStore(api, schema)
     await store.load()
     const state = store.store.getSnapshot()
@@ -94,7 +94,7 @@ describe('ModelPrefsStore', () => {
     const api = {
       settings: {
         describe: vi.fn(async () => ok({
-          writable: true, hasDocument: true,
+          writable: true,
           namespaces: [{
             ns: 'control-center-model-prefs', schema: {}, revision: 4,
             value: {
@@ -106,8 +106,8 @@ describe('ModelPrefsStore', () => {
           }],
         })),
       },
-      llm: { models: vi.fn(async () => ok({ groups: [], failures: [] })) },
-    } as unknown as Pick<IApiClient, 'settings' | 'llm'>
+      session: { modelCatalog: vi.fn(async () => ok({ groups: [], failures: [] })) },
+    } as unknown as Pick<ClientRemote, 'settings' | 'session'>
     const store = new ModelPrefsStore(api, schema)
     await store.load()
     const state = store.store.getSnapshot()
@@ -122,7 +122,7 @@ describe('ModelPrefsStore', () => {
     const api = {
       settings: {
         describe: vi.fn(async () => ok({
-          writable: true, hasDocument: true,
+          writable: true,
           namespaces: [{
             ns: 'control-center-model-prefs', schema: {}, revision: 8,
             value: { translationProvider: '', translationModel: '', paintingProvider: '', paintingModel: '' },
@@ -130,31 +130,31 @@ describe('ModelPrefsStore', () => {
         })),
         mutate,
       },
-      llm: { models: vi.fn(async () => ok({ groups: [], failures: [] })) },
-    } as unknown as Pick<IApiClient, 'settings' | 'llm'>
+      session: { modelCatalog: vi.fn(async () => ok({ groups: [], failures: [] })) },
+    } as unknown as Pick<ClientRemote, 'settings' | 'session'>
     const store = new ModelPrefsStore(api, schema)
     await store.load()
     await expect(store.saveRetry({ enabled: true, maxAttempts: 7, backoff: false, fallbacks: [{ provider: 'p', model: 'm' }] }))
       .resolves.toBe(true)
-    expect(mutate).toHaveBeenCalledWith({
-      ns: 'control-center-model-prefs',
-      expectedRevision: 8,
-      ops: [
+    expect(mutate).toHaveBeenCalledWith(
+      'control-center-model-prefs',
+      [
         { op: 'set', path: ['retryEnabled'], value: true },
         { op: 'set', path: ['retryMaxAttempts'], value: 7 },
         { op: 'set', path: ['retryBackoff'], value: false },
         { op: 'set', path: ['retryFallbacks'], value: [{ provider: 'p', model: 'm' }] },
       ],
-    })
+      8,
+    )
   })
 
   it('reports a failed write without failing the whole page', async () => {
     const mutate = vi.fn(async () =>
-      ({ rpcId: 'test' as never, result: { ok: false as const, error: { code: 'CONFLICT', message: 'revision moved' } } }))
+      ({ ok: false as const, error: { code: 'CONFLICT', message: 'revision moved', details: {} } }))
     const api = {
       settings: {
         describe: vi.fn(async () => ok({
-          writable: true, hasDocument: true,
+          writable: true,
           namespaces: [{
             ns: 'control-center-model-prefs', schema: {}, revision: 2,
             value: { translationProvider: '', translationModel: '', paintingProvider: '', paintingModel: '' },
@@ -162,8 +162,8 @@ describe('ModelPrefsStore', () => {
         })),
         mutate,
       },
-      llm: { models: vi.fn(async () => ok({ groups: [], failures: [] })) },
-    } as unknown as Pick<IApiClient, 'settings' | 'llm'>
+      session: { modelCatalog: vi.fn(async () => ok({ groups: [], failures: [] })) },
+    } as unknown as Pick<ClientRemote, 'settings' | 'session'>
     const store = new ModelPrefsStore(api, schema)
     await store.load()
     await expect(store.save('quick', { provider: 'p', model: 'm' })).resolves.toBe(false)

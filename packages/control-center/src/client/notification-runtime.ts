@@ -1,7 +1,6 @@
 /** Deliver Cherry-compatible conversation-complete notifications from DSH session state. */
-import type { IApiClient } from '@deepseek-ai/dsh-client-connection/client'
-import type { SessionListState } from '@deepseek-ai/dsh-client-runtime/client'
 import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
+import type { SessionListState } from '@deepseek-ai/dsh-api-session-controller/client'
 import type {} from '../desktop-types.ts'
 
 export const NOTIFICATION_SETTINGS_NAMESPACE = 'control-center-notifications'
@@ -46,15 +45,15 @@ export class ConversationNotificationRuntime {
   private stop: (() => void) | undefined
 
   constructor(
-    private readonly api: IApiClient,
+    private readonly api: ClientRemote,
     private readonly sessions: SnapshotSource<SessionListState>,
     private readonly getDesktop: () => DesktopRemote | undefined,
   ) {}
 
   async refreshPreferences(): Promise<void> {
-    const response = await this.api.settings.describe({})
-    if (!response.result.ok) return
-    const namespace = response.result.value.namespaces.find(view => view.ns === NOTIFICATION_SETTINGS_NAMESPACE)
+    const response = await this.api.settings.describe()
+    if (!response.ok) return
+    const namespace = response.value.namespaces.find(view => view.ns === NOTIFICATION_SETTINGS_NAMESPACE)
     const value = namespace?.value
     this.assistantEnabled = typeof value === 'object' && value !== null
       && (value as { assistant?: unknown }).assistant === true

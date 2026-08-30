@@ -4,7 +4,7 @@
  * storage so they follow the installed plugin across clients.
  */
 import { useEffect, useRef, useState } from 'react'
-import type { IApiClient } from '@deepseek-ai/dsh-client-connection/client'
+import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
 import type { InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import { HelpTooltip } from './panel-ui.tsx'
 import { NOTIFICATION_SETTINGS_NAMESPACE } from './notification-runtime.ts'
@@ -31,7 +31,7 @@ const DEFAULT_PREFS: NotificationPrefs = {
 }
 
 export interface NotificationSectionInjected {
-  api: IApiClient
+  api: ClientRemote
 }
 
 export type NotificationSectionProps = PropsRuntime<'settings.section'> & InjectFace<NotificationSectionInjected>
@@ -67,14 +67,14 @@ export function NotificationSection({ api }: NotificationSectionProps) {
   useEffect(() => {
     let active = true
     setLoading(true)
-    void api.settings.describe({}).then(response => {
+    void api.settings.describe().then(response => {
       if (!active) return
-      if (!response.result.ok) {
+      if (!response.ok) {
         setError('通知偏好加载失败，请重试。')
         setLoading(false)
         return
       }
-      const namespace = response.result.value.namespaces.find(view => view.ns === NOTIFICATION_NS)
+      const namespace = response.value.namespaces.find(view => view.ns === NOTIFICATION_NS)
       if (namespace === undefined) {
         setError('通知偏好不可用，请重试。')
         setLoading(false)
@@ -103,19 +103,15 @@ export function NotificationSection({ api }: NotificationSectionProps) {
     pendingWritesRef.current += 1
     setLoading(true)
     writeQueueRef.current = writeQueueRef.current.then(async () => {
-      const response = await api.settings.mutate({
-        ns: NOTIFICATION_NS,
-        ops: [{ op: 'set', path: [key], value: next }],
-        expectedRevision: revisionRef.current!,
-      })
-      if (!response.result.ok) {
+      const response = await api.settings.mutate(NOTIFICATION_NS, [{ op: 'set', path: [key], value: next }], revisionRef.current!)
+      if (!response.ok) {
         prefsRef.current = { ...prefsRef.current, [key]: previous }
         setPrefs(prefsRef.current)
-        setError(response.result.error.message)
+        setError(response.error.message)
         return
       }
-      revisionRef.current = response.result.value.revision
-      setRevision(response.result.value.revision)
+      revisionRef.current = response.value.revision
+      setRevision(response.value.revision)
     }).catch(() => {
       prefsRef.current = { ...prefsRef.current, [key]: previous }
       setPrefs(prefsRef.current)

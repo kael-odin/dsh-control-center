@@ -1,11 +1,11 @@
 // @vitest-environment jsdom
 import { describe, expect, it, vi } from 'vitest'
-import type { IApiClient, ModelSelection } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ClientRemote, ModelSelection } from '@deepseek-ai/dsh-api-remotes/client'
 import { ModelSelectionStore } from '../src/client/ModelSelectionPanel.tsx'
 import type { SettingsSchemaOperations } from '../src/client/schema-operations.ts'
 
 function ok<T>(value: T) {
-  return { rpcId: 'test' as never, result: { ok: true as const, value } }
+  return { ok: true as const, value }
 }
 
 /** Minimal bound schema callbacks: the store only reads plain paths. */
@@ -31,19 +31,37 @@ const namespace = (provider: string, model: string, revision = 1) => ({
   ns: 'agent-default-model', schema: {}, value: { provider, model }, revision, applies: 'live' as const, secrets: [],
 })
 
+/** 0.1.2 control stream: one-shot projection read starts with a baseline frame. */
+function controlWithProjection(entry: { provider: string; model: string }) {
+  return async function* () {
+    yield {
+      type: 'baseline' as const,
+      value: {
+        queues: {},
+        jobs: {},
+        projections: {
+          'session-1': {
+            asOfSeq: 1,
+            values: { modelSelection: { lastUsed: entry, pending: undefined } },
+          },
+        },
+      },
+    }
+  }
+}
+
 describe('model selection controller', () => {
   it('writes a future default without invoking session selection', async () => {
     const mutate = vi.fn(async () => ok(namespace('acme', 'm1', 2)))
     const selectModel = vi.fn()
     const api = {
-      settings: { describe: vi.fn(async () => ok({ writable: true, hasDocument: true, namespaces: [namespace('old', 'm0')] })), mutate },
-      sessions: { models: vi.fn(), selectModel },
-      llm: { models: vi.fn(async () => ok({ groups, failures: [] })) },
-    } as unknown as Pick<IApiClient, 'settings' | 'sessions' | 'llm'>
+      settings: { describe: vi.fn(async () => ok({ writable: true, namespaces: [namespace('old', 'm0')] })), mutate },
+      session: { modelCatalog: vi.fn(async () => ok({ groups, failures: [], default: { provider: 'old', model: 'm0' }, routableProviders: ['acme'] })), selectModel },
+    } as unknown as Pick<ClientRemote, 'settings' | 'session'>
     const store = new ModelSelectionStore(api, schema)
     await store.load(undefined)
     await expect(store.saveDefault({ provider: 'acme', model: 'm1' })).resolves.toBe(true)
-    expect(mutate).toHaveBeenCalledWith(expect.objectContaining({ ns: 'agent-default-model', expectedRevision: 1 }))
+    expect(mutate).toHaveBeenCalledWith('agent-default-model', expect.anything(), 1)
     expect(selectModel).not.toHaveBeenCalled()
   })
 
@@ -54,15 +72,15 @@ describe('model selection controller', () => {
       settings: {
         describe: vi.fn(async () => {
           describes++
-          return ok({ writable: true, hasDocument: true, namespaces: [namespace('old', 'm0')] })
+          return ok({ writable: true, namespaces: [namespace('old', 'm0')] })
         }),
       },
-      sessions: {
-        models: vi.fn(async () => ok({ current: { provider: 'old', model: 'm0' }, routable: true, groups, failures: [] })),
+      session: {
+        modelCatalog: vi.fn(async () => ok({ groups, failures: [], default: { provider: 'old', model: 'm0' }, routableProviders: ['acme'] })),
         selectModel: vi.fn(async () => ok({ selected: selection })),
+        control: controlWithProjection({ provider: 'old', model: 'm0' }),
       },
-      llm: { models: vi.fn(async () => ok({ groups, failures: [] })) },
-    } as unknown as Pick<IApiClient, 'settings' | 'sessions' | 'llm'>
+    } as unknown as Pick<ClientRemote, 'settings' | 'session'>
     const store = new ModelSelectionStore(api, schema)
     await store.load('session-1' as never, false)
     await expect(store.selectCurrent(selection)).resolves.toBe(true)

@@ -1,7 +1,9 @@
 /**
- * DSH rc.7 lazy-CJS client preset, reproduced out of tree because the DSH
- * preset is not a published package export. Keep this file locked to the
- * compatibility table in packages/control-center/src/compatibility.ts.
+ * DSH 0.1.2 lazy-CJS client preset, reproduced out of tree because the DSH
+ * preset is not a published package export (upstream authority:
+ * packages/client/web/src/platform.ts + packages/client/tsdown.client.ts at
+ * deepseek-harness cd5ef814). Keep this file locked to the compatibility
+ * table in packages/control-center/src/compatibility.ts.
  */
 import { existsSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
@@ -14,24 +16,36 @@ const CSS_VIRTUAL_SUFFIX = '.mjs'
 const PLAIN_CSS_VIRTUAL_PREFIX = '\0dsh-control-center-plain-css:'
 const PLAIN_CSS_VIRTUAL_SUFFIX = '.mjs'
 
+/** Seed-table keys (platform singletons) — upstream PLATFORM_MODULES at 0.1.2. */
 export const PLATFORM_MODULES = [
   'react',
   'react/jsx-runtime',
   'react-dom',
   'react-dom/client',
   '@deepseek-ai/cordis',
+  '@deepseek-ai/dsh-client-store',
   '@deepseek-ai/dsh-client-ui-slots',
-  '@deepseek-ai/dsh-client-web-react',
   '@deepseek-ai/dsh-client-ui-primitives',
-  '@deepseek-ai/dsh-client-ui-layout',
-  '@deepseek-ai/dsh-client-ui-attachment',
-  '@deepseek-ai/dsh-client-schema-form',
 ] as const
 
-const RUNTIME_STORE_EXEMPTION = '@deepseek-ai/dsh-client-runtime/client'
-export const CLIENT_EXTERNALS: readonly string[] = [...PLATFORM_MODULES, RUNTIME_STORE_EXEMPTION]
+/**
+ * Module-table specifiers this package requests beyond the seed. Matching is
+ * exact (never normalized): declare the literal specifier the code imports.
+ * Mirrors `dsh.client.external` in packages/control-center/package.json.
+ */
+const REQUESTED_MODULE_TABLE: readonly string[] = [
+  '@deepseek-ai/dsh-api-remotes/client',
+  '@deepseek-ai/dsh-client-connection/client',
+  '@deepseek-ai/dsh-client-locale/client',
+  '@deepseek-ai/dsh-client-ui-layout/client',
+  '@deepseek-ai/dsh-client-ui-session/client',
+  '@deepseek-ai/dsh-client-ui-settings/client',
+  '@deepseek-ai/dsh-client-ui-sidebar/client',
+]
 
-const INLINE_SAFE = /^@deepseek-ai\/dsh-(host-apiproxy|session|llm|tools|brand)(\/|$)/
+export const CLIENT_EXTERNALS: readonly string[] = [...PLATFORM_MODULES, ...REQUESTED_MODULE_TABLE]
+
+const INLINE_SAFE = /^@deepseek-ai\/dsh-(session|llm|tools|brand)(\/|$)/
 const VENDORED_LIBRARY = /^@deepseek-ai\/(cosmokit|schemastery)(\/|$)/
 const GENERATED_REMOTE = /^@deepseek-ai\/dsh-[a-z0-9]+(?:-[a-z0-9]+)*\/remote$/
 

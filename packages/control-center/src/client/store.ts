@@ -1,16 +1,16 @@
 /**
  * Models settings page store: one snapshot joining the configurable-provider
- * directory (`llm.providers`), the settings namespaces (`settings.describe`),
+ * directory (`llm.listConfigurableProviders`/`listProviders`), the settings namespaces (`settings.describe`),
  * and the referenced credentials (`credentials.describe`). The host stays the
  * single fact source — every mutation writes through the wire and the page
  * re-renders from the next describe, pushed or refetched.
  */
 
 import type {
-  ConfigurableProviderView, CredentialView, IApiClient, SettingsNamespaceView,
+  LlmConfigurableProvider, CredentialInfo, ClientRemote, SettingsNamespaceView,
 } from '@deepseek-ai/dsh-api-remotes/client'
-import type { SnapshotStore } from '@deepseek-ai/dsh-client-runtime/client'
-import { createSnapshotStore } from '@deepseek-ai/dsh-client-runtime/client'
+import type { SnapshotStore } from '@deepseek-ai/dsh-client-store'
+import { createSnapshotStore } from '@deepseek-ai/dsh-client-store'
 import type { SettingsDescribeFace } from '@deepseek-ai/dsh-client-ui-settings/client'
 import type { SettingsSchemaOperations } from './schema-operations.ts'
 import { assertProviderSchemasSafe } from './schema-safety.ts'
@@ -23,8 +23,10 @@ const PROBE_ROUTE = '\u0000probe'
 
 /** One provider row the page renders. */
 export interface ProviderRow {
-  /** The directory entry (route id, display name, settings address, live state). */
-  entry: ConfigurableProviderView
+  /** The directory entry (route id, display name, settings address). */
+  entry: LlmConfigurableProvider
+  /** Whether the route is registered with the adapter registry (routable). */
+  active: boolean
   /** Whether any layer configures this provider (its profile resolves). */
   configured: boolean
   /** Whether the user layer alone carries the profile (removal restores the base). */
@@ -32,7 +34,7 @@ export interface ProviderRow {
   /** The credential reference the resolved profile names, when one does. */
   apiKeyEnv: string | undefined
   /** Credential state for {@link apiKeyEnv}, once described. */
-  credential: CredentialView | undefined
+  credential: CredentialInfo | undefined
 }
 
 /** Page snapshot. */
@@ -119,7 +121,7 @@ export class ModelsSettingsStore {
    * @param schema - bound schema callbacks for namespace introspection.
    */
   constructor(
-    private readonly api: Pick<IApiClient, 'settings' | 'credentials' | 'llm'>,
+    private readonly api: Pick<ClientRemote, 'settings' | 'credentials' | 'llm'>,
     private readonly schema: SettingsSchemaOperations,
     private readonly settingsMirror?: SettingsDescribeFace,
   ) {}
@@ -133,12 +135,17 @@ export class ModelsSettingsStore {
   async load(): Promise<void> {
     const generation = ++this.generation
     this.store.update((s) => { s.status = 'loading'; s.error = null })
-    let providers: ConfigurableProviderView[]
+    let providers: LlmConfigurableProvider[]
+    let liveIds: Set<string>
     let writable: boolean
     let views: SettingsNamespaceView[]
     try {
-      const providersResponse = await this.api.llm.providers({})
-      if (!providersResponse.result.ok) throw new Error(providersResponse.result.error.message)
+      const [providersResponse, liveResponse] = await Promise.all([
+        this.api.llm.listConfigurableProviders(),
+        this.api.llm.listProviders(),
+      ])
+      if (!providersResponse.ok) throw new Error(providersResponse.error.message)
+      if (!liveResponse.ok) throw new Error(liveResponse.error.message)
       if (this.settingsMirror !== undefined) {
         await this.settingsMirror.ensure()
         const settingsView = this.settingsMirror.getSnapshot().view
@@ -148,12 +155,13 @@ export class ModelsSettingsStore {
         writable = settingsView.writable
         views = [...settingsView.namespaces]
       } else {
-        const settingsResponse = await this.api.settings.describe({})
-        if (!settingsResponse.result.ok) throw new Error(settingsResponse.result.error.message)
-        writable = settingsResponse.result.value.writable
-        views = [...settingsResponse.result.value.namespaces]
+        const settingsResponse = await this.api.settings.describe()
+        if (!settingsResponse.ok) throw new Error(settingsResponse.error.message)
+        writable = settingsResponse.value.writable
+        views = [...settingsResponse.value.namespaces]
       }
-      providers = providersResponse.result.value.providers
+      providers = providersResponse.value
+      liveIds = new Set(liveResponse.value.map(provider => provider.id))
       assertProviderSchemasSafe(views)
     } catch (error) {
       if (generation !== this.generation) return
@@ -174,6 +182,7 @@ export class ModelsSettingsStore {
         && !this.schema.hasPath(namespace.base, entry.settingsPath)
       return {
         entry,
+        active: liveIds.has(entry.provider),
         configured,
         removable,
         apiKeyEnv: apiKeyEnvOf(namespace, entry.settingsPath, this.schema),
@@ -181,16 +190,16 @@ export class ModelsSettingsStore {
       }
     })
     const refs = [...new Set(rows.flatMap(row => row.apiKeyEnv === undefined ? [] : [row.apiKeyEnv]))]
-    let credentials: Record<string, CredentialView> = {}
+    let credentials: Record<string, CredentialInfo> = {}
     let credentialError: string | null = null
     if (refs.length > 0) {
       try {
-        const response = await this.api.credentials.describe({ refs })
+        const response = await this.api.credentials.describe(refs)
         // Credential state is an enrichment for the Models page: neither a
         // business rejection nor a transport failure fails the load. The
         // onboarding projection below retains the failure distinction.
-        if (response.result.ok) credentials = response.result.value.credentials
-        else credentialError = response.result.error.message
+        if (response.ok) credentials = response.value
+        else credentialError = response.error.message
       } catch (error) {
         credentialError = messageOf(error)
       }
@@ -223,7 +232,7 @@ export class ModelsSettingsStore {
  * @returns whether the user already has this provider to talk to.
  */
 export function providerUsable(row: ProviderRow): boolean {
-  if (!row.entry.active) return false
+  if (!row.active) return false
   if (row.apiKeyEnv === undefined) return true
   return row.credential?.configured === true
 }
@@ -270,7 +279,7 @@ export function onboardingReadiness(state: ModelsSettingsState): OnboardingReadi
     && candidate.entry.settingsNs === 'llm-deepseek'
     && candidate.entry.settingsPath.length === 0)
   if (row === undefined) return { kind: 'adapter-absent' }
-  if (!row.entry.active) {
+  if (!row.active) {
     return {
       kind: 'unavailable',
       reason: 'provider-inactive',

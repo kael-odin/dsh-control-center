@@ -15,14 +15,14 @@ const useDesktopReady = (): boolean => false
 const getDesktop = () => { throw new Error('desktop bridge must not be used in appearance settings tests') }
 
 function api(value = defaults, revision = 4) {
-  const mutate = vi.fn(async () => ({ result: { ok: true, value: { revision: revision + 1 } } }))
+  const mutate = vi.fn(async () => ({ ok: true, value: { revision: revision + 1 } }))
   return {
     client: {
       settings: {
-        describe: vi.fn(async () => ({ result: { ok: true, value: { namespaces: [
+        describe: vi.fn(async () => ({ ok: true, value: { namespaces: [
           { ns: 'ui-theme', value: { preference: 'system' }, revision: 1 },
           { ns: 'control-center-appearance', value, revision },
-        ] } } })),
+        ] } })),
         mutate,
       },
     } as never,
@@ -46,11 +46,11 @@ describe('AppearanceSection authoritative settings', () => {
     fireEvent.blur(hex)
 
     await waitFor(() => {
-      expect(fixture.mutate).toHaveBeenCalledWith({
-        ns: 'control-center-appearance',
-        ops: [{ op: 'set', path: ['colorPrimary'], value: '#3B82F6' }],
-        expectedRevision: 4,
-      })
+      expect(fixture.mutate).toHaveBeenCalledWith(
+        'control-center-appearance',
+        [{ op: 'set', path: ['colorPrimary'], value: '#3B82F6' }],
+        4,
+      )
     })
     expect(document.getElementById('cc-theme-overrides')?.textContent).toContain('#3B82F6')
     expect(localStorage.getItem('cc.theme.overrides')).toBeNull()
@@ -58,7 +58,7 @@ describe('AppearanceSection authoritative settings', () => {
 
   it('rolls back the preview and field after a rejected write', async () => {
     const fixture = api({ ...defaults, colorPrimary: '#EF4444' })
-    fixture.mutate.mockResolvedValueOnce({ result: { ok: false, error: { message: 'revision conflict' } } } as never)
+    fixture.mutate.mockResolvedValueOnce({ ok: false, error: { code: 'conflict', message: 'revision conflict', details: {} } } as never)
     render(<AppearanceSection api={fixture.client} useDesktopReady={useDesktopReady} getDesktop={getDesktop} />)
 
     const hex = await screen.findByDisplayValue('#EF4444')
@@ -95,10 +95,7 @@ describe('AppearanceSection authoritative settings', () => {
     render(<AppearanceSection api={fixture.client} useDesktopReady={useDesktopReady} getDesktop={getDesktop} />)
 
     await waitFor(() => {
-      expect(fixture.mutate).toHaveBeenCalledWith(expect.objectContaining({
-        ns: 'control-center-appearance',
-        expectedRevision: 4,
-      }))
+      expect(fixture.mutate).toHaveBeenCalledWith('control-center-appearance', expect.anything(), 4)
     })
     await waitFor(() => { expect(localStorage.getItem('cc.theme.overrides')).toBeNull() })
     expect(localStorage.getItem('cc.theme.overrides.migrated-to-dsh')).toBe('1')

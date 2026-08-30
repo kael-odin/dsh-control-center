@@ -16,7 +16,8 @@
  *
  * Every platform shares one reply pipeline: allowlist → reply source. A channel
  * with a per-channel Agent binding (agentProvider/agentModel) runs through the
- * host's real agent loop via ctx.apiProxy sessions — a durable session per
+ * host's real agent loop via the session controller (`ctx.sessionController`)
+ * — a durable session per
  * channel, so MCP tools / knowledge / web_search all work in replies (Cherry
  * channels have full capability). The turn's assistant messages are collected
  * from session history; any failure falls back to the direct LlmRuntime stream
@@ -30,9 +31,8 @@ import type { Context } from '@deepseek-ai/cordis'
 import z from '@deepseek-ai/schemastery'
 import { settingsNamespace } from '@deepseek-ai/dsh-settings'
 import type { SettingsScope } from '@deepseek-ai/dsh-settings'
-import { bindTypertRemote, Remote } from '@deepseek-ai/dsh-typert-protocol'
-import { RpcId } from '@deepseek-ai/dsh-host-apiproxy'
-import type { ApiProxy, HistoryEntry, SessionsApi } from '@deepseek-ai/dsh-host-apiproxy/api'
+import { bindTypertRemote, Remote, TypertRemoteFailure } from '@deepseek-ai/dsh-typert-protocol'
+import type { SessionController, SessionRequestId } from '@deepseek-ai/dsh-api-session-controller'
 import { createUserMessage, type LlmRuntime } from '@deepseek-ai/dsh-llm'
 import { readHostRetryPolicy } from './retry-config.ts'
 import {
@@ -310,8 +310,6 @@ function abortableSleep(ms: number, signal?: AbortSignal): Promise<void> {
  * every timer on the process. */
 const POLL_IDLE_MS = 1_000
 
-/** How often the agent path re-reads session history while a turn runs. */
-const AGENT_POLL_MS = 1_500
 /** Hard ceiling on one agent turn before the channel falls back to direct LLM. */
 const AGENT_TURN_TIMEOUT_MS = 180_000
 
@@ -329,12 +327,12 @@ function assistantTextOf(message: unknown): string {
     .join('')
 }
 
-function mintRpcId(): RpcId {
-  return RpcId(globalThis.crypto.randomUUID())
+function mintRequestId(): SessionRequestId {
+  return globalThis.crypto.randomUUID() as SessionRequestId
 }
 
-/** The branded session id the sessions API mints and consumes. */
-type AgentSessionId = Parameters<SessionsApi['history']>[0]['payload']['sessionId']
+/** The branded session id the session controller mints and consumes. */
+type AgentSessionId = Parameters<SessionController['selectModel']>[0]['sessionId']
 
 function markChannelBridgeRemoteMethods(service: ChannelBridgeService): void {
   const initializers: Array<(this: ChannelBridgeService) => void> = []
@@ -372,7 +370,7 @@ export class ChannelBridgeService extends Service {
   readonly typertRemote = bindTypertRemote(this, 'controlCenterChannelBridge')
 
   private readonly llm: LlmRuntime | undefined
-  private readonly api: ApiProxy | undefined
+  private readonly sessions: SessionController | undefined
 
   private readonly statuses = new Map<string, ChannelBridgeStatus & { name: string; type: string }>()
   private readonly runtimes = new Map<string, Runtime>()
@@ -391,7 +389,7 @@ export class ChannelBridgeService extends Service {
   constructor(ctx: Context) {
     super(ctx, 'controlCenterChannelBridge')
     try { this.llm = ctx.get('llm') as LlmRuntime } catch { this.llm = undefined }
-    try { this.api = ctx.get('apiProxy') as ApiProxy } catch { this.api = undefined }
+    try { this.sessions = ctx.get('sessionController') as SessionController } catch { this.sessions = undefined }
     markChannelBridgeRemoteMethods(this)
     ctx.effect(() => () => {
       for (const runtime of this.runtimes.values()) {
@@ -619,7 +617,7 @@ export class ChannelBridgeService extends Service {
     // agent-default-model route.
     const record = this.readInstances().find(entry => entry.id === id)
     const binding = this.agentBinding(record)
-    if (binding !== undefined && this.api !== undefined) {
+    if (binding !== undefined && this.sessions !== undefined) {
       try {
         const reply = await this.generateViaAgentLoop(id, text, binding)
         await deliver(reply)
@@ -694,22 +692,24 @@ export class ChannelBridgeService extends Service {
     text: string,
     binding: { route: { provider: string; model: string }; systemPrompt: string },
   ): Promise<string> {
-    const api = this.api!
+    const sessions = this.sessions!
     const record = this.readInstances().find(entry => entry.id === id)
-    const sessionId = await this.ensureChannelSession(id, record, api)
+    const sessionId = await this.ensureChannelSession(id, record, sessions)
 
     const routeKey = `${binding.route.provider}/${binding.route.model}`
     if (this.sessionRoutes.get(sessionId) !== routeKey) {
-      const response = await api.sessions.selectModel({
-        rpcId: mintRpcId(),
-        payload: { sessionId, provider: binding.route.provider, model: binding.route.model },
-      })
-      if (!response.result.ok) throw new Error(this.rpcErrorText('selectModel', response.result.error))
+      try {
+        await sessions.selectModel({
+          sessionId,
+          provider: binding.route.provider,
+          model: binding.route.model,
+        })
+      } catch (error) {
+        throw new Error(this.remoteErrorText('selectModel', error))
+      }
       this.sessionRoutes.set(sessionId, routeKey)
       this.appendLog(id, `Agent 会话模型已切换到 ${routeKey}`)
     }
-
-    const baseline = await this.historyTailSeq(api, sessionId)
 
     // No preset-level system prompt on this surface yet, so the operator block
     // rides only the FIRST message of each fresh session; session memory keeps
@@ -723,44 +723,77 @@ export class ChannelBridgeService extends Service {
       this.sessionPrimed.add(sessionId)
     }
 
-    const accepted = await api.sessions.prompt({
-      rpcId: mintRpcId(),
-      payload: { sessionId, mode: 'queue', content: [{ type: 'text', text: content }] },
-    })
-    if (!accepted.result.ok) throw new Error(this.rpcErrorText('prompt', accepted.result.error))
-
-    const signal = this.signalFor(id)
-    const deadline = Date.now() + AGENT_TURN_TIMEOUT_MS
-    while (Date.now() < deadline) {
-      if (signal.aborted) throw new Error('channel aborted')
-      await abortableSleep(AGENT_POLL_MS, signal)
-      const entries = await this.readHistoryTail(api, sessionId)
-      let end: { turn: number; reason: { kind: string; error?: { message?: string } } } | undefined
-      for (const entry of entries) {
-        if (entry.event.seq <= baseline) continue
-        if (entry.event.type === 'turn/end') {
-          end = entry.event.data
+    // Follow BEFORE prompting: the opening snapshot's cursor is the pre-turn
+    // baseline, and every turn event then arrives as a live frame — no polling.
+    const address = { kind: 'session', sessionId } as const
+    const turnSignal = AbortSignal.any([
+      this.signalFor(id),
+      AbortSignal.timeout(AGENT_TURN_TIMEOUT_MS),
+    ])
+    const replyParts: string[] = []
+    const partsByTurn = new Map<number, string[]>()
+    let end: { turn: number; reason: { kind: string; error?: { message?: string } } } | undefined
+    const iterator = sessions.follow({ address, maxMessages: 1 }, turnSignal)[Symbol.asyncIterator]()
+    try {
+      const opening = await iterator.next()
+      if (opening.done === true) throw new Error('agent turn 跟随流在开启后立即结束')
+      try {
+        const accepted = await sessions.prompt({
+          requestId: mintRequestId(),
+          sessionId,
+          mode: 'queue',
+          content: [{ type: 'text', text: content }],
+        }, turnSignal)
+        if (accepted.accepted !== true) throw new Error('prompt 未被接受')
+      } catch (error) {
+        throw new Error(this.remoteErrorText('prompt', error))
+      }
+      for (let next = await iterator.next(); next.done !== true; next = await iterator.next()) {
+        const frame = next.value
+        if (frame.type === 'snapshot') continue // opening window predates the prompt
+        const event = frame.event
+        if (event.type === 'turn/end') {
+          end = event.data as { turn: number; reason: { kind: string; error?: { message?: string } } }
           break
         }
+        if (event.type === 'assistant/message') {
+          const part = assistantTextOf((event.data as { message?: unknown }).message)
+          if (part.trim().length === 0) continue
+          replyParts.push(part)
+          const turnOf = (event.data as { turn?: number }).turn
+          if (typeof turnOf === 'number') {
+            const bucket = partsByTurn.get(turnOf)
+            if (bucket === undefined) partsByTurn.set(turnOf, [part])
+            else bucket.push(part)
+          }
+        }
       }
-      if (end === undefined) continue
-      const turn = end.turn
-      const reason = end.reason
-      const parts = entries
-        .filter(entry => entry.event.type === 'assistant/message'
-          && (entry.event.data as { turn?: number }).turn === turn)
-        .map(entry => assistantTextOf((entry.event.data as { message?: unknown }).message))
-        .filter(part => part.trim().length > 0)
-      const reply = parts.join('\n\n').trim()
-      if (reason.kind === 'completed') {
-        return reply.length > 0 ? reply : '(空回复)'
+      if (end === undefined) throw new Error('agent turn 跟随流在 turn 结束前关闭')
+    } catch (error) {
+      if (turnSignal.reason instanceof Error && turnSignal.reason.name === 'TimeoutError') {
+        throw new Error(`agent turn 超时（${String(Math.round(AGENT_TURN_TIMEOUT_MS / 1000))}s）`)
       }
-      if (reason.kind === 'error') {
-        throw new Error(reason.error?.message ?? 'agent turn failed')
-      }
-      throw new Error(`agent turn ended early (${reason.kind})`)
+      throw error
+    } finally {
+      await iterator.return?.(undefined).catch(() => undefined)
     }
-    throw new Error(`agent turn 超时（${String(Math.round(AGENT_TURN_TIMEOUT_MS / 1000))}s）`)
+    const turn = end.turn
+    const reason = end.reason
+    if (reason.kind === 'completed') {
+      // Strictly the messages of the turn that just closed, matching the
+      // previous history-poll semantics (stray text from other turns ignored).
+      const owned = partsByTurn.get(turn)
+      const reply = (owned ?? replyParts).join('\n\n').trim()
+      return reply.length > 0 ? reply : '(空回复)'
+    }
+    if (reason.kind === 'completed') {
+      const reply = replyParts.join('\n\n').trim()
+      return reply.length > 0 ? reply : '(空回复)'
+    }
+    if (reason.kind === 'error') {
+      throw new Error(reason.error?.message ?? 'agent turn failed')
+    }
+    throw new Error(`agent turn ended early (${reason.kind})`)
   }
 
   /**
@@ -771,7 +804,7 @@ export class ChannelBridgeService extends Service {
   private async ensureChannelSession(
     id: string,
     record: ChannelRecord | undefined,
-    api: ApiProxy,
+    sessions: SessionController,
   ): Promise<AgentSessionId> {
     const existing = this.channelSessions.get(id)
     if (existing !== undefined) return existing
@@ -780,25 +813,32 @@ export class ChannelBridgeService extends Service {
       ? config.agentSessionId.trim() as AgentSessionId
       : undefined
     if (stored !== undefined) {
-      // Probe before adopting: the session may have been deleted since.
-      const probe = await api.sessions.history({ rpcId: mintRpcId(), payload: { sessionId: stored } })
-      if (probe.result.ok) {
+      // Probe before adopting: the session may have been deleted since. A
+      // throughSeq of -1 reads an empty page — the point is only whether the
+      // session still resolves.
+      try {
+        await sessions.page(
+          { address: { kind: 'session', sessionId: stored }, throughSeq: -1 },
+          AbortSignal.timeout(10_000),
+        )
         this.channelSessions.set(id, stored)
         this.sessionPrimed.add(stored) // operator block already lives in its history
         this.appendLog(id, `已恢复 Agent 会话（${stored}）`)
         return stored
+      } catch {
+        this.appendLog(id, '持久化的 Agent 会话已不存在，将创建新会话')
       }
-      this.appendLog(id, '持久化的 Agent 会话已不存在，将创建新会话')
     }
     const preset = typeof config?.agentPresetId === 'string' && config.agentPresetId.trim().length > 0
       ? config.agentPresetId.trim()
       : undefined
-    const response = await api.sessions.create({
-      rpcId: mintRpcId(),
-      payload: preset === undefined ? {} : { agentPreset: preset },
-    })
-    if (!response.result.ok) throw new Error(this.rpcErrorText('session create', response.result.error))
-    const sessionId = response.result.value.sessionId
+    let sessionId: AgentSessionId
+    try {
+      const created = await sessions.create(preset === undefined ? {} : { agentPreset: preset })
+      sessionId = created.sessionId
+    } catch (error) {
+      throw new Error(this.remoteErrorText('session create', error))
+    }
     this.channelSessions.set(id, sessionId)
     await this.persistChannelSession(id, String(sessionId))
     this.appendLog(id, `已创建 Agent 会话（${String(sessionId)}）`)
@@ -820,20 +860,12 @@ export class ChannelBridgeService extends Service {
     }
   }
 
-  /** Seq of the newest event in the session tail, -1 for an empty log. */
-  private async historyTailSeq(api: ApiProxy, sessionId: AgentSessionId): Promise<number> {
-    const entries = await this.readHistoryTail(api, sessionId)
-    return entries.reduce((max, entry) => Math.max(max, entry.event.seq), -1)
-  }
-
-  private async readHistoryTail(api: ApiProxy, sessionId: AgentSessionId): Promise<HistoryEntry[]> {
-    const response = await api.sessions.history({ rpcId: mintRpcId(), payload: { sessionId } })
-    if (!response.result.ok) throw new Error(this.rpcErrorText('history', response.result.error))
-    return response.result.value.events
-  }
-
-  private rpcErrorText(action: string, error: { code: string; message: string }): string {
-    return `${action} 失败（${error.code}）：${error.message}`
+  /** Human-readable failure for a session-controller remote call. */
+  private remoteErrorText(action: string, error: unknown): string {
+    if (error instanceof TypertRemoteFailure) {
+      return `${action} 失败（${error.failure.code}）：${error.failure.message}`
+    }
+    return `${action} 失败：${error instanceof Error ? error.message : String(error)}`
   }
 
   /** One generation attempt over one route; throws on terminal error finish. */

@@ -12,6 +12,7 @@ import type { HostObservable, InjectFace, PropsRenderSlots, PropsRuntime } from 
 import type {} from '@deepseek-ai/dsh-client-ui-sidebar/client'
 // Type-only: pulls the settings slot declarations the shell renders into.
 import type {} from '@deepseek-ai/dsh-client-ui-settings/client'
+import type { SessionListState } from '@deepseek-ai/dsh-api-session-controller/client'
 
 /** One nav row projected from a settings.section registration's options. */
 export interface SettingsSectionRow {
@@ -38,6 +39,8 @@ export type SettingsRootInjected = {
     sections: HostObservable<readonly SettingsSectionRow[]>
     /** settings.onboarding ledger projected into coordinator order. */
     onboardingSteps: HostObservable<readonly SettingsOnboardingStep[]>
+    /** Session list snapshot driving the onboarding-active gate (bound as useSessions). */
+    sessions: HostObservable<SessionListState>
   }
   labels: Record<SettingsSectionRow['group'], string>
 }

@@ -12,7 +12,8 @@ const required = [
   ['@deepseek-ai/dsh-client-ui-layout', true],
   ['@deepseek-ai/dsh-client-ui-slots', false],
   ['@deepseek-ai/dsh-client-modules', true],
-  ['@deepseek-ai/dsh-host-apiproxy', true],
+  ['@deepseek-ai/dsh-api-session-controller', false],
+  ['@deepseek-ai/dsh-agent-presets', false],
   ['@deepseek-ai/dsh-settings', false],
 ] as const
 
@@ -39,7 +40,7 @@ function fixture(
 }
 
 describe('DSH compatibility preflight', () => {
-  it('accepts the exact 0.1.1-rc.2 contract package set', () => {
+  it('accepts the exact 0.1.2 contract package set', () => {
     expect(() => assertCompatibleDsh(fixture())).not.toThrow()
   })
 
@@ -50,7 +51,7 @@ describe('DSH compatibility preflight', () => {
 
   it('fails before activation when the resolved version leaves the window', () => {
     expect(() => assertCompatibleDsh(fixture('0.2.0')))
-      .toThrow('expected a version in the 0.1.1-rc.2 window')
+      .toThrow('expected a version in the 0.1.2 window')
   })
 
   it('accepts a bundled deployment where only the host contract is on the graph', () => {

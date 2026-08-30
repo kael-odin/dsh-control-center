@@ -1,7 +1,7 @@
 /** @vitest-environment jsdom */
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { ConversationNotificationRuntime } from '../src/client/notification-runtime.ts'
-import type { SessionListState } from '@deepseek-ai/dsh-client-runtime/client'
+import type { SessionListState } from '@deepseek-ai/dsh-api-session-controller/client'
 
 function state(running: boolean, title = '测试对话'): SessionListState {
   const id = 'session-1' as never
@@ -30,7 +30,7 @@ function api(assistant: boolean) {
   return {
     settings: {
       describe: vi.fn(async () => ({
-        result: { ok: true, value: { namespaces: [{ ns: 'control-center-notifications', value: { assistant }, revision: 1 }] } },
+        ok: true, value: { namespaces: [{ ns: 'control-center-notifications', value: { assistant }, revision: 1 }] },
       })),
     },
   } as never

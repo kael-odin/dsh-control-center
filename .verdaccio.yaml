@@ -1,0 +1,25 @@
+storage: .verdaccio-storage
+web:
+  title: dsh-control-center local registry
+auth:
+  htpasswd:
+    file: ./htpasswd
+    max_users: 1000
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+    cache: true
+packages:
+  '@deepseek-ai/*':
+    access: $all
+    publish: $all
+    unpublish: $all
+    proxy: npmjs
+  '**':
+    access: $all
+    publish: $all
+    unpublish: $all
+    proxy: npmjs
+log: { type: stdout, format: pretty, level: warn }
+publish:
+  allow_offline: true

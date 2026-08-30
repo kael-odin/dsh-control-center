@@ -15,7 +15,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
-import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ClientRemote,SettingsPathOpView } from '@deepseek-ai/dsh-api-remotes/client'
 import type { SnapshotSelectorHook } from '@deepseek-ai/dsh-client-ui-slots'
 import type { ModelProviderGroup } from '@deepseek-ai/dsh-api-remotes/client'
 import { Modal } from '@deepseek-ai/dsh-client-ui-primitives'
@@ -55,20 +55,17 @@ export function providerCopy(template: string, target: ProviderIdentity): string
  * namespace from a partial view. (Shared with the 模型服务 page.)
  */
 export async function removeProviderProfile(
-  api: Pick<IApiClient, 'settings' | 'credentials'>,
+  api: Pick<ClientRemote, 'settings' | 'credentials'>,
   controller: { load(): Promise<void> },
   target: { settingsNs: string; settingsPath: readonly string[]; credentialRef?: string },
 ): Promise<string | undefined> {
   try {
     if (target.credentialRef !== undefined) {
-      const credential = await api.credentials.unset({ ref: target.credentialRef })
-      if (!credential.result.ok) return credential.result.error.message
+      const credential = await api.credentials.unset(target.credentialRef)
+      if (!credential.ok) return credential.error.message
     }
-    const response = await api.settings.mutate({
-      ns: target.settingsNs,
-      ops: [{ op: 'unset', path: [...target.settingsPath] }],
-    })
-    if (!response.result.ok) return response.result.error.message
+    const response = await api.settings.mutate(target.settingsNs, [{ op: 'unset', path: [...target.settingsPath] }], undefined)
+    if (!response.ok) return response.error.message
   } catch (error) {
     // The transport rejected rather than answering; the caller must be able to
     // retry the idempotent operation instead of the row silently staying.
@@ -86,7 +83,7 @@ export interface ModelsSectionInjected {
   /** Per-purpose preference controller. */
   prefsController: import('./model-prefs-store.ts').ModelPrefsStore
   usePrefsSnapshot: SnapshotSelectorHook<ModelPrefsState>
-  api: Pick<IApiClient, 'settings' | 'credentials' | 'llm'>
+  api: Pick<ClientRemote, 'settings' | 'credentials' | 'llm'>
   /** Default/current model selection props. */
   modelSelection: ModelSelectionPanelProps
   schema: import('./schema-operations.ts').SettingsSchemaOperations
@@ -318,8 +315,8 @@ function Loaded({ injected }: { injected: ModelsSectionInjected }): ReactNode {
       let applied = 0
       try {
         for (const payload of payloads) {
-          const response = await api.settings.mutate({ ns: payload.ns, ops: payload.ops })
-          if (!response.result.ok) throw new Error(response.result.error.message)
+          const response = await api.settings.mutate(payload.ns, payload.ops as unknown as SettingsPathOpView[], undefined)
+          if (!response.ok) throw new Error(response.error.message)
           applied += payload.ops.length
         }
         setRetryOutcome({ ok: true, count: targets.length + ids.length })

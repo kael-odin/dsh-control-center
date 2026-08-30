@@ -10,9 +10,8 @@
 
 import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
-import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
-import { RpcId } from '@deepseek-ai/dsh-host-apiproxy'
-import type { ApiProxy } from '@deepseek-ai/dsh-host-apiproxy/api'
+import { bindTypertRemote, TypertRemoteFailure } from '@deepseek-ai/dsh-typert-protocol'
+import type { AgentPresets } from '@deepseek-ai/dsh-agent-presets'
 import { settingsNamespace, type SettingsScope } from '@deepseek-ai/dsh-settings'
 import Schema from '@deepseek-ai/schemastery'
 import { markRemoteMethods } from './knowledge/remote-methods.ts'
@@ -78,22 +77,19 @@ export class AssistantService extends Service {
 
   /**
    * The deployment's agent presets for picker UIs (Quick Assistant 「使用助手」
-   * mode). Proxied host-side because the browser cannot reach ctx.apiProxy.
+   * mode). Proxied host-side because the browser cannot reach the presets
+   * service directly.
    */
   async listAgentPresets(): Promise<{
     ok: true
     value: Array<{ id: string; name: string; trust: 'system' | 'user'; isDefault: boolean }>
   } | { ok: false; error: string }> {
     try {
-      const api = this.ctx.get('apiProxy') as ApiProxy
-      const response = await api.agentPresets.list({
-        rpcId: RpcId(globalThis.crypto.randomUUID()),
-        payload: {},
-      })
-      if (!response.result.ok) return { ok: false, error: response.result.error.message }
+      const presets = this.ctx.get('agentPresets') as AgentPresets
+      const roster = await presets.remoteExportList()
       return {
         ok: true,
-        value: response.result.value.presets.map(preset => ({
+        value: roster.presets.map(preset => ({
           id: preset.id,
           name: preset.name ?? preset.id,
           trust: preset.trust,
@@ -101,6 +97,7 @@ export class AssistantService extends Service {
         })),
       }
     } catch (error) {
+      if (error instanceof TypertRemoteFailure) return { ok: false, error: `${error.failure.code}: ${error.failure.message}` }
       return { ok: false, error: error instanceof Error ? error.message : String(error) }
     }
   }

@@ -1,5 +1,6 @@
 /** Browser half of DSH Control Center. */
-import type { ClientContext, SessionListState } from '@deepseek-ai/dsh-client-runtime/client'
+import type { Context as ClientContext } from '@deepseek-ai/cordis'
+import type { SessionListState } from '@deepseek-ai/dsh-api-session-controller/client'
 import type { ConnectionHandle, SessionId } from '@deepseek-ai/dsh-api-remotes/client'
 import { bindSnapshotSelector } from './bind-snapshot.ts'
 import { resolveSlotLabel, type HostObservable } from '@deepseek-ai/dsh-client-ui-slots'
@@ -11,6 +12,8 @@ import type {} from '@deepseek-ai/dsh-client-ui-layout/client'
 // not in the published rc.7 ui-layout — vendor the declaration mirror so the
 // build is self-contained (runtime slots still come from the harness).
 import type {} from './application-slots.ts'
+// 0.1.2: `ctx.slots` / `ctx.sessions` Context augmentations live here.
+import type {} from '@deepseek-ai/dsh-client-ui-renderer/client'
 import type {} from '@deepseek-ai/dsh-client-locale/client'
 import type {} from '@deepseek-ai/dsh-api-remotes/client'
 import type {} from '../translation-types.ts'
@@ -341,7 +344,7 @@ export function apply(ctx: ClientContext): void {
   const schema = createSettingsSchemaOperations(settingsSchema)
   const settingsMirror = settingsScope.describe()
 
-  const documentController = connection.isLoopback ? new SettingsDocumentStore(connection.api) : undefined
+  const documentController = connection.isLoopback ? new SettingsDocumentStore(ctx.remote) : undefined
   const documentInjected = documentController === undefined
     ? undefined
     : (() => {
@@ -349,26 +352,26 @@ export function apply(ctx: ClientContext): void {
         return (): SettingsDocumentActionInjected => ({ controller: documentController, useSnapshot })
       })()
 
-  const modelsController = new ModelsSettingsStore(connection.api, schema, settingsMirror)
+  const modelsController = new ModelsSettingsStore(ctx.remote, schema, settingsMirror)
   const useModels = bindSnapshotSelector(modelsController.store)
   // The Model Services (provider directory) page shares the same provider/
   // settings/credential join; a second store keeps the two pages' loads and
   // refresh triggers independent.
-  const providerDirectoryController = new ModelsSettingsStore(connection.api, schema, settingsMirror)
+  const providerDirectoryController = new ModelsSettingsStore(ctx.remote, schema, settingsMirror)
   const useProviderDirectory = bindSnapshotSelector(providerDirectoryController.store)
-  const selectionController = new ModelSelectionStore(connection.api, schema)
+  const selectionController = new ModelSelectionStore(ctx.remote, schema)
   const useSelection = bindSnapshotSelector(selectionController.store)
-  const prefsController = new ModelPrefsStore(connection.api, schema)
+  const prefsController = new ModelPrefsStore(ctx.remote, schema)
   const usePrefs = bindSnapshotSelector(prefsController.store)
-  const channelsController = new ChannelsStore(connection.api)
+  const channelsController = new ChannelsStore(ctx.remote)
   const useChannels = bindSnapshotSelector(channelsController.store)
   let channelBridge: NonNullable<typeof remote.controlCenterChannelBridge> | undefined
-  const welcomeController = new WelcomeNoticeStore(connection.api, connection.isLoopback ? 'host' : 'memory')
-  const generalController = new GeneralSettingsStore(connection.api, schema)
+  const welcomeController = new WelcomeNoticeStore(ctx.remote, connection.isLoopback ? 'host' : 'memory')
+  const generalController = new GeneralSettingsStore(ctx.remote, schema)
   const useGeneral = bindSnapshotSelector(generalController.store)
   ctx.effect(() => { void generalController.load(); return () => undefined }, 'control-center: general load')
   const notificationRuntime = new ConversationNotificationRuntime(
-    connection.api,
+    ctx.remote,
     ctx.sessions.list as unknown as HostObservable<SessionListState>,
     () => desktop,
   )
@@ -430,6 +433,7 @@ export function apply(ctx: ClientContext): void {
         },
         subscribe: listener => ctx.slots.subscribe('settings.onboarding', listener),
       },
+      sessions: ctx.sessions.list as unknown as HostObservable<SessionListState>,
     },
   })
 
@@ -446,7 +450,7 @@ export function apply(ctx: ClientContext): void {
     useSnapshot: useModels,
     prefsController,
     usePrefsSnapshot: usePrefs,
-    api: connection.api,
+    api: ctx.remote,
     modelSelection,
     schema,
     t: modelT,
@@ -466,7 +470,7 @@ export function apply(ctx: ClientContext): void {
   const providerDirectoryInjected = (): ProviderDirectorySectionInjected => ({
     controller: providerDirectoryController,
     useSnapshot: useProviderDirectory,
-    api: connection.api,
+    api: ctx.remote,
     schema,
     t: modelT,
     getCheck: modelCheckInjected().getCheck,
@@ -484,7 +488,7 @@ export function apply(ctx: ClientContext): void {
   const deepSeekOnboardingInjected = (): DeepSeekOnboardingInjected => ({
     controller: modelsController,
     hooks: { models: modelsController.store },
-    api: connection.api,
+    api: ctx.remote,
     schema,
     t: modelT,
   })
@@ -551,9 +555,9 @@ export function apply(ctx: ClientContext): void {
           hooks: { translationReady: translationReadySource },
           useModelPref: () => usePrefs(state => state),
           listModels: async () => {
-            const result = await connection.api.llm.models({})
-            if (!result.result.ok) throw new Error(result.result.error.message)
-            return result.result.value.groups
+            const result = await ctx.remote.session.modelCatalog()
+            if (!result.ok) throw new Error(result.error.message)
+            return result.value.groups
           },
         }),
       }, TranslationWorkspace))
@@ -585,9 +589,9 @@ export function apply(ctx: ClientContext): void {
           },
           hooks: { knowledgeReady: knowledgeReadySource },
           listModels: async () => {
-            const result = await connection.api.llm.models({})
-            if (!result.result.ok) throw new Error(result.result.error.message)
-            return result.result.value.groups
+            const result = await ctx.remote.session.modelCatalog()
+            if (!result.ok) throw new Error(result.error.message)
+            return result.value.groups
           },
         }),
       }, KnowledgeWorkspace))
@@ -746,7 +750,7 @@ export function apply(ctx: ClientContext): void {
     order: 21,
     label: () => shellT('appearanceNav'),
     inject: (): AppearanceSectionInjected => ({
-      api: connection.api,
+      api: ctx.remote,
       locale: ctx.locale,
       getDesktop: () => {
         if (desktop === undefined) throw new Error('desktop Remote namespace is not mounted')
@@ -760,7 +764,7 @@ export function apply(ctx: ClientContext): void {
     id: 'notifications',
     order: 22,
     label: () => shellT('notificationsNav'),
-    inject: (): NotificationSectionInjected => ({ api: connection.api }),
+    inject: (): NotificationSectionInjected => ({ api: ctx.remote }),
   }, NotificationSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',
@@ -827,7 +831,7 @@ export function apply(ctx: ClientContext): void {
     label: () => shellT('apiGatewayNav'),
     inject: () => ({
       gateway: ctx.get('remote.controlCenterGateway') as ApiGatewaySectionInjected['gateway'],
-      api: connection.api,
+      api: ctx.remote,
     }),
   }, ApiGatewaySection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
@@ -871,7 +875,7 @@ export function apply(ctx: ClientContext): void {
     inject: screenshotInjected,
   }, ScreenshotSection))
   const channelsInjected = (): ChannelsSectionInjected => ({
-    api: connection.api,
+    api: ctx.remote,
     useChannels,
     controller: channelsController,
     // Lazy read: the bridge Remote namespace mounts asynchronously after this

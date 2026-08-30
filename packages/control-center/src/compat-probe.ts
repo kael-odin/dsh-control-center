@@ -7,11 +7,11 @@
 
 import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
-import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
-import type { ApiProxy } from '@deepseek-ai/dsh-host-apiproxy/api'
+import { bindTypertRemote, TypertRemoteFailure } from '@deepseek-ai/dsh-typert-protocol'
+import type { SessionController } from '@deepseek-ai/dsh-api-session-controller'
 
 export interface CapabilityProbe {
-  /** Dot path of the probed surface, e.g. `apiProxy.sessions`. */
+  /** Dot path of the probed surface, e.g. `sessionController.page`. */
   name: string
   available: boolean
   detail?: string | undefined
@@ -32,24 +32,21 @@ function hasService(ctx: Context, name: string): CapabilityProbe {
     : { name, available: false, detail: '宿主未挂载该服务' }
 }
 
-function rpcId(raw: string): never {
-  return raw as never
-}
-
-/** apiProxy.sessions is the channel agent-loop + presets gateway; probing it
- * means calling the cheapest read RPC, not just checking presence. */
-async function probeApiProxySessions(ctx: Context): Promise<CapabilityProbe> {
-  if (!hasService(ctx, 'apiProxy').available) {
-    return { name: 'apiProxy.sessions', available: false, detail: '宿主未挂载 apiProxy' }
+/** The session controller is the channel agent-loop gateway; probing it
+ * means calling the cheapest read, not just checking presence. */
+async function probeSessionController(ctx: Context): Promise<CapabilityProbe> {
+  if (!hasService(ctx, 'sessionController').available) {
+    return { name: 'sessionController.page', available: false, detail: '宿主未挂载 sessionController' }
   }
   try {
-    const api = (ctx as unknown as Record<string, unknown>).apiProxy as ApiProxy
-    const response = await api.sessions.list({ rpcId: rpcId(crypto.randomUUID()), payload: {} })
-    return response.result.ok
-      ? { name: 'apiProxy.sessions', available: true }
-      : { name: 'apiProxy.sessions', available: false, detail: `${response.result.error.code}: ${response.result.error.message}` }
+    const sessions = (ctx as unknown as Record<string, unknown>).sessionController as SessionController
+    await sessions.list({}, AbortSignal.timeout(5_000))
+    return { name: 'sessionController.page', available: true }
   } catch (error) {
-    return { name: 'apiProxy.sessions', available: false, detail: error instanceof Error ? error.message : String(error) }
+    const detail = error instanceof TypertRemoteFailure
+      ? `${error.failure.code}: ${error.failure.message}`
+      : error instanceof Error ? error.message : String(error)
+    return { name: 'sessionController.page', available: false, detail }
   }
 }
 
@@ -75,9 +72,10 @@ export class CompatService extends Service {
       hasService(ctx, 'settings'),
       hasService(ctx, 'storage'),
       hasService(ctx, 'llm'),
-      hasService(ctx, 'apiProxy'),
+      hasService(ctx, 'sessionController'),
+      hasService(ctx, 'agentPresets'),
       hasService(ctx, 'invariants'),
-      await probeApiProxySessions(ctx),
+      await probeSessionController(ctx),
     ]
     return { ok: true, value: probes }
   }

@@ -15,9 +15,9 @@
  * sessions, which control-center does not own.
  */
 
-import type { IApiClient, ModelProviderGroup } from '@deepseek-ai/dsh-api-remotes/client'
-import type { SnapshotStore } from '@deepseek-ai/dsh-client-runtime/client'
-import { createSnapshotStore } from '@deepseek-ai/dsh-client-runtime/client'
+import type { ClientRemote, ModelProviderGroup,SettingsPathOpView } from '@deepseek-ai/dsh-api-remotes/client'
+import type { SnapshotStore } from '@deepseek-ai/dsh-client-store'
+import { createSnapshotStore } from '@deepseek-ai/dsh-client-store'
 import type { SettingsSchemaOperations } from './schema-operations.ts'
 import { messageOf } from './store.ts'
 
@@ -118,7 +118,7 @@ export class ModelPrefsStore {
   private generation = 0
 
   constructor(
-    private readonly api: Pick<IApiClient, 'settings' | 'llm'>,
+    private readonly api: Pick<ClientRemote, 'settings' | 'session'>,
     private readonly schema: SettingsSchemaOperations,
   ) {}
 
@@ -127,11 +127,11 @@ export class ModelPrefsStore {
     this.store.update((state) => { state.status = 'loading'; state.error = null })
     try {
       const [settingsResponse, modelsResponse] = await Promise.all([
-        this.api.settings.describe({}),
-        this.api.llm.models({}),
+        this.api.settings.describe(),
+        this.api.session.modelCatalog(),
       ])
-      const settings = settingsResponse.result
-      const catalog = modelsResponse.result
+      const settings = settingsResponse
+      const catalog = modelsResponse
       if (!settings.ok) throw new Error(settings.error.message)
       if (!catalog.ok) throw new Error(catalog.error.message)
       if (generation !== this.generation) return
@@ -195,13 +195,9 @@ export class ModelPrefsStore {
     const snapshot = this.store.getSnapshot()
     if (snapshot.revision === null || !snapshot.available) return false
     this.store.update((state) => { state.writeError = null })
-    const response = await this.api.settings.mutate({
-      ns: MODEL_PREFS_NAMESPACE,
-      expectedRevision: snapshot.revision,
-      ops: [...ops],
-    })
-    if (!response.result.ok) {
-      const failure = response.result
+    const response = await this.api.settings.mutate(MODEL_PREFS_NAMESPACE, [...ops] as unknown as SettingsPathOpView[], snapshot.revision)
+    if (!response.ok) {
+      const failure = response
       this.store.update((state) => {
         state.writeError = failure.error.message
       })

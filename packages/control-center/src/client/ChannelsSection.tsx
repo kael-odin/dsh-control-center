@@ -6,7 +6,7 @@
  */
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
 import { IconPlusOutline16, IconTrashOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
 import type { SnapshotSelectorHook } from '@deepseek-ai/dsh-client-ui-slots'
 import { ConfirmDialog, Switch } from './panel-ui.tsx'
@@ -44,7 +44,7 @@ import css from './ChannelsSection.module.css'
 
 /** Injected dependencies delivered by the settings shell. */
 export interface ChannelsSectionInjected {
-  api: Pick<IApiClient, 'settings'>
+  api: Pick<ClientRemote, 'settings'>
   useChannels: SnapshotSelectorHook<ChannelsState>
   controller: ChannelsStore
   /** Lazy handle to the host channel bridge (undefined until mounted). */

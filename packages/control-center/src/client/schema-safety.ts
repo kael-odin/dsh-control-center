@@ -7,6 +7,6 @@ import { assertSecretSchemaSafe } from '../secret-schema.ts'
 export function assertProviderSchemasSafe(views: readonly SettingsNamespaceView[]): void {
   for (const view of views) {
     if (view.ns !== 'llm-deepseek' && view.ns !== 'llm-pi-ai' && view.ns !== 'agent-default-model') continue
-    assertSecretSchemaSafe(view.ns, new Schema(view.schema as Schema))
+    assertSecretSchemaSafe(view.ns, new Schema(view.schema as unknown as Schema))
   }
 }

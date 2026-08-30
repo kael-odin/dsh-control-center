@@ -123,7 +123,7 @@ async function dispatchLog(
 ): Promise<ContentBlock[]> {
   return await ctx.waterfall(
     ctx as never,
-    'tools/code-dispatch-log',
+    'tools/ptc-dispatch-log',
     { exec, agent: (exec as { agent?: unknown }).agent, name, subCallId, isError: false, content } as never,
     async () => content,
   )
@@ -237,7 +237,7 @@ describe('ContextPolicy tool-output truncation', () => {
     expect(spill.saves).toHaveLength(1)
   })
 
-  it('spills an oversized Code Mode dispatch log without changing its original content', async () => {
+  it('spills an oversized PTC dispatch log without changing its original content', async () => {
     const ctx = new Context()
     const spill = new FakeSpillStore(ctx)
     installContextPolicy(ctx, () => settings({ contextToolOutputThreshold: 2_000 }))

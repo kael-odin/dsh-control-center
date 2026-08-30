@@ -9,9 +9,9 @@
  * with an honest notice (same contract as the model-preferences store).
  */
 
-import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client'
-import type { SnapshotStore } from '@deepseek-ai/dsh-client-runtime/client'
-import { createSnapshotStore } from '@deepseek-ai/dsh-client-runtime/client'
+import type { ClientRemote, JsonValue } from '@deepseek-ai/dsh-api-remotes/client'
+import type { SnapshotStore } from '@deepseek-ai/dsh-client-store'
+import { createSnapshotStore } from '@deepseek-ai/dsh-client-store'
 import { messageOf } from './store.ts'
 
 export const CHANNELS_NAMESPACE = 'control-center-channels'
@@ -45,14 +45,14 @@ export class ChannelsStore {
 
   private generation = 0
 
-  constructor(private readonly api: Pick<IApiClient, 'settings'>) {}
+  constructor(private readonly api: Pick<ClientRemote, 'settings'>) {}
 
   async load(): Promise<void> {
     const generation = ++this.generation
     this.store.update((state) => { state.status = 'loading'; state.error = null })
     try {
-      const response = await this.api.settings.describe({})
-      const settings = response.result
+      const response = await this.api.settings.describe()
+      const settings = response
       if (!settings.ok) throw new Error(settings.error.message)
       if (generation !== this.generation) return
       const namespace = settings.value.namespaces.find(view => view.ns === CHANNELS_NAMESPACE)
@@ -99,13 +99,9 @@ export class ChannelsStore {
     const snapshot = this.store.getSnapshot()
     if (!snapshot.available || snapshot.revision === null) return false
     this.store.update((state) => { state.status = 'loading'; state.error = null })
-    const response = await this.api.settings.mutate({
-      ns: CHANNELS_NAMESPACE,
-      expectedRevision: snapshot.revision,
-      ops: [{ op: 'set', path: ['instances'], value: structuredClone(instances.map(instance => ({ ...instance }))) }],
-    })
-    if (!response.result.ok) {
-      const failure = response.result
+    const response = await this.api.settings.mutate(CHANNELS_NAMESPACE, [{ op: 'set', path: ['instances'], value: structuredClone(instances.map(instance => ({ ...instance }))) as unknown as JsonValue }], snapshot.revision)
+    if (!response.ok) {
+      const failure = response
       this.store.update((state) => {
         state.status = 'error'
         state.error = failure.error.message
@@ -114,7 +110,7 @@ export class ChannelsStore {
     }
     this.store.update((state) => {
       state.status = 'ready'
-      state.revision = response.result.ok ? response.result.value.revision : state.revision
+      state.revision = response.ok ? response.value.revision : state.revision
       state.instances = [...instances]
     })
     return true
