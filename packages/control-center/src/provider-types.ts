@@ -31,9 +31,32 @@ export interface ModelView {
     embedding?: boolean
     vision?: boolean
     functionCalling?: boolean
+    reasoning?: boolean
+    audio?: boolean
+    video?: boolean
   }
   contextWindow?: number
+  maxInputTokens?: number
   maxOutputTokens?: number
+  /** 增量输出（stream 逐 token 返回） */
+  incrementalOutput?: boolean
+  /** 用途：对话 / 图像生成 / 图像编辑 */
+  purpose?: 'dialogue' | 'image-generation' | 'image-editing'
+  /** 对话协议标签（openai / anthropic / gemini / ollama 等，UI 命名用） */
+  protocol?: string
+  /** 类型标签：text / image / embedding / rerank / audio / video */
+  typeLabels?: string[]
+  /** 分档价格（含缓存读写价） */
+  pricing?: ModelPricing
+}
+
+/** Per-1000-token pricing in a currency (Cherry model pricing parity). */
+export interface ModelPricing {
+  currency: string
+  input: number
+  output: number
+  cacheRead?: number
+  cacheWrite?: number
 }
 
 /** Provider view exposed to Client (no secrets). */
@@ -87,9 +110,18 @@ export interface DiscoverModelsResult {
   error?: string
 }
 
-/** Update model enablement. */
+/** Update model metadata (only provided fields are overwritten). */
 export interface UpdateModelDto {
-  enabled: boolean
+  enabled?: boolean
+  capabilities?: ModelView['capabilities']
+  contextWindow?: number
+  maxInputTokens?: number
+  maxOutputTokens?: number
+  incrementalOutput?: boolean
+  purpose?: ModelView['purpose']
+  protocol?: string
+  typeLabels?: string[]
+  pricing?: ModelPricing
 }
 
 declare module '@deepseek-ai/dsh-typert-protocol' {

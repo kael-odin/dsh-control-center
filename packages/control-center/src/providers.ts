@@ -15,6 +15,7 @@ import type {
   TestConnectionResult,
   DiscoverModelsResult,
   ModelView,
+  ModelPricing,
   UpdateModelDto
 } from './provider-types.ts'
 
@@ -45,9 +46,18 @@ interface ModelRecord {
     embedding?: boolean
     vision?: boolean
     functionCalling?: boolean
+    reasoning?: boolean
+    audio?: boolean
+    video?: boolean
   }
   contextWindow?: number
+  maxInputTokens?: number
   maxOutputTokens?: number
+  incrementalOutput?: boolean
+  purpose?: 'dialogue' | 'image-generation' | 'image-editing'
+  protocol?: string
+  typeLabels?: string[]
+  pricing?: ModelPricing
 }
 
 interface ProvidersSettings {
@@ -401,10 +411,19 @@ export class ProvidersService extends Service {
     const existingModel = models[modelIndex]
     if (existingModel === undefined) throw new Error(`Model "${modelId}" not found`)
 
-    // Update model with new properties
+    // Merge only the provided fields (Cherry model editor parity).
     const updatedModel: ModelRecord = {
       ...existingModel,
-      enabled: dto.enabled
+      ...(dto.enabled !== undefined ? { enabled: dto.enabled } : {}),
+      ...(dto.capabilities !== undefined ? { capabilities: dto.capabilities } : {}),
+      ...(dto.contextWindow !== undefined ? { contextWindow: dto.contextWindow } : {}),
+      ...(dto.maxInputTokens !== undefined ? { maxInputTokens: dto.maxInputTokens } : {}),
+      ...(dto.maxOutputTokens !== undefined ? { maxOutputTokens: dto.maxOutputTokens } : {}),
+      ...(dto.incrementalOutput !== undefined ? { incrementalOutput: dto.incrementalOutput } : {}),
+      ...(dto.purpose !== undefined ? { purpose: dto.purpose } : {}),
+      ...(dto.protocol !== undefined ? { protocol: dto.protocol } : {}),
+      ...(dto.typeLabels !== undefined ? { typeLabels: dto.typeLabels } : {}),
+      ...(dto.pricing !== undefined ? { pricing: dto.pricing } : {}),
     }
 
     // Update models array
@@ -417,15 +436,24 @@ export class ProvidersService extends Service {
 
     await this.ctx.settings.update(PROVIDERS_NAMESPACE, { providers: updatedProviders })
 
-    // Return updated model as view
+    return this.modelToView(updatedModel, providerId)
+  }
+
+  private modelToView(model: ModelRecord, providerId: string): ModelView {
     return {
-      id: updatedModel.id,
-      name: updatedModel.name,
+      id: model.id,
+      name: model.name,
       providerId,
-      enabled: updatedModel.enabled,
-      ...(updatedModel.capabilities !== undefined ? { capabilities: updatedModel.capabilities } : {}),
-      ...(updatedModel.contextWindow !== undefined ? { contextWindow: updatedModel.contextWindow } : {}),
-      ...(updatedModel.maxOutputTokens !== undefined ? { maxOutputTokens: updatedModel.maxOutputTokens } : {})
+      enabled: model.enabled,
+      ...(model.capabilities !== undefined ? { capabilities: model.capabilities } : {}),
+      ...(model.contextWindow !== undefined ? { contextWindow: model.contextWindow } : {}),
+      ...(model.maxInputTokens !== undefined ? { maxInputTokens: model.maxInputTokens } : {}),
+      ...(model.maxOutputTokens !== undefined ? { maxOutputTokens: model.maxOutputTokens } : {}),
+      ...(model.incrementalOutput !== undefined ? { incrementalOutput: model.incrementalOutput } : {}),
+      ...(model.purpose !== undefined ? { purpose: model.purpose } : {}),
+      ...(model.protocol !== undefined ? { protocol: model.protocol } : {}),
+      ...(model.typeLabels !== undefined ? { typeLabels: model.typeLabels } : {}),
+      ...(model.pricing !== undefined ? { pricing: model.pricing } : {}),
     }
   }
 
@@ -433,12 +461,7 @@ export class ProvidersService extends Service {
     return {
       id: record.id, name: record.name, type: record.type as any,
       baseURL: record.baseURL, enabled: record.enabled, hasApiKey,
-      models: (record.models || []).map(m => ({
-        id: m.id, name: m.name, providerId: record.id, enabled: m.enabled,
-        ...(m.capabilities !== undefined ? { capabilities: m.capabilities } : {}),
-        ...(m.contextWindow !== undefined ? { contextWindow: m.contextWindow } : {}),
-        ...(m.maxOutputTokens !== undefined ? { maxOutputTokens: m.maxOutputTokens } : {})
-      })),
+      models: (record.models || []).map(m => this.modelToView(m, record.id)),
       ...record.customHeaders,
       ...(record.lastTestedAt !== undefined ? { lastTestedAt: record.lastTestedAt } : {}),
       ...(record.lastDiscoveredAt !== undefined ? { lastDiscoveredAt: record.lastDiscoveredAt } : {}),

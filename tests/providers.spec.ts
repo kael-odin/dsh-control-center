@@ -8,7 +8,10 @@ import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
-describe('ProvidersService', () => {
+// Each test boots a full cordis Context with file-backed settings and
+// credentials providers; on Windows that setup alone approaches vitest's
+// default 5s limit, so the suite gets an explicit budget.
+describe('ProvidersService', { timeout: 60_000 }, () => {
   let ctx: Context
   let tmpDir: string
   let service: ProvidersService
