@@ -145,6 +145,13 @@ export class GatewayService extends Service {
   private async dispatch(req: import('node:http').IncomingMessage, res: import('node:http').ServerResponse): Promise<void> {
     try {
       const config = this.config()
+      // API documentation page — no auth required (loopback-only). Served at
+      // both /docs and /v1/docs: the settings page links status.url + '/docs'
+      // and status.url already carries the /v1 suffix.
+      if (req.method === 'GET' && (req.url === '/docs' || req.url === '/v1/docs')) {
+        this.respondHtml(res, 200, gatewayDocsHtml(config))
+        return
+      }
       const auth = req.headers.authorization ?? ''
       if (auth !== `Bearer ${config.apiKey}`) {
         this.respondJson(res, 401, { error: { message: 'Invalid API key', type: 'auth_error' } })
@@ -344,6 +351,11 @@ export class GatewayService extends Service {
     res.writeHead(code, { 'content-type': 'application/json' })
     res.end(JSON.stringify(payload))
   }
+
+  private respondHtml(res: import('node:http').ServerResponse, code: number, html: string): void {
+    res.writeHead(code, { 'content-type': 'text/html; charset=utf-8' })
+    res.end(html)
+  }
 }
 
 /** Abort the model call when the client connection closes. */
@@ -351,4 +363,83 @@ function req_signal(res: import('node:http').ServerResponse): AbortSignal {
   const controller = new AbortController()
   res.on('close', () => { controller.abort() })
   return controller.signal
+}
+
+/** Minimal HTML escape for values interpolated into the /docs page. */
+function esc(value: string): string {
+  return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+}
+
+/** API documentation page served at GET /docs (loopback-only, no auth). */
+function gatewayDocsHtml(config: GatewayConfig): string {
+  const base = `http://127.0.0.1:${String(config.port)}/v1`
+  const key = config.apiKey.length > 0 ? config.apiKey : '（未设置）'
+  const shellKey = config.apiKey.length > 0 ? config.apiKey : '<your-api-key>'
+  return `<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DSH Control Center API Gateway</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: system-ui, -apple-system, sans-serif; max-width: 860px; margin: 0 auto; padding: 24px; line-height: 1.6; }
+  h1 { border-bottom: 2px solid #00b96b; padding-bottom: 8px; }
+  h2 { margin-top: 28px; }
+  code, pre { background: rgba(127,127,127,.12); border-radius: 6px; }
+  code { padding: 2px 5px; font-size: .92em; }
+  pre { padding: 12px; overflow-x: auto; }
+  .warn { background: rgba(255,165,0,.14); border-left: 4px solid orange; padding: 10px 12px; border-radius: 6px; }
+  table { border-collapse: collapse; width: 100%; margin-top: 8px; }
+  th, td { border: 1px solid rgba(127,127,127,.35); padding: 8px 10px; text-align: left; font-size: .95em; }
+  th { background: rgba(127,127,127,.1); }
+</style>
+</head>
+<body>
+<h1>DSH Control Center — API Gateway</h1>
+<p>本地回环 HTTP 服务，把控制中心配置的模型暴露成 OpenAI / Anthropic 兼容端点。仅监听 <code>127.0.0.1</code>，不会暴露到网络。</p>
+<div class="warn">⚠️ 安全提示：此服务仅供本机本地应用使用，请勿将 <code>${base}</code> 与 API Key 共享给他人。</div>
+
+<h2>连接信息</h2>
+<table>
+  <tr><th>Base URL</th><td><code>${base}</code></td></tr>
+  <tr><th>鉴权</th><td><code>Authorization: Bearer ${esc(key)}</code></td></tr>
+</table>
+
+<h2>模型路由约定</h2>
+<p>请求体中的 <code>model</code> 字段格式为 <code>provider/model</code>（例如 <code>deepseek/deepseek-chat</code>）。当 <code>model</code> 缺失或格式不识别时，回退到宿主默认模型路由。</p>
+
+<h2>端点</h2>
+<table>
+  <tr><th>方法</th><th>路径</th><th>说明</th></tr>
+  <tr><td>GET</td><td><code>/v1/models</code></td><td>列出可用模型（provider/model 列表）</td></tr>
+  <tr><td>POST</td><td><code>/v1/chat/completions</code></td><td>OpenAI 兼容对话（支持流式 SSE 与非流式）</td></tr>
+  <tr><td>POST</td><td><code>/v1/messages</code></td><td>Anthropic 兼容对话（支持流式 SSE 与非流式）</td></tr>
+</table>
+
+<h2>示例（curl）</h2>
+<pre># 列出模型
+curl ${base}/models \\
+  -H "Authorization: Bearer ${shellKey}"
+
+# OpenAI 兼容（非流式）
+curl ${base}/chat/completions \\
+  -H "Authorization: Bearer ${shellKey}" \\
+  -H "Content-Type: application/json" \\
+  -d '{"model":"deepseek/deepseek-chat","messages":[{"role":"user","content":"你好"}]}'
+
+# OpenAI 兼容（流式）
+curl -N ${base}/chat/completions \\
+  -H "Authorization: Bearer ${shellKey}" \\
+  -H "Content-Type: application/json" \\
+  -d '{"model":"deepseek/deepseek-chat","messages":[{"role":"user","content":"你好"}],"stream":true}'
+
+# Anthropic 兼容
+curl ${base}/messages \\
+  -H "Authorization: Bearer ${shellKey}" \\
+  -H "Content-Type: application/json" \\
+  -H "anthropic-version: 2023-06-01" \\
+  -d '{"model":"deepseek/deepseek-chat","max_tokens":512,"messages":[{"role":"user","content":"你好"}]}'</pre>
+</body>
+</html>`
 }
