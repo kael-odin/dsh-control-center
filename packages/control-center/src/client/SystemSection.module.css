@@ -67,7 +67,7 @@
 
 .infoLink {
   font-size: 13px;
-  color: var(--primary, var(--link, inherit));
+  color: var(--primary);
   text-align: right;
   text-decoration: none;
   overflow: hidden;

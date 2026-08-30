@@ -47,6 +47,9 @@ interface NativeStatusPayload {
   screenshotHotkeyRegistered?: boolean
   quickHotkey?: string
   quickHotkeyRegistered?: boolean
+  harnessDir?: string
+  harnessSource?: string
+  dshCliVersion?: string | null
 }
 
 export class DesktopService extends Service {
@@ -116,6 +119,9 @@ export class DesktopService extends Service {
       ...(result.screenshotHotkeyRegistered !== undefined ? { screenshotHotkeyRegistered: result.screenshotHotkeyRegistered } : {}),
       ...(result.quickHotkey !== undefined ? { quickHotkey: result.quickHotkey } : {}),
       ...(result.quickHotkeyRegistered !== undefined ? { quickHotkeyRegistered: result.quickHotkeyRegistered } : {}),
+      ...(result.harnessDir !== undefined ? { harnessDir: result.harnessDir } : {}),
+      ...(result.harnessSource !== undefined ? { harnessSource: result.harnessSource } : {}),
+      ...(result.dshCliVersion !== undefined ? { dshCliVersion: result.dshCliVersion } : {}),
     }
   }
 

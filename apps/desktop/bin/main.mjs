@@ -14,7 +14,7 @@
  * @module
  */
 import { app, BrowserWindow, clipboard, desktopCapturer, dialog, Notification, screen, Tray, Menu, globalShortcut, nativeImage } from 'electron'
-import { spawn } from 'node:child_process'
+import { spawn, spawnSync } from 'node:child_process'
 import { createServer } from 'node:http'
 import { randomBytes } from 'node:crypto'
 import { readFileSync, statSync, existsSync, writeFileSync, rmSync } from 'node:fs'
@@ -23,7 +23,8 @@ import { homedir, tmpdir } from 'node:os'
 import { join, dirname } from 'node:path'
 
 const DEFAULT_LOOPBACK = 'http://127.0.0.1:3080/'
-const DEFAULT_HARNESS_DIR = process.env.DSH_HARNESS_DIR || 'D:\\Github_Open\\deepseek-harness'
+/** Dev-machine fallback only; real resolution lives in resolveHarnessDir(). */
+const DEFAULT_HARNESS_DIR = 'D:\\Github_Open\\deepseek-harness'
 /** Readiness signal the DSH web boot prints once Loader is settled and the loopback server is up. */
 const WEB_URL_LINE = /dsh web:\s+(http:\/\/127\.0\.0\.1:\d+)/
 
@@ -140,8 +141,71 @@ function startSelfHost(native) {
   return { child, urlPromise }
 }
 
+/** Last harness resolution, surfaced on /dsh-native/status so the UI can show where DSH was located. */
+let harnessResolution = null
+
+/** Cached probe of a `dsh` CLI on PATH: `{ version, dir }` where dir is the
+ * derived harness root (a checkout layout), or `undefined` for an installed
+ * dist CLI whose layout cannot self-host. `null` = no CLI found. */
+let dshCliProbe = undefined
+
+function probeDshCli() {
+  if (dshCliProbe !== undefined) return dshCliProbe
+  dshCliProbe = null
+  try {
+    const bin = process.platform === 'win32' ? 'dsh.cmd' : 'dsh'
+    const version = spawnSync(bin, ['--version'], { encoding: 'utf8', timeout: 3000 })
+    if (version.status === 0 && version.stdout) {
+      const versionText = String(version.stdout).trim().split('\n')[0]?.trim() || null
+      const where = spawnSync(process.platform === 'win32' ? 'where' : 'which', ['dsh'], { encoding: 'utf8', timeout: 3000 })
+      const binPath = where.status === 0 ? String(where.stdout).trim().split('\n')[0]?.trim() : undefined
+      if (binPath !== undefined) {
+        const dir = join(dirname(binPath), '..', '..')
+        if (existsSync(join(dir, 'apps', 'cli', 'src', 'bin.ts'))) {
+          dshCliProbe = { version: versionText, dir }
+          console.log(`[desktop] dsh CLI ${versionText} at ${binPath}; harness root derived ${dir}`)
+        } else {
+          dshCliProbe = { version: versionText, dir: undefined }
+          console.log(`[desktop] dsh CLI ${versionText} at ${binPath} (installed layout; self-host needs a checkout or DSH_HARNESS_DIR)`)
+        }
+      } else {
+        dshCliProbe = { version: versionText, dir: undefined }
+      }
+    }
+  } catch {
+    dshCliProbe = null
+  }
+  return dshCliProbe
+}
+
 function resolveHarnessDir() {
-  return process.env.DSH_HARNESS_DIR || DEFAULT_HARNESS_DIR
+  // Search order: explicit env → bundled materialized harness → dev
+  // .materialized → a dsh CLI checkout on PATH → dev-machine fallback. Each
+  // candidate must actually hold a harness CLI entry; the fallback logs loudly
+  // because it only exists on the author's machine.
+  const candidates = [
+    { source: 'env:DSH_HARNESS_DIR', dir: process.env.DSH_HARNESS_DIR },
+    { source: 'bundled:resources/harness', dir: app.isPackaged ? join(process.resourcesPath, 'harness') : undefined },
+    { source: 'dev:.materialized/harness', dir: join(app.getAppPath(), '.materialized', 'harness') },
+    { source: 'dsh-cli', dir: probeDshCli()?.dir },
+    { source: 'fallback:dev-machine-path', dir: DEFAULT_HARNESS_DIR },
+  ]
+  for (const candidate of candidates) {
+    if (candidate.dir === undefined) continue
+    const cliEntry = join(candidate.dir, 'apps', 'cli', 'src', 'bin.ts')
+    if (!existsSync(cliEntry)) {
+      if (candidate.source.startsWith('env')) {
+        console.warn(`[desktop] DSH_HARNESS_DIR points at a directory without apps/cli/src/bin.ts: ${candidate.dir}`)
+      }
+      continue
+    }
+    harnessResolution = { dir: candidate.dir, source: candidate.source }
+    console.log(`[desktop] DSH harness resolved from ${candidate.source}: ${candidate.dir}`)
+    return candidate.dir
+  }
+  harnessResolution = { dir: DEFAULT_HARNESS_DIR, source: 'fallback:dev-machine-path (unverified)' }
+  console.warn(`[desktop] no usable DSH harness found; falling back to ${DEFAULT_HARNESS_DIR}`)
+  return DEFAULT_HARNESS_DIR
 }
 
 /**
@@ -291,6 +355,9 @@ function startNativeService() {
             screenshotHotkeyRegistered,
             quickHotkey: QUICK_HOTKEY,
             quickHotkeyRegistered,
+            harnessDir: harnessResolution?.dir,
+            harnessSource: harnessResolution?.source,
+            dshCliVersion: dshCliProbe === undefined || dshCliProbe === null ? null : dshCliProbe.version,
           })
         }
         if (req.method === 'POST' && url.pathname === '/dsh-native/fonts') {
@@ -932,6 +999,9 @@ async function boot() {
   // Desktop general preferences (launch on boot, tray behavior).
   applyGeneralPrefs()
   console.log(`[desktop] GENERAL_PREFS hwAccelDisabled=${generalPrefs.disableHardwareAcceleration}`)
+
+  // Warm harness resolution so /dsh-native/status includes it immediately.
+  resolveHarnessDir()
 
   // System tray + global shortcut (focus/reopen window).
   setupTrayAndShortcut()

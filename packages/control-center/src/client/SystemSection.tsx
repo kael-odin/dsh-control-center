@@ -22,6 +22,8 @@ export interface SystemSectionInjected {
   getUpdate?: (() => UpdateRemote | undefined) | undefined
   /** Lazy handle to the capability-probe remote — diagnostic bundle source. */
   getCompat?: (() => CompatRemote | undefined) | undefined
+  /** Lazy handle to the desktop bridge — harness location / dsh CLI version. */
+  getDesktop?: (() => ClientRemote['controlCenterDesktop'] | undefined) | undefined
   hooks: { systemReady: HostObservable<boolean> }
 }
 
@@ -33,13 +35,14 @@ function unwrap<T>(result: { ok: true; value: T } | { ok: false; error: { code: 
 }
 
 /** 关于: versions, compatibility, environment, diagnostics, release notes. */
-export function AboutSection({ getSystem, getBridge, getUpdate, getCompat, useSystemReady }: SystemSectionProps) {
+export function AboutSection({ getSystem, getBridge, getUpdate, getCompat, getDesktop, useSystemReady }: SystemSectionProps) {
   const systemReady = useSystemReady(value => value)
   const system = systemReady ? getSystem() : undefined
   const [info, setInfo] = useState<SystemInfo | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
   const [bundling, setBundling] = useState(false)
+  const [desktop, setDesktop] = useState<{ harnessDir?: string; harnessSource?: string; dshCliVersion?: string | null } | null>(null)
 
   useEffect(() => {
     if (system === undefined) return
@@ -47,6 +50,15 @@ export function AboutSection({ getSystem, getBridge, getUpdate, getCompat, useSy
       try { setInfo(unwrap(result)) } catch (err) { setError(err instanceof Error ? err.message : String(err)) }
     }).catch(reason => setError(reason instanceof Error ? reason.message : String(reason)))
   }, [system !== undefined]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    const handle = getDesktop?.()
+    if (handle === undefined) return
+    void handle.check().then(result => {
+      if (result.ok) setDesktop(result.value)
+    }).catch(() => { /* desktop bridge is best-effort */ })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   if (error !== null) return <div className="cc-settings-column"><div className="cc-notice-error">{error}</div></div>
   if (info === null) return <div className={css.loading}>Loading...</div>
@@ -198,6 +210,20 @@ export function AboutSection({ getSystem, getBridge, getUpdate, getCompat, useSy
           <span className={css.infoLabel}>DSH 主目录</span>
           <span className={css.infoValue}>{info.dshHome}</span>
         </div>
+        {desktop !== null && desktop.harnessDir !== undefined && (
+          <div className={css.infoRow}>
+            <span className={css.infoLabel}>桌面 DSH 定位</span>
+            <span className={css.infoValue} title={desktop.harnessSource}>
+              {desktop.harnessDir}
+            </span>
+          </div>
+        )}
+        {desktop !== null && desktop.dshCliVersion !== null && desktop.dshCliVersion !== undefined && (
+          <div className={css.infoRow}>
+            <span className={css.infoLabel}>PATH dsh CLI</span>
+            <span className={css.infoValue}>v{desktop.dshCliVersion}</span>
+          </div>
+        )}
         <div>
           <button type="button" className="cc-btn cc-btn-secondary" onClick={() => void copyDiagnostics()}>
             {copied ? '已复制' : '复制诊断信息'}

@@ -117,7 +117,7 @@ export function UpdateSection({ getUpdate, useUpdateReady }: UpdateSectionProps)
               <div className="cc-notice-error" style={{ borderColor: 'var(--success-border)', background: 'var(--success-subtle)', color: 'var(--success-subtle-foreground)' }}>
                 发现新版本 {info.latestVersion}
                 {info.releaseUrl !== null && (
-                  <a href={info.releaseUrl} target="_blank" rel="noreferrer" style={{ marginLeft: 8, color: 'var(--link, var(--primary))' }}>
+                  <a href={info.releaseUrl} target="_blank" rel="noreferrer" style={{ marginLeft: 8, color: 'var(--primary)' }}>
                     前往下载
                   </a>
                 )}
@@ -159,7 +159,7 @@ export function UpdateSection({ getUpdate, useUpdateReady }: UpdateSectionProps)
             className="cc-notice-error"
             style={{
               marginTop: 8,
-              borderColor: installed.ok ? 'var(--success-border)' : 'var(--danger-border, var(--border))',
+              borderColor: installed.ok ? 'var(--success-border)' : 'var(--error-border)',
               background: installed.ok ? 'var(--success-subtle)' : 'transparent',
               color: installed.ok ? 'var(--success-subtle-foreground)' : undefined,
             }}

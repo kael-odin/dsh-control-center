@@ -790,6 +790,7 @@ export function apply(ctx: ClientContext): void {
       getUpdate: (): NonNullable<typeof remote.controlCenterUpdate> | undefined => update,
       getCompat: (): NonNullable<typeof remote.controlCenterCompat> | undefined =>
         ctx.get('remote.controlCenterCompat') as NonNullable<typeof remote.controlCenterCompat> | undefined,
+      getDesktop: (): NonNullable<typeof remote.controlCenterDesktop> | undefined => desktop,
       hooks: { systemReady: systemReadySource },
     }),
   }, AboutSection))

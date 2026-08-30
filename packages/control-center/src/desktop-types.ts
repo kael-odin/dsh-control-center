@@ -19,6 +19,12 @@ export interface DesktopStatus {
   screenshotHotkeyRegistered?: boolean
   quickHotkey?: string
   quickHotkeyRegistered?: boolean
+  /** Resolved deepseek-harness directory the desktop shell self-hosts from. */
+  harnessDir?: string
+  /** Where the resolution came from (env / bundled / dev .materialized / dsh-cli / fallback). */
+  harnessSource?: string
+  /** A `dsh` CLI found on PATH (version string), or null when absent. */
+  dshCliVersion?: string | null
   error?: string
 }
 
