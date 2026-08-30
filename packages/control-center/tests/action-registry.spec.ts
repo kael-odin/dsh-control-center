@@ -4,7 +4,7 @@ import {
   ActionRegistry,
   combineAvailability,
   createActionRegistry,
-} from '../../src/client/actions/action-registry.ts'
+} from '../src/client/actions/action-registry.ts'
 
 interface Ctx {
   tag: string
