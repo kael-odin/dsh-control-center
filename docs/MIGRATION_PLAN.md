@@ -106,7 +106,11 @@ Cherry 侧动作系统核心（actionRegistry 310 行零耦合 + MessageListActi
 - [x] **快捷短语（2026-08-30）**：`QuickPhrasesButton` 挂 `conversation.input.right` ——
       ⚡ 弹层列出/新增/删除短语（`control-center-composer` namespace，revision 守卫 mutate），
       选取即经 inputActions.setDraft 追加进草稿；6 个组件测试
-- [ ] @知识库 chip：插入知识库引用标注（复用 knowledge.listBases；chips 存在时同样需诚实降级）
+- [x] **@知识库 chip（2026-08-30）**：`KnowledgeChipButton` 挂 `conversation.input.right`
+      （第二条目）——📚 弹层列知识库（带 sourceCount），选取插入引用标注
+      `【知识库：name】…调用 knowledge_retrieve（base="name"）…`（模型可直接落地）；
+      共享 composer-append 助手抽取（QuickPhrases 同步复用），chips 存在时诚实拒插；
+      5 个组件测试（全套 263/263）
 - [ ] Cherry `composer/` 全架构移植（token 化输入/输入历史/后续消息队列）——评估成本后决定是否值得替代宿主输入条
 - [ ] 输入历史 + 草稿持久化（宿主 persisted-draft 已有，评估增量）
 
@@ -174,3 +178,4 @@ Cherry 侧动作系统核心（actionRegistry 310 行零耦合 + MessageListActi
 | 2026-08-30 | Phase 1.1b：翻译动作（job 轮询 + CJK 启发 + 悬浮译文面板） | 243/243 全绿；下一步：动作注册表移植 / user 消息动作位 / composer |
 | 2026-08-30 | Phase 1.1c：actionRegistry 移植 + more-menu（复制原文/导出 Markdown） | 252/252 全绿；注册表成为后续全部消息动作的扩展点 |
 | 2026-08-30 | Phase 1.4a：快捷短语 composer 增量（input.right slot + inputActions.setDraft） | 侦察确认 ui-conversation 的 session 标准装备暴露 useInput/inputActions；258/258 全绿 |
+| 2026-08-30 | Phase 1.4b：@知识库 chip（listBases 选择 → knowledge_retrieve 标注插入） | 263/263 全绿；composer-append 共享助手就位，后续 composer 条目可复用 |
