@@ -57,9 +57,9 @@ MCP 市场、知识库管线、备份矩阵）。DSH 的本质价值 = **运行�
 - [ ] PARITY_LEDGER 升级为机器可读 checklist（cherry pull 后脚本 diff 新增设置项/消息动作）
 - [ ] CI：DSH 新版本 → 契约 diff 自动 issue
 
-### 0.5 轮询 hack 清理 ⚠️
+### 0.5 轮询 hack 清理 ✅（2026-08-30）
 - [x] channel-bridge 180s 轮询 → follow() 事件流（随 0.3 顺带完成）
-- [ ] `src/client/index.ts` 的 `setInterval(25ms)` remote 就绪探测 → HostObservable/boot graph 事件订阅
+- [x] `src/client/index.ts` 十个 25ms 轮询源 → 单个 readyGate（$mount settle 时一次性翻转，晚订阅者走微队列），client 入口零定时器
 
 ---
 
@@ -148,3 +148,4 @@ home/chat 完全未迁移，是 Cherry 的灵魂。照搬 Cherry 成熟架构，
 | 2026-08-30 | Phase 0.3 上升为最高优先级 | 审查发现 DSH 0.1.2 删除 ApiProxy 包，当前代码在新版宿主上失效 |
 | 2026-08-30 | Phase 0.1/0.2/0.3 完成；typecheck+build+lint 全绿 | 8 批提交落库；lib 出库；0.1.2 契约升级含 ApiProxy 与 client-runtime 两条破坏性迁移、vendored tarball + 本地 verdaccio 通道 |
 | 2026-08-30 | 0.3 计划外发现：dsh-client-runtime 整包删除（上游 be531688f3） | client 侧 store/slots/remote 三类消费面全部改道；构建预设按上游 platform.ts 重写 |
+| 2026-08-30 | Phase 0 全部完成（0.5 轮询 → readyGate 收尾） | 测试 235/235、typecheck/lint/build 全绿；下一步进入 Phase 1 聊天主界面 |
