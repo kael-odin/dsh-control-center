@@ -164,7 +164,7 @@
   border: 1px solid var(--border, rgba(128, 128, 128, .3));
   border-radius: 6px;
   background: transparent;
-  color: var(--foreground-secondary);
+  color: var(--muted-foreground);
   font-size: 12px;
   cursor: pointer;
 }
@@ -236,4 +236,13 @@
 
 .cssEditor:focus {
   border-color: var(--ring);
+}
+
+/* Wrapper each theme swatch card sits in; .themePreviewActive styles its frame. */
+.themePreview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
 }

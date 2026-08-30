@@ -722,7 +722,7 @@
   border: none;
   border-bottom: 2px solid transparent;
   background: transparent;
-  color: var(--foreground-secondary);
+  color: var(--muted-foreground);
   font-family: inherit;
   font-size: 13px;
   cursor: pointer;

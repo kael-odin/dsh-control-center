@@ -2,8 +2,11 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { AppearanceSection } from '../src/client/AppearanceSection.tsx'
+import { DEFAULT_THEME_OVERRIDES } from '../src/client/theme-overrides.ts'
 
-const defaults = { colorPrimary: '#00b96b', fontFamily: '', codeFontFamily: '', customCss: '' }
+// "DSH still at its schema defaults" — track the real default rather than a
+// literal, or a default change silently flips the migration branch under test.
+const defaults = { colorPrimary: DEFAULT_THEME_OVERRIDES.colorPrimary, fontFamily: '', codeFontFamily: '', customCss: '' }
 
 // These tests exercise settings behavior only; stub the desktop bridge as
 // not-ready so the desktop-only probes never fire (they are covered by
@@ -83,8 +86,10 @@ describe('AppearanceSection authoritative settings', () => {
     expect(setLocale).toHaveBeenCalledWith('en')
   })
   it('migrates legacy localStorage once when DSH remains at defaults', async () => {
+    // Deliberately not the default colour: the assertion below only proves the
+    // legacy value won if it differs from what DSH would have supplied.
     localStorage.setItem('cc.theme.overrides', JSON.stringify({
-      colorPrimary: '#8B5CF6', fontFamily: 'Inter', codeFontFamily: 'Fira Code', customCss: '.cc-surface { opacity: .9 }',
+      colorPrimary: '#F59E0B', fontFamily: 'Inter', codeFontFamily: 'Fira Code', customCss: '.cc-surface { opacity: .9 }',
     }))
     const fixture = api()
     render(<AppearanceSection api={fixture.client} useDesktopReady={useDesktopReady} getDesktop={getDesktop} />)
@@ -97,6 +102,6 @@ describe('AppearanceSection authoritative settings', () => {
     })
     await waitFor(() => { expect(localStorage.getItem('cc.theme.overrides')).toBeNull() })
     expect(localStorage.getItem('cc.theme.overrides.migrated-to-dsh')).toBe('1')
-    expect(screen.getByDisplayValue('#8B5CF6')).not.toBeNull()
+    expect(screen.getByDisplayValue('#F59E0B')).not.toBeNull()
   })
 })

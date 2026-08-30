@@ -27,6 +27,12 @@
      without it Chromium paints their light variants over our themed surface. */
   color-scheme: light;
 
+  /* Checkbox / radio / range / progress tick the theme colour instead of the
+     UA blue. `accent-color` inherits, so declaring it once here covers every
+     native control on the surface (parity ledger §9.5) — individual modules no
+     longer need to restate it. */
+  accent-color: var(--primary);
+
   --cs-neutral-50: oklch(0.98 0 0);
   --cs-neutral-100: oklch(0.97 0 0);
   --cs-neutral-200: oklch(0.92 0 0);
@@ -611,7 +617,10 @@ body[data-ds-dark-theme] .cc-surface {
   --cs-border-strong: oklch(1 0 0 / 0.2);
   --cs-border-selected: oklch(1 0 0 / 0.3);
 
-  --cs-ring: oklch(0.76 0.204 131 / 0.4);
+  /* Derived from the active primary, exactly as the light block does. Cherry
+     hardcodes its brand green here; ours is user-selectable, so a fixed hue
+     would leave every focus ring green no matter what colour was picked. */
+  --cs-ring: color-mix(in srgb, var(--cs-primary) 40%, transparent);
 
   --cs-secondary: oklch(1 0 0 / 0.1);
   --cs-secondary-hover: oklch(1 0 0 / 0.2);

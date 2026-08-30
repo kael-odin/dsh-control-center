@@ -324,14 +324,14 @@ export function ShortcutSection() {
           return (
             <div key={group.id} className={css.groupBlock}>
               <div className={css.groupLabel}>{group.label}</div>
-              {entries.map((entry, index) => {
+              {entries.map((entry) => {
                 const pref = prefOf(entry.id)
                 const dirty = pref.binding !== DEFAULT_SHORTCUTS.find(s => s.id === entry.id)?.defaultBinding
                 const isRecording = recording === entry.id
                 return (
                   <div
                     key={entry.id}
-                    className={`${css.row} ${!pref.enabled ? css.rowDisabled : ''} ${index < entries.length - 1 ? css.rowBorder : ''}`}
+                    className={`${css.row} ${!pref.enabled ? css.rowDisabled : ''}`}
                   >
                     <span className={css.rowLabel}>{entry.label}{!entry.applicable && <span className={css.desktopTag}>桌面</span>}</span>
                     <span className={css.rowShortcut}>

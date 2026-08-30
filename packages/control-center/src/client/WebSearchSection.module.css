@@ -36,9 +36,9 @@
   max-width: 768px;
   margin: 0 auto;
   padding: 16px;
-  border: 1px solid color-mix(in srgb, #ef4444 28%, var(--border-subtle));
+  border: 1px solid color-mix(in srgb, var(--destructive) 28%, var(--border-subtle));
   border-radius: 10px;
-  background: color-mix(in srgb, #ef4444 8%, var(--card));
+  background: color-mix(in srgb, var(--destructive) 8%, var(--card));
   color: var(--foreground);
   font-size: 13px;
 }

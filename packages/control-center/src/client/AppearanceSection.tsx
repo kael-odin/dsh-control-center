@@ -10,7 +10,7 @@ import type { IApiClient } from '@deepseek-ai/dsh-client-connection/client'
 import type { LocaleRuntime, LocaleSnapshot } from '@deepseek-ai/dsh-client-locale/client'
 import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
 import {
-  applyThemeOverrides, clampMessageFontSize, hasLegacyThemeOverrides, loadThemeOverrides, markThemeOverridesMigrated, THEME_COLOR_PRESETS, APPEARANCE_SETTINGS_NAMESPACE, type ThemeOverrides,
+  applyThemeOverrides, clampMessageFontSize, DEFAULT_THEME_OVERRIDES, hasLegacyThemeOverrides, loadThemeOverrides, markThemeOverridesMigrated, THEME_COLOR_PRESETS, APPEARANCE_SETTINGS_NAMESPACE, type ThemeOverrides,
 } from './theme-overrides.ts'
 import { isDesktopEnv } from './desktop-capabilities.ts'
 import type {} from '../desktop-types.ts'
@@ -221,11 +221,11 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
       }
       const stored = namespace.value as Partial<ThemeOverrides> & { desktopZoom?: unknown }
       const storedZoom = typeof stored.desktopZoom === 'number' && stored.desktopZoom >= 0.5 && stored.desktopZoom <= 2 ? stored.desktopZoom : 1
-      const hasStoredValues = typeof stored.colorPrimary === 'string' && stored.colorPrimary !== '#00b96b'
+      const hasStoredValues = typeof stored.colorPrimary === 'string' && stored.colorPrimary !== DEFAULT_THEME_OVERRIDES.colorPrimary
         || stored.fontFamily !== '' || stored.codeFontFamily !== '' || stored.customCss !== ''
       const legacy = loadThemeOverrides()
       const next = !hasStoredValues && hasLegacyThemeOverrides() ? legacy : {
-        colorPrimary: typeof stored.colorPrimary === 'string' ? stored.colorPrimary : '#00b96b',
+        colorPrimary: typeof stored.colorPrimary === 'string' ? stored.colorPrimary : DEFAULT_THEME_OVERRIDES.colorPrimary,
         fontFamily: typeof stored.fontFamily === 'string' ? stored.fontFamily : '',
         codeFontFamily: typeof stored.codeFontFamily === 'string' ? stored.codeFontFamily : '',
         customCss: typeof stored.customCss === 'string' ? stored.customCss : '',

@@ -135,8 +135,8 @@
   font-family: inherit;
   font-size: 14px;
   cursor: pointer;
-  background: #059669;
-  color: #fff;
+  background: var(--primary);
+  color: var(--primary-foreground);
 }
 
 .translateBtn:hover:not(:disabled) {
@@ -626,12 +626,12 @@
 }
 
 .starBtn.on {
-  color: #f59e0b;
+  color: var(--warning);
 }
 
 .starFill {
-  fill: #f59e0b;
-  color: #f59e0b;
+  fill: var(--warning);
+  color: var(--warning);
 }
 
 /* History detail view */
@@ -1318,4 +1318,14 @@
 
 .smallIconBtnEmpty:hover {
   opacity: 1;
+}
+
+/* History detail container — the pane .detailBack / .detailMeta / .detailBlock
+   live in. */
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+  overflow-y: auto;
 }

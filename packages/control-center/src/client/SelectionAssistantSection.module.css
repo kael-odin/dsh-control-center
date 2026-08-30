@@ -432,3 +432,10 @@
   color: var(--muted-foreground);
   font-size: 13px;
 }
+
+/* Action label beside .toolbarIcon; hidden in compact mode by the component. */
+.toolbarText {
+  font-size: 12px;
+  color: var(--foreground);
+  white-space: nowrap;
+}

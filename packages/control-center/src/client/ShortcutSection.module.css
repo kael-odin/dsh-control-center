@@ -291,3 +291,10 @@
   color: var(--muted-foreground);
   font-size: 14px;
 }
+
+/* Leading glyph in the filter button. */
+.filterIcon {
+  font-size: 12px;
+  line-height: 1;
+  color: var(--muted-foreground);
+}

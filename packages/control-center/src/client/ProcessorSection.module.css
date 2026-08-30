@@ -262,7 +262,7 @@
 
 .status_unavailable,
 .status_unsupported-platform {
-  border-color: var(--danger-border, var(--border-subtle));
+  border-color: var(--error-border);
   background: color-mix(in srgb, var(--destructive) 9%, transparent);
   color: var(--destructive);
 }
@@ -380,4 +380,18 @@
   .providerHead {
     flex-direction: column;
   }
+}
+
+/* API-key slot status text: configured reads as success, missing stays quiet
+   rather than alarming — an unconfigured optional slot is not an error. */
+.keyConfigured {
+  flex: none;
+  font-size: 12px;
+  color: var(--success);
+}
+
+.keyMissing {
+  flex: none;
+  font-size: 12px;
+  color: var(--foreground-tertiary);
 }

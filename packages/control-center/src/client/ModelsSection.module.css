@@ -333,6 +333,131 @@
   cursor: not-allowed;
 }
 
+/* Commit half of EditorFooter. Mirrors .cc-btn-primary so every provider card's
+   save button reads as the brand action; without it EditorFooter resolved
+   `styles['primaryButton']` to undefined and rendered a bare UA button. */
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.primaryButton:hover:not(:disabled) {
+  background: var(--cs-brand-600);
+}
+
+.primaryButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------------ */
+/* Provider editor cards                                               */
+/*                                                                     */
+/* Ported from DSH upstream (packages/client/ui-settings-models/src/    */
+/* client/ModelsSection.module.css) — ProviderEditor / CustomProvider-  */
+/* Card / EditorFooter / ModelListEditor / ModelHealthDialog were       */
+/* carried over without these rules, so every class below resolved to   */
+/* undefined and the elements rendered unstyled. Upstream's             */
+/* --dsw-alias-* tokens are mapped onto the Cherry contract this        */
+/* surface speaks.                                                     */
+/* ------------------------------------------------------------------ */
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--muted) 30%, transparent);
+}
+
+.editorHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.editorTitle {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.editorRoute {
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--foreground-tertiary);
+}
+
+.editorActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.customized {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 10px;
+}
+
+.customizedSummary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  padding: 2px 4px;
+  margin-left: -4px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  list-style: none;
+}
+
+.customizedSummary::-webkit-details-marker {
+  display: none;
+}
+
+.customizedSummary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--ring) 35%, transparent);
+}
+
+.customizedBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 12px;
+}
+
+.fetchDialog {
+  max-width: 520px;
+
+  /* The candidate list scrolls inside this elevated surface, so the scrollbar
+     indirection is rebound here rather than on the scrolling child (see
+     SettingsRoot.module.css for the same contract). */
+  --dsh-scrollbar-thumb: var(--dsw-alias-scrollbar-bg-l2);
+  --dsh-scrollbar-thumb-hover: var(--dsw-alias-scrollbar-hover-l2);
+}
+
+.candidate {
+  border-radius: 6px;
+}
+
 .dangerButton {
   display: inline-flex;
   align-items: center;

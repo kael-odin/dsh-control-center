@@ -22,13 +22,13 @@
 }
 
 .errorTitle {
-  color: var(--cc-text-primary);
+  color: var(--foreground);
   font-size: 14px;
   font-weight: 600;
 }
 
 .errorDescription {
-  color: var(--cc-text-secondary);
+  color: var(--muted-foreground);
   font-size: 12px;
   margin-top: 6px;
   white-space: pre-wrap;

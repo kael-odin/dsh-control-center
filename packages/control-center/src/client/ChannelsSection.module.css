@@ -442,3 +442,12 @@
   font-size: 12px;
   color: var(--foreground-tertiary);
 }
+
+/* Scroll pass-through between .detail (the flex/scroll column) and .detailBody
+   (which centres itself with flex:1 + margin auto). Without a flex context here
+   the body cannot grow or centre. */
+.detailScroll {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+}

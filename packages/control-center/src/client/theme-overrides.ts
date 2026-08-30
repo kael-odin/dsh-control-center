@@ -31,7 +31,7 @@ export interface ThemeOverrides {
 }
 
 export const DEFAULT_THEME_OVERRIDES: ThemeOverrides = {
-  colorPrimary: '#00b96b',
+  colorPrimary: '#8B5CF6',
   fontFamily: '',
   codeFontFamily: '',
   customCss: '',
@@ -52,6 +52,27 @@ export function clampMessageFontSize(value: unknown): number {
 }
 
 export const THEME_COLOR_PRESETS: readonly string[] = ['#00b96b', '#EF4444', '#F59E0B', '#3B82F6', '#8B5CF6']
+
+/**
+ * Pick black or white for text sitting on `hex`, mirroring Cherry's
+ * `getForegroundColor` (src/renderer/utils/style.ts): WCAG 2.0 relative
+ * luminance with Cherry's 0.179 threshold.
+ *
+ * The token layer cannot do this — `--primary-foreground` is a fixed value per
+ * theme, so a user-chosen light primary (amber, or Cherry's own default green)
+ * ends up with near-white text at ~2.6:1 contrast. Deriving it here keeps every
+ * `.cc-btn-primary` / `var(--primary-foreground)` seat legible for any colour
+ * the user picks.
+ */
+export function getForegroundColor(hex: string): string {
+  const normalized = hex.trim().replace(/^#/, '')
+  const full = normalized.length === 3 ? normalized.replace(/./g, char => char + char) : normalized
+  if (!/^[0-9a-fA-F]{6}$/.test(full)) return '#FFFFFF'
+  const channel = (offset: number): number => parseInt(full.slice(offset, offset + 2), 16) / 255
+  const normalize = (value: number): number => (value <= 0.03928 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4))
+  const luminance = 0.2126 * normalize(channel(0)) + 0.7152 * normalize(channel(2)) + 0.0722 * normalize(channel(4))
+  return luminance > 0.179 ? '#000000' : '#FFFFFF'
+}
 
 export function loadThemeOverrides(): ThemeOverrides {
   try {
@@ -94,7 +115,23 @@ export function saveThemeOverrides(overrides: ThemeOverrides): void {
 /** Inject (or refresh) the override style element. */
 export function applyThemeOverrides(overrides: ThemeOverrides): void {
   const css: string[] = []
-  css.push(`.cc-surface { --cs-brand-500: ${overrides.colorPrimary}; --cs-brand-600: color-mix(in srgb, ${overrides.colorPrimary} 88%, #000); --primary: ${overrides.colorPrimary}; }`)
+  // Drive the brand ramp, the on-primary text colour and the focus ring from
+  // the one colour the user picked. `--cs-primary-foreground` has to move with
+  // it (Cherry derives the same value in useUserTheme), and `--cs-ring` is
+  // re-stated so the dark theme stops falling back to its hardcoded green.
+  const onPrimary = getForegroundColor(overrides.colorPrimary)
+  const themed = `--cs-brand-500: ${overrides.colorPrimary};`
+    + ` --cs-brand-600: color-mix(in srgb, ${overrides.colorPrimary} 88%, #000);`
+    + ` --primary: ${overrides.colorPrimary};`
+    + ` --cs-primary-foreground: ${onPrimary};`
+    + ` --primary-foreground: ${onPrimary};`
+    + ` --cs-ring: color-mix(in srgb, ${overrides.colorPrimary} 40%, transparent);`
+  css.push(`.cc-surface { ${themed} }`)
+  // The dark block in cherry-tokens.css is `body[data-ds-dark-theme]
+  // .cc-surface` — higher specificity than a bare `.cc-surface` — and it
+  // re-declares both `--cs-primary-foreground` and `--cs-ring`. Restate the
+  // themed values at matching specificity or they silently lose in dark mode.
+  css.push(`body[data-ds-dark-theme] .cc-surface { ${themed} }`)
   if (overrides.fontFamily !== '') {
     css.push(`.cc-surface { font-family: ${overrides.fontFamily}, var(--cs-font-family-body), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif; }`)
   }

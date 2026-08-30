@@ -116,3 +116,10 @@
 .capabilityNoticeText {
   flex: 1;
 }
+
+/* Menu column inside .sidebar; .sidebar owns the scrolling. */
+.sidebarList {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
