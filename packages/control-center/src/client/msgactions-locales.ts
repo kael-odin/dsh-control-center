@@ -19,6 +19,9 @@ interface MsgActionsDict {
   translating: string
   translationLabel: string
   close: string
+  moreMenu: string
+  copyText: string
+  exportMarkdown: string
 }
 
 export const msgActionsZh: MsgActionsDict = {
@@ -38,6 +41,9 @@ export const msgActionsZh: MsgActionsDict = {
   translating: '翻译中…',
   translationLabel: '译文',
   close: '收起译文',
+  moreMenu: '更多操作',
+  copyText: '复制原文',
+  exportMarkdown: '导出 Markdown',
 }
 
 export const msgActionsEn: MsgActionsDict = {
@@ -57,4 +63,7 @@ export const msgActionsEn: MsgActionsDict = {
   translating: 'Translating…',
   translationLabel: 'Translation',
   close: 'Hide translation',
+  moreMenu: 'More actions',
+  copyText: 'Copy raw text',
+  exportMarkdown: 'Export Markdown',
 }

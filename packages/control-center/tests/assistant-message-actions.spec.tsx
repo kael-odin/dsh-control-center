@@ -198,3 +198,54 @@ describe('AssistantMessageActions translate flow', () => {
     })
   })
 })
+
+describe('more-menu actions (registry-driven)', () => {
+  beforeEach(() => {
+    vi.restoreAllMocks()
+  })
+  afterEach(() => { cleanup() })
+
+  it('copies the raw text through the registry', async () => {
+    const writeText = vi.fn(async () => undefined)
+    vi.stubGlobal('navigator', { clipboard: { writeText } })
+    const { props } = makeProps()
+    render(<AssistantMessageActions {...props} />)
+    fireEvent.click(screen.getByLabelText('moreMenu'))
+    fireEvent.click(await screen.findByRole('menuitem', { name: 'copyText' }))
+    await waitFor(() => {
+      expect(writeText).toHaveBeenCalledWith('AGENT TEXT')
+    })
+  })
+
+  it('downloads a markdown export named from the session title', async () => {
+    const urls: string[] = []
+    vi.stubGlobal('URL', { createObjectURL: vi.fn(() => 'blob:x'), revokeObjectURL: vi.fn() })
+    const originalCreate = document.createElement.bind(document)
+    vi.spyOn(document, 'createElement').mockImplementation(((tag: string) => {
+      if (tag === 'a') {
+        urls.push('anchor')
+        const anchor = originalCreate('a')
+        return anchor
+      }
+      return originalCreate(tag)
+    }) as never)
+    const { props } = makeProps({ title: '导出会话' })
+    render(<AssistantMessageActions {...props} />)
+    fireEvent.click(screen.getByLabelText('moreMenu'))
+    fireEvent.click(await screen.findByRole('menuitem', { name: 'exportMarkdown' }))
+    await waitFor(() => {
+      expect(urls).toHaveLength(1)
+    })
+    vi.restoreAllMocks()
+  })
+
+  it('renders the export group behind a separator', async () => {
+    const { props } = makeProps()
+    render(<AssistantMessageActions {...props} />)
+    fireEvent.click(screen.getByLabelText('moreMenu'))
+    const menu = await screen.findByRole('menu')
+    expect(screen.getByRole('menuitem', { name: 'copyText' })).toBeTruthy()
+    expect(screen.getByRole('menuitem', { name: 'exportMarkdown' })).toBeTruthy()
+    expect(menu.querySelectorAll('[role="separator"]')).toHaveLength(1)
+  })
+})
