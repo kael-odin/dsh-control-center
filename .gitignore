@@ -27,3 +27,7 @@ shots/
 .reasonix/
 .playwright-mcp/
 graphify-out/
+
+# Build output is not tracked; pack:check audits artifacts in CI, not git.
+packages/bundle/lib/
+packages/control-center/lib/
