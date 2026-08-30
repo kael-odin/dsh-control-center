@@ -32,7 +32,11 @@ import type { NotesWorkspaceInjected } from './NotesWorkspace.tsx'
 // and ui-session's standard props augmentation into this program.
 import type {} from '@deepseek-ai/dsh-client-ui-chat/client'
 import type {} from '@deepseek-ai/dsh-client-ui-session/client'
+// Type-only: pulls ui-conversation's session-standard augmentation
+// (useInput/inputActions) and the composer input slots into this program.
+import type {} from '@deepseek-ai/dsh-client-ui-conversation/client'
 import { AssistantMessageActions, type AssistantMessageActionsServices } from './AssistantMessageActions.tsx'
+import { QuickPhrasesButton, type ComposerSettingsFace } from './QuickPhrasesButton.tsx'
 import { msgActionsZh, msgActionsEn, type MsgActionsKey } from './msgactions-locales.ts'
 import type {} from '../skills-types.ts'
 import skillsRemote from '../skills-remote-client.ts'
@@ -616,6 +620,17 @@ export function apply(ctx: ClientContext): void {
     },
     readAssistantText,
   })
+  // 快捷短语: Cherry composer parity, first increment — an ⚡ entry in the
+  // composer's right zone listing user phrases (control-center-composer
+  // namespace) that append to the draft through inputActions.setDraft.
+  ctx.slots.inject('conversation.input.right', () => ctx.slots.register({
+    name: 'conversation.input.right',
+    id: 'control-center.quick-phrases',
+    locale: MSGACTIONS_NS,
+    inject: () => ({
+      settings: ctx.remote.settings as unknown as ComposerSettingsFace,
+    }),
+  }, QuickPhrasesButton))
   ctx.slots.inject('conversation.chat.assistant-actions', () => ctx.slots.register({
     name: 'conversation.chat.assistant-actions',
     id: 'control-center.message-actions',

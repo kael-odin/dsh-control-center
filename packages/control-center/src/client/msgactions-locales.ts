@@ -22,6 +22,12 @@ interface MsgActionsDict {
   moreMenu: string
   copyText: string
   exportMarkdown: string
+  quickPhrases: string
+  noPhrases: string
+  addPhrase: string
+  phraseLabel: string
+  phraseText: string
+  deletePhrase: string
 }
 
 export const msgActionsZh: MsgActionsDict = {
@@ -44,6 +50,12 @@ export const msgActionsZh: MsgActionsDict = {
   moreMenu: '更多操作',
   copyText: '复制原文',
   exportMarkdown: '导出 Markdown',
+  quickPhrases: '快捷短语',
+  noPhrases: '还没有短语，在下方添加',
+  addPhrase: '添加短语',
+  phraseLabel: '名称',
+  phraseText: '内容',
+  deletePhrase: '删除短语',
 }
 
 export const msgActionsEn: MsgActionsDict = {
@@ -66,4 +78,10 @@ export const msgActionsEn: MsgActionsDict = {
   moreMenu: 'More actions',
   copyText: 'Copy raw text',
   exportMarkdown: 'Export Markdown',
+  quickPhrases: 'Quick phrases',
+  noPhrases: 'No phrases yet — add one below',
+  addPhrase: 'Add phrase',
+  phraseLabel: 'Name',
+  phraseText: 'Content',
+  deletePhrase: 'Delete phrase',
 }

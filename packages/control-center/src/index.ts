@@ -75,6 +75,16 @@ export const MODEL_PREFS_NAMESPACE_SETTINGS = settingsNamespace('control-center-
 const API_KEYS_NAMESPACE_SETTINGS = settingsNamespace('control-center-api-keys')
 /** Desktop general settings (launch, tray, proxy) — Cherry GeneralSettings parity. */
 const GENERAL_NAMESPACE_SETTINGS = settingsNamespace('control-center-general')
+const COMPOSER_NAMESPACE_SETTINGS = settingsNamespace('control-center-composer')
+
+const COMPOSER_PHRASE_SCHEMA = z.object({
+  label: z.string(),
+  text: z.string(),
+})
+
+const COMPOSER_SCHEMA = z.object({
+  phrases: z.array(COMPOSER_PHRASE_SCHEMA).default([]),
+})
 const GENERAL_SCHEMA = z.object({
   launchOnBoot: z.boolean().default(false),
   trayEnabled: z.boolean().default(true),
@@ -257,6 +267,10 @@ export function apply(ctx: Context): void {
   ctx.settings.register(
     MODEL_PREFS_NAMESPACE_SETTINGS,
     MODEL_PREFS_SCHEMA,
+  )
+  ctx.settings.register(
+    COMPOSER_NAMESPACE_SETTINGS,
+    COMPOSER_SCHEMA,
   )
   ctx.settings.register(
     API_KEYS_NAMESPACE_SETTINGS,

@@ -1,0 +1,136 @@
+.anchor {
+  position: relative;
+  display: inline-flex;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 5px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  opacity: 0.72;
+  transition: opacity 120ms ease, background-color 120ms ease;
+}
+
+.button:hover,
+.button:focus-visible {
+  opacity: 1;
+  background: var(--cs-secondary-hover, rgba(127, 127, 127, 0.16));
+  outline: none;
+}
+
+.menu {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  min-width: 230px;
+  max-height: 300px;
+  overflow: auto;
+  padding: 6px;
+  border: 1px solid var(--cs-border, rgba(127, 127, 127, 0.24));
+  border-radius: 10px;
+  background: var(--cs-card, #fff);
+  color: var(--cs-card-foreground, inherit);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+}
+
+.menuTitle {
+  padding: 2px 6px 6px;
+  color: var(--cs-neutral-500, inherit);
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.error {
+  padding: 4px 6px;
+  color: var(--cs-error, #dc2626);
+  font-size: 11px;
+}
+
+.phraseRow {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.phraseItem {
+  flex: 1;
+  overflow: hidden;
+  padding: 6px 8px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font-size: 12px;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.phraseItem:hover,
+.phraseItem:focus-visible {
+  background: var(--cs-secondary-hover, rgba(127, 127, 127, 0.16));
+  outline: none;
+}
+
+.phraseDelete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.phraseDelete:hover {
+  color: var(--cs-destructive, #dc2626);
+  opacity: 1;
+}
+
+.addRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--cs-border-subtle, rgba(127, 127, 127, 0.2));
+}
+
+.input {
+  padding: 5px 8px;
+  border: 1px solid var(--cs-border, rgba(127, 127, 127, 0.24));
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font-size: 12px;
+}
+
+.addButton {
+  align-self: flex-end;
+  width: 24px;
+  height: 22px;
+  border: none;
+  border-radius: 6px;
+  background: var(--cs-primary, currentColor);
+  color: var(--cs-primary-foreground, #fff);
+  font-size: 13px;
+  cursor: pointer;
+}
