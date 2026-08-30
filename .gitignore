@@ -37,3 +37,4 @@ packages/control-center/lib/
 .verdaccio-token
 .htpasswd
 .verdaccio.log
+htpasswd
