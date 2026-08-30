@@ -28,6 +28,12 @@ import { KnowledgeWorkspace } from './KnowledgeWorkspace.tsx'
 import type { KnowledgeWorkspaceInjected } from './KnowledgeWorkspace.tsx'
 import { NotesWorkspace } from './NotesWorkspace.tsx'
 import type { NotesWorkspaceInjected } from './NotesWorkspace.tsx'
+// Type-only: pulls ui-chat's SlotMap merge ('conversation.chat.assistant-actions')
+// and ui-session's standard props augmentation into this program.
+import type {} from '@deepseek-ai/dsh-client-ui-chat/client'
+import type {} from '@deepseek-ai/dsh-client-ui-session/client'
+import { AssistantMessageActions, type AssistantMessageActionsServices } from './AssistantMessageActions.tsx'
+import { msgActionsZh, msgActionsEn, type MsgActionsKey } from './msgactions-locales.ts'
 import type {} from '../skills-types.ts'
 import skillsRemote from '../skills-remote-client.ts'
 import { SkillsSection } from './SkillsSection.tsx'
@@ -127,6 +133,7 @@ export type { ModelSelectionState } from './ModelSelectionPanel.tsx'
 
 const SHELL_NS = 'control-center'
 const MODELS_NS = 'control-center.models'
+const MSGACTIONS_NS = 'control-center.msgactions'
 const WEBSEARCH_NS = 'control-center.websearch'
 const KNOWN_NATIVE = new Set(['general', 'agent-presets', 'plugins'])
 
@@ -149,6 +156,7 @@ declare module '@deepseek-ai/dsh-client-ui-slots' {
     'control-center': SettingsKey
     'control-center.models': ModelsKey
     'control-center.websearch': WebSearchKey
+    'control-center.msgactions': MsgActionsKey
   }
 }
 
@@ -264,6 +272,7 @@ export function apply(ctx: ClientContext): void {
   ctx.effect(() => ctx.locale.register(SHELL_NS, { zh: shellZh, en: shellEn }), 'control-center: shell dictionaries')
   ctx.effect(() => ctx.locale.register(MODELS_NS, { zh: modelsZh, en: modelsEn }), 'control-center: model dictionaries')
   ctx.effect(() => ctx.locale.register(WEBSEARCH_NS, { zh: websearchZh, en: websearchEn }), 'control-center: web search dictionaries')
+  ctx.effect(() => ctx.locale.register(MSGACTIONS_NS, { zh: msgActionsZh, en: msgActionsEn }), 'control-center: msgactions dictionaries')
   const shellT = ctx.locale.bind(SHELL_NS)
   const modelT = ctx.locale.bind(MODELS_NS) as ModelsSectionInjected['t']
   const websearchT = ctx.locale.bind(WEBSEARCH_NS) as (key: WebSearchKey) => string
@@ -546,6 +555,53 @@ export function apply(ctx: ClientContext): void {
     }
   }
 
+  // Cherry parity: 存为笔记 / 存入知识库 actions on each finalized assistant
+  // message (Phase 1.1). The text comes from one follow-shot over the session's
+  // opening window; the newest assistant message is the row's own message.
+  const readAssistantText = async (sessionId: SessionId): Promise<string | undefined> => {
+    const controller = new AbortController()
+    try {
+      for await (const frame of ctx.remote.session.follow(
+        { address: { kind: 'session', sessionId }, maxMessages: 8 },
+        controller.signal,
+      )) {
+        if (frame.type !== 'snapshot') continue
+        for (let index = frame.records.length - 1; index >= 0; index--) {
+          const record = frame.records[index]
+          if (record === undefined || record.type !== 'event' || record.event.type !== 'assistant/message') continue
+          const blocks = (record.event.data as { message?: { content?: unknown } }).message?.content
+          if (!Array.isArray(blocks)) continue
+          const text = blocks
+            .map(block => typeof block === 'object' && block !== null && (block as { type?: unknown }).type === 'text'
+              && typeof (block as { text?: unknown }).text === 'string'
+              ? (block as { text: string }).text
+              : '')
+            .join('\n\n')
+            .trim()
+          if (text.length > 0) return text
+        }
+        return undefined
+      }
+      return undefined
+    } catch {
+      return undefined
+    } finally {
+      controller.abort()
+    }
+  }
+  const msgActionsServices = (): AssistantMessageActionsServices => ({
+    // Same lazy resolution the notes workspace uses: the namespace is addressable
+    // once the Remote registry mounts; the actions only call it on click.
+    getNotes: () => ctx.get('remote.controlCenterNotes') as unknown as ReturnType<AssistantMessageActionsServices['getNotes']>,
+    getKnowledge: () => ctx.get('remote.controlCenterKnowledge') as unknown as ReturnType<AssistantMessageActionsServices['getKnowledge']>,
+    readAssistantText,
+  })
+  ctx.slots.inject('conversation.chat.assistant-actions', () => ctx.slots.register({
+    name: 'conversation.chat.assistant-actions',
+    id: 'control-center.message-actions',
+    locale: MSGACTIONS_NS,
+    inject: msgActionsServices,
+  }, AssistantMessageActions))
   ctx.slots.inject('sidebar.settings', () => ctx.slots.register({
     name: 'sidebar.settings',
     children: {

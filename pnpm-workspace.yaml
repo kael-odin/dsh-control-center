@@ -248,6 +248,8 @@ minimumReleaseAgeExclude:
   - '@deepseek-ai/dsh-util-crypto@0.1.2'
   - '@deepseek-ai/dsh-util-workspace-path@0.1.2'
   - '@deepseek-ai/schemastery@0.1.2'
+  - '@deepseek-ai/dsh-client-ui-approval@0.1.2'
+  - '@deepseek-ai/dsh-client-ui-chat@0.1.2'
 
 # 0.1.2 baseline migration: force every DSH contract package to the same
 # release (vendored locally, see vendor/dsh-0.1.2/MANIFEST.md) so TypeScript
