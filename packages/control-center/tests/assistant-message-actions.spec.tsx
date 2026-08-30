@@ -19,10 +19,12 @@ function makeProps(overrides: {
   const listBases = vi.fn(async () => ({ ok: true as const, value: [{ id: 'kb-1', name: '工程笔记' }] }))
   const addText = vi.fn(async () => ({ ok: true as const, value: {} }))
   const readAssistantText = vi.fn(async () => 'AGENT TEXT')
+  const resolveTranslationRoute = vi.fn(async () => ({ provider: 'acme', model: 'tr-1' }))
   const services: AssistantMessageActionsServices = {
     getNotes: () => ({ write }),
     getKnowledge: () => ({ listBases, addText }),
     readAssistantText,
+    resolveTranslationRoute,
     ...overrides.services,
   }
   return {
@@ -38,6 +40,7 @@ function makeProps(overrides: {
     listBases,
     addText,
     readAssistantText,
+    resolveTranslationRoute,
   }
 }
 
@@ -121,5 +124,77 @@ describe('AssistantMessageActions slot entry', () => {
     render(<AssistantMessageActions {...props} />)
     fireEvent.click(screen.getByLabelText('saveKnowledge'))
     expect(await screen.findByTitle(/noBases/)).toBeTruthy()
+  })
+})
+
+describe('AssistantMessageActions translate flow', () => {
+  beforeEach(() => {
+    vi.restoreAllMocks()
+  })
+  afterEach(() => { cleanup() })
+
+  it('translates English text to zh-CN through the job lifecycle', async () => {
+    let polls = 0
+    const start = vi.fn((request: { targetLanguage: string }) => {
+      expect(request.targetLanguage).toBe('zh-CN')
+      expect(request.selection).toEqual({ provider: 'acme', model: 'tr-1' })
+      return { jobId: 'job-1' }
+    })
+    const get = vi.fn(() => {
+      polls++
+      return polls >= 2
+        ? { status: 'completed' as const, output: '你好，代理', failure: undefined }
+        : { status: 'running' as const, output: '你好', failure: undefined }
+    })
+    const { props, resolveTranslationRoute } = makeProps({
+      services: {
+        getTranslation: () => ({ start, get }),
+      },
+    })
+
+    render(<AssistantMessageActions {...props} />)
+    fireEvent.click(screen.getByLabelText('translate'))
+    await waitFor(() => {
+      expect(screen.getByLabelText('translationLabel').textContent).toContain('你好，代理')
+    })
+    expect(resolveTranslationRoute).toHaveBeenCalledOnce()
+  })
+
+  it('targets English for CJK-open text', async () => {
+    const readAssistantText = vi.fn(async () => '这是一段中文回复')
+    const start = vi.fn((request: { targetLanguage: string }) => {
+      expect(request.targetLanguage).toBe('en')
+      return { jobId: 'job-2' }
+    })
+    const { props } = makeProps({
+      services: {
+        readAssistantText,
+        getTranslation: () => ({
+          start,
+          get: vi.fn(() => ({ status: 'completed' as const, output: 'This is an agent reply', failure: undefined })),
+        }),
+      },
+    })
+    render(<AssistantMessageActions {...props} />)
+    fireEvent.click(screen.getByLabelText('translate'))
+    await waitFor(() => {
+      expect(screen.getByLabelText('translationLabel').textContent).toContain('This is an agent reply')
+    })
+  })
+
+  it('surfaces a failed job honestly', async () => {
+    const { props } = makeProps({
+      services: {
+        getTranslation: () => ({
+          start: vi.fn(() => ({ jobId: 'job-3' })),
+          get: vi.fn(() => ({ status: 'error' as const, output: '', failure: { message: 'route down' } })),
+        }),
+      },
+    })
+    render(<AssistantMessageActions {...props} />)
+    fireEvent.click(screen.getByLabelText('translate'))
+    await waitFor(() => {
+      expect(screen.getByLabelText('translationLabel').textContent).toContain('failed: route down')
+    })
   })
 })

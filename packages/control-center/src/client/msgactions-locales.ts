@@ -14,6 +14,11 @@ interface MsgActionsDict {
   messageFallback: string
   saving: string
   failed: string
+  translate: string
+  noTranslateRoute: string
+  translating: string
+  translationLabel: string
+  close: string
 }
 
 export const msgActionsZh: MsgActionsDict = {
@@ -28,6 +33,11 @@ export const msgActionsZh: MsgActionsDict = {
   messageFallback: '消息笔记',
   saving: '保存中…',
   failed: '失败',
+  translate: '翻译',
+  noTranslateRoute: '未配置翻译模型',
+  translating: '翻译中…',
+  translationLabel: '译文',
+  close: '收起译文',
 }
 
 export const msgActionsEn: MsgActionsDict = {
@@ -42,4 +52,9 @@ export const msgActionsEn: MsgActionsDict = {
   messageFallback: 'Message note',
   saving: 'Saving…',
   failed: 'Failed',
+  translate: 'Translate',
+  noTranslateRoute: 'No translation model configured',
+  translating: 'Translating…',
+  translationLabel: 'Translation',
+  close: 'Hide translation',
 }

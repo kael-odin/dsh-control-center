@@ -85,3 +85,23 @@
   background: var(--cs-secondary-hover, rgba(127, 127, 127, 0.16));
   outline: none;
 }
+
+.translation {
+  position: absolute;
+  top: 26px;
+  right: 0;
+  z-index: 29;
+  display: block;
+  width: min(520px, 72vw);
+  max-height: 260px;
+  overflow: auto;
+  padding: 10px 12px;
+  border: 1px solid var(--cs-border, rgba(127, 127, 127, 0.24));
+  border-radius: 10px;
+  background: var(--cs-card, #fff);
+  color: var(--cs-card-foreground, inherit);
+  font-size: 12px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+}

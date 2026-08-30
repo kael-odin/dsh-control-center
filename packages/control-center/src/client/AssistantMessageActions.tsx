@@ -9,7 +9,7 @@
  * session's opening history window — the same placement rule the shipped
  * MessageIconActions row uses for its copy text.
  */
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { PropsLocale, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import type { SessionSelectModelRequest } from '@deepseek-ai/dsh-api-session-controller'
 import css from './AssistantMessageActions.module.css'
@@ -28,6 +28,18 @@ export interface AssistantMessageActionsServices {
   }
   /** Newest assistant text in the session's opening window, from one follow shot. */
   readAssistantText: (sessionId: SessionId) => Promise<string | undefined>
+  /** Translation job face (translation.start/get), lazy-resolved. */
+  getTranslation: () => {
+    start(request: { sourceLanguage: string; targetLanguage: string; text: string; selection: { provider: string; model: string } }): { jobId: string }
+    get(jobId: string): { status: 'running' | 'completed' | 'cancelled' | 'error'; output: string; failure?: { message?: string } }
+  }
+  /** Translation model route: model-prefs translation route, agent-default fallback. */
+  resolveTranslationRoute: () => Promise<{ provider: string; model: string }>
+}
+
+/** Cheap local CJK-open detection: no model round trip for language picking. */
+function looksChinese(text: string): boolean {
+  return /^[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(text.trim())
 }
 
 /** Normalize a wire failure (string or {code,message,details}) to display text. */
@@ -42,6 +54,11 @@ export function errorText(error: unknown): string {
 
 type ActionKey = 'notes' | 'knowledge'
 type ActionStatus = 'idle' | 'saving' | 'ok' | { error: string }
+
+interface TranslationState {
+  phase: 'idle' | 'running' | 'done'
+  text: string
+}
 
 export type AssistantMessageActionsProps =
   PropsRuntime<'conversation.chat.assistant-actions'>
@@ -59,8 +76,16 @@ export function AssistantMessageActions(props: AssistantMessageActionsProps) {
   const [bases, setBases] = useState<ReadonlyArray<{ id: string; name?: string }>>([])
   const [pickerOpen, setPickerOpen] = useState(false)
   const [cachedText, setCachedText] = useState<string | null>(null)
+  const [translation, setTranslation] = useState<TranslationState>({ phase: 'idle', text: '' })
+  const [translationOpen, setTranslationOpen] = useState(false)
+  const mountedRef = useRef(true)
+  useEffect(() => {
+    mountedRef.current = true
+    return () => { mountedRef.current = false }
+  }, [])
 
   const title = props.useSessions(state => state.byId[props.sessionId]?.displayTitle)
+
 
   const setStatusFor = useCallback((key: ActionKey, next: ActionStatus) => {
     setStatus(previous => ({ ...previous, [key]: next }))
@@ -77,6 +102,50 @@ export function AssistantMessageActions(props: AssistantMessageActionsProps) {
     if (text !== undefined && text.length > 0) setCachedText(text)
     return text
   }, [cachedText, props.sessionId, props.readAssistantText])
+  const translate = useCallback(async () => {
+    if (translation.phase === 'done') {
+      setTranslationOpen(open => !open)
+      return
+    }
+    setTranslation({ phase: 'running', text: '' })
+    setTranslationOpen(true)
+    try {
+      const text = await loadText()
+      if (text === undefined || text.length === 0) {
+        setTranslation({ phase: 'done', text: props.t('noText') })
+        return
+      }
+      const route = await props.resolveTranslationRoute()
+      const { jobId } = props.getTranslation().start({
+        sourceLanguage: 'auto',
+        targetLanguage: looksChinese(text) ? 'en' : 'zh-CN',
+        text,
+        selection: { provider: route.provider, model: route.model },
+      })
+      // Poll the in-process job; the mountedRef guard stops the loop on unmount.
+      for (;;) {
+        await new Promise(resolve => setTimeout(resolve, 400))
+        if (!mountedRef.current) return
+        const view = props.getTranslation().get(jobId)
+        if (view.status === 'completed') {
+          setTranslation({ phase: 'done', text: view.output })
+          return
+        }
+        if (view.status === 'error') {
+          setTranslation({ phase: 'done', text: `${props.t('failed')}: ${errorText(view.failure)}` })
+          return
+        }
+        if (view.status === 'cancelled') {
+          setTranslation({ phase: 'idle', text: '' })
+          setTranslationOpen(false)
+          return
+        }
+      }
+    } catch (error) {
+      if (!mountedRef.current) return
+      setTranslation({ phase: 'done', text: `${props.t('failed')}: ${error instanceof Error ? error.message : String(error)}` })
+    }
+  }, [loadText, props, translation.phase])
 
   const addToBase = useCallback(async (base: { id: string; name?: string }) => {
     setPickerOpen(false)
@@ -185,6 +254,23 @@ export function AssistantMessageActions(props: AssistantMessageActionsProps) {
       >
         {glyphFor('notes')}
       </button>
+      <span className={css.anchor}>
+        <button
+          type="button"
+          className={css.button}
+          data-status={translation.phase === 'done' && translationOpen ? 'ok' : undefined}
+          title={translation.phase === 'done' && translationOpen ? props.t('close') : props.t('translate')}
+          aria-label={translation.phase === 'done' && translationOpen ? props.t('close') : props.t('translate')}
+          onClick={() => { void translate() }}
+        >
+          {translation.phase === 'running' ? '…' : translation.phase === 'done' && translationOpen ? '✕' : '文A'}
+        </button>
+        {translation.phase !== 'idle' && translationOpen && (
+          <span className={css.translation} role="status" aria-label={props.t('translationLabel')}>
+            {translation.phase === 'running' ? props.t('translating') : translation.text}
+          </span>
+        )}
+      </span>
       <span className={css.anchor}>
         <button
           type="button"

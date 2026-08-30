@@ -276,6 +276,7 @@ export function apply(ctx: ClientContext): void {
   const shellT = ctx.locale.bind(SHELL_NS)
   const modelT = ctx.locale.bind(MODELS_NS) as ModelsSectionInjected['t']
   const websearchT = ctx.locale.bind(WEBSEARCH_NS) as (key: WebSearchKey) => string
+  const msgActionsT = ctx.locale.bind(MSGACTIONS_NS) as (key: MsgActionsKey) => string
   const connection = ctx.get('connection') as ConnectionHandle
   const settingsScope = ctx.get('settingsScope') as SettingsScopeBinder
   const settingsSchema = ctx.get('settingsSchema') as SettingsSchemaService
@@ -594,6 +595,25 @@ export function apply(ctx: ClientContext): void {
     // once the Remote registry mounts; the actions only call it on click.
     getNotes: () => ctx.get('remote.controlCenterNotes') as unknown as ReturnType<AssistantMessageActionsServices['getNotes']>,
     getKnowledge: () => ctx.get('remote.controlCenterKnowledge') as unknown as ReturnType<AssistantMessageActionsServices['getKnowledge']>,
+    getTranslation: () => ctx.get('remote.controlCenterTranslation') as unknown as ReturnType<AssistantMessageActionsServices['getTranslation']>,
+    resolveTranslationRoute: async () => {
+      // Cherry's per-purpose model prefs first (翻译模型), then the agent default.
+      const described = await ctx.remote.settings.describe()
+      if (described.ok) {
+        const prefs = described.value.namespaces.find(view => view.ns === 'control-center-model-prefs')
+        const prefsValue = prefs?.value as { translationProvider?: unknown; translationModel?: unknown } | undefined
+        let provider = typeof prefsValue?.translationProvider === 'string' ? prefsValue.translationProvider : ''
+        let model = typeof prefsValue?.translationModel === 'string' ? prefsValue.translationModel : ''
+        if (provider.length === 0 || model.length === 0) {
+          const fallback = described.value.namespaces.find(view => view.ns === 'agent-default-model')
+          const fallbackValue = fallback?.value as { provider?: unknown; model?: unknown } | undefined
+          if (provider.length === 0 && typeof fallbackValue?.provider === 'string') provider = fallbackValue.provider
+          if (model.length === 0 && typeof fallbackValue?.model === 'string') model = fallbackValue.model
+        }
+        if (provider.length > 0 && model.length > 0) return { provider, model }
+      }
+      throw new Error(msgActionsT('noTranslateRoute'))
+    },
     readAssistantText,
   })
   ctx.slots.inject('conversation.chat.assistant-actions', () => ctx.slots.register({
