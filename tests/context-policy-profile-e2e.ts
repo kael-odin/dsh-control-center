@@ -1,16 +1,15 @@
 import { randomUUID } from 'node:crypto'
 import { mkdtemp, mkdir, rm, writeFile } from 'node:fs/promises'
-import { existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { createServer } from 'node:net'
 import { spawn, type ChildProcess } from 'node:child_process'
 import { startOpenAiFixture } from './openai-fixture.ts'
+import { bundlePack } from './packs.ts'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const DSH = resolve(ROOT, '..', 'deepseek-harness')
-const PACKS = join(ROOT, '.packs')
 const CLI = join(DSH, 'apps/cli/src/bin.ts')
 const TSX = join(DSH, 'node_modules/tsx/dist/loader.mjs')
 
@@ -120,8 +119,7 @@ function includesMarker(body: unknown, marker: string): boolean {
 }
 
 async function main(): Promise<void> {
-  const bundle = join(PACKS, 'dsh-control-center-bundle-0.1.0.tgz')
-  if (!existsSync(bundle)) throw new Error('packed bundle missing; run pnpm pack:check first')
+  const bundle = bundlePack()
 
   const home = await mkdtemp(join(tmpdir(), 'dsh-control-center-context-e2e-'))
   const fixture = await startOpenAiFixture()

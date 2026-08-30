@@ -4,16 +4,15 @@
  * Run: npx tsx tests/visual-probe.ts
  */
 import { mkdtemp, writeFile, writeFile as write } from 'node:fs/promises'
-import { existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { spawn, type ChildProcess } from 'node:child_process'
 import { chromium } from 'playwright'
+import { bundlePack } from './packs.ts'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const DSH = resolve(ROOT, '..', 'deepseek-harness')
-const PACKS = join(ROOT, '.packs')
 const CLI = join(DSH, 'apps/cli/src/bin.ts')
 const SHOTS = join(ROOT, 'shots')
 
@@ -52,8 +51,7 @@ async function startHost(home: string): Promise<{ child: ChildProcess; url: stri
 }
 
 async function main(): Promise<void> {
-  const pack = join(PACKS, 'dsh-control-center-bundle-0.1.0.tgz')
-  if (!existsSync(pack)) throw new Error('packed bundle missing; run pnpm pack:check first')
+  const pack = bundlePack()
   const home = await mkdtemp(join(tmpdir(), 'dsh-visual-probe-'))
   await writeFile(join(home, '.credentials.yaml'), 'CONTROL_CENTER_E2E_API_KEY: local-fixture-key\n')
   await write(join(home, 'settings.yaml'), [

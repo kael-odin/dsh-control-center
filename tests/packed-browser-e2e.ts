@@ -1,15 +1,14 @@
 import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
-import { existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { spawn, type ChildProcess } from 'node:child_process'
 import { chromium } from 'playwright'
 import { startOpenAiFixture } from './openai-fixture.ts'
+import { bundlePack } from './packs.ts'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const DSH = resolve(ROOT, '..', 'deepseek-harness')
-const PACKS = join(ROOT, '.packs')
 const CLI = join(DSH, 'apps/cli/src/bin.ts')
 const TSX = join(DSH, 'node_modules/tsx/dist/loader.mjs')
 
@@ -71,9 +70,7 @@ async function expectPoll<T>(read: () => Promise<T>, expected: T, timeoutMs: num
 }
 
 async function main(): Promise<void> {
-  if (!existsSync(join(PACKS, 'dsh-control-center-bundle-0.1.0.tgz'))) {
-    throw new Error('packed bundle missing; run pnpm pack:check first')
-  }
+  const bundle = bundlePack()
   const home = await mkdtemp(join(tmpdir(), 'dsh-control-center-e2e-'))
   const fixture = await startOpenAiFixture()
   let host: ChildProcess | undefined
@@ -82,7 +79,7 @@ async function main(): Promise<void> {
   try {
     const env = { ...process.env, DSH_HOME: home }
     const install = await run([
-      'plugin', '--profile', 'web', 'add', join(PACKS, 'dsh-control-center-bundle-0.1.0.tgz'),
+      'plugin', '--profile', 'web', 'add', bundle,
     ], env)
     if (install.code !== 0) throw new Error(`packed install failed\n${install.output}`)
     const profile = join(home, 'profiles/web')
