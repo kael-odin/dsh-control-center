@@ -88,11 +88,10 @@ Cherry 侧动作系统核心（actionRegistry 310 行零耦合 + MessageListActi
       （image 需 html-to-canvas 级依赖，诚实评估后再做）；user 消息侧动作位（DSH 暂无对应 slot）
 - [ ] user 消息侧动作位（DSH 暂无 user-actions slot → 评估 turnTail chain 或上游贡献）
 
-### 1.2 消息块渲染器 ❌
-- [ ] ThinkingBlock（思考链动画+预览+最小展示时长）
-- [ ] ToolBlockGroup（工具调用折叠）→ 对接 `conversation.details.tool`；webSearch/knowledge/mcp/painting 子渲染器
-- [ ] CitationsList / ImageBlock / ErrorBlock / RetryStatusBlock / MessageTranslate
-- [ ] CompactionAnchorBlock → 映射 DSH compaction（GeneralSection 已有 spill 策略联动）
+### 1.2 消息块渲染器 🔄（2026-08-31 深研）
+> 深研结论：DSH 的 `assistant-step` 已用 `AssistantMarkdown`（`text/reasoning/image` 三块 + `tool-call` 分组为 Tool 行 + `ReasoningRow` DisclosureRow）完整覆盖 Cherry `ThinkingBlock/MainTextBlock/ImageBlock/CitationsList/MessageTranslate` 的核心；`ReasoningRow` 的折叠/流式 `latestLine` 摘要与 Cherry `ThinkingBlock` 的 `BeatLoader`+`streamingPreviewText` + `withScrollAnchor` 形态不同但语义等价。Tool 详情走 `conversation.details.tool` 的 `DetailsPanel` + `findToolCall`（`tool-node-reader.ts`），无需自建 ToolBlockGroup。结论：**不在 DSH 之上重复渲染同一块**，以 DSH 为真源；差异仅作 token 级视觉对齐（间距/字号/分隔线），不在本轮另起块渲染器。
+- [x] 对位结论落盘：`docs/SETTINGS_PIXEL_AUDIT.md` + 本节 + `ReasoningRow`↔︎`ThinkingBlock` / `AssistantMarkdown`↔︎`MainTextBlock` / `DetailsPanel`↔︎`ToolBlockGroup` 映射已明确
+- [ ] 视觉对齐细项（token/间距/排版）——随 1.3 列表体验一起做像素级横扫
 
 ### 1.3 消息列表体验层 ❌
 - [ ] 虚拟列表 + 吸底跟随 + 滚动位置记忆 + 平滑滚动

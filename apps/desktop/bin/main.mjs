@@ -179,16 +179,11 @@ function probeDshCli() {
 }
 
 function resolveHarnessDir() {
-  // Search order: explicit env → bundled materialized harness → dev
-  // .materialized → a dsh CLI checkout on PATH → dev-machine fallback. Each
-  // candidate must actually hold a harness CLI entry; the fallback logs loudly
-  // because it only exists on the author's machine.
   const candidates = [
     { source: 'env:DSH_HARNESS_DIR', dir: process.env.DSH_HARNESS_DIR },
     { source: 'bundled:resources/harness', dir: app.isPackaged ? join(process.resourcesPath, 'harness') : undefined },
     { source: 'dev:.materialized/harness', dir: join(app.getAppPath(), '.materialized', 'harness') },
     { source: 'dsh-cli', dir: probeDshCli()?.dir },
-    { source: 'fallback:dev-machine-path', dir: DEFAULT_HARNESS_DIR },
   ]
   for (const candidate of candidates) {
     if (candidate.dir === undefined) continue
@@ -203,9 +198,17 @@ function resolveHarnessDir() {
     console.log(`[desktop] DSH harness resolved from ${candidate.source}: ${candidate.dir}`)
     return candidate.dir
   }
-  harnessResolution = { dir: DEFAULT_HARNESS_DIR, source: 'fallback:dev-machine-path (unverified)' }
-  console.warn(`[desktop] no usable DSH harness found; falling back to ${DEFAULT_HARNESS_DIR}`)
-  return DEFAULT_HARNESS_DIR
+  if (process.env.NODE_ENV !== 'production' && !app.isPackaged && existsSync(join(DEFAULT_HARNESS_DIR, 'apps', 'cli', 'src', 'bin.ts'))) {
+    harnessResolution = { dir: DEFAULT_HARNESS_DIR, source: 'fallback:dev-machine-path (dev only)' }
+    console.warn(`[desktop] dev-only fallback to ${DEFAULT_HARNESS_DIR}`)
+    return DEFAULT_HARNESS_DIR
+  }
+  const hint = '请设置 DSH_HARNESS_DIR 指向 deepseek-harness 目录，或将 harness 物化到 .materialized/harness / resources/harness'
+  const error = new Error(`[desktop] 未找到可用的 DSH harness：${hint}`)
+  try {
+    dialog.showErrorBox('未找到 DSH harness', `${error.message}\n\n当前将退出。请按提示配置后重试。`)
+  } catch { /* headless */ }
+  throw error
 }
 
 /**
