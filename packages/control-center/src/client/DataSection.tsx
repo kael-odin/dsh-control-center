@@ -21,9 +21,10 @@ import css from './DataSection.module.css'
 
 export interface DataSectionInjected {
   getData: () => NonNullable<ClientRemote['controlCenterData']>
+  getExport: () => NonNullable<ClientRemote['controlCenterExport']>
   getDesktop: () => NonNullable<ClientRemote['controlCenterDesktop']>
   getSystem?: (() => NonNullable<ClientRemote['controlCenterSystem']>) | undefined
-  hooks: { dataReady: HostObservable<boolean>; desktopReady: HostObservable<boolean>; systemReady: HostObservable<boolean> }
+  hooks: { dataReady: HostObservable<boolean>; exportReady: HostObservable<boolean>; desktopReady: HostObservable<boolean>; systemReady: HostObservable<boolean> }
 }
 
 export type DataSectionProps = PropsRuntime<'settings.section'> & InjectFace<DataSectionInjected>
@@ -66,11 +67,13 @@ function base64ToText(base64: string): string {
   return new TextDecoder().decode(Uint8Array.from(atob(base64), character => character.charCodeAt(0)))
 }
 
-export function DataSection({ getData, getDesktop, getSystem, useDataReady, useDesktopReady, useSystemReady }: DataSectionProps) {
+export function DataSection({ getData, getExport, getDesktop, getSystem, useDataReady, useExportReady, useDesktopReady, useSystemReady }: DataSectionProps) {
   const dataReady = useDataReady(value => value)
+  const exportReady = useExportReady(value => value)
   const desktopReady = useDesktopReady(value => value)
   const systemReady = useSystemReady(value => value)
   const data = dataReady ? getData() : undefined
+  const exportMatrix = exportReady ? getExport() : undefined
   const desktop = desktopReady ? getDesktop() : undefined
   const [dshHome, setDshHome] = useState<string | null>(null)
   useEffect(() => {
@@ -429,11 +432,11 @@ export function DataSection({ getData, getDesktop, getSystem, useDataReady, useD
       case 's3': return <S3Panel />
       case 'import_settings': return <ImportPanel />
       case 'markdown_export': return <MarkdownExportPanel />
-      case 'notion': return <CloudPanel title="Notion" description="Notion 笔记导出需要 Notion API 集成，目前平台暂不可用。" />
-      case 'yuque': return <CloudPanel title="语雀" description="语雀笔记导出需要 Yuque API 集成，目前平台暂不可用。" />
-      case 'joplin': return <CloudPanel title="Joplin" description="Joplin 笔记导出需要 Joplin Web Clipper API，目前平台暂不可用。" />
-      case 'obsidian': return <CloudPanel title="Obsidian" description="Obsidian 笔记导出需要本地 vault 访问，目前平台暂不可用。" />
-      case 'siyuan': return <CloudPanel title="思源笔记" description="思源笔记导出需要 Siyuan API 集成，目前平台暂不可用。" />
+      case 'notion': return <NotionPanel />
+      case 'yuque': return <YuquePanel />
+      case 'joplin': return <JoplinPanel />
+      case 'obsidian': return <ObsidianPanel />
+      case 'siyuan': return <SiyuanPanel />
       default: return null
     }
   }
@@ -812,16 +815,263 @@ export function DataSection({ getData, getDesktop, getSystem, useDataReady, useD
     )
   }
 
-  /** 云存储/笔记导出 — 能力状态面板 */
-  function CloudPanel({ title, description }: { title: string; description: string }) {
+  // ── Export-matrix panels: Cherry Notion/Yuque/Joplin/Obsidian/Siyuan parity ──
+  // Each panel is Host-backed via controlCenterExport (credentials never leave
+  // Host except as auth headers); the client only handles form state + wiring.
+
+  function NotionPanel() {
+    const [config, setConfig] = useState({ apiKey: '', databaseId: '', pageNameKey: 'Name', exportReasoning: false })
+    const [loaded, setLoaded] = useState(false)
+    const [busy, setBusy] = useState(false)
+    useEffect(() => {
+      if (exportMatrix === undefined) return
+      void (async () => {
+        try {
+          const cfg = await exportMatrix.getConfig() as unknown as { notion: typeof config }
+          setConfig(cfg.notion ?? config)
+        } catch { /* keep defaults */ }
+        setLoaded(true)
+      })()
+    }, [])
+    const save = async (): Promise<void> => {
+      if (exportMatrix === undefined) return
+      setBusy(true)
+      try {
+        await (exportMatrix.setConfig as unknown as (patch: unknown) => Promise<unknown>)({ notion: config })
+        report('Notion 配置已保存')
+      } catch (err) { fail(err) } finally { setBusy(false) }
+    }
+    if (!loaded) return <SettingsPageShell><p style={{ color: 'var(--muted-foreground)', fontSize: 12, marginTop: 8 }}>加载中…</p></SettingsPageShell>
     return (
       <SettingsPageShell>
         <SettingGroup>
-          <SettingTitle>{title}</SettingTitle>
+          <SettingTitle>Notion</SettingTitle>
           <SettingDivider />
-          <div className={css.capabilityNotice}>
-            <div className={css.capabilityNoticeIcon}>📋</div>
-            <div className={css.capabilityNoticeText}>{description}</div>
+          <p style={{ marginTop: 8, marginBottom: 8, color: 'var(--foreground-tertiary)', fontSize: 12 }}>
+            将笔记导出到 Notion 数据库。需在 Notion 创建集成并授权数据库。数据库 ID 为分享链接中 32 位 hex（去掉连字符前即是）。
+          </p>
+          <SettingRow>
+            <SettingRowTitle>Integration Token</SettingRowTitle>
+            <input type="password" className={css.pathInput} value={config.apiKey} onChange={e => setConfig(s => ({ ...s, apiKey: e.target.value }))} placeholder="secret_..." />
+          </SettingRow>
+          <SettingDivider />
+          <SettingRow>
+            <SettingRowTitle>Database ID</SettingRowTitle>
+            <input type="text" className={css.pathInput} value={config.databaseId} onChange={e => setConfig(s => ({ ...s, databaseId: e.target.value }))} placeholder="32 位 hex" />
+          </SettingRow>
+          <SettingDivider />
+          <SettingRow>
+            <SettingRowTitle>标题字段名</SettingRowTitle>
+            <input type="text" className={css.pathInput} value={config.pageNameKey} onChange={e => setConfig(s => ({ ...s, pageNameKey: e.target.value }))} placeholder="Name" />
+          </SettingRow>
+          <SettingDivider />
+          <SettingSwitch label="导出思考过程" checked={config.exportReasoning} onChange={v => setConfig(s => ({ ...s, exportReasoning: v }))} description="开启后将思考块一并写入 Notion" />
+          <SettingDivider />
+          <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+            <button type="button" className="cc-btn cc-btn-primary" disabled={busy} onClick={() => void save()}>{busy ? '保存中…' : '保存配置'}</button>
+          </div>
+        </SettingGroup>
+      </SettingsPageShell>
+    )
+  }
+
+  function YuquePanel() {
+    const [config, setConfig] = useState({ token: '', repoId: '' })
+    const [loaded, setLoaded] = useState(false)
+    const [busy, setBusy] = useState(false)
+    useEffect(() => {
+      if (exportMatrix === undefined) return
+      void (async () => {
+        try {
+          const cfg = await exportMatrix.getConfig() as unknown as { yuque: typeof config }
+          setConfig(cfg.yuque ?? config)
+        } catch { /* keep defaults */ }
+        setLoaded(true)
+      })()
+    }, [])
+    const save = async (): Promise<void> => {
+      if (exportMatrix === undefined) return
+      setBusy(true)
+      try {
+        await (exportMatrix.setConfig as unknown as (patch: unknown) => Promise<unknown>)({ yuque: config })
+        report('语雀配置已保存')
+      } catch (err) { fail(err) } finally { setBusy(false) }
+    }
+    if (!loaded) return <SettingsPageShell><p style={{ color: 'var(--muted-foreground)', fontSize: 12, marginTop: 8 }}>加载中…</p></SettingsPageShell>
+    return (
+      <SettingsPageShell>
+        <SettingGroup>
+          <SettingTitle>语雀</SettingTitle>
+          <SettingDivider />
+          <p style={{ marginTop: 8, marginBottom: 8, color: 'var(--foreground-tertiary)', fontSize: 12 }}>
+            将笔记导出到语雀知识库。Token 在语雀「设置 → Token」生成，知识库 ID 为 URL 中 `yuque.com/&lt;group&gt;/&lt;book&gt;` 对应的数字 ID（或直接填 `group/book` 也可在导出时解析）。
+          </p>
+          <SettingRow>
+            <SettingRowTitle>Token</SettingRowTitle>
+            <input type="password" className={css.pathInput} value={config.token} onChange={e => setConfig(s => ({ ...s, token: e.target.value }))} placeholder="语雀 personal token" />
+          </SettingRow>
+          <SettingDivider />
+          <SettingRow>
+            <SettingRowTitle>知识库 ID</SettingRowTitle>
+            <input type="text" className={css.pathInput} value={config.repoId} onChange={e => setConfig(s => ({ ...s, repoId: e.target.value }))} placeholder="例如 123456" />
+          </SettingRow>
+          <SettingDivider />
+          <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+            <button type="button" className="cc-btn cc-btn-primary" disabled={busy} onClick={() => void save()}>{busy ? '保存中…' : '保存配置'}</button>
+          </div>
+        </SettingGroup>
+      </SettingsPageShell>
+    )
+  }
+
+  function JoplinPanel() {
+    const [config, setConfig] = useState({ url: '', token: '', exportReasoning: false })
+    const [loaded, setLoaded] = useState(false)
+    const [busy, setBusy] = useState(false)
+    useEffect(() => {
+      if (exportMatrix === undefined) return
+      void (async () => {
+        try {
+          const cfg = await exportMatrix.getConfig() as unknown as { joplin: typeof config }
+          setConfig(cfg.joplin ?? config)
+        } catch { /* keep defaults */ }
+        setLoaded(true)
+      })()
+    }, [])
+    const save = async (): Promise<void> => {
+      if (exportMatrix === undefined) return
+      setBusy(true)
+      try {
+        await (exportMatrix.setConfig as unknown as (patch: unknown) => Promise<unknown>)({ joplin: config })
+        report('Joplin 配置已保存')
+      } catch (err) { fail(err) } finally { setBusy(false) }
+    }
+    if (!loaded) return <SettingsPageShell><p style={{ color: 'var(--muted-foreground)', fontSize: 12, marginTop: 8 }}>加载中…</p></SettingsPageShell>
+    return (
+      <SettingsPageShell>
+        <SettingGroup>
+          <SettingTitle>Joplin</SettingTitle>
+          <SettingDivider />
+          <p style={{ marginTop: 8, marginBottom: 8, color: 'var(--foreground-tertiary)', fontSize: 12 }}>
+            将笔记导出到 Joplin（需开启 Web Clipper 服务，默认端口 41184）。
+          </p>
+          <SettingRow>
+            <SettingRowTitle>Web Clipper 地址</SettingRowTitle>
+            <input type="text" className={css.pathInput} value={config.url} onChange={e => setConfig(s => ({ ...s, url: e.target.value }))} placeholder="http://127.0.0.1:41184/" />
+          </SettingRow>
+          <SettingDivider />
+          <SettingRow>
+            <SettingRowTitle>Token</SettingRowTitle>
+            <input type="password" className={css.pathInput} value={config.token} onChange={e => setConfig(s => ({ ...s, token: e.target.value }))} placeholder="Joplin Web Clipper token" />
+          </SettingRow>
+          <SettingDivider />
+          <SettingSwitch label="导出思考过程" checked={config.exportReasoning} onChange={v => setConfig(s => ({ ...s, exportReasoning: v }))} />
+          <SettingDivider />
+          <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+            <button type="button" className="cc-btn cc-btn-primary" disabled={busy} onClick={() => void save()}>{busy ? '保存中…' : '保存配置'}</button>
+          </div>
+        </SettingGroup>
+      </SettingsPageShell>
+    )
+  }
+
+  function ObsidianPanel() {
+    const [vault, setVault] = useState('')
+    const [loaded, setLoaded] = useState(false)
+    const [busy, setBusy] = useState(false)
+    useEffect(() => {
+      if (exportMatrix === undefined) return
+      void (async () => {
+        try {
+          const cfg = await exportMatrix.getConfig() as unknown as { obsidian: { vault: string } }
+          setVault(cfg.obsidian?.vault ?? '')
+        } catch { /* keep defaults */ }
+        setLoaded(true)
+      })()
+    }, [])
+    const save = async (): Promise<void> => {
+      if (exportMatrix === undefined) return
+      setBusy(true)
+      try {
+        await (exportMatrix.setConfig as unknown as (patch: unknown) => Promise<unknown>)({ obsidian: { vault } })
+        report('Obsidian 配置已保存')
+      } catch (err) { fail(err) } finally { setBusy(false) }
+    }
+    if (!loaded) return <SettingsPageShell><p style={{ color: 'var(--muted-foreground)', fontSize: 12, marginTop: 8 }}>加载中…</p></SettingsPageShell>
+    return (
+      <SettingsPageShell>
+        <SettingGroup>
+          <SettingTitle>Obsidian</SettingTitle>
+          <SettingDivider />
+          <p style={{ marginTop: 8, marginBottom: 8, color: 'var(--foreground-tertiary)', fontSize: 12 }}>
+            Obsidian 通过 `obsidian://` 协议调用本地应用创建笔记，需已安装 Obsidian 桌面版并打开目标 vault。
+          </p>
+          <SettingRow>
+            <SettingRowTitle>Vault 名称</SettingRowTitle>
+            <input type="text" className={css.pathInput} value={vault} onChange={e => setVault(e.target.value)} placeholder="例如 MyVault" />
+          </SettingRow>
+          <SettingDivider />
+          <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+            <button type="button" className="cc-btn cc-btn-primary" disabled={busy} onClick={() => void save()}>{busy ? '保存中…' : '保存配置'}</button>
+          </div>
+        </SettingGroup>
+      </SettingsPageShell>
+    )
+  }
+
+  function SiyuanPanel() {
+    const [config, setConfig] = useState({ apiUrl: '', token: '', boxId: '', rootPath: '/CherryStudio' })
+    const [loaded, setLoaded] = useState(false)
+    const [busy, setBusy] = useState(false)
+    useEffect(() => {
+      if (exportMatrix === undefined) return
+      void (async () => {
+        try {
+          const cfg = await exportMatrix.getConfig() as unknown as { siyuan: typeof config }
+          setConfig(cfg.siyuan ?? config)
+        } catch { /* keep defaults */ }
+        setLoaded(true)
+      })()
+    }, [])
+    const save = async (): Promise<void> => {
+      if (exportMatrix === undefined) return
+      setBusy(true)
+      try {
+        await (exportMatrix.setConfig as unknown as (patch: unknown) => Promise<unknown>)({ siyuan: config })
+        report('思源笔记配置已保存')
+      } catch (err) { fail(err) } finally { setBusy(false) }
+    }
+    if (!loaded) return <SettingsPageShell><p style={{ color: 'var(--muted-foreground)', fontSize: 12, marginTop: 8 }}>加载中…</p></SettingsPageShell>
+    return (
+      <SettingsPageShell>
+        <SettingGroup>
+          <SettingTitle>思源笔记</SettingTitle>
+          <SettingDivider />
+          <p style={{ marginTop: 8, marginBottom: 8, color: 'var(--foreground-tertiary)', fontSize: 12 }}>
+            将笔记导出到思源笔记。需开启思源的 API 服务并填入 API 地址、Token、笔记本 ID 与导出根路径。
+          </p>
+          <SettingRow>
+            <SettingRowTitle>API 地址</SettingRowTitle>
+            <input type="text" className={css.pathInput} value={config.apiUrl} onChange={e => setConfig(s => ({ ...s, apiUrl: e.target.value }))} placeholder="http://127.0.0.1:6806" />
+          </SettingRow>
+          <SettingDivider />
+          <SettingRow>
+            <SettingRowTitle>Token</SettingRowTitle>
+            <input type="password" className={css.pathInput} value={config.token} onChange={e => setConfig(s => ({ ...s, token: e.target.value }))} placeholder="思源 API token" />
+          </SettingRow>
+          <SettingDivider />
+          <SettingRow>
+            <SettingRowTitle>笔记本 ID</SettingRowTitle>
+            <input type="text" className={css.pathInput} value={config.boxId} onChange={e => setConfig(s => ({ ...s, boxId: e.target.value }))} placeholder="boxId" />
+          </SettingRow>
+          <SettingDivider />
+          <SettingRow>
+            <SettingRowTitle>根路径</SettingRowTitle>
+            <input type="text" className={css.pathInput} value={config.rootPath} onChange={e => setConfig(s => ({ ...s, rootPath: e.target.value }))} placeholder="/CherryStudio" />
+          </SettingRow>
+          <SettingDivider />
+          <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+            <button type="button" className="cc-btn cc-btn-primary" disabled={busy} onClick={() => void save()}>{busy ? '保存中…' : '保存配置'}</button>
           </div>
         </SettingGroup>
       </SettingsPageShell>

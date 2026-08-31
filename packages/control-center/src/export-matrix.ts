@@ -216,3 +216,17 @@ function markdownToNotionBlocks(markdown: string): unknown[] {
   }
   return blocks
 }
+
+declare module '@deepseek-ai/dsh-typert-protocol' {
+  interface TypertRemoteNamespaceMap {
+    controlCenterExport: {
+      getConfig(): Promise<ExportSettings>
+      setConfig(patch: Partial<ExportSettings>): Promise<{ absent: true }>
+      exportToNotion(params: { title: string; markdown: string }): Promise<{ ok: boolean; message: string }>
+      exportToYuque(params: { title: string; markdown: string }): Promise<{ ok: boolean; message: string }>
+      exportToJoplin(params: { title: string; markdown: string }): Promise<{ ok: boolean; message: string }>
+      exportToSiyuan(params: { title: string; markdown: string }): Promise<{ ok: boolean; message: string }>
+      exportToObsidian(params: { title: string; markdown: string; vault?: string; folder?: string }): Promise<{ ok: boolean; message: string; url?: string }>
+    }
+  }
+}

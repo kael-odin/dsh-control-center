@@ -29,6 +29,7 @@ import usageRemote from './usage-remote-client.ts'
 import { DataService } from './data.ts'
 import { ExportMatrixService } from './export-matrix.ts'
 import dataRemote from './data-remote-client.ts'
+import exportMatrixRemote from './export-matrix-remote-client.ts'
 import { SystemService } from './system.ts'
 import systemRemote from './system-remote-client.ts'
 import { TasksService } from './tasks.ts'
@@ -242,6 +243,7 @@ export function apply(ctx: Context): void {
         ...fileProcessingRemote.descriptors,
         ...usageRemote.descriptors,
         ...dataRemote.descriptors,
+        ...exportMatrixRemote.descriptors,
         ...systemRemote.descriptors,
         ...tasksRemote.descriptors,
         ...localModelsRemote.descriptors,

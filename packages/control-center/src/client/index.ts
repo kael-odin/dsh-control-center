@@ -69,6 +69,7 @@ import { UsageSection } from './UsageSection.tsx'
 import type { UsageSectionInjected } from './UsageSection.tsx'
 import type {} from '../data-types.ts'
 import dataRemote from '../data-remote-client.ts'
+import exportMatrixRemote from '../export-matrix-remote-client.ts'
 import { DataSection } from './DataSection.tsx'
 import type { DataSectionInjected } from './DataSection.tsx'
 import type {} from '../system-types.ts'
@@ -229,6 +230,7 @@ export function apply(ctx: ClientContext): void {
   const systemReadySource = remoteReadyGate.source
   const usageReadySource = remoteReadyGate.source
   const dataReadySource = remoteReadyGate.source
+  const exportReadySource = remoteReadyGate.source
   ctx.effect(async () => {
     // The client Remote registry keys contributions by package, so every
     // namespace must be mounted through one merged contribution.
@@ -247,6 +249,7 @@ export function apply(ctx: ClientContext): void {
         ...fileProcessingRemote.descriptors,
         ...usageRemote.descriptors,
         ...dataRemote.descriptors,
+        ...exportMatrixRemote.descriptors,
         ...systemRemote.descriptors,
         ...tasksRemote.descriptors,
         ...localModelsRemote.descriptors,
@@ -776,6 +779,11 @@ export function apply(ctx: ClientContext): void {
         if (data === undefined) throw new Error('data Remote namespace is not mounted')
         return data
       },
+      getExport: () => {
+        const ns = ctx.get('remote.controlCenterExport') as NonNullable<typeof remote.controlCenterExport> | undefined
+        if (ns === undefined) throw new Error('export Remote namespace is not mounted')
+        return ns
+      },
       getDesktop: () => {
         if (desktop === undefined) throw new Error('desktop Remote namespace is not mounted')
         return desktop
@@ -784,7 +792,7 @@ export function apply(ctx: ClientContext): void {
         if (system === undefined) throw new Error('system Remote namespace is not mounted')
         return system
       },
-      hooks: { dataReady: dataReadySource, desktopReady: desktopReadySource, systemReady: systemReadySource },
+      hooks: { dataReady: dataReadySource, exportReady: exportReadySource, desktopReady: desktopReadySource, systemReady: systemReadySource },
     }),
   }, DataSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
