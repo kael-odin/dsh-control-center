@@ -46,6 +46,7 @@ const MENU_ITEMS: readonly MenuItem[] = [
   { key: 'divider_2', label: '', divider: '导入设置' },
   { key: 'import_settings', label: '导入' },
   { key: 'divider_3', label: '', divider: '导出设置' },
+  { key: 'export_menus', label: '导出菜单可见性' },
   { key: 'markdown_export', label: 'Markdown 导出' },
   { key: 'divider_note_export', label: '', divider: '笔记导出' },
   { key: 'notion', label: 'Notion' },
@@ -432,6 +433,7 @@ export function DataSection({ getData, getExport, getDesktop, getSystem, useData
       case 's3': return <S3Panel />
       case 'import_settings': return <ImportPanel />
       case 'markdown_export': return <MarkdownExportPanel />
+      case 'export_menus': return <ExportMenusPanel />
       case 'notion': return <NotionPanel />
       case 'yuque': return <YuquePanel />
       case 'joplin': return <JoplinPanel />
@@ -1073,6 +1075,63 @@ export function DataSection({ getData, getExport, getDesktop, getSystem, useData
           <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
             <button type="button" className="cc-btn cc-btn-primary" disabled={busy} onClick={() => void save()}>{busy ? '保存中…' : '保存配置'}</button>
           </div>
+        </SettingGroup>
+      </SettingsPageShell>
+    )
+  }
+
+  function ExportMenusPanel() {
+    type Toggles = { image: boolean; markdown: boolean; markdown_reason: boolean; notion: boolean; yuque: boolean; joplin: boolean; obsidian: boolean; siyuan: boolean; docx: boolean; plain_text: boolean }
+    const defaults: Toggles = { image: true, markdown: true, markdown_reason: false, notion: true, yuque: true, joplin: true, obsidian: true, siyuan: true, docx: false, plain_text: true }
+    const labels: Record<keyof Toggles, string> = { image: '图片', markdown: 'Markdown', markdown_reason: 'Markdown（含思考）', notion: 'Notion', yuque: '语雀', joplin: 'Joplin', obsidian: 'Obsidian', siyuan: '思源笔记', docx: 'Word (docx)', plain_text: '纯文本' }
+    const cats: Array<{ title: string; keys: Array<keyof Toggles> }> = [
+      { title: '文件', keys: ['image', 'markdown', 'markdown_reason', 'docx'] },
+      { title: '第三方应用', keys: ['notion', 'yuque', 'joplin', 'obsidian', 'siyuan'] },
+      { title: '复制', keys: ['plain_text'] },
+    ]
+    const [toggles, setToggles] = useState<Toggles>(defaults)
+    const [loaded, setLoaded] = useState(false)
+    useEffect(() => {
+      if (exportMatrix === undefined) return
+      void (async () => {
+        try {
+          const cfg = await exportMatrix.getConfig() as unknown as { menus: Toggles }
+          if (cfg.menus !== undefined) setToggles({ ...defaults, ...cfg.menus })
+        } catch { /* keep defaults */ }
+        setLoaded(true)
+      })()
+    }, [])
+    const toggle = async (key: keyof Toggles, next: boolean): Promise<void> => {
+      if (exportMatrix === undefined) return
+      const updated = { ...toggles, [key]: next }
+      setToggles(updated)
+      try {
+        await (exportMatrix.setConfig as unknown as (patch: unknown) => Promise<unknown>)({ menus: updated })
+      } catch (err) { setToggles(toggles); fail(err) }
+    }
+    if (!loaded) return <SettingsPageShell><p style={{ color: 'var(--muted-foreground)', fontSize: 12, marginTop: 8 }}>加载中…</p></SettingsPageShell>
+    return (
+      <SettingsPageShell>
+        <SettingGroup>
+          <SettingTitle>导出菜单可见性</SettingTitle>
+          <SettingDivider />
+          <p style={{ marginTop: 8, marginBottom: 8, color: 'var(--foreground-tertiary)', fontSize: 12 }}>
+            控制聊天与笔记中“导出”菜单可见的条目。关闭后对应条目不再出现在导出菜单中（Cherry `data.export.menus.*` 对齐）。
+          </p>
+          {cats.map(cat => (
+            <div key={cat.title}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--foreground-tertiary)', margin: '10px 0 6px' }}>{cat.title}</div>
+              {cat.keys.map(k => (
+                <div key={k}>
+                  <SettingDivider />
+                  <SettingRow>
+                    <SettingRowTitle>{labels[k]}</SettingRowTitle>
+                    <SettingSwitch checked={toggles[k]} onChange={v => void toggle(k, v)} label={labels[k]} />
+                  </SettingRow>
+                </div>
+              ))}
+            </div>
+          ))}
         </SettingGroup>
       </SettingsPageShell>
     )

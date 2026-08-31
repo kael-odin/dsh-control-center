@@ -1,21 +1,13 @@
 /**
  * Client-side PDF text extraction — Cherry translate page PDF import parity.
  *
- * Runs pdfjs-dist in the browser (no host round-trip). The worker is not
- * wired (fake-worker fallback on the main thread): acceptable for occasional
- * text extraction, and avoids shipping a separate worker asset through the
- * single-file client bundle. DOMMatrix and friends are browser natives, so
- * unlike the Node host, no `canvas` dependency is needed.
+ * Runs pdfjs-dist in the browser (no host round-trip). Uses the main-thread
+ * fake worker (disableWorker) so no separate worker asset or CDN fetch is
+ * required — works fully offline. DOMMatrix and friends are browser natives,
+ * so unlike the Node host, no `canvas` dependency is needed.
  */
 
-import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist'
-
-// The single-file client bundle cannot ship a separate worker asset, so the
-// worker is loaded from the CDN matching the installed pdfjs-dist version and
-// runs as the main-thread fake worker (pdfjs `import()`s the URL). Requires
-// the surface to be online; without it, PDF import reports an honest error.
-const PDFJS_VERSION = '6.2.108'
-GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${PDFJS_VERSION}/build/pdf.worker.min.mjs`
+import { getDocument } from 'pdfjs-dist'
 
 export interface PdfExtractionResult {
   text: string
@@ -24,7 +16,7 @@ export interface PdfExtractionResult {
 
 /** Extract up to `limit` characters of plain text from a PDF `ArrayBuffer`. */
 export async function extractPdfText(data: ArrayBuffer, limit = 100_000): Promise<PdfExtractionResult> {
-  const task = getDocument({ data })
+  const task = getDocument({ data, disableWorker: true } as unknown as Parameters<typeof getDocument>[0])
   const doc = await task.promise
   try {
     const numPages = doc.numPages

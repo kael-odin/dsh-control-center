@@ -15,13 +15,26 @@ import Schema from '@deepseek-ai/schemastery'
 
 const EXPORT_NS = settingsNamespace('control-center-export')
 
+export interface ExportMenuToggles {
+  image: boolean
+  markdown: boolean
+  markdown_reason: boolean
+  notion: boolean
+  yuque: boolean
+  joplin: boolean
+  obsidian: boolean
+  siyuan: boolean
+  docx: boolean
+  plain_text: boolean
+}
+
 interface ExportSettings {
   notion: { apiKey: string; databaseId: string; pageNameKey: string; exportReasoning: boolean }
   yuque: { token: string; repoId: string }
   obsidian: { vault: string }
   joplin: { url: string; token: string; exportReasoning: boolean }
   siyuan: { apiUrl: string; token: string; boxId: string; rootPath: string }
-  menus: { notion: boolean; yuque: boolean; obsidian: boolean; joplin: boolean; siyuan: boolean }
+  menus: ExportMenuToggles
 }
 
 function sanitizeObsidianFileName(name: string): string {
@@ -62,12 +75,17 @@ export class ExportMatrixService extends Service {
         rootPath: Schema.string().default('/CherryStudio'),
       }).default({ apiUrl: '', token: '', boxId: '', rootPath: '/CherryStudio' }),
       menus: Schema.object({
+        image: Schema.boolean().default(true),
+        markdown: Schema.boolean().default(true),
+        markdown_reason: Schema.boolean().default(false),
         notion: Schema.boolean().default(true),
         yuque: Schema.boolean().default(true),
-        obsidian: Schema.boolean().default(true),
         joplin: Schema.boolean().default(true),
+        obsidian: Schema.boolean().default(true),
         siyuan: Schema.boolean().default(true),
-      }).default({ notion: true, yuque: true, obsidian: true, joplin: true, siyuan: true }),
+        docx: Schema.boolean().default(false),
+        plain_text: Schema.boolean().default(true),
+      }).default({ image: true, markdown: true, markdown_reason: false, notion: true, yuque: true, joplin: true, obsidian: true, siyuan: true, docx: false, plain_text: true }),
     }), {
       base: {
         notion: { apiKey: '', databaseId: '', pageNameKey: 'Name', exportReasoning: false },
@@ -75,7 +93,7 @@ export class ExportMatrixService extends Service {
         obsidian: { vault: '' },
         joplin: { url: '', token: '', exportReasoning: false },
         siyuan: { apiUrl: '', token: '', boxId: '', rootPath: '/CherryStudio' },
-        menus: { notion: true, yuque: true, obsidian: true, joplin: true, siyuan: true },
+        menus: { image: true, markdown: true, markdown_reason: false, notion: true, yuque: true, joplin: true, obsidian: true, siyuan: true, docx: false, plain_text: true },
       },
     })
   }
