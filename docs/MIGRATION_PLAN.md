@@ -135,11 +135,11 @@ Cherry 侧动作系统核心（actionRegistry 310 行零耦合 + MessageListActi
       开关（autoInject 默认开）；单库失败吞掉诚实降级；2 个集成测试
 - [x] **MCP 补齐**（P1，2026-08-31）：内置服务器 9/9 已落地（sequential-thinking/memory/browser/fetch/filesystem/brave-search/python/dify-knowledge/didi，AVAILABLE_INMEMORY_RUNTIMES 全量，`createInMemoryServer(name,args,env)` 凭据透传，`mcp.ts` inMemory 分支已接线；`mcp-builtin.ts` 描述与 `mcp-builtin-runtime.ts` 运行时逐一对应）；市场 + Npx 搜索 + 服务器信任机制 + 日志页已在 0.1.2 前完成
 - [x] **备份导出矩阵**（P1，2026-08-31）：Notion/语雀/Obsidian/Joplin/思源导出——Host `export-matrix.ts`（`control-center-export` settings，5 目标凭据 secret-role，`exportToNotion/Yuque/Joplin/Siyuan/Obsidian` 纯 fetch/URL 逻辑，Notion markdown→blocks 简易映射，DATA_NAMESPACES 已纳入备份面）；Markdown 导出、隐私模式、清除缓存仍待补
-- [ ] **代码执行**（P1）：0.1.2 有 subprocess/code-runtime，重新评估"DSH 无 Pyodide 对应物"旧判定，优先用 DSH code-runtime 实现
+- [x] **代码执行**（P1，2026-08-31 评估）：Cherry 的 Pyodide/Node 沙盒无 DSH 对等物，DSH `code-runtime` 为 Tx-aware agent 工具（需真实 harness 运行时），无法在 `mcp-builtin-runtime` 内复刻；已在 `python` 内置服务中以 `spawn('python3')` 兜底 + 超时隔离，缺解释器时诚实报错。与任务页 `subprocess.run({ command })` 一致，保持诚实降级
 - [ ] **Assistant 预设系统**（P2）：提示词变量模板 + 快捷短语管理（PromptSettings parity），数据走 settings namespace
 - [ ] **Mini Apps / Files / Launchpad**（P2）：mini-app 权限模型抄 Cherry `miniApp/`（grants/activityLog/capabilities），webview 挂桌面壳；Files 用 DSH `ctx.fs` + S3 存储
 - [x] **i18n 12 语言框架**（P2，2026-08-31）：DSH LocaleRuntime 12 语言（zh/en 宿主内置 + `i18n-12.ts` addLanguage 注册 de-DE/ja-JP/ru-RU/el-GR/es-ES/fr-FR/pt-PT/ro-RO/vi-VN/zh-TW，复用 shell/models/websearch/msgactions 命名空间字典，`scripts/check-i18n.mjs` 校验脚本）；Cherry 5200 键全量 JSON 未逐键搬运，按需扩展
-- [ ] **Channels permissionMode**（P2）：逐频道生效接入 DSH 权限模型
+- [x] **Channels permissionMode**（P2，2026-08-31 评估）：Cherry 已将 `channel.permissionMode` 移至 `agent.permissionMode`（见 `ChannelMessageHandler.ts:583 TODO(channel-perm-override)`），逐频道权限独立项不再生效；本仓与上游保持一致，仅通过 `agentProvider/agentModel/agentSystemPrompt` 绑定 Agent，权限沿用 DSH agent 策略而非频道覆盖
 - [ ] **General/Appearance 收尾**（P3）：客户端 ID、菜单呈现模式、企业外链、Node 版本行并入 Dependencies
 
 ---
