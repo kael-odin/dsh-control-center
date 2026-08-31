@@ -38,6 +38,12 @@ export interface AssistantMessageActionsServices {
   }
   /** Newest assistant text in the session's opening window, from one follow shot. */
   readAssistantText: (sessionId: SessionId) => Promise<string | undefined>
+  /** Newest user text in the session's opening window, from one follow shot. */
+  readLastUserText: (sessionId: SessionId) => Promise<string | undefined>
+  /** Fork the session at its tail and open the child. */
+  forkSession: (sessionId: SessionId) => Promise<SessionId>
+  /** Queue a text prompt into the session; rejects on business failure. */
+  queuePrompt: (sessionId: SessionId, text: string) => Promise<{ accepted: true }>
   /** Translation model route: model-prefs translation route, agent-default fallback. */
   resolveTranslationRoute: () => Promise<{ provider: string; model: string }>
 }
@@ -48,6 +54,7 @@ export interface MessageActionContext {
   title: string | undefined
   t: (key: MsgActionsKey) => string
   loadText: () => Promise<string | undefined>
+  loadUserText: () => Promise<string | undefined>
   runNotes: () => Promise<void>
   runKnowledge: () => Promise<void>
   runTranslate: () => Promise<void>
@@ -87,7 +94,7 @@ export function looksChinese(text: string): boolean {
 }
 
 export function AssistantMessageActions(props: AssistantMessageActionsProps) {
-  const [status, setStatus] = useState<Partial<Record<'notes' | 'knowledge' | 'copy', ActionStatus>>>({})
+  const [status, setStatus] = useState<Partial<Record<'notes' | 'knowledge' | 'copy' | 'branch' | 'regen', ActionStatus>>>({})
   const [bases, setBases] = useState<ReadonlyArray<{ id: string; name?: string }>>([])
   const [pickerOpen, setPickerOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -102,7 +109,7 @@ export function AssistantMessageActions(props: AssistantMessageActionsProps) {
 
   const title = props.useSessions(state => state.byId[props.sessionId]?.displayTitle)
 
-  const setStatusFor = useCallback((key: 'notes' | 'knowledge' | 'copy', next: ActionStatus) => {
+  const setStatusFor = useCallback((key: 'notes' | 'knowledge' | 'copy' | 'branch' | 'regen', next: ActionStatus) => {
     setStatus(previous => ({ ...previous, [key]: next }))
     if (next === 'ok' || typeof next === 'object') {
       window.setTimeout(() => {
@@ -117,6 +124,10 @@ export function AssistantMessageActions(props: AssistantMessageActionsProps) {
     if (text !== undefined && text.length > 0) setCachedText(text)
     return text
   }, [cachedText, props.readAssistantText, props.sessionId])
+
+  const loadUserText = useCallback(async (): Promise<string | undefined> => {
+    return props.readLastUserText(props.sessionId)
+  }, [props.readLastUserText, props.sessionId])
 
   const runNotes = useCallback(async () => {
     setStatusFor('notes', 'saving')
@@ -240,10 +251,11 @@ export function AssistantMessageActions(props: AssistantMessageActionsProps) {
     title,
     t: props.t,
     loadText,
+    loadUserText,
     runNotes,
     runKnowledge,
     runTranslate,
-  }), [loadText, props.sessionId, props.t, runKnowledge, runNotes, runTranslate, title])
+  }), [loadText, loadUserText, props.sessionId, props.t, runKnowledge, runNotes, runTranslate, title])
 
   // Cherry chat/actions pattern: one registry drives toolbar + more-menu.
   const registry = useMemo(() => {
@@ -294,8 +306,36 @@ export function AssistantMessageActions(props: AssistantMessageActionsProps) {
         URL.revokeObjectURL(url)
       },
     })
+    instance.registerAction({
+      id: 'regenerate', label: 'regenerate', surface: 'menu', group: 'branch',
+      run: async context => {
+        setStatusFor('regen', 'saving')
+        try {
+          const text = await context.loadUserText()
+          if (text === undefined || text.length === 0) throw new Error(context.t('noText'))
+          await (props as unknown as { queuePrompt: (s: SessionId, t: string) => Promise<unknown> }).queuePrompt(context.sessionId, text)
+          setStatusFor('regen', 'ok')
+        } catch (error) {
+          setStatusFor('regen', { error: errorText(error) })
+          throw error
+        }
+      },
+    })
+    instance.registerAction({
+      id: 'branch', label: 'branchNew', surface: 'menu', group: 'branch',
+      run: async context => {
+        setStatusFor('branch', 'saving')
+        try {
+          await (props as unknown as { forkSession: (s: SessionId) => Promise<unknown> }).forkSession(context.sessionId)
+          setStatusFor('branch', 'ok')
+        } catch (error) {
+          setStatusFor('branch', { error: errorText(error) })
+          throw error
+        }
+      },
+    })
     return instance
-  }, [])
+  }, [props, setStatusFor])
 
   const toolbar = useMemo(() => registry.resolve(context, 'toolbar'), [context, registry])
   const menu = useMemo(() => registry.resolve(context, 'menu'), [context, registry])

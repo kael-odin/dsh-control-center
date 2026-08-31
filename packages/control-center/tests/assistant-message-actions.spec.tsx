@@ -239,13 +239,34 @@ describe('more-menu actions (registry-driven)', () => {
     vi.restoreAllMocks()
   })
 
-  it('renders the export group behind a separator', async () => {
+  it('renders the export and branch groups with separators', async () => {
     const { props } = makeProps()
     render(<AssistantMessageActions {...props} />)
     fireEvent.click(screen.getByLabelText('moreMenu'))
     const menu = await screen.findByRole('menu')
     expect(screen.getByRole('menuitem', { name: 'copyText' })).toBeTruthy()
     expect(screen.getByRole('menuitem', { name: 'exportMarkdown' })).toBeTruthy()
-    expect(menu.querySelectorAll('[role="separator"]')).toHaveLength(1)
+    expect(screen.getByRole('menuitem', { name: 'regenerate' })).toBeTruthy()
+    expect(screen.getByRole('menuitem', { name: 'branchNew' })).toBeTruthy()
+    expect(menu.querySelectorAll('[role="separator"]')).toHaveLength(3)
+  })
+
+  it('branch and regenerate each call their host seam', async () => {
+    const queuePrompt = vi.fn(async () => ({ accepted: true as const }))
+    const forkSession = vi.fn(async () => 'session-2' as never)
+    const { props } = makeProps({
+      services: {
+        readLastUserText: vi.fn(async () => '用户问题'),
+        queuePrompt,
+        forkSession,
+      } as never,
+    })
+    render(<AssistantMessageActions {...props} />)
+    fireEvent.click(screen.getByLabelText('moreMenu'))
+    fireEvent.click(await screen.findByRole('menuitem', { name: 'regenerate' }))
+    await waitFor(() => { expect(queuePrompt).toHaveBeenCalledWith('session-1', '用户问题') })
+    fireEvent.click(screen.getByLabelText('moreMenu'))
+    fireEvent.click(await screen.findByRole('menuitem', { name: 'branchNew' }))
+    await waitFor(() => { expect(forkSession).toHaveBeenCalledWith('session-1') })
   })
 })

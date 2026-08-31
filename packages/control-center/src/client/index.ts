@@ -1,7 +1,8 @@
 /** Browser half of DSH Control Center. */
 import type { Context as ClientContext } from '@deepseek-ai/cordis'
 import type { SessionListState } from '@deepseek-ai/dsh-api-session-controller/client'
-import type { ConnectionHandle, SessionId } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ConnectionHandle } from '@deepseek-ai/dsh-api-remotes/client'
+import type { SessionId } from '@deepseek-ai/dsh-session/types'
 import { bindSnapshotSelector } from './bind-snapshot.ts'
 import { resolveSlotLabel, type HostObservable } from '@deepseek-ai/dsh-client-ui-slots'
 import type {} from '@deepseek-ai/dsh-client-ui-settings/client'
@@ -16,6 +17,7 @@ import type {} from './application-slots.ts'
 import type {} from '@deepseek-ai/dsh-client-ui-renderer/client'
 import type {} from '@deepseek-ai/dsh-client-locale/client'
 import type {} from '@deepseek-ai/dsh-api-remotes/client'
+import type {} from '@deepseek-ai/dsh-api-session-controller/client'
 import type {} from '../translation-types.ts'
 import translationRemote from '../translation-remote-client.ts'
 import type {} from '../painting-types.ts'
@@ -635,6 +637,49 @@ export function apply(ctx: ClientContext): void {
       throw new Error(msgActionsT('noTranslateRoute'))
     },
     readAssistantText,
+    readLastUserText: async (sessionId) => {
+      const controller = new AbortController()
+      try {
+        for await (const frame of ctx.remote.session.follow(
+          { address: { kind: 'session', sessionId }, maxMessages: 8 },
+          controller.signal,
+        )) {
+          if (frame.type !== 'snapshot') continue
+          for (let index = frame.records.length - 1; index >= 0; index--) {
+            const record = frame.records[index]
+            if (record === undefined || record.type !== 'event' || record.event.type !== 'user/message') continue
+            const blocks = (record.event.data as { message?: { content?: unknown } }).message?.content
+            if (!Array.isArray(blocks)) continue
+            const text = blocks
+              .map(block => typeof block === 'object' && block !== null && (block as { type?: unknown }).type === 'text'
+                && typeof (block as { text?: unknown }).text === 'string'
+                ? (block as { text: string }).text
+                : '')
+              .join('\n\n')
+              .trim()
+            if (text.length > 0) return text
+          }
+          return undefined
+        }
+        return undefined
+      } catch {
+        return undefined
+      } finally {
+        controller.abort()
+      }
+    },
+    forkSession: async (sessionId) => {
+      const forked = await (ctx.sessions as unknown as { fork: (opts: { sessionId: SessionId; atSeq?: number; increaseTitle?: boolean }) => Promise<SessionId>; open: (id: SessionId) => void }).fork({ sessionId, increaseTitle: true })
+      ;(ctx.sessions as unknown as { open: (id: SessionId) => void }).open(forked)
+      return forked
+    },
+    queuePrompt: async (sessionId, text) => {
+      const binding = (ctx.sessions as unknown as { binding: (id: SessionId) => { session: { prompt: (content: readonly { type: 'text'; text: string }[], mode: 'queue' | 'steer') => Promise<{ ok: boolean; error?: { message: string } }> } } | undefined }).binding(sessionId)
+      if (binding === undefined) throw new Error('Session binding is unavailable')
+      const result = await binding.session.prompt([{ type: 'text', text }], 'queue')
+      if (!result.ok) throw new Error((result as unknown as { error: { message: string } }).error.message)
+      return { accepted: true as const }
+    },
   })
   // 快捷短语: Cherry composer parity, first increment — an ⚡ entry in the
   // composer's right zone listing user phrases (control-center-composer
