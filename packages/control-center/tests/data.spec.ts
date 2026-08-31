@@ -27,6 +27,7 @@ describe('DataService', () => {
     expect(DATA_NAMESPACES.map(ns => String(ns)).sort()).toEqual([
       'control-center-appearance',
       'control-center-channels',
+      'control-center-export',
       'control-center-file-processing',
       'control-center-local-models',
       'control-center-mcp',

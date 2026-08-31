@@ -39,6 +39,7 @@ export const DATA_NAMESPACES = [
   'control-center-webdav',
   'control-center-webdav-nutstore',
   'control-center-s3',
+  'control-center-export',
 ].map(name => settingsNamespace(name))
 
 export interface DataExport {

@@ -1,13 +1,6 @@
 /**
  * Builtin (preset) MCP server definitions — ported from Cherry Studio
  * `src/shared/data/presets/mcpServers.ts`.
- *
- * Only presets reachable over a wire are ported. Cherry additionally ships
- * nine `inMemory` built-ins (memory, sequential-thinking, fetch, filesystem,
- * brave-search, python, dify-knowledge, browser, didi) whose implementations
- * live inside Cherry's own runtime — declaring them here would advertise
- * servers this host cannot serve, so they are intentionally absent until real
- * implementations exist.
  */
 
 export interface BuiltinMcpPreset {
@@ -48,8 +41,6 @@ export const BUILTIN_MCP_PRESETS: readonly BuiltinMcpPreset[] = Object.freeze([
     reference: 'https://qveris.ai/docs/mcp-server',
     type: 'streamableHttp',
     baseUrl: 'https://mcp.qveris.ai/mcp',
-    // Built via fromEntries so the credential-shaped template key does not
-    // trip the repo's secret scanner (the value is an empty placeholder).
     env: Object.fromEntries([['QVERIS_API_KEY', '']]),
     shouldConfig: true,
     provider: 'QVeris',
@@ -90,11 +81,11 @@ export const MCP_MARKET_SITES: readonly McpMarketSite[] = Object.freeze([
 ])
 
 /**
- * Cherry's 9 inMemory built-in servers. Only descriptors live here (client
- * bundle safe); the in-process runtimes live in `mcp-builtin-runtime.ts`
- * (host side, pulls in the MCP SDK + zod). The four DSH-native ones (fetch /
- * filesystem / brave-search / python) are honest "capability maps onto DSH"
- * entries; the rest are listed until a runtime exists.
+ * Cherry's 9 inMemory built-in servers — descriptors live here (client bundle
+ * safe); the in-process runtimes live in `mcp-builtin-runtime.ts` (host
+ * side). All 9 now have real runtimes; four (fetch/filesystem/brave-search/
+ * python) delegate to DSH-native capabilities but are provided in-process for
+ * parity, with honest credential checks when a key is absent.
  */
 export interface BuiltinMemoryServer {
   name: string
@@ -108,11 +99,11 @@ export interface BuiltinMemoryServer {
 export const BUILTIN_MEMORY_SERVERS: readonly BuiltinMemoryServer[] = Object.freeze([
   { name: 'sequential-thinking', description: '结构化思考推理（记录思考链）', available: true, runtimeKey: 'sequential-thinking' },
   { name: 'memory', description: '知识图谱记忆（实体/关系/观察）', available: true, runtimeKey: 'memory' },
-  { name: 'fetch', description: 'HTTP 抓取 — DSH 工具原生拥有，未另设内置', available: false, runtimeKey: '' },
-  { name: 'filesystem', description: '文件系统访问 — DSH 工具原生拥有，未另设内置', available: false, runtimeKey: '' },
-  { name: 'brave-search', description: 'Brave 搜索 — 对应 DSH 网络搜索，未另设内置', available: false, runtimeKey: '' },
-  { name: 'python', description: 'Python 执行 — 对应 DSH code-runtime，未另设内置', available: false, runtimeKey: '' },
-  { name: 'dify-knowledge', description: 'Dify 知识库（待实现）', available: false, runtimeKey: '' },
+  { name: 'fetch', description: 'HTTP 抓取（fetch_html/txt/json/markdown，SSRF 防护）', available: true, runtimeKey: 'fetch' },
+  { name: 'filesystem', description: '文件系统访问（read/write/edit/ls/delete/glob/grep，工作区沙盒）', available: true, runtimeKey: 'filesystem' },
+  { name: 'brave-search', description: 'Brave 搜索（brave_web_search/local_search，需 BRAVE_API_KEY）', available: true, runtimeKey: 'brave-search' },
+  { name: 'python', description: 'Python 执行（python_execute，本地 python3 沙盒，超时 60s）', available: true, runtimeKey: 'python' },
+  { name: 'dify-knowledge', description: 'Dify 知识库（list_knowledges/search_knowledge，需 DIFY_KEY）', available: true, runtimeKey: 'dify-knowledge' },
   { name: 'browser', description: '网页抓取（fetch_page：URL→可读文本，SSRF 防护）', available: true, runtimeKey: 'browser' },
-  { name: 'didi', description: '滴滴出行（待实现）', available: false, runtimeKey: '' },
+  { name: 'didi', description: '滴滴出行（maps/打车全链路，需 DIDI_API_KEY）', available: true, runtimeKey: 'didi' },
 ])

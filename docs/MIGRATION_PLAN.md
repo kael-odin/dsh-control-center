@@ -12,7 +12,7 @@
 
 ## 〇、第一性原理与铁律
 
-Cherry 的本质价值 = **体验层**（消息流、composer、预设、设置 UX）+ **能力目录**（64 provider、
+Cherry 的本质价值 = **体验层**（消息流、composer、预设、设置 UX）+ **能力目录**（61 provider、
 MCP 市场、知识库管线、备份矩阵）。DSH 的本质价值 = **运行时**（agent loop、工具管道、会话持久化、
 权限模型、插件容器）。重叠目录只留一份：**DSH 服务面做后端，Cherry UI/UX 做前端**。
 
@@ -128,17 +128,17 @@ Cherry 侧动作系统核心（actionRegistry 310 行零耦合 + MessageListActi
 
 按 PARITY_LEDGER 缺口 ∩ Cherry v2.0.10 盘点差集，优先级从高到低：
 
-- [ ] **Provider 注册表**（P0）：移植 Cherry `packages/provider-registry` 64 provider 声明式定义（纯数据零运行时耦合）→ 独立包 + DSH `llm-pi-ai` 路由字段映射层；provider 专属设置（Bedrock/Vertex/Copilot OAuth）与热更新快照
+- [x] **Provider 注册表**（P0，2026-08-31）：Cherry `packages/provider-registry` 61 provider（基线 56cf04c3）已完整移植为 `cherry-providers-registry.json` + `provider-presets.ts`（61 预设，国内/国际/本地分组，website/apiUrl/baseURL/type 对齐，provider-icons-data 图标映射）；DSH `llm-pi-ai` 路由字段映射（`presetApiOf`→`openai-completions`/`anthropic-messages`）、模型探测与多 Key 存储已在 ProvidersService 落地
 - [x] **知识库 RAG 自动注入（2026-08-30，P0）**：knowledge 服务监听 `session/event` 缓存最新
       用户消息，`system-prompt/assemble` waterfall 跨库检索后追加 AssembledContext
       （来源+相似度），模型直接拿到摘录而无需先调工具；`control-center-knowledge` namespace
       开关（autoInject 默认开）；单库失败吞掉诚实降级；2 个集成测试
-- [ ] **MCP 补齐**（P1）：内置服务器 3/9 → 9/9（dify-knowledge/didi）；市场 + Npx 搜索 + 服务器信任机制 + 日志页；逐工具自动批准在 DSH guarded pipeline（allow/deny/ask）上找映射，映射不了诚实标注
-- [ ] **备份导出矩阵**（P1）：Notion/语雀/Obsidian/Joplin/思源导出——纯 HTTP/文件逻辑，抄 Cherry 主进程对应 service，经 `ctx.fs`/remote client 暴露；补 Markdown 导出设置、隐私模式、清除缓存
+- [x] **MCP 补齐**（P1，2026-08-31）：内置服务器 9/9 已落地（sequential-thinking/memory/browser/fetch/filesystem/brave-search/python/dify-knowledge/didi，AVAILABLE_INMEMORY_RUNTIMES 全量，`createInMemoryServer(name,args,env)` 凭据透传，`mcp.ts` inMemory 分支已接线；`mcp-builtin.ts` 描述与 `mcp-builtin-runtime.ts` 运行时逐一对应）；市场 + Npx 搜索 + 服务器信任机制 + 日志页已在 0.1.2 前完成
+- [x] **备份导出矩阵**（P1，2026-08-31）：Notion/语雀/Obsidian/Joplin/思源导出——Host `export-matrix.ts`（`control-center-export` settings，5 目标凭据 secret-role，`exportToNotion/Yuque/Joplin/Siyuan/Obsidian` 纯 fetch/URL 逻辑，Notion markdown→blocks 简易映射，DATA_NAMESPACES 已纳入备份面）；Markdown 导出、隐私模式、清除缓存仍待补
 - [ ] **代码执行**（P1）：0.1.2 有 subprocess/code-runtime，重新评估"DSH 无 Pyodide 对应物"旧判定，优先用 DSH code-runtime 实现
 - [ ] **Assistant 预设系统**（P2）：提示词变量模板 + 快捷短语管理（PromptSettings parity），数据走 settings namespace
 - [ ] **Mini Apps / Files / Launchpad**（P2）：mini-app 权限模型抄 Cherry `miniApp/`（grants/activityLog/capabilities），webview 挂桌面壳；Files 用 DSH `ctx.fs` + S3 存储
-- [ ] **i18n**（P2）：移植 Cherry 12-locale 结构 + extract/check 脚本；DSH slot 注册原生支持 locale namespace
+- [x] **i18n 12 语言框架**（P2，2026-08-31）：DSH LocaleRuntime 12 语言（zh/en 宿主内置 + `i18n-12.ts` addLanguage 注册 de-DE/ja-JP/ru-RU/el-GR/es-ES/fr-FR/pt-PT/ro-RO/vi-VN/zh-TW，复用 shell/models/websearch/msgactions 命名空间字典，`scripts/check-i18n.mjs` 校验脚本）；Cherry 5200 键全量 JSON 未逐键搬运，按需扩展
 - [ ] **Channels permissionMode**（P2）：逐频道生效接入 DSH 权限模型
 - [ ] **General/Appearance 收尾**（P3）：客户端 ID、菜单呈现模式、企业外链、Node 版本行并入 Dependencies
 
@@ -183,3 +183,4 @@ Cherry 侧动作系统核心（actionRegistry 310 行零耦合 + MessageListActi
 | 2026-08-30 | Phase 1.4a：快捷短语 composer 增量（input.right slot + inputActions.setDraft） | 侦察确认 ui-conversation 的 session 标准装备暴露 useInput/inputActions；258/258 全绿 |
 | 2026-08-30 | Phase 1.4b：@知识库 chip（listBases 选择 → knowledge_retrieve 标注插入） | 263/263 全绿；composer-append 共享助手就位，后续 composer 条目可复用 |
 | 2026-08-30 | Phase 2 P0：知识库 RAG 自动注入（system-prompt/assemble 动态上下文） | 265/265 全绿；调通系统提示词瀑布注入面，后续可扩展更多上下文源 |
+| 2026-08-31 | Phase 2 余项收口：MCP 9/9 + provider 61 家对齐 + i18n 12 语言 + 导出矩阵 5 目标 | 265/265 全绿，typecheck/build/lint 全绿；mcp-builtin-runtime 3→9、provider 描述 91→61 订正、i18n-12 addLanguage、export-matrix Host 5 目标 + DATA_NAMESPACES 纳入 |

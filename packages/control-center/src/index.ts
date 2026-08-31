@@ -27,6 +27,7 @@ import fileProcessingRemote from './file-processing-remote-client.ts'
 import { UsageService } from './usage.ts'
 import usageRemote from './usage-remote-client.ts'
 import { DataService } from './data.ts'
+import { ExportMatrixService } from './export-matrix.ts'
 import dataRemote from './data-remote-client.ts'
 import { SystemService } from './system.ts'
 import systemRemote from './system-remote-client.ts'
@@ -197,6 +198,7 @@ export function apply(ctx: Context): void {
   new FileProcessingService(ctx)
   new UsageService(ctx)
   new DataService(ctx)
+  new ExportMatrixService(ctx)
   new SystemService(ctx)
   new TasksService(ctx)
   new LocalModelsService(ctx)

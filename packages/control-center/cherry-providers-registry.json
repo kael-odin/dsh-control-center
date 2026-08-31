@@ -1,7 +1,7 @@
 {
   "$schema": "./cherry-providers-schema.json",
   "version": "1.0.0",
-  "description": "Cherry Studio provider registry - 91 providers replicated from packages/provider-registry/data/providers.json",
+  "description": "Cherry Studio provider registry - 61 providers replicated from packages/provider-registry/data/providers.json (Cherry 56cf04c3)",
   "providers": [
     {
       "id": "cherryin",

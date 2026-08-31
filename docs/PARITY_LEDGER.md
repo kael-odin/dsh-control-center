@@ -35,7 +35,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 核心 | Model | ✅ | 默认模型/快捷模型/重试设置已实现；话题命名为 DSH 原生诚实卡（ModelsSection.tsx topicNamingCard）——DSH 会话标题是 loader-only 配置，自定义提示词无法运行时生效（见 harness rc.2 事实） |
 | 核心 | Local Models | ✅ | LocalModelsSection + LocalModelDownloads（Qwen3 Embedding / PaddleOCR 卡片） |
 | 核心 | API Gateway | ✅ | **网关运行时已实装（2026-08-26）**：`controlCenterGateway` 本地回环 HTTP 服务（仅 127.0.0.1）——`POST /v1/chat/completions`（OpenAI，流式 SSE+非流式）、`POST /v1/messages`（Anthropic，同）、`GET /v1/models`（provider 目录）；`Authorization: Bearer` 鉴权（密钥存 control-center-gateway namespace）；`model` 路由 `provider/model`，缺省落 agent-default-model；客户端断连即中止模型调用。设置页接真实启停/状态卡/URL+密钥+授权头复制。5 条集成测试（路由/401/SSE/[DONE]/Anthropic）。*API 文档页已实装（2026-08-27）：GET /docs（及 /v1/docs）返回自包含 HTML 文档页（连接信息/鉴权/模型路由约定/三端点/curl 示例），loopback 免鉴权，设置页「API 文档」链接直接可用 |
-| 能力 | MCP | ⚠️ | **真实子导航（Cherry McpSettingsPage parity，2026-08-24）**：服务器（分栏列表+详情 tab）/ 内置服务器（预设页 + **内置运行时区，2026-08-24**）/ 市场（npx scope 搜索 + 外部市场站点）/ **提供商配置（Bailian 百炼 + ModelScope 托管 MCP 发现）** / **协议安装向导（批量安装确认）**。**内置服务器 9 个 inMemory 已落地 3 个**（sequential-thinking + memory + browser 进程内 MCP 服务器，InMemoryTransport 无外部进程；browser 为 fetch_page 网页抓取→可读文本，SSRF 防护+2MB 上限，2026-08-26）；fetch/filesystem/brave-search/python 映射 DSH 原生能力；dify-knowledge/didi 待实现 |
+| 能力 | MCP | ✅ | **真实子导航（Cherry McpSettingsPage parity，2026-08-24）**：服务器（分栏列表+详情 tab）/ 内置服务器（预设页 + **内置运行时区，2026-08-31 9/9**）/ 市场（npx scope 搜索 + 外部市场站点）/ **提供商配置（Bailian 百炼 + ModelScope 托管 MCP 发现）** / **协议安装向导（批量安装确认）**。**内置服务器 9 个 inMemory 全部落地**（sequential-thinking/memory/browser/fetch/filesystem/brave-search/python/dify-knowledge/didi，InMemoryTransport 无外部进程；fetch 为 fetch_html/txt/json/markdown，filesystem 为 read/write/edit/ls/delete/glob/grep 工作区沙盒，brave-search 需 BRAVE_API_KEY，python 走本地 python3，dify-knowledge 需 DIFY_KEY+host，didi 需 DIDI_API_KEY，缺凭据时诚实报错） |
 | 能力 | Skills | ✅ | SkillsSection 资源目录视图 |
 | 能力 | Web Search | ✅ | WebSearchSection：提供者配置/高级设置/黑名单 |
 | 能力 | File Processing | ✅ | 6 种文档处理器真实分发（2026-08-26）：本地文本/PDF 提取、Mistral OCR（上传→签名 URL→OCR→清理）、Open MinerU 自托管、MinerU/Doc2X/PaddleOCR 文档走持久化远程任务（storage-domain 存储、30 分钟 deadline、重启恢复、取消）。API Key 只存 DSH credentials，settings/导出仅保留引用；每 feature 端点/模型/语言配置；provider 返回的 URL/头/响应体均经白名单与大小校验。缺：system/local-paddleocr 需桌面原生桥 |
@@ -43,7 +43,7 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 个人 | General | ⚠️ | GeneralCherrySettings.tsx：启动/托盘/省电/开发者模式与 Context Management 均真实可写。**代理组已上线（2026-08-26）**：模式（关闭/系统/自定义）+ 自定义地址 + 绕过列表 + 允许私有网络 + **禁用硬件加速（桌面壳 boot 前消费，重启生效）**，写入 `control-center-general`（Cherry app.proxy.* / app.fetch.allow_private_network / BootConfig.app.disable_hardware_acceleration 键位映射）。Context Management 映射到 DSH：普通工具和 Code Mode 子调用按字符阈值 spill，最近消息窗口以可回放 checkpoint 收缩，自动压缩通过 agent-scoped compaction，压缩模型仅路由 `purpose: compaction` 请求；已由 packed Web profile 多轮会话验证。仍缺：客户端 ID。注意关闭该开关只关闭 Control Center 自定义策略，DSH 原生 overflow recovery 仍可能执行。 |
 | 个人 | Appearance | ⚠️ | 主题/颜色/语言/字体/缩放/CSS、**消息字体大小（12–18px stepper）**、**消息显示设置组（宽屏模式/衬线字体/消息样式平铺·气泡/消息轮廓，2026-08-24，经 `[data-chat-flow-kind]` 注入并持久化）**、**窗口组（窗口样式不透明·透明 + 系统标题栏，桌面偏好持久化，2026-08-24）** 已实现。**仍缺**：菜单呈现模式、代码执行（Pyodide，DSH 无此运行时）、输入区快捷键（DSH composer 原生拥有） |
 | 个人 | Notification | ✅ | 4 个开关完全对等 |
-| 个人 | Data | ⚠️ | IA 已重构为 Cherry 子菜单（13 项/5 组）。本地备份+轮转+恢复、WebDAV 云备份、**坚果云（WebDAV 厂商预设）**、**S3 兼容存储（AWS SigV4 手写签名，无 SDK，2026-08-24）**、Markdown 导出、备份/恢复、数据重置、应用数据路径 均可用。**ChatGPT/Claude 导入已上线（2026-08-26，归档式）**：解析两家导出 JSON → Markdown 归档下载；DSH 无会话导入 RPC 且内部日志为 zstd 事件流，不伪装成原生会话（诚实标签）。**仍缺**：导出菜单可见性、Notion/语雀/Joplin/Obsidian/思源笔记导出、日志路径、清除缓存、隐私模式 |
+| 个人 | Data | ⚠️ | IA 已重构为 Cherry 子菜单（13 项/5 组）。本地备份+轮转+恢复、WebDAV 云备份、**坚果云（WebDAV 厂商预设）**、**S3 兼容存储（AWS SigV4 手写签名，无 SDK，2026-08-24）**、Markdown 导出、备份/恢复、数据重置、应用数据路径 均可用。**ChatGPT/Claude 导入已上线（2026-08-26，归档式）**：解析两家导出 JSON → Markdown 归档下载；DSH 无会话导入 RPC 且内部日志为 zstd 事件流，不伪装成原生会话（诚实标签）。**导出矩阵 5 目标 Host 已落地（2026-08-31，`control-center-export`，Notion/Yuque/Joplin/Siyuan/Obsidian，需各平台凭据，Obsidian 为 URL 方案）**。**仍缺**：导出菜单可见性开关、日志路径、清除缓存、隐私模式 |
 | 个人 | Usage | ✅ | UsageSection：热力图/分布图/指标条/详情表 |
 | 自动化 | Channels | ⚠️ | 六平台全部真实连通（TG/Discord/Slack/QQ/飞书/微信），共享回复管线 + 状态点 + 日志环。**Agent 绑定已上线（2026-08-24）**：每频道可配 `agentProvider`/`agentModel`/`agentSystemPrompt`，绑定后优先于共享默认模型并带自定义系统提示词（对应 Cherry ChannelData.agentId；DSH 无逐会话 agent 编排，故实现为模型+提示词覆盖而非完整 agent 组合）。**仍缺**：permissionMode 逐频道生效接入 |
 | 自动化 | Scheduled Tasks | ✅ | TasksSection 任务列表/调度/历史 |
@@ -100,16 +100,16 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 可用：本地备份+轮转+恢复、WebDAV（PUT/PROPFIND/连接测试/恢复/列表）、**坚果云（WebDAV 厂商预设端点 dav.jianguoyun.com + 应用密码提示 + 独立 `control-center-webdav-nutstore` 命名空间）**、Markdown 导出、快照备份/恢复、数据重置。
 
 仍缺：
-- ChatGPT / Claude 导入：需会话导入 API
-- 导出菜单可见性：各导出目标开关
-- 笔记导出五件套：Notion / 语雀 / Joplin / Obsidian / 思源（host 侧 API 集成）
+- ChatGPT / Claude 导入：需会话导入 API（已做归档式导入，本项视为完成）
+- 导出菜单可见性：各导出目标开关（`control-center-export.menus` 已落地，需前端开关面）
+- 笔记导出五件套：Notion / 语雀 / Joplin / Obsidian / 思源（Host 已落地，2026-08-31）
 - 日志路径 / 清除缓存 / 隐私模式
 
 ### 4. MCP — 服务器管理
 
-已有：服务器列表分栏布局、真实子导航（服务器/内置服务器[内置运行时+协议预设]/市场/提供商配置/协议安装向导）、Npx 搜索、外部市场站点、进程内内置服务器 2 个已落地。
+已有：服务器列表分栏布局、真实子导航（服务器/内置服务器[9/9 内置运行时+协议预设]/市场/提供商配置/协议安装向导）、Npx 搜索、外部市场站点、进程内内置服务器 9/9 已落地（2026-08-31）。
 
-仍缺：inMemory 内置 server 2 个（dify-knowledge/didi，均需外部服务实例）；QuickCreate 独立对话框（快速导入已覆盖单服务器场景）。
+仍缺：QuickCreate 独立对话框（快速导入已覆盖单服务器场景）；dify/didi 的外部凭据为可选，未配置时诚实报错而非静默不可用。
 
 ### 5. Channels — 频道
 

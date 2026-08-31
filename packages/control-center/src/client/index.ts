@@ -39,6 +39,7 @@ import { AssistantMessageActions, type AssistantMessageActionsServices } from '.
 import { QuickPhrasesButton, type ComposerSettingsFace } from './QuickPhrasesButton.tsx'
 import { KnowledgeChipButton, type KnowledgeChipKnowledgeFace } from './KnowledgeChipButton.tsx'
 import { msgActionsZh, msgActionsEn, type MsgActionsKey } from './msgactions-locales.ts'
+import { CHERRY_12_LOCALES } from './i18n-12.ts'
 import type {} from '../skills-types.ts'
 import skillsRemote from '../skills-remote-client.ts'
 import { SkillsSection } from './SkillsSection.tsx'
@@ -278,6 +279,17 @@ export function apply(ctx: ClientContext): void {
   ctx.effect(() => ctx.locale.register(MODELS_NS, { zh: modelsZh, en: modelsEn }), 'control-center: model dictionaries')
   ctx.effect(() => ctx.locale.register(WEBSEARCH_NS, { zh: websearchZh, en: websearchEn }), 'control-center: web search dictionaries')
   ctx.effect(() => ctx.locale.register(MSGACTIONS_NS, { zh: msgActionsZh, en: msgActionsEn }), 'control-center: msgactions dictionaries')
+  ctx.effect(() => {
+    const disposers: Array<() => void> = []
+    for (const { id, label, fallback } of CHERRY_12_LOCALES) {
+      if (id === 'zh' || id === 'en' || id === 'zh-CN') continue
+      try { disposers.push(ctx.locale.addLanguage({ id, label, fallback })) } catch { /* already registered */ }
+      for (const [ns, dict] of [[SHELL_NS, shellZh], [MODELS_NS, modelsZh], [WEBSEARCH_NS, websearchZh], [MSGACTIONS_NS, msgActionsZh]] as const) {
+        try { disposers.push(ctx.locale.register(ns, id, dict as Record<string, string>)) } catch { /* already registered */ }
+      }
+    }
+    return () => { for (const dispose of disposers) try { dispose() } catch { /* ignore */ } }
+  }, 'control-center: 12-locale packs (Cherry 12 → DSH addLanguage)')
   const shellT = ctx.locale.bind(SHELL_NS)
   const modelT = ctx.locale.bind(MODELS_NS) as ModelsSectionInjected['t']
   const websearchT = ctx.locale.bind(WEBSEARCH_NS) as (key: WebSearchKey) => string

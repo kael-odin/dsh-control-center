@@ -368,8 +368,8 @@ export class McpService extends Service {
         this.addServerLog(serverId, 'Server connected')
       } else if (record.type === 'inMemory') {
         const runtimeName = record.command ?? record.name
-        this.ctx.logger.info('Starting in-process MCP server', { serverId, runtimeName })
-        const { clientTransport } = createInMemoryServer(runtimeName)
+        this.ctx.logger.info('Starting in-process MCP server', { serverId, runtimeName, args: record.args, envKeys: record.env ? Object.keys(record.env) : [] })
+        const { clientTransport } = createInMemoryServer(runtimeName, record.args ?? [], record.env ?? {})
         transport = clientTransport
         client = new Client(
           { name: 'dsh-control-center', version: '1.0.0' },
