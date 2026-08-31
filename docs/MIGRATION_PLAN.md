@@ -129,7 +129,10 @@ Cherry 侧动作系统核心（actionRegistry 310 行零耦合 + MessageListActi
 按 PARITY_LEDGER 缺口 ∩ Cherry v2.0.10 盘点差集，优先级从高到低：
 
 - [ ] **Provider 注册表**（P0）：移植 Cherry `packages/provider-registry` 64 provider 声明式定义（纯数据零运行时耦合）→ 独立包 + DSH `llm-pi-ai` 路由字段映射层；provider 专属设置（Bedrock/Vertex/Copilot OAuth）与热更新快照
-- [ ] **知识库 RAG 自动注入**（P0）：现在只有 agent 主动调 `knowledge_retrieve`；在 DSH prompt 组装点/工具调用前钩子实现检索自动注入（Cherry 语义）
+- [x] **知识库 RAG 自动注入（2026-08-30，P0）**：knowledge 服务监听 `session/event` 缓存最新
+      用户消息，`system-prompt/assemble` waterfall 跨库检索后追加 AssembledContext
+      （来源+相似度），模型直接拿到摘录而无需先调工具；`control-center-knowledge` namespace
+      开关（autoInject 默认开）；单库失败吞掉诚实降级；2 个集成测试
 - [ ] **MCP 补齐**（P1）：内置服务器 3/9 → 9/9（dify-knowledge/didi）；市场 + Npx 搜索 + 服务器信任机制 + 日志页；逐工具自动批准在 DSH guarded pipeline（allow/deny/ask）上找映射，映射不了诚实标注
 - [ ] **备份导出矩阵**（P1）：Notion/语雀/Obsidian/Joplin/思源导出——纯 HTTP/文件逻辑，抄 Cherry 主进程对应 service，经 `ctx.fs`/remote client 暴露；补 Markdown 导出设置、隐私模式、清除缓存
 - [ ] **代码执行**（P1）：0.1.2 有 subprocess/code-runtime，重新评估"DSH 无 Pyodide 对应物"旧判定，优先用 DSH code-runtime 实现
@@ -179,3 +182,4 @@ Cherry 侧动作系统核心（actionRegistry 310 行零耦合 + MessageListActi
 | 2026-08-30 | Phase 1.1c：actionRegistry 移植 + more-menu（复制原文/导出 Markdown） | 252/252 全绿；注册表成为后续全部消息动作的扩展点 |
 | 2026-08-30 | Phase 1.4a：快捷短语 composer 增量（input.right slot + inputActions.setDraft） | 侦察确认 ui-conversation 的 session 标准装备暴露 useInput/inputActions；258/258 全绿 |
 | 2026-08-30 | Phase 1.4b：@知识库 chip（listBases 选择 → knowledge_retrieve 标注插入） | 263/263 全绿；composer-append 共享助手就位，后续 composer 条目可复用 |
+| 2026-08-30 | Phase 2 P0：知识库 RAG 自动注入（system-prompt/assemble 动态上下文） | 265/265 全绿；调通系统提示词瀑布注入面，后续可扩展更多上下文源 |
