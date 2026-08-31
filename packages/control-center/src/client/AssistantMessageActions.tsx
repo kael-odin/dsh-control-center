@@ -87,7 +87,7 @@ export function looksChinese(text: string): boolean {
 }
 
 export function AssistantMessageActions(props: AssistantMessageActionsProps) {
-  const [status, setStatus] = useState<Partial<Record<'notes' | 'knowledge', ActionStatus>>>({})
+  const [status, setStatus] = useState<Partial<Record<'notes' | 'knowledge' | 'copy', ActionStatus>>>({})
   const [bases, setBases] = useState<ReadonlyArray<{ id: string; name?: string }>>([])
   const [pickerOpen, setPickerOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -102,7 +102,7 @@ export function AssistantMessageActions(props: AssistantMessageActionsProps) {
 
   const title = props.useSessions(state => state.byId[props.sessionId]?.displayTitle)
 
-  const setStatusFor = useCallback((key: 'notes' | 'knowledge', next: ActionStatus) => {
+  const setStatusFor = useCallback((key: 'notes' | 'knowledge' | 'copy', next: ActionStatus) => {
     setStatus(previous => ({ ...previous, [key]: next }))
     if (next === 'ok' || typeof next === 'object') {
       window.setTimeout(() => {
@@ -264,7 +264,19 @@ export function AssistantMessageActions(props: AssistantMessageActionsProps) {
       id: 'copy-text', label: 'copyText', surface: 'menu',
       run: async context => {
         const text = await context.loadText()
-        if (text !== undefined && text.length > 0) await navigator.clipboard.writeText(text)
+        if (text === undefined || text.length === 0) throw new Error(context.t('noText'))
+        await navigator.clipboard.writeText(text)
+        setStatusFor('copy', 'ok')
+      },
+    })
+    instance.registerAction({
+      id: 'copy-markdown', label: 'copyMarkdown', surface: 'menu', group: 'export',
+      run: async context => {
+        const text = await context.loadText()
+        if (text === undefined || text.length === 0) throw new Error(context.t('noText'))
+        const markdown = `# ${context.title ?? context.t('messageFallback')}\n\n${text}\n`
+        await navigator.clipboard.writeText(markdown)
+        setStatusFor('copy', 'ok')
       },
     })
     instance.registerAction({
