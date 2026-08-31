@@ -1174,3 +1174,18 @@
   font-size: 11px;
   color: var(--foreground-tertiary, var(--muted-foreground));
 }
+
+.modelAdvancedExtra {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modelPricingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+}

@@ -360,6 +360,63 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
     }))
   }
 
+  const toggleCapability = (index: number, cap: string, on: boolean): void => {
+    onChange(models.map((model, at) => {
+      if (at !== index) return model
+      const nextModel: Record<string, unknown> = { ...model }
+      const caps = (model.capabilities ?? {}) as Record<string, unknown>
+      const next = { ...caps }
+      if (on) next[cap] = true
+      else delete next[cap]
+      if (Object.keys(next).length > 0) nextModel.capabilities = next
+      else delete nextModel.capabilities
+      return nextModel
+    }))
+  }
+
+  const editIncremental = (index: number, on: boolean): void => {
+    onChange(models.map((model, at) => {
+      if (at !== index) return model
+      const nextModel: Record<string, unknown> = { ...model }
+      if (on) nextModel.incrementalOutput = true
+      else delete nextModel.incrementalOutput
+      return nextModel
+    }))
+  }
+
+  const patchPricing = (index: number, field: string, raw: string): void => {
+    onChange(models.map((model, at) => {
+      if (at !== index) return model
+      const nextModel: Record<string, unknown> = { ...model }
+      const current = (model.pricing ?? {}) as Record<string, unknown>
+      const trimmed = raw.trim()
+      if (field === 'currency') {
+        const next = { ...current }
+        if (trimmed.length === 0) delete next.currency
+        else next.currency = trimmed.toUpperCase().slice(0, 8)
+        if (Object.keys(next).length > 0) nextModel.pricing = next
+        else delete nextModel.pricing
+        return nextModel
+      }
+      if (trimmed.length === 0) {
+        const next = { ...current }
+        delete next[field]
+        if (Object.keys(next).length === 0 || (Object.keys(next).length === 1 && 'currency' in next)) {
+          const onlyCurrency = Object.keys(next).length === 1 && 'currency' in next
+          if (onlyCurrency) delete nextModel.pricing
+          else if (Object.keys(next).length === 0) delete nextModel.pricing
+          else nextModel.pricing = next
+        } else nextModel.pricing = next
+        return nextModel
+      }
+      const parsed = Number(trimmed)
+      if (!Number.isFinite(parsed) || parsed < 0) return model
+      const next = { ...current, [field]: parsed }
+      nextModel.pricing = next
+      return nextModel
+    }))
+  }
+
   const fetchModels = async (): Promise<void> => {
     setBusy(true)
     setFailure(undefined)
@@ -750,9 +807,17 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
                         const caps = (model.capabilities ?? {}) as Record<string, boolean>
                         const reasoningOn = model.reasoningEfforts !== undefined || caps.reasoning === true
                         const visionOn = Array.isArray(model.input) ? model.input.map(String).includes('image') : caps.vision === true
+                        const audioOn = caps.audio === true
+                        const videoOn = caps.video === true
+                        const functionCallingOn = caps.functionCalling === true
+                        const embeddingOn = caps.embedding === true
                         return ([
                           { key: 'reasoning', label: t('capReasoning'), on: reasoningOn, toggle: () => { editReasoning(index, !reasoningOn) } },
                           { key: 'vision', label: t('capVision'), on: visionOn, toggle: () => { editImageInput(index, !visionOn) } },
+                          { key: 'functionCalling', label: t('capFunctionCalling'), on: functionCallingOn, toggle: () => { toggleCapability(index, 'functionCalling', !functionCallingOn) } },
+                          { key: 'embedding', label: t('capEmbedding'), on: embeddingOn, toggle: () => { toggleCapability(index, 'embedding', !embeddingOn) } },
+                          { key: 'audio', label: t('capAudio'), on: audioOn, toggle: () => { toggleCapability(index, 'audio', !audioOn) } },
+                          { key: 'video', label: t('capVideo'), on: videoOn, toggle: () => { toggleCapability(index, 'video', !videoOn) } },
                         ]).map(chip => (
                           <button
                             key={chip.key}
@@ -766,6 +831,67 @@ export function ModelListEditor(props: ModelListEditorProps): ReactNode {
                           </button>
                         ))
                       })()}
+                    </div>
+                  </div>
+                  <div className={styles['modelAdvancedExtra']}>
+                    <div className={styles['modelFieldLabel']}>{t('modelAdvancedExtra')}</div>
+                    <label className={styles['modelField']}>
+                      <span className={styles['modelFieldLabel']}>{t('modelPurposeLabel')}</span>
+                      <select
+                        className={styles['input']}
+                        value={textOf(model, 'purpose') || 'dialogue'}
+                        disabled={disabled}
+                        onChange={(event) => { patch(index, { purpose: event.target.value }) }}
+                      >
+                        <option value="dialogue">{t('modelPurposeDialogue')}</option>
+                        <option value="image-generation">{t('modelPurposeImageGen')}</option>
+                        <option value="image-editing">{t('modelPurposeImageEdit')}</option>
+                      </select>
+                    </label>
+                    <label className={styles['modelField']}>
+                      <span className={styles['modelFieldLabel']}>{t('modelProtocolLabel')}</span>
+                      <input
+                        className={styles['input']}
+                        type="text"
+                        value={textOf(model, 'protocol')}
+                        placeholder={t('modelProtocolPlaceholder')}
+                        disabled={disabled}
+                        onChange={(event) => { patch(index, { protocol: event.target.value === '' ? undefined : event.target.value }) }}
+                      />
+                    </label>
+                    <label className={styles['modelField']}>
+                      <span className={styles['modelFieldLabel']}>{t('modelIncrementalLabel')}</span>
+                      <input
+                        type="checkbox"
+                        checked={(model.incrementalOutput as boolean) === true}
+                        disabled={disabled}
+                        onChange={(event) => { editIncremental(index, event.target.checked) }}
+                      />
+                    </label>
+                    <div className={styles['modelField']}>
+                      <span className={styles['modelFieldLabel']}>{t('modelPricingLabel')}</span>
+                      <div className={styles['modelPricingGrid']}>
+                        <label className={styles['modelField']}>
+                          <span className={styles['modelFieldLabel']}>{t('modelPricingCurrency')}</span>
+                          <input className={styles['input']} type="text" value={((model.pricing as Record<string, unknown> | undefined)?.currency as string) ?? ''} placeholder="USD" disabled={disabled} onChange={(event) => { patchPricing(index, 'currency', event.target.value) }} />
+                        </label>
+                        <label className={styles['modelField']}>
+                          <span className={styles['modelFieldLabel']}>{t('modelPricingInput')}</span>
+                          <input className={styles['input']} type="text" inputMode="decimal" value={((model.pricing as Record<string, unknown> | undefined)?.input as number | undefined) !== undefined ? String((model.pricing as Record<string, unknown>).input) : ''} placeholder="0.001" disabled={disabled} onChange={(event) => { patchPricing(index, 'input', event.target.value) }} />
+                        </label>
+                        <label className={styles['modelField']}>
+                          <span className={styles['modelFieldLabel']}>{t('modelPricingOutput')}</span>
+                          <input className={styles['input']} type="text" inputMode="decimal" value={((model.pricing as Record<string, unknown> | undefined)?.output as number | undefined) !== undefined ? String((model.pricing as Record<string, unknown>).output) : ''} placeholder="0.002" disabled={disabled} onChange={(event) => { patchPricing(index, 'output', event.target.value) }} />
+                        </label>
+                        <label className={styles['modelField']}>
+                          <span className={styles['modelFieldLabel']}>{t('modelPricingCacheRead')}</span>
+                          <input className={styles['input']} type="text" inputMode="decimal" value={((model.pricing as Record<string, unknown> | undefined)?.cacheRead as number | undefined) !== undefined ? String((model.pricing as Record<string, unknown>).cacheRead) : ''} placeholder="0.0001" disabled={disabled} onChange={(event) => { patchPricing(index, 'cacheRead', event.target.value) }} />
+                        </label>
+                        <label className={styles['modelField']}>
+                          <span className={styles['modelFieldLabel']}>{t('modelPricingCacheWrite')}</span>
+                          <input className={styles['input']} type="text" inputMode="decimal" value={((model.pricing as Record<string, unknown> | undefined)?.cacheWrite as number | undefined) !== undefined ? String((model.pricing as Record<string, unknown>).cacheWrite) : ''} placeholder="0.0001" disabled={disabled} onChange={(event) => { patchPricing(index, 'cacheWrite', event.target.value) }} />
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
