@@ -75,6 +75,11 @@ export const MODEL_PREFS_NAMESPACE_SETTINGS = settingsNamespace('control-center-
 const API_KEYS_NAMESPACE_SETTINGS = settingsNamespace('control-center-api-keys')
 /** Desktop general settings (launch, tray, proxy) — Cherry GeneralSettings parity. */
 const GENERAL_NAMESPACE_SETTINGS = settingsNamespace('control-center-general')
+const KNOWLEDGE_NAMESPACE_SETTINGS = settingsNamespace('control-center-knowledge')
+const KNOWLEDGE_SCHEMA = z.object({
+  // Cherry 语义：检索自动注入默认开启（仅影响配置了 embedding 的库）。
+  autoInject: z.boolean().default(true),
+})
 const COMPOSER_NAMESPACE_SETTINGS = settingsNamespace('control-center-composer')
 
 const COMPOSER_PHRASE_SCHEMA = z.object({
@@ -271,6 +276,10 @@ export function apply(ctx: Context): void {
   ctx.settings.register(
     COMPOSER_NAMESPACE_SETTINGS,
     COMPOSER_SCHEMA,
+  )
+  ctx.settings.register(
+    KNOWLEDGE_NAMESPACE_SETTINGS,
+    KNOWLEDGE_SCHEMA,
   )
   ctx.settings.register(
     API_KEYS_NAMESPACE_SETTINGS,

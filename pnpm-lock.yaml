@@ -328,12 +328,21 @@ importers:
       '@deepseek-ai/dsh-invariants':
         specifier: 0.1.2
         version: 0.1.2(@deepseek-ai/cordis@0.1.2)
+      '@deepseek-ai/dsh-scope':
+        specifier: 0.1.2
+        version: 0.1.2(@deepseek-ai/cordis@0.1.2)(@deepseek-ai/dsh-invariants@0.1.2(@deepseek-ai/cordis@0.1.2))
+      '@deepseek-ai/dsh-session':
+        specifier: 0.1.2
+        version: 0.1.2(786240389008d2c1e2cc66c4a6c3cf5d)
       '@deepseek-ai/dsh-settings':
         specifier: 0.1.2
         version: 0.1.2(@deepseek-ai/cordis@0.1.2)(@deepseek-ai/dsh-brand@0.1.2(@deepseek-ai/cordis@0.1.2)(@deepseek-ai/dsh-invariants@0.1.2(@deepseek-ai/cordis@0.1.2)))(@deepseek-ai/dsh-invariants@0.1.2(@deepseek-ai/cordis@0.1.2))(@deepseek-ai/dsh-session@0.1.2(786240389008d2c1e2cc66c4a6c3cf5d))(@deepseek-ai/schemastery@0.1.2)
       '@deepseek-ai/dsh-settings-file':
         specifier: 0.1.2
         version: 0.1.2(@deepseek-ai/cordis@0.1.2)(@deepseek-ai/dsh-atomic-write@0.1.2(@deepseek-ai/cordis@0.1.2)(@deepseek-ai/dsh-invariants@0.1.2(@deepseek-ai/cordis@0.1.2)))(@deepseek-ai/dsh-home-paths@0.1.2(@deepseek-ai/cordis@0.1.2)(@deepseek-ai/dsh-invariants@0.1.2(@deepseek-ai/cordis@0.1.2)))(@deepseek-ai/dsh-invariants@0.1.2(@deepseek-ai/cordis@0.1.2))(@deepseek-ai/dsh-settings@0.1.2(@deepseek-ai/cordis@0.1.2)(@deepseek-ai/dsh-brand@0.1.2(@deepseek-ai/cordis@0.1.2)(@deepseek-ai/dsh-invariants@0.1.2(@deepseek-ai/cordis@0.1.2)))(@deepseek-ai/dsh-invariants@0.1.2(@deepseek-ai/cordis@0.1.2))(@deepseek-ai/dsh-session@0.1.2(786240389008d2c1e2cc66c4a6c3cf5d))(@deepseek-ai/schemastery@0.1.2))
+      '@deepseek-ai/dsh-system-prompt':
+        specifier: 0.1.2
+        version: 0.1.2(@deepseek-ai/cordis@0.1.2)(@deepseek-ai/dsh-invariants@0.1.2(@deepseek-ai/cordis@0.1.2))(@deepseek-ai/dsh-llm@0.1.2(@deepseek-ai/cordis@0.1.2)(@deepseek-ai/dsh-attachment@0.1.2(@deepseek-ai/cordis@0.1.2)(@deepseek-ai/dsh-brand@0.1.2(@deepseek-ai/cordis@0.1.2)(@deepseek-ai/dsh-invariants@0.1.2(@deepseek-ai/cordis@0.1.2)))(@deepseek-ai/dsh-invariants@0.1.2(@deepseek-ai/cordis@0.1.2)))(@deepseek-ai/dsh-brand@0.1.2(@deepseek-ai/cordis@0.1.2)(@deepseek-ai/dsh-invariants@0.1.2(@deepseek-ai/cordis@0.1.2)))(@deepseek-ai/dsh-invariants@0.1.2(@deepseek-ai/cordis@0.1.2))(@deepseek-ai/dsh-timeout@0.1.2(@deepseek-ai/cordis@0.1.2)(@deepseek-ai/dsh-invariants@0.1.2(@deepseek-ai/cordis@0.1.2)))(@deepseek-ai/dsh-typert-protocol@0.1.2(@deepseek-ai/cordis@0.1.2)(@deepseek-ai/dsh-invariants@0.1.2(@deepseek-ai/cordis@0.1.2))))(@deepseek-ai/dsh-scope@0.1.2(@deepseek-ai/cordis@0.1.2)(@deepseek-ai/dsh-invariants@0.1.2(@deepseek-ai/cordis@0.1.2)))
       '@deepseek-ai/schemastery':
         specifier: 0.1.2
         version: 0.1.2

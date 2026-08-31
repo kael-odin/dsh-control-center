@@ -5,6 +5,7 @@ import { Context } from '@deepseek-ai/cordis'
 import { afterEach, describe, expect, it } from 'vitest'
 import { KnowledgeService } from '../src/knowledge.ts'
 import { LOCAL_EMBEDDING_PROVIDER_ID } from '../src/knowledge/embedding.ts'
+import { scopeTarget } from '@deepseek-ai/dsh-scope'
 
 function setup() {
   const ctx = new Context()
@@ -20,9 +21,14 @@ function setup() {
       provider: 'deepseek', displayName: 'DeepSeek', settingsNs: 'llm-pi-ai', settingsPath: ['providers', 'deepseek'],
     }],
   }
-  ctx.reflect.provide('settings', settings)
+  const settingsWithGet = {
+    ...settings,
+    get: () => ({ autoInject: true }),
+  }
+  ctx.reflect.provide('settings', settingsWithGet)
   ctx.reflect.provide('credentials', credentials)
   ctx.reflect.provide('llm', llm)
+  ctx.logger = { warn: () => {} } as never
   const home = mkdtempSync(join(tmpdir(), 'dsh-control-center-knowledge-'))
   const service = new KnowledgeService(ctx, { dshHome: home })
   return { ctx, service, home }
@@ -173,6 +179,81 @@ describe('KnowledgeService', () => {
       const created = service.createBase({ name: 'provider-base', embeddingProvider: 'deepseek', embeddingModel: 'embed-v1' })
       expect(created.embedding.model).toBe('embed-v1')
       expect(created.embedding.providerId).toBe('deepseek')
+    } finally {
+      cleanup(service, home)
+    }
+  })
+})
+
+describe('KnowledgeService RAG auto-inject', () => {
+  it('injects retrieved excerpts as a dynamic context after the user message', async () => {
+    const { ctx, service, home } = setup()
+    try {
+      const created = service.createBase({ name: '团队手册' })
+      const baseId = created.id
+      const src = service.addText({ baseId, name: 'onboarding', text: '入职手册包含新员工第一天的注意事项。' })
+      const indexed = await service.indexBase(baseId)
+
+      // Emit a user message so the prompt cache fills.
+      const session = { id: 'session-1' }
+      ctx.emit('session/event', session, {
+        type: 'user/message', seq: 1, time: Date.now(),
+        data: { turn: 1, message: { role: 'user', content: [{ type: 'text', text: '入职手册包含什么？' }] } },
+      })
+
+      const chunksAfter = service.listChunks(baseId, null, 20)
+      const direct = await service.retrieve({ baseId, query: '入职手册包含什么', topK: 4 })
+      const seed = {
+        sections: [], contexts: [] as Array<{ name: string; text: string }>,
+        tools: [], variables: {},
+      }
+      const assembly = await ctx.waterfall(
+        scopeTarget(service, undefined) as never,
+        'system-prompt/assemble',
+        seed,
+        { agent: { session } } as never,
+        () => seed,
+      )
+
+      const injected = (assembly as { contexts: Array<{ name: string; text: string }> }).contexts
+      expect(injected.some(entry => entry.name === 'control-center-knowledge')).toBe(true)
+      const text = injected.find(entry => entry.name === 'control-center-knowledge')!.text
+      expect(text).toContain('【知识库摘录】')
+      expect(text).toContain('onboarding')
+    } finally {
+      cleanup(service, home)
+    }
+  })
+
+  it('injects nothing when auto-inject is disabled', async () => {
+    const { ctx, service, home } = setup()
+    try {
+      const created = service.createBase({ name: '团队手册' })
+      const baseId = created.id
+      const src = service.addText({ baseId, name: 'onboarding', text: '入职手册包含新员工第一天的注意事项。' })
+      const indexed = await service.indexBase(baseId)
+      ;(ctx.get('settings') as { get(): { autoInject: boolean } }).get = () => ({ autoInject: false })
+
+      const session = { id: 'session-2' }
+      ctx.emit('session/event', session, {
+        type: 'user/message', seq: 1, time: Date.now(),
+        data: { turn: 1, message: { role: 'user', content: [{ type: 'text', text: '入职手册包含什么？' }] } },
+      })
+
+      const seed = {
+        sections: [], contexts: [] as Array<{ name: string; text: string }>,
+        tools: [], variables: {},
+      }
+      const assembly = await ctx.waterfall(
+        scopeTarget(service, undefined) as never,
+        'system-prompt/assemble',
+        seed,
+        { agent: { session } } as never,
+        () => seed,
+      )
+
+      const contexts = (assembly as { contexts: Array<{ name: string; text: string }> }).contexts
+      expect(contexts.some(entry => entry.name === 'control-center-knowledge')).toBe(false)
     } finally {
       cleanup(service, home)
     }

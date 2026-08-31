@@ -21,6 +21,30 @@ import {
 } from './knowledge/embedding.ts'
 import { resolveKey, resolveProvider } from './knowledge/provider-resolve.ts'
 import { markRemoteMethods } from './knowledge/remote-methods.ts'
+import { settingsNamespace } from '@deepseek-ai/dsh-settings'
+
+const KNOWLEDGE_SETTINGS_NAMESPACE = settingsNamespace('control-center-knowledge')
+const PROMPT_CACHE_TTL_MS = 120_000
+
+/** Session id of the agent participating in one prompt assembly (dsh-agent extends AssembleContext with the live agent). */
+function sessionIdFromAgentContext(context: unknown): string | undefined {
+  const agent = (context as { agent?: { session?: { id?: unknown; header?: { id?: unknown } } } }).agent
+  const session = agent?.session
+  if (session === undefined) return undefined
+  const id = session.id ?? session.header?.id
+  const text = id === undefined || id === null ? '' : String(id)
+  return text.length > 0 ? text : undefined
+}
+
+/** Render retrieved excerpts as the injected context text. */
+function formatKnowledgeExcerpts(hits: KnowledgeRetrievalHit[]): string {
+  const lines = hits.map((hit, index) => {
+    const body = hit.text.replace(/\s+/g, ' ').trim()
+    return `[${index + 1}] (来源: ${hit.sourceName}, 相似度: ${hit.score.toFixed(2)})
+${body}`
+  })
+  return `【知识库摘录】与用户最新消息相关的知识库内容（来源：Control Center 知识库；回答时可引用，也可以调用 knowledge_retrieve 深入检索）：\n\n${lines.join('\n\n')}`
+}
 import type {
   KnowledgeAddDirectoryRequest, KnowledgeAddFileRequest, KnowledgeAddNotesRequest, KnowledgeAddTextRequest,
   KnowledgeAddUrlRequest, KnowledgeBaseConfigUpdate, KnowledgeBaseView, KnowledgeChunkView, KnowledgeCreateBaseRequest,
@@ -183,6 +207,8 @@ export class KnowledgeService extends Service {
       ['listSources', 'listSources'], ['deleteSource', 'deleteSource'],
       ['indexBase', 'indexBase'], ['listChunks', 'listChunks'], ['retrieve', 'retrieve'],
     ])
+    this.installKnowledgeContext()
+
     ctx.effect(() => async () => {
       this.db.close()
       for (const dispose of this.disposeTools.splice(0)) dispose()
@@ -753,6 +779,80 @@ export class KnowledgeService extends Service {
   }
 
   // --- coding-agent tool ---
+
+
+  /** Newest user prompt per session, for the system-prompt RAG context. */
+  private readonly promptCache = new Map<string, { text: string; at: number }>()
+
+  /**
+   * Cherry RAG 语义 (P0)：把与最新用户消息相关的知识库摘录注入 system-prompt
+   * 的动态上下文（用户角色快照），而不是等模型自行调用 knowledge_retrieve。
+   * 实现 = `session/event` 缓存最新用户文本 + `system-prompt/assemble`
+   * waterfall 异步检索后追加 AssembledContext（contexts 数组可变且权威）。
+   */
+  private installKnowledgeContext(): void {
+    this.ctx.on('session/event', (session, event) => {
+      if (event.type !== 'user/message') return
+      const sessionId = String((session as { id?: unknown }).id ?? '')
+      if (sessionId.length === 0) return
+      const blocks = (event.data as { message?: { content?: unknown } }).message?.content
+      if (!Array.isArray(blocks)) return
+      const text = blocks
+        .map(block => typeof block === 'object' && block !== null && (block as { type?: unknown }).type === 'text'
+          && typeof (block as { text?: unknown }).text === 'string'
+          ? (block as { text: string }).text
+          : '')
+        .join('\n')
+        .trim()
+      if (text.length === 0) return
+      this.promptCache.set(sessionId, { text, at: Date.now() })
+      if (this.promptCache.size > 64) {
+        for (const key of [...this.promptCache.keys()].slice(0, this.promptCache.size - 64)) {
+          this.promptCache.delete(key)
+        }
+      }
+    })
+    this.ctx.on('system-prompt/assemble', async (_assembly, context, next) => {
+      const after = await next()
+      try {
+        if (!this.autoInjectEnabled()) return after
+        const sessionId = sessionIdFromAgentContext(context)
+        if (sessionId === undefined) return after
+        const prompt = this.promptCache.get(sessionId)
+        if (prompt === undefined || Date.now() - prompt.at > PROMPT_CACHE_TTL_MS) return after
+        const excerpts = await this.retrieveAcrossBases(prompt.text)
+        if (excerpts.length === 0) return after
+        after.contexts.push({
+          name: 'control-center-knowledge',
+          text: formatKnowledgeExcerpts(excerpts),
+        })
+      } catch (error) {
+        this.ctx.logger.warn(error)
+      }
+      return after
+    })
+    this.ctx.effect(() => () => { this.promptCache.clear() }, 'control-center.knowledge: prompt cache')
+  }
+
+  private autoInjectEnabled(): boolean {
+    try {
+      const get = (this.settings as unknown as { get?: (ns: string) => unknown }).get
+      if (typeof get !== 'function') return true
+      const value = get(KNOWLEDGE_SETTINGS_NAMESPACE) as { autoInject?: boolean } | undefined
+      return value?.autoInject !== false
+    } catch {
+      return true
+    }
+  }
+
+  /** Retrieve across every base; per-base failures are swallowed (honest degrade). */
+  private async retrieveAcrossBases(query: string): Promise<KnowledgeRetrievalHit[]> {
+    const bases = this.listBases().bases
+    const results = await Promise.allSettled(bases.map(base =>
+      this.retrieve({ baseId: base.id, query, topK: 4, minScore: 0.0 })))
+    const hits = results.flatMap(result => result.status === 'fulfilled' ? result.value.hits : [])
+    return hits.sort((left, right) => right.score - left.score).slice(0, 8)
+  }
 
   private registerTool(): void {
     const tools = this.ctx.get('tools')
