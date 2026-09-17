@@ -14,6 +14,7 @@ function identityT(key: string): string {
 function makeProps(overrides: {
   services?: Partial<AssistantMessageActionsServices>
   title?: string
+  exportMenus?: Record<string, boolean>
 } = {}) {
   const write = vi.fn(async () => ({ ok: true as const, value: { absent: true } }))
   const listBases = vi.fn(async () => ({ ok: true as const, value: [{ id: 'kb-1', name: '工程笔记' }] }))
@@ -21,6 +22,7 @@ function makeProps(overrides: {
   const readAssistantText = vi.fn(async () => 'AGENT TEXT')
   const resolveTranslationRoute = vi.fn(async () => ({ provider: 'acme', model: 'tr-1' }))
   const services: AssistantMessageActionsServices = {
+    getExportMatrix: () => ({ getConfig: async () => ({ ok: true as const, value: { menus: overrides.exportMenus } }) }),
     getNotes: () => ({ write }),
     getKnowledge: () => ({ listBases, addText }),
     readAssistantText,
@@ -237,6 +239,25 @@ describe('more-menu actions (registry-driven)', () => {
       expect(urls).toHaveLength(1)
     })
     vi.restoreAllMocks()
+  })
+
+  it('hides third-party export targets the visibility config turns off', async () => {
+    const { props } = makeProps({ exportMenus: { notion: false, docx: false } })
+    render(<AssistantMessageActions {...props} />)
+    fireEvent.click(screen.getByLabelText('moreMenu'))
+    await screen.findByRole('menuitem', { name: 'exportMarkdown' })
+    expect(screen.queryByRole('menuitem', { name: 'exportNotion' })).toBeNull()
+    expect(screen.queryByRole('menuitem', { name: 'exportWord' })).toBeNull()
+    expect(screen.getByRole('menuitem', { name: 'exportYuque' })).toBeTruthy()
+  })
+
+  it('shows every third-party target by default', async () => {
+    const { props } = makeProps()
+    render(<AssistantMessageActions {...props} />)
+    fireEvent.click(screen.getByLabelText('moreMenu'))
+    for (const name of ['exportNotion', 'exportYuque', 'exportJoplin', 'exportObsidian', 'exportSiyuan']) {
+      expect(screen.getByRole('menuitem', { name })).toBeTruthy()
+    }
   })
 
   it('renders the export and branch groups with separators', async () => {

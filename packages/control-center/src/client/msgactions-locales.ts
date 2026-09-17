@@ -38,6 +38,11 @@ interface MsgActionsDict {
   inputHistory: string
   noHistory: string
   exportWord: string
+  exportNotion: string
+  exportYuque: string
+  exportJoplin: string
+  exportObsidian: string
+  exportSiyuan: string
   importPhrases: string
   exportPhrases: string
   importEmpty: string
@@ -84,6 +89,11 @@ export const msgActionsZh: MsgActionsDict = {
   inputHistory: '输入历史',
   noHistory: '本会话暂无发送记录',
   exportWord: '导出 Word',
+  exportNotion: '导出到 Notion',
+  exportYuque: '导出到语雀',
+  exportJoplin: '导出到 Joplin',
+  exportObsidian: '导出到 Obsidian',
+  exportSiyuan: '导出到思源笔记',
   importPhrases: '导入短语',
   exportPhrases: '导出短语',
   importEmpty: '导入文件没有有效短语',
@@ -130,6 +140,11 @@ export const msgActionsEn: MsgActionsDict = {
   inputHistory: 'Input history',
   noHistory: 'No sent messages in this session yet',
   exportWord: 'Export Word',
+  exportNotion: 'Export to Notion',
+  exportYuque: 'Export to Yuque',
+  exportJoplin: 'Export to Joplin',
+  exportObsidian: 'Export to Obsidian',
+  exportSiyuan: 'Export to Siyuan',
   importPhrases: 'Import phrases',
   exportPhrases: 'Export phrases',
   importEmpty: 'The imported file has no valid phrases',

@@ -19,6 +19,12 @@ import {
 } from './actions/action-registry.ts'
 import type { MsgActionsKey } from './msgactions-locales.ts'
 import { docxFromMarkdown } from './markdown-docx.ts'
+
+/** ExportMenusPanel defaults — the menu config is the panel's source of truth. */
+const EXPORT_MENU_DEFAULTS: Record<string, boolean> = {
+  image: true, markdown: true, markdown_reason: false, notion: true, yuque: true,
+  joplin: true, obsidian: true, siyuan: true, docx: false, plain_text: true,
+}
 import css from './AssistantMessageActions.module.css'
 
 /** The branded session id shape carried by the session-standard props. */
@@ -47,6 +53,15 @@ export interface AssistantMessageActionsServices {
   queuePrompt: (sessionId: SessionId, text: string) => Promise<{ accepted: true }>
   /** Translation model route: model-prefs translation route, agent-default fallback. */
   resolveTranslationRoute: () => Promise<{ provider: string; model: string }>
+  /** Export matrix host service (message-level third-party exports + menu visibility). */
+  getExportMatrix: () => {
+    getConfig(): Promise<{ ok: true; value: { menus?: Record<string, boolean> } } | { ok: false; error: unknown }>
+    exportToNotion(params: { title: string; markdown: string }): Promise<{ ok: boolean; message: string }>
+    exportToYuque(params: { title: string; markdown: string }): Promise<{ ok: boolean; message: string }>
+    exportToJoplin(params: { title: string; markdown: string }): Promise<{ ok: boolean; message: string }>
+    exportToSiyuan(params: { title: string; markdown: string }): Promise<{ ok: boolean; message: string }>
+    exportToObsidian(params: { title: string; markdown: string; vault?: string; folder?: string }): Promise<{ ok: boolean; message: string; url?: string }>
+  }
 }
 
 /** Execution context handed to every registry action. */
@@ -59,6 +74,8 @@ export interface MessageActionContext {
   runNotes: () => Promise<void>
   runKnowledge: () => Promise<void>
   runTranslate: () => Promise<void>
+  /** Whether an export target is visible per the ExportMenusPanel config. */
+  exportVisible: (key: string) => boolean
 }
 
 type ActionStatus = 'idle' | 'saving' | 'ok' | { error: string }
@@ -95,7 +112,7 @@ export function looksChinese(text: string): boolean {
 }
 
 export function AssistantMessageActions(props: AssistantMessageActionsProps) {
-  const [status, setStatus] = useState<Partial<Record<'notes' | 'knowledge' | 'copy' | 'branch' | 'regen', ActionStatus>>>({})
+  const [status, setStatus] = useState<Partial<Record<'notes' | 'knowledge' | 'copy' | 'branch' | 'regen' | 'notion' | 'yuque' | 'joplin' | 'obsidian' | 'siyuan' | 'word', ActionStatus>>>({})
   const [bases, setBases] = useState<ReadonlyArray<{ id: string; name?: string }>>([])
   const [pickerOpen, setPickerOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -110,7 +127,7 @@ export function AssistantMessageActions(props: AssistantMessageActionsProps) {
 
   const title = props.useSessions(state => state.byId[props.sessionId]?.displayTitle)
 
-  const setStatusFor = useCallback((key: 'notes' | 'knowledge' | 'copy' | 'branch' | 'regen', next: ActionStatus) => {
+  const setStatusFor = useCallback((key: 'notes' | 'knowledge' | 'copy' | 'branch' | 'regen' | 'notion' | 'yuque' | 'joplin' | 'obsidian' | 'siyuan' | 'word', next: ActionStatus) => {
     setStatus(previous => ({ ...previous, [key]: next }))
     if (next === 'ok' || typeof next === 'object') {
       window.setTimeout(() => {
@@ -247,6 +264,24 @@ export function AssistantMessageActions(props: AssistantMessageActionsProps) {
     }
   }, [loadText, props, translation.phase])
 
+  // ExportMenusPanel writes the visibility config; the message menu reads it.
+  const [exportMenus, setExportMenus] = useState<Record<string, boolean> | undefined>(undefined)
+  useEffect(() => {
+    let cancelled = false
+    void (async () => {
+      try {
+        const config = await props.getExportMatrix().getConfig()
+        if (!cancelled && config.ok && config.value.menus !== undefined) setExportMenus(config.value.menus)
+      } catch { /* defaults when the matrix is unreachable */ }
+    })()
+    return () => { cancelled = true }
+  }, [props])
+
+  const exportVisible = useCallback((key: string) => {
+    const stored = exportMenus?.[key]
+    return stored ?? EXPORT_MENU_DEFAULTS[key] ?? true
+  }, [exportMenus])
+
   const context = useMemo<MessageActionContext>(() => ({
     sessionId: props.sessionId,
     title,
@@ -256,7 +291,8 @@ export function AssistantMessageActions(props: AssistantMessageActionsProps) {
     runNotes,
     runKnowledge,
     runTranslate,
-  }), [loadText, loadUserText, props.sessionId, props.t, runKnowledge, runNotes, runTranslate, title])
+    exportVisible,
+  }), [exportVisible, loadText, loadUserText, props.sessionId, props.t, runKnowledge, runNotes, runTranslate, title])
 
   // Cherry chat/actions pattern: one registry drives toolbar + more-menu.
   const registry = useMemo(() => {
@@ -275,6 +311,7 @@ export function AssistantMessageActions(props: AssistantMessageActionsProps) {
     })
     instance.registerAction({
       id: 'copy-text', label: 'copyText', surface: 'menu',
+      availability: context => context.exportVisible('plain_text'),
       run: async context => {
         const text = await context.loadText()
         if (text === undefined || text.length === 0) throw new Error(context.t('noText'))
@@ -284,6 +321,7 @@ export function AssistantMessageActions(props: AssistantMessageActionsProps) {
     })
     instance.registerAction({
       id: 'copy-markdown', label: 'copyMarkdown', surface: 'menu', group: 'export',
+      availability: context => context.exportVisible('markdown'),
       run: async context => {
         const text = await context.loadText()
         if (text === undefined || text.length === 0) throw new Error(context.t('noText'))
@@ -294,6 +332,7 @@ export function AssistantMessageActions(props: AssistantMessageActionsProps) {
     })
     instance.registerAction({
       id: 'export-markdown', label: 'exportMarkdown', surface: 'menu', group: 'export',
+      availability: context => context.exportVisible('markdown'),
       run: async context => {
         const text = await context.loadText()
         if (text === undefined || text.length === 0) throw new Error(context.t('noText'))
@@ -309,6 +348,7 @@ export function AssistantMessageActions(props: AssistantMessageActionsProps) {
     })
     instance.registerAction({
       id: 'export-word', label: 'exportWord', surface: 'menu', group: 'export',
+      availability: context => context.exportVisible('docx'),
       run: async context => {
         const text = await context.loadText()
         if (text === undefined || text.length === 0) throw new Error(context.t('noText'))
@@ -321,6 +361,86 @@ export function AssistantMessageActions(props: AssistantMessageActionsProps) {
         anchor.download = `${noteSlug(context.title)}-${stamp}.docx`
         anchor.click()
         URL.revokeObjectURL(url)
+      },
+    })
+    instance.registerAction({
+      id: 'export-notion', label: 'exportNotion', surface: 'menu', group: 'export',
+      availability: context => context.exportVisible('notion'),
+      run: async context => {
+        const text = await context.loadText()
+        if (text === undefined || text.length === 0) throw new Error(context.t('noText'))
+        const markdown = `# ${context.title ?? context.t('messageFallback')}
+
+${text}
+`
+        const matrix = props.getExportMatrix()
+        const outcome = await matrix.exportToNotion({ title: context.title ?? context.t('messageFallback'), markdown })
+        if (outcome.ok !== true) throw new Error(outcome.message)
+        setStatusFor('notion', 'ok')
+      },
+    })
+    instance.registerAction({
+      id: 'export-yuque', label: 'exportYuque', surface: 'menu', group: 'export',
+      availability: context => context.exportVisible('yuque'),
+      run: async context => {
+        const text = await context.loadText()
+        if (text === undefined || text.length === 0) throw new Error(context.t('noText'))
+        const markdown = `# ${context.title ?? context.t('messageFallback')}
+
+${text}
+`
+        const matrix = props.getExportMatrix()
+        const outcome = await matrix.exportToYuque({ title: context.title ?? context.t('messageFallback'), markdown })
+        if (outcome.ok !== true) throw new Error(outcome.message)
+        setStatusFor('yuque', 'ok')
+      },
+    })
+    instance.registerAction({
+      id: 'export-joplin', label: 'exportJoplin', surface: 'menu', group: 'export',
+      availability: context => context.exportVisible('joplin'),
+      run: async context => {
+        const text = await context.loadText()
+        if (text === undefined || text.length === 0) throw new Error(context.t('noText'))
+        const markdown = `# ${context.title ?? context.t('messageFallback')}
+
+${text}
+`
+        const matrix = props.getExportMatrix()
+        const outcome = await matrix.exportToJoplin({ title: context.title ?? context.t('messageFallback'), markdown })
+        if (outcome.ok !== true) throw new Error(outcome.message)
+        setStatusFor('joplin', 'ok')
+      },
+    })
+    instance.registerAction({
+      id: 'export-obsidian', label: 'exportObsidian', surface: 'menu', group: 'export',
+      availability: context => context.exportVisible('obsidian'),
+      run: async context => {
+        const text = await context.loadText()
+        if (text === undefined || text.length === 0) throw new Error(context.t('noText'))
+        const markdown = `# ${context.title ?? context.t('messageFallback')}
+
+${text}
+`
+        const matrix = props.getExportMatrix()
+        const outcome = await matrix.exportToObsidian({ title: context.title ?? context.t('messageFallback'), markdown })
+        if (outcome.ok !== true) throw new Error(outcome.message)
+        setStatusFor('obsidian', 'ok')
+      },
+    })
+    instance.registerAction({
+      id: 'export-siyuan', label: 'exportSiyuan', surface: 'menu', group: 'export',
+      availability: context => context.exportVisible('siyuan'),
+      run: async context => {
+        const text = await context.loadText()
+        if (text === undefined || text.length === 0) throw new Error(context.t('noText'))
+        const markdown = `# ${context.title ?? context.t('messageFallback')}
+
+${text}
+`
+        const matrix = props.getExportMatrix()
+        const outcome = await matrix.exportToSiyuan({ title: context.title ?? context.t('messageFallback'), markdown })
+        if (outcome.ok !== true) throw new Error(outcome.message)
+        setStatusFor('siyuan', 'ok')
       },
     })
     instance.registerAction({

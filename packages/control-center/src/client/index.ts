@@ -175,7 +175,7 @@ declare module '@deepseek-ai/dsh-client-ui-slots' {
 // 0.1.6: typert mounts each Remote namespace as its own `remote.<ns>` service;
 // every namespace this half touches must be declared here or the proxy refuses
 // the property read ("cannot get property ... without inject").
-export const inject = ['slots', 'locale', 'connection', 'remote', 'remote.settings', 'remote.llm', 'remote.credentials', 'remote.session', 'remote.agentPresets', 'sessions', 'settingsScope', 'settingsSchema']
+export const inject = ['slots', 'locale', 'connection', 'remote', 'remote.settings', 'remote.llm', 'remote.credentials', 'remote.session', 'remote.agentPresets', 'remote.controlCenterExport', 'sessions', 'settingsScope', 'settingsSchema']
 
 
 /**
@@ -624,6 +624,7 @@ export function apply(ctx: ClientContext): void {
     getNotes: () => ctx.get('remote.controlCenterNotes') as unknown as ReturnType<AssistantMessageActionsServices['getNotes']>,
     getKnowledge: () => ctx.get('remote.controlCenterKnowledge') as unknown as ReturnType<AssistantMessageActionsServices['getKnowledge']>,
     getTranslation: () => ctx.get('remote.controlCenterTranslation') as unknown as ReturnType<AssistantMessageActionsServices['getTranslation']>,
+    getExportMatrix: () => ctx.get('remote.controlCenterExport') as unknown as ReturnType<AssistantMessageActionsServices['getExportMatrix']>,
     resolveTranslationRoute: async () => {
       // Cherry's per-purpose model prefs first (翻译模型), then the agent default.
       const described = await ctx.remote.settings.describe()
