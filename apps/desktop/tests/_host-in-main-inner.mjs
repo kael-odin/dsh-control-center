@@ -7,7 +7,7 @@ import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { existsSync } from 'node:fs'
 
-const harness = process.env.DSH_HARNESS_DIR || 'D:/Github_Star/deepseek-harness'
+const harness = process.env.DSH_HARNESS_DIR || 'D:/Github-Star/deepseek-harness'
 const profileName = process.env.DSH_PROBE_PROFILE || 'web'
 
 if (!existsSync(resolve(harness, 'apps/cli/package.json'))) {

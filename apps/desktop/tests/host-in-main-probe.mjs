@@ -17,7 +17,7 @@ import { existsSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)))
+const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..')
 const harness = process.env.DSH_HARNESS_DIR || resolve(root, '..', 'deepseek-harness')
 const inner = resolve(root, '_host-in-main-inner.mjs')
 
