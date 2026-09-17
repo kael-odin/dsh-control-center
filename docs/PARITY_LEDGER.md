@@ -69,8 +69,8 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | knowledge（知识库） | ✅* | KnowledgeWorkspace + knowledge host 模块/codec。*细节对账未逐项做 |
 | files（文件管理器） | ⛔/❌ | 文件存储浏览 UI 未迁移；文件处理设置已在 File Processing 覆盖。优先级低（DSH 原生文件能力可评估后标注） |
 | code（CodeCliPage） | ✅* | **repo 工作台已挂载（2026-08-26）**：`application.navigation` + `application.surface` 双槽，`system.listCodeClis()` 探测 PATH 上 9 种 AI 编程 CLI（claude/codex/gemini/qwen/kimi/opencode/copilot/dsh/pi）含版本；已检测/未检测分组展示。*Cherry 还有安装/启动管理（mise/npm），我们保持检测优先——安装归操作者的包管理器 |
-| miniApps（小程序） | ❌ | 未迁移 |
-| launchpad | ❌ | 未迁移 |
+| miniApps（小程序） | ❌ | 未迁移（2026-09-18 评估）：Cherry mini-app 依赖其自带 webview 宿主与权限模型，DSH 无对应运行时；无真实载体前不迁移（诚实搁置，见 MIGRATION_PLAN §2 P2） |
+| launchpad | ❌ | 未迁移（2026-09-18 评估）：launchpad 是 Cherry mini-app 的启动聚合页，宿主载体同样缺失；随 miniApps 一并诚实搁置 |
 | releaseNotes | ✅ | **发布说明内嵌页已迁移（2026-08-26）**：About 页「发布说明」卡片，`controlCenterUpdate.listReleases()` 拉取 GitHub releases（最近 10 条，展示前 5），轻量 markdown 渲染（标题/列表/代码/粗体/链接）+ 预发布标注 + 外链 | Cherry 是独立顶层路由；我们挂在 About 下，信息架构等价 |
 | notes（笔记） | ⚠️ | **v2 已迁移（2026-08-27）**：Tiptap 3 富文本编辑器（Markdown 往返序列化）+ **全文搜索**（FlexSearch 内存索引，自定义 CJK 中英编码器，增量维护，搜索栏+命中摘要）。**v3 已迁移（2026-08-27）**：**知识库笔记源**（`addNotesSource` 把 `~/.dsh/notes/` 快照成 'notes' 源 + `syncNotesSource` 重扫+重分块 + 客户端「笔记目录」添加入口 + 「重新同步」按钮）+ **编辑器 AI 续写**（`continueText` 走 `control-center-model-prefs` notesProvider/notesModel，空则回退 `agent-default-model` 路由；客户端「AI 续写」按钮插入光标处）。文件仍存 `<dsh home>/notes/`（Cherry「文件为真相」哲学）。*剩余：笔记导出五件套（P2） |
 
