@@ -40,6 +40,7 @@ import type {} from '@deepseek-ai/dsh-client-ui-conversation/client'
 import { AssistantMessageActions, type AssistantMessageActionsServices } from './AssistantMessageActions.tsx'
 import { QuickPhrasesButton, type ComposerSettingsFace } from './QuickPhrasesButton.tsx'
 import { InputHistoryButton } from './InputHistoryButton.tsx'
+import { MessageSearchButton } from './MessageSearchButton.tsx'
 import type { SessionHistoryFace } from './input-history.ts'
 import { KnowledgeChipButton, type KnowledgeChipKnowledgeFace } from './KnowledgeChipButton.tsx'
 import { msgActionsZh, msgActionsEn, type MsgActionsKey } from './msgactions-locales.ts'
@@ -707,6 +708,11 @@ export function apply(ctx: ClientContext): void {
       settings: ctx.remote.settings as unknown as ComposerSettingsFace,
     }),
   }, QuickPhrasesButton))
+  ctx.slots.inject('conversation.input.left', () => ctx.slots.register({
+    name: 'conversation.input.left',
+    id: 'control-center.message-search',
+    locale: MSGACTIONS_NS,
+  }, MessageSearchButton))
   ctx.slots.inject('conversation.input.right', () => ctx.slots.register({
     name: 'conversation.input.right',
     id: 'control-center.input-history',

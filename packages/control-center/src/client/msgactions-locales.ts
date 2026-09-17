@@ -41,6 +41,11 @@ interface MsgActionsDict {
   importPhrases: string
   exportPhrases: string
   importEmpty: string
+  messageSearch: string
+  searchPlaceholder: string
+  searchPrev: string
+  searchNext: string
+  searchScope: string
 }
 
 export const msgActionsZh: MsgActionsDict = {
@@ -82,6 +87,11 @@ export const msgActionsZh: MsgActionsDict = {
   importPhrases: '导入短语',
   exportPhrases: '导出短语',
   importEmpty: '导入文件没有有效短语',
+  messageSearch: '消息内搜索',
+  searchPlaceholder: '搜索已加载的消息…',
+  searchPrev: '上一个匹配',
+  searchNext: '下一个匹配',
+  searchScope: '仅搜索当前已加载的消息',
 }
 
 export const msgActionsEn: MsgActionsDict = {
@@ -123,4 +133,9 @@ export const msgActionsEn: MsgActionsDict = {
   importPhrases: 'Import phrases',
   exportPhrases: 'Export phrases',
   importEmpty: 'The imported file has no valid phrases',
+  messageSearch: 'Search messages',
+  searchPlaceholder: 'Search loaded messages…',
+  searchPrev: 'Previous match',
+  searchNext: 'Next match',
+  searchScope: 'Only currently loaded messages are searched',
 }
