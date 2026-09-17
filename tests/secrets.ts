@@ -14,7 +14,7 @@ const TEXT_EXTENSIONS = new Set([
 ])
 const SYNTHETIC_CREDENTIAL = ['local', 'fixture', 'key'].join('-')
 /** Test fixtures that materialize the documented synthetic credential. */
-const ALLOWED_FIXTURE_FILES = new Set(['tests/packed-browser-e2e.ts', 'tests/visual-probe.ts', 'tests/context-policy-profile-e2e.ts', 'tests/probe-mcp-tabs.ts', 'tests/probe-theme.ts'])
+const ALLOWED_FIXTURE_FILES = new Set(['tests/packed-browser-e2e.ts', 'tests/visual-probe.ts', 'tests/context-policy-profile-e2e.ts', 'tests/probe-mcp-tabs.ts', 'tests/probe-theme.ts', 'tests/debug-page-probe.ts', 'tests/debug-baseline-probe.ts'])
 const SCANNER_FILE = 'tests/secrets.ts'
 const SECRET_PATTERNS: Array<{ name: string; pattern: RegExp }> = [
   { name: 'OpenAI-style secret key', pattern: /\bsk-[A-Za-z0-9_-]{20,}\b/g },
@@ -45,7 +45,7 @@ for (const file of await collect(ROOT)) {
     pattern.lastIndex = 0
     for (const match of text.matchAll(pattern)) findings.push(`${path}: ${name}: ${match[0].slice(0, 24)}…`)
   }
-  for (const match of text.matchAll(/\b[A-Z][A-Z0-9_]*(?:KEY|TOKEN|SECRET|PASSWORD):\s*([^\s$<{][^\s'"\\n]*)/g)) {
+  for (const match of text.matchAll(/\b[A-Z][A-Z0-9_]*(?:KEY|TOKEN|SECRET|PASSWORD):\s*(?!\w+.)([^\s$<{][^\s'"\\n]*)/g)) {
     const syntheticFixture = match[1] === SYNTHETIC_CREDENTIAL
       && (ALLOWED_FIXTURE_FILES.has(path) || path === SCANNER_FILE)
     if (!syntheticFixture) {

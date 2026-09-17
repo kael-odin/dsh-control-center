@@ -45,6 +45,12 @@ MCP 市场、知识库管线、备份矩阵）。DSH 的本质价值 = **运行�
 > 存入 `vendor/dsh-0.1.2/`（8.7MB，含 MANIFEST 与再生成配方），经本地 verdaccio
 > registry 解析（项目 `.npmrc` → 127.0.0.1:4873；发布认证在用户级 npmrc）。
 > 升级中发现上游把 `dsh-client-runtime` 整包删除（be531688f3），比预期多一条迁移线。
+>
+> **⚠️ vendored 通道已退役（2026-09-17）**：上游现已把全部预发布发到 npm，
+> 契约直接走公网发布线（当前 0.1.6-alpha.1 @ `0d1f50007f`），`.npmrc` 指回
+> registry.npmjs.org，verdaccio 不再需要；vendor/ 留作溯源。迁移配方：
+> `scripts/migrate-dsh-0.1.6.mjs`；漂移监测：`scripts/watch-dsh-contract.mjs`
+> + `.github/workflows/contract-watch.yml`（0.4 的 CI 项随之落地）。
 - [x] peerDependencies / compatibility.ts（SUPPORTED_DSH_VERSION='0.1.2'，基线 'cd5ef81481'，窗口正则照旧容忍 0.1.x）/ workspace overrides 全量 bump（258 项钉到 '0.1.2'）
 - [x] **ApiProxy 删除迁移**：`channel-bridge.ts` 会话面 → `ctx.get('sessionController')`（create/selectModel/prompt 去信封改位置参数；**180s 轮询顺势替换为 `follow()` 事件流消费**）；`assistant.ts` presets → `ctx.get('agentPresets').remoteExportList()`；`compat-probe.ts` 探针 → `sessionController.page` + agentPresets 存在性
 - [x] **dsh-client-runtime 删除迁移**：SnapshotStore/createSnapshotStore → `@deepseek-ai/dsh-client-store`；SessionListState → `@deepseek-ai/dsh-api-session-controller/client`；ClientContext → cordis `Context`；`ctx.slots` 类型经 `dsh-client-ui-renderer/client` 扩充；`connection.api` → `ctx.remote`；SettingsRoot 的 sessions hook 改由插件自建（0.1.2 owner props 瘦身，hooks compartment 按 `use<Name>` 绑定裸 HostObservable）
@@ -55,7 +61,7 @@ MCP 市场、知识库管线、备份矩阵）。DSH 的本质价值 = **运行�
 ### 0.4 上游跟随机制 ⚠️
 - [x] `vendor/dsh-0.1.2/MANIFEST.md`：来源 commit + 完整再生成配方（本地 verdaccio 通道可复用于后续每个 DSH 版本）
 - [ ] PARITY_LEDGER 升级为机器可读 checklist（cherry pull 后脚本 diff 新增设置项/消息动作）
-- [ ] CI：DSH 新版本 → 契约 diff 自动 issue
+- [x] CI：DSH 新版本 → 契约 diff 自动 issue（2026-09-17：`contract-watch.yml` 每日核对 npm 发布线并自动开 issue）
 
 ### 0.5 轮询 hack 清理 ✅（2026-08-30）
 - [x] channel-bridge 180s 轮询 → follow() 事件流（随 0.3 顺带完成）
@@ -183,3 +189,8 @@ Cherry 侧动作系统核心（actionRegistry 310 行零耦合 + MessageListActi
 | 2026-08-30 | Phase 1.4b：@知识库 chip（listBases 选择 → knowledge_retrieve 标注插入） | 263/263 全绿；composer-append 共享助手就位，后续 composer 条目可复用 |
 | 2026-08-30 | Phase 2 P0：知识库 RAG 自动注入（system-prompt/assemble 动态上下文） | 265/265 全绿；调通系统提示词瀑布注入面，后续可扩展更多上下文源 |
 | 2026-08-31 | Phase 2 余项收口：MCP 9/9 + provider 61 家对齐 + i18n 12 语言 + 导出矩阵 5 目标 | 265/265 全绿，typecheck/build/lint 全绿；mcp-builtin-runtime 3→9、provider 描述 91→61 订正、i18n-12 addLanguage、export-matrix Host 5 目标 + DATA_NAMESPACES 纳入 |
+| 2026-09-17 | **契约升级 0.1.2 → 0.1.6-alpha.1**（对齐本机 harness 基线 `0d1f50007f`），vendored tarball + verdaccio 通道退役，`.npmrc` 回公网 | 上游已公开发布全部预发布包；144 个类型错误清零（settingsNamespace→本地 settings-ns、TypertRemoteFailure→remoteErrorOf、follow() 帧联合、Session.events→snapshotEvents、ClientRemote 类型贡献补包、zustand/immer 根补钉）；`pnpm check` 全绿（266/266） |
+| 2026-09-17 | E2E 跟进 0.1.6 web 鉴权（launch token → cookie）、编译 CLI 优先启动、客户端 inject 声明 `remote.<ns>`、boot 诊断探针（debug-page/baseline） | 0.1.6 打印带 token 的 URL；Node 侧 rpc 先换 cookie；typert 严格模式要求 host 与 client 同为编译产物；客户端不声明命名空间键即拒读 |
+| 2026-09-17 | 归因结论落盘：本机 harness 快照自身基线（无插件）web boot 即失败（sidebarRight 缺失 + session/control 定义撤回，clean 重建后依旧） | 插件面 tsx 模式可渲染设置对话框；浏览器 E2E 全绿被上游装配缺陷阻塞，与插件无关，待上游修复后复验 |
+| 2026-09-17 | 桌面壳 dev 兜底路径改为「兄弟目录 + 已知路径列表」（原硬编码 D:\Github_Open 已失效）；所有探测脚本支持 DSH_REPO 覆盖 | 本机 checkout 已迁至 D:\Github-Star\deepseek-harness，硬编码单路径在不同机器必然失效 |
+| 2026-09-17 | v0.4.0：契约监测 workflow（`contract-watch.yml` + `watch-dsh-contract.mjs`）落地 0.4 遗留 CI 项 | 预发布感知的 semver 比较，发现新版本自动开跟踪 issue |

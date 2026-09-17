@@ -1,0 +1,31 @@
+name: DSH contract watch
+
+# PLUGINIZATION §0.4: notice contract drift within a day. The script is
+# read-only against the registry; it opens one tracking issue when the pinned
+# SUPPORTED_DSH_VERSION falls behind the published 0.1.x line.
+on:
+  schedule:
+    - cron: '23 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: contract-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Compare pinned contract against npm
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/watch-dsh-contract.mjs --issue

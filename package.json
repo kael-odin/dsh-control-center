@@ -1,6 +1,6 @@
 {
   "name": "dsh-control-center",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "license": "AGPL-3.0-only",
@@ -21,7 +21,8 @@
     "verify:artifacts": "tsx tests/artifacts.ts",
     "verify:secrets": "tsx tests/secrets.ts",
     "pack:check": "pnpm run build && pnpm run verify:provenance && pnpm run verify:artifacts && pnpm --filter @dsh-control-center/control-center pack --pack-destination .packs && tsx tests/prepare-bundle-pack.ts && pnpm --dir .pack-bundle pack --pack-destination ../.packs",
-    "check": "pnpm run typecheck && pnpm run test && pnpm run lint && pnpm run build && pnpm run verify:provenance && pnpm run verify:artifacts && pnpm run verify:secrets"
+    "check": "pnpm run typecheck && pnpm run test && pnpm run lint && pnpm run build && pnpm run verify:provenance && pnpm run verify:artifacts && pnpm run verify:secrets",
+    "watch:contract": "node scripts/watch-dsh-contract.mjs"
   },
   "devDependencies": {
     "@deepseek-ai/cordis": "4.0.2",

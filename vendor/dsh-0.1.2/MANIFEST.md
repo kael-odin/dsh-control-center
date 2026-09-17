@@ -1,8 +1,14 @@
 # Vendored DSH 0.1.2 contract tarballs
 
-The npm registry does not carry DSH prereleases (`next` tag stays on
-0.1.1-rc.2), so the contract packages this plugin builds against are vendored
-here as tarballs and wired through `pnpm-workspace.yaml` overrides.
+> **RETIRED (2026-09-17).** Upstream now publishes every prerelease to npm, so
+> the workspace resolves the public `@deepseek-ai/*` line directly and this
+> directory + the local verdaccio channel are no longer consulted. The
+> tarballs stay for provenance; see `scripts/migrate-dsh-0.1.6.mjs` and
+> `scripts/watch-dsh-contract.mjs`.
+
+The npm registry did not carry DSH prereleases at the time (`next` tag stayed
+on 0.1.1-rc.2), so the contract packages this plugin built against were
+vendored here as tarballs and wired through `pnpm-workspace.yaml` overrides.
 
 ## Provenance
 

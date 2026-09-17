@@ -1,5 +1,57 @@
 # Changelog
 
+## v0.4.0 (2026-09-17)
+
+The contract catches up with the deployed harness: DSH 0.1.2 (vendored
+tarballs + a local verdaccio registry) becomes DSH 0.1.6-alpha.1 straight off
+the public npm registry.
+
+### Contract migration (breaking)
+- **Baseline `0.1.6-alpha.1` (`0d1f50007f`)**: every `@deepseek-ai/*` pin now
+  resolves from the published npm line; the 2026-08-30 vendored-tarball +
+  local-verdaccio channel is retired (`.npmrc` points back at
+  registry.npmjs.org; `vendor/dsh-0.1.2/` stays for provenance). The support
+  window tightens to `0.1.6+` — hosts on 0.1.5 or older are rejected honestly
+  at the compatibility gate.
+- **API drift absorbed**: upstream removed the runtime `settingsNamespace()`
+  helper (local `settings-ns.ts` keeps the same validate-and-brand behavior),
+  `TypertRemoteFailure` became `RemoteError`/`remoteErrorOf` (discriminate by
+  code, never instanceof), `settings`/`credentials` remotes moved into
+  `dsh-api-settings-controller`, session `follow()` now yields
+  snapshot/event/assistant-stream frames, `Session.events` became
+  `snapshotEvents()`, the settings-conflict wire code gained its slash, and
+  the platform seed table + inline-safe folds match upstream 0.1.6 (dockkit).
+- **Packaging fixes upstream publishes forgot**: `dsh-client-store` imports
+  zustand at runtime while declaring it a devDependency — zustand + immer are
+  pinned at the workspace root; the `ClientRemote` type contributions need
+  `dsh-api-settings-controller` + `dsh-llm` resolvable.
+
+### Tooling
+- **Contract watch** (`.github/workflows/contract-watch.yml`): daily npm check
+  with prerelease-aware semver comparison; a newer 0.1.x release opens a
+  tracking issue automatically (MIGRATION_PLAN §0.4).
+- **E2E vs 0.1.6**: the web surface now authenticates through a launch token
+  on the printed URL; the e2e scripts capture the full URL, exchange the
+  token for the signed cookie Node-side, and boot the harness's compiled CLI
+  (strict typert definitions require matching build trees). `DSH_REPO`
+  overrides the harness path everywhere; the desktop shell's dev fallback
+  accepts sibling/known checkouts instead of one dead absolute path.
+- **Boot probes** (`tests/debug-page-probe.ts`, `tests/debug-baseline-probe.ts`):
+  dump what a boot actually rendered — console errors, failing requests, body
+  text, screenshots.
+- **Client inject contract**: typert 0.1.6 mounts each remote namespace as
+  its own `remote.<ns>` service; the plugin's client entry declares
+  settings/llm/credentials/session/agentPresets explicitly.
+
+### Known environment blocker (documented, not a plugin defect)
+The local harness snapshot (`0.1.6-alpha.1`+master, clean-rebuilt) fails its
+own no-plugin baseline: the web boot leaves three UI packages pending on a
+missing `sidebarRight` service and its own `session/control` stream reports
+"strict definition was withdrawn". The plugin surface itself activates and
+its settings dialog renders in tsx mode; the full browser E2E turn-green is
+blocked on the upstream boot wiring. `tests/debug-baseline-probe.ts`
+re-verifies the baseline in seconds.
+
 ## v0.3.0 (2026-08-26)
 
 Notes, the real API gateway, and the desktop self-healing plugin sync.

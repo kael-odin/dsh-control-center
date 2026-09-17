@@ -4,10 +4,10 @@ An installable, AGPL-3.0-licensed control center for the DSH Web profile. The fi
 
 ## Supported baseline
 
-- DeepSeek Harness `0.1.1-rc.2` (`b150a551b8`)
+- DeepSeek Harness `0.1.6-alpha.1` (`0d1f50007f`), resolved from the npm-published `@deepseek-ai/*` contract line (the 2026-08-30 vendored-tarball + local-verdaccio channel is retired; see `scripts/migrate-dsh-0.1.6.mjs` and `scripts/watch-dsh-contract.mjs`)
 - Cherry Studio source/visual baseline `0bb1725c638bf12d505e9baadaa69f8da47dd05e` (application `2.0.8`)
 
-The package fails startup before its browser half activates when the resolved DSH contract packages do not match the supported baseline.
+The package fails startup before its browser half activates when the resolved DSH contract packages leave the supported window (`0.1.6+`; see `packages/control-center/src/compatibility.ts`).
 
 ## Install
 

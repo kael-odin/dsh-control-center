@@ -5,7 +5,7 @@
 > **⚠️ 漂移警示（2026-08-27 核查）**：本地 cherry-studio 已更新至最新 **2.0.9 @ `17390753e3`**（基线后 +134 commits，
 > 多为 bugfix/perf，含 code-mate Hermes dashboard、pi-runtime 等）。下述核对结论以 2.0.8 基线为准，逐页复核前先确认目标版本。
 > Cherry 图谱已按新 HEAD 重建：`D:\Github_Open\cherry-studio\graphify-out\graph.json`（46,582 节点）。
-> DSH 侧：`0.1.1-rc.2`
+> DSH 侧：`0.1.6-alpha.1`（npm 公开发布线，2026-09-17 契约升级，见 MIGRATION_PLAN 0.3 注记）
 >
 > **复核方式（2026-08-24 更新）**：本版基于两份 graphify 代码知识图谱逐项核实，
 > 并对每条结论做了源码二次验证：
