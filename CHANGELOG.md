@@ -94,6 +94,13 @@ the public npm registry.
   outline on `data-chat-flow-kind` seats; the host DOM is never mutated.
   Honest scope: loaded messages only.
 
+### Message actions
+- **Third-party message exports** (§1.5): Notion/Yuque/Joplin/Obsidian/Siyuan
+  join the assistant more-menu via the host export matrix's uniform
+  `{title, markdown}` methods. The ExportMenusPanel visibility config now
+  actually gates the export group (with the panel's defaults as fallback) —
+  Word rides the panel's `docx` toggle.
+
 ### Known environment blocker (documented, not a plugin defect)
 The local harness snapshot (`0.1.6-alpha.1`+master, clean-rebuilt) fails its
 own no-plugin baseline: the web boot leaves three UI packages pending on a

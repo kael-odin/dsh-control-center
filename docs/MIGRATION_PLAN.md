@@ -123,7 +123,7 @@ Cherry 侧动作系统核心（actionRegistry 310 行零耦合 + MessageListActi
 ### 1.5 话题/会话管理 ❌
 - [ ] AI 自动命名、pin、清空、跨助手移动（DSH 无逐会话 agent 编排时按 channel-bridge 先例做模型+提示词覆盖）
 - [ ] 分支树可视化（TopicBranchPanel / TopicMessageFlowCanvas）
-- [ ] 话题上下文菜单全动作集（导出 image/markdown/word/notion/yuque/obsidian/joplin/siyuan）
+- [x] 话题上下文菜单全动作集（2026-09-18 基本落地）：消息 more-menu 覆盖 Markdown/Word/Notion/语雀/Joplin/Obsidian/思源（复用 export-matrix host 能力 + ExportMenusPanel 可见性配置驱动可用性）；image 导出仍诚实搁置（需 html-to-canvas 级依赖）
 - [ ] 策略：导航与话题侧栏用 Cherry 的，turn 执行用 DSH agent loop，不重叠造轮子
 
 **验收标准**：DSH 桌面壳内完成带附件、@知识库、思考链展示、分支切换、重新生成的完整对话，体验不输 Cherry 本体。
