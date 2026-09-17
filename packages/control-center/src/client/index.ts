@@ -169,7 +169,10 @@ declare module '@deepseek-ai/dsh-client-ui-slots' {
   }
 }
 
-export const inject = ['slots', 'locale', 'connection', 'remote', 'sessions', 'settingsScope', 'settingsSchema']
+// 0.1.6: typert mounts each Remote namespace as its own `remote.<ns>` service;
+// every namespace this half touches must be declared here or the proxy refuses
+// the property read ("cannot get property ... without inject").
+export const inject = ['slots', 'locale', 'connection', 'remote', 'remote.settings', 'remote.llm', 'remote.credentials', 'remote.session', 'remote.agentPresets', 'sessions', 'settingsScope', 'settingsSchema']
 
 
 /**

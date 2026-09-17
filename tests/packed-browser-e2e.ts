@@ -1,5 +1,6 @@
 import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
+import { existsSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { spawn, type ChildProcess } from 'node:child_process'
@@ -8,14 +9,24 @@ import { startOpenAiFixture } from './openai-fixture.ts'
 import { bundlePack } from './packs.ts'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const DSH = resolve(ROOT, '..', 'deepseek-harness')
-const CLI = join(DSH, 'apps/cli/src/bin.ts')
-const TSX = join(DSH, 'node_modules/tsx/dist/loader.mjs')
+const DSH = process.env.DSH_REPO !== undefined ? resolve(process.env.DSH_REPO) : resolve(ROOT, '..', 'deepseek-harness')
+/**
+ * Prefer the harness's compiled CLI (lib/bin.js): 0.1.6 typert enforces strict
+ * compiled definitions, so the host and the served client bundles must come
+ * from the same built tree. The tsx source path stays as the checkout
+ * fallback for hack days when lib has not been built.
+ */
+const CLI_LIB = join(DSH, 'apps/cli/lib/bin.js')
+const CLI_SRC = join(DSH, 'apps/cli/src/bin.ts')
+const CLI = existsSync(CLI_LIB) ? CLI_LIB : CLI_SRC
+const CLI_SRC_LOADER = join(DSH, 'node_modules/tsx/dist/loader.mjs')
+const bootArgs = (args: string[]): string[] =>
+  CLI.endsWith('.ts') ? ['--import', pathToFileURL(CLI_SRC_LOADER).href, CLI, ...args] : [CLI, ...args]
+
 
 async function run(args: string[], env: NodeJS.ProcessEnv): Promise<{ code: number; output: string }> {
-  const loader = pathToFileURL(TSX).href
   return await new Promise((resolveRun, reject) => {
-    const child = spawn(process.execPath, ['--import', loader, CLI, ...args], { cwd: DSH, env, stdio: ['ignore', 'pipe', 'pipe'] })
+    const child = spawn(process.execPath, bootArgs(args), { cwd: DSH, env, stdio: ['ignore', 'pipe', 'pipe'] })
     let output = ''
     child.stdout.on('data', chunk => { output += chunk.toString() })
     child.stderr.on('data', chunk => { output += chunk.toString() })
@@ -25,7 +36,7 @@ async function run(args: string[], env: NodeJS.ProcessEnv): Promise<{ code: numb
 }
 
 async function startHost(home: string, port: number): Promise<{ child: ChildProcess; url: string }> {
-  const child = spawn(process.execPath, ['--import', pathToFileURL(TSX).href, CLI, 'web', '--host', '127.0.0.1', '--port', String(port)], {
+  const child = spawn(process.execPath, bootArgs(['web', '--host', '127.0.0.1', '--port', String(port)]), {
     cwd: DSH,
     env: { ...process.env, DSH_HOME: home, DSH_PERMISSION_MODE: 'danger-full-access' },
     stdio: ['ignore', 'pipe', 'pipe'],
@@ -35,7 +46,7 @@ async function startHost(home: string, port: number): Promise<{ child: ChildProc
     const timeout = setTimeout(() => reject(new Error(`DSH startup timed out\n${output}`)), 45_000)
     const consume = (chunk: Buffer): void => {
       output += chunk.toString()
-      const match = /dsh web: (http:\/\/127\.0\.0\.1:\d+)/.exec(output)
+      const match = /dsh web: (http:\/\/127\.0\.0\.1:\d+\S*)/.exec(output)
       if (match?.[1] !== undefined) {
         clearTimeout(timeout)
         resolveUrl(match[1])

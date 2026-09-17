@@ -23,8 +23,17 @@ import { homedir, tmpdir } from 'node:os'
 import { join, dirname } from 'node:path'
 
 const DEFAULT_LOOPBACK = 'http://127.0.0.1:3080/'
-/** Dev-machine fallback only; real resolution lives in resolveHarnessDir(). */
-const DEFAULT_HARNESS_DIR = 'D:\\Github_Open\\deepseek-harness'
+/**
+ * Dev-only checkout fallbacks, most portable first: a sibling of this repo
+ * (checkout layout, same convention as the E2E) then known author-machine
+ * paths. Real resolution lives in resolveHarnessDir(); everything here is
+ * gated to unpackaged dev runs.
+ */
+const DEV_HARNESS_FALLBACKS = [
+  join(dirname(app.getAppPath()), 'deepseek-harness'),
+  'D:/Github_Star/deepseek-harness',
+  'D:/Github_Open/deepseek-harness',
+]
 /** Readiness signal the DSH web boot prints once Loader is settled and the loopback server is up. */
 const WEB_URL_LINE = /dsh web:\s+(http:\/\/127\.0\.0\.1:\d+)/
 
@@ -198,10 +207,14 @@ function resolveHarnessDir() {
     console.log(`[desktop] DSH harness resolved from ${candidate.source}: ${candidate.dir}`)
     return candidate.dir
   }
-  if (process.env.NODE_ENV !== 'production' && !app.isPackaged && existsSync(join(DEFAULT_HARNESS_DIR, 'apps', 'cli', 'src', 'bin.ts'))) {
-    harnessResolution = { dir: DEFAULT_HARNESS_DIR, source: 'fallback:dev-machine-path (dev only)' }
-    console.warn(`[desktop] dev-only fallback to ${DEFAULT_HARNESS_DIR}`)
-    return DEFAULT_HARNESS_DIR
+  if (process.env.NODE_ENV !== 'production' && !app.isPackaged) {
+    for (const fallback of DEV_HARNESS_FALLBACKS) {
+      if (existsSync(join(fallback, 'apps', 'cli', 'src', 'bin.ts'))) {
+        harnessResolution = { dir: fallback, source: 'fallback:dev-checkout (dev only)' }
+        console.warn(`[desktop] dev-only fallback to ${fallback}`)
+        return fallback
+      }
+    }
   }
   const hint = '请设置 DSH_HARNESS_DIR 指向 deepseek-harness 目录，或将 harness 物化到 .materialized/harness / resources/harness'
   const error = new Error(`[desktop] 未找到可用的 DSH harness：${hint}`)

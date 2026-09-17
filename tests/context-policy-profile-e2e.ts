@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto'
 import { mkdtemp, mkdir, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
+import { existsSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { createServer } from 'node:net'
@@ -9,9 +10,20 @@ import { startOpenAiFixture } from './openai-fixture.ts'
 import { bundlePack } from './packs.ts'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const DSH = resolve(ROOT, '..', 'deepseek-harness')
-const CLI = join(DSH, 'apps/cli/src/bin.ts')
-const TSX = join(DSH, 'node_modules/tsx/dist/loader.mjs')
+const DSH = process.env.DSH_REPO !== undefined ? resolve(process.env.DSH_REPO) : resolve(ROOT, '..', 'deepseek-harness')
+/**
+ * Prefer the harness's compiled CLI (lib/bin.js): 0.1.6 typert enforces strict
+ * compiled definitions, so the host and the served client bundles must come
+ * from the same built tree. The tsx source path stays as the checkout
+ * fallback for hack days when lib has not been built.
+ */
+const CLI_LIB = join(DSH, 'apps/cli/lib/bin.js')
+const CLI_SRC = join(DSH, 'apps/cli/src/bin.ts')
+const CLI = existsSync(CLI_LIB) ? CLI_LIB : CLI_SRC
+const CLI_SRC_LOADER = join(DSH, 'node_modules/tsx/dist/loader.mjs')
+const bootArgs = (args: string[]): string[] =>
+  CLI.endsWith('.ts') ? ['--import', pathToFileURL(CLI_SRC_LOADER).href, CLI, ...args] : [CLI, ...args]
+
 
 interface RpcFailure {
   message: string
@@ -22,9 +34,8 @@ interface RpcEnvelope<T> {
 }
 
 async function run(args: string[], env: NodeJS.ProcessEnv): Promise<{ code: number; output: string }> {
-  const loader = pathToFileURL(TSX).href
   return await new Promise((resolveRun, reject) => {
-    const child = spawn(process.execPath, ['--import', loader, CLI, ...args], {
+    const child = spawn(process.execPath, bootArgs(args), {
       cwd: DSH,
       env,
       stdio: ['ignore', 'pipe', 'pipe'],
@@ -50,7 +61,7 @@ async function reservePort(): Promise<number> {
 }
 
 async function startHost(home: string, port: number): Promise<{ child: ChildProcess; url: string }> {
-  const child = spawn(process.execPath, ['--import', pathToFileURL(TSX).href, CLI, 'web', '--host', '127.0.0.1', '--port', String(port)], {
+  const child = spawn(process.execPath, bootArgs(['web', '--host', '127.0.0.1', '--port', String(port)]), {
     cwd: DSH,
     env: { ...process.env, DSH_HOME: home, DSH_PERMISSION_MODE: 'danger-full-access' },
     stdio: ['ignore', 'pipe', 'pipe'],
@@ -60,7 +71,7 @@ async function startHost(home: string, port: number): Promise<{ child: ChildProc
     const timeout = setTimeout(() => reject(new Error(`DSH startup timed out\n${output}`)), 45_000)
     const consume = (chunk: Buffer): void => {
       output += chunk.toString()
-      const match = /dsh web: (http:\/\/127\.0\.0\.1:\d+)/.exec(output)
+      const match = /dsh web: (http:\/\/127\.0\.0\.1:\d+\S*)/.exec(output)
       if (match?.[1] !== undefined) {
         clearTimeout(timeout)
         resolveUrl(match[1])
@@ -94,10 +105,22 @@ async function stopHost(child: ChildProcess): Promise<void> {
   await waitForExit('SIGKILL')
 }
 
-async function rpc<T>(baseUrl: string, method: string, payload: unknown): Promise<T> {
+/**
+ * 0.1.6 authenticates the web surface with a launch token on the printed URL:
+ * the token mints a signed cookie at the root, and every /api call then rides
+ * that cookie. Node-side callers exchange the token once and replay the cookie.
+ */
+async function mintAuthCookie(authenticatedUrl: string): Promise<string> {
+  const response = await fetch(authenticatedUrl, { redirect: 'manual' })
+  const cookie = response.headers.getSetCookie()[0]?.split(';')[0]
+  if (cookie === undefined) throw new Error(`no auth cookie minted from ${authenticatedUrl}`)
+  return cookie
+}
+
+async function rpc<T>(baseUrl: string, cookie: string, method: string, payload: unknown): Promise<T> {
   const response = await fetch(`${baseUrl}/api/${method}`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: { 'content-type': 'application/json', cookie },
     body: JSON.stringify({ type: 'client-request', rpcId: randomUUID(), method, payload }),
   })
   const body = await response.json() as RpcEnvelope<T>
@@ -159,17 +182,18 @@ async function main(): Promise<void> {
 
     const port = await reservePort()
     const started = await startHost(home, port)
+    const cookie = await mintAuthCookie(started.url)
     host = started.child
     const workspace = join(home, 'workspace')
     await mkdir(workspace, { recursive: true })
-    const created = await rpc<{ sessionId: string }>(started.url, 'session.create', {
+    const created = await rpc<{ sessionId: string }>(started.url, cookie, 'session.create', {
       cwd: workspace,
       agentPreset: 'standard',
     })
     const sessionId = created.sessionId
 
     const send = async (targetSessionId: string, text: string): Promise<void> => {
-      await rpc(started.url, 'session.prompt', {
+      await rpc(started.url, cookie, 'session.prompt', {
         sessionId: targetSessionId,
         mode: 'queue',
         content: [{ type: 'text', text }],
@@ -209,6 +233,7 @@ async function main(): Promise<void> {
 
     const history = await rpc<{ events: Array<{ event: { type: string; data: unknown } }> }>(
       started.url,
+      cookie,
       'session.history',
       { sessionId, maxMessages: 100 },
     )
@@ -222,16 +247,16 @@ async function main(): Promise<void> {
 
     const described = await rpc<{
       namespaces: Array<{ ns: string; revision: number }>
-    }>(started.url, 'settings.describe', {})
+    }>(started.url, cookie, 'settings.describe', {})
     const general = described.namespaces.find(namespace => namespace.ns === 'control-center-general')
     if (general === undefined) throw new Error('Control Center general settings namespace was not registered')
-    await rpc(started.url, 'settings.mutate', {
+    await rpc(started.url, cookie, 'settings.mutate', {
       ns: 'control-center-general',
       expectedRevision: general.revision,
       ops: [{ op: 'set', path: ['contextAutoCompress'], value: false }],
     })
 
-    const omissionSession = await rpc<{ sessionId: string }>(started.url, 'session.create', {
+    const omissionSession = await rpc<{ sessionId: string }>(started.url, cookie, 'session.create', {
       cwd: workspace,
       agentPreset: 'standard',
     })
@@ -261,6 +286,7 @@ async function main(): Promise<void> {
 
     const omissionHistory = await rpc<{ events: Array<{ event: { type: string; data: unknown } }> }>(
       started.url,
+      cookie,
       'session.history',
       { sessionId: omissionSession.sessionId, maxMessages: 100 },
     )
