@@ -153,14 +153,14 @@ Cherry 侧动作系统核心（actionRegistry 310 行零耦合 + MessageListActi
 
 全部在 Electron 主进程，与 DSH 契约无关，风险最低，可与 Phase 1/2 并行。
 
-- [ ] 托盘偏好实装（启动进托盘/关闭行为/点击托盘唤起快捷助手）——General 已有 UI，main.mjs 接线
+- [x] 托盘偏好实装（启动进托盘/关闭行为）——General 已有 UI，main.mjs 接线（2026-09-17：trayEnabled 生效化、trayOnLaunch 启动进托盘、settings.yaml 轮询热生效；点击托盘唤起快捷助手留待 QuickAssistant 窗口化）
 - [ ] 全局快捷助手小窗（QuickAssistantService parity：全局唤起球/小窗）
 - [ ] 划词助手（SelectionService parity：selection/ overlay）
 - [ ] 截图（screenshot overlay + nativeCaptureBackend parity）
 - [ ] 开机自启 + 硬件加速开关确认重启生效
 - [ ] 自动更新闭环：electron-updater（当前只有插件自更新，桌面壳无）
 - [ ] 代理设置真正生效（确认 ProxyService 级接线而非仅设置页 UI）
-- [ ] 硬编码清理：`DEFAULT_HARNESS_DIR = 'D:\\Github_Open\\deepseek-harness'` 开发机 fallback、翻译 PDF workerSrc CDN 依赖
+- [x] 硬编码清理（2026-09-17）：`DEFAULT_HARNESS_DIR` 单路径 fallback 改为「兄弟 checkout + 已知路径」列表（且 --e2e 下解析失败快速退出不再弹模态框），探测脚本支持 `DSH_REPO` 覆盖；翻译 PDF workerSrc CDN 依赖随离线 PDF 落地移除
 
 ---
 
@@ -194,3 +194,4 @@ Cherry 侧动作系统核心（actionRegistry 310 行零耦合 + MessageListActi
 | 2026-09-17 | 归因结论落盘：本机 harness 快照自身基线（无插件）web boot 即失败（sidebarRight 缺失 + session/control 定义撤回，clean 重建后依旧） | 插件面 tsx 模式可渲染设置对话框；浏览器 E2E 全绿被上游装配缺陷阻塞，与插件无关，待上游修复后复验 |
 | 2026-09-17 | 桌面壳 dev 兜底路径改为「兄弟目录 + 已知路径列表」（原硬编码 D:\Github_Open 已失效）；所有探测脚本支持 DSH_REPO 覆盖 | 本机 checkout 已迁至 D:\Github-Star\deepseek-harness，硬编码单路径在不同机器必然失效 |
 | 2026-09-17 | v0.4.0：契约监测 workflow（`contract-watch.yml` + `watch-dsh-contract.mjs`）落地 0.4 遗留 CI 项 | 预发布感知的 semver 比较，发现新版本自动开跟踪 issue |
+| 2026-09-17 | Phase 3 托盘接线 + 桌面 dev 解析修复（兄弟目录两级上探、--e2e 免弹窗快速失败、prepare-bundle.js 重写修复三处从未跑通的语法/路径错误、dev vendor 路径订正） | 桌面自托管链路日志验证：harness 解析→自启→SURFACE_LOADED；触发器挂载仍被上游 web boot 缺陷阻塞 |

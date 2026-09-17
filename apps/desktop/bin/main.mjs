@@ -297,7 +297,9 @@ function bundledResourceCandidates(relative) {
   if (process.resourcesPath !== undefined) {
     try { candidates.push(fileURLToPath(new URL(relative, pathToFileURL(`${process.resourcesPath}/`)))) } catch { /* ignore */ }
   }
-  candidates.push(fileURLToPath(new URL(relative, pathToFileURL(`${dirname(fileURLToPath(import.meta.url))}/`))))
+  // Packaged: resources/. Dev: apps/desktop/vendor — the module lives in
+  // apps/desktop/bin, so the vendor dir is one level up from it.
+  candidates.push(fileURLToPath(new URL(relative, pathToFileURL(`${join(dirname(fileURLToPath(import.meta.url)), '..', 'vendor')}/`))))
   return candidates
 }
 

@@ -43,6 +43,22 @@ the public npm registry.
   its own `remote.<ns>` service; the plugin's client entry declares
   settings/llm/credentials/session/agentPresets explicitly.
 
+### Desktop
+- **Tray preferences are real** (Phase 3): `trayEnabled=false` now removes the
+  tray, `trayOnLaunch` keeps the first window in the tray until summoned, and
+  general preferences re-apply live by stat-polling the settings document
+  (restart still converges if a run never polls; `DSH_DESKTOP_WATCH_DEBUG=1`
+  traces polls).
+- **Dev harness resolution fixed**: the sibling-checkout fallback probes two
+  levels up from `apps/desktop` (the one-level path could never match), and a
+  failed resolution under `--e2e`/`DSH_DESKTOP_HEADLESS=1` exits loudly
+  instead of hanging forever in a modal dialog nobody can dismiss — the
+  long-standing desktop smoke timeout.
+- **Plugin auto-sync works in dev**: `scripts/prepare-bundle.js` is rewritten
+  (it had never run — duplicate declaration, `__dirname` in ESM, a
+  mid-body import) and the dev `vendor/` lookup points at
+  `apps/desktop/vendor` instead of `apps/desktop/bin/vendor`.
+
 ### Known environment blocker (documented, not a plugin defect)
 The local harness snapshot (`0.1.6-alpha.1`+master, clean-rebuilt) fails its
 own no-plugin baseline: the web boot leaves three UI packages pending on a

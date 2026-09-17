@@ -1,51 +1,44 @@
 #!/usr/bin/env node
 /**
  * Prepare bundle artifacts for the desktop shell:
- * - copy the built bundle tarball from packages/bundle to apps/desktop/vendor
+ * - copy the newest built bundle tarball into apps/desktop/vendor as bundle.tgz
  * - stamp bundle-version.json from the tarball filename
+ *
+ * Location-independent: paths anchor to this file, not the caller's cwd. The
+ * tarball may live in packages/bundle (a plain `pnpm pack`) or .packs (the
+ * pack:check destination); the freshest one wins.
  */
 
-import { cp, cpSync, readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs'
+import { readdirSync, readFileSync, writeFileSync, statSync, copyFileSync, mkdirSync } from 'node:fs'
 import { join, dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-const repoRoot = join(__dirname, '..')
-const bundleDir = join(repoRoot, 'packages', 'bundle')
+const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
+const searchDirs = [join(repoRoot, 'packages', 'bundle'), join(repoRoot, '.packs')]
 const vendorDir = join(repoRoot, 'apps', 'desktop', 'vendor')
 
-// 1. copy bundle tarball to vendor dir
-const files = readdirSync(bundleDir).filter(f => f.startsWith('dsh-control-center-bundle-') && f.endsWith('.tgz'))
-if (files.length === 0) {
-  console.error('No bundle tarball found in', bundleDir)
+const candidates = searchDirs.flatMap((dir) => {
+  let names = []
+  try { names = readdirSync(dir) } catch { /* dir may not exist yet */ }
+  return names
+    .filter((f) => f.startsWith('dsh-control-center-bundle-') && f.endsWith('.tgz'))
+    .map((f) => ({ dir, f, mtime: statSync(join(dir, f)).mtimeMs }))
+}).sort((a, b) => b.mtime - a.mtime)
+
+if (candidates.length === 0) {
+  console.error(`No bundle tarball found in any of: ${searchDirs.join(', ')} — run "pnpm run pack:check" first`)
   process.exit(1)
 }
-const tarball = files[0]
-const srcPath = join(bundleDir, tarball)
-const destDir = join(process.cwd(), 'apps', 'desktop', 'vendor')
-cpSync(srcPath, join(destDir, tarball))
-console.log(`Copied ${tarball} to vendor/`)
+const newest = candidates[0]
 
-// 2. extract version from filename
-const match = tarball.match(/-([0-9][^-]*)\.tgz$/)
-if (!match) {
-  console.error('Cannot parse version from tarball name:', tarball)
+const match = newest.f.match(/-([0-9][^-]*)\.tgz$/)
+if (match === null) {
+  console.error('Cannot parse version from tarball name:', newest.f)
   process.exit(1)
 }
 const version = match[1]
 
-// 3. write bundle-version.json
-const vendorDir2 = join(process.cwd(), 'apps', 'desktop', 'vendor')
-writeFileSync(join(destDir, 'bundle-version.json'), JSON.stringify({ version: match[1] }))
-console.log('bundled plugin version:', version)
-
-// 4. rename tarball to bundle.tgz
-const tarballFiles = readdirSync(destDir).filter(f => f.startsWith('dsh-control-center-bundle-') && f.endsWith('.tgz'))
-if (tarballFiles.length === 0) {
-  console.error('No bundle tarball found in vendor dir')
-  process.exit(1)
-}
-const tarball = tarballFiles[0]
-const oldPath = join(destDir, tarball)
-const newPath = join(destDir, 'bundle.tgz')
-import { renameSync } from 'node:fs'
-renameSync(oldPath, newPath)
-console.log('Prepared bundle.tgz and bundle-version.json for the shell')
+mkdirSync(vendorDir, { recursive: true })
+writeFileSync(join(vendorDir, 'bundle-version.json'), JSON.stringify({ version }))
+copyFileSync(join(newest.dir, newest.f), join(vendorDir, 'bundle.tgz'))
+console.log(`Prepared apps/desktop/vendor: bundle.tgz (from ${join(newest.dir, newest.f)}, version ${version})`)
