@@ -4,10 +4,10 @@
 
 ## 支持基线
 
-- DeepSeek Harness `0.1.1-rc.2`（`b150a551b8`）
+- DeepSeek Harness `0.1.6-alpha.1`（`0d1f50007f`），契约包直接解析 npm 公开发布线（2026-08-30 的 vendored tarball + 本地 verdaccio 通道已退役，见 `scripts/migrate-dsh-0.1.6.mjs` 与 `scripts/watch-dsh-contract.mjs`）
 - Cherry Studio 源码／视觉基线 `0bb1725c638bf12d505e9baadaa69f8da47dd05e`（应用版本 `2.0.8`）
 
-若运行时实际解析到的 DSH 契约包不匹配支持基线，本包会在浏览器端激活前使启动失败。
+若运行时实际解析到的 DSH 契约包离开支持窗口（`0.1.6+`，见 `packages/control-center/src/compatibility.ts`），本包会在浏览器端激活前使启动失败。
 
 ## 安装
 

@@ -1,0 +1,39 @@
+name: CI
+
+# The green gate for every push and PR: the same `pnpm check` the release
+# flow requires (typecheck, unit tests, lint, build, provenance, artifacts,
+# secret scan). Browser E2E stays out — it boots a full harness checkout and
+# is a release-time gate, not a per-push one.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.7.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Check (typecheck + test + lint + build + provenance + artifacts + secrets)
+        run: pnpm check
+
+      - name: Contract watch (report only)
+        run: node scripts/watch-dsh-contract.mjs
