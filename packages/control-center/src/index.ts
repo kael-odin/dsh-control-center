@@ -111,6 +111,8 @@ const GENERAL_SCHEMA = z.object({
   // Cherry 通用·客户端 ID: a stable random install id, generated once on
   // first boot and shown read-only in the General page.
   clientId: z.string().default(''),
+  // Cherry 通用·菜单呈现模式 — consumed by the desktop shell's window chrome.
+  menuPresentation: z.string().default('hidden'),
   // Cherry chat.context_settings.* projected onto DSH's compaction/pruning policy.
   contextEnabled: z.boolean().default(true),
   contextMaxMessages: z.any().default(null),

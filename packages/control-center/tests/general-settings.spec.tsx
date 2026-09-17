@@ -7,6 +7,8 @@ import type { GeneralSettingsStore, GeneralState } from '../src/client/general-s
 import { en } from '../src/client/locales.ts'
 
 const prefs = {
+  clientId: '',
+  menuPresentation: 'hidden',
   launchOnBoot: false,
   trayEnabled: true,
   trayOnClose: false,
@@ -49,6 +51,15 @@ function renderSettings(overrides: Partial<GeneralState['prefs']> = {}) {
 }
 
 afterEach(() => { cleanup() })
+
+describe('GeneralCherrySettings menu presentation', () => {
+  it('persists the selected menu presentation mode', async () => {
+    const { save } = renderSettings({ menuPresentation: 'hidden' })
+    const select = screen.getByRole('combobox', { name: /Menu bar/ })
+    fireEvent.change(select, { target: { value: 'visible' } })
+    await waitFor(() => expect(save).toHaveBeenCalledWith('menuPresentation', 'visible'))
+  })
+})
 
 describe('GeneralCherrySettings client id', () => {
   it('shows the stable client id read-only', () => {

@@ -688,7 +688,7 @@ function setupTrayAndShortcut() {
  * the `control-center-general:` section the 通用 page writes. The companion
  * applies them at startup so the settings page's switches are real.
  */
-let generalPrefs = { launchOnBoot: false, trayEnabled: true, trayOnClose: false, trayOnLaunch: false, disableHardwareAcceleration: false, proxyMode: 'off', proxyUrl: '', proxyBypass: '' }
+let generalPrefs = { launchOnBoot: false, trayEnabled: true, trayOnClose: false, trayOnLaunch: false, disableHardwareAcceleration: false, proxyMode: 'off', proxyUrl: '', proxyBypass: '', menuPresentation: 'hidden' }
 
 
 function readGeneralPrefs() {
@@ -715,6 +715,7 @@ let inSection = false
     const pm = line.match(/^\s*proxyMode:\s*(\S+)\s*$/) ; if (pm) generalPrefs.proxyMode = pm[1]
     const pu = line.match(/^\s*proxyUrl:\s*(\S+)\s*$/) ; if (pu) generalPrefs.proxyUrl = pu[1]
     const pb = line.match(/^\s*proxyBypass:\s*(\S+)\s*$/) ; if (pb) generalPrefs.proxyBypass = pb[1]
+    const menu = line.match(/^\s*menuPresentation:\s*(\S+)\s*$/) ; if (menu) generalPrefs.menuPresentation = menu[1]
     // Cherry BootConfig.app.disable_hardware_acceleration parity. Must run
     // before app ready — readGeneralPrefs is also invoked pre-Ready for this.
     const h = bool('disableHardwareAcceleration'); if (h !== undefined) generalPrefs.disableHardwareAcceleration = h
@@ -737,10 +738,28 @@ async function applyProxyToSession() {
   }
 }
 
+/** Cherry 菜单呈现模式: hidden / auto-hide (Alt reveals) / visible. */
+function applyMenuPresentation() {
+  if (mainWindow === null || mainWindow.isDestroyed()) return
+  try {
+    if (generalPrefs.menuPresentation === 'visible') {
+      mainWindow.setAutoHideMenuBar(false)
+      mainWindow.setMenuBarVisibility(true)
+    } else if (generalPrefs.menuPresentation === 'auto-hide') {
+      mainWindow.setAutoHideMenuBar(true)
+      mainWindow.setMenuBarVisibility(true)
+    } else {
+      mainWindow.setAutoHideMenuBar(false)
+      mainWindow.setMenuBarVisibility(false)
+    }
+  } catch { /* window may be mid-navigation; next apply catches it */ }
+}
+
 function applyGeneralPrefs() {
   readGeneralPrefs()
   try { app.setLoginItemSettings({ openAtLogin: generalPrefs.launchOnBoot }) } catch { /* best effort */ }
   applyProxyToSession()
+  applyMenuPresentation()
   reconcileTray()
   console.log(`[desktop] GENERAL_PREFS launchOnBoot=${generalPrefs.launchOnBoot} tray=${generalPrefs.trayEnabled} trayOnClose=${generalPrefs.trayOnClose} trayOnLaunch=${generalPrefs.trayOnLaunch}`)
 }

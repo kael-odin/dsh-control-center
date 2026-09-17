@@ -29,6 +29,7 @@ export interface GeneralPrefs {
   contextCompressionProvider: string
   contextCompressionModel: string
   clientId: string
+  menuPresentation: 'hidden' | 'auto-hide' | 'visible'
 }
 
 export interface GeneralState {
@@ -60,6 +61,7 @@ const DEFAULT_PREFS: GeneralPrefs = {
   contextCompressionProvider: '',
   contextCompressionModel: '',
   clientId: '',
+  menuPresentation: 'hidden',
 }
 
 function readPrefs(value: unknown, schema: SettingsSchemaOperations): GeneralPrefs {
@@ -79,10 +81,14 @@ function readPrefs(value: unknown, schema: SettingsSchemaOperations): GeneralPre
     const raw = schema.getPath(value, [key])
     return typeof raw === 'string' ? raw : fallback
   }
+  const menuRaw = schema.getPath(value, ['menuPresentation'])
+  const menuPresentation: 'hidden' | 'auto-hide' | 'visible' =
+    menuRaw === 'auto-hide' || menuRaw === 'visible' ? menuRaw : 'hidden'
   const proxyModeRaw = schema.getPath(value, ['proxyMode'])
   const proxyMode: ProxyMode = proxyModeRaw === 'system' || proxyModeRaw === 'static' ? proxyModeRaw : 'off'
   return {
     clientId: text('clientId', DEFAULT_PREFS.clientId),
+    menuPresentation,
     launchOnBoot: flag('launchOnBoot', DEFAULT_PREFS.launchOnBoot),
     trayEnabled: flag('trayEnabled', DEFAULT_PREFS.trayEnabled),
     trayOnClose: flag('trayOnClose', DEFAULT_PREFS.trayOnClose),

@@ -196,6 +196,25 @@ function Loaded({ controller, useSnapshot, t }: {
         label={t('generalTrayOnLaunch')}
         onChange={(next) => { setPref('trayOnLaunch', next) }}
       />
+      <div className={css['prefRow']}>
+        <label className={css['prefRowTitle']} htmlFor="cc-general-menu-presentation">
+          <span>{t('generalMenuPresentation')}</span>
+          <span className={css['prefRowHint']}>{t('generalDesktopOnly')}</span>
+        </label>
+        <div className={css['prefRowControl']}>
+          <select
+            id="cc-general-menu-presentation"
+            className={css['prefInput']}
+            value={prefs.menuPresentation}
+            disabled={disabled}
+            onChange={event => { void controller.save('menuPresentation', event.target.value as 'hidden' | 'auto-hide' | 'visible') }}
+          >
+            <option value="hidden">{t('generalMenuHidden')}</option>
+            <option value="auto-hide">{t('generalMenuAutoHide')}</option>
+            <option value="visible">{t('generalMenuVisible')}</option>
+          </select>
+        </div>
+      </div>
       <PrefRow
         title={t('generalPreventSleep')}
         hint={t('generalDesktopOnly')}
