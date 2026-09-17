@@ -8,10 +8,15 @@
  * `InputState.draft` is the clipboard projection of the editor document, so
  * `setDraft` flattens reference chips to their text form — appending is
  * refused with an honest reason while chips (occurrences) exist.
+ *
+ * Phrase texts may carry `{{date}}`/`{{time}}`/`{{datetime}}`/`{{week}}`/
+ * `{{clipboard}}` variables that resolve at insert time (phrase-variables.ts);
+ * unknown or unavailable ones stay verbatim in the draft.
  */
 import { useCallback, useEffect, useState } from 'react'
 import type { PropsLocale, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import { errorText } from './AssistantMessageActions.tsx'
+import { expandPhraseVariables } from './phrase-variables.ts'
 import css from './QuickPhrasesButton.module.css'
 
 /** Settings face (settings-controller remote), lazy from apply(). */
@@ -82,9 +87,21 @@ export function QuickPhrasesButton(props: QuickPhrasesProps) {
     if (open) void reload()
   }, [open, reload])
 
-  const appendPhrase = useCallback((phrase: Phrase) => {
+  const appendPhrase = useCallback(async (phrase: Phrase) => {
+    // Variables resolve at insert time; the clipboard is best-effort with a
+    // short deadline — when it cannot be read, `{{clipboard}}` stays verbatim.
+    let clipboard: string | undefined
+    try {
+      clipboard = await Promise.race([
+        navigator.clipboard?.readText() ?? Promise.reject(new Error('unavailable')),
+        new Promise<never>((_, reject) => setTimeout(() => reject(new Error('timeout')), 200)),
+      ])
+    } catch { clipboard = undefined }
+    const expanded = expandPhraseVariables(phrase.text, clipboard === undefined
+      ? { now: new Date() }
+      : { now: new Date(), clipboard })
     const current = props.useInput(state => state.draft)
-    props.inputActions.setDraft(current.length === 0 ? phrase.text : `${current}\n${phrase.text}`)
+    props.inputActions.setDraft(current.length === 0 ? expanded : `${current}\n${expanded}`)
     setOpen(false)
   }, [props])
 
@@ -136,7 +153,7 @@ export function QuickPhrasesButton(props: QuickPhrasesProps) {
                 type="button"
                 className={css.phraseItem}
                 title={phrase.text}
-                onClick={() => { appendPhrase(phrase) }}
+                onClick={() => { void appendPhrase(phrase) }}
               >
                 {phrase.label}
               </button>

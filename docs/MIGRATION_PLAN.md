@@ -108,7 +108,7 @@ Cherry 侧动作系统核心（actionRegistry 310 行零耦合 + MessageListActi
 > 侦察结论：DSH composer 的插件面 = `conversation.input.left/right`（list，owner InputZone 只读）+
 > session 标准装备 `useInput`/`inputActions`（**setDraft 可用**）；`composer.bar` 是 single slot
 > （挂了会替换宿主输入条，不可用）；草稿 spans 有 span-CAS 保护，引用 chips 经 setDraft 会摊平为文本。
-- [x] **快捷短语（2026-08-30）**：`QuickPhrasesButton` 挂 `conversation.input.right` ——
+- [x] **快捷短语（2026-08-30）**：`QuickPhrasesButton` 挂 `conversation.input.right` ——（2026-09-17 增量：插入时展开 `{{date}}/{{time}}/{{datetime}}/{{week}}/{{clipboard}}` 变量，未知/不可用保持原样）——
       ⚡ 弹层列出/新增/删除短语（`control-center-composer` namespace，revision 守卫 mutate），
       选取即经 inputActions.setDraft 追加进草稿；6 个组件测试
 - [x] **@知识库 chip（2026-08-30）**：`KnowledgeChipButton` 挂 `conversation.input.right`

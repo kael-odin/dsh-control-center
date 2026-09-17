@@ -76,6 +76,18 @@ describe('QuickPhrasesButton composer entry', () => {
     expect(screen.queryByRole('button', { name: '问候' })).toBeNull()
   })
 
+  it('expands {{date}} variables at insert time', async () => {
+    const { props, setDraft } = makeFixture({ phrases: [{ label: '今日', text: '今天是 {{date}}（{{week}}）' }] })
+    render(<QuickPhrasesButton {...props} />)
+    fireEvent.click(screen.getByLabelText('quickPhrases'))
+    const item = await screen.findByRole('button', { name: '今日' })
+    fireEvent.click(item)
+    await waitFor(() => expect(setDraft).toHaveBeenCalled())
+    const draft = setDraft.mock.calls[0][0] as string
+    expect(draft).toMatch(/^今天是 \d{4}-\d{2}-\d{2}（星期.）$/)
+    expect(draft).not.toContain('{{date}}')
+  })
+
   it('replaces an empty draft verbatim', async () => {
     const { props, setDraft } = makeFixture({ draft: '' })
     render(<QuickPhrasesButton {...props} />)

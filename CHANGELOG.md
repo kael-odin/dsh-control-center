@@ -59,6 +59,12 @@ the public npm registry.
   mid-body import) and the dev `vendor/` lookup points at
   `apps/desktop/vendor` instead of `apps/desktop/bin/vendor`.
 
+### Composer
+- **Quick-phrase variable templates** (Cherry PromptSettings parity):
+  phrase texts expand `{{date}}`/`{{time}}`/`{{datetime}}`/`{{week}}`/
+  `{{clipboard}}` at insert time. Unknown or unavailable variables stay
+  verbatim in the draft, so nothing silently disappears.
+
 ### Known environment blocker (documented, not a plugin defect)
 The local harness snapshot (`0.1.6-alpha.1`+master, clean-rebuilt) fails its
 own no-plugin baseline: the web boot leaves three UI packages pending on a
