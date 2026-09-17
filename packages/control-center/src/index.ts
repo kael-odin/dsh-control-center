@@ -108,6 +108,9 @@ const GENERAL_SCHEMA = z.object({
   // Cherry BootConfig.app.disable_hardware_acceleration — the desktop shell
   // reads it at boot; takes effect after a restart.
   disableHardwareAcceleration: z.boolean().default(false),
+  // Cherry 通用·客户端 ID: a stable random install id, generated once on
+  // first boot and shown read-only in the General page.
+  clientId: z.string().default(''),
   // Cherry chat.context_settings.* projected onto DSH's compaction/pruning policy.
   contextEnabled: z.boolean().default(true),
   contextMaxMessages: z.any().default(null),
@@ -223,6 +226,13 @@ export function apply(ctx: Context): void {
     GENERAL_NAMESPACE_SETTINGS,
     GENERAL_SCHEMA,
   )
+  // 客户端 ID: mint once, never rotate — an empty stored value means first boot.
+  try {
+    const generalValue = generalScope.get() as { clientId?: string }
+    if (typeof generalValue.clientId !== 'string' || generalValue.clientId.length === 0) {
+      generalScope.update({ clientId: crypto.randomUUID() })
+    }
+  } catch { /* crypto unavailable in exotic runtimes; the page shows an empty id */ }
   installContextPolicy(ctx, () => generalScope.get() as ContextPolicySettings)
   const contributions: readonly TypertContribution[] = [
     {

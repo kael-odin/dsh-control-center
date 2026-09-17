@@ -50,6 +50,15 @@ function renderSettings(overrides: Partial<GeneralState['prefs']> = {}) {
 
 afterEach(() => { cleanup() })
 
+describe('GeneralCherrySettings client id', () => {
+  it('shows the stable client id read-only', () => {
+    renderSettings({ clientId: '0b9e6c59-1111-4222-8333-444455556666' })
+    const input = screen.getByRole('textbox', { name: 'Client ID' }) as HTMLInputElement
+    expect(input.value).toBe('0b9e6c59-1111-4222-8333-444455556666')
+    expect(input.readOnly).toBe(true)
+  })
+})
+
 describe('GeneralCherrySettings context management', () => {
   it('persists the context toggle and numeric policy fields', async () => {
     const { save } = renderSettings()

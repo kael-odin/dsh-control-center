@@ -401,6 +401,24 @@ function Loaded({ controller, useSnapshot, t }: {
         </div>
       </div>
       {state.writeError === null ? null : <p className={css['error']} role="alert">{state.writeError}</p>}
+      <div className={css['groupTitle']}>{t('generalClientIdGroup')}</div>
+      <div className={css['prefRow']}>
+        <div className={css['prefRowTitle']}>
+          <span>{t('generalClientId')}</span>
+          <span className={css['prefRowHint']}>{t('generalClientIdHint')}</span>
+        </div>
+        <div className={css['prefRowControl']}>
+          <input
+            id="cc-general-client-id"
+            className={css['prefInput']}
+            type="text"
+            readOnly
+            aria-label={t('generalClientId')}
+            value={prefs.clientId}
+            onFocus={event => { event.currentTarget.select() }}
+          />
+        </div>
+      </div>
     </div>
   )
 }

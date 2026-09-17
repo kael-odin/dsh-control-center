@@ -28,6 +28,7 @@ export interface GeneralPrefs {
   contextAutoCompress: boolean
   contextCompressionProvider: string
   contextCompressionModel: string
+  clientId: string
 }
 
 export interface GeneralState {
@@ -58,6 +59,7 @@ const DEFAULT_PREFS: GeneralPrefs = {
   contextAutoCompress: true,
   contextCompressionProvider: '',
   contextCompressionModel: '',
+  clientId: '',
 }
 
 function readPrefs(value: unknown, schema: SettingsSchemaOperations): GeneralPrefs {
@@ -80,6 +82,7 @@ function readPrefs(value: unknown, schema: SettingsSchemaOperations): GeneralPre
   const proxyModeRaw = schema.getPath(value, ['proxyMode'])
   const proxyMode: ProxyMode = proxyModeRaw === 'system' || proxyModeRaw === 'static' ? proxyModeRaw : 'off'
   return {
+    clientId: text('clientId', DEFAULT_PREFS.clientId),
     launchOnBoot: flag('launchOnBoot', DEFAULT_PREFS.launchOnBoot),
     trayEnabled: flag('trayEnabled', DEFAULT_PREFS.trayEnabled),
     trayOnClose: flag('trayOnClose', DEFAULT_PREFS.trayOnClose),
