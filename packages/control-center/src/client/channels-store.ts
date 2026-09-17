@@ -9,7 +9,8 @@
  * with an honest notice (same contract as the model-preferences store).
  */
 
-import type { ClientRemote, JsonValue } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
+import type { JsonValue } from '@deepseek-ai/dsh-util-values'
 import type { SnapshotStore } from '@deepseek-ai/dsh-client-store'
 import { createSnapshotStore } from '@deepseek-ai/dsh-client-store'
 import { messageOf } from './store.ts'

@@ -161,6 +161,7 @@ function fakeSession(events: FakeEvent[], nodes: number[]) {
   return {
     surface: { nodes },
     events,
+    snapshotEvents() { return events },
     appends,
     deriveEventMessage(event: FakeEvent) {
       switch (event.type) {

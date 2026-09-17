@@ -21,7 +21,7 @@ import {
 } from './knowledge/embedding.ts'
 import { resolveKey, resolveProvider } from './knowledge/provider-resolve.ts'
 import { markRemoteMethods } from './knowledge/remote-methods.ts'
-import { settingsNamespace } from '@deepseek-ai/dsh-settings'
+import { settingsNamespace } from './settings-ns.ts'
 
 const KNOWLEDGE_SETTINGS_NAMESPACE = settingsNamespace('control-center-knowledge')
 const PROMPT_CACHE_TTL_MS = 120_000

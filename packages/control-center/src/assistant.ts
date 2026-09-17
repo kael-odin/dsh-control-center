@@ -10,9 +10,10 @@
 
 import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
-import { bindTypertRemote, TypertRemoteFailure } from '@deepseek-ai/dsh-typert-protocol'
+import { bindTypertRemote, remoteErrorOf } from '@deepseek-ai/dsh-typert-protocol'
 import type { AgentPresets } from '@deepseek-ai/dsh-agent-presets'
-import { settingsNamespace, type SettingsScope } from '@deepseek-ai/dsh-settings'
+import type { SettingsScope } from '@deepseek-ai/dsh-settings'
+import { settingsNamespace } from './settings-ns.ts'
 import Schema from '@deepseek-ai/schemastery'
 import { markRemoteMethods } from './knowledge/remote-methods.ts'
 import type { DesktopService } from './desktop.ts'
@@ -97,7 +98,10 @@ export class AssistantService extends Service {
         })),
       }
     } catch (error) {
-      if (error instanceof TypertRemoteFailure) return { ok: false, error: `${error.failure.code}: ${error.failure.message}` }
+      {
+        const failure = remoteErrorOf(error)
+        if (failure) return { ok: false, error: `${failure.code}: ${failure.message}` }
+      }
       return { ok: false, error: error instanceof Error ? error.message : String(error) }
     }
   }

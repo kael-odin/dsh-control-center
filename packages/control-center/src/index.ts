@@ -1,7 +1,7 @@
 /** Host half of DSH Control Center: compatibility gate and onboarding settings. */
 import type { Context } from '@deepseek-ai/cordis'
 import z from '@deepseek-ai/schemastery'
-import { settingsNamespace } from '@deepseek-ai/dsh-settings'
+import { settingsNamespace } from './settings-ns.ts'
 import { assertCompatibleDsh } from './compatibility.ts'
 import type { TypertContribution } from '@deepseek-ai/dsh-typert-registry'
 import TranslationService from './translation.ts'

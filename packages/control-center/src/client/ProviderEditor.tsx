@@ -23,7 +23,8 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
-import type { CredentialInfo, ClientRemote, SettingsNamespaceView, SettingsPathOpView,JsonValue } from '@deepseek-ai/dsh-api-remotes/client'
+import type { CredentialInfo, ClientRemote, SettingsNamespaceView, SettingsPathOpView } from '@deepseek-ai/dsh-api-remotes/client'
+import type { JsonValue } from '@deepseek-ai/dsh-util-values'
 import type { SettingsSchemaOperations } from './schema-operations.ts'
 import {
   DeepSeekModelsEditor, modelDrafts, validateDeepSeekModels,
@@ -371,7 +372,7 @@ export function ProviderEditor(props: ProviderEditorProps): ReactNode {
     if (ops.length > 0) {
       const response = await api.settings.mutate(ns, ops, expectedRevision)
       if (!response.ok) {
-        return response.error.code === 'settings-conflict'
+        return response.error.code === 'settings/conflict'
           ? t('conflict')
           : response.error.message
       }

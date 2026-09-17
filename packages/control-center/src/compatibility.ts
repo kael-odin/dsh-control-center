@@ -4,16 +4,17 @@ import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolveDshHome } from '@deepseek-ai/dsh-home-paths'
 
-export const SUPPORTED_DSH_VERSION = '0.1.2'
-export const DSH_SOURCE_BASELINE = 'cd5ef81481'
+export const SUPPORTED_DSH_VERSION = '0.1.6-alpha.1'
+export const DSH_SOURCE_BASELINE = '0d1f50007f'
 
 /**
  * PLUGINIZATION §1.2: the supported DSH version window rather than one pinned
- * string. Any 0.1.x release (including later rcs) satisfies the contract
- * check; a new minor triggers a deliberate compatibility review before the
- * window widens. Keep this in lockstep with the peerDependencies range.
+ * string. The code compiles against the 0.1.6 contract, so hosts on 0.1.5 or
+ * older are rejected honestly; a new minor triggers a deliberate compatibility
+ * review before the window widens. Keep this in lockstep with the
+ * peerDependencies range.
  */
-const SUPPORTED_DSH_RANGE = /^0\.1\.\d+/
+const SUPPORTED_DSH_RANGE = /^0\.1\.[6-9]/
 
 /** Whether a resolved DSH package version falls inside the support window. */
 export function isSupportedDshVersion(version: string): boolean {

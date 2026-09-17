@@ -15,7 +15,8 @@
  * (`control-center-api-keys`) carries labels and enable flags alone.
  */
 
-import type { ClientRemote, CredentialInfo, JsonValue } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ClientRemote, CredentialInfo } from '@deepseek-ai/dsh-api-remotes/client'
+import type { JsonValue } from '@deepseek-ai/dsh-util-values'
 import type { SettingsPathOpView } from '@deepseek-ai/dsh-api-remotes/client'
 import type { SettingsSchemaOperations } from './schema-operations.ts'
 

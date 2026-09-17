@@ -5,7 +5,7 @@
  */
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { IconChevronDownOutline14, IconPauseOutline16, IconPlusOutline16, IconSendOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
+import { IconChevronDownOutline14, IconPauseOutline16, IconPlusOutline16, IconSendOutline14 } from '@deepseek-ai/dsh-client-ui-primitives'
 
 import css from './PaintingWorkspace.module.css'
 import { IconMoreHorizontal, IconPenLine, IconPlus, IconTrash2, IconX, IconZap } from './cherry-icons.tsx'
@@ -382,7 +382,7 @@ export function PaintingComposer(props: PaintingComposerProps) {
           </button>
         ) : (
           <button type="button" className={css.sendButton} title="发送" disabled={!canSend} onClick={onSend}>
-            <IconSendOutline16 size={20} />
+            <IconSendOutline14 size={20} />
           </button>
         )}
       </div>

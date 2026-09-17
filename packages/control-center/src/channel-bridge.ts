@@ -29,9 +29,9 @@
 import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
 import z from '@deepseek-ai/schemastery'
-import { settingsNamespace } from '@deepseek-ai/dsh-settings'
+import { settingsNamespace } from './settings-ns.ts'
 import type { SettingsScope } from '@deepseek-ai/dsh-settings'
-import { bindTypertRemote, Remote, TypertRemoteFailure } from '@deepseek-ai/dsh-typert-protocol'
+import { bindTypertRemote, Remote, remoteErrorOf } from '@deepseek-ai/dsh-typert-protocol'
 import type { SessionController, SessionRequestId } from '@deepseek-ai/dsh-api-session-controller'
 import { createUserMessage, type LlmRuntime } from '@deepseek-ai/dsh-llm'
 import { readHostRetryPolicy } from './retry-config.ts'
@@ -751,6 +751,7 @@ export class ChannelBridgeService extends Service {
       for (let next = await iterator.next(); next.done !== true; next = await iterator.next()) {
         const frame = next.value
         if (frame.type === 'snapshot') continue // opening window predates the prompt
+        if (frame.type === 'assistant-stream') continue // streaming deltas carry no durable turn event
         const event = frame.event
         if (event.type === 'turn/end') {
           end = event.data as { turn: number; reason: { kind: string; error?: { message?: string } } }
@@ -862,8 +863,9 @@ export class ChannelBridgeService extends Service {
 
   /** Human-readable failure for a session-controller remote call. */
   private remoteErrorText(action: string, error: unknown): string {
-    if (error instanceof TypertRemoteFailure) {
-      return `${action} 失败（${error.failure.code}）：${error.failure.message}`
+    const failure = remoteErrorOf(error)
+    if (failure) {
+      return `${action} 失败（${failure.code}）：${failure.message}`
     }
     return `${action} 失败：${error instanceof Error ? error.message : String(error)}`
   }

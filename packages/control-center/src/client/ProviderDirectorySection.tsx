@@ -27,7 +27,8 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
-import type { ClientRemote,JsonValue } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
+import type { JsonValue } from '@deepseek-ai/dsh-util-values'
 import type { SnapshotSelectorHook } from '@deepseek-ai/dsh-client-ui-slots'
 import { Button, Menu, Modal } from '@deepseek-ai/dsh-client-ui-primitives'
 import { CustomProviderCard } from './CustomProviderCard.tsx'

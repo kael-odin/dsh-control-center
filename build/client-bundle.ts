@@ -1,8 +1,8 @@
 /**
- * DSH 0.1.2 lazy-CJS client preset, reproduced out of tree because the DSH
+ * DSH 0.1.6 lazy-CJS client preset, reproduced out of tree because the DSH
  * preset is not a published package export (upstream authority:
  * packages/client/web/src/platform.ts + packages/client/tsdown.client.ts at
- * deepseek-harness cd5ef814). Keep this file locked to the compatibility
+ * deepseek-harness 0d1f50007f). Keep this file locked to the compatibility
  * table in packages/control-center/src/compatibility.ts.
  */
 import { existsSync } from 'node:fs'
@@ -16,7 +16,7 @@ const CSS_VIRTUAL_SUFFIX = '.mjs'
 const PLAIN_CSS_VIRTUAL_PREFIX = '\0dsh-control-center-plain-css:'
 const PLAIN_CSS_VIRTUAL_SUFFIX = '.mjs'
 
-/** Seed-table keys (platform singletons) — upstream PLATFORM_MODULES at 0.1.2. */
+/** Seed-table keys (platform singletons) — upstream PLATFORM_MODULES at 0.1.6. */
 export const PLATFORM_MODULES = [
   'react',
   'react/jsx-runtime',
@@ -26,6 +26,7 @@ export const PLATFORM_MODULES = [
   '@deepseek-ai/dsh-client-store',
   '@deepseek-ai/dsh-client-ui-slots',
   '@deepseek-ai/dsh-client-ui-primitives',
+  '@deepseek-ai/dsh-client-ui-dockkit',
 ] as const
 
 /**
@@ -45,7 +46,11 @@ const REQUESTED_MODULE_TABLE: readonly string[] = [
 
 export const CLIENT_EXTERNALS: readonly string[] = [...PLATFORM_MODULES, ...REQUESTED_MODULE_TABLE]
 
-const INLINE_SAFE = /^@deepseek-ai\/dsh-(session|llm|tools|brand)(\/|$)/
+/**
+ * Contract layers and pure folds a client bundle may inline — upstream
+ * INLINE_SAFE at 0.1.6: browser-safe values with no runtime identity to share.
+ */
+const INLINE_SAFE = /^@deepseek-ai\/dsh-(file-reference|session|llm|tools|brand|deque|output-retention|typert-protocol|util-crypto|util-values|util-workspace-path)(\/|$)/
 const VENDORED_LIBRARY = /^@deepseek-ai\/(cosmokit|schemastery)(\/|$)/
 const GENERATED_REMOTE = /^@deepseek-ai\/dsh-[a-z0-9]+(?:-[a-z0-9]+)*\/remote$/
 

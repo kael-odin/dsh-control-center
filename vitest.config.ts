@@ -11,6 +11,7 @@ export default defineConfig({
   },
   test: {
     include: ['packages/*/tests/**/*.{spec,test}.{ts,tsx}', 'tests/**/*.{spec,test}.{ts,tsx}'],
+    setupFiles: [fileURLToPath(new URL('./tests/test-setup.ts', import.meta.url))],
     passWithNoTests: false,
   },
 })

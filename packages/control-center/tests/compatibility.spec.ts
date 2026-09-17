@@ -7,7 +7,7 @@ import { assertCompatibleDsh, SUPPORTED_DSH_VERSION } from '../src/compatibility
 
 const required = [
   ['@deepseek-ai/dsh-api-remotes', true],
-  ['@deepseek-ai/dsh-client-runtime', true],
+  ['@deepseek-ai/dsh-client-store', false],
   ['@deepseek-ai/dsh-client-ui-settings', true],
   ['@deepseek-ai/dsh-client-ui-layout', true],
   ['@deepseek-ai/dsh-client-ui-slots', false],
@@ -40,18 +40,20 @@ function fixture(
 }
 
 describe('DSH compatibility preflight', () => {
-  it('accepts the exact 0.1.2 contract package set', () => {
+  it('accepts the exact supported contract package set', () => {
     expect(() => assertCompatibleDsh(fixture())).not.toThrow()
   })
 
   it('accepts later 0.1.x releases inside the support window (§1.2)', () => {
-    expect(() => assertCompatibleDsh(fixture('0.1.1-rc.7'))).not.toThrow()
-    expect(() => assertCompatibleDsh(fixture('0.1.4'))).not.toThrow()
+    expect(() => assertCompatibleDsh(fixture('0.1.6-alpha.2'))).not.toThrow()
+    expect(() => assertCompatibleDsh(fixture('0.1.9'))).not.toThrow()
   })
 
-  it('fails before activation when the resolved version leaves the window', () => {
+  it('rejects hosts below the 0.1.6 contract and across the minor', () => {
+    expect(() => assertCompatibleDsh(fixture('0.1.5-rc.2')))
+      .toThrow(`expected a version in the ${SUPPORTED_DSH_VERSION} window`)
     expect(() => assertCompatibleDsh(fixture('0.2.0')))
-      .toThrow('expected a version in the 0.1.2 window')
+      .toThrow(`expected a version in the ${SUPPORTED_DSH_VERSION} window`)
   })
 
   it('accepts a bundled deployment where only the host contract is on the graph', () => {

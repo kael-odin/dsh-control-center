@@ -20,7 +20,7 @@
 import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
 import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
-import { settingsNamespace } from '@deepseek-ai/dsh-settings'
+import { settingsNamespace } from './settings-ns.ts'
 import type { Server } from 'node:http'
 import { createServer } from 'node:http'
 import type { LlmRuntime } from '@deepseek-ai/dsh-llm'

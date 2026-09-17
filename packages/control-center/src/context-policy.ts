@@ -44,7 +44,8 @@ interface SpillStore {
 
 interface ContextPolicySession {
   readonly surface: { readonly nodes: readonly number[] }
-  readonly events: readonly unknown[]
+  /** 0.1.6 replaced the `events` array accessor with a snapshot read. */
+  snapshotEvents(fromSeq?: number, toSeqExclusive?: number): readonly unknown[]
   deriveEventMessage(event: unknown): Message | null
   append(type: string, data: unknown, options?: unknown): unknown
 }
@@ -154,8 +155,9 @@ function isToolPairingBalancedAt(
   index: number,
 ): boolean {
   let openCalls = 0
+  const events = session.snapshotEvents()
   for (const seq of nodes.slice(0, index)) {
-    const event = session.events[seq]
+    const event = events[seq]
     const delta = toolCallDelta(event)
     if (delta === undefined) return false
     openCalls += delta
@@ -184,13 +186,14 @@ export function selectContextWindow(
   const limit = normalizeContextMaxMessages(maxMessages)
   if (limit === null) return undefined
   const nodes = [...session.surface.nodes]
+  const events = session.snapshotEvents()
   let modelMessages = 0
   let keepFrom: number | undefined
 
   for (let index = nodes.length - 1; index >= 0; index--) {
     const seq = nodes[index]
     if (seq === undefined) return undefined
-    const event = session.events[seq]
+    const event = events[seq]
     if (event === undefined) return undefined
     if (isContextCheckpoint(event)) continue
     if (session.deriveEventMessage(event) === null) continue
@@ -205,7 +208,7 @@ export function selectContextWindow(
   while (keepFrom > 0) {
     const firstRetained = nodes[keepFrom]
     if (firstRetained === undefined) return undefined
-    const firstEvent = session.events[firstRetained]
+    const firstEvent = events[firstRetained]
     if (firstEvent === undefined) return undefined
     if (isToolPairingBalancedAt(session, nodes, keepFrom) && isHistoryBoundary(session, firstEvent)) break
     keepFrom--
@@ -226,8 +229,9 @@ export function omitContextWindow(
   tokenMeter: TokenMeter,
 ): void {
   let shadowedTokenCount = 0
+  const events = session.snapshotEvents()
   for (const seq of selection.shadowedSeqs) {
-    const event = session.events[seq]
+    const event = events[seq]
     if (event === undefined) throw new Error(`context policy: missing surface event ${String(seq)}`)
     const message = session.deriveEventMessage(event)
     if (message !== null) shadowedTokenCount += tokenMeter.estimateMessage(message)

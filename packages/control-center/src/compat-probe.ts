@@ -7,7 +7,7 @@
 
 import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
-import { bindTypertRemote, TypertRemoteFailure } from '@deepseek-ai/dsh-typert-protocol'
+import { bindTypertRemote, remoteErrorOf } from '@deepseek-ai/dsh-typert-protocol'
 import type { SessionController } from '@deepseek-ai/dsh-api-session-controller'
 
 export interface CapabilityProbe {
@@ -43,8 +43,9 @@ async function probeSessionController(ctx: Context): Promise<CapabilityProbe> {
     await sessions.list({}, AbortSignal.timeout(5_000))
     return { name: 'sessionController.page', available: true }
   } catch (error) {
-    const detail = error instanceof TypertRemoteFailure
-      ? `${error.failure.code}: ${error.failure.message}`
+    const failure = remoteErrorOf(error)
+    const detail = failure
+      ? `${failure.code}: ${failure.message}`
       : error instanceof Error ? error.message : String(error)
     return { name: 'sessionController.page', available: false, detail }
   }
