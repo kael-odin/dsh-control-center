@@ -41,18 +41,18 @@ Cherry 侧边栏 5 组 22 项，Control Center 导航已对齐，组顺序和成
 | 能力 | File Processing | ✅ | 6 种文档处理器真实分发（2026-08-26）：本地文本/PDF 提取、Mistral OCR（上传→签名 URL→OCR→清理）、Open MinerU 自托管、MinerU/Doc2X/PaddleOCR 文档走持久化远程任务（storage-domain 存储、30 分钟 deadline、重启恢复、取消）。API Key 只存 DSH credentials，settings/导出仅保留引用；每 feature 端点/模型/语言配置；provider 返回的 URL/头/响应体均经白名单与大小校验。缺：system/local-paddleocr 需桌面原生桥 |
 | 能力 | OCR | ✅ | 5 种选择同 File Processing：system/tesseract/paddleocr/local-paddleocr/mistral；tesseract 经 DSH subprocess 探测并执行，不可用时返回 needs-runtime 而非伪装成功 |
 | 个人 | General | ⚠️ | GeneralCherrySettings.tsx：启动/托盘/省电/开发者模式与 Context Management 均真实可写。**代理组已上线（2026-08-26）**：模式（关闭/系统/自定义）+ 自定义地址 + 绕过列表 + 允许私有网络 + **禁用硬件加速（桌面壳 boot 前消费，重启生效）**，写入 `control-center-general`（Cherry app.proxy.* / app.fetch.allow_private_network / BootConfig.app.disable_hardware_acceleration 键位映射）。Context Management 映射到 DSH：普通工具和 Code Mode 子调用按字符阈值 spill，最近消息窗口以可回放 checkpoint 收缩，自动压缩通过 agent-scoped compaction，压缩模型仅路由 `purpose: compaction` 请求；已由 packed Web profile 多轮会话验证。客户端 ID 已上线（2026-09-18，首次启动生成、General 只读展示）。注意关闭该开关只关闭 Control Center 自定义策略，DSH 原生 overflow recovery 仍可能执行。 |
-| 个人 | Appearance | ⚠️ | 主题/颜色/语言/字体/缩放/CSS、**消息字体大小（12–18px stepper）**、**消息显示设置组（宽屏模式/衬线字体/消息样式平铺·气泡/消息轮廓，2026-08-24，经 `[data-chat-flow-kind]` 注入并持久化）**、**窗口组（窗口样式不透明·透明 + 系统标题栏，桌面偏好持久化，2026-08-24）** 已实现。**仍缺**：菜单呈现模式、代码执行（Pyodide，DSH 无此运行时）、输入区快捷键（DSH composer 原生拥有） |
+| 个人 | Appearance | ⚠️ | 主题/颜色/语言/字体/缩放/CSS、**消息字体大小（12–18px stepper）**、**消息显示设置组（宽屏模式/衬线字体/消息样式平铺·气泡/消息轮廓，2026-08-24，经 `[data-chat-flow-kind]` 注入并持久化）**、**窗口组（窗口样式不透明·透明 + 系统标题栏，桌面偏好持久化，2026-08-24）** 已实现。菜单呈现模式已上线（2026-09-18：`control-center-general.menuPresentation` hidden/auto-hide/visible，桌面壳窗口 chrome 实时消费）。代码执行（Pyodide，DSH 无此运行时）与输入区快捷键（DSH composer 原生拥有）为诚实搁置，不迁移 |
 | 个人 | Notification | ✅ | 4 个开关完全对等 |
 | 个人 | Data | ⚠️ | IA 已重构为 Cherry 子菜单（13 项/5 组）。本地备份+轮转+恢复、WebDAV 云备份、**坚果云（WebDAV 厂商预设）**、**S3 兼容存储（AWS SigV4 手写签名，无 SDK，2026-08-24）**、Markdown 导出、备份/恢复、数据重置、应用数据路径 均可用。**ChatGPT/Claude 导入已上线（2026-08-26，归档式）**：解析两家导出 JSON → Markdown 归档下载；DSH 无会话导入 RPC 且内部日志为 zstd 事件流，不伪装成原生会话（诚实标签）。**导出矩阵 5 目标 Host 已落地（2026-08-31，`control-center-export`，Notion/Yuque/Joplin/Siyuan/Obsidian，需各平台凭据，Obsidian 为 URL 方案）**。导出菜单可见性开关已上线（ExportMenusPanel，2026-09-18 核实台账过时）；**清除缓存已上线（2026-09-18）**：CacheStorage + sessionStorage 清理（web-cache-clear.ts，设置键不动）。仍缺：日志路径（DSH 不落盘 stdout 日志，诚实搁置）、隐私模式（会话列表为宿主 UI，诚实搁置） |
 | 个人 | Usage | ✅ | UsageSection：热力图/分布图/指标条/详情表 |
 | 自动化 | Channels | ⚠️ | 六平台全部真实连通（TG/Discord/Slack/QQ/飞书/微信），共享回复管线 + 状态点 + 日志环。**Agent 绑定已上线（2026-08-24）**：每频道可配 `agentProvider`/`agentModel`/`agentSystemPrompt`，绑定后优先于共享默认模型并带自定义系统提示词（对应 Cherry ChannelData.agentId；DSH 无逐会话 agent 编排，故实现为模型+提示词覆盖而非完整 agent 组合）。**仍缺**：permissionMode 逐频道生效接入 |
 | 自动化 | Scheduled Tasks | ✅ | TasksSection 任务列表/调度/历史 |
 | 自动化 | Shortcuts | ✅ | ShortcutSection 快捷键列表 |
-| 自动化 | Quick Assistant | ⚠️ | 启用/托盘点击/剪贴板/模型档位（默认模型 vs 使用助手）已实现 + **「使用助手」模式真实 Agent 预设选择器（2026-08-26）**：`controlCenterAssistant.listAgentPresets()` host 代理 apiProxy.agentPresets，下拉含默认/本地信任标注，列表不可读时回退手输 ID |
+| 自动化 | Quick Assistant | ✅ | 启用/托盘点击/剪贴板/模型档位（默认模型 vs 使用助手）已实现 + **「使用助手」模式真实 Agent 预设选择器（2026-08-26）**：`controlCenterAssistant.listAgentPresets()` host 代理 apiProxy.agentPresets，下拉含默认/本地信任标注，列表不可读时回退手输 ID |
 | 自动化 | Selection Assistant | ✅ | 选择工具/快捷键/动作列表 |
 | 自动化 | Screenshot | ✅ | 启用/快捷键/OCR 开关 |
 | 系统 | Dependencies | ✅ | 契约包版本列表 + **环境工具检测（ffmpeg/tesseract/git 存在性+版本，host which/where 探测，2026-08-24）**。Node 版本行已并入（SystemSection env 区展示 process.version，2026-09-18 核实） |
-| 系统 | About | ⚠️ | 版本/兼容/环境/诊断复制 + **诊断包导出（2026-08-26 起五源：系统信息+浏览器环境+频道状态/日志+能力探测表+插件日志环）** + 检查更新 + **一键更新闭环（2026-08-26：下载 tgz→落盘→dsh plugin add file: 安装，重启生效）** + **发布说明内嵌页** + **链接组**。缺：企业/联系外链。注：Cherry 的 traces 源对应为能力探测表；宿主 stdout 日志 DSH 不落盘，以插件日志环替代 |
+| 系统 | About | ⚠️ | 版本/兼容/环境/诊断复制 + **诊断包导出（2026-08-26 起五源：系统信息+浏览器环境+频道状态/日志+能力探测表+插件日志环）** + 检查更新 + **一键更新闭环（2026-08-26：下载 tgz→落盘→dsh plugin add file: 安装，重启生效）** + **发布说明内嵌页** + **链接组**。链接组已覆盖仓库/Releases/Issue 外链（2026-09-18 核实）；Cherry 的企业联系外链不适用于本仓库注：Cherry 的 traces 源对应为能力探测表；宿主 stdout 日志 DSH 不落盘，以插件日志环替代 |
 
 ---
 
