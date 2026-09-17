@@ -25,15 +25,20 @@ Removal restores DSH's native settings packages. It does not delete DSH settings
 
 ## Status
 
-Delivered (v0.1.0, all browser-verified against the real DeepSeek API):
+v0.4.0 — the contract baseline is DeepSeek Harness `0.1.6-alpha.1`, resolved
+from the npm-published `@deepseek-ai/*` line.
+
+Delivered (all browser-verified against the real DeepSeek API unless noted):
 
 - **Settings shell**: Cherry design-token system (light/dark following the host theme), grouped navigation (核心/能力/个人/自动化/系统), 250px Cherry settings geometry
-- **Core**: provider management with real connection test and model discovery, DSH-native model page, MCP server management, Skills catalog, Web Search provider config
-- **Product workspaces**: Translation (real streaming via DSH LLM), Painting (image generation), Knowledge Base (ingestion/embedding/retrieval), Repositories (browse any local repo: file tree, previews, git branch)
+- **Core**: provider management with real connection test and model discovery, DSH-native model page, MCP server management (9 built-in in-memory servers), Skills catalog, Web Search provider config
+- **Chat integration**: message actions (notes/knowledge/translate/copy/export), regenerate + branch, quick phrases with `{{date}}/{{time}}/{{clipboard}}` variables, input history recall, in-conversation search, knowledge chip, knowledge RAG auto-injection
+- **Exports**: message-level Markdown/Word/Notion/Yuque/Joplin/Obsidian/Siyuan driven by the ExportMenusPanel visibility config; offline PDF; ChatGPT/Claude archive imports
+- **Product workspaces**: Translation (real streaming via DSH LLM), Painting (image generation), Knowledge Base (ingestion/embedding/retrieval), Repositories
 - **Document processing & OCR**: processor catalog + config, local text extraction, OpenAI-compatible vision OCR, capability-gated cloud processors
-- **Personal**: usage analytics (live service counts), data export/import/clear (credentials stay in the DSH credentials store)
-- **Automation**: scheduled tasks with a real host cron scheduler (notification and command actions, run history)
-- **System**: about/versions, dependency resolution (8 contract packages), compatibility gate
+- **Desktop shell**: tray preferences (enable/close-to-tray/launch-to-tray, live-applied), real proxy wiring (Electron session + harness child env), global hotkeys, screenshot, plugin auto-sync
+- **Automation**: scheduled tasks with a real host cron scheduler, channels with per-channel agent model/prompt binding, usage analytics
+- **System**: about/versions, dependency resolution, compatibility gate (`0.1.6+`), contract-watch + canary CI
 
 Capabilities DSH already owns (themes, sessions, permissions, presets, credentials, plugin inventory) stay authoritative; the Control Center surfaces them without duplicating their storage.
 

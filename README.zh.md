@@ -23,6 +23,8 @@ dsh plugin --profile web remove @dsh-control-center/bundle
 
 移除后恢复 DSH 原生设置包，不删除 DSH 设置、凭据、提供方或会话。
 
+v0.4.0 起：契约基线为 DeepSeek Harness `0.1.6-alpha.1`（npm 公开发布线）；聊天集成（消息动作、快捷短语变量、输入历史、消息内搜索）、消息级导出矩阵（Markdown/Word/Notion/语雀/Joplin/Obsidian/思源）、桌面托盘偏好与代理真实接线、契约监测 CI 均已交付；细节见 [README.md](README.md) 与 [CHANGELOG.md](CHANGELOG.md)。
+
 ## 当前状态与路线图
 
 已验证范围包含设置外壳、通用设置贡献、本地配置文件操作、onboarding、提供方创建／编辑／删除、只写凭据、草稿模型发现与采纳、默认／当前模型选择，以及增量产品工作区导航／surface seam。
