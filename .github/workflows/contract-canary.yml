@@ -1,0 +1,55 @@
+name: Contract canary
+
+# 多版本适配层(评估版): re-point the workspace at the NEWEST published 0.1.x
+# contract and run typecheck only. Expected to fail the day upstream breaks
+# the plugin's API surface — that signal lands here, not at upgrade time.
+# Non-blocking by design; the pinned baseline gate stays in CI.
+
+on:
+  schedule:
+    - cron: '23 5 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: contract-canary
+  cancel-in-progress: false
+
+jobs:
+  canary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.7.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Resolve newest published 0.1.x contract
+        id: resolve
+        run: echo "version=$(node scripts/watch-dsh-contract.mjs --next 2>/dev/null || echo '')" >> "$GITHUB_OUTPUT"
+
+      - name: Skip when already on the newest line
+        if: steps.resolve.outputs.version == ''
+        run: echo "pinned baseline is already the newest 0.1.x — nothing to canary" && exit 0
+
+      - name: Re-point workspace at ${{ steps.resolve.outputs.version }}
+        run: node scripts/canary-repoint.mjs "${{ steps.resolve.outputs.version }}"
+
+      - name: Install (canary graph)
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Typecheck (canary)
+        run: pnpm typecheck
+
+      - name: Report
+        if: failure()
+        run: |
+          echo "::error::Contract canary failed against ${{ steps.resolve.outputs.version }} — upstream likely changed the plugin-facing API surface. Run the full migration when adopting."
+          exit 1

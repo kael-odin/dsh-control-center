@@ -85,6 +85,11 @@ async function main() {
   }
 
   const latest = newer.at(-1)
+  // Scripting mode for the canary workflow: print just the newest version.
+  if (process.argv.includes('--next')) {
+    console.log(latest)
+    return
+  }
   const acrossMinor = versions.some(candidate => {
     const parsed = parseVersion(candidate)
     return parsed !== null && parsed.major === pinnedParsed.major && parsed.minor > pinnedParsed.minor
