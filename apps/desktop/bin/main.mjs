@@ -17,7 +17,7 @@ import { app, BrowserWindow, clipboard, desktopCapturer, dialog, Notification, s
 import { spawn, spawnSync } from 'node:child_process'
 import { createServer } from 'node:http'
 import { randomBytes } from 'node:crypto'
-import { readFileSync, statSync, existsSync, writeFileSync, rmSync } from 'node:fs'
+import { readFileSync, statSync, existsSync, writeFileSync, rmSync, watchFile, unwatchFile } from 'node:fs'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { homedir, tmpdir } from 'node:os'
 import { join, dirname } from 'node:path'
@@ -30,8 +30,8 @@ const DEFAULT_LOOPBACK = 'http://127.0.0.1:3080/'
  * gated to unpackaged dev runs.
  */
 const DEV_HARNESS_FALLBACKS = [
-  join(dirname(app.getAppPath()), 'deepseek-harness'),
-  'D:/Github_Star/deepseek-harness',
+  join(dirname(dirname(app.getAppPath())), 'deepseek-harness'),
+  'D:/Github-Star/deepseek-harness',
   'D:/Github_Open/deepseek-harness',
 ]
 /** Readiness signal the DSH web boot prints once Loader is settled and the loopback server is up. */
@@ -218,6 +218,9 @@ function resolveHarnessDir() {
   }
   const hint = '请设置 DSH_HARNESS_DIR 指向 deepseek-harness 目录，或将 harness 物化到 .materialized/harness / resources/harness'
   const error = new Error(`[desktop] 未找到可用的 DSH harness：${hint}`)
+  // Programmatic runs (smoke/e2e/sandbox) have nobody to click the modal away;
+  // a blocking dialog there means a hung boot instead of a fast, loud failure.
+  if (process.argv.includes('--e2e') || process.env.DSH_DESKTOP_HEADLESS === '1') throw error
   try {
     dialog.showErrorBox('未找到 DSH harness', `${error.message}\n\n当前将退出。请按提示配置后重试。`)
   } catch { /* headless */ }
@@ -629,25 +632,42 @@ function trayIconPath() {
   return existsSync(candidate) ? candidate : undefined
 }
 
-/** Create the system tray (显示 / 退出) and a global shortcut to focus the window. */
-function setupTrayAndShortcut() {
+/** Create the system tray (显示 / 退出). Empty when no icon is packaged. */
+function createTray() {
   const iconPath = trayIconPath()
-  if (iconPath) {
-    tray = new Tray(nativeImage.createFromPath(iconPath))
-    tray.setToolTip('DSH Control Center')
-    tray.setContextMenu(Menu.buildFromTemplate([
-      { label: '显示', click: () => {
-        if (mainWindow) { mainWindow.show(); mainWindow.focus() }
-      } },
-      { type: 'separator' },
-      { label: '退出', click: () => { app.quit() } },
-    ]))
-    tray.on('click', () => {
-      if (mainWindow) {
-        if (mainWindow.isVisible()) mainWindow.hide(); else mainWindow.show()
-      }
-    })
-  }
+  if (!iconPath) return
+  tray = new Tray(nativeImage.createFromPath(iconPath))
+  tray.setToolTip('DSH Control Center')
+  tray.setContextMenu(Menu.buildFromTemplate([
+    { label: '显示', click: () => {
+      if (mainWindow) { mainWindow.show(); mainWindow.focus() }
+    } },
+    { type: 'separator' },
+    { label: '退出', click: () => { app.quit() } },
+  ]))
+  tray.on('click', () => {
+    if (mainWindow) {
+      if (mainWindow.isVisible()) mainWindow.hide(); else mainWindow.show()
+    }
+  })
+}
+
+/** Drop the tray; a hidden window would become unreachable, so show it. */
+function destroyTray() {
+  if (tray && !tray.isDestroyed()) { try { tray.destroy() } catch { /* best effort */ } }
+  tray = null
+  if (mainWindow && !mainWindow.isDestroyed() && !mainWindow.isVisible()) mainWindow.show()
+}
+
+/** Align the tray with generalPrefs.trayEnabled (Cherry tray parity). */
+function reconcileTray() {
+  if (generalPrefs.trayEnabled && tray === null) createTray()
+  else if (!generalPrefs.trayEnabled && tray !== null) destroyTray()
+}
+
+/** Global shortcut to focus/reopen the window; tray creation is prefs-driven. */
+function setupTrayAndShortcut() {
+  reconcileTray()
   try {
     hotkeyRegistered = globalShortcut.register(GLOBAL_HOTKEY, () => {
       if (mainWindow) { mainWindow.show(); mainWindow.focus() }
@@ -664,7 +684,7 @@ function setupTrayAndShortcut() {
  * the `control-center-general:` section the 通用 page writes. The companion
  * applies them at startup so the settings page's switches are real.
  */
-let generalPrefs = { launchOnBoot: false, trayEnabled: true, trayOnClose: false, disableHardwareAcceleration: false }
+let generalPrefs = { launchOnBoot: false, trayEnabled: true, trayOnClose: false, trayOnLaunch: false, disableHardwareAcceleration: false }
 
 
 function readGeneralPrefs() {
@@ -687,6 +707,7 @@ let inSection = false
     const v = bool('launchOnBoot'); if (v !== undefined) generalPrefs.launchOnBoot = v
     const t = bool('trayEnabled'); if (t !== undefined) generalPrefs.trayEnabled = t
     const c = bool('trayOnClose'); if (c !== undefined) generalPrefs.trayOnClose = c
+    const l = bool('trayOnLaunch'); if (l !== undefined) generalPrefs.trayOnLaunch = l
     // Cherry BootConfig.app.disable_hardware_acceleration parity. Must run
     // before app ready — readGeneralPrefs is also invoked pre-Ready for this.
     const h = bool('disableHardwareAcceleration'); if (h !== undefined) generalPrefs.disableHardwareAcceleration = h
@@ -696,7 +717,42 @@ let inSection = false
 function applyGeneralPrefs() {
   readGeneralPrefs()
   try { app.setLoginItemSettings({ openAtLogin: generalPrefs.launchOnBoot }) } catch { /* best effort */ }
-  console.log(`[desktop] GENERAL_PREFS launchOnBoot=${generalPrefs.launchOnBoot} tray=${generalPrefs.trayEnabled} trayOnClose=${generalPrefs.trayOnClose}`)
+  reconcileTray()
+  console.log(`[desktop] GENERAL_PREFS launchOnBoot=${generalPrefs.launchOnBoot} tray=${generalPrefs.trayEnabled} trayOnClose=${generalPrefs.trayOnClose} trayOnLaunch=${generalPrefs.trayOnLaunch}`)
+}
+
+/**
+ * Live-apply general preferences: the 通用 page writes the settings document,
+ * and the shell used to notice only after a restart. Stat polling (watchFile)
+ * rather than fs.watch so the handle behaves the same everywhere the shell
+ * runs; a 3s stat on one file is nothing next to a stale tray state.
+ * DSH_DESKTOP_WATCH_DEBUG=1 logs every poll; a run that never re-applies
+ * (sandboxed mains can starve the stat loop) still converges on restart.
+ */
+const generalPrefsFile = () => join(process.env.DSH_DESKTOP_HOME || join(homedir(), '.dsh'), 'settings.yaml')
+let generalPrefsReloadTimer = null
+let generalPrefsPrevStat = ''
+function watchGeneralPrefs() {
+  try { unwatchFile(generalPrefsFile()) } catch { /* not watched yet */ }
+  watchFile(generalPrefsFile(), { interval: 3_000 }, (current) => {
+    const signature = `${current.mtimeMs}:${current.size}`
+    if (process.env.DSH_DESKTOP_WATCH_DEBUG === '1') console.log(`[desktop] settings poll: sig=${signature} prev=${generalPrefsPrevStat}`)
+    if (signature === generalPrefsPrevStat) return
+    generalPrefsPrevStat = signature
+    clearTimeout(generalPrefsReloadTimer)
+    generalPrefsReloadTimer = setTimeout(() => {
+      const before = JSON.stringify(generalPrefs)
+      applyGeneralPrefs()
+      if (JSON.stringify(generalPrefs) !== before) {
+        console.log('[desktop] GENERAL_PREFS reapplied after settings.yaml change')
+      }
+    }, 500)
+  })
+  try {
+    const initial = statSync(generalPrefsFile())
+    generalPrefsPrevStat = `${initial.mtimeMs}:${initial.size}`
+  } catch { /* file may not exist yet; the first write applies */ }
+  console.log(`[desktop] watching ${generalPrefsFile()} for general preference changes`)
 }
 
 /**
@@ -842,7 +898,10 @@ function createWindow(url, native) {
   mainWindow.webContents.on('did-navigate', (_event, targetUrl) => { console.log(`[desktop] DID_NAVIGATE url=${targetUrl}`) })
   mainWindow.webContents.on('did-fail-load', (_e, code, description, url2) => {
     console.error(`[desktop] SURFACE_FAILED code=${code} description=${description} url=${url2}`)
-    if (!smoke) mainWindow.show()
+    // Cherry 启动进托盘: with the tray on, the first window stays hidden
+    // until the user summons it (tray click / 显示 / global hotkey).
+    if (!smoke && !(generalPrefs.trayEnabled && generalPrefs.trayOnLaunch && tray && !tray.isDestroyed())) mainWindow.show()
+    else if (!smoke) console.log('[desktop] trayOnLaunch: window starts in the tray')
   })
   mainWindow.webContents.on('render-process-gone', (_e, details) => {
     console.error(`[desktop] RENDERER_GONE reason=${details.reason} exitCode=${details.exitCode}`)
@@ -1012,8 +1071,9 @@ async function boot() {
 
   await app.whenReady()
 
-  // Desktop general preferences (launch on boot, tray behavior).
+  // Desktop general preferences (launch on boot, tray behavior) + live apply.
   applyGeneralPrefs()
+  watchGeneralPrefs()
   console.log(`[desktop] GENERAL_PREFS hwAccelDisabled=${generalPrefs.disableHardwareAcceleration}`)
 
   // Warm harness resolution so /dsh-native/status includes it immediately.
