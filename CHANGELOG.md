@@ -80,6 +80,14 @@ the public npm registry.
   inherited proxy env). Derivation lives in the pure, unit-tested
   `apps/desktop/bin/proxy-env.mjs`.
 
+### Data
+- **清除缓存** (Cherry DataSettings parity): a Data-page panel that clears
+  the surface's CacheStorage entries and sessionStorage via the pure
+  `web-cache-clear.ts` (settings keys like `cc.settings.*` are never
+  touched; a denied CacheStorage reports zero instead of faking success).
+- General page gains the Cherry **客户端 ID**: a stable random install id
+  minted once by the host, shown read-only.
+
 ### Known environment blocker (documented, not a plugin defect)
 The local harness snapshot (`0.1.6-alpha.1`+master, clean-rebuilt) fails its
 own no-plugin baseline: the web boot leaves three UI packages pending on a

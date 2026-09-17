@@ -18,6 +18,7 @@ import {
   SettingDivider, SettingGroup, SettingRow, SettingRowTitle, SettingsPageShell, SettingSwitch, SettingTitle,
 } from './SettingsPages.tsx'
 import css from './DataSection.module.css'
+import { clearWebCaches } from './web-cache-clear.ts'
 
 export interface DataSectionInjected {
   getData: () => NonNullable<ClientRemote['controlCenterData']>
@@ -38,6 +39,7 @@ interface MenuItem {
 
 const MENU_ITEMS: readonly MenuItem[] = [
   { key: 'data', label: '基本数据' },
+  { key: 'clear_cache', label: '清除缓存' },
   { key: 'divider_1', label: '', divider: '云存储' },
   { key: 'local_backup', label: '本地备份' },
   { key: 'webdav', label: 'WebDAV' },
@@ -427,6 +429,7 @@ export function DataSection({ getData, getExport, getDesktop, getSystem, useData
   const renderPanel = (): React.ReactNode => {
     switch (activeMenu) {
       case 'data': return <BasicDataPanel />
+      case 'clear_cache': return <ClearCachePanel />
       case 'local_backup': return <LocalBackupPanel />
       case 'webdav': return <WebDavPanel />
       case 'nutstore': return <WebDavPanel />
@@ -474,6 +477,43 @@ export function DataSection({ getData, getExport, getDesktop, getSystem, useData
   )
 
   /** 基础数据 — 备份/恢复/导出/导入/清除 */
+  function ClearCachePanel() {
+    const [result, setResult] = useState<string | null>(null)
+    const [busy, setBusy] = useState(false)
+    const clear = async (): Promise<void> => {
+      setBusy(true)
+      try {
+        const handles = {
+          caches: typeof caches !== 'undefined' ? caches : undefined,
+          sessionStorage: typeof sessionStorage !== 'undefined' ? sessionStorage : undefined,
+        }
+        const cleared = await clearWebCaches(handles)
+        setResult(`已清除 ${String(cleared.caches)} 个缓存存储、${String(cleared.sessionStorageKeys)} 个会话键；设置与用户数据未受影响`)
+      } catch (err) {
+        setResult(`清除失败: ${String(err instanceof Error ? err.message : err)}`)
+      } finally {
+        setBusy(false)
+      }
+    }
+    return (
+      <SettingsPageShell>
+        <SettingGroup>
+          <SettingTitle>清除缓存</SettingTitle>
+          <SettingDivider />
+          <p style={{ color: 'var(--cs-muted-foreground, #8a93a3)', fontSize: 12, lineHeight: 1.6 }}>
+            清除网页缓存（CacheStorage 与 sessionStorage）。设置、备份配置、绘画提示词等用户数据不受影响。
+          </p>
+          <div style={{ display: 'flex', gap: 8, marginTop: 8, alignItems: 'center' }}>
+            <button type="button" className="cc-btn cc-btn-secondary" disabled={busy} onClick={() => void clear()}>
+              {busy ? '清除中…' : '清除缓存'}
+            </button>
+            {result !== null && <span style={{ fontSize: 12 }}>{result}</span>}
+          </div>
+        </SettingGroup>
+      </SettingsPageShell>
+    )
+  }
+
   function BasicDataPanel() {
     return (
       <SettingsPageShell>
