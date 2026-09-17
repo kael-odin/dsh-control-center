@@ -9,6 +9,17 @@ import { spawn, type ChildProcess } from 'node:child_process'
 import { startOpenAiFixture } from './openai-fixture.ts'
 import { bundlePack } from './packs.ts'
 
+/**
+ * STATUS (2026-09-18): blocked on the harness snapshot's own defects, in
+ * both boot modes, with different signatures —
+ *  - built CLI (lib/bin.js): `session/create` args descriptor rejects the
+ *    `cwd`/`agentPreset` fields that SessionCreateRequest itself declares;
+ *  - tsx source CLI: `session/create` reports "strict definition was
+ *    withdrawn" right after boot.
+ * The 0.1.6 wire adaptations here (launch-token cookie auth, slash
+ * endpoints, `{args}` envelope) are correct regardless. Re-run once the
+ * harness checkout boots its own surface cleanly.
+ */
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const DSH = process.env.DSH_REPO !== undefined ? resolve(process.env.DSH_REPO) : resolve(ROOT, '..', 'deepseek-harness')
 /**
@@ -19,7 +30,10 @@ const DSH = process.env.DSH_REPO !== undefined ? resolve(process.env.DSH_REPO) :
  */
 const CLI_LIB = join(DSH, 'apps/cli/lib/bin.js')
 const CLI_SRC = join(DSH, 'apps/cli/src/bin.ts')
-const CLI = existsSync(CLI_LIB) ? CLI_LIB : CLI_SRC
+// DSH_E2E_FORCE_SOURCE=1 boots the tsx source CLI instead — the Node-RPC
+// e2e validates against the host's source registry and never loads client
+// bundles, so strict-definition coupling with compiled artifacts is moot.
+const CLI = existsSync(CLI_LIB) && process.env.DSH_E2E_FORCE_SOURCE !== '1' ? CLI_LIB : CLI_SRC
 const CLI_SRC_LOADER = join(DSH, 'node_modules/tsx/dist/loader.mjs')
 const bootArgs = (args: string[]): string[] =>
   CLI.endsWith('.ts') ? ['--import', pathToFileURL(CLI_SRC_LOADER).href, CLI, ...args] : [CLI, ...args]
@@ -118,10 +132,12 @@ async function mintAuthCookie(authenticatedUrl: string): Promise<string> {
 }
 
 async function rpc<T>(baseUrl: string, cookie: string, method: string, payload: unknown): Promise<T> {
-  const response = await fetch(`${baseUrl}/api/${method}`, {
+  const base = new URL(baseUrl)
+  base.search = ''
+  const response = await fetch(`${base.origin}/api/${method}`, {
     method: 'POST',
     headers: { 'content-type': 'application/json', cookie },
-    body: JSON.stringify({ type: 'client-request', rpcId: randomUUID(), method, payload }),
+    body: JSON.stringify({ type: 'client-request', rpcId: randomUUID(), method, payload: { args: payload } }),
   })
   const body = await response.json() as RpcEnvelope<T>
   if (!body.result.ok) throw new Error(`${method} failed: ${body.result.error.message}`)
@@ -186,14 +202,14 @@ async function main(): Promise<void> {
     host = started.child
     const workspace = join(home, 'workspace')
     await mkdir(workspace, { recursive: true })
-    const created = await rpc<{ sessionId: string }>(started.url, cookie, 'session.create', {
+    const created = await rpc<{ sessionId: string }>(started.url, cookie, 'session/create', {
       cwd: workspace,
       agentPreset: 'standard',
     })
     const sessionId = created.sessionId
 
     const send = async (targetSessionId: string, text: string): Promise<void> => {
-      await rpc(started.url, cookie, 'session.prompt', {
+      await rpc(started.url, cookie, 'session/prompt', {
         sessionId: targetSessionId,
         mode: 'queue',
         content: [{ type: 'text', text }],
@@ -234,7 +250,7 @@ async function main(): Promise<void> {
     const history = await rpc<{ events: Array<{ event: { type: string; data: unknown } }> }>(
       started.url,
       cookie,
-      'session.history',
+      'session/history',
       { sessionId, maxMessages: 100 },
     )
     const serializedHistory = JSON.stringify(history.events)
@@ -247,16 +263,16 @@ async function main(): Promise<void> {
 
     const described = await rpc<{
       namespaces: Array<{ ns: string; revision: number }>
-    }>(started.url, cookie, 'settings.describe', {})
+    }>(started.url, cookie, 'settings/describe', {})
     const general = described.namespaces.find(namespace => namespace.ns === 'control-center-general')
     if (general === undefined) throw new Error('Control Center general settings namespace was not registered')
-    await rpc(started.url, cookie, 'settings.mutate', {
+    await rpc(started.url, cookie, 'settings/mutate', {
       ns: 'control-center-general',
       expectedRevision: general.revision,
       ops: [{ op: 'set', path: ['contextAutoCompress'], value: false }],
     })
 
-    const omissionSession = await rpc<{ sessionId: string }>(started.url, cookie, 'session.create', {
+    const omissionSession = await rpc<{ sessionId: string }>(started.url, cookie, 'session/create', {
       cwd: workspace,
       agentPreset: 'standard',
     })
@@ -287,7 +303,7 @@ async function main(): Promise<void> {
     const omissionHistory = await rpc<{ events: Array<{ event: { type: string; data: unknown } }> }>(
       started.url,
       cookie,
-      'session.history',
+      'session/history',
       { sessionId: omissionSession.sessionId, maxMessages: 100 },
     )
     const checkpointIndexes = omissionHistory.events.flatMap((entry, index) => {
