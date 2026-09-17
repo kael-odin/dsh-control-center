@@ -88,6 +88,12 @@ the public npm registry.
 - General page gains the Cherry **客户端 ID**: a stable random install id
   minted once by the host, shown read-only.
 
+### Chat
+- **In-conversation search** (§1.3 first increment): a 🔍 strip over the
+  rendered chat flow — live count, prev/next, scrollIntoView with a flash
+  outline on `data-chat-flow-kind` seats; the host DOM is never mutated.
+  Honest scope: loaded messages only.
+
 ### Known environment blocker (documented, not a plugin defect)
 The local harness snapshot (`0.1.6-alpha.1`+master, clean-rebuilt) fails its
 own no-plugin baseline: the web boot leaves three UI packages pending on a

@@ -99,9 +99,10 @@ Cherry 侧动作系统核心（actionRegistry 310 行零耦合 + MessageListActi
 - [x] 对位结论落盘：`docs/SETTINGS_PIXEL_AUDIT.md` + 本节 + `ReasoningRow`↔︎`ThinkingBlock` / `AssistantMarkdown`↔︎`MainTextBlock` / `DetailsPanel`↔︎`ToolBlockGroup` 映射已明确
 - [ ] 视觉对齐细项（token/间距/排版）——随 1.3 列表体验一起做像素级横扫
 
-### 1.3 消息列表体验层 ❌
+### 1.3 消息列表体验层 🔄
 - [ ] 虚拟列表 + 吸底跟随 + 滚动位置记忆 + 平滑滚动
-- [ ] 消息内搜索 + 锚点导航 + 分支 SiblingNavigator
+- [x] 消息内搜索（2026-09-18 首增量）：`MessageSearchButton` 挂 `conversation.input.left` —— DOM 级搜索已加载消息（`data-chat-flow-kind` 座位），实时计数 + 前后跳转 + scrollIntoView 高亮闪烁；宿主 DOM 不做结构改写；诚实标注仅覆盖已加载消息（跨消息跳转待宿主能力）
+- [ ] 分支 SiblingNavigator
 - [ ] 数据源走 `ctx.remote.session` 历史流与 live 控制状态
 
 ### 1.4 Composer 集成 🔄（2026-08-30 侦察+首批上线）
