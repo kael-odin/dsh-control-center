@@ -159,7 +159,7 @@ Cherry 侧动作系统核心（actionRegistry 310 行零耦合 + MessageListActi
 - [ ] 截图（screenshot overlay + nativeCaptureBackend parity）
 - [ ] 开机自启 + 硬件加速开关确认重启生效
 - [ ] 自动更新闭环：electron-updater（当前只有插件自更新，桌面壳无）
-- [ ] 代理设置真正生效（确认 ProxyService 级接线而非仅设置页 UI）
+- [x] 代理设置真正生效（2026-09-18）：`apps/desktop/bin/proxy-env.mjs` 纯函数派生 Electron `session.setProxy` 配置与 harness 子进程代理 env（NODE_USE_ENV_PROXY=1，off 显式清空，loopback 恒直连），`applyGeneralPrefs` 即时应用并在日志可见
 - [x] 硬编码清理（2026-09-17）：`DEFAULT_HARNESS_DIR` 单路径 fallback 改为「兄弟 checkout + 已知路径」列表（且 --e2e 下解析失败快速退出不再弹模态框），探测脚本支持 `DSH_REPO` 覆盖；翻译 PDF workerSrc CDN 依赖随离线 PDF 落地移除
 
 ---

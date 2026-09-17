@@ -13,11 +13,12 @@
  *
  * @module
  */
-import { app, BrowserWindow, clipboard, desktopCapturer, dialog, Notification, screen, Tray, Menu, globalShortcut, nativeImage } from 'electron'
+import { app, BrowserWindow, clipboard, desktopCapturer, dialog, Notification, screen, session, Tray, Menu, globalShortcut, nativeImage } from 'electron'
 import { spawn, spawnSync } from 'node:child_process'
 import { createServer } from 'node:http'
 import { randomBytes } from 'node:crypto'
 import { readFileSync, statSync, existsSync, writeFileSync, rmSync, watchFile, unwatchFile } from 'node:fs'
+import { childProxyEnv, electronProxyConfig } from './proxy-env.mjs'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { homedir, tmpdir } from 'node:os'
 import { join, dirname } from 'node:path'
@@ -89,6 +90,7 @@ function startSelfHost(native) {
   const env = {
     ...process.env,
     ...(resolveSelfHome() !== undefined ? { DSH_HOME: resolveSelfHome() } : {}),
+    ...childProxyEnv(generalPrefs),
   }
   if (native) {
     // Pass the native bridge URL/token to the spawned host over env; the
@@ -686,7 +688,7 @@ function setupTrayAndShortcut() {
  * the `control-center-general:` section the 通用 page writes. The companion
  * applies them at startup so the settings page's switches are real.
  */
-let generalPrefs = { launchOnBoot: false, trayEnabled: true, trayOnClose: false, trayOnLaunch: false, disableHardwareAcceleration: false }
+let generalPrefs = { launchOnBoot: false, trayEnabled: true, trayOnClose: false, trayOnLaunch: false, disableHardwareAcceleration: false, proxyMode: 'off', proxyUrl: '', proxyBypass: '' }
 
 
 function readGeneralPrefs() {
@@ -710,15 +712,35 @@ let inSection = false
     const t = bool('trayEnabled'); if (t !== undefined) generalPrefs.trayEnabled = t
     const c = bool('trayOnClose'); if (c !== undefined) generalPrefs.trayOnClose = c
     const l = bool('trayOnLaunch'); if (l !== undefined) generalPrefs.trayOnLaunch = l
+    const pm = line.match(/^\s*proxyMode:\s*(\S+)\s*$/) ; if (pm) generalPrefs.proxyMode = pm[1]
+    const pu = line.match(/^\s*proxyUrl:\s*(\S+)\s*$/) ; if (pu) generalPrefs.proxyUrl = pu[1]
+    const pb = line.match(/^\s*proxyBypass:\s*(\S+)\s*$/) ; if (pb) generalPrefs.proxyBypass = pb[1]
     // Cherry BootConfig.app.disable_hardware_acceleration parity. Must run
     // before app ready — readGeneralPrefs is also invoked pre-Ready for this.
     const h = bool('disableHardwareAcceleration'); if (h !== undefined) generalPrefs.disableHardwareAcceleration = h
   }
 }
 
+/**
+ * Cherry 代理接线 (Phase 3): the Electron surface session follows the stored
+ * proxy prefs; the self-hosted harness child inherits derived env vars at
+ * spawn (see childProxyEnv). Loopback is always bypassed — the DSH surface
+ * itself must never ride the proxy.
+ */
+async function applyProxyToSession() {
+  try {
+    const config = electronProxyConfig(generalPrefs)
+    await session.defaultSession.setProxy(config)
+    console.log(`[desktop] PROXY mode=${config.mode}${config.proxyRules !== undefined ? ` rules=${config.proxyRules}` : ''}${config.proxyBypassList !== undefined ? ` bypass=${config.proxyBypassList}` : ''}`)
+  } catch (err) {
+    console.warn(`[desktop] proxy apply failed: ${String(err && err.message)}`)
+  }
+}
+
 function applyGeneralPrefs() {
   readGeneralPrefs()
   try { app.setLoginItemSettings({ openAtLogin: generalPrefs.launchOnBoot }) } catch { /* best effort */ }
+  applyProxyToSession()
   reconcileTray()
   console.log(`[desktop] GENERAL_PREFS launchOnBoot=${generalPrefs.launchOnBoot} tray=${generalPrefs.trayEnabled} trayOnClose=${generalPrefs.trayOnClose} trayOnLaunch=${generalPrefs.trayOnLaunch}`)
 }

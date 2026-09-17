@@ -71,6 +71,15 @@ the public npm registry.
   (headings, lists, quotes, code fences, inline bold/italic/code; anything
   else degrades to plain paragraphs, never dropped).
 
+### Desktop
+- **Proxy settings are consumed for real** (Phase 3 代理接线): the General
+  page's proxy group now drives both the Electron surface session
+  (`session.setProxy`, loopback always bypassed) and the self-hosted harness
+  child's environment (`HTTP_PROXY`/`HTTPS_PROXY`/`NO_PROXY` +
+  `NODE_USE_ENV_PROXY=1` for Node ≥24 global fetch; `off` explicitly blanks
+  inherited proxy env). Derivation lives in the pure, unit-tested
+  `apps/desktop/bin/proxy-env.mjs`.
+
 ### Known environment blocker (documented, not a plugin defect)
 The local harness snapshot (`0.1.6-alpha.1`+master, clean-rebuilt) fails its
 own no-plugin baseline: the web boot leaves three UI packages pending on a
