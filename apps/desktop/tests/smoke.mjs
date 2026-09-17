@@ -39,6 +39,7 @@ const expected = {
 // Drop ELECTRON_RUN_AS_NODE: shells spawned from an Electron host (agents,
 // VS Code terminals) leak it, and electron.exe would boot as plain node.
 const env = { ...process.env }
+if (process.env.DSH_DESKTOP_SMOKE_SURFACE_ONLY === '1') env.DSH_DESKTOP_SMOKE_SURFACE_ONLY = '1'
 delete env.ELECTRON_RUN_AS_NODE
 
 if (selfHost) {
@@ -80,8 +81,12 @@ child.on('close', (code) => {
   console.log('--- desktop-shell stderr ---')
   console.log(stderr.trim())
 
+  const surfaceOnly = process.env.DSH_DESKTOP_SMOKE_SURFACE_ONLY === '1'
   if (selfHost) {
-    const ok = code === 0 && expected.loaded && expected.selfHostReady && expected.attached && expected.marker && expected.markerNoToken && expected.bridge && expected.zoom && expected.shellTray && expected.shellHotkey
+    // Surface-only mode: the fresh-home path has no Control Center bundle, so
+    // only the shell + surface chain is asserted (resolve → spawn → load).
+    const ok = code === 0 && expected.loaded && expected.selfHostReady
+      && (surfaceOnly || (expected.attached && expected.marker && expected.markerNoToken && expected.bridge && expected.zoom && expected.shellTray && expected.shellHotkey))
     if (!ok) {
       console.error(`smoke FAIL(self-host): code=${code} loaded=${expected.loaded} ready=${expected.selfHostReady} attached=${expected.attached} marker=${expected.marker} noToken=${expected.markerNoToken} bridge=${expected.bridge} zoom=${expected.zoom} tray=${expected.shellTray} hotkey=${expected.shellHotkey}`)
       process.exit(1)
