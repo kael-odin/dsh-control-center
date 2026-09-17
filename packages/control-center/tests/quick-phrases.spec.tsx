@@ -76,6 +76,49 @@ describe('QuickPhrasesButton composer entry', () => {
     expect(screen.queryByRole('button', { name: '问候' })).toBeNull()
   })
 
+  it('imports a phrases JSON file, merging and skipping duplicates', async () => {
+    const { props, mutate } = makeFixture({ phrases: [{ label: '问候', text: '请用一句话回答：' }] })
+    render(<QuickPhrasesButton {...props} />)
+    fireEvent.click(screen.getByLabelText('quickPhrases'))
+    fireEvent.click(await screen.findByRole('button', { name: 'importPhrases' }))
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement
+    const file = new File(
+      [JSON.stringify({ phrases: [
+        { label: '问候', text: '请用一句话回答：' },
+        { label: '翻译', text: '请翻译成英文：' },
+        { label: '坏行', text: '' },
+      ] })],
+      'phrases.json',
+      { type: 'application/json' },
+    )
+    await waitFor(() => { input.files?.length === 1 })
+    Object.defineProperty(input, 'files', { value: [file] })
+    fireEvent.change(input)
+    await waitFor(() => expect(mutate).toHaveBeenCalled())
+    const set = mutate.mock.calls[0][1].find((op: { op: string }) => op.op === 'set')
+    expect(set.value).toEqual([
+      { label: '问候', text: '请用一句话回答：' },
+      { label: '翻译', text: '请翻译成英文：' },
+    ])
+  })
+
+  it('exports the current library as a phrases JSON download', async () => {
+    vi.stubGlobal('URL', { createObjectURL: vi.fn(() => 'blob:x'), revokeObjectURL: vi.fn() })
+    const created: string[] = []
+    const originalCreate = document.createElement.bind(document)
+    vi.spyOn(document, 'createElement').mockImplementation(((tag: string, opts?: never) => {
+      const element = originalCreate(tag, opts)
+      if (tag === 'a') created.push('anchor')
+      return element
+    }) as never)
+    const { props } = makeFixture({ phrases: [{ label: '问候', text: '请用一句话回答：' }] })
+    render(<QuickPhrasesButton {...props} />)
+    fireEvent.click(screen.getByLabelText('quickPhrases'))
+    fireEvent.click(await screen.findByRole('button', { name: 'exportPhrases' }))
+    expect(created).toHaveLength(1)
+    vi.restoreAllMocks()
+  })
+
   it('expands {{date}} variables at insert time', async () => {
     const { props, setDraft } = makeFixture({ phrases: [{ label: '今日', text: '今天是 {{date}}（{{week}}）' }] })
     render(<QuickPhrasesButton {...props} />)

@@ -13,7 +13,7 @@
  * `{{clipboard}}` variables that resolve at insert time (phrase-variables.ts);
  * unknown or unavailable ones stay verbatim in the draft.
  */
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { PropsLocale, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import { errorText } from './AssistantMessageActions.tsx'
 import { expandPhraseVariables } from './phrase-variables.ts'
@@ -130,6 +130,39 @@ export function QuickPhrasesButton(props: QuickPhrasesProps) {
     void persist(phrases.filter((_, i) => i !== index))
   }, [persist, phrases])
 
+  /** PromptSettings parity: export the library as a phrases JSON file. */
+  const exportPhrases = useCallback(() => {
+    const blob = new Blob([JSON.stringify({ phrases }, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const anchor = document.createElement('a')
+    anchor.href = url
+    anchor.download = 'quick-phrases.json'
+    anchor.click()
+    URL.revokeObjectURL(url)
+  }, [phrases])
+
+  /** PromptSettings parity: import a phrases JSON file; duplicates skipped. */
+  const importPhrases = useCallback(async (file: File) => {
+    try {
+      const parsed = phrasesOf(JSON.parse(await file.text()))
+      if (parsed.length === 0) {
+        setError(props.t('importEmpty'))
+        return
+      }
+      const merged = [...phrases]
+      for (const phrase of parsed) {
+        if (!merged.some(existing => existing.label === phrase.label && existing.text === phrase.text)) {
+          merged.push(phrase)
+        }
+      }
+      await persist(merged)
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : String(caught))
+    }
+  }, [persist, phrases, props])
+
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
   return (
     <span className={css.anchor}>
       <button
@@ -190,6 +223,37 @@ export function QuickPhrasesButton(props: QuickPhrasesProps) {
             >
               +
             </button>
+          </span>
+          <span className={css.addRow}>
+            <button
+              type="button"
+              className={css.phraseItem}
+              aria-label={props.t('importPhrases')}
+              onClick={() => { fileInputRef.current?.click() }}
+            >
+              {props.t('importPhrases')}
+            </button>
+            <button
+              type="button"
+              className={css.phraseItem}
+              aria-label={props.t('exportPhrases')}
+              disabled={phrases.length === 0}
+              onClick={() => { exportPhrases() }}
+            >
+              {props.t('exportPhrases')}
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="application/json,.json"
+              style={{ display: 'none' }}
+              aria-hidden="true"
+              onChange={event => {
+                const file = event.target.files?.[0]
+                if (file !== undefined) void importPhrases(file)
+                event.target.value = ''
+              }}
+            />
           </span>
         </span>
       )}

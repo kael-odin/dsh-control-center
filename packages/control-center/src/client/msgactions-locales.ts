@@ -38,6 +38,9 @@ interface MsgActionsDict {
   inputHistory: string
   noHistory: string
   exportWord: string
+  importPhrases: string
+  exportPhrases: string
+  importEmpty: string
 }
 
 export const msgActionsZh: MsgActionsDict = {
@@ -76,6 +79,9 @@ export const msgActionsZh: MsgActionsDict = {
   inputHistory: '输入历史',
   noHistory: '本会话暂无发送记录',
   exportWord: '导出 Word',
+  importPhrases: '导入短语',
+  exportPhrases: '导出短语',
+  importEmpty: '导入文件没有有效短语',
 }
 
 export const msgActionsEn: MsgActionsDict = {
@@ -114,4 +120,7 @@ export const msgActionsEn: MsgActionsDict = {
   inputHistory: 'Input history',
   noHistory: 'No sent messages in this session yet',
   exportWord: 'Export Word',
+  importPhrases: 'Import phrases',
+  exportPhrases: 'Export phrases',
+  importEmpty: 'The imported file has no valid phrases',
 }
