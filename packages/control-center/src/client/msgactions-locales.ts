@@ -37,6 +37,7 @@ interface MsgActionsDict {
   chipsBlock: string
   inputHistory: string
   noHistory: string
+  exportWord: string
 }
 
 export const msgActionsZh: MsgActionsDict = {
@@ -74,6 +75,7 @@ export const msgActionsZh: MsgActionsDict = {
   chipsBlock: '草稿含引用 chips，追加会摊平它们；请先清空后再插入',
   inputHistory: '输入历史',
   noHistory: '本会话暂无发送记录',
+  exportWord: '导出 Word',
 }
 
 export const msgActionsEn: MsgActionsDict = {
@@ -111,4 +113,5 @@ export const msgActionsEn: MsgActionsDict = {
   chipsBlock: 'Draft contains reference chips; appending would flatten them — clear the draft first',
   inputHistory: 'Input history',
   noHistory: 'No sent messages in this session yet',
+  exportWord: 'Export Word',
 }

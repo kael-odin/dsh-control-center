@@ -65,6 +65,12 @@ the public npm registry.
   `{{clipboard}}` at insert time. Unknown or unavailable variables stay
   verbatim in the draft, so nothing silently disappears.
 
+### Message actions
+- **Export Word** (§1.1): the assistant more-menu gains a real .docx export —
+  a minimal WordprocessingML package built with the already-carried fflate
+  (headings, lists, quotes, code fences, inline bold/italic/code; anything
+  else degrades to plain paragraphs, never dropped).
+
 ### Known environment blocker (documented, not a plugin defect)
 The local harness snapshot (`0.1.6-alpha.1`+master, clean-rebuilt) fails its
 own no-plugin baseline: the web boot leaves three UI packages pending on a

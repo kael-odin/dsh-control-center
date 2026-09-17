@@ -18,6 +18,7 @@ import {
   type ResolvedAction,
 } from './actions/action-registry.ts'
 import type { MsgActionsKey } from './msgactions-locales.ts'
+import { docxFromMarkdown } from './markdown-docx.ts'
 import css from './AssistantMessageActions.module.css'
 
 /** The branded session id shape carried by the session-standard props. */
@@ -302,6 +303,22 @@ export function AssistantMessageActions(props: AssistantMessageActionsProps) {
         const anchor = document.createElement('a')
         anchor.href = url
         anchor.download = `${noteSlug(context.title)}-${stamp}.md`
+        anchor.click()
+        URL.revokeObjectURL(url)
+      },
+    })
+    instance.registerAction({
+      id: 'export-word', label: 'exportWord', surface: 'menu', group: 'export',
+      run: async context => {
+        const text = await context.loadText()
+        if (text === undefined || text.length === 0) throw new Error(context.t('noText'))
+        const stamp = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14)
+        const bytes = await docxFromMarkdown(context.title ?? context.t('messageFallback'), text)
+        const blob = new Blob([bytes.slice().buffer as ArrayBuffer], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' })
+        const url = URL.createObjectURL(blob)
+        const anchor = document.createElement('a')
+        anchor.href = url
+        anchor.download = `${noteSlug(context.title)}-${stamp}.docx`
         anchor.click()
         URL.revokeObjectURL(url)
       },

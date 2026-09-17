@@ -90,7 +90,7 @@ Cherry 侧动作系统核心（actionRegistry 310 行零耦合 + MessageListActi
       树执行/同 id 替换语义），6 个语义单测锁定；消息动作全面走注册表
       （toolbar 三动作 + more-menu：复制原文、导出 Markdown 分组），7 个菜单流测试
 - [x] 翻译动作（见 1.1b）；复制原文（宿主复制按钮之外补纯文本通道）
-- [ ] 其余动作：编辑/重新生成/@模型回答/点赞收藏/删除/新分支/多选/导出 image/word 系
+- [ ] 其余动作：编辑/@模型回答/点赞收藏/删除/多选/导出 image 系（image 需 html-to-canvas 级依赖，诚实评估后再做）——**导出 Word 已落地（2026-09-18：markdown-docx.ts 纯模块 + fflate 打包，重生成/新分支此前已上线）**
       （image 需 html-to-canvas 级依赖，诚实评估后再做）；user 消息侧动作位（DSH 暂无对应 slot）
 - [ ] user 消息侧动作位（DSH 暂无 user-actions slot → 评估 turnTail chain 或上游贡献）
 
