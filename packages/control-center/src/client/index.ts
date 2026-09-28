@@ -199,7 +199,10 @@ function readyGate(): { source: HostObservable<boolean>; settle: () => void } {
     settle: () => {
       if (settled) return
       settled = true
-      for (const listener of [...listeners]) listener()
+      // Direct Set iteration, not a snapshot: a listener unsubscribing during
+      // the settle pass is skipped when not yet visited, and Set handles
+      // deletion of the current/pending entries during iteration.
+      for (const listener of listeners) listener()
     },
   }
 }

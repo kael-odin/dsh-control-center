@@ -39,7 +39,7 @@ interface ExportSettings {
 }
 
 function sanitizeObsidianFileName(name: string): string {
-  let s = name.replace(/[#|\^[\]]/g, '').replace(/[<>:"/\\|?*]/g, '').replace(/^\.+/, '').trim().slice(0, 245)
+  let s = name.replace(/[#|^[\]]/g, '').replace(/[<>:"/\\|?*]/g, '').replace(/^\.+/, '').trim().slice(0, 245)
   return s.length === 0 ? 'Untitled' : s
 }
 
@@ -196,7 +196,7 @@ export class ExportMatrixService extends Service {
       const testData = await testRes.json() as { code: number; msg?: string }
       if (testData.code !== 0) return { ok: false, message: testData.msg ?? '思源返回错误' }
       const rootPath = siyuan.rootPath.startsWith('/') ? siyuan.rootPath : `/${siyuan.rootPath || 'CherryStudio'}`
-      const docTitle = params.title.replace(/[#|\^[\]]/g, '')
+      const docTitle = params.title.replace(/[#|^[\]]/g, '')
       const docPath = `${rootPath}/${docTitle}`
       const createRes = await fetch(`${siyuan.apiUrl}/api/filetree/createDocWithMd`, {
         method: 'POST',

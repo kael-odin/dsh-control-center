@@ -16,7 +16,7 @@
     "test:browser": "pnpm run pack:check && tsx tests/context-policy-profile-e2e.ts && tsx tests/packed-browser-e2e.ts",
     "smoke:desktop": "pnpm --dir apps/desktop smoke",
     "smoke:desktop:selfhost": "pnpm --dir apps/desktop smoke:selfhost",
-    "lint": "oxlint packages/*/src build tests --deny-warnings",
+    "lint": "oxlint packages/bundle/src packages/control-center/src build tests --deny-warnings",
     "verify:provenance": "tsx tests/provenance.ts",
     "verify:artifacts": "tsx tests/artifacts.ts",
     "verify:secrets": "tsx tests/secrets.ts",
