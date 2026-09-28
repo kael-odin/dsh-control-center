@@ -1,15 +1,24 @@
 import { describe, expect, it } from 'vitest'
-import { readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { existsSync, readFileSync } from 'node:fs'
+import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { composeEntries } from '@deepseek-ai/dsh-app-boot'
 import { loadOverlayPatches } from '@deepseek-ai/dsh-app-boot'
 
 const root = fileURLToPath(new URL('../../../', import.meta.url))
-const dsh = resolve(root, '..', 'deepseek-harness')
+
+// The upstream cordis patches ship in a deepseek-harness checkout, not on
+// npm. Resolve it the way the desktop shell does (DSH_HARNESS_DIR, then the
+// sibling layouts the workspace has lived in) and skip when absent — CI has
+// no harness checkout; release and self-host machines do.
+const dsh = [
+  process.env.DSH_HARNESS_DIR,
+  resolve(root, '..', '..', 'deepseek-harness'),
+  resolve(root, '..', 'deepseek-harness'),
+].find(p => p && existsSync(join(p, 'packages', 'bundle', 'base', 'cordis.patch.yml')))
 
 describe('bundle composition', () => {
-  it('replaces only the native shell and models rows', () => {
+  it.skipIf(!dsh)('replaces only the native shell and models rows', () => {
     const base = loadOverlayPatches('test', `${dsh}/packages/bundle/base/cordis.patch.yml`)
     const web = loadOverlayPatches('test', `${dsh}/packages/bundle/web-app/cordis.patch.yml`)
     const control = loadOverlayPatches('test', `${root}/packages/bundle/cordis.patch.yml`)
