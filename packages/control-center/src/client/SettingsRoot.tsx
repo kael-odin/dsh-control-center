@@ -1,7 +1,7 @@
 /** Cherry-style settings shell over DSH's additive settings slots. */
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import clsx from 'clsx'
-import { IconCloseOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
+import { IconCloseOutline16 } from './cc-icons.tsx'
 import {
   IconActivity, IconBell, IconCalendarClock, IconCloud, IconCommand, IconCrop, IconDataDrive,
   IconFileBox, IconFileCode, IconGateway, IconHardDrive, IconInfo, IconPalette, IconPackage,

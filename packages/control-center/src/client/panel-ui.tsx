@@ -4,7 +4,7 @@
  */
 import { useCallback, useRef, useState, type ReactNode } from 'react'
 import css from './TranslationWorkspace.module.css'
-import { IconCloseOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
+import { IconCloseOutline16 } from './cc-icons.tsx'
 
 export interface SwitchProps {
   checked: boolean

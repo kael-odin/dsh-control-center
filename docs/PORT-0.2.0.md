@@ -127,3 +127,9 @@ Plus/Trash/Chevron×3/Check/Loading/Pause/Send/Globe/Data/Sparkle/Settings，约
   传包装不传内层 ③改名 sync describe→describeRows 时全链调用点要一次扫净
   （retry-config/translation/gateway 各漏一处即成隐形炸弹）。
 - 下一步：P2 图标自持（cc-icons.tsx ~20 枚 SVG，13 文件替换）。
+- **2026-09-30 · P2 完成（图标自持）**：`cc-icons.tsx` 落地——17 枚 lucide 风格内联 SVG，
+  **沿用被删的 primitives 导出名**（IconCloseOutline16 等），13 个客户端文件只换 import 源、
+  调用点零改动；primitives 的 Button/Modal（仍在上游）保留原导入。验收：tsc 仅剩 5 个
+  SessionListState（P3），vitest 289/289，lint 0。教训：exactOptionalPropertyTypes 下
+  可选 prop 必须显式 `| undefined`。
+- 下一步：P3 会话列表形状（先探针）。

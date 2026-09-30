@@ -8,7 +8,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
-import { IconCopyOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
+import { IconCopyOutline16 } from './cc-icons.tsx'
 import {
   SettingDivider, SettingGroup, SettingRow, SettingRowTitle, SettingsPageShell,
 } from './SettingsPages.tsx'

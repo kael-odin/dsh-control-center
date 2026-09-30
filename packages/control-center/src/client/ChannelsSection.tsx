@@ -7,7 +7,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
-import { IconPlusOutline16, IconTrashOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
+import { IconPlusOutline16, IconTrashOutline16 } from './cc-icons.tsx'
 import type { SnapshotSelectorHook } from '@deepseek-ai/dsh-client-ui-slots'
 import { ConfirmDialog, Switch } from './panel-ui.tsx'
 import type { ChannelsState } from './channels-store.ts'

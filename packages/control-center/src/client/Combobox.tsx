@@ -4,7 +4,7 @@
  */
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
-import { IconChevronDownOutline14, IconSearchOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
+import { IconChevronDownOutline14, IconSearchOutline16 } from './cc-icons.tsx'
 import css from './Combobox.module.css'
 
 /** Viewport-adaptive fixed positioning for the portal popover. */

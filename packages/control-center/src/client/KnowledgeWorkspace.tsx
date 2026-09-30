@@ -6,9 +6,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { HostObservable, InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
-import {
-  IconCheckOutline16, IconChevronLeftOutline14, IconSearchOutline16, IconPlusOutline16,
-} from '@deepseek-ai/dsh-client-ui-primitives'
+import { IconCheckOutline16, IconChevronLeftOutline14, IconSearchOutline16, IconPlusOutline16 } from './cc-icons.tsx'
 import type { ModelProviderGroup } from '@deepseek-ai/dsh-api-remotes/client'
 import type {
   KnowledgeBaseConfig, KnowledgeBaseView, KnowledgeRetrievalHit, KnowledgeSourceView,
