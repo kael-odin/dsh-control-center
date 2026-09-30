@@ -1,5 +1,38 @@
 # Changelog
 
+## v0.5.0 (2026-09-30) — the desktop shell retires
+
+The official DeepSeek Harness Desktop (`dsh-v0.2.0-rc.2`) is an Electron
+shell around the complete dsh Web application. It owns every surface this
+project's bundled desktop shell provided: tray, launch-at-login, proxy
+wiring, global hotkeys, screenshot, window chrome, native file dialogs,
+hardware acceleration, menu presentation. Per the honest-labeling
+constitution the dead switches go, not the labels.
+
+### Removed
+- `apps/desktop` (Electron shell), `desktop-release.yml`, desktop smoke
+  scripts, `scripts/prepare-bundle.js`
+- Host `DesktopService` / `AssistantService` + their remote clients and types
+- Client Quick Assistant / Selection Assistant / Screenshot sections, the
+  desktop capability marker, the native-menu contract
+- General rows: launch/tray/proxy/private-network/hardware-acceleration/
+  menu-presentation; appearance rows: zoom/transparent window/window style
+- Data/knowledge/skills desktop-bridge branches (web pickers stay; skills
+  local-path import was desktop-dialog-only and is gone with it)
+
+### Kept, rewired
+- Conversation-complete notifications (storage key renamed
+  `assistant` → `conversation`, read back-compatibly; browser Notification)
+- Channel agent-preset binding reads the new `controlCenterAgentPresets`
+  service (`listAgentPresets` lifted out of the deleted AssistantService)
+
+### Contract
+- The 0.2.0 port is scoped and started on the `contract-0.2.0-port` branch —
+  upstream rebuilt the settings seam (plugin-namespaces API removed), dropped
+  the general icon set, and reshaped `SessionListState`. See
+  [PORT-0.2.0.md](docs/PORT-0.2.0.md) for the migration map. `main` stays on
+  the deployable `0.1.6-alpha.1` baseline until that port lands.
+
 ## v0.4.0 (2026-09-17)
 
 The contract catches up with the deployed harness: DSH 0.1.2 (vendored

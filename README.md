@@ -9,6 +9,12 @@ An installable, AGPL-3.0-licensed control center for the DSH Web profile. The fi
 
 The package fails startup before its browser half activates when the resolved DSH contract packages leave the supported window (`0.1.6+`; see `packages/control-center/src/compatibility.ts`).
 
+As of v0.5.0 the bundled Electron desktop shell is retired — the official
+DeepSeek Harness Desktop owns tray, hotkeys, proxy wiring, native dialogs and
+window chrome, so this plugin is web-profile-only. The 0.2.0 contract port is
+scoped and underway on the `contract-0.2.0-port` branch; the migration map
+lives in [docs/PORT-0.2.0.md](docs/PORT-0.2.0.md).
+
 ## Install
 
 ```bash
