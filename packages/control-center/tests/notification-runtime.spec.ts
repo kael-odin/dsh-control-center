@@ -8,11 +8,8 @@ function state(running: boolean, title = '测试对话'): SessionListState {
   return {
     ids: [id],
     byId: { [id]: { id, displayTitle: title, running, blank: false, updatedAt: 1 } },
-    current: undefined,
     phase: 'ready',
-    subagentsByParent: {},
-    jobsBySession: {},
-    currentAddress: undefined,
+    projectionsBySession: {},
   }
 }
 

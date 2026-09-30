@@ -194,8 +194,11 @@ export interface ModelSelectionPanelProps {
 
 /** Render distinct future-session default and current-session model controls. */
 export function ModelSelectionPanel(props: ModelSelectionPanelProps): ReactNode {
-  const currentSessionId = props.useSessions(state => state.current)
-  const currentAddressed = props.useSessions(state => state.currentAddress !== undefined)
+  // 0.2.0: SessionListState dropped current/currentAddress (view-layer binding
+  // concern). The panel renders the future-default controls only; the
+  // current-session override returns with the binding source (upgrade note).
+  const currentSessionId: SessionId | undefined = undefined
+  const currentAddressed = false
   const state = props.useSnapshot(snapshot => snapshot)
   useEffect(() => { props.load(currentSessionId, currentAddressed) }, [currentSessionId, currentAddressed, props.load])
   const rows = options(state.groups)

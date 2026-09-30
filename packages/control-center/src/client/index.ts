@@ -474,8 +474,10 @@ export function apply(ctx: ClientContext): void {
     refreshDocumentIfLoaded(documentController)
     refreshIfLoaded(modelsController)
     refreshWelcomeIfLoaded(welcomeController)
-    const current = (ctx.sessions.list as unknown as HostObservable<SessionListState>).getSnapshot().current
-    void selectionController.load(current)
+    // 0.2.0: SessionListState no longer carries the view-layer current-session
+    // binding. Re-sync the future-default selection; the current-session
+    // override rebinds when the binding source lands (upgrade note in PORT-0.2.0.md).
+    void selectionController.load(undefined, false)
   }), 'control-center: connection invalidations')
 
   ctx.effect(() => {

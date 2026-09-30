@@ -137,8 +137,9 @@ export function SettingsRoot(props: SettingsRootComponentProps) {
   }, [])
   const rows = useSections(state => state)
   const onboardingSteps = useOnboardingSteps(state => state)
-  const onboardingActive = useSessions(state =>
-    state.phase === 'ready' && (state.current === undefined || state.byId[state.current]?.blank === true))
+  // 0.2.0: no current-session on the list state — onboarding fires on an
+  // empty roster instead (honest equivalent; upgrade note in PORT-0.2.0.md).
+  const onboardingActive = useSessions(state => state.phase === 'ready' && state.ids.length === 0)
   const onboardingStep = onboardingActive
     ? onboardingSteps.find(step => !completedOnboarding.has(step.id))
     : undefined

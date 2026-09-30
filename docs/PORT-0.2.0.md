@@ -133,3 +133,13 @@ Plus/Trash/Chevron×3/Check/Loading/Pause/Send/Globe/Data/Sparkle/Settings，约
   SessionListState（P3），vitest 289/289，lint 0。教训：exactOptionalPropertyTypes 下
   可选 prop 必须显式 `| undefined`。
 - 下一步：P3 会话列表形状（先探针）。
+- **2026-09-30 · P3 完成（会话列表形状，落简化实现）**：探针结论——0.2.0 的"当前会话"
+  已散入 conversation assembly 的 view-layer binding（SessionBinding/context.current 内部
+  结构），没有可从插件稳定读取的单一来源，兔子洞坐实。按预案落最简诚实实现：
+  ①ModelSelectionPanel 只渲染"未来会话默认模型"控制（当前会话覆盖段随 binding 源回归）；
+  ②connection/reset 时重载默认选择 load(undefined,false)；③SettingsRoot 开屏引导改为
+  "名册为空"触发（原"无当前会话或当前会话为 blank"的诚实等价）。notification-runtime.spec
+  夹具同步新形状 {ids,byId,phase,projectionsBySession}。**升级点（绑定源落地后）**：
+  ModelSelectionPanel 的 currentSessionId/currentAddressed 两个常量换回 binding 读取、
+  index.ts reset 处 load(current)、SettingsRoot 恢复 blank 判定。
+  验收：**tsc 全仓 0 error**、vitest 289/289、lint 0。
