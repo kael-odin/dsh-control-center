@@ -170,7 +170,7 @@ declare module '@deepseek-ai/dsh-client-ui-slots' {
 // 0.1.6: typert mounts each Remote namespace as its own `remote.<ns>` service;
 // every namespace this half touches must be declared here or the proxy refuses
 // the property read ("cannot get property ... without inject").
-export const inject = ['slots', 'locale', 'connection', 'remote', 'remote.settings', 'remote.llm', 'remote.credentials', 'remote.session', 'remote.agentPresets', 'remote.controlCenterExport', 'remote.controlCenterSettings', 'sessions', 'settingsScope', 'settingsSchema']
+export const inject = ['slots', 'locale', 'connection', 'remote', 'remote.settings', 'remote.llm', 'remote.credentials', 'remote.session', 'remote.agentPresets', 'sessions', 'configForms', 'settingsSchema']
 
 
 /**
@@ -315,11 +315,12 @@ export function apply(ctx: ClientContext): void {
   const websearchT = ctx.locale.bind(WEBSEARCH_NS) as (key: WebSearchKey) => string
   const msgActionsT = ctx.locale.bind(MSGACTIONS_NS) as (key: MsgActionsKey) => string
   const connection = ctx.get('connection') as ConnectionHandle
-  const settingsScope = ctx.get('settingsScope') as SettingsDescribeFace
+  // 0.2.0: the describe mirror lives on the configForms service.
+  const configForms = ctx.get('configForms') as { describe(): SettingsDescribeFace }
   const settingsSchema = ctx.get('settingsSchema') as SettingsSchemaService
   const schema = createSettingsSchemaOperations(settingsSchema)
   // 0.2.0: the settingsScope is an observable mirror face; the store consumes it directly.
-  const settingsMirror = settingsScope
+  const settingsMirror = configForms.describe()
 
   const documentController = connection.isLoopback ? new SettingsDocumentStore(ctx.remote) : undefined
   const documentInjected = documentController === undefined

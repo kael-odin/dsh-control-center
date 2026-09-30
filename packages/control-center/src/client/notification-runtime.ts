@@ -35,6 +35,15 @@ export class ConversationNotificationRuntime {
   ) {}
 
   async refreshPreferences(): Promise<void> {
+    // The Remote namespace mounts asynchronously after start(); a pre-mount
+    // call is a no-op — the pushed settings/document invalidation refreshes
+    // once the namespace lands.
+    try {
+      await this.refreshPreferencesInner()
+    } catch { /* namespace not mounted yet (or describe unavailable) */ }
+  }
+
+  private async refreshPreferencesInner(): Promise<void> {
     const response = await this.settings.describe()
     if (!response.ok) return
     const namespace = response.value.namespaces.find(view => view.ns === NOTIFICATION_SETTINGS_NAMESPACE)

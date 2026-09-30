@@ -57,6 +57,16 @@ interface AnthropicRequest {
   stream?: boolean
 }
 
+declare module '@deepseek-ai/dsh-typert-protocol' {
+  interface TypertRemoteNamespaceMap {
+    controlCenterGateway: {
+      status(): Promise<{ running: boolean; port: number; url: string | null }>
+      start(): Promise<{ ok: true; value: { running: boolean; port: number; url: string | null } } | { ok: false; error: string }>
+      stop(): Promise<{ ok: true; value: { running: boolean; port: number; url: string | null } } | { ok: false; error: string }>
+    }
+  }
+}
+
 declare module '@deepseek-ai/cordis' {
   interface Context {
     controlCenterGateway: GatewayService

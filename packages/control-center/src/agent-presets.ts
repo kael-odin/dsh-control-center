@@ -11,6 +11,17 @@ import { bindTypertRemote, remoteErrorOf } from '@deepseek-ai/dsh-typert-protoco
 import type { AgentPresetRegistry } from '@deepseek-ai/dsh-agent-preset-registry'
 import { markRemoteMethods } from './knowledge/remote-methods.ts'
 
+declare module '@deepseek-ai/dsh-typert-protocol' {
+  interface TypertRemoteNamespaceMap {
+    controlCenterAgentPresets: {
+      listAgentPresets(): Promise<{
+        ok: true
+        value: Array<{ id: string; name: string; isDefault: boolean }>
+      } | { ok: false; error: string }>
+    }
+  }
+}
+
 declare module '@deepseek-ai/cordis' {
   interface Context {
     controlCenterAgentPresets: AgentPresetsService

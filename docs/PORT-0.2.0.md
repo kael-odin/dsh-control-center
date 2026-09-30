@@ -152,3 +152,19 @@ Plus/Trash/Chevron×3/Check/Loading/Pause/Send/Globe/Data/Sparkle/Settings，约
   turn 执行语义变化，非插件接缝问题，按时间盒纪律停止。E2E 全绿留待上游语义明朗。
   canary 修复：repoint 文件表移除已退役的 apps/desktop（v0.5.0 起在 main 上已静默失败）。
   版本 0.6.0；兼容窗口 0.2.x。
+- **2026-09-30 深夜 · 部署冒烟第三轮（接近贯通，留一个 claim 精点）**：浏览器级实测推进——
+  ①客户端 0.2.0 访问模式定案：`$mount` 挂的是 cordis 服务 `remote.<ns>`，**插件命名空间必须
+  `ctx.get('remote.<ns>')` 服务读；`ctx.remote.<ns>` 属性读对插件命名空间返回 undefined**
+  （core ns 由核心 remotes/client 显式 $mount，走属性读没问题；inject 里声明 remote.<ns>
+  会在启动期 pending——已从 inject 移除，configForms 取代 settingsScope）；
+  ②ModelSelectionPanel 的 P3 stub 常量 + load 闭包每渲染新建 → modelCatalog/credentials
+  无限轮询（每渲染重触发 effect）——观察到的 churn 源，升级点补充：binding 源落地时一并
+  把 load 依赖收敛；③notification-runtime mount 前调用容错（try/catch，挂载后由
+  invalidation 刷新）；④同版本号 tgz 重装 pnpm 会跳过提取（added 0）——**必须 remove+add**。
+  实测状态：boot 零错、插件客户端全激活、设置壳/通知页渲染、"对话完成通知"开关可见。
+  **唯一残留**：host 对 `controlCenterSettings/describe|mutate` 返回 404（claim 层）——
+  隔离探针证明 registry register+commit 对 settings/providers 描述子都成功
+  （`controlCenterSettings/describe` hasSeen=true），故嫌疑收敛为：host 端 src 标记
+  （markRemoteMethods 手动 decorator 在 0.2.0 的 remoteMethods 读取下不可见）或 plugin
+  fiber 的 typert commit 时序。下一会话从"host 端 claims 双路验证"切入：先
+  remoteMethods(ControlCenterSettings.prototype) 隔离跑，再看 plugin fiber effect 执行序。
