@@ -4,16 +4,18 @@ An installable, AGPL-3.0-licensed control center for the DSH Web profile. The fi
 
 ## Supported baseline
 
-- DeepSeek Harness `0.1.6-alpha.1` (`0d1f50007f`), resolved from the npm-published `@deepseek-ai/*` contract line (the 2026-08-30 vendored-tarball + local-verdaccio channel is retired; see `scripts/migrate-dsh-0.1.6.mjs` and `scripts/watch-dsh-contract.mjs`)
+- DeepSeek Harness `0.2.0-rc.2` (`639ed01539`), resolved from the npm-published `@deepseek-ai/*` contract line (see `scripts/watch-dsh-contract.mjs`)
 - Cherry Studio source/visual baseline `0bb1725c638bf12d505e9baadaa69f8da47dd05e` (application `2.0.8`)
 
-The package fails startup before its browser half activates when the resolved DSH contract packages leave the supported window (`0.1.6+`; see `packages/control-center/src/compatibility.ts`).
+The package fails startup before its browser half activates when the resolved DSH contract packages leave the supported window (`0.2.x`; see `packages/control-center/src/compatibility.ts`).
 
 As of v0.5.0 the bundled Electron desktop shell is retired — the official
 DeepSeek Harness Desktop owns tray, hotkeys, proxy wiring, native dialogs and
-window chrome, so this plugin is web-profile-only. The 0.2.0 contract port is
-scoped and underway on the `contract-0.2.0-port` branch; the migration map
-lives in [docs/PORT-0.2.0.md](docs/PORT-0.2.0.md).
+window chrome. v0.6.0 completes the 0.2.0 contract port: plugin state now
+lives in a self-owned store (`controlCenterSettings` wire face) because
+upstream removed the plugin-namespaces settings API; icons are self-hosted;
+the current-session model override awaits an upstream binding source
+([docs/PORT-0.2.0.md](docs/PORT-0.2.0.md)).
 
 ## Install
 

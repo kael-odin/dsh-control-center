@@ -31,13 +31,13 @@ jobs:
           node-version: 24
           cache: pnpm
 
-      - name: Resolve newest published 0.1.x contract
+      - name: Resolve newest published contract line contract
         id: resolve
         run: echo "version=$(node scripts/watch-dsh-contract.mjs --next 2>/dev/null || echo '')" >> "$GITHUB_OUTPUT"
 
       - name: Skip when already on the newest line
         if: steps.resolve.outputs.version == ''
-        run: echo "pinned baseline is already the newest 0.1.x — nothing to canary" && exit 0
+        run: echo "pinned baseline is already the newest pinned line — nothing to canary" && exit 0
 
       - name: Re-point workspace at ${{ steps.resolve.outputs.version }}
         run: node scripts/canary-repoint.mjs "${{ steps.resolve.outputs.version }}"

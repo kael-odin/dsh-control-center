@@ -85,6 +85,7 @@ async function startHost(home: string, port: number): Promise<{ child: ChildProc
     const timeout = setTimeout(() => reject(new Error(`DSH startup timed out\n${output}`)), 45_000)
     const consume = (chunk: Buffer): void => {
       output += chunk.toString()
+      if (process.env.CC_E2E_VERBOSE !== undefined) process.stderr.write(chunk)
       const match = /dsh web: (http:\/\/127\.0\.0\.1:\d+\S*)/.exec(output)
       if (match?.[1] !== undefined) {
         clearTimeout(timeout)
@@ -203,16 +204,18 @@ async function main(): Promise<void> {
     const workspace = join(home, 'workspace')
     await mkdir(workspace, { recursive: true })
     const created = await rpc<{ sessionId: string }>(started.url, cookie, 'session/create', {
-      cwd: workspace,
-      agentPreset: 'standard',
+      request: { cwd: workspace },
     })
     const sessionId = created.sessionId
 
     const send = async (targetSessionId: string, text: string): Promise<void> => {
       await rpc(started.url, cookie, 'session/prompt', {
-        sessionId: targetSessionId,
-        mode: 'queue',
-        content: [{ type: 'text', text }],
+        request: {
+          requestId: randomUUID(),
+          sessionId: targetSessionId,
+          mode: 'steer',
+          content: [{ type: 'text', text }],
+        },
       })
       await expectPoll(
         () => fixture.requests.some(request => includesMarker(request.body, text)),
@@ -273,8 +276,7 @@ async function main(): Promise<void> {
     })
 
     const omissionSession = await rpc<{ sessionId: string }>(started.url, cookie, 'session/create', {
-      cwd: workspace,
-      agentPreset: 'standard',
+      request: { cwd: workspace },
     })
     const omittedOld = 'CC_OMISSION_OLD_SENTINEL'
     const omittedRecent = 'CC_OMISSION_RECENT_SENTINEL'
@@ -318,10 +320,14 @@ async function main(): Promise<void> {
       throw new Error(`omission session did not retain an adjacent shadow price and Control Center checkpoint: ${JSON.stringify(omissionHistory.events)}`)
     }
     process.stdout.write('context-profile-e2e: packed profile applied summary and omission message windows\n')
+  } catch (error) {
+    // Keep the failed home + host chatter for diagnosis (removed on success).
+    console.error(`[e2e] home kept at ${home}`)
+    throw error
   } finally {
     if (host !== undefined) await stopHost(host).catch(() => {})
     await fixture.close()
-    await rm(home, { recursive: true, force: true })
+    if (process.env.CC_E2E_KEEP_HOME === undefined) await rm(home, { recursive: true, force: true })
   }
 }
 

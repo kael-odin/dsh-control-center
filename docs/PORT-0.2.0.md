@@ -143,3 +143,12 @@ Plus/Trash/Chevron×3/Check/Loading/Pause/Send/Globe/Data/Sparkle/Settings，约
   ModelSelectionPanel 的 currentSessionId/currentAddressed 两个常量换回 binding 读取、
   index.ts reset 处 load(current)、SettingsRoot 恢复 blank 判定。
   验收：**tsc 全仓 0 error**、vitest 289/289、lint 0。
+- **2026-09-30 · P4 收官（E2E 全绿被上游阻塞，其余全过）**：pack:check 全链绿（bundle
+  0.6.0 打包+provenance+artifacts+secrets）；E2E 修复了 0.2.0 wire 信封
+  （session/create→{request:…}、prompt 补 requestId；env 真名是 **DSH_REPO**，前图误记
+  DSH_HARNESS_DIR）+ keep-home/verbose 开关后，会话创建与 prompt 均被 0.2.0 host 接受，
+  **但裸 plugin-installed profile 里 turn 从不执行**（session 文件只有头、无 user/message、
+  host 零日志；queue/steer 同症；模型路由已确认落入 cordis.patch.yml）——判定为上游
+  turn 执行语义变化，非插件接缝问题，按时间盒纪律停止。E2E 全绿留待上游语义明朗。
+  canary 修复：repoint 文件表移除已退役的 apps/desktop（v0.5.0 起在 main 上已静默失败）。
+  版本 0.6.0；兼容窗口 0.2.x。
