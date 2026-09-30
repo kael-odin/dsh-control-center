@@ -64,7 +64,7 @@ declare module '@deepseek-ai/cordis' {
 }
 
 export class GatewayService extends Service {
-  static inject = ['settings', 'llm'] as const
+  static inject = ['controlCenterSettings', 'llm'] as const
 
   readonly typertRemote = bindTypertRemote(this, 'controlCenterGateway')
 
@@ -82,7 +82,7 @@ export class GatewayService extends Service {
 
   private config(): GatewayConfig {
     try {
-      const value = this.ctx.settings.get(GATEWAY_NAMESPACE) as Partial<GatewayConfig>
+      const value = this.ctx.get('controlCenterSettings')!.get(GATEWAY_NAMESPACE) as Partial<GatewayConfig>
       return {
         // 0 = pick a free port (tests); the UI range-checks 1–65535.
         port: typeof value?.port === 'number' && value.port >= 0 ? value.port : 23333,
@@ -190,12 +190,16 @@ export class GatewayService extends Service {
         return { provider, model: rest.join('/') }
       }
     }
-    const described = this.ctx.settings.describe() as unknown as Array<{ ns?: unknown; value?: unknown }>
-    const found = described.find(entry => String(entry.ns) === 'agent-default-model')
-    const value = found?.value as Record<string, unknown> | undefined
-    const provider = typeof value?.provider === 'string' ? value.provider : ''
-    const fallbackModel = typeof value?.model === 'string' ? value.model : ''
-    if (provider.length > 0 && fallbackModel.length > 0) return { provider, model: fallbackModel }
+    try {
+      // 0.2.0: the host default route lives on the agentDefaultModel service,
+      // not in the settings namespace scan.
+      const selection = (this.ctx.get('agentDefaultModel') as {
+        currentSelection(): { provider?: unknown; model?: unknown }
+      }).currentSelection()
+      const provider = typeof selection.provider === 'string' ? selection.provider : ''
+      const fallbackModel = typeof selection.model === 'string' ? selection.model : ''
+      if (provider.length > 0 && fallbackModel.length > 0) return { provider, model: fallbackModel }
+    } catch { /* agentDefaultModel service unavailable in this profile */ }
     throw new Error(`无法解析模型路由: ${model ?? '(未指定)'}，且未配置默认模型`)
   }
 
@@ -318,7 +322,7 @@ export class GatewayService extends Service {
   }
 
   private async handleModels(res: import('node:http').ServerResponse): Promise<void> {
-    const described = this.ctx.settings.describe() as unknown as Array<{ ns?: unknown; value?: unknown }>
+    const described = this.ctx.get('controlCenterSettings')!.describe()
     const providers = described.filter(entry => String(entry.ns).startsWith('control-center-providers'))
     const models: Array<{ id: string; object: string }> = []
     for (const entry of providers) {

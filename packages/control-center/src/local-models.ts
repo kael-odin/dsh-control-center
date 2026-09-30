@@ -8,7 +8,7 @@
 import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
 import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
-import type { SettingsScope } from '@deepseek-ai/dsh-settings'
+import type { ControlCenterNamespaceScope } from './settings-store.ts'
 import { settingsNamespace } from './settings-ns.ts'
 import Schema from '@deepseek-ai/schemastery'
 
@@ -39,14 +39,14 @@ const KIND_DEFAULTS: Record<LocalModelServer['kind'], string> = {
 }
 
 export class LocalModelsService extends Service {
-  static inject = ['settings'] as const
+  static inject = ['controlCenterSettings'] as const
 
   readonly typertRemote = bindTypertRemote(this, 'controlCenterLocalModels')
-  private scope: SettingsScope<LocalModelsSettings>
+  private scope: ControlCenterNamespaceScope<LocalModelsSettings>
 
   constructor(ctx: Context, _config?: { logger?: Context['logger'] }) {
     super(ctx, 'controlCenterLocalModels')
-    this.scope = ctx.settings.register(LOCAL_MODELS_NAMESPACE, Schema.object({
+    this.scope = ctx.get('controlCenterSettings')!.register(LOCAL_MODELS_NAMESPACE, Schema.object({
       servers: Schema.array(Schema.object({
         id: Schema.string(),
         name: Schema.string(),

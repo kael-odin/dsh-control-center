@@ -30,7 +30,7 @@ import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
 import z from '@deepseek-ai/schemastery'
 import { settingsNamespace } from './settings-ns.ts'
-import type { SettingsScope } from '@deepseek-ai/dsh-settings'
+import type { ControlCenterNamespaceScope } from './settings-store.ts'
 import { bindTypertRemote, Remote, remoteErrorOf } from '@deepseek-ai/dsh-typert-protocol'
 import type { SessionController, SessionRequestId } from '@deepseek-ai/dsh-api-session-controller'
 import { createUserMessage, type LlmRuntime } from '@deepseek-ai/dsh-llm'
@@ -365,7 +365,7 @@ declare module '@deepseek-ai/cordis' {
  * Drives one long-lived connection per active channel instance.
  */
 export class ChannelBridgeService extends Service {
-  static inject = ['settings', 'llm'] as const
+  static inject = ['controlCenterSettings', 'llm'] as const
 
   readonly typertRemote = bindTypertRemote(this, 'controlCenterChannelBridge')
 
@@ -383,7 +383,7 @@ export class ChannelBridgeService extends Service {
   private readonly sessionPrimed = new Set<AgentSessionId>()
   /** Per-channel reply serialization: one turn at a time per connection. */
   private readonly replyChains = new Map<string, Promise<void>>()
-  private readonly scope: SettingsScope<ChannelsSection> | undefined
+  private readonly scope: ControlCenterNamespaceScope<ChannelsSection> | undefined
   private source: (() => ChannelsSection) | undefined
 
   constructor(ctx: Context) {
@@ -406,7 +406,7 @@ export class ChannelBridgeService extends Service {
     // config so a restart resumes the conversation instead of forgetting it.
     // Without a settings service the composition entry still drives the source.
     try {
-      const scope = ctx.settings.register(CHANNELS_BRIDGE_NAMESPACE, ChannelsSchema, { base: { instances: [] } })
+      const scope = ctx.get('controlCenterSettings')!.register<ChannelsSection>(CHANNELS_BRIDGE_NAMESPACE, ChannelsSchema, { base: { instances: [] } })
       this.scope = scope
       this.source = () => scope.get()
       scope.watch(() => { try { this.reconcile() } catch (error) { this.ctx.logger.warn(error) } })
@@ -639,7 +639,7 @@ export class ChannelBridgeService extends Service {
     try {
       // Cherry 重试设置 honored here too: retries after the first request,
       // then fallback routes — so a flaky provider does not drop messages.
-      const policy = readHostRetryPolicy(this.ctx.settings)
+      const policy = readHostRetryPolicy(this.ctx.get('controlCenterSettings'))
       const routes = [
         route,
         ...policy.fallbacks.filter(candidate => candidate.provider !== route.provider || candidate.model !== route.model),
@@ -923,13 +923,12 @@ export class ChannelBridgeService extends Service {
    */
   private defaultModelRoute(): { provider: string; model: string } | null {
     try {
-      const described = this.ctx.settings.describe() as unknown as Array<{ ns?: unknown; value?: unknown }>
-      const found = described.find(entry => String(entry.ns) === 'agent-default-model')
-      const value = found?.value
-      if (typeof value !== 'object' || value === null) return null
-      const record = value as Record<string, unknown>
-      const provider = typeof record.provider === 'string' ? record.provider : ''
-      const model = typeof record.model === 'string' ? record.model : ''
+      // 0.2.0: the host default route lives on the agentDefaultModel service.
+      const selection = (this.ctx.get('agentDefaultModel') as {
+        currentSelection(): { provider?: unknown; model?: unknown }
+      }).currentSelection()
+      const provider = typeof selection.provider === 'string' ? selection.provider : ''
+      const model = typeof selection.model === 'string' ? selection.model : ''
       if (provider.length === 0 || model.length === 0) return null
       return { provider, model }
     } catch {

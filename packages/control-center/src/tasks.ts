@@ -11,7 +11,7 @@
 import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
 import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
-import type { SettingsScope } from '@deepseek-ai/dsh-settings'
+import type { ControlCenterNamespaceScope } from './settings-store.ts'
 import { settingsNamespace } from './settings-ns.ts'
 import Schema from '@deepseek-ai/schemastery'
 
@@ -51,17 +51,17 @@ interface TasksSettings {
 const MAX_HISTORY = 50
 
 export class TasksService extends Service {
-  static inject = ['settings'] as const
+  static inject = ['controlCenterSettings'] as const
 
   readonly typertRemote = bindTypertRemote(this, 'controlCenterTasks')
-  private scope: SettingsScope<TasksSettings>
+  private scope: ControlCenterNamespaceScope<TasksSettings>
   private timer: NodeJS.Timeout | undefined
   private ranThisMinute = new Set<string>()
   private lastTickMinute: string | undefined
 
   constructor(ctx: Context, _config?: { logger?: Context['logger'] }) {
     super(ctx, 'controlCenterTasks')
-    this.scope = ctx.settings.register(TASKS_NAMESPACE, Schema.object({
+    this.scope = ctx.get('controlCenterSettings')!.register(TASKS_NAMESPACE, Schema.object({
       tasks: Schema.array(Schema.object({
         id: Schema.string(),
         name: Schema.string(),

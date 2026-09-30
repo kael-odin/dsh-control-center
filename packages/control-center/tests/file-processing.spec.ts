@@ -1,4 +1,5 @@
 import { Context } from '@deepseek-ai/cordis'
+import { ControlCenterSettings } from '../src/settings-store.ts'
 import { describe, expect, it } from 'vitest'
 import { FileProcessingService } from '../src/file-processing.ts'
 import type { FileProcessorId } from '../src/file-processing-types.ts'
@@ -55,17 +56,8 @@ async function setup() {
   const ctx = new Context()
   ctx.reflect.provide('credentials', credentials)
   ctx.reflect.provide('storageDomain', storageDomain)
-  ;(ctx as unknown as { settings: unknown }).settings = {
-    get: () => stored.get('value'),
-    update: async (_namespace: string, value: unknown) => { stored.set('value', value) },
-    register: () => ({
-      get: () => stored.get('value'),
-      update: async (patch: object) => {
-        const current = stored.get('value') as object
-        stored.set('value', { ...current, ...patch })
-      },
-    }),
-  } as never
+  const cc = new ControlCenterSettings(ctx)
+  await cc.update('control-center-file-processing', structuredClone(DEFAULT_SETTINGS))
   const service = new FileProcessingService(ctx)
   // `ctx.inject()` activates on the next turn; wait until the durable task store is open.
   await new Promise<void>(resolve => setTimeout(resolve, 0))

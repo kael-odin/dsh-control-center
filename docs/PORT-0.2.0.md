@@ -89,3 +89,23 @@ Plus/Trash/Chevron×3/Check/Loading/Pause/Send/Globe/Data/Sparkle/Settings，约
 原生文件对话框/硬件加速/菜单呈现全部面。按诚实标签宪法删开关而非留死开关；
 对话完成通知换 `conversation` 键继续存在；频道 Agent 绑定换新
 `controlCenterAgentPresets` 服务。check 全链绿。
+
+## 进度日志
+
+- **2026-09-30 · P0 完成（host 自持设置存储）**：`settings-store.ts` 落地（ControlCenterSettings：
+  storage-domain KvTable 存 `{revision, value}`，register/get/update/describe/watch 全套旧语义，
+  schema 默认值惰性求值，无 storageDomain 时诚实降级内存并告警）。13 个 host 文件完成
+  `ctx.settings.*` → `ctx.get('controlCenterSettings')!*` 机械替换 + inject 列表更新 +
+  SettingsScope 类型导入清除。三处 `agent-default-model` describe 扫描（gateway×2/notes/
+  channel-bridge）改走 0.2.0 原生 `ctx.get('agentDefaultModel').currentSelection()`。
+  context-policy 按 0.2.0 merge-extensible 惯例自声明 `control-center-context-policy`
+  source kind。四个 codec 的 `schema:` 换成惰性 `create: () => schema`（0.2.0 TypertCodec）。
+  knowledge/painting 的 SettingsProvider → SettingsForms。**11 个 spec 的假 settings 双打
+  全部换成真 ControlCenterSettings 实例（降级内存）**；providers 根 spec 的
+  FileSettingsProvider（上游已删包）换成真 store——P4 的该项提前完成。
+  验收：host tsc 0 error（剩 41 全在 client/，P1-P3 范围）；vitest **289/289 全绿**
+  （与 0.1.6 基线同覆盖，零丢失）；lint 0。教训新增：vitest 的 spy 用
+  `mockImplementation`（本版本无 `callsFake`）；大补丁脚本用 Write 写文件再执行，heredoc
+  会被截断。
+- 下一步：P1 客户端换源（controlCenterSettings typert remote + 7 个客户端存储 +
+  SettingsScopeBinder 重接）。

@@ -1,6 +1,7 @@
 import { Context, Service } from '@deepseek-ai/cordis'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { WebSearchService } from '../src/websearch.ts'
+import { ControlCenterSettings } from '../src/settings-store.ts'
 import type { WebSearchConfig } from '../src/websearch/types.ts'
 
 /** A stand-in `tools` service so `ctx.get('tools')` resolves in a bare context. */
@@ -20,17 +21,10 @@ describe('WebSearchService web_search tool', () => {
     vi.restoreAllMocks()
   })
 
-  function setup(config: Partial<WebSearchConfig>) {
-    const stored = new Map<string, unknown>([['value', { ...baseConfig(), ...config }]])
+  async function setup(config: Partial<WebSearchConfig>) {
     const ctx = new Context()
-    ;(ctx as unknown as { settings: unknown }).settings = {
-      get: () => stored.get('value'),
-      update: async (ns: string, value: object) => { stored.set('value', value) },
-      register: () => {
-        const scope: unknown = { get: () => stored.get('value'), update: async () => ({}) }
-        return scope
-      },
-    } as never
+    const cc = new ControlCenterSettings(ctx)
+    await cc.update('control-center-websearch', { ...baseConfig(), ...config })
     const tools = new FakeToolsService(ctx)
     const service = new WebSearchService(ctx)
     return { service, tools }
@@ -48,8 +42,8 @@ describe('WebSearchService web_search tool', () => {
     } as WebSearchConfig
   }
 
-  it('registers keyword search and URL fetch agent tools', () => {
-    const { tools } = setup({})
+  it('registers keyword search and URL fetch agent tools', async () => {
+    const { tools } = await setup({})
     const registered = (tools.register as ReturnType<typeof vi.fn>).mock.calls.map(call => call[0] as { name: string })
     expect(registered.map(tool => tool.name)).toEqual(['web_search', 'web_fetch'])
   })
@@ -59,7 +53,7 @@ describe('WebSearchService web_search tool', () => {
       results: [{ title: 'T', url: 'https://a.example', content: 'C' }],
     }), { status: 200 }))
     globalThis.fetch = fetchMock as unknown as typeof fetch
-    const { tools } = setup({
+    const { tools } = await setup({
       defaultSearchKeywordsProvider: 'tavily',
       providerOverrides: { tavily: { apiKeys: ['tvly-key'] } } as WebSearchConfig['providerOverrides'],
     })
@@ -77,7 +71,7 @@ describe('WebSearchService web_search tool', () => {
       results: [{ title: 'E', url: 'https://b.example', text: 'X' }],
     }), { status: 200 }))
     globalThis.fetch = fetchMock as unknown as typeof fetch
-    const { tools } = setup({
+    const { tools } = await setup({
       defaultSearchKeywordsProvider: 'exa',
       providerOverrides: { exa: { apiKeys: ['exa-key'] } } as WebSearchConfig['providerOverrides'],
     })
@@ -95,7 +89,7 @@ describe('WebSearchService web_search tool', () => {
       { status: 200 },
     ))
     globalThis.fetch = fetchMock as unknown as typeof fetch
-    const { tools } = setup({})
+    const { tools } = await setup({})
     const tool = (tools.register as ReturnType<typeof vi.fn>).mock.calls[0]![0] as { execute: (args: { query: string }) => Promise<{ provider: string; hits: Array<{ url: string }> }> }
     const result = await tool.execute({ query: 'q' })
     expect(result.provider).toBe('exa-mcp')
@@ -108,7 +102,7 @@ describe('WebSearchService web_search tool', () => {
   it('web_fetch reads a URL without a key through Fetch', async () => {
     const fetchMock = vi.fn(async () => new Response('<title>Page</title><p>Body</p>', { status: 200 }))
     globalThis.fetch = fetchMock as unknown as typeof fetch
-    const { tools } = setup({ defaultFetchUrlsProvider: 'fetch' })
+    const { tools } = await setup({ defaultFetchUrlsProvider: 'fetch' })
     const tool = (tools.register as ReturnType<typeof vi.fn>).mock.calls[1]![0] as { execute: (args: { url: string }) => Promise<{ provider: string; hits: Array<{ content: string }> }> }
     const result = await tool.execute({ url: 'https://example.com' })
     expect(result.provider).toBe('fetch')
@@ -116,7 +110,7 @@ describe('WebSearchService web_search tool', () => {
   })
 
   it('REST providers still fail clearly when a required key is missing', async () => {
-    const { tools } = setup({ defaultSearchKeywordsProvider: 'exa' })
+    const { tools } = await setup({ defaultSearchKeywordsProvider: 'exa' })
     const tool = (tools.register as ReturnType<typeof vi.fn>).mock.calls[0]![0] as { execute: (args: { query: string }) => Promise<unknown> }
     await expect(tool.execute({ query: 'q' })).rejects.toThrow(/尚未就绪|API Key/)
   })

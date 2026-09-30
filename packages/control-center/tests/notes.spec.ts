@@ -1,4 +1,5 @@
 import { Context } from '@deepseek-ai/cordis'
+import { ControlCenterSettings } from '../src/settings-store.ts'
 import { mkdtempSync, existsSync, readFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -12,15 +13,11 @@ beforeEach(() => {
   process.env.DSH_HOME = home
 })
 
-function makeService(): NotesService {
+async function makeService(): Promise<NotesService> {
   const ctx = new Context()
-  ;(ctx as unknown as { settings: unknown }).settings = {
-    get: () => ({ starred: [...starredStore] }),
-    update: async (_ns: unknown, patch: { starred?: string[] }) => {
-      if (Array.isArray(patch.starred)) starredStore = new Set(patch.starred)
-    },
-    describe: () => [{ ns: 'agent-default-model', value: { provider: 'deepseek', model: 'deepseek-chat' } }],
-  }
+  const cc = new ControlCenterSettings(ctx)
+  if (starredStore.size > 0) await cc.update('control-center-notes', { starred: [...starredStore] })
+  ctx.reflect.provide('agentDefaultModel', { currentSelection: () => ({ provider: 'deepseek', model: 'deepseek-chat' }) })
   ctx.reflect.provide('llm', {
     prepareCall: async (config: { provider: string; model: string }) => ({
       config,
@@ -37,7 +34,7 @@ let starredStore = new Set<string>()
 
 describe('NotesService (v1)', () => {
   it('creates, reads, and writes markdown files under the notes root', async () => {
-    const service = makeService()
+    const service = await makeService()
     const created = await service.create({ path: 'hello.md' })
     expect(created.ok).toBe(true)
     expect(existsSync(join(home, 'notes', 'hello.md'))).toBe(true)
@@ -50,7 +47,7 @@ describe('NotesService (v1)', () => {
   })
 
   it('lists the tree with star flags and toggles them', async () => {
-    const service = makeService()
+    const service = await makeService()
     await service.create({ path: 'a.md' })
     await service.create({ path: 'sub', directory: true })
     await service.create({ path: 'sub/b.md' })
@@ -69,7 +66,7 @@ describe('NotesService (v1)', () => {
   })
 
   it('renames carrying the star flag and refuses traversal', async () => {
-    const service = makeService()
+    const service = await makeService()
     await service.create({ path: 'old.md' })
     await service.toggleStar({ path: 'old.md' })
     const renamed = await service.rename({ from: 'old.md', to: 'new.md' })
@@ -85,7 +82,7 @@ describe('NotesService (v1)', () => {
   })
 
   it('removes files and directories', async () => {
-    const service = makeService()
+    const service = await makeService()
     await service.create({ path: 'dir', directory: true })
     await service.create({ path: 'dir/x.md' })
     const removed = await service.remove({ path: 'dir', directory: true })
@@ -96,7 +93,7 @@ describe('NotesService (v1)', () => {
 
 describe('NotesService full-text search (v2)', () => {
   it('indexes content on write and returns matching paths with snippets', async () => {
-    const service = makeService()
+    const service = await makeService()
     await service.create({ path: 'alpha.md' })
     await service.write({ path: 'alpha.md', content: '# Alpha\n\n量子计算入门笔记' })
     await service.write({ path: 'beta.md', content: '# Beta\n\n关于量子的进一步思考' })
@@ -112,7 +109,7 @@ describe('NotesService full-text search (v2)', () => {
   })
 
   it('returns empty for a blank query', async () => {
-    const service = makeService()
+    const service = await makeService()
     const hits = await service.search({ query: '   ' })
     expect(hits).toEqual({ ok: true, value: [] })
   })
@@ -120,7 +117,7 @@ describe('NotesService full-text search (v2)', () => {
 
 describe('NotesService AI continuation (v3)', () => {
   it('continues a note through the configured default model route', async () => {
-    const service = makeService()
+    const service = await makeService()
     await service.create({ path: 'idea.md' })
     await service.write({ path: 'idea.md', content: '# 想法\n\n我们需要一个更好的发布流程。' })
     const result = await service.continueText({ path: 'idea.md', content: '# 想法\n\n我们需要一个更好的发布流程。' })
@@ -131,7 +128,7 @@ describe('NotesService AI continuation (v3)', () => {
   })
 
   it('refuses to continue an empty note', async () => {
-    const service = makeService()
+    const service = await makeService()
     const result = await service.continueText({ path: 'x.md', content: '   ' })
     expect(result.ok).toBe(false)
   })

@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto'
 import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
 import { createUserMessage, type LlmFailure, type LlmRuntime, ReasoningEffortId } from '@deepseek-ai/dsh-llm'
-import type { SettingsScope } from '@deepseek-ai/dsh-settings'
+import type { ControlCenterNamespaceScope } from './settings-store.ts'
 import { settingsNamespace } from './settings-ns.ts'
 import Schema from '@deepseek-ai/schemastery'
 import { bindTypertRemote, Remote } from '@deepseek-ai/dsh-typert-protocol'
@@ -149,14 +149,14 @@ declare module '@deepseek-ai/cordis' {
  * One-shot translation jobs and persistent in-process history over DSH LLM routes.
  */
 export class TranslationService extends Service {
-  static inject = ['llm', 'settings'] as const
+  static inject = ['llm', 'controlCenterSettings'] as const
   readonly typertRemote = bindTypertRemote(this, 'controlCenterTranslation')
 
   private readonly llm: LlmRuntime
   private readonly jobs = new Map<string, MutableJob>()
   private readonly history = new Map<TranslationHistoryId, TranslationHistoryItem>()
   private readonly customLanguages = new Map<string, TranslationLanguage>()
-  private scope: SettingsScope<{ prompt: string }> | null = null
+  private scope: ControlCenterNamespaceScope<{ prompt: string }> | null = null
   private promptOverride: string | null = null
   private accepting = true
 
@@ -166,7 +166,7 @@ export class TranslationService extends Service {
     // Lazy: standalone-service tests construct bare contexts without a
     // settings provider; the prompt override then stays in memory.
     if (ctx.settings !== undefined) {
-      this.scope = ctx.settings.register(TRANSLATION_NAMESPACE, Schema.object({
+      this.scope = ctx.get('controlCenterSettings')!.register(TRANSLATION_NAMESPACE, Schema.object({
         prompt: Schema.string().default(''),
       }), {
         base: { prompt: '' },

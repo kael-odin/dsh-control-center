@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto'
 import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
-import type { SettingsProvider } from '@deepseek-ai/dsh-settings'
+import type { SettingsForms } from '@deepseek-ai/dsh-settings'
 import type { CredentialProvider } from '@deepseek-ai/dsh-credentials'
 import type { AttachmentStore } from '@deepseek-ai/dsh-attachment'
 import type { LlmRuntime } from '@deepseek-ai/dsh-llm'
@@ -234,7 +234,7 @@ export class PaintingService extends Service {
 
   private async run(job: MutableJob, request: PaintingRequest): Promise<void> {
     try {
-      const settings = this.ctx.get('settings') as SettingsProvider
+      const settings = this.ctx.get('settings') as SettingsForms
       const credentials = this.ctx.get('credentials') as CredentialProvider
       const llm = this.ctx.get('llm') as LlmRuntime
       const attachments = this.ctx.get('attachments') as AttachmentStore

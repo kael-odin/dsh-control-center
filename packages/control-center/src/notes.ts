@@ -49,7 +49,7 @@ declare module '@deepseek-ai/cordis' {
 }
 
 export class NotesService extends Service {
-  static inject = ['settings', 'llm'] as const
+  static inject = ['controlCenterSettings', 'llm'] as const
 
   readonly typertRemote = bindTypertRemote(this, 'controlCenterNotes')
 
@@ -103,7 +103,7 @@ export class NotesService extends Service {
 
   private starredSet(): Set<string> {
     try {
-      const value = this.ctx.settings.get(NOTES_NAMESPACE) as { starred?: unknown }
+      const value = this.ctx.get('controlCenterSettings')!.get(NOTES_NAMESPACE) as { starred?: unknown }
       return Array.isArray(value?.starred) ? new Set(value.starred.map(String)) : new Set()
     } catch {
       return new Set()
@@ -111,7 +111,7 @@ export class NotesService extends Service {
   }
 
   private async writeStarred(set: Set<string>): Promise<void> {
-    await this.ctx.settings.update(NOTES_NAMESPACE, { starred: [...set] } as never)
+    await this.ctx.get('controlCenterSettings')!.update(NOTES_NAMESPACE, { starred: [...set] } as never)
   }
 
   private isDirectory(abs: string): boolean {
@@ -247,7 +247,7 @@ export class NotesService extends Service {
     try {
       const prefs = (() => {
         try {
-          return this.ctx.settings.get(MODEL_PREFS_NAMESPACE) as { notesProvider?: string; notesModel?: string }
+          return this.ctx.get('controlCenterSettings')!.get(MODEL_PREFS_NAMESPACE) as { notesProvider?: string; notesModel?: string }
         } catch {
           return {}
         }
@@ -257,13 +257,14 @@ export class NotesService extends Service {
       let provider = prefs.notesProvider ?? ''
       let model = prefs.notesModel ?? ''
       if (provider.length === 0 || model.length === 0) {
-        const described = this.ctx.settings.describe() as unknown as Array<{ ns?: unknown; value?: unknown }>
-        const found = described.find(entry => String(entry.ns) === 'agent-default-model')
-        const record = found?.value as Record<string, unknown> | undefined
-        if (record !== undefined && typeof record === 'object') {
-          if (typeof record.provider === 'string') provider = provider.length > 0 ? provider : record.provider
-          if (typeof record.model === 'string') model = model.length > 0 ? model : record.model
-        }
+        try {
+          // 0.2.0: the host default route lives on the agentDefaultModel service.
+          const selection = (this.ctx.get('agentDefaultModel') as {
+            currentSelection(): { provider?: unknown; model?: unknown }
+          }).currentSelection()
+          if (typeof selection.provider === 'string') provider = provider.length > 0 ? provider : selection.provider
+          if (typeof selection.model === 'string') model = model.length > 0 ? model : selection.model
+        } catch { /* agentDefaultModel service unavailable in this profile */ }
       }
       if (provider.length === 0 || model.length === 0) {
         return { ok: false, error: '未配置默认模型，请在「默认模型」或笔记模型偏好中选择一个模型' }

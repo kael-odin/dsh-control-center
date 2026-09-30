@@ -1,7 +1,7 @@
 import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
 import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
-import type { SettingsScope } from '@deepseek-ai/dsh-settings'
+import type { ControlCenterNamespaceScope } from './settings-store.ts'
 import { settingsNamespace } from './settings-ns.ts'
 import Schema from '@deepseek-ai/schemastery'
 import { Client } from '@modelcontextprotocol/sdk/client/index.js'
@@ -59,16 +59,16 @@ interface McpServerRuntimeState {
 }
 
 export class McpService extends Service {
-  static inject = ['settings'] as const
+  static inject = ['controlCenterSettings'] as const
   static optional = ['tools'] as const
 
   readonly typertRemote = bindTypertRemote(this, 'controlCenterMcp')
-  private scope: SettingsScope<McpServerSettings>
+  private scope: ControlCenterNamespaceScope<McpServerSettings>
   private runtimeStates = new Map<string, McpServerRuntimeState>()
 
   constructor(ctx: Context) {
     super(ctx, 'controlCenterMcp')
-    this.scope = ctx.settings.register(MCP_NAMESPACE, Schema.object({
+    this.scope = ctx.get('controlCenterSettings')!.register(MCP_NAMESPACE, Schema.object({
       servers: Schema.array(Schema.object({
         id: Schema.string(),
         name: Schema.string(),
@@ -186,7 +186,7 @@ export class McpService extends Service {
     else if (record.installSource === 'builtin') record.isTrusted = true
     record.installedAt = Date.now()
 
-    await this.ctx.settings.update(MCP_NAMESPACE, {
+    await this.ctx.get('controlCenterSettings')!.update(MCP_NAMESPACE, {
       servers: [...settings.servers, record]
     })
 
@@ -244,7 +244,7 @@ export class McpService extends Service {
     const updatedServers = [...settings.servers]
     updatedServers[index] = updated
 
-    await this.ctx.settings.update(MCP_NAMESPACE, {
+    await this.ctx.get('controlCenterSettings')!.update(MCP_NAMESPACE, {
       servers: updatedServers
     })
 
@@ -264,7 +264,7 @@ export class McpService extends Service {
       await this.stopServer(serverId)
     }
 
-    await this.ctx.settings.update(MCP_NAMESPACE, {
+    await this.ctx.get('controlCenterSettings')!.update(MCP_NAMESPACE, {
       servers: settings.servers.filter(s => s.id !== serverId)
     })
   }
@@ -277,7 +277,7 @@ export class McpService extends Service {
       return newOrder !== -1 ? { ...server, sortOrder: newOrder } : server
     })
 
-    await this.ctx.settings.update(MCP_NAMESPACE, {
+    await this.ctx.get('controlCenterSettings')!.update(MCP_NAMESPACE, {
       servers: updatedServers
     })
   }

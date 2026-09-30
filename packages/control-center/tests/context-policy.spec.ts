@@ -341,7 +341,7 @@ describe('ContextPolicy message window', () => {
     expect(session.appends[1]).toMatchObject({
       type: 'user/message',
       data: {
-        source: { kind: 'plugin', plugin: 'control-center-context-policy', form: 'notice' },
+        source: { kind: 'control-center-context-policy', plugin: 'control-center-context-policy', form: 'notice', summary: expect.any(String) },
       },
       options: { surfaceOp: { op: 'replace', start: 0, end: 1 }, sourceEventSeqs: [0, 1] },
     })

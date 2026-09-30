@@ -1,4 +1,5 @@
 import { Context } from '@deepseek-ai/cordis'
+import { ControlCenterSettings } from '../src/settings-store.ts'
 import { LlmAdapter, LlmRuntime, type GenerateOptions, type StreamChunk } from '@deepseek-ai/dsh-llm'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { ChannelBridgeService } from '../src/channel-bridge.ts'
@@ -97,15 +98,8 @@ describe('ChannelBridgeService reply pipe', () => {
     const streamSpy = vi.spyOn(llm, 'prepareCall')
     llm.registerAdapter(['fixture'], new ReplyAdapter('PONG'))
 
-    const settings = {
-      describe: () => ([
-        { ns: 'agent-default-model', value: { provider: 'fixture', model: 'best' }, schema: {}, revision: 1 },
-      ]),
-      register: vi.fn(() => ({ get: () => ({ instances: [
-        { id: 'tg1', type: 'telegram', name: 'TG', isActive: true, config: { bot_token: 'tok', allowed_chat_ids: ['42'] } },
-      ] }), watch: vi.fn(() => () => {}), update: vi.fn(async () => {}) })),
-    }
-    ;(ctx as unknown as { settings: unknown }).settings = settings
+    new ControlCenterSettings(ctx)
+    ctx.reflect.provide('agentDefaultModel', { currentSelection: () => ({ provider: 'fixture', model: 'best' }) })
 
     const sent: Array<{ chat_id: number; text: string }> = []
     globalThis.fetch = (async (input: string | URL, init?: { method?: string; body?: string }) => {
@@ -145,14 +139,8 @@ describe('ChannelBridgeService reply pipe', () => {
     const adapter = new RecordingAdapter()
     llm.registerAdapter(['fixture'], adapter)
 
-    const settings = {
-      describe: () => ([
-        // Default route exists but must be ignored for the bound channel.
-        { ns: 'agent-default-model', value: { provider: 'fixture', model: 'default-model' }, schema: {}, revision: 1 },
-      ]),
-      register: vi.fn(() => ({ get: () => ({ instances: [] }), watch: vi.fn(() => () => {}), update: vi.fn(async () => {}) })),
-    }
-    ;(ctx as unknown as { settings: unknown }).settings = settings
+    new ControlCenterSettings(ctx)
+    ctx.reflect.provide('agentDefaultModel', { currentSelection: () => ({ provider: 'fixture', model: 'default-model' }) })
 
     const sent: Array<{ chat_id: number; text: string }> = []
     globalThis.fetch = (async (input: string | URL, init?: { method?: string; body?: string }) => {
@@ -199,13 +187,8 @@ describe('ChannelBridgeService reply pipe', () => {
     const llm = new LlmRuntime(ctx)
     const prepareSpy = vi.spyOn(llm, 'prepareCall')
     llm.registerAdapter(['fixture'], new ReplyAdapter('PONG'))
-    const settings = {
-      describe: () => ([
-        { ns: 'agent-default-model', value: { provider: 'fixture', model: 'best' }, schema: {}, revision: 1 },
-      ]),
-      register: vi.fn(() => ({ get: () => ({ instances: [] }), watch: vi.fn(() => () => {}), update: vi.fn(async () => {}) })),
-    }
-    ;(ctx as unknown as { settings: unknown }).settings = settings
+    new ControlCenterSettings(ctx)
+    ctx.reflect.provide('agentDefaultModel', { currentSelection: () => ({ provider: 'fixture', model: 'best' }) })
 
     const sendCalls: number[] = []
     globalThis.fetch = (async (input: string | URL) => {
@@ -239,18 +222,9 @@ describe('ChannelBridgeService reply pipe', () => {
     const prepareSpy = vi.spyOn(llm, 'prepareCall')
     llm.registerAdapter(['fixture'], new ReplyAdapter('PONG'))
 
-    const settings = {
-      describe: () => ([
-        { ns: 'agent-default-model', value: { provider: 'dead', model: 'gone' }, schema: {}, revision: 1 },
-        {
-          ns: 'control-center-model-prefs',
-          value: { retryEnabled: true, retryMaxAttempts: 1, retryBackoff: false, retryFallbacks: [{ provider: 'fixture', model: 'best' }] },
-          schema: {}, revision: 2,
-        },
-      ]),
-      register: vi.fn(() => ({ get: () => ({ instances: [] }), watch: vi.fn(() => () => {}), update: vi.fn(async () => {}) })),
-    }
-    ;(ctx as unknown as { settings: unknown }).settings = settings
+    const cc = new ControlCenterSettings(ctx)
+    await cc.update('control-center-model-prefs', { retryEnabled: true, retryMaxAttempts: 1, retryBackoff: false, retryFallbacks: [{ provider: 'fixture', model: 'best' }] })
+    ctx.reflect.provide('agentDefaultModel', { currentSelection: () => ({ provider: 'dead', model: 'gone' }) })
 
     const sent: Array<{ chat_id: number; text: string }> = []
     globalThis.fetch = (async (input: string | URL, init?: { method?: string; body?: string }) => {
@@ -291,13 +265,8 @@ describe('ChannelBridgeService reply pipe', () => {
     const prepareSpy = vi.spyOn(llm, 'prepareCall')
     llm.registerAdapter(['fixture'], new ReplyAdapter('SHOULD-NOT-BE-USED'))
 
-    const settings = {
-      describe: () => ([
-        { ns: 'agent-default-model', value: { provider: 'fixture', model: 'default-model' }, schema: {}, revision: 1 },
-      ]),
-      register: vi.fn(() => ({ get: () => ({ instances: [] }), watch: vi.fn(() => () => {}), update: vi.fn(async () => {}) })),
-    }
-    ;(ctx as unknown as { settings: unknown }).settings = settings
+    new ControlCenterSettings(ctx)
+    ctx.reflect.provide('agentDefaultModel', { currentSelection: () => ({ provider: 'fixture', model: 'default-model' }) })
 
     selectRoutes.length = 0
     const { controller, calls } = fakeSessionController({ reply: { text: 'AGENT REPLY' } })
@@ -348,13 +317,8 @@ describe('ChannelBridgeService reply pipe', () => {
     const prepareSpy = vi.spyOn(llm, 'prepareCall')
     llm.registerAdapter(['fixture'], new ReplyAdapter('FALLBACK'))
 
-    const settings = {
-      describe: () => ([
-        { ns: 'agent-default-model', value: { provider: 'fixture', model: 'best' }, schema: {}, revision: 1 },
-      ]),
-      register: vi.fn(() => ({ get: () => ({ instances: [] }), watch: vi.fn(() => () => {}), update: vi.fn(async () => {}) })),
-    }
-    ;(ctx as unknown as { settings: unknown }).settings = settings
+    new ControlCenterSettings(ctx)
+    ctx.reflect.provide('agentDefaultModel', { currentSelection: () => ({ provider: 'fixture', model: 'best' }) })
 
     const { controller } = fakeSessionController({ failCreate: 'session store down' })
     const realGet = ctx.get.bind(ctx)
@@ -400,20 +364,13 @@ describe('ChannelBridgeService reply pipe', () => {
     const llm = new LlmRuntime(ctx)
     llm.registerAdapter(['fixture'], new ReplyAdapter('UNUSED'))
 
-    let storedInstances: unknown[] = []
+    const cc = new ControlCenterSettings(ctx)
     const updates: Array<{ instances?: unknown[] }> = []
-    const settings = {
-      describe: () => ([]),
-      register: vi.fn(() => ({
-        get: () => ({ instances: storedInstances }),
-        watch: vi.fn(() => () => {}),
-        update: async (patch: { instances?: unknown[] }) => {
-          updates.push(patch)
-          if (Array.isArray(patch.instances)) storedInstances = patch.instances
-        },
-      })),
-    }
-    ;(ctx as unknown as { settings: unknown }).settings = settings
+    const originalUpdate = cc.update.bind(cc)
+    vi.spyOn(cc, 'update').mockImplementation(async (ns: string, patch: object) => {
+      if (String(ns) === 'control-center-channels') updates.push(patch as { instances?: unknown[] })
+      await originalUpdate(ns, patch)
+    })
 
     const { controller } = fakeSessionController({ create: async () => ({ sessionId: 'sess-persist' }), reply: { text: 'DONE' } })
     const realGet = ctx.get.bind(ctx)
@@ -458,11 +415,8 @@ describe('ChannelBridgeService reply pipe', () => {
     const llm = new LlmRuntime(ctx)
     llm.registerAdapter(['fixture'], new ReplyAdapter('UNUSED'))
 
-    const settings = {
-      describe: () => ([]),
-      register: vi.fn(() => ({ get: () => ({ instances: [] }), watch: vi.fn(() => () => {}), update: vi.fn(async () => {}) })),
-    }
-    ;(ctx as unknown as { settings: unknown }).settings = settings
+    new ControlCenterSettings(ctx)
+    ctx.reflect.provide('agentDefaultModel', { currentSelection: () => ({ provider: 'fixture', model: 'default-model' }) })
 
     const { controller, calls } = fakeSessionController({ reply: { text: 'RESUMED', turn: 3 } })
     const realGet = ctx.get.bind(ctx)

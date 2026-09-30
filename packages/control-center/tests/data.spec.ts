@@ -2,24 +2,16 @@ import { mkdtemp, readFile, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { Context } from '@deepseek-ai/cordis'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { DataService, DATA_NAMESPACES } from '../src/data.ts'
+import { ControlCenterSettings } from '../src/settings-store.ts'
 
 describe('DataService', () => {
   function setup() {
-    const stored = new Map<string, unknown>()
-    const updated: string[] = []
     const ctx = new Context()
-    ;(ctx as unknown as { settings: unknown }).settings = {
-      get: (ns: string) => stored.get(String(ns)),
-      update: async (ns: string, value: object) => {
-        updated.push(String(ns))
-        stored.set(String(ns), structuredClone(value))
-      },
-      register: () => {},
-    }
+    const cc = new ControlCenterSettings(ctx)
     const service = new DataService(ctx)
-    return { service, stored, updated }
+    return { service, cc }
   }
 
   it('exports every Control Center namespace, including prefs, channels, and stash', async () => {
@@ -52,7 +44,13 @@ describe('DataService', () => {
   })
 
   it('imports only the namespaces a snapshot carries and clears every namespace', async () => {
-    const { service, updated } = setup()
+    const { service, cc } = setup()
+    const updated: string[] = []
+    const originalUpdate = cc.update.bind(cc)
+    vi.spyOn(cc, 'update').mockImplementation(async (ns: string, patch: Record<string, unknown>) => {
+      updated.push(String(ns))
+      await originalUpdate(ns, patch)
+    })
     await service.importControlCenter({
       version: 1,
       exportedAt: '2026-08-23T00:00:00.000Z',

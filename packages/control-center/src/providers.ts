@@ -6,7 +6,7 @@ import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
 import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
 import { credentialRef, type CredentialProvider } from '@deepseek-ai/dsh-credentials'
-import type { SettingsScope } from '@deepseek-ai/dsh-settings'
+import type { ControlCenterNamespaceScope } from './settings-store.ts'
 import { settingsNamespace } from './settings-ns.ts'
 import Schema from '@deepseek-ai/schemastery'
 import type {
@@ -70,17 +70,17 @@ export interface ProvidersServiceConfig {
 }
 
 export class ProvidersService extends Service {
-  static inject = ['settings', 'credentials'] as const
+  static inject = ['controlCenterSettings', 'credentials'] as const
 
   readonly typertRemote = bindTypertRemote(this, 'controlCenterProviders')
-  private scope: SettingsScope<ProvidersSettings>
+  private scope: ControlCenterNamespaceScope<ProvidersSettings>
   /** Injected at activation by the static inject list; lazily resolved as a
    *  fallback so methods never touch an unresolved service. */
   private credentials: CredentialProvider | undefined
 
   constructor(ctx: Context, _config?: ProvidersServiceConfig) {
     super(ctx, 'controlCenterProviders')
-    this.scope = ctx.settings.register(PROVIDERS_NAMESPACE, Schema.object({
+    this.scope = ctx.get('controlCenterSettings')!.register(PROVIDERS_NAMESPACE, Schema.object({
       providers: Schema.array(Schema.object({
         id: Schema.string(),
         name: Schema.string(),
@@ -145,7 +145,7 @@ export class ProvidersService extends Service {
       ...(dto.customHeaders !== undefined ? { customHeaders: dto.customHeaders } : {}),
       models: [], createdAt: now, updatedAt: now
     }
-    await this.ctx.settings.update(PROVIDERS_NAMESPACE, {
+    await this.ctx.get('controlCenterSettings')!.update(PROVIDERS_NAMESPACE, {
       providers: [...settings.providers, record]
     })
     return this.recordToView(record, !!dto.apiKey)
@@ -174,7 +174,7 @@ export class ProvidersService extends Service {
     }
     const newProviders = [...settings.providers]
     newProviders[index] = updated
-    await this.ctx.settings.update(PROVIDERS_NAMESPACE, { providers: newProviders })
+    await this.ctx.get('controlCenterSettings')!.update(PROVIDERS_NAMESPACE, { providers: newProviders })
     const hasApiKey = updated.apiKeyRef
       ? (await this.creds().describe(credentialRef(updated.apiKeyRef))).configured
       : false
@@ -188,7 +188,7 @@ export class ProvidersService extends Service {
     if (record.apiKeyRef) {
       await this.creds().unset(credentialRef(record.apiKeyRef))
     }
-    await this.ctx.settings.update(PROVIDERS_NAMESPACE, {
+    await this.ctx.get('controlCenterSettings')!.update(PROVIDERS_NAMESPACE, {
       providers: settings.providers.filter(p => p.id !== providerId)
     })
   }
@@ -259,7 +259,7 @@ export class ProvidersService extends Service {
         const updated = [...settings.providers]
         const existing = settings.providers[index]!
         updated[index] = { ...existing, lastTestedAt: testedAt }
-        await this.ctx.settings.update(PROVIDERS_NAMESPACE, { providers: updated })
+        await this.ctx.get('controlCenterSettings')!.update(PROVIDERS_NAMESPACE, { providers: updated })
       }
 
       return { success: true, latencyMs, testedAt }
@@ -373,7 +373,7 @@ export class ProvidersService extends Service {
         const updated = [...settings.providers]
         const existing = settings.providers[index]!
         updated[index] = { ...existing, models: merged, lastDiscoveredAt: discoveredAt }
-        await this.ctx.settings.update(PROVIDERS_NAMESPACE, { providers: updated })
+        await this.ctx.get('controlCenterSettings')!.update(PROVIDERS_NAMESPACE, { providers: updated })
       }
 
       return {
@@ -435,7 +435,7 @@ export class ProvidersService extends Service {
     const updatedProviders = [...settings.providers]
     updatedProviders[providerIndex] = { ...provider, models: updatedModels, updatedAt: new Date().toISOString() }
 
-    await this.ctx.settings.update(PROVIDERS_NAMESPACE, { providers: updatedProviders })
+    await this.ctx.get('controlCenterSettings')!.update(PROVIDERS_NAMESPACE, { providers: updatedProviders })
 
     return this.modelToView(updatedModel, providerId)
   }
