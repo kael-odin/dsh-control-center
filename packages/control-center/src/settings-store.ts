@@ -22,7 +22,35 @@ import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
 import { defineDomain, domainTable } from '@deepseek-ai/dsh-storage-domain'
 import type { Domain, DomainFacility, KvTable } from '@deepseek-ai/dsh-storage-domain'
+import { markRemoteMethods } from './knowledge/remote-methods.ts'
 import { z } from 'zod'
+
+/** Wire view of one namespace as the client half consumes it. */
+export interface SettingsWireView {
+  ns: string
+  value: Record<string, unknown>
+  revision: number
+}
+
+/** Wire describe value: namespace roster plus provider writability. */
+export interface SettingsWireDescribeValue {
+  writable: boolean
+  namespaces: SettingsWireView[]
+}
+
+export type SettingsWireFailure = { code: string; message: string; details: object }
+
+export type SettingsWireDescribeResult =
+  | { ok: true; value: SettingsWireDescribeValue }
+  | { ok: false; error: SettingsWireFailure }
+
+export type SettingsWireOp =
+  | { op: 'set'; path: readonly string[]; value: unknown }
+  | { op: 'unset'; path: readonly string[] }
+
+export type SettingsWireWriteResult =
+  | { ok: true; value: SettingsWireView }
+  | { ok: false; error: SettingsWireFailure }
 
 /** One persisted namespace row. */
 const entrySchema = z.object({
@@ -58,6 +86,18 @@ declare module '@deepseek-ai/cordis' {
   }
 }
 
+declare module '@deepseek-ai/dsh-typert-protocol' {
+  interface TypertRemoteNamespaceMap {
+    controlCenterSettings: {
+      describe(): Promise<SettingsWireDescribeResult>
+      mutate(ns: string, ops: ReadonlyArray<SettingsWireOp>, expectedRevision: number | undefined): Promise<SettingsWireWriteResult>
+    }
+  }
+}
+
+/** The face the browser half injects (wire describe + mutate only). */
+export type ControlCenterSettingsRemote = Pick<ControlCenterSettings, 'describe' | 'mutate'>
+
 /** Any schemastery schema; `never` param keeps every concrete schema assignable. */
 type SchemaLike = (value: never) => unknown
 
@@ -73,6 +113,10 @@ export class ControlCenterSettings extends Service {
 
   constructor(ctx: Context) {
     super(ctx, 'controlCenterSettings')
+    markRemoteMethods(this, [
+      ['describe', 'describe'],
+      ['mutate', 'mutate'],
+    ])
     void this.open()
   }
 
@@ -117,8 +161,8 @@ export class ControlCenterSettings extends Service {
     return this.getValue<T>(ns)
   }
 
-  /** All known namespaces as { ns, value } views (stored + pending + registered-empty). */
-  describe(): Array<{ ns: string; value: unknown }> {
+  /** All known namespaces as { ns, value } rows (stored + pending + registered-empty). */
+  describeRows(): Array<{ ns: string; value: unknown }> {
     const out: Array<{ ns: string; value: unknown }> = []
     const seen = new Set<string>()
     const push = (ns: string, value: unknown): void => {
@@ -146,6 +190,59 @@ export class ControlCenterSettings extends Service {
       }
     }
     return (raw === undefined ? {} as T : raw) as T
+  }
+
+  /** Wire describe: the namespace roster the browser half reads. */
+  async describe(): Promise<SettingsWireDescribeResult> {
+    const namespaces = this.describeRows().map(({ ns }) => {
+      const row = this.table?.get(ns) ?? this.pending.get(ns)
+      return { ns, value: this.getValue(ns) as Record<string, unknown>, revision: row?.revision ?? 0 }
+    })
+    return { ok: true, value: { writable: true, namespaces } }
+  }
+
+  /**
+   * Wire mutate: path-addressed edits against one namespace, resolved against
+   * the stored revision (conflict refuses stale writers), answering with the
+   * new namespace view — the same contract the removed settings wire had.
+   */
+  async mutate(ns: string, ops: readonly SettingsWireOp[], expectedRevision: number | undefined): Promise<SettingsWireWriteResult> {
+    const row = this.table?.get(ns) ?? this.pending.get(ns)
+    if (expectedRevision !== undefined && (row?.revision ?? 0) !== expectedRevision) {
+      return {
+        ok: false,
+        error: {
+          code: 'SETTINGS_CONFLICT',
+          message: `namespace "${ns}" changed since it was read (expected revision ${expectedRevision}, current ${row?.revision ?? 0})`,
+          details: { expected: expectedRevision, actual: row?.revision ?? 0 },
+        },
+      }
+    }
+    const current = { ...((row !== undefined ? row.value : this.bases.get(ns) ?? {}) as Record<string, unknown>) }
+    for (const op of ops) {
+      if (op.path.length === 0) continue
+      const segments = [...op.path]
+      const leaf = segments.pop()!
+      let cursor: Record<string, unknown> = current
+      for (const key of segments) {
+        let next = cursor[key]
+        if (typeof next !== 'object' || next === null) {
+          if (op.op === 'unset') { cursor[key] = undefined; break }
+          next = {}
+          cursor[key] = next
+        }
+        cursor = next as Record<string, unknown>
+      }
+      if (op.op === 'set') cursor[leaf] = op.value
+      else delete cursor[leaf]
+    }
+    const entry: ControlCenterSettingsEntry = { revision: (row?.revision ?? 0) + 1, value: current }
+    if (this.table !== undefined) await this.table.put(ns, entry)
+    else this.pending.set(ns, entry)
+    for (const listener of this.listeners.get(ns) ?? []) {
+      try { listener() } catch { /* listener errors never break the write */ }
+    }
+    return { ok: true, value: { ns, value: current, revision: entry.revision } }
   }
 
   /**

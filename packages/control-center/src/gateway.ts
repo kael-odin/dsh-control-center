@@ -322,7 +322,7 @@ export class GatewayService extends Service {
   }
 
   private async handleModels(res: import('node:http').ServerResponse): Promise<void> {
-    const described = this.ctx.get('controlCenterSettings')!.describe()
+    const described = this.ctx.get('controlCenterSettings')!.describeRows()
     const providers = described.filter(entry => String(entry.ns).startsWith('control-center-providers'))
     const models: Array<{ id: string; object: string }> = []
     for (const entry of providers) {

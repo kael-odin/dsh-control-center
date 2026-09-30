@@ -1,6 +1,6 @@
 /** Welcome-notice state, durable when the browser may use Host settings. */
 
-import type { ClientRemote, SettingsNamespaceView } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ControlCenterSettingsRemote } from '../settings-store.ts'
 import type { SnapshotStore } from '@deepseek-ai/dsh-client-store'
 import { createSnapshotStore } from '@deepseek-ai/dsh-client-store'
 import {
@@ -18,7 +18,7 @@ function messageOf(error: unknown): string {
   return error instanceof Error ? error.message : String(error)
 }
 
-function acknowledgementOf(view: SettingsNamespaceView): string | undefined {
+function acknowledgementOf(view: { value: unknown }): string | undefined {
   if (typeof view.value !== 'object' || view.value === null) return undefined
   const value = (view.value as Record<string, unknown>)[WELCOME_NOTICE_ACK_FIELD]
   return typeof value === 'string' ? value : undefined
@@ -41,7 +41,7 @@ export class WelcomeNoticeStore {
    * @param persistence - remote browsers use memory because settings is loopback-only.
    */
   constructor(
-    private readonly api: Pick<ClientRemote, 'settings'>,
+    private readonly settings: ControlCenterSettingsRemote,
     private persistence: 'host' | 'memory' = 'host',
   ) {}
 
@@ -55,10 +55,10 @@ export class WelcomeNoticeStore {
     this.store.update((state) => { state.status = 'loading'; state.error = null })
     try {
       // Guard: settings API must be available
-      if (this.api.settings === undefined) {
+      if (this.settings === undefined) {
         throw new Error('settings API not initialized')
       }
-      const response = await this.api.settings.describe()
+      const response = await this.settings.describe()
       if (!response.ok) throw new Error(response.error.message)
       const view = response.value.namespaces.find(
         candidate => candidate.ns === WELCOME_NOTICE_SETTINGS_NAMESPACE,
@@ -97,11 +97,11 @@ export class WelcomeNoticeStore {
     this.store.update((state) => { state.status = 'saving'; state.error = null })
     try {
       // Guard: settings API must be available
-      if (this.api.settings === undefined) {
+      if (this.settings === undefined) {
         throw new Error('settings API not initialized')
       }
       // First verify the namespace is available before attempting mutation
-      const describeResponse = await this.api.settings.describe()
+      const describeResponse = await this.settings.describe()
       if (!describeResponse.ok) throw new Error(describeResponse.error.message)
       const view = describeResponse.value.namespaces.find(
         candidate => candidate.ns === WELCOME_NOTICE_SETTINGS_NAMESPACE,
@@ -109,7 +109,7 @@ export class WelcomeNoticeStore {
       if (view === undefined) throw new Error('welcome acknowledgement settings are unavailable')
 
       // Now attempt the mutation
-      const response = await this.api.settings.mutate(WELCOME_NOTICE_SETTINGS_NAMESPACE, [{ op: 'set', path: [WELCOME_NOTICE_ACK_FIELD], value: WELCOME_NOTICE_VERSION }], view.revision)
+      const response = await this.settings.mutate(WELCOME_NOTICE_SETTINGS_NAMESPACE, [{ op: 'set', path: [WELCOME_NOTICE_ACK_FIELD], value: WELCOME_NOTICE_VERSION }], view.revision)
       if (!response.ok) throw new Error(response.error.message)
       if (generation === this.generation) {
         this.failureCount = 0

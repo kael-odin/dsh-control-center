@@ -1,8 +1,8 @@
 /** General settings store for developer mode and Cherry-compatible context preferences. */
 
-import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
 import type { SnapshotStore } from '@deepseek-ai/dsh-client-store'
 import { createSnapshotStore } from '@deepseek-ai/dsh-client-store'
+import type { ControlCenterSettingsRemote } from '../settings-store.ts'
 import type { SettingsSchemaOperations } from './schema-operations.ts'
 import { messageOf } from './store.ts'
 
@@ -78,7 +78,7 @@ export class GeneralSettingsStore {
   private generation = 0
 
   constructor(
-    private readonly api: Pick<ClientRemote, 'settings'>,
+    private readonly settings: ControlCenterSettingsRemote,
     private readonly schema: SettingsSchemaOperations,
   ) {}
 
@@ -86,7 +86,7 @@ export class GeneralSettingsStore {
     const generation = ++this.generation
     this.store.update((state) => { state.status = 'loading'; state.error = null })
     try {
-      const response = await this.api.settings.describe()
+      const response = await this.settings.describe()
       const described = response
       if (!described.ok) throw new Error(described.error.message)
       if (generation !== this.generation) return
@@ -109,7 +109,7 @@ export class GeneralSettingsStore {
     const snapshot = this.store.getSnapshot()
     if (snapshot.revision === null || !snapshot.available) return false
     this.store.update((state) => { state.writeError = null })
-    const response = await this.api.settings.mutate(GENERAL_NAMESPACE, [{ op: 'set', path: [key], value }], snapshot.revision)
+    const response = await this.settings.mutate(GENERAL_NAMESPACE, [{ op: 'set', path: [key], value }], snapshot.revision)
     const result = response
     if (!result.ok) {
       this.store.update((state) => { state.writeError = result.error.message })

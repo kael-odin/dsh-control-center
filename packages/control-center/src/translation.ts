@@ -327,7 +327,7 @@ ${sample}` }],
    * settings edit reaches the next job without a restart.
    */
   private retryPolicy(): TranslationRetryPolicy {
-    return readHostRetryPolicy(this.ctx.settings)
+    return readHostRetryPolicy(this.ctx.get('controlCenterSettings'))
   }
 
   private async run(job: MutableJob, request: TranslationRequest): Promise<void> {

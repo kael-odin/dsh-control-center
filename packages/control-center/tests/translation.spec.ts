@@ -1,4 +1,5 @@
 import { Context } from '@deepseek-ai/cordis'
+import { ControlCenterSettings } from '../src/settings-store.ts'
 import { describe, expect, it, vi } from 'vitest'
 import { LlmAdapter, LlmRuntime, type GenerateOptions, type StreamChunk } from '@deepseek-ai/dsh-llm'
 import { TranslationService } from '../src/translation.ts'
@@ -32,11 +33,10 @@ class FailingAdapter extends LlmAdapter {
   }
 }
 
-/** Attach the shared model-prefs namespace the way the settings provider does. */
+/** Attach the shared model-prefs namespace to the plugin's own settings store. */
 function installPrefs(ctx: Context, value: Record<string, unknown>): void {
-  ;(ctx as unknown as { settings: unknown }).settings = {
-    describe: () => [{ ns: 'control-center-model-prefs', value }],
-  }
+  const cc = new ControlCenterSettings(ctx)
+  void cc.update('control-center-model-prefs', value)
 }
 
 async function setup() {

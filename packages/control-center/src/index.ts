@@ -47,6 +47,7 @@ import { AgentPresetsService } from './agent-presets.ts'
 import agentPresetsRemote from './agent-presets-remote-client.ts'
 import { installContextPolicy, type ContextPolicySettings } from './context-policy.ts'
 import { ControlCenterSettings } from './settings-store.ts'
+import settingsRemote from './settings-remote-client.ts'
 
 const ONBOARDING_SETTINGS_NAMESPACE = 'ui-onboarding'
 const NOTIFICATION_SETTINGS_NAMESPACE = 'control-center-notifications'
@@ -244,7 +245,8 @@ export function apply(ctx: Context): void {
         ...compatRemote.descriptors,
         ...notesRemote.descriptors,
         ...gatewayRemote.descriptors,
-        ...agentPresetsRemote.descriptors
+        ...agentPresetsRemote.descriptors,
+        ...settingsRemote.descriptors
       ]
     }
   ]

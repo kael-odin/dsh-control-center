@@ -28,11 +28,12 @@ function source(initial: SessionListState) {
 
 function api(conversation: boolean) {
   return {
-    settings: {
-      describe: vi.fn(async () => ({
-        ok: true, value: { namespaces: [{ ns: 'control-center-notifications', value: { conversation }, revision: 1 }] },
-      })),
-    },
+    describe: vi.fn(async () => ({
+      ok: true, value: {
+        writable: true,
+        namespaces: [{ ns: 'control-center-notifications', value: { conversation }, revision: 1 }],
+      },
+    })),
   } as never
 }
 

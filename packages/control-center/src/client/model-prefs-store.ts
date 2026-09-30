@@ -15,7 +15,8 @@
  * sessions, which control-center does not own.
  */
 
-import type { ClientRemote, ModelProviderGroup,SettingsPathOpView } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ClientRemote, ModelProviderGroup } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ControlCenterSettingsRemote } from '../settings-store.ts'
 import type { SnapshotStore } from '@deepseek-ai/dsh-client-store'
 import { createSnapshotStore } from '@deepseek-ai/dsh-client-store'
 import type { SettingsSchemaOperations } from './schema-operations.ts'
@@ -118,7 +119,8 @@ export class ModelPrefsStore {
   private generation = 0
 
   constructor(
-    private readonly api: Pick<ClientRemote, 'settings' | 'session'>,
+    private readonly settings: ControlCenterSettingsRemote,
+    private readonly api: Pick<ClientRemote, 'session'>,
     private readonly schema: SettingsSchemaOperations,
   ) {}
 
@@ -127,7 +129,7 @@ export class ModelPrefsStore {
     this.store.update((state) => { state.status = 'loading'; state.error = null })
     try {
       const [settingsResponse, modelsResponse] = await Promise.all([
-        this.api.settings.describe(),
+        this.settings.describe(),
         this.api.session.modelCatalog(),
       ])
       const settings = settingsResponse
@@ -195,7 +197,7 @@ export class ModelPrefsStore {
     const snapshot = this.store.getSnapshot()
     if (snapshot.revision === null || !snapshot.available) return false
     this.store.update((state) => { state.writeError = null })
-    const response = await this.api.settings.mutate(MODEL_PREFS_NAMESPACE, [...ops] as unknown as SettingsPathOpView[], snapshot.revision)
+    const response = await this.settings.mutate(MODEL_PREFS_NAMESPACE, [...ops] as ReadonlyArray<{ op: 'set'; path: string[]; value: unknown }>, snapshot.revision)
     if (!response.ok) {
       const failure = response
       this.store.update((state) => {

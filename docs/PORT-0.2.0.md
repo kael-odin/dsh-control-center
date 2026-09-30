@@ -109,3 +109,21 @@ Plus/Trash/Chevron×3/Check/Loading/Pause/Send/Globe/Data/Sparkle/Settings，约
   会被截断。
 - 下一步：P1 客户端换源（controlCenterSettings typert remote + 7 个客户端存储 +
   SettingsScopeBinder 重接）。
+- **2026-09-30 · P1 完成（客户端换源）**：host 侧 ControlCenterSettings 新增 wire 方法
+  `describe()`（{writable, namespaces:[{ns,value,revision}]}，含已注册空命名空间）+
+  `mutate(ns, ops, expectedRevision)`（path set/unset + SETTINGS_CONFLICT revision 守卫）；
+  markRemoteMethods + `settings-remote-client.ts` 描述子 + TypertRemoteNamespaceMap 类型合并。
+  客户端 7 处换源：general-store / model-prefs-store / channels-store / welcome-store /
+  notification-runtime / NotificationSection / AppearanceSection（appearance 命名空间走新
+  face，ui-theme 留 api.settings）。client/index 建 lazy face（mount 前抛错的代理）+
+  `remote.controlCenterSettings` 注入。SettingsScopeBinder（0.2.0 已删）→
+  SettingsDescribeFace 镜像（store.ts 本就吃 Face，settingsMirror 直传）。
+  **模型路由原生化**：translation.ts 的 retry 源 + gateway/models + channel-bridge
+  defaultModelRoute 全部改走新接缝（describeRows / agentDefaultModel.currentSelection）。
+  5 个客户端 spec 的假 api 换成真 face 形状。验收：vitest 289/289、lint 0、
+  tsc 非 P2/P3 错误 = 0（剩 35 图标 + 5 会话列表）。
+  教训：①`open(p,'w')` 不写内容会截断文件（model-prefs-store 曾被清空，git checkout 恢复
+  后重放补丁）②Pick<ClientRemote,'session'> 是带 .session 的包装，传参给专用 face 参数时
+  传包装不传内层 ③改名 sync describe→describeRows 时全链调用点要一次扫净
+  （retry-config/translation/gateway 各漏一处即成隐形炸弹）。
+- 下一步：P2 图标自持（cc-icons.tsx ~20 枚 SVG，13 文件替换）。

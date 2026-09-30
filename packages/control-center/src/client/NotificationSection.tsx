@@ -4,7 +4,7 @@
  * storage so they follow the installed plugin across clients.
  */
 import { useEffect, useRef, useState } from 'react'
-import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ControlCenterSettingsRemote } from '../settings-store.ts'
 import type { InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import { HelpTooltip } from './panel-ui.tsx'
 import { NOTIFICATION_SETTINGS_NAMESPACE } from './notification-runtime.ts'
@@ -31,7 +31,7 @@ const DEFAULT_PREFS: NotificationPrefs = {
 }
 
 export interface NotificationSectionInjected {
-  api: ClientRemote
+  settings: ControlCenterSettingsRemote
 }
 
 export type NotificationSectionProps = PropsRuntime<'settings.section'> & InjectFace<NotificationSectionInjected>
@@ -47,7 +47,7 @@ function notificationPrefs(value: unknown): NotificationPrefs {
   }
 }
 
-export function NotificationSection({ api }: NotificationSectionProps) {
+export function NotificationSection({ settings }: NotificationSectionProps) {
   const [prefs, setPrefs] = useState<NotificationPrefs>(DEFAULT_PREFS)
   const [revision, setRevision] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
@@ -68,7 +68,7 @@ export function NotificationSection({ api }: NotificationSectionProps) {
   useEffect(() => {
     let active = true
     setLoading(true)
-    void api.settings.describe().then(response => {
+    void settings.describe().then(response => {
       if (!active) return
       if (!response.ok) {
         setError('通知偏好加载失败，请重试。')
@@ -94,7 +94,7 @@ export function NotificationSection({ api }: NotificationSectionProps) {
       setLoading(false)
     })
     return () => { active = false }
-  }, [api])
+  }, [settings])
 
   const set = (key: NotificationKey) => (next: boolean): void => {
     const previous = prefsRef.current[key]
@@ -104,7 +104,7 @@ export function NotificationSection({ api }: NotificationSectionProps) {
     pendingWritesRef.current += 1
     setLoading(true)
     writeQueueRef.current = writeQueueRef.current.then(async () => {
-      const response = await api.settings.mutate(NOTIFICATION_NS, [{ op: 'set', path: [key], value: next }], revisionRef.current!)
+      const response = await settings.mutate(NOTIFICATION_NS, [{ op: 'set', path: [key], value: next }], revisionRef.current!)
       if (!response.ok) {
         prefsRef.current = { ...prefsRef.current, [key]: previous }
         setPrefs(prefsRef.current)

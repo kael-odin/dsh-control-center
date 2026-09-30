@@ -1,5 +1,5 @@
 /** Deliver Cherry-compatible conversation-complete notifications from DSH session state. */
-import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ControlCenterSettingsRemote } from '../settings-store.ts'
 import type { SessionListState } from '@deepseek-ai/dsh-api-session-controller/client'
 
 export const NOTIFICATION_SETTINGS_NAMESPACE = 'control-center-notifications'
@@ -30,12 +30,12 @@ export class ConversationNotificationRuntime {
   private stop: (() => void) | undefined
 
   constructor(
-    private readonly api: ClientRemote,
+    private readonly settings: ControlCenterSettingsRemote,
     private readonly sessions: SnapshotSource<SessionListState>,
   ) {}
 
   async refreshPreferences(): Promise<void> {
-    const response = await this.api.settings.describe()
+    const response = await this.settings.describe()
     if (!response.ok) return
     const namespace = response.value.namespaces.find(view => view.ns === NOTIFICATION_SETTINGS_NAMESPACE)
     const value = namespace?.value
