@@ -21,7 +21,6 @@ const FILES = [
   'package.json',
   'packages/control-center/package.json',
   'packages/bundle/package.json',
-  'apps/desktop/package.json',
   'pnpm-workspace.yaml',
 ]
 

@@ -6,7 +6,7 @@ import { DatabaseSync } from 'node:sqlite'
 import { join, relative } from 'node:path'
 import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
-import type { SettingsProvider } from '@deepseek-ai/dsh-settings'
+import type { SettingsForms } from '@deepseek-ai/dsh-settings'
 import type { CredentialProvider } from '@deepseek-ai/dsh-credentials'
 import type { LlmRuntime } from '@deepseek-ai/dsh-llm'
 import type { ContentBlock } from '@deepseek-ai/dsh-llm/types'
@@ -146,7 +146,7 @@ export class KnowledgeService extends Service {
   private readonly db: DatabaseSync
   private readonly home: string
   private readonly root: string
-  private readonly settings: SettingsProvider
+  private readonly settings: SettingsForms
   private credentials: CredentialProvider | undefined
   private readonly llm: LlmRuntime
   private readonly disposeTools: Array<() => void> = []
@@ -155,7 +155,7 @@ export class KnowledgeService extends Service {
     super(ctx, 'controlCenterKnowledge')
     this.home = resolveDshHome(options.dshHome)
     this.root = hostedDir(this.home)
-    this.settings = this.ctx.get('settings') as SettingsProvider
+    this.settings = this.ctx.get('settings') as SettingsForms
     this.llm = this.ctx.get('llm') as LlmRuntime
     mkdirSync(this.root, { recursive: true })
     this.db = new DatabaseSync(join(this.root, 'knowledge.sqlite'))

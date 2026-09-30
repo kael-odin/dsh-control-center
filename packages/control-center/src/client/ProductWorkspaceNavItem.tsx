@@ -1,6 +1,6 @@
 import type { PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import type {} from '@deepseek-ai/dsh-client-ui-layout/client'
-import { IconDataOutline16, IconGlobeOutline14, IconSparkle16 } from '@deepseek-ai/dsh-client-ui-primitives'
+import { IconDataOutline16, IconGlobeOutline14, IconSparkle16 } from './cc-icons.tsx'
 import type { ProductWorkspaceId } from './product-workspace-contract.ts'
 import css from './ProductWorkspaceNavItem.module.css'
 

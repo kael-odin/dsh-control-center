@@ -46,6 +46,8 @@ import { localModelsRemote, updateRemote, compatRemote } from './local-models-re
 import { AgentPresetsService } from './agent-presets.ts'
 import agentPresetsRemote from './agent-presets-remote-client.ts'
 import { installContextPolicy, type ContextPolicySettings } from './context-policy.ts'
+import { ControlCenterSettings } from './settings-store.ts'
+import settingsRemote from './settings-remote-client.ts'
 
 const ONBOARDING_SETTINGS_NAMESPACE = 'ui-onboarding'
 const NOTIFICATION_SETTINGS_NAMESPACE = 'control-center-notifications'
@@ -170,6 +172,9 @@ export const inject = ['typert', 'settings']
 export function apply(ctx: Context): void {
   assertCompatibleDsh()
   installLogRing(ctx)
+  // Self-owned namespace store (0.2.0 removed the settings API) — must mount
+  // before any service constructor resolves it via its inject list.
+  const cc = new ControlCenterSettings(ctx)
   new TranslationService(ctx)
   new PaintingService(ctx)
   new KnowledgeService(ctx)
@@ -193,15 +198,15 @@ export function apply(ctx: Context): void {
   new GatewayService(ctx)
   // Notes tree metadata (starred flags) — registered so the service's
   // settings.update has a schema to merge into.
-  ctx.settings.register(settingsNamespace('control-center-notes'), z.object({
+  cc.register(settingsNamespace('control-center-notes'), z.object({
     starred: z.array(z.string()).default([]),
   }))
   // Gateway config (port + API key) shared by the runtime and the settings page.
-  ctx.settings.register(settingsNamespace('control-center-gateway'), z.object({
+  cc.register(settingsNamespace('control-center-gateway'), z.object({
     port: z.number().step(1).min(1).max(65535).default(23333),
     apiKey: z.string().default(''),
   }))
-  const generalScope = ctx.settings.register(
+  const generalScope = cc.register(
     GENERAL_NAMESPACE_SETTINGS,
     GENERAL_SCHEMA,
   )
@@ -240,40 +245,41 @@ export function apply(ctx: Context): void {
         ...compatRemote.descriptors,
         ...notesRemote.descriptors,
         ...gatewayRemote.descriptors,
-        ...agentPresetsRemote.descriptors
+        ...agentPresetsRemote.descriptors,
+        ...settingsRemote.descriptors
       ]
     }
   ]
   for (const contribution of contributions) ctx.typert.register(contribution)
-  ctx.settings.register(
+  cc.register(
     settingsNamespace(ONBOARDING_SETTINGS_NAMESPACE),
     OnboardingSettingsSchema,
   )
-  ctx.settings.register(
+  cc.register(
     settingsNamespace(NOTIFICATION_SETTINGS_NAMESPACE),
     NotificationSettingsSchema,
   )
-  ctx.settings.register(
+  cc.register(
     settingsNamespace(APPEARANCE_SETTINGS_NAMESPACE),
     AppearanceSettingsSchema,
   )
-  ctx.settings.register(
+  cc.register(
     PROVIDER_STASH_NAMESPACE,
     PROVIDER_STASH_SCHEMA,
   )
-  ctx.settings.register(
+  cc.register(
     MODEL_PREFS_NAMESPACE_SETTINGS,
     MODEL_PREFS_SCHEMA,
   )
-  ctx.settings.register(
+  cc.register(
     COMPOSER_NAMESPACE_SETTINGS,
     COMPOSER_SCHEMA,
   )
-  ctx.settings.register(
+  cc.register(
     KNOWLEDGE_NAMESPACE_SETTINGS,
     KNOWLEDGE_SCHEMA,
   )
-  ctx.settings.register(
+  cc.register(
     API_KEYS_NAMESPACE_SETTINGS,
     API_KEYS_SCHEMA,
   )

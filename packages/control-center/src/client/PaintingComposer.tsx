@@ -5,7 +5,7 @@
  */
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { IconChevronDownOutline14, IconPauseOutline16, IconPlusOutline16, IconSendOutline14 } from '@deepseek-ai/dsh-client-ui-primitives'
+import { IconChevronDownOutline14, IconPauseOutline16, IconPlusOutline16, IconSendOutline14 } from './cc-icons.tsx'
 
 import css from './PaintingWorkspace.module.css'
 import { IconMoreHorizontal, IconPenLine, IconPlus, IconTrash2, IconX, IconZap } from './cherry-icons.tsx'

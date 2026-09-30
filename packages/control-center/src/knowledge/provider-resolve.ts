@@ -1,5 +1,5 @@
 /** Resolve a configured DSH provider's endpoint and credential through the same authority the Models page reads. */
-import type { SettingsProvider } from '@deepseek-ai/dsh-settings'
+import type { SettingsForms } from '@deepseek-ai/dsh-settings'
 import type { CredentialProvider } from '@deepseek-ai/dsh-credentials'
 import type { LlmRuntime } from '@deepseek-ai/dsh-llm'
 
@@ -28,7 +28,7 @@ interface ProviderProfile {
   apiKeyEnv?: unknown
 }
 
-function providerProfile(settings: SettingsProvider, ns: string, path: readonly string[]): ProviderProfile {
+function providerProfile(settings: SettingsForms, ns: string, path: readonly string[]): ProviderProfile {
   const view = settings.describe().find(candidate => candidate.ns === ns)
   const raw = view === undefined ? undefined : getPath(view.value, path)
   return (typeof raw === 'object' && raw !== null ? raw : {}) as ProviderProfile
@@ -47,7 +47,7 @@ export interface ResolvedProvider {
  * authority the Models page reads.
  */
 export async function resolveProvider(
-  settings: SettingsProvider,
+  settings: SettingsForms,
   llm: LlmRuntime,
   providerId: string,
 ): Promise<ResolvedProvider> {
@@ -69,7 +69,7 @@ export async function resolveProvider(
  * @returns the resolved secret value, or '' when unconfigured.
  */
 export async function resolveKey(
-  settings: SettingsProvider,
+  settings: SettingsForms,
   credentials: CredentialProvider,
   providerId: string,
   ns: string,

@@ -1,19 +1,12 @@
 import { Context } from '@deepseek-ai/cordis'
+import { ControlCenterSettings } from '../src/settings-store.ts'
 import { describe, expect, it, vi } from 'vitest'
 import { McpService } from '../src/mcp.ts'
 
 describe('McpService.discoverMcpServers', () => {
   function setup() {
-    const stored = new Map<string, unknown>()
     const ctx = new Context()
-    ;(ctx as unknown as { settings: unknown }).settings = {
-      get: (ns: string) => stored.get(String(ns)),
-      update: async (ns: string, value: object) => { stored.set(String(ns), structuredClone(value)) },
-      register: () => {
-        const scope: unknown = { get: () => ({}), update: async () => ({}) }
-        return scope
-      },
-    } as never
+    new ControlCenterSettings(ctx)
     const service = new McpService(ctx)
     return { service }
   }

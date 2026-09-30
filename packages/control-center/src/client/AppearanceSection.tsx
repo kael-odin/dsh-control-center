@@ -8,6 +8,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ControlCenterSettingsRemote } from '../settings-store.ts'
 import type { LocaleRuntime, LocaleSnapshot } from '@deepseek-ai/dsh-client-locale/client'
 import {
   applyThemeOverrides, clampMessageFontSize, DEFAULT_THEME_OVERRIDES, hasLegacyThemeOverrides, loadThemeOverrides, markThemeOverridesMigrated, THEME_COLOR_PRESETS, APPEARANCE_SETTINGS_NAMESPACE, type ThemeOverrides,
@@ -20,6 +21,8 @@ import css from './AppearanceSection.module.css'
 
 export interface AppearanceSectionInjected {
   api: ClientRemote
+  /** Wire face for the plugin-owned appearance namespace (theme stays on api.settings). */
+  settings: ControlCenterSettingsRemote
   locale?: LocaleRuntime
 }
 
@@ -84,7 +87,7 @@ function ThemePreview({ mode, active }: { mode: ThemeMode; active: boolean }) {
   )
 }
 
-export function AppearanceSection({ api, locale }: AppearanceSectionProps) {
+export function AppearanceSection({ api, settings, locale }: AppearanceSectionProps) {
   const [overrides, setOverrides] = useState<ThemeOverrides>(loadThemeOverrides)
   const fallbackLocale: LocaleSnapshot = { active: 'zh', locales: [{ id: 'zh', label: '中文' }], revision: 0 }
   const [localeSnapshot, setLocaleSnapshot] = useState<LocaleSnapshot>(() => locale?.getSnapshot() ?? fallbackLocale)
@@ -119,11 +122,12 @@ export function AppearanceSection({ api, locale }: AppearanceSectionProps) {
     return () => { active = false }
   }, [api])
 
-  // Load the authoritative DSH appearance namespace. Legacy browser values are
+  // Load the authoritative appearance namespace over the plugin's own store
+  // (0.2.0: plugin namespaces left api.settings). Legacy browser values are
   // migrated only when the namespace is still at its schema defaults.
   useEffect(() => {
     let active = true
-    void api.settings.describe().then(response => {
+    void settings.describe().then(response => {
       if (!active) return
       if (!response.ok) {
         setAppearanceError('外观设置加载失败，请重试。')
@@ -162,7 +166,7 @@ export function AppearanceSection({ api, locale }: AppearanceSectionProps) {
       setAppearanceError('')
       if (!hasStoredValues && hasLegacyThemeOverrides()) {
         writeQueueRef.current = writeQueueRef.current.then(async () => {
-          const migrated = await api.settings.mutate(APPEARANCE_SETTINGS_NAMESPACE, [ { op: 'set', path: ['colorPrimary'], value: next.colorPrimary }, { op: 'set', path: ['fontFamily'], value: next.fontFamily }, { op: 'set', path: ['codeFontFamily'], value: next.codeFontFamily }, { op: 'set', path: ['customCss'], value: next.customCss }, ], namespace.revision)
+          const migrated = await settings.mutate(APPEARANCE_SETTINGS_NAMESPACE, [ { op: 'set', path: ['colorPrimary'], value: next.colorPrimary }, { op: 'set', path: ['fontFamily'], value: next.fontFamily }, { op: 'set', path: ['codeFontFamily'], value: next.codeFontFamily }, { op: 'set', path: ['customCss'], value: next.customCss }, ], namespace.revision)
           if (migrated.ok) {
             revisionRef.current = migrated.value.revision
             markThemeOverridesMigrated()
@@ -171,7 +175,7 @@ export function AppearanceSection({ api, locale }: AppearanceSectionProps) {
       }
     }).catch(() => { if (active) setAppearanceError('外观设置加载失败，请重试。') })
     return () => { active = false }
-  }, [api])
+  }, [settings])
 
   const updateOverrides = (patch: Partial<ThemeOverrides>): void => {
     if (!appearanceReady || appearanceSaving || revisionRef.current === null) return
@@ -188,7 +192,7 @@ export function AppearanceSection({ api, locale }: AppearanceSectionProps) {
       value,
     }))
     writeQueueRef.current = writeQueueRef.current.then(async () => {
-      const response = await api.settings.mutate(APPEARANCE_SETTINGS_NAMESPACE, ops, revisionRef.current!)
+      const response = await settings.mutate(APPEARANCE_SETTINGS_NAMESPACE, ops, revisionRef.current!)
       if (!response.ok) throw new Error(response.error.message)
       revisionRef.current = response.value.revision
     }).catch(error => {

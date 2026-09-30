@@ -10,5 +10,5 @@ const jsonSchema: TypertSchema = {
 export const STRICT_JSON: TypertCodec = {
   mode: 'strict',
   typeSymbol: '@dsh-control-center/json',
-  schema: jsonSchema,
+  create: () => jsonSchema,
 }

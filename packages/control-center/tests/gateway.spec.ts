@@ -1,4 +1,5 @@
 import { Context } from '@deepseek-ai/cordis'
+import { ControlCenterSettings } from '../src/settings-store.ts'
 import { LlmAdapter, LlmRuntime, type GenerateOptions, type StreamChunk } from '@deepseek-ai/dsh-llm'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { GatewayService } from '../src/gateway.ts'
@@ -16,25 +17,21 @@ class PongAdapter extends LlmAdapter {
   }
 }
 
-function makeService(port: number, apiKey: string): GatewayService {
+async function makeService(port: number, apiKey: string): Promise<GatewayService> {
   const ctx = new Context()
   const llm = new LlmRuntime(ctx)
   llm.registerAdapter(['fixture'], new PongAdapter('PONG'))
   ;(ctx as unknown as Record<string, unknown>).llm = llm
-  ;(ctx as unknown as Record<string, unknown>).settings = {
-    get: () => ({ port, apiKey }),
-    update: async () => {},
-    describe: () => ([
-      { ns: 'agent-default-model', value: { provider: 'fixture', model: 'default' }, schema: {}, revision: 1 },
-    ]),
-  }
+  const cc = new ControlCenterSettings(ctx)
+  await cc.update('control-center-gateway', { port, apiKey })
+  ctx.reflect.provide('agentDefaultModel', { currentSelection: () => ({ provider: 'fixture', model: 'default' }) })
   ;(ctx as unknown as { logger: unknown }).logger = { info: () => {}, warn: () => {}, error: () => {} }
   return new GatewayService(ctx)
 }
 
 describe('GatewayService runtime', () => {
   it('serves OpenAI chat completions routed onto the host LLM', async () => {
-    const service = makeService(0, 'sk-test')
+    const service = await makeService(0, 'sk-test')
     const started = await service.start()
     expect(started.ok).toBe(true)
     if (!started.ok) return
@@ -55,7 +52,7 @@ describe('GatewayService runtime', () => {
   })
 
   it('rejects wrong keys with 401 and unknown models fall back to the default route', async () => {
-    const service = makeService(0, 'sk-secret')
+    const service = await makeService(0, 'sk-secret')
     const started = await service.start()
     if (!started.ok) throw new Error(started.error)
     const url = started.value.url
@@ -77,7 +74,7 @@ describe('GatewayService runtime', () => {
   })
 
   it('streams OpenAI SSE chunks and closes with [DONE]', async () => {
-    const service = makeService(0, 'sk-s')
+    const service = await makeService(0, 'sk-s')
     const started = await service.start()
     if (!started.ok) throw new Error(started.error)
     const url = started.value.url
@@ -95,13 +92,13 @@ describe('GatewayService runtime', () => {
   })
 
   it('refuses to start without an API key', async () => {
-    const service = makeService(0, '')
+    const service = await makeService(0, '')
     const started = await service.start()
     expect(started).toMatchObject({ ok: false })
   })
 
   it('exposes an anthropic-compatible /v1/messages endpoint', async () => {
-    const service = makeService(0, 'sk-a')
+    const service = await makeService(0, 'sk-a')
     const started = await service.start()
     if (!started.ok) throw new Error(started.error)
     const response = await fetch(`${started.value.url}/messages`, {
@@ -116,7 +113,7 @@ describe('GatewayService runtime', () => {
   })
 
   it('exposes API documentation at /v1/docs (no auth required)', async () => {
-    const service = makeService(0, 'sk-test')
+    const service = await makeService(0, 'sk-test')
     const started = await service.start()
     if (!started.ok) throw new Error(started.error)
     const response = await fetch(`${started.value.url}/docs`, { method: 'GET' })

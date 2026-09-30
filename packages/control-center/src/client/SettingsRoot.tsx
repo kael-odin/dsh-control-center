@@ -1,7 +1,7 @@
 /** Cherry-style settings shell over DSH's additive settings slots. */
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import clsx from 'clsx'
-import { IconCloseOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
+import { IconCloseOutline16 } from './cc-icons.tsx'
 import {
   IconActivity, IconBell, IconCalendarClock, IconCloud, IconCommand, IconCrop, IconDataDrive,
   IconFileBox, IconFileCode, IconGateway, IconHardDrive, IconInfo, IconPalette, IconPackage,
@@ -137,8 +137,9 @@ export function SettingsRoot(props: SettingsRootComponentProps) {
   }, [])
   const rows = useSections(state => state)
   const onboardingSteps = useOnboardingSteps(state => state)
-  const onboardingActive = useSessions(state =>
-    state.phase === 'ready' && (state.current === undefined || state.byId[state.current]?.blank === true))
+  // 0.2.0: no current-session on the list state — onboarding fires on an
+  // empty roster instead (honest equivalent; upgrade note in PORT-0.2.0.md).
+  const onboardingActive = useSessions(state => state.phase === 'ready' && state.ids.length === 0)
   const onboardingStep = onboardingActive
     ? onboardingSteps.find(step => !completedOnboarding.has(step.id))
     : undefined

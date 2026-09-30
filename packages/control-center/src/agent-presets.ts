@@ -8,7 +8,7 @@
 import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
 import { bindTypertRemote, remoteErrorOf } from '@deepseek-ai/dsh-typert-protocol'
-import type { AgentPresets } from '@deepseek-ai/dsh-agent-presets'
+import type { AgentPresetRegistry } from '@deepseek-ai/dsh-agent-preset-registry'
 import { markRemoteMethods } from './knowledge/remote-methods.ts'
 
 declare module '@deepseek-ai/cordis' {
@@ -31,17 +31,16 @@ export class AgentPresetsService extends Service {
 
   async listAgentPresets(): Promise<{
     ok: true
-    value: Array<{ id: string; name: string; trust: 'system' | 'user'; isDefault: boolean }>
+    value: Array<{ id: string; name: string; isDefault: boolean }>
   } | { ok: false; error: string }> {
     try {
-      const presets = this.ctx.get('agentPresets') as AgentPresets
+      const presets = this.ctx.get('agentPresets') as AgentPresetRegistry
       const roster = await presets.remoteExportList()
       return {
         ok: true,
         value: roster.presets.map(preset => ({
           id: preset.id,
           name: preset.name ?? preset.id,
-          trust: preset.trust,
           isDefault: preset.isDefault,
         })),
       }

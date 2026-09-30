@@ -1,6 +1,5 @@
 // @vitest-environment jsdom
 import { describe, expect, it, vi } from 'vitest'
-import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
 import { ChannelsStore, importLegacyChannels, type ChannelInstance } from '../src/client/channels-store.ts'
 
 function ok<T>(value: T) {
@@ -13,8 +12,9 @@ function instance(id: string): ChannelInstance {
 
 function makeApi(namespaces: unknown[]) {
   return {
-    settings: { describe: vi.fn(async () => ok({ writable: true, namespaces })) },
-  } as unknown as Pick<ClientRemote, 'settings'>
+    describe: vi.fn(async () => ok({ writable: true, namespaces })),
+    mutate: vi.fn(async () => ok({ revision: 99, value: {} })),
+  }
 }
 
 describe('ChannelsStore', () => {
@@ -48,8 +48,8 @@ describe('ChannelsStore', () => {
         })),
         mutate,
       },
-    } as unknown as Pick<ClientRemote, 'settings'>
-    const store = new ChannelsStore(api)
+    }
+    const store = new ChannelsStore(api.settings)
     await store.load()
     await expect(store.save([instance('b')])).resolves.toBe(true)
     expect(mutate).toHaveBeenCalledWith(
@@ -67,7 +67,7 @@ describe('importLegacyChannels', () => {
     window.localStorage.setItem('cc.settings.channels', JSON.stringify([instance('legacy')]))
     window.localStorage.removeItem('cc.settings.channels.imported')
     const api = makeApi([{ ns: 'control-center-channels', schema: {}, revision: 1, value: { instances: [] } }])
-    ;(api.settings as { mutate: unknown }).mutate = vi.fn(async () => ok({ revision: 2, user: {} }))
+    ;(api as { mutate: unknown }).mutate = vi.fn(async () => ok({ revision: 2, value: {} }))
     const store = new ChannelsStore(api)
     await store.load()
     await expect(importLegacyChannels(store)).resolves.toBe(true)

@@ -5,9 +5,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { HostObservable, InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import type { ClientRemote, ModelProviderGroup } from '@deepseek-ai/dsh-api-remotes/client'
-import {
-  IconCheckOutline16, IconCloseOutline16, IconCopyOutline16,
-} from '@deepseek-ai/dsh-client-ui-primitives'
+import { IconCheckOutline16, IconCloseOutline16, IconCopyOutline16 } from './cc-icons.tsx'
 import type {
   TranslationHistoryItem, TranslationJobView, TranslationLanguage, TranslationModelSelection,
 } from '../translation-types.ts'

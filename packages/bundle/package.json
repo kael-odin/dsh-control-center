@@ -1,6 +1,6 @@
 {
   "name": "@dsh-control-center/bundle",
-  "version": "0.4.0",
+  "version": "0.6.0",
   "description": "Installable DSH Web profile layer for DSH Control Center Web Edition",
   "license": "AGPL-3.0-only",
   "type": "module",
@@ -51,7 +51,7 @@
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": ">=4.0.2 <5",
-    "@deepseek-ai/dsh-invariants": ">=0.1.6-alpha.1 <0.2.0-0"
+    "@deepseek-ai/dsh-invariants": ">=0.2.0-rc.2 <0.3.0-0"
   },
   "publishConfig": {
     "access": "public"

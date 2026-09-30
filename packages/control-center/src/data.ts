@@ -268,20 +268,20 @@ function parsePropfindFiles(body: string): string[] {
 }
 
 export class DataService extends Service {
-  static inject = ['settings'] as const
+  static inject = ['controlCenterSettings'] as const
 
   readonly typertRemote = bindTypertRemote(this, 'controlCenterData')
 
   constructor(ctx: Context, _config?: { logger?: Context['logger'] }) {
     super(ctx, 'controlCenterData')
-    for (const vendor of WEBDAV_VENDORS) ctx.settings.register(webdavNsOf(vendor), WEBDAV_SCHEMA)
-    ctx.settings.register(S3_NS, S3_SCHEMA)
+    for (const vendor of WEBDAV_VENDORS) ctx.get('controlCenterSettings')!.register(webdavNsOf(vendor), WEBDAV_SCHEMA)
+    ctx.get('controlCenterSettings')!.register(S3_NS, S3_SCHEMA)
   }
 
   async exportControlCenter(): Promise<DataExport> {
     const namespaces: Record<string, object> = {}
     for (const ns of DATA_NAMESPACES) {
-      const value = this.ctx.settings.get(ns)
+      const value = this.ctx.get('controlCenterSettings')!.get(ns)
       // JSON round-trip: guarantees every exported value is JSON-safe at the
       // Typert boundary (drops Date/Map/undefined). Uninitialized namespaces
       // export as `{}` so the key is always present in a backup.
@@ -306,7 +306,7 @@ export class DataService extends Service {
     for (const ns of DATA_NAMESPACES) {
       const value = snapshot.namespaces[ns]
       if (value !== undefined && typeof value === 'object' && value !== null) {
-        await this.ctx.settings.update(
+        await this.ctx.get('controlCenterSettings')!.update(
           ns,
           ns === FILE_PROCESSING_NAMESPACE ? stripFileProcessingSecrets(value) : value as object,
         )
@@ -319,7 +319,7 @@ export class DataService extends Service {
   /** Reset every Control Center settings namespace to its default. */
   async clearControlCenter(): Promise<{ absent: true }> {
     for (const ns of DATA_NAMESPACES) {
-      await this.ctx.settings.update(ns, {})
+      await this.ctx.get('controlCenterSettings')!.update(ns, {})
     }
     this.ctx.logger.info('Cleared Control Center data')
     return { absent: true }
@@ -383,7 +383,7 @@ export class DataService extends Service {
 
   /** Read the stored WebDAV config (password omitted on the wire). */
   async getWebdavConfig(vendor: WebDavVendor = 'webdav'): Promise<WebDavConfigView> {
-    const raw = this.ctx.settings.get(webdavNsOf(vendor)) as Partial<WebDavConfig> | undefined
+    const raw = this.ctx.get('controlCenterSettings')!.get(webdavNsOf(vendor)) as Partial<WebDavConfig> | undefined
     return {
       host: typeof raw?.host === 'string' ? raw.host : '',
       user: typeof raw?.user === 'string' ? raw.user : '',
@@ -395,19 +395,19 @@ export class DataService extends Service {
   /** Save the WebDAV config. `pass` is write-only: it replaces the stored
    * secret only when provided and non-empty. */
   async setWebdavConfig(config: WebDavConfigUpdate, vendor: WebDavVendor = 'webdav'): Promise<{ absent: true }> {
-    const current = (this.ctx.settings.get(webdavNsOf(vendor)) ?? {}) as Partial<WebDavConfig>
+    const current = (this.ctx.get('controlCenterSettings')!.get(webdavNsOf(vendor)) ?? {}) as Partial<WebDavConfig>
     const next: WebDavConfig = {
       host: config.host,
       user: config.user,
       path: config.path,
       pass: typeof config.pass === 'string' && config.pass.length > 0 ? config.pass : (current.pass ?? ''),
     }
-    await this.ctx.settings.update(webdavNsOf(vendor), next)
+    await this.ctx.get('controlCenterSettings')!.update(webdavNsOf(vendor), next)
     return { absent: true }
   }
 
   private async loadWebdavConfig(vendor: WebDavVendor = 'webdav'): Promise<WebDavConfig> {
-    const raw = this.ctx.settings.get(webdavNsOf(vendor)) as Partial<WebDavConfig> | undefined
+    const raw = this.ctx.get('controlCenterSettings')!.get(webdavNsOf(vendor)) as Partial<WebDavConfig> | undefined
     const config: WebDavConfig = {
       host: typeof raw?.host === 'string' ? raw.host : '',
       user: typeof raw?.user === 'string' ? raw.user : '',
@@ -496,7 +496,7 @@ export class DataService extends Service {
 
   /** Read the stored S3 config (secret omitted on the wire). */
   async getS3Config(): Promise<S3ConfigView> {
-    const raw = this.ctx.settings.get(S3_NS) as Partial<S3Config> | undefined
+    const raw = this.ctx.get('controlCenterSettings')!.get(S3_NS) as Partial<S3Config> | undefined
     return {
       endpoint: typeof raw?.endpoint === 'string' ? raw.endpoint : '',
       bucket: typeof raw?.bucket === 'string' ? raw.bucket : '',
@@ -509,7 +509,7 @@ export class DataService extends Service {
 
   /** Save the S3 config; `secret` is write-only (keeps the stored one when empty). */
   async setS3Config(config: S3ConfigUpdate): Promise<{ absent: true }> {
-    const current = (this.ctx.settings.get(S3_NS) ?? {}) as Partial<S3Config>
+    const current = (this.ctx.get('controlCenterSettings')!.get(S3_NS) ?? {}) as Partial<S3Config>
     const next: S3Config = {
       endpoint: config.endpoint.trim(),
       bucket: config.bucket.trim(),
@@ -518,12 +518,12 @@ export class DataService extends Service {
       prefix: config.prefix.trim(),
       secretAccessKey: typeof config.secret === 'string' && config.secret.length > 0 ? config.secret : (current.secretAccessKey ?? ''),
     }
-    await this.ctx.settings.update(S3_NS, next)
+    await this.ctx.get('controlCenterSettings')!.update(S3_NS, next)
     return { absent: true }
   }
 
   private async loadS3Config(): Promise<S3Config> {
-    const raw = this.ctx.settings.get(S3_NS) as Partial<S3Config> | undefined
+    const raw = this.ctx.get('controlCenterSettings')!.get(S3_NS) as Partial<S3Config> | undefined
     const config: S3Config = {
       endpoint: typeof raw?.endpoint === 'string' ? raw.endpoint : '',
       bucket: typeof raw?.bucket === 'string' ? raw.bucket : '',

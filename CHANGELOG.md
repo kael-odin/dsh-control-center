@@ -1,5 +1,42 @@
 # Changelog
 
+## v0.6.0 (2026-09-30) — the 0.2.0 contract port
+
+Upstream `0.2.0-rc.2` (the official desktop release line) removed the
+plugin-namespaces settings API, dropped the general icon set, reshaped
+`SessionListState`, and rebuilt the session wire envelopes. The port lands a
+self-owned state layer on the current contract.
+
+### Contract & seams
+- **Baseline `0.2.0-rc.2` (`639ed01539`)**; support window `0.2.x`. All 247
+  workspace overrides ride the published npm line (cordis 4.0.4, schemastery
+  3.18.4); renamed upstream packages chased (`dsh-agent-preset-registry`,
+  `dsh-experimental-agent-team-profile`; `dsh-settings-file` is gone).
+- **Self-owned settings store** (`settings-store.ts`): one KvTable row per
+  namespace over the storage-domain seam, carrying `{revision, value}` with
+  the old scope semantics (sync get, awaitable shallow merge, schema-default
+  resolution). A `controlCenterSettings` typert remote serves the browser
+  half (describe + path-op mutate with revision conflict guard); without a
+  storage facility it degrades to in-memory, loudly.
+- **Model route reads go native**: gateway/notes/channel-bridge read
+  `agentDefaultModel.currentSelection()` instead of describe() scans.
+- **Icons self-hosted** (`cc-icons.tsx`, 17 lucide-style stroke glyphs under
+  the removed export names) — 0.2.0 primitives keep only permission glyphs.
+- **Session list shape**: `SessionListState` no longer carries the
+  view-layer current-session binding; the model panel renders future-default
+  controls and onboarding fires on an empty roster (upgrade notes in
+  [docs/PORT-0.2.0.md](docs/PORT-0.2.0.md) for when the binding source lands).
+- context-policy declares its own merge-extensible message source kind;
+  codecs use the lazy `create:` schema seam.
+
+### Verification
+- tsc 0 errors, 289/290-unit tests green at baseline parity, lint 0,
+  `pack:check` green, plugin installs and boots into a real 0.2.0 harness.
+- Browser E2E full pass is blocked on upstream turn-execution semantics in a
+  bare plugin-installed profile (prompt accepted but the turn never runs —
+  evidence in [docs/PORT-0.2.0.md](docs/PORT-0.2.0.md)); the E2E harness
+  itself is fixed for the 0.2.0 wire envelopes.
+
 ## v0.5.0 (2026-09-30) — the desktop shell retires
 
 The official DeepSeek Harness Desktop (`dsh-v0.2.0-rc.2`) is an Electron

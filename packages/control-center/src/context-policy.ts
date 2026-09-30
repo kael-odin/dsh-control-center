@@ -17,6 +17,21 @@ export const CONTEXT_TOOL_OUTPUT_HEAD_CHARS = 500
 export const CONTEXT_TOOL_OUTPUT_TAIL_CHARS = 1_000
 
 const CONTEXT_WINDOW_PLUGIN = 'control-center-context-policy'
+
+/** Producer facts for the Control Center context-policy checkpoint notice. */
+export interface ContextPolicySource {
+  kind: 'control-center-context-policy'
+  /** The owning plugin id, for diagnostics on the durable log. */
+  plugin: string
+  form: 'notice'
+  summary: string
+}
+
+declare module '@deepseek-ai/dsh-llm' {
+  interface MessageSourceMap {
+    'control-center-context-policy': ContextPolicySource
+  }
+}
 const CONTEXT_WINDOW_SUMMARY = 'Earlier history omitted by the configured message window.'
 const CONTEXT_WINDOW_CONTENT = 'Earlier conversation history was omitted by the configured recent-message window. Use the retained messages as the active context.'
 
@@ -242,7 +257,7 @@ export function omitContextWindow(
 
   const checkpoint = createUserMessage({
     content: [{ type: 'text', text: CONTEXT_WINDOW_CONTENT }],
-    source: { kind: 'plugin', plugin: CONTEXT_WINDOW_PLUGIN, form: 'notice', summary: CONTEXT_WINDOW_SUMMARY },
+    source: { kind: 'control-center-context-policy', plugin: CONTEXT_WINDOW_PLUGIN, form: 'notice', summary: CONTEXT_WINDOW_SUMMARY },
   })
   // The token meter's bounded projection needs a shadow price immediately
   // before every non-summary surface replacement.

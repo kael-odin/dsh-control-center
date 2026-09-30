@@ -3,7 +3,7 @@
  * thumbnail history rail with hover delete and generating progress.
  */
 import { useEffect, useRef, useState } from 'react'
-import { IconChevronLeftOutline14, IconLoadingOutline16, IconPlusOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
+import { IconChevronLeftOutline14, IconLoadingOutline16, IconPlusOutline16 } from './cc-icons.tsx'
 import type { PaintingHistoryItem } from '../painting-types.ts'
 import css from './PaintingWorkspace.module.css'
 import { IconTrash2 } from './cherry-icons.tsx'

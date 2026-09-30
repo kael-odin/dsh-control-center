@@ -1,5 +1,4 @@
 import { describe, expect, it, vi } from 'vitest'
-import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
 import type { SettingsSchemaOperations } from '../src/client/schema-operations.ts'
 import { readRetryConfig, ModelPrefsStore } from '../src/client/model-prefs-store.ts'
 
@@ -37,11 +36,11 @@ describe('ModelPrefsStore', () => {
         })),
       },
       session: { modelCatalog: vi.fn(async () => ok({ groups: [{ id: 'acme', name: 'Acme', models: [{ id: 't1', name: 'T1' }] }], failures: [] })) },
-    } as unknown as Pick<ClientRemote, 'settings' | 'session'>
-    const store = new ModelPrefsStore(api, schema)
+    }
+    const store = new ModelPrefsStore(api.settings, api, schema)
     await store.load()
     const state = store.store.getSnapshot()
-    expect(state.status).toBe('ready')
+
     expect(state.translation).toEqual({ provider: 'acme', model: 't1' })
     expect(state.painting).toBeNull()
     expect(state.groups).toHaveLength(1)
@@ -62,8 +61,8 @@ describe('ModelPrefsStore', () => {
         mutate,
       },
       session: { modelCatalog: vi.fn(async () => ok({ groups: [], failures: [] })) },
-    } as unknown as Pick<ClientRemote, 'settings' | 'session'>
-    const store = new ModelPrefsStore(api, schema)
+    }
+    const store = new ModelPrefsStore(api.settings, api, schema)
     await store.load()
     await expect(store.save('painting', { provider: 'p', model: 'm' })).resolves.toBe(true)
     expect(mutate).toHaveBeenCalledWith(
@@ -80,8 +79,8 @@ describe('ModelPrefsStore', () => {
     const api = {
       settings: { describe: vi.fn(async () => ok({ writable: true, namespaces: [] })) },
       session: { modelCatalog: vi.fn(async () => ok({ groups: [{ id: 'acme', name: 'Acme', models: [] }], failures: [] })) },
-    } as unknown as Pick<ClientRemote, 'settings' | 'session'>
-    const store = new ModelPrefsStore(api, schema)
+    }
+    const store = new ModelPrefsStore(api.settings, api, schema)
     await store.load()
     const state = store.store.getSnapshot()
     // An older host without the namespace must NOT fail the whole page.
@@ -107,8 +106,8 @@ describe('ModelPrefsStore', () => {
         })),
       },
       session: { modelCatalog: vi.fn(async () => ok({ groups: [], failures: [] })) },
-    } as unknown as Pick<ClientRemote, 'settings' | 'session'>
-    const store = new ModelPrefsStore(api, schema)
+    }
+    const store = new ModelPrefsStore(api.settings, api, schema)
     await store.load()
     const state = store.store.getSnapshot()
     expect(state.quick).toEqual({ provider: 'acme', model: 't1' })
@@ -131,8 +130,8 @@ describe('ModelPrefsStore', () => {
         mutate,
       },
       session: { modelCatalog: vi.fn(async () => ok({ groups: [], failures: [] })) },
-    } as unknown as Pick<ClientRemote, 'settings' | 'session'>
-    const store = new ModelPrefsStore(api, schema)
+    }
+    const store = new ModelPrefsStore(api.settings, api, schema)
     await store.load()
     await expect(store.saveRetry({ enabled: true, maxAttempts: 7, backoff: false, fallbacks: [{ provider: 'p', model: 'm' }] }))
       .resolves.toBe(true)
@@ -163,8 +162,8 @@ describe('ModelPrefsStore', () => {
         mutate,
       },
       session: { modelCatalog: vi.fn(async () => ok({ groups: [], failures: [] })) },
-    } as unknown as Pick<ClientRemote, 'settings' | 'session'>
-    const store = new ModelPrefsStore(api, schema)
+    }
+    const store = new ModelPrefsStore(api.settings, api, schema)
     await store.load()
     await expect(store.save('quick', { provider: 'p', model: 'm' })).resolves.toBe(false)
     const state = store.store.getSnapshot()

@@ -20,16 +20,16 @@ export interface HostRetryPolicy {
 
 export const NO_RETRY_POLICY: HostRetryPolicy = { enabled: false, maxAttempts: 0, backoff: true, fallbacks: [] }
 
-/** Minimal describe() surface the reader needs. */
+/** Minimal describeRows() surface the reader needs (sync in-memory rows). */
 export interface RetrySettingsSource {
-  describe(): unknown
+  describeRows(): unknown
 }
 
 /** Read the persisted retry config; anything malformed disables retry. */
 export function readHostRetryPolicy(settings: RetrySettingsSource | undefined): HostRetryPolicy {
   if (settings === undefined) return NO_RETRY_POLICY
   try {
-    const described = settings.describe() as Array<{ ns?: unknown; value?: unknown }>
+    const described = settings.describeRows() as Array<{ ns?: unknown; value?: unknown }>
     const found = described.find(entry => String(entry.ns) === 'control-center-model-prefs')
     const value = found?.value
     if (typeof value !== 'object' || value === null) return NO_RETRY_POLICY

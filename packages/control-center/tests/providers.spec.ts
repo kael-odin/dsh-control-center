@@ -1,19 +1,12 @@
 import { Context } from '@deepseek-ai/cordis'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { ProvidersService } from '../src/providers.ts'
+import { ControlCenterSettings } from '../src/settings-store.ts'
 
 function makeService(): ProvidersService {
   const ctx = new Context()
   const storage = new Map<string, unknown>()
-  ;(ctx as unknown as Record<string, unknown>).settings = {
-    register: (ns: unknown, _schema: unknown, opts?: { base?: unknown }) => {
-      storage.set(String(ns), opts?.base ?? {})
-      return { get: () => storage.get(String(ns)) ?? {}, update: (patch: unknown) => { storage.set(String(ns), patch) } }
-    },
-    get: (ns: unknown) => storage.get(String(ns)) ?? {},
-    update: async (ns: unknown, patch: unknown) => { storage.set(String(ns), patch) },
-    describe: () => [],
-  }
+  new ControlCenterSettings(ctx)
   ;(ctx as unknown as Record<string, unknown>).credentials = { resolve: () => ({ value: 'key', source: 'test' }), set: async () => {} }
   ctx.reflect.provide('credentials', { resolve: () => ({ value: 'key', source: 'test' }), set: async () => {}, describe: async () => ({ refs: [] }) } as never)
   ;(ctx as unknown as Record<string, unknown>).llm = { listConfigurableProviders: () => [] }

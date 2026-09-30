@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { Context } from '@deepseek-ai/cordis'
 import { LocalCredentialProvider } from '@deepseek-ai/dsh-credentials-local'
-import { FileSettingsProvider } from '@deepseek-ai/dsh-settings-file'
+import { ControlCenterSettings } from '../packages/control-center/src/settings-store.ts'
 import { ProvidersService } from '../packages/control-center/src/providers.ts'
 import type { CreateProviderDto } from '../packages/control-center/src/provider-types.ts'
 import { mkdtempSync, rmSync } from 'node:fs'
@@ -15,6 +15,7 @@ describe('ProvidersService', { timeout: 60_000 }, () => {
   let ctx: Context
   let tmpDir: string
   let service: ProvidersService
+  let cc: ControlCenterSettings
 
   beforeEach(async () => {
     tmpDir = mkdtempSync(join(tmpdir(), 'dsh-cc-providers-test-'))
@@ -22,9 +23,10 @@ describe('ProvidersService', { timeout: 60_000 }, () => {
     // atomic-write rename cannot collide with a running server's handle.
     process.env.DSH_HOME = tmpDir
     ctx = new Context()
-    const settingsFiber = ctx.plugin(FileSettingsProvider, { path: join(tmpDir, 'settings.yaml') })
-    const credentialsFiber = ctx.plugin(LocalCredentialProvider, { projectEnvPath: join(tmpDir, '.env') })
-    await Promise.all([settingsFiber, credentialsFiber])
+    // The settings seam is the plugin's own store now (in-memory here; no
+    // storageDomain in this test context). FileSettingsProvider left with 0.2.0.
+    cc = new ControlCenterSettings(ctx)
+    await ctx.plugin(LocalCredentialProvider, { projectEnvPath: join(tmpDir, '.env') })
     service = new ProvidersService(ctx)
   })
 
@@ -87,7 +89,7 @@ describe('ProvidersService', { timeout: 60_000 }, () => {
           { id: 'gpt-3.5-turbo', name: 'GPT-3.5 Turbo', enabled: true }
         ]
       }
-      await ctx.settings.update('control-center-providers', { providers: updatedProviders })
+      await cc.update('control-center-providers', { providers: updatedProviders })
     }
 
     // Update model enabled state

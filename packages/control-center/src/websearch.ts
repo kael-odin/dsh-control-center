@@ -3,7 +3,7 @@
 import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
 import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
-import type { SettingsScope } from '@deepseek-ai/dsh-settings'
+import type { ControlCenterNamespaceScope } from './settings-store.ts'
 import { settingsNamespace } from './settings-ns.ts'
 import Schema from '@deepseek-ai/schemastery'
 import { defineTool } from '@deepseek-ai/dsh-tools'
@@ -51,15 +51,15 @@ export interface WebSearchServiceConfig {
 }
 
 export class WebSearchService extends Service {
-  static inject = ['settings'] as const
+  static inject = ['controlCenterSettings'] as const
   static optional = ['tools'] as const
 
   readonly typertRemote = bindTypertRemote(this, 'controlCenterWebSearch')
-  private scope: SettingsScope<WebSearchConfig>
+  private scope: ControlCenterNamespaceScope<WebSearchConfig>
 
   constructor(ctx: Context, _config?: WebSearchServiceConfig) {
     super(ctx, 'controlCenterWebSearch')
-    this.scope = ctx.settings.register(WEBSEARCH_NAMESPACE, Schema.object({
+    this.scope = ctx.get('controlCenterSettings')!.register(WEBSEARCH_NAMESPACE, Schema.object({
       defaultSearchKeywordsProvider: Schema.union(['zhipu', 'tavily', 'searxng', 'exa', 'exa-mcp', 'bocha', 'querit', 'jina', 'firecrawl'] as const).default('exa-mcp'),
       defaultFetchUrlsProvider: Schema.union(['searxng', 'querit', 'fetch', 'jina', 'firecrawl'] as const).default('jina'),
       providerOverrides: Schema.dict(Schema.object({

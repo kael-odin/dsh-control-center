@@ -89,3 +89,66 @@ Plus/Trash/Chevron×3/Check/Loading/Pause/Send/Globe/Data/Sparkle/Settings，约
 原生文件对话框/硬件加速/菜单呈现全部面。按诚实标签宪法删开关而非留死开关；
 对话完成通知换 `conversation` 键继续存在；频道 Agent 绑定换新
 `controlCenterAgentPresets` 服务。check 全链绿。
+
+## 进度日志
+
+- **2026-09-30 · P0 完成（host 自持设置存储）**：`settings-store.ts` 落地（ControlCenterSettings：
+  storage-domain KvTable 存 `{revision, value}`，register/get/update/describe/watch 全套旧语义，
+  schema 默认值惰性求值，无 storageDomain 时诚实降级内存并告警）。13 个 host 文件完成
+  `ctx.settings.*` → `ctx.get('controlCenterSettings')!*` 机械替换 + inject 列表更新 +
+  SettingsScope 类型导入清除。三处 `agent-default-model` describe 扫描（gateway×2/notes/
+  channel-bridge）改走 0.2.0 原生 `ctx.get('agentDefaultModel').currentSelection()`。
+  context-policy 按 0.2.0 merge-extensible 惯例自声明 `control-center-context-policy`
+  source kind。四个 codec 的 `schema:` 换成惰性 `create: () => schema`（0.2.0 TypertCodec）。
+  knowledge/painting 的 SettingsProvider → SettingsForms。**11 个 spec 的假 settings 双打
+  全部换成真 ControlCenterSettings 实例（降级内存）**；providers 根 spec 的
+  FileSettingsProvider（上游已删包）换成真 store——P4 的该项提前完成。
+  验收：host tsc 0 error（剩 41 全在 client/，P1-P3 范围）；vitest **289/289 全绿**
+  （与 0.1.6 基线同覆盖，零丢失）；lint 0。教训新增：vitest 的 spy 用
+  `mockImplementation`（本版本无 `callsFake`）；大补丁脚本用 Write 写文件再执行，heredoc
+  会被截断。
+- 下一步：P1 客户端换源（controlCenterSettings typert remote + 7 个客户端存储 +
+  SettingsScopeBinder 重接）。
+- **2026-09-30 · P1 完成（客户端换源）**：host 侧 ControlCenterSettings 新增 wire 方法
+  `describe()`（{writable, namespaces:[{ns,value,revision}]}，含已注册空命名空间）+
+  `mutate(ns, ops, expectedRevision)`（path set/unset + SETTINGS_CONFLICT revision 守卫）；
+  markRemoteMethods + `settings-remote-client.ts` 描述子 + TypertRemoteNamespaceMap 类型合并。
+  客户端 7 处换源：general-store / model-prefs-store / channels-store / welcome-store /
+  notification-runtime / NotificationSection / AppearanceSection（appearance 命名空间走新
+  face，ui-theme 留 api.settings）。client/index 建 lazy face（mount 前抛错的代理）+
+  `remote.controlCenterSettings` 注入。SettingsScopeBinder（0.2.0 已删）→
+  SettingsDescribeFace 镜像（store.ts 本就吃 Face，settingsMirror 直传）。
+  **模型路由原生化**：translation.ts 的 retry 源 + gateway/models + channel-bridge
+  defaultModelRoute 全部改走新接缝（describeRows / agentDefaultModel.currentSelection）。
+  5 个客户端 spec 的假 api 换成真 face 形状。验收：vitest 289/289、lint 0、
+  tsc 非 P2/P3 错误 = 0（剩 35 图标 + 5 会话列表）。
+  教训：①`open(p,'w')` 不写内容会截断文件（model-prefs-store 曾被清空，git checkout 恢复
+  后重放补丁）②Pick<ClientRemote,'session'> 是带 .session 的包装，传参给专用 face 参数时
+  传包装不传内层 ③改名 sync describe→describeRows 时全链调用点要一次扫净
+  （retry-config/translation/gateway 各漏一处即成隐形炸弹）。
+- 下一步：P2 图标自持（cc-icons.tsx ~20 枚 SVG，13 文件替换）。
+- **2026-09-30 · P2 完成（图标自持）**：`cc-icons.tsx` 落地——17 枚 lucide 风格内联 SVG，
+  **沿用被删的 primitives 导出名**（IconCloseOutline16 等），13 个客户端文件只换 import 源、
+  调用点零改动；primitives 的 Button/Modal（仍在上游）保留原导入。验收：tsc 仅剩 5 个
+  SessionListState（P3），vitest 289/289，lint 0。教训：exactOptionalPropertyTypes 下
+  可选 prop 必须显式 `| undefined`。
+- 下一步：P3 会话列表形状（先探针）。
+- **2026-09-30 · P3 完成（会话列表形状，落简化实现）**：探针结论——0.2.0 的"当前会话"
+  已散入 conversation assembly 的 view-layer binding（SessionBinding/context.current 内部
+  结构），没有可从插件稳定读取的单一来源，兔子洞坐实。按预案落最简诚实实现：
+  ①ModelSelectionPanel 只渲染"未来会话默认模型"控制（当前会话覆盖段随 binding 源回归）；
+  ②connection/reset 时重载默认选择 load(undefined,false)；③SettingsRoot 开屏引导改为
+  "名册为空"触发（原"无当前会话或当前会话为 blank"的诚实等价）。notification-runtime.spec
+  夹具同步新形状 {ids,byId,phase,projectionsBySession}。**升级点（绑定源落地后）**：
+  ModelSelectionPanel 的 currentSessionId/currentAddressed 两个常量换回 binding 读取、
+  index.ts reset 处 load(current)、SettingsRoot 恢复 blank 判定。
+  验收：**tsc 全仓 0 error**、vitest 289/289、lint 0。
+- **2026-09-30 · P4 收官（E2E 全绿被上游阻塞，其余全过）**：pack:check 全链绿（bundle
+  0.6.0 打包+provenance+artifacts+secrets）；E2E 修复了 0.2.0 wire 信封
+  （session/create→{request:…}、prompt 补 requestId；env 真名是 **DSH_REPO**，前图误记
+  DSH_HARNESS_DIR）+ keep-home/verbose 开关后，会话创建与 prompt 均被 0.2.0 host 接受，
+  **但裸 plugin-installed profile 里 turn 从不执行**（session 文件只有头、无 user/message、
+  host 零日志；queue/steer 同症；模型路由已确认落入 cordis.patch.yml）——判定为上游
+  turn 执行语义变化，非插件接缝问题，按时间盒纪律停止。E2E 全绿留待上游语义明朗。
+  canary 修复：repoint 文件表移除已退役的 apps/desktop（v0.5.0 起在 main 上已静默失败）。
+  版本 0.6.0；兼容窗口 0.2.x。

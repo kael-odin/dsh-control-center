@@ -13,7 +13,7 @@ import type { CredentialProvider } from '@deepseek-ai/dsh-credentials'
 import type { FileSystem, FsTarget } from '@deepseek-ai/dsh-fs'
 import type { SubprocessRuntime } from '@deepseek-ai/dsh-subprocess'
 import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
-import type { SettingsScope } from '@deepseek-ai/dsh-settings'
+import type { ControlCenterNamespaceScope } from './settings-store.ts'
 import { settingsNamespace } from './settings-ns.ts'
 import Schema from '@deepseek-ai/schemastery'
 import { defineTool } from '@deepseek-ai/dsh-tools'
@@ -323,7 +323,7 @@ function safeZipMarkdown(bytes: Uint8Array): string {
 /** File processing service mounted by the Control Center host plugin. */
 export class FileProcessingService extends Service {
   readonly typertRemote = bindTypertRemote(this, 'controlCenterFileProcessing')
-  private readonly scope: SettingsScope<FileProcessingSettings>
+  private readonly scope: ControlCenterNamespaceScope<FileProcessingSettings>
   private taskStore: FileProcessingTaskStore | undefined
   private readonly taskControllers = new Map<string, AbortController>()
   private readonly taskRuns = new Map<string, Promise<void>>()
@@ -331,7 +331,7 @@ export class FileProcessingService extends Service {
 
   constructor(ctx: Context, _config?: { logger?: Context['logger'] }) {
     super(ctx, 'controlCenterFileProcessing')
-    this.scope = ctx.settings.register(FP_NAMESPACE, Schema.object({
+    this.scope = ctx.get('controlCenterSettings')!.register(FP_NAMESPACE, Schema.object({
       defaultDocumentProcessor: Schema.union(['local-document', 'mineru', 'paddleocr', 'doc2x', 'mistral', 'open-mineru']).default('local-document'),
       defaultImageProcessor: Schema.union(['system', 'tesseract', 'paddleocr', 'local-paddleocr', 'ovocr', 'mistral']).default('tesseract'),
       overrides: Schema.dict(Schema.any()).default({}),

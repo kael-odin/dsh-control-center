@@ -6,7 +6,7 @@ import type { SessionId } from '@deepseek-ai/dsh-session/types'
 import { bindSnapshotSelector } from './bind-snapshot.ts'
 import { resolveSlotLabel, type HostObservable } from '@deepseek-ai/dsh-client-ui-slots'
 import type {} from '@deepseek-ai/dsh-client-ui-settings/client'
-import type { SettingsScopeBinder, SettingsSchemaService } from '@deepseek-ai/dsh-client-ui-settings/client'
+import type { SettingsDescribeFace, SettingsSchemaService } from '@deepseek-ai/dsh-client-ui-settings/client'
 import type {} from '@deepseek-ai/dsh-client-ui-sidebar/client'
 import type {} from '@deepseek-ai/dsh-client-ui-layout/client'
 // The application workspace seam types ship in the harness source baseline,
@@ -19,6 +19,8 @@ import type {} from '@deepseek-ai/dsh-client-locale/client'
 import type {} from '@deepseek-ai/dsh-api-remotes/client'
 import type {} from '@deepseek-ai/dsh-api-session-controller/client'
 import type {} from '../translation-types.ts'
+import type { SettingsWireOp } from '../settings-store.ts'
+import type {} from '../settings-store.ts'
 import translationRemote from '../translation-remote-client.ts'
 import type {} from '../painting-types.ts'
 import paintingRemote from '../painting-remote-client.ts'
@@ -86,6 +88,7 @@ import type {} from '../local-models-types.ts'
 import { localModelsRemote, updateRemote } from '../local-models-remote-client.ts'
 import channelBridgeRemote from '../channel-bridge-remote-client.ts'
 import agentPresetsRemote from '../agent-presets-remote-client.ts'
+import settingsRemote from '../settings-remote-client.ts'
 import { LocalModelsSection } from './LocalModelsSection.tsx'
 import { ApiGatewaySection } from './ApiGatewaySection.tsx'
 import type { ApiGatewaySectionInjected } from './ApiGatewaySection.tsx'
@@ -167,7 +170,7 @@ declare module '@deepseek-ai/dsh-client-ui-slots' {
 // 0.1.6: typert mounts each Remote namespace as its own `remote.<ns>` service;
 // every namespace this half touches must be declared here or the proxy refuses
 // the property read ("cannot get property ... without inject").
-export const inject = ['slots', 'locale', 'connection', 'remote', 'remote.settings', 'remote.llm', 'remote.credentials', 'remote.session', 'remote.agentPresets', 'remote.controlCenterExport', 'sessions', 'settingsScope', 'settingsSchema']
+export const inject = ['slots', 'locale', 'connection', 'remote', 'remote.settings', 'remote.llm', 'remote.credentials', 'remote.session', 'remote.agentPresets', 'remote.controlCenterExport', 'remote.controlCenterSettings', 'sessions', 'settingsScope', 'settingsSchema']
 
 
 /**
@@ -203,6 +206,20 @@ function readyGate(): { source: HostObservable<boolean>; settle: () => void } {
 /** Register the settings shell, Provider/Model page, and onboarding steps. */
 export function apply(ctx: ClientContext): void {
   const remote = ctx.remote
+  // Plugin-owned namespaces ride the controlCenterSettings store (0.2.0 moved
+  // them off the settings wire). The face is lazy: remotes mount in one effect
+  // after apply() returns, but stores below are constructed synchronously.
+  let ccSettings: NonNullable<typeof remote.controlCenterSettings> | undefined
+  const ccSettingsFace = {
+    describe: () => {
+      if (ccSettings === undefined) throw new Error('controlCenterSettings Remote namespace is not mounted')
+      return ccSettings.describe()
+    },
+    mutate: (ns: string, ops: ReadonlyArray<SettingsWireOp>, expectedRevision: number | undefined) => {
+      if (ccSettings === undefined) throw new Error('controlCenterSettings Remote namespace is not mounted')
+      return ccSettings.mutate(ns, ops, expectedRevision)
+    },
+  }
   let translation: NonNullable<typeof remote.controlCenterTranslation> | undefined
   const translationReadySource = remoteReadyGate.source
   let painting: NonNullable<typeof remote.controlCenterPainting> | undefined
@@ -254,7 +271,8 @@ export function apply(ctx: ClientContext): void {
         ...tasksRemote.descriptors,
         ...localModelsRemote.descriptors,
         ...updateRemote.descriptors,
-        ...agentPresetsRemote.descriptors
+        ...agentPresetsRemote.descriptors,
+        ...settingsRemote.descriptors
       ],
     }
     const dispose = await remote.$mount(controlCenterRemote)
@@ -273,6 +291,7 @@ export function apply(ctx: ClientContext): void {
     localModels = ctx.get('remote.controlCenterLocalModels') as NonNullable<typeof remote.controlCenterLocalModels>
     update = ctx.get('remote.controlCenterUpdate') as NonNullable<typeof remote.controlCenterUpdate>
     channelBridge = ctx.get('remote.controlCenterChannelBridge') as NonNullable<typeof remote.controlCenterChannelBridge>
+    ccSettings = ctx.get('remote.controlCenterSettings') as NonNullable<typeof remote.controlCenterSettings>
     remoteReadyGate.settle()
     return dispose
   }, 'control-center: control-center Remote namespaces')
@@ -296,10 +315,11 @@ export function apply(ctx: ClientContext): void {
   const websearchT = ctx.locale.bind(WEBSEARCH_NS) as (key: WebSearchKey) => string
   const msgActionsT = ctx.locale.bind(MSGACTIONS_NS) as (key: MsgActionsKey) => string
   const connection = ctx.get('connection') as ConnectionHandle
-  const settingsScope = ctx.get('settingsScope') as SettingsScopeBinder
+  const settingsScope = ctx.get('settingsScope') as SettingsDescribeFace
   const settingsSchema = ctx.get('settingsSchema') as SettingsSchemaService
   const schema = createSettingsSchemaOperations(settingsSchema)
-  const settingsMirror = settingsScope.describe()
+  // 0.2.0: the settingsScope is an observable mirror face; the store consumes it directly.
+  const settingsMirror = settingsScope
 
   const documentController = connection.isLoopback ? new SettingsDocumentStore(ctx.remote) : undefined
   const documentInjected = documentController === undefined
@@ -318,17 +338,17 @@ export function apply(ctx: ClientContext): void {
   const useProviderDirectory = bindSnapshotSelector(providerDirectoryController.store)
   const selectionController = new ModelSelectionStore(ctx.remote, schema)
   const useSelection = bindSnapshotSelector(selectionController.store)
-  const prefsController = new ModelPrefsStore(ctx.remote, schema)
+  const prefsController = new ModelPrefsStore(ccSettingsFace, ctx.remote, schema)
   const usePrefs = bindSnapshotSelector(prefsController.store)
-  const channelsController = new ChannelsStore(ctx.remote)
+  const channelsController = new ChannelsStore(ccSettingsFace)
   const useChannels = bindSnapshotSelector(channelsController.store)
   let channelBridge: NonNullable<typeof remote.controlCenterChannelBridge> | undefined
-  const welcomeController = new WelcomeNoticeStore(ctx.remote, connection.isLoopback ? 'host' : 'memory')
-  const generalController = new GeneralSettingsStore(ctx.remote, schema)
+  const welcomeController = new WelcomeNoticeStore(ccSettingsFace, connection.isLoopback ? 'host' : 'memory')
+  const generalController = new GeneralSettingsStore(ccSettingsFace, schema)
   const useGeneral = bindSnapshotSelector(generalController.store)
   ctx.effect(() => { void generalController.load(); return () => undefined }, 'control-center: general load')
   const notificationRuntime = new ConversationNotificationRuntime(
-    ctx.remote,
+    ccSettingsFace,
     ctx.sessions.list as unknown as HostObservable<SessionListState>,
   )
   ctx.effect(() => notificationRuntime.start(), 'control-center: conversation notifications')
@@ -454,8 +474,10 @@ export function apply(ctx: ClientContext): void {
     refreshDocumentIfLoaded(documentController)
     refreshIfLoaded(modelsController)
     refreshWelcomeIfLoaded(welcomeController)
-    const current = (ctx.sessions.list as unknown as HostObservable<SessionListState>).getSnapshot().current
-    void selectionController.load(current)
+    // 0.2.0: SessionListState no longer carries the view-layer current-session
+    // binding. Re-sync the future-default selection; the current-session
+    // override rebinds when the binding source lands (upgrade note in PORT-0.2.0.md).
+    void selectionController.load(undefined, false)
   }), 'control-center: connection invalidations')
 
   ctx.effect(() => {
@@ -844,6 +866,7 @@ export function apply(ctx: ClientContext): void {
     label: () => shellT('appearanceNav'),
     inject: (): AppearanceSectionInjected => ({
       api: ctx.remote,
+      settings: ccSettingsFace,
       locale: ctx.locale,
     }),
   }, AppearanceSection))
@@ -852,7 +875,7 @@ export function apply(ctx: ClientContext): void {
     id: 'notifications',
     order: 22,
     label: () => shellT('notificationsNav'),
-    inject: (): NotificationSectionInjected => ({ api: ctx.remote }),
+    inject: (): NotificationSectionInjected => ({ settings: ccSettingsFace }),
   }, NotificationSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',

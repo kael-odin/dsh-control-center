@@ -10,7 +10,7 @@
 import { Service } from '@deepseek-ai/cordis'
 import type { Context } from '@deepseek-ai/cordis'
 import { bindTypertRemote } from '@deepseek-ai/dsh-typert-protocol'
-import type { SettingsScope } from '@deepseek-ai/dsh-settings'
+import type { ControlCenterNamespaceScope } from './settings-store.ts'
 import { settingsNamespace } from './settings-ns.ts'
 import Schema from '@deepseek-ai/schemastery'
 
@@ -44,13 +44,13 @@ function sanitizeObsidianFileName(name: string): string {
 }
 
 export class ExportMatrixService extends Service {
-  static inject = ['settings'] as const
+  static inject = ['controlCenterSettings'] as const
   readonly typertRemote = bindTypertRemote(this, 'controlCenterExport')
-  private scope: SettingsScope<ExportSettings>
+  private scope: ControlCenterNamespaceScope<ExportSettings>
 
   constructor(ctx: Context) {
     super(ctx, 'controlCenterExport')
-    this.scope = ctx.settings.register(EXPORT_NS, Schema.object({
+    this.scope = ctx.get('controlCenterSettings')!.register(EXPORT_NS, Schema.object({
       notion: Schema.object({
         apiKey: Schema.string().role('secret').default(''),
         databaseId: Schema.string().default(''),
@@ -102,7 +102,7 @@ export class ExportMatrixService extends Service {
   async getConfig(): Promise<ExportSettings> { return this.scope.get() }
 
   async setConfig(patch: Partial<ExportSettings>): Promise<{ absent: true }> {
-    await this.ctx.settings.update(EXPORT_NS, patch as object)
+    await this.ctx.get('controlCenterSettings')!.update(EXPORT_NS, patch as object)
     return { absent: true }
   }
 

@@ -9,7 +9,7 @@
  * with an honest notice (same contract as the model-preferences store).
  */
 
-import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
+import type { ControlCenterSettingsRemote } from '../settings-store.ts'
 import type { JsonValue } from '@deepseek-ai/dsh-util-values'
 import type { SnapshotStore } from '@deepseek-ai/dsh-client-store'
 import { createSnapshotStore } from '@deepseek-ai/dsh-client-store'
@@ -46,13 +46,13 @@ export class ChannelsStore {
 
   private generation = 0
 
-  constructor(private readonly api: Pick<ClientRemote, 'settings'>) {}
+  constructor(private readonly settings: ControlCenterSettingsRemote) {}
 
   async load(): Promise<void> {
     const generation = ++this.generation
     this.store.update((state) => { state.status = 'loading'; state.error = null })
     try {
-      const response = await this.api.settings.describe()
+      const response = await this.settings.describe()
       const settings = response
       if (!settings.ok) throw new Error(settings.error.message)
       if (generation !== this.generation) return
@@ -100,7 +100,7 @@ export class ChannelsStore {
     const snapshot = this.store.getSnapshot()
     if (!snapshot.available || snapshot.revision === null) return false
     this.store.update((state) => { state.status = 'loading'; state.error = null })
-    const response = await this.api.settings.mutate(CHANNELS_NAMESPACE, [{ op: 'set', path: ['instances'], value: structuredClone(instances.map(instance => ({ ...instance }))) as unknown as JsonValue }], snapshot.revision)
+    const response = await this.settings.mutate(CHANNELS_NAMESPACE, [{ op: 'set', path: ['instances'], value: structuredClone(instances.map(instance => ({ ...instance }))) as unknown as JsonValue }], snapshot.revision)
     if (!response.ok) {
       const failure = response
       this.store.update((state) => {

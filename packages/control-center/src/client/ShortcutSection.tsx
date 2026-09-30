@@ -5,7 +5,7 @@
  * wired to a window keydown listener, global ones are marked for desktop.
  */
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { IconChevronDownOutline14, IconSearchOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
+import { IconChevronDownOutline14, IconSearchOutline16 } from './cc-icons.tsx'
 import { Switch } from './panel-ui.tsx'
 import { SettingGroup, SettingsPageShell } from './SettingsPages.tsx'
 import css from './ShortcutSection.module.css'

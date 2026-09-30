@@ -8,24 +8,25 @@ import { DEFAULT_THEME_OVERRIDES } from '../src/client/theme-overrides.ts'
 // literal, or a default change silently flips the migration branch under test.
 const defaults = { colorPrimary: DEFAULT_THEME_OVERRIDES.colorPrimary, fontFamily: '', codeFontFamily: '', customCss: '' }
 
-// These tests exercise settings behavior only; stub the desktop bridge as
-// not-ready so the desktop-only probes never fire (they are covered by
-// desktop.spec.ts and the desktop smoke).
-const useDesktopReady = (): boolean => false
-const getDesktop = () => { throw new Error('desktop bridge must not be used in appearance settings tests') }
-
+// The plugin-owned appearance namespace rides the controlCenterSettings face
+// (0.2.0 moved plugin namespaces off the settings wire); ui-theme stays native.
 function api(value = defaults, revision = 4) {
-  const mutate = vi.fn(async () => ({ ok: true, value: { revision: revision + 1 } }))
+  const mutate = vi.fn(async () => ({ ok: true, value: { ns: 'control-center-appearance', value, revision: revision + 1 } }))
   return {
     client: {
       settings: {
         describe: vi.fn(async () => ({ ok: true, value: { namespaces: [
           { ns: 'ui-theme', value: { preference: 'system' }, revision: 1 },
-          { ns: 'control-center-appearance', value, revision },
         ] } })),
         mutate,
       },
     } as never,
+    settings: {
+      describe: vi.fn(async () => ({ ok: true, value: { writable: true, namespaces: [
+        { ns: 'control-center-appearance', value, revision },
+      ] } })),
+      mutate,
+    },
     mutate,
   }
 }
@@ -38,7 +39,7 @@ describe('AppearanceSection authoritative settings', () => {
 
   it('loads DSH values and persists a color with the current revision', async () => {
     const fixture = api({ ...defaults, colorPrimary: '#EF4444' })
-    render(<AppearanceSection api={fixture.client} useDesktopReady={useDesktopReady} getDesktop={getDesktop} />)
+    render(<AppearanceSection api={fixture.client} settings={fixture.settings} />)
 
     const hex = await screen.findByDisplayValue('#EF4444')
     await waitFor(() => { expect((hex as HTMLInputElement).disabled).toBe(false) })
@@ -59,7 +60,7 @@ describe('AppearanceSection authoritative settings', () => {
   it('rolls back the preview and field after a rejected write', async () => {
     const fixture = api({ ...defaults, colorPrimary: '#EF4444' })
     fixture.mutate.mockResolvedValueOnce({ ok: false, error: { code: 'conflict', message: 'revision conflict', details: {} } } as never)
-    render(<AppearanceSection api={fixture.client} useDesktopReady={useDesktopReady} getDesktop={getDesktop} />)
+    render(<AppearanceSection api={fixture.client} settings={fixture.settings} />)
 
     const hex = await screen.findByDisplayValue('#EF4444')
     await waitFor(() => { expect((hex as HTMLInputElement).disabled).toBe(false) })
@@ -79,7 +80,7 @@ describe('AppearanceSection authoritative settings', () => {
       subscribe: (listener: () => void) => { void listener; return () => {} },
       setLocale,
     } as never
-    render(<AppearanceSection api={fixture.client} locale={locale} useDesktopReady={useDesktopReady} getDesktop={getDesktop} />)
+    render(<AppearanceSection api={fixture.client} settings={fixture.settings} locale={locale} />)
 
     const select = (await screen.findAllByLabelText('语言')).at(-1)!
     fireEvent.change(select, { target: { value: 'en' } })
@@ -92,7 +93,7 @@ describe('AppearanceSection authoritative settings', () => {
       colorPrimary: '#F59E0B', fontFamily: 'Inter', codeFontFamily: 'Fira Code', customCss: '.cc-surface { opacity: .9 }',
     }))
     const fixture = api()
-    render(<AppearanceSection api={fixture.client} useDesktopReady={useDesktopReady} getDesktop={getDesktop} />)
+    render(<AppearanceSection api={fixture.client} settings={fixture.settings} />)
 
     await waitFor(() => {
       expect(fixture.mutate).toHaveBeenCalledWith('control-center-appearance', expect.anything(), 4)
