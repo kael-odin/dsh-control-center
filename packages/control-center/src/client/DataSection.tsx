@@ -23,9 +23,8 @@ import { clearWebCaches } from './web-cache-clear.ts'
 export interface DataSectionInjected {
   getData: () => NonNullable<ClientRemote['controlCenterData']>
   getExport: () => NonNullable<ClientRemote['controlCenterExport']>
-  getDesktop: () => NonNullable<ClientRemote['controlCenterDesktop']>
   getSystem?: (() => NonNullable<ClientRemote['controlCenterSystem']>) | undefined
-  hooks: { dataReady: HostObservable<boolean>; exportReady: HostObservable<boolean>; desktopReady: HostObservable<boolean>; systemReady: HostObservable<boolean> }
+  hooks: { dataReady: HostObservable<boolean>; exportReady: HostObservable<boolean>; systemReady: HostObservable<boolean> }
 }
 
 export type DataSectionProps = PropsRuntime<'settings.section'> & InjectFace<DataSectionInjected>
@@ -62,22 +61,12 @@ function snapshotName(): string {
   return `dsh-control-center-${new Date().toISOString().slice(0, 10)}.json`
 }
 
-function textToBase64(text: string): string {
-  return btoa(String.fromCharCode(...new TextEncoder().encode(text)))
-}
-
-function base64ToText(base64: string): string {
-  return new TextDecoder().decode(Uint8Array.from(atob(base64), character => character.charCodeAt(0)))
-}
-
-export function DataSection({ getData, getExport, getDesktop, getSystem, useDataReady, useExportReady, useDesktopReady, useSystemReady }: DataSectionProps) {
+export function DataSection({ getData, getExport, getSystem, useDataReady, useExportReady, useSystemReady }: DataSectionProps) {
   const dataReady = useDataReady(value => value)
   const exportReady = useExportReady(value => value)
-  const desktopReady = useDesktopReady(value => value)
   const systemReady = useSystemReady(value => value)
   const data = dataReady ? getData() : undefined
   const exportMatrix = exportReady ? getExport() : undefined
-  const desktop = desktopReady ? getDesktop() : undefined
   const [dshHome, setDshHome] = useState<string | null>(null)
   useEffect(() => {
     if (!systemReady || getSystem === undefined) return
@@ -103,37 +92,6 @@ export function DataSection({ getData, getExport, getDesktop, getSystem, useData
     if (!result.ok) throw new Error(result.error.message)
     report('已导入，相关设置已恢复')
   }, [data])
-
-  const handleBackupToFile = useCallback(async (): Promise<void> => {
-    if (data === undefined || desktop === undefined) return
-    setError(null)
-    setStatus('选择保存位置…')
-    try {
-      const picked = await desktop.pickSaveFile(snapshotName())
-      if (!picked.ok) throw new Error(picked.error.message)
-      if (picked.value.canceled === true || picked.value.filePath === undefined) { setStatus(null); return }
-      const snapshot = await data.exportControlCenter()
-      if (!snapshot.ok) throw new Error(snapshot.error.message)
-      const written = await desktop.writeFile(picked.value.filePath, textToBase64(JSON.stringify(snapshot.value, null, 2)))
-      if (!written.ok) throw new Error(written.error.message)
-      report(`已备份到 ${picked.value.filePath}`)
-    } catch (err) { fail(err) }
-  }, [data, desktop])
-
-  const handleRestoreFromFile = useCallback(async (): Promise<void> => {
-    if (data === undefined || desktop === undefined) return
-    setError(null)
-    setStatus('选择备份文件…')
-    try {
-      const picked = await desktop.pickFile(['openFile'])
-      if (!picked.ok) throw new Error(picked.error.message)
-      const path = picked.value.filePaths?.[0]
-      if (picked.value.canceled === true || path === undefined) { setStatus(null); return }
-      const read = await desktop.readFile(path)
-      if (!read.ok) throw new Error(read.error.message)
-      await importSnapshot(JSON.parse(base64ToText(read.value.contentBase64 ?? '')) as DataExport)
-    } catch (err) { fail(err) }
-  }, [data, desktop, importSnapshot])
 
   const handleExport = useCallback(async (): Promise<void> => {
     if (data === undefined) return
@@ -517,28 +475,6 @@ export function DataSection({ getData, getExport, getDesktop, getSystem, useData
   function BasicDataPanel() {
     return (
       <SettingsPageShell>
-        <SettingGroup>
-          <SettingTitle>备份与恢复</SettingTitle>
-          <SettingDivider />
-          <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-            <button type="button" className="cc-btn cc-btn-primary" onClick={() => void handleBackupToFile()}
-              disabled={desktop === undefined}
-              title={desktop === undefined ? '需要桌面版' : undefined}>
-              备份到本地文件
-            </button>
-            <button type="button" className="cc-btn cc-btn-secondary" onClick={() => void handleRestoreFromFile()}
-              disabled={desktop === undefined}
-              title={desktop === undefined ? '需要桌面版' : undefined}>
-              从本地文件恢复
-            </button>
-          </div>
-          {desktop === undefined && (
-            <p style={{ marginTop: 8, color: 'var(--muted-foreground)', fontSize: 12 }}>
-              当前是浏览器环境，没有本地文件对话框；请使用下方的快照导出/导入。
-            </p>
-          )}
-        </SettingGroup>
-
         {dshHome !== null && (
           <SettingGroup>
             <SettingTitle>应用数据路径</SettingTitle>
@@ -599,16 +535,7 @@ export function DataSection({ getData, getExport, getDesktop, getSystem, useData
                 onChange={e => setBackupDir(e.target.value)}
                 placeholder="选择或输入备份目录路径"
               />
-              <button type="button" className="cc-btn cc-btn-secondary" disabled={desktop === undefined}
-                onClick={async () => {
-                  if (desktop === undefined) return
-                  const picked = await desktop.pickFile(['openDirectory'])
-                  if (picked.ok && !picked.value.canceled && picked.value.filePaths?.[0]) {
-                    setBackupDir(picked.value.filePaths[0])
-                  }
-                }}>
-                选择目录
-              </button>
+              <span style={{ fontSize: 12, color: 'var(--muted-foreground)' }}>输入本机绝对路径</span>
             </div>
           </SettingRow>
           <SettingDivider />

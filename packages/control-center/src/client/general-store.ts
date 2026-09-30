@@ -1,4 +1,4 @@
-/** General settings store for desktop behavior and Cherry-compatible context preferences. */
+/** General settings store for developer mode and Cherry-compatible context preferences. */
 
 import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
 import type { SnapshotStore } from '@deepseek-ai/dsh-client-store'
@@ -8,20 +8,8 @@ import { messageOf } from './store.ts'
 
 export const GENERAL_NAMESPACE = 'control-center-general'
 
-export type ProxyMode = 'off' | 'system' | 'static'
-
 export interface GeneralPrefs {
-  launchOnBoot: boolean
-  trayEnabled: boolean
-  trayOnClose: boolean
-  trayOnLaunch: boolean
-  preventSleepWhenBusy: boolean
   developerMode: boolean
-  proxyMode: ProxyMode
-  proxyUrl: string
-  proxyBypass: string
-  allowPrivateNetwork: boolean
-  disableHardwareAcceleration: boolean
   contextEnabled: boolean
   contextMaxMessages: number | null
   contextToolOutputThreshold: number
@@ -29,7 +17,6 @@ export interface GeneralPrefs {
   contextCompressionProvider: string
   contextCompressionModel: string
   clientId: string
-  menuPresentation: 'hidden' | 'auto-hide' | 'visible'
 }
 
 export interface GeneralState {
@@ -43,17 +30,7 @@ export interface GeneralState {
 }
 
 const DEFAULT_PREFS: GeneralPrefs = {
-  launchOnBoot: false,
-  trayEnabled: true,
-  trayOnClose: false,
-  trayOnLaunch: false,
-  preventSleepWhenBusy: false,
   developerMode: false,
-  proxyMode: 'off',
-  proxyUrl: '',
-  proxyBypass: '',
-  allowPrivateNetwork: false,
-  disableHardwareAcceleration: false,
   contextEnabled: true,
   contextMaxMessages: null,
   contextToolOutputThreshold: 50_000,
@@ -61,7 +38,6 @@ const DEFAULT_PREFS: GeneralPrefs = {
   contextCompressionProvider: '',
   contextCompressionModel: '',
   clientId: '',
-  menuPresentation: 'hidden',
 }
 
 function readPrefs(value: unknown, schema: SettingsSchemaOperations): GeneralPrefs {
@@ -81,25 +57,9 @@ function readPrefs(value: unknown, schema: SettingsSchemaOperations): GeneralPre
     const raw = schema.getPath(value, [key])
     return typeof raw === 'string' ? raw : fallback
   }
-  const menuRaw = schema.getPath(value, ['menuPresentation'])
-  const menuPresentation: 'hidden' | 'auto-hide' | 'visible' =
-    menuRaw === 'auto-hide' || menuRaw === 'visible' ? menuRaw : 'hidden'
-  const proxyModeRaw = schema.getPath(value, ['proxyMode'])
-  const proxyMode: ProxyMode = proxyModeRaw === 'system' || proxyModeRaw === 'static' ? proxyModeRaw : 'off'
   return {
     clientId: text('clientId', DEFAULT_PREFS.clientId),
-    menuPresentation,
-    launchOnBoot: flag('launchOnBoot', DEFAULT_PREFS.launchOnBoot),
-    trayEnabled: flag('trayEnabled', DEFAULT_PREFS.trayEnabled),
-    trayOnClose: flag('trayOnClose', DEFAULT_PREFS.trayOnClose),
-    trayOnLaunch: flag('trayOnLaunch', DEFAULT_PREFS.trayOnLaunch),
-    preventSleepWhenBusy: flag('preventSleepWhenBusy', DEFAULT_PREFS.preventSleepWhenBusy),
     developerMode: flag('developerMode', DEFAULT_PREFS.developerMode),
-    proxyMode,
-    proxyUrl: text('proxyUrl', DEFAULT_PREFS.proxyUrl),
-    proxyBypass: text('proxyBypass', DEFAULT_PREFS.proxyBypass),
-    allowPrivateNetwork: flag('allowPrivateNetwork', DEFAULT_PREFS.allowPrivateNetwork),
-    disableHardwareAcceleration: flag('disableHardwareAcceleration', DEFAULT_PREFS.disableHardwareAcceleration),
     contextEnabled: flag('contextEnabled', DEFAULT_PREFS.contextEnabled),
     contextMaxMessages: integerOrNull('contextMaxMessages', DEFAULT_PREFS.contextMaxMessages),
     contextToolOutputThreshold: positiveInteger('contextToolOutputThreshold', DEFAULT_PREFS.contextToolOutputThreshold),

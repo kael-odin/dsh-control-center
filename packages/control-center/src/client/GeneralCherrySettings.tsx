@@ -1,7 +1,9 @@
 /**
  * One 通用 preference block contributed to the native General settings page —
- * Cherry GeneralSettings parity for desktop behavior and context management,
- * plus an honest platform note for proxy settings.
+ * Cherry GeneralSettings parity for developer mode and context management.
+ *
+ * Desktop-shell rows (launch/tray/proxy/hardware acceleration) were removed
+ * with the shell: the official DeepSeek Harness Desktop owns them now.
  *
  * The native General page renders every `settings.general.item` row; this
  * component owns its own copy, store, and write path through the injected
@@ -165,159 +167,12 @@ function Loaded({ controller, useSnapshot, t }: {
     <div className={css['groupBody']}>
       <div className={css['groupTitle']}>{t('generalLaunch')}</div>
       <PrefRow
-        title={t('generalLaunchOnBoot')}
-        hint={t('generalDesktopOnly')}
-        checked={prefs.launchOnBoot}
-        disabled={disabled}
-        label={t('generalLaunchOnBoot')}
-        onChange={(next) => { setPref('launchOnBoot', next) }}
-      />
-      <PrefRow
-        title={t('generalTrayEnabled')}
-        hint={t('generalDesktopOnly')}
-        checked={prefs.trayEnabled}
-        disabled={disabled}
-        label={t('generalTrayEnabled')}
-        onChange={(next) => { setPref('trayEnabled', next) }}
-      />
-      <PrefRow
-        title={t('generalTrayOnClose')}
-        hint={t('generalDesktopOnly')}
-        checked={prefs.trayOnClose}
-        disabled={disabled}
-        label={t('generalTrayOnClose')}
-        onChange={(next) => { setPref('trayOnClose', next) }}
-      />
-      <PrefRow
-        title={t('generalTrayOnLaunch')}
-        hint={t('generalDesktopOnly')}
-        checked={prefs.trayOnLaunch}
-        disabled={disabled}
-        label={t('generalTrayOnLaunch')}
-        onChange={(next) => { setPref('trayOnLaunch', next) }}
-      />
-      <div className={css['prefRow']}>
-        <label className={css['prefRowTitle']} htmlFor="cc-general-menu-presentation">
-          <span>{t('generalMenuPresentation')}</span>
-          <span className={css['prefRowHint']}>{t('generalDesktopOnly')}</span>
-        </label>
-        <div className={css['prefRowControl']}>
-          <select
-            id="cc-general-menu-presentation"
-            className={css['prefInput']}
-            value={prefs.menuPresentation}
-            disabled={disabled}
-            onChange={event => { void controller.save('menuPresentation', event.target.value as 'hidden' | 'auto-hide' | 'visible') }}
-          >
-            <option value="hidden">{t('generalMenuHidden')}</option>
-            <option value="auto-hide">{t('generalMenuAutoHide')}</option>
-            <option value="visible">{t('generalMenuVisible')}</option>
-          </select>
-        </div>
-      </div>
-      <PrefRow
-        title={t('generalPreventSleep')}
-        hint={t('generalDesktopOnly')}
-        checked={prefs.preventSleepWhenBusy}
-        disabled={disabled}
-        label={t('generalPreventSleep')}
-        onChange={(next) => { setPref('preventSleepWhenBusy', next) }}
-      />
-      <PrefRow
         title={t('generalDeveloperMode')}
         hint={t('generalDeveloperHint')}
         checked={prefs.developerMode}
         disabled={disabled}
         label={t('generalDeveloperMode')}
         onChange={(next) => { setPref('developerMode', next) }}
-      />
-      <div className={css['divider']} />
-      <div className={css['groupTitle']}>{t('generalProxy')}</div>
-      <Note
-        title={t('generalDesktopOnly')}
-        body="代理偏好保存在 control-center-general 命名空间，桌面壳读取后应用到出站请求；Web 版仅保存。"
-      />
-      <div className={css['prefRow']}>
-        <label className={css['prefRowTitle']} htmlFor="cc-proxy-mode">
-          <span>{t('generalProxyMode')}</span>
-        </label>
-        <div className={css['prefRowControl']}>
-          <select
-            id="cc-proxy-mode"
-            className={css['prefInput']}
-            value={prefs.proxyMode}
-            disabled={disabled}
-            onChange={event => { void controller.save('proxyMode', event.target.value as GeneralPrefs['proxyMode']) }}
-          >
-            <option value="off">{t('generalProxyOff')}</option>
-            <option value="system">{t('generalProxySystem')}</option>
-            <option value="static">{t('generalProxyStatic')}</option>
-          </select>
-        </div>
-      </div>
-      {prefs.proxyMode === 'static' && (
-        <>
-          <div className={css['prefRow']}>
-            <label className={css['prefRowTitle']} htmlFor="cc-proxy-url">
-              <span>{t('generalProxyUrl')}</span>
-              <span className={css['prefRowHint']}>{t('generalProxyUrlHint')}</span>
-            </label>
-            <div className={css['prefRowControl']}>
-              <input
-                id="cc-proxy-url"
-                className={css['prefInput']}
-                type="text"
-                maxLength={300}
-                placeholder="http://127.0.0.1:7890"
-                defaultValue={prefs.proxyUrl}
-                disabled={disabled}
-                onBlur={event => {
-                  const next = event.target.value.trim()
-                  if (next !== prefs.proxyUrl) void controller.save('proxyUrl', next)
-                }}
-                onKeyDown={(event) => { if (event.key === 'Enter') event.currentTarget.blur() }}
-              />
-            </div>
-          </div>
-          <div className={css['prefRow']}>
-            <label className={css['prefRowTitle']} htmlFor="cc-proxy-bypass">
-              <span>{t('generalProxyBypass')}</span>
-              <span className={css['prefRowHint']}>{t('generalProxyBypassHint')}</span>
-            </label>
-            <div className={css['prefRowControl']}>
-              <input
-                id="cc-proxy-bypass"
-                className={css['prefInput']}
-                type="text"
-                maxLength={500}
-                placeholder="localhost, 192.168.*"
-                defaultValue={prefs.proxyBypass}
-                disabled={disabled}
-                onBlur={event => {
-                  const next = event.target.value.trim()
-                  if (next !== prefs.proxyBypass) void controller.save('proxyBypass', next)
-                }}
-                onKeyDown={(event) => { if (event.key === 'Enter') event.currentTarget.blur() }}
-              />
-            </div>
-          </div>
-        </>
-      )}
-      <PrefRow
-        title={t('generalAllowPrivateNetwork')}
-        hint={t('generalAllowPrivateNetworkHint')}
-        checked={prefs.allowPrivateNetwork}
-        disabled={disabled}
-        label={t('generalAllowPrivateNetwork')}
-        onChange={(next) => { setPref('allowPrivateNetwork', next) }}
-      />
-      <PrefRow
-        title={t('generalDisableHardwareAcceleration')}
-        hint={t('generalDisableHardwareAccelerationHint')}
-        checked={prefs.disableHardwareAcceleration}
-        disabled={disabled}
-        label={t('generalDisableHardwareAcceleration')}
-        onChange={(next) => { setPref('disableHardwareAcceleration', next) }}
       />
       <div className={css['divider']} />
       <div className={css['groupTitle']}>{t('generalContext')}</div>

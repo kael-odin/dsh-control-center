@@ -26,11 +26,11 @@ function source(initial: SessionListState) {
   }
 }
 
-function api(assistant: boolean) {
+function api(conversation: boolean) {
   return {
     settings: {
       describe: vi.fn(async () => ({
-        ok: true, value: { namespaces: [{ ns: 'control-center-notifications', value: { assistant }, revision: 1 }] },
+        ok: true, value: { namespaces: [{ ns: 'control-center-notifications', value: { conversation }, revision: 1 }] },
       })),
     },
   } as never
@@ -52,7 +52,7 @@ describe('ConversationNotificationRuntime', () => {
     }
     vi.stubGlobal('Notification', FakeNotification)
     const sessions = source(state(true))
-    const runtime = new ConversationNotificationRuntime(api(true), sessions, () => undefined)
+    const runtime = new ConversationNotificationRuntime(api(true), sessions)
     const stop = runtime.start()
     await runtime.refreshPreferences()
 
@@ -62,12 +62,12 @@ describe('ConversationNotificationRuntime', () => {
     stop()
   })
 
-  it('stays silent when the assistant preference is disabled', async () => {
+  it('stays silent when the conversation preference is disabled', async () => {
     const notification = vi.fn()
     Object.assign(notification, { permission: 'granted' })
     vi.stubGlobal('Notification', notification)
     const sessions = source(state(true))
-    const runtime = new ConversationNotificationRuntime(api(false), sessions, () => undefined)
+    const runtime = new ConversationNotificationRuntime(api(false), sessions)
     runtime.start()
     await runtime.refreshPreferences()
 

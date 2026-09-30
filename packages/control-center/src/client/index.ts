@@ -62,9 +62,6 @@ import type {} from '../websearch-types.ts'
 import websearchRemote from '../websearch-remote-client.ts'
 import { WebSearchSection } from './WebSearchSection.tsx'
 import type { WebSearchSectionInjected } from './WebSearchSection.tsx'
-import type { QuickAssistantSectionInjected } from './QuickAssistantSection.tsx'
-import type { SelectionAssistantSectionInjected } from './SelectionAssistantSection.tsx'
-import type { ScreenshotSectionInjected } from './ScreenshotSection.tsx'
 import type {} from '../file-processing-types.ts'
 import fileProcessingRemote from '../file-processing-remote-client.ts'
 import { ProcessorSection } from './ProcessorSection.tsx'
@@ -87,9 +84,8 @@ import { TasksSection } from './TasksSection.tsx'
 import type { TasksSectionInjected } from './TasksSection.tsx'
 import type {} from '../local-models-types.ts'
 import { localModelsRemote, updateRemote } from '../local-models-remote-client.ts'
-import type {} from '../desktop-types.ts'
-import desktopRemote from '../desktop-remote-client.ts'
 import channelBridgeRemote from '../channel-bridge-remote-client.ts'
+import agentPresetsRemote from '../agent-presets-remote-client.ts'
 import { LocalModelsSection } from './LocalModelsSection.tsx'
 import { ApiGatewaySection } from './ApiGatewaySection.tsx'
 import type { ApiGatewaySectionInjected } from './ApiGatewaySection.tsx'
@@ -109,12 +105,8 @@ import type { AppearanceSectionInjected } from './AppearanceSection.tsx'
 import { NotificationSection, type NotificationSectionInjected } from './NotificationSection.tsx'
 import { ConversationNotificationRuntime, NOTIFICATION_SETTINGS_NAMESPACE } from './notification-runtime.ts'
 import { ShortcutSection } from './ShortcutSection.tsx'
-import { SelectionAssistantSection } from './SelectionAssistantSection.tsx'
-import { QuickAssistantSection } from './QuickAssistantSection.tsx'
-import { ScreenshotSection } from './ScreenshotSection.tsx'
 import { ChannelsSection } from './ChannelsSection.tsx'
-import type { ChannelsSectionInjected, ChannelBridgeHandle } from './ChannelsSection.tsx'
-import type { AssistantRemote } from './assistant-store.ts'
+import type { ChannelsSectionInjected, ChannelBridgeHandle, AgentPresetsRemote } from './ChannelsSection.tsx'
 import { ChannelsStore } from './channels-store.ts'
 import { GeneralSettingsStore } from './general-store.ts'
 import { SettingsDocumentAction } from './SettingsDocumentAction.tsx'
@@ -228,11 +220,8 @@ export function apply(ctx: ClientContext): void {
   let tasks: NonNullable<typeof remote.controlCenterTasks> | undefined
   let localModels: NonNullable<typeof remote.controlCenterLocalModels> | undefined
   let update: NonNullable<typeof remote.controlCenterUpdate> | undefined
-  let desktop: NonNullable<typeof remote.controlCenterDesktop> | undefined
-  let assistant: NonNullable<typeof remote.controlCenterAssistant> | undefined
   const localModelsReadySource = remoteReadyGate.source
   const updateReadySource = remoteReadyGate.source
-  const desktopReadySource = remoteReadyGate.source
   const alwaysReadySource: HostObservable<boolean> = {
     getSnapshot: () => true,
     subscribe: () => () => {},
@@ -265,7 +254,7 @@ export function apply(ctx: ClientContext): void {
         ...tasksRemote.descriptors,
         ...localModelsRemote.descriptors,
         ...updateRemote.descriptors,
-        ...desktopRemote.descriptors
+        ...agentPresetsRemote.descriptors
       ],
     }
     const dispose = await remote.$mount(controlCenterRemote)
@@ -283,8 +272,6 @@ export function apply(ctx: ClientContext): void {
     tasks = ctx.get('remote.controlCenterTasks') as NonNullable<typeof remote.controlCenterTasks>
     localModels = ctx.get('remote.controlCenterLocalModels') as NonNullable<typeof remote.controlCenterLocalModels>
     update = ctx.get('remote.controlCenterUpdate') as NonNullable<typeof remote.controlCenterUpdate>
-    desktop = ctx.get('remote.controlCenterDesktop') as NonNullable<typeof remote.controlCenterDesktop>
-    assistant = ctx.get('remote.controlCenterAssistant') as NonNullable<typeof remote.controlCenterAssistant>
     channelBridge = ctx.get('remote.controlCenterChannelBridge') as NonNullable<typeof remote.controlCenterChannelBridge>
     remoteReadyGate.settle()
     return dispose
@@ -343,7 +330,6 @@ export function apply(ctx: ClientContext): void {
   const notificationRuntime = new ConversationNotificationRuntime(
     ctx.remote,
     ctx.sessions.list as unknown as HostObservable<SessionListState>,
-    () => desktop,
   )
   ctx.effect(() => notificationRuntime.start(), 'control-center: conversation notifications')
   ctx.effect(() => { void prefsController.load(); return () => undefined }, 'control-center: model prefs load')
@@ -427,7 +413,6 @@ export function apply(ctx: ClientContext): void {
   })
   const skillsInjected = () => ({
     skills: skills!,
-    desktop: desktop === undefined ? undefined : { pickFile: (properties: readonly string[]) => desktop!.pickFile(properties) },
   })
   const modelCheckInjected = (): { getCheck: () => {
     check(provider: string, model: string): Promise<
@@ -452,9 +437,6 @@ export function apply(ctx: ClientContext): void {
     websearch: websearch!,
     t: websearchT,
   })
-  const quickAssistantInjected = (): QuickAssistantSectionInjected => ({ assistant, desktop })
-  const selectionAssistantInjected = (): SelectionAssistantSectionInjected => ({ assistant, desktop })
-  const screenshotInjected = (): ScreenshotSectionInjected => ({ assistant, desktop })
   const deepSeekOnboardingInjected = (): DeepSeekOnboardingInjected => ({
     controller: modelsController,
     hooks: { models: modelsController.store },
@@ -552,10 +534,6 @@ export function apply(ctx: ClientContext): void {
           getKnowledge: () => {
             if (knowledge === undefined) throw new Error('knowledge Remote namespace is not mounted')
             return knowledge
-          },
-          getDesktop: () => {
-            if (desktop === undefined) throw new Error('desktop Remote namespace is not mounted')
-            return desktop
           },
           hooks: { knowledgeReady: knowledgeReadySource },
           listModels: async () => {
@@ -852,15 +830,11 @@ export function apply(ctx: ClientContext): void {
         if (ns === undefined) throw new Error('export Remote namespace is not mounted')
         return ns
       },
-      getDesktop: () => {
-        if (desktop === undefined) throw new Error('desktop Remote namespace is not mounted')
-        return desktop
-      },
       getSystem: () => {
         if (system === undefined) throw new Error('system Remote namespace is not mounted')
         return system
       },
-      hooks: { dataReady: dataReadySource, exportReady: exportReadySource, desktopReady: desktopReadySource, systemReady: systemReadySource },
+      hooks: { dataReady: dataReadySource, exportReady: exportReadySource, systemReady: systemReadySource },
     }),
   }, DataSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
@@ -871,11 +845,6 @@ export function apply(ctx: ClientContext): void {
     inject: (): AppearanceSectionInjected => ({
       api: ctx.remote,
       locale: ctx.locale,
-      getDesktop: () => {
-        if (desktop === undefined) throw new Error('desktop Remote namespace is not mounted')
-        return desktop
-      },
-      hooks: { desktopReady: desktopReadySource },
     }),
   }, AppearanceSection))
   ctx.slots.inject('settings.section', () => ctx.slots.register({
@@ -913,7 +882,6 @@ export function apply(ctx: ClientContext): void {
       getUpdate: (): NonNullable<typeof remote.controlCenterUpdate> | undefined => update,
       getCompat: (): NonNullable<typeof remote.controlCenterCompat> | undefined =>
         ctx.get('remote.controlCenterCompat') as NonNullable<typeof remote.controlCenterCompat> | undefined,
-      getDesktop: (): NonNullable<typeof remote.controlCenterDesktop> | undefined => desktop,
       hooks: { systemReady: systemReadySource },
     }),
   }, AboutSection))
@@ -972,27 +940,6 @@ export function apply(ctx: ClientContext): void {
     order: 32,
     label: () => shellT('shortcutsNav'),
   }, ShortcutSection))
-  ctx.slots.inject('settings.section', () => ctx.slots.register({
-    name: 'settings.section',
-    id: 'selection-assistant',
-    order: 34,
-    label: () => shellT('selectionAssistantNav'),
-    inject: selectionAssistantInjected,
-  }, SelectionAssistantSection))
-  ctx.slots.inject('settings.section', () => ctx.slots.register({
-    name: 'settings.section',
-    id: 'quick-assistant',
-    order: 33,
-    label: () => shellT('quickAssistantNav'),
-    inject: quickAssistantInjected,
-  }, QuickAssistantSection))
-  ctx.slots.inject('settings.section', () => ctx.slots.register({
-    name: 'settings.section',
-    id: 'screenshot',
-    order: 35,
-    label: () => shellT('screenshotNav'),
-    inject: screenshotInjected,
-  }, ScreenshotSection))
   const channelsInjected = (): ChannelsSectionInjected => ({
     api: ctx.remote,
     useChannels,
@@ -1001,9 +948,9 @@ export function apply(ctx: ClientContext): void {
     // closure's first evaluation, so the value must be resolved per call.
     getBridge: (): ChannelBridgeHandle | undefined =>
       channelBridge === undefined ? undefined : channelBridge as unknown as ChannelBridgeHandle,
-    // Agent-preset roster for the per-channel binding picker (same remote as
-    // Quick Assistant; undefined until mounted).
-    getAssistant: (): AssistantRemote | undefined => assistant,
+    // Agent-preset roster for the per-channel binding picker; undefined until mounted.
+    getAgentPresets: (): AgentPresetsRemote | undefined =>
+      ctx.get('remote.controlCenterAgentPresets') as AgentPresetsRemote | undefined,
   })
   ctx.slots.inject('settings.section', () => ctx.slots.register({
     name: 'settings.section',

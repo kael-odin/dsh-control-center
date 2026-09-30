@@ -1,18 +1,17 @@
 /**
  * Appearance settings — Cherry AppearanceSettings parity (web-feasible rows):
  * theme mode (real DSH theme switch), theme color (real overrides), fonts,
- * custom CSS. Desktop-only rows (zoom/context menu/transparent window) are
- * noted honestly.
+ * message display, custom CSS. Desktop-only rows (zoom/transparent window/
+ * window style) were removed with the shell — the official DeepSeek Harness
+ * Desktop owns them now.
  */
 import { useEffect, useRef, useState } from 'react'
-import type { HostObservable, InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
+import type { InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
 import type { LocaleRuntime, LocaleSnapshot } from '@deepseek-ai/dsh-client-locale/client'
 import {
   applyThemeOverrides, clampMessageFontSize, DEFAULT_THEME_OVERRIDES, hasLegacyThemeOverrides, loadThemeOverrides, markThemeOverridesMigrated, THEME_COLOR_PRESETS, APPEARANCE_SETTINGS_NAMESPACE, type ThemeOverrides,
 } from './theme-overrides.ts'
-import { isDesktopEnv } from './desktop-capabilities.ts'
-import type {} from '../desktop-types.ts'
 import { HelpTooltip } from './panel-ui.tsx'
 import {
   SettingDivider, SettingGroup, SettingRow, SettingRowTitle, SettingsPageShell, SettingSwitch,
@@ -22,28 +21,11 @@ import css from './AppearanceSection.module.css'
 export interface AppearanceSectionInjected {
   api: ClientRemote
   locale?: LocaleRuntime
-  getDesktop: () => NonNullable<ClientRemote['controlCenterDesktop']>
-  hooks: { desktopReady: HostObservable<boolean> }
 }
 
 export type AppearanceSectionProps = PropsRuntime<'settings.section'> & InjectFace<AppearanceSectionInjected>
 
 type ThemeMode = 'light' | 'dark' | 'system'
-
-/**
- * Desktop-only row value: once the desktop service confirms a reachable native
- * bridge, show a real "已连接 (Electron vX)" signal; in a desktop shell without
- * a reachable bridge show "桌面（桥接未连接）"; in a browser tab stay honest with
- * "需要桌面版".
- * @param bridgeText - electron/notification status text when bridge confirmed.
- * @param bridgeSupported - true only when the desktop service check() succeeded.
- */
-function desktopRowValue(bridgeText: string, bridgeSupported: boolean): string {
-  if (isDesktopEnv() && bridgeSupported && bridgeText !== '') return `已连接 (${bridgeText})`
-  if (isDesktopEnv() && bridgeSupported) return '桌面（已就绪）'
-  if (isDesktopEnv()) return '桌面（桥接未连接）'
-  return '需要桌面版'
-}
 
 const THEME_NS = 'ui-theme'
 
@@ -102,7 +84,7 @@ function ThemePreview({ mode, active }: { mode: ThemeMode; active: boolean }) {
   )
 }
 
-export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: AppearanceSectionProps) {
+export function AppearanceSection({ api, locale }: AppearanceSectionProps) {
   const [overrides, setOverrides] = useState<ThemeOverrides>(loadThemeOverrides)
   const fallbackLocale: LocaleSnapshot = { active: 'zh', locales: [{ id: 'zh', label: '中文' }], revision: 0 }
   const [localeSnapshot, setLocaleSnapshot] = useState<LocaleSnapshot>(() => locale?.getSnapshot() ?? fallbackLocale)
@@ -112,16 +94,6 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
   const [codeFontDraft, setCodeFontDraft] = useState(overrides.codeFontFamily)
   const [cssDraft, setCssDraft] = useState(overrides.customCss)
   const [messageFontSize, setMessageFontSize] = useState(overrides.messageFontSize)
-  // Real desktop-bridge status: desktopReady means the controlCenterDesktop
-  // remote is mounted; bridgeSupported means its check() confirmed a reachable
-  // native bridge (the shell's Electron service).
-  const desktopReady = useDesktopReady(value => value)
-  const [zoom, setZoom] = useState(1)
-  const [zoomBusy, setZoomBusy] = useState(false)
-  const [fontOptions, setFontOptions] = useState(FONT_OPTIONS)
-  const [fontLoading, setFontLoading] = useState(false)
-  const [bridgeText, setBridgeText] = useState('')
-  const [bridgeSupported, setBridgeSupported] = useState(false)
   const [appearanceReady, setAppearanceReady] = useState(false)
   const [appearanceSaving, setAppearanceSaving] = useState(false)
   const [appearanceError, setAppearanceError] = useState('')
@@ -135,38 +107,6 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
     return unsubscribe
   }, [locale])
 
-  // Probe the desktop service once its remote is mounted; the
-  // controlCenterDesktop service reports whether the shell's native bridge is
-  // genuinely reachable (web profiles honestly return unsupported).
-  useEffect(() => {
-    if (!desktopReady) return
-    let active = true
-    setFontLoading(true)
-    void getDesktop().fonts().then(result => {
-      if (!active) return
-      if (result.ok && result.value.ok && result.value.fonts !== undefined && result.value.fonts.length > 0) {
-        setFontOptions([{ label: '默认', value: '' }, ...result.value.fonts.map((font: string) => ({ label: font, value: font }))])
-      }
-    }).finally(() => { if (active) setFontLoading(false) })
-    return () => { active = false }
-  }, [desktopReady])
-
-  useEffect(() => {
-    if (!desktopReady) return
-    let active = true
-    void getDesktop().check().then(result => {
-      if (!active) return
-      if (result.ok && result.value.supported) {
-        setBridgeSupported(true)
-        setBridgeText(result.value.electron ? `Electron ${result.value.electron}` : '')
-      } else {
-        setBridgeSupported(false)
-        setBridgeText('')
-      }
-    }).catch(() => { if (active) { setBridgeSupported(false); setBridgeText('') } })
-    return () => { active = false }
-  }, [desktopReady])
-
   // Read the current theme mode from the DSH theme namespace.
   useEffect(() => {
     let active = true
@@ -178,26 +118,6 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
     }).catch(() => {})
     return () => { active = false }
   }, [api])
-
-  const changeZoom = (delta: number, reset = false): void => {
-    if (zoomBusy || revisionRef.current === null) return
-    const previous = zoom
-    setZoomBusy(true)
-    void getDesktop().adjustZoom(delta, reset).then(result => {
-      if (!result.ok || !result.value.ok || result.value.zoom === undefined) {
-        throw new Error(result.ok ? result.value.error ?? '缩放设置失败' : result.error.message)
-      }
-      setZoom(result.value.zoom)
-      return api.settings.mutate(APPEARANCE_SETTINGS_NAMESPACE, [{ op: 'set', path: ['desktopZoom'], value: result.value.zoom }], revisionRef.current!).then(response => {
-        if (!response.ok) throw new Error(response.error.message)
-        revisionRef.current = response.value.revision
-      })
-    }).catch(error => {
-      setZoom(previous)
-      setAppearanceError(String((error as Error).message || '缩放设置保存失败，请重试。'))
-      if (bridgeSupported) void getDesktop().adjustZoom(0, true).then(() => getDesktop().adjustZoom(previous - 1, false))
-    }).finally(() => { setZoomBusy(false) })
-  }
 
   // Load the authoritative DSH appearance namespace. Legacy browser values are
   // migrated only when the namespace is still at its schema defaults.
@@ -214,8 +134,7 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
         setAppearanceError('外观设置不可用，请重试。')
         return
       }
-      const stored = namespace.value as Partial<ThemeOverrides> & { desktopZoom?: unknown }
-      const storedZoom = typeof stored.desktopZoom === 'number' && stored.desktopZoom >= 0.5 && stored.desktopZoom <= 2 ? stored.desktopZoom : 1
+      const stored = namespace.value as Partial<ThemeOverrides>
       const hasStoredValues = typeof stored.colorPrimary === 'string' && stored.colorPrimary !== DEFAULT_THEME_OVERRIDES.colorPrimary
         || stored.fontFamily !== '' || stored.codeFontFamily !== '' || stored.customCss !== ''
       const legacy = loadThemeOverrides()
@@ -229,8 +148,6 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
         useSerifFont: stored.useSerifFont === true,
         messageStyle: stored.messageStyle === 'bubble' ? 'bubble' as const : 'plain' as const,
         showMessageOutline: stored.showMessageOutline === true,
-        useSystemTitleBar: stored.useSystemTitleBar === true,
-        windowStyle: stored.windowStyle === 'transparent' ? 'transparent' as const : 'opaque' as const,
       }
       overridesRef.current = next
       revisionRef.current = namespace.revision
@@ -240,10 +157,6 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
       setCodeFontDraft(next.codeFontFamily)
       setCssDraft(next.customCss)
       setMessageFontSize(next.messageFontSize)
-      setZoom(storedZoom)
-      if (desktopReady && isDesktopEnv()) {
-        void getDesktop().adjustZoom(0, true).then(() => getDesktop().adjustZoom(storedZoom - 1, false))
-      }
       applyThemeOverrides(next)
       setAppearanceReady(true)
       setAppearanceError('')
@@ -258,7 +171,7 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
       }
     }).catch(() => { if (active) setAppearanceError('外观设置加载失败，请重试。') })
     return () => { active = false }
-  }, [api, desktopReady])
+  }, [api])
 
   const updateOverrides = (patch: Partial<ThemeOverrides>): void => {
     if (!appearanceReady || appearanceSaving || revisionRef.current === null) return
@@ -389,21 +302,6 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
             ))}
           </select>
         </SettingRow>
-        <SettingDivider />
-        <SettingRow>
-          <SettingRowTitle>缩放 <span className={css.desktopTag}>桌面</span></SettingRowTitle>
-          <div className={css.zoomControls}>
-            <button type="button" disabled={!bridgeSupported || zoomBusy || zoom <= 0.5} onClick={() => { changeZoom(-0.1) }} aria-label="缩小">−</button>
-            <span className={css.staticValue}>{Math.round(zoom * 100)}%</span>
-            <button type="button" disabled={!bridgeSupported || zoomBusy || zoom >= 2} onClick={() => { changeZoom(0.1) }} aria-label="放大">＋</button>
-            {zoom !== 1 && <button type="button" disabled={!bridgeSupported || zoomBusy} onClick={() => { changeZoom(0, true) }} aria-label="重置缩放">↺</button>}
-          </div>
-        </SettingRow>
-        <SettingDivider />
-        <SettingRow>
-          <SettingRowTitle>透明窗口 <span className={css.desktopTag}>桌面</span></SettingRowTitle>
-          <span className={css.staticValue}>{desktopRowValue(bridgeText, bridgeSupported)}</span>
-        </SettingRow>
       </SettingGroup>
 
       <SettingGroup>
@@ -414,10 +312,10 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
           <select
             className={css.fontSelect}
             value={fontDraft}
-            disabled={!appearanceReady || appearanceSaving || fontLoading}
+            disabled={!appearanceReady || appearanceSaving}
             onChange={event => { setFontDraft(event.target.value); updateOverrides({ fontFamily: event.target.value }) }}
           >
-            {fontOptions.map(option => (
+            {FONT_OPTIONS.map(option => (
               <option key={option.value} value={option.value}>{option.label}</option>
             ))}
           </select>
@@ -428,10 +326,10 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
           <select
             className={css.fontSelect}
             value={codeFontDraft}
-            disabled={!appearanceReady || appearanceSaving || fontLoading}
+            disabled={!appearanceReady || appearanceSaving}
             onChange={event => { setCodeFontDraft(event.target.value); updateOverrides({ codeFontFamily: event.target.value }) }}
           >
-            {fontOptions.map(option => (
+            {FONT_OPTIONS.map(option => (
               <option key={option.value} value={option.value}>{option.label}</option>
             ))}
           </select>
@@ -476,29 +374,6 @@ export function AppearanceSection({ api, locale, getDesktop, useDesktopReady }: 
           checked={overrides.showMessageOutline}
           disabled={!appearanceReady || appearanceSaving}
           onChange={next => { updateOverrides({ showMessageOutline: next }) }}
-        />
-      </SettingGroup>
-
-      <SettingGroup>
-        <div className={css.groupHeader}>窗口 <HelpTooltip text="桌面窗口外观偏好，保存后随桌面版生效（Cherry ui.window_style / app.use_system_title_bar）" /></div>
-        <SettingRow>
-          <SettingRowTitle>
-            窗口样式
-            <span className={css.desktopTag}>桌面</span>
-          </SettingRowTitle>
-          <div className={css.segmented}>
-            <button type="button" className={`${css.seg} ${overrides.windowStyle === 'opaque' ? css.segActive : ''}`} disabled={!appearanceReady || appearanceSaving}
-              onClick={() => { updateOverrides({ windowStyle: 'opaque' }) }}>不透明</button>
-            <button type="button" className={`${css.seg} ${overrides.windowStyle === 'transparent' ? css.segActive : ''}`} disabled={!appearanceReady || appearanceSaving}
-              onClick={() => { updateOverrides({ windowStyle: 'transparent' }) }}>透明</button>
-          </div>
-        </SettingRow>
-        <SettingDivider />
-        <SettingSwitch
-          label={<><span>使用系统标题栏</span><HelpTooltip text="使用操作系统原生标题栏替代应用内标题栏（桌面版重启后生效）" /></>}
-          checked={overrides.useSystemTitleBar}
-          disabled={!appearanceReady || appearanceSaving}
-          onChange={next => { updateOverrides({ useSystemTitleBar: next }) }}
         />
       </SettingGroup>
 

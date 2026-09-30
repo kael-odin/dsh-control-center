@@ -43,10 +43,8 @@ import notesRemote from './notes-remote-client.ts'
 import { GatewayService } from './gateway.ts'
 import gatewayRemote from './gateway-remote-client.ts'
 import { localModelsRemote, updateRemote, compatRemote } from './local-models-remote-client.ts'
-import { DesktopService } from './desktop.ts'
-import desktopRemote from './desktop-remote-client.ts'
-import { AssistantService } from './assistant.ts'
-import assistantRemote from './assistant-remote-client.ts'
+import { AgentPresetsService } from './agent-presets.ts'
+import agentPresetsRemote from './agent-presets-remote-client.ts'
 import { installContextPolicy, type ContextPolicySettings } from './context-policy.ts'
 
 const ONBOARDING_SETTINGS_NAMESPACE = 'ui-onboarding'
@@ -75,7 +73,7 @@ const RETRY_FALLBACK_SCHEMA = z.object({
 export const MODEL_PREFS_NAMESPACE_SETTINGS = settingsNamespace('control-center-model-prefs')
 /** Multi-key slot metadata per provider (values stay in DSH credentials). */
 const API_KEYS_NAMESPACE_SETTINGS = settingsNamespace('control-center-api-keys')
-/** Desktop general settings (launch, tray, proxy) — Cherry GeneralSettings parity. */
+/** General settings (developer mode, context management, client id). */
 const GENERAL_NAMESPACE_SETTINGS = settingsNamespace('control-center-general')
 const KNOWLEDGE_NAMESPACE_SETTINGS = settingsNamespace('control-center-knowledge')
 const KNOWLEDGE_SCHEMA = z.object({
@@ -93,26 +91,10 @@ const COMPOSER_SCHEMA = z.object({
   phrases: z.array(COMPOSER_PHRASE_SCHEMA).default([]),
 })
 const GENERAL_SCHEMA = z.object({
-  launchOnBoot: z.boolean().default(false),
-  trayEnabled: z.boolean().default(true),
-  trayOnClose: z.boolean().default(false),
-  trayOnLaunch: z.boolean().default(false),
-  preventSleepWhenBusy: z.boolean().default(false),
   developerMode: z.boolean().default(false),
-  // Cherry app.proxy.* — stored here; the desktop shell consumes the snapshot.
-  proxyMode: z.string().default('off'),
-  proxyUrl: z.string().default(''),
-  proxyBypass: z.string().default(''),
-  // Cherry app.fetch.allow_private_network.
-  allowPrivateNetwork: z.boolean().default(false),
-  // Cherry BootConfig.app.disable_hardware_acceleration — the desktop shell
-  // reads it at boot; takes effect after a restart.
-  disableHardwareAcceleration: z.boolean().default(false),
   // Cherry 通用·客户端 ID: a stable random install id, generated once on
   // first boot and shown read-only in the General page.
   clientId: z.string().default(''),
-  // Cherry 通用·菜单呈现模式 — consumed by the desktop shell's window chrome.
-  menuPresentation: z.string().default('hidden'),
   // Cherry chat.context_settings.* projected onto DSH's compaction/pruning policy.
   contextEnabled: z.boolean().default(true),
   contextMaxMessages: z.any().default(null),
@@ -131,8 +113,6 @@ const MODEL_PREFS_SCHEMA = z.object({
   translationModel: z.string().default(''),
   paintingProvider: z.string().default(''),
   paintingModel: z.string().default(''),
-  quickProvider: z.string().default(''),
-  quickModel: z.string().default(''),
   // Notes editor AI continuation; empty falls back to the host's agent-default route.
   notesProvider: z.string().default(''),
   notesModel: z.string().default(''),
@@ -147,7 +127,6 @@ interface AppearanceSettings {
   fontFamily: string
   codeFontFamily: string
   customCss: string
-  desktopZoom: number
 }
 
 const AppearanceSettingsSchema: z<AppearanceSettings> = z.object({
@@ -158,18 +137,17 @@ const AppearanceSettingsSchema: z<AppearanceSettings> = z.object({
   fontFamily: z.string().default(''),
   codeFontFamily: z.string().default(''),
   customCss: z.string().default(''),
-  desktopZoom: z.number().min(0.5).max(2).default(1),
 })
 
 interface NotificationSettings {
-  assistant: boolean
+  conversation: boolean
   backup: boolean
   knowledge: boolean
   update: boolean
 }
 
 const NotificationSettingsSchema: z<NotificationSettings> = z.object({
-  assistant: z.boolean().default(false),
+  conversation: z.boolean().default(false),
   backup: z.boolean().default(false),
   knowledge: z.boolean().default(false),
   update: z.boolean().default(false),
@@ -209,8 +187,7 @@ export function apply(ctx: Context): void {
   new TasksService(ctx)
   new LocalModelsService(ctx)
   new UpdateService(ctx)
-  new DesktopService(ctx)
-  new AssistantService(ctx)
+  new AgentPresetsService(ctx)
   new CompatService(ctx)
   new NotesService(ctx)
   new GatewayService(ctx)
@@ -263,8 +240,7 @@ export function apply(ctx: Context): void {
         ...compatRemote.descriptors,
         ...notesRemote.descriptors,
         ...gatewayRemote.descriptors,
-        ...desktopRemote.descriptors,
-        ...assistantRemote.descriptors
+        ...agentPresetsRemote.descriptors
       ]
     }
   ]
@@ -335,7 +311,6 @@ export type * from './tasks-types.ts'
 export { LocalModelsService } from './local-models.ts'
 export { UpdateService } from './update.ts'
 export type * from './local-models-types.ts'
-export { DesktopService } from './desktop.ts'
-export type * from './desktop-types.ts'
+export { AgentPresetsService } from './agent-presets.ts'
 export { assertSecretSchemaSafe, auditSecretSchema } from './secret-schema.ts'
 export type { SecretSchemaViolation } from './secret-schema.ts'

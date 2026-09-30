@@ -1,11 +1,8 @@
 /** Deliver Cherry-compatible conversation-complete notifications from DSH session state. */
 import type { ClientRemote } from '@deepseek-ai/dsh-api-remotes/client'
 import type { SessionListState } from '@deepseek-ai/dsh-api-session-controller/client'
-import type {} from '../desktop-types.ts'
 
 export const NOTIFICATION_SETTINGS_NAMESPACE = 'control-center-notifications'
-
-export type DesktopRemote = NonNullable<ClientRemote['controlCenterDesktop']>
 
 interface SnapshotSource<T> {
   getSnapshot(): T
@@ -16,21 +13,9 @@ function browserCanNotify(): boolean {
   return typeof Notification !== 'undefined' && Notification.permission === 'granted'
 }
 
-/**
- * Deliver via the desktop service (Electron Notification, when the shell bridge
- * is reachable); fall back to the browser Notification API otherwise.
- */
-async function notifyConversationComplete(getDesktop: () => DesktopRemote | undefined, title: string): Promise<void> {
+/** Deliver through the browser Notification API (the only channel on the web profile). */
+async function notifyConversationComplete(title: string): Promise<void> {
   const body = title.trim() === '' ? '对话已完成' : `${title} 已完成`
-  const desktop = getDesktop()
-  if (desktop !== undefined) {
-    try {
-      const result = await desktop.notify('DSH Control Center', body)
-      if (result.ok && result.value.ok) return
-    } catch {
-      // Fall through to the browser Notification below.
-    }
-  }
   if (browserCanNotify()) new Notification('DSH Control Center', { body })
 }
 
@@ -40,14 +25,13 @@ async function notifyConversationComplete(getDesktop: () => DesktopRemote | unde
  * focused. The returned disposer owns the sole list subscription.
  */
 export class ConversationNotificationRuntime {
-  private assistantEnabled = false
+  private conversationEnabled = false
   private running = new Map<string, boolean>()
   private stop: (() => void) | undefined
 
   constructor(
     private readonly api: ClientRemote,
     private readonly sessions: SnapshotSource<SessionListState>,
-    private readonly getDesktop: () => DesktopRemote | undefined,
   ) {}
 
   async refreshPreferences(): Promise<void> {
@@ -55,8 +39,8 @@ export class ConversationNotificationRuntime {
     if (!response.ok) return
     const namespace = response.value.namespaces.find(view => view.ns === NOTIFICATION_SETTINGS_NAMESPACE)
     const value = namespace?.value
-    this.assistantEnabled = typeof value === 'object' && value !== null
-      && (value as { assistant?: unknown }).assistant === true
+    this.conversationEnabled = typeof value === 'object' && value !== null
+      && (value as { conversation?: unknown }).conversation === true
   }
 
   start(): () => void {
@@ -77,8 +61,8 @@ export class ConversationNotificationRuntime {
       if (row === undefined) continue
       const key = String(id)
       next.set(key, row.running)
-      if (this.running.get(key) === true && !row.running && this.assistantEnabled && !document.hasFocus()) {
-        void notifyConversationComplete(this.getDesktop, row.displayTitle)
+      if (this.running.get(key) === true && !row.running && this.conversationEnabled && !document.hasFocus()) {
+        void notifyConversationComplete(row.displayTitle)
       }
     }
     this.running = next

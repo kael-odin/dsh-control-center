@@ -2,18 +2,16 @@ import type { TypertRemoteContribution } from '@deepseek-ai/dsh-typert-protocol'
 import { STRICT_JSON } from './translation-codec.ts'
 
 const methods: ReadonlyArray<{ method: string; parameters: string[] }> = [
-  { method: 'get', parameters: [] },
-  { method: 'set', parameters: ['params'] },
   { method: 'listAgentPresets', parameters: [] },
 ]
 
-/** Client descriptor contribution for the Control Center assistant-prefs service. */
-const assistantRemote: TypertRemoteContribution = {
+/** Client descriptor contribution for the Control Center agent-presets service. */
+const agentPresetsRemote: TypertRemoteContribution = {
   package: '@dsh-control-center/control-center',
   descriptors: methods.map(({ method, parameters }) => ({
-    id: `@dsh-control-center/control-center#controlCenterAssistant/${method}`,
-    service: 'controlCenterAssistant',
-    namespace: 'controlCenterAssistant',
+    id: `@dsh-control-center/control-center#controlCenterAgentPresets/${method}`,
+    service: 'controlCenterAgentPresets',
+    namespace: 'controlCenterAgentPresets',
     method,
     invocation: { kind: 'direct' },
     parameters: parameters.map((name) => ({ name, wire: name, source: 'json' as const, codec: STRICT_JSON })),
@@ -21,4 +19,4 @@ const assistantRemote: TypertRemoteContribution = {
   })),
 }
 
-export default assistantRemote
+export default agentPresetsRemote

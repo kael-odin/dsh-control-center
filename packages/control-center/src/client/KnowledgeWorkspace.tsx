@@ -19,11 +19,9 @@ import {
   IconMoreHorizontal, IconPlus, IconRefreshCw, IconSlidersHorizontal, IconStickyNote, IconZap,
 } from './cherry-icons.tsx'
 import { ConfirmDialog, HelpTooltip, PanelShell, Switch, useCopy } from './panel-ui.tsx'
-import type {} from '../desktop-types.ts'
 
 export interface KnowledgeWorkspaceInjected {
   getKnowledge: () => NonNullable<ClientRemote['controlCenterKnowledge']>
-  getDesktop: () => NonNullable<ClientRemote['controlCenterDesktop']>
   hooks: { knowledgeReady: HostObservable<boolean> }
   listModels: () => Promise<readonly ModelProviderGroup[]>
 }
@@ -97,7 +95,7 @@ async function pickDirectoryFiles(): Promise<DirectoryFile[] | null> {
 }
 
 /** Full Knowledge Base workspace over the real Control Center knowledge service. */
-export function KnowledgeWorkspace({ getKnowledge, getDesktop, useKnowledgeReady, listModels, close }: KnowledgeWorkspaceProps) {
+export function KnowledgeWorkspace({ getKnowledge, useKnowledgeReady, listModels, close }: KnowledgeWorkspaceProps) {
   const knowledgeReady = useKnowledgeReady(value => value)
   const knowledge = knowledgeReady ? getKnowledge() : undefined
   const [bases, setBases] = useState<KnowledgeBaseView[]>([])
@@ -376,29 +374,8 @@ export function KnowledgeWorkspace({ getKnowledge, getDesktop, useKnowledgeReady
     setAddMenuOpen(false)
     if (type === 'file') {
       setAddDialog('file')
-      void (async () => {
-        // Native dialog + bridge read through the desktop service; fall back to
-        // the browser picker when the service is unmounted or the bridge is
-        // unreachable (web profile / desktop shell without a live bridge).
-        try {
-          const picked = await getDesktop().pickFile(['openFile', 'multiSelections'])
-          if (!picked.ok || !picked.value.ok) throw new Error('desktop native file pick unavailable')
-          if (picked.value.canceled) { setAddDialog(null); return }
-          setAddDialog(null)
-          for (const path of picked.value.filePaths ?? []) {
-            const read = await getDesktop().readFile(path)
-            if (!read.ok || !read.value.ok || read.value.contentBase64 === undefined) continue
-            try {
-              const bytes = Uint8Array.from(atob(read.value.contentBase64), c => c.charCodeAt(0))
-              const file = new File([bytes], read.value.name ?? 'file', { type: read.value.mediaType ?? 'text/plain' })
-              void addFile(file)
-            } catch { /* skip unreadable */ }
-          }
-        } catch {
-          setAddDialog(null)
-          fileRef.current?.click()
-        }
-      })()
+      // Browser file picker (the desktop-native dialog left with the shell).
+      fileRef.current?.click()
       return
     }
     if (type === 'directory') {

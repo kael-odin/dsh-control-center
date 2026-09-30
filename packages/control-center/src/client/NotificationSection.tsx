@@ -14,17 +14,17 @@ import {
 
 const NOTIFICATION_NS = NOTIFICATION_SETTINGS_NAMESPACE
 
-type NotificationKey = 'assistant' | 'backup' | 'knowledge' | 'update'
+type NotificationKey = 'conversation' | 'backup' | 'knowledge' | 'update'
 
 interface NotificationPrefs {
-  assistant: boolean
+  conversation: boolean
   backup: boolean
   knowledge: boolean
   update: boolean
 }
 
 const DEFAULT_PREFS: NotificationPrefs = {
-  assistant: false,
+  conversation: false,
   backup: false,
   knowledge: false,
   update: false,
@@ -38,8 +38,9 @@ export type NotificationSectionProps = PropsRuntime<'settings.section'> & Inject
 
 function notificationPrefs(value: unknown): NotificationPrefs {
   const record = typeof value === 'object' && value !== null ? value as Partial<NotificationPrefs> : {}
+  const legacy = record as Partial<NotificationPrefs> & { assistant?: unknown }
   return {
-    assistant: record.assistant === true,
+    conversation: record.conversation === true || legacy.assistant === true,
     backup: record.backup === true,
     knowledge: record.knowledge === true,
     update: record.update === true,
@@ -129,8 +130,8 @@ export function NotificationSection({ api }: NotificationSectionProps) {
         <SettingDivider />
         <SettingSwitch
           label={<><span>对话完成通知</span><HelpTooltip text="仅控制后台系统通知，应用内通知始终开启。" /></>}
-          checked={prefs.assistant}
-          onChange={set('assistant')}
+          checked={prefs.conversation}
+          onChange={set('conversation')}
           disabled={loading}
         />
         <SettingDivider />

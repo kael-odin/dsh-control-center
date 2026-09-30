@@ -39,8 +39,20 @@ export interface ChannelBridgeHandle {
   wechatQrPoll(channelId: string): Promise<{ ok: true; value: WechatLoginStateView } | { ok: false; error: { code: string; message: string; details: object } }>
 }
 import { CHANNEL_ICONS } from './channel-icons.ts'
-import type { AssistantRemote } from './assistant-store.ts'
 import css from './ChannelsSection.module.css'
+
+/** One deployment agent preset as surfaced to picker UIs. */
+export interface AgentPresetOption {
+  id: string
+  name: string
+  trust: 'system' | 'user'
+  isDefault: boolean
+}
+
+/** Structural face of the controlCenterAgentPresets remote used here. */
+export type AgentPresetsRemote = {
+  listAgentPresets: () => Promise<{ ok: true; value: AgentPresetOption[] } | { ok: false; error: string }>
+}
 
 /** Injected dependencies delivered by the settings shell. */
 export interface ChannelsSectionInjected {
@@ -49,8 +61,8 @@ export interface ChannelsSectionInjected {
   controller: ChannelsStore
   /** Lazy handle to the host channel bridge (undefined until mounted). */
   getBridge?: (() => ChannelBridgeHandle | undefined) | undefined
-  /** Lazy handle to the assistant prefs remote — agent-preset roster source. */
-  getAssistant?: (() => AssistantRemote | undefined) | undefined
+  /** Lazy handle to the agent-presets remote — per-channel binding roster. */
+  getAgentPresets?: (() => AgentPresetsRemote | undefined) | undefined
 }
 
 /** Props delivered by the slot outlet (partial until injected). */
@@ -195,9 +207,9 @@ function summaryOf(channel: ChannelInstance): string {
  * notice) when the running host predates the namespace.
  */
 export function ChannelsSection(props: ChannelsSectionProps): ReactNode {
-  const { api, useChannels, controller, getBridge, getAssistant } = props
+  const { api, useChannels, controller, getBridge, getAgentPresets } = props
   if (api === undefined || useChannels === undefined || controller === undefined) return null
-  return <Loaded injected={{ api, useChannels, controller, getBridge, getAssistant }} />
+  return <Loaded injected={{ api, useChannels, controller, getBridge, getAgentPresets }} />
 }
 
 function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode {
@@ -247,14 +259,14 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
 
   // Agent-preset roster for the binding picker; loaded once the remote mounts.
   useEffect(() => {
-    const assistant = injected.getAssistant?.()
-    if (assistant === undefined) return undefined
+    const presets = injected.getAgentPresets?.()
+    if (presets === undefined) return undefined
     let stopped = false
-    void assistant.listAgentPresets().then((result) => {
+    void presets.listAgentPresets().then((result) => {
       if (!stopped && result.ok) setAgentPresets(result.value)
     }, () => undefined)
     return () => { stopped = true }
-  }, [injected.getAssistant])
+  }, [injected.getAgentPresets])
 
   // Bridge status polling: the dots are real runtime states from the host.
   useEffect(() => {
