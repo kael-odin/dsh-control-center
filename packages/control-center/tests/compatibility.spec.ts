@@ -13,7 +13,7 @@ const required = [
   ['@deepseek-ai/dsh-client-ui-slots', false],
   ['@deepseek-ai/dsh-client-modules', true],
   ['@deepseek-ai/dsh-api-session-controller', false],
-  ['@deepseek-ai/dsh-agent-presets', false],
+  ['@deepseek-ai/dsh-agent-preset-registry', false],
   ['@deepseek-ai/dsh-settings', false],
 ] as const
 
@@ -44,15 +44,15 @@ describe('DSH compatibility preflight', () => {
     expect(() => assertCompatibleDsh(fixture())).not.toThrow()
   })
 
-  it('accepts later 0.1.x releases inside the support window (§1.2)', () => {
-    expect(() => assertCompatibleDsh(fixture('0.1.6-alpha.2'))).not.toThrow()
-    expect(() => assertCompatibleDsh(fixture('0.1.9'))).not.toThrow()
+  it('accepts later 0.2.x releases inside the support window (§1.2)', () => {
+    expect(() => assertCompatibleDsh(fixture('0.2.0-rc.3'))).not.toThrow()
+    expect(() => assertCompatibleDsh(fixture('0.2.9'))).not.toThrow()
   })
 
-  it('rejects hosts below the 0.1.6 contract and across the minor', () => {
-    expect(() => assertCompatibleDsh(fixture('0.1.5-rc.2')))
+  it('rejects hosts below the 0.2.0 contract and across the minor', () => {
+    expect(() => assertCompatibleDsh(fixture('0.1.9')))
       .toThrow(`expected a version in the ${SUPPORTED_DSH_VERSION} window`)
-    expect(() => assertCompatibleDsh(fixture('0.2.0')))
+    expect(() => assertCompatibleDsh(fixture('0.3.0-alpha.1')))
       .toThrow(`expected a version in the ${SUPPORTED_DSH_VERSION} window`)
   })
 
@@ -60,7 +60,18 @@ describe('DSH compatibility preflight', () => {
     // Packed profiles inline client contract packages into the client bundle,
     // so only dsh-settings (a dependency) is present on the host graph. The
     // gate must not reject the profile for the absent client packages.
-    expect(() => assertCompatibleDsh(fixture(SUPPORTED_DSH_VERSION, { onlyHostContract: true })))
-      .not.toThrow()
+    // DSH_HOME is sandboxed: without it contractRoots() walks off to the real
+    // ~/.dsh and "absent" packages resolve from whatever that machine has
+    // installed (the 2026-09-28 machine-local-dependency lesson, again).
+    const root = mkdtempSync(join(tmpdir(), 'control-center-compat-home-'))
+    const previousHome = process.env.DSH_HOME
+    process.env.DSH_HOME = root
+    try {
+      expect(() => assertCompatibleDsh(fixture(SUPPORTED_DSH_VERSION, { onlyHostContract: true })))
+        .not.toThrow()
+    } finally {
+      if (previousHome === undefined) delete process.env.DSH_HOME
+      else process.env.DSH_HOME = previousHome
+    }
   })
 })

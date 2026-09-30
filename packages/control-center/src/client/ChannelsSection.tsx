@@ -45,7 +45,6 @@ import css from './ChannelsSection.module.css'
 export interface AgentPresetOption {
   id: string
   name: string
-  trust: 'system' | 'user'
   isDefault: boolean
 }
 
@@ -231,7 +230,7 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
   const [formAgentModel, setFormAgentModel] = useState('')
   const [formAgentSystemPrompt, setFormAgentSystemPrompt] = useState('')
   const [formAgentPresetId, setFormAgentPresetId] = useState('')
-  const [agentPresets, setAgentPresets] = useState<ReadonlyArray<{ id: string; name: string; trust: 'system' | 'user'; isDefault: boolean }>>([])
+  const [agentPresets, setAgentPresets] = useState<ReadonlyArray<{ id: string; name: string; isDefault: boolean }>>([])
   const [logsFor, setLogsFor] = useState<ChannelInstance | null>(null)
   const [bridgeStatuses, setBridgeStatuses] = useState<readonly ChannelBridgeStatus[]>([])
   const [logLines, setLogLines] = useState<string[]>([])
@@ -618,7 +617,7 @@ function Loaded({ injected }: { injected: ChannelsSectionInjected }): ReactNode 
                       <option value="">不指定（宿主默认组合）</option>
                       {agentPresets.map(preset => (
                         <option key={preset.id} value={preset.id}>
-                          {preset.name}{preset.isDefault ? '（默认）' : ''}{preset.trust === 'user' ? ' · 本地' : ''}
+                          {preset.name}{preset.isDefault ? '（默认）' : ''}
                         </option>
                       ))}
                       {formAgentPresetId.length > 0 && !agentPresets.some(p => p.id === formAgentPresetId) && (

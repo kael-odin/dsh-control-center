@@ -4,17 +4,18 @@ import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolveDshHome } from '@deepseek-ai/dsh-home-paths'
 
-export const SUPPORTED_DSH_VERSION = '0.1.6-alpha.1'
-export const DSH_SOURCE_BASELINE = '0d1f50007f'
+export const SUPPORTED_DSH_VERSION = '0.2.0-rc.2'
+export const DSH_SOURCE_BASELINE = '639ed01539'
 
 /**
  * PLUGINIZATION §1.2: the supported DSH version window rather than one pinned
- * string. The code compiles against the 0.1.6 contract, so hosts on 0.1.5 or
- * older are rejected honestly; a new minor triggers a deliberate compatibility
- * review before the window widens. Keep this in lockstep with the
+ * string. The code compiles against the 0.2.0 contract (rebased 2026-09-30 from
+ * 0.1.6, which shipped through rc.2 with the official desktop release), so
+ * hosts on 0.1.x are rejected honestly; a new minor triggers a deliberate
+ * compatibility review before the window widens. Keep this in lockstep with the
  * peerDependencies range.
  */
-const SUPPORTED_DSH_RANGE = /^0\.1\.[6-9]/
+const SUPPORTED_DSH_RANGE = /^0\.2\./
 
 /** Whether a resolved DSH package version falls inside the support window. */
 export function isSupportedDshVersion(version: string): boolean {
@@ -36,7 +37,7 @@ const REQUIRED_PACKAGES: readonly RequiredPackage[] = [
   { name: '@deepseek-ai/dsh-client-modules', client: true },
   // Host-side session remote (apiProxy was removed upstream in 0.1.2).
   { name: '@deepseek-ai/dsh-api-session-controller', client: false },
-  { name: '@deepseek-ai/dsh-agent-presets', client: false },
+  { name: '@deepseek-ai/dsh-agent-preset-registry', client: false },
   { name: '@deepseek-ai/dsh-settings', client: false },
 ]
 
@@ -95,8 +96,8 @@ export function profileRequire(): NodeJS.Require {
 }
 
 /**
- * Reject a DSH installation whose resolved contract packages differ from
- * 0.1.1-rc.2.
+ * Reject a DSH installation whose resolved contract packages sit outside the
+ * supported 0.2.x window.
  *
  * Each package resolves independently, best root first. The host framework
  * contract must always resolve; client contract packages that a bundled
@@ -127,7 +128,7 @@ export function assertCompatibleDsh(requireFrom: NodeJS.Require = profileRequire
       || !isSupportedDshVersion(manifest.version)) {
       problems.push(
         `DSH Control Center is incompatible with ${required.name}: expected a version in the `
-        + `${SUPPORTED_DSH_VERSION} window (0.1.x), resolved ${String(manifest.version)}. `
+        + `${SUPPORTED_DSH_VERSION} window (0.2.x), resolved ${String(manifest.version)}. `
         + `Supported DSH source baseline: ${DSH_SOURCE_BASELINE}.`,
       )
       continue
